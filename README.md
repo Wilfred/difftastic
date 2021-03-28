@@ -11,13 +11,14 @@ Tree-sitter-vhdl is a VHDL parser for syntax highlighting.
     - [ ] OBE PSL Operators (not intended to be supported)
 - [ ] VHDL-2019
 
+Not listed features are implemented already.
+
 ## Notes
 
-Some illegal construction are accept by the parser and highlighted as error using the highlight query. Use the nvim-tree-sitter vhdl queries as reference.
+The parser accepts some illegal constructions to be able to provide precise
+error highlight.
 
-## Used by
-
-- nvim-tree-sitter (WIP)
+See `./tests/highlight/` and `./queries/highlights.scm` for a list of errors.
 
 ## References
 * IEEE Std 1076-2008

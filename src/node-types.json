@@ -185,6 +185,10 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
           "type": "condition",
           "named": true
         },
@@ -606,6 +610,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
@@ -2037,6 +2045,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
@@ -4906,6 +4918,164 @@
     }
   },
   {
+    "type": "concatenation",
+    "named": true,
+    "fields": {
+      "operator": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "&",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "aggregate",
+          "named": true
+        },
+        {
+          "type": "allocator",
+          "named": true
+        },
+        {
+          "type": "ambiguous_name",
+          "named": true
+        },
+        {
+          "type": "attribute_name",
+          "named": true
+        },
+        {
+          "type": "based_integer",
+          "named": true
+        },
+        {
+          "type": "based_real",
+          "named": true
+        },
+        {
+          "type": "bit_string_literal",
+          "named": true
+        },
+        {
+          "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "condition",
+          "named": true
+        },
+        {
+          "type": "exponentiation",
+          "named": true
+        },
+        {
+          "type": "extended_simple_name",
+          "named": true
+        },
+        {
+          "type": "external_constant_name",
+          "named": true
+        },
+        {
+          "type": "external_signal_name",
+          "named": true
+        },
+        {
+          "type": "external_variable_name",
+          "named": true
+        },
+        {
+          "type": "factor",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "integer_decimal",
+          "named": true
+        },
+        {
+          "type": "logical_expression",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "physical_literal",
+          "named": true
+        },
+        {
+          "type": "qualified_expression",
+          "named": true
+        },
+        {
+          "type": "real_decimal",
+          "named": true
+        },
+        {
+          "type": "reduction",
+          "named": true
+        },
+        {
+          "type": "relation",
+          "named": true
+        },
+        {
+          "type": "selected_name",
+          "named": true
+        },
+        {
+          "type": "shift_expression",
+          "named": true
+        },
+        {
+          "type": "sign",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
+          "named": true
+        },
+        {
+          "type": "simple_name",
+          "named": true
+        },
+        {
+          "type": "slice_name",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "concurrent_statement_part",
     "named": true,
     "fields": {},
@@ -5021,7 +5191,7 @@
     },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "aggregate",
@@ -5056,6 +5226,18 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "condition",
+          "named": true
+        },
+        {
+          "type": "exponentiation",
+          "named": true
+        },
+        {
           "type": "extended_simple_name",
           "named": true
         },
@@ -5072,11 +5254,19 @@
           "named": true
         },
         {
+          "type": "factor",
+          "named": true
+        },
+        {
           "type": "function_call",
           "named": true
         },
         {
           "type": "integer_decimal",
+          "named": true
+        },
+        {
+          "type": "logical_expression",
           "named": true
         },
         {
@@ -5100,7 +5290,27 @@
           "named": true
         },
         {
+          "type": "reduction",
+          "named": true
+        },
+        {
+          "type": "relation",
+          "named": true
+        },
+        {
           "type": "selected_name",
+          "named": true
+        },
+        {
+          "type": "shift_expression",
+          "named": true
+        },
+        {
+          "type": "sign",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
           "named": true
         },
         {
@@ -5113,6 +5323,10 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "term",
           "named": true
         }
       ]
@@ -5230,6 +5444,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
@@ -5359,7 +5577,7 @@
     }
   },
   {
-    "type": "conditional_signal_assignment",
+    "type": "conditional_force_assignment",
     "named": true,
     "fields": {
       "target": {
@@ -5422,19 +5640,7 @@
           "named": true
         },
         {
-          "type": "conditional_waveforms",
-          "named": true
-        },
-        {
-          "type": "delay_mechanism",
-          "named": true
-        },
-        {
           "type": "force_mode",
-          "named": true
-        },
-        {
-          "type": "label",
           "named": true
         }
       ]
@@ -5501,6 +5707,80 @@
       "types": [
         {
           "type": "conditional_expressions",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "conditional_waveform_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "conditional_waveforms",
+          "named": true
+        },
+        {
+          "type": "delay_mechanism",
           "named": true
         },
         {
@@ -6035,6 +6315,10 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
           "type": "condition",
           "named": true
         },
@@ -6275,11 +6559,15 @@
           "named": true
         },
         {
-          "type": "conditional_signal_assignment",
+          "type": "conditional_force_assignment",
           "named": true
         },
         {
           "type": "conditional_variable_assignment",
+          "named": true
+        },
+        {
+          "type": "conditional_waveform_assignment",
           "named": true
         },
         {
@@ -6403,11 +6691,15 @@
           "named": true
         },
         {
-          "type": "selected_signal_assignment",
+          "type": "selected_force_assignment",
           "named": true
         },
         {
           "type": "selected_variable_assignment",
+          "named": true
+        },
+        {
+          "type": "selected_waveform_assignment",
           "named": true
         },
         {
@@ -6423,11 +6715,19 @@
           "named": true
         },
         {
-          "type": "simple_signal_assignment",
+          "type": "simple_force_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_release_assignment",
           "named": true
         },
         {
           "type": "simple_variable_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_waveform_assignment",
           "named": true
         },
         {
@@ -6695,15 +6995,15 @@
       "required": false,
       "types": [
         {
+          "type": "concurrent_statement_part",
+          "named": true
+        },
+        {
           "type": "declarative_part",
           "named": true
         },
         {
           "type": "entity_header",
-          "named": true
-        },
-        {
-          "type": "sequence_of_statements",
           "named": true
         }
       ]
@@ -6941,6 +7241,10 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
           "type": "condition",
           "named": true
         },
@@ -7081,6 +7385,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
@@ -7338,6 +7646,10 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
           "type": "condition",
           "named": true
         },
@@ -7471,6 +7783,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "default_expression",
+          "named": true
+        },
         {
           "type": "identifier_list",
           "named": true
@@ -8717,6 +9033,10 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
           "type": "condition",
           "named": true
         },
@@ -9029,6 +9349,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
@@ -9575,33 +9899,6 @@
     }
   },
   {
-    "type": "package_instantiation_map_aspect",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "generic_clause",
-          "named": true
-        },
-        {
-          "type": "generic_map_aspect",
-          "named": true
-        },
-        {
-          "type": "port_clause",
-          "named": true
-        },
-        {
-          "type": "port_map_aspect",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "package_interface_declaration",
     "named": true,
     "fields": {
@@ -9643,7 +9940,7 @@
       "required": false,
       "types": [
         {
-          "type": "package_instantiation_map_aspect",
+          "type": "package_map_aspect",
           "named": true
         }
       ]
@@ -9804,6 +10101,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
@@ -10868,6 +11169,10 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
           "type": "condition",
           "named": true
         },
@@ -11071,6 +11376,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
@@ -11418,6 +11727,84 @@
     }
   },
   {
+    "type": "selected_force_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "force_mode",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "selected_expressions",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "selected_name",
     "named": true,
     "fields": {
@@ -11485,92 +11872,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "selected_signal_assignment",
-    "named": true,
-    "fields": {
-      "target": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "aggregate",
-            "named": true
-          },
-          {
-            "type": "ambiguous_name",
-            "named": true
-          },
-          {
-            "type": "attribute_name",
-            "named": true
-          },
-          {
-            "type": "character_literal",
-            "named": true
-          },
-          {
-            "type": "extended_simple_name",
-            "named": true
-          },
-          {
-            "type": "external_constant_name",
-            "named": true
-          },
-          {
-            "type": "external_signal_name",
-            "named": true
-          },
-          {
-            "type": "external_variable_name",
-            "named": true
-          },
-          {
-            "type": "selected_name",
-            "named": true
-          },
-          {
-            "type": "simple_name",
-            "named": true
-          },
-          {
-            "type": "slice_name",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "delay_mechanism",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "force_mode",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "selected_expressions",
-          "named": true
-        },
-        {
-          "type": "selected_waveforms",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -11642,6 +11943,84 @@
         },
         {
           "type": "selected_expressions",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "selected_waveform_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "delay_mechanism",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "selected_waveforms",
           "named": true
         }
       ]
@@ -11736,7 +12115,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "PSL_Assert_Directive",
@@ -11791,11 +12170,15 @@
           "named": true
         },
         {
-          "type": "conditional_signal_assignment",
+          "type": "conditional_force_assignment",
           "named": true
         },
         {
           "type": "conditional_variable_assignment",
+          "named": true
+        },
+        {
+          "type": "conditional_waveform_assignment",
           "named": true
         },
         {
@@ -11835,7 +12218,7 @@
           "named": true
         },
         {
-          "type": "selected_signal_assignment",
+          "type": "selected_force_assignment",
           "named": true
         },
         {
@@ -11843,11 +12226,23 @@
           "named": true
         },
         {
-          "type": "simple_signal_assignment",
+          "type": "selected_waveform_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_force_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_release_assignment",
           "named": true
         },
         {
           "type": "simple_variable_assignment",
+          "named": true
+        },
+        {
+          "type": "simple_waveform_assignment",
           "named": true
         },
         {
@@ -12055,6 +12450,10 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
           "type": "condition",
           "named": true
         },
@@ -12210,6 +12609,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
@@ -12539,10 +12942,6 @@
         "required": false,
         "types": [
           {
-            "type": "&",
-            "named": false
-          },
-          {
             "type": "+",
             "named": false
           },
@@ -12587,6 +12986,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
@@ -12693,7 +13096,7 @@
     }
   },
   {
-    "type": "simple_signal_assignment",
+    "type": "simple_force_assignment",
     "named": true,
     "fields": {
       "target": {
@@ -12752,10 +13155,6 @@
       "required": false,
       "types": [
         {
-          "type": "delay_mechanism",
-          "named": true
-        },
-        {
           "type": "expression",
           "named": true
         },
@@ -12766,9 +13165,75 @@
         {
           "type": "label",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simple_release_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "force_mode",
+          "named": true
         },
         {
-          "type": "waveforms",
+          "type": "label",
           "named": true
         }
       ]
@@ -12839,6 +13304,80 @@
         },
         {
           "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simple_waveform_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregate",
+            "named": true
+          },
+          {
+            "type": "ambiguous_name",
+            "named": true
+          },
+          {
+            "type": "attribute_name",
+            "named": true
+          },
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "external_constant_name",
+            "named": true
+          },
+          {
+            "type": "external_signal_name",
+            "named": true
+          },
+          {
+            "type": "external_variable_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          },
+          {
+            "type": "slice_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "delay_mechanism",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "waveforms",
           "named": true
         }
       ]
@@ -12936,6 +13475,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
@@ -13243,6 +13786,10 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
           "type": "condition",
           "named": true
         },
@@ -13383,6 +13930,10 @@
         },
         {
           "type": "character_literal",
+          "named": true
+        },
+        {
+          "type": "concatenation",
           "named": true
         },
         {
