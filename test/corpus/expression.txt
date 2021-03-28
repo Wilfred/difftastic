@@ -124,13 +124,13 @@ $#array;
 )
 
 =================================================
-q{} string
+Double quoted string with escape sequence
 =================================================
 
-my $string = q{im a non interpolated string};
+"this is a string \n in next line at the end";
 
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable) (string_q_quoted)) (semi_colon))
+  (string_double_quoted (escape_sequence)) (semi_colon)
 )

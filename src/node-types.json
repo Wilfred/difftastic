@@ -28,6 +28,10 @@
           "named": true
         },
         {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -270,6 +274,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -561,6 +569,10 @@
             "named": true
           },
           {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -656,6 +668,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -755,6 +771,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
           "named": true
         },
         {
@@ -858,6 +878,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
           "named": true
         },
         {
@@ -1042,6 +1066,11 @@
     }
   },
   {
+    "type": "command_qx_quoted",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "ellipsis_statement",
     "named": true,
     "fields": {},
@@ -1082,6 +1111,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
           "named": true
         },
         {
@@ -1160,6 +1193,11 @@
     }
   },
   {
+    "type": "escape_sequence",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "for_simple_statement",
     "named": true,
     "fields": {
@@ -1233,6 +1271,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -1334,6 +1376,10 @@
             "named": true
           },
           {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -1429,6 +1475,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -1724,6 +1774,10 @@
             "named": true
           },
           {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -1998,6 +2052,10 @@
             "named": true
           },
           {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -2134,6 +2192,25 @@
     }
   },
   {
+    "type": "interpolation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "loop_control_keyword",
     "named": true,
     "fields": {}
@@ -2252,6 +2329,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
           "named": true
         },
         {
@@ -2382,6 +2463,10 @@
           "named": true
         },
         {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -2492,6 +2577,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
           "named": true
         },
         {
@@ -2648,6 +2737,10 @@
             "named": true
           },
           {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -2749,6 +2842,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
           "named": true
         },
         {
@@ -2944,6 +3041,10 @@
           "named": true
         },
         {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
           "type": "ellipsis_statement",
           "named": true
         },
@@ -3101,7 +3202,21 @@
   {
     "type": "string_double_quoted",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "string_q_quoted",
@@ -3111,7 +3226,21 @@
   {
     "type": "string_qq_quoted",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "string_single_quoted",
@@ -3144,6 +3273,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -3242,6 +3375,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -3354,6 +3491,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -3503,6 +3644,10 @@
             "named": true
           },
           {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -3604,6 +3749,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -3768,6 +3917,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -4030,6 +4183,10 @@
             "named": true
           },
           {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
             "type": "false",
             "named": true
           },
@@ -4131,6 +4288,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -4249,6 +4410,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
             "named": true
           },
           {
@@ -4740,6 +4905,14 @@
   {
     "type": "package_name",
     "named": true
+  },
+  {
+    "type": "qq",
+    "named": false
+  },
+  {
+    "type": "qx",
+    "named": false
   },
   {
     "type": "redo",

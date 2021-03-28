@@ -1,0 +1,24 @@
+=================================================
+Interpolate only $ and @ variable and not %hash or object reference TODO: fix this
+=================================================
+
+qq {hello $meow print("dsfsdf) %hash};
+
+---
+
+(source_file
+  (string_qq_quoted) (semi_colon)
+)
+
+=================================================
+q{} string
+=================================================
+
+my $string = q{im a non interpolated string};
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable) (string_q_quoted)) (semi_colon))
+)
+
