@@ -182,7 +182,6 @@ module.exports = grammar({
         $._clause, // HEADER
         $._group_template, // 6.10
         $._group_constituent, // 6.10
-        $._configuration_specification, // 7.3
         $._component_name, // 7.3
         $._component_specification, // 7.3
         $._name, // 8
@@ -561,20 +560,13 @@ module.exports = grammar({
         component_configuration: $ => seq(
             reservedWord('for'),
             $._component_specification,
-            optional($._composite_configuration_binding_indication),
+            optional($.binding_indication),
             repeat($.verification_unit_binding_indication),
             optional($.block_configuration),
             reservedWord('end'),
             reservedWord('for'),
             ';'
         ),
-
-        // DOT NOT INLINE, used for error recovery of missing semicolon
-        _composite_configuration_binding_indication: $ => seq(
-            $.binding_indication,
-            ';'
-        ),
-
         // }}}
         // 4.2.1 Subprogram declarations {{{
         _subprogram_declaration: $ => choice(
@@ -699,7 +691,7 @@ module.exports = grammar({
         ),
 
         // LINT
-        // Procedure shall not habe purity
+        // Procedure shall not have purity
         procedure_instantiation_declaration: $ => seq(
             optional(choice(
                 reservedWord('pure'),
@@ -1041,7 +1033,7 @@ module.exports = grammar({
             $.component_declaration,
             $.attribute_declaration,
             $.attribute_specification,
-            $._configuration_specification,
+            $.configuration_specification,
             $.disconnection_specification,
             $.use_clause,
             $.group_template_declaration,
@@ -1678,39 +1670,17 @@ module.exports = grammar({
         ),
         // }}}
         // 7.3 Configuration specification {{{
-        _configuration_specification: $ => alias(
-            choice(
-                $.simple_configuration_specification,
-                $.compound_configuration_specification
-            ),
-            $.configuration_specification
-        ),
-
-        simple_configuration_specification: $ => prec.right(seq(
+        configuration_specification: $ => prec.left(seq(
             reservedWord('for'),
-            $._configuration_specification_header,
+            $._component_specification,
+            $.binding_indication,
             optional(seq(
+                repeat($.verification_unit_binding_indication),
                 reservedWord('end'),
                 reservedWord('for'),
                 ';'
             ))
         )),
-
-        compound_configuration_specification: $ => seq(
-            reservedWord('for'),
-            $._configuration_specification_header,
-            repeat1($.verification_unit_binding_indication),
-            reservedWord('end'),
-            reservedWord('for'),
-            ';'
-        ),
-
-        // TODO: Error recovery for missing (MISSING ';')
-        _configuration_specification_header: $ => seq(
-            $._component_specification,
-            optional($.binding_indication),
-            ';'
-        ),
 
         _component_specification: $ => seq(
             $.instantiation_list,
@@ -1733,13 +1703,13 @@ module.exports = grammar({
         ),
         // }}}
         // 7.3.2 Binding indication {{{
-        binding_indication: $ => choice(
-            $._header,
-            seq(
+        binding_indication: $ => seq(
+          optional(seq(
                 reservedWord('use'),
                 $._entity_aspect,
-                optional($._header),
-            ),
+          )),
+          optional($._header),
+          ';'
         ),
 
        // LINT: component_instantiation shall not be present in
