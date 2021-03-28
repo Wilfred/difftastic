@@ -22,3 +22,34 @@ my $string = q{im a non interpolated string};
   (variable_declaration (scope) (single_var_declaration (scalar_variable) (string_q_quoted)) (semi_colon))
 )
 
+=================================================
+qx command
+=================================================
+
+my $string = q{im a non interpolated string};
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable) (string_q_quoted)) (semi_colon))
+)
+
+
+=================================================
+qw command
+=================================================
+
+my @array = qw /
+  PUBG
+  EVENING
+  BIO_SHOCK_INFINITY
+/;
+
+---
+
+(source_file
+  (variable_declaration
+    (scope) (single_var_declaration (array_variable) (word_list_qw (identifier) (identifier) (identifier))) (semi_colon)
+  )
+)
+
