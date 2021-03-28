@@ -102,6 +102,10 @@
         {
           "type": "unary_expression",
           "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
         }
       ]
     }
@@ -173,6 +177,10 @@
         {
           "type": "true",
           "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
         }
       ]
     }
@@ -243,6 +251,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -350,6 +362,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -643,6 +659,10 @@
           {
             "type": "unary_expression",
             "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
           }
         ]
       },
@@ -744,6 +764,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -847,6 +871,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -1031,6 +1059,10 @@
         {
           "type": "while_statement",
           "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
         }
       ]
     }
@@ -1068,7 +1100,17 @@
   {
     "type": "command_qx_quoted",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "interpolation",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "ellipsis_statement",
@@ -1188,6 +1230,10 @@
         {
           "type": "unary_expression",
           "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
         }
       ]
     }
@@ -1219,6 +1265,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -1348,6 +1398,10 @@
           {
             "type": "unary_expression",
             "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
           }
         ]
       },
@@ -1449,6 +1503,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -1552,6 +1610,10 @@
           {
             "type": "unary_expression",
             "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
           }
         ]
       },
@@ -1625,6 +1687,10 @@
         {
           "type": "scope",
           "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
         }
       ]
     }
@@ -1651,6 +1717,10 @@
           },
           {
             "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -1714,6 +1784,10 @@
         },
         {
           "type": "scope",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -1848,6 +1922,10 @@
           {
             "type": "unary_expression",
             "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
           }
         ]
       },
@@ -1944,6 +2022,10 @@
         {
           "type": "true",
           "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
         }
       ]
     }
@@ -2018,6 +2100,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -2129,6 +2215,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -2406,6 +2496,10 @@
         {
           "type": "unary_expression",
           "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
         }
       ]
     }
@@ -2536,6 +2630,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -2686,6 +2784,10 @@
         {
           "type": "while_simple_statement",
           "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
         }
       ]
     }
@@ -2810,6 +2912,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -2986,6 +3092,10 @@
         },
         {
           "type": "while_statement",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -3195,6 +3305,10 @@
         {
           "type": "while_statement",
           "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
         }
       ]
     }
@@ -3350,6 +3464,10 @@
           {
             "type": "unary_expression",
             "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
           }
         ]
       },
@@ -3451,6 +3569,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -3567,6 +3689,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -3718,6 +3844,10 @@
           {
             "type": "unary_expression",
             "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
           }
         ]
       }
@@ -3829,6 +3959,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -3997,6 +4131,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -4257,6 +4395,10 @@
           {
             "type": "unary_expression",
             "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
           }
         ]
       }
@@ -4368,6 +4510,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
             "named": true
           }
         ]
@@ -4491,6 +4637,10 @@
           {
             "type": "unary_expression",
             "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
           }
         ]
       }
@@ -4540,6 +4690,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "word_list_qw",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -4908,6 +5073,10 @@
   },
   {
     "type": "qq",
+    "named": false
+  },
+  {
+    "type": "qw",
     "named": false
   },
   {

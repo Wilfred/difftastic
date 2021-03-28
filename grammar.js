@@ -810,7 +810,8 @@ module.exports = grammar({
       
       $._boolean,
 
-      $.array,
+      $._array_type,
+
       $.hash,
     ),
 
@@ -829,6 +830,11 @@ module.exports = grammar({
       $._numeric_literals,
       $.array_ref,
       $.hash_ref,
+    ),
+
+    _array_type: $ => choice(
+      $.array,
+      $.word_list_qw,
     ),
     
     _numeric_literals: $ => choice(
@@ -883,11 +889,22 @@ module.exports = grammar({
       'qx',
       choice(
         /'.*'/, // don't interpolate for a single quote
-        delimited_with_interpolation(),
+        seq('{', repeat(choice($.interpolation, token(/[^}]+/))), '}'),
+        seq('/', repeat(choice($.interpolation, token(/[^\/]+/))), '/'),
       ),
     )),
 
-    word_list_qw: $ => seq(),
+    word_list_qw: $ => prec(PRECEDENCE.REGEXP, seq(
+      'qw',
+      choice(
+        seq('{', repeat($.identifier),'}'),
+        seq('/', repeat($.identifier),'/'),
+      ),
+    )),
+
+    // patter_matcher_m: $ => prec(PRECEDENCE.REGEXP, seq(
+    //   'm',
+    // )),
 
     // https://perldoc.perl.org/perlop#Quote-and-Quote-like-Operators
     escape_sequence: $ => prec(PRECEDENCE.ESCAPE_SEQ, seq(
@@ -922,9 +939,8 @@ module.exports = grammar({
     hash_variable: $ => /%[a-zA-z0-9_]+/,
 
     _list: $ => choice(
-      $.array,
+      $._array_type,
       $.array_variable,
-      // TODO: array casted reference, functions with return value as array, qw()
     ),
 
     array: $ => prec(PRECEDENCE.ARRAY, seq(
