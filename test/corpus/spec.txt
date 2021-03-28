@@ -34,7 +34,8 @@ spec with splat
                 (identifier))
               (block
                 (stab_expression
-                  (identifier)
+                  (bare_arguments
+                    (identifier))
                   (tuple
                     (identifier)
                     (list

@@ -29,7 +29,8 @@ end
           (identifier)))
       (rescue_block
         (stab_expression
-          (module)
+          (bare_arguments
+            (module))
           (dot_call
             (module)
             (identifier)
@@ -40,7 +41,8 @@ end
                 (string_end))))))
       (catch_block
         (stab_expression
-          (identifier)
+          (bare_arguments
+            (identifier))
           (dot_call
             (module)
             (identifier)
@@ -56,7 +58,8 @@ end
                 (string_end))))))
       (else_block
         (stab_expression
-          (identifier)
+          (bare_arguments
+            (identifier))
           (dot_call
             (module)
             (identifier)
@@ -101,10 +104,11 @@ end
         (identifier))
       (rescue_block
         (stab_expression
-          (binary_op
-            (identifier)
-            (list
-              (module)))
+          (bare_arguments
+            (binary_op
+              (identifier)
+              (list
+                (module))))
           (nil))))))
 
 ================================================================================
@@ -130,8 +134,9 @@ end
           (atom)))
       (catch_block
         (stab_expression
-          (atom)
-          (identifier)
+          (bare_arguments
+            (atom)
+            (identifier))
           (dot_call
             (module)
             (identifier)
@@ -173,22 +178,25 @@ end
         (identifier))
       (rescue_block
         (stab_expression
-          (module)
+          (bare_arguments
+            (module))
           (atom)))
       (else_block
         (stab_expression
-          (binary_op
-            (identifier)
+          (bare_arguments
             (binary_op
+              (identifier)
               (binary_op
-                (identifier)
-                (integer))
-              (binary_op
-                (identifier)
-                (integer))))
+                (binary_op
+                  (identifier)
+                  (integer))
+                (binary_op
+                  (identifier)
+                  (integer)))))
           (atom))
         (stab_expression
-          (identifier)
+          (bare_arguments
+            (identifier))
           (atom))))))
 
 ================================================================================

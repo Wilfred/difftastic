@@ -628,8 +628,9 @@ Enum.join(" ")
     (dot_call
       (anonymous_function
         (stab_expression
-          (block
-            (identifier))
+          (bare_arguments
+            (block
+              (identifier)))
           (string
             (string_start)
             (string_content)

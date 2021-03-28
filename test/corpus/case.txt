@@ -15,13 +15,15 @@ end
     (identifier)
     (do_block
       (stab_expression
-        (integer)
+        (bare_arguments
+          (integer))
         (string
           (string_start)
           (string_content)
           (string_end)))
       (stab_expression
-        (integer)
+        (bare_arguments
+          (integer))
         (string
           (string_start)
           (string_content)
@@ -43,8 +45,9 @@ end
     (identifier)
     (do_block
       (stab_expression
-        (tuple
-          (identifier))
+        (bare_arguments
+          (tuple
+            (identifier)))
         (string
           (string_start)
           (string_content)
@@ -69,13 +72,15 @@ end
     (identifier)
     (do_block
       (stab_expression
-        (integer)
+        (bare_arguments
+          (integer))
         (string
           (string_start)
           (string_content)
           (string_end)))
       (stab_expression
-        (integer)
+        (bare_arguments
+          (integer))
         (dot_call
           (identifier)
           (identifier)
@@ -99,18 +104,20 @@ end
     (integer)
     (do_block
       (stab_expression
-        (binary_op
-          (identifier)
-          (qualified_call
+        (bare_arguments
+          (binary_op
             (identifier)
-            (arguments
-              (identifier))))
+            (qualified_call
+              (identifier)
+              (arguments
+                (identifier)))))
         (string
           (string_start)
           (string_content)
           (string_end)))
       (stab_expression
-        (identifier)
+        (bare_arguments
+          (identifier))
         (binary_op
           (string
             (string_start)
@@ -138,23 +145,25 @@ end
     (identifier)
     (do_block
       (stab_expression
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end))
-          (identifier))
+        (bare_arguments
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))
+            (identifier)))
         (qualified_call
           (identifier)
           (arguments
             (identifier)
             (identifier))))
       (stab_expression
-        (list
-          (string
-            (string_start)
-            (string_content)
-            (string_end)))
+        (bare_arguments
+          (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
         (qualified_call
           (identifier)
           (arguments
@@ -179,36 +188,38 @@ end
     (identifier)
     (do_block
       (stab_expression
-        (binary_op
-          (binary
-            (string
-              (string_start)
-              (string_content)
-              (string_end))
-            (identifier))
+        (bare_arguments
           (binary_op
+            (binary
+              (string
+                (string_start)
+                (string_content)
+                (string_end))
+              (identifier))
             (binary_op
-              (identifier)
-              (char))
-            (binary_op
-              (identifier)
-              (char))))
+              (binary_op
+                (identifier)
+                (char))
+              (binary_op
+                (identifier)
+                (char)))))
         (identifier))
       (stab_expression
-        (binary_op
-          (binary
-            (string
-              (string_start)
-              (string_content)
-              (string_end))
-            (identifier))
+        (bare_arguments
           (binary_op
+            (binary
+              (string
+                (string_start)
+                (string_content)
+                (string_end))
+              (identifier))
             (binary_op
-              (identifier)
-              (char))
-            (binary_op
-              (identifier)
-              (char))))
+              (binary_op
+                (identifier)
+                (char))
+              (binary_op
+                (identifier)
+                (char)))))
         (identifier)))))
 
 ================================================================================
@@ -228,7 +239,8 @@ end
     (identifier)
     (do_block
       (stab_expression
-        (integer)
+        (bare_arguments
+          (integer))
         (qualified_call
           (identifier)
           (arguments
@@ -246,8 +258,9 @@ end
                         (identifier)))))
                 (identifier))))))
       (stab_expression
-        (unary_op
-          (integer))
+        (bare_arguments
+          (unary_op
+            (integer)))
         (qualified_call
           (identifier)
           (arguments

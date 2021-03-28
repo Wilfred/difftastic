@@ -14,13 +14,15 @@ end
     (identifier)
     (do_block
       (stab_expression
-        (integer)
+        (bare_arguments
+          (integer))
         (string
           (string_start)
           (string_content)
           (string_end)))
       (stab_expression
-        (integer)
+        (bare_arguments
+          (integer))
         (string
           (string_start)
           (string_content)
@@ -41,8 +43,9 @@ end
     (identifier)
     (do_block
       (stab_expression
-        (tuple
-          (identifier))
+        (bare_arguments
+          (tuple
+            (identifier)))
         (string
           (string_start)
           (string_content)
@@ -66,13 +69,15 @@ end
     (identifier)
     (do_block
       (stab_expression
-        (integer)
+        (bare_arguments
+          (integer))
         (string
           (string_start)
           (string_content)
           (string_end)))
       (stab_expression
-        (integer)
+        (bare_arguments
+          (integer))
         (dot_call
           (identifier)
           (identifier)
@@ -97,19 +102,21 @@ end
     (identifier)
     (do_block
       (stab_expression
-        (binary_op
-          (block
-            (binary_op
-              (identifier)
-              (false)))
+        (bare_arguments
           (binary_op
-            (atom)
-            (dot_call
-              (module)
-              (identifier)
-              (arguments
-                (identifier)))))
+            (block
+              (binary_op
+                (identifier)
+                (false)))
+            (binary_op
+              (atom)
+              (dot_call
+                (module)
+                (identifier)
+                (arguments
+                  (identifier))))))
         (integer))
       (stab_expression
-        (true)
+        (bare_arguments
+          (true))
         (atom)))))

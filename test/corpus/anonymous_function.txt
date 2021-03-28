@@ -9,7 +9,8 @@ fn() -> a + b end
 (program
   (anonymous_function
     (stab_expression
-      (block)
+      (bare_arguments
+        (block))
       (binary_op
         (identifier)
         (identifier)))))
@@ -25,8 +26,9 @@ fn(a) -> a + b end
 (program
   (anonymous_function
     (stab_expression
-      (block
-        (identifier))
+      (bare_arguments
+        (block
+          (identifier)))
       (binary_op
         (identifier)
         (identifier)))))
@@ -42,8 +44,9 @@ fn(a, b) -> a + b end
 (program
   (anonymous_function
     (stab_expression
-      (identifier)
-      (identifier)
+      (bare_arguments
+        (identifier)
+        (identifier))
       (binary_op
         (identifier)
         (identifier)))))
@@ -62,8 +65,9 @@ end
 (program
   (anonymous_function
     (stab_expression
-      (identifier)
-      (identifier)
+      (bare_arguments
+        (identifier)
+        (identifier))
       (binary_op
         (identifier)
         (identifier))
@@ -95,7 +99,8 @@ fn a -> a + b end
 (program
   (anonymous_function
     (stab_expression
-      (identifier)
+      (bare_arguments
+        (identifier))
       (binary_op
         (identifier)
         (identifier)))))
@@ -111,8 +116,9 @@ fn a, b -> a + b end
 (program
   (anonymous_function
     (stab_expression
-      (identifier)
-      (identifier)
+      (bare_arguments
+        (identifier)
+        (identifier))
       (binary_op
         (identifier)
         (identifier)))))
@@ -131,8 +137,9 @@ end
 (program
   (anonymous_function
     (stab_expression
-      (identifier)
-      (identifier)
+      (bare_arguments
+        (identifier)
+        (identifier))
       (binary_op
         (identifier)
         (identifier))
@@ -178,11 +185,12 @@ fun = fn () when node() == :nonode@nohost -> true end
     (identifier)
     (anonymous_function
       (stab_expression
-        (binary_op
-          (block)
+        (bare_arguments
           (binary_op
-            (qualified_call
-              (identifier)
-              (arguments))
-            (atom)))
+            (block)
+            (binary_op
+              (qualified_call
+                (identifier)
+                (arguments))
+              (atom))))
         (true)))))
