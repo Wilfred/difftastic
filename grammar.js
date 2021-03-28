@@ -1,3 +1,5 @@
+/* global optional, seq, choice, prec, field, repeat, grammar, alias, token */
+
 function sep(rule, separator) {
   return optional(sep1(rule, separator));
 }
@@ -150,11 +152,11 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.call],
-    [$._bare_args],
+    [$._bare_arguments],
     [$._clause_body],
     [$.keyword_list],
-    [$.block, $._bare_args],
-    [$.block, $.paren_expr, $._bare_args],
+    [$.block, $._bare_arguments],
+    [$.block, $.paren_expr, $._bare_arguments],
     [$.block, $.stab_expression]
   ],
 
@@ -222,7 +224,7 @@ module.exports = grammar({
         choice(
           seq(
             field("name", choice($.identifier, $.dot_call, $.qualified_call)),
-            choice($._bare_args, $.arguments),
+            choice($._bare_arguments, $.arguments),
             optional(choice(seq($._terminator, $.do_block), $.do_block))
           ),
           seq(
@@ -447,7 +449,9 @@ module.exports = grammar({
         ")"
       ),
 
-    _bare_args: $ =>
+    bare_arguments: $ => $._bare_arguments,
+
+    _bare_arguments: $ =>
       choice(
         seq(
           commaSep1($, $._expression),
@@ -460,7 +464,7 @@ module.exports = grammar({
       seq(
         "%{",
         optional($._terminator),
-        optional($._bare_args),
+        optional($._bare_arguments),
         optional(","),
         optional($._terminator),
         "}"
@@ -479,7 +483,7 @@ module.exports = grammar({
         ),
         "{",
         optional($._terminator),
-        optional($._bare_args),
+        optional($._bare_arguments),
         optional(","),
         optional($._terminator),
         "}"
@@ -489,7 +493,7 @@ module.exports = grammar({
       seq(
         "[",
         optional($._terminator),
-        optional($._bare_args),
+        optional($._bare_arguments),
         optional(","),
         optional($._terminator),
         "]"
@@ -499,7 +503,7 @@ module.exports = grammar({
       seq(
         "<<",
         optional($._terminator),
-        optional($._bare_args),
+        optional($._bare_arguments),
         optional(","),
         optional($._terminator),
         ">>"
@@ -512,7 +516,7 @@ module.exports = grammar({
       seq(
         "{",
         optional($._terminator),
-        optional($._bare_args),
+        optional($._bare_arguments),
         optional(","),
         optional($._terminator),
         "}"
@@ -521,20 +525,24 @@ module.exports = grammar({
     stab_expression: $ =>
       seq(
         optional(
-          choice(
+          field(
+            "left",
             seq(
-              "(",
-              optional($._terminator),
-              optional($._bare_args),
-              optional($._terminator),
-              ")"
-            ),
-            $._bare_args
+              choice(
+                seq(
+                  "(",
+                  optional($._terminator),
+                  optional($.bare_arguments),
+                  optional($._terminator),
+                  ")"
+                ),
+                $.bare_arguments
+              )
+            )
           )
         ),
         "->",
-        optional($._terminator),
-        $._clause_body
+        field("right", seq(optional($._terminator), $._clause_body))
       ),
 
     _clause_body: $ =>

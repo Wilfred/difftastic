@@ -1,4 +1,4 @@
-["when" "and" "or" "not" "in" "fn" "do" "end" "catch" "rescue" "after" "else"] @keyword
+["when" "and" "or" "not in" "not" "in" "fn" "do" "end" "catch" "rescue" "after" "else"] @keyword
 
 [(true) (false) (nil)] @constant.builtin
 
@@ -14,19 +14,43 @@
 
 (call (identifier) @keyword
       [(qualified_call
-        (identifier) @function)
+        name: (identifier) @function
+        (arguments
+         [(identifier) @variable.parameter
+          (_ !function !object !name (identifier) @variable.parameter)
+          (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))
+          (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))
+          (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))))
+          (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))))]))
        (identifier) @function
        (binary_op
         left:
         [(qualified_call
-          name: (identifier) @function)
+          name: (identifier) @function
+          (arguments
+           [(identifier) @variable.parameter
+            (_ !function !object !name (identifier) @variable.parameter)
+            (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))
+            (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))
+            (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))))
+            (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))))]))
          (identifier) @function]
         operator: "when")
        (binary_op
-        left: (identifier)
+        left: (identifier) @variable.parameter
         operator: _ @function
-        right: (identifier))]
+        right: (identifier) @variable.parameter)]
       (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$"))
+
+(anonymous_function
+ (stab_expression
+  left: (bare_arguments
+         [(identifier) @variable.parameter
+          (_ !function !object !name (identifier) @variable.parameter)
+          (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))
+          (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))
+          (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))))
+          (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))))])))
 
 (unary_op
  operator: "@"

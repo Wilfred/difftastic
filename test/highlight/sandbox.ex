@@ -189,6 +189,10 @@ defmodule M do
     __MODULE__.func(b, a)
   end
 
+  defmacro x(a, a \\ nil, a.call(), a(), b.call) do
+    nil
+  end
+
   defmacro m() do
     __CALLER__
   end
