@@ -1909,6 +1909,7 @@
     }
   ],
   "conflicts": [],
+  "precedences": [],
   "externals": [],
   "inline": [
     "node_identifier",

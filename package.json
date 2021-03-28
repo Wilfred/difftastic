@@ -2,7 +2,7 @@
   "name": "tree-sitter-devicetree",
   "version": "0.3.0",
   "description": "Tree-sitter parser for Devicetree files, with support for Zephyr's superset of Devicetree syntax.",
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "build": "tree-sitter generate",
     "test": "tree-sitter test",
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "prettier": "^2.2.1",
-    "tree-sitter-cli": "^0.17.3"
+    "tree-sitter-cli": "^0.19.4"
   },
   "tree-sitter": [
     {
