@@ -368,6 +368,8 @@ module.exports = grammar({
 
         // assert '{' ... '}' 
         [$._PSL_Compound_SERE, $._PSL_Sequence],
+
+        [$.configuration_specification],
     ], // }}}
     precedences: () => [ // {{{
         // Top level precedence
@@ -1670,7 +1672,7 @@ module.exports = grammar({
         ),
         // }}}
         // 7.3 Configuration specification {{{
-        configuration_specification: $ => prec.left(seq(
+        configuration_specification: $ => seq(
             reservedWord('for'),
             $._component_specification,
             $.binding_indication,
@@ -1680,7 +1682,7 @@ module.exports = grammar({
                 reservedWord('for'),
                 ';'
             ))
-        )),
+        ),
 
         _component_specification: $ => seq(
             $.instantiation_list,
