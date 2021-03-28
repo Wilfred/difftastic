@@ -2,6 +2,7 @@
 // the higher the value, higher the precedence.
 const PRECEDENCE = {
   REGEXP: 1,
+  ESCAPE_SEQ: 1,
   STRING: 2,
   COMMENTS: 3, // comments over anything. Except in strings or regex.
   
@@ -61,10 +62,16 @@ module.exports = grammar({
     [$.goto_expression, $._expression],
   ],
 
+  // externals: $ => [
+  //   $._string_content,
+  // ],
+  
   extras: $ => [
     $.comments,
     /[\s\uFEFF\u2060\u200B\u00A0]/,
   ],
+
+  word: $ => $.identifier,
 
   rules: {
     source_file: $ => repeat($._statement),
@@ -448,6 +455,8 @@ module.exports = grammar({
 
       $.call_expression,
       $.goto_expression,
+
+      $.command_qx_quoted,
     ),
 
     goto_expression: $ => seq(
@@ -858,8 +867,40 @@ module.exports = grammar({
     string_single_quoted: $ => prec(PRECEDENCE.STRING, /\'.*\'/),
     string_q_quoted: $ => prec(PRECEDENCE.STRING, /q\{.*\}/),
 
-    string_double_quoted: $ => prec(PRECEDENCE.STRING, /\".*\"/),
-    string_qq_quoted: $ => prec(PRECEDENCE.STRING, /qq\{.*\}/),
+    string_double_quoted: $ => prec(PRECEDENCE.STRING, seq(
+      '"',
+      repeat(choice($.interpolation, $.escape_sequence, token(/[^"\\]+/))),
+      '"',
+    )),
+    string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(
+      'qq',
+      choice(
+        seq('{', repeat(choice($.interpolation, $.escape_sequence, token(/[^}]+/))), '}'),
+      ),
+    )),
+
+    command_qx_quoted: $ => prec(PRECEDENCE.STRING, seq(
+      'qx',
+      choice(
+        /'.*'/, // don't interpolate for a single quote
+        delimited_with_interpolation(),
+      ),
+    )),
+
+    word_list_qw: $ => seq(),
+
+    // https://perldoc.perl.org/perlop#Quote-and-Quote-like-Operators
+    escape_sequence: $ => prec(PRECEDENCE.ESCAPE_SEQ, seq(
+      '\\',
+      token.immediate(choice(
+        /[tnrfbae]/,
+      )),
+    )),
+
+    interpolation: $ => choice(
+      $.scalar_variable,
+      $.array_variable,
+    ),
 
     _boolean: $ => choice(
       $.true,
@@ -970,5 +1011,13 @@ function with_or_without_quotes(rule) {
     rule,
     seq('\'', rule, '\''),
     seq('"', rule, '"'),
+  );
+}
+
+// TODO: move this to a custom scanner so that it matches - https://stackoverflow.com/questions/22492028/regex-that-start-and-end-with-same-letter
+// /([^a-z]).*\1/,
+function delimited_with_interpolation($) {
+  return choice(
+    
   );
 }
