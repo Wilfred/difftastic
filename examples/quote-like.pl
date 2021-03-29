@@ -10,3 +10,12 @@ my @array = qw / s6df 32 DF /;
 
 # print Dumper \@array;
 
+my $string = 'a simple string';
+
+$string =~ m/Simple/is;
+
+# Printing the String
+print "Before: $`\n";
+print "Matched: $&\n";
+print "After: $'\n";
+
