@@ -243,9 +243,9 @@
     (variable_interface_declaration  (mode ["buffer" "linkage"]) @error.illegal.mode)
     (signal_interface_declaration  (default_expression) @error.illegal.default_expression)
     (type_interface_declaration)      @error.illegal.interface.type
-    (package_interface_declaration)   @error.illegal.interface.package
     (procedure_interface_declaration) @error.illegal.interface.procedure
     (function_interface_declaration)  @error.illegal.interface.function
+    (package_interface_declaration)   @error.illegal.interface.package
   ])
 
 (function_parameter_clause [
@@ -254,9 +254,9 @@
     (variable_interface_declaration)  @error.illegal.interface.variable
     (file_interface_declaration)      @error.illegal.interface.file
     (type_interface_declaration)      @error.illegal.interface.type
-    (package_interface_declaration)   @error.illegal.interface.package
     (procedure_interface_declaration) @error.illegal.interface.procedure
     (function_interface_declaration)  @error.illegal.interface.function
+    (package_interface_declaration)   @error.illegal.interface.package
   ])
 ; }}}
 ; 4.5 Subprogram overloading {{{
