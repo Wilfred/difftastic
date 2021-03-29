@@ -19,3 +19,8 @@ print "Before: $`\n";
 print "Matched: $&\n";
 print "After: $'\n";
 
+
+my $rex = qr/[my.STRING]is/;
+
+print "rex..\n" . $rex;
+

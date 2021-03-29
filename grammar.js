@@ -459,6 +459,7 @@ module.exports = grammar({
       // quote-like operators
       $.command_qx_quoted,
       $.patter_matcher_m,
+      $.regex_pattern_qr,
     ),
 
     goto_expression: $ => seq(
@@ -930,6 +931,33 @@ module.exports = grammar({
         /'.*'/, // don't interpolate for a single quote
       ),
       optional($.regex_option),
+    )),
+
+    regex_pattern_qr: $ => prec(PRECEDENCE.REGEXP, seq(
+      'qr',
+      choice(
+        seq('{', optional($.regex_pattern), '}'),
+        seq('/', optional($.regex_pattern), '/'),
+        seq('(', optional($.regex_pattern), ')'),
+        /'.*'/, // don't interpolate for a single quote
+      ),
+      optional($.regex_option),
+    )),
+
+    // shamelessly copied from the tree-sitter-javascript
+    regex_pattern: $ => prec(PRECEDENCE.REGEXP, repeat1(
+      choice(
+        seq(
+          '[',
+          repeat(choice(
+            seq('\\', /./), // escaped character
+            /[^\]\n\\]/       // any character besides ']' or '\n'
+          )),
+          ']'
+        ),              // square-bracket-delimited character class
+        seq('\\', /./), // escaped character
+        /[^/\\\[\n]/,   // any character besides '[', '\', '/', '\n'
+      ),
     )),
 
     regex_option: $ => /[msixpodualn]+/,

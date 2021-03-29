@@ -72,6 +72,10 @@
           "named": true
         },
         {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
           "type": "scalar_variable",
           "named": true
         },
@@ -334,6 +338,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
             "named": true
           },
           {
@@ -637,6 +645,10 @@
             "named": true
           },
           {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -744,6 +756,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
             "named": true
           },
           {
@@ -855,6 +871,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
           "named": true
         },
         {
@@ -998,6 +1018,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
           "named": true
         },
         {
@@ -1224,6 +1248,10 @@
           "named": true
         },
         {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
           "type": "scalar_variable",
           "named": true
         },
@@ -1396,6 +1424,10 @@
             "named": true
           },
           {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -1506,6 +1538,10 @@
             "named": true
           },
           {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -1613,6 +1649,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
             "named": true
           },
           {
@@ -1932,6 +1972,10 @@
             "named": true
           },
           {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -2230,6 +2274,10 @@
             "named": true
           },
           {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -2514,6 +2562,10 @@
           "named": true
         },
         {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
           "type": "scalar_variable",
           "named": true
         },
@@ -2583,6 +2635,30 @@
     "type": "phase",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "regex_pattern",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "regex_pattern_qr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "regex_option",
+          "named": true
+        },
+        {
+          "type": "regex_pattern",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "require_statement",
@@ -2673,6 +2749,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
           "named": true
         },
         {
@@ -2810,6 +2890,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
           "named": true
         },
         {
@@ -2966,6 +3050,10 @@
             "named": true
           },
           {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -3103,6 +3191,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
           "named": true
         },
         {
@@ -3318,6 +3410,10 @@
           "named": true
         },
         {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
           "type": "require_statement",
           "named": true
         },
@@ -3529,6 +3625,10 @@
             "named": true
           },
           {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -3636,6 +3736,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
             "named": true
           },
           {
@@ -3760,6 +3864,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
             "named": true
           },
           {
@@ -3921,6 +4029,10 @@
             "named": true
           },
           {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -4038,6 +4150,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
             "named": true
           },
           {
@@ -4214,6 +4330,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
             "named": true
           },
           {
@@ -4484,6 +4604,10 @@
             "named": true
           },
           {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -4601,6 +4725,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
             "named": true
           },
           {
@@ -4731,6 +4859,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
             "named": true
           },
           {
@@ -5212,6 +5344,10 @@
   },
   {
     "type": "qq",
+    "named": false
+  },
+  {
+    "type": "qr",
     "named": false
   },
   {
