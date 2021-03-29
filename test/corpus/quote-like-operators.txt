@@ -65,3 +65,16 @@ my @array = qw /
   )
 )
 
+=================================================
+m matcher operator
+=================================================
+
+$string =~ m/Simple/is;
+
+---
+
+(source_file
+  (binary_expression
+    (scalar_variable) (patter_matcher_m (regex_option))
+  ) (semi_colon)
+)

@@ -68,6 +68,10 @@
           "named": true
         },
         {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
           "type": "scalar_variable",
           "named": true
         },
@@ -326,6 +330,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
             "named": true
           },
           {
@@ -625,6 +633,10 @@
             "named": true
           },
           {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -728,6 +740,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
             "named": true
           },
           {
@@ -835,6 +851,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
           "named": true
         },
         {
@@ -974,6 +994,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
           "named": true
         },
         {
@@ -1196,6 +1220,10 @@
           "named": true
         },
         {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
           "type": "scalar_variable",
           "named": true
         },
@@ -1364,6 +1392,10 @@
             "named": true
           },
           {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -1470,6 +1502,10 @@
             "named": true
           },
           {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -1573,6 +1609,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
             "named": true
           },
           {
@@ -1888,6 +1928,10 @@
             "named": true
           },
           {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -2182,6 +2226,10 @@
             "named": true
           },
           {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -2462,6 +2510,10 @@
           "named": true
         },
         {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
           "type": "scalar_variable",
           "named": true
         },
@@ -2499,6 +2551,29 @@
         },
         {
           "type": "word_list_qw",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "patter_matcher_m",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "regex_option",
           "named": true
         }
       ]
@@ -2594,6 +2669,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
           "named": true
         },
         {
@@ -2727,6 +2806,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
           "named": true
         },
         {
@@ -2879,6 +2962,10 @@
             "named": true
           },
           {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -3012,6 +3099,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
           "named": true
         },
         {
@@ -3216,6 +3307,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
           "named": true
         },
         {
@@ -3430,6 +3525,10 @@
             "named": true
           },
           {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -3533,6 +3632,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
             "named": true
           },
           {
@@ -3653,6 +3756,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
             "named": true
           },
           {
@@ -3810,6 +3917,10 @@
             "named": true
           },
           {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -3923,6 +4034,10 @@
           },
           {
             "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
             "named": true
           },
           {
@@ -4095,6 +4210,10 @@
           },
           {
             "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
             "named": true
           },
           {
@@ -4361,6 +4480,10 @@
             "named": true
           },
           {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
             "type": "scalar_variable",
             "named": true
           },
@@ -4474,6 +4597,10 @@
           },
           {
             "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
             "named": true
           },
           {
@@ -4600,6 +4727,10 @@
           },
           {
             "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
             "named": true
           },
           {
@@ -5040,6 +5171,10 @@
     "named": false
   },
   {
+    "type": "m",
+    "named": false
+  },
+  {
     "type": "my",
     "named": false
   },
@@ -5090,6 +5225,10 @@
   {
     "type": "redo",
     "named": false
+  },
+  {
+    "type": "regex_option",
+    "named": true
   },
   {
     "type": "require",

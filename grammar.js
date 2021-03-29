@@ -456,7 +456,9 @@ module.exports = grammar({
       $.call_expression,
       $.goto_expression,
 
+      // quote-like operators
       $.command_qx_quoted,
+      $.patter_matcher_m,
     ),
 
     goto_expression: $ => seq(
@@ -919,16 +921,25 @@ module.exports = grammar({
       ),
     )),
 
-    // patter_matcher_m: $ => prec(PRECEDENCE.REGEXP, seq(
-    //   'm',
-    // )),
+    patter_matcher_m: $ => prec(PRECEDENCE.REGEXP, seq(
+      'm',
+      choice(
+        seq('{', repeat(choice($.interpolation, $.escape_sequence, token(/[^}]+/))), '}'),
+        seq('/', repeat(choice($.interpolation, $.escape_sequence, token(/[^/]+/))), '/'),
+        seq('(', repeat(choice($.interpolation, $.escape_sequence, token(/[^)]+/))), ')'),
+        /'.*'/, // don't interpolate for a single quote
+      ),
+      optional($.regex_option),
+    )),
+
+    regex_option: $ => /[msixpodualn]+/,
 
     // https://perldoc.perl.org/perlop#Quote-and-Quote-like-Operators
     escape_sequence: $ => prec(PRECEDENCE.ESCAPE_SEQ, seq(
       '\\',
-      token.immediate(choice(
+      token.immediate(
         /[tnrfbae]/,
-      )),
+      ),
     )),
 
     interpolation: $ => choice(
