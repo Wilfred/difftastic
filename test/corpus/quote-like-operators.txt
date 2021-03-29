@@ -78,3 +78,17 @@ $string =~ m/Simple/is;
     (scalar_variable) (patter_matcher_m (regex_option))
   ) (semi_colon)
 )
+
+=================================================
+qr regex operator
+=================================================
+
+my $rex = qr/[my.STRING]is/;
+
+---
+
+(source_file
+  (variable_declaration
+    (scope) (single_var_declaration (scalar_variable) (regex_pattern_qr (regex_pattern))) (semi_colon)
+  )
+)
