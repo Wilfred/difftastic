@@ -13,13 +13,13 @@ entity e is
 
     procedure p;
 
-    function  f;
+    function  f return t;
 
     procedure p is
     begin
     end procedure;
 
-    function f is
+    function f return t is
     begin
     end function;
 

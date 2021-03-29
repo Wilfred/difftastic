@@ -18,28 +18,6 @@ end entity;
 entity e is
 begin
 
-    p(arg);
-
-    process
-    begin
-    end process;
-
-    assert x;
-
-    assume x;
-
-    assume_guarantee x;
-
-    restrict x;
-
-    restrict_guarantee x;
-
-    cover x;
-
-    fairness x;
-
-    strong fairness x,x;
-
     L1: block
  -- ^ error.illegal.statement
     begin
@@ -80,5 +58,26 @@ begin
     default clock is x;
  -- ^ error.illegal.statement
 
+    p(arg);
+
+    process
+    begin
+    end process;
+
+    assert x;
+
+    assume x;
+
+    assume_guarantee x;
+
+    restrict x;
+
+    restrict_guarantee x;
+
+    cover x;
+
+    fairness x;
+
+    strong fairness x,x;
 
 end entity;
