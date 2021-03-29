@@ -403,3 +403,53 @@
  at_end: (_) @error.misspeling.name @_t)
          (#not-eq? @_h @_t))
 ; }}}
+; 4.8 Package bodies {{{
+(package_body
+  (declarative_part [
+    (signal_declaration)
+    (component_declaration)
+    (configuration_specification)
+    (disconnection_specification)
+    (PSL_Assert_Directive)
+    (PSL_Assume_Directive)
+    (PSL_Assume_Guarantee_Directive)
+    (PSL_Restrict_Directive)
+    (PSL_Restrict_Guarantee_Directive)
+    (PSL_Cover_Directive)
+    (PSL_Fairness_Directive)
+    (PSL_Strong_Fairness_Directive)
+    (PSL_Property_Declaration)
+    (PSL_Sequence_Declaration)
+    (PSL_Clock_Declaration)
+  ] @error.illegal.declaration))
+
+(procedure_body
+  (declarative_part
+    (package_body
+      (declarative_part
+        (shared_variable_declaration "shared" @error.unexpected.shared)))))
+
+(function_body
+  (declarative_part
+    (package_body
+      (declarative_part
+        (shared_variable_declaration "shared" @error.unexpected.shared)))))
+
+(process_statement
+  (declarative_part
+    (package_body
+      (declarative_part
+        (shared_variable_declaration "shared" @error.unexpected.shared)))))
+
+(full_type_declaration
+  (protected_type_body
+    (declarative_part
+      (package_body
+        (declarative_part
+          (shared_variable_declaration "shared" @error.unexpected.shared))))))
+
+((package_body
+ package: (_) @_h
+  at_end: (_) @error.misspeling.name @_t)
+          (#not-eq? @_h @_t))
+; }}}
