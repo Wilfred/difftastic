@@ -78,6 +78,16 @@
  at_end: (_) @error.misspeling.name @_t)
          (#not-eq? @_h @_t))
 ; }}}
+; 3.3 Architecture bodies {{{
+(architecture_body
+  (declarative_part
+    (variable_declaration) @error.illegal.declaration))
+
+((architecture_body
+   name: (_) @_h
+ at_end: (_) @error.misspeling.name @_t)
+         (#not-eq? @_h @_t))
+; }}}
 ; 4.2 Subprogram declaration {{{
 (procedure_declaration
   ["pure" "impure"] @error.unexpected.purity)
