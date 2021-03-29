@@ -467,3 +467,9 @@
 (package_map_aspect
   (generic_map_aspect (semicolon) @error.unexpected.semicolon.after_map_aspect .))
 ; }}}
+; 5.2.2 Enumeration types {{{
+((enumeration_type_definition
+  (_) @_a
+  (_) @error.repeated.enumerator @_b)
+ (#eq? @_a @_b))
+; }}}
