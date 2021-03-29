@@ -453,3 +453,17 @@
   at_end: (_) @error.misspeling.name @_t)
           (#not-eq? @_h @_t))
 ; }}}
+; 4.9 Package instantiation declarations {{{
+(package_map_aspect [
+    (generic_clause)  @error.illegal.clause.generic
+    (port_clause)     @error.illegal.clause.port
+    (port_map_aspect) @error.illegal.map_aspect.port
+  ])
+
+(package_map_aspect
+  (generic_map_aspect)
+  (generic_map_aspect) @error.repeated.map_aspect.generic)
+
+(package_map_aspect
+  (generic_map_aspect (semicolon) @error.unexpected.semicolon.after_map_aspect .))
+; }}}
