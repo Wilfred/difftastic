@@ -131,7 +131,7 @@ defmodule Long.Module.Name do
 
   \n #{\x{ff}}
   '''
-  def func(a, b \\ []), do: :ok
+  def func(_a, b \\ []), do: :ok
 
   # Function
   def f(x), do: x

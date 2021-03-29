@@ -40,7 +40,8 @@
         left: (identifier) @variable.parameter
         operator: _ @function
         right: (identifier) @variable.parameter)]
-      (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$"))
+      (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$")
+      (#match? @variable.parameter "^[^_]"))
 
 (anonymous_function
  (stab_expression
@@ -50,15 +51,16 @@
           (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))
           (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))
           (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))))
-          (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))))])))
+          (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))))]))
+ (#match? @variable.parameter "^[^_]"))
 
 (unary_op
  operator: "@"
  (call (identifier) @attribute
        (heredoc
-        (heredoc_start) @doc
-        (heredoc_content) @doc
-        (heredoc_end) @doc))
+        [(heredoc_start)
+         (heredoc_content)
+         (heredoc_end)] @doc))
  (#match? @attribute "^(doc|moduledoc)$"))
 
 (module) @type
