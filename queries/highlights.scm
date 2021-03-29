@@ -280,3 +280,126 @@
 (return
   "," @error.unexpected.comma)
 ; }}}
+; 4.7 Package declarations {{{
+(package_header [
+    (port_clause)     @error.illegal.clause.port
+    (port_map_aspect) @error.illegal.map_aspect.port
+  ])
+
+(package_header
+  (generic_clause)
+  (generic_clause) @error.repeated.clause.generic)
+
+(package_header
+  (generic_map_aspect)
+  (generic_map_aspect) @error.repeated.map_aspect.generic)
+
+; FIXME
+; Negation rule not supported yet (tree-sitter version v0.19.4)
+;(package_header
+; . !(generic_clause)*
+; .  (generic_map_aspect) @error.missing.clause.generic
+; . !(generic_clause)*)
+
+; WORKARROUND
+; Only common case
+(package_header
+. (generic_map_aspect) @error.missing.clause.generic
+. )
+
+(package_header
+  (generic_map_aspect)
+  (generic_clause) @error.order.clause_after_map_aspect)
+
+(package_header [
+    (generic_clause     ")" @error.missing.semicolon.after_clause     .)
+    (generic_map_aspect ")" @error.missing.semicolon.after_map_aspect .)
+  ])
+
+(package_declaration
+  (declarative_part [
+    (procedure_body)
+    (function_body)
+    (configuration_specification)
+  ] @error.illegal.declaration))
+
+(package_declaration
+  (declarative_part
+    (full_type_declaration
+      (protected_type_body) @error.illegal.declaration)))
+
+(procedure_body
+  (declarative_part
+    (package_declaration
+      (declarative_part [
+        (signal_declaration)
+        (disconnection_specification)
+        (PSL_Property_Declaration)
+        (PSL_Sequence_Declaration)
+        (PSL_Clock_Declaration)
+      ] @error.illegal.declaration))))
+
+(procedure_body
+  (declarative_part
+    (package_declaration
+      (declarative_part
+        (shared_variable_declaration "shared" @error.unexpected.shared)))))
+
+(function_body
+  (declarative_part
+    (package_declaration
+      (declarative_part [
+        (signal_declaration)
+        (disconnection_specification)
+        (PSL_Property_Declaration)
+        (PSL_Sequence_Declaration)
+        (PSL_Clock_Declaration)
+      ] @error.illegal.declaration))))
+
+(function_body
+  (declarative_part
+    (package_declaration
+      (declarative_part
+        (shared_variable_declaration "shared" @error.unexpected.shared)))))
+
+(process_statement
+  (declarative_part
+    (package_declaration
+      (declarative_part [
+        (signal_declaration)
+        (disconnection_specification)
+        (PSL_Property_Declaration)
+        (PSL_Sequence_Declaration)
+        (PSL_Clock_Declaration)
+      ] @error.illegal.declaration))))
+
+(process_statement
+  (declarative_part
+    (package_declaration
+      (declarative_part
+        (shared_variable_declaration "shared" @error.unexpected.shared)))))
+
+(full_type_declaration
+  (protected_type_body
+    (declarative_part
+      (package_declaration
+        (declarative_part [
+          (signal_declaration)
+          (disconnection_specification)
+          (PSL_Property_Declaration)
+          (PSL_Sequence_Declaration)
+          (PSL_Clock_Declaration)
+        ] @error.illegal.declaration)))))
+
+(full_type_declaration
+  (protected_type_body
+    (declarative_part
+      (package_declaration
+        (declarative_part
+          (shared_variable_declaration "shared" @error.unexpected.shared))))))
+
+((package_declaration
+   name: (_) @_h
+ at_end: (_) @error.misspeling.name @_t)
+         (#not-eq? @_h @_t))
+; }}}
