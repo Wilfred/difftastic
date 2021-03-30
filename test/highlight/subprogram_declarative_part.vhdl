@@ -7,7 +7,7 @@ procedure foo is
  -- ^ error.illegal.declaration
 
     shared variable s : t;
- -- ^ error.illegal.shared
+ -- ^ error.unexpected.shared
 
     component c is
  -- ^ error.illegal.declaration

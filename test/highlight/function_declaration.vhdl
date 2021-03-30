@@ -33,5 +33,8 @@
     -- ^ error.unexpected.purity.at_end
 
 
-  function "foo" return t;
-        -- ^ error.illegal.operator_symbol
+   function "and" return t;
+
+   function "foo" return t;
+         -- ^ error.illegal.operator_symbol
+

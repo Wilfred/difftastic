@@ -169,11 +169,11 @@
     (PSL_Property_Declaration)
     (PSL_Sequence_Declaration)
     (PSL_Clock_Declaration)
-   ] @error.illegal.declaration))
+  ] @error.illegal.declaration))
 
 (procedure_body
   (declarative_part
-    (shared_variable_declaration "shared" @error.illegal.shared)))
+    (shared_variable_declaration "shared" @error.unexpected.shared)))
 
 (procedure_body
           "procedure"
@@ -193,7 +193,6 @@
 (function_body
   (declarative_part [
     (signal_declaration)
-    (shared_variable_declaration)
     (component_declaration)
     (configuration_specification)
     (disconnection_specification)
@@ -209,6 +208,10 @@
     (PSL_Sequence_Declaration)
     (PSL_Clock_Declaration)
   ] @error.illegal.declaration))
+
+(function_body
+  (declarative_part
+    (shared_variable_declaration "shared" @error.unexpected.shared)))
 
 (function_body
           "function"
@@ -467,9 +470,138 @@
 (package_map_aspect
   (generic_map_aspect (semicolon) @error.unexpected.semicolon.after_map_aspect .))
 ; }}}
+; 5.2 Scalar types {{{
+(ascending_range
+   low: (simple_expression (integer_decimal))
+  high: (simple_expression (real_decimal))) @error.illegal.range
+
+(ascending_range
+   low: (simple_expression (real_decimal))
+  high: (simple_expression (integer_decimal))) @error.illegal.range
+
+(descending_range
+   high: (simple_expression (integer_decimal))
+    low: (simple_expression (real_decimal))) @error.illegal.range
+
+(descending_range
+   high: (simple_expression (real_decimal))
+    low: (simple_expression (integer_decimal))) @error.illegal.range
+; }}}
 ; 5.2.2 Enumeration types {{{
 ((enumeration_type_definition
-  (_) @_a
-  (_) @error.repeated.enumerator @_b)
+  literal: (_) @_a
+  literal: (_) @error.repeated.enumerator @_b)
  (#eq? @_a @_b))
 ; }}}
+; 5.2.4 Physical types {{{
+((physical_type_definition
+  (primary_unit_declaration
+    name: (_) @_p)
+  (secondary_unit_declaration
+    name: (_) @error.repeated.unit @_s))
+ (#eq? @_p @_s))
+
+((physical_type_definition
+  (secondary_unit_declaration
+    name: (_) @_a)
+  (secondary_unit_declaration
+    name: (_) @error.repeated.unit @_b))
+ (#eq? @_a @_b))
+
+(secondary_unit_declaration
+  (physical_literal [ (real_decimal) (based_real) ] @error.illegal.floating_point))
+
+((full_type_declaration
+  name: (_) @_h
+  (physical_type_definition
+    at_end: (_) @error.misspeling.name @_t))
+ (#not-eq? @_h @_t))
+; }}}
+; 5.3.2 Array types {{{
+(index_constraint
+  (subtype_indication
+    (resolution_function) @error.unexpected.resolution_function))
+
+(parameter_specification
+  (subtype_indication
+    (resolution_function) @error.unexpected.resolution_function))
+
+(full_type_declaration
+  name: (_) @_t
+  (constrained_array_definition
+    (subtype_indication
+      (type_mark (_) @error.repeated.type @_e)))
+    (#eq? @_t @_e))
+
+(full_type_declaration
+  name: (_) @_t
+  (unbounded_array_definition
+    (subtype_indication
+      (type_mark (_) @error.repeated.type @_e)))
+    (#eq? @_t @_e))
+; }}}
+; 5.3.2.3 Predefined array types {{{
+; Predefine array types shall be one dimensional
+(subtype_indication
+  (type_mark
+    (simple_name) @_t
+    (#match? @_t "^(string|(boolean|bit|integer|real|time)_vector)$"))
+  (array_constraint
+    (index_constraint
+        (_)
+        (_) @error.illegal.discrete_range)))
+
+; String subtypes shall be indexed by positive numbers
+(subtype_indication
+  (type_mark
+    (simple_name) @_t
+    (#eq? @_t "string"))
+  (array_constraint
+    (index_constraint
+      (_
+        (simple_expression
+          (integer_decimal
+            (integer) @error.illegal.index.zero @_l
+            (#eq? @_l "0")))))))
+
+(subtype_indication
+  (type_mark
+    (simple_name) @_t
+    (#eq? @_t "string"))
+  (array_constraint
+    (index_constraint
+      (_
+        (simple_expression
+          (sign) @error.illegal.index.negative)))))
+
+; Others predefined array types are indexed by natural numbers
+(subtype_indication
+  (type_mark
+    (simple_name) @_t
+    (#match? @_t "^(boolean|bit|integer|real|time)_vector$"))
+  (array_constraint
+    (index_constraint
+      (_
+        (simple_expression
+          (sign) @error.illegal.index.negative)))))
+; }}}
+; 5.3.3 Record types {{{
+((identifier_list
+  (_) @_a
+  (_) @error.repeated.identifier @_b)
+ (#eq? @_a @_b))
+
+(record_type_definition
+  (element_declaration
+    (identifier_list (_) @_a))
+  (element_declaration
+    (identifier_list (_) @error.repeated.identifier @_b))
+ (#eq? @_a @_b))
+
+((full_type_declaration
+  name: (_) @_h
+  (record_type_definition
+    at_end: (_) @error.misspeling.name @_t))
+ (#not-eq? @_h @_t))
+; }}}
+
