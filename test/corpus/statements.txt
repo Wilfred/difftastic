@@ -406,3 +406,28 @@ FOREACH ($a AS $b) {
                 (compound_statement
                   (expression_statement (function_call_expression (qualified_name (name)) (arguments)))))))
         (parenthesized_expression (variable_name (name)))))))
+
+
+=========================================
+Accessing Constants
+=========================================
+
+<?php
+
+echo ANOTHER_CONST;
+echo ANIMALS[1];
+
+---
+
+(program
+  (php_tag)
+  (echo_statement
+    (qualified_name (name))
+  )
+  (echo_statement
+    (subscript_expression
+      (qualified_name (name))
+      (integer)
+    )
+  )
+)
