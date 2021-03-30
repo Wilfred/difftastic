@@ -1905,6 +1905,10 @@
             "named": true
           },
           {
+            "type": "qualified_name",
+            "named": true
+          },
+          {
             "type": "scoped_call_expression",
             "named": true
           },
@@ -2002,6 +2006,10 @@
           },
           {
             "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "qualified_name",
             "named": true
           },
           {
@@ -2881,6 +2889,10 @@
         },
         {
           "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
           "named": true
         },
         {

@@ -970,6 +970,7 @@ module.exports = grammar({
       $.class_constant_access_expression,
       $.parenthesized_expression,
       $.array_creation_expression,
+      $.qualified_name,
       $._string
     )),
 
