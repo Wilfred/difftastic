@@ -29,7 +29,7 @@ assert new foobar (foo (open));
             (simple_name))
           (record_constraint
             (record_element_constraint
-              record_element: (simple_name)
+              element: (simple_name)
               (array_constraint
                 (index_constraint
                   (open))))))))))
@@ -67,7 +67,7 @@ assert new foobar (foo (h downto l));
             (simple_name))
           (record_constraint
             (record_element_constraint
-              record_element: (simple_name)
+              element: (simple_name)
               (array_constraint
                 (index_constraint
                   (descending_range

@@ -27,7 +27,7 @@ assert new (elem resolved) ut;
         (subtype_indication
           (record_resolution
             (record_element_resolution
-              record_element: (simple_name)
+              element: (simple_name)
               (resolution_function
                 (simple_name))))
           (type_mark
@@ -46,11 +46,11 @@ assert new (elem1 resolved, elem2 resolved) ut;
         (subtype_indication
           (record_resolution
             (record_element_resolution
-              record_element: (simple_name)
+              element: (simple_name)
               (resolution_function
                 (simple_name)))
             (record_element_resolution
-              record_element: (simple_name)
+              element: (simple_name)
               (resolution_function
                 (simple_name))))
           (type_mark
@@ -87,7 +87,7 @@ assert new ((elem resolved)) ut;
           (parenthesized_resolution
             (record_resolution
               (record_element_resolution
-                record_element: (simple_name)
+                element: (simple_name)
                 (resolution_function
                   (simple_name)))))
           (type_mark
@@ -198,7 +198,7 @@ assert new rec_t (elem1 (open));
             (simple_name))
           (record_constraint
             (record_element_constraint
-              record_element: (simple_name)
+              element: (simple_name)
               (array_constraint
                 (index_constraint
                   (open))))))))))
@@ -219,7 +219,7 @@ assert new rec_t (elem1 (h downto l),
             (simple_name))
           (record_constraint
             (record_element_constraint
-              record_element: (simple_name)
+              element: (simple_name)
               (array_constraint
                 (index_constraint
                   (descending_range
@@ -228,7 +228,7 @@ assert new rec_t (elem1 (h downto l),
                     low: (simple_expression
                       (simple_name))))))
             (record_element_constraint
-              record_element: (simple_name)
+              element: (simple_name)
               (array_constraint
                 (index_constraint
                   (ascending_range
@@ -252,10 +252,10 @@ assert new rec_t (elem1 (elem2 (open)));
             (simple_name))
           (record_constraint
             (record_element_constraint
-              record_element: (simple_name)
+              element: (simple_name)
               (record_constraint
                 (record_element_constraint
-                  record_element: (simple_name)
+                  element: (simple_name)
                   (array_constraint
                     (index_constraint
                       (open))))))))))))
@@ -314,7 +314,7 @@ assert new arr_t (open)(elem (open));
               (open))
             (array_element_constraint
               (record_element_constraint
-                record_element: (simple_name)
+                element: (simple_name)
                 (array_constraint
                   (index_constraint
                     (open)))))))))))
@@ -334,7 +334,7 @@ assert new arr_t (elem (open));
             (simple_name))
           (record_constraint
             (record_element_constraint
-              record_element: (simple_name)
+              element: (simple_name)
               (array_constraint
                 (index_constraint
                   (open))))))))))
@@ -354,10 +354,10 @@ assert new arr_t (elem (elem (open)));
             (simple_name))
           (record_constraint
             (record_element_constraint
-              record_element: (simple_name)
+              element: (simple_name)
               (record_constraint
                 (record_element_constraint
-                  record_element: (simple_name)
+                  element: (simple_name)
                   (array_constraint
                     (index_constraint
                       (open))))))))))))
@@ -399,18 +399,18 @@ assert new (elem1 resolved, elem2 resolved) ut (elem1 (h downto l),
         (subtype_indication
           (record_resolution
             (record_element_resolution
-              record_element: (simple_name)
+              element: (simple_name)
               (resolution_function
                 (simple_name)))
             (record_element_resolution
-              record_element: (simple_name)
+              element: (simple_name)
               (resolution_function
                 (simple_name))))
           (type_mark
             (simple_name))
           (record_constraint
             (record_element_constraint
-              record_element: (simple_name)
+              element: (simple_name)
               (array_constraint
                 (index_constraint
                   (descending_range
@@ -419,7 +419,7 @@ assert new (elem1 resolved, elem2 resolved) ut (elem1 (h downto l),
                     low: (simple_expression
                       (simple_name))))))
             (record_element_constraint
-              record_element: (simple_name)
+              element: (simple_name)
               (array_constraint
                 (index_constraint
                   (ascending_range
@@ -442,7 +442,7 @@ assert new ((elem1 resolved)) ut(h downto l)(elem1 (h downto 0));
           (parenthesized_resolution
             (record_resolution
               (record_element_resolution
-                record_element: (simple_name)
+                element: (simple_name)
                 (resolution_function
                   (simple_name)))))
           (type_mark
@@ -456,7 +456,7 @@ assert new ((elem1 resolved)) ut(h downto l)(elem1 (h downto 0));
                   (simple_name))))
             (array_element_constraint
               (record_element_constraint
-                record_element: (simple_name)
+                element: (simple_name)
                 (array_constraint
                   (index_constraint
                     (descending_range

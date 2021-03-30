@@ -10992,7 +10992,7 @@
     "type": "record_element_constraint",
     "named": true,
     "fields": {
-      "record_element": {
+      "element": {
         "multiple": false,
         "required": true,
         "types": [
@@ -11026,7 +11026,7 @@
     "type": "record_element_resolution",
     "named": true,
     "fields": {
-      "record_element": {
+      "element": {
         "multiple": false,
         "required": true,
         "types": [

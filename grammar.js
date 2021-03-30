@@ -970,7 +970,7 @@ module.exports = grammar({
         ),
 
         record_element_constraint: $ => prec('record_element_constraint', seq(
-            field('record_element', $._simple_name),
+            field('element', $._simple_name),
             $._element_constraint
         )),
 
@@ -1106,7 +1106,7 @@ module.exports = grammar({
         ),
 
         record_element_resolution: $ => prec('record_element_resolution', seq(
-            field('record_element', $._simple_name),
+            field('element', $._simple_name),
             $._resolution_indication
         )),
 
