@@ -460,6 +460,8 @@ module.exports = grammar({
       $.command_qx_quoted,
       $.patter_matcher_m,
       $.regex_pattern_qr,
+      $.substitution_pattern_s,
+      $.transliteration_tr_or_y,
     ),
 
     goto_expression: $ => seq(
@@ -939,9 +941,32 @@ module.exports = grammar({
         seq('{', optional($.regex_pattern), '}'),
         seq('/', optional($.regex_pattern), '/'),
         seq('(', optional($.regex_pattern), ')'),
-        /'.*'/, // don't interpolate for a single quote
+        seq('\'', optional($.regex_pattern), '\''),
       ),
       optional($.regex_option),
+    )),
+
+    substitution_pattern_s: $ => prec(PRECEDENCE.REGEXP, seq(
+      's',
+      choice(
+        seq('{', optional($.regex_pattern), '}', '{', field('replace', optional($.identifier)), '}'),
+        seq('/', optional($.regex_pattern), '/', field('replace', optional($.identifier)), '/'),
+        seq('(', optional($.regex_pattern), ')', '(', field('replace', optional($.identifier)), ')'),
+        seq('\'', optional($.regex_pattern), '\'', field('replace', optional($.identifier)), '\''),
+      ),
+      field('regex_option', optional($.regex_option_for_substitution)),
+    )),
+
+    // TODO: revisit this
+    transliteration_tr_or_y: $ => prec(PRECEDENCE.REGEXP, seq(
+      choice('tr', 'y'),
+      choice(
+        seq('{', field('search_list', optional($.regex_pattern)), '}', '{', field('replacement_list', optional($.regex_pattern)), '}'),
+        seq('/', field('search_list', optional($.regex_pattern)), '/', field('replacement_list', optional($.regex_pattern)), '/'),
+        seq('(', field('search_list', optional($.regex_pattern)), ')', '(', field('replacement_list', optional($.regex_pattern)), ')'),
+        seq('\'', field('search_list', optional($.regex_pattern)), '\'', field('replacement_list', optional($.regex_pattern)), '\''),
+      ),
+      field('regex_option', optional($.regex_option_for_transliteration)),
     )),
 
     // shamelessly copied from the tree-sitter-javascript
@@ -961,6 +986,8 @@ module.exports = grammar({
     )),
 
     regex_option: $ => /[msixpodualn]+/,
+    regex_option_for_substitution: $ => /[msixpodualngcer]+/,
+    regex_option_for_transliteration: $ => /[cdsr]+/,
 
     // https://perldoc.perl.org/perlop#Quote-and-Quote-like-Operators
     escape_sequence: $ => prec(PRECEDENCE.ESCAPE_SEQ, seq(

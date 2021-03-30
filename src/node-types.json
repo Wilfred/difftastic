@@ -100,7 +100,15 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
           "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
           "named": true
         },
         {
@@ -369,7 +377,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -673,7 +689,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -787,7 +811,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -902,7 +934,15 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
           "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
           "named": true
         },
         {
@@ -1069,7 +1109,15 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
           "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
           "named": true
         },
         {
@@ -1276,7 +1324,15 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
           "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
           "named": true
         },
         {
@@ -1452,7 +1508,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -1566,7 +1630,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -1680,7 +1752,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -2000,7 +2080,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -2302,7 +2390,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -2590,7 +2686,15 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
           "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
           "named": true
         },
         {
@@ -2780,7 +2884,15 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
           "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
           "named": true
         },
         {
@@ -2925,7 +3037,15 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
           "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
           "named": true
         },
         {
@@ -3078,7 +3198,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -3238,7 +3366,15 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
           "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
           "named": true
         },
         {
@@ -3458,7 +3594,15 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
           "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
           "named": true
         },
         {
@@ -3551,6 +3695,42 @@
     "type": "string_single_quoted",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "substitution_pattern_s",
+    "named": true,
+    "fields": {
+      "regex_option": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "regex_option_for_substitution",
+            "named": true
+          }
+        ]
+      },
+      "replace": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "regex_pattern",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "ternary_expression",
@@ -3653,7 +3833,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -3767,7 +3955,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -3895,7 +4091,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -3908,6 +4112,42 @@
           },
           {
             "type": "word_list_qw",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "transliteration_tr_or_y",
+    "named": true,
+    "fields": {
+      "regex_option": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "regex_option_for_transliteration",
+            "named": true
+          }
+        ]
+      },
+      "replacement_list": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "regex_pattern",
+            "named": true
+          }
+        ]
+      },
+      "search_list": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "regex_pattern",
             "named": true
           }
         ]
@@ -4057,7 +4297,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -4181,7 +4429,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -4361,7 +4617,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -4632,7 +4896,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -4756,7 +5028,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -4890,7 +5170,15 @@
             "named": true
           },
           {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
             "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
             "named": true
           },
           {
@@ -5367,11 +5655,23 @@
     "named": true
   },
   {
+    "type": "regex_option_for_substitution",
+    "named": true
+  },
+  {
+    "type": "regex_option_for_transliteration",
+    "named": true
+  },
+  {
     "type": "require",
     "named": false
   },
   {
     "type": "return",
+    "named": false
+  },
+  {
+    "type": "s",
     "named": false
   },
   {
@@ -5388,6 +5688,10 @@
   },
   {
     "type": "sub",
+    "named": false
+  },
+  {
+    "type": "tr",
     "named": false
   },
   {
@@ -5420,6 +5724,10 @@
   },
   {
     "type": "xor",
+    "named": false
+  },
+  {
+    "type": "y",
     "named": false
   },
   {
