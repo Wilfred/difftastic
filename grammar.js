@@ -64,6 +64,7 @@ module.exports = grammar({
 
   // externals: $ => [
   //   $._string_content,
+  //  TODO: handle <<EOF
   // ],
   
   extras: $ => [
