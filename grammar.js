@@ -463,6 +463,8 @@ module.exports = grammar({
       $.regex_pattern_qr,
       $.substitution_pattern_s,
       $.transliteration_tr_or_y,
+
+      $._i_o_operator,
     ),
 
     goto_expression: $ => seq(
@@ -795,6 +797,30 @@ module.exports = grammar({
     )),
 
     // end of operators
+
+    _i_o_operator: $ => choice(
+      $.standard_input,
+      $.file_handle,
+      $.standard_input_to_identifer,
+      $.standard_input_to_variable,
+    ),
+    standard_input: $ => choice(
+      /<>/,
+      /<<>>/,
+      /<STDIN>/,
+      /\\\*STDIN/, // a reference to the STDIN
+    ),
+    file_handle: $ => /<FILEHANDLE>/,
+    standard_input_to_identifer: $ => seq(
+      '<',
+      $.identifier,
+      token.immediate('>'),
+    ),
+    standard_input_to_variable: $ => seq(
+      '<',
+      $.scalar_variable,
+      token.immediate('>'),
+    ),
 
     call_expression: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
       optional('&'),

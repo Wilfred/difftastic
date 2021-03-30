@@ -36,6 +36,10 @@
           "named": true
         },
         {
+          "type": "file_handle",
+          "named": true
+        },
+        {
           "type": "floating_point",
           "named": true
         },
@@ -81,6 +85,18 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
           "named": true
         },
         {
@@ -313,6 +329,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -358,6 +378,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -625,6 +657,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -670,6 +706,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -747,6 +795,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -792,6 +844,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -870,6 +934,10 @@
           "named": true
         },
         {
+          "type": "file_handle",
+          "named": true
+        },
+        {
           "type": "floating_point",
           "named": true
         },
@@ -915,6 +983,18 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
           "named": true
         },
         {
@@ -998,6 +1078,10 @@
         },
         {
           "type": "false",
+          "named": true
+        },
+        {
+          "type": "file_handle",
           "named": true
         },
         {
@@ -1090,6 +1174,18 @@
         },
         {
           "type": "standalone_block",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
           "named": true
         },
         {
@@ -1260,6 +1356,10 @@
           "named": true
         },
         {
+          "type": "file_handle",
+          "named": true
+        },
+        {
           "type": "floating_point",
           "named": true
         },
@@ -1305,6 +1405,18 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
           "named": true
         },
         {
@@ -1444,6 +1556,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -1489,6 +1605,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -1566,6 +1694,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -1611,6 +1743,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -1688,6 +1832,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -1733,6 +1881,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -2016,6 +2176,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -2061,6 +2225,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -2322,6 +2498,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -2371,6 +2551,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -2622,6 +2814,10 @@
           "named": true
         },
         {
+          "type": "file_handle",
+          "named": true
+        },
+        {
           "type": "floating_point",
           "named": true
         },
@@ -2667,6 +2863,18 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
           "named": true
         },
         {
@@ -2820,6 +3028,10 @@
           "named": true
         },
         {
+          "type": "file_handle",
+          "named": true
+        },
+        {
           "type": "floating_point",
           "named": true
         },
@@ -2865,6 +3077,18 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
           "named": true
         },
         {
@@ -2957,6 +3181,10 @@
           "named": true
         },
         {
+          "type": "file_handle",
+          "named": true
+        },
+        {
           "type": "floating_point",
           "named": true
         },
@@ -3018,6 +3246,18 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
           "named": true
         },
         {
@@ -3134,6 +3374,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -3179,6 +3423,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -3266,6 +3522,10 @@
           "named": true
         },
         {
+          "type": "file_handle",
+          "named": true
+        },
+        {
           "type": "floating_point",
           "named": true
         },
@@ -3347,6 +3607,18 @@
         },
         {
           "type": "standalone_block",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
           "named": true
         },
         {
@@ -3482,6 +3754,10 @@
           "named": true
         },
         {
+          "type": "file_handle",
+          "named": true
+        },
+        {
           "type": "floating_point",
           "named": true
         },
@@ -3578,6 +3854,18 @@
           "named": true
         },
         {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
+          "named": true
+        },
+        {
           "type": "string_double_quoted",
           "named": true
         },
@@ -3643,6 +3931,41 @@
         },
         {
           "type": "word_list_qw",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "standard_input",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "standard_input_to_identifer",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "standard_input_to_variable",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "scalar_variable",
           "named": true
         }
       ]
@@ -3769,6 +4092,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -3814,6 +4141,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -3891,6 +4230,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -3936,6 +4279,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -4027,6 +4382,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -4072,6 +4431,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -4233,6 +4604,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -4278,6 +4653,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -4361,6 +4748,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -4410,6 +4801,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -4549,6 +4952,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -4598,6 +5005,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -4832,6 +5251,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -4877,6 +5300,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -4960,6 +5395,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -5009,6 +5448,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -5102,6 +5553,10 @@
             "named": true
           },
           {
+            "type": "file_handle",
+            "named": true
+          },
+          {
             "type": "floating_point",
             "named": true
           },
@@ -5151,6 +5606,18 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
             "named": true
           },
           {
@@ -5529,6 +5996,10 @@
   {
     "type": "feature",
     "named": false
+  },
+  {
+    "type": "file_handle",
+    "named": true
   },
   {
     "type": "floating_point",
