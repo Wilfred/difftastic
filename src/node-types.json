@@ -5133,11 +5133,27 @@
       "required": true,
       "types": [
         {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
           "type": "package_name",
           "named": true
         },
         {
           "type": "semi_colon",
+          "named": true
+        },
+        {
+          "type": "version",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]

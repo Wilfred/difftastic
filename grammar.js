@@ -169,6 +169,8 @@ module.exports = grammar({
     use_statement: $ => seq(
       'use',
       $.package_name,
+      optional($.version),
+      optional($._list),
       $.semi_colon,
     ),
 

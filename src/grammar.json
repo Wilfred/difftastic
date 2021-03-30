@@ -251,6 +251,30 @@
           "name": "package_name"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "version"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "semi_colon"
         }
