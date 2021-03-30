@@ -134,3 +134,21 @@ Double quoted string with escape sequence
 (source_file
   (string_double_quoted (escape_sequence)) (semi_colon)
 )
+
+=================================================
+<STDIN>
+=================================================
+
+while (<>) {}
+my $fh = \*STDIN;
+my $line = <$fh>;
+
+---
+
+(source_file
+  (while_statement (empty_parenthesized_expression (standard_input))
+    (block)
+  )
+  (variable_declaration (scope) (single_var_declaration (scalar_variable) (standard_input)) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable) (standard_input_to_variable (scalar_variable))) (semi_colon))
+)

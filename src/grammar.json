@@ -1741,6 +1741,10 @@
         {
           "type": "SYMBOL",
           "name": "transliteration_tr_or_y"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_i_o_operator"
         }
       ]
     },
@@ -3776,6 +3780,92 @@
           }
         ]
       }
+    },
+    "_i_o_operator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "standard_input"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "file_handle"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "standard_input_to_identifer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "standard_input_to_variable"
+        }
+      ]
+    },
+    "standard_input": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "<>"
+        },
+        {
+          "type": "PATTERN",
+          "value": "<<>>"
+        },
+        {
+          "type": "PATTERN",
+          "value": "<STDIN>"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\\\\\*STDIN"
+        }
+      ]
+    },
+    "file_handle": {
+      "type": "PATTERN",
+      "value": "<FILEHANDLE>"
+    },
+    "standard_input_to_identifer": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ">"
+          }
+        }
+      ]
+    },
+    "standard_input_to_variable": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "scalar_variable"
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ">"
+          }
+        }
+      ]
     },
     "call_expression": {
       "type": "PREC_LEFT",
