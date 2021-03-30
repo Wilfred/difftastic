@@ -2478,17 +2478,21 @@
       ]
     },
     "_enumeration_literal": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "character_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_identifier"
-        }
-      ]
+      "type": "FIELD",
+      "name": "literal",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "character_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_identifier"
+          }
+        ]
+      }
     },
     "physical_type_definition": {
       "type": "SEQ",
@@ -2781,8 +2785,12 @@
           "value": "of"
         },
         {
-          "type": "SYMBOL",
-          "name": "subtype_indication"
+          "type": "FIELD",
+          "name": "element",
+          "content": {
+            "type": "SYMBOL",
+            "name": "subtype_indication"
+          }
         }
       ]
     },
@@ -2826,8 +2834,12 @@
           "value": "of"
         },
         {
-          "type": "SYMBOL",
-          "name": "subtype_indication"
+          "type": "FIELD",
+          "name": "element",
+          "content": {
+            "type": "SYMBOL",
+            "name": "subtype_indication"
+          }
         }
       ]
     },

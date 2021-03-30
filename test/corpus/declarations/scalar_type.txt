@@ -9,11 +9,11 @@ type enum_t is (foo);
   (full_type_declaration
     name: (identifier)
     (enumeration_type_definition
-      (character_literal)))
+      literal: (character_literal)))
   (full_type_declaration
     name: (identifier)
     (enumeration_type_definition
-      (identifier))))
+      literal: (identifier))))
 
 ======================================
 Enumeration type - Character type
@@ -25,9 +25,9 @@ type enum_t is ('a', foo, bar);
   (full_type_declaration
     name: (identifier)
     (enumeration_type_definition
-      (character_literal)
-      (identifier)
-      (identifier))))
+      literal: (character_literal)
+      literal: (identifier)
+      literal: (identifier))))
 
 ======================================
 Integer type definition

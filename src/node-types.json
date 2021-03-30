@@ -5997,17 +5997,24 @@
   {
     "type": "constrained_array_definition",
     "named": true,
-    "fields": {},
+    "fields": {
+      "element": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "subtype_indication",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
           "type": "index_constraint",
-          "named": true
-        },
-        {
-          "type": "subtype_indication",
           "named": true
         }
       ]
@@ -7135,24 +7142,25 @@
   {
     "type": "enumeration_type_definition",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "character_literal",
-          "named": true
-        },
-        {
-          "type": "extended_identifier",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "literal": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "character_literal",
+            "named": true
+          },
+          {
+            "type": "extended_identifier",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -14104,17 +14112,24 @@
   {
     "type": "unbounded_array_definition",
     "named": true,
-    "fields": {},
+    "fields": {
+      "element": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "subtype_indication",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
           "type": "index_subtype_definition",
-          "named": true
-        },
-        {
-          "type": "subtype_indication",
           "named": true
         }
       ]

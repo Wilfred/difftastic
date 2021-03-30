@@ -12,7 +12,7 @@ type att_t is array (a range <>) of b;
         (type_mark
           (simple_name))
         (any))
-      (subtype_indication
+      element: (subtype_indication
         (type_mark
           (simple_name))))))
 
@@ -34,7 +34,7 @@ type att_t is array (a range <>, b range <>) of c;
         (type_mark
           (simple_name))
         (any))
-      (subtype_indication
+      element: (subtype_indication
         (type_mark
           (simple_name))))))
 
@@ -52,7 +52,7 @@ type att_t is array (subtype_t) of foo;
         (subtype_indication
           (type_mark
             (simple_name))))
-      (subtype_indication
+      element: (subtype_indication
         (type_mark
           (simple_name))))))
 
@@ -74,7 +74,7 @@ type att_t is array (7 downto 0) of foo;
           low: (simple_expression
             (integer_decimal
               (integer)))))
-      (subtype_indication
+      element: (subtype_indication
         (type_mark
           (simple_name))))))
 

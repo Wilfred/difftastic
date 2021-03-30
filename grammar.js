@@ -837,10 +837,10 @@ module.exports = grammar({
             ')'
         ),
 
-        _enumeration_literal: $ => choice(
+        _enumeration_literal: $ => field('literal',choice(
             $.character_literal,
             $._identifier
-        ),
+        )),
         // }}}
         // 5.2.4 Physical types {{{
         physical_type_definition: $ => seq(
@@ -905,14 +905,14 @@ module.exports = grammar({
             sepBy1(',', $.index_subtype_definition),
             ')',
             reservedWord('of'),
-            $.subtype_indication
+            field('element',$.subtype_indication)
         ),
 
         constrained_array_definition: $ => seq(
             reservedWord('array'),
             $.index_constraint,
             reservedWord('of'),
-            $.subtype_indication
+            field('element',$.subtype_indication)
         ),
 
         index_subtype_definition: $ => seq(
