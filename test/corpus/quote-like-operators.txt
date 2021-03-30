@@ -83,12 +83,42 @@ $string =~ m/Simple/is;
 qr regex operator
 =================================================
 
-my $rex = qr/[my.STRING]is/;
+my $rex = qr/my.STRING/is;
 
 ---
 
 (source_file
   (variable_declaration
-    (scope) (single_var_declaration (scalar_variable) (regex_pattern_qr (regex_pattern))) (semi_colon)
+    (scope) (single_var_declaration (scalar_variable) (regex_pattern_qr (regex_pattern) (regex_option))) (semi_colon)
+  )
+)
+
+=================================================
+s regex substitution
+=================================================
+
+my $subs =~ s/my.STRING/foo/is;
+
+---
+
+(source_file
+  (variable_declaration 
+    (scope) (single_var_declaration (scalar_variable) (unary_expression
+      (substitution_pattern_s (regex_pattern) (identifier) (regex_option_for_substitution)))) (semi_colon)
+  )
+)
+
+=================================================
+tr// or y// transliteration
+=================================================
+
+my $subs =~ s/my.STRING/foo/is;
+
+---
+
+(source_file
+  (variable_declaration 
+    (scope) (single_var_declaration (scalar_variable) (unary_expression
+      (substitution_pattern_s (regex_pattern) (identifier) (regex_option_for_substitution)))) (semi_colon)
   )
 )
