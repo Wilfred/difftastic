@@ -40,8 +40,7 @@
         left: (identifier) @variable.parameter
         operator: _ @function
         right: (identifier) @variable.parameter)]
-      (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$")
-      (#match? @variable.parameter "^[^_]"))
+      (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$"))
 
 (anonymous_function
  (stab_expression
