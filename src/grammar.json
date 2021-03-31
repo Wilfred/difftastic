@@ -1024,6 +1024,56 @@
         }
       ]
     },
+    "con_unit": {
+      "type": "PREC",
+      "value": "con_unit",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          }
+        ]
+      }
+    },
+    "con_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
+    "con_tuple": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "comma"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "_gcon_literal": {
       "type": "CHOICE",
       "members": [
@@ -1291,36 +1341,6 @@
         }
       ]
     },
-    "con_unit": {
-      "type": "PREC",
-      "value": "con_unit",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "("
-          },
-          {
-            "type": "STRING",
-            "value": ")"
-          }
-        ]
-      }
-    },
-    "con_list": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "["
-        },
-        {
-          "type": "STRING",
-          "value": "]"
-        }
-      ]
-    },
     "tycon_arrow": {
       "type": "SEQ",
       "members": [
@@ -1331,26 +1351,6 @@
         {
           "type": "STRING",
           "value": "->"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
-    },
-    "con_tuple": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "comma"
-          }
         },
         {
           "type": "STRING",
@@ -8722,6 +8722,10 @@
     {
       "type": "SYMBOL",
       "name": "pragma"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_init"
     }
   ],
   "conflicts": [
@@ -8912,6 +8916,10 @@
     {
       "type": "STRING",
       "value": "in"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_init"
     },
     {
       "type": "PATTERN",
