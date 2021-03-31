@@ -28,6 +28,10 @@
           "named": true
         },
         {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
           "type": "command_qx_quoted",
           "named": true
         },
@@ -318,6 +322,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -649,6 +657,10 @@
             "named": true
           },
           {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
             "type": "command_qx_quoted",
             "named": true
           },
@@ -784,6 +796,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -923,6 +939,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
           "named": true
         },
         {
@@ -1066,6 +1086,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
           "named": true
         },
         {
@@ -1241,6 +1265,10 @@
           "named": true
         },
         {
+          "type": "use_subs_statement",
+          "named": true
+        },
+        {
           "type": "use_version",
           "named": true
         },
@@ -1287,6 +1315,42 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "package_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "call_expression_recursive",
+    "named": true,
+    "fields": {
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "->",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "parenthesized_arguments",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1345,6 +1409,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
           "named": true
         },
         {
@@ -1548,6 +1616,10 @@
             "named": true
           },
           {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
             "type": "command_qx_quoted",
             "named": true
           },
@@ -1686,6 +1758,10 @@
             "named": true
           },
           {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
             "type": "command_qx_quoted",
             "named": true
           },
@@ -1821,6 +1897,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -2114,12 +2194,27 @@
     }
   },
   {
+    "type": "function_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "function_definition",
     "named": true,
     "fields": {
       "body": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "block",
@@ -2137,6 +2232,60 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "function_attribute",
+          "named": true
+        },
+        {
+          "type": "function_prototype",
+          "named": true
+        },
+        {
+          "type": "function_signature",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        },
+        {
+          "type": "semi_colon",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_prototype",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "function_signature",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "hash_variable",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2165,6 +2314,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -2490,6 +2643,10 @@
             "named": true
           },
           {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
             "type": "command_qx_quoted",
             "named": true
           },
@@ -2806,6 +2963,10 @@
           "named": true
         },
         {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
           "type": "command_qx_quoted",
           "named": true
         },
@@ -3020,6 +3181,10 @@
           "named": true
         },
         {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
           "type": "command_qx_quoted",
           "named": true
         },
@@ -3170,6 +3335,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
           "named": true
         },
         {
@@ -3366,6 +3535,10 @@
             "named": true
           },
           {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
             "type": "command_qx_quoted",
             "named": true
           },
@@ -3507,6 +3680,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
           "named": true
         },
         {
@@ -3674,6 +3851,10 @@
           "named": true
         },
         {
+          "type": "use_subs_statement",
+          "named": true
+        },
+        {
           "type": "use_version",
           "named": true
         },
@@ -3739,6 +3920,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
           "named": true
         },
         {
@@ -3918,6 +4103,10 @@
           "named": true
         },
         {
+          "type": "use_subs_statement",
+          "named": true
+        },
+        {
           "type": "use_version",
           "named": true
         },
@@ -4084,6 +4273,10 @@
             "named": true
           },
           {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
             "type": "command_qx_quoted",
             "named": true
           },
@@ -4219,6 +4412,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -4371,6 +4568,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -4596,6 +4797,10 @@
             "named": true
           },
           {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
             "type": "command_qx_quoted",
             "named": true
           },
@@ -4737,6 +4942,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -4941,6 +5150,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -5160,6 +5373,33 @@
     }
   },
   {
+    "type": "use_subs_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "semi_colon",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "use_version",
     "named": true,
     "fields": {
@@ -5256,6 +5496,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -5400,6 +5644,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -5558,6 +5806,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
             "named": true
           },
           {
@@ -5758,6 +6010,10 @@
     "named": false
   },
   {
+    "type": "\"signatures\"",
+    "named": false
+  },
+  {
     "type": "\"switch\"",
     "named": false
   },
@@ -5791,6 +6047,10 @@
   },
   {
     "type": "'",
+    "named": false
+  },
+  {
+    "type": "'signatures'",
     "named": false
   },
   {
@@ -5850,6 +6110,10 @@
     "named": false
   },
   {
+    "type": "->",
+    "named": false
+  },
+  {
     "type": ".",
     "named": false
   },
@@ -5883,6 +6147,10 @@
   },
   {
     "type": ":",
+    "named": false
+  },
+  {
+    "type": "::",
     "named": false
   },
   {
@@ -5975,6 +6243,10 @@
   },
   {
     "type": "^=",
+    "named": false
+  },
+  {
+    "type": "__SUB__",
     "named": false
   },
   {
@@ -6074,6 +6346,10 @@
     "named": false
   },
   {
+    "type": "local",
+    "named": false
+  },
+  {
     "type": "lt",
     "named": false
   },
@@ -6112,6 +6388,10 @@
   {
     "type": "package_name",
     "named": true
+  },
+  {
+    "type": "prototype",
+    "named": false
   },
   {
     "type": "q",
@@ -6175,6 +6455,10 @@
   },
   {
     "type": "sub",
+    "named": false
+  },
+  {
+    "type": "subs",
     "named": false
   },
   {

@@ -79,6 +79,7 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $.use_statement,
+      $.use_subs_statement,
       $.use_feature_statement,
       $.use_version,
       $.require_statement,
@@ -122,8 +123,10 @@ module.exports = grammar({
     ),
 
     _experimental_feature: $ => choice(
+      '"signatures"',
+      "'signatures'",
       '"switch"',
-      "'switch'", // TODO: add more
+      "'switch'", // TODO: add more https://perldoc.perl.org/feature#AVAILABLE-FEATURES
     ),
 
     _expression_or_return_expression: $ => choice(
@@ -171,6 +174,13 @@ module.exports = grammar({
       $.package_name,
       optional($.version),
       optional($._list),
+      $.semi_colon,
+    ),
+
+    use_subs_statement: $ => seq(
+      'use',
+      'subs',
+      $._list,
       $.semi_colon,
     ),
 
@@ -382,18 +392,73 @@ module.exports = grammar({
       'our',
       'state',
       'my',
+      'local',
     ),
 
+    // why perl, why!
     function_definition: $ => seq(
-      'sub',
-      field('name', $.identifier),
-      field('body', $.block),
+      optional($.scope),
+      choice(
+        // a function declaration to be precise
+        seq(
+          'sub',
+          field('name', $.identifier),
+          optional($.function_prototype),
+          optional($.function_attribute),
+          optional($.function_signature),
+          $.semi_colon,
+        ),
+        // and here is the function definition WITHOUT signatures
+        seq(
+          'sub',
+          field('name', $.identifier),
+          optional($.function_prototype),
+          optional($.function_attribute),
+          field('body', $.block),
+        ),
+        // and here is the function definition WITH signatures
+        seq(
+          'sub',
+          field('name', $.identifier),
+          optional($.function_attribute),
+          optional($.function_signature),
+          field('body', $.block),
+        ),
+        seq(
+          'sub',
+          field('name', $.identifier),
+          ':', 'prototype',
+          $.function_prototype,
+          $.function_signature,
+          field('body', $.block),
+        ),
+      )
     ),
+
+    anonymous_function: $ => seq(),
 
     block: $ => seq(
       '{',
       optional(repeat($._block_statements)),
       '}'
+    ),
+
+    function_prototype: $ => seq(
+      '(',
+      repeat1(/[$@\\;]+/),
+      ')',
+    ),
+    function_attribute: $ => seq(
+      ':',
+      $.identifier,
+    ),
+    function_signature: $ => seq(
+      '(',
+      choice(
+        commaSeparated($._variables), // TODO: this is more
+        /\+\{\}/,
+      ),
+      ')',
     ),
 
     standalone_block: $ => seq(
@@ -457,6 +522,7 @@ module.exports = grammar({
       $.ternary_expression,
 
       $.call_expression,
+      $.call_expression_recursive,
       $.goto_expression,
 
       // quote-like operators
@@ -826,6 +892,7 @@ module.exports = grammar({
 
     call_expression: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
       optional('&'),
+      optional(seq($.package_name, token.immediate('::'))),
       field('function_name', $.identifier),
       field('args', optional(choice($.parenthesized_arguments, $.arguments))),
     )),
@@ -837,6 +904,12 @@ module.exports = grammar({
     )),
 
     arguments: $ => prec.left(PRECEDENCE.SUB_ARGS, commaSeparated($._expression)),
+
+    call_expression_recursive: $ => seq(
+      '__SUB__',
+      field('operator', '->'),
+      $.parenthesized_arguments,
+    ),
 
     _primitive_expression: $ => choice(
       // data-types
