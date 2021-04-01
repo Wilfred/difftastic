@@ -45,16 +45,13 @@
 (call (identifier) @keyword
       [(qualified_call
         name: (identifier) @function)
+       (identifier) @function
        (binary_op
         left:
         [(qualified_call
           name: (identifier) @function)
          (identifier) @function]
         operator: "when")]
-      (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$"))
-
-(call (identifier) @keyword
-      (identifier) @function
       (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$"))
 
 (anonymous_function
