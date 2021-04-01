@@ -22,7 +22,6 @@
           (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))
           (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))))
           (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))))]))
-       (identifier) @function
        (binary_op
         left:
         [(qualified_call
@@ -40,6 +39,19 @@
         left: (identifier) @variable.parameter
         operator: _ @function
         right: (identifier) @variable.parameter)]
+      (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$")
+      (#match? @variable.parameter "^[^_]"))
+
+(call (identifier) @keyword
+      [(qualified_call
+        name: (identifier) @function)
+       (identifier) @function
+       (binary_op
+        left:
+        [(qualified_call
+          name: (identifier) @function)
+         (identifier) @function]
+        operator: "when")]
       (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$"))
 
 (anonymous_function
@@ -75,6 +87,11 @@
 
 (binary_op
  operator: _ @operator)
+
+(heredoc
+ [(heredoc_start)
+  (heredoc_content)
+  (heredoc_end)] @string)
 
 (string_start) @string
 (string_content) @string

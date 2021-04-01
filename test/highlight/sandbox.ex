@@ -26,6 +26,16 @@ atom"
 "Multiline
    string"
 
+# Heredoc String
+"""
+Hello world
+"""
+
+"""
+Hello #{["Random" | "String"] && true}
+More Text "with quotes"
+"""
+
 # Char lists
 'this is a list'
 'escapes \' \t \\\''
@@ -135,6 +145,10 @@ defmodule Long.Module.Name do
 
   # Function
   def f(x), do: x
+  def f, do: nil
+  def f(10), do: nil
+  def f(:ok), do: nil
+
   # Operator definition (don't highlight the `x`!)
   def x + y, do: nil
   def x * y, do: nil
