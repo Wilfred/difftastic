@@ -417,6 +417,6 @@ def mkLines(header: String, indented: Boolean = false, embraced: Boolean = false
     (identifier)
     (parameters
       (parameter (identifier) (type_identifier))
-      (parameter (identifier) (type_identifier) (identifier))
-      (parameter (identifier) (type_identifier) (identifier)))
+      (parameter (identifier) (type_identifier) (boolean_literal))
+      (parameter (identifier) (type_identifier) (boolean_literal)))
     (type_identifier) (block)))

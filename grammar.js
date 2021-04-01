@@ -454,6 +454,9 @@ module.exports = grammar({
       $.alternative_pattern,
       $.typed_pattern,
       $.number,
+      $.boolean_literal,
+      $.character_literal,
+      $.symbol_literal,
       $.string,
       $.wildcard
     ),
@@ -519,6 +522,9 @@ module.exports = grammar({
       $.block,
       $.identifier,
       $.number,
+      $.boolean_literal,
+      $.character_literal,
+      $.symbol_literal,
       $.string
     ),
 
@@ -639,6 +645,27 @@ module.exports = grammar({
     operator_identifier: $ => /[^\s\w\(\)\[\]\{\}'"`\.;,]+/,
 
     number: $ => /[\d\.]+/,
+
+    boolean_literal: $ => choice('true', 'false'),
+
+   character_literal: $ => token(seq(
+      '\'',
+      optional(choice(
+        seq('\\', choice(
+          /[^xu]/,
+          /u[0-9a-fA-F]{4}/,
+          /u{[0-9a-fA-F]+}/,
+          /x[0-9a-fA-F]{2}/
+        )),
+        /[^\\'\n]/
+      )),
+      '\''
+    )),
+
+    symbol_literal: $ => token(seq(
+      "'",
+      repeat1(/[^\\'\n]/)
+    )),
 
     interpolated_string_expression: $ => seq(
       $.identifier,
