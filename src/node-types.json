@@ -70,11 +70,19 @@
         "named": true
       },
       {
+        "type": "boolean_literal",
+        "named": true
+      },
+      {
         "type": "call_expression",
         "named": true
       },
       {
         "type": "case_block",
+        "named": true
+      },
+      {
+        "type": "character_literal",
         "named": true
       },
       {
@@ -126,6 +134,10 @@
         "named": true
       },
       {
+        "type": "symbol_literal",
+        "named": true
+      },
+      {
         "type": "try_expression",
         "named": true
       },
@@ -144,11 +156,19 @@
         "named": true
       },
       {
+        "type": "boolean_literal",
+        "named": true
+      },
+      {
         "type": "capture_pattern",
         "named": true
       },
       {
         "type": "case_class_pattern",
+        "named": true
+      },
+      {
+        "type": "character_literal",
         "named": true
       },
       {
@@ -165,6 +185,10 @@
       },
       {
         "type": "string",
+        "named": true
+      },
+      {
+        "type": "symbol_literal",
         "named": true
       },
       {
@@ -297,6 +321,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "boolean_literal",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "call_expression",
@@ -3155,6 +3184,10 @@
     "named": false
   },
   {
+    "type": "character_literal",
+    "named": true
+  },
+  {
     "type": "class",
     "named": false
   },
@@ -3172,6 +3205,10 @@
   },
   {
     "type": "extends",
+    "named": false
+  },
+  {
+    "type": "false",
     "named": false
   },
   {
@@ -3243,7 +3280,15 @@
     "named": false
   },
   {
+    "type": "symbol_literal",
+    "named": true
+  },
+  {
     "type": "trait",
+    "named": false
+  },
+  {
+    "type": "true",
     "named": false
   },
   {

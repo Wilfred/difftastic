@@ -64,3 +64,69 @@ val string = 3.14
 
 (compilation_unit
   (val_definition (identifier) (number)))
+
+==========================
+Boolean literals
+==========================
+
+val myBool = true
+
+def foo(a: Boolean = false) = a && true
+
+---
+
+(compilation_unit
+  (val_definition (identifier) (boolean_literal))
+  (function_definition
+    (identifier)
+    (parameters (parameter
+      (identifier)
+      (type_identifier)
+      (boolean_literal)))
+    (infix_expression
+      (identifier)
+      (operator_identifier)
+      (boolean_literal))))
+
+==========================
+Character literals
+==========================
+
+val myChar = 'c'
+
+val otherChar = '\u0041'
+
+val anotherChar = '\n'
+
+def foo(a: Char = 'c') = a + 'd'
+
+---
+
+(compilation_unit
+  (val_definition (identifier) (character_literal))
+  (val_definition (identifier) (character_literal))
+  (val_definition (identifier) (character_literal))
+  (function_definition
+    (identifier)
+    (parameters (parameter
+      (identifier)
+      (type_identifier)
+      (character_literal)))
+    (infix_expression
+      (identifier)
+      (operator_identifier)
+      (character_literal))))
+
+==========================
+Symobl literals
+==========================
+
+val mySymbol = 'c
+
+val myOtherSymbol = 'thing
+
+---
+
+(compilation_unit
+  (val_definition (identifier) (symbol_literal))
+  (val_definition (identifier) (symbol_literal)))
