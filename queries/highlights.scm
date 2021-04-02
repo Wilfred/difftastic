@@ -22,7 +22,7 @@
 (escape_sequence) @escape
 
 (call (identifier) @keyword
-      (#match? @keyword "^(defmodule|defexception|defp|def|with|case|cond|raise|import|require|use|defmacrop|defmacro|defguardp|defguard|defdelegate|defstruct|alias|defimpl|defprotocol|defoverridable|receive|if|for|try|throw|unless|reraise|super)$"))
+      (#match? @keyword "^(defmodule|defexception|defp|def|with|case|cond|raise|import|require|use|defmacrop|defmacro|defguardp|defguard|defdelegate|defstruct|alias|defimpl|defprotocol|defoverridable|receive|if|for|try|throw|unless|reraise|super|quote|unquote|unquote_splicing)$"))
 
 (call (identifier) @keyword
       [(qualified_call
