@@ -226,12 +226,7 @@ module.exports = grammar({
         choice(
           seq(
             field("name", choice($.identifier, $.dot_call, $._qualified_call)),
-            seq(
-              choice(
-                alias($.bare_arguments, $.arguments),
-                $.arguments
-              )
-            ),
+            choice($._bare_arguments, $.arguments),
             optional(choice(seq($._terminator, $.do_block), $.do_block))
           ),
           seq(
