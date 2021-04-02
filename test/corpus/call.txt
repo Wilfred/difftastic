@@ -38,28 +38,36 @@ Module.func!(
     (arguments
       (identifier)
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (list
           (keyword_list
-            (keyword)
+            (keyword
+              (keyword_literal))
             (atom
               (atom_literal))
-            (keyword)
+            (keyword
+              (keyword_literal))
             (atom
               (atom_literal))
-            (keyword)
+            (keyword
+              (keyword_literal))
             (atom
               (atom_literal))
-            (keyword)
+            (keyword
+              (keyword_literal))
             (atom
               (atom_literal))))
-        (keyword)
+        (keyword
+          (keyword_literal))
         (list
           (keyword_list
-            (keyword)
+            (keyword
+              (keyword_literal))
             (atom
               (atom_literal))
-            (keyword)
+            (keyword
+              (keyword_literal))
             (atom
               (atom_literal))))))))
 
@@ -196,11 +204,14 @@ end
         (identifier)
         (module)
         (keyword_list
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer)
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer)
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer))))))
 
 ================================================================================
@@ -279,24 +290,33 @@ import Kernel, except: [@: 1, defmodule: 2, def: 1, def: 2, defp: 2, defmacro: 1
     (identifier)
     (module)
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (list
         (keyword_list
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer)
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer)
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer)
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer)
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer)
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer)
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer)
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer))))))
 
 ================================================================================
@@ -415,10 +435,12 @@ assert_diff(
         (struct
           (identifier)
           (keyword_list
-            (keyword)
+            (keyword
+              (keyword_literal))
             (unary_op
               (identifier))
-            (keyword)
+            (keyword
+              (keyword_literal))
             (string
               (string_start)
               (string_content)
@@ -426,12 +448,14 @@ assert_diff(
         (struct
           (module)
           (keyword_list
-            (keyword)
+            (keyword
+              (keyword_literal))
             (string
               (string_start)
               (string_content)
               (string_end))
-            (keyword)
+            (keyword
+              (keyword_literal))
             (integer))))
       (list)
       (identifier))))
@@ -483,7 +507,8 @@ map call
   (dot_call
     (map
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (atom
           (atom_literal))))
     (identifier)))
@@ -508,7 +533,8 @@ end
           (arguments
             (module)))
         (keyword_list
-          (keyword)
+          (keyword
+            (keyword_literal))
           (integer))))))
 
 ================================================================================
@@ -529,7 +555,8 @@ Macro.to_string(quote(do: Foo."bar baz"().""())) == ~s/Foo."bar baz"().""()/
           (identifier)
           (arguments
             (keyword_list
-              (keyword)
+              (keyword
+                (keyword_literal))
               (dot_call
                 (dot_call
                   (module)
@@ -707,7 +734,9 @@ call(a: a, b: b,
     (identifier)
     (arguments
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (identifier)
-        (keyword)
+        (keyword
+          (keyword_literal))
         (identifier)))))

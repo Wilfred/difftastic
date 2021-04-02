@@ -34,9 +34,11 @@ with fields
   (struct
     (module)
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
