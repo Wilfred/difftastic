@@ -176,7 +176,7 @@ module.exports = grammar({
         $.unary_op,
         alias($._capture_op, $.unary_op),
         $.block,
-        $.qualified_call,
+        $._qualified_call,
         $.call,
         $.dot_call,
         $.access_call,
@@ -216,6 +216,8 @@ module.exports = grammar({
         ")"
       ),
 
+    _qualified_call: $ => alias($.qualified_call, $.call),
+
     qualified_call: $ => seq(field("name", $.identifier), $.arguments),
 
     call: $ =>
@@ -223,12 +225,17 @@ module.exports = grammar({
         PREC.CALL,
         choice(
           seq(
-            field("name", choice($.identifier, $.dot_call, $.qualified_call)),
-            choice($._bare_arguments, $.arguments),
+            field("name", choice($.identifier, $.dot_call, $._qualified_call)),
+            seq(
+              choice(
+                alias($.bare_arguments, $.arguments),
+                $.arguments
+              )
+            ),
             optional(choice(seq($._terminator, $.do_block), $.do_block))
           ),
           seq(
-            field("name", choice($.identifier, $.dot_call, $.qualified_call)),
+            field("name", choice($.identifier, $.dot_call, $._qualified_call)),
             $.do_block
           )
         )
@@ -368,7 +375,7 @@ module.exports = grammar({
               $.identifier,
               $.atom,
               alias($._simple_dot_call, $.dot_call),
-              $.qualified_call,
+              $._qualified_call,
               alias($._capture_op, $.unary_op),
               $.integer
             )
@@ -478,7 +485,7 @@ module.exports = grammar({
           $.identifier,
           $.atom,
           alias($._simple_dot_call, $.dot_call),
-          $.qualified_call,
+          $._qualified_call,
           seq("^", $.identifier)
         ),
         "{",

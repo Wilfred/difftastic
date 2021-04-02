@@ -25,45 +25,47 @@
       (#match? @keyword "^(defmodule|defexception|defp|def|with|case|cond|raise|import|require|use|defmacrop|defmacro|defguardp|defguard|defdelegate|defstruct|alias|defimpl|defprotocol|defoverridable|receive|if|for|try|throw|unless|reraise|super|quote|unquote|unquote_splicing)$"))
 
 (call (identifier) @keyword
-      [(qualified_call
-        name: (identifier) @function
-        (arguments
-         [(identifier) @variable.parameter
-          (_ !function !object !name (identifier) @variable.parameter)
-          (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))
-          (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))
-          (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))))
-          (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))))]))
-       (binary_op
-        left:
-        [(qualified_call
-          name: (identifier) @function
-          (arguments
-           [(identifier) @variable.parameter
-            (_ !function !object !name (identifier) @variable.parameter)
-            (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))
-            (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))
-            (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))))
-            (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))))]))
-         (identifier) @function]
-        operator: "when")
-       (binary_op
-        left: (identifier) @variable.parameter
-        operator: _ @function
-        right: (identifier) @variable.parameter)]
+      (arguments
+       [(call
+         name: (identifier) @function
+         (arguments
+          [(identifier) @variable.parameter
+           (_ !function !object !name (identifier) @variable.parameter)
+           (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))
+           (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))
+           (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))))
+           (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))))]))
+        (binary_op
+         left:
+         [(call
+           name: (identifier) @function
+           (arguments
+            [(identifier) @variable.parameter
+             (_ !function !object !name (identifier) @variable.parameter)
+             (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))
+             (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))
+             (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter))))
+             (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (_ !function !object !name (identifier) @variable.parameter)))))]))
+          (identifier) @function]
+         operator: "when")
+        (binary_op
+         left: (identifier) @variable.parameter
+         operator: _ @function
+         right: (identifier) @variable.parameter)])
       (#match? @keyword "^(defp|def|defmacrop|defmacro|defguardp|defguard|defdelegate)$")
       (#match? @variable.parameter "^[^_]"))
 
 (call (identifier) @keyword
-      [(qualified_call
-        name: (identifier) @function)
-       (identifier) @function
-       (binary_op
-        left:
-        [(qualified_call
-          name: (identifier) @function)
-         (identifier) @function]
-        operator: "when")]
+      (arguments
+       [(call
+         name: (identifier) @function)
+        (identifier) @function
+        (binary_op
+         left:
+         [(call
+           name: (identifier) @function)
+          (identifier) @function]
+         operator: "when")])
       (#match? @keyword "^(defp|def|defmacrop|defmacro|defguardp|defguard|defdelegate)$"))
 
 (anonymous_function
@@ -80,10 +82,11 @@
 (unary_op
  operator: "@"
  (call (identifier) @attribute
-       (heredoc
-        [(heredoc_start)
-         (heredoc_content)
-         (heredoc_end)] @doc))
+       (arguments
+        (heredoc
+         [(heredoc_start)
+          (heredoc_content)
+          (heredoc_end)] @doc)))
  (#match? @attribute "^(doc|moduledoc)$"))
 
 (module) @type
