@@ -20,46 +20,56 @@ keyword list
 (program
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
         (string_end))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (true)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
         (string_end))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
         (string_end))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
         (string_end))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (identifier)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (atom
         (atom_literal))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (list
         (string
           (string_start)
           (string_content)
           (string_end)))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (list
         (string
           (string_start)
           (string_content)
           (string_end)))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (false))))
 
 ================================================================================
@@ -424,9 +434,11 @@ eval_binds(CONFIG: config, SCRIPT: script)
     (identifier)
     (arguments
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (identifier)
-        (keyword)
+        (keyword
+          (keyword_literal))
         (identifier)))))
 
 ================================================================================
@@ -440,17 +452,23 @@ operator keyword
 (program
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer))))
 
 ================================================================================
@@ -465,13 +483,13 @@ string keyword
   (list
     (keyword_list
       (keyword
-        (string
+        (keyword_string
           (string_start)
           (string_content)
           (string_end)))
       (integer)
       (keyword
-        (string
+        (keyword_string
           (string_start)
           (string_content)
           (interpolation
@@ -492,13 +510,13 @@ single quote string keyword
   (list
     (keyword_list
       (keyword
-        (string
+        (keyword_string
           (string_start)
           (string_content)
           (string_end)))
       (integer)
       (keyword
-        (string
+        (keyword_string
           (string_start)
           (string_content)
           (interpolation
@@ -524,19 +542,22 @@ hanging comma
   (list
     (map
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (identifier)))
     (struct
       (module)
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (identifier)))
     (tuple
       (identifier)
       (identifier))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (identifier)))
     (binary
       (identifier)
@@ -605,7 +626,8 @@ raise ArgumentError,
     (identifier)
     (module)
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
@@ -647,67 +669,83 @@ keyword with special chars
   (list
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))
     (list
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (integer)))))
 
 ================================================================================
@@ -727,27 +765,32 @@ operator keyword
 (program
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
         (string_end))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
         (string_end))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
         (string_end))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
         (string_end))
-      (keyword)
+      (keyword
+        (keyword_literal))
       (string
         (string_start)
         (string_content)
@@ -928,203 +971,253 @@ in: 1]
 (program
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)))
   (list
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer))))
 
 ================================================================================

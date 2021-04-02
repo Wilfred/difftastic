@@ -11,10 +11,13 @@ hanging comment
 (program
   (map
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)
       (comment)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer))))

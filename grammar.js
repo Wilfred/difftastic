@@ -125,7 +125,7 @@ module.exports = grammar({
     $.string_content,
     $.string_end,
     $.identifier,
-    $._keyword_literal,
+    $.keyword_literal,
     $.atom_literal,
     $.atom_start,
     $.atom_content,
@@ -580,7 +580,10 @@ module.exports = grammar({
       ),
 
     keyword: $ =>
-      choice($._keyword_literal, seq($.string, token.immediate(":"), /[\s]+/)),
+      choice(
+        $.keyword_literal,
+        seq(alias($.string, $.keyword_string), token.immediate(":"), /[\s]+/)
+      ),
 
     interpolation: $ =>
       seq(

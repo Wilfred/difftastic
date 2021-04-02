@@ -2,7 +2,16 @@
 
 [(true) (false) (nil)] @constant.builtin
 
-(keyword) @tag
+(keyword
+ [(keyword_literal)
+  ":"] @tag)
+
+(keyword
+ (keyword_string
+  [(string_start)
+   (string_content)
+   (string_end)] @tag))
+
 [(atom_literal)
  (atom_start)
  (atom_content)
@@ -96,9 +105,10 @@
   (heredoc_content)
   (heredoc_end)] @string)
 
-(string_start) @string
-(string_content) @string
-(string_end) @string
+(string
+ [(string_start)
+  (string_content)
+  (string_end)] @string)
 
 (sigil_start) @string.special
 (sigil_content) @string

@@ -12,7 +12,8 @@ call(, k: t)
     (arguments
       (ERROR)
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (identifier)))))
 
 ================================================================================
@@ -28,6 +29,7 @@ a when k: t,
   (binary_op
     (identifier)
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (identifier)))
   (ERROR))

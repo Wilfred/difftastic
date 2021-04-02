@@ -20,9 +20,11 @@ keyword
 (program
   (map
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer))))
 
 ================================================================================
@@ -58,7 +60,8 @@ update syntax
     (binary_op
       (identifier)
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (string
           (string_start)
           (string_content)
@@ -84,9 +87,11 @@ mixed
         (string_content)
         (string_end)))
     (keyword_list
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer)
-      (keyword)
+      (keyword
+        (keyword_literal))
       (integer))))
 
 ================================================================================
@@ -102,7 +107,8 @@ update syntax with hanging comma
     (binary_op
       (identifier)
       (keyword_list
-        (keyword)
+        (keyword
+          (keyword_literal))
         (string
           (string_start)
           (string_content)

@@ -363,6 +363,40 @@ p1 <|> p2 = either(p1, p2)
 #                                                              ^ string
 #                                                               ^ punctuation.bracket
 ["this is an atom too": 1, "so is this": 2]
+#<- punctuation.bracket
+#^ tag
+# ^ tag
+#                    ^ tag
+#                     ^ tag
+#                        ^ punctuation.delimiter
+#                          ^ tag
+#                           ^ tag
+#                                     ^ tag
+#                                      ^ tag
+#                                         ^ punctuation.bracket
+["this is an #{true} too": 1, "so is this#{"\nabc\n"}": 2]
+#<- punctuation.bracket
+#^ tag
+# ^ tag
+#            ^ punctuation.special
+#              ^ constant.builtin
+#                  ^ punctuation.special
+#                   ^ tag
+#                       ^ tag
+#                        ^ tag
+#                           ^ punctuation.delimiter
+#                             ^ tag
+#                              ^ tag
+#                                        ^ punctuation.special
+#                                          ^ string
+#                                           ^ escape
+#                                             ^ string
+#                                                ^ escape
+#                                                  ^ string
+#                                                   ^ punctuation.special
+#                                                    ^ tag
+#                                                     ^ tag
+#                                                        ^ punctuation.bracket
 [option: "value", key: :word]
 #<- punctuation.bracket
 #^ tag
