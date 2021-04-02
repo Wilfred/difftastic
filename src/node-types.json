@@ -72,6 +72,10 @@
           "named": true
         },
         {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
           "type": "octal",
           "named": true
         },
@@ -366,6 +370,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
             "named": true
           },
           {
@@ -701,6 +709,10 @@
             "named": true
           },
           {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
             "type": "octal",
             "named": true
           },
@@ -840,6 +852,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
             "named": true
           },
           {
@@ -983,6 +999,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
           "named": true
         },
         {
@@ -1161,6 +1181,10 @@
           "named": true
         },
         {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
           "type": "octal",
           "named": true
         },
@@ -1314,17 +1338,17 @@
             "named": true
           }
         ]
+      },
+      "package_name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "package_name_in_call",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "package_name",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1453,6 +1477,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
           "named": true
         },
         {
@@ -1660,6 +1688,10 @@
             "named": true
           },
           {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
             "type": "octal",
             "named": true
           },
@@ -1802,6 +1834,10 @@
             "named": true
           },
           {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
             "type": "octal",
             "named": true
           },
@@ -1941,6 +1977,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
             "named": true
           },
           {
@@ -2361,6 +2401,10 @@
             "named": true
           },
           {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
             "type": "octal",
             "named": true
           },
@@ -2687,6 +2731,10 @@
             "named": true
           },
           {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
             "type": "octal",
             "named": true
           },
@@ -2905,6 +2953,46 @@
     }
   },
   {
+    "type": "method_invocation",
+    "named": true,
+    "fields": {
+      "args": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "arguments",
+            "named": true
+          },
+          {
+            "type": "parenthesized_arguments",
+            "named": true
+          }
+        ]
+      },
+      "function_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "package_name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "package_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "multi_var_declaration",
     "named": true,
     "fields": {},
@@ -3004,6 +3092,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
           "named": true
         },
         {
@@ -3225,6 +3317,10 @@
           "named": true
         },
         {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
           "type": "octal",
           "named": true
         },
@@ -3391,6 +3487,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
           "named": true
         },
         {
@@ -3579,6 +3679,10 @@
             "named": true
           },
           {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
             "type": "octal",
             "named": true
           },
@@ -3748,6 +3852,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
           "named": true
         },
         {
@@ -3992,6 +4100,10 @@
         },
         {
           "type": "loop_control_statement",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
           "named": true
         },
         {
@@ -4317,6 +4429,10 @@
             "named": true
           },
           {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
             "type": "octal",
             "named": true
           },
@@ -4456,6 +4572,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
             "named": true
           },
           {
@@ -4612,6 +4732,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
             "named": true
           },
           {
@@ -4841,6 +4965,10 @@
             "named": true
           },
           {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
             "type": "octal",
             "named": true
           },
@@ -4986,6 +5114,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
             "named": true
           },
           {
@@ -5194,6 +5326,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
             "named": true
           },
           {
@@ -5543,6 +5679,10 @@
             "named": true
           },
           {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
             "type": "octal",
             "named": true
           },
@@ -5688,6 +5828,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
             "named": true
           },
           {
@@ -5850,6 +5994,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
             "named": true
           },
           {
@@ -6150,10 +6298,6 @@
     "named": false
   },
   {
-    "type": "::",
-    "named": false
-  },
-  {
     "type": "<",
     "named": false
   },
@@ -6387,6 +6531,10 @@
   },
   {
     "type": "package_name",
+    "named": true
+  },
+  {
+    "type": "package_name_in_call",
     "named": true
   },
   {

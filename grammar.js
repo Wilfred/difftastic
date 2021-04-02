@@ -523,6 +523,7 @@ module.exports = grammar({
 
       $.call_expression,
       $.call_expression_recursive,
+      $.method_invocation,
       $.goto_expression,
 
       // quote-like operators
@@ -892,7 +893,14 @@ module.exports = grammar({
 
     call_expression: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
       optional('&'),
-      optional(seq($.package_name, token.immediate('::'))),
+      optional(field('package_name', $.package_name_in_call)),
+      field('function_name', $.identifier),
+      field('args', optional(choice($.parenthesized_arguments, $.arguments))),
+    )),
+
+    method_invocation: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
+      optional(field('package_name', $.package_name)),
+      '->',
       field('function_name', $.identifier),
       field('args', optional(choice($.parenthesized_arguments, $.arguments))),
     )),
@@ -974,6 +982,7 @@ module.exports = grammar({
     ),
 
     package_name: $ => /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
+    package_name_in_call: $ => /[A-Z_a-z][0-9A-Z_a-z]*::(?:[0-9A-Z_a-z]+::)*/,
 
     semi_colon: $ => ';',
 
