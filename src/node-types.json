@@ -15,6 +15,137 @@
     }
   },
   {
+    "type": "defun_header",
+    "named": true,
+    "fields": {
+      "function_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "evaling_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "sym_val_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "keyword": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "defun_keyword",
+            "named": true
+          }
+        ]
+      },
+      "lambda_list": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "list_lit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "defun_keyword",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "derefing_lit",
     "named": true,
     "fields": {
@@ -471,6 +602,10 @@
       "types": [
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "defun_header",
           "named": true
         },
         {
@@ -1024,6 +1159,10 @@
           "named": true
         },
         {
+          "type": "defun_header",
+          "named": true
+        },
+        {
           "type": "dis_expr",
           "named": true
         }
@@ -1432,6 +1571,10 @@
       "types": [
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "defun_header",
           "named": true
         },
         {
@@ -2113,6 +2256,14 @@
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "defmacro",
+    "named": false
+  },
+  {
+    "type": "defun",
+    "named": false
   },
   {
     "type": "fancy_literal",

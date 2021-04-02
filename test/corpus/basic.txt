@@ -51,22 +51,17 @@ Fancy Literal
 
 ==========================================
 Defun header
-
+==========================================
 (defun a (a b)
   (car 1 2)
   2)
 ( defun a (a b)
   (car 1 2)
   2)
-
 ---
-
-(source (list_lit (defun_header (sym_lit) (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (num_lit) (num_lit)) (num_lit))
-(list_lit (defun_header (sym_lit) (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (num_lit) (num_lit)) (num_lit)))
-==========================================
---
-(source)
-
+(source
+ (list_lit (defun (defun_header (defun_keyword) (sym_lit) (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (num_lit) (num_lit)) (num_lit)))
+ (list_lit (defun (defun_header (defun_keyword) (sym_lit) (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (num_lit) (num_lit)) (num_lit))))
 
 ==========================================
 Vectors
