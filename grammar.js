@@ -191,7 +191,6 @@ module.exports = grammar({
         $._external_pathname, // 8.7
         $._expression, // 9.1
         $._condition, // 9.1
-        $._time_expression, // 9.1
         $._simple_expression, // 9.1
         $._string_expression, // 9.1
         $._severity_expression, // 9.1
@@ -214,10 +213,8 @@ module.exports = grammar({
         $._variable_assignment_statement, // 10.6
         $._iteration_scheme, // 10.10
         $._concurrent_signal_assignment, // 11.6
-        $._instantiated_unit, // 11.7
         $._generate_statement, // 11.8
         $._library_unit, // 13.1
-        $._context_list, // 13.4
         $._digit, // 15.5.2
         $._digit_immed, // 15.5.2
         $._identifier, // 14.4
