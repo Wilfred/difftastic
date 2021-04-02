@@ -42,20 +42,26 @@ Module.func!(
         (list
           (keyword_list
             (keyword)
-            (atom)
+            (atom
+              (atom_literal))
             (keyword)
-            (atom)
+            (atom
+              (atom_literal))
             (keyword)
-            (atom)
+            (atom
+              (atom_literal))
             (keyword)
-            (atom)))
+            (atom
+              (atom_literal))))
         (keyword)
         (list
           (keyword_list
             (keyword)
-            (atom)
+            (atom
+              (atom_literal))
             (keyword)
-            (atom)))))))
+            (atom
+              (atom_literal))))))))
 
 ================================================================================
 local var call
@@ -111,7 +117,8 @@ cover[:tool].start(compile_path, cover)
   (dot_call
     (access_call
       (identifier)
-      (atom))
+      (atom
+        (atom_literal)))
     (identifier)
     (arguments
       (identifier)
@@ -363,7 +370,8 @@ string dot call
 
 (program
   (dot_call
-    (atom)
+    (atom
+      (atom_literal))
     (string
       (string_start)
       (string_content)
@@ -476,7 +484,8 @@ map call
     (map
       (keyword_list
         (keyword)
-        (atom)))
+        (atom
+          (atom_literal))))
     (identifier)))
 
 ================================================================================

@@ -41,7 +41,8 @@ spec with splat
                     (list
                       (identifier)))))
               (identifier)))
-          (atom))
+          (atom
+            (atom_literal)))
         (keyword_list
           (keyword)
           (qualified_call

@@ -8,8 +8,10 @@ atom
 
 (program
   (tuple
-    (atom)
-    (atom)
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
     (atom
       (atom_start)
       (atom_content)
@@ -22,10 +24,14 @@ atom
       (string_start)
       (string_content)
       (string_end))
-    (atom)
-    (atom)
-    (atom)
-    (atom)))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))))
 
 ================================================================================
 char

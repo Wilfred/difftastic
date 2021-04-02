@@ -109,7 +109,8 @@ end
                 (identifier)
                 (false)))
             (binary_op
-              (atom)
+              (atom
+                (atom_literal))
               (dot_call
                 (module)
                 (identifier)
@@ -119,4 +120,5 @@ end
       (stab_expression
         (bare_arguments
           (true))
-        (atom)))))
+        (atom
+          (atom_literal))))))
