@@ -1,0 +1,89 @@
+==========================================
+Block Comments
+==========================================
+
+#|(ql.foo:quickload "cl-project")
+(defun add (a b) |
+    (+ a b ))|#
+
+(add 8 9)
+
+---
+
+(source (block_comment) (list_lit (sym_lit) (num_lit) (num_lit)))
+
+
+==========================================
+Block Comments 2
+==========================================
+
+(add #|8 |#9)
+
+---
+(source (list_lit (sym_lit) (block_comment) (num_lit)))
+
+
+==========================================
+Quasi-Quoting
+==========================================
+
+`(add a ,(b))
+`(add a ,@(b))
+`(add a , b)
+`(add a ,b)
+
+---
+(source
+ (syn_quoting_lit (list_lit (sym_lit) (sym_lit) (unquoting_lit (list_lit (sym_lit)))))
+ (syn_quoting_lit (list_lit (sym_lit) (sym_lit) (unquote_splicing_lit (list_lit (sym_lit)))))
+ (syn_quoting_lit (list_lit (sym_lit) (sym_lit) (unquoting_lit (sym_lit))))
+ (syn_quoting_lit (list_lit (sym_lit) (sym_lit) (unquoting_lit (sym_lit)))))
+
+==========================================
+Fancy Literal
+==========================================
+
+(|`(add a ,(b))| a)
+
+---
+
+(source (list_lit (fancy_literal) (sym_lit)))
+
+==========================================
+Defun header
+
+(defun a (a b)
+  (car 1 2)
+  2)
+( defun a (a b)
+  (car 1 2)
+  2)
+
+---
+
+(source (list_lit (defun_header (sym_lit) (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (num_lit) (num_lit)) (num_lit))
+(list_lit (defun_header (sym_lit) (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (num_lit) (num_lit)) (num_lit)))
+==========================================
+--
+(source)
+
+
+==========================================
+Vectors
+==========================================
+
+#(  2 3 4)
+#()
+
+---
+(source (vec_lit (list_lit (num_lit) (num_lit) (num_lit))) (vec_lit (list_lit)))
+
+==========================================
+Arrays
+==========================================
+
+#0A2
+#2A((2 3 4))
+
+---
+(source (vec_lit (num_lit)) (vec_lit (array_dimension (num_lit)) (list_lit (list_lit (num_lit) (num_lit) (num_lit)))))
