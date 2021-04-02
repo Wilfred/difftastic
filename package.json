@@ -16,7 +16,7 @@
     "parser",
     "nodejs"
   ],
-  "repository": "https://github.com/ganezdragon/tree-sitter-perl.git",
+  "repository": "git://github.com/ganezdragon/tree-sitter-perl.git",
   "author": "ganezdragon",
   "license": "MIT",
   "dependencies": {
