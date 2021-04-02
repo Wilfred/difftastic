@@ -45,7 +45,8 @@ keyword list
       (keyword)
       (identifier)
       (keyword)
-      (atom)
+      (atom
+        (atom_literal))
       (keyword)
       (list
         (string
@@ -157,7 +158,8 @@ atoms
 --------------------------------------------------------------------------------
 
 (program
-  (atom))
+  (atom
+    (atom_literal)))
 
 ================================================================================
 operator atom
@@ -169,64 +171,122 @@ operator atom
 
 (program
   (list
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)
-    (atom)))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))))
 
 ================================================================================
 single quote heredoc

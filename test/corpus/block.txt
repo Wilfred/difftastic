@@ -31,8 +31,10 @@ end
         (module)
         (identifier)
         (arguments
-          (atom)
-          (atom))))))
+          (atom
+            (atom_literal))
+          (atom
+            (atom_literal)))))))
 
 ================================================================================
 def with guard

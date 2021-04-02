@@ -126,7 +126,7 @@ module.exports = grammar({
     $.string_end,
     $.identifier,
     $._keyword_literal,
-    $._atom_literal,
+    $.atom_literal,
     $.atom_start,
     $.atom_content,
     $.atom_end,
@@ -571,7 +571,7 @@ module.exports = grammar({
 
     atom: $ =>
       choice(
-        $._atom_literal,
+        $.atom_literal,
         seq(
           $.atom_start,
           repeat(choice($.atom_content, $.escape_sequence, $.interpolation)),

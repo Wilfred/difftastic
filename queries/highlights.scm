@@ -3,7 +3,10 @@
 [(true) (false) (nil)] @constant.builtin
 
 (keyword) @tag
-(atom) @tag
+[(atom_literal)
+ (atom_start)
+ (atom_content)
+ (atom_end)] @tag
 
 (comment) @comment
 

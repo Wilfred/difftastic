@@ -131,11 +131,13 @@ end
       (qualified_call
         (identifier)
         (arguments
-          (atom)))
+          (atom
+            (atom_literal))))
       (catch_block
         (stab_expression
           (bare_arguments
-            (atom)
+            (atom
+              (atom_literal))
             (identifier))
           (dot_call
             (module)
@@ -180,7 +182,8 @@ end
         (stab_expression
           (bare_arguments
             (module))
-          (atom)))
+          (atom
+            (atom_literal))))
       (else_block
         (stab_expression
           (bare_arguments
@@ -193,11 +196,13 @@ end
                 (binary_op
                   (identifier)
                   (integer)))))
-          (atom))
+          (atom
+            (atom_literal)))
         (stab_expression
           (bare_arguments
             (identifier))
-          (atom))))))
+          (atom
+            (atom_literal)))))))
 
 ================================================================================
 try after

@@ -192,5 +192,6 @@ fun = fn () when node() == :nonode@nohost -> true end
               (qualified_call
                 (identifier)
                 (arguments))
-              (atom))))
+              (atom
+                (atom_literal)))))
         (true)))))
