@@ -22,7 +22,7 @@
 (escape_sequence) @escape
 
 (call (identifier) @keyword
-      (#match? @keyword "^(defmodule|defexception|defp|def|with|case|cond|raise|import|require|use|defmacro|defguard|defstruct|alias|defimpl|defprotocol|receive|if|for)$"))
+      (#match? @keyword "^(defmodule|defexception|defp|def|with|case|cond|raise|import|require|use|defmacrop|defmacro|defguardp|defguard|defdelegate|defstruct|alias|defimpl|defprotocol|defoverridable|receive|if|for|try|throw|unless|reraise|super)$"))
 
 (call (identifier) @keyword
       [(qualified_call
@@ -51,7 +51,7 @@
         left: (identifier) @variable.parameter
         operator: _ @function
         right: (identifier) @variable.parameter)]
-      (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$")
+      (#match? @keyword "^(defp|def|defmacrop|defmacro|defguardp|defguard|defdelegate)$")
       (#match? @variable.parameter "^[^_]"))
 
 (call (identifier) @keyword
@@ -64,7 +64,7 @@
           name: (identifier) @function)
          (identifier) @function]
         operator: "when")]
-      (#match? @keyword "^(defp|def|defmacro|defguard|defdelegate)$"))
+      (#match? @keyword "^(defp|def|defmacrop|defmacro|defguardp|defguard|defdelegate)$"))
 
 (anonymous_function
  (stab_expression
