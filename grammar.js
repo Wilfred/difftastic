@@ -23,7 +23,7 @@ module.exports = grammar(clojure, {
     name: 'commonlisp',
 
     extras: ($, original) => [...original, $.block_comment],
-    conflicts: ($, original) => [...original, [$.for_clause]],
+    conflicts: ($, original) => [...original, [$.for_clause], [$.accumulation_clause]],
 
     rules: {
         block_comment: _ => token(seq('#|', repeat(choice(/[^|]/, /\|[^#]/)), '|#')),
@@ -61,13 +61,13 @@ module.exports = grammar(clojure, {
 
         accumulation_verb: _ => /(collect|append|nconc|count|sum|maximize|minimize)(ing)?/,
 
-        for_clause: $ => seq(choice('for', 'and'), optional($._gap), field('variable', $.sym_lit),
+        for_clause: $ => seq(choice('for', 'and'), optional($._gap), field('variable', $._form),
             $._for_part, optional($._for_part)),
 
         with_clause: $ => prec.left(seq('with', optional($._gap), $._form, optional($._gap), "=", optional($._gap), $._form)),
         do_clause: $ => prec.left(seq('do', optional($._gap), $._form)),
         condition_clause: $ => prec.left(seq(choice('when', 'if', 'unless', 'always', 'thereis', 'never'), optional($._gap), $._form)),
-        accumulation_clause: $ => prec.left(seq($.accumulation_verb, optional($._gap), $._form, optional($._gap), optional(seq('into', optional($._gap), $._form)))),
+        accumulation_clause: $ => seq($.accumulation_verb, optional($._gap), $._form, optional(seq(optional($._gap), 'into', optional($._gap), $._form))),
         termination_clause: $ => prec.left(seq(choice('finally', 'return', 'initially'), optional($._gap), $._form)),
 
 
