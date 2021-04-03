@@ -352,7 +352,7 @@
     "fields": {
       "function_name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "char_lit",
@@ -735,7 +735,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "char_lit",
@@ -1262,6 +1262,10 @@
         },
         {
           "type": "termination_clause",
+          "named": true
+        },
+        {
+          "type": "while_clause",
           "named": true
         },
         {
@@ -2977,6 +2981,105 @@
     }
   },
   {
+    "type": "while_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "derefing_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "evaling_lit",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "sym_val_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "with_clause",
     "named": true,
     "fields": {},
@@ -3168,6 +3271,10 @@
     "named": false
   },
   {
+    "type": "as",
+    "named": false
+  },
+  {
     "type": "auto_res_mark",
     "named": true
   },
@@ -3192,11 +3299,23 @@
     "named": true
   },
   {
+    "type": "cl:",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
   {
+    "type": "defgeneric",
+    "named": false
+  },
+  {
     "type": "defmacro",
+    "named": false
+  },
+  {
+    "type": "defmethod",
     "named": false
   },
   {
@@ -3272,6 +3391,10 @@
     "named": false
   },
   {
+    "type": "repeat",
+    "named": false
+  },
+  {
     "type": "return",
     "named": false
   },
@@ -3301,6 +3424,10 @@
   },
   {
     "type": "when",
+    "named": false
+  },
+  {
+    "type": "while",
     "named": false
   },
   {

@@ -109,3 +109,9 @@ Loop Macro (Accumulation)
       collect x into a)
 ---
 (source (list_lit (loop_macro (loop_clause (for_clause (sym_lit) (num_lit))) (loop_clause (accumulation_clause (accumulation_verb) (sym_lit) (sym_lit))))))
+
+
+==========================================
+Decimals
+==========================================
+#(2 2 .2 3 2 2 2 3 3)

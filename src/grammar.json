@@ -722,7 +722,7 @@
                     },
                     {
                       "type": "PATTERN",
-                      "value": "[:#'0-9]"
+                      "value": "[#':0-9]"
                     }
                   ]
                 }
@@ -1849,6 +1849,10 @@
             {
               "type": "STRING",
               "value": "then"
+            },
+            {
+              "type": "STRING",
+              "value": "="
             }
           ]
         },
@@ -1872,7 +1876,7 @@
     },
     "accumulation_verb": {
       "type": "PATTERN",
-      "value": "(collect|append|nconc|count|sum|maximize|minimize)(ing)?"
+      "value": "((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?)"
     },
     "for_clause": {
       "type": "SEQ",
@@ -1887,6 +1891,10 @@
             {
               "type": "STRING",
               "value": "and"
+            },
+            {
+              "type": "STRING",
+              "value": "as"
             }
           ]
         },
@@ -1911,20 +1919,11 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_for_part"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_for_part"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_for_part"
+          }
         }
       ]
     },
@@ -1998,6 +1997,72 @@
           {
             "type": "STRING",
             "value": "do"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_gap"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_form"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "while_clause": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "while"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_gap"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_form"
+          }
+        ]
+      }
+    },
+    "repeat_clause": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "repeat"
           },
           {
             "type": "CHOICE",
@@ -2200,6 +2265,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "while_clause"
+            },
+            {
+              "type": "SYMBOL",
               "name": "accumulation_clause"
             },
             {
@@ -2213,6 +2282,10 @@
             {
               "type": "SYMBOL",
               "name": "termination_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "while_clause"
             }
           ]
         }
@@ -2235,6 +2308,18 @@
             {
               "type": "SYMBOL",
               "name": "_gap"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "cl:"
             },
             {
               "type": "BLANK"
@@ -2281,49 +2366,95 @@
         {
           "type": "STRING",
           "value": "defmacro"
+        },
+        {
+          "type": "STRING",
+          "value": "defgeneric"
+        },
+        {
+          "type": "STRING",
+          "value": "defmethod"
         }
       ]
     },
     "defun_header": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "FIELD",
-          "name": "keyword",
-          "content": {
-            "type": "SYMBOL",
-            "name": "defun_keyword"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "keyword",
+              "content": {
+                "type": "SYMBOL",
+                "name": "defun_keyword"
+              }
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_gap"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "function_name",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_form"
+              }
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_gap"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "lambda_list",
+              "content": {
+                "type": "SYMBOL",
+                "name": "list_lit"
+              }
+            }
+          ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_gap"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "function_name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_form"
-          }
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_gap"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "lambda_list",
-          "content": {
-            "type": "SYMBOL",
-            "name": "list_lit"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "keyword",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "STRING",
+                  "value": "lambda"
+                },
+                "named": true,
+                "value": "defun_keyword"
+              }
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_gap"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "lambda_list",
+              "content": {
+                "type": "SYMBOL",
+                "name": "list_lit"
+              }
+            }
+          ]
         }
       ]
     },
@@ -2353,6 +2484,9 @@
     ],
     [
       "accumulation_clause"
+    ],
+    [
+      "do_clause"
     ]
   ],
   "precedences": [],
