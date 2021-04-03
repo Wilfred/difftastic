@@ -82,3 +82,21 @@ Arrays
 
 ---
 (source (vec_lit (num_lit)) (vec_lit (array_dimension (num_lit)) (list_lit (list_lit (num_lit) (num_lit) (num_lit)))))
+
+==========================================
+Loop Macro
+==========================================
+
+(loop for dim-idx in xyz
+                 for letter in (list 'x 'y 'z)
+                 collect (let ((current-range (nth dim-idx iteration-ranges)))
+                           `(, (get-counter-symbol dim-idx) 
+                               (+ ,(range-start current-range)
+                                  (* ,(range-step current-range)
+                                     ,(case letter 
+                                        (x '(+ thread-idx-x (* block-idx-x block-dim-x)))
+                                        (y '(+ thread-idx-y (* block-idx-y block-dim-y)))
+                                        (z '(+ thread-idx-z (* block-idx-z block-dim-z)))))))))
+---
+  (source (list_lit (loop_macro (loop_clause (for_clause (sym_lit) (sym_lit))) (loop_clause (for_clause (sym_lit) (list_lit (sym_lit) (quoting_lit (sym_lit)) (quoting_lit (sym_lit)) (quoting_lit (sym_lit))))) (loop_clause (accumulation_clause (accumulation_verb) (list_lit (sym_lit) (list_lit (list_lit (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit)))) (syn_quoting_lit (list_lit (unquoting_lit (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (unquoting_lit (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (unquoting_lit (list_lit (sym_lit) (sym_lit))) (unquoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (quoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit))))) (list_lit (sym_lit) (quoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit))))) (list_lit
+ (sym_lit) (quoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit)))))))))))))))))

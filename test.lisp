@@ -1,15 +1,7 @@
+(loop for dim-idx in xyz below x
+      for y from 0
+      for letter in (list 'x 'y 'z) in 2
+      collect x)
 
-(ql.foo:quickload "cl-project")
-(defun add (a b)
-    (+ a b ))
-
-(add 8 9)
-
-(defun foo (instruction)
-  (etypecase instruction
-    (number instruction)
-    (cons (car instruction))
-    (t instruction)))
-
-;(foo '(0 . 1))
-
+(loop for x below 3 in 2
+      do (format t "~A~%" x))

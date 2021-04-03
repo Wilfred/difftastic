@@ -23,7 +23,7 @@ module.exports = grammar(clojure, {
     name: 'commonlisp',
 
     extras: ($, original) => [...original, $.block_comment],
-    conflicts: (_, original) => [...original],
+    conflicts: ($, original) => [...original, [$.for_clause]],
 
     rules: {
         block_comment: _ => token(seq('#|', repeat(choice(/[^|]/, /\|[^#]/)), '|#')),
@@ -56,6 +56,38 @@ module.exports = grammar(clojure, {
                 repeat(choice(field('value', $._form), $._gap)),
                 field('close', ")")),
 
+        _for_part: $ => seq(optional($._gap), choice('in', 'across', 'being', 'using', /being the (hash-key[s]?|hash-value[s]?) in/, 'below', 'from', 'to', 'upto', 'downto', 'downfrom', 'on', 'by', 'then'),
+            optional($._gap), $._form),
+
+        accumulation_verb: _ => /(collect|append|nconc|count|sum|maximize|minimize)(ing)?/,
+
+        for_clause: $ => seq(choice('for', 'and'), optional($._gap), field('variable', $.sym_lit),
+            $._for_part, optional($._for_part)),
+
+        with_clause: $ => prec.left(seq('with', optional($._gap), $._form, optional($._gap), "=", optional($._gap), $._form)),
+        do_clause: $ => prec.left(seq('do', optional($._gap), $._form)),
+        condition_clause: $ => prec.left(seq(choice('when', 'if', 'unless', 'always', 'thereis', 'never'), optional($._gap), $._form)),
+        accumulation_clause: $ => prec.left(seq($.accumulation_verb, optional($._gap), $._form, optional($._gap), optional(seq('into', optional($._gap), $._form)))),
+        termination_clause: $ => prec.left(seq(choice('finally', 'return', 'initially'), optional($._gap), $._form)),
+
+
+        loop_clause: $ =>
+            seq(choice(
+                $.for_clause,
+                $.do_clause,
+                $.accumulation_clause,
+                $.condition_clause,
+                $.with_clause,
+                $.termination_clause,
+            )),
+
+        loop_macro: $ =>
+            seq(field('open', "("),
+                optional($._gap),
+                'loop',
+                repeat(choice($.loop_clause, $._gap)),
+                field('close', ")")),
+
         defun_keyword: _ => choice('defun', 'defmacro'),
 
         defun_header: $ =>
@@ -73,14 +105,10 @@ module.exports = grammar(clojure, {
 
         _bare_list_lit: $ =>
             choice(prec(PREC.SPECIAL, $.defun),
+                prec(PREC.SPECIAL, $.loop_macro),
                 seq(field('open', "("),
                     repeat(choice(field('value', $._form), $._gap)),
                     field('close', ")"))),
-
-        _first_form: $ =>
-            choice(
-                prec(PREC.SPECIAL, $.defun_header),
-                $._form),
 
         _form: $ =>
             choice(// atom-ish
