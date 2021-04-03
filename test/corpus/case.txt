@@ -107,7 +107,7 @@ end
         (bare_arguments
           (binary_op
             (identifier)
-            (qualified_call
+            (call
               (identifier)
               (arguments
                 (identifier)))))
@@ -152,7 +152,7 @@ end
               (string_content)
               (string_end))
             (identifier)))
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (identifier)
@@ -164,7 +164,7 @@ end
               (string_start)
               (string_content)
               (string_end))))
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (identifier)))))))
@@ -241,7 +241,7 @@ end
       (stab_expression
         (bare_arguments
           (integer))
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (list
@@ -261,7 +261,7 @@ end
         (bare_arguments
           (unary_op
             (integer)))
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (list

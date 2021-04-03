@@ -7,7 +7,7 @@ call(, k: t)
 --------------------------------------------------------------------------------
 
 (program
-  (qualified_call
+  (call
     (identifier)
     (arguments
       (ERROR)

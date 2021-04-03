@@ -23,7 +23,7 @@ end
   (call
     (identifier)
     (do_block
-      (qualified_call
+      (call
         (identifier)
         (arguments
           (identifier)))
@@ -51,7 +51,7 @@ end
                 (string_start)
                 (string_content)
                 (interpolation
-                  (qualified_call
+                  (call
                     (identifier)
                     (arguments
                       (identifier))))
@@ -68,7 +68,7 @@ end
                 (string_start)
                 (string_content)
                 (interpolation
-                  (qualified_call
+                  (call
                     (identifier)
                     (arguments
                       (identifier))))
@@ -128,7 +128,7 @@ end
   (call
     (identifier)
     (do_block
-      (qualified_call
+      (call
         (identifier)
         (arguments
           (atom
@@ -147,7 +147,7 @@ end
                 (string_start)
                 (string_content)
                 (interpolation
-                  (qualified_call
+                  (call
                     (identifier)
                     (arguments
                       (identifier))))
@@ -220,7 +220,7 @@ end
   (call
     (identifier)
     (do_block
-      (qualified_call
+      (call
         (identifier)
         (arguments
           (string

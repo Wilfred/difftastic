@@ -16,10 +16,10 @@ end
     (call
       (identifier)
       (binary_op
-        (qualified_call
+        (call
           (identifier)
           (arguments))
-        (qualified_call
+        (call
           (identifier)
           (arguments)))))
   (call
@@ -50,20 +50,20 @@ end
   (call
     (identifier)
     (binary_op
-      (qualified_call
+      (call
         (identifier)
         (arguments
           (identifier)))
-      (qualified_call
+      (call
         (identifier)
         (arguments
           (identifier))))
     (do_block
-      (qualified_call
+      (call
         (identifier)
         (arguments
           (identifier)
-          (qualified_call
+          (call
             (identifier)
             (arguments
               (identifier))))))))
@@ -85,7 +85,7 @@ end
   (call
     (identifier)
     (binary_op
-      (qualified_call
+      (call
         (identifier)
         (arguments
           (list
@@ -95,7 +95,7 @@ end
           (identifier)))
       (comment)
       (binary_op
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (identifier)))
@@ -122,11 +122,11 @@ end
                   (identifier)
                   (integer))))))))
     (do_block
-      (qualified_call
+      (call
         (identifier)
         (arguments
           (identifier)
-          (qualified_call
+          (call
             (identifier)
             (arguments
               (identifier))))))))

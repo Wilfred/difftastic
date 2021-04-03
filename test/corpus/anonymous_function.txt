@@ -189,7 +189,7 @@ fun = fn () when node() == :nonode@nohost -> true end
           (binary_op
             (block)
             (binary_op
-              (qualified_call
+              (call
                 (identifier)
                 (arguments))
               (atom

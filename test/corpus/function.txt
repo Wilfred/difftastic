@@ -12,7 +12,7 @@ end
   (call
     (identifier)
     (call
-      (qualified_call
+      (call
         (identifier)
         (arguments
           (identifier)))
@@ -22,10 +22,10 @@ end
           (identifier)
           (list)))
       (do_block
-        (qualified_call
+        (call
           (identifier)
           (arguments
-            (qualified_call
+            (call
               (identifier)
               (arguments
                 (identifier)))

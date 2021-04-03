@@ -430,7 +430,7 @@ eval_binds(CONFIG: config, SCRIPT: script)
 --------------------------------------------------------------------------------
 
 (program
-  (qualified_call
+  (call
     (identifier)
     (arguments
       (keyword_list

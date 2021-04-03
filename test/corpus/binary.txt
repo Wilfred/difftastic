@@ -16,7 +16,7 @@ binary expression
       (identifier)
       (binary_op
         (identifier)
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (identifier)))))
@@ -24,7 +24,7 @@ binary expression
       (identifier)
       (binary_op
         (identifier)
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (identifier)))))
@@ -32,7 +32,7 @@ binary expression
       (identifier)
       (binary_op
         (identifier)
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (identifier)))))

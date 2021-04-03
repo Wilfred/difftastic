@@ -1089,3 +1089,11 @@ raise NotAnError, message: "This is not an error"
 #                           ^ string
 #                                               ^ string
 
+def(test(x), do: x)
+#<- keyword
+#  ^ punctuation.bracket
+#       ^ punctuation.bracket
+#         ^ punctuation.bracket
+#          ^ punctuation.delimiter
+#            ^ tag
+#                 ^ punctuation.bracket
