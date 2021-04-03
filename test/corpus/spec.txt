@@ -19,7 +19,7 @@ spec with splat
       (identifier)
       (binary_op
         (binary_op
-          (qualified_call
+          (call
             (identifier)
             (arguments
               (dot_call
@@ -46,7 +46,7 @@ spec with splat
         (keyword_list
           (keyword
             (keyword_literal))
-          (qualified_call
+          (call
             (identifier)
             (arguments)))))))
 

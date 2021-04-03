@@ -152,7 +152,7 @@ end
     (identifier)
     (do_block
       (dot_call
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (identifier)))
@@ -160,7 +160,7 @@ end
         (arguments
           (anonymous_function
             (stab_expression
-              (qualified_call
+              (call
                 (identifier)
                 (arguments
                   (dot_call
@@ -168,7 +168,7 @@ end
                     (identifier)
                     (arguments
                       (identifier)))))))
-          (qualified_call
+          (call
             (identifier)
             (arguments
               (dot_call
@@ -409,7 +409,7 @@ h(== / 2)
 --------------------------------------------------------------------------------
 
 (program
-  (qualified_call
+  (call
     (identifier)
     (arguments
       (binary_op
@@ -428,7 +428,7 @@ assert_diff(
 --------------------------------------------------------------------------------
 
 (program
-  (qualified_call
+  (call
     (identifier)
     (arguments
       (binary_op
@@ -528,7 +528,7 @@ end
     (identifier)
     (do_block
       (struct
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (module)))
@@ -551,7 +551,7 @@ Macro.to_string(quote(do: Foo."bar baz"().""())) == ~s/Foo."bar baz"().""()/
       (module)
       (identifier)
       (arguments
-        (qualified_call
+        (call
           (identifier)
           (arguments
             (keyword_list
@@ -599,7 +599,7 @@ inspect(&__MODULE__."weirdly named/fun-"/0)
 --------------------------------------------------------------------------------
 
 (program
-  (qualified_call
+  (call
     (identifier)
     (arguments
       (unary_op
@@ -621,7 +621,7 @@ is_function(&and/2)
 --------------------------------------------------------------------------------
 
 (program
-  (qualified_call
+  (call
     (identifier)
     (arguments
       (unary_op
@@ -730,7 +730,7 @@ call(a: a, b: b,
 --------------------------------------------------------------------------------
 
 (program
-  (qualified_call
+  (call
     (identifier)
     (arguments
       (keyword_list
