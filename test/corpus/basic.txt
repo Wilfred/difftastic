@@ -98,7 +98,7 @@ Loop Macro
                                         (y '(+ thread-idx-y (* block-idx-y block-dim-y)))
                                         (z '(+ thread-idx-z (* block-idx-z block-dim-z)))))))))
 ---
-  (source (list_lit (loop_macro (loop_clause (for_clause (sym_lit) (sym_lit))) (loop_clause (for_clause (sym_lit) (list_lit (sym_lit) (quoting_lit (sym_lit)) (quoting_lit (sym_lit)) (quoting_lit (sym_lit))))) (loop_clause (accumulation_clause (accumulation_verb) (list_lit (sym_lit) (list_lit (list_lit (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit)))) (syn_quoting_lit (list_lit (unquoting_lit (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (unquoting_lit (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (unquoting_lit (list_lit (sym_lit) (sym_lit))) (unquoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (quoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit))))) (list_lit (sym_lit) (quoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit))))) (list_lit
+  (source (list_lit (loop_macro (loop_clause (for_clause (sym_lit) (for_clause_word) (sym_lit))) (loop_clause (for_clause (sym_lit) (for_clause_word) (list_lit (sym_lit) (quoting_lit (sym_lit)) (quoting_lit (sym_lit)) (quoting_lit (sym_lit))))) (loop_clause (accumulation_clause (accumulation_verb) (list_lit (sym_lit) (list_lit (list_lit (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit)))) (syn_quoting_lit (list_lit (unquoting_lit (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (unquoting_lit (list_lit (sym_lit) (sym_lit))) (list_lit (sym_lit) (unquoting_lit (list_lit (sym_lit) (sym_lit))) (unquoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (quoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit))))) (list_lit (sym_lit) (quoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit))))) (list_lit
  (sym_lit) (quoting_lit (list_lit (sym_lit) (sym_lit) (list_lit (sym_lit) (sym_lit) (sym_lit)))))))))))))))))
 
 ==========================================
@@ -108,8 +108,83 @@ Loop Macro (Accumulation)
 (loop for i below 10
       collect x into a)
 ---
-(source (list_lit (loop_macro (loop_clause (for_clause (sym_lit) (num_lit))) (loop_clause (accumulation_clause (accumulation_verb) (sym_lit) (sym_lit))))))
+(source (list_lit (loop_macro (loop_clause (for_clause (sym_lit) (for_clause_word) (num_lit))) (loop_clause (accumulation_clause (accumulation_verb) (sym_lit) (sym_lit))))))
 
+==========================================
+Loop Macro (finally)
+==========================================
+
+(loop for a below 8
+      for x = (+  a)
+      with first-x = (+  a)
+      if (> x 10) return x
+      do (format t "~A ~A~%" x first-x)
+      finally (return 3))
+---
+(source (list_lit (loop_macro 
+(loop_clause (for_clause (sym_lit) (for_clause_word) (num_lit))) 
+(loop_clause (for_clause (sym_lit) (for_clause_word) (list_lit (sym_lit) (sym_lit)))) 
+(loop_clause (with_clause (sym_lit) (list_lit (sym_lit) (sym_lit)))) 
+(loop_clause (condition_clause (list_lit (sym_lit) (sym_lit) (num_lit)))) 
+(loop_clause (termination_clause (sym_lit))) 
+(loop_clause (do_clause (list_lit (sym_lit) (sym_lit) (str_lit) (sym_lit) (sym_lit)))) 
+(loop_clause (termination_clause (list_lit (sym_lit) (num_lit)))))))
+
+==========================================
+Loop Macro (do do do)
+==========================================
+
+(loop for a below 8
+      for x = (+  a)
+      with first-x = (+  a)
+      if (> x 10) return x
+      do (format t "~A ~A~%" x first-x) (format t "~A ~A~%" x first-x)
+      finally (return 3))
+---
+(source (list_lit (loop_macro 
+(loop_clause (for_clause (sym_lit) (for_clause_word) (num_lit))) 
+(loop_clause (for_clause (sym_lit) (for_clause_word) (list_lit (sym_lit) (sym_lit)))) 
+(loop_clause (with_clause (sym_lit) (list_lit (sym_lit) (sym_lit)))) 
+(loop_clause (condition_clause (list_lit (sym_lit) (sym_lit) (num_lit)))) 
+(loop_clause (termination_clause (sym_lit))) 
+(loop_clause (do_clause (list_lit (sym_lit) (sym_lit) (str_lit) (sym_lit) (sym_lit)))) 
+(loop_clause (list_lit (sym_lit) (sym_lit) (str_lit) (sym_lit) (sym_lit))) 
+(loop_clause (termination_clause (list_lit (sym_lit) (num_lit)))))))
+
+==========================================
+Conses
+==========================================
+
+(2 . 3)
+(2 . ( 2 3))
+---
+(source (list_lit (num_lit) (num_lit)) (list_lit (num_lit) (list_lit (num_lit) (num_lit))))
+
+==========================================
+Complex Numbers
+==========================================
+
+#C(2 3)
+#C
+( 2 1)
+
+#C(-2 1)
+---
+(source
+(complex_num_lit (num_lit) (num_lit))
+(complex_num_lit (num_lit) (num_lit))
+(complex_num_lit (num_lit) (num_lit)))
+
+==========================================
+Reader Macros
+==========================================
+#+unix(loop)
+
+#+windows
+(loop)
+
+---
+(source (include_reader_macro (sym_lit) (list_lit (loop_macro))) (include_reader_macro (sym_lit) (list_lit (loop_macro))))
 
 ==========================================
 Decimals

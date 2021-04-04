@@ -34,7 +34,7 @@ module.exports = grammar(clojure, {
     name: 'commonlisp',
 
     extras: ($, original) => [...original, $.block_comment],
-    conflicts: ($, original) => [...original, [$.for_clause], [$.accumulation_clause], [$.do_clause]],
+    conflicts: ($, original) => [...original, [$.for_clause], [$.accumulation_clause]],
 
     rules: {
         block_comment: _ => token(seq('#|', repeat(choice(/[^|]/, /\|[^#]/)), '|#')),
@@ -67,8 +67,24 @@ module.exports = grammar(clojure, {
                 repeat(choice(field('value', $._form), $._gap)),
                 field('close', ")")),
 
-        _for_part: $ => seq(optional($._gap), choice('in', 'across', 'being', 'using', /being the (hash-key[s]?|hash-value[s]?) in/, 'below', 'from', 'to', 'upto', 'downto', 'downfrom', 'on', 'by', 'then', '='),
-            optional($._gap), $._form),
+        for_clause_word: _ => choice('in',
+            'across',
+            'being',
+            'using',
+            /being the (hash-key[s]?|hash-value[s]?) in/,
+            'below',
+            'from',
+            'to',
+            'upto',
+            'downto',
+            'downfrom',
+            'on',
+            'by',
+            'then',
+            '='),
+
+
+        _for_part: $ => seq(optional($._gap), $.for_clause_word, optional($._gap), $._form),
 
         accumulation_verb: _ => /((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?)/,
 
@@ -76,7 +92,7 @@ module.exports = grammar(clojure, {
             repeat1($._for_part)),
 
         with_clause: $ => prec.left(seq('with', optional($._gap), $._form, optional($._gap), "=", optional($._gap), $._form)),
-        do_clause: $ => prec.left(seq('do', repeat(seq(optional($._gap), $._form)))),
+        do_clause: $ => prec.left(seq('do', repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
         while_clause: $ => prec.left(seq('while', optional($._gap), $._form)),
         repeat_clause: $ => prec.left(seq('repeat', optional($._gap), $._form)),
         condition_clause: $ => prec.left(seq(choice('when', 'if', 'unless', 'always', 'thereis', 'never'), optional($._gap), $._form)),
@@ -88,6 +104,7 @@ module.exports = grammar(clojure, {
             seq(choice(
                 $.for_clause,
                 $.do_clause,
+                $.list_lit,
                 $.while_clause,
                 $.accumulation_clause,
                 $.condition_clause,
@@ -162,11 +179,35 @@ module.exports = grammar(clojure, {
                 $.quoting_lit,
                 $.syn_quoting_lit,
                 $.unquote_splicing_lit,
-                $.unquoting_lit),
+                $.unquoting_lit,
+                $.include_reader_macro,
+                $.complex_num_lit,
+                '.',
+            ),
 
         sym_lit: $ =>
             seq(repeat($._metadata_lit),
                 SYMBOL),
 
+        include_reader_macro: $ =>
+            seq(repeat($._metadata_lit),
+                field('marker', choice("#+", "#-")),
+                repeat($._gap),
+                field('condition', $._form),
+                repeat($._gap),
+                field('target', $._form)),
+
+        complex_num_lit: $ =>
+            seq(repeat($._metadata_lit),
+                field('marker', "#C"),
+                repeat($._gap),
+                '(',
+                repeat($._gap),
+                field('real', $.num_lit), // only numbers allowed here
+                repeat($._gap),
+                field('imaginary', $.num_lit),
+                repeat($._gap),
+                ')'
+            ),
     }
 });

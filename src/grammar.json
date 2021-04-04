@@ -161,6 +161,18 @@
         {
           "type": "SYMBOL",
           "name": "unquoting_lit"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "include_reader_macro"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "complex_num_lit"
+        },
+        {
+          "type": "STRING",
+          "value": "."
         }
       ]
     },
@@ -1776,6 +1788,71 @@
         }
       ]
     },
+    "for_clause_word": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "in"
+        },
+        {
+          "type": "STRING",
+          "value": "across"
+        },
+        {
+          "type": "STRING",
+          "value": "being"
+        },
+        {
+          "type": "STRING",
+          "value": "using"
+        },
+        {
+          "type": "PATTERN",
+          "value": "being the (hash-key[s]?|hash-value[s]?) in"
+        },
+        {
+          "type": "STRING",
+          "value": "below"
+        },
+        {
+          "type": "STRING",
+          "value": "from"
+        },
+        {
+          "type": "STRING",
+          "value": "to"
+        },
+        {
+          "type": "STRING",
+          "value": "upto"
+        },
+        {
+          "type": "STRING",
+          "value": "downto"
+        },
+        {
+          "type": "STRING",
+          "value": "downfrom"
+        },
+        {
+          "type": "STRING",
+          "value": "on"
+        },
+        {
+          "type": "STRING",
+          "value": "by"
+        },
+        {
+          "type": "STRING",
+          "value": "then"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        }
+      ]
+    },
     "_for_part": {
       "type": "SEQ",
       "members": [
@@ -1792,69 +1869,8 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "in"
-            },
-            {
-              "type": "STRING",
-              "value": "across"
-            },
-            {
-              "type": "STRING",
-              "value": "being"
-            },
-            {
-              "type": "STRING",
-              "value": "using"
-            },
-            {
-              "type": "PATTERN",
-              "value": "being the (hash-key[s]?|hash-value[s]?) in"
-            },
-            {
-              "type": "STRING",
-              "value": "below"
-            },
-            {
-              "type": "STRING",
-              "value": "from"
-            },
-            {
-              "type": "STRING",
-              "value": "to"
-            },
-            {
-              "type": "STRING",
-              "value": "upto"
-            },
-            {
-              "type": "STRING",
-              "value": "downto"
-            },
-            {
-              "type": "STRING",
-              "value": "downfrom"
-            },
-            {
-              "type": "STRING",
-              "value": "on"
-            },
-            {
-              "type": "STRING",
-              "value": "by"
-            },
-            {
-              "type": "STRING",
-              "value": "then"
-            },
-            {
-              "type": "STRING",
-              "value": "="
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "for_clause_word"
         },
         {
           "type": "CHOICE",
@@ -1999,27 +2015,33 @@
             "value": "do"
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
+              "type": "PREC_LEFT",
+              "value": 0,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "REPEAT",
+                    "content": {
                       "type": "SYMBOL",
                       "name": "_gap"
-                    },
-                    {
-                      "type": "BLANK"
                     }
-                  ]
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_form"
-                }
-              ]
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_form"
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_gap"
+                    }
+                  }
+                ]
+              }
             }
           }
         ]
@@ -2265,6 +2287,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "list_lit"
+            },
+            {
+              "type": "SYMBOL",
               "name": "while_clause"
             },
             {
@@ -2470,6 +2496,137 @@
           "value": "A"
         }
       ]
+    },
+    "include_reader_macro": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_metadata_lit"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "marker",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "#+"
+              },
+              {
+                "type": "STRING",
+                "value": "#-"
+              }
+            ]
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_gap"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "condition",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_form"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_gap"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "target",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_form"
+          }
+        }
+      ]
+    },
+    "complex_num_lit": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_metadata_lit"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "marker",
+          "content": {
+            "type": "STRING",
+            "value": "#C"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_gap"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_gap"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "real",
+          "content": {
+            "type": "SYMBOL",
+            "name": "num_lit"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_gap"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "imaginary",
+          "content": {
+            "type": "SYMBOL",
+            "name": "num_lit"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_gap"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
     }
   },
   "extras": [
@@ -2484,9 +2641,6 @@
     ],
     [
       "accumulation_clause"
-    ],
-    [
-      "do_clause"
     ]
   ],
   "precedences": [],
