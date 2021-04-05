@@ -246,3 +246,72 @@ function blah()
 			(function_static_declaration
 				(static_variable_declaration (variable_name (name)) (integer))
 				(static_variable_declaration (variable_name (name)) (integer))))))
+
+=========================================
+Defining Constants
+=========================================
+
+<?php
+
+define("CONSTANT", "Hello world.");
+const CONSTANT = 'Hello World';
+const ANOTHER_CONST = CONSTANT.'; Goodbye World';
+const ANIMALS = array('dog', 'cat', 'bird');
+define('ANIMALS', array(
+    'dog',
+    'cat',
+    'bird'
+));
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (function_call_expression
+      (qualified_name (name))
+      (arguments
+        (string)
+        (string)
+      )
+    )
+  )
+  (const_declaration
+    (const_element
+      (name)
+      (string)
+    )
+  )
+  (const_declaration
+    (const_element
+      (name)
+      (binary_expression
+        (qualified_name (name))
+        (string)
+      )
+    )
+  )
+  (const_declaration
+    (const_element
+      (name)
+      (array_creation_expression
+        (array_element_initializer (string))
+        (array_element_initializer (string))
+        (array_element_initializer (string))
+      )
+    )
+  )
+  (expression_statement
+    (function_call_expression
+      (qualified_name (name))
+      (arguments
+        (string)
+        (array_creation_expression
+          (array_element_initializer (string))
+          (array_element_initializer (string))
+          (array_element_initializer (string))
+        )
+      )
+    )
+  )
+)
