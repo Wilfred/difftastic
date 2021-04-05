@@ -87,7 +87,7 @@ Arrays
 Loop Macro
 ==========================================
 
-(loop for dim-idx in xyz
+(cl:loop for dim-idx in xyz
                  for letter in (list 'x 'y 'z)
                  collect (let ((current-range (nth dim-idx iteration-ranges)))
                            `(, (get-counter-symbol dim-idx) 
