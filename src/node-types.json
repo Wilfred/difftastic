@@ -3880,7 +3880,7 @@
     "named": true
   },
   {
-    "type": "cl:",
+    "type": "cl:loop",
     "named": false
   },
   {

@@ -116,8 +116,7 @@ module.exports = grammar(clojure, {
         loop_macro: $ =>
             seq(field('open', "("),
                 optional($._gap),
-                optional('cl:'),
-                'loop',
+                choice('loop', 'cl:loop'),
                 repeat(choice($.loop_clause, $._gap)),
                 field('close', ")")),
 

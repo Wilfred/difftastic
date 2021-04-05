@@ -2345,16 +2345,13 @@
           "members": [
             {
               "type": "STRING",
-              "value": "cl:"
+              "value": "loop"
             },
             {
-              "type": "BLANK"
+              "type": "STRING",
+              "value": "cl:loop"
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": "loop"
         },
         {
           "type": "REPEAT",
