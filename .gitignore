@@ -115,3 +115,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Tree sitter generated files
+bindings/**
+src/**
+binding.gyp
+Cargo.toml
