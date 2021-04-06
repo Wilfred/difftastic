@@ -4,5 +4,6 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.19.4"
-  }
+  },
+  "main": "bindings/node"
 }
