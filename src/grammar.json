@@ -3313,7 +3313,7 @@
         },
         {
           "type": "PREC",
-          "value": 2,
+          "value": 1,
           "content": {
             "type": "SEQ",
             "members": [
@@ -5690,7 +5690,7 @@
       "members": [
         {
           "type": "PREC_DYNAMIC",
-          "value": 2,
+          "value": 1,
           "content": {
             "type": "SEQ",
             "members": [
@@ -5979,7 +5979,7 @@
     },
     "conditional_access_expression": {
       "type": "PREC_RIGHT",
-      "value": 3,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6013,7 +6013,7 @@
     },
     "conditional_expression": {
       "type": "PREC_RIGHT",
-      "value": 3,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -8320,8 +8320,8 @@
           }
         },
         {
-          "type": "PREC_LEFT",
-          "value": 1,
+          "type": "PREC_RIGHT",
+          "value": 3,
           "content": {
             "type": "SEQ",
             "members": [
