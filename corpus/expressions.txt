@@ -1958,3 +1958,76 @@ if ((p as Person[])?[0]._Age != 1) { }
             (identifier))
           (integer_literal))
       (block))))
+
+=====================================
+Null-coalescing operator is right-associative
+=====================================
+
+var a = b ?? c ?? d;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (binary_expression
+              (identifier)
+              (binary_expression
+                (identifier)
+                (identifier)))))))))
+
+=====================================
+Precedence between null-coalescing operator and conditional OR
+=====================================
+
+var a = b ?? c || d ?? e;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (binary_expression
+              (identifier)
+              (binary_expression
+                (binary_expression
+                  (identifier)
+                  (identifier))
+                (identifier)))))))))
+
+=====================================
+Precedence between null-coalescing operator and conditional operator
+=====================================
+
+var a = b ?? c ? d ?? e : f ?? g;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (conditional_expression
+              (binary_expression
+                (identifier)
+                (identifier))
+              (binary_expression
+                (identifier)
+                (identifier))
+              (binary_expression
+                (identifier)
+                (identifier)))))))))
