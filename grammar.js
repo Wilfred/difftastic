@@ -1032,6 +1032,7 @@ module.exports = grammar({
     ),
 
     public_field_definition: $ => seq(
+      repeat(field('decorator', $.decorator)),
       optional('static'),
       field('property', $._property_name),
       optional($._initializer)

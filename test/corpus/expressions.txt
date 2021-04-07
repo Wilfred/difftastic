@@ -439,6 +439,8 @@ class Foo {
 	@foo.bar(baz) static foo() {
 
 	}
+
+	@foo bar = 'baz';
 }
 
 ---
@@ -455,7 +457,12 @@ class Foo {
           (arguments (identifier))))
         (property_identifier)
         (formal_parameters)
-        (statement_block)))))
+        (statement_block))
+      (public_field_definition
+        (decorator
+          (identifier))
+        (property_identifier)
+        (string)))))
 
 ============================================
 Arrays
