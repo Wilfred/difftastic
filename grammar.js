@@ -22,6 +22,7 @@ module.exports = grammar({
       $.identifier,
       repeat($.space),
       '(',
+      repeat($.seperation),
       optional($.arguments),
       ')'
     ),
