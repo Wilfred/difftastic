@@ -353,7 +353,7 @@
     },
     "qualified_name": {
       "type": "PREC",
-      "value": 17,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1614,7 +1614,7 @@
     },
     "explicit_interface_specifier": {
       "type": "PREC",
-      "value": 17,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3206,7 +3206,7 @@
     },
     "array_type": {
       "type": "PREC",
-      "value": 16,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3332,7 +3332,7 @@
     },
     "pointer_type": {
       "type": "PREC",
-      "value": 16,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5713,7 +5713,7 @@
     },
     "array_creation_expression": {
       "type": "PREC_DYNAMIC",
-      "value": 15,
+      "value": 17,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5882,7 +5882,7 @@
     },
     "await_expression": {
       "type": "PREC_RIGHT",
-      "value": 15,
+      "value": 17,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5899,7 +5899,7 @@
     },
     "cast_expression": {
       "type": "PREC_RIGHT",
-      "value": 14,
+      "value": 17,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6117,7 +6117,7 @@
     },
     "element_access_expression": {
       "type": "PREC_RIGHT",
-      "value": 15,
+      "value": 17,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6402,7 +6402,7 @@
     },
     "invocation_expression": {
       "type": "PREC",
-      "value": 16,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6477,7 +6477,7 @@
     },
     "member_access_expression": {
       "type": "PREC",
-      "value": 17,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6615,7 +6615,7 @@
     },
     "postfix_unary_expression": {
       "type": "PREC_LEFT",
-      "value": 16,
+      "value": 18,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -6663,7 +6663,7 @@
     },
     "prefix_unary_expression": {
       "type": "PREC_RIGHT",
-      "value": 15,
+      "value": 17,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -7136,7 +7136,7 @@
     },
     "range_expression": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 16,
       "content": {
         "type": "SEQ",
         "members": [
