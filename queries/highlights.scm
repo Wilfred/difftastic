@@ -175,7 +175,7 @@
 (binary_expression (identifier) @variable (identifier) @variable)
 (binary_expression (identifier)* @variable)
 (conditional_expression (identifier) @variable)
-(prefix_unary_expression (identifier)* @variable)
+(prefix_unary_expression (identifier) @variable)
 (postfix_unary_expression (identifier)* @variable)
 (assignment_expression (identifier) @variable)
 (cast_expression (identifier) @type (identifier) @variable)
@@ -228,7 +228,6 @@
 
 ;; Type constraints
 (type_parameter_constraints_clause (identifier) @property.definition)
-(type_parameter_constraint (identifier) @type)
 (type_constraint (identifier) @type)
 
 ;; Exception
