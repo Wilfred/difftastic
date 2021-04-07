@@ -1,0 +1,11 @@
+===================================
+Command invocation without argument
+===================================
+
+message()
+
+---
+
+(source_file
+  (command_invocation
+  (identifier)))

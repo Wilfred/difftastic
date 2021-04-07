@@ -1,0 +1,17 @@
+=====================================
+Command invocation with two arguments
+=====================================
+
+message(STATUS Hello)
+
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+      (argument)
+      (argument)
+    )
+  )
+)

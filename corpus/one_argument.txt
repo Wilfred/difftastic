@@ -1,0 +1,16 @@
+====================================
+Command invocation with one argument
+====================================
+
+message(STATUS)
+
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+      (argument)
+    )
+  )
+)
