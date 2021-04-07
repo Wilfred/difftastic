@@ -1,0 +1,14 @@
+===============================================
+Command invocation without argument with spaces
+===============================================
+
+message( )
+
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (seperation (space))
+  )
+)

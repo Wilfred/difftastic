@@ -1,0 +1,18 @@
+================================================
+Command invocation without argument with newline
+================================================
+
+message(
+
+)
+
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (seperation 
+      (line_ending (newline))
+    )
+  )
+)
