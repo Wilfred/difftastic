@@ -2031,3 +2031,78 @@ var a = b ?? c ? d ?? e : f ?? g;
               (binary_expression
                 (identifier)
                 (identifier)))))))))
+
+=====================================
+Precedence between range and switch
+=====================================
+
+var a = 3..4 switch
+{
+    _ => true
+};
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (switch_expression
+              (range_expression
+                (integer_literal)
+                (integer_literal))
+              (switch_expression_arm
+                (discard)
+                (boolean_literal)))))))))
+
+=====================================
+Precedence between unary and switch
+=====================================
+
+var a = -3 switch
+{
+    _ => true
+};
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (switch_expression
+              (prefix_unary_expression
+                (integer_literal))
+              (switch_expression_arm
+                (discard)
+                (boolean_literal)))))))))
+
+=====================================
+Precedence between range and as operator
+=====================================
+
+var a = 3..4 as Range;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (as_expression
+              (range_expression
+                (integer_literal)
+                (integer_literal))
+              (identifier))))))))

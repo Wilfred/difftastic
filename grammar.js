@@ -1,10 +1,13 @@
 const PREC = {
-  DOT: 17,
-  INVOCATION: 16,
-  POSTFIX: 16,
-  PREFIX: 15,
-  UNARY: 15,
-  CAST: 14,
+  DOT: 18,
+  INVOCATION: 18,
+  POSTFIX: 18,
+  PREFIX: 17,
+  UNARY: 17,
+  CAST: 17,
+  RANGE: 16,
+  SWITCH: 15,
+  WITH: 14,
   MULT: 13,
   ADD: 12,
   SHIFT: 11,
@@ -1314,7 +1317,7 @@ module.exports = grammar({
 
     query_continuation: $ => seq('into', $.identifier, $._query_body),
 
-    range_expression: $ => prec.right(seq(
+    range_expression: $ => prec.right(PREC.RANGE, seq(
       optional($._expression),
       '..',
       optional($._expression)
@@ -1351,7 +1354,7 @@ module.exports = grammar({
       optional($.initializer_expression)
     ),
 
-    switch_expression: $ => prec(PREC.UNARY, seq(
+    switch_expression: $ => prec(PREC.SWITCH, seq(
       $._expression,
       'switch',
       '{',
