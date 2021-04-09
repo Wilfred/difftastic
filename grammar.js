@@ -51,10 +51,10 @@ module.exports = grammar({
     [$.variadic_parameter, $.name],
     [$.static_modifier, $._reserved_identifier],
 
-    // Do we need these?
-    [$.qualified_name, $.namespace_name],
+    [$._primary_expression, $._array_destructing],
+    [$._array_destructing, $.array_creation_expression],
+
     [$.namespace_name],
-    [$.namespace_aliasing_clause, $.name],
 
     [$.namespace_name_as_prefix],
     [$.namespace_use_declaration, $.namespace_name_as_prefix]
@@ -825,7 +825,6 @@ module.exports = grammar({
       field('left', choice(
         $._variable,
         $.list_literal,
-        $.array_creation_expression
       )),
       '=',
       optional('&'),
@@ -878,14 +877,25 @@ module.exports = grammar({
       field('name', $._variable_name)
     )),
 
-    list_literal: $ => seq(
+    list_literal: $ => choice($._list_destructing, $._array_destructing),
+
+    _list_destructing: $ => seq(
       'list',
       '(',
       commaSep(optional(choice(
-        choice($.list_literal, $._variable),
-        seq($._expression, '=>', choice($.list_literal, $._variable))
+        choice(alias($._list_destructing, $.list_literal), $._variable),
+        seq($._expression, '=>', choice(alias($._list_destructing, $.list_literal), $._variable))
       ))),
       ')'
+    ),
+
+    _array_destructing: $ => seq(
+      '[',
+      commaSep(choice(
+        choice(alias($._array_destructing, $.list_literal), $._variable),
+        seq($._expression, '=>', choice(alias($._array_destructing, $.list_literal), $._variable))
+      )),
+      ']'
     ),
 
     _callable_variable: $ => choice(
