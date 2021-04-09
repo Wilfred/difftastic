@@ -140,25 +140,87 @@ m::self();
       (name)
       (arguments))))
 
-==========================
-Destructuring
-==========================
+========================================
+Symmetric array destructuring
+========================================
 
 <?php
+$data = [
+    [1, 'Tom'],
+    [2, 'Fred'],
+];
+
+// list() style
+list($id1, $name1) = $data[0];
+
+// [] style
+[$id1, $name1] = $data[0];
+
 [$error, $canonicalized] = Json::canonicalize($actual);
 
 ---
 
 (program
   (php_tag)
-  (expression_statement (assignment_expression
-    (array_creation_expression
-      (array_element_initializer (variable_name (name)))
-      (array_element_initializer (variable_name (name))))
-    (scoped_call_expression
-      (qualified_name (name))
-      (name)
-      (arguments (variable_name (name)))))))
+  (expression_statement
+    (assignment_expression
+      (variable_name (name))
+      (array_creation_expression
+        (array_element_initializer
+          (array_creation_expression
+            (array_element_initializer (integer))
+            (array_element_initializer (string))
+          )
+        )
+        (array_element_initializer
+          (array_creation_expression
+            (array_element_initializer (integer))
+            (array_element_initializer (string))
+          )
+        )
+      )
+    )
+  )
+  (comment)
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (variable_name (name))
+        (variable_name (name))
+      )
+      (subscript_expression
+        (variable_name (name))
+        (integer)
+      )
+    )
+  )
+  (comment)
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (variable_name (name))
+        (variable_name (name))
+      )
+      (subscript_expression
+        (variable_name (name))
+        (integer)
+      )
+    )
+  )
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (variable_name (name))
+        (variable_name (name))
+      )
+      (scoped_call_expression
+        (qualified_name (name))
+        (name)
+        (arguments (variable_name (name)))
+      )
+    )
+  )
+)
 
 ================================================================
 Precedence of assignment, `or`, `xor`, and `and`
