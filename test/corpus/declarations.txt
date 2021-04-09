@@ -595,6 +595,49 @@ enum HandSign {
       (enum_constant name: (identifier))
       (enum_constant name: (identifier)))))
 
+
+=================
+record declaration
+=================
+
+public class Usecase {
+    public static record Commande(@NotNull String param) {
+        public Commande foo() {
+            return new Commande("");
+        }
+    }
+}
+
+---
+
+(program
+  (class_declaration
+    (modifiers)
+    name: (identifier)
+    body: (class_body
+      (record_declaration
+        (modifiers)
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            (modifiers
+              (marker_annotation
+                name: (identifier)))
+            type: (type_identifier)
+            name: (identifier)))
+        body: (class_body
+          (method_declaration
+            (modifiers)
+            type: (type_identifier)
+            name: (identifier)
+            parameters: (formal_parameters)
+            body: (block
+              (return_statement
+                (object_creation_expression
+                  type: (type_identifier)
+                  arguments: (argument_list
+                    (string_literal)))))))))))
+
 ==============================================
 class declaration with dollar-sign identifiers
 ==============================================

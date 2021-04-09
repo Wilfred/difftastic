@@ -740,6 +740,7 @@ module.exports = grammar({
 
     _class_body_declaration: $ => choice(
       $.field_declaration,
+      $.record_declaration,
       $.method_declaration,
       $.class_declaration,
       $.interface_declaration,
@@ -810,6 +811,14 @@ module.exports = grammar({
       field('type', $._unannotated_type),
       $._variable_declarator_list,
       ';'
+    ),
+
+    record_declaration: $ => seq(
+      optional($.modifiers),
+      'record',
+      field('name', $.identifier),
+      field('parameters', $.formal_parameters),
+      field('body', $.class_body) 
     ),
 
     annotation_type_declaration: $ => seq(
