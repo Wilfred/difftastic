@@ -1,19 +1,35 @@
 {
   "name": "tree-sitter-hare",
   "version": "0.0.1",
-  "description": "hare grammar for tree-sitter",
+  "description": "Hare grammar for tree-sitter",
   "main": "bindings/node",
+
   "keywords": [
-    "parsing",
-    "incremental"
+    "parser",
+    "hare"
   ],
+
+  "author": "ecmma",
+  "license": "GNU GPL",
+
   "dependencies": {
-    "nan": "^2.12.1"
+    "nan": "^2.14.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.17.3"
+    "tree-sitter-cli": "^0.19.1"
   },
+
   "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test"
-  }
+  },
+
+  "tree-sitter": [
+    {
+      "scope": "source.ha",
+      "file-types": [
+        "hare"
+      ]
+    }
+  ]
 }
