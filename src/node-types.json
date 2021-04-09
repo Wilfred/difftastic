@@ -428,10 +428,6 @@
         "required": true,
         "types": [
           {
-            "type": "array_creation_expression",
-            "named": true
-          },
-          {
             "type": "cast_expression",
             "named": true
           },
