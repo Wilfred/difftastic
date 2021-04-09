@@ -102,7 +102,10 @@ module.exports = grammar ({
     ),
     
     function_declaration: $ => 
-      seq(optional($.fndec_attrs), 'fn', $.identifier, $.prototype, optional(seq('=', $.expression))),
+      seq(optional($.fndec_attrs), 'fn', 
+        field('name', $.identifier), field('type', $.prototype), 
+        optional(seq('=', field('body', $.expression)))
+      ),
     
     fndec_attrs: $ => repeat1($.fndec_attr), 
 
@@ -141,6 +144,7 @@ module.exports = grammar ({
       $.enum_type, 
       $.pointer_type, 
       'rune', 
+      'str',
       'bool', 
       'void'
     ),
@@ -482,8 +486,8 @@ module.exports = grammar ({
     offset_expression: $ => seq('offset', '(', $.field_access_expression, ')'),
 
     field_access_expression: $ => choice(
-      seq($.postfix_expression, '.', $.name), 
-      seq($.postfix_expression, '.', $.integer_constant)
+      seq($.postfix_expression, field('selector', seq('.', $.name))), 
+      seq($.postfix_expression, field('selector', seq('.', $.integer_constant)))
     ),
     
     indexing_expression: $ => seq($.postfix_expression, '[', $.expression, ']'),

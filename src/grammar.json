@@ -498,12 +498,20 @@
           "value": "fn"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "prototype"
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "prototype"
+          }
         },
         {
           "type": "CHOICE",
@@ -516,8 +524,12 @@
                   "value": "="
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "expression"
+                  "type": "FIELD",
+                  "name": "body",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "expression"
+                  }
                 }
               ]
             },
@@ -674,6 +686,10 @@
         {
           "type": "STRING",
           "value": "rune"
+        },
+        {
+          "type": "STRING",
+          "value": "str"
         },
         {
           "type": "STRING",
@@ -3168,12 +3184,21 @@
               "name": "postfix_expression"
             },
             {
-              "type": "STRING",
-              "value": "."
-            },
-            {
-              "type": "SYMBOL",
-              "name": "name"
+              "type": "FIELD",
+              "name": "selector",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "."
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "name"
+                  }
+                ]
+              }
             }
           ]
         },
@@ -3185,12 +3210,21 @@
               "name": "postfix_expression"
             },
             {
-              "type": "STRING",
-              "value": "."
-            },
-            {
-              "type": "SYMBOL",
-              "name": "integer_constant"
+              "type": "FIELD",
+              "name": "selector",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "."
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "integer_constant"
+                  }
+                ]
+              }
             }
           ]
         }
