@@ -78,7 +78,17 @@ static inline bool external_scanner_scan(void *payload, TSLexer *lexer, const bo
 
     for (;;) {
       if (lexer->lookahead == 0) return true;
-      if (lexer->lookahead == '}') return true;
+      if (lexer->lookahead == '}') {
+        // Automatic semicolon insertion breaks detection of object patterns
+        // in a typed context:
+        //   type F = ({a}: {a: number}) => number;
+        // Therefore, disable automatic semicolons when followed by typing
+        do {
+          advance(lexer);
+        } while (iswspace(lexer->lookahead));
+        if (lexer->lookahead == ':') return false;
+        return true;
+      }
       if (!iswspace(lexer->lookahead)) return false;
       if (lexer->lookahead == '\n') break;
       advance(lexer);
