@@ -898,19 +898,30 @@
   {
     "type": "field_access_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "selector": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "integer_constant",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "integer_constant",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
         {
           "type": "postfix_expression",
           "named": true
@@ -1102,25 +1113,44 @@
   {
     "type": "function_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "prototype",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
-          "type": "expression",
-          "named": true
-        },
-        {
           "type": "fndec_attrs",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "prototype",
           "named": true
         }
       ]
@@ -2970,6 +3000,10 @@
   },
   {
     "type": "static",
+    "named": false
+  },
+  {
+    "type": "str",
     "named": false
   },
   {
