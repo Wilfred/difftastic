@@ -307,6 +307,17 @@ import type UserID, {addUser, removeUser} from './User.js';
       (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string)))
 
 =======================================
+Type-only Export
+=======================================
+
+export type { UserType }
+
+---
+
+(program
+  (export_statement (export_clause (export_specifier (identifier)))))
+
+=======================================
 Flow Export Types
 =======================================
 
