@@ -15,7 +15,7 @@ C# grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter) based o
 
 Comprehensive support for C# exists with the following exceptions:
 
-- [ ] `async` and `await` cannot be used as identifiers
+- [ ] `async`, `var` and `await` cannot be used as identifiers
 
 #### C# 7.0 (complete)
 
