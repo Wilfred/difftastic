@@ -19,9 +19,9 @@ message([[]])
   )
 )
 
-======================
-One bracket argument
-======================
+==========================
+One empty bracket argument
+==========================
 
 message([[An argument]])
 
@@ -30,6 +30,58 @@ message([[An argument]])
   (command_invocation
     (identifier)
     (arguments
+      (argument
+        (bracket_argument
+          (bracket_open)
+          (bracket_content)
+          (bracket_close)
+        )
+      )
+    )
+  )
+)
+
+====================
+One bracket argument
+====================
+
+message([[An argument]])
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+      (argument
+        (bracket_argument
+          (bracket_open)
+          (bracket_content)
+          (bracket_close)
+        )
+      )
+    )
+  )
+)
+
+=====================
+Two bracket arguments
+=====================
+
+message([[First argument]] [[Second argument]])
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+      (argument
+        (bracket_argument
+          (bracket_open)
+          (bracket_content)
+          (bracket_close)
+        )
+      )
+      (seperation (space))
       (argument
         (bracket_argument
           (bracket_open)
