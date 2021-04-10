@@ -29,7 +29,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_unquoted_argument"
+          "name": "unquoted_argument"
         }
       ]
     },
@@ -140,7 +140,7 @@
         }
       ]
     },
-    "_unquoted_argument": {
+    "unquoted_argument": {
       "type": "PATTERN",
       "value": "[^ ()#\\\"\\\\]+"
     }

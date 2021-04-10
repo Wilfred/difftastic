@@ -38,7 +38,7 @@ message(
 (source_file
   (command_invocation
     (identifier)
-    (seperation 
+    (seperation
       (line_ending (newline))
     )
   )
@@ -56,7 +56,7 @@ message(STATUS)
   (command_invocation
     (identifier)
     (arguments
-      (argument)
+      (argument (unquoted_argument))
     )
   )
 )
@@ -73,9 +73,9 @@ message(STATUS Hello)
   (command_invocation
     (identifier)
     (arguments
-      (argument)
+      (argument (unquoted_argument))
       (seperation (space))
-      (argument)
+      (argument (unquoted_argument))
     )
   )
 )

@@ -9,7 +9,7 @@ module.exports = grammar({
     newline: $ => /\n/,
     identifier: $ => /[A-Za-z_][A-Za-z0-9_]*/,
 
-    argument: $ => choice($._unquoted_argument),
+    argument: $ => choice($.unquoted_argument),
     seperation: $ => choice($.space, $.line_ending),
 
     arguments: $ => seq($.argument, repeat($._seperated_arguments)),
@@ -28,6 +28,6 @@ module.exports = grammar({
       ')'
     ),
 
-    _unquoted_argument: $ => /[^ ()#\"\\]+/,
+    unquoted_argument: $ => /[^ ()#\"\\]+/,
   }
 })

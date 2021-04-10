@@ -22,7 +22,7 @@ enum {
   sym_identifier = 3,
   anon_sym_LPAREN = 4,
   anon_sym_RPAREN = 5,
-  sym__unquoted_argument = 6,
+  sym_unquoted_argument = 6,
   sym_source_file = 7,
   sym_line_ending = 8,
   sym_argument = 9,
@@ -43,7 +43,7 @@ static const char *ts_symbol_names[] = {
   [sym_identifier] = "identifier",
   [anon_sym_LPAREN] = "(",
   [anon_sym_RPAREN] = ")",
-  [sym__unquoted_argument] = "_unquoted_argument",
+  [sym_unquoted_argument] = "unquoted_argument",
   [sym_source_file] = "source_file",
   [sym_line_ending] = "line_ending",
   [sym_argument] = "argument",
@@ -64,7 +64,7 @@ static TSSymbol ts_symbol_map[] = {
   [sym_identifier] = sym_identifier,
   [anon_sym_LPAREN] = anon_sym_LPAREN,
   [anon_sym_RPAREN] = anon_sym_RPAREN,
-  [sym__unquoted_argument] = sym__unquoted_argument,
+  [sym_unquoted_argument] = sym_unquoted_argument,
   [sym_source_file] = sym_source_file,
   [sym_line_ending] = sym_line_ending,
   [sym_argument] = sym_argument,
@@ -103,8 +103,8 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = false,
   },
-  [sym__unquoted_argument] = {
-    .visible = false,
+  [sym_unquoted_argument] = {
+    .visible = true,
     .named = true,
   },
   [sym_source_file] = {
@@ -251,7 +251,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       ACCEPT_TOKEN(anon_sym_RPAREN);
       END_STATE();
     case 13:
-      ACCEPT_TOKEN(sym__unquoted_argument);
+      ACCEPT_TOKEN(sym_unquoted_argument);
       if (lookahead == '\t') ADVANCE(5);
       if (lookahead == '\n') ADVANCE(8);
       if (lookahead == '\r') ADVANCE(13);
@@ -264,7 +264,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\\') ADVANCE(14);
       END_STATE();
     case 14:
-      ACCEPT_TOKEN(sym__unquoted_argument);
+      ACCEPT_TOKEN(sym_unquoted_argument);
       if (lookahead != 0 &&
           lookahead != ' ' &&
           lookahead != '"' &&
@@ -344,7 +344,7 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(13), 1,
       anon_sym_RPAREN,
     ACTIONS(15), 1,
-      sym__unquoted_argument,
+      sym_unquoted_argument,
     STATE(8), 1,
       sym_argument,
     STATE(17), 1,
@@ -360,7 +360,7 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(11), 1,
       sym_newline,
     ACTIONS(15), 1,
-      sym__unquoted_argument,
+      sym_unquoted_argument,
     ACTIONS(17), 1,
       anon_sym_RPAREN,
     STATE(8), 1,
@@ -378,7 +378,7 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(11), 1,
       sym_newline,
     ACTIONS(15), 1,
-      sym__unquoted_argument,
+      sym_unquoted_argument,
     ACTIONS(17), 1,
       anon_sym_RPAREN,
     STATE(8), 1,
@@ -396,7 +396,7 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(11), 1,
       sym_newline,
     ACTIONS(15), 1,
-      sym__unquoted_argument,
+      sym_unquoted_argument,
     ACTIONS(19), 1,
       anon_sym_RPAREN,
     STATE(8), 1,
@@ -414,7 +414,7 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(11), 1,
       sym_newline,
     ACTIONS(15), 1,
-      sym__unquoted_argument,
+      sym_unquoted_argument,
     ACTIONS(21), 1,
       anon_sym_RPAREN,
     STATE(8), 1,
@@ -432,7 +432,7 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(11), 1,
       sym_newline,
     ACTIONS(15), 1,
-      sym__unquoted_argument,
+      sym_unquoted_argument,
     ACTIONS(21), 1,
       anon_sym_RPAREN,
     STATE(8), 1,
@@ -476,7 +476,7 @@ static uint16_t ts_small_parse_table[] = {
       aux_sym__seperated_arguments_repeat1,
   [198] = 5,
     ACTIONS(15), 1,
-      sym__unquoted_argument,
+      sym_unquoted_argument,
     STATE(17), 1,
       sym_line_ending,
     STATE(26), 1,
@@ -512,7 +512,7 @@ static uint16_t ts_small_parse_table[] = {
       sym_line_ending,
     ACTIONS(43), 2,
       anon_sym_RPAREN,
-      sym__unquoted_argument,
+      sym_unquoted_argument,
     STATE(12), 2,
       sym_seperation,
       aux_sym__seperated_arguments_repeat1,
@@ -545,7 +545,7 @@ static uint16_t ts_small_parse_table[] = {
       sym_space,
       sym_newline,
       anon_sym_RPAREN,
-      sym__unquoted_argument,
+      sym_unquoted_argument,
   [297] = 3,
     ACTIONS(57), 1,
       sym_space,
@@ -559,7 +559,7 @@ static uint16_t ts_small_parse_table[] = {
       sym_space,
       sym_newline,
       anon_sym_RPAREN,
-      sym__unquoted_argument,
+      sym_unquoted_argument,
   [315] = 3,
     ACTIONS(64), 1,
       sym_space,
