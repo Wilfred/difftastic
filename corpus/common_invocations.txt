@@ -1,0 +1,81 @@
+===================================
+Command invocation without argument
+===================================
+
+message()
+
+---
+
+(source_file
+  (command_invocation
+  (identifier)))
+
+===============================================
+Command invocation without argument with spaces
+===============================================
+
+message( )
+
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (seperation (space))
+  )
+)
+
+================================================
+Command invocation without argument with newline
+================================================
+
+message(
+
+)
+
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (seperation 
+      (line_ending (newline))
+    )
+  )
+)
+
+====================================
+Command invocation with one argument
+====================================
+
+message(STATUS)
+
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+      (argument)
+    )
+  )
+)
+
+=====================================
+Command invocation with two arguments
+=====================================
+
+message(STATUS Hello)
+
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+      (argument)
+      (seperation (space))
+      (argument)
+    )
+  )
+)
