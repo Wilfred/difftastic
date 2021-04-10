@@ -44,38 +44,3 @@ message(
   )
 )
 
-====================================
-Command invocation with one argument
-====================================
-
-message(STATUS)
-
----
-
-(source_file
-  (command_invocation
-    (identifier)
-    (arguments
-      (argument (unquoted_argument))
-    )
-  )
-)
-
-=====================================
-Command invocation with two arguments
-=====================================
-
-message(STATUS Hello)
-
----
-
-(source_file
-  (command_invocation
-    (identifier)
-    (arguments
-      (argument (unquoted_argument))
-      (seperation (space))
-      (argument (unquoted_argument))
-    )
-  )
-)
