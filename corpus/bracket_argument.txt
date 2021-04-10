@@ -92,3 +92,38 @@ message([[First argument]] [[Second argument]])
     )
   )
 )
+
+=====================================
+Two bracket with two equals arguments
+=====================================
+
+message(
+  [====[First argument]====]
+  [====[Second argument]====]
+)
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (seperation (space))
+    (arguments
+      (argument
+        (bracket_argument
+          (bracket_open)
+          (bracket_content)
+          (bracket_close)
+        )
+      )
+      (seperation (space))
+      (argument
+        (bracket_argument
+          (bracket_open)
+          (bracket_content)
+          (bracket_close)
+        )
+      )
+      (seperation (line_ending (newline)))
+    )
+  )
+)
