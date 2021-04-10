@@ -952,7 +952,7 @@ struct Scanner {
           return !is_keyword_end(lexer, valid_symbols);
         }
         return true;
-      // ..
+      // ., ..
       case '.':
         advance(lexer);
         if (lexer->lookahead == '.') {
@@ -964,7 +964,7 @@ struct Scanner {
           }
           return true;
         }
-        return false;
+        return true;
       case '\\':
         advance(lexer);
         return lexer->lookahead == '\\';

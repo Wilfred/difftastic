@@ -381,6 +381,7 @@ module.exports = grammar({
             )
           ),
           ".",
+          optional($._line_break),
           $._dot_call_function_args
         )
       ),
@@ -401,6 +402,7 @@ module.exports = grammar({
             )
           ),
           ".",
+          optional($._line_break),
           $._dot_call_function_args
         )
       ),
