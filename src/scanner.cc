@@ -77,7 +77,7 @@ const char SIGIL_CHARS[] = {
 };
 
 const char LINE_BREAK_OPERATORS[] = {
-  '#', '.', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', 'w', 'a', 'o', 'i', 'n', '&'
+  '#', '.', ':', '|', '!', '=', '<', '>', '+', '-', '*', '/', '\\', ',', 'w', 'a', 'o', 'i', 'n', '&', '^', '~'
 };
 
 const char SYMBOL_OPERATORS[] = {
@@ -901,12 +901,18 @@ struct Scanner {
           return true;
         }
         return false;
-      // ~>
+      // ~>, ~>>
       case '~':
         advance(lexer);
         if (lexer->lookahead == '>') {
           advance(lexer);
-          if (lexer->lookahead == ':') {
+          if (lexer->lookahead == '>') {
+            advance(lexer);
+            if (lexer->lookahead == ':') {
+              return !is_keyword_end(lexer, valid_symbols);
+            }
+            return true;
+          } else if (lexer->lookahead == ':') {
             return !is_keyword_end(lexer, valid_symbols);
           }
           return true;
