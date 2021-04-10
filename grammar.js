@@ -36,7 +36,7 @@ function binaryOp($, assoc, precedence, operator, bare_keyword) {
 }
 
 function unaryOp($, assoc, precedence, operator) {
-  return assoc(precedence, seq(field("operator", operator), $._expression));
+  return assoc(precedence, seq(field("operator", operator), optional($._line_break), $._expression));
 }
 
 function blockExpression($, name) {
