@@ -18,13 +18,13 @@ module.exports = grammar({
     unquoted_argument: $ => repeat1(/[^ ()#\"\\]/),
 
     bracket_argument: $ => seq(
-      $.bracket_open,
-      optional($.bracket_content),
-      $.bracket_close,
+      $._bracket_open,
+      optional($._bracket_content),
+      $._bracket_close,
     ),
-    bracket_open: $ => seq('[', repeat('='), '['),
-    bracket_content: $ => repeat1(/[^\]]/),
-    bracket_close: $ => seq(']', repeat('='), ']'),
+    _bracket_open: $ => seq('[', repeat('='), '['),
+    _bracket_content: $ => repeat1(/[^\]]/),
+    _bracket_close: $ => seq(']', repeat('='), ']'),
 
 
     arguments: $ => seq($.argument, repeat($._seperated_arguments)),

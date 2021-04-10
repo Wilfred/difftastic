@@ -62,14 +62,14 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "bracket_open"
+          "name": "_bracket_open"
         },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "bracket_content"
+              "name": "_bracket_content"
             },
             {
               "type": "BLANK"
@@ -78,11 +78,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "bracket_close"
+          "name": "_bracket_close"
         }
       ]
     },
-    "bracket_open": {
+    "_bracket_open": {
       "type": "SEQ",
       "members": [
         {
@@ -102,14 +102,14 @@
         }
       ]
     },
-    "bracket_content": {
+    "_bracket_content": {
       "type": "REPEAT1",
       "content": {
         "type": "PATTERN",
         "value": "[^\\]]"
       }
     },
-    "bracket_close": {
+    "_bracket_close": {
       "type": "SEQ",
       "members": [
         {

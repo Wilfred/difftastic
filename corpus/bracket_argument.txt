@@ -9,12 +9,7 @@ message([[]])
   (command_invocation
     (identifier)
     (arguments
-      (argument
-        (bracket_argument
-          (bracket_open)
-          (bracket_close)
-        )
-      )
+      (argument (bracket_argument))
     )
   )
 )
@@ -30,13 +25,7 @@ message([[An argument]])
   (command_invocation
     (identifier)
     (arguments
-      (argument
-        (bracket_argument
-          (bracket_open)
-          (bracket_content)
-          (bracket_close)
-        )
-      )
+      (argument (bracket_argument))
     )
   )
 )
@@ -52,13 +41,7 @@ message([[An argument]])
   (command_invocation
     (identifier)
     (arguments
-      (argument
-        (bracket_argument
-          (bracket_open)
-          (bracket_content)
-          (bracket_close)
-        )
-      )
+      (argument (bracket_argument))
     )
   )
 )
@@ -74,21 +57,9 @@ message([[First argument]] [[Second argument]])
   (command_invocation
     (identifier)
     (arguments
-      (argument
-        (bracket_argument
-          (bracket_open)
-          (bracket_content)
-          (bracket_close)
-        )
-      )
+      (argument (bracket_argument))
       (seperation (space))
-      (argument
-        (bracket_argument
-          (bracket_open)
-          (bracket_content)
-          (bracket_close)
-        )
-      )
+      (argument (bracket_argument))
     )
   )
 )
@@ -108,21 +79,9 @@ message(
     (identifier)
     (seperation (space))
     (arguments
-      (argument
-        (bracket_argument
-          (bracket_open)
-          (bracket_content)
-          (bracket_close)
-        )
-      )
+      (argument (bracket_argument))
       (seperation (space))
-      (argument
-        (bracket_argument
-          (bracket_open)
-          (bracket_content)
-          (bracket_close)
-        )
-      )
+      (argument (bracket_argument))
       (seperation (line_ending (newline)))
     )
   )

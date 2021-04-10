@@ -40,39 +40,6 @@
   {
     "type": "bracket_argument",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "bracket_close",
-          "named": true
-        },
-        {
-          "type": "bracket_content",
-          "named": true
-        },
-        {
-          "type": "bracket_open",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "bracket_close",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "bracket_content",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "bracket_open",
-    "named": true,
     "fields": {}
   },
   {
