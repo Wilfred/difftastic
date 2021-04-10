@@ -12,6 +12,19 @@
       "type": "SYMBOL",
       "name": "newline"
     },
+    "seperation": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "space"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "line_ending"
+        }
+      ]
+    },
     "space": {
       "type": "PATTERN",
       "value": "[ \\t]+"
@@ -30,19 +43,89 @@
         {
           "type": "SYMBOL",
           "name": "unquoted_argument"
-        }
-      ]
-    },
-    "seperation": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "space"
         },
         {
           "type": "SYMBOL",
-          "name": "line_ending"
+          "name": "bracket_argument"
+        }
+      ]
+    },
+    "unquoted_argument": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^ ()#\\\"\\\\]"
+      }
+    },
+    "bracket_argument": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "bracket_open"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "bracket_content"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bracket_close"
+        }
+      ]
+    },
+    "bracket_open": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "STRING",
+            "value": "="
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        }
+      ]
+    },
+    "bracket_content": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\\]]"
+      }
+    },
+    "bracket_close": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "]"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "STRING",
+            "value": "="
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "]"
         }
       ]
     },
@@ -64,7 +147,7 @@
     },
     "_seperated_arguments": {
       "type": "PREC_LEFT",
-      "value": 1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -139,10 +222,6 @@
           "value": ")"
         }
       ]
-    },
-    "unquoted_argument": {
-      "type": "PATTERN",
-      "value": "[^ ()#\\\"\\\\]+"
     }
   },
   "extras": [

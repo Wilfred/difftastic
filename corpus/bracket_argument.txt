@@ -1,0 +1,42 @@
+======================
+Empty bracket argument
+======================
+
+message([[]])
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+      (argument
+        (bracket_argument
+          (bracket_open)
+          (bracket_close)
+        )
+      )
+    )
+  )
+)
+
+======================
+One bracket argument
+======================
+
+message([[An argument]])
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+      (argument
+        (bracket_argument
+          (bracket_open)
+          (bracket_content)
+          (bracket_close)
+        )
+      )
+    )
+  )
+)
