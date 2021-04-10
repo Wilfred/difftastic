@@ -24,16 +24,12 @@
       "type": "PATTERN",
       "value": "[A-Za-z_][A-Za-z0-9_]*"
     },
-    "unquoted_argument": {
-      "type": "PATTERN",
-      "value": "[^ ()#\\\"\\\\]+"
-    },
     "argument": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "unquoted_argument"
+          "name": "_unquoted_argument"
         }
       ]
     },
@@ -143,6 +139,10 @@
           "value": ")"
         }
       ]
+    },
+    "_unquoted_argument": {
+      "type": "PATTERN",
+      "value": "[^ ()#\\\"\\\\]+"
     }
   },
   "extras": [

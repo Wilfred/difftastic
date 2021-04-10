@@ -2,17 +2,7 @@
   {
     "type": "argument",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "unquoted_argument",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "arguments",
@@ -127,10 +117,6 @@
   },
   {
     "type": "space",
-    "named": true
-  },
-  {
-    "type": "unquoted_argument",
     "named": true
   }
 ]

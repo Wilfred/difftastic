@@ -20,9 +20,9 @@ enum {
   sym_space = 1,
   sym_newline = 2,
   sym_identifier = 3,
-  sym_unquoted_argument = 4,
-  anon_sym_LPAREN = 5,
-  anon_sym_RPAREN = 6,
+  anon_sym_LPAREN = 4,
+  anon_sym_RPAREN = 5,
+  sym__unquoted_argument = 6,
   sym_source_file = 7,
   sym_line_ending = 8,
   sym_argument = 9,
@@ -41,9 +41,9 @@ static const char *ts_symbol_names[] = {
   [sym_space] = "space",
   [sym_newline] = "newline",
   [sym_identifier] = "identifier",
-  [sym_unquoted_argument] = "unquoted_argument",
   [anon_sym_LPAREN] = "(",
   [anon_sym_RPAREN] = ")",
+  [sym__unquoted_argument] = "_unquoted_argument",
   [sym_source_file] = "source_file",
   [sym_line_ending] = "line_ending",
   [sym_argument] = "argument",
@@ -62,9 +62,9 @@ static TSSymbol ts_symbol_map[] = {
   [sym_space] = sym_space,
   [sym_newline] = sym_newline,
   [sym_identifier] = sym_identifier,
-  [sym_unquoted_argument] = sym_unquoted_argument,
   [anon_sym_LPAREN] = anon_sym_LPAREN,
   [anon_sym_RPAREN] = anon_sym_RPAREN,
+  [sym__unquoted_argument] = sym__unquoted_argument,
   [sym_source_file] = sym_source_file,
   [sym_line_ending] = sym_line_ending,
   [sym_argument] = sym_argument,
@@ -95,10 +95,6 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
-  [sym_unquoted_argument] = {
-    .visible = true,
-    .named = true,
-  },
   [anon_sym_LPAREN] = {
     .visible = true,
     .named = false,
@@ -106,6 +102,10 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   [anon_sym_RPAREN] = {
     .visible = true,
     .named = false,
+  },
+  [sym__unquoted_argument] = {
+    .visible = false,
+    .named = true,
   },
   [sym_source_file] = {
     .visible = true,
@@ -167,8 +167,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
   switch (state) {
     case 0:
       if (eof) ADVANCE(4);
-      if (lookahead == '(') ADVANCE(13);
-      if (lookahead == ')') ADVANCE(14);
+      if (lookahead == '(') ADVANCE(11);
+      if (lookahead == ')') ADVANCE(12);
       if (lookahead == '\t' ||
           lookahead == ' ') ADVANCE(7);
       if (lookahead == '\n' ||
@@ -180,24 +180,24 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 1:
       if (lookahead == '\t') ADVANCE(5);
       if (lookahead == '\n') ADVANCE(8);
-      if (lookahead == '\r') ADVANCE(11);
+      if (lookahead == '\r') ADVANCE(13);
       if (lookahead == ' ') ADVANCE(5);
-      if (lookahead == ')') ADVANCE(14);
+      if (lookahead == ')') ADVANCE(12);
       if (lookahead != 0 &&
           lookahead != '"' &&
           lookahead != '#' &&
           lookahead != '(' &&
-          lookahead != '\\') ADVANCE(12);
+          lookahead != '\\') ADVANCE(14);
       END_STATE();
     case 2:
       if (lookahead == '\n') ADVANCE(9);
       if (lookahead == '\r') SKIP(2)
-      if (lookahead == ')') ADVANCE(14);
+      if (lookahead == ')') ADVANCE(12);
       if (lookahead == '\t' ||
           lookahead == ' ') ADVANCE(6);
       END_STATE();
     case 3:
-      if (lookahead == ')') ADVANCE(14);
+      if (lookahead == ')') ADVANCE(12);
       if (lookahead == '\t' ||
           lookahead == '\n' ||
           lookahead == '\r' ||
@@ -210,7 +210,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       ACCEPT_TOKEN(sym_space);
       if (lookahead == '\t') ADVANCE(5);
       if (lookahead == '\n') ADVANCE(8);
-      if (lookahead == '\r') ADVANCE(11);
+      if (lookahead == '\r') ADVANCE(13);
       if (lookahead == ' ') ADVANCE(5);
       END_STATE();
     case 6:
@@ -228,7 +228,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       ACCEPT_TOKEN(sym_newline);
       if (lookahead == '\t') ADVANCE(5);
       if (lookahead == '\n') ADVANCE(8);
-      if (lookahead == '\r') ADVANCE(11);
+      if (lookahead == '\r') ADVANCE(13);
       if (lookahead == ' ') ADVANCE(5);
       END_STATE();
     case 9:
@@ -245,33 +245,33 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(10);
       END_STATE();
     case 11:
-      ACCEPT_TOKEN(sym_unquoted_argument);
+      ACCEPT_TOKEN(anon_sym_LPAREN);
+      END_STATE();
+    case 12:
+      ACCEPT_TOKEN(anon_sym_RPAREN);
+      END_STATE();
+    case 13:
+      ACCEPT_TOKEN(sym__unquoted_argument);
       if (lookahead == '\t') ADVANCE(5);
       if (lookahead == '\n') ADVANCE(8);
-      if (lookahead == '\r') ADVANCE(11);
+      if (lookahead == '\r') ADVANCE(13);
       if (lookahead == ' ') ADVANCE(5);
       if (lookahead != 0 &&
           lookahead != '"' &&
           lookahead != '#' &&
           lookahead != '(' &&
           lookahead != ')' &&
-          lookahead != '\\') ADVANCE(12);
+          lookahead != '\\') ADVANCE(14);
       END_STATE();
-    case 12:
-      ACCEPT_TOKEN(sym_unquoted_argument);
+    case 14:
+      ACCEPT_TOKEN(sym__unquoted_argument);
       if (lookahead != 0 &&
           lookahead != ' ' &&
           lookahead != '"' &&
           lookahead != '#' &&
           lookahead != '(' &&
           lookahead != ')' &&
-          lookahead != '\\') ADVANCE(12);
-      END_STATE();
-    case 13:
-      ACCEPT_TOKEN(anon_sym_LPAREN);
-      END_STATE();
-    case 14:
-      ACCEPT_TOKEN(anon_sym_RPAREN);
+          lookahead != '\\') ADVANCE(14);
       END_STATE();
     default:
       return false;
@@ -300,9 +300,9 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [18] = {.lex_state = 0},
   [19] = {.lex_state = 0},
   [20] = {.lex_state = 0},
-  [21] = {.lex_state = 0},
+  [21] = {.lex_state = 2},
   [22] = {.lex_state = 0},
-  [23] = {.lex_state = 2},
+  [23] = {.lex_state = 0},
   [24] = {.lex_state = 0},
   [25] = {.lex_state = 0},
   [26] = {.lex_state = 2},
@@ -342,9 +342,9 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(11), 1,
       sym_newline,
     ACTIONS(13), 1,
-      sym_unquoted_argument,
-    ACTIONS(15), 1,
       anon_sym_RPAREN,
+    ACTIONS(15), 1,
+      sym__unquoted_argument,
     STATE(8), 1,
       sym_argument,
     STATE(17), 1,
@@ -359,8 +359,8 @@ static uint16_t ts_small_parse_table[] = {
       sym_space,
     ACTIONS(11), 1,
       sym_newline,
-    ACTIONS(13), 1,
-      sym_unquoted_argument,
+    ACTIONS(15), 1,
+      sym__unquoted_argument,
     ACTIONS(17), 1,
       anon_sym_RPAREN,
     STATE(8), 1,
@@ -377,8 +377,8 @@ static uint16_t ts_small_parse_table[] = {
       sym_space,
     ACTIONS(11), 1,
       sym_newline,
-    ACTIONS(13), 1,
-      sym_unquoted_argument,
+    ACTIONS(15), 1,
+      sym__unquoted_argument,
     ACTIONS(17), 1,
       anon_sym_RPAREN,
     STATE(8), 1,
@@ -395,8 +395,8 @@ static uint16_t ts_small_parse_table[] = {
       sym_space,
     ACTIONS(11), 1,
       sym_newline,
-    ACTIONS(13), 1,
-      sym_unquoted_argument,
+    ACTIONS(15), 1,
+      sym__unquoted_argument,
     ACTIONS(19), 1,
       anon_sym_RPAREN,
     STATE(8), 1,
@@ -413,8 +413,8 @@ static uint16_t ts_small_parse_table[] = {
       sym_space,
     ACTIONS(11), 1,
       sym_newline,
-    ACTIONS(13), 1,
-      sym_unquoted_argument,
+    ACTIONS(15), 1,
+      sym__unquoted_argument,
     ACTIONS(21), 1,
       anon_sym_RPAREN,
     STATE(8), 1,
@@ -431,8 +431,8 @@ static uint16_t ts_small_parse_table[] = {
       sym_space,
     ACTIONS(11), 1,
       sym_newline,
-    ACTIONS(13), 1,
-      sym_unquoted_argument,
+    ACTIONS(15), 1,
+      sym__unquoted_argument,
     ACTIONS(21), 1,
       anon_sym_RPAREN,
     STATE(8), 1,
@@ -475,8 +475,8 @@ static uint16_t ts_small_parse_table[] = {
       sym_seperation,
       aux_sym__seperated_arguments_repeat1,
   [198] = 5,
-    ACTIONS(13), 1,
-      sym_unquoted_argument,
+    ACTIONS(15), 1,
+      sym__unquoted_argument,
     STATE(17), 1,
       sym_line_ending,
     STATE(26), 1,
@@ -511,8 +511,8 @@ static uint16_t ts_small_parse_table[] = {
     STATE(17), 1,
       sym_line_ending,
     ACTIONS(43), 2,
-      sym_unquoted_argument,
       anon_sym_RPAREN,
+      sym__unquoted_argument,
     STATE(12), 2,
       sym_seperation,
       aux_sym__seperated_arguments_repeat1,
@@ -544,8 +544,8 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(55), 4,
       sym_space,
       sym_newline,
-      sym_unquoted_argument,
       anon_sym_RPAREN,
+      sym__unquoted_argument,
   [297] = 3,
     ACTIONS(57), 1,
       sym_space,
@@ -558,8 +558,8 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(62), 4,
       sym_space,
       sym_newline,
-      sym_unquoted_argument,
       anon_sym_RPAREN,
+      sym__unquoted_argument,
   [315] = 3,
     ACTIONS(64), 1,
       sym_space,
@@ -581,23 +581,23 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_LPAREN,
     STATE(16), 1,
       aux_sym_command_invocation_repeat1,
-  [345] = 2,
-    ACTIONS(78), 1,
-      sym_identifier,
-    ACTIONS(76), 2,
-      ts_builtin_sym_end,
-      sym_space,
-  [353] = 2,
-    ACTIONS(82), 1,
-      sym_identifier,
-    ACTIONS(80), 2,
-      ts_builtin_sym_end,
-      sym_space,
-  [361] = 1,
-    ACTIONS(84), 3,
+  [345] = 1,
+    ACTIONS(76), 3,
       sym_space,
       sym_newline,
       anon_sym_RPAREN,
+  [351] = 2,
+    ACTIONS(80), 1,
+      sym_identifier,
+    ACTIONS(78), 2,
+      ts_builtin_sym_end,
+      sym_space,
+  [359] = 2,
+    ACTIONS(84), 1,
+      sym_identifier,
+    ACTIONS(82), 2,
+      ts_builtin_sym_end,
+      sym_space,
   [367] = 3,
     ACTIONS(66), 1,
       anon_sym_LPAREN,
@@ -673,8 +673,8 @@ static uint32_t ts_small_parse_table_map[] = {
   [SMALL_STATE(19)] = 325,
   [SMALL_STATE(20)] = 335,
   [SMALL_STATE(21)] = 345,
-  [SMALL_STATE(22)] = 353,
-  [SMALL_STATE(23)] = 361,
+  [SMALL_STATE(22)] = 351,
+  [SMALL_STATE(23)] = 359,
   [SMALL_STATE(24)] = 367,
   [SMALL_STATE(25)] = 377,
   [SMALL_STATE(26)] = 387,
@@ -696,10 +696,10 @@ static TSParseActionEntry ts_parse_actions[] = {
   [7] = {.entry = {.count = 1, .reusable = false}}, SHIFT(19),
   [9] = {.entry = {.count = 1, .reusable = false}}, SHIFT(17),
   [11] = {.entry = {.count = 1, .reusable = false}}, SHIFT(15),
-  [13] = {.entry = {.count = 1, .reusable = false}}, SHIFT(23),
-  [15] = {.entry = {.count = 1, .reusable = false}}, SHIFT(28),
+  [13] = {.entry = {.count = 1, .reusable = false}}, SHIFT(28),
+  [15] = {.entry = {.count = 1, .reusable = false}}, SHIFT(21),
   [17] = {.entry = {.count = 1, .reusable = false}}, SHIFT(27),
-  [19] = {.entry = {.count = 1, .reusable = false}}, SHIFT(21),
+  [19] = {.entry = {.count = 1, .reusable = false}}, SHIFT(23),
   [21] = {.entry = {.count = 1, .reusable = false}}, SHIFT(22),
   [23] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_arguments, 1),
   [25] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_arguments_repeat1, 2), SHIFT_REPEAT(17),
@@ -724,11 +724,11 @@ static TSParseActionEntry ts_parse_actions[] = {
   [70] = {.entry = {.count = 1, .reusable = false}}, SHIFT(5),
   [72] = {.entry = {.count = 1, .reusable = true}}, SHIFT(16),
   [74] = {.entry = {.count = 1, .reusable = false}}, SHIFT(3),
-  [76] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_command_invocation, 3),
-  [78] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_command_invocation, 3),
-  [80] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_command_invocation, 4),
-  [82] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_command_invocation, 4),
-  [84] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_argument, 1),
+  [76] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_argument, 1),
+  [78] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_command_invocation, 4),
+  [80] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_command_invocation, 4),
+  [82] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_command_invocation, 3),
+  [84] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_command_invocation, 3),
   [86] = {.entry = {.count = 1, .reusable = false}}, SHIFT(18),
   [88] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym__seperated_arguments, 2),
   [90] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_command_invocation, 5),
