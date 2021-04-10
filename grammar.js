@@ -115,6 +115,7 @@ module.exports = grammar({
 
   externals: $ => [
     $._line_break,
+    $._non_breaking_line,
     $.heredoc_start,
     $.heredoc_content,
     $.heredoc_end,
@@ -148,7 +149,7 @@ module.exports = grammar({
     $._else
   ],
 
-  extras: $ => [$.comment, /\s/, $._escaped_newline],
+  extras: $ => [$.comment, /[\t \f]/, $._non_breaking_line, $._escaped_newline],
 
   conflicts: $ => [
     [$.call],

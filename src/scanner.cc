@@ -13,6 +13,7 @@ using std::string;
 
 enum TokenType {
   LINE_BREAK,
+  NON_BREAKING_LINE,
 
   HEREDOC_START,
   HEREDOC_CONTENT,
@@ -1337,7 +1338,12 @@ struct Scanner {
       lexer->mark_end(lexer);
       bool reserved;
       if (is_binary_operator_next(lexer, valid_symbols, &reserved)) {
-        return reserved;
+        if (reserved) {
+          return reserved;
+        } else {
+          lexer->result_symbol = NON_BREAKING_LINE;
+          return true;
+        }
       } else {
         lexer->result_symbol = LINE_BREAK;
         return true;
