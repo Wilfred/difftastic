@@ -84,29 +84,13 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "unquoted_argument"
+          "name": "bracket_argument"
         },
         {
           "type": "SYMBOL",
-          "name": "bracket_argument"
+          "name": "unquoted_argument"
         }
       ]
-    },
-    "unquoted_argument": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[^ ()#\\\"\\\\]"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "escape_sequence"
-          }
-        ]
-      }
     },
     "bracket_argument": {
       "type": "SEQ",
@@ -179,6 +163,22 @@
           "value": "]"
         }
       ]
+    },
+    "unquoted_argument": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^ ()#\\\"\\\\]"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "escape_sequence"
+          }
+        ]
+      }
     },
     "arguments": {
       "type": "SEQ",
