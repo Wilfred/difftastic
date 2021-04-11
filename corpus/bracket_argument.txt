@@ -86,3 +86,22 @@ message(
     )
   )
 )
+
+================================
+Bracket argument with line break
+================================
+
+message([[An argument
+with line break
+]])
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+      (argument (bracket_argument))
+    )
+  )
+)
+
