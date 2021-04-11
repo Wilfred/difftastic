@@ -37,6 +37,48 @@
       "type": "PATTERN",
       "value": "[A-Za-z_][A-Za-z0-9_]*"
     },
+    "escape_sequence": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_escape_identity"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_escape_encoded"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_escape_semicolon"
+        }
+      ]
+    },
+    "_escape_identity": {
+      "type": "PATTERN",
+      "value": "\\\\[^A-Za-z0-9;]"
+    },
+    "_escape_encoded": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\t"
+        },
+        {
+          "type": "STRING",
+          "value": "\\r"
+        },
+        {
+          "type": "STRING",
+          "value": "\\n"
+        }
+      ]
+    },
+    "_escape_semicolon": {
+      "type": "STRING",
+      "value": ";"
+    },
     "argument": {
       "type": "CHOICE",
       "members": [
@@ -53,8 +95,17 @@
     "unquoted_argument": {
       "type": "REPEAT1",
       "content": {
-        "type": "PATTERN",
-        "value": "[^ ()#\\\"\\\\]"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^ ()#\\\"\\\\]"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "escape_sequence"
+          }
+        ]
       }
     },
     "bracket_argument": {
@@ -191,7 +242,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "space"
+            "name": "seperation"
           }
         },
         {

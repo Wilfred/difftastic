@@ -33,3 +33,29 @@ message(STATUS Hello)
     )
   )
 )
+
+===========================================
+Command invocations with leading seperation
+===========================================
+
+message( STATUS)
+message(
+STATUS)
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (seperation (space))
+    (arguments
+      (argument (unquoted_argument))
+    )
+  )
+  (command_invocation
+    (identifier)
+    (seperation (line_ending (newline)))
+    (arguments
+      (argument (unquoted_argument))
+    )
+  )
+)

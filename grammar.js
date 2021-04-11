@@ -10,12 +10,27 @@ module.exports = grammar({
     newline: $ => /\n/,
     identifier: $ => /[A-Za-z_][A-Za-z0-9_]*/,
 
+    escape_sequence: $ => choice(
+      $._escape_identity,
+      $._escape_encoded,
+      $._escape_semicolon,
+    ),
+    _escape_identity: $ => /\\[^A-Za-z0-9;]/,
+    _escape_encoded: $ => choice('\\t', '\\r', '\\n'),
+    _escape_semicolon: $ => '\;',
+
+
     argument: $ => choice(
       $.unquoted_argument,
       $.bracket_argument,
     ),
 
-    unquoted_argument: $ => repeat1(/[^ ()#\"\\]/),
+    unquoted_argument: $ => repeat1(
+      choice(
+        /[^ ()#\"\\]/,
+        $.escape_sequence,
+      )
+    ),
 
     bracket_argument: $ => seq(
       $._bracket_open,
@@ -36,7 +51,7 @@ module.exports = grammar({
     command_invocation: $ => seq(
       repeat($.space),
       $.identifier,
-      repeat($.space),
+      repeat($.seperation),
       '(',
       repeat($.seperation),
       optional($.arguments),

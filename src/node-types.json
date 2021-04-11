@@ -70,6 +70,11 @@
     }
   },
   {
+    "type": "escape_sequence",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "line_ending",
     "named": true,
     "fields": {},
@@ -121,7 +126,17 @@
   {
     "type": "unquoted_argument",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "(",
@@ -137,6 +152,18 @@
   },
   {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\n",
+    "named": false
+  },
+  {
+    "type": "\\r",
+    "named": false
+  },
+  {
+    "type": "\\t",
     "named": false
   },
   {
