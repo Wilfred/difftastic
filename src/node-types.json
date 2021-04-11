@@ -12,6 +12,10 @@
           "named": true
         },
         {
+          "type": "quoted_argument",
+          "named": true
+        },
+        {
           "type": "unquoted_argument",
           "named": true
         }
@@ -90,6 +94,25 @@
     }
   },
   {
+    "type": "quoted_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "newline",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "seperation",
     "named": true,
     "fields": {},
@@ -139,6 +162,10 @@
     }
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -152,6 +179,10 @@
   },
   {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\",
     "named": false
   },
   {

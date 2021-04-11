@@ -1,0 +1,49 @@
+=========================
+One empty quoted argument
+=========================
+
+message("")
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+     (argument (quoted_argument))
+    )
+  )
+)
+
+===================
+One quoted argument
+===================
+
+message("An argument")
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+     (argument (quoted_argument))
+    )
+  )
+)
+
+====================
+Two quoted arguments
+====================
+
+message("First argument" "Second argument")
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+     (argument (quoted_argument))
+     (seperation (space))
+     (argument (quoted_argument))
+    )
+  )
+)

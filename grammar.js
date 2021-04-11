@@ -22,6 +22,7 @@ module.exports = grammar({
 
     argument: $ => choice(
       $.bracket_argument,
+      $.quoted_argument,
       $.unquoted_argument,
     ),
 
@@ -34,6 +35,13 @@ module.exports = grammar({
     _bracket_open: $ => seq('[', repeat('='), '['),
     _bracket_content: $ => repeat1(/[^\]]/),
     _bracket_close: $ => seq(']', repeat('='), ']'),
+
+    quoted_argument: $ => seq('"', repeat($._quoted_element), '"'),
+    _quoted_element: $ => choice(
+      /[^\\"]/,
+      $.escape_sequence,
+      seq('\\', $.newline),
+    ),
 
     unquoted_argument: $ => repeat1(
       choice(
