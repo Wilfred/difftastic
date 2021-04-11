@@ -59,3 +59,28 @@ STATUS)
     )
   )
 )
+========================================
+Command invocations with escape sequence
+========================================
+
+message( STATUS)
+message(
+STATUS)
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (seperation (space))
+    (arguments
+      (argument (unquoted_argument))
+    )
+  )
+  (command_invocation
+    (identifier)
+    (seperation (line_ending (newline)))
+    (arguments
+      (argument (unquoted_argument))
+    )
+  )
+)
