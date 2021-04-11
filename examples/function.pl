@@ -5,10 +5,17 @@ use feature 'signatures';
 sub simple {
   # my @args = @_;
   print "this is simple\n";
-  # return;
+  my $variable = 1;
+
+  print $variable;
+  return;
 }
 
 print "hello world!\n";
+
+my $hello = "hello";
+
+print $hello;
 
 simple;
 simple();
