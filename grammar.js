@@ -534,6 +534,22 @@ module.exports = grammar({
       $.transliteration_tr_or_y,
 
       $._i_o_operator,
+
+      $.arrow_notation,
+    ),
+
+    arrow_notation: $ => seq(
+      field('hash_ref', $.scalar_variable),
+      
+      repeat1(
+        seq(
+          '->',
+          choice( // either a array element or hash key
+            field('array_element', seq('[', $._resolves_to_digit,']')),
+            field('hash_key', seq('{', with_or_without_quotes($.identifier), '}')),
+          ),
+        )
+      ),
     ),
 
     goto_expression: $ => seq(
@@ -945,6 +961,14 @@ module.exports = grammar({
       $._numeric_literals,
       $.array_ref,
       $.hash_ref,
+    ),
+
+    _resolves_to_digit: $ => choice(
+      $.string_single_quoted,
+      $.string_q_quoted,
+      // TODO: handle escape sequences
+      $.string_qq_quoted,
+      $._numeric_literals,
     ),
 
     _array_type: $ => choice(

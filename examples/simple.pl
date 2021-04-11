@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 use Data::Dumper;
 
 sub hello {
@@ -29,7 +30,7 @@ my $hexa_decimal = 0xffff;
 my $octal = 0577;
 
 
-my @array = ('meow', 'woof', 'burp',);
+my @array2 = ('meow', 'woof', 'burp',);
 
 my @mixed_array = ('meow', 4, 'dog');
 
@@ -54,11 +55,14 @@ my %hash = (
   seconds_things => 2,
 );
 
-# ellipsis
-{ ... }
-sub foo { ... }
-...;
-sub somemeth {
-  my $self = shift;
-  ...;
-}
+my $hash = {
+  name => 'dog',
+  sound => 'woof',
+};
+
+$hash->{ wag } = 'tail';
+$hash->{inner}->{prop} = 'secret';
+# $hash->{inner}->{prop}->[0.3] = 'secret2';
+
+
+print Dumper $hash;
