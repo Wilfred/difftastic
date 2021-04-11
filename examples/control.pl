@@ -38,8 +38,6 @@ else {
   print "else print this\n";
 }
 
-
- 
 # my $num = rand();
  
 # given ($num) {
