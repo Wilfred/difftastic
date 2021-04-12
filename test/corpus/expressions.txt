@@ -728,6 +728,20 @@ class Test {
 functional switch expression
 ==================================
 
+class Test {
+    int i;
+    static final int ZERO = 0;
+    void main() {
+        int a = switch (i) {
+            case ZERO, 1 -> 6;
+            case (int)(2.0) -> 7;
+            default -> 8;
+        };
+    }
+}
+
+---
+
 (program
   (class_declaration
     name: (identifier)
@@ -777,6 +791,22 @@ functional switch expression
 ==================================
 switch expression with block
 ==================================
+
+class Test {
+    int i;
+    void main() {
+        int a = switch (i) {
+            case 0, 1 -> 6;
+            case 2 -> 7;
+            default -> { 
+                int result = 8;
+                yield result;
+            }
+        };
+    }
+}
+
+---
 
 (program
   (class_declaration
