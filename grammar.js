@@ -386,7 +386,7 @@ module.exports = grammar({
 
     switch_block: $ => seq(
       '{',
-      choice(repeat($.switch_line), repeat($.arrow_switch_line)),
+      choice(repeat($.switch_line), repeat($.switch_labeled_rule)),
       '}'
     ),
 
@@ -396,11 +396,11 @@ module.exports = grammar({
     ),
 
     switch_label: $ => choice(
-      seq('case', $.expression, ':'),
+      seq('case', commaSep1($.expression), ':'),
       seq('default', ':')
     ),
 
-    arrow_switch_line: $ => seq(
+    switch_labeled_rule: $ => seq(
       $.arrow_switch_label,
       '->',
       choice($.expression_statement, $.throw_statement, $.block)
