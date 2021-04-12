@@ -8436,8 +8436,8 @@
       ]
     },
     "type_query": {
-      "type": "PREC",
-      "value": "unary_void",
+      "type": "PREC_RIGHT",
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -10011,6 +10011,20 @@
       {
         "type": "SYMBOL",
         "name": "_primary_type"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "type_query"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "subscript_expression"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "expression"
       }
     ]
   ],
