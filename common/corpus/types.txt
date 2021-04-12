@@ -714,6 +714,7 @@ Lookup types
 
 type K1 = Foo[bar]
 type K1 = Foo['bar' | 'baz']
+type A = typeof some_array[number]
 
 ---
 
@@ -723,7 +724,10 @@ type K1 = Foo['bar' | 'baz']
     (lookup_type (type_identifier) (type_identifier)))
   (type_alias_declaration
     (type_identifier)
-    (lookup_type (type_identifier) (union_type (literal_type (string)) (literal_type (string))))))
+    (lookup_type (type_identifier) (union_type (literal_type (string)) (literal_type (string)))))
+  (type_alias_declaration
+    (type_identifier)
+    (lookup_type (type_query (identifier)) (predefined_type))))
 
 
 =======================================
