@@ -519,7 +519,7 @@ public class SwitchDemo {
             type: (type_identifier)
             declarator: (variable_declarator 
               name: (identifier)))
-          (switch_construct 
+          (switch_expression 
             condition: (parenthesized_expression 
               (identifier))
             body: (switch_block 
@@ -614,7 +614,7 @@ class Test {
         name: (identifier)
         parameters: (formal_parameters)
         body: (block
-          (switch_construct
+          (switch_expression
             condition: (parenthesized_expression
               (method_invocation
                 name: (identifier)
@@ -691,7 +691,7 @@ class Test {
             type: (integral_type)
             declarator: (variable_declarator
               name: (identifier)
-              value: (switch_construct
+              value: (switch_expression
                 condition: (parenthesized_expression
                   (identifier))
                 body: (switch_block
@@ -765,7 +765,7 @@ class Test {
             type: (integral_type)
             declarator: (variable_declarator
               name: (identifier)
-              value: (switch_construct
+              value: (switch_expression
                 condition: (parenthesized_expression
                   (identifier))
                 body: (switch_block
@@ -825,7 +825,7 @@ class Test {
             type: (integral_type)
             declarator: (variable_declarator
               name: (identifier)
-              value: (switch_construct
+              value: (switch_expression
                 condition: (parenthesized_expression
                   (identifier))
                 body: (switch_block

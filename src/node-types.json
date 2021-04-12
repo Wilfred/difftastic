@@ -174,7 +174,7 @@
         "named": true
       },
       {
-        "type": "switch_construct",
+        "type": "switch_expression",
         "named": true
       },
       {
@@ -302,7 +302,7 @@
         "named": true
       },
       {
-        "type": "switch_construct",
+        "type": "switch_expression",
         "named": true
       },
       {
@@ -3042,7 +3042,7 @@
     }
   },
   {
-    "type": "switch_construct",
+    "type": "switch_expression",
     "named": true,
     "fields": {
       "body": {
