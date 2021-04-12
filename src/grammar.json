@@ -1138,7 +1138,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "switch_construct"
+          "name": "switch_expression"
         },
         {
           "type": "SYMBOL",
@@ -2988,7 +2988,7 @@
         }
       }
     },
-    "switch_construct": {
+    "switch_expression": {
       "type": "SEQ",
       "members": [
         {
@@ -3231,7 +3231,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "switch_construct"
+          "name": "switch_expression"
         },
         {
           "type": "SYMBOL",

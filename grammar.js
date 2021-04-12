@@ -166,7 +166,7 @@ module.exports = grammar({
       $.update_expression,
       $.primary_expression,
       $.unary_expression,
-      $.switch_construct, // switch expressions and statements are identical
+      $.switch_expression, 
       $.cast_expression,
     ),
 
@@ -378,7 +378,7 @@ module.exports = grammar({
       seq(repeat($._annotation), '[', ']')
     )),
 
-    switch_construct: $ => seq(
+    switch_expression: $ => seq(
       'switch',
       field('condition', $.parenthesized_expression),
       field('body', $.switch_block)
@@ -429,7 +429,7 @@ module.exports = grammar({
       $.continue_statement,
       $.return_statement,
       $.yield_statement,
-      $.switch_construct, //switch statements and expressions are identical
+      $.switch_expression, //switch statements and expressions are identical
       $.synchronized_statement,
       $.local_variable_declaration,
       $.throw_statement,
