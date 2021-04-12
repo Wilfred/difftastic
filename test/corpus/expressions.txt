@@ -621,7 +621,7 @@ class Test {
                 arguments: (argument_list
                   (identifier))))
             body: (switch_block
-              (arrow_switch_line
+              (switch_labeled_rule
                 (arrow_switch_label
                   (decimal_integer_literal)
                   (decimal_integer_literal))
@@ -633,7 +633,7 @@ class Test {
                     name: (identifier)
                     arguments: (argument_list
                       (decimal_integer_literal)))))
-              (arrow_switch_line
+              (switch_labeled_rule
                 (arrow_switch_label
                   (decimal_integer_literal))
                 (expression_statement
@@ -769,13 +769,13 @@ class Test {
                 condition: (parenthesized_expression
                   (identifier))
                 body: (switch_block
-                  (arrow_switch_line
+                  (switch_labeled_rule
                     (arrow_switch_label
                       (identifier)
                       (decimal_integer_literal))
                     (expression_statement
                       (decimal_integer_literal)))
-                  (arrow_switch_line
+                  (switch_labeled_rule
                     (arrow_switch_label
                       (cast_expression
                         type: (integral_type)
@@ -783,7 +783,7 @@ class Test {
                           (decimal_floating_point_literal))))
                     (expression_statement
                       (decimal_integer_literal)))
-                  (arrow_switch_line
+                  (switch_labeled_rule
                     (arrow_switch_label)
                     (expression_statement
                       (decimal_integer_literal))))))))))))
@@ -829,18 +829,18 @@ class Test {
                 condition: (parenthesized_expression
                   (identifier))
                 body: (switch_block
-                  (arrow_switch_line
+                  (switch_labeled_rule
                     (arrow_switch_label
                       (decimal_integer_literal)
                       (decimal_integer_literal))
                     (expression_statement
                       (decimal_integer_literal)))
-                  (arrow_switch_line
+                  (switch_labeled_rule
                     (arrow_switch_label
                       (decimal_integer_literal))
                     (expression_statement
                       (decimal_integer_literal)))
-                  (arrow_switch_line
+                  (switch_labeled_rule
                     (arrow_switch_label)
                     (block
                       (local_variable_declaration
