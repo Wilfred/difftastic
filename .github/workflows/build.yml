@@ -3,8 +3,6 @@ name: build
 on:
   push:
   pull_request:
-    branches:
-      - '**:**'
 
 jobs:
   build:
