@@ -174,6 +174,10 @@
         "named": true
       },
       {
+        "type": "switch_construct",
+        "named": true
+      },
+      {
         "type": "ternary_expression",
         "named": true
       },
@@ -298,7 +302,7 @@
         "named": true
       },
       {
-        "type": "switch_statement",
+        "type": "switch_construct",
         "named": true
       },
       {
@@ -319,6 +323,10 @@
       },
       {
         "type": "while_statement",
+        "named": true
+      },
+      {
+        "type": "yield_statement",
         "named": true
       }
     ]
@@ -666,6 +674,48 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "arrow_switch_label",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "arrow_switch_line",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arrow_switch_label",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expression_statement",
+          "named": true
+        },
+        {
+          "type": "throw_statement",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2927,33 +2977,18 @@
       "required": false,
       "types": [
         {
-          "type": "statement",
+          "type": "arrow_switch_line",
           "named": true
         },
         {
-          "type": "switch_label",
+          "type": "switch_line",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "switch_label",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "switch_statement",
+    "type": "switch_construct",
     "named": true,
     "fields": {
       "body": {
@@ -2976,6 +3011,40 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "switch_label",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "switch_line",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "statement",
+          "named": true
+        },
+        {
+          "type": "switch_label",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3357,6 +3426,21 @@
         },
         {
           "type": "super",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "yield_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
           "named": true
         }
       ]
@@ -3828,6 +3912,10 @@
   },
   {
     "type": "with",
+    "named": false
+  },
+  {
+    "type": "yield",
     "named": false
   },
   {
