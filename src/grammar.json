@@ -6016,6 +6016,10 @@
                 "name": "_expression"
               }
             ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "variadic_unpacking"
           }
         ]
       }
