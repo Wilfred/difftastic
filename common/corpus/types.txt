@@ -21,13 +21,20 @@ Parenthesized types
 =======================================
 
 var x: (string);
+var x: ({a: any});
 
 ---
 
 (program
   (variable_declaration (variable_declarator
     (identifier)
-    (type_annotation (parenthesized_type (predefined_type))))))
+    (type_annotation (parenthesized_type (predefined_type)))))
+  (variable_declaration (variable_declarator
+    (identifier)
+    (type_annotation (parenthesized_type
+      (object_type
+        (property_signature (property_identifier) (type_annotation (predefined_type))))))))
+)
 
 =======================================
 Object types
@@ -225,6 +232,26 @@ const foo: (this: Readable, size?: number) => any;
           (required_parameter (this) (type_annotation (type_identifier)))
           (optional_parameter (identifier) (type_annotation (predefined_type))))
         (predefined_type))))))
+
+======================================
+Functions with destructured parameters
+======================================
+
+let foo: ({a}: Foo) => number
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (function_type
+          (formal_parameters
+            (required_parameter
+              (object_pattern (shorthand_property_identifier_pattern))
+              (type_annotation (type_identifier))))
+          (predefined_type))))))
 
 =======================================
 Constructor types
