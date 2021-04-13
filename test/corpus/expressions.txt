@@ -523,44 +523,44 @@ public class SwitchDemo {
             condition: (parenthesized_expression 
               (identifier))
             body: (switch_block 
-              (switch_line 
+              (switch_block_statement_group 
                 (switch_label 
                   (decimal_integer_literal)))
-              (switch_line 
+              (switch_block_statement_group 
                 (expression_statement 
                   (assignment_expression 
                     left: (identifier)
                     right: (string_literal))))
-              (switch_line 
+              (switch_block_statement_group 
                 (break_statement))
-              (switch_line 
+              (switch_block_statement_group 
                 (switch_label 
                   (decimal_integer_literal)))
-              (switch_line 
+              (switch_block_statement_group 
                 (expression_statement 
                   (assignment_expression 
                     left: (identifier)
                     right: (string_literal))))
-              (switch_line 
+              (switch_block_statement_group 
                 (break_statement))
-              (switch_line 
+              (switch_block_statement_group 
                 (switch_label 
                   (decimal_integer_literal)))
-              (switch_line 
+              (switch_block_statement_group 
                 (expression_statement 
                   (assignment_expression 
                     left: (identifier)
                     right: (string_literal))))
-              (switch_line 
+              (switch_block_statement_group 
                 (break_statement))
-              (switch_line 
+              (switch_block_statement_group 
                 (switch_label))
-              (switch_line 
+              (switch_block_statement_group 
                 (expression_statement 
                   (assignment_expression 
                     left: (identifier)
                     right: (string_literal))))
-              (switch_line 
+              (switch_block_statement_group 
                 (break_statement))))
           (expression_statement 
             (method_invocation 
@@ -621,8 +621,8 @@ class Test {
                 arguments: (argument_list
                   (identifier))))
             body: (switch_block
-              (switch_labeled_rule
-                (arrow_switch_label
+              (switch_rule
+                (switch_label
                   (decimal_integer_literal)
                   (decimal_integer_literal))
                 (expression_statement
@@ -633,8 +633,8 @@ class Test {
                     name: (identifier)
                     arguments: (argument_list
                       (decimal_integer_literal)))))
-              (switch_labeled_rule
-                (arrow_switch_label
+              (switch_rule
+                (switch_label
                   (decimal_integer_literal))
                 (expression_statement
                   (method_invocation
@@ -695,23 +695,23 @@ class Test {
                 condition: (parenthesized_expression
                   (identifier))
                 body: (switch_block
-                  (switch_line
+                  (switch_block_statement_group
                     (switch_label
                       (binary_expression
                         left: (decimal_integer_literal)
                         right: (decimal_integer_literal))))
-                  (switch_line
+                  (switch_block_statement_group
                     (yield_statement
                       (decimal_integer_literal)))
-                  (switch_line
+                  (switch_block_statement_group
                     (switch_label
                       (identifier)))
-                  (switch_line
+                  (switch_block_statement_group
                     (yield_statement
                       (decimal_integer_literal)))
-                  (switch_line
+                  (switch_block_statement_group
                     (switch_label))
-                  (switch_line
+                  (switch_block_statement_group
                     (expression_statement
                       (method_invocation
                         object: (field_access
@@ -720,7 +720,7 @@ class Test {
                         name: (identifier)
                         arguments: (argument_list
                           (string_literal)))))
-                  (switch_line
+                  (switch_block_statement_group
                     (yield_statement
                       (decimal_integer_literal))))))))))))
 
@@ -769,22 +769,22 @@ class Test {
                 condition: (parenthesized_expression
                   (identifier))
                 body: (switch_block
-                  (switch_labeled_rule
-                    (arrow_switch_label
+                  (switch_rule
+                    (switch_label
                       (identifier)
                       (decimal_integer_literal))
                     (expression_statement
                       (decimal_integer_literal)))
-                  (switch_labeled_rule
-                    (arrow_switch_label
+                  (switch_rule
+                    (switch_label
                       (cast_expression
                         type: (integral_type)
                         value: (parenthesized_expression
                           (decimal_floating_point_literal))))
                     (expression_statement
                       (decimal_integer_literal)))
-                  (switch_labeled_rule
-                    (arrow_switch_label)
+                  (switch_rule
+                    (switch_label)
                     (expression_statement
                       (decimal_integer_literal))))))))))))
 
@@ -829,19 +829,19 @@ class Test {
                 condition: (parenthesized_expression
                   (identifier))
                 body: (switch_block
-                  (switch_labeled_rule
-                    (arrow_switch_label
+                  (switch_rule
+                    (switch_label
                       (decimal_integer_literal)
                       (decimal_integer_literal))
                     (expression_statement
                       (decimal_integer_literal)))
-                  (switch_labeled_rule
-                    (arrow_switch_label
+                  (switch_rule
+                    (switch_label
                       (decimal_integer_literal))
                     (expression_statement
                       (decimal_integer_literal)))
-                  (switch_labeled_rule
-                    (arrow_switch_label)
+                  (switch_rule
+                    (switch_label)
                     (block
                       (local_variable_declaration
                         type: (integral_type)
@@ -850,6 +850,63 @@ class Test {
                           value: (decimal_integer_literal)))
                       (yield_statement
                         (identifier)))))))))))))
+
+==================================
+switch expressions added
+==================================
+
+class Test {
+    int i;
+    static void foo(int i, int j) {
+        // switch expressions inside of a binary expression
+        int x = switch (i) { default -> 1; } + switch (j) { default -> 2; };
+    }
+}
+
+---
+
+(program
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (integral_type)
+        declarator: (variable_declarator
+          name: (identifier)))
+      (method_declaration
+        (modifiers)
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (integral_type)
+            name: (identifier))
+          (formal_parameter
+            type: (integral_type)
+            name: (identifier)))
+        body: (block
+          (comment)
+          (local_variable_declaration
+            type: (integral_type)
+            declarator: (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (switch_expression
+                  condition: (parenthesized_expression
+                    (identifier))
+                  body: (switch_block
+                    (switch_rule
+                      (switch_label)
+                      (expression_statement
+                        (decimal_integer_literal)))))
+                right: (switch_expression
+                  condition: (parenthesized_expression
+                    (identifier))
+                  body: (switch_block
+                    (switch_rule
+                      (switch_label)
+                      (expression_statement
+                        (decimal_integer_literal)))))))))))))
                         
 ==================================
 type arguments

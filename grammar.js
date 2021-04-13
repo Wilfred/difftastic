@@ -4,6 +4,7 @@ const PREC = {
   // https://introcs.cs.princeton.edu/java/11precedence/
   COMMENT: 0,      // //  /*  */
   ASSIGN: 1,       // =  += -=  *=  /=  %=  &=  ^=  |=  <<=  >>=  >>>=
+  SWITCH_EXP: 1,   // always prefer to parse switch as expression over statement
   DECL: 2,
   ELEMENT_VAL: 2,
   TERNARY: 3,      // ?:
@@ -62,8 +63,6 @@ module.exports = grammar({
     [$._unannotated_type, $.scoped_type_identifier],
     [$._unannotated_type, $.generic_type],
     [$.generic_type, $.primary_expression],
-    // Switch constructs can be both expressions and statements
-    [$.expression, $.statement],
     // Only conflicts in switch expressions
     [$.lambda_expression, $.primary_expression],
   ],
@@ -166,8 +165,8 @@ module.exports = grammar({
       $.update_expression,
       $.primary_expression,
       $.unary_expression,
-      $.switch_expression, 
       $.cast_expression,
+      prec(PREC.SWITCH_EXP, $.switch_expression), 
     ),
 
     cast_expression: $ => prec(PREC.CAST, seq(
@@ -386,27 +385,25 @@ module.exports = grammar({
 
     switch_block: $ => seq(
       '{',
-      choice(repeat($.switch_line), repeat($.switch_labeled_rule)),
+      choice(
+        repeat($.switch_block_statement_group), 
+        repeat($.switch_rule)
+      ),
       '}'
     ),
 
-    switch_line: $ => choice(
-      $.switch_label, 
-      $.statement
+    switch_block_statement_group: $ => choice(
+        seq($.switch_label, ':'),
+        $.statement
     ),
 
-    switch_label: $ => choice(
-      seq('case', commaSep1($.expression), ':'),
-      seq('default', ':')
-    ),
-
-    switch_labeled_rule: $ => seq(
-      $.arrow_switch_label,
+    switch_rule: $ => seq(
+      $.switch_label,
       '->',
       choice($.expression_statement, $.throw_statement, $.block)
      ),
 
-    arrow_switch_label: $ => choice(
+    switch_label: $ => choice(
       seq('case', commaSep1($.expression)),
       'default'
     ),
