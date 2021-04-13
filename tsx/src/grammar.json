@@ -8466,38 +8466,17 @@
       }
     },
     "index_type_query": {
-      "type": "PREC",
-      "value": "unary_void",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "keyof"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "generic_type"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_type_identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "nested_type_identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type_query"
-              }
-            ]
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "keyof"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_primary_type"
+        }
+      ]
     },
     "lookup_type": {
       "type": "SEQ",
@@ -9503,11 +9482,6 @@
     ],
     [
       "nested_identifier",
-      "nested_type_identifier",
-      "_primary_type"
-    ],
-    [
-      "nested_identifier",
       "nested_type_identifier"
     ],
     [
@@ -10010,11 +9984,27 @@
     [
       {
         "type": "SYMBOL",
+        "name": "nested_type_identifier"
+      },
+      {
+        "type": "SYMBOL",
         "name": "generic_type"
       },
       {
         "type": "SYMBOL",
         "name": "_primary_type"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "lookup_type"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "index_type_query"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "_type"
       }
     ]
   ],
