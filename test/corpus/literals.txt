@@ -59,6 +59,21 @@ Testing string scanner confirmance
   (text_interpolation))
 
 ==========================
+Shell command
+==========================
+<?php
+`ls -la`;
+`ls`;
+
+---
+
+(program
+  (php_tag)
+  (expression_statement (shell_command_expression))
+  (expression_statement (shell_command_expression)))
+
+
+==========================
 Heredocs
 ==========================
 
