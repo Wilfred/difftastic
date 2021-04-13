@@ -677,21 +677,6 @@
     }
   },
   {
-    "type": "arrow_switch_label",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "assert_statement",
     "named": true,
     "fields": {},
@@ -3004,11 +2989,30 @@
       "required": false,
       "types": [
         {
-          "type": "switch_labeled_rule",
+          "type": "switch_block_statement_group",
           "named": true
         },
         {
-          "type": "switch_line",
+          "type": "switch_rule",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "switch_block_statement_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "statement",
+          "named": true
+        },
+        {
+          "type": "switch_label",
           "named": true
         }
       ]
@@ -3056,17 +3060,13 @@
     }
   },
   {
-    "type": "switch_labeled_rule",
+    "type": "switch_rule",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "arrow_switch_label",
-          "named": true
-        },
         {
           "type": "block",
           "named": true
@@ -3076,26 +3076,11 @@
           "named": true
         },
         {
-          "type": "throw_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "switch_line",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "statement",
+          "type": "switch_label",
           "named": true
         },
         {
-          "type": "switch_label",
+          "type": "throw_statement",
           "named": true
         }
       ]
