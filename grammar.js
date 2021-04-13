@@ -473,7 +473,7 @@ module.exports = grammar({
       $.null
     ),
 
-    float: $ => /\d*((\.\d*)?([eE][\+-]?\d+)|(\.\d*)([eE][\+-]?\d+)?)/,
+    float: $ => /\d*(_\d+)*((\.\d*(_\d+)*)?([eE][\+-]?\d+(_\d+)*)|(\.\d\d*(_\d+)*)([eE][\+-]?\d+(_\d+)*)?)/,
 
     try_statement: $ => seq(
       keyword('try'),
@@ -508,10 +508,10 @@ module.exports = grammar({
     ),
 
     integer: $ => {
-      const decimal = /[1-9]\d*/
-      const octal = /0[0-7]*/
-      const hex = /0[xX][0-9a-fA-F]+/
-      const binary = /0[bB][01]+/
+      const decimal = /[1-9]\d*(_\d+)*/
+      const octal = /0[0-7]*(_[0-7]+)*/
+      const hex = /0[xX][0-9a-fA-F]+(_[0-9a-fA-F]+)*/
+      const binary = /0[bB][01]+(_[01]+)*/
       return token(choice(
         decimal,
         octal,

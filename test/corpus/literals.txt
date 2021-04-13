@@ -34,6 +34,8 @@ Floats
 1.0E-3432;
 1423.0E3432;
 .5;
+6.674_083e11;
+107_925_284.88;
 
 ---
 
@@ -43,7 +45,39 @@ Floats
   (expression_statement (float))
   (expression_statement (float))
   (expression_statement (float))
-  (expression_statement (float)))
+  (expression_statement (float))
+  (expression_statement (float))
+  (expression_statement (float))
+)
+
+==========================
+Integers
+==========================
+
+<?php
+
+1234;
+1_234_456;
+0123;
+0123_456;
+0x1A;
+0x1A_2B_3C;
+0b111111111;
+0b1111_1111_1111;
+
+---
+
+(program
+  (php_tag)
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+  (expression_statement (integer))
+)
 
 ============================
 Testing string scanner confirmance
