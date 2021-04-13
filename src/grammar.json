@@ -1627,6 +1627,90 @@
         }
       ]
     },
+    "arrow_function": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_arrow_function_header"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        }
+      ]
+    },
+    "_arrow_function_header": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[sS][tT][aA][tT][iI][cC]"
+              },
+              "named": false,
+              "value": "static"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[fF][nN]"
+          },
+          "named": false,
+          "value": "fn"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "&"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "parameters",
+          "content": {
+            "type": "SYMBOL",
+            "name": "formal_parameters"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_return_type"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        }
+      ]
+    },
     "formal_parameters": {
       "type": "SEQ",
       "members": [
@@ -3783,6 +3867,10 @@
         {
           "type": "SYMBOL",
           "name": "anonymous_function_creation_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "arrow_function"
         },
         {
           "type": "SYMBOL",
@@ -7093,6 +7181,10 @@
       "_return_type"
     ],
     [
+      "namespace_name"
+    ],
+    [
+      "qualified_name",
       "namespace_name"
     ],
     [

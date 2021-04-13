@@ -112,6 +112,10 @@
         "named": true
       },
       {
+        "type": "arrow_function",
+        "named": true
+      },
+      {
         "type": "cast_expression",
         "named": true
       },
@@ -421,6 +425,42 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "arrow_function",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          }
+        ]
+      },
+      "parameters": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "formal_parameters",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4069,11 +4109,11 @@
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "break",
@@ -4192,6 +4232,10 @@
     "named": false
   },
   {
+    "type": "fn",
+    "named": false
+  },
+  {
     "type": "for",
     "named": false
   },
@@ -4281,11 +4325,11 @@
   },
   {
     "type": "null",
-    "named": false
+    "named": true
   },
   {
     "type": "null",
-    "named": true
+    "named": false
   },
   {
     "type": "object",
@@ -4353,11 +4397,11 @@
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "switch",

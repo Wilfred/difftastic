@@ -57,6 +57,7 @@ module.exports = grammar({
     [$.union_type, $._return_type],
 
     [$.namespace_name],
+    [$.qualified_name, $.namespace_name],
 
     [$.namespace_name_as_prefix],
     [$.namespace_use_declaration, $.namespace_name_as_prefix]
@@ -371,6 +372,20 @@ module.exports = grammar({
       field('name', choice($.name, alias($._reserved_identifier, $.name))),
       field('parameters', $.formal_parameters),
       optional($._return_type)
+    ),
+
+    arrow_function: $ => seq(
+      $._arrow_function_header,
+      field('body', $._expression)
+    ),
+
+    _arrow_function_header: $ => seq(
+      optional(keyword('static')),
+      keyword('fn'),
+      optional('&'),
+      field('parameters', $.formal_parameters),
+      optional($._return_type),
+      '=>'
     ),
 
     formal_parameters: $ => seq(
@@ -786,6 +801,7 @@ module.exports = grammar({
       $.array_creation_expression,
       $.print_intrinsic,
       $.anonymous_function_creation_expression,
+      $.arrow_function,
       $.object_creation_expression,
       $.update_expression,
       $.shell_command_expression,
