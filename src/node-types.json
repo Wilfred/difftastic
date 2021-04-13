@@ -423,6 +423,10 @@
         {
           "type": "_expression",
           "named": true
+        },
+        {
+          "type": "variadic_unpacking",
+          "named": true
         }
       ]
     }

@@ -1108,7 +1108,8 @@ module.exports = grammar({
 
     array_element_initializer: $ => prec.right(choice(
       seq(optional('&'), $._expression),
-      seq($._expression, '=>', optional('&'), $._expression)
+      seq($._expression, '=>', optional('&'), $._expression),
+      $.variadic_unpacking
     )),
 
     binary_expression: $ => choice(
