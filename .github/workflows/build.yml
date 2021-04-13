@@ -4,8 +4,8 @@ on:
   push:
   pull_request:
     branches:
-      - '**:**' # For forks
-
+      - "**" # Don't trust forks because miners
+      
 jobs:
   build:
     name: build
