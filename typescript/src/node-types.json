@@ -2852,19 +2852,7 @@
       "required": true,
       "types": [
         {
-          "type": "generic_type",
-          "named": true
-        },
-        {
-          "type": "nested_type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_query",
+          "type": "_primary_type",
           "named": true
         }
       ]
@@ -5863,11 +5851,11 @@
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "of",
