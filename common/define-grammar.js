@@ -44,6 +44,7 @@ module.exports = function defineGrammar(dialect) {
       [$.tuple_type, $.array_type, $.pattern, $._type],
       [$.readonly_type, $.pattern],
       [$.readonly_type, $.primary_expression],
+      [$.type_query, $.subscript_expression, $.expression],
       [$.nested_type_identifier, $.generic_type, $._primary_type, $.lookup_type, $.index_type_query, $._type],
     ]),
 
@@ -607,7 +608,7 @@ module.exports = function defineGrammar(dialect) {
         seq(':', $.type_predicate)
       ),
 
-      type_query: $ => prec('unary_void', seq(
+      type_query: $ => prec.right(seq(
         'typeof',
         choice($.primary_expression, $.generic_type),
       )),
