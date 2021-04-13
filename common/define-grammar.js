@@ -44,7 +44,7 @@ module.exports = function defineGrammar(dialect) {
       [$.tuple_type, $.array_type, $.pattern, $._type],
       [$.readonly_type, $.pattern],
       [$.readonly_type, $.primary_expression],
-      [$.generic_type, $._primary_type],
+      [$.nested_type_identifier, $.generic_type, $._primary_type, $.lookup_type, $.index_type_query, $._type],
     ]),
 
     conflicts: ($, previous) => previous.concat([
@@ -54,7 +54,6 @@ module.exports = function defineGrammar(dialect) {
       [$.call_expression, $.binary_expression, $.type_assertion],
 
       [$.nested_identifier, $.nested_type_identifier, $.primary_expression],
-      [$.nested_identifier, $.nested_type_identifier, $._primary_type],
       [$.nested_identifier, $.nested_type_identifier],
       [$.nested_identifier, $.member_expression],
 
@@ -613,15 +612,10 @@ module.exports = function defineGrammar(dialect) {
         choice($.primary_expression, $.generic_type),
       )),
 
-      index_type_query: $ => prec('unary_void', seq(
+      index_type_query: $ => seq(
         'keyof',
-        choice(
-          $.generic_type,
-          $._type_identifier,
-          $.nested_type_identifier,
-          $.type_query,
-        )
-      )),
+        $._primary_type,
+      ),
 
       lookup_type: $ => seq(
         $._primary_type,
