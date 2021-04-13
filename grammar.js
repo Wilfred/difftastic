@@ -808,7 +808,7 @@ module.exports = grammar({
     )),
 
     shell_command_expression: $ => token(seq(
-      '`', double_quote_chars(), '`'
+      '`', backtick_chars(), '`'
     )),
 
     cast_expression: $ => prec(PREC.CAST, seq(
@@ -1153,4 +1153,20 @@ function double_quote_chars() {
   const dq_unicode_escapes = seq('\\u{', repeat1(hex_digit), '}')
   const dq_escapes = choice(dq_simple_escapes, dq_octal_escapes, dq_hex_escapes, dq_unicode_escapes)
   return repeat(choice(dq_escapes, /[^"\\]|\\[^"\\$efnrtv0-7]/))
+}
+
+function backtick_chars() {
+  const dq_simple_escapes = /\\"|\\\\|\\\$|\\e|\\f|\\n|\\r|\\t|\\v/
+  const octal_digit = /[0-7]/
+  const dq_octal_escapes = seq('\\', octal_digit, optional(octal_digit), optional(octal_digit))
+  const hex_digit = /\d|a-f|A-F/
+  const dq_hex_escapes = seq(
+    /\\[xX]/,
+    hex_digit,
+    optional(hex_digit)
+  )
+
+  const dq_unicode_escapes = seq('\\u{', repeat1(hex_digit), '}')
+  const dq_escapes = choice(dq_simple_escapes, dq_octal_escapes, dq_hex_escapes, dq_unicode_escapes)
+  return repeat(choice(dq_escapes, /[^`\\]|\\[^`\\$efnrtv0-7]/))
 }
