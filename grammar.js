@@ -387,6 +387,7 @@ module.exports = grammar({
     formal_parameters: $ => seq(
       '(',
       commaSep(choice($.simple_parameter, $.variadic_parameter)),
+      optional(','),
       ')'
     ),
 
@@ -832,6 +833,7 @@ module.exports = grammar({
       keyword('use'),
       '(',
       commaSep1(seq(optional('&'), $.variable_name)),
+      optional(','),
       ')'
     ),
 

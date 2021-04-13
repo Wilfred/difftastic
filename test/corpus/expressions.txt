@@ -546,6 +546,7 @@ header_register_callback(
 );
 
 ob_start(function($buffer) use (&$storage) { $storage .= $buffer; }, 20);
+ob_start(function($buffer) use (&$storage,) { $storage .= $buffer; }, 20);
 
 ---
 
@@ -559,6 +560,17 @@ ob_start(function($buffer) use (&$storage) { $storage .= $buffer; }, 20);
           parameters: (formal_parameters)
           body: (compound_statement
             (echo_statement (string)))))))
+  (expression_statement
+    (function_call_expression
+      function: (qualified_name (name))
+      arguments: (arguments
+        (anonymous_function_creation_expression
+          parameters: (formal_parameters (simple_parameter name: (variable_name (name))))
+          (anonymous_function_use_clause (variable_name (name)))
+          body: (compound_statement (expression_statement (augmented_assignment_expression
+            left: (variable_name (name))
+            right: (variable_name (name))))))
+        (integer))))
   (expression_statement
     (function_call_expression
       function: (qualified_name (name))
