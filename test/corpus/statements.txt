@@ -274,8 +274,8 @@ Try statements
 <?php
 
 try {
-} catch (MyException $exception) {
-} catch (OtherException $e) {
+} catch (MyException) {
+} catch (OtherException|YetAnotherException $e) {
 } finally {
 }
 
@@ -293,11 +293,15 @@ try {
   (try_statement
     body: (compound_statement)
     (catch_clause
-      type: (type_name (name))
-      name: (variable_name (name))
+      type: (type_list
+        (type_name (name))
+      )
       body: (compound_statement))
     (catch_clause
-      type: (type_name (name))
+      type: (type_list
+        (type_name (name))
+        (type_name (name))
+      )
       name: (variable_name (name))
       body: (compound_statement))
     (finally_clause
@@ -308,7 +312,9 @@ try {
         function: (qualified_name (name))
         arguments: (arguments))))
     (catch_clause
-      type: (type_name (name))
+      type: (type_list
+        (type_name (name))
+      )
       name: (variable_name (name))
       body: (compound_statement
         (expression_statement (print_intrinsic (binary_expression

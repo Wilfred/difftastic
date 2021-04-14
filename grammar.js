@@ -484,11 +484,13 @@ module.exports = grammar({
     catch_clause: $ => seq(
       keyword('catch'),
       '(',
-      field('type', $._type_name),
-      field('name', $.variable_name),
+      field('type', $.type_list),
+      optional(field('name', $.variable_name)),
       ')',
       field('body', $.compound_statement)
     ),
+
+    type_list: $ => pipeSep1($._type_name),
 
     finally_clause: $ => seq(
       keyword('finally'),
@@ -1137,6 +1139,14 @@ function commaSep1(rule) {
 }
 
 function commaSep(rule) {
+  return optional(commaSep1(rule));
+}
+
+function pipeSep1(rule) {
+  return seq(rule, repeat(seq('|', rule)));
+}
+
+function pipeSep(rule) {
   return optional(commaSep1(rule));
 }
 
