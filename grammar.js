@@ -383,7 +383,7 @@ module.exports = grammar ({
       ))
     ),
     
-    string_constant: $ => repeat1(seq('"', $.string_chars, '"')),
+    string_constant: $ => repeat1(seq('"', optional($.string_chars), '"')),
     
     string_chars: $ => repeat1($.string_char),
     string_char: $ => choice(

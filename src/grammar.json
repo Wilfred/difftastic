@@ -2156,8 +2156,16 @@
             "value": "\""
           },
           {
-            "type": "SYMBOL",
-            "name": "string_chars"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "string_chars"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",
