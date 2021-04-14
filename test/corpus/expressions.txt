@@ -494,81 +494,73 @@ public class SwitchDemo {
 
 ---
 
-(program 
-  (class_declaration 
+(program
+  (class_declaration
     (modifiers)
     name: (identifier)
-    body: (class_body 
-      (method_declaration 
+    body: (class_body
+      (method_declaration
         (modifiers)
         type: (void_type)
         name: (identifier)
-        parameters: (formal_parameters 
-          (formal_parameter 
-            type: (array_type 
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (array_type
               element: (type_identifier)
               dimensions: (dimensions))
             name: (identifier)))
-        body: (block 
-          (local_variable_declaration 
+        body: (block
+          (local_variable_declaration
             type: (integral_type)
-            declarator: (variable_declarator 
+            declarator: (variable_declarator
               name: (identifier)
               value: (decimal_integer_literal)))
-          (local_variable_declaration 
+          (local_variable_declaration
             type: (type_identifier)
-            declarator: (variable_declarator 
+            declarator: (variable_declarator
               name: (identifier)))
-          (switch_expression 
-            condition: (parenthesized_expression 
+          (switch_expression
+            condition: (parenthesized_expression
               (identifier))
-            body: (switch_block 
-              (switch_block_statement_group 
-                (switch_label 
-                  (decimal_integer_literal)))
-              (switch_block_statement_group 
-                (expression_statement 
-                  (assignment_expression 
+            body: (switch_block
+              (switch_block_statement_group
+                (switch_label
+                  (decimal_integer_literal))
+                (expression_statement
+                  (assignment_expression
                     left: (identifier)
-                    right: (string_literal))))
-              (switch_block_statement_group 
+                    right: (string_literal)))
                 (break_statement))
-              (switch_block_statement_group 
-                (switch_label 
-                  (decimal_integer_literal)))
-              (switch_block_statement_group 
-                (expression_statement 
-                  (assignment_expression 
+              (switch_block_statement_group
+                (switch_label
+                  (decimal_integer_literal))
+                (expression_statement
+                  (assignment_expression
                     left: (identifier)
-                    right: (string_literal))))
-              (switch_block_statement_group 
+                    right: (string_literal)))
                 (break_statement))
-              (switch_block_statement_group 
-                (switch_label 
-                  (decimal_integer_literal)))
-              (switch_block_statement_group 
-                (expression_statement 
-                  (assignment_expression 
+              (switch_block_statement_group
+                (switch_label
+                  (decimal_integer_literal))
+                (expression_statement
+                  (assignment_expression
                     left: (identifier)
-                    right: (string_literal))))
-              (switch_block_statement_group 
+                    right: (string_literal)))
                 (break_statement))
-              (switch_block_statement_group 
-                (switch_label))
-              (switch_block_statement_group 
-                (expression_statement 
-                  (assignment_expression 
+              (switch_block_statement_group
+                (switch_label)
+                (expression_statement
+                  (assignment_expression
                     left: (identifier)
-                    right: (string_literal))))
-              (switch_block_statement_group 
+                    right: (string_literal)))
                 (break_statement))))
-          (expression_statement 
-            (method_invocation 
-              object: (field_access 
+          (expression_statement
+            (method_invocation
+              object: (field_access
                 object: (identifier)
                 field: (identifier))
               name: (identifier)
-              arguments: (argument_list 
+              arguments: (argument_list
                 (identifier)))))))))
 
 ==================================
@@ -699,19 +691,16 @@ class Test {
                     (switch_label
                       (binary_expression
                         left: (decimal_integer_literal)
-                        right: (decimal_integer_literal))))
-                  (switch_block_statement_group
+                        right: (decimal_integer_literal)))
                     (yield_statement
                       (decimal_integer_literal)))
                   (switch_block_statement_group
                     (switch_label
-                      (identifier)))
-                  (switch_block_statement_group
+                      (identifier))
                     (yield_statement
                       (decimal_integer_literal)))
                   (switch_block_statement_group
-                    (switch_label))
-                  (switch_block_statement_group
+                    (switch_label)
                     (expression_statement
                       (method_invocation
                         object: (field_access
@@ -719,8 +708,7 @@ class Test {
                           field: (identifier))
                         name: (identifier)
                         arguments: (argument_list
-                          (string_literal)))))
-                  (switch_block_statement_group
+                          (string_literal))))
                     (yield_statement
                       (decimal_integer_literal))))))))))))
 
