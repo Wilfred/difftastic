@@ -90,6 +90,8 @@
 
 ":" @delimiter
 ";" @delimiter
+"{" @delimiter
+"}" @delimiter
 
 (comment) @comment
 
