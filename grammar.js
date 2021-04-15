@@ -16,15 +16,18 @@ const WHITESPACE =
 
 const PREC = {
     NORMAL: 1,
-    SPECIAL: 2,
+    PACKAGE_LIT: 2,
+    DOTTET_LIT: 3,
+    SPECIAL: 4,
 }
 
 const SYMBOL_HEAD =
-    /[^\f\n\r\t ()\[\]{}"@~^;`\\,:#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
+    /[^:.\f\n\r\t ()\[\]{}"@~^;`\\,#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
 const SYMBOL_BODY =
     choice(SYMBOL_HEAD,
-        /[#':0-9]/);
+        /[#'0-9]/);
+
 const SYMBOL =
     token(seq(SYMBOL_HEAD,
         repeat(SYMBOL_BODY)));
@@ -147,16 +150,34 @@ module.exports = grammar(clojure, {
                     repeat(choice(field('value', $._form), $._gap)),
                     field('close', ")"))),
 
+        dotted_sym_lit: $ => prec.left(PREC.DOTTET_LIT, seq($.sym_lit, repeat1(seq(".", $.sym_lit)))),
+
+        package_lit: $ => prec(PREC.PACKAGE_LIT, seq(
+            optional(field('package', choice($.dotted_sym_lit, $.sym_lit))),
+            choice(':', '::'),
+            field('symbol', choice($.dotted_sym_lit, $.sym_lit))
+        )),
+
+        //kwd_lit: $ => prec(-1, seq(
+            //choice(':', '::'),
+            //$.sym_lit),
+        //),
+
+        sym_lit: $ =>
+            seq(repeat($._metadata_lit),
+                SYMBOL),
+
         _form: $ =>
             choice(// atom-ish
                 $.num_lit,
                 $.fancy_literal,
                 //$.defun_header,
-                $.kwd_lit,
+                //seq($._gap, $.kwd_lit),
                 $.str_lit,
                 $.char_lit,
                 $.nil_lit,
                 //$.bool_lit,
+                $.package_lit,
                 $.sym_lit,
                 // basic collection-ish
                 $.list_lit,
@@ -181,12 +202,8 @@ module.exports = grammar(clojure, {
                 $.unquoting_lit,
                 $.include_reader_macro,
                 $.complex_num_lit,
-                '.',
+                seq($._gap, '.'),
             ),
-
-        sym_lit: $ =>
-            seq(repeat($._metadata_lit),
-                SYMBOL),
 
         include_reader_macro: $ =>
             seq(repeat($._metadata_lit),

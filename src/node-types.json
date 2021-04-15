@@ -44,10 +44,6 @@
           "named": true
         },
         {
-          "type": "kwd_lit",
-          "named": true
-        },
-        {
           "type": "list_lit",
           "named": true
         },
@@ -57,6 +53,10 @@
         },
         {
           "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
           "named": true
         },
         {
@@ -124,6 +124,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "auto_res_mark",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "complex_num_lit",
@@ -236,10 +241,6 @@
           "named": true
         },
         {
-          "type": "kwd_lit",
-          "named": true
-        },
-        {
           "type": "list_lit",
           "named": true
         },
@@ -249,6 +250,10 @@
         },
         {
           "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
           "named": true
         },
         {
@@ -339,11 +344,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -359,10 +372,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -372,6 +381,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -449,7 +462,7 @@
     "named": true,
     "fields": {
       "function_name": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -461,11 +474,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -481,10 +502,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -494,6 +511,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -622,7 +643,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -634,11 +655,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -654,10 +683,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -667,6 +692,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -750,7 +779,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -762,11 +791,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -782,10 +819,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -795,6 +828,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -904,10 +941,6 @@
           "named": true
         },
         {
-          "type": "kwd_lit",
-          "named": true
-        },
-        {
           "type": "list_lit",
           "named": true
         },
@@ -917,6 +950,10 @@
         },
         {
           "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
           "named": true
         },
         {
@@ -965,6 +1002,21 @@
         },
         {
           "type": "vec_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dotted_sym_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "sym_lit",
           "named": true
         }
       ]
@@ -1043,7 +1095,7 @@
     "named": true,
     "fields": {
       "variable": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1055,11 +1107,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -1075,10 +1135,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -1088,6 +1144,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -1182,10 +1242,6 @@
           "named": true
         },
         {
-          "type": "kwd_lit",
-          "named": true
-        },
-        {
           "type": "list_lit",
           "named": true
         },
@@ -1195,6 +1251,10 @@
         },
         {
           "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
           "named": true
         },
         {
@@ -1258,7 +1318,7 @@
     "named": true,
     "fields": {
       "condition": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1270,11 +1330,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -1290,10 +1358,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -1303,6 +1367,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -1390,7 +1458,7 @@
         ]
       },
       "target": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1402,11 +1470,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -1422,10 +1498,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -1435,6 +1507,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -1560,11 +1636,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -1580,10 +1664,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -1593,6 +1673,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -1813,11 +1897,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -1833,10 +1925,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -1846,6 +1934,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -2027,6 +2119,40 @@
     }
   },
   {
+    "type": "package_lit",
+    "named": true,
+    "fields": {
+      "package": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "dotted_sym_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          }
+        ]
+      },
+      "symbol": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dotted_sym_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "quoting_lit",
     "named": true,
     "fields": {
@@ -2061,7 +2187,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -2073,11 +2199,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -2093,10 +2227,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -2106,6 +2236,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -2241,11 +2375,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -2261,10 +2403,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -2274,6 +2412,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -2417,11 +2559,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -2437,10 +2587,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -2450,6 +2596,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -2559,10 +2709,6 @@
           "named": true
         },
         {
-          "type": "kwd_lit",
-          "named": true
-        },
-        {
           "type": "list_lit",
           "named": true
         },
@@ -2572,6 +2718,10 @@
         },
         {
           "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
           "named": true
         },
         {
@@ -2692,11 +2842,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -2712,10 +2870,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -2725,6 +2879,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -2967,10 +3125,6 @@
           "named": true
         },
         {
-          "type": "kwd_lit",
-          "named": true
-        },
-        {
           "type": "list_lit",
           "named": true
         },
@@ -2980,6 +3134,10 @@
         },
         {
           "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
           "named": true
         },
         {
@@ -3068,7 +3226,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -3080,11 +3238,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -3100,10 +3266,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -3113,6 +3275,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -3196,7 +3362,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -3208,11 +3374,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -3228,10 +3402,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -3241,6 +3411,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -3344,7 +3518,7 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -3356,11 +3530,19 @@
             "named": true
           },
           {
+            "type": "comment",
+            "named": true
+          },
+          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
             "named": true
           },
           {
@@ -3376,10 +3558,6 @@
             "named": true
           },
           {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
             "type": "list_lit",
             "named": true
           },
@@ -3389,6 +3567,10 @@
           },
           {
             "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
             "named": true
           },
           {
@@ -3570,10 +3752,6 @@
           "named": true
         },
         {
-          "type": "kwd_lit",
-          "named": true
-        },
-        {
           "type": "list_lit",
           "named": true
         },
@@ -3583,6 +3761,10 @@
         },
         {
           "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
           "named": true
         },
         {
@@ -3677,10 +3859,6 @@
           "named": true
         },
         {
-          "type": "kwd_lit",
-          "named": true
-        },
-        {
           "type": "list_lit",
           "named": true
         },
@@ -3690,6 +3868,10 @@
         },
         {
           "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
           "named": true
         },
         {
@@ -3816,6 +3998,14 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
     "type": "=",
     "named": false
   },
@@ -3854,10 +4044,6 @@
   {
     "type": "as",
     "named": false
-  },
-  {
-    "type": "auto_res_mark",
-    "named": true
   },
   {
     "type": "being",
