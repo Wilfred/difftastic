@@ -135,6 +135,11 @@
     "fields": {}
   },
   {
+    "type": "char_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "complex_num_lit",
     "named": true,
     "fields": {
@@ -154,6 +159,10 @@
         "types": [
           {
             "type": "#C",
+            "named": false
+          },
+          {
+            "type": "#c",
             "named": false
           }
         ]
@@ -1867,6 +1876,10 @@
           "named": true
         },
         {
+          "type": "repeat_clause",
+          "named": true
+        },
+        {
           "type": "termination_clause",
           "named": true
         },
@@ -2584,6 +2597,117 @@
         },
         {
           "type": "loop_macro",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "repeat_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
+          "type": "derefing_lit",
+          "named": true
+        },
+        {
+          "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "evaling_lit",
+          "named": true
+        },
+        {
+          "type": "fancy_literal",
+          "named": true
+        },
+        {
+          "type": "include_reader_macro",
+          "named": true
+        },
+        {
+          "type": "kwd_lit",
+          "named": true
+        },
+        {
+          "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "nil_lit",
+          "named": true
+        },
+        {
+          "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "quoting_lit",
+          "named": true
+        },
+        {
+          "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "set_lit",
+          "named": true
+        },
+        {
+          "type": "splicing_read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "str_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
+          "named": true
+        },
+        {
+          "type": "sym_val_lit",
+          "named": true
+        },
+        {
+          "type": "syn_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
+          "named": true
+        },
+        {
+          "type": "var_quoting_lit",
+          "named": true
+        },
+        {
+          "type": "vec_lit",
           "named": true
         }
       ]
@@ -3809,6 +3933,10 @@
           {
             "type": "#0A",
             "named": false
+          },
+          {
+            "type": "#0a",
+            "named": false
           }
         ]
       }
@@ -4083,6 +4211,10 @@
     "named": false
   },
   {
+    "type": "#0a",
+    "named": false
+  },
+  {
     "type": "#=",
     "named": false
   },
@@ -4104,6 +4236,10 @@
   },
   {
     "type": "#_",
+    "named": false
+  },
+  {
+    "type": "#c",
     "named": false
   },
   {
@@ -4159,6 +4295,10 @@
     "named": false
   },
   {
+    "type": "a",
+    "named": false
+  },
+  {
     "type": "accumulation_verb",
     "named": true
   },
@@ -4193,10 +4333,6 @@
   {
     "type": "by",
     "named": false
-  },
-  {
-    "type": "char_lit",
-    "named": true
   },
   {
     "type": "cl:loop",
@@ -4308,6 +4444,10 @@
   },
   {
     "type": "unless",
+    "named": false
+  },
+  {
+    "type": "until",
     "named": false
   },
   {

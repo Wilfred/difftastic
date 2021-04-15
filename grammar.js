@@ -23,7 +23,7 @@ const PREC = {
 }
 
 const SYMBOL_HEAD =
-    /[^:.\f\n\r\t ()\[\]{}"@~^;`\\,#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
+    /[^:.\f\n\r\t ()\[\]{}"@^;`\\,#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
 const SYMBOL_BODY =
     choice(SYMBOL_HEAD,
@@ -97,7 +97,7 @@ module.exports = grammar(clojure, {
 
         with_clause: $ => prec.left(seq('with', optional($._gap), $._form, optional($._gap), "=", optional($._gap), $._form)),
         do_clause: $ => prec.left(seq('do', repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
-        while_clause: $ => prec.left(seq('while', optional($._gap), $._form)),
+        while_clause: $ => prec.left(seq(choice('while', 'until'), optional($._gap), $._form)),
         repeat_clause: $ => prec.left(seq('repeat', optional($._gap), $._form)),
         condition_clause: $ => prec.left(seq(choice('when', 'if', 'unless', 'always', 'thereis', 'never'), optional($._gap), $._form)),
         accumulation_clause: $ => seq($.accumulation_verb, optional($._gap), $._form, optional(seq(optional($._gap), 'into', optional($._gap), $._form))),
@@ -110,6 +110,7 @@ module.exports = grammar(clojure, {
                 $.do_clause,
                 $.list_lit,
                 $.while_clause,
+                $.repeat_clause,
                 $.accumulation_clause,
                 $.condition_clause,
                 $.with_clause,
@@ -131,7 +132,7 @@ module.exports = grammar(clojure, {
                 seq(field('keyword', $.defun_keyword),
                     repeat($._gap),
                     field('function_name', $._form),
-                    optional(field('specifier', seq(repeat($._gap),$.kwd_lit))),
+                    optional(field('specifier', seq(repeat($._gap), $.kwd_lit))),
                     repeat($._gap),
                     field('lambda_list', $.list_lit)),
                 seq(field('keyword', alias('lambda', $.defun_keyword)),
@@ -139,10 +140,13 @@ module.exports = grammar(clojure, {
                     field('lambda_list', $.list_lit))
             ),
 
-        array_dimension: $ => seq($.num_lit, 'A'),
+        array_dimension: $ => seq($.num_lit, choice('A', 'a')),
+
+        char_lit: (_, original) =>
+            seq(optional('#'), original),
 
         _bare_vec_lit: $ =>
-            choice(seq(field('open', '#0A'), $.num_lit),
+            choice(seq(field('open', choice('#0A', '#0a')), $.num_lit),
                 seq(field('open', '#'), optional(field('dimension_indicator', $.array_dimension)), $.list_lit)),
 
         _bare_list_lit: $ =>
@@ -218,7 +222,7 @@ module.exports = grammar(clojure, {
 
         complex_num_lit: $ =>
             seq(repeat($._metadata_lit),
-                field('marker', "#C"),
+                field('marker', choice("#C", "#c")),
                 repeat($._gap),
                 '(',
                 repeat($._gap),
