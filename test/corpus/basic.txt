@@ -498,9 +498,9 @@ Keywords
 --------------------------------------------------------------------------------
 
 (source
-  (package_lit
+  (kwd_lit
     (sym_lit))
-  (package_lit
+  (kwd_lit
     (dotted_sym_lit
       (sym_lit)
       (sym_lit))))

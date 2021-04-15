@@ -18,7 +18,8 @@ const PREC = {
     NORMAL: 1,
     PACKAGE_LIT: 2,
     DOTTET_LIT: 3,
-    SPECIAL: 4,
+    KWD_LIT: 4,
+    SPECIAL: 5,
 }
 
 const SYMBOL_HEAD =
@@ -153,15 +154,15 @@ module.exports = grammar(clojure, {
         dotted_sym_lit: $ => prec.left(PREC.DOTTET_LIT, seq($.sym_lit, repeat1(seq(".", $.sym_lit)))),
 
         package_lit: $ => prec(PREC.PACKAGE_LIT, seq(
-            optional(field('package', choice($.dotted_sym_lit, $.sym_lit))),
+            field('package', choice($.dotted_sym_lit, $.sym_lit)), // Make optional, instead of keywords?
             choice(':', '::'),
             field('symbol', choice($.dotted_sym_lit, $.sym_lit))
         )),
 
-        //kwd_lit: $ => prec(-1, seq(
-            //choice(':', '::'),
-            //$.sym_lit),
-        //),
+        kwd_lit: $ => prec(PREC.KWD_LIT, seq(
+            choice(':', '::'),
+            choice($.sym_lit, $.dotted_sym_lit),
+        )),
 
         sym_lit: $ =>
             seq(repeat($._metadata_lit),
@@ -172,7 +173,7 @@ module.exports = grammar(clojure, {
                 $.num_lit,
                 $.fancy_literal,
                 //$.defun_header,
-                //seq($._gap, $.kwd_lit),
+               $.kwd_lit,
                 $.str_lit,
                 $.char_lit,
                 $.nil_lit,
