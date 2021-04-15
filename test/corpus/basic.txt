@@ -92,6 +92,16 @@ Defun header
 ( defun a (a b)
   (car 1 2)
   2)
+
+(defmethod input-gradient :around
+    (lazy-array output-gradient index)
+  (let ((input (nth index (lazy-array-inputs lazy-array)))
+        (value (call-next-method)))
+    (if (petalisp.type-inference:ntype=
+         (element-ntype value)
+         (element-ntype input))
+        value
+        (lazy #'coerce value (element-type input)))))
 --------------------------------------------------------------------------------
 
 (source
@@ -120,7 +130,56 @@ Defun header
         (sym_lit)
         (num_lit)
         (num_lit))
-      (num_lit))))
+      (num_lit)))
+  (list_lit
+    (defun
+      (defun_header
+        (defun_keyword)
+        (sym_lit)
+        (kwd_lit
+          (sym_lit))
+        (list_lit
+          (sym_lit)
+          (sym_lit)
+          (sym_lit)))
+      (list_lit
+        (sym_lit)
+        (list_lit
+          (list_lit
+            (sym_lit)
+            (list_lit
+              (sym_lit)
+              (sym_lit)
+              (list_lit
+                (sym_lit)
+                (sym_lit))))
+          (list_lit
+            (sym_lit)
+            (list_lit
+              (sym_lit))))
+        (list_lit
+          (sym_lit)
+          (list_lit
+            (package_lit
+              (dotted_sym_lit
+                (sym_lit)
+                (sym_lit))
+              (sym_lit))
+            (list_lit
+              (sym_lit)
+              (sym_lit))
+            (list_lit
+              (sym_lit)
+              (sym_lit)))
+          (sym_lit)
+          (list_lit
+            (sym_lit)
+            (var_quoting_lit
+              (sym_lit))
+            (sym_lit)
+            (list_lit
+              (sym_lit)
+              (sym_lit))))))))
 
 ================================================================================
 Vectors

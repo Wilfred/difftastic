@@ -602,6 +602,24 @@
             "named": true
           }
         ]
+      },
+      "specifier": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "comment",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          }
+        ]
       }
     },
     "children": {

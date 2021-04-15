@@ -38,7 +38,7 @@ module.exports = grammar(clojure, {
     name: 'commonlisp',
 
     extras: ($, original) => [...original, $.block_comment],
-    conflicts: ($, original) => [...original, [$.for_clause], [$.accumulation_clause]],
+    conflicts: ($, original) => [...original, [$.for_clause], [$.accumulation_clause], [$.accumulation_clause],],
 
     rules: {
         block_comment: _ => token(seq('#|', repeat(choice(/[^|]/, /\|[^#]/)), '|#')),
@@ -131,6 +131,7 @@ module.exports = grammar(clojure, {
                 seq(field('keyword', $.defun_keyword),
                     repeat($._gap),
                     field('function_name', $._form),
+                    optional(field('specifier', seq(repeat($._gap),$.kwd_lit))),
                     repeat($._gap),
                     field('lambda_list', $.list_lit)),
                 seq(field('keyword', alias('lambda', $.defun_keyword)),
@@ -160,6 +161,7 @@ module.exports = grammar(clojure, {
         )),
 
         kwd_lit: $ => prec(PREC.KWD_LIT, seq(
+            optional('#'),
             choice(':', '::'),
             choice($.sym_lit, $.dotted_sym_lit),
         )),
@@ -173,7 +175,7 @@ module.exports = grammar(clojure, {
                 $.num_lit,
                 $.fancy_literal,
                 //$.defun_header,
-               $.kwd_lit,
+                $.kwd_lit,
                 $.str_lit,
                 $.char_lit,
                 $.nil_lit,

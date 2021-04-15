@@ -443,6 +443,18 @@
             "members": [
               {
                 "type": "STRING",
+                "value": "#"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
                 "value": ":"
               },
               {
@@ -2390,6 +2402,34 @@
               }
             },
             {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "specifier",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "REPEAT",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "_gap"
+                        }
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "kwd_lit"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
               "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
@@ -2680,6 +2720,9 @@
   "conflicts": [
     [
       "for_clause"
+    ],
+    [
+      "accumulation_clause"
     ],
     [
       "accumulation_clause"
