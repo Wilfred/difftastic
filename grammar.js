@@ -394,7 +394,7 @@ module.exports = grammar({
 
     switch_block_statement_group: $ => prec.left (seq(
         repeat1(seq($.switch_label, ':')),
-        repeat1($.statement),
+        repeat($.statement),
     )),
 
     switch_rule: $ => seq(
