@@ -95,8 +95,8 @@ module.exports = grammar(clojure, {
 
         accumulation_verb: _ => /((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?)/,
 
-        for_clause: $ => seq(choice('for', 'and', 'as'), repeat($._gap), field('variable', $._form),
-            repeat1($._for_part)),
+        for_clause: $ => choice(seq(choice('for', 'and', 'as'), repeat($._gap), field('variable', $._form), optional(field('type', seq(repeat($._gap), $._form))),
+            repeat1($._for_part)), 'and'),
 
         with_clause: $ => prec.left(seq('with', repeat($._gap), $._form, repeat($._gap), "=", repeat($._gap), $._form)),
         do_clause: $ => prec.left(seq('do', repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
@@ -140,7 +140,7 @@ module.exports = grammar(clojure, {
                     field('lambda_list', choice($.list_lit, $.unquoting_lit))),
                 seq(field('keyword', alias('lambda', $.defun_keyword)),
                     repeat($._gap),
-                    field('lambda_list', $.list_lit))
+                    field('lambda_list', choice($.list_lit, $.unquoting_lit)))
             ),
 
         array_dimension: $ => seq($.num_lit, choice('A', 'a')),

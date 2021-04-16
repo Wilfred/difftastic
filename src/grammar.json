@@ -1863,46 +1863,83 @@
       "value": "((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?)"
     },
     "for_clause": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "STRING",
-              "value": "for"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "for"
+                },
+                {
+                  "type": "STRING",
+                  "value": "and"
+                },
+                {
+                  "type": "STRING",
+                  "value": "as"
+                }
+              ]
             },
             {
-              "type": "STRING",
-              "value": "and"
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_gap"
+              }
             },
             {
-              "type": "STRING",
-              "value": "as"
+              "type": "FIELD",
+              "name": "variable",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_form"
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "type",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "REPEAT",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "_gap"
+                        }
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_form"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_for_part"
+              }
             }
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_gap"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "variable",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_form"
-          }
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_for_part"
-          }
+          "type": "STRING",
+          "value": "and"
         }
       ]
     },
@@ -2454,8 +2491,17 @@
               "type": "FIELD",
               "name": "lambda_list",
               "content": {
-                "type": "SYMBOL",
-                "name": "list_lit"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "list_lit"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "unquoting_lit"
+                  }
+                ]
               }
             }
           ]
