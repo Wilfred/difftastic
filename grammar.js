@@ -64,7 +64,7 @@ module.exports = grammar(clojure, {
         syn_quoting_lit: $ =>
             seq(field('marker', "`"),
                 repeat($._gap),
-                field('value', $.list_lit)),
+                field('value', ($._form))),
 
         defun: $ =>
             seq(field('open', "("),
@@ -77,7 +77,7 @@ module.exports = grammar(clojure, {
             'across',
             'being',
             'using',
-            /being the (hash-key[s]?|hash-value[s]?) in/,
+            /being the (hash-key[s]?|hash-value[s]?|present-symbol[s]?) (in|of)/,
             'below',
             'above',
             'from',
@@ -137,7 +137,7 @@ module.exports = grammar(clojure, {
                     field('function_name', $._form),
                     optional(field('specifier', seq(repeat($._gap), choice($.kwd_lit, $.sym_lit)))),
                     repeat($._gap),
-                    field('lambda_list', $.list_lit)),
+                    field('lambda_list', choice($.list_lit, $.unquoting_lit))),
                 seq(field('keyword', alias('lambda', $.defun_keyword)),
                     repeat($._gap),
                     field('lambda_list', $.list_lit))
