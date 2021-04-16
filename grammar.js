@@ -21,6 +21,7 @@ const PREC = {
     DOTTET_LIT: 3,
     KWD_LIT: 4,
     SPECIAL: 5,
+    META_LIT: 6,
 }
 
 const SYMBOL_HEAD =
@@ -39,7 +40,7 @@ module.exports = grammar(clojure, {
     name: 'commonlisp',
 
     extras: ($, original) => [...original, $.block_comment],
-    conflicts: ($, original) => [...original, [$.for_clause], [$.accumulation_clause], [$.accumulation_clause],],
+    conflicts: ($, original) => [...original, [$.for_clause], [$.accumulation_clause],],
 
     rules: {
         block_comment: _ => token(seq('#|', repeat(choice(/[^|]/, /\|[^#]/)), '|#')),
@@ -101,7 +102,7 @@ module.exports = grammar(clojure, {
         do_clause: $ => prec.left(seq('do', repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
         while_clause: $ => prec.left(seq(choice('while', 'until'), optional($._gap), $._form)),
         repeat_clause: $ => prec.left(seq('repeat', optional($._gap), $._form)),
-        condition_clause: $ => prec.left(seq(choice('when', 'if', 'unless', 'always', 'thereis', 'never', 'else'), optional($._gap), $._form)),
+        condition_clause: $ => prec.left(choice(seq(choice('when', 'if', 'unless', 'always', 'thereis', 'never'), repeat($._gap), $._form), "else")),
         accumulation_clause: $ => seq($.accumulation_verb, optional($._gap), $._form, optional(seq(optional($._gap), 'into', optional($._gap), $._form))),
         termination_clause: $ => prec.left(seq(choice('finally', 'return', 'initially'), optional($._gap), $._form)),
 
@@ -145,14 +146,15 @@ module.exports = grammar(clojure, {
         array_dimension: $ => seq($.num_lit, choice('A', 'a')),
 
         char_lit: (_, original) =>
-            seq(optional('#'), original),
+            seq(original),
+
         num_lit: (_, original) =>
             prec(PREC.NUM_LIT, original),
 
 
         _bare_vec_lit: $ =>
-            choice(seq(field('open', choice('#0A', '#0a')), $.num_lit),
-                seq(field('open', '#'), optional(field('dimension_indicator', $.array_dimension)), $.list_lit)),
+            prec(PREC.SPECIAL, choice(seq(field('open', choice('#0A', '#0a')), $.num_lit),
+                seq(field('open', '#'), optional(field('dimension_indicator', $.array_dimension)), $.list_lit))),
 
         _bare_list_lit: $ =>
             choice(prec(PREC.SPECIAL, $.defun),
@@ -170,16 +172,15 @@ module.exports = grammar(clojure, {
         )),
 
         kwd_lit: $ => prec(PREC.KWD_LIT, seq(
-            optional('#'),
             choice(':', '::'),
             $.sym_lit,
         )),
 
-        sym_lit: $ =>
-            seq(repeat($._metadata_lit),
-                SYMBOL),
+        sym_lit: _ =>
+            seq(SYMBOL),
 
         _form: $ =>
+        seq(optional('#'),
             choice(// atom-ish
                 $.num_lit,
                 $.fancy_literal,
@@ -216,7 +217,7 @@ module.exports = grammar(clojure, {
                 $.complex_num_lit,
                 ".",
                 //seq($._gap, '.'),
-            ),
+            )),
 
         include_reader_macro: $ =>
             seq(repeat($._metadata_lit),
