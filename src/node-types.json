@@ -619,6 +619,10 @@
           {
             "type": "kwd_lit",
             "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
           }
         ]
       }

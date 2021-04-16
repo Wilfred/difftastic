@@ -658,3 +658,90 @@ Loop (else)
         (accumulation_clause
           (accumulation_verb)
           (sym_lit))))))
+
+================================================================================
+Multiple gaps in Loop
+================================================================================
+
+(defmethod cl-dot:graph-object-points-to
+    ((graph any-graph) node)
+  (loop for edge in (graphviz-potential-edges graph node)
+        append
+        ;; There must be a more graceful way to loop over sequences...
+        (loop for target in (coerce (graphviz-outgoing-edge-targets graph edge node) 'list)
+              for edge-number from 0
+              collect
+              (make-instance 'cl-dot:attributed
+                :attributes (graphviz-edge-attributes graph edge node target edge-number)
+                :object target))))
+
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (defun
+      (defun_header
+        (defun_keyword)
+        (package_lit
+          (sym_lit)
+          (sym_lit))
+        (list_lit
+          (list_lit
+            (sym_lit)
+            (sym_lit))
+          (sym_lit)))
+      (list_lit
+        (loop_macro
+          (loop_clause
+            (for_clause
+              (sym_lit)
+              (for_clause_word)
+              (list_lit
+                (sym_lit)
+                (sym_lit)
+                (sym_lit))))
+          (loop_clause
+            (accumulation_clause
+              (accumulation_verb)
+              (comment)
+              (list_lit
+                (loop_macro
+                  (loop_clause
+                    (for_clause
+                      (sym_lit)
+                      (for_clause_word)
+                      (list_lit
+                        (sym_lit)
+                        (list_lit
+                          (sym_lit)
+                          (sym_lit)
+                          (sym_lit)
+                          (sym_lit))
+                        (quoting_lit
+                          (sym_lit)))))
+                  (loop_clause
+                    (for_clause
+                      (sym_lit)
+                      (for_clause_word)
+                      (num_lit)))
+                  (loop_clause
+                    (accumulation_clause
+                      (accumulation_verb)
+                      (list_lit
+                        (sym_lit)
+                        (quoting_lit
+                          (package_lit
+                            (sym_lit)
+                            (sym_lit)))
+                        (kwd_lit
+                          (sym_lit))
+                        (list_lit
+                          (sym_lit)
+                          (sym_lit)
+                          (sym_lit)
+                          (sym_lit)
+                          (sym_lit)
+                          (sym_lit))
+                        (kwd_lit
+                          (sym_lit))
+                        (sym_lit)))))))))))))

@@ -91,20 +91,20 @@ module.exports = grammar(clojure, {
             '='),
 
 
-        _for_part: $ => seq(optional($._gap), $.for_clause_word, optional($._gap), $._form),
+        _for_part: $ => seq(repeat($._gap), $.for_clause_word, repeat($._gap), $._form),
 
         accumulation_verb: _ => /((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?)/,
 
-        for_clause: $ => seq(choice('for', 'and', 'as'), optional($._gap), field('variable', $._form),
+        for_clause: $ => seq(choice('for', 'and', 'as'), repeat($._gap), field('variable', $._form),
             repeat1($._for_part)),
 
-        with_clause: $ => prec.left(seq('with', optional($._gap), $._form, optional($._gap), "=", optional($._gap), $._form)),
+        with_clause: $ => prec.left(seq('with', repeat($._gap), $._form, repeat($._gap), "=", repeat($._gap), $._form)),
         do_clause: $ => prec.left(seq('do', repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
-        while_clause: $ => prec.left(seq(choice('while', 'until'), optional($._gap), $._form)),
-        repeat_clause: $ => prec.left(seq('repeat', optional($._gap), $._form)),
+        while_clause: $ => prec.left(seq(choice('while', 'until'), repeat($._gap), $._form)),
+        repeat_clause: $ => prec.left(seq('repeat', repeat($._gap), $._form)),
         condition_clause: $ => prec.left(choice(seq(choice('when', 'if', 'unless', 'always', 'thereis', 'never'), repeat($._gap), $._form), "else")),
-        accumulation_clause: $ => seq($.accumulation_verb, optional($._gap), $._form, optional(seq(optional($._gap), 'into', optional($._gap), $._form))),
-        termination_clause: $ => prec.left(seq(choice('finally', 'return', 'initially'), optional($._gap), $._form)),
+        accumulation_clause: $ => seq($.accumulation_verb, repeat($._gap), $._form, optional(seq(repeat($._gap), 'into', repeat($._gap), $._form))),
+        termination_clause: $ => prec.left(seq(choice('finally', 'return', 'initially'), repeat($._gap), $._form)),
 
 
         loop_clause: $ =>
@@ -135,7 +135,7 @@ module.exports = grammar(clojure, {
                 seq(field('keyword', $.defun_keyword),
                     repeat($._gap),
                     field('function_name', $._form),
-                    optional(field('specifier', seq(repeat($._gap), $.kwd_lit))),
+                    optional(field('specifier', seq(repeat($._gap), choice($.kwd_lit, $.sym_lit)))),
                     repeat($._gap),
                     field('lambda_list', $.list_lit)),
                 seq(field('keyword', alias('lambda', $.defun_keyword)),
@@ -184,7 +184,6 @@ module.exports = grammar(clojure, {
             choice(// atom-ish
                 $.num_lit,
                 $.fancy_literal,
-                //$.defun_header,
                 $.kwd_lit,
                 $.str_lit,
                 $.char_lit,
