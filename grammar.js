@@ -4,6 +4,7 @@ const PREC = {
   // https://introcs.cs.princeton.edu/java/11precedence/
   COMMENT: 0,      // //  /*  */
   ASSIGN: 1,       // =  += -=  *=  /=  %=  &=  ^=  |=  <<=  >>=  >>>=
+  SWITCH_EXP: 1,   // always prefer to parse switch as expression over statement
   DECL: 2,
   ELEMENT_VAL: 2,
   TERNARY: 3,      // ?:
@@ -62,6 +63,8 @@ module.exports = grammar({
     [$._unannotated_type, $.scoped_type_identifier],
     [$._unannotated_type, $.generic_type],
     [$.generic_type, $.primary_expression],
+    // Only conflicts in switch expressions
+    [$.lambda_expression, $.primary_expression],
   ],
 
   word: $ => $.identifier,
@@ -162,7 +165,8 @@ module.exports = grammar({
       $.update_expression,
       $.primary_expression,
       $.unary_expression,
-      $.cast_expression
+      $.cast_expression,
+      prec(PREC.SWITCH_EXP, $.switch_expression), 
     ),
 
     cast_expression: $ => prec(PREC.CAST, seq(
@@ -272,7 +276,7 @@ module.exports = grammar({
       $.array_access,
       $.method_invocation,
       $.method_reference,
-      $.array_creation_expression
+      $.array_creation_expression,
     ),
 
     array_creation_expression: $ => prec.right(seq(
@@ -373,6 +377,37 @@ module.exports = grammar({
       seq(repeat($._annotation), '[', ']')
     )),
 
+    switch_expression: $ => seq(
+      'switch',
+      field('condition', $.parenthesized_expression),
+      field('body', $.switch_block)
+    ),
+
+    switch_block: $ => seq(
+      '{',
+      choice(
+        repeat($.switch_block_statement_group), 
+        repeat($.switch_rule)
+      ),
+      '}'
+    ),
+
+    switch_block_statement_group: $ => prec.left (seq(
+        repeat1(seq($.switch_label, ':')),
+        repeat($.statement),
+    )),
+
+    switch_rule: $ => seq(
+      $.switch_label,
+      '->',
+      choice($.expression_statement, $.throw_statement, $.block)
+     ),
+
+    switch_label: $ => choice(
+      seq('case', commaSep1($.expression)),
+      'default'
+    ),
+
     // Statements
 
     statement: $ => choice(
@@ -386,11 +421,12 @@ module.exports = grammar({
       $.block,
       ';',
       $.assert_statement,
-      $.switch_statement,
       $.do_statement,
       $.break_statement,
       $.continue_statement,
       $.return_statement,
+      $.yield_statement,
+      $.switch_expression, //switch statements and expressions are identical
       $.synchronized_statement,
       $.local_variable_declaration,
       $.throw_statement,
@@ -416,23 +452,6 @@ module.exports = grammar({
       seq('assert', $.expression, ':', $.expression, ';')
     ),
 
-    switch_statement: $ => seq(
-      'switch',
-      field('condition', $.parenthesized_expression),
-      field('body', $.switch_block)
-    ),
-
-    switch_block: $ => seq(
-      '{',
-      repeat(choice($.switch_label, $.statement)),
-      '}'
-    ),
-
-    switch_label: $ => choice(
-      seq('case', $.expression, ':'),
-      seq('default', ':')
-    ),
-
     do_statement: $ => seq(
       'do',
       field('body', $.statement),
@@ -448,6 +467,12 @@ module.exports = grammar({
     return_statement: $ => seq(
       'return',
       optional($.expression),
+      ';'
+    ),
+
+    yield_statement: $ => seq(
+      'yield',
+      $.expression,
       ';'
     ),
 

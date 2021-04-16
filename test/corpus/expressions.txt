@@ -471,7 +471,7 @@ class LambdaTest {
             (binary_expression (identifier) (identifier)))))))))
 
 ==================================
-switch statement
+traditional switch statement
 ==================================
 
 public class SwitchDemo {
@@ -517,37 +517,385 @@ public class SwitchDemo {
               value: (decimal_integer_literal)))
           (local_variable_declaration
             type: (type_identifier)
-            declarator: (variable_declarator name: (identifier)))
-          (switch_statement
-            condition: (parenthesized_expression (identifier))
+            declarator: (variable_declarator
+              name: (identifier)))
+          (switch_expression
+            condition: (parenthesized_expression
+              (identifier))
             body: (switch_block
-              (switch_label (decimal_integer_literal))
-              (expression_statement (assignment_expression
-                left: (identifier)
-                right: (string_literal)))
-              (break_statement)
-              (switch_label (decimal_integer_literal))
-              (expression_statement (assignment_expression
-                left: (identifier)
-                right: (string_literal)))
-              (break_statement)
-              (switch_label (decimal_integer_literal))
-              (expression_statement (assignment_expression
-                left: (identifier)
-                right: (string_literal)))
-              (break_statement)
-              (switch_label)
-              (expression_statement (assignment_expression
-                left: (identifier)
-                right: (string_literal)))
-              (break_statement)))
-          (expression_statement (method_invocation
-            object: (field_access
-              object: (identifier)
-              field: (identifier))
-            name: (identifier)
-            arguments: (argument_list (identifier)))))))))
+              (switch_block_statement_group
+                (switch_label
+                  (decimal_integer_literal))
+                (expression_statement
+                  (assignment_expression
+                    left: (identifier)
+                    right: (string_literal)))
+                (break_statement))
+              (switch_block_statement_group
+                (switch_label
+                  (decimal_integer_literal))
+                (expression_statement
+                  (assignment_expression
+                    left: (identifier)
+                    right: (string_literal)))
+                (break_statement))
+              (switch_block_statement_group
+                (switch_label
+                  (decimal_integer_literal))
+                (expression_statement
+                  (assignment_expression
+                    left: (identifier)
+                    right: (string_literal)))
+                (break_statement))
+              (switch_block_statement_group
+                (switch_label)
+                (expression_statement
+                  (assignment_expression
+                    left: (identifier)
+                    right: (string_literal)))
+                (break_statement))))
+          (expression_statement
+            (method_invocation
+              object: (field_access
+                object: (identifier)
+                field: (identifier))
+              name: (identifier)
+              arguments: (argument_list
+                (identifier)))))))))
 
+==================================
+functional switch statement
+==================================
+
+class Test {
+    int i;
+    int f(int i) {
+        return 0;
+    }
+
+    void main() {
+        switch (f(i)) {
+            case 0, 1 -> System.out.println(6);
+            case 2 -> System.out.println(7);
+        }
+    }
+}
+
+---
+
+(program
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (integral_type)
+        declarator: (variable_declarator
+          name: (identifier)))
+      (method_declaration
+        type: (integral_type)
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (integral_type)
+            name: (identifier)))
+        body: (block
+          (return_statement
+            (decimal_integer_literal))))
+      (method_declaration
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (switch_expression
+            condition: (parenthesized_expression
+              (method_invocation
+                name: (identifier)
+                arguments: (argument_list
+                  (identifier))))
+            body: (switch_block
+              (switch_rule
+                (switch_label
+                  (decimal_integer_literal)
+                  (decimal_integer_literal))
+                (expression_statement
+                  (method_invocation
+                    object: (field_access
+                      object: (identifier)
+                      field: (identifier))
+                    name: (identifier)
+                    arguments: (argument_list
+                      (decimal_integer_literal)))))
+              (switch_rule
+                (switch_label
+                  (decimal_integer_literal))
+                (expression_statement
+                  (method_invocation
+                    object: (field_access
+                      object: (identifier)
+                      field: (identifier))
+                    name: (identifier)
+                    arguments: (argument_list
+                      (decimal_integer_literal))))))))))))
+
+===========================================================
+traditional-style switch expression
+===========================================================
+
+class Test {
+    int d = 3;
+    static final int NUM = 2;
+    void main() {
+        int result = switch (d) {
+            case 5 + 6:
+                yield 1;
+            case NUM:
+                yield 2;
+            default:
+                System.out.println("hmmm...");
+                yield 0;
+        };
+    }
+}
+
+---
+
+(program
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (integral_type)
+        declarator: (variable_declarator
+          name: (identifier)
+          value: (decimal_integer_literal)))
+      (field_declaration
+        (modifiers)
+        type: (integral_type)
+        declarator: (variable_declarator
+          name: (identifier)
+          value: (decimal_integer_literal)))
+      (method_declaration
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (local_variable_declaration
+            type: (integral_type)
+            declarator: (variable_declarator
+              name: (identifier)
+              value: (switch_expression
+                condition: (parenthesized_expression
+                  (identifier))
+                body: (switch_block
+                  (switch_block_statement_group
+                    (switch_label
+                      (binary_expression
+                        left: (decimal_integer_literal)
+                        right: (decimal_integer_literal)))
+                    (yield_statement
+                      (decimal_integer_literal)))
+                  (switch_block_statement_group
+                    (switch_label
+                      (identifier))
+                    (yield_statement
+                      (decimal_integer_literal)))
+                  (switch_block_statement_group
+                    (switch_label)
+                    (expression_statement
+                      (method_invocation
+                        object: (field_access
+                          object: (identifier)
+                          field: (identifier))
+                        name: (identifier)
+                        arguments: (argument_list
+                          (string_literal))))
+                    (yield_statement
+                      (decimal_integer_literal))))))))))))
+
+==================================
+functional switch expression
+==================================
+
+class Test {
+    int i;
+    static final int ZERO = 0;
+    void main() {
+        int a = switch (i) {
+            case ZERO, 1 -> 6;
+            case (int)(2.0) -> 7;
+            default -> 8;
+        };
+    }
+}
+
+---
+
+(program
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (integral_type)
+        declarator: (variable_declarator
+          name: (identifier)))
+      (field_declaration
+        (modifiers)
+        type: (integral_type)
+        declarator: (variable_declarator
+          name: (identifier)
+          value: (decimal_integer_literal)))
+      (method_declaration
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (local_variable_declaration
+            type: (integral_type)
+            declarator: (variable_declarator
+              name: (identifier)
+              value: (switch_expression
+                condition: (parenthesized_expression
+                  (identifier))
+                body: (switch_block
+                  (switch_rule
+                    (switch_label
+                      (identifier)
+                      (decimal_integer_literal))
+                    (expression_statement
+                      (decimal_integer_literal)))
+                  (switch_rule
+                    (switch_label
+                      (cast_expression
+                        type: (integral_type)
+                        value: (parenthesized_expression
+                          (decimal_floating_point_literal))))
+                    (expression_statement
+                      (decimal_integer_literal)))
+                  (switch_rule
+                    (switch_label)
+                    (expression_statement
+                      (decimal_integer_literal))))))))))))
+
+==================================
+switch expression with block
+==================================
+
+class Test {
+    int i;
+    void main() {
+        int a = switch (i) {
+            case 0, 1 -> 6;
+            case 2 -> 7;
+            default -> { 
+                int result = 8;
+                yield result;
+            }
+        };
+    }
+}
+
+---
+
+(program
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (integral_type)
+        declarator: (variable_declarator
+          name: (identifier)))
+      (method_declaration
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (local_variable_declaration
+            type: (integral_type)
+            declarator: (variable_declarator
+              name: (identifier)
+              value: (switch_expression
+                condition: (parenthesized_expression
+                  (identifier))
+                body: (switch_block
+                  (switch_rule
+                    (switch_label
+                      (decimal_integer_literal)
+                      (decimal_integer_literal))
+                    (expression_statement
+                      (decimal_integer_literal)))
+                  (switch_rule
+                    (switch_label
+                      (decimal_integer_literal))
+                    (expression_statement
+                      (decimal_integer_literal)))
+                  (switch_rule
+                    (switch_label)
+                    (block
+                      (local_variable_declaration
+                        type: (integral_type)
+                        declarator: (variable_declarator
+                          name: (identifier)
+                          value: (decimal_integer_literal)))
+                      (yield_statement
+                        (identifier)))))))))))))
+
+==================================
+switch expressions added
+==================================
+
+class Test {
+    int i;
+    static void foo(int i, int j) {
+        // switch expressions inside of a binary expression
+        int x = switch (i) { default -> 1; } + switch (j) { default -> 2; };
+    }
+}
+
+---
+
+(program
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (integral_type)
+        declarator: (variable_declarator
+          name: (identifier)))
+      (method_declaration
+        (modifiers)
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (integral_type)
+            name: (identifier))
+          (formal_parameter
+            type: (integral_type)
+            name: (identifier)))
+        body: (block
+          (comment)
+          (local_variable_declaration
+            type: (integral_type)
+            declarator: (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (switch_expression
+                  condition: (parenthesized_expression
+                    (identifier))
+                  body: (switch_block
+                    (switch_rule
+                      (switch_label)
+                      (expression_statement
+                        (decimal_integer_literal)))))
+                right: (switch_expression
+                  condition: (parenthesized_expression
+                    (identifier))
+                  body: (switch_block
+                    (switch_rule
+                      (switch_label)
+                      (expression_statement
+                        (decimal_integer_literal)))))))))))))
+                        
 ==================================
 type arguments
 ==================================
