@@ -612,4 +612,6 @@ foo. bar
   (sym_lit)
   (sym_lit)
   (sym_lit)
+  (char_lit
+    (MISSING "char_lit_token1"))
   (sym_lit))
