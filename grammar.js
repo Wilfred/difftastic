@@ -15,6 +15,7 @@ const WHITESPACE =
     token(repeat1(WHITESPACE_CHAR));
 
 const PREC = {
+    NUM_LIT: 0,
     NORMAL: 1,
     PACKAGE_LIT: 2,
     DOTTET_LIT: 3,
@@ -23,11 +24,11 @@ const PREC = {
 }
 
 const SYMBOL_HEAD =
-    /[^:.\f\n\r\t ()\[\]{}"@^;`\\,#'0-9\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
+    /[^:\f\n\r\t ()\[\]{}"@^;`\\,#'\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
 const SYMBOL_BODY =
     choice(SYMBOL_HEAD,
-        /[#'0-9]/);
+        /[#']/);
 
 const SYMBOL =
     token(seq(SYMBOL_HEAD,
@@ -77,6 +78,7 @@ module.exports = grammar(clojure, {
             'using',
             /being the (hash-key[s]?|hash-value[s]?) in/,
             'below',
+            'above',
             'from',
             'to',
             'upto',
@@ -144,6 +146,9 @@ module.exports = grammar(clojure, {
 
         char_lit: (_, original) =>
             seq(optional('#'), original),
+        num_lit: (_, original) =>
+            prec(PREC.NUM_LIT, original),
+
 
         _bare_vec_lit: $ =>
             choice(seq(field('open', choice('#0A', '#0a')), $.num_lit),
@@ -156,18 +161,18 @@ module.exports = grammar(clojure, {
                     repeat(choice(field('value', $._form), $._gap)),
                     field('close', ")"))),
 
-        dotted_sym_lit: $ => prec.left(PREC.DOTTET_LIT, seq($.sym_lit, repeat1(seq(".", $.sym_lit)))),
+        //dotted_sym_lit: $ => prec.left(PREC.DOTTET_LIT, seq($.sym_lit, repeat1(seq(".", $.sym_lit)))),
 
         package_lit: $ => prec(PREC.PACKAGE_LIT, seq(
-            field('package', choice($.dotted_sym_lit, $.sym_lit)), // Make optional, instead of keywords?
+            field('package', $.sym_lit), // Make optional, instead of keywords?
             choice(':', '::'),
-            field('symbol', choice($.dotted_sym_lit, $.sym_lit))
+            field('symbol', $.sym_lit)
         )),
 
         kwd_lit: $ => prec(PREC.KWD_LIT, seq(
             optional('#'),
             choice(':', '::'),
-            choice($.sym_lit, $.dotted_sym_lit),
+            $.sym_lit,
         )),
 
         sym_lit: $ =>
@@ -209,7 +214,8 @@ module.exports = grammar(clojure, {
                 $.unquoting_lit,
                 $.include_reader_macro,
                 $.complex_num_lit,
-                seq($._gap, '.'),
+                ".",
+                //seq($._gap, '.'),
             ),
 
         include_reader_macro: $ =>

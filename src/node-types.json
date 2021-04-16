@@ -361,19 +361,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -483,7 +475,7 @@
     "named": true,
     "fields": {
       "function_name": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -495,19 +487,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -686,7 +670,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -698,19 +682,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -826,7 +802,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -838,19 +814,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -1063,21 +1031,6 @@
     }
   },
   {
-    "type": "dotted_sym_lit",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "sym_lit",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "evaling_lit",
     "named": true,
     "fields": {
@@ -1150,7 +1103,7 @@
     "named": true,
     "fields": {
       "variable": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1162,19 +1115,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -1381,7 +1326,7 @@
     "named": true,
     "fields": {
       "condition": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1393,19 +1338,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -1525,7 +1462,7 @@
         ]
       },
       "target": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1537,19 +1474,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -1659,10 +1588,6 @@
       "required": true,
       "types": [
         {
-          "type": "dotted_sym_lit",
-          "named": true
-        },
-        {
           "type": "sym_lit",
           "named": true
         }
@@ -1726,19 +1651,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -1995,19 +1912,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -2165,6 +2074,11 @@
     }
   },
   {
+    "type": "num_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "old_meta_lit",
     "named": true,
     "fields": {
@@ -2229,10 +2143,6 @@
         "required": true,
         "types": [
           {
-            "type": "dotted_sym_lit",
-            "named": true
-          },
-          {
             "type": "sym_lit",
             "named": true
           }
@@ -2242,10 +2152,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "dotted_sym_lit",
-            "named": true
-          },
           {
             "type": "sym_lit",
             "named": true
@@ -2289,7 +2195,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -2301,19 +2207,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -2481,19 +2379,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -2780,19 +2670,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -3071,19 +2953,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -3463,7 +3337,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -3475,19 +3349,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -3603,7 +3469,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -3615,19 +3481,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -3763,7 +3621,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -3775,19 +3633,11 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
             "named": true
           },
           {
             "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -4299,6 +4149,10 @@
     "named": false
   },
   {
+    "type": "above",
+    "named": false
+  },
+  {
     "type": "accumulation_verb",
     "named": true
   },
@@ -4412,10 +4266,6 @@
   },
   {
     "type": "nil_lit",
-    "named": true
-  },
-  {
-    "type": "num_lit",
     "named": true
   },
   {

@@ -161,9 +161,7 @@ Defun header
           (sym_lit)
           (list_lit
             (package_lit
-              (dotted_sym_lit
-                (sym_lit)
-                (sym_lit))
+              (sym_lit)
               (sym_lit))
             (list_lit
               (sym_lit)
@@ -536,15 +534,11 @@ foo.bar:baz
     (sym_lit)
     (sym_lit))
   (package_lit
-    (dotted_sym_lit
-      (sym_lit)
-      (sym_lit))
+    (sym_lit)
     (sym_lit))
   (list_lit
     (package_lit
-      (dotted_sym_lit
-        (sym_lit)
-        (sym_lit))
+      (sym_lit)
       (sym_lit))))
 
 ================================================================================
@@ -560,9 +554,7 @@ Keywords
   (kwd_lit
     (sym_lit))
   (kwd_lit
-    (dotted_sym_lit
-      (sym_lit)
-      (sym_lit))))
+    (sym_lit)))
 
 ================================================================================
 Functions with numbers (TODO!!!)
@@ -605,7 +597,6 @@ Chars
 (source
   (char_lit))
 
-
 ================================================================================
 Dotted literals
 ================================================================================
@@ -616,3 +607,9 @@ foo. bar
 #.bar
 --------------------------------------------------------------------------------
 
+(source
+  (sym_lit)
+  (sym_lit)
+  (sym_lit)
+  (sym_lit)
+  (sym_lit))
