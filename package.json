@@ -1,0 +1,38 @@
+{
+  "name": "tree-sitter-make",
+  "version": "0.1.0",
+  "description": "Makefile grammar for tree-sitter",
+  "main": "bindings/node",
+  "scripts": {
+    "test": "tree-sitter test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alemuller/tree-sitter-smt.git"
+  },
+  "keywords": [
+    "make",
+    "makefile"
+  ],
+  "author": "Alexandre Muller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alemuller/tree-sitter-make/issues"
+  },
+  "homepage": "https://github.com/alemuller/tree-sitter-make#readme",
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.4"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.make",
+      "file-types": [
+        "make",
+        "MAKEFILE"
+      ]
+    }
+  ]
+}
