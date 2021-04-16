@@ -77,7 +77,7 @@ module.exports = grammar(clojure, {
             'across',
             'being',
             'using',
-            /being the (hash-key[s]?|hash-value[s]?|present-symbol[s]?) (in|of)/,
+            /being (the|each) (hash-key[s]?|hash-value[s]?|present-symbol[s]?) (in|of)/,
             'below',
             'above',
             'from',

@@ -1783,7 +1783,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "being the (hash-key[s]?|hash-value[s]?|present-symbol[s]?) (in|of)"
+          "value": "being (the|each) (hash-key[s]?|hash-value[s]?|present-symbol[s]?) (in|of)"
         },
         {
           "type": "STRING",
