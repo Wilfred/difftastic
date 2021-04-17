@@ -173,10 +173,13 @@ module.exports = grammar(clojure, {
 
         kwd_lit: $ => prec(PREC.KWD_LIT, seq(
             choice(':', '::'),
-            $.sym_lit,
+            $.kwd_symbol,
         )),
 
         sym_lit: _ =>
+            seq(SYMBOL),
+
+        kwd_symbol: _ =>
             seq(SYMBOL),
 
         _form: $ =>
