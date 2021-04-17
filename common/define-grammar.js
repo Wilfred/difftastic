@@ -759,7 +759,9 @@ module.exports = function defineGrammar(dialect) {
       ),
 
       array_type: $ => seq($._primary_type, '[', ']'),
-      tuple_type: $ => seq('[', commaSep($._tuple_type_member), ']'),
+      tuple_type: $ => seq(
+        '[', commaSep($._tuple_type_member), optional(','), ']'
+      ),
       readonly_type: $ => seq('readonly', $._type),
 
       union_type: $ => prec.left(seq(optional($._type), '|', $._type)),
