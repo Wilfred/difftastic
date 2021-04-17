@@ -1,5 +1,23 @@
 const CHARSET = [ '0-9', '@', 'A-Z', '_', 'a-z' ];
 
+const BUILTIN_TARGETS = [
+    '.PHONY',
+    '.SUFFIXES',
+    '.DEFAULT',
+    '.PRECIOUS',
+    '.INTERMEDIATE',
+    '.SECONDARY',
+    '.SECONDEXPANSION',
+    '.DELETE_ON_ERROR',
+    '.IGNORE',
+    '.LOW_RESOLUTION_TIME',
+    '.SILENT',
+    '.EXPORT_ALL_VARIABLES',
+    '.NOTPARALLEL',
+    '.ONESHELL',
+    '.POSIX',
+];
+
 module.exports = grammar({
     name: 'make',
 
@@ -19,6 +37,39 @@ module.exports = grammar({
             $.rule
         ),
 
+        // Variables
+        _variable: $ => choice(
+            $.automatic_variable,
+        ),
+
+        automatic_variable: $ => choice(
+            seq(
+                '$',
+                choice(
+                    ...[
+                        '@', '%', '<', '?', '^',
+                        '?', '^', '+', '|', '*'
+                    ].map(c => token.immediate(c))
+                ),
+            ),
+            seq(
+                '$',
+                token.immediate('('),
+                choice(
+                    ...[
+                        '@D', '@F',
+                        '*D', '*F',
+                        '%D', '%F',
+                        '<D', '<F',
+                        '^D', '^F',
+                        '+D', '+F',
+                        '?D', '?F',
+                    ].map(c => token(c))
+                ),
+                ')'
+            ),
+        ),
+
         // Rules
         rule: $ => seq(
             $.targets,
@@ -28,7 +79,12 @@ module.exports = grammar({
             $._terminator,
         ),
 
-        targets: $ => repeat1($._name),
+        targets: $ => choice(
+            $.builtin_target,
+            repeat1($._name),
+        ),
+
+        builtin_target: $ => choice(...BUILTIN_TARGETS),
 
         prerequisites: $ => repeat1($._name),
 
@@ -60,10 +116,27 @@ module.exports = grammar({
             )),
         ),
 
+        shell_text: $ => choice(
+            seq(
+                $._shell_text,
+                repeat(seq(
+                    $._variable,
+                    optional($._shell_text)
+                ))
+            ),
+            seq(
+                $._variable,
+                repeat(seq(
+                    optional($._shell_text),
+                    $._variable
+                )),
+            )
+        ),
+
         // Tokens
         _terminator: $ => '\n',
 
-        _split: $ => token(seq('\\','\n')),
+        _split: $ => '\\\n',
 
         _recipeprefix: $ => '\t',
 
@@ -85,7 +158,7 @@ module.exports = grammar({
             ...CHARSET.concat(['\\.', '\\*', '\\?', '%', '/'])
         ),
 
-        shell_text: $ => token(repeat1(choice(
+        _shell_text: $ => token(repeat1(choice(
             noneOf(...['\\$', '\\n','\\']),
             /\\[^\n]/
         ))),
