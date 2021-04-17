@@ -120,7 +120,7 @@ $foo = new static($this->current());
     (object_creation_expression
       (qualified_name (name))
       (arguments
-        (member_call_expression (variable_name (name)) (name) (arguments)))))))
+        (argument (member_call_expression (variable_name (name)) (name) (arguments))))))))
 
 ==========================
 Scoped self call expressions
@@ -216,7 +216,7 @@ list($id1, $name1) = $data[0];
       (scoped_call_expression
         (qualified_name (name))
         (name)
-        (arguments (variable_name (name)))
+        (arguments (argument (variable_name (name))))
       )
     )
   )
@@ -510,18 +510,20 @@ $a = [...$values];
   (expression_statement (function_call_expression
     (qualified_name (name))
     (arguments
-      (array_creation_expression
-        (array_element_initializer (integer))
-        (array_element_initializer (integer))
-        (array_element_initializer (integer))))))
+      (argument
+        (array_creation_expression
+          (array_element_initializer (integer))
+          (array_element_initializer (integer))
+          (array_element_initializer (integer)))))))
   (expression_statement
     (function_call_expression
       (qualified_name (name))
       (arguments
-        (array_creation_expression
-          (array_element_initializer (string) (string))
-          (array_element_initializer (string) (string))
-          (array_element_initializer (string) (string))))))
+        (argument
+          (array_creation_expression
+            (array_element_initializer (string) (string))
+            (array_element_initializer (string) (string))
+            (array_element_initializer (string) (string)))))))
   (expression_statement
     (assignment_expression
       (variable_name (name))
@@ -556,32 +558,35 @@ ob_start(function($buffer) use (&$storage,) { $storage .= $buffer; }, 20);
     (function_call_expression
       function: (qualified_name (name))
       arguments: (arguments
-        (anonymous_function_creation_expression
-          parameters: (formal_parameters)
-          body: (compound_statement
-            (echo_statement (string)))))))
+        (argument
+          (anonymous_function_creation_expression
+            parameters: (formal_parameters)
+            body: (compound_statement
+              (echo_statement (string))))))))
   (expression_statement
     (function_call_expression
       function: (qualified_name (name))
       arguments: (arguments
-        (anonymous_function_creation_expression
-          parameters: (formal_parameters (simple_parameter name: (variable_name (name))))
-          (anonymous_function_use_clause (variable_name (name)))
-          body: (compound_statement (expression_statement (augmented_assignment_expression
-            left: (variable_name (name))
-            right: (variable_name (name))))))
-        (integer))))
+        (argument
+          (anonymous_function_creation_expression
+            parameters: (formal_parameters (simple_parameter name: (variable_name (name))))
+            (anonymous_function_use_clause (variable_name (name)))
+            body: (compound_statement (expression_statement (augmented_assignment_expression
+              left: (variable_name (name))
+              right: (variable_name (name)))))))
+        (argument (integer)))))
   (expression_statement
     (function_call_expression
       function: (qualified_name (name))
       arguments: (arguments
-        (anonymous_function_creation_expression
-          parameters: (formal_parameters (simple_parameter name: (variable_name (name))))
-          (anonymous_function_use_clause (variable_name (name)))
-          body: (compound_statement (expression_statement (augmented_assignment_expression
-            left: (variable_name (name))
-            right: (variable_name (name))))))
-        (integer)))))
+        (argument
+          (anonymous_function_creation_expression
+            parameters: (formal_parameters (simple_parameter name: (variable_name (name))))
+            (anonymous_function_use_clause (variable_name (name)))
+            body: (compound_statement (expression_statement (augmented_assignment_expression
+              left: (variable_name (name))
+              right: (variable_name (name)))))))
+        (argument (integer))))))
 
 
 ================================
@@ -616,7 +621,7 @@ throw $exception ??= new Exception();
     (throw_expression
       (object_creation_expression
         (qualified_name (name))
-        (arguments (qualified_name (name)))
+        (arguments (argument (qualified_name (name))))
       )
     )
   )
@@ -627,12 +632,12 @@ throw $exception ??= new Exception();
         condition: (unary_op_expression
           (function_call_expression
             function: (qualified_name (name))
-            arguments: (arguments (variable_name (name)))
+            arguments: (arguments (argument (variable_name (name))))
           )
         )
         body: (function_call_expression
           function: (qualified_name (name))
-          arguments: (arguments (variable_name (name)))
+          arguments: (arguments (argument (variable_name (name))))
         )
         alternative: (throw_expression
           (object_creation_expression
@@ -798,7 +803,7 @@ $country = $session?->user?->getAddress()?->country;
     (nullsafe_member_call_expression
       (variable_name (name))
       (name)
-      (arguments (variable_name (name)))
+      (arguments (argument (variable_name (name))))
     )
   )
   (expression_statement
@@ -886,7 +891,7 @@ $statement = match ($a) {
             (member_call_expression
               (variable_name (name))
               (name)
-              (arguments (string))
+              (arguments (argument (string)))
             )
           )
         )
@@ -982,6 +987,30 @@ $fn1 = fn($x) => $x + $y;
           left: (variable_name (name))
           right: (variable_name (name))
         )
+      )
+    )
+  )
+)
+
+====================================
+Functions with named arguments
+====================================
+
+<?php
+
+array_fill(start_index: 0, num: 100, value: $val);
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (function_call_expression
+      (qualified_name (name))
+      (arguments
+        (argument (name) (integer))
+        (argument (name) (integer))
+        (argument (name) (variable_name (name)))
       )
     )
   )

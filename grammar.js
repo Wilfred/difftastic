@@ -1012,8 +1012,13 @@ module.exports = grammar({
 
     arguments: $ => seq(
       '(',
-      commaSep(choice($.variadic_unpacking, $._expression)),
+      commaSep($.argument),
       ')'
+    ),
+
+    argument: $ => seq(
+      optional(seq(field('name', $.name), ':')),
+      choice($.variadic_unpacking, $._expression)
     ),
 
     member_call_expression: $ => prec(PREC.CALL, seq(
