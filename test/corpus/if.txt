@@ -12,7 +12,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (unary_op
       (identifier))
     (do_block

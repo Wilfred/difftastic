@@ -14,22 +14,22 @@ end
 (program
   (unary_op
     (call
-      (identifier)
+      (function_identifier)
       (binary_op
         (call
-          (identifier)
+          (function_identifier)
           (arguments))
         (call
-          (identifier)
+          (function_identifier)
           (arguments)))))
   (call
-    (identifier)
+    (function_identifier)
     (identifier)
     (do_block
       (comment)
       (dot_call
         (module)
-        (identifier)
+        (function_identifier)
         (arguments
           (atom
             (atom_literal))
@@ -48,23 +48,23 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (binary_op
       (call
-        (identifier)
+        (function_identifier)
         (arguments
           (identifier)))
       (call
-        (identifier)
+        (function_identifier)
         (arguments
           (identifier))))
     (do_block
       (call
-        (identifier)
+        (function_identifier)
         (arguments
           (identifier)
           (call
-            (identifier)
+            (function_identifier)
             (arguments
               (identifier))))))))
 
@@ -83,10 +83,10 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (binary_op
       (call
-        (identifier)
+        (function_identifier)
         (arguments
           (list
             (binary_op
@@ -96,7 +96,7 @@ end
       (comment)
       (binary_op
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (identifier)))
         (block
@@ -123,10 +123,10 @@ end
                   (integer))))))))
     (do_block
       (call
-        (identifier)
+        (function_identifier)
         (arguments
           (identifier)
           (call
-            (identifier)
+            (function_identifier)
             (arguments
               (identifier))))))))

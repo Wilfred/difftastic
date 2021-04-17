@@ -431,7 +431,7 @@ eval_binds(CONFIG: config, SCRIPT: script)
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (arguments
       (keyword_list
         (keyword
@@ -593,7 +593,7 @@ r"""
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (heredoc
       (heredoc_start)
       (heredoc_content)
@@ -623,7 +623,7 @@ raise ArgumentError,
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (module)
     (keyword_list
       (keyword

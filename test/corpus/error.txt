@@ -8,7 +8,7 @@ call(, k: t)
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (arguments
       (ERROR)
       (keyword_list

@@ -17,7 +17,7 @@ binary expression
       (binary_op
         (identifier)
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (identifier)))))
     (binary_op
@@ -25,7 +25,7 @@ binary expression
       (binary_op
         (identifier)
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (identifier)))))
     (binary_op
@@ -33,7 +33,7 @@ binary expression
       (binary_op
         (identifier)
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (identifier)))))
     (string

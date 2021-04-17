@@ -10,10 +10,10 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (call
       (call
-        (identifier)
+        (function_identifier)
         (arguments
           (identifier)))
       (arguments
@@ -23,10 +23,10 @@ end
           (list)))
       (do_block
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (call
-              (identifier)
+              (function_identifier)
               (arguments
                 (identifier)))
             (identifier)
@@ -46,7 +46,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (identifier)
     (do_block
       (integer))))
