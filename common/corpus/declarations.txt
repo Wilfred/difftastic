@@ -167,7 +167,33 @@ declare module Foo {
           handler: (catch_clause
             parameter: (identifier)
             body: (statement_block))
-          finalizer: (finally_clause body: (statement_block)))))))
+          finalizer: (finally_clause body: (statement_block)))
+      )
+    )
+  )
+)
+
+==================================================
+Exception handling
+==================================================
+
+try {}
+catch (e: unknown) {}
+finally {}
+
+---
+
+(program
+  (try_statement
+    body: (statement_block)
+    handler: (catch_clause
+      parameter: (identifier)
+      type: (type_annotation (type_identifier))
+      body: (statement_block)
+    )
+    finalizer: (finally_clause body: (statement_block))
+  )
+)
 
 ==================================================
 Flow-style ambient class declarations with commas
