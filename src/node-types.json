@@ -1,5 +1,15 @@
 [
   {
+    "type": "automatic_variable",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "builtin_target",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "makefile",
     "named": true,
     "fields": {},
@@ -91,6 +101,21 @@
     }
   },
   {
+    "type": "shell_text",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "automatic_variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "targets",
     "named": true,
     "fields": {},
@@ -98,6 +123,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "builtin_target",
+          "named": true
+        },
         {
           "type": "filename",
           "named": true
@@ -114,11 +143,119 @@
     }
   },
   {
+    "type": "$",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "%D",
+    "named": false
+  },
+  {
+    "type": "%F",
+    "named": false
+  },
+  {
     "type": "&:",
     "named": false
   },
   {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "*D",
+    "named": false
+  },
+  {
+    "type": "*F",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "+D",
+    "named": false
+  },
+  {
+    "type": "+F",
+    "named": false
+  },
+  {
     "type": "-",
+    "named": false
+  },
+  {
+    "type": ".DEFAULT",
+    "named": false
+  },
+  {
+    "type": ".DELETE_ON_ERROR",
+    "named": false
+  },
+  {
+    "type": ".EXPORT_ALL_VARIABLES",
+    "named": false
+  },
+  {
+    "type": ".IGNORE",
+    "named": false
+  },
+  {
+    "type": ".INTERMEDIATE",
+    "named": false
+  },
+  {
+    "type": ".LOW_RESOLUTION_TIME",
+    "named": false
+  },
+  {
+    "type": ".NOTPARALLEL",
+    "named": false
+  },
+  {
+    "type": ".ONESHELL",
+    "named": false
+  },
+  {
+    "type": ".PHONY",
+    "named": false
+  },
+  {
+    "type": ".POSIX",
+    "named": false
+  },
+  {
+    "type": ".PRECIOUS",
+    "named": false
+  },
+  {
+    "type": ".SECONDARY",
+    "named": false
+  },
+  {
+    "type": ".SECONDEXPANSION",
+    "named": false
+  },
+  {
+    "type": ".SILENT",
+    "named": false
+  },
+  {
+    "type": ".SUFFIXES",
     "named": false
   },
   {
@@ -134,7 +271,51 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<D",
+    "named": false
+  },
+  {
+    "type": "<F",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "?D",
+    "named": false
+  },
+  {
+    "type": "?F",
+    "named": false
+  },
+  {
     "type": "@",
+    "named": false
+  },
+  {
+    "type": "@D",
+    "named": false
+  },
+  {
+    "type": "@F",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "^D",
+    "named": false
+  },
+  {
+    "type": "^F",
     "named": false
   },
   {
@@ -154,7 +335,7 @@
     "named": true
   },
   {
-    "type": "shell_text",
-    "named": true
+    "type": "|",
+    "named": false
   }
 ]

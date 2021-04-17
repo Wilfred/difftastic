@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alemuller/tree-sitter-smt.git"
+    "url": "git+https://github.com/alemuller/tree-sitter-make.git"
   },
   "keywords": [
     "make",
@@ -28,7 +28,7 @@
   },
   "tree-sitter": [
     {
-      "scope": "source.make",
+      "scope": "makefile",
       "file-types": [
         "make",
         "MAKEFILE"

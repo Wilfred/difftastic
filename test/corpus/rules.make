@@ -16,6 +16,89 @@ target:
     (targets (filename))))
 
 ================================================================================
+Rule, targets, built-in
+================================================================================
+.PHONY: foo
+.SUFFIXES: foo
+.DEFAULT: foo
+.PRECIOUS: foo
+.INTERMEDIATE: foo
+.SECONDARY: foo
+.SECONDEXPANSION: foo
+.DELETE_ON_ERROR: foo
+.IGNORE: foo
+.LOW_RESOLUTION_TIME: foo
+.SILENT: foo
+.EXPORT_ALL_VARIABLES: foo
+.NOTPARALLEL: foo
+.ONESHELL: foo
+.POSIX: foo
+
+---
+
+(makefile
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name)))
+  (rule
+    (targets (builtin_target))
+    (prerequisites
+      (name))))
+
+================================================================================
 Rule, targets, multiple
 ================================================================================
 foo %.b c.o:
@@ -416,6 +499,24 @@ target: ; @echo "foo\
       (recipe_line
         (shell_text)
         (shell_text)))))
+
+================================================================================
+Rule, recipe, automatic variable
+================================================================================
+foo: bar
+	gcc -c -o $@ $<
+
+---
+
+(makefile
+  (rule
+    (targets (name))
+    (prerequisites (name))
+    (recipe
+      (recipe_line
+        (shell_text
+          (automatic_variable)
+          (automatic_variable))))))
 
 ================================================================================
 Rule, complete
