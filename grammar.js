@@ -19,13 +19,26 @@ module.exports = grammar({
     _escape_encoded: $ => choice('\\t', '\\r', '\\n'),
     _escape_semicolon: $ => '\;',
 
+    variable_ref: $ => choice(
+      $.normal_var,
+      $.env_var,
+      $.cache_var,
+    ),
+    _literal_variable: $ => choice(
+      /[a-zA-Z0-9/_.+-]/,
+      $.escape_sequence,
+    ),
+    normal_var: $ => seq('${', repeat1($._literal_variable), '}'),
+    env_var: $ => seq('$ENV{', repeat1($._literal_variable), '}'),
+    cache_var: $ => seq('$CACHE{', repeat1($._literal_variable), '}'),
+
+
 
     argument: $ => choice(
       $.bracket_argument,
       $.quoted_argument,
       $.unquoted_argument,
     ),
-
 
     bracket_argument: $ => seq(
       $._bracket_open,
@@ -38,6 +51,7 @@ module.exports = grammar({
 
     quoted_argument: $ => seq('"', repeat($._quoted_element), '"'),
     _quoted_element: $ => choice(
+      $.variable_ref,
       /[^\\"]/,
       $.escape_sequence,
       seq('\\', $.newline),
@@ -45,17 +59,18 @@ module.exports = grammar({
 
     unquoted_argument: $ => repeat1(
       choice(
+        $.variable_ref,
         /[^ ()#\"\\]/,
         $.escape_sequence,
       )
     ),
-
 
     arguments: $ => seq($.argument, repeat($._seperated_arguments)),
     _seperated_arguments: $ => prec.left(seq(
       repeat1($.seperation),
       optional($.argument)
     )),
+
 
     command_invocation: $ => seq(
       repeat($.space),

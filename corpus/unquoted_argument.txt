@@ -84,3 +84,23 @@ STATUS)
     )
   )
 )
+
+====================
+Variable referencing
+====================
+message(${var})
+---
+
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+      (argument
+        (unquoted_argument
+          (variable_ref (normal_var))
+        )
+      )
+    )
+  )
+)
+

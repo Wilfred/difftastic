@@ -64,3 +64,44 @@ with line break")
     )
   )
 )
+
+======================
+One variable reference
+======================
+
+message("${var}")
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+     (argument
+      (quoted_argument
+        (variable_ref (normal_var))
+      )
+     )
+    )
+  )
+)
+
+=======================
+Two Variable references
+=======================
+
+message("${var} ${var}")
+
+---
+(source_file
+  (command_invocation
+    (identifier)
+    (arguments
+     (argument
+      (quoted_argument
+        (variable_ref (normal_var))
+        (variable_ref (normal_var))
+      )
+     )
+    )
+  )
+)

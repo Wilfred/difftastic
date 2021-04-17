@@ -47,6 +47,21 @@
     "fields": {}
   },
   {
+    "type": "cache_var",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "command_invocation",
     "named": true,
     "fields": {},
@@ -74,6 +89,21 @@
     }
   },
   {
+    "type": "env_var",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "escape_sequence",
     "named": true,
     "fields": {}
@@ -94,6 +124,21 @@
     }
   },
   {
+    "type": "normal_var",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "quoted_argument",
     "named": true,
     "fields": {},
@@ -107,6 +152,10 @@
         },
         {
           "type": "newline",
+          "named": true
+        },
+        {
+          "type": "variable_ref",
           "named": true
         }
       ]
@@ -157,12 +206,51 @@
         {
           "type": "escape_sequence",
           "named": true
+        },
+        {
+          "type": "variable_ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variable_ref",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "cache_var",
+          "named": true
+        },
+        {
+          "type": "env_var",
+          "named": true
+        },
+        {
+          "type": "normal_var",
+          "named": true
         }
       ]
     }
   },
   {
     "type": "\"",
+    "named": false
+  },
+  {
+    "type": "$CACHE{",
+    "named": false
+  },
+  {
+    "type": "$ENV{",
+    "named": false
+  },
+  {
+    "type": "${",
     "named": false
   },
   {
@@ -212,5 +300,9 @@
   {
     "type": "space",
     "named": true
+  },
+  {
+    "type": "}",
+    "named": false
   }
 ]
