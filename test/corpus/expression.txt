@@ -8,7 +8,7 @@ y(+1)
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (arguments
       (unary_op
         (integer)))))

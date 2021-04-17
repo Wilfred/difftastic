@@ -158,14 +158,14 @@ end)
 (program
   (dot_call
     (module)
-    (identifier)
+    (function_identifier)
     (arguments
       (identifier)
       (anonymous_function
         (stab_expression
           (dot_call
             (module)
-            (identifier)
+            (function_identifier)
             (arguments
               (string
                 (string_start)
@@ -190,7 +190,7 @@ fun = fn () when node() == :nonode@nohost -> true end
             (block)
             (binary_op
               (call
-                (identifier)
+                (function_identifier)
                 (arguments))
               (atom
                 (atom_literal)))))

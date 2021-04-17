@@ -36,7 +36,10 @@ function binaryOp($, assoc, precedence, operator, bare_keyword) {
 }
 
 function unaryOp($, assoc, precedence, operator) {
-  return assoc(precedence, seq(field("operator", operator), optional($._line_break), $._expression));
+  return assoc(
+    precedence,
+    seq(field("operator", operator), optional($._line_break), $._expression)
+  );
 }
 
 function blockExpression($, name) {
@@ -217,7 +220,11 @@ module.exports = grammar({
         ")"
       ),
 
-    paren_call: $ => seq(field("name", $.identifier), $.arguments),
+    paren_call: $ =>
+      seq(
+        field("function", alias($.identifier, $.function_identifier)),
+        $.arguments
+      ),
 
     call: $ =>
       prec(
@@ -225,16 +232,24 @@ module.exports = grammar({
         choice(
           seq(
             field(
-              "name",
-              choice($.identifier, $.dot_call, alias($.paren_call, $.call))
+              "function",
+              choice(
+                alias($.identifier, $.function_identifier),
+                $.dot_call,
+                alias($.paren_call, $.call)
+              )
             ),
             choice($._bare_arguments, $.arguments),
             optional(choice(seq($._terminator, $.do_block), $.do_block))
           ),
           seq(
             field(
-              "name",
-              choice($.identifier, $.dot_call, alias($.paren_call, $.call))
+              "function",
+              choice(
+                alias($.identifier, $.function_identifier),
+                $.dot_call,
+                alias($.paren_call, $.call)
+              )
             ),
             $.do_block
           )
@@ -338,7 +353,7 @@ module.exports = grammar({
             field(
               "function",
               choice(
-                $.identifier,
+                alias($.identifier, $.function_identifier),
                 $.true,
                 $.false,
                 $.nil,
@@ -369,10 +384,10 @@ module.exports = grammar({
         PREC.DOT_CALL,
         seq(
           field(
-            "object",
+            "remote",
             choice(
               $.module,
-              $.identifier,
+              alias($.identifier, $.remote_identifier),
               $.atom,
               alias($._simple_dot_call, $.dot_call),
               alias($.paren_call, $.call),
@@ -391,7 +406,7 @@ module.exports = grammar({
         PREC.DOT_CALL,
         seq(
           field(
-            "object",
+            "remote",
             choice(
               $.dot_call,
               $.access_call,

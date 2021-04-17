@@ -713,6 +713,16 @@ defmodule Long.Module.Name do
 #                           ^ tag
 #                               ^ constant.builtin
 
+  def xyz when x == nil, do: nil
+# ^ keyword
+#     ^ function
+#         ^ keyword
+#                ^ operator
+#                   ^ constant.builtin
+#                      ^ punctuation.delimiter
+#                        ^ tag
+#                            ^ constant.builtin
+
   @doc false
 # ^ attribute
 #  ^ attribute
@@ -1057,6 +1067,8 @@ defprotocol Useless do
 #          ^ punctuation.bracket
 #           ^ variable.parameter
 #               ^ punctuation.bracket
+
+  def func3(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
 end
 
 defimpl Useless, for: Atom do
