@@ -559,5 +559,5 @@ foo.o bar.o: %.o: %.c
     (targets
       (filename)
       (filename))
-    static_pattern: (pattern)
+    target_pattern: (pattern)
     (prerequisites (pattern))))
