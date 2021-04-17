@@ -25,6 +25,29 @@
     }
   },
   {
+    "type": "order_only_prerequisites",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "filename",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "prerequisites",
     "named": true,
     "fields": {},
@@ -80,11 +103,26 @@
   {
     "type": "rule",
     "named": true,
-    "fields": {},
+    "fields": {
+      "static_pattern": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pattern",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "order_only_prerequisites",
+          "named": true
+        },
         {
           "type": "prerequisites",
           "named": true
