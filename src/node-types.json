@@ -1738,11 +1738,16 @@
       "required": true,
       "types": [
         {
-          "type": "sym_lit",
+          "type": "kwd_symbol",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "kwd_symbol",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "list_lit",
@@ -4436,7 +4441,7 @@
     "named": false
   },
   {
-    "type": "cl:loop",
+    "type": "cl",
     "named": false
   },
   {

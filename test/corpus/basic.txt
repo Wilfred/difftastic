@@ -137,7 +137,7 @@ Defun header
         (defun_keyword)
         (sym_lit)
         (kwd_lit
-          (sym_lit))
+          (kwd_symbol))
         (list_lit
           (sym_lit)
           (sym_lit)
@@ -552,9 +552,9 @@ Keywords
 
 (source
   (kwd_lit
-    (sym_lit))
+    (kwd_symbol))
   (kwd_lit
-    (sym_lit)))
+    (kwd_symbol)))
 
 ================================================================================
 Functions with numbers (TODO!!!)
@@ -734,7 +734,7 @@ Multiple gaps in Loop
                             (sym_lit)
                             (sym_lit)))
                         (kwd_lit
-                          (sym_lit))
+                          (kwd_symbol))
                         (list_lit
                           (sym_lit)
                           (sym_lit)
@@ -743,7 +743,7 @@ Multiple gaps in Loop
                           (sym_lit)
                           (sym_lit))
                         (kwd_lit
-                          (sym_lit))
+                          (kwd_symbol))
                         (sym_lit)))))))))))))
 
 ================================================================================
@@ -793,3 +793,171 @@ Num Literals (TODO)
     #C(0D0 0D0) #C(0D0 -0D0) #C(-0D0 0D0) #C(-0D0 -0D0)
     #C(0L0 0L0) #C(0L0 -0L0) #C(-0L0 0L0) #C(-0L0 -0L0)))
 --------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (sym_lit)
+    (sym_lit)
+    (list_lit)
+    (quoting_lit
+      (list_lit
+        (sym_lit)
+        (num_lit)
+        (num_lit)
+        (sym_lit)
+        (num_lit)
+        (sym_lit)
+        (num_lit)
+        (sym_lit)
+        (num_lit)
+        (sym_lit)
+        (num_lit)
+        (sym_lit)
+        (num_lit)
+        (sym_lit)
+        (num_lit)
+        (sym_lit)
+        (num_lit)
+        (sym_lit)
+        (complex_num_lit
+          (num_lit)
+          (ERROR
+            (UNEXPECTED 'S'))
+          (num_lit)
+          (MISSING "))
+        (num_lit)
+        (sym_lit)))
+    (complex_num_lit
+      (num_lit)
+      (ERROR
+        (UNEXPECTED 'S'))
+      (num_lit)
+      (MISSING "))
+    (num_lit)
+    (sym_lit))
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'S'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'S'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'F'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'F'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'F'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'F'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'D'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'D'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'D'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'D'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'L'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'L'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'L'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR)
+  (complex_num_lit
+    (num_lit)
+    (ERROR
+      (UNEXPECTED 'L'))
+    (num_lit)
+    (MISSING "))
+  (num_lit)
+  (sym_lit)
+  (ERROR))
