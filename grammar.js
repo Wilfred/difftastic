@@ -21,7 +21,10 @@ const BUILTIN_TARGETS = [
 module.exports = grammar({
     name: 'make',
 
-    inline: $ => [],
+    inline: $ => [
+        $._target_pattern,
+        $._order_only_prerequisites,
+    ],
 
     extras: $ => [ /[\t\r\n ]+/, $._split, $.comment ],
 
@@ -74,17 +77,21 @@ module.exports = grammar({
         rule: $ => seq(
             $.targets,
             choice(':', '&:', '::'),
-            optional(seq(
-                field('static_pattern', $.pattern),
-                choice(':'),
-            )),
+            optional($._target_pattern),
             optional($.prerequisites),
-            optional(seq(
-                '|',
-                alias($.prerequisites,$.order_only_prerequisites)
-            )),
+            optional($._order_only_prerequisites),
             optional($.recipe),
             $._terminator,
+        ),
+
+        _target_pattern: $ => seq(
+            field('target_pattern', $.pattern),
+            ':',
+        ),
+
+        _order_only_prerequisites: $ => seq(
+            '|',
+            alias($.prerequisites,$.order_only_prerequisites)
         ),
 
         targets: $ => choice(

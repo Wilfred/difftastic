@@ -266,26 +266,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "static_pattern",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "pattern"
-                  }
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": ":"
-                    }
-                  ]
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_target_pattern"
             },
             {
               "type": "BLANK"
@@ -308,22 +290,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "|"
-                },
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "prerequisites"
-                  },
-                  "named": true,
-                  "value": "order_only_prerequisites"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_order_only_prerequisites"
             },
             {
               "type": "BLANK"
@@ -345,6 +313,41 @@
         {
           "type": "SYMBOL",
           "name": "_terminator"
+        }
+      ]
+    },
+    "_target_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "target_pattern",
+          "content": {
+            "type": "SYMBOL",
+            "name": "pattern"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        }
+      ]
+    },
+    "_order_only_prerequisites": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "|"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "prerequisites"
+          },
+          "named": true,
+          "value": "order_only_prerequisites"
         }
       ]
     },
@@ -794,7 +797,10 @@
   ],
   "precedences": [],
   "externals": [],
-  "inline": [],
+  "inline": [
+    "_target_pattern",
+    "_order_only_prerequisites"
+  ],
   "supertypes": []
 }
 

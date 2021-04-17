@@ -104,7 +104,7 @@
     "type": "rule",
     "named": true,
     "fields": {
-      "static_pattern": {
+      "target_pattern": {
         "multiple": false,
         "required": false,
         "types": [
