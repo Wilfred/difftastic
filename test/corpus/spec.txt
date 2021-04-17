@@ -16,19 +16,19 @@ spec with splat
 (program
   (unary_op
     (call
-      (identifier)
+      (function_identifier)
       (binary_op
         (binary_op
           (call
-            (identifier)
+            (function_identifier)
             (arguments
               (dot_call
                 (module)
-                (identifier)
+                (function_identifier)
                 (arguments))
               (dot_call
                 (module)
-                (identifier)
+                (function_identifier)
                 (arguments))
               (list
                 (identifier))
@@ -47,7 +47,7 @@ spec with splat
           (keyword
             (keyword_literal))
           (call
-            (identifier)
+            (function_identifier)
             (arguments)))))))
 
 ================================================================================
@@ -61,7 +61,7 @@ non empty list
 (program
   (unary_op
     (call
-      (identifier)
+      (function_identifier)
       (list
         (identifier)
         (identifier)))))

@@ -11,7 +11,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (identifier)
     (do_block
       (stab_expression
@@ -41,7 +41,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (identifier)
     (do_block
       (stab_expression
@@ -68,7 +68,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (identifier)
     (do_block
       (stab_expression
@@ -82,8 +82,8 @@ end
         (bare_arguments
           (integer))
         (dot_call
-          (identifier)
-          (identifier)
+          (remote_identifier)
+          (function_identifier)
           (arguments))
         (integer)))))
 
@@ -100,7 +100,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (integer)
     (do_block
       (stab_expression
@@ -108,7 +108,7 @@ end
           (binary_op
             (identifier)
             (call
-              (identifier)
+              (function_identifier)
               (arguments
                 (identifier)))))
         (string
@@ -141,7 +141,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (identifier)
     (do_block
       (stab_expression
@@ -153,7 +153,7 @@ end
               (string_end))
             (identifier)))
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (identifier)
             (identifier))))
@@ -165,7 +165,7 @@ end
               (string_content)
               (string_end))))
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (identifier)))))))
 
@@ -184,7 +184,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (identifier)
     (do_block
       (stab_expression
@@ -235,14 +235,14 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (identifier)
     (do_block
       (stab_expression
         (bare_arguments
           (integer))
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (list
               (binary_op
@@ -262,7 +262,7 @@ end
           (unary_op
             (integer)))
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (list
               (binary_op
@@ -295,7 +295,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (integer)
     (do_block
       (stab_expression

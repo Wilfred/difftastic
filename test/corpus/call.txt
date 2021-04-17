@@ -9,7 +9,7 @@ A.B.c("a")
 (program
   (dot_call
     (module)
-    (identifier)
+    (function_identifier)
     (arguments
       (string
         (string_start)
@@ -34,7 +34,7 @@ Module.func!(
 (program
   (dot_call
     (module)
-    (identifier)
+    (function_identifier)
     (arguments
       (identifier)
       (keyword_list
@@ -82,7 +82,7 @@ a.()()
 (program
   (call
     (dot_call
-      (identifier)
+      (remote_identifier)
       (arguments))
     (arguments)))
 
@@ -111,7 +111,7 @@ a.and
 
 (program
   (dot_call
-    (identifier)))
+    (remote_identifier)))
 
 ================================================================================
 access call followed by dot call
@@ -127,7 +127,7 @@ cover[:tool].start(compile_path, cover)
       (identifier)
       (atom
         (atom_literal)))
-    (identifier)
+    (function_identifier)
     (arguments
       (identifier)
       (identifier))))
@@ -149,35 +149,35 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (dot_call
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (identifier)))
-        (identifier)
+        (function_identifier)
         (arguments
           (anonymous_function
             (stab_expression
               (call
-                (identifier)
+                (function_identifier)
                 (arguments
                   (dot_call
                     (module)
-                    (identifier)
+                    (function_identifier)
                     (arguments
                       (identifier)))))))
           (call
-            (identifier)
+            (function_identifier)
             (arguments
               (dot_call
                 (module)
-                (identifier)
+                (function_identifier)
                 (arguments
                   (dot_call
                     (module)
-                    (identifier)
+                    (function_identifier)
                     (arguments
                       (identifier)
                       (unary_op
@@ -197,11 +197,11 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (true)
     (do_block
       (call
-        (identifier)
+        (function_identifier)
         (module)
         (keyword_list
           (keyword
@@ -229,13 +229,13 @@ captured arg dot call
       (integer))
     (dot_call
       (module)
-      (identifier)
+      (function_identifier)
       (arguments
         (unary_op
           (dot_call
             (unary_op
               (integer))
-            (identifier)))))))
+            (function_identifier)))))))
 
 ================================================================================
 captured arg qualified dot call
@@ -248,7 +248,7 @@ Enum.reduce(funcs, result, & &1.(&2))
 (program
   (dot_call
     (module)
-    (identifier)
+    (function_identifier)
     (arguments
       (identifier)
       (identifier)
@@ -270,7 +270,7 @@ alias ExUnit.{FailuresManifest, Test}
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (dot_call
       (module)
       (tuple
@@ -287,7 +287,7 @@ import Kernel, except: [@: 1, defmodule: 2, def: 1, def: 2, defp: 2, defmacro: 1
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (module)
     (keyword_list
       (keyword
@@ -332,7 +332,7 @@ capture mfa
     (binary_op
       (dot_call
         (module)
-        (identifier))
+        (function_identifier))
       (integer))))
 
 ================================================================================
@@ -410,7 +410,7 @@ h(== / 2)
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (arguments
       (binary_op
         (integer)))))
@@ -429,7 +429,7 @@ assert_diff(
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (arguments
       (binary_op
         (struct
@@ -470,14 +470,14 @@ assert (1..3).last == 3
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (binary_op
       (dot_call
         (paren_expr
           (binary_op
             (integer)
             (integer)))
-        (identifier))
+        (function_identifier))
       (integer))))
 
 ================================================================================
@@ -511,7 +511,7 @@ map call
           (keyword_literal))
         (atom
           (atom_literal))))
-    (identifier)))
+    (function_identifier)))
 
 ================================================================================
 quoted struct
@@ -525,11 +525,11 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (struct
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (module)))
         (keyword_list
@@ -549,10 +549,10 @@ Macro.to_string(quote(do: Foo."bar baz"().""())) == ~s/Foo."bar baz"().""()/
   (binary_op
     (dot_call
       (module)
-      (identifier)
+      (function_identifier)
       (arguments
         (call
-          (identifier)
+          (function_identifier)
           (arguments
             (keyword_list
               (keyword
@@ -600,12 +600,12 @@ inspect(&__MODULE__."weirdly named/fun-"/0)
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (arguments
       (unary_op
         (binary_op
           (dot_call
-            (identifier)
+            (remote_identifier)
             (string
               (string_start)
               (string_content)
@@ -622,7 +622,7 @@ is_function(&and/2)
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (arguments
       (unary_op
         (binary_op
@@ -639,7 +639,7 @@ b
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (identifier)))
 
 ================================================================================
@@ -655,7 +655,7 @@ Enum.join(" ")
   (binary_op
     (dot_call
       (module)
-      (identifier)
+      (function_identifier)
       (arguments
         (string
           (string_start)
@@ -718,7 +718,7 @@ struct call
   (dot_call
     (struct
       (module))
-    (identifier)))
+    (function_identifier)))
 
 ================================================================================
 bare keyword hanging comma
@@ -731,7 +731,7 @@ call(a: a, b: b,
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (arguments
       (keyword_list
         (keyword
@@ -753,7 +753,7 @@ IO
 (program
   (dot_call
     (module)
-    (identifier)
+    (function_identifier)
     (arguments
       (string
         (string_start)
@@ -772,7 +772,7 @@ IO.
 (program
   (dot_call
     (module)
-    (identifier)
+    (function_identifier)
     (arguments
       (string
         (string_start)
