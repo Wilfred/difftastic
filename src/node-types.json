@@ -115,6 +115,11 @@
     }
   },
   {
+    "type": "accumulation_verb",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "array_dimension",
     "named": true,
     "fields": {},
@@ -4403,10 +4408,6 @@
   {
     "type": "above",
     "named": false
-  },
-  {
-    "type": "accumulation_verb",
-    "named": true
   },
   {
     "type": "across",

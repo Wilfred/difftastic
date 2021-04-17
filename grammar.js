@@ -35,6 +35,10 @@ const SYMBOL =
     token(seq(SYMBOL_HEAD,
         repeat(SYMBOL_BODY)));
 
+function clSymbol(symbol){
+    return seq(optional(seq('cl', ':')), symbol)
+}
+
 
 module.exports = grammar(clojure, {
     name: 'commonlisp',
@@ -73,7 +77,8 @@ module.exports = grammar(clojure, {
                 repeat(choice(field('value', $._form), $._gap)),
                 field('close', ")")),
 
-        for_clause_word: _ => choice('in',
+        for_clause_word: _ => clSymbol(choice(
+            'in',
             'across',
             'being',
             'using',
@@ -88,23 +93,23 @@ module.exports = grammar(clojure, {
             'on',
             'by',
             'then',
-            '='),
+            '=')),
 
 
         _for_part: $ => seq(repeat($._gap), $.for_clause_word, repeat($._gap), $._form),
 
-        accumulation_verb: _ => /((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?)/,
+        accumulation_verb: _ => clSymbol(/((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?)/),
 
-        for_clause: $ => choice(seq(choice('for', 'and', 'as'), repeat($._gap), field('variable', $._form), optional(field('type', seq(repeat($._gap), $._form))),
-            repeat1($._for_part)), 'and'),
+        for_clause: $ => choice(seq(choice(clSymbol('for'), clSymbol('and'), clSymbol('as')), repeat($._gap), field('variable', $._form), optional(field('type', seq(repeat($._gap), $._form))),
+            repeat1($._for_part)), clSymbol('and')),
 
-        with_clause: $ => prec.left(seq('with', repeat($._gap), $._form, repeat($._gap), "=", repeat($._gap), $._form)),
-        do_clause: $ => prec.left(seq('do', repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
-        while_clause: $ => prec.left(seq(choice('while', 'until'), repeat($._gap), $._form)),
-        repeat_clause: $ => prec.left(seq('repeat', repeat($._gap), $._form)),
-        condition_clause: $ => prec.left(choice(seq(choice('when', 'if', 'unless', 'always', 'thereis', 'never'), repeat($._gap), $._form), "else")),
-        accumulation_clause: $ => seq($.accumulation_verb, repeat($._gap), $._form, optional(seq(repeat($._gap), 'into', repeat($._gap), $._form))),
-        termination_clause: $ => prec.left(seq(choice('finally', 'return', 'initially'), repeat($._gap), $._form)),
+        with_clause: $ => prec.left(seq(clSymbol('with'), repeat($._gap), $._form, repeat($._gap), clSymbol("="), repeat($._gap), $._form)),
+        do_clause: $ => prec.left(seq(clSymbol('do'), repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
+        while_clause: $ => prec.left(seq(choice(clSymbol('while'), clSymbol('until')), repeat($._gap), $._form)),
+        repeat_clause: $ => prec.left(seq(clSymbol('repeat'), repeat($._gap), $._form)),
+        condition_clause: $ => prec.left(choice(seq(choice(clSymbol('when'), clSymbol('if'), clSymbol('unless'), clSymbol('always'), clSymbol('thereis'), clSymbol('never')), repeat($._gap), $._form), clSymbol("else"))),
+        accumulation_clause: $ => seq($.accumulation_verb, repeat($._gap), $._form, optional(seq(repeat($._gap), clSymbol('into'), repeat($._gap), $._form))),
+        termination_clause: $ => prec.left(seq(choice(clSymbol('finally'), clSymbol('return'), clSymbol('initially')), repeat($._gap), $._form)),
 
 
         loop_clause: $ =>
@@ -124,11 +129,11 @@ module.exports = grammar(clojure, {
         loop_macro: $ =>
             seq(field('open', "("),
                 optional($._gap),
-                choice(seq(optional(seq('cl', ':')), 'loop')),
+                clSymbol('loop'),
                 repeat(choice($.loop_clause, $._gap)),
                 field('close', ")")),
 
-        defun_keyword: _ => choice('defun', 'defmacro', 'defgeneric', 'defmethod'),
+        defun_keyword: _ => clSymbol(choice('defun', 'defmacro', 'defgeneric', 'defmethod')),
 
         defun_header: $ =>
             choice(
