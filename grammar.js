@@ -74,7 +74,15 @@ module.exports = grammar({
         rule: $ => seq(
             $.targets,
             choice(':', '&:', '::'),
+            optional(seq(
+                field('static_pattern', $.pattern),
+                choice(':'),
+            )),
             optional($.prerequisites),
+            optional(seq(
+                '|',
+                alias($.prerequisites,$.order_only_prerequisites)
+            )),
             optional($.recipe),
             $._terminator,
         ),
