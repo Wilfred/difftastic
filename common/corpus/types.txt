@@ -903,6 +903,7 @@ Tuple types
 ==================================
 
 type t = []
+type t = [A,]
 type t = [A|B, C]
 type t = readonly [A[], B.C]
 
@@ -918,6 +919,10 @@ type t = [a: A, b?: B, ...c: C[]]
   (type_alias_declaration
     (type_identifier)
     (tuple_type))
+  (type_alias_declaration
+    (type_identifier)
+    (tuple_type
+      (type_identifier)))
   (type_alias_declaration
     (type_identifier)
     (tuple_type
