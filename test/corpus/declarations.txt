@@ -271,8 +271,8 @@ define('ANIMALS', array(
     (function_call_expression
       (qualified_name (name))
       (arguments
-        (string)
-        (string)
+        (argument (string))
+        (argument (string))
       )
     )
   )
@@ -305,11 +305,13 @@ define('ANIMALS', array(
     (function_call_expression
       (qualified_name (name))
       (arguments
-        (string)
-        (array_creation_expression
-          (array_element_initializer (string))
-          (array_element_initializer (string))
-          (array_element_initializer (string))
+        (argument (string))
+        (argument
+          (array_creation_expression
+            (array_element_initializer (string))
+            (array_element_initializer (string))
+            (array_element_initializer (string))
+          )
         )
       )
     )

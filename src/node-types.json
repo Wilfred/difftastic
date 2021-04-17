@@ -379,6 +379,36 @@
     }
   },
   {
+    "type": "argument",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "variadic_unpacking",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "arguments",
     "named": true,
     "fields": {},
@@ -387,11 +417,7 @@
       "required": false,
       "types": [
         {
-          "type": "_expression",
-          "named": true
-        },
-        {
-          "type": "variadic_unpacking",
+          "type": "argument",
           "named": true
         }
       ]
@@ -4123,11 +4149,11 @@
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "break",
@@ -4339,11 +4365,11 @@
   },
   {
     "type": "null",
-    "named": true
+    "named": false
   },
   {
     "type": "null",
-    "named": false
+    "named": true
   },
   {
     "type": "object",
@@ -4411,11 +4437,11 @@
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "switch",

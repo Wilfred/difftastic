@@ -103,8 +103,12 @@ class A {
   (expression_statement
     (object_creation_expression
       (arguments
-        (variable_name (name))
-        (variable_name (name))
+        (argument
+          (variable_name (name))
+        )
+        (argument
+          (variable_name (name))
+        )
       )
       (base_clause
         (qualified_name (name))
@@ -126,7 +130,7 @@ class A {
         (compound_statement
           (return_statement
             (object_creation_expression
-              (arguments (variable_name (name)))
+              (arguments (argument (variable_name (name))))
               (base_clause (qualified_name (name)))
               (declaration_list
                 (const_declaration
