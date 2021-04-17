@@ -21,10 +21,10 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (call
-        (identifier)
+        (function_identifier)
         (arguments
           (identifier)))
       (rescue_block
@@ -33,7 +33,7 @@ end
             (module))
           (dot_call
             (module)
-            (identifier)
+            (function_identifier)
             (arguments
               (string
                 (string_start)
@@ -45,14 +45,14 @@ end
             (identifier))
           (dot_call
             (module)
-            (identifier)
+            (function_identifier)
             (arguments
               (string
                 (string_start)
                 (string_content)
                 (interpolation
                   (call
-                    (identifier)
+                    (function_identifier)
                     (arguments
                       (identifier))))
                 (string_end))))))
@@ -62,21 +62,21 @@ end
             (identifier))
           (dot_call
             (module)
-            (identifier)
+            (function_identifier)
             (arguments
               (string
                 (string_start)
                 (string_content)
                 (interpolation
                   (call
-                    (identifier)
+                    (function_identifier)
                     (arguments
                       (identifier))))
                 (string_end))))))
       (after_block
         (dot_call
           (module)
-          (identifier)
+          (function_identifier)
           (arguments
             (string
               (string_start)
@@ -97,11 +97,11 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (dot_call
         (module)
-        (identifier))
+        (function_identifier))
       (rescue_block
         (stab_expression
           (bare_arguments
@@ -126,10 +126,10 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (call
-        (identifier)
+        (function_identifier)
         (arguments
           (atom
             (atom_literal))))
@@ -141,14 +141,14 @@ end
             (identifier))
           (dot_call
             (module)
-            (identifier)
+            (function_identifier)
             (arguments
               (string
                 (string_start)
                 (string_content)
                 (interpolation
                   (call
-                    (identifier)
+                    (function_identifier)
                     (arguments
                       (identifier))))
                 (string_end)))))))))
@@ -173,7 +173,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (binary_op
         (integer)
@@ -218,10 +218,10 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (call
-        (identifier)
+        (function_identifier)
         (arguments
           (string
             (string_start)
@@ -230,7 +230,7 @@ end
       (after_block
         (dot_call
           (module)
-          (identifier)
+          (function_identifier)
           (arguments
             (string
               (string_start)

@@ -11,7 +11,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (stab_expression
         (bare_arguments
@@ -40,7 +40,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (stab_expression
         (bare_arguments
@@ -66,7 +66,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (stab_expression
         (bare_arguments
@@ -79,8 +79,8 @@ end
         (bare_arguments
           (integer))
         (dot_call
-          (identifier)
-          (identifier)
+          (remote_identifier)
+          (function_identifier)
           (arguments))
         (integer)))))
 
@@ -99,7 +99,7 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (do_block
       (stab_expression
         (bare_arguments
@@ -113,7 +113,7 @@ end
                 (atom_literal))
               (dot_call
                 (module)
-                (identifier)
+                (function_identifier)
                 (arguments
                   (identifier))))))
         (integer))

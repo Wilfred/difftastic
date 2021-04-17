@@ -55,5 +55,5 @@ with dot call
 (program
   (struct
     (dot_call
-      (identifier)
+      (remote_identifier)
       (module))))

@@ -9,6 +9,6 @@ end
 
 (program
   (call
-    (identifier)
+    (function_identifier)
     (module)
     (do_block)))

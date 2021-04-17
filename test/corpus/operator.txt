@@ -10,7 +10,7 @@ not Map.has_key?(set, tuple)
   (unary_op
     (dot_call
       (module)
-      (identifier)
+      (function_identifier)
       (arguments
         (identifier)
         (identifier)))))
