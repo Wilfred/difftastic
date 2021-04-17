@@ -197,10 +197,10 @@ function test(int $a, string ...$b)
 		name: (name)
 		parameters: (formal_parameters
 			(simple_parameter
-				type: (primitive_type)
+				type: (type_list (primitive_type))
 				name: (variable_name (name)))
 			(variadic_parameter
-				type: (primitive_type)
+				type: (type_list (primitive_type))
 				name: (variable_name (name))))
 		body: (compound_statement)))
 
