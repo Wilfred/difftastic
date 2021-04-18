@@ -2007,8 +2007,13 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_package_lit_without_slash"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_package_lit_without_slash"
+                  },
+                  "named": true,
+                  "value": "package_lit"
                 },
                 {
                   "type": "SYMBOL",
@@ -3550,47 +3555,38 @@
       }
     },
     "_package_lit_without_slash": {
-      "type": "ALIAS",
-      "content": {
-        "type": "PREC",
-        "value": 2,
-        "content": {
-          "type": "SEQ",
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "package",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_sym_lit_without_slash"
+          }
+        },
+        {
+          "type": "CHOICE",
           "members": [
             {
-              "type": "FIELD",
-              "name": "package",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_sym_lit_without_slash"
-              }
+              "type": "STRING",
+              "value": ":"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": ":"
-                },
-                {
-                  "type": "STRING",
-                  "value": "::"
-                }
-              ]
-            },
-            {
-              "type": "FIELD",
-              "name": "symbol",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_sym_lit_without_slash"
-              }
+              "type": "STRING",
+              "value": "::"
             }
           ]
+        },
+        {
+          "type": "FIELD",
+          "name": "symbol",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_sym_lit_without_slash"
+          }
         }
-      },
-      "named": true,
-      "value": "package_lit"
+      ]
     },
     "_sym_lit_without_slash": {
       "type": "ALIAS",

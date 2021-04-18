@@ -1490,16 +1490,6 @@
           }
         ]
       },
-      "package": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "package_lit",
-            "named": true
-          }
-        ]
-      },
       "repetitions": {
         "multiple": true,
         "required": false,
@@ -1514,16 +1504,6 @@
           },
           {
             "type": "num_lit",
-            "named": true
-          }
-        ]
-      },
-      "symbol": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "package_lit",
             "named": true
           }
         ]
@@ -2439,7 +2419,7 @@
     "fields": {
       "package": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "sym_lit",
@@ -2449,7 +2429,7 @@
       },
       "symbol": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "sym_lit",
@@ -2457,16 +2437,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "sym_lit",
-          "named": true
-        }
-      ]
     }
   },
   {

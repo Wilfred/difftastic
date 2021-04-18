@@ -851,6 +851,7 @@ Format
 (load "~/quicklisp/setup")
 
 2
+(load "~/foo:quicklisp/setup")
 
 --------------------------------------------------------------------------------
 
@@ -893,4 +894,12 @@ Format
       (format_specifier
         (format_directive_type
           (sym_lit)))))
-  (num_lit))
+  (num_lit)
+  (list_lit
+    (sym_lit)
+    (str_lit
+      (format_specifier
+        (format_directive_type
+          (package_lit
+            (sym_lit)
+            (sym_lit)))))))

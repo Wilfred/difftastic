@@ -102,7 +102,7 @@ module.exports = grammar(clojure, {
             /[<>]/,
             ';',
             seq(field('numberOfArgs', $._format_token), '*'),
-            seq('/', choice($._package_lit_without_slash, $._sym_lit_without_slash), '/'),
+            seq('/', choice(alias($._package_lit_without_slash, $.package_lit), $._sym_lit_without_slash), '/'),
             '?',
             "Newline",
             seq(repeat(choice($._format_token, ',')), /[$rRbBdDgGxXeEoOsStTfF]/),
@@ -224,11 +224,11 @@ module.exports = grammar(clojure, {
             field('symbol', $.sym_lit)
         )),
 
-        _package_lit_without_slash: $ => alias(prec(PREC.PACKAGE_LIT, seq(
+        _package_lit_without_slash: $ => seq(
             field('package', $._sym_lit_without_slash), // Make optional, instead of keywords?
             choice(':', '::'),
             field('symbol', $._sym_lit_without_slash)
-        )), $.package_lit),
+        ),
 
         kwd_lit: $ => prec(PREC.KWD_LIT, seq(
             choice(':', '::'),
