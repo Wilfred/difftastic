@@ -38,6 +38,15 @@ const SYMBOL =
     token(seq(SYMBOL_HEAD,
         repeat(SYMBOL_BODY)));
 
+const STRING =
+      token(seq('"',
+                repeat(/[^"\\]/),
+                repeat(seq("\\",
+                           /./,
+                           repeat(/[^"\\]/))),
+                '"'));
+
+
 function clSymbol(symbol) {
     return seq(optional(seq('cl', ':')), symbol)
 }
@@ -211,6 +220,10 @@ module.exports = grammar(clojure, {
             prec(PREC.SPECIAL, choice(seq(field('open', choice('#0A', '#0a')), $.num_lit),
                 seq(field('open', '#'), optional(field('dimension_indicator', $.array_dimension)), $.list_lit))),
 
+        path_lit: $ =>
+            prec(PREC.SPECIAL,
+                seq(field('open', choice('#P','#p')), alias(STRING, $.str_lit))),
+
         _bare_list_lit: $ =>
             choice(prec(PREC.SPECIAL, $.defun),
                 prec(PREC.SPECIAL, $.loop_macro),
@@ -253,6 +266,7 @@ module.exports = grammar(clojure, {
                     $.str_lit,
                     $.char_lit,
                     $.nil_lit,
+                    $.path_lit,
                     //$.bool_lit,
                     $.package_lit,
                     $.sym_lit,

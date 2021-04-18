@@ -123,6 +123,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "path_lit"
+            },
+            {
+              "type": "SYMBOL",
               "name": "package_lit"
             },
             {
@@ -3515,6 +3519,83 @@
           ]
         }
       ]
+    },
+    "path_lit": {
+      "type": "PREC",
+      "value": 5,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "open",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "#P"
+                },
+                {
+                  "type": "STRING",
+                  "value": "#p"
+                }
+              ]
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "TOKEN",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "\""
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[^\"\\\\]"
+                    }
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "\\"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "."
+                        },
+                        {
+                          "type": "REPEAT",
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "[^\"\\\\]"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\""
+                  }
+                ]
+              }
+            },
+            "named": true,
+            "value": "str_lit"
+          }
+        ]
+      }
     },
     "package_lit": {
       "type": "PREC",
