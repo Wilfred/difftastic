@@ -836,3 +836,49 @@ Num Literals (TODO)
     (num_lit)
     (sym_lit)
     (num_lit)))
+
+================================================================================
+Format
+================================================================================
+
+"~S" 	
+"~3,-4:@s"
+	
+"~,+4S"
+
+(format T "~8,0b" 5)
+(format T "~v,'0b" 8 5)
+--------------------------------------------------------------------------------
+
+(source
+  (str_lit
+    (format_specifier
+      (format_directive_type)))
+  (str_lit
+    (format_specifier
+      (format_modifiers
+        (num_lit)
+        (num_lit))
+      (format_directive_type)))
+  (str_lit
+    (format_specifier
+      (format_directive_type
+        (num_lit))))
+  (list_lit
+    (sym_lit)
+    (sym_lit)
+    (str_lit
+      (format_specifier
+        (format_directive_type
+          (num_lit)
+          (num_lit))))
+    (num_lit))
+  (list_lit
+    (sym_lit)
+    (sym_lit)
+    (str_lit
+      (format_specifier
+        (format_prefix_parameters)
+        (format_directive_type)))
+    (num_lit)
+    (num_lit)))

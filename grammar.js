@@ -43,6 +43,10 @@ function srepeat(...args) {
     return repeat(seq(...args))
 }
 
+function sep1 (rule, separator) {
+  return seq(rule, repeat(seq(separator, rule)))
+}
+
 
 module.exports = grammar(clojure, {
     name: 'commonlisp',
@@ -81,11 +85,13 @@ module.exports = grammar(clojure, {
                 repeat(choice(field('value', $._form), $._gap)),
                 field('close', ")")),
 
+        _format_token: $ => choice($.num_lit, seq("'", /./)),
         // https://en.wikipedia.org/wiki/Format_Common_Lisp)
         format_prefix_parameters: _ => choice('v', 'V', '#'),
-        format_modifiers: _ => choice('@', '@:', ':', ':@'),
+        format_modifiers: $ => seq(repeat(choice($._format_token, ',')), choice('@', '@:', ':', ':@')),
+        //format_modifiers: _ => choice('@', '@:', ':', ':@'),
         format_directive_type: $ => choice(
-            seq(optional(field('repetitions', choice($.num_lit))), choice('~', '%', '&', '|')),
+            seq(optional(field('repetitions', $._format_token)), choice('~', '%', '&', '|')),
             /[cC]/,
             /\^/,
             '\n',
@@ -93,7 +99,6 @@ module.exports = grammar(clojure, {
             /[pP]/,
             /[iI]/,
             /[wW]/,
-            /[sS]/,
             /[aA]/,
             '_',
             /[()]/,
@@ -101,11 +106,11 @@ module.exports = grammar(clojure, {
             /[\[\]]/,
             /[<>]/,
             ';',
-            seq(field('numberOfArgs', $.num_lit), '*'),
+            seq(field('numberOfArgs', $._format_token), '*'),
             seq('/', $._form, '/', $._form, /[tT]/),
             '?',
             "Newline",
-            seq(repeat(choice($.num_lit, ',')), /[$rRbBdDgGxXeEoO]/),
+            seq(repeat(choice($._format_token, ',')), /[$rRbBdDgGxXeEoOsS]/),
         ),
         format_specifier: $ =>
             prec.left(seq(

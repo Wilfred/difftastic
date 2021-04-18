@@ -1477,6 +1477,10 @@
         "required": false,
         "types": [
           {
+            "type": "'",
+            "named": false
+          },
+          {
             "type": "num_lit",
             "named": true
           }
@@ -1486,6 +1490,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "'",
+            "named": false
+          },
           {
             "type": "num_lit",
             "named": true
@@ -1595,7 +1603,17 @@
   {
     "type": "format_modifiers",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "num_lit",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "format_prefix_parameters",
