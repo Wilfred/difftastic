@@ -1,9 +1,20 @@
 {
+  "name": "tree-sitter-cmake",
+  "version": "0.1",
+  "description": "CMake grammar for tree-sitter",
+  "main": "bindings/node",
+  "author": "Uy Ha",
+  "license": "MIT",
   "dependencies": {
     "nan": "^2.14.2"
   },
-  "devDependencies": {
-    "tree-sitter-cli": "^0.19.4"
-  },
-  "main": "bindings/node"
+  "tree-sitter": [
+    {
+      "scope": "source.cmake",
+      "file-types": [
+        "cmake",
+        "CMakeLists.txt"
+      ]
+    }
+  ]
 }
