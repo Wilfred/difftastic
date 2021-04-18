@@ -1473,12 +1473,16 @@
     "named": true,
     "fields": {
       "numberOfArgs": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
             "type": "'",
             "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
           },
           {
             "type": "num_lit",
@@ -1492,17 +1496,21 @@
         "types": [
           {
             "type": "package_lit",
-            "named": false
+            "named": true
           }
         ]
       },
       "repetitions": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
             "type": "'",
             "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
           },
           {
             "type": "num_lit",
@@ -1516,7 +1524,7 @@
         "types": [
           {
             "type": "package_lit",
-            "named": false
+            "named": true
           }
         ]
       }
@@ -1526,7 +1534,19 @@
       "required": false,
       "types": [
         {
+          "type": "char_lit",
+          "named": true
+        },
+        {
           "type": "num_lit",
+          "named": true
+        },
+        {
+          "type": "package_lit",
+          "named": true
+        },
+        {
+          "type": "sym_lit",
           "named": true
         }
       ]
@@ -1540,6 +1560,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "char_lit",
+          "named": true
+        },
         {
           "type": "num_lit",
           "named": true
@@ -2433,6 +2457,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "sym_lit",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -4700,10 +4734,6 @@
   },
   {
     "type": "on",
-    "named": false
-  },
-  {
-    "type": "package_lit",
     "named": false
   },
   {

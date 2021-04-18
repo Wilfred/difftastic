@@ -80,7 +80,7 @@ module.exports = grammar(clojure, {
                 repeat(choice(field('value', $._form), $._gap)),
                 field('close', ")")),
 
-        _format_token: $ => choice($.num_lit, seq("'", /./)),
+        _format_token: $ => choice($.num_lit, seq("'", alias(/./, $.char_lit))),
         // https://en.wikipedia.org/wiki/Format_Common_Lisp)
         format_prefix_parameters: _ => choice('v', 'V', '#'),
         format_modifiers: $ => seq(repeat(choice($._format_token, ',')), choice('@', '@:', ':', ':@')),
@@ -105,7 +105,7 @@ module.exports = grammar(clojure, {
             seq('/', choice($._package_lit_without_slash, $._sym_lit_without_slash), '/'),
             '?',
             "Newline",
-            seq(repeat(choice($._format_token, ',')), /[$rRbBdDgGxXeEoOsS]/),
+            seq(repeat(choice($._format_token, ',')), /[$rRbBdDgGxXeEoOsStTfF]/),
         ),
         format_specifier: $ =>
             prec.left(seq(
@@ -228,7 +228,7 @@ module.exports = grammar(clojure, {
             field('package', $._sym_lit_without_slash), // Make optional, instead of keywords?
             choice(':', '::'),
             field('symbol', $._sym_lit_without_slash)
-        )), 'package_lit'),
+        )), $.package_lit),
 
         kwd_lit: $ => prec(PREC.KWD_LIT, seq(
             choice(':', '::'),
@@ -238,8 +238,8 @@ module.exports = grammar(clojure, {
         sym_lit: _ =>
             seq(SYMBOL),
 
-        _sym_lit_without_slash: _ =>
-            alias(repeat1(SYMBOL_WITHOUT_SLASH), 'sym_lit'),
+        _sym_lit_without_slash: $ =>
+            alias(repeat1(SYMBOL_WITHOUT_SLASH), $.sym_lit),
 
         kwd_symbol: _ =>
             seq(SYMBOL),

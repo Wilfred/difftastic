@@ -883,12 +883,14 @@ Format
     (str_lit
       (format_specifier
         (format_prefix_parameters)
-        (format_directive_type)))
+        (format_directive_type
+          (char_lit))))
     (num_lit)
     (num_lit))
   (list_lit
     (sym_lit)
     (str_lit
       (format_specifier
-        (format_directive_type))))
+        (format_directive_type
+          (sym_lit)))))
   (num_lit))

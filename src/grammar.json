@@ -1807,8 +1807,13 @@
               "value": "'"
             },
             {
-              "type": "PATTERN",
-              "value": "."
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "."
+              },
+              "named": true,
+              "value": "char_lit"
             }
           ]
         }
@@ -2046,7 +2051,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "[$rRbBdDgGxXeEoOsS]"
+              "value": "[$rRbBdDgGxXeEoOsStTfF]"
             }
           ]
         }
@@ -3584,7 +3589,7 @@
           ]
         }
       },
-      "named": false,
+      "named": true,
       "value": "package_lit"
     },
     "_sym_lit_without_slash": {
@@ -3596,7 +3601,7 @@
           "value": "[^:\\f\\n\\r\\t ()\\[\\]{}\"@^;/`\\\\,#'\\u000B\\u001C\\u001D\\u001E\\u001F\\u2028\\u2029\\u1680\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2008\\u2009\\u200a\\u205f\\u3000]"
         }
       },
-      "named": false,
+      "named": true,
       "value": "sym_lit"
     },
     "kwd_symbol": {

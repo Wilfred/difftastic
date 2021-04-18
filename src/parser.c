@@ -17,7 +17,7 @@
 #define STATE_COUNT 3021
 #define LARGE_STATE_COUNT 680
 #define SYMBOL_COUNT 186
-#define ALIAS_COUNT 2
+#define ALIAS_COUNT 0
 #define TOKEN_COUNT 117
 #define EXTERNAL_TOKEN_COUNT 0
 #define FIELD_COUNT 21
@@ -210,8 +210,6 @@ enum {
   aux_sym_do_clause_repeat1 = 183,
   aux_sym_loop_macro_repeat1 = 184,
   aux_sym__sym_lit_without_slash_repeat1 = 185,
-  anon_alias_sym_package_lit = 186,
-  anon_alias_sym_sym_lit = 187,
 };
 
 static const char *ts_symbol_names[] = {
@@ -255,7 +253,7 @@ static const char *ts_symbol_names[] = {
   [anon_sym_COMMA] = ",",
   [sym_block_comment] = "block_comment",
   [sym_fancy_literal] = "fancy_literal",
-  [aux_sym__format_token_token1] = "_format_token_token1",
+  [aux_sym__format_token_token1] = "char_lit",
   [anon_sym_v] = "v",
   [anon_sym_V] = "V",
   [anon_sym_AT_COLON] = "@:",
@@ -401,8 +399,6 @@ static const char *ts_symbol_names[] = {
   [aux_sym_do_clause_repeat1] = "do_clause_repeat1",
   [aux_sym_loop_macro_repeat1] = "loop_macro_repeat1",
   [aux_sym__sym_lit_without_slash_repeat1] = "_sym_lit_without_slash_repeat1",
-  [anon_alias_sym_package_lit] = "package_lit",
-  [anon_alias_sym_sym_lit] = "sym_lit",
 };
 
 static TSSymbol ts_symbol_map[] = {
@@ -446,7 +442,7 @@ static TSSymbol ts_symbol_map[] = {
   [anon_sym_COMMA] = anon_sym_COMMA,
   [sym_block_comment] = sym_block_comment,
   [sym_fancy_literal] = sym_fancy_literal,
-  [aux_sym__format_token_token1] = aux_sym__format_token_token1,
+  [aux_sym__format_token_token1] = sym_char_lit,
   [anon_sym_v] = anon_sym_v,
   [anon_sym_V] = anon_sym_V,
   [anon_sym_AT_COLON] = anon_sym_AT_COLON,
@@ -592,8 +588,6 @@ static TSSymbol ts_symbol_map[] = {
   [aux_sym_do_clause_repeat1] = aux_sym_do_clause_repeat1,
   [aux_sym_loop_macro_repeat1] = aux_sym_loop_macro_repeat1,
   [aux_sym__sym_lit_without_slash_repeat1] = aux_sym__sym_lit_without_slash_repeat1,
-  [anon_alias_sym_package_lit] = anon_alias_sym_package_lit,
-  [anon_alias_sym_sym_lit] = anon_alias_sym_sym_lit,
 };
 
 static const TSSymbolMetadata ts_symbol_metadata[] = {
@@ -758,8 +752,8 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = true,
   },
   [aux_sym__format_token_token1] = {
-    .visible = false,
-    .named = false,
+    .visible = true,
+    .named = true,
   },
   [anon_sym_v] = {
     .visible = true,
@@ -1341,14 +1335,6 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = false,
     .named = false,
   },
-  [anon_alias_sym_package_lit] = {
-    .visible = true,
-    .named = false,
-  },
-  [anon_alias_sym_sym_lit] = {
-    .visible = true,
-    .named = false,
-  },
 };
 
 enum {
@@ -1836,41 +1822,37 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
 static TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE_LENGTH] = {
   [0] = {0},
   [29] = {
-    [0] = anon_alias_sym_sym_lit,
+    [0] = sym_sym_lit,
   },
   [52] = {
-    [0] = anon_alias_sym_package_lit,
-    [1] = anon_alias_sym_package_lit,
-    [2] = anon_alias_sym_package_lit,
+    [0] = sym_package_lit,
+    [1] = sym_package_lit,
+    [2] = sym_package_lit,
   },
 };
 
 static uint16_t ts_non_terminal_alias_map[] = {
   sym__sym_lit_without_slash, 2,
     sym__sym_lit_without_slash,
-    anon_alias_sym_package_lit,
+    sym_package_lit,
   aux_sym__sym_lit_without_slash_repeat1, 2,
     aux_sym__sym_lit_without_slash_repeat1,
-    anon_alias_sym_sym_lit,
+    sym_sym_lit,
   0,
 };
 
 static inline bool aux_sym_str_lit_token1_character_set_1(int32_t c) {
   return (c < 'X'
-    ? (c < 'G'
+    ? (c < 'O'
       ? (c < 'B'
         ? c == '$'
-        : c <= 'E')
-      : (c <= 'G' || (c < 'R'
-        ? c == 'O'
-        : c <= 'S')))
-    : (c <= 'X' || (c < 'o'
-      ? (c < 'g'
-        ? (c >= 'b' && c <= 'e')
-        : c <= 'g')
-      : (c <= 'o' || (c < 'x'
-        ? (c >= 'r' && c <= 's')
-        : c <= 'x')))));
+        : c <= 'G')
+      : (c <= 'O' || (c >= 'R' && c <= 'T')))
+    : (c <= 'X' || (c < 'r'
+      ? (c < 'o'
+        ? (c >= 'b' && c <= 'g')
+        : c <= 'o')
+      : (c <= 't' || c == 'x'))));
 }
 
 static inline bool aux_sym_char_lit_token1_character_set_1(int32_t c) {
@@ -2113,20 +2095,18 @@ static inline bool sym_fancy_literal_character_set_1(int32_t c) {
 
 static inline bool aux_sym_format_directive_type_token11_character_set_1(int32_t c) {
   return (c < 'X'
-    ? (c < 'G'
+    ? (c < 'D'
       ? (c < 'B'
         ? c == '$'
-        : (c <= 'B' || (c >= 'D' && c <= 'E')))
+        : c <= 'B')
       : (c <= 'G' || (c < 'R'
         ? c == 'O'
-        : c <= 'S')))
-    : (c <= 'X' || (c < 'o'
-      ? (c < 'g'
-        ? (c >= 'b' && c <= 'e')
-        : c <= 'g')
-      : (c <= 'o' || (c < 'x'
-        ? (c >= 'r' && c <= 's')
-        : c <= 'x')))));
+        : c <= 'T')))
+    : (c <= 'X' || (c < 'r'
+      ? (c < 'o'
+        ? (c >= 'b' && c <= 'g')
+        : c <= 'o')
+      : (c <= 't' || c == 'x'))));
 }
 
 static inline bool aux_sym__sym_lit_without_slash_token1_character_set_1(int32_t c) {
