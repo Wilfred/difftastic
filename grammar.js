@@ -194,7 +194,7 @@ module.exports = grammar({
 
     // -- Variables
 
-    inferred_type: $ => seq(':', '='),
+    inferred_type: $ => choice(':=', seq(':', '=')),
 
     _variable_assignment: $ => seq('=', $._expression),
     _variable_inferred_type_assignment: $ => seq($.inferred_type, $._expression),
