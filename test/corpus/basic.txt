@@ -885,4 +885,10 @@ Format
         (format_prefix_parameters)
         (format_directive_type)))
     (num_lit)
-    (num_lit)))
+    (num_lit))
+  (list_lit
+    (sym_lit)
+    (str_lit
+      (format_specifier
+        (format_directive_type))))
+  (num_lit))

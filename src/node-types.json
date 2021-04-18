@@ -1486,6 +1486,16 @@
           }
         ]
       },
+      "package": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "package_lit",
+            "named": false
+          }
+        ]
+      },
       "repetitions": {
         "multiple": false,
         "required": false,
@@ -1497,6 +1507,16 @@
           {
             "type": "num_lit",
             "named": true
+          }
+        ]
+      },
+      "symbol": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "package_lit",
+            "named": false
           }
         ]
       }
@@ -2395,7 +2415,7 @@
     "fields": {
       "package": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "sym_lit",
@@ -2405,7 +2425,7 @@
       },
       "symbol": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "sym_lit",
@@ -4495,6 +4515,10 @@
     "named": false
   },
   {
+    "type": "/",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -4676,6 +4700,10 @@
   },
   {
     "type": "on",
+    "named": false
+  },
+  {
+    "type": "package_lit",
     "named": false
   },
   {

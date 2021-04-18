@@ -27,6 +27,9 @@ const PREC = {
 const SYMBOL_HEAD =
     /[^:\f\n\r\t ()\[\]{}"@^;`\\,#'\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
 
+const SYMBOL_WITHOUT_SLASH =
+    /[^:\f\n\r\t ()\[\]{}"@^;/`\\,#'\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]/;
+
 const SYMBOL_BODY =
     choice(SYMBOL_HEAD,
         /[#']/);
@@ -37,14 +40,6 @@ const SYMBOL =
 
 function clSymbol(symbol) {
     return seq(optional(seq('cl', ':')), symbol)
-}
-
-function srepeat(...args) {
-    return repeat(seq(...args))
-}
-
-function sep1(rule, separator) {
-    return seq(rule, repeat(seq(separator, rule)))
 }
 
 
@@ -107,7 +102,7 @@ module.exports = grammar(clojure, {
             /[<>]/,
             ';',
             seq(field('numberOfArgs', $._format_token), '*'),
-            //seq('/', $._form, '/', $._form, /[tT]/), // causes problems with paths
+            seq('/', choice($._package_lit_without_slash, $._sym_lit_without_slash), '/'),
             '?',
             "Newline",
             seq(repeat(choice($._format_token, ',')), /[$rRbBdDgGxXeEoOsS]/),
@@ -223,13 +218,17 @@ module.exports = grammar(clojure, {
                     repeat(choice(field('value', $._form), $._gap)),
                     field('close', ")"))),
 
-        //dotted_sym_lit: $ => prec.left(PREC.DOTTET_LIT, seq($.sym_lit, repeat1(seq(".", $.sym_lit)))),
-
         package_lit: $ => prec(PREC.PACKAGE_LIT, seq(
             field('package', $.sym_lit), // Make optional, instead of keywords?
             choice(':', '::'),
             field('symbol', $.sym_lit)
         )),
+
+        _package_lit_without_slash: $ => alias(prec(PREC.PACKAGE_LIT, seq(
+            field('package', $._sym_lit_without_slash), // Make optional, instead of keywords?
+            choice(':', '::'),
+            field('symbol', $._sym_lit_without_slash)
+        )), 'package_lit'),
 
         kwd_lit: $ => prec(PREC.KWD_LIT, seq(
             choice(':', '::'),
@@ -238,6 +237,9 @@ module.exports = grammar(clojure, {
 
         sym_lit: _ =>
             seq(SYMBOL),
+
+        _sym_lit_without_slash: _ =>
+            alias(repeat1(SYMBOL_WITHOUT_SLASH), 'sym_lit'),
 
         kwd_symbol: _ =>
             seq(SYMBOL),
