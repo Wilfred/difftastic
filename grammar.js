@@ -107,7 +107,7 @@ module.exports = grammar(clojure, {
             /[<>]/,
             ';',
             seq(field('numberOfArgs', $._format_token), '*'),
-            seq('/', $._form, '/', $._form, /[tT]/),
+            //seq('/', $._form, '/', $._form, /[tT]/), // causes problems with paths
             '?',
             "Newline",
             seq(repeat(choice($._format_token, ',')), /[$rRbBdDgGxXeEoOsS]/),
@@ -126,7 +126,7 @@ module.exports = grammar(clojure, {
                 repeat(choice(
                     token.immediate(prec(1, /[^\\~"]+/)),
                     token.immediate(seq("\\\"")),
-                    $.format_specifier
+                    $.format_specifier,
                 )),
                 optional('~'),
                 '"',
