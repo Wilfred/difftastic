@@ -35,8 +35,12 @@ const SYMBOL =
     token(seq(SYMBOL_HEAD,
         repeat(SYMBOL_BODY)));
 
-function clSymbol(symbol){
+function clSymbol(symbol) {
     return seq(optional(seq('cl', ':')), symbol)
+}
+
+function srepeat(...args) {
+    return repeat(seq(...args))
 }
 
 
@@ -76,6 +80,52 @@ module.exports = grammar(clojure, {
                 $.defun_header,
                 repeat(choice(field('value', $._form), $._gap)),
                 field('close', ")")),
+
+        // https://en.wikipedia.org/wiki/Format_Common_Lisp)
+        format_prefix_parameters: _ => choice('v', 'V', '#'),
+        format_modifiers: _ => choice('@', '@:', ':', ':@'),
+        format_directive_type: $ => choice(
+            seq(optional(field('repetitions', choice($.num_lit))), choice('~', '%', '&', '|')),
+            /[cC]/,
+            /\^/,
+            '\n',
+            '\r',
+            /[pP]/,
+            /[iI]/,
+            /[wW]/,
+            /[sS]/,
+            /[aA]/,
+            '_',
+            /[()]/,
+            /[{}]/,
+            /[\[\]]/,
+            /[<>]/,
+            ';',
+            seq(field('numberOfArgs', $.num_lit), '*'),
+            seq('/', $._form, '/', $._form, /[tT]/),
+            '?',
+            "Newline",
+            seq(repeat(choice($.num_lit, ',')), /[$rRbBdDgGxXeEoO]/),
+        ),
+        format_specifier: $ =>
+            prec.left(seq(
+                '~',
+                optional($.format_prefix_parameters),
+                optional($.format_modifiers),
+                prec(5, $.format_directive_type),
+            )),
+
+        str_lit: $ =>
+            seq(
+                '"',
+                repeat(choice(
+                    token.immediate(prec(1, /[^\\~"]+/)),
+                    token.immediate(seq("\\\"")),
+                    $.format_specifier
+                )),
+                optional('~'),
+                '"',
+            ),
 
         for_clause_word: _ => clSymbol(choice(
             'in',
@@ -188,43 +238,43 @@ module.exports = grammar(clojure, {
             seq(SYMBOL),
 
         _form: $ =>
-        seq(optional('#'),
-            choice(// atom-ish
-                $.num_lit,
-                $.fancy_literal,
-                $.kwd_lit,
-                $.str_lit,
-                $.char_lit,
-                $.nil_lit,
-                //$.bool_lit,
-                $.package_lit,
-                $.sym_lit,
-                // basic collection-ish
-                $.list_lit,
-                //$.map_lit,
-                $.vec_lit,
-                // dispatch reader macros
-                $.set_lit,
-                //$.anon_fn_lit,
-                //$.regex_lit,
-                $.read_cond_lit,
-                $.splicing_read_cond_lit,
-                //$.ns_map_lit,
-                $.var_quoting_lit,
-                $.sym_val_lit,
-                $.evaling_lit,
-                //$.tagged_or_ctor_lit,
-                // some other reader macros
-                $.derefing_lit,
-                $.quoting_lit,
-                $.syn_quoting_lit,
-                $.unquote_splicing_lit,
-                $.unquoting_lit,
-                $.include_reader_macro,
-                $.complex_num_lit,
-                ".",
-                //seq($._gap, '.'),
-            )),
+            seq(optional('#'),
+                choice(// atom-ish
+                    $.num_lit,
+                    $.fancy_literal,
+                    $.kwd_lit,
+                    $.str_lit,
+                    $.char_lit,
+                    $.nil_lit,
+                    //$.bool_lit,
+                    $.package_lit,
+                    $.sym_lit,
+                    // basic collection-ish
+                    $.list_lit,
+                    //$.map_lit,
+                    $.vec_lit,
+                    // dispatch reader macros
+                    $.set_lit,
+                    //$.anon_fn_lit,
+                    //$.regex_lit,
+                    $.read_cond_lit,
+                    $.splicing_read_cond_lit,
+                    //$.ns_map_lit,
+                    $.var_quoting_lit,
+                    $.sym_val_lit,
+                    $.evaling_lit,
+                    //$.tagged_or_ctor_lit,
+                    // some other reader macros
+                    $.derefing_lit,
+                    $.quoting_lit,
+                    $.syn_quoting_lit,
+                    $.unquote_splicing_lit,
+                    $.unquoting_lit,
+                    $.include_reader_macro,
+                    $.complex_num_lit,
+                    ".",
+                    //seq($._gap, '.'),
+                )),
 
         include_reader_macro: $ =>
             seq(repeat($._metadata_lit),
