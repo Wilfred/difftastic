@@ -43,8 +43,8 @@ function srepeat(...args) {
     return repeat(seq(...args))
 }
 
-function sep1 (rule, separator) {
-  return seq(rule, repeat(seq(separator, rule)))
+function sep1(rule, separator) {
+    return seq(rule, repeat(seq(separator, rule)))
 }
 
 
@@ -206,7 +206,7 @@ module.exports = grammar(clojure, {
         array_dimension: $ => seq($.num_lit, choice('A', 'a')),
 
         char_lit: (_, original) =>
-            seq(original),
+            choice(original, /\\[nN]ewline/, /\\[lL]inefeed/, /\\[Ss]pace/, /\\[nN]ull/),
 
         num_lit: (_, original) =>
             prec(PREC.NUM_LIT, original),
