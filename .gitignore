@@ -115,6 +115,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Ignore lock file
+package-lock.json
+
 # Tree sitter generated files
 parser.exp
 parser.lib
