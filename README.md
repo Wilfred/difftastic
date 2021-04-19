@@ -4,6 +4,8 @@
 
 Haskell grammar for [tree-sitter].
 
+**Note** This grammar needs at least tree-sitter `0.19.4`.
+
 # References
 
 * [Haskell 2010 Language Report – Syntax References](ref)
