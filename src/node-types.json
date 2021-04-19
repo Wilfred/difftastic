@@ -2478,6 +2478,10 @@
         "required": true,
         "types": [
           {
+            "type": "cl",
+            "named": false
+          },
+          {
             "type": "sym_lit",
             "named": true
           }

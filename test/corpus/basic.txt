@@ -918,3 +918,23 @@ Path Literals
     (str_lit))
   (path_lit
     (str_lit)))
+
+================================================================================
+Weird error
+================================================================================
+
+(in-package :common-lisp-user)
+(cl:in-package #:common-lisp-user)
+
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (sym_lit)
+    (kwd_lit
+      (kwd_symbol)))
+  (list_lit
+    (package_lit
+      (sym_lit))
+    (kwd_lit
+      (kwd_symbol))))

@@ -39,12 +39,12 @@ const SYMBOL =
         repeat(SYMBOL_BODY)));
 
 const STRING =
-      token(seq('"',
-                repeat(/[^"\\]/),
-                repeat(seq("\\",
-                           /./,
-                           repeat(/[^"\\]/))),
-                '"'));
+    token(seq('"',
+        repeat(/[^"\\]/),
+        repeat(seq("\\",
+            /./,
+            repeat(/[^"\\]/))),
+        '"'));
 
 
 function clSymbol(symbol) {
@@ -83,11 +83,11 @@ module.exports = grammar(clojure, {
                 field('value', ($._form))),
 
         defun: $ =>
-            seq(field('open', "("),
+            prec(PREC.SPECIAL, seq(field('open', "("),
                 optional($._gap),
                 $.defun_header,
                 repeat(choice(field('value', $._form), $._gap)),
-                field('close', ")")),
+                field('close', ")"))),
 
         _format_token: $ => choice($.num_lit, seq("'", alias(/./, $.char_lit))),
         // https://en.wikipedia.org/wiki/Format_Common_Lisp)
@@ -186,11 +186,12 @@ module.exports = grammar(clojure, {
             )),
 
         loop_macro: $ =>
-            seq(field('open', "("),
-                optional($._gap),
-                clSymbol('loop'),
-                repeat(choice($.loop_clause, $._gap)),
-                field('close', ")")),
+            prec(PREC.SPECIAL,
+                seq(field('open', "("),
+                    optional($._gap),
+                    clSymbol('loop'),
+                    repeat(choice($.loop_clause, $._gap)),
+                    field('close', ")"))),
 
         defun_keyword: _ => clSymbol(choice('defun', 'defmacro', 'defgeneric', 'defmethod')),
 
@@ -222,7 +223,7 @@ module.exports = grammar(clojure, {
 
         path_lit: $ =>
             prec(PREC.SPECIAL,
-                seq(field('open', choice('#P','#p')), alias(STRING, $.str_lit))),
+                seq(field('open', choice('#P', '#p')), alias(STRING, $.str_lit))),
 
         _bare_list_lit: $ =>
             choice(prec(PREC.SPECIAL, $.defun),
@@ -232,13 +233,13 @@ module.exports = grammar(clojure, {
                     field('close', ")"))),
 
         package_lit: $ => prec(PREC.PACKAGE_LIT, seq(
-            field('package', $.sym_lit), // Make optional, instead of keywords?
+            field('package', choice($.sym_lit, 'cl')), // Make optional, instead of keywords?
             choice(':', '::'),
             field('symbol', $.sym_lit)
         )),
 
         _package_lit_without_slash: $ => seq(
-            field('package', $._sym_lit_without_slash), // Make optional, instead of keywords?
+            field('package', choice($._sym_lit_without_slash, 'cl')), // Make optional, instead of keywords?
             choice(':', '::'),
             field('symbol', $._sym_lit_without_slash)
         ),
