@@ -296,15 +296,7 @@
     "named": true,
     "subtypes": [
       {
-        "type": "optional_type",
-        "named": true
-      },
-      {
-        "type": "primitive_type",
-        "named": true
-      },
-      {
-        "type": "type_name",
+        "type": "type_list",
         "named": true
       }
     ]
@@ -3067,6 +3059,14 @@
       "required": true,
       "types": [
         {
+          "type": "optional_type",
+          "named": true
+        },
+        {
+          "type": "primitive_type",
+          "named": true
+        },
+        {
           "type": "type_name",
           "named": true
         }
@@ -3637,11 +3637,11 @@
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "break",
@@ -3740,6 +3740,10 @@
     "named": false
   },
   {
+    "type": "false",
+    "named": false
+  },
+  {
     "type": "final",
     "named": false
   },
@@ -3749,11 +3753,11 @@
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "float",
-    "named": false
+    "named": true
   },
   {
     "type": "for",
@@ -3813,11 +3817,11 @@
   },
   {
     "type": "integer",
-    "named": true
+    "named": false
   },
   {
     "type": "integer",
-    "named": false
+    "named": true
   },
   {
     "type": "interface",
@@ -3837,6 +3841,10 @@
   },
   {
     "type": "new",
+    "named": false
+  },
+  {
+    "type": "null",
     "named": false
   },
   {
@@ -3909,11 +3917,11 @@
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "switch",
