@@ -2,7 +2,18 @@
   {
     "type": "accumulation_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -24,15 +35,7 @@
           "named": true
         },
         {
-          "type": "derefing_lit",
-          "named": true
-        },
-        {
           "type": "dis_expr",
-          "named": true
-        },
-        {
-          "type": "evaling_lit",
           "named": true
         },
         {
@@ -92,10 +95,6 @@
           "named": true
         },
         {
-          "type": "sym_val_lit",
-          "named": true
-        },
-        {
           "type": "syn_quoting_lit",
           "named": true
         },
@@ -126,17 +125,7 @@
   {
     "type": "array_dimension",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "num_lit",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "auto_res_mark",
@@ -225,7 +214,18 @@
   {
     "type": "condition_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -243,15 +243,7 @@
           "named": true
         },
         {
-          "type": "derefing_lit",
-          "named": true
-        },
-        {
           "type": "dis_expr",
-          "named": true
-        },
-        {
-          "type": "evaling_lit",
           "named": true
         },
         {
@@ -311,10 +303,6 @@
           "named": true
         },
         {
-          "type": "sym_val_lit",
-          "named": true
-        },
-        {
           "type": "syn_quoting_lit",
           "named": true
         },
@@ -352,12 +340,16 @@
         ]
       },
       "open": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
             "type": "(",
             "named": false
+          },
+          {
+            "type": "vec_lit",
+            "named": true
           }
         ]
       },
@@ -379,14 +371,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -443,10 +427,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -516,14 +496,6 @@
             "named": true
           },
           {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
-            "named": true
-          },
-          {
             "type": "fancy_literal",
             "named": true
           },
@@ -577,10 +549,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -629,6 +597,16 @@
           }
         ]
       },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
       "specifier": {
         "multiple": true,
         "required": false,
@@ -673,166 +651,6 @@
     "fields": {}
   },
   {
-    "type": "derefing_lit",
-    "named": true,
-    "fields": {
-      "marker": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "@",
-            "named": false
-          }
-        ]
-      },
-      "meta": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "meta_lit",
-            "named": true
-          }
-        ]
-      },
-      "old_meta": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "old_meta_lit",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "#",
-            "named": false
-          },
-          {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "char_lit",
-            "named": true
-          },
-          {
-            "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
-            "named": true
-          },
-          {
-            "type": "fancy_literal",
-            "named": true
-          },
-          {
-            "type": "include_reader_macro",
-            "named": true
-          },
-          {
-            "type": "kwd_lit",
-            "named": true
-          },
-          {
-            "type": "list_lit",
-            "named": true
-          },
-          {
-            "type": "nil_lit",
-            "named": true
-          },
-          {
-            "type": "num_lit",
-            "named": true
-          },
-          {
-            "type": "package_lit",
-            "named": true
-          },
-          {
-            "type": "path_lit",
-            "named": true
-          },
-          {
-            "type": "quoting_lit",
-            "named": true
-          },
-          {
-            "type": "read_cond_lit",
-            "named": true
-          },
-          {
-            "type": "set_lit",
-            "named": true
-          },
-          {
-            "type": "splicing_read_cond_lit",
-            "named": true
-          },
-          {
-            "type": "str_lit",
-            "named": true
-          },
-          {
-            "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
-            "named": true
-          },
-          {
-            "type": "syn_quoting_lit",
-            "named": true
-          },
-          {
-            "type": "unquote_splicing_lit",
-            "named": true
-          },
-          {
-            "type": "unquoting_lit",
-            "named": true
-          },
-          {
-            "type": "var_quoting_lit",
-            "named": true
-          },
-          {
-            "type": "vec_lit",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "dis_expr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "dis_expr",
     "named": true,
     "fields": {
@@ -846,6 +664,16 @@
           }
         ]
       },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": true,
         "required": true,
@@ -864,14 +692,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -928,10 +748,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -975,7 +791,18 @@
   {
     "type": "do_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -993,15 +820,7 @@
           "named": true
         },
         {
-          "type": "derefing_lit",
-          "named": true
-        },
-        {
           "type": "dis_expr",
-          "named": true
-        },
-        {
-          "type": "evaling_lit",
           "named": true
         },
         {
@@ -1061,10 +880,6 @@
           "named": true
         },
         {
-          "type": "sym_val_lit",
-          "named": true
-        },
-        {
           "type": "syn_quoting_lit",
           "named": true
         },
@@ -1088,77 +903,19 @@
     }
   },
   {
-    "type": "evaling_lit",
-    "named": true,
-    "fields": {
-      "marker": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "#=",
-            "named": false
-          }
-        ]
-      },
-      "meta": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "meta_lit",
-            "named": true
-          }
-        ]
-      },
-      "old_meta": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "old_meta_lit",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "list_lit",
-            "named": true
-          },
-          {
-            "type": "read_cond_lit",
-            "named": true
-          },
-          {
-            "type": "sym_lit",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "dis_expr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "for_clause",
     "named": true,
     "fields": {
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
       "type": {
         "multiple": true,
         "required": false,
@@ -1184,15 +941,7 @@
             "named": true
           },
           {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
             "type": "dis_expr",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -1249,10 +998,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -1298,14 +1043,6 @@
             "named": true
           },
           {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
-            "named": true
-          },
-          {
             "type": "fancy_literal",
             "named": true
           },
@@ -1362,10 +1099,6 @@
             "named": true
           },
           {
-            "type": "sym_val_lit",
-            "named": true
-          },
-          {
             "type": "syn_quoting_lit",
             "named": true
           },
@@ -1405,15 +1138,7 @@
           "named": true
         },
         {
-          "type": "derefing_lit",
-          "named": true
-        },
-        {
           "type": "dis_expr",
-          "named": true
-        },
-        {
-          "type": "evaling_lit",
           "named": true
         },
         {
@@ -1474,10 +1199,6 @@
         },
         {
           "type": "sym_lit",
-          "named": true
-        },
-        {
-          "type": "sym_val_lit",
           "named": true
         },
         {
@@ -1644,14 +1365,6 @@
             "named": true
           },
           {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
-            "named": true
-          },
-          {
             "type": "fancy_literal",
             "named": true
           },
@@ -1705,10 +1418,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -1767,6 +1476,16 @@
           }
         ]
       },
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
       "target": {
         "multiple": true,
         "required": true,
@@ -1785,14 +1504,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -1849,10 +1560,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -1948,12 +1655,16 @@
         ]
       },
       "open": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
             "type": "(",
             "named": false
+          },
+          {
+            "type": "vec_lit",
+            "named": true
           }
         ]
       },
@@ -1975,14 +1686,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -2039,10 +1742,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -2217,9 +1916,13 @@
         ]
       },
       "open": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          },
           {
             "type": "{",
             "named": false
@@ -2244,14 +1947,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -2308,10 +2003,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -2563,6 +2254,16 @@
           }
         ]
       },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": true,
         "required": true,
@@ -2581,14 +2282,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -2645,10 +2338,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -2734,12 +2423,16 @@
         ]
       },
       "open": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
             "type": "(",
             "named": false
+          },
+          {
+            "type": "vec_lit",
+            "named": true
           }
         ]
       },
@@ -2761,14 +2454,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -2828,10 +2513,6 @@
             "named": true
           },
           {
-            "type": "sym_val_lit",
-            "named": true
-          },
-          {
             "type": "syn_quoting_lit",
             "named": true
           },
@@ -2880,7 +2561,18 @@
   {
     "type": "repeat_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -2898,15 +2590,7 @@
           "named": true
         },
         {
-          "type": "derefing_lit",
-          "named": true
-        },
-        {
           "type": "dis_expr",
-          "named": true
-        },
-        {
-          "type": "evaling_lit",
           "named": true
         },
         {
@@ -2963,10 +2647,6 @@
         },
         {
           "type": "sym_lit",
-          "named": true
-        },
-        {
-          "type": "sym_val_lit",
           "named": true
         },
         {
@@ -3037,9 +2717,13 @@
         ]
       },
       "open": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          },
           {
             "type": "{",
             "named": false
@@ -3064,14 +2748,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -3131,10 +2807,6 @@
             "named": true
           },
           {
-            "type": "sym_val_lit",
-            "named": true
-          },
-          {
             "type": "syn_quoting_lit",
             "named": true
           },
@@ -3175,7 +2847,18 @@
   {
     "type": "source",
     "named": true,
-    "fields": {},
+    "fields": {
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -3193,15 +2876,7 @@
           "named": true
         },
         {
-          "type": "derefing_lit",
-          "named": true
-        },
-        {
           "type": "dis_expr",
-          "named": true
-        },
-        {
-          "type": "evaling_lit",
           "named": true
         },
         {
@@ -3258,10 +2933,6 @@
         },
         {
           "type": "sym_lit",
-          "named": true
-        },
-        {
-          "type": "sym_val_lit",
           "named": true
         },
         {
@@ -3332,12 +3003,16 @@
         ]
       },
       "open": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
             "type": "(",
             "named": false
+          },
+          {
+            "type": "vec_lit",
+            "named": true
           }
         ]
       },
@@ -3359,14 +3034,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -3423,10 +3090,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -3496,46 +3159,6 @@
     "fields": {}
   },
   {
-    "type": "sym_val_lit",
-    "named": true,
-    "fields": {
-      "marker": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "##",
-            "named": false
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "sym_lit",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "dis_expr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "syn_quoting_lit",
     "named": true,
     "fields": {
@@ -3546,6 +3169,16 @@
           {
             "type": "`",
             "named": false
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
           }
         ]
       },
@@ -3567,14 +3200,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -3634,10 +3259,6 @@
             "named": true
           },
           {
-            "type": "sym_val_lit",
-            "named": true
-          },
-          {
             "type": "syn_quoting_lit",
             "named": true
           },
@@ -3678,7 +3299,18 @@
   {
     "type": "termination_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -3696,15 +3328,7 @@
           "named": true
         },
         {
-          "type": "derefing_lit",
-          "named": true
-        },
-        {
           "type": "dis_expr",
-          "named": true
-        },
-        {
-          "type": "evaling_lit",
           "named": true
         },
         {
@@ -3764,10 +3388,6 @@
           "named": true
         },
         {
-          "type": "sym_val_lit",
-          "named": true
-        },
-        {
           "type": "syn_quoting_lit",
           "named": true
         },
@@ -3824,6 +3444,16 @@
           }
         ]
       },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": true,
         "required": true,
@@ -3842,14 +3472,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -3906,10 +3528,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -3964,6 +3582,16 @@
           }
         ]
       },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": true,
         "required": true,
@@ -3982,14 +3610,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -4046,10 +3666,6 @@
           },
           {
             "type": "sym_lit",
-            "named": true
-          },
-          {
-            "type": "sym_val_lit",
             "named": true
           },
           {
@@ -4124,6 +3740,16 @@
           }
         ]
       },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": true,
         "required": true,
@@ -4142,14 +3768,6 @@
           },
           {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "derefing_lit",
-            "named": true
-          },
-          {
-            "type": "evaling_lit",
             "named": true
           },
           {
@@ -4209,10 +3827,6 @@
             "named": true
           },
           {
-            "type": "sym_val_lit",
-            "named": true
-          },
-          {
             "type": "syn_quoting_lit",
             "named": true
           },
@@ -4254,13 +3868,13 @@
     "type": "vec_lit",
     "named": true,
     "fields": {
-      "dimension_indicator": {
+      "close": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "array_dimension",
-            "named": true
+            "type": ")",
+            "named": false
           }
         ]
       },
@@ -4285,8 +3899,8 @@
         ]
       },
       "open": {
-        "multiple": false,
-        "required": true,
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "#",
@@ -4299,16 +3913,130 @@
           {
             "type": "#0a",
             "named": false
+          },
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
           }
         ]
       }
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
+          "type": "array_dimension",
+          "named": true
+        },
+        {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "defun",
           "named": true
         },
         {
@@ -4317,6 +4045,10 @@
         },
         {
           "type": "list_lit",
+          "named": true
+        },
+        {
+          "type": "loop_macro",
           "named": true
         },
         {
@@ -4329,7 +4061,18 @@
   {
     "type": "while_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -4347,15 +4090,7 @@
           "named": true
         },
         {
-          "type": "derefing_lit",
-          "named": true
-        },
-        {
           "type": "dis_expr",
-          "named": true
-        },
-        {
-          "type": "evaling_lit",
           "named": true
         },
         {
@@ -4412,10 +4147,6 @@
         },
         {
           "type": "sym_lit",
-          "named": true
-        },
-        {
-          "type": "sym_val_lit",
           "named": true
         },
         {
@@ -4444,7 +4175,124 @@
   {
     "type": "with_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "char_lit",
+            "named": true
+          },
+          {
+            "type": "comment",
+            "named": true
+          },
+          {
+            "type": "complex_num_lit",
+            "named": true
+          },
+          {
+            "type": "dis_expr",
+            "named": true
+          },
+          {
+            "type": "fancy_literal",
+            "named": true
+          },
+          {
+            "type": "include_reader_macro",
+            "named": true
+          },
+          {
+            "type": "kwd_lit",
+            "named": true
+          },
+          {
+            "type": "list_lit",
+            "named": true
+          },
+          {
+            "type": "nil_lit",
+            "named": true
+          },
+          {
+            "type": "num_lit",
+            "named": true
+          },
+          {
+            "type": "package_lit",
+            "named": true
+          },
+          {
+            "type": "path_lit",
+            "named": true
+          },
+          {
+            "type": "quoting_lit",
+            "named": true
+          },
+          {
+            "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "set_lit",
+            "named": true
+          },
+          {
+            "type": "splicing_read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "str_lit",
+            "named": true
+          },
+          {
+            "type": "sym_lit",
+            "named": true
+          },
+          {
+            "type": "syn_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "unquote_splicing_lit",
+            "named": true
+          },
+          {
+            "type": "unquoting_lit",
+            "named": true
+          },
+          {
+            "type": "var_quoting_lit",
+            "named": true
+          },
+          {
+            "type": "vec_lit",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -4462,15 +4310,7 @@
           "named": true
         },
         {
-          "type": "derefing_lit",
-          "named": true
-        },
-        {
           "type": "dis_expr",
-          "named": true
-        },
-        {
-          "type": "evaling_lit",
           "named": true
         },
         {
@@ -4527,10 +4367,6 @@
         },
         {
           "type": "sym_lit",
-          "named": true
-        },
-        {
-          "type": "sym_val_lit",
           "named": true
         },
         {
@@ -4705,15 +4541,19 @@
     "named": false
   },
   {
-    "type": "A",
-    "named": false
-  },
-  {
     "type": "Newline",
     "named": false
   },
   {
     "type": "V",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {
@@ -4726,10 +4566,6 @@
   },
   {
     "type": "`",
-    "named": false
-  },
-  {
-    "type": "a",
     "named": false
   },
   {

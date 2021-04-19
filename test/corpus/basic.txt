@@ -210,8 +210,7 @@ Arrays
   (vec_lit
     (num_lit))
   (vec_lit
-    (array_dimension
-      (num_lit))
+    (array_dimension)
     (list_lit
       (list_lit
         (num_lit)
@@ -583,9 +582,7 @@ Functions with numbers (TODO!!!)
 --------------------------------------------------------------------------------
 
 (source
-  (num_lit)
   (sym_lit)
-  (num_lit)
   (sym_lit))
 
 ================================================================================
@@ -801,9 +798,10 @@ Weird quoting
       (sym_lit))))
 
 ================================================================================
-Num Literals (TODO)
+Num Literals
 ================================================================================
 
+0f
 (deftype zero ()
   '(member 0 0S0 -0S0 0F0 -0F0 0D0 -0D0 0L0 -0L0
     #C(0S0 0S0) #C(0S0 -0S0) #C(-0S0 0S0) #C(-0S0 -0S0)
@@ -813,29 +811,71 @@ Num Literals (TODO)
 --------------------------------------------------------------------------------
 
 (source
-  (ERROR
+  (num_lit)
+  (list_lit
     (sym_lit)
     (sym_lit)
     (list_lit)
-    (sym_lit)
-    (num_lit)
-    (num_lit)
-    (sym_lit)
-    (num_lit)
-    (sym_lit)
-    (num_lit)
-    (sym_lit)
-    (num_lit)
-    (sym_lit)
-    (num_lit)
-    (sym_lit)
-    (num_lit)
-    (sym_lit)
-    (num_lit)
-    (sym_lit)
-    (num_lit)
-    (sym_lit)
-    (num_lit)))
+    (quoting_lit
+      (list_lit
+        (sym_lit)
+        (num_lit)
+        (num_lit)
+        (num_lit)
+        (num_lit)
+        (num_lit)
+        (num_lit)
+        (num_lit)
+        (num_lit)
+        (num_lit)
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))
+        (complex_num_lit
+          (num_lit)
+          (num_lit))))))
 
 ================================================================================
 Format
@@ -938,3 +978,20 @@ Weird error
       (sym_lit))
     (kwd_lit
       (kwd_symbol))))
+
+================================================================================
+Trailing sharps
+================================================================================
+
+
+(sequence #a#)
+(sequence #1#)
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (sym_lit)
+    (sym_lit))
+  (list_lit
+    (sym_lit)
+    (sym_lit)))

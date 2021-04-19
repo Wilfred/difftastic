@@ -46,6 +46,64 @@ const STRING =
             repeat(/[^"\\]/))),
         '"'));
 
+const DIGIT =
+    /[0-9]/;
+
+const ALPHANUMERIC =
+    /[0-9a-zA-Z]/;
+
+const HEX_DIGIT =
+    /[0-9a-fA-F]/;
+
+const OCTAL_DIGIT =
+    /[0-7]/;
+
+const HEX_NUMBER =
+    seq("0",
+        /[xX]/,
+        repeat1(HEX_DIGIT),
+        optional("N"));
+
+const OCTAL_NUMBER =
+    seq("0",
+        repeat1(OCTAL_DIGIT),
+        optional("N"));
+
+// XXX: not constraining number before r/R
+// XXX: not constraining portion after r/R
+const RADIX_NUMBER =
+    seq(repeat1(DIGIT),
+        /[rR]/,
+        repeat1(ALPHANUMERIC));
+
+// XXX: not accounting for division by zero
+const RATIO =
+    seq(repeat1(DIGIT),
+        "/",
+        repeat1(DIGIT));
+
+const DOUBLE =
+    seq(repeat1(DIGIT),
+        optional(seq(".",
+            repeat(DIGIT))),
+        optional(seq(/[eEsSfFdDlL]/,
+            optional(/[+-]/),
+            repeat1(DIGIT))),
+    );
+
+const INTEGER =
+    seq(repeat1(DIGIT),
+        optional(/[MN]/));
+
+const NUMBER =
+    token(prec(0, seq(optional(/[+-]/),
+        choice(HEX_NUMBER,
+            //OCTAL_NUMBER,
+            RADIX_NUMBER,
+            RATIO,
+            DOUBLE,
+            INTEGER))));
+
 
 function clSymbol(symbol) {
     return seq(optional(seq('cl', ':')), symbol)
@@ -86,10 +144,11 @@ module.exports = grammar(clojure, {
             prec(PREC.SPECIAL, seq(field('open', "("),
                 optional($._gap),
                 $.defun_header,
+                optional($._gap),
                 repeat(choice(field('value', $._form), $._gap)),
                 field('close', ")"))),
 
-        _format_token: $ => choice($.num_lit, seq("'", alias(/./, $.char_lit))),
+        _format_token: $ => choice(alias(NUMBER, $.num_lit), seq("'", alias(/./, $.char_lit))),
         // https://en.wikipedia.org/wiki/Format_Common_Lisp)
         format_prefix_parameters: _ => choice('v', 'V', '#'),
         format_modifiers: $ => seq(repeat(choice($._format_token, ',')), choice('@', '@:', ':', ':@')),
@@ -162,7 +221,7 @@ module.exports = grammar(clojure, {
         for_clause: $ => choice(seq(choice(clSymbol('for'), clSymbol('and'), clSymbol('as')), repeat($._gap), field('variable', $._form), optional(field('type', seq(repeat($._gap), $._form))),
             repeat1($._for_part)), clSymbol('and')),
 
-        with_clause: $ => prec.left(seq(clSymbol('with'), repeat($._gap), $._form, repeat($._gap), clSymbol("="), repeat($._gap), $._form)),
+        with_clause: $ => prec.left(seq(clSymbol('with'), repeat($._gap), $._form, optional(field('type', seq(repeat($._gap), $._form))), repeat($._gap), clSymbol("="), repeat($._gap), $._form)),
         do_clause: $ => prec.left(seq(clSymbol('do'), repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
         while_clause: $ => prec.left(seq(choice(clSymbol('while'), clSymbol('until')), repeat($._gap), $._form)),
         repeat_clause: $ => prec.left(seq(clSymbol('repeat'), repeat($._gap), $._form)),
@@ -208,18 +267,16 @@ module.exports = grammar(clojure, {
                     field('lambda_list', choice($.list_lit, $.unquoting_lit)))
             ),
 
-        array_dimension: $ => seq($.num_lit, choice('A', 'a')),
+        array_dimension: _ => prec(100, /\d+[aA]/),
 
         char_lit: (_, original) =>
-            choice(original, /\\[nN]ewline/, /\\[lL]inefeed/, /\\[Ss]pace/, /\\[nN]ull/),
+            seq('#', choice(original, /\\[nN]ewline/, /\\[lL]inefeed/, /\\[Ss]pace/, /\\[nN]ull/, /\\[rR]ull/)),
 
-        num_lit: (_, original) =>
-            prec(PREC.NUM_LIT, original),
-
-
-        _bare_vec_lit: $ =>
-            prec(PREC.SPECIAL, choice(seq(field('open', choice('#0A', '#0a')), $.num_lit),
-                seq(field('open', '#'), optional(field('dimension_indicator', $.array_dimension)), $.list_lit))),
+        vec_lit: $ =>
+                prec(PREC.SPECIAL,
+            choice(
+                    seq(field('open', choice('#0A', '#0a')), $.num_lit),
+                    seq(field('open', '#'), optional($.array_dimension), $.list_lit))),
 
         path_lit: $ =>
             prec(PREC.SPECIAL,
@@ -260,34 +317,24 @@ module.exports = grammar(clojure, {
 
         _form: $ =>
             seq(optional('#'),
-                choice(// atom-ish
+                choice(
                     $.num_lit,
                     $.fancy_literal,
+                    $.vec_lit,
                     $.kwd_lit,
+                    // No idea why this is necessary...
+                    alias(seq(field('open', '#'), optional(/\d+[aA]/), $.list_lit), $.vec_lit),
                     $.str_lit,
                     $.char_lit,
                     $.nil_lit,
                     $.path_lit,
-                    //$.bool_lit,
-                    $.package_lit,
                     $.sym_lit,
-                    // basic collection-ish
+                    $.package_lit,
                     $.list_lit,
-                    //$.map_lit,
-                    $.vec_lit,
-                    // dispatch reader macros
                     $.set_lit,
-                    //$.anon_fn_lit,
-                    //$.regex_lit,
                     $.read_cond_lit,
                     $.splicing_read_cond_lit,
-                    //$.ns_map_lit,
                     $.var_quoting_lit,
-                    $.sym_val_lit,
-                    $.evaling_lit,
-                    //$.tagged_or_ctor_lit,
-                    // some other reader macros
-                    $.derefing_lit,
                     $.quoting_lit,
                     $.syn_quoting_lit,
                     $.unquote_splicing_lit,
@@ -295,8 +342,10 @@ module.exports = grammar(clojure, {
                     $.include_reader_macro,
                     $.complex_num_lit,
                     ".",
-                    //seq($._gap, '.'),
                 )),
+
+        num_lit: _ =>
+            seq(NUMBER, optional(/[sSfFdDlL]/)),
 
         include_reader_macro: $ =>
             seq(repeat($._metadata_lit),
