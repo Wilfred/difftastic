@@ -72,3 +72,38 @@ function b(): ?Something {}
       (optional_type (type_name (name)))
     )
     (compound_statement)))
+
+
+==========================
+Union types
+==========================
+
+<?php
+
+function a(int|string|null $var) : ?int|MyClass {}
+
+---
+
+(program
+  (php_tag)
+  (function_definition
+    name: (name)
+    parameters: (formal_parameters
+      (simple_parameter
+        type: (type_list
+          (primitive_type)
+          (primitive_type)
+          (primitive_type)
+        )
+        name: (variable_name (name))
+      )
+    )
+    return_type: (type_list
+      (optional_type
+        (primitive_type)
+      )
+      (type_name (name))
+    )
+    body: (compound_statement)
+  )
+)
