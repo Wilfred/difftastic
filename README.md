@@ -7,7 +7,6 @@ All praise goes to https://github.com/sogaiu/tree-sitter-clojure which is extend
 
 TODOs:
 
-- support lisp packages: `foo.bar:symbol`
 - support number literatls that are different from clojure (e.g. `.9`)
 
 Macros with special respresentation in syntax tree (when written with lowercase letters):
