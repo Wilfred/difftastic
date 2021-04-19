@@ -811,7 +811,7 @@ Num Literals
 --------------------------------------------------------------------------------
 
 (source
-  (num_lit)
+  (sym_lit)
   (list_lit
     (sym_lit)
     (sym_lit)
@@ -994,4 +994,79 @@ Trailing sharps
     (sym_lit))
   (list_lit
     (sym_lit)
-    (sym_lit)))
+    (self_referential_reader_macro)))
+
+================================================================================
+https://lisptips.com/post/44370032877/literal-syntax-for-integers
+================================================================================
+
+#2r11010101  ;Another way of writing 213 decimal  
+#b11010101   ;Ditto                               
+#b+11010101  ;Ditto                               
+#o325        ;Ditto, in octal radix               
+#xD5         ;Ditto, in hexadecimal radix         
+#16r+D5      ;Ditto                               
+#o-300       ;Decimal -192, written in base 8     
+#3r-21010    ;Same thing in base 3                
+#25R-7H      ;Same thing in base 25               
+#xACCEDED    ;181202413, in hexadecimal radix
+--------------------------------------------------------------------------------
+
+(source
+  (num_lit)
+  (comment)
+  (num_lit)
+  (comment)
+  (num_lit)
+  (comment)
+  (num_lit)
+  (comment)
+  (num_lit)
+  (comment)
+  (sym_lit)
+  (comment)
+  (num_lit)
+  (comment)
+  (sym_lit)
+  (comment)
+  (sym_lit)
+  (comment)
+  (num_lit)
+  (comment))
+
+================================================================================
+Self-references
+================================================================================
+(let ((position (mismatch #1="MemTotal:" line)))
+                             (when (= position (length #1#))
+                               (return
+                                 (parse-size line :start position))))
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (sym_lit)
+    (list_lit
+      (list_lit
+        (sym_lit)
+        (list_lit
+          (sym_lit)
+          (self_referential_reader_macro)
+          (str_lit)
+          (sym_lit))))
+    (list_lit
+      (sym_lit)
+      (list_lit
+        (sym_lit)
+        (sym_lit)
+        (list_lit
+          (sym_lit)
+          (self_referential_reader_macro)))
+      (list_lit
+        (sym_lit)
+        (list_lit
+          (sym_lit)
+          (sym_lit)
+          (kwd_lit
+            (kwd_symbol))
+          (sym_lit))))))

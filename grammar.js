@@ -58,21 +58,24 @@ const HEX_DIGIT =
 const OCTAL_DIGIT =
     /[0-7]/;
 
+const BINARY_DIGIT =
+    /[0-1]/;
+
 const HEX_NUMBER =
-    seq("0",
-        /[xX]/,
-        repeat1(HEX_DIGIT),
-        optional("N"));
+    seq(choice('#x', '#X'), optional(/[+-]/),
+        repeat1(HEX_DIGIT));
 
 const OCTAL_NUMBER =
-    seq("0",
-        repeat1(OCTAL_DIGIT),
-        optional("N"));
+    seq(choice('#o', '#O'), optional(/[+-]/),
+        repeat1(OCTAL_DIGIT));
 
-// XXX: not constraining number before r/R
-// XXX: not constraining portion after r/R
+const BINARY_NUMBER =
+    seq(choice('#b', '#B'), optional(/[+-]/),
+        repeat1(BINARY_DIGIT));
+
 const RADIX_NUMBER =
-    seq(repeat1(DIGIT),
+    seq('#',
+        repeat1(DIGIT),
         /[rR]/,
         repeat1(ALPHANUMERIC));
 
@@ -96,13 +99,15 @@ const INTEGER =
         optional(/[MN]/));
 
 const NUMBER =
-    token(prec(0, seq(optional(/[+-]/),
-        choice(HEX_NUMBER,
-            //OCTAL_NUMBER,
+    token(seq(optional(/[+-]/),
+        choice(
+            HEX_NUMBER,
+            OCTAL_NUMBER,
             RADIX_NUMBER,
+            BINARY_NUMBER,
             RATIO,
             DOUBLE,
-            INTEGER))));
+            INTEGER)));
 
 
 function clSymbol(symbol) {
@@ -273,8 +278,8 @@ module.exports = grammar(clojure, {
             seq('#', choice(original, /\\[nN]ewline/, /\\[lL]inefeed/, /\\[Ss]pace/, /\\[nN]ull/, /\\[rR]ull/)),
 
         vec_lit: $ =>
-                prec(PREC.SPECIAL,
-            choice(
+            prec(PREC.SPECIAL,
+                choice(
                     seq(field('open', choice('#0A', '#0a')), $.num_lit),
                     seq(field('open', '#'), optional($.array_dimension), $.list_lit))),
 
@@ -315,6 +320,8 @@ module.exports = grammar(clojure, {
         kwd_symbol: _ =>
             seq(SYMBOL),
 
+        self_referential_reader_macro: _ => /#\d+[=#]/, 
+
         _form: $ =>
             seq(optional('#'),
                 choice(
@@ -322,9 +329,10 @@ module.exports = grammar(clojure, {
                     $.fancy_literal,
                     $.vec_lit,
                     $.kwd_lit,
-                    // No idea why this is necessary...
+                    // No idea why this is necessary...It is never used but triggers some background magic
                     alias(seq(field('open', '#'), optional(/\d+[aA]/), $.list_lit), $.vec_lit),
                     $.str_lit,
+                    $.self_referential_reader_macro,
                     $.char_lit,
                     $.nil_lit,
                     $.path_lit,

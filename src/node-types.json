@@ -79,6 +79,10 @@
           "named": true
         },
         {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
           "type": "set_lit",
           "named": true
         },
@@ -287,6 +291,10 @@
           "named": true
         },
         {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
           "type": "set_lit",
           "named": true
         },
@@ -414,6 +422,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -533,6 +545,10 @@
           },
           {
             "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
             "named": true
           },
           {
@@ -735,6 +751,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -864,6 +884,10 @@
           "named": true
         },
         {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
           "type": "set_lit",
           "named": true
         },
@@ -985,6 +1009,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -1080,6 +1108,10 @@
           },
           {
             "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
             "named": true
           },
           {
@@ -1183,6 +1215,10 @@
         },
         {
           "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
           "named": true
         },
         {
@@ -1405,6 +1441,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -1544,6 +1584,10 @@
           },
           {
             "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
             "named": true
           },
           {
@@ -1726,6 +1770,10 @@
           },
           {
             "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
             "named": true
           },
           {
@@ -1987,6 +2035,10 @@
           },
           {
             "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
             "named": true
           },
           {
@@ -2325,6 +2377,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -2497,6 +2553,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -2631,6 +2691,10 @@
         },
         {
           "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
           "named": true
         },
         {
@@ -2791,6 +2855,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -2917,6 +2985,10 @@
         },
         {
           "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
           "named": true
         },
         {
@@ -3074,6 +3146,10 @@
           },
           {
             "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
             "named": true
           },
           {
@@ -3243,6 +3319,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -3369,6 +3449,10 @@
         },
         {
           "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
           "named": true
         },
         {
@@ -3515,6 +3599,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -3650,6 +3738,10 @@
           },
           {
             "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
             "named": true
           },
           {
@@ -3808,6 +3900,10 @@
           },
           {
             "type": "read_cond_lit",
+            "named": true
+          },
+          {
+            "type": "self_referential_reader_macro",
             "named": true
           },
           {
@@ -3985,6 +4081,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -4134,6 +4234,10 @@
           "named": true
         },
         {
+          "type": "self_referential_reader_macro",
+          "named": true
+        },
+        {
           "type": "set_lit",
           "named": true
         },
@@ -4255,6 +4359,10 @@
             "named": true
           },
           {
+            "type": "self_referential_reader_macro",
+            "named": true
+          },
+          {
             "type": "set_lit",
             "named": true
           },
@@ -4351,6 +4459,10 @@
         },
         {
           "type": "read_cond_lit",
+          "named": true
+        },
+        {
+          "type": "self_referential_reader_macro",
           "named": true
         },
         {
@@ -4699,6 +4811,10 @@
   {
     "type": "return",
     "named": false
+  },
+  {
+    "type": "self_referential_reader_macro",
+    "named": true
   },
   {
     "type": "then",
