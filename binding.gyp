@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "tree_sitter_Jinja2_binding",
+      "target_name": "tree_sitter_commonlisp_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
         "src"
