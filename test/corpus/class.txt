@@ -312,18 +312,18 @@ class A {
     body: (declaration_list
       (property_declaration
         (visibility_modifier)
-        type: (primitive_type)
+        type: (type_list (primitive_type))
         (property_element (variable_name (name)))
       )
       (property_declaration
         (visibility_modifier)
         (static_modifier)
-        type: (type_name (name))
+        type: (type_list (type_name (name)))
         (property_element (variable_name (name)))
       )
       (property_declaration
         (visibility_modifier)
-        type: (optional_type (primitive_type))
+        type: (type_list (optional_type (primitive_type)))
         (property_element (variable_name (name)))
       )
       (property_declaration

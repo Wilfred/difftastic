@@ -54,6 +54,8 @@ module.exports = grammar({
     [$._primary_expression, $._array_destructing],
     [$._array_destructing, $.array_creation_expression],
 
+    [$.union_type, $._return_type],
+
     [$.namespace_name],
 
     [$.namespace_name_as_prefix],
@@ -395,7 +397,9 @@ module.exports = grammar({
       field('name', $.variable_name)
     ),
 
-    _type: $ => choice(
+    _type: $ => alias($.union_type, $.type_list),
+
+    _types: $ => choice(
       $.optional_type,
       $._type_name,
       $.primitive_type
@@ -411,15 +415,19 @@ module.exports = grammar({
       )
     ),
 
+    union_type: $ => prec.right(pipeSep1($._types)),
+
     primitive_type: $ => choice(
       'array',
-      'callable',
+      'callable', // not legal in property types
       'iterable',
       'bool',
       'float',
       'int',
       'string',
-      'void'
+      'void',
+      'false', // only legal in unions
+      'null', // only legal in unions
     ),
 
     cast_type: $ => choice(
