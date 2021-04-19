@@ -8722,10 +8722,6 @@
     {
       "type": "SYMBOL",
       "name": "pragma"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_init"
     }
   ],
   "conflicts": [
@@ -8918,10 +8914,6 @@
       "value": "in"
     },
     {
-      "type": "SYMBOL",
-      "name": "_init"
-    },
-    {
       "type": "PATTERN",
       "value": "\\n"
     },
@@ -8952,17 +8944,10 @@
     "_tyconid",
     "_qtyconid",
     "_qtyconsym",
-    "ReferenceError",
-    "ReferenceError",
     "_qtycon",
     "_gtycon",
-    "ReferenceError",
     "_simple_tycon",
     "_simple_tyconop",
-    "ReferenceError",
-    "ReferenceError",
-    "ReferenceError",
-    "ReferenceError",
     "_quantifiers",
     "_tyfam_pat_prefix",
     "_tyfam_pat_infix"
