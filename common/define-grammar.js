@@ -131,6 +131,27 @@ module.exports = function defineGrammar(dialect) {
         optional($._initializer)
       ),
 
+      // override original catch_clause, add optional type annotation
+      catch_clause: $ => seq(
+        'catch',
+        optional(
+          seq(
+            '(',
+            field(
+              'parameter',
+              choice($.identifier, $._destructuring_pattern)
+            ),
+            optional(
+              // only types that resolve to 'any' or 'unknown' are supported
+              // by the language but it's simpler to accept any type here.
+              field('type', $.type_annotation),
+            ),
+            ')'
+          )
+        ),
+        field('body', $.statement_block)
+      ),
+
       call_expression: $ => choice(
         prec('call', seq(
           field('function', $.expression),
