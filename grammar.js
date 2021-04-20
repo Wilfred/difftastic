@@ -63,7 +63,6 @@ module.exports = grammar({
     [$.primary_expression, $.statement_block, 'object'],
     [$.import_statement, $.import],
     [$.export_statement, $.primary_expression],
-    [$.export_clause, $.object],
   ],
 
   conflicts: $ => [
