@@ -1,35 +1,28 @@
 const CHARSET = [ '0-9', '@', 'A-Z', '_', 'a-z' ];
 
-const BUILTIN_TARGETS = [
-    '.PHONY',
-    '.SUFFIXES',
-    '.DEFAULT',
-    '.PRECIOUS',
-    '.INTERMEDIATE',
-    '.SECONDARY',
-    '.SECONDEXPANSION',
-    '.DELETE_ON_ERROR',
-    '.IGNORE',
-    '.LOW_RESOLUTION_TIME',
-    '.SILENT',
-    '.EXPORT_ALL_VARIABLES',
-    '.NOTPARALLEL',
-    '.ONESHELL',
-    '.POSIX',
-];
+const NL = repeat1(/[\r\n]/);
+const WS = repeat(/[\t ]/);
+
+const AUTOMATIC_VARS = [ '@', '%', '<', '?', '^', '+', '/', '*' ];
 
 module.exports = grammar({
     name: 'make',
 
     inline: $ => [
-        $._target_pattern,
+        $._name,
+        $._primary,
+
+        $._targets,
+        $._prerequisites,
         $._order_only_prerequisites,
     ],
 
-    extras: $ => [ /[\t\r\n ]+/, $._split, $.comment ],
+    extras: $ => [ $._split, $.comment ],
 
     conflicts: $ => [
-        [$.recipe]
+        [$.recipe],
+        [$._names_and_paths],
+        [$._names_and_paths, $.target_pattern],
     ],
 
     rules: {
@@ -37,8 +30,12 @@ module.exports = grammar({
         makefile: $ => repeat($._directive),
 
         _directive: $ => choice(
-            $.rule
+            $.rule,
+            $.static_pattern_rule,
+            $._blank_line
         ),
+
+        _blank_line: $ => prec(-1,seq(WS, NL)),
 
         // Variables
         _variable: $ => choice(
@@ -46,75 +43,77 @@ module.exports = grammar({
         ),
 
         automatic_variable: $ => choice(
+            seq('$', choice(...AUTOMATIC_VARS)),
             seq(
                 '$',
-                choice(
-                    ...[
-                        '@', '%', '<', '?', '^',
-                        '?', '^', '+', '|', '*'
-                    ].map(c => token.immediate(c))
-                ),
-            ),
-            seq(
-                '$',
-                token.immediate('('),
-                choice(
-                    ...[
-                        '@D', '@F',
-                        '*D', '*F',
-                        '%D', '%F',
-                        '<D', '<F',
-                        '^D', '^F',
-                        '+D', '+F',
-                        '?D', '?F',
-                    ].map(c => token(c))
-                ),
+                '(',
+                WS,
+                choice(...AUTOMATIC_VARS),
+                choice('D','F'),
+                WS,
                 ')'
             ),
         ),
 
         // Rules
-        rule: $ => seq(
-            $.targets,
-            choice(':', '&:', '::'),
-            optional($._target_pattern),
-            optional($.prerequisites),
-            optional($._order_only_prerequisites),
+        rule: $ => prec.right(seq(
+            WS,
+            $._targets, WS,
+            choice(':', '&:', '::'), WS,
+            optional(seq($._prerequisites, WS)),
+            optional(seq($._order_only_prerequisites, WS)),
             optional($.recipe),
-            $._terminator,
-        ),
+            NL,
+        )),
 
-        _target_pattern: $ => seq(
-            field('target_pattern', $.pattern),
-            ':',
+
+        static_pattern_rule: $ => prec.right(seq(
+            WS,
+            $._targets, WS,
+            ':', WS,
+            $.target_pattern, WS,
+            ':', WS,
+            $._prerequisites, WS,
+            optional($.recipe),
+            NL
+        )),
+
+        _targets: $ => choice(
+            alias($._names_and_paths, $.targets),
+            $.builtin_target
         ),
 
         _order_only_prerequisites: $ => seq(
-            '|',
-            alias($.prerequisites,$.order_only_prerequisites)
+            '|', WS,
+            alias(
+                $._names_and_paths,
+                $.order_only_prerequisites
+            )
         ),
 
-        targets: $ => choice(
-            $.builtin_target,
-            repeat1($._name),
+        target_pattern: $ => $._name,
+
+        builtin_target: $ => prec(1,seq(
+            '.', alias($.word, $.name)
+        )),
+
+        _prerequisites: $ => alias(
+            $._names_and_paths,
+            $.prerequisites
         ),
-
-        builtin_target: $ => choice(...BUILTIN_TARGETS),
-
-        prerequisites: $ => repeat1($._name),
 
         recipe: $ => seq(
             // the first recipe line may be attached to the
             // target-and-prerequisites line with a semicolon
             // in between
-            choice(';', seq($._terminator, $._recipeprefix)),
+            choice(';', seq(NL, $._recipeprefix)),
             // empty recipe is allowed
             optional(seq(
-                $.recipe_line,
+                optional($.recipe_line),
                 repeat(seq(
-                    $._terminator,
+                    NL,
                     $._recipeprefix,
-                    $.recipe_line
+                    optional($.recipe_line)
                 )),
             ))
         ),
@@ -148,30 +147,58 @@ module.exports = grammar({
             )
         ),
 
-        // Tokens
-        _terminator: $ => '\n',
+        // Names
+        _name: $ => choice(
+            alias($._filename,$.name),
+            alias($._wildcard,$.name),
+            alias($._pattern,$.name),
+            alias($._primary,$.name),
+        ),
 
+        _primary: $ => choice(
+            $.word,
+            $._variable
+        ),
+
+        _names_and_paths: $ => seq(
+            choice($._name, $.path),
+            repeat(prec.right(
+                seq(WS, choice($._name, $.path))
+            ))
+        ),
+
+        word: $ => tokenize(...CHARSET),
+
+        path: $ => delimeter(
+            ['\/','./','../'],
+            $._name
+        ),
+
+        _filename: $ => delimeter(
+            ['.'], 
+            choice(
+                $._pattern,
+                $._wildcard,
+                $._primary
+            )
+        ),
+
+        _pattern: $ => delimeter(
+            ['%'], 
+            choice(
+                $._wildcard,
+                $._primary
+            )
+        ),
+
+        _wildcard: $ => delimeter(['*','?'], $._primary),
+
+        // Tokens
         _split: $ => '\\\n',
 
         _recipeprefix: $ => '\t',
 
         comment: $ => token(prec(-1,/#.*/)),
-
-        _name: $ => choice(
-            $.name,
-            $.filename,
-            $.pattern
-        ),
-
-        name: $ => tokenize(...CHARSET),
-
-        filename: $ => tokenize(
-            ...CHARSET.concat(['\\.', '\\*', '\\?', '/'])
-        ),
-
-        pattern: $ => tokenize(
-            ...CHARSET.concat(['\\.', '\\*', '\\?', '%', '/'])
-        ),
 
         _shell_text: $ => token(repeat1(choice(
             noneOf(...['\\$', '\\n','\\']),
@@ -198,12 +225,23 @@ function anyOf(...characters) {
   return new RegExp('[' + string + ']')
 }
 
-function sepBy1(sep, rule) {
-    return seq(rule, repeat(seq(sep, rule)))
+function delimeter(charset, primary) {
+    return choice(
+                prec.right(seq(
+                    repeat1(prec.left(seq(
+                        primary,
+                        choice(...charset),
+                    ))),
+                    optional(primary)
+                )),
+                prec.right(seq(
+                    repeat1(prec.right(seq(
+                        choice(...charset),
+                        primary
+                    ))),
+                    optional(choice(...charset))
+                )),
+                prec(-99,choice(...charset))
+    )
 }
-
-function sepBy(sep, rule) {
-    return optional(sepBy1(sep, rule))
-}
-
 

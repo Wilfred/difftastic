@@ -7,7 +7,17 @@
   {
     "type": "builtin_target",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "makefile",
@@ -19,6 +29,29 @@
       "types": [
         {
           "type": "rule",
+          "named": true
+        },
+        {
+          "type": "static_pattern_rule",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "word",
           "named": true
         }
       ]
@@ -33,15 +66,26 @@
       "required": true,
       "types": [
         {
-          "type": "filename",
-          "named": true
-        },
-        {
           "type": "name",
           "named": true
         },
         {
-          "type": "pattern",
+          "type": "path",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "path",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "name",
           "named": true
         }
       ]
@@ -56,15 +100,11 @@
       "required": true,
       "types": [
         {
-          "type": "filename",
-          "named": true
-        },
-        {
           "type": "name",
           "named": true
         },
         {
-          "type": "pattern",
+          "type": "path",
           "named": true
         }
       ]
@@ -103,22 +143,15 @@
   {
     "type": "rule",
     "named": true,
-    "fields": {
-      "target_pattern": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "pattern",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "builtin_target",
+          "named": true
+        },
         {
           "type": "order_only_prerequisites",
           "named": true
@@ -154,7 +187,7 @@
     }
   },
   {
-    "type": "targets",
+    "type": "static_pattern_rule",
     "named": true,
     "fields": {},
     "children": {
@@ -166,15 +199,53 @@
           "named": true
         },
         {
-          "type": "filename",
+          "type": "prerequisites",
           "named": true
         },
+        {
+          "type": "recipe",
+          "named": true
+        },
+        {
+          "type": "target_pattern",
+          "named": true
+        },
+        {
+          "type": "targets",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "target_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "targets",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
           "type": "name",
           "named": true
         },
         {
-          "type": "pattern",
+          "type": "path",
           "named": true
         }
       ]
@@ -186,14 +257,6 @@
   },
   {
     "type": "%",
-    "named": false
-  },
-  {
-    "type": "%D",
-    "named": false
-  },
-  {
-    "type": "%F",
     "named": false
   },
   {
@@ -213,23 +276,7 @@
     "named": false
   },
   {
-    "type": "*D",
-    "named": false
-  },
-  {
-    "type": "*F",
-    "named": false
-  },
-  {
     "type": "+",
-    "named": false
-  },
-  {
-    "type": "+D",
-    "named": false
-  },
-  {
-    "type": "+F",
     "named": false
   },
   {
@@ -237,63 +284,19 @@
     "named": false
   },
   {
-    "type": ".DEFAULT",
+    "type": ".",
     "named": false
   },
   {
-    "type": ".DELETE_ON_ERROR",
+    "type": "../",
     "named": false
   },
   {
-    "type": ".EXPORT_ALL_VARIABLES",
+    "type": "./",
     "named": false
   },
   {
-    "type": ".IGNORE",
-    "named": false
-  },
-  {
-    "type": ".INTERMEDIATE",
-    "named": false
-  },
-  {
-    "type": ".LOW_RESOLUTION_TIME",
-    "named": false
-  },
-  {
-    "type": ".NOTPARALLEL",
-    "named": false
-  },
-  {
-    "type": ".ONESHELL",
-    "named": false
-  },
-  {
-    "type": ".PHONY",
-    "named": false
-  },
-  {
-    "type": ".POSIX",
-    "named": false
-  },
-  {
-    "type": ".PRECIOUS",
-    "named": false
-  },
-  {
-    "type": ".SECONDARY",
-    "named": false
-  },
-  {
-    "type": ".SECONDEXPANSION",
-    "named": false
-  },
-  {
-    "type": ".SILENT",
-    "named": false
-  },
-  {
-    "type": ".SUFFIXES",
+    "type": "/",
     "named": false
   },
   {
@@ -313,23 +316,7 @@
     "named": false
   },
   {
-    "type": "<D",
-    "named": false
-  },
-  {
-    "type": "<F",
-    "named": false
-  },
-  {
     "type": "?",
-    "named": false
-  },
-  {
-    "type": "?D",
-    "named": false
-  },
-  {
-    "type": "?F",
     "named": false
   },
   {
@@ -337,11 +324,11 @@
     "named": false
   },
   {
-    "type": "@D",
+    "type": "D",
     "named": false
   },
   {
-    "type": "@F",
+    "type": "F",
     "named": false
   },
   {
@@ -349,27 +336,11 @@
     "named": false
   },
   {
-    "type": "^D",
-    "named": false
-  },
-  {
-    "type": "^F",
-    "named": false
-  },
-  {
     "type": "comment",
     "named": true
   },
   {
-    "type": "filename",
-    "named": true
-  },
-  {
-    "type": "name",
-    "named": true
-  },
-  {
-    "type": "pattern",
+    "type": "word",
     "named": true
   },
   {
