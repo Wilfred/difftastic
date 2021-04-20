@@ -1131,8 +1131,17 @@
                 }
               },
               {
-                "type": "SYMBOL",
-                "name": "num_lit"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "num_lit"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "complex_num_lit"
+                  }
+                ]
               }
             ]
           },

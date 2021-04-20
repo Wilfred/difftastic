@@ -4136,6 +4136,10 @@
           "named": true
         },
         {
+          "type": "complex_num_lit",
+          "named": true
+        },
+        {
           "type": "defun",
           "named": true
         },

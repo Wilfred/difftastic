@@ -280,7 +280,7 @@ module.exports = grammar(clojure, {
         vec_lit: $ =>
             prec(PREC.SPECIAL,
                 choice(
-                    seq(field('open', choice('#0A', '#0a')), $.num_lit),
+                    seq(field('open', choice('#0A', '#0a')), choice($.num_lit, $.complex_num_lit)),
                     seq(field('open', '#'), optional($.array_dimension), $.list_lit))),
 
         path_lit: $ =>
