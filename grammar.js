@@ -111,11 +111,16 @@ module.exports = grammar({
           field('declaration', $.declaration),
           seq(
             'default',
-            field('value', $.expression),
-            $._semicolon
+            choice(
+              field('declaration', $.declaration),
+              seq(
+                field('value', $.expression),
+                $._semicolon
+              )
+            )
           )
         )
-      ),
+      )
     ),
 
     export_clause: $ => seq(
