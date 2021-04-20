@@ -65,6 +65,7 @@ export let name1, name2, nameN;
 export let name1 = value1, name2 = value2, name3, nameN;
 
 export default expression;
+export default { field1: 42, field2: [] }
 export default function () { }
 export default function name1() { }
 export { name1 as default };
@@ -101,9 +102,13 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
   (export_statement
     (identifier))
   (export_statement
+    (object
+      (pair (property_identifier) (number))
+      (pair (property_identifier) (array))))
+  (export_statement
     (function (formal_parameters) (statement_block)))
   (export_statement
-    (function (identifier) (formal_parameters) (statement_block)))
+    (function_declaration (identifier) (formal_parameters) (statement_block)))
   (export_statement
     (export_clause (export_specifier (identifier) (identifier))))
   (export_statement
