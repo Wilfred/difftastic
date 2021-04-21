@@ -55,6 +55,7 @@ module.exports = grammar({
     [$._array_destructing, $.array_creation_expression],
 
     [$.union_type, $._return_type],
+    [$.if_statement],
 
     [$.namespace_name],
     [$.qualified_name, $.namespace_name],
@@ -624,7 +625,7 @@ module.exports = grammar({
       $.list_literal
     ),
 
-    if_statement: $ => prec.right(seq(
+    if_statement: $ => seq(
       keyword('if'),
       field('condition', $.parenthesized_expression),
       choice(
@@ -641,7 +642,7 @@ module.exports = grammar({
           $._semicolon
         )
       )
-    )),
+    ),
 
     colon_block: $ => seq(
       ':',
