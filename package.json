@@ -2,7 +2,7 @@
   "name": "tree-sitter-nix",
   "version": "0.0.1",
   "description": "Tree Sitter grammar for Nix",
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "test": "tree-sitter test"
   },
@@ -18,17 +18,16 @@
   "homepage": "https://github.com/cstrahan/tree-sitter-nix#readme",
   "dependencies": {
     "nan": "^2.14.2",
-    "tree-sitter": "^0.17.1"
+    "tree-sitter": "^0.19.3"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.17.3"
+    "tree-sitter-cli": "^0.19.3"
   },
   "tree-sitter": [
     {
       "file-types": [
         "nix"
       ],
-
       "highlights": [
         "queries/highlights.scm"
       ],

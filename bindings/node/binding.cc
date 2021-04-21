@@ -1,10 +1,10 @@
-#include "nan.h"
 #include "tree_sitter/parser.h"
 #include <node.h>
+#include "nan.h"
 
 using namespace v8;
 
-extern "C" TSLanguage *tree_sitter_nix();
+extern "C" TSLanguage * tree_sitter_nix();
 
 namespace {
 
@@ -25,4 +25,4 @@ void Init(Local<Object> exports, Local<Object> module) {
 
 NODE_MODULE(tree_sitter_nix_binding, Init)
 
-} // namespace
+}  // namespace
