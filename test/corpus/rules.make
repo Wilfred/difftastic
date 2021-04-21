@@ -9,13 +9,14 @@ target:
 
 (makefile
   (rule
-    (targets (name)))
+    (targets
+      (name)))
   (rule
     (targets
-      (name (word))))
+      (filename)))
   (rule
     (targets
-      (name (word)))))
+      (filename))))
 
 ================================================================================
 Rule, targets, single, blank space after
@@ -28,13 +29,14 @@ target :
 
 (makefile
   (rule
-    (targets (name)))
+    (targets
+      (name)))
   (rule
     (targets
-      (name (word))))
+      (filename)))
   (rule
     (targets
-      (name (word)))))
+      (filename))))
 
 ================================================================================
 Rule, targets, single, blank space before and after
@@ -47,13 +49,14 @@ Rule, targets, single, blank space before and after
 
 (makefile
   (rule
-    (targets (name)))
+    (targets
+      (name)))
   (rule
     (targets
-      (name (word))))
+      (filename)))
   (rule
     (targets
-      (name (word)))))
+      (filename))))
 
 ================================================================================
 Rule, targets, multiple, blank space
@@ -66,8 +69,8 @@ Rule, targets, multiple, blank space
   (rule
     (targets
       (name)
-      (name (word))
-      (name (word)))))
+      (filename)
+      (filename))))
 
 ================================================================================
 Rule, targets, built-in
@@ -92,49 +95,49 @@ Rule, targets, built-in
 
 (makefile
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name)))
   (rule
-    (builtin_target (name))
+    (builtin_target)
     (prerequisites (name))))
 
 ================================================================================
@@ -148,8 +151,8 @@ foo %.b *.o:
   (rule
     (targets
       (name)
-      (name (word))
-      (name (word)))))
+      (filename)
+      (filename))))
 
 ================================================================================
 Rule, targets, grouped (grouped targets)
@@ -162,8 +165,8 @@ foo %.n *.o &:
   (rule
     (targets
       (name)
-      (name (word))
-      (name (word)))))
+      (filename)
+      (filename))))
 
 ================================================================================
 Rule, pre-requisites, single
@@ -180,12 +183,10 @@ target: *.d
     (prerequisites (name)))
   (rule
     (targets (name))
-    (prerequisites
-      (name (word))))
+    (prerequisites (filename)))
   (rule
     (targets (name))
-    (prerequisites
-      (name (word)))))
+    (prerequisites (filename))))
 
 ================================================================================
 Rule, pre-requisites, multiple
@@ -196,12 +197,11 @@ target: foo %.b c.o
 
 (makefile
   (rule
-    (targets
-      (name))
+    (targets (name))
     (prerequisites
       (name)
-      (name (word))
-      (name (word) (word)))))
+      (filename)
+      (filename))))
 
 ================================================================================
 Rule, pre-requisites, multiple, splited lines, one per line
@@ -217,8 +217,8 @@ c.o
     (targets (name))
     (prerequisites
       (name)
-      (name (word))
-      (name (word) (word)))))
+      (filename)
+      (filename))))
 
 ================================================================================
 Rule, pre-requisites, multiple, splited lines, multiple per line
@@ -234,14 +234,14 @@ foo %.b c.o
     (targets (name))
     (prerequisites
       (name)
-      (name (word))
-      (name (word) (word))
+      (filename)
+      (filename)
       (name)
-      (name (word))
-      (name (word) (word))
+      (filename)
+      (filename)
       (name)
-      (name (word))
-      (name (word) (word)))))
+      (filename)
+      (filename))))
 
 ================================================================================
 Rule, pre-requisites, order only, single
@@ -253,8 +253,7 @@ foo: | bar
 (makefile
   (rule
     (targets (name))
-    (order_only_prerequisites
-      (name))))
+    order_only: (prerequisites (name))))
 
 ================================================================================
 Rule, recipe, empty (empty rule)
@@ -568,8 +567,7 @@ foo: bar
 (makefile
   (rule
     (targets (name))
-    (prerequisites
-      (name))
+    (prerequisites (name))
     (recipe
       (recipe_line
         (shell_text
@@ -587,8 +585,7 @@ target: prereq
 (makefile
   (rule
     (targets (name))
-    (prerequisites
-      (name))
+    (prerequisites (name))
     (recipe
       (recipe_line
         (shell_text)))))
@@ -601,11 +598,11 @@ foo.o bar.o: %.o: %.c
 ---
 
 (makefile
-  (static_pattern_rule
+  (rule
     (targets
-      (name (word) (word))
-      (name (word) (word)))
+      (filename)
+      (filename))
     (target_pattern
-      (name (word)))
+      (filename))
     (prerequisites
-      (name (word)))))
+      (filename))))

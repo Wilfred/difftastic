@@ -1,7 +1,30 @@
 ================================================================================
-Name, wildcard, minimal
+Name, word
 ================================================================================
-* ?:
+a:
+a bb:
+a bb ccc:
+
+---
+
+(makefile
+  (rule
+    (targets
+      (name)))
+  (rule
+    (targets
+      (name)
+      (name)))
+  (rule
+    (targets
+      (name)
+      (name)
+      (name))))
+
+================================================================================
+Name, word, escape
+================================================================================
+a\*b a\?b a\%c:
 
 ---
 
@@ -9,7 +32,48 @@ Name, wildcard, minimal
   (rule
     (targets
       (name)
+      (name)
       (name))))
+
+================================================================================
+Name, filename
+================================================================================
+.a a.b .a.b:
+
+---
+
+(makefile
+  (rule
+    (targets
+      (filename)
+      (filename)
+      (filename))))
+
+================================================================================
+Name, wildcard, minimal
+================================================================================
+* %:
+
+---
+
+(makefile
+  (rule
+    (targets
+      (filename)
+      (filename))))
+
+================================================================================
+Name, wildcard
+================================================================================
+a* b?:
+
+---
+
+(makefile
+  (rule
+    (targets
+      (filename)
+      (filename))))
 
 ================================================================================
 Name, wildcard and word
@@ -22,14 +86,14 @@ Name, wildcard and word
 (makefile
   (rule
     (targets
-      (name (word))
-      (name (word))
-      (name (word) (word))))
+      (filename)
+      (filename)
+      (filename)))
   (rule
     (targets
-      (name (word))
-      (name (word))
-      (name (word) (word)))))
+      (filename)
+      (filename)
+      (filename))))
 
 ================================================================================
 Name, pattern
@@ -41,9 +105,9 @@ Name, pattern
 (makefile
   (rule
     (targets
-      (name (word))
-      (name (word))
-      (name (word) (word)))))
+      (filename)
+      (filename)
+      (filename))))
 
 ================================================================================
 Name, pattern, wildcard
@@ -56,12 +120,12 @@ Name, pattern, wildcard
 (makefile
   (rule
     (targets
-      (name (word))
-      (name (word))))
+      (filename)
+      (filename)))
   (rule
     (targets
-      (name (word) (word))
-      (name (word) (word)))))
+      (filename)
+      (filename))))
 
 ================================================================================
 Name, filename
@@ -73,8 +137,8 @@ a.b c.d:
 (makefile
   (rule
     (targets
-      (name (word) (word))
-      (name (word) (word)))))
+      (filename)
+      (filename))))
 
 ================================================================================
 Name, filename, wildname and pattern
@@ -86,8 +150,8 @@ Name, filename, wildname and pattern
 (makefile
   (rule
     (targets
-      (name (word))
-      (name (word)))))
+      (filename)
+      (filename))))
 
 ================================================================================
 Name, path, minimal I
@@ -100,14 +164,15 @@ Name, path, minimal I
 (makefile
   (rule
     (targets
-      (path (name))
-      (path (name) (name))
-      (path (name) (name) (name))))
+      (filename)
+      (filename)
+      (filename)))
   (rule
     (targets
-      (path (name))
-      (path (name) (name))
-      (path (name) (name) (name)))))
+      (filename)
+      (filename)
+      (filename))))
+
 
 ================================================================================
 Name, path, minimal II
@@ -120,11 +185,11 @@ Name, path, minimal II
 (makefile
   (rule
     (targets
-      (path (name))
-      (path (name) (name))
-      (path (name) (name) (name))))
+      (filename)
+      (filename)
+      (filename)))
   (rule
     (targets
-      (path (name))
-      (path (name) (name))
-      (path (name) (name) (name)))))
+      (filename)
+      (filename)
+      (filename))))
