@@ -83,6 +83,52 @@ endif;
       body: (colon_block
         (echo_statement (integer))))))
 
+====================================
+Wordpress colon blocks
+====================================
+
+<?php
+
+if ($post) :
+		?>
+		<?php
+
+		if ( $open ) {
+			$attachment_id;
+		}
+
+		?>
+    <?php
+	else :
+		$post;
+
+	endif;
+
+	?>
+
+---
+
+(program
+  (php_tag)
+  (if_statement
+    condition: (parenthesized_expression (variable_name (name)))
+    body: (colon_block
+      (text_interpolation (php_tag))
+      (if_statement
+        condition: (parenthesized_expression (variable_name (name)))
+        body: (compound_statement (expression_statement (variable_name (name))))
+      )
+    )
+    (text_interpolation (php_tag))
+    alternative: (else_clause
+      body: (colon_block
+        (expression_statement (variable_name (name)))
+      )
+    )
+  )
+  (text_interpolation)
+)
+
 ==============================
 While statements
 ==============================

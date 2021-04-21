@@ -1,4 +1,1 @@
 examples/phabricator/externals/stripe-php/lib/Stripe/ApiRequestor.php
-examples/WordPress/wp-admin/includes/media.php
-examples/WordPress/wp-admin/includes/network.php
-examples/WordPress/wp-admin/plugins.php
