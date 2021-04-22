@@ -1,4 +1,4 @@
-const CHARSET = [ '0-9', '@', 'A-Z', '_', 'a-z' ];
+const CHARSET = [ '0-9', '@', '_', 'A-Z', '_', 'a-z' ];
 
 const NL = repeat1(token.immediate(/[\r\n]/));
 const WS = repeat1(token.immediate(/[\t ]/));
@@ -6,6 +6,8 @@ const WS = repeat1(token.immediate(/[\t ]/));
 const SPLIT = token(seq('\\', /[\r\n]+/));
 
 const AUTOMATIC_VARS = [ '@', '%', '<', '?', '^', '+', '/', '*' ];
+
+const DEFINE_OPS = ['='];
 
 const BUILTIN_TARGETS = [
     '.PHONY',
@@ -39,8 +41,10 @@ module.exports = grammar({
         $._conditional_args_cmp,
         $._conditional_arg_cmp,
 
+        $._object,
         $._name,
-        $._filename_path
+
+        $._shell_variable,
     ],
 
     extras: $ => [ WS, NL, SPLIT, $.comment ],
@@ -50,6 +54,17 @@ module.exports = grammar({
     ],
 
     precedences: () => [
+        // conflict on _name
+        [
+            'path_expr',
+            'variable',
+        ],
+        // conflicts on $(AUTOMATIC_VARS)
+        [
+            'automatic_variable',
+            'primary'
+        ],
+        // expression precedence
         [
             'primary',
             'wildcard',
@@ -65,6 +80,7 @@ module.exports = grammar({
 
         _text: $ => repeat1(choice(
             $.rule,
+            $.variable_definition,
             $._directive,
         )),
 
@@ -107,21 +123,29 @@ module.exports = grammar({
             )),
         ),
 
+        // TODO: refactor
         shell_text: $ => choice(
             seq(
                 $._shell_text,
                 repeat(seq(
-                    $._variable,
+                    $._shell_variable,
                     optional($._shell_text)
                 ))
             ),
             seq(
-                $._variable,
+                $._shell_variable,
                 repeat(seq(
                     optional($._shell_text),
-                    $._variable
+                    $._shell_variable
                 )),
             )
+        ),
+
+        // name is not allowed
+        _shell_variable: $ => choice(
+            $.variable_reference,
+            $.substitution_reference, // 6.3.1
+            $.automatic_variable,
         ),
 
         _targets: $ => choice(
@@ -146,10 +170,21 @@ module.exports = grammar({
             $.prerequisites
         )),
         // }}}
+        // Setting variables {{{
+        variable_definition: $ => seq(
+            $._name,
+            choice('=',':=','::=','?=','+='),
+            $._name,
+            NL
+        ),
+
+        // TODO shell definition
+        // }}}
         // Directives {{{
         _directive: $ => choice(
             $.include_directive, // 3.3
             $.vpath_directive, // 4.5.2
+            $.define_directive, // 6.8
             $.undefine_directive, // 6.9
             $.conditional, // 7
             $.load_directive, // 12.2.1
@@ -172,6 +207,20 @@ module.exports = grammar({
             )),
             NL
         ),
+
+        define_directive: $ => seq(
+            optional('override'),
+            'define',
+            field('variable', $._name),
+            optional(choice(...DEFINE_OPS)),
+            NL,
+            optional($.text),
+            'endef',
+            NL
+        ),
+
+        // inject with language based on variable reference
+        text: $ => repeat1(token(/./)),
 
         undefine_directive: $ => seq(
             optional('override'),
@@ -205,19 +254,19 @@ module.exports = grammar({
         ),
 
         ifeq_directive: $ => seq(
-            'ifeq', $._conditional_args_cmp
+            'ifeq', $._conditional_args_cmp, NL
         ),
 
         ifneq_directive: $ => seq(
-            'ifneq', $._conditional_args_cmp
+            'ifneq', $._conditional_args_cmp, NL
         ),
 
         ifdef_directive: $ => seq(
-            'ifdef', field('variable', $._variable),
+            'ifdef', field('variable', $._variable), NL
         ),
 
         ifndef_directive: $ => seq(
-            'ifndef', field('variable', $._variable),
+            'ifndef', field('variable', $._variable), NL
         ),
 
         _conditional_args_cmp: $ => choice(
@@ -240,25 +289,42 @@ module.exports = grammar({
         ),
 
         _conditional_arg_cmp: $ => choice(
-            seq( '"', $._path_expr, '"', ),
-            seq( "'", $._path_expr, "'", ),
+            seq('"', $._path_expr, '"'),
+            seq("'", $._path_expr, "'"),
         ),
         // }}}
         // Variables {{{
-        _variable: $ => choice(
+        _variable: $ => prec('variable',choice(
             $.variable_reference,
-            $.automatic_variable,
-            prec(-1, $._name)
-        ),
+            $.substitution_reference, // 6.3.1
+            $.concatenation,
+            $._name,
+        )),
+
+        concatenation: $ => prec.left(1,seq(
+            $._variable,
+            $._variable,
+        )),
 
         variable_reference: $ => seq(
             choice('$','$$'),
             token.immediate('('),
-            alias($._word ,$.variable),
+            $._path_expr,
             ')'
         ),
 
-        automatic_variable: $ => choice(
+        substitution_reference: $ => seq(
+            choice('$','$$'),
+            token.immediate('('),
+            $._path_expr,
+            ':',
+            $._path_expr,
+            '=',
+            $._path_expr,
+            ')'
+        ),
+
+        automatic_variable: $ => prec('automatic_variable',choice(
             seq(
                 choice('$','$$'),
                 choice(...AUTOMATIC_VARS.map(c => token.immediate(c)))
@@ -273,7 +339,7 @@ module.exports = grammar({
                 )),
                 ')'
             ),
-        ),
+        )),
         // }}}
         // Paths and filenames {{{
         paths: $ => seq(
@@ -313,7 +379,7 @@ module.exports = grammar({
             ))
         ),
 
-        _path_expr: $ => choice(
+        _path_expr: $ => prec('path_expr',choice(
             $.pattern,
             $.directory,
             $.filename,
@@ -324,7 +390,7 @@ module.exports = grammar({
 
             $._name,
             $._variable
-        ),
+        )),
 
         root: $ => prec('primary','/'),
 
