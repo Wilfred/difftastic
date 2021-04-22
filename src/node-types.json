@@ -15,6 +15,33 @@
     "fields": {}
   },
   {
+    "type": "concatenation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "conditional",
     "named": true,
     "fields": {
@@ -24,6 +51,10 @@
         "types": [
           {
             "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "define_directive",
             "named": true
           },
           {
@@ -40,6 +71,10 @@
           },
           {
             "type": "undefine_directive",
+            "named": true
+          },
+          {
+            "type": "variable_definition",
             "named": true
           },
           {
@@ -79,6 +114,10 @@
             "named": true
           },
           {
+            "type": "define_directive",
+            "named": true
+          },
+          {
             "type": "include_directive",
             "named": true
           },
@@ -95,11 +134,41 @@
             "named": true
           },
           {
+            "type": "variable_definition",
+            "named": true
+          },
+          {
             "type": "vpath_directive",
             "named": true
           }
         ]
       }
+    }
+  },
+  {
+    "type": "define_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "text",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -115,7 +184,7 @@
           "named": true
         },
         {
-          "type": "automatic_variable",
+          "type": "concatenation",
           "named": true
         },
         {
@@ -147,6 +216,10 @@
           "named": true
         },
         {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
           "type": "variable_reference",
           "named": true
         },
@@ -166,7 +239,7 @@
         "required": false,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -195,6 +268,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -212,7 +289,7 @@
         "required": false,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -241,6 +318,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -269,7 +350,7 @@
         "required": false,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -298,6 +379,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -315,7 +400,7 @@
         "required": false,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -344,6 +429,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -367,7 +456,7 @@
       "required": true,
       "types": [
         {
-          "type": "automatic_variable",
+          "type": "concatenation",
           "named": true
         },
         {
@@ -396,6 +485,10 @@
         },
         {
           "type": "root",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
           "named": true
         },
         {
@@ -434,11 +527,15 @@
         "required": true,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
             "type": "name",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -466,7 +563,7 @@
             "named": false
           },
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -495,6 +592,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -520,7 +621,7 @@
             "named": false
           },
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -552,6 +653,10 @@
             "named": true
           },
           {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
             "type": "variable_reference",
             "named": true
           },
@@ -572,11 +677,15 @@
         "required": true,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
             "type": "name",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -604,7 +713,7 @@
             "named": false
           },
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -633,6 +742,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -658,7 +771,7 @@
             "named": false
           },
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -687,6 +800,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -744,6 +861,10 @@
           "named": true
         },
         {
+          "type": "define_directive",
+          "named": true
+        },
+        {
           "type": "include_directive",
           "named": true
         },
@@ -757,6 +878,10 @@
         },
         {
           "type": "undefine_directive",
+          "named": true
+        },
+        {
+          "type": "variable_definition",
           "named": true
         },
         {
@@ -775,7 +900,7 @@
         "required": true,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -804,6 +929,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -837,7 +966,7 @@
         "required": false,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -866,6 +995,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -883,7 +1016,7 @@
         "required": false,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -912,6 +1045,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -935,7 +1072,7 @@
       "required": true,
       "types": [
         {
-          "type": "automatic_variable",
+          "type": "concatenation",
           "named": true
         },
         {
@@ -964,6 +1101,10 @@
         },
         {
           "type": "root",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
           "named": true
         },
         {
@@ -1067,7 +1208,7 @@
           "named": true
         },
         {
-          "type": "name",
+          "type": "substitution_reference",
           "named": true
         },
         {
@@ -1078,15 +1219,15 @@
     }
   },
   {
-    "type": "target_pattern",
+    "type": "substitution_reference",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "automatic_variable",
+          "type": "concatenation",
           "named": true
         },
         {
@@ -1115,6 +1256,65 @@
         },
         {
           "type": "root",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "target_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "directory",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
+          "type": "filename",
+          "named": true
+        },
+        {
+          "type": "home",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "root",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
           "named": true
         },
         {
@@ -1137,7 +1337,7 @@
       "required": true,
       "types": [
         {
-          "type": "automatic_variable",
+          "type": "concatenation",
           "named": true
         },
         {
@@ -1169,6 +1369,10 @@
           "named": true
         },
         {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
           "type": "variable_reference",
           "named": true
         },
@@ -1180,6 +1384,11 @@
     }
   },
   {
+    "type": "text",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "undefine_directive",
     "named": true,
     "fields": {
@@ -1188,11 +1397,15 @@
         "required": true,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
             "type": "name",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -1204,6 +1417,21 @@
     }
   },
   {
+    "type": "variable_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "variable_reference",
     "named": true,
     "fields": {},
@@ -1212,7 +1440,47 @@
       "required": true,
       "types": [
         {
-          "type": "variable",
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "directory",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
+          "type": "filename",
+          "named": true
+        },
+        {
+          "type": "home",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "root",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "wildcard",
           "named": true
         }
       ]
@@ -1227,7 +1495,7 @@
       "required": false,
       "types": [
         {
-          "type": "automatic_variable",
+          "type": "concatenation",
           "named": true
         },
         {
@@ -1263,6 +1531,10 @@
           "named": true
         },
         {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
           "type": "variable_reference",
           "named": true
         },
@@ -1282,7 +1554,7 @@
         "required": false,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -1311,6 +1583,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -1328,7 +1604,7 @@
         "required": false,
         "types": [
           {
-            "type": "automatic_variable",
+            "type": "concatenation",
             "named": true
           },
           {
@@ -1357,6 +1633,10 @@
           },
           {
             "type": "root",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -1409,6 +1689,10 @@
   },
   {
     "type": "+",
+    "named": false
+  },
+  {
+    "type": "+=",
     "named": false
   },
   {
@@ -1500,6 +1784,14 @@
     "named": false
   },
   {
+    "type": "::=",
+    "named": false
+  },
+  {
+    "type": ":=",
+    "named": false
+  },
+  {
     "type": ";",
     "named": false
   },
@@ -1508,7 +1800,15 @@
     "named": false
   },
   {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": "?",
+    "named": false
+  },
+  {
+    "type": "?=",
     "named": false
   },
   {
@@ -1532,7 +1832,15 @@
     "named": true
   },
   {
+    "type": "define",
+    "named": false
+  },
+  {
     "type": "else",
+    "named": false
+  },
+  {
+    "type": "endef",
     "named": false
   },
   {
@@ -1574,10 +1882,6 @@
   {
     "type": "undefine",
     "named": false
-  },
-  {
-    "type": "variable",
-    "named": true
   },
   {
     "type": "vpath",
