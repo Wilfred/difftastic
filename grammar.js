@@ -36,6 +36,9 @@ module.exports = grammar({
         $._prerequisites,
         $._order_only_prerequisites,
 
+        $._conditional_args_cmp,
+        $._conditional_arg_cmp,
+
         $._name,
         $._filename_path
     ],
@@ -58,12 +61,12 @@ module.exports = grammar({
 
     rules: {
 
-        makefile: $ => repeat($._thing),
+        makefile: $ => optional($._text),
 
-        _thing: $ => choice(
+        _text: $ => repeat1(choice(
             $.rule,
             $._directive,
-        ),
+        )),
 
         // Rules {{{
         rule: $ => seq(
@@ -145,23 +148,92 @@ module.exports = grammar({
         // }}}
         // Directives {{{
         _directive: $ => choice(
-            $.vpath_directive
+            $.vpath_directive,
+            $.include_directive, // 3.3
+            $.conditional // 7
         ),
 
         vpath_directive: $ => seq(
             'vpath',
             optional(seq(
                 $._path_expr,
-                WS,
-                alias($.paths, $.directories)
+                optional(seq(
+                    WS,
+                    $.directories
+                ))
             )),
             NL
+        ),
+
+        include_directive: $ => seq(
+            'include',
+            alias($.paths, $.filenames),
+            NL
+        ),
+        // }}}
+        // Conditionals {{{
+        conditional: $ => seq(
+            field('condition', $._conditional_directives),
+            optional(field('consequence', $._text)),
+            optional(seq(
+                'else',
+                optional(field('alternative', $._text))
+            )),
+            'endif'
+        ),
+
+        _conditional_directives: $ => choice(
+            $.ifeq_directive,
+            $.ifneq_directive,
+            $.ifdef_directive,
+            $.ifndef_directive
+        ),
+
+        ifeq_directive: $ => seq(
+            'ifeq', $._conditional_args_cmp
+        ),
+
+        ifneq_directive: $ => seq(
+            'ifneq', $._conditional_args_cmp
+        ),
+
+        ifdef_directive: $ => seq(
+            'ifdef', field('variable', $._variable),
+        ),
+
+        ifndef_directive: $ => seq(
+            'ifndef', field('variable', $._variable),
+        ),
+
+        _conditional_args_cmp: $ => choice(
+            // (arg0,arg1)
+            seq(
+                '(',
+                field('arg0', $._path_expr),
+                ',',
+                field('arg1', $._path_expr),
+                ')'
+            ),
+            // 'arg0' 'arg1'
+            // "arg0" "arg1"
+            // 'arg0' 'arg1'
+            // 'arg0' "arg1"
+            seq(
+                field('arg0', $._conditional_arg_cmp),
+                field('arg1', $._conditional_arg_cmp),
+            ),
+        ),
+
+        _conditional_arg_cmp: $ => choice(
+            seq( '"', $._path_expr, '"', ),
+            seq( "'", $._path_expr, "'", ),
         ),
         // }}}
         // Variables {{{
         _variable: $ => choice(
             $.variable_reference,
             $.automatic_variable,
+            prec(-1, $._name)
         ),
 
         variable_reference: $ => seq(
@@ -193,6 +265,16 @@ module.exports = grammar({
             $._path_expr,
             repeat(seq(
                 choice(WS,SPLIT),
+                $._path_expr
+            )),
+            optional(WS)
+        ),
+
+        directories: $ => seq(
+            $._path_expr,
+            repeat(seq(
+                // directories on vpath shall be separated with ":"
+                choice(':',alias(WS,$.ILLEGAL),SPLIT),
                 $._path_expr
             )),
             optional(WS)
