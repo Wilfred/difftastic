@@ -230,3 +230,118 @@ void A() {
                     (simple_assignment_expression
                       (identifier)
                       (invocation_expression (identifier) (argument_list)))))))))))))
+
+=====================================
+Precedence between with and cast
+=====================================
+
+var x = (Point) p1 with {X = 3};
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (with_expression
+              (cast_expression
+                (identifier)
+                (identifier))
+              (with_initializer_expression
+                (simple_assignment_expression
+                  (identifier)
+                  (integer_literal))))))))))
+
+=====================================
+Precedence between with and switch
+=====================================
+
+var x = p1 with {X = 3} switch { _ => 3 };
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (switch_expression
+              (with_expression
+                (identifier)
+                (with_initializer_expression
+                  (simple_assignment_expression
+                    (identifier)
+                    (integer_literal))))
+              (switch_expression_arm
+                (discard)
+                (integer_literal)))))))))
+
+=====================================
+Precedence between with and equals
+=====================================
+
+var x = p1 with {X = 3} == p1 with {X = 4};
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (binary_expression
+              (with_expression
+                (identifier)
+                (with_initializer_expression
+                  (simple_assignment_expression
+                    (identifier)
+                    (integer_literal))))
+              (with_expression
+                (identifier)
+                (with_initializer_expression
+                  (simple_assignment_expression
+                    (identifier)
+                    (integer_literal)))))))))))
+
+=====================================
+Associativity of with expression
+=====================================
+
+var x = p1 with {X = 3} with {X = 4} with {X = 5};
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (with_expression
+              (with_expression
+                (with_expression
+                  (identifier)
+                  (with_initializer_expression
+                    (simple_assignment_expression
+                      (identifier)
+                      (integer_literal))))
+                (with_initializer_expression
+                  (simple_assignment_expression
+                    (identifier)
+                    (integer_literal))))
+              (with_initializer_expression
+                (simple_assignment_expression
+                  (identifier)
+                  (integer_literal))))))))))
