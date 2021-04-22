@@ -548,6 +548,8 @@ module.exports = grammar({
       $._i_o_operator,
 
       $.arrow_notation,
+
+      $.type_glob,
     ),
 
     type_glob: $ => seq(
