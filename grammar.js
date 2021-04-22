@@ -36,7 +36,8 @@ module.exports = grammar({
         $._prerequisites,
         $._order_only_prerequisites,
 
-        $._name
+        $._name,
+        $._filename_path
     ],
 
     extras: $ => [ WS, NL, SPLIT, $.comment ],
@@ -45,20 +46,29 @@ module.exports = grammar({
         [$.recipe],
     ],
 
+    precedences: () => [
+        [
+            'primary',
+            'wildcard',
+            'pattern',
+            'filename',
+            'directory',
+        ],
+    ],
+
     rules: {
 
         makefile: $ => repeat($._thing),
 
         _thing: $ => choice(
             $.rule,
-            //$._directive,
+            $._directive,
         ),
 
-        // Rules
+        // Rules {{{
         rule: $ => seq(
             $._targets,
             choice(':', '&:', '::'),
-            // TODO
             optional(seq($.target_pattern, ':')),
             optional($._prerequisites),
             optional(seq('|', $._order_only_prerequisites)),
@@ -114,7 +124,7 @@ module.exports = grammar({
         _targets: $ => choice(
             $.builtin_target,
             alias(
-                $.list,
+                $.paths,
                 $.targets
             ),
         ),
@@ -122,33 +132,33 @@ module.exports = grammar({
         builtin_target: $ => choice(...BUILTIN_TARGETS),
 
         _prerequisites: $ => alias(
-            $.list,
+            $.paths,
             $.prerequisites
         ),
 
-        target_pattern: $ => $.filename,
+        target_pattern: $ => $._path_expr,
 
         _order_only_prerequisites: $ => field('order_only',alias(
-            $.list,
+            $.paths,
             $.prerequisites
         )),
-
-        list: $ => seq(
-            $._filename,
-            repeat(seq(
-                choice(WS,SPLIT),
-                $._filename
-            )),
-            optional(WS)
+        // }}}
+        // Directives {{{
+        _directive: $ => choice(
+            $.vpath_directive
         ),
 
-        _filename: $ => prec(1,choice(
-            $.filename,
-            alias(choice('*','%'),$.filename),
-            $._name
-        )),
-
-        // Variables
+        vpath_directive: $ => seq(
+            'vpath',
+            optional(seq(
+                $._path_expr,
+                WS,
+                alias($.paths, $.directories)
+            )),
+            NL
+        ),
+        // }}}
+        // Variables {{{
         _variable: $ => choice(
             $.variable_reference,
             $.automatic_variable,
@@ -169,7 +179,7 @@ module.exports = grammar({
             seq(
                 choice('$','$$'),
                 token.immediate('('),
-                choice(...AUTOMATIC_VARS.map(c => token.immediate(c))),
+                choice(...AUTOMATIC_VARS),
                 choice(
                     token.immediate('D'),
                     token.immediate('F')
@@ -178,24 +188,63 @@ module.exports = grammar({
             ),
         ),
         // }}}
-
-        // Names
-        _primary: $ => choice(
-            $._variable,
-            $._word
-        ),
-
-        filename: $ => seq(
-            repeat(choice('*','?','.','%','/','./','../','~')),
-            $._primary,
+        // Paths and filenames {{{
+        paths: $ => seq(
+            $._path_expr,
             repeat(seq(
-                repeat1(choice('*','?','.','%','/','./','../')),
-                $._primary,
+                choice(WS,SPLIT),
+                $._path_expr
             )),
-            repeat(choice('*','?','.','%','/','./','../')),
+            optional(WS)
         ),
 
-        // Tokens
+        _path_expr: $ => choice(
+            $.pattern,
+            $.directory,
+            $.filename,
+            $.wildcard,
+            $.root,
+            $.home,
+            $.dot,
+
+            $._name,
+            $._variable
+        ),
+
+        root: $ => prec('primary','/'),
+
+        home: $ => seq(
+            '~',
+            optional(field('user', $._name))
+        ),
+
+        dot: $ => prec('primary', choice('.', '..')),
+
+        pattern: $ => prec.left('pattern',seq(
+            field('left', optional($._path_expr)),
+            '%',
+            field('right', optional($._path_expr)),
+        )),
+
+        directory: $ => prec.left('directory',seq(
+            field('left', optional($._path_expr)),
+            '/',
+            field('right', optional($._path_expr)),
+        )),
+
+        filename: $ => prec.left('filename',seq(
+            field('left', optional($._path_expr)),
+            '.',
+            field('right', optional($._path_expr)),
+        )),
+
+        wildcard: $ => prec.left('wildcard',seq(
+            field('left', optional($._path_expr)),
+            choice('*','?'),
+            field('right', optional($._path_expr)),
+        )),
+        // }}}
+        // Tokens {{{
         _word: $ => tokenize(...CHARSET),
 
         _name: $ => alias($._word, $.name),
@@ -208,6 +257,7 @@ module.exports = grammar({
             noneOf(...['\\$', '\\n','\\']),
             /\\[^\n]/
         ))),
+        // }}}
 
     }
 

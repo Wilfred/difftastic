@@ -10,22 +10,271 @@
     "fields": {}
   },
   {
-    "type": "filename",
+    "type": "directories",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "automatic_variable",
           "named": true
         },
         {
+          "type": "directory",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
+          "type": "filename",
+          "named": true
+        },
+        {
+          "type": "home",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "root",
+          "named": true
+        },
+        {
           "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "wildcard",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "directory",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "dot",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "filename",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "home",
+    "named": true,
+    "fields": {
+      "user": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -39,8 +288,110 @@
         {
           "type": "rule",
           "named": true
+        },
+        {
+          "type": "vpath_directive",
+          "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "pattern",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -52,11 +403,43 @@
       "required": true,
       "types": [
         {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "directory",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
           "type": "filename",
           "named": true
         },
         {
+          "type": "home",
+          "named": true
+        },
+        {
           "type": "name",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "root",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "wildcard",
           "named": true
         }
       ]
@@ -91,6 +474,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "root",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "rule",
@@ -162,7 +550,43 @@
       "required": true,
       "types": [
         {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "directory",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
           "type": "filename",
+          "named": true
+        },
+        {
+          "type": "home",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "root",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "wildcard",
           "named": true
         }
       ]
@@ -177,11 +601,43 @@
       "required": true,
       "types": [
         {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "directory",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
           "type": "filename",
           "named": true
         },
         {
+          "type": "home",
+          "named": true
+        },
+        {
           "type": "name",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "root",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "wildcard",
           "named": true
         }
       ]
@@ -200,6 +656,159 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "vpath_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "directories",
+          "named": true
+        },
+        {
+          "type": "directory",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
+          "type": "filename",
+          "named": true
+        },
+        {
+          "type": "home",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "root",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "wildcard",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -243,11 +852,7 @@
     "named": false
   },
   {
-    "type": "../",
-    "named": false
-  },
-  {
-    "type": "./",
+    "type": "..",
     "named": false
   },
   {
@@ -361,6 +966,10 @@
   {
     "type": "variable",
     "named": true
+  },
+  {
+    "type": "vpath",
+    "named": false
   },
   {
     "type": "|",
