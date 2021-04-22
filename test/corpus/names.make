@@ -5,7 +5,7 @@ a:
 a bb:
 a bb ccc:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
@@ -26,7 +26,7 @@ Name, word, escape
 ================================================================================
 a\*b a\?b a\%c:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
@@ -40,40 +40,48 @@ Name, filename
 ================================================================================
 .a a.b .a.b:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename)
-      (filename))))
+      (filename
+        (name))
+      (filename
+        (name)
+        (name))
+      (filename
+        (filename
+          (name))
+        (name)))))
 
 ================================================================================
 Name, wildcard, minimal
 ================================================================================
 * %:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename))))
+      (wildcard)
+      (pattern))))
 
 ================================================================================
 Name, wildcard
 ================================================================================
 a* b?:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename))))
+      (wildcard
+        (name))
+      (wildcard
+        (name)))))
 
 ================================================================================
 Name, wildcard and word
@@ -81,33 +89,49 @@ Name, wildcard and word
 ?a*  *b  ?a*c:
  a*  *b?  a*c?:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename)
-      (filename)))
+      (wildcard
+        (wildcard
+          (name)))
+      (wildcard
+        (name))
+      (wildcard
+        (wildcard
+          (name))
+        (name))))
   (rule
     (targets
-      (filename)
-      (filename)
-      (filename))))
+      (wildcard
+        (name))
+      (wildcard
+        (wildcard
+          (name)))
+      (wildcard
+        (wildcard
+          (name)
+          (name))))))
 
 ================================================================================
 Name, pattern
 ================================================================================
 %a b% a%b:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename)
-      (filename))))
+      (pattern
+        (name))
+      (pattern
+        (name))
+      (pattern
+        (name)
+        (name)))))
 
 ================================================================================
 Name, pattern, wildcard
@@ -115,43 +139,61 @@ Name, pattern, wildcard
  %a*  *b%:
 *a%b a%b*:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename)))
+      (pattern
+        (wildcard
+          (name)))
+      (pattern
+        (wildcard
+          (name)))))
   (rule
     (targets
-      (filename)
-      (filename))))
+      (pattern
+        (wildcard
+          (name))
+        (name))
+      (pattern
+        (name)
+        (wildcard
+          (name))))))
 
 ================================================================================
 Name, filename
 ================================================================================
 a.b c.d:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename))))
+      (filename
+        (name)
+        (name))
+      (filename
+        (name)
+        (name)))))
 
 ================================================================================
 Name, filename, wildname and pattern
 ================================================================================
 *.b %.d:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename))))
+      (filename
+        (wildcard)
+        (name))
+      (filename
+        (pattern)
+        (name)))))
 
 ================================================================================
 Name, path, minimal I
@@ -159,20 +201,36 @@ Name, path, minimal I
 /a a/b a/b/c:
 /a/ a/b/ a/b/c/:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename)
-      (filename)))
+      (directory
+        (name))
+      (directory
+        (name)
+        (name))
+      (directory
+        (directory
+          (name)
+          (name))
+        (name))))
   (rule
     (targets
-      (filename)
-      (filename)
-      (filename))))
-
+      (directory
+        (directory
+          (name)))
+      (directory
+        (directory
+          (name)
+          (name)))
+      (directory
+        (directory
+          (directory
+            (name)
+            (name))
+          (name))))))
 
 ================================================================================
 Name, path, minimal II
@@ -180,16 +238,40 @@ Name, path, minimal II
 ./a ./a/b ./a/b/c:
 ../a ../a/b ../a/b/c:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename)
-      (filename)))
+      (directory
+        (dot)
+        (name))
+      (directory
+        (directory
+          (dot)
+          (name))
+        (name))
+      (directory
+        (directory
+          (directory
+            (dot)
+            (name))
+          (name))
+        (name))))
   (rule
     (targets
-      (filename)
-      (filename)
-      (filename))))
+      (directory
+        (dot)
+        (name))
+      (directory
+        (directory
+          (dot)
+          (name))
+        (name))
+      (directory
+        (directory
+          (directory
+            (dot)
+            (name))
+          (name))
+        (name)))))

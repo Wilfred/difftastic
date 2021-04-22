@@ -5,7 +5,7 @@ target:
 %.o:
 *.o:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
@@ -13,10 +13,14 @@ target:
       (name)))
   (rule
     (targets
-      (filename)))
+      (filename
+        left: (pattern)
+        right: (name))))
   (rule
     (targets
-      (filename))))
+      (filename
+        left: (wildcard)
+        right: (name)))))
 
 ================================================================================
 Rule, targets, single, blank space after
@@ -25,7 +29,7 @@ target :
 %.o    :
 *.o    :
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
@@ -33,10 +37,14 @@ target :
       (name)))
   (rule
     (targets
-      (filename)))
+      (filename
+        left: (pattern)
+        right: (name))))
   (rule
     (targets
-      (filename))))
+      (filename
+        left: (wildcard)
+        right: (name)))))
 
 ================================================================================
 Rule, targets, single, blank space before and after
@@ -45,7 +53,7 @@ Rule, targets, single, blank space before and after
   %.o     :
    *.o    :
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
@@ -53,24 +61,32 @@ Rule, targets, single, blank space before and after
       (name)))
   (rule
     (targets
-      (filename)))
+      (filename
+        left: (pattern)
+        right: (name))))
   (rule
     (targets
-      (filename))))
+      (filename
+        left: (wildcard)
+        right: (name)))))
 
 ================================================================================
 Rule, targets, multiple, blank space
 ================================================================================
   target %.o     *.o    :
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
       (name)
-      (filename)
-      (filename))))
+      (filename
+        (pattern)
+        (name))
+      (filename
+        (wildcard)
+        (name)))))
 
 ================================================================================
 Rule, targets, built-in
@@ -91,82 +107,105 @@ Rule, targets, built-in
 .ONESHELL: foo
 .POSIX: foo
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name)))
+    (prerequisites
+      (name)))
   (rule
     (builtin_target)
-    (prerequisites (name))))
+    (prerequisites
+      (name))))
 
 ================================================================================
 Rule, targets, multiple
 ================================================================================
 foo %.b *.o:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
       (name)
-      (filename)
-      (filename))))
+      (filename
+        left: (pattern)
+        right: (name))
+      (filename
+        left: (wildcard)
+        right: (name)))))
 
 ================================================================================
 Rule, targets, grouped (grouped targets)
 ================================================================================
 foo %.n *.o &:
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
       (name)
-      (filename)
-      (filename))))
+      (filename
+        left: (pattern)
+        right: (name))
+      (filename
+        left: (wildcard)
+        right: (name)))))
 
 ================================================================================
 Rule, pre-requisites, single
@@ -175,33 +214,48 @@ target: foo
 target: %.c
 target: *.d
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
-    (prerequisites (name)))
+    (targets
+      (name))
+    (prerequisites
+      (name)))
   (rule
-    (targets (name))
-    (prerequisites (filename)))
+    (targets
+      (name))
+    (prerequisites
+      (filename
+        (pattern)
+        (name))))
   (rule
-    (targets (name))
-    (prerequisites (filename))))
+    (targets
+      (name))
+    (prerequisites
+      (filename
+        (wildcard)
+        (name)))))
 
 ================================================================================
 Rule, pre-requisites, multiple
 ================================================================================
 target: foo %.b c.o
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (prerequisites
       (name)
-      (filename)
-      (filename))))
+      (filename
+        (pattern)
+        (name))
+      (filename
+        (name)
+        (name)))))
 
 ================================================================================
 Rule, pre-requisites, multiple, splited lines, one per line
@@ -210,15 +264,20 @@ target: foo\
 	%.b\
 c.o
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (prerequisites
       (name)
-      (filename)
-      (filename))))
+      (filename
+        (pattern)
+        (name))
+      (filename
+        (name)
+        (name)))))
 
 ================================================================================
 Rule, pre-requisites, multiple, splited lines, multiple per line
@@ -227,33 +286,48 @@ target: foo %.b c.o\
 	foo %.b c.o\
 foo %.b c.o
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (prerequisites
       (name)
-      (filename)
-      (filename)
+      (filename
+        (pattern)
+        (name))
+      (filename
+        (name)
+        (name))
       (name)
-      (filename)
-      (filename)
+      (filename
+        (pattern)
+        (name))
+      (filename
+        (name)
+        (name))
       (name)
-      (filename)
-      (filename))))
+      (filename
+        (pattern)
+        (name))
+      (filename
+        (name)
+        (name)))))
 
 ================================================================================
 Rule, pre-requisites, order only, single
 ================================================================================
 foo: | bar
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
-    order_only: (prerequisites (name))))
+    (targets
+      (name))
+    order_only: (prerequisites
+      (name))))
 
 ================================================================================
 Rule, recipe, empty (empty rule)
@@ -263,14 +337,16 @@ target: ;
 target:
 	
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe))
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe)))
 
 ================================================================================
@@ -279,11 +355,12 @@ Rule, recipe, single line
 target:
 	echo "foobar"
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)))))
@@ -301,7 +378,7 @@ target:
 target:
 aecho "foobar"
 
----
+--------------------------------------------------------------------------------
 
 ; TODO
 
@@ -311,11 +388,12 @@ Rule, recipe, single line, suppress echoing
 target:
 	@echo "foobar"
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)))))
@@ -326,13 +404,12 @@ Rule, recipe, single line, NOT comment
 target:
 	# foo
 
----
-
-;; Comments on recipe are passed to shell, not parsed as comment locally
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)))))
@@ -348,17 +425,19 @@ target:
 	echo "foo\
 	bar"
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
         (shell_text))))
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
@@ -375,17 +454,19 @@ target:
 	@echo "foo\
 	bar"
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
         (shell_text))))
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
@@ -398,11 +479,12 @@ target:
 	@echo "\\foo\
 	bar"
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
@@ -416,11 +498,12 @@ target:
 	bar
 	baz
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text))
@@ -434,11 +517,12 @@ Rule, recipe, attached to targets-and-prerequisites, single line
 ================================================================================
 target: ; echo "foobar"
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)))))
@@ -452,17 +536,19 @@ bar"
 target: ; echo "foo\
 	bar"
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
         (shell_text))))
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
@@ -477,17 +563,19 @@ bar"
 target: ; @echo "foo\
 	bar"
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
         (shell_text))))
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
@@ -513,11 +601,12 @@ bar"
 
 	echo "foobar"
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
@@ -526,7 +615,8 @@ bar"
       (recipe_line
         (shell_text))))
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text)
@@ -544,11 +634,12 @@ target:
 # comment
 	baz
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
+    (targets
+      (name))
     (recipe
       (recipe_line
         (shell_text))
@@ -562,12 +653,14 @@ Rule, recipe, automatic variable
 foo: bar
 	gcc -c -o $@ $<
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
-    (prerequisites (name))
+    (targets
+      (name))
+    (prerequisites
+      (name))
     (recipe
       (recipe_line
         (shell_text
@@ -580,12 +673,14 @@ Rule, complete
 target: prereq
 	recipe
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
-    (targets (name))
-    (prerequisites (name))
+    (targets
+      (name))
+    (prerequisites
+      (name))
     (recipe
       (recipe_line
         (shell_text)))))
@@ -595,14 +690,22 @@ Rule, static pattern
 ================================================================================
 foo.o bar.o: %.o: %.c
 
----
+--------------------------------------------------------------------------------
 
 (makefile
   (rule
     (targets
-      (filename)
-      (filename))
+      (filename
+        (name)
+        (name))
+      (filename
+        (name)
+        (name)))
     (target_pattern
-      (filename))
+      (filename
+        (pattern)
+        (name)))
     (prerequisites
-      (filename))))
+      (filename
+        (pattern)
+        (name)))))
