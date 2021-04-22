@@ -1,5 +1,10 @@
 [
   {
+    "type": "ILLEGAL",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "automatic_variable",
     "named": true,
     "fields": {}
@@ -10,6 +15,78 @@
     "fields": {}
   },
   {
+    "type": "conditional",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "include_directive",
+            "named": true
+          },
+          {
+            "type": "rule",
+            "named": true
+          },
+          {
+            "type": "vpath_directive",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ifdef_directive",
+            "named": true
+          },
+          {
+            "type": "ifeq_directive",
+            "named": true
+          },
+          {
+            "type": "ifndef_directive",
+            "named": true
+          },
+          {
+            "type": "ifneq_directive",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "include_directive",
+            "named": true
+          },
+          {
+            "type": "rule",
+            "named": true
+          },
+          {
+            "type": "vpath_directive",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "directories",
     "named": true,
     "fields": {},
@@ -17,6 +94,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "ILLEGAL",
+          "named": true
+        },
         {
           "type": "automatic_variable",
           "named": true
@@ -262,6 +343,57 @@
     }
   },
   {
+    "type": "filenames",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "directory",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
+          "type": "filename",
+          "named": true
+        },
+        {
+          "type": "home",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "root",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "wildcard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "home",
     "named": true,
     "fields": {
@@ -278,6 +410,297 @@
     }
   },
   {
+    "type": "ifdef_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ifeq_directive",
+    "named": true,
+    "fields": {
+      "arg0": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      },
+      "arg1": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ifndef_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ifneq_directive",
+    "named": true,
+    "fields": {
+      "arg0": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      },
+      "arg1": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "include_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "filenames",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "makefile",
     "named": true,
     "fields": {},
@@ -285,6 +708,14 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "conditional",
+          "named": true
+        },
+        {
+          "type": "include_directive",
+          "named": true
+        },
         {
           "type": "rule",
           "named": true
@@ -532,6 +963,10 @@
       "types": [
         {
           "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "name",
           "named": true
         },
         {
@@ -812,6 +1247,10 @@
     }
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "$",
     "named": false
   },
@@ -828,6 +1267,10 @@
     "named": false
   },
   {
+    "type": "'",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -841,6 +1284,10 @@
   },
   {
     "type": "+",
+    "named": false
+  },
+  {
+    "type": ",",
     "named": false
   },
   {
@@ -958,6 +1405,34 @@
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "endif",
+    "named": false
+  },
+  {
+    "type": "ifdef",
+    "named": false
+  },
+  {
+    "type": "ifeq",
+    "named": false
+  },
+  {
+    "type": "ifndef",
+    "named": false
+  },
+  {
+    "type": "ifneq",
+    "named": false
+  },
+  {
+    "type": "include",
+    "named": false
   },
   {
     "type": "name",
