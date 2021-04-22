@@ -48,6 +48,20 @@ vpath
   (vpath_directive))
 
 ================================================================================
+Directive, undefine
+================================================================================
+undefine foo
+override undefine CFLAGS
+
+---
+
+(makefile
+  (undefine_directive
+    variable: (name))
+  (undefine_directive
+    variable: (name)))
+
+================================================================================
 Directive, conditional I
 ================================================================================
 ifdef $(foo)

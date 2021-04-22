@@ -35,6 +35,10 @@
             "named": true
           },
           {
+            "type": "undefine_directive",
+            "named": true
+          },
+          {
             "type": "vpath_directive",
             "named": true
           }
@@ -76,6 +80,10 @@
           },
           {
             "type": "rule",
+            "named": true
+          },
+          {
+            "type": "undefine_directive",
             "named": true
           },
           {
@@ -721,6 +729,10 @@
           "named": true
         },
         {
+          "type": "undefine_directive",
+          "named": true
+        },
+        {
           "type": "vpath_directive",
           "named": true
         }
@@ -1076,6 +1088,30 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "undefine_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1437,6 +1473,14 @@
   {
     "type": "name",
     "named": true
+  },
+  {
+    "type": "override",
+    "named": false
+  },
+  {
+    "type": "undefine",
+    "named": false
   },
   {
     "type": "variable",
