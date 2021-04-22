@@ -62,7 +62,10 @@ my $hash = {
 
 $hash->{ wag } = 'tail';
 $hash->{inner}->{prop} = 'secret';
-# $hash->{inner}->{prop}->[0.3] = 'secret2';
+$hash->{inner}->{prop}->[0.3] = 'secret2';
+
+# type glob
+local *something = \$hash;
 
 
 print Dumper $hash;

@@ -78,6 +78,8 @@ module.exports = grammar({
     source_file: $ => repeat($._statement),
 
     _statement: $ => choice(
+      $.package_statement,
+
       $.use_statement,
       $.use_subs_statement,
       $.use_feature_statement,
@@ -103,6 +105,11 @@ module.exports = grammar({
     //   /=[\w]*/,
     //   /=cut/,
     // )),
+
+    package_statement: $ => seq(
+      'package',
+      $.package_name,
+    ),
 
     ellipsis_statement: $ => seq(
       '...',
@@ -366,7 +373,7 @@ module.exports = grammar({
       $.scope,
       // multi declaration
       // or single declaration without brackets
-      choice($.multi_var_declaration, $.single_var_declaration),
+      choice($.multi_var_declaration, $.single_var_declaration, $.type_glob_declaration),
       $.semi_colon,
     ),
 
@@ -386,6 +393,11 @@ module.exports = grammar({
     _initializer: $ => seq(
       '=',
       field('value', $._expression),
+    ),
+
+    type_glob_declaration: $ => seq(
+      $.type_glob,
+      optional($._initializer),
     ),
     
     scope: $ => choice(
@@ -536,6 +548,14 @@ module.exports = grammar({
       $._i_o_operator,
 
       $.arrow_notation,
+    ),
+
+    type_glob: $ => seq(
+      '\*',
+      choice(
+        $.package_name,
+        $.identifier,
+      ),
     ),
 
     arrow_notation: $ => seq(
@@ -1005,7 +1025,10 @@ module.exports = grammar({
       'BEGIN', // TODO: when come across perlmod
     ),
 
-    package_name: $ => /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
+    package_name: $ => choice(
+      /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
+      // TODO: put in other package name structures
+    ),
     package_name_in_call: $ => /[A-Z_a-z][0-9A-Z_a-z]*::(?:[0-9A-Z_a-z]+::)*/,
 
     semi_colon: $ => ';',
