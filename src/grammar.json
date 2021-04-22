@@ -479,15 +479,47 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "vpath_directive"
-        },
-        {
-          "type": "SYMBOL",
           "name": "include_directive"
         },
         {
           "type": "SYMBOL",
+          "name": "vpath_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "undefine_directive"
+        },
+        {
+          "type": "SYMBOL",
           "name": "conditional"
+        }
+      ]
+    },
+    "include_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "include"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "paths"
+          },
+          "named": true,
+          "value": "filenames"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "[\\r\\n]"
+            }
+          }
         }
       ]
     },
@@ -554,21 +586,32 @@
         }
       ]
     },
-    "include_directive": {
+    "undefine_directive": {
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "include"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "override"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
-          "type": "ALIAS",
+          "type": "STRING",
+          "value": "undefine"
+        },
+        {
+          "type": "FIELD",
+          "name": "variable",
           "content": {
             "type": "SYMBOL",
-            "name": "paths"
-          },
-          "named": true,
-          "value": "filenames"
+            "name": "_variable"
+          }
         },
         {
           "type": "REPEAT1",
@@ -1032,18 +1075,26 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "D"
-                  }
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "D"
+                      }
+                    },
+                    {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "F"
+                      }
+                    }
+                  ]
                 },
                 {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "F"
-                  }
+                  "type": "BLANK"
                 }
               ]
             },

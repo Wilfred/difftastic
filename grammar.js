@@ -148,9 +148,16 @@ module.exports = grammar({
         // }}}
         // Directives {{{
         _directive: $ => choice(
-            $.vpath_directive,
             $.include_directive, // 3.3
+            $.vpath_directive, // 4.5.2
+            $.undefine_directive, // 6.9
             $.conditional // 7
+        ),
+
+        include_directive: $ => seq(
+            'include',
+            alias($.paths, $.filenames),
+            NL
         ),
 
         vpath_directive: $ => seq(
@@ -165,9 +172,10 @@ module.exports = grammar({
             NL
         ),
 
-        include_directive: $ => seq(
-            'include',
-            alias($.paths, $.filenames),
+        undefine_directive: $ => seq(
+            optional('override'),
+            'undefine',
+            field('variable', $._variable),
             NL
         ),
         // }}}
