@@ -66,6 +66,7 @@ $hash->{inner}->{prop}->[0.3] = 'secret2';
 
 # type glob
 local *something = \$hash;
+*alsosomething = *somethingagain;
 
 
 print Dumper $hash;

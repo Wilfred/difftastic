@@ -2149,6 +2149,10 @@
         {
           "type": "SYMBOL",
           "name": "arrow_notation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_glob"
         }
       ]
     },

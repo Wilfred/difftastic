@@ -144,6 +144,10 @@
           "named": true
         },
         {
+          "type": "type_glob",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -537,6 +541,10 @@
             "named": true
           },
           {
+            "type": "type_glob",
+            "named": true
+          },
+          {
             "type": "unary_expression",
             "named": true
           },
@@ -877,6 +885,10 @@
             "named": true
           },
           {
+            "type": "type_glob",
+            "named": true
+          },
+          {
             "type": "unary_expression",
             "named": true
           },
@@ -1024,6 +1036,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
             "named": true
           },
           {
@@ -1175,6 +1191,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
           "named": true
         },
         {
@@ -1382,6 +1402,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
           "named": true
         },
         {
@@ -1668,6 +1692,10 @@
           "named": true
         },
         {
+          "type": "type_glob",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -1880,6 +1908,10 @@
             "named": true
           },
           {
+            "type": "type_glob",
+            "named": true
+          },
+          {
             "type": "unary_expression",
             "named": true
           },
@@ -2030,6 +2062,10 @@
             "named": true
           },
           {
+            "type": "type_glob",
+            "named": true
+          },
+          {
             "type": "unary_expression",
             "named": true
           },
@@ -2177,6 +2213,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
             "named": true
           },
           {
@@ -2605,6 +2645,10 @@
             "named": true
           },
           {
+            "type": "type_glob",
+            "named": true
+          },
+          {
             "type": "unary_expression",
             "named": true
           },
@@ -2940,6 +2984,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
             "named": true
           },
           {
@@ -3327,6 +3375,10 @@
           "named": true
         },
         {
+          "type": "type_glob",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -3553,6 +3605,10 @@
           "named": true
         },
         {
+          "type": "type_glob",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -3731,6 +3787,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
           "named": true
         },
         {
@@ -3920,6 +3980,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
             "named": true
           },
           {
@@ -4120,6 +4184,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
           "named": true
         },
         {
@@ -4384,6 +4452,10 @@
         },
         {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
           "named": true
         },
         {
@@ -4693,6 +4765,10 @@
             "named": true
           },
           {
+            "type": "type_glob",
+            "named": true
+          },
+          {
             "type": "unary_expression",
             "named": true
           },
@@ -4840,6 +4916,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
             "named": true
           },
           {
@@ -5004,6 +5084,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
             "named": true
           },
           {
@@ -5218,6 +5302,10 @@
             "named": true
           },
           {
+            "type": "type_glob",
+            "named": true
+          },
+          {
             "type": "unary_expression",
             "named": true
           },
@@ -5426,6 +5514,10 @@
             "named": true
           },
           {
+            "type": "type_glob",
+            "named": true
+          },
+          {
             "type": "unary_expression",
             "named": true
           },
@@ -5583,6 +5675,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
             "named": true
           },
           {
@@ -5799,6 +5895,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
             "named": true
           },
           {
@@ -6156,6 +6256,10 @@
             "named": true
           },
           {
+            "type": "type_glob",
+            "named": true
+          },
+          {
             "type": "unary_expression",
             "named": true
           },
@@ -6313,6 +6417,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
             "named": true
           },
           {
@@ -6483,6 +6591,10 @@
           },
           {
             "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
             "named": true
           },
           {
