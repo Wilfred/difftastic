@@ -31,6 +31,10 @@
             "named": true
           },
           {
+            "type": "load_directive",
+            "named": true
+          },
+          {
             "type": "rule",
             "named": true
           },
@@ -76,6 +80,10 @@
           },
           {
             "type": "include_directive",
+            "named": true
+          },
+          {
+            "type": "load_directive",
             "named": true
           },
           {
@@ -709,6 +717,21 @@
     }
   },
   {
+    "type": "load_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "object_files",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "makefile",
     "named": true,
     "fields": {},
@@ -725,6 +748,10 @@
           "named": true
         },
         {
+          "type": "load_directive",
+          "named": true
+        },
+        {
           "type": "rule",
           "named": true
         },
@@ -737,6 +764,68 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "object_files",
+    "named": true,
+    "fields": {
+      "object_file": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "directory",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "filename",
+            "named": true
+          },
+          {
+            "type": "home",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "pattern",
+            "named": true
+          },
+          {
+            "type": "root",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      },
+      "object_name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1468,6 +1557,10 @@
   },
   {
     "type": "include",
+    "named": false
+  },
+  {
+    "type": "load",
     "named": false
   },
   {

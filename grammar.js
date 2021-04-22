@@ -151,7 +151,8 @@ module.exports = grammar({
             $.include_directive, // 3.3
             $.vpath_directive, // 4.5.2
             $.undefine_directive, // 6.9
-            $.conditional // 7
+            $.conditional, // 7
+            $.load_directive, // 12.2.1
         ),
 
         include_directive: $ => seq(
@@ -176,6 +177,12 @@ module.exports = grammar({
             optional('override'),
             'undefine',
             field('variable', $._variable),
+            NL
+        ),
+
+        load_directive: $ => seq(
+            'load',
+            $.object_files,
             NL
         ),
         // }}}
@@ -286,6 +293,24 @@ module.exports = grammar({
                 $._path_expr
             )),
             optional(WS)
+        ),
+
+        object_files: $ => seq(
+            $._object,
+            repeat(seq(
+                choice(WS,SPLIT),
+                $._object
+            )),
+            optional(WS)
+        ),
+
+        _object: $ => seq(
+            field('object_file', $._path_expr),
+            optional(seq(
+                token.immediate('('),
+                field('object_name', $._name),
+                ')'
+            ))
         ),
 
         _path_expr: $ => choice(
