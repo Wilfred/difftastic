@@ -252,10 +252,10 @@ module.exports = grammar({
                 choice('$','$$'),
                 token.immediate('('),
                 choice(...AUTOMATIC_VARS),
-                choice(
+                optional(choice(
                     token.immediate('D'),
                     token.immediate('F')
-                ),
+                )),
                 ')'
             ),
         ),
