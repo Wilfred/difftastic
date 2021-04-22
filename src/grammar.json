@@ -14,6 +14,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "package_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "use_statement"
         },
         {
@@ -55,6 +59,19 @@
         {
           "type": "SYMBOL",
           "name": "ellipsis_statement"
+        }
+      ]
+    },
+    "package_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "package"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "package_name"
         }
       ]
     },
@@ -1338,6 +1355,10 @@
             {
               "type": "SYMBOL",
               "name": "single_var_declaration"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_glob_declaration"
             }
           ]
         },
@@ -1458,6 +1479,27 @@
             "type": "SYMBOL",
             "name": "_expression"
           }
+        }
+      ]
+    },
+    "type_glob_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "type_glob"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_initializer"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -2107,6 +2149,28 @@
         {
           "type": "SYMBOL",
           "name": "arrow_notation"
+        }
+      ]
+    },
+    "type_glob": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "package_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          ]
         }
       ]
     },
@@ -4748,8 +4812,13 @@
       ]
     },
     "package_name": {
-      "type": "PATTERN",
-      "value": "[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*"
+        }
+      ]
     },
     "package_name_in_call": {
       "type": "PATTERN",

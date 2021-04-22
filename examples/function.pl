@@ -25,3 +25,5 @@ sub foo : Expose ($left, $right) {
   return $left + $right;
 }
 
+foo();
+
