@@ -317,3 +317,152 @@ define('ANIMALS', array(
     )
   )
 )
+
+=======================================
+Attributes
+=======================================
+
+<?php
+
+#[Test]
+function a(#[Test] $a) {
+  $c;
+}
+
+class PostsController
+{
+  #[Test]
+  const CONSTANT = 'constant value';
+
+  #[Test]
+  private string $a = '';
+
+  #[Route("/api/posts/{id}", ["GET"])]
+  public function get(#[Test] $id) { /* ... */ }
+}
+
+#[MyAttribute]
+#[\MyExample\MyAttribute]
+#[MyAttribute(1234)]
+#[MyAttribute(MyAttribute::VALUE)]
+#[MyAttribute(array("key" => "value"))]
+#[MyAttribute(100 + 200)]
+class Thing
+{
+}
+
+
+---
+
+(program
+  (php_tag)
+
+  (function_definition
+    attributes: (attribute_list (attribute (qualified_name (name))))
+    name: (name)
+    parameters: (formal_parameters
+      (simple_parameter
+        attributes: (attribute_list (attribute (qualified_name (name))))
+        name: (variable_name (name))
+      )
+    )
+    body: (compound_statement (expression_statement (variable_name (name))))
+  )
+
+  (class_declaration
+    name: (name)
+    body: (declaration_list
+      (const_declaration
+        attributes: (attribute_list (attribute (qualified_name (name))))
+        (const_element (name) (string))
+      )
+
+      (property_declaration
+        attributes: (attribute_list (attribute (qualified_name (name))))
+        (visibility_modifier)
+        type: (type_list (primitive_type))
+        (property_element (variable_name (name))
+          (property_initializer (string))
+        )
+      )
+      (method_declaration
+        attributes: (attribute_list
+          (attribute
+            (qualified_name (name))
+            parameters: (arguments
+              (argument (string))
+              (argument
+                (array_creation_expression
+                  (array_element_initializer (string))
+                )
+              )
+            )
+          )
+        )
+        (visibility_modifier)
+        name: (name)
+        parameters: (formal_parameters
+          (simple_parameter
+            attributes: (attribute_list (attribute (qualified_name (name))))
+            name: (variable_name (name))
+          )
+        )
+        body: (compound_statement (comment))
+      )
+    )
+  )
+  (class_declaration
+    attributes: (attribute_list
+      (attribute (qualified_name (name)))
+      (attribute
+        (qualified_name
+          (namespace_name_as_prefix
+            (namespace_name (name))
+          )
+          (name)
+        )
+      )
+      (attribute
+        (qualified_name (name))
+        parameters: (arguments (argument (integer)))
+      )
+      (attribute
+        (qualified_name (name))
+        parameters: (arguments
+          (argument
+            (class_constant_access_expression
+              (qualified_name (name))
+              (name)
+            )
+          )
+        )
+      )
+      (attribute
+        (qualified_name (name))
+        parameters: (arguments
+          (argument
+            (array_creation_expression
+              (array_element_initializer
+                (string)
+                (string)
+              )
+            )
+          )
+        )
+      )
+      (attribute
+        (qualified_name (name))
+        parameters: (arguments
+          (argument
+            (binary_expression
+              left: (integer)
+              right: (integer)
+            )
+          )
+        )
+      )
+    )
+    name: (name)
+    body: (declaration_list)
+  )
+)

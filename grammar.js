@@ -244,6 +244,7 @@ module.exports = grammar({
     ),
 
     class_declaration: $ => prec.right(seq(
+      optional(field('attributes', $.attribute_list)),
       optional($.class_modifier),
       keyword('class'),
       field('name', $.name),
@@ -270,13 +271,20 @@ module.exports = grammar({
     ),
 
     _member_declaration: $ => choice(
-      $.const_declaration,
+      alias($._class_const_declaration, $.const_declaration),
       $.property_declaration,
       $.method_declaration,
       $.use_declaration
     ),
 
-    const_declaration: $ => seq(
+    const_declaration: $ => $._const_declaration,
+
+    _class_const_declaration: $ => seq(
+      optional(field('attributes', $.attribute_list)),
+      $._const_declaration
+    ),
+
+    _const_declaration: $ => seq(
       optional($.visibility_modifier),
       keyword('const'),
       commaSep1($.const_element),
@@ -284,6 +292,7 @@ module.exports = grammar({
     ),
 
     property_declaration: $ => seq(
+      optional(field('attributes', $.attribute_list)),
       repeat1($._modifier),
       optional(field('type', $._type)),
       commaSep1($.property_element),
@@ -306,6 +315,7 @@ module.exports = grammar({
     ),
 
     method_declaration: $ => seq(
+      optional(field('attributes', $.attribute_list)),
       repeat($._modifier),
       $._function_definition_header,
       choice(
@@ -363,6 +373,7 @@ module.exports = grammar({
     ),
 
     function_definition: $ => seq(
+      optional(field('attributes', $.attribute_list)),
       $._function_definition_header,
       field('body', $.compound_statement)
     ),
@@ -393,6 +404,7 @@ module.exports = grammar({
     ),
 
     simple_parameter: $ => seq(
+      optional(field('attributes', $.attribute_list)),
       field('type', optional($._type)),
       optional('&'),
       field('name', $.variable_name),
@@ -403,6 +415,7 @@ module.exports = grammar({
     ),
 
     variadic_parameter: $ => seq(
+      optional(field('attributes', $.attribute_list)),
       field('type', optional($._type)),
       optional('&'),
       '...',
@@ -1073,6 +1086,17 @@ module.exports = grammar({
       seq('[', commaSep($.array_element_initializer), optional(','), ']')
     ),
 
+    attribute_list: $ => repeat1(seq(
+      '#[',
+      commaSep1($.attribute),
+      ']',
+    )),
+
+    attribute: $ => seq(
+      $.qualified_name,
+      optional(field('parameters', $.arguments))
+    ),
+
     string: $ => {
       const b_prefix = /[bB]/
       const single_quote_chars = repeat(/\\'|\\\\|\\?[^'\\]/)
@@ -1191,10 +1215,11 @@ module.exports = grammar({
 
     comment: $ => token(choice(
       seq(
-        choice('//', '#'),
+        choice('//', /#[^?\[?\r?\n]/),
         repeat(/[^?\r?\n]|\?[^>\r\n]/),
         optional(/\?\r?\n/)
       ),
+      '#',
       seq(
         '/*',
         /[^*]*\*+([^/*][^*]*\*+)*/,
