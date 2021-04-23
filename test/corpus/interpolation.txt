@@ -143,6 +143,36 @@ echo "hi";
   (echo_statement (string)))
 
 
+=======================================
+Singel line comment without any content
+=======================================
+
+<?php
+# Check if PHP xml isn't compiled
+#
+if ( ! function_exists('xml_parser_create') ) {
+  echo $test;
+}
+
+---
+
+(program
+  (php_tag)
+  (comment)
+  (comment)
+  (if_statement
+    condition: (parenthesized_expression
+      (unary_op_expression
+        (function_call_expression
+          function: (qualified_name (name))
+          arguments: (arguments (argument (string)))
+        )
+      )
+    )
+    body: (compound_statement (echo_statement (variable_name (name))))
+  )
+)
+
 =====================================
 Closing tags before the first PHP tag
 =====================================
