@@ -8,8 +8,8 @@ I believe that Elm would greatly benefit from better tooling, the ultimate goal 
 
 What it brings to the table:
 
-- Very fast parsing, should enable parsing on each keystroke
-- Resilient, even if you use wrong syntax, most of the file should still be recognized alright
+- Very fast parsing, should enable parsing on each keystroke.
+- Resilient, even if you use wrong syntax, most of the file should still be recognized alright.
 - Should also be useful to the elm atom maintainers, as atom is using tree sitter as the new default for code highlighting (our ast might be too expressive). Highlight implementation still needs to be done if wanted.
 
 ## What is this tested with?
