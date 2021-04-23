@@ -97,6 +97,7 @@ module.exports = grammar({
       $.standalone_block,
 
       $.ellipsis_statement,
+      $.special_block,
 
       // $.pod_statement, TODO: come back to this later
     ),
@@ -105,6 +106,14 @@ module.exports = grammar({
     //   /=[\w]*/,
     //   /=cut/,
     // )),
+
+    special_block: $ => seq(
+      optional('sub'), // but this is often frowned upon
+      choice(
+        'BEGIN', 'UNITCHECK', 'CHECK', 'INIT', 'END',
+      ),
+      field('body', $.block),
+    ),
 
     package_statement: $ => seq(
       'package',
@@ -178,7 +187,7 @@ module.exports = grammar({
 
     use_statement: $ => seq(
       'use',
-      $.package_name,
+      choice($.package_name, $.module_name),
       optional($.version),
       optional($._list),
       $.semi_colon,
@@ -474,10 +483,9 @@ module.exports = grammar({
     ),
 
     standalone_block: $ => seq(
-      optional(choice(
+      optional(
         seq(field('label', $.identifier), ':'),
-        $.phase,
-      )),
+      ),
       '{',
       optional(repeat($._block_statements)),
       '}',
@@ -560,9 +568,8 @@ module.exports = grammar({
       ),
     ),
 
-    arrow_notation: $ => seq(
+    arrow_notation: $ => prec.left(seq(
       field('hash_ref', $.scalar_variable),
-      
       repeat1(
         seq(
           '->',
@@ -572,7 +579,7 @@ module.exports = grammar({
           ),
         )
       ),
-    ),
+    )),
 
     goto_expression: $ => seq(
       'goto',
@@ -1023,15 +1030,17 @@ module.exports = grammar({
       'redo',
     ),
 
-    phase: $ => choice(
-      'BEGIN', // TODO: when come across perlmod
-    ),
-
     package_name: $ => choice(
       /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
+      /\$[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/, // type glob stuff
+      /\*[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/, // type glob stuff
       // TODO: put in other package name structures
     ),
     package_name_in_call: $ => /[A-Z_a-z][0-9A-Z_a-z]*::(?:[0-9A-Z_a-z]+::)*/,
+    module_name: $ => choice(
+      seq('\'', /.*pm/, '\''), 
+      seq('\"', /.*pm/, '\"'), 
+     ),
 
     semi_colon: $ => ';',
 
