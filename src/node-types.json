@@ -1357,6 +1357,10 @@
           "named": true
         },
         {
+          "type": "special_block",
+          "named": true
+        },
+        {
           "type": "standalone_block",
           "named": true
         },
@@ -3181,6 +3185,11 @@
     }
   },
   {
+    "type": "module_name",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "multi_var_declaration",
     "named": true,
     "fields": {},
@@ -3411,11 +3420,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "phase",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "regex_pattern",
@@ -4139,6 +4143,10 @@
           "named": true
         },
         {
+          "type": "special_block",
+          "named": true
+        },
+        {
           "type": "standalone_block",
           "named": true
         },
@@ -4231,6 +4239,22 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "special_block",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4375,10 +4399,6 @@
           "named": true
         },
         {
-          "type": "phase",
-          "named": true
-        },
-        {
           "type": "regex_pattern_qr",
           "named": true
         },
@@ -4404,6 +4424,10 @@
         },
         {
           "type": "single_line_statement",
+          "named": true
+        },
+        {
+          "type": "special_block",
           "named": true
         },
         {
@@ -5991,6 +6015,10 @@
           "named": true
         },
         {
+          "type": "module_name",
+          "named": true
+        },
+        {
           "type": "package_name",
           "named": true
         },
@@ -6884,6 +6912,22 @@
   },
   {
     "type": "BEGIN",
+    "named": false
+  },
+  {
+    "type": "CHECK",
+    "named": false
+  },
+  {
+    "type": "END",
+    "named": false
+  },
+  {
+    "type": "INIT",
+    "named": false
+  },
+  {
+    "type": "UNITCHECK",
     "named": false
   },
   {
