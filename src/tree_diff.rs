@@ -2,12 +2,122 @@ use std::collections::HashSet;
 use std::hash::{Hash, Hasher};
 
 use ChangeKind::*;
+use Syntax::*;
 
-#[derive(PartialEq, Eq, Copy, Clone)]
+#[derive(PartialEq, Eq, Copy, Clone, Debug)]
 pub enum ChangeKind {
     Unchanged,
     Added,
     Removed,
+    Moved,
+}
+
+#[derive(Debug)]
+pub enum Syntax {
+    Items {
+        change: ChangeKind,
+        start_content: String,
+        end_content: String,
+        children: Vec<Syntax>,
+    },
+    Atom {
+        change: ChangeKind,
+        content: String,
+    },
+}
+impl PartialEq for Syntax {
+    fn eq(&self, other: &Self) -> bool {
+        match (&self, other) {
+            (
+                Atom {
+                    content: lhs_content,
+                    ..
+                },
+                Atom {
+                    content: rhs_content,
+                    ..
+                },
+            ) => lhs_content == rhs_content,
+            (
+                Items {
+                    start_content: lhs_start_content,
+                    end_content: lhs_end_content,
+                    children: lhs_children,
+                    ..
+                },
+                Items {
+                    start_content: rhs_start_content,
+                    end_content: rhs_end_content,
+                    children: rhs_children,
+                    ..
+                },
+            ) => {
+                lhs_start_content == rhs_start_content
+                    && lhs_end_content == rhs_end_content
+                    && lhs_children == rhs_children
+            }
+            _ => false,
+        }
+    }
+}
+
+impl Hash for Syntax {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        match self {
+            Items {
+                start_content,
+                end_content,
+                children,
+                ..
+            } => {
+                start_content.hash(state);
+                end_content.hash(state);
+                for child in children {
+                    child.hash(state);
+                }
+            }
+            Atom { content, .. } => {
+                content.hash(state);
+            }
+        }
+    }
+}
+
+/// Extremely dumb top-level comparison of `lhs` and `rhs`.
+pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_atom_equality_ignores_changes() {
+        assert_eq!(
+            Atom {
+                content: "foo".into(),
+                change: Added,
+            },
+            Atom {
+                content: "foo".into(),
+                change: Moved,
+            }
+        );
+    }
+    #[test]
+    fn test_set_syntax_change_kind() {
+        let mut s = Items {
+            change: Unchanged,
+            children: vec![
+                Atom {
+                    content: "foo".into(),
+                    change: Added,
+            },
+],
+            start_content: "".into(),
+            end_content: "".into(),
+        };
+        set_syntax_change_kind(&mut s, Removed);
+    }
 }
 
 // TODO: equality should ignore position.
@@ -40,6 +150,24 @@ impl Hash for Tree {
             Tree::Leaf { content, .. } => {
                 content.hash(state);
             }
+        }
+    }
+}
+
+fn set_syntax_change_kind(s: &mut Syntax, ck: ChangeKind) {
+    match s {
+        Items {
+            ref mut change,
+            ref mut children,
+            ..
+        } => {
+            *change = ck;
+            for child in children {
+                set_syntax_change_kind(child, ck);
+            }
+        }
+        Atom { ref mut change, .. } => {
+            *change = ck;
         }
     }
 }
