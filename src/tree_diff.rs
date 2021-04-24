@@ -107,12 +107,10 @@ mod tests {
     fn test_set_syntax_change_kind() {
         let mut s = Items {
             change: Unchanged,
-            children: vec![
-                Atom {
-                    content: "foo".into(),
-                    change: Added,
-            },
-],
+            children: vec![Atom {
+                content: "foo".into(),
+                change: Added,
+            }],
             start_content: "".into(),
             end_content: "".into(),
         };
@@ -187,7 +185,11 @@ fn set_change_kind(lhs: &mut Tree, rhs_subtrees: &mut HashSet<Tree>) {
     } else {
         // This subtree does not exist in RHS.
         match lhs {
-            Tree::Node { ref mut change, ref mut children, .. } => {
+            Tree::Node {
+                ref mut change,
+                ref mut children,
+                ..
+            } => {
                 *change = Removed;
                 for child in children {
                     set_change_kind(child, rhs_subtrees);
@@ -197,7 +199,6 @@ fn set_change_kind(lhs: &mut Tree, rhs_subtrees: &mut HashSet<Tree>) {
                 *change = Removed;
             }
         }
-        
     }
 }
 
