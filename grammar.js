@@ -118,6 +118,7 @@ module.exports = grammar({
     package_statement: $ => seq(
       'package',
       $.package_name,
+      $.semi_colon
     ),
 
     ellipsis_statement: $ => seq(
@@ -1020,9 +1021,16 @@ module.exports = grammar({
     hexadecimal: $ => /0[xX][0-9a-fA-F]+/,
     octal: $ => /0[1-7][0-7]*/,
 
-    version: $ => /v[\d.]+/,
+    version: $ => choice(
+      /v[\d.]+/,  // v5.24.1
+      /[\d.]+/,   // 5.24.1
+      /[\d._]+/, // 5.024_001 older syntax compatible with perl 5.6
+    ),
 
-    identifier: $ => /[a-zA-z0-9_]+/,
+    identifier: $ => /[a-zA-Z0-9_]+/,
+
+    // any characters
+    identifier_1: $ => /[a-zA-Z0-9_$]+/,
 
     loop_control_keyword: $ => choice(
       'next',
@@ -1086,10 +1094,10 @@ module.exports = grammar({
     word_list_qw: $ => prec(PRECEDENCE.REGEXP, seq(
       'qw',
       choice(
-        seq('{', repeat($.identifier),'}'),
-        seq('/', repeat($.identifier),'/'),
-        seq('(', repeat($.identifier),')'),
-        seq('\'', repeat($.identifier),'\''),
+        seq('{', repeat($.identifier_1), '}'),
+        seq('/', repeat($.identifier_1), '/'),
+        seq('(', repeat($.identifier_1), ')'),
+        seq('\'', repeat($.identifier_1), '\''),
       ),
     )),
 
