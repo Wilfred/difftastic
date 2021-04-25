@@ -563,19 +563,19 @@ module.exports = grammar({
     type_glob: $ => seq(
       '\*',
       choice(
-        $.package_name,
+        // $.package_name,
         $.identifier,
       ),
     ),
 
-    arrow_notation: $ => prec.left(seq(
+    arrow_notation: $ => prec.left(PRECEDENCE.HASH, seq(
       field('hash_ref', $.scalar_variable),
       repeat1(
         seq(
           '->',
           choice( // either a array element or hash key
-            field('array_element', seq('[', $._resolves_to_digit,']')),
-            field('hash_key', seq('{', with_or_without_quotes($.identifier), '}')),
+            seq('[', field('array_element', $._resolves_to_digit), ']'),
+            seq('{', field('hash_key', with_or_without_quotes($.identifier)), '}'),
           ),
         )
       ),
@@ -944,7 +944,7 @@ module.exports = grammar({
     )),
 
     method_invocation: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
-      optional(field('package_name', $.package_name)),
+      field('package_name', $.package_name),
       '->',
       field('function_name', $.identifier),
       field('args', optional(choice($.parenthesized_arguments, $.arguments))),
@@ -1032,8 +1032,8 @@ module.exports = grammar({
 
     package_name: $ => choice(
       /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
-      /\$[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/, // type glob stuff
-      /\*[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/, // type glob stuff
+      // /\$[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/, // TODO fix this
+      // /\*[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/, // type glob stuff
       // TODO: put in other package name structures
     ),
     package_name_in_call: $ => /[A-Z_a-z][0-9A-Z_a-z]*::(?:[0-9A-Z_a-z]+::)*/,
