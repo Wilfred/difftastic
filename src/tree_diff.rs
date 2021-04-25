@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
 use ChangeKind::*;
@@ -86,44 +86,53 @@ impl Hash for Syntax {
 
 /// Extremely dumb top-level comparison of `lhs` and `rhs`.
 pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
-    let mut lhs_subtrees = HashSet::new();
+    let mut lhs_subtrees = HashMap::new();
     for s in lhs.iter() {
         walk_syntax_subtree(s, &mut lhs_subtrees);
     }
 
-    let mut rhs_subtrees = HashSet::new();
+    let mut rhs_subtrees = HashMap::new();
     for s in rhs.iter() {
         walk_syntax_subtree(s, &mut rhs_subtrees);
     }
 
     for s in lhs {
-        if rhs_subtrees.contains(s) {
-            // TODO: handle duplication
-            // TODO: handle moves
-            set_syntax_change_kind(s, Unchanged);
-        } else {
-            set_syntax_change_kind(s, Removed);
+        // TODO: handle moves
+        // TODO: handle moving up/down subtrees.
+        let count = rhs_subtrees.get_mut(s);
+        match count {
+            Some(c) if *c > 0 => {
+                set_syntax_change_kind(s, Unchanged);
+                *c -= 1;
+            }
+            _ => {
+                set_syntax_change_kind(s, Removed);
+            }
         }
     }
-    
+
     for s in rhs {
-        if lhs_subtrees.contains(s) {
-            set_syntax_change_kind(s, Unchanged);
-        } else {
-            set_syntax_change_kind(s, Added);
+        let count = lhs_subtrees.get_mut(s);
+        match count {
+            Some(c) if *c > 0 => {
+                set_syntax_change_kind(s, Unchanged);
+                *c -= 1;
+            }
+            _ => {
+                set_syntax_change_kind(s, Added);
+            }
         }
     }
-    
 }
 
-fn walk_syntax_subtree(s: &Syntax, subtrees: &mut HashSet<Syntax>) {
-    subtrees.insert(s.clone());
+fn walk_syntax_subtree(s: &Syntax, subtrees: &mut HashMap<Syntax, i64>) {
+    let entry = subtrees.entry(s.clone()).or_insert(0);
+    *entry += 1;
     match s {
         Items { children, .. } => {
             for child in children {
                 walk_syntax_subtree(child, subtrees);
             }
-            
         }
         Atom { .. } => {}
     }
@@ -146,6 +155,7 @@ mod tests {
             }
         );
     }
+
     #[test]
     fn test_set_syntax_change_kind() {
         let mut s = Items {
@@ -158,6 +168,43 @@ mod tests {
             end_content: "".into(),
         };
         set_syntax_change_kind(&mut s, Removed);
+    }
+
+    #[test]
+    fn test_add_duplicate_node() {
+        let mut lhs = vec![Atom {
+            change: Unchanged,
+            content: "a".into(),
+        }];
+        let mut rhs = vec![
+            Atom {
+                change: Unchanged,
+                content: "a".into(),
+            },
+            Atom {
+                change: Unchanged,
+                content: "a".into(),
+            },
+        ];
+
+        set_changed(&mut lhs, &mut rhs);
+
+        match rhs[0] {
+            Atom { change, .. } => {
+                assert_eq!(change, Unchanged);
+            }
+            Items { .. } => {
+                assert!(false);
+            }
+        };
+        match rhs[1] {
+            Atom { change, .. } => {
+                assert_eq!(change, Added);
+            }
+            Items { .. } => {
+                assert!(false);
+            }
+        };
     }
 }
 
