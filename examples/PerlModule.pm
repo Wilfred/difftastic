@@ -5,13 +5,13 @@ use strict;
 use warnings;
 use Carp ();
  
-# use vars qw{$VERSION};
-# BEGIN {
-#  $VERSION = '1.04';
+use vars qw{$VERSION};
+BEGIN {
+ $VERSION = '1.04';
  
-#  # Optional stacktrace support
-#  eval "require Devel::StackTrace";
-# }
+ # Optional stacktrace support
+ eval "require Devel::StackTrace";
+}
 
 
 # eval {

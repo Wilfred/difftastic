@@ -126,6 +126,10 @@
         {
           "type": "SYMBOL",
           "name": "package_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "semi_colon"
         }
       ]
     },
@@ -4828,12 +4832,29 @@
       "value": "0[1-7][0-7]*"
     },
     "version": {
-      "type": "PATTERN",
-      "value": "v[\\d.]+"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "v[\\d.]+"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[\\d.]+"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[\\d._]+"
+        }
+      ]
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[a-zA-z0-9_]+"
+      "value": "[a-zA-Z0-9_]+"
+    },
+    "identifier_1": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z0-9_$]+"
     },
     "loop_control_keyword": {
       "type": "CHOICE",
@@ -5326,7 +5347,7 @@
                     "type": "REPEAT",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "identifier"
+                      "name": "identifier_1"
                     }
                   },
                   {
@@ -5346,7 +5367,7 @@
                     "type": "REPEAT",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "identifier"
+                      "name": "identifier_1"
                     }
                   },
                   {
@@ -5366,7 +5387,7 @@
                     "type": "REPEAT",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "identifier"
+                      "name": "identifier_1"
                     }
                   },
                   {
@@ -5386,7 +5407,7 @@
                     "type": "REPEAT",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "identifier"
+                      "name": "identifier_1"
                     }
                   },
                   {

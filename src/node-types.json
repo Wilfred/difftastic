@@ -3198,11 +3198,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "package_name",
+          "named": true
+        },
+        {
+          "type": "semi_colon",
           "named": true
         }
       ]
@@ -6280,6 +6284,11 @@
     }
   },
   {
+    "type": "version",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "when_simple_statement",
     "named": true,
     "fields": {
@@ -6672,7 +6681,7 @@
       "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "identifier_1",
           "named": true
         }
       ]
@@ -7023,6 +7032,10 @@
     "named": true
   },
   {
+    "type": "identifier_1",
+    "named": true
+  },
+  {
     "type": "if",
     "named": false
   },
@@ -7181,10 +7194,6 @@
   {
     "type": "use",
     "named": false
-  },
-  {
-    "type": "version",
-    "named": true
   },
   {
     "type": "when",
