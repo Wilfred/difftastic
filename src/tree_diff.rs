@@ -12,7 +12,7 @@ pub enum ChangeKind {
     Moved,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Syntax {
     Items {
         change: ChangeKind,
@@ -60,6 +60,7 @@ impl PartialEq for Syntax {
         }
     }
 }
+impl Eq for Syntax {}
 
 impl Hash for Syntax {
     fn hash<H: Hasher>(&self, state: &mut H) {
@@ -84,7 +85,49 @@ impl Hash for Syntax {
 }
 
 /// Extremely dumb top-level comparison of `lhs` and `rhs`.
-pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {}
+pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
+    let mut lhs_subtrees = HashSet::new();
+    for s in lhs.iter() {
+        walk_syntax_subtree(s, &mut lhs_subtrees);
+    }
+
+    let mut rhs_subtrees = HashSet::new();
+    for s in rhs.iter() {
+        walk_syntax_subtree(s, &mut rhs_subtrees);
+    }
+
+    for s in lhs {
+        if rhs_subtrees.contains(s) {
+            // TODO: handle duplication
+            // TODO: handle moves
+            set_syntax_change_kind(s, Unchanged);
+        } else {
+            set_syntax_change_kind(s, Removed);
+        }
+    }
+    
+    for s in rhs {
+        if lhs_subtrees.contains(s) {
+            set_syntax_change_kind(s, Unchanged);
+        } else {
+            set_syntax_change_kind(s, Added);
+        }
+    }
+    
+}
+
+fn walk_syntax_subtree(s: &Syntax, subtrees: &mut HashSet<Syntax>) {
+    subtrees.insert(s.clone());
+    match s {
+        Items { children, .. } => {
+            for child in children {
+                walk_syntax_subtree(child, subtrees);
+            }
+            
+        }
+        Atom { .. } => {}
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -118,40 +161,6 @@ mod tests {
     }
 }
 
-// TODO: equality should ignore position.
-#[derive(PartialEq, Eq, Clone)]
-pub enum Tree {
-    Node {
-        change: ChangeKind,
-        start: usize,
-        end: usize,
-        children: Vec<Tree>,
-        // TODO: open/close text, so we consider changing delimiter to
-        // be a change.
-    },
-    Leaf {
-        change: ChangeKind,
-        start: usize,
-        end: usize,
-        content: String,
-    },
-}
-
-impl Hash for Tree {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        match self {
-            Tree::Node { children, .. } => {
-                for child in children {
-                    child.hash(state);
-                }
-            }
-            Tree::Leaf { content, .. } => {
-                content.hash(state);
-            }
-        }
-    }
-}
-
 fn set_syntax_change_kind(s: &mut Syntax, ck: ChangeKind) {
     match s {
         Items {
@@ -166,52 +175,6 @@ fn set_syntax_change_kind(s: &mut Syntax, ck: ChangeKind) {
         }
         Atom { ref mut change, .. } => {
             *change = ck;
-        }
-    }
-}
-
-fn set_change_kind(lhs: &mut Tree, rhs_subtrees: &mut HashSet<Tree>) {
-    // TODO: model changing (A B) to (B A).
-    if rhs_subtrees.remove(lhs) {
-        // This whole tree was already in the RHS.
-        match lhs {
-            Tree::Node { ref mut change, .. } => {
-                *change = Unchanged;
-            }
-            Tree::Leaf { ref mut change, .. } => {
-                *change = Unchanged;
-            }
-        }
-    } else {
-        // This subtree does not exist in RHS.
-        match lhs {
-            Tree::Node {
-                ref mut change,
-                ref mut children,
-                ..
-            } => {
-                *change = Removed;
-                for child in children {
-                    set_change_kind(child, rhs_subtrees);
-                }
-            }
-            Tree::Leaf { ref mut change, .. } => {
-                *change = Removed;
-            }
-        }
-    }
-}
-
-fn compute_subtrees(tree: &Tree, found: &mut HashSet<Tree>) {
-    match tree {
-        Tree::Node { children, .. } => {
-            found.insert(tree.clone());
-            for child in children {
-                compute_subtrees(tree, found);
-            }
-        }
-        Tree::Leaf { .. } => {
-            found.insert(tree.clone());
         }
     }
 }
