@@ -2222,10 +2222,6 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "package_name"
-            },
-            {
-              "type": "SYMBOL",
               "name": "identifier"
             }
           ]
@@ -2234,7 +2230,7 @@
     },
     "arrow_notation": {
       "type": "PREC_LEFT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2259,37 +2255,37 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "FIELD",
-                      "name": "array_element",
-                      "content": {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "["
-                          },
-                          {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "["
+                        },
+                        {
+                          "type": "FIELD",
+                          "name": "array_element",
+                          "content": {
                             "type": "SYMBOL",
                             "name": "_resolves_to_digit"
-                          },
-                          {
-                            "type": "STRING",
-                            "value": "]"
                           }
-                        ]
-                      }
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "]"
+                        }
+                      ]
                     },
                     {
-                      "type": "FIELD",
-                      "name": "hash_key",
-                      "content": {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": "{"
-                          },
-                          {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "{"
+                        },
+                        {
+                          "type": "FIELD",
+                          "name": "hash_key",
+                          "content": {
                             "type": "CHOICE",
                             "members": [
                               {
@@ -2331,13 +2327,13 @@
                                 ]
                               }
                             ]
-                          },
-                          {
-                            "type": "STRING",
-                            "value": "}"
                           }
-                        ]
-                      }
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "}"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -4543,20 +4539,12 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "package_name",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "package_name"
-                }
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "FIELD",
+            "name": "package_name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "package_name"
+            }
           },
           {
             "type": "STRING",
@@ -4870,16 +4858,12 @@
         {
           "type": "PATTERN",
           "value": "[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\$[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\*[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*"
         }
       ]
+    },
+    "package_name_in_call": {
+      "type": "PATTERN",
+      "value": "[A-Z_a-z][0-9A-Z_a-z]*::(?:[0-9A-Z_a-z]+::)*"
     },
     "module_name": {
       "type": "CHOICE",
@@ -4919,10 +4903,6 @@
           ]
         }
       ]
-    },
-    "package_name_in_call": {
-      "type": "PATTERN",
-      "value": "[A-Z_a-z][0-9A-Z_a-z]*::(?:[0-9A-Z_a-z]+::)*"
     },
     "semi_colon": {
       "type": "STRING",

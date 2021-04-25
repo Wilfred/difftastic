@@ -5,85 +5,85 @@ use strict;
 use warnings;
 use Carp ();
  
-use vars qw{$VERSION};
-BEGIN {
- $VERSION = '1.04';
+# use vars qw{$VERSION};
+# BEGIN {
+#  $VERSION = '1.04';
  
- # Optional stacktrace support
- eval "require Devel::StackTrace";
-}
+#  # Optional stacktrace support
+#  eval "require Devel::StackTrace";
+# }
 
 
-eval {
-  package hello;
-};
+# eval {
+#   package hello;
+# };
 
-new();
-getTrace();
-toString();
+# new();
+# getTrace();
+# toString();
  
-sub new {
- my $class = shift;
- bless { @_ }, $class;
-}
+# sub new {
+#  my $class = shift;
+#  bless { @_ }, $class;
+# }
  
-sub getTrace {
- $_[0]->{Trace};
-}
+# sub getTrace {
+#  $_[0]->{Trace};
+# }
  
-sub fillTrace {
- my $self = shift;
- $self->{Trace} = Devel::StackTrace->new(
-   ignore_class => [__PACKAGE__, @_],
- ) if $Devel::StackTrace::VERSION;
-}
+# sub fillTrace {
+#  my $self = shift;
+#  $self->{Trace} = Devel::StackTrace->new(
+#    ignore_class => [__PACKAGE__, @_],
+#  ) if $Devel::StackTrace::VERSION;
+# }
  
-sub getCarp {
- $_[0]->{Carp};
-}
+# sub getCarp {
+#  $_[0]->{Carp};
+# }
  
-sub fillCarp {
- my $self = shift;
- my $msg  = shift;
- $Carp::Internal{ __PACKAGE__ . "" }++;
- local $Carp::CarpLevel = $Carp::CarpLevel + 1;
- $self->{Carp} = Carp::longmess($msg);
- $Carp::Internal{ __PACKAGE__ . "" }--;
-}
+# sub fillCarp {
+#  my $self = shift;
+#  my $msg  = shift;
+#  $Carp::Internal{ __PACKAGE__ . "" }++;
+#  local $Carp::CarpLevel = $Carp::CarpLevel + 1;
+#  $self->{Carp} = Carp::longmess($msg);
+#  $Carp::Internal{ __PACKAGE__ . "" }--;
+# }
  
-sub getMessage {
- $_[0]->{Message};
-}
+# sub getMessage {
+#  $_[0]->{Message};
+# }
  
-sub setMessage {
- $_[0]->{Message} = $_[1];
-}
+# sub setMessage {
+#  $_[0]->{Message} = $_[1];
+# }
  
-sub fillTest {
- my $self           = shift;
- my $builder        = shift;
- my $prev_test      = $builder->current_test;
- $self->{Test}      = $prev_test;
- my @tests          = $builder->details;
- my $prev_test_name = $prev_test ? $tests[$prev_test - 1]->{name} : "";
- $self->{TestName}  = $prev_test_name;
-}
+# sub fillTest {
+#  my $self           = shift;
+#  my $builder        = shift;
+#  my $prev_test      = $builder->current_test;
+#  $self->{Test}      = $prev_test;
+#  my @tests          = $builder->details;
+#  my $prev_test_name = $prev_test ? $tests[$prev_test - 1]->{name} : "";
+#  $self->{TestName}  = $prev_test_name;
+# }
  
-sub getTest {
- $_[0]->{Test};
-}
+# sub getTest {
+#  $_[0]->{Test};
+# }
  
-sub getTestName {
- $_[0]->{TestName};
-}
+# sub getTestName {
+#  $_[0]->{TestName};
+# }
  
-sub toString {
- my $self = shift;
- return <<EOM;
- Previous test $self->{Test} '$self->{TestName}'
- $self->{Carp}
-EOM
-}
+# sub toString {
+#  my $self = shift;
+#  return <<EOM;
+#  Previous test $self->{Test} '$self->{TestName}'
+#  $self->{Carp}
+# EOM
+# }
 
  
-1;
+# 1;

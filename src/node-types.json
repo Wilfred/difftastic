@@ -317,14 +317,6 @@
         "required": false,
         "types": [
           {
-            "type": "[",
-            "named": false
-          },
-          {
-            "type": "]",
-            "named": false
-          },
-          {
             "type": "floating_point",
             "named": true
           },
@@ -373,14 +365,6 @@
           {
             "type": "identifier",
             "named": true
-          },
-          {
-            "type": "{",
-            "named": false
-          },
-          {
-            "type": "}",
-            "named": false
           }
         ]
       },
@@ -3174,7 +3158,7 @@
       },
       "package_name": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "package_name",
@@ -5172,10 +5156,6 @@
       "types": [
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "package_name",
           "named": true
         }
       ]
