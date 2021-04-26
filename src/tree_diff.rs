@@ -25,6 +25,20 @@ pub enum Syntax {
         content: String,
     },
 }
+
+impl Syntax {
+    fn set_change(&mut self, ck: ChangeKind) {
+        match self {
+            Items { ref mut change, .. } => {
+                *change = ck;
+            }
+            Atom { ref mut change, .. } => {
+                *change = ck;
+            }
+        }
+    }
+}
+
 impl PartialEq for Syntax {
     fn eq(&self, other: &Self) -> bool {
         match (&self, other) {
@@ -209,19 +223,13 @@ mod tests {
 }
 
 fn set_syntax_change_kind(s: &mut Syntax, ck: ChangeKind) {
-    match s {
-        Items {
-            ref mut change,
-            ref mut children,
-            ..
-        } => {
-            *change = ck;
-            for child in children {
-                set_syntax_change_kind(child, ck);
-            }
-        }
-        Atom { ref mut change, .. } => {
-            *change = ck;
+    s.set_change(ck);
+    if let Items {
+        ref mut children, ..
+    } = s
+    {
+        for child in children {
+            set_syntax_change_kind(child, ck);
         }
     }
 }
