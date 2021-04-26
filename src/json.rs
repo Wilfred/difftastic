@@ -3,10 +3,10 @@ use crate::tree_diff::Syntax;
 use regex::Regex;
 
 fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
-    let num_atom = Regex::new(r#"[0-9]+"#).unwrap();
-    let str_atom = Regex::new(r#""[^"]+""#).unwrap();
-    let open_brace = Regex::new(r#"\["#).unwrap();
-    let close_brace = Regex::new(r#"\]"#).unwrap();
+    let num_atom = Regex::new(r#"^[0-9]+"#).unwrap();
+    let str_atom = Regex::new(r#"^"[^"]+""#).unwrap();
+    let open_brace = Regex::new(r#"^\["#).unwrap();
+    let close_brace = Regex::new(r#"^\]"#).unwrap();
 
     let mut result = vec![];
 
@@ -46,7 +46,8 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
                     start_content: m.as_str().into(),
                     children,
                     change: ChangeKind::Unchanged,
-                    end_content: "todo".into(),
+                    // TODO: get end_content when matching on close_brace.
+                    end_content: "]".into(),
                 };
                 result.push(items);
                 i = next_i;
@@ -131,6 +132,24 @@ mod tests {
                     change: ChangeKind::Unchanged,
                 }
             }]
+        );
+    }
+
+    #[test]
+    fn test_parse_list() {
+        assert_eq!(
+            parse_json("[ 123 ]"),
+            vec![Syntax::Items {
+                start_content: "[".into(),
+                end_content: "]".into(),
+                change: ChangeKind::Unchanged,
+                children: vec![{
+                    Syntax::Atom {
+                        content: "123".into(),
+                        change: ChangeKind::Unchanged,
+                    }
+                }]
+            }],
         );
     }
 }
