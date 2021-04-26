@@ -26,6 +26,26 @@ target %.o *.o:
   (rule
     targets: (list (word) (word) (word))))
 
+======================
+Rule, targets, archive
+======================
+foo(bar):
+foo(bar baz):
+
+---
+
+(makefile
+  (rule
+    targets: (list
+      (archive
+        archive: (word)
+        members: (list (word)))))
+  (rule
+    targets: (list
+      (archive
+        archive: (word)
+        members: (list (word) (word))))))
+
 =====================
 Rule, grouped targets
 =====================
@@ -68,6 +88,24 @@ target: foo %.b c.o
   (rule
                  targets: (list (word))
     normal_prerequisites: (list (word) (word) (word))))
+
+======================================
+Rule, pre-requisites, normal, archive
+======================================
+target: foo(foo) bar(foo bar)
+
+---
+
+(makefile
+  (rule
+    targets: (list (word))
+    normal_prerequisites: (list
+      (archive
+        archive: (word)
+        members: (list (word)))
+      (archive
+        archive: (word)
+        members: (list (word) (word))))))
 
 ===================================================================
 Rule, pre-requisites, normal, multiple, splited lines, one per line
@@ -342,6 +380,28 @@ target:
       (recipe_line
         (shell_text)))))
 
+======================================
+Rule, recipe, multiple lines, comments
+======================================
+target:
+
+	foo
+# comment
+	baz
+
+---
+
+(makefile
+  (rule
+    targets: (list (word))
+    (recipe
+      (recipe_line
+        (shell_text))
+      (comment)
+      (recipe_line
+        (shell_text)))))
+
+
 ==================================================
 Rule, recipe, multiple lines, whitespace after ":"
 ==================================================
@@ -471,27 +531,6 @@ bar"
         (shell_text)
         (shell_text)
         (shell_text))
-      (recipe_line
-        (shell_text)))))
-
-======================================
-Rule, recipe, multiple lines, comments
-======================================
-target:
-
-	foo
-# comment
-	baz
-
----
-
-(makefile
-  (rule
-    targets: (list (word))
-    (recipe
-      (recipe_line
-        (shell_text))
-      (comment)
       (recipe_line
         (shell_text)))))
 

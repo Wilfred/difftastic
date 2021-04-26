@@ -1003,6 +1003,41 @@
         }
       ]
     },
+    "archive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "archive",
+          "content": {
+            "type": "SYMBOL",
+            "name": "word"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "members",
+          "content": {
+            "type": "SYMBOL",
+            "name": "list"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
+        }
+      ]
+    },
     "list": {
       "type": "SEQ",
       "members": [
@@ -1078,6 +1113,10 @@
         {
           "type": "SYMBOL",
           "name": "word"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "archive"
         },
         {
           "type": "SYMBOL",
@@ -1418,8 +1457,9 @@
   "inline": [
     "_targets",
     "_target_pattern",
-    "_prerequisites",
     "_prerequisites_pattern",
+    "_prerequisites",
+    "_order_only_prerequisites",
     "_automatic_vars",
     "_primary"
   ],
