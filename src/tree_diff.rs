@@ -121,31 +121,35 @@ pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
         build_subtrees(s, &mut rhs_subtrees);
     }
 
-    for s in lhs {
+    walk_nodes(lhs, &mut rhs_subtrees, Removed);
+    walk_nodes(rhs, &mut lhs_subtrees, Added);
+}
+
+/// For every node in `nodes`, if it's in `subtrees`, mark it as
+/// Unchanged and remove it from `subtrees`.
+///
+/// If it's not in `subtrees`, set the root changekind to `ck` and recurse.
+fn walk_nodes(nodes: &mut [Syntax], subtrees: &mut HashMap<Syntax, i64>, ck: ChangeKind) {
+    for s in nodes {
         // TODO: handle moves
-        // TODO: handle moving up/down subtrees.
-
-        let count = rhs_subtrees.get_mut(s);
+        // TODO: this is greedy, so going `A B C D` to `D A B C D` is
+        // considered `D:move A B C D:add` which is not the minimal
+        // diff.
+        let count = subtrees.get_mut(s);
         match count {
             Some(c) if *c > 0 => {
                 s.set_change_deep(Unchanged);
                 *c -= 1;
             }
             _ => {
-                s.set_change_deep(Removed);
-            }
-        }
-    }
-
-    for s in rhs {
-        let count = lhs_subtrees.get_mut(s);
-        match count {
-            Some(c) if *c > 0 => {
-                s.set_change_deep(Unchanged);
-                *c -= 1;
-            }
-            _ => {
-                s.set_change_deep(Added);
+                s.set_change(ck);
+                match s {
+                    Items { children, .. } => {
+                        walk_nodes(children, subtrees, ck);
+                    }
+                    Atom { .. } => {}
+                }
+                s.set_change_deep(ck);
             }
         }
     }
