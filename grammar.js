@@ -14,8 +14,9 @@ module.exports = grammar({
     inline: $ => [
         $._targets,
         $._target_pattern,
-        $._prerequisites,
         $._prerequisites_pattern,
+        $._prerequisites,
+        $._order_only_prerequisites,
 
         $._automatic_vars,
 
@@ -32,7 +33,7 @@ module.exports = grammar({
         [$.recipe],
     ],
 
-    precedences: $ => [ ],
+    precedences: $ => [],
 
     rules: {
 
@@ -220,6 +221,14 @@ module.exports = grammar({
             )),
         ),
         // }}}
+        // Archive files {{{
+        archive: $ => seq(
+            field('archive', $.word),
+            token.immediate('('),
+            field('members', $.list),
+            token.immediate(')'),
+        ),
+        // }}}
         // List and Literals {{{
         list: $ => seq(
             $._primary,
@@ -232,6 +241,7 @@ module.exports = grammar({
 
         _primary: $ => choice(
             $.word,
+            $.archive,
             $.automatic_variable
         ),
 

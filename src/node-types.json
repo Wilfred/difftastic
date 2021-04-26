@@ -1,5 +1,31 @@
 [
   {
+    "type": "archive",
+    "named": true,
+    "fields": {
+      "archive": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "members": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "automatic_variable",
     "named": true,
     "fields": {}
@@ -64,6 +90,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
         {
           "type": "automatic_variable",
           "named": true
@@ -176,6 +206,10 @@
         "required": false,
         "types": [
           {
+            "type": "archive",
+            "named": true
+          },
+          {
             "type": "automatic_variable",
             "named": true
           },
@@ -270,6 +304,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
         {
           "type": "automatic_variable",
           "named": true
