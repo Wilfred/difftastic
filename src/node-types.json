@@ -36,6 +36,10 @@
           "named": true
         },
         {
+          "type": "shell_assignment",
+          "named": true
+        },
+        {
           "type": "variable_assignment",
           "named": true
         }
@@ -143,6 +147,42 @@
     }
   },
   {
+    "type": "shell_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "shell_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "shell_text",
     "named": true,
     "fields": {},
@@ -231,6 +271,10 @@
         ]
       }
     }
+  },
+  {
+    "type": "!=",
+    "named": false
   },
   {
     "type": "$",
