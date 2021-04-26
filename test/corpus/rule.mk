@@ -496,6 +496,28 @@ Rule, recipe, automatic variable
           (automatic_variable)
           (automatic_variable))))))
 
+===================================================================
+Rule, recipe, automatic variable, file and directory names variants
+===================================================================
+foo : bar/lose
+	cd $(@D)
+	gobble ${@F} > ../$@
+
+---
+
+(makefile
+  (rule
+    targets: (list
+      (word))
+    normal_prerequisites: (list
+      (word))
+    (recipe
+      (recipe_line
+        (shell_text
+          (automatic_variable)
+          (automatic_variable)
+          (automatic_variable))))))
+
 =======================================================
 Rule, recipe, automatic variable, secondary expansion I
 =======================================================
