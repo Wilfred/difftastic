@@ -40,19 +40,12 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
         i += 1;
     }
 
-    // We should error, but still return what we've parsed.
-    todo!("could not parse :(")
+    return (result, i);
 }
 
 fn parse_json(s: &str) -> Vec<Syntax> {
-    let mut i = 0;
-    let mut result = vec![];
-    while i < s.len() {
-        let (syntax, new_i) = parse_json_from(s, i);
-        result.push(syntax);
-        i = new_i;
-    }
-    result
+    let (syntax, _) = parse_json_from(s, 0);
+    syntax
 }
 
 #[cfg(test)]
