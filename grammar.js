@@ -18,13 +18,12 @@ module.exports = grammar({
         $._prerequisites_pattern,
 
         $._primary,
-        $._text,
     ],
 
     extras: $ => [ WS, NL, SPLIT, $.comment ],
 
     conflicts: $ => [
-        [$.recipe]
+        [$.recipe],
     ],
 
     rules: {
@@ -63,7 +62,7 @@ module.exports = grammar({
             NL
         ),
 
-        _targets: $ => field( 'targets',
+        _targets: $ => field('targets',
             $.list
         ),
 
@@ -134,6 +133,7 @@ module.exports = grammar({
         _variable_definition: $ => choice(
             $.variable_assignment,
             $.shell_assignment,
+            $.define_directive
         ),
 
         // 6.5
@@ -142,7 +142,7 @@ module.exports = grammar({
             optional(WS), // avoid conflict with $.list
             field('operator',choice(...DEFINE_OPS)),
             //optional(WS), // avoid conflict with $.list
-            field('value',$._text),
+            field('value',alias($.list, $.text)),
             NL
         ),
 
@@ -158,6 +158,21 @@ module.exports = grammar({
                 token(/([^\n]|\\\n)+/),
                 $.shell_text
             )),
+            NL
+        ),
+
+        define_directive: $ => seq(
+            'define',
+            field('name',$.word),
+            //optional(WS), // see corpus/test/conflicts.mk
+            optional(token(prec(1,WS))), // see corpus/test/conflicts.mk
+            optional(field('operator',choice(...DEFINE_OPS))),
+            optional(token(prec(1,WS))), // see corpus/test/conflicts.mk
+            NL,
+            optional(field('value',
+                alias(repeat1($._rawline), $.raw_text)
+            )),
+            token(prec(1,'endef')),
             NL
         ),
         // }}}
@@ -210,9 +225,9 @@ module.exports = grammar({
             $.automatic_variable
         ),
 
-        _text: $ => alias($.list, $.text),
-
         _recipeprefix: $ => token(prec(2,'\t')),
+
+        _rawline: $ => token(/.*[\r\n]+/), // any line
 
         word: $ => token(repeat1(choice(
             new RegExp ('[a-zA-Z0-9%\\+\\-\\.@_\\*\\?\\/]'),

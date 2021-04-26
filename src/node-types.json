@@ -5,6 +5,58 @@
     "fields": {}
   },
   {
+    "type": "define_directive",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "::=",
+            "named": false
+          },
+          {
+            "type": ":=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "raw_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -32,6 +84,10 @@
       "required": false,
       "types": [
         {
+          "type": "define_directive",
+          "named": true
+        },
+        {
           "type": "rule",
           "named": true
         },
@@ -45,6 +101,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "raw_text",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "recipe",
@@ -379,6 +440,14 @@
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "define",
+    "named": false
+  },
+  {
+    "type": "endef",
+    "named": false
   },
   {
     "type": "escape",
