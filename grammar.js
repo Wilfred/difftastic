@@ -1,6 +1,6 @@
-const NL = repeat1(token.immediate(/[\r\n]/));
-const WS = repeat1(token.immediate(/[\t ]/));
-const SPLIT = alias(token(seq('\\', /\r?\n/)), '\\');
+const NL = token.immediate(/[\r\n]+/);
+const WS = token.immediate(/[\t ]+/);
+const SPLIT = alias(token.immediate(seq('\\', /\r?\n/)), '\\');
 
 const AUTOMATIC_VARS = [ '@', '%', '<', '?', '^', '+', '/', '*' ];
 
@@ -17,14 +17,22 @@ module.exports = grammar({
         $._prerequisites,
         $._prerequisites_pattern,
 
+        $._automatic_vars,
+
         $._primary,
     ],
 
-    extras: $ => [ WS, NL, SPLIT, $.comment ],
+    extras: $ => [ 
+        /[\s]/,
+        alias(token(seq('\\',/\r?\n/)), '\\'),
+        $.comment
+    ],
 
     conflicts: $ => [
         [$.recipe],
     ],
+
+    precedences: $ => [ ],
 
     rules: {
 
@@ -46,6 +54,7 @@ module.exports = grammar({
         _ordinary_rule: $ => seq(
             $._targets,
             choice(':', '&:', '::'),
+            optional(WS),
             optional($._prerequisites),
             optional($.recipe),
             NL
@@ -55,8 +64,11 @@ module.exports = grammar({
         _static_pattern_rule: $ => seq(
             $._targets,
             ':',
+            optional(WS),
             $._target_pattern,
+            optional(WS),
             ':',
+            optional(WS),
             optional($._prerequisites_pattern),
             optional($.recipe),
             NL
@@ -114,7 +126,7 @@ module.exports = grammar({
 
         recipe_line: $ => seq(
             optional(choice(
-                ...['@', '-', '+'].map(c => token(prec(2, c)))
+                ...['@', '-', '+'].map(c => token(c))
             )),
             optional(seq(
                 alias($.shell_text_with_split, $.shell_text),
@@ -139,19 +151,18 @@ module.exports = grammar({
         // 6.5
         variable_assignment: $ => seq(
             field('name',$.word),
-            optional(WS), // avoid conflict with $.list
+            optional(WS),
             field('operator',choice(...DEFINE_OPS)),
-            //optional(WS), // avoid conflict with $.list
             field('value',alias($.list, $.text)),
             NL
         ),
 
         shell_assignment: $ => seq(
             field('name',$.word),
-            optional(WS), // avoid conflict with $.list
+            optional(WS),
             field('operator','!='),
             // this whitespace shall not be included in shell text
-            optional(token(prec(1,WS))),
+            optional(WS),
             field('value',alias(
                 // matching anything but newline, and
                 // backlash followed by newline (split line)
@@ -164,10 +175,9 @@ module.exports = grammar({
         define_directive: $ => seq(
             'define',
             field('name',$.word),
-            //optional(WS), // see corpus/test/conflicts.mk
-            optional(token(prec(1,WS))), // see corpus/test/conflicts.mk
+            optional(WS),
             optional(field('operator',choice(...DEFINE_OPS))),
-            optional(token(prec(1,WS))), // see corpus/test/conflicts.mk
+            optional(WS),
             NL,
             optional(field('value',
                 alias(repeat1($._rawline), $.raw_text)
@@ -225,7 +235,7 @@ module.exports = grammar({
             $.automatic_variable
         ),
 
-        _recipeprefix: $ => token(prec(2,'\t')),
+        _recipeprefix: $ => '\t',
 
         _rawline: $ => token(/.*[\r\n]+/), // any line
 
@@ -247,7 +257,7 @@ module.exports = grammar({
 
         shell_text_with_split: $ => seq(
             $._shell_text_without_split,
-            token(prec(3,SPLIT)),
+            SPLIT,
         ),
 
         comment: $ => token(prec(-1,/#.*/)),
@@ -263,10 +273,10 @@ function noneOf(...characters) {
 }
 
 function text($, text, fenced_vars) {
-    const raw_text = token(prec(1,repeat1(choice(
+    const raw_text = token(repeat1(choice(
         text,
         /\\[^\n]/
-    ))))
+    )))
     return choice(
         seq(
             raw_text,

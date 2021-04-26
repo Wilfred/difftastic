@@ -130,3 +130,18 @@ Variable, define directive, whitespace
   (define_directive
      name: (word)
     value: (raw_text)))
+
+=======================================
+Variable, define directive, NOT comments
+======================================
+define foo =
+#comment
+endef
+
+---
+
+(makefile
+  (define_directive
+     name: (word)
+    value: (raw_text)))
+
