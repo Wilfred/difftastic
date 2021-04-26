@@ -42,7 +42,8 @@ module.exports = grammar({
 
         _thing: $ => repeat1(choice(
             $.rule,
-            $._variable_definition
+            $._variable_definition,
+            $._directive,
         )),
 
         // Rules {{{
@@ -67,7 +68,6 @@ module.exports = grammar({
             ':',
             optional(WS),
             $._target_pattern,
-            optional(WS),
             ':',
             optional(WS),
             optional($._prerequisites_pattern),
@@ -75,13 +75,12 @@ module.exports = grammar({
             NL
         ),
 
-        _targets: $ => field('targets',
-            $.list
-        ),
+        _targets: $ => alias($.list, $.targets),
 
+        // LINT: List shall have length one
         _target_pattern: $ => field(
-            'target_pattern',
-            $._primary
+            'target',
+            alias($.list, $.pattern_list)
         ),
 
         // 4.3
@@ -95,18 +94,18 @@ module.exports = grammar({
         ),
 
         _normal_prerequisites: $ => field(
-            'normal_prerequisites',
-            $.list
+            'normal',
+            alias($.list, $.prerequisites),
         ),
 
         _order_only_prerequisites: $ => field(
-            'order_only_prerequisites',
-            $.list
+            'order_only',
+            alias($.list, $.prerequisites)
         ),
 
         _prerequisites_pattern: $ => field(
-            'prerequisite_pattern', 
-            $.list
+            'prerequisite',
+            alias($.list, $.pattern_list)
         ),
 
         recipe: $ => seq(
@@ -127,7 +126,7 @@ module.exports = grammar({
 
         recipe_line: $ => seq(
             optional(choice(
-                ...['@', '-', '+'].map(c => token(c))
+                ...['@', '-', '+'].map(c => token(prec(1,c)))
             )),
             optional(seq(
                 alias($.shell_text_with_split, $.shell_text),
@@ -144,9 +143,19 @@ module.exports = grammar({
         // }}}
         // Variables {{{
         _variable_definition: $ => choice(
+            $.VPATH_assignment,
             $.variable_assignment,
             $.shell_assignment,
             $.define_directive
+        ),
+
+        // 4.5.1
+        VPATH_assignment: $ => seq(
+            field('name','VPATH'),
+            optional(WS),
+            field('operator',choice(...DEFINE_OPS)),
+            field('value',$.paths),
+            NL
         ),
 
         // 6.5
@@ -187,6 +196,52 @@ module.exports = grammar({
             NL
         ),
         // }}}
+        // Directives {{{
+        _directive: $ => choice(
+            $.include_directive,
+            $.vpath_directive,
+            $.override_directive,
+            $.undefine_directive,
+        ),
+
+        // 3.3
+        include_directive: $ => seq(
+            choice(
+                'include',
+                'sinclude',
+                seq('-', token.immediate('include')),
+            ),
+            field('filenames',$.list),
+            NL
+        ),
+
+        // 4.5.2
+        vpath_directive: $ => seq(
+            'vpath',
+            optional(seq(
+                field('pattern', $.word),
+                optional(field('directories', ($.paths))),
+            )),
+            NL
+        ),
+
+        // 6.7
+        override_directive: $ => seq(
+            'override',
+            choice(
+                $.define_directive,
+                $.undefine_directive,
+            )
+        ),
+
+        // 6.9
+        undefine_directive: $ => seq(
+            'undefine',
+            field('variable', $.word),
+            NL
+        ),
+
+        // }}}
         // Conditional {{{
         // }}}
         // Functions {{{
@@ -222,6 +277,7 @@ module.exports = grammar({
         ),
         // }}}
         // Archive files {{{
+        // 11.1
         archive: $ => seq(
             field('archive', $.word),
             token.immediate('('),
@@ -239,12 +295,24 @@ module.exports = grammar({
             optional(WS)
         ),
 
+        paths: $ => seq(
+            $._primary,
+            repeat(seq(
+                choice(
+                    token.immediate(':'),
+                    token.immediate(';')
+                ),
+                $._primary
+            )),
+        ),
+
         _primary: $ => choice(
             $.word,
             $.archive,
             $.automatic_variable
         ),
 
+        // TODO external parser for .RECIPEPREFIX
         _recipeprefix: $ => '\t',
 
         _rawline: $ => token(/.*[\r\n]+/), // any line

@@ -1,5 +1,57 @@
 [
   {
+    "type": "VPATH_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "VPATH",
+            "named": false
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "::=",
+            "named": false
+          },
+          {
+            "type": ":=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "paths",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "archive",
     "named": true,
     "fields": {
@@ -83,6 +135,22 @@
     }
   },
   {
+    "type": "include_directive",
+    "named": true,
+    "fields": {
+      "filenames": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -114,7 +182,19 @@
       "required": false,
       "types": [
         {
+          "type": "VPATH_assignment",
+          "named": true
+        },
+        {
           "type": "define_directive",
+          "named": true
+        },
+        {
+          "type": "include_directive",
+          "named": true
+        },
+        {
+          "type": "override_directive",
           "named": true
         },
         {
@@ -126,7 +206,103 @@
           "named": true
         },
         {
+          "type": "undefine_directive",
+          "named": true
+        },
+        {
           "type": "variable_assignment",
+          "named": true
+        },
+        {
+          "type": "vpath_directive",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "override_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "define_directive",
+          "named": true
+        },
+        {
+          "type": "undefine_directive",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "paths",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pattern_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "prerequisites",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "word",
           "named": true
         }
       ]
@@ -171,71 +347,57 @@
     "type": "rule",
     "named": true,
     "fields": {
-      "normal_prerequisites": {
+      "normal": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "list",
+            "type": "prerequisites",
             "named": true
           }
         ]
       },
-      "order_only_prerequisites": {
+      "order_only": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "list",
+            "type": "prerequisites",
             "named": true
           }
         ]
       },
-      "prerequisite_pattern": {
+      "prerequisite": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "list",
+            "type": "pattern_list",
             "named": true
           }
         ]
       },
-      "target_pattern": {
+      "target": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "archive",
-            "named": true
-          },
-          {
-            "type": "automatic_variable",
-            "named": true
-          },
-          {
-            "type": "word",
-            "named": true
-          }
-        ]
-      },
-      "targets": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "list",
+            "type": "pattern_list",
             "named": true
           }
         ]
       }
     },
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "recipe",
+          "named": true
+        },
+        {
+          "type": "targets",
           "named": true
         }
       ]
@@ -297,6 +459,29 @@
     }
   },
   {
+    "type": "targets",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "text",
     "named": true,
     "fields": {},
@@ -317,6 +502,22 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "undefine_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -365,6 +566,32 @@
         "types": [
           {
             "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "vpath_directive",
+    "named": true,
+    "fields": {
+      "directories": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "paths",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "word",
             "named": true
           }
         ]
@@ -468,6 +695,10 @@
     "named": false
   },
   {
+    "type": "VPATH",
+    "named": false
+  },
+  {
     "type": "\\",
     "named": false
   },
@@ -490,6 +721,26 @@
   {
     "type": "escape",
     "named": true
+  },
+  {
+    "type": "include",
+    "named": false
+  },
+  {
+    "type": "override",
+    "named": false
+  },
+  {
+    "type": "sinclude",
+    "named": false
+  },
+  {
+    "type": "undefine",
+    "named": false
+  },
+  {
+    "type": "vpath",
+    "named": false
   },
   {
     "type": "word",
