@@ -478,6 +478,57 @@ target:
       (recipe_line
         (shell_text)))))
 
+================================
+Rule, recipe, automatic variable
+================================
+%.o: %.c
+	gcc -c -o $@ $<
+
+---
+
+(makefile
+  (rule
+                 targets: (list (word))
+    normal_prerequisites: (list (word))
+    (recipe
+      (recipe_line
+        (shell_text
+          (automatic_variable)
+          (automatic_variable))))))
+
+=======================================================
+Rule, recipe, automatic variable, secondary expansion I
+=======================================================
+foo: foo.1 bar.1 $$< $$^ $$+
+
+---
+
+(makefile
+  (rule
+                 targets: (list (word))
+    normal_prerequisites: (list
+      (word)
+      (word)
+      (automatic_variable)
+      (automatic_variable)
+      (automatic_variable))))
+
+========================================================
+Rule, recipe, automatic variable, secondary expansion II
+========================================================
+%oo: $$< $$^ $$+ $$*
+
+---
+
+(makefile
+  (rule
+    targets: (list (word))
+    normal_prerequisites: (list
+      (automatic_variable)
+      (automatic_variable)
+      (automatic_variable)
+      (automatic_variable))))
+
 ==============
 Rule, complete
 ==============
@@ -507,5 +558,4 @@ foo.o bar.o: %.o: %.c
                  targets: (list (word) (word))
           target_pattern: (word)
     prerequisite_pattern: (list (word))))
-
 

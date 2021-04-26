@@ -1,5 +1,10 @@
 [
   {
+    "type": "automatic_variable",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -7,6 +12,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
         {
           "type": "word",
           "named": true
@@ -98,6 +107,10 @@
         "required": false,
         "types": [
           {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
             "type": "word",
             "named": true
           }
@@ -134,6 +147,10 @@
       "required": false,
       "types": [
         {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
           "type": "escape",
           "named": true
         }
@@ -149,6 +166,10 @@
       "required": true,
       "types": [
         {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
           "type": "word",
           "named": true
         }
@@ -156,7 +177,31 @@
     }
   },
   {
+    "type": "$",
+    "named": false
+  },
+  {
+    "type": "$$",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
     "type": "&:",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
     "named": false
   },
   {
@@ -165,6 +210,10 @@
   },
   {
     "type": "-",
+    "named": false
+  },
+  {
+    "type": "/",
     "named": false
   },
   {
@@ -180,11 +229,31 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
     "type": "@",
     "named": false
   },
   {
+    "type": "D",
+    "named": false
+  },
+  {
+    "type": "F",
+    "named": false
+  },
+  {
     "type": "\\",
+    "named": false
+  },
+  {
+    "type": "^",
     "named": false
   },
   {
