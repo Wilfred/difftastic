@@ -3,8 +3,8 @@ use crate::tree_diff::Syntax;
 use regex::Regex;
 
 fn parse_json_from(s: &str, mut i: usize) -> (Syntax, usize) {
-    let num_atom = Regex::new(r#"[0-9]+"#).unwrap();
-    let str_atom = Regex::new(r#""[^"]+""#).unwrap();
+    let num_atom = Regex::new(r#"^[0-9]+"#).unwrap();
+    let str_atom = Regex::new(r#"^"[^"]+""#).unwrap();
 
     while i < s.len() {
         match num_atom.find_at(s, i) {
