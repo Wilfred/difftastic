@@ -6,4 +6,4 @@ use feature "switch";
 
 ---
 
-(source_file (use_feature_statement (semi_colon)))
+(source_file (use_no_feature_statement (semi_colon)))

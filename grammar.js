@@ -80,10 +80,12 @@ module.exports = grammar({
     _statement: $ => choice(
       $.package_statement,
 
-      $.use_statement,
-      $.use_subs_statement,
-      $.use_feature_statement,
-      $.use_version,
+      $.use_no_statement,
+      $.use_no_if_statement,
+      $.bareword_import,
+      $.use_no_subs_statement,
+      $.use_no_feature_statement,
+      $.use_no_version,
       $.require_statement,
 
       $._expression_statement,
@@ -126,14 +128,20 @@ module.exports = grammar({
       optional($.semi_colon),
     ),
 
-    use_version: $ => seq(
-      'use',
+    use_no_version: $ => seq(
+      choice(
+        field('use', 'use'),
+        field('no', 'no'),
+      ),
       field('version', $.version),
       $.semi_colon,
     ),
     
-    use_feature_statement: $ => seq(
-      'use',
+    use_no_feature_statement: $ => seq(
+      choice(
+        field('use', 'use'),
+        field('no', 'no'),
+      ),
       'feature',
       $._experimental_feature,
       $.semi_colon,
@@ -186,16 +194,47 @@ module.exports = grammar({
       $.semi_colon,
     ),
 
-    use_statement: $ => seq(
-      'use',
+    use_no_statement: $ => seq(
+      choice(
+        field('use', 'use'),
+        field('no', 'no'),
+      ),
       choice($.package_name, $.module_name),
       optional($.version),
-      optional($._list),
+      optional(choice($._list, $._string)),
       $.semi_colon,
     ),
 
-    use_subs_statement: $ => seq(
-      'use',
+    use_no_if_statement: $ => seq(
+      choice(
+        field('use', 'use'),
+        field('no', 'no'),
+      ),
+      seq(
+        $._if_simple,
+        ',',
+      ),
+      choice($.package_name, $.module_name, $._string),
+      optional($.version),
+      optional('=>'),
+      optional(choice($._list, $._string)),
+      $.semi_colon,
+    ),
+
+    // Module->import( LIST );
+    bareword_import: $ => seq(
+      field('module', $.identifier),
+      '->',
+      'import',
+      $._list,
+      $.semi_colon,
+    ),
+
+    use_no_subs_statement: $ => seq(
+      choice(
+        field('use', 'use'),
+        field('no', 'no'),
+      ),
       'subs',
       $._list,
       $.semi_colon,
@@ -208,9 +247,12 @@ module.exports = grammar({
     ),
 
     if_simple_statement: $ => prec.right(seq(
+      $._if_simple,
+      $.semi_colon,
+    )),
+    _if_simple: $ => prec.right(seq(
       'if',
       field('condition', choice($.parenthesized_expression, $._expression)),
-      $.semi_colon,
     )),
     unless_simple_statement: $ => prec.right(seq(
       'unless',
@@ -993,6 +1035,14 @@ module.exports = grammar({
       $.hash_ref,
     ),
 
+    // the strings
+    _string: $ => choice(
+      $.string_single_quoted,
+      $.string_q_quoted,
+      $.string_double_quoted,
+      $.string_qq_quoted,
+    ),
+
     _resolves_to_digit: $ => choice(
       $.string_single_quoted,
       $.string_q_quoted,
@@ -1028,8 +1078,9 @@ module.exports = grammar({
     ),
 
     identifier: $ => /[a-zA-Z0-9_]+/,
+    // bareword: $ => /[a-zA-Z0-9_$]+/,
 
-    // any characters
+    // any characters or just bareword(s) and variables
     identifier_1: $ => /[a-zA-Z0-9_$]+/,
 
     loop_control_keyword: $ => choice(

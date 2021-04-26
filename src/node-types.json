@@ -381,6 +381,44 @@
     }
   },
   {
+    "type": "bareword_import",
+    "named": true,
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "semi_colon",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "binary_expression",
     "named": true,
     "fields": {
@@ -1217,6 +1255,10 @@
           "named": true
         },
         {
+          "type": "bareword_import",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1409,19 +1451,23 @@
           "named": true
         },
         {
-          "type": "use_feature_statement",
+          "type": "use_no_feature_statement",
           "named": true
         },
         {
-          "type": "use_statement",
+          "type": "use_no_if_statement",
           "named": true
         },
         {
-          "type": "use_subs_statement",
+          "type": "use_no_statement",
           "named": true
         },
         {
-          "type": "use_version",
+          "type": "use_no_subs_statement",
+          "named": true
+        },
+        {
+          "type": "use_no_version",
           "named": true
         },
         {
@@ -4015,6 +4061,10 @@
           "named": true
         },
         {
+          "type": "bareword_import",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -4199,19 +4249,23 @@
           "named": true
         },
         {
-          "type": "use_feature_statement",
+          "type": "use_no_feature_statement",
           "named": true
         },
         {
-          "type": "use_statement",
+          "type": "use_no_if_statement",
           "named": true
         },
         {
-          "type": "use_subs_statement",
+          "type": "use_no_statement",
           "named": true
         },
         {
-          "type": "use_version",
+          "type": "use_no_subs_statement",
+          "named": true
+        },
+        {
+          "type": "use_no_version",
           "named": true
         },
         {
@@ -4288,6 +4342,10 @@
         },
         {
           "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "bareword_import",
           "named": true
         },
         {
@@ -4483,19 +4541,23 @@
           "named": true
         },
         {
-          "type": "use_feature_statement",
+          "type": "use_no_feature_statement",
           "named": true
         },
         {
-          "type": "use_statement",
+          "type": "use_no_if_statement",
           "named": true
         },
         {
-          "type": "use_subs_statement",
+          "type": "use_no_statement",
           "named": true
         },
         {
-          "type": "use_version",
+          "type": "use_no_subs_statement",
+          "named": true
+        },
+        {
+          "type": "use_no_version",
           "named": true
         },
         {
@@ -5968,9 +6030,30 @@
     }
   },
   {
-    "type": "use_feature_statement",
+    "type": "use_no_feature_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "no": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "no",
+            "named": false
+          }
+        ]
+      },
+      "use": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "use",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -5983,9 +6066,188 @@
     }
   },
   {
-    "type": "use_statement",
+    "type": "use_no_if_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "arrow_notation",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "file_handle",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_variable",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifer",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_q_quoted",
+            "named": true
+          },
+          {
+            "type": "string_qq_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
+          }
+        ]
+      },
+      "no": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "no",
+            "named": false
+          }
+        ]
+      },
+      "use": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "use",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -6011,6 +6273,22 @@
           "named": true
         },
         {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        },
+        {
           "type": "version",
           "named": true
         },
@@ -6022,9 +6300,106 @@
     }
   },
   {
-    "type": "use_subs_statement",
+    "type": "use_no_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "no": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "no",
+            "named": false
+          }
+        ]
+      },
+      "use": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "use",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "module_name",
+          "named": true
+        },
+        {
+          "type": "package_name",
+          "named": true
+        },
+        {
+          "type": "semi_colon",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        },
+        {
+          "type": "version",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "use_no_subs_statement",
+    "named": true,
+    "fields": {
+      "no": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "no",
+            "named": false
+          }
+        ]
+      },
+      "use": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "use",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -6049,9 +6424,29 @@
     }
   },
   {
-    "type": "use_version",
+    "type": "use_no_version",
     "named": true,
     "fields": {
+      "no": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "no",
+            "named": false
+          }
+        ]
+      },
+      "use": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "use",
+            "named": false
+          }
+        ]
+      },
       "version": {
         "multiple": false,
         "required": true,
@@ -7040,6 +7435,10 @@
     "named": false
   },
   {
+    "type": "import",
+    "named": false
+  },
+  {
     "type": "integer",
     "named": true
   },
@@ -7077,6 +7476,10 @@
   },
   {
     "type": "next",
+    "named": false
+  },
+  {
+    "type": "no",
     "named": false
   },
   {

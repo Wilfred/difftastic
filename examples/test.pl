@@ -1,4 +1,4 @@
-use strict qw(subs vars refs);
+use strict 'refs';
 use warnings;
 
 

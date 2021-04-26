@@ -84,7 +84,19 @@ use Data::Dumper;
 ---
 
 (source_file
-  (use_statement (package_name) (semi_colon))
+  (use_no_statement (package_name) (semi_colon))
+)
+
+=================================================
+no statement
+=================================================
+
+no strict 'refs';
+
+---
+
+(source_file
+  (use_no_statement (package_name) (string_single_quoted) (semi_colon))
 )
 
 =================================================
