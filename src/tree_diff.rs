@@ -102,12 +102,12 @@ impl Hash for Syntax {
 pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
     let mut lhs_subtrees = HashMap::new();
     for s in lhs.iter() {
-        walk_syntax_subtree(s, &mut lhs_subtrees);
+        build_subtrees(s, &mut lhs_subtrees);
     }
 
     let mut rhs_subtrees = HashMap::new();
     for s in rhs.iter() {
-        walk_syntax_subtree(s, &mut rhs_subtrees);
+        build_subtrees(s, &mut rhs_subtrees);
     }
 
     for s in lhs {
@@ -139,13 +139,13 @@ pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
     }
 }
 
-fn walk_syntax_subtree(s: &Syntax, subtrees: &mut HashMap<Syntax, i64>) {
+fn build_subtrees(s: &Syntax, subtrees: &mut HashMap<Syntax, i64>) {
     let entry = subtrees.entry(s.clone()).or_insert(0);
     *entry += 1;
     match s {
         Items { children, .. } => {
             for child in children {
-                walk_syntax_subtree(child, subtrees);
+                build_subtrees(child, subtrees);
             }
         }
         Atom { .. } => {}
