@@ -145,3 +145,14 @@ endef
      name: (word)
     value: (raw_text)))
 
+=======================================
+Variable, VPATH
+======================================
+VPATH = foo:../bar
+
+---
+
+(makefile
+  (VPATH_assignment
+    value: (paths (word) (word))))
+
