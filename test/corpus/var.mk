@@ -72,3 +72,61 @@ var != echo foo\
      name: (word)
     value: (shell_text)))
 
+==================================
+Variable, define directive
+==================================
+define two-lines
+echo foo
+echo bar
+endef
+
+---
+
+(makefile
+  (define_directive
+     name: (word)
+    value: (raw_text)))
+
+==================================
+Variable, define directive, operator
+==================================
+define two-lines :=
+echo foo
+echo bar
+endef
+
+---
+
+(makefile
+  (define_directive
+     name: (word)
+    value: (raw_text)))
+
+=====================================
+Variable, define directive, make code
+=====================================
+define rule =
+foo: bar
+	baz
+endef
+
+---
+
+(makefile
+  (define_directive
+     name: (word)
+    value: (raw_text)))
+
+=======================================
+Variable, define directive, whitespace
+======================================
+ define  foo  = 
+      bar
+ endef
+
+---
+
+(makefile
+  (define_directive
+     name: (word)
+    value: (raw_text)))
