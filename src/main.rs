@@ -1,4 +1,5 @@
 mod tree_diff;
+mod json;
 
 use crate::tree_diff::set_changed;
 use crate::tree_diff::ChangeKind::*;
