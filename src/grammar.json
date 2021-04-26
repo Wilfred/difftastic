@@ -18,19 +18,27 @@
         },
         {
           "type": "SYMBOL",
-          "name": "use_statement"
+          "name": "use_no_statement"
         },
         {
           "type": "SYMBOL",
-          "name": "use_subs_statement"
+          "name": "use_no_if_statement"
         },
         {
           "type": "SYMBOL",
-          "name": "use_feature_statement"
+          "name": "bareword_import"
         },
         {
           "type": "SYMBOL",
-          "name": "use_version"
+          "name": "use_no_subs_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "use_no_feature_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "use_no_version"
         },
         {
           "type": "SYMBOL",
@@ -154,12 +162,29 @@
         }
       ]
     },
-    "use_version": {
+    "use_no_version": {
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "use"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "use",
+              "content": {
+                "type": "STRING",
+                "value": "use"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "no",
+              "content": {
+                "type": "STRING",
+                "value": "no"
+              }
+            }
+          ]
         },
         {
           "type": "FIELD",
@@ -175,12 +200,29 @@
         }
       ]
     },
-    "use_feature_statement": {
+    "use_no_feature_statement": {
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "use"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "use",
+              "content": {
+                "type": "STRING",
+                "value": "use"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "no",
+              "content": {
+                "type": "STRING",
+                "value": "no"
+              }
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -326,12 +368,29 @@
         }
       ]
     },
-    "use_statement": {
+    "use_no_statement": {
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "use"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "use",
+              "content": {
+                "type": "STRING",
+                "value": "use"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "no",
+              "content": {
+                "type": "STRING",
+                "value": "no"
+              }
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -362,8 +421,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_list"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_list"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_string"
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -376,12 +444,163 @@
         }
       ]
     },
-    "use_subs_statement": {
+    "use_no_if_statement": {
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "use",
+              "content": {
+                "type": "STRING",
+                "value": "use"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "no",
+              "content": {
+                "type": "STRING",
+                "value": "no"
+              }
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_if_simple"
+            },
+            {
+              "type": "STRING",
+              "value": ","
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "package_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "module_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_string"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "version"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "=>"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_list"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_string"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "semi_colon"
+        }
+      ]
+    },
+    "bareword_import": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "module",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
           "type": "STRING",
-          "value": "use"
+          "value": "->"
+        },
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "semi_colon"
+        }
+      ]
+    },
+    "use_no_subs_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "use",
+              "content": {
+                "type": "STRING",
+                "value": "use"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "no",
+              "content": {
+                "type": "STRING",
+                "value": "no"
+              }
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -421,6 +640,23 @@
         "type": "SEQ",
         "members": [
           {
+            "type": "SYMBOL",
+            "name": "_if_simple"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "semi_colon"
+          }
+        ]
+      }
+    },
+    "_if_simple": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
             "type": "STRING",
             "value": "if"
           },
@@ -440,10 +676,6 @@
                 }
               ]
             }
-          },
-          {
-            "type": "SYMBOL",
-            "name": "semi_colon"
           }
         ]
       }
@@ -4749,6 +4981,27 @@
         {
           "type": "SYMBOL",
           "name": "hash_ref"
+        }
+      ]
+    },
+    "_string": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "string_single_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_q_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_double_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_qq_quoted"
         }
       ]
     },
