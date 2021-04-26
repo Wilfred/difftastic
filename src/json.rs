@@ -67,6 +67,23 @@ mod tests {
     }
 
     #[test]
+    fn test_parse_multiple() {
+        assert_eq!(
+            parse_json("123 456"),
+            vec![
+                Syntax::Atom {
+                    content: "123".into(),
+                    change: ChangeKind::Unchanged,
+                },
+                Syntax::Atom {
+                    content: "456".into(),
+                    change: ChangeKind::Unchanged,
+                }
+            ]
+        );
+    }
+
+    #[test]
     fn test_parse_integer_with_whitespace() {
         assert_eq!(
             parse_json(" 123 "),
