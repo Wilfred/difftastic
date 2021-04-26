@@ -453,6 +453,10 @@
         {
           "type": "SYMBOL",
           "name": "variable_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "shell_assignment"
         }
       ]
     },
@@ -515,6 +519,37 @@
           }
         },
         {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_text"
+          }
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "[\\r\\n]"
+            }
+          }
+        }
+      ]
+    },
+    "shell_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "word"
+          }
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -534,10 +569,51 @@
         },
         {
           "type": "FIELD",
+          "name": "operator",
+          "content": {
+            "type": "STRING",
+            "value": "!="
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": 1,
+                "content": {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "IMMEDIATE_TOKEN",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[\\t ]"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
           "name": "value",
           "content": {
-            "type": "SYMBOL",
-            "name": "_text"
+            "type": "ALIAS",
+            "content": {
+              "type": "TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": "([^\\n]|\\\\\\n)+"
+              }
+            },
+            "named": true,
+            "value": "shell_text"
           }
         },
         {

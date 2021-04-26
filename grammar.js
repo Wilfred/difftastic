@@ -133,15 +133,31 @@ module.exports = grammar({
         // Variables {{{
         _variable_definition: $ => choice(
             $.variable_assignment,
+            $.shell_assignment,
         ),
 
         // 6.5
         variable_assignment: $ => seq(
             field('name',$.word),
-            optional(WS),
+            optional(WS), // avoid conflict with $.list
             field('operator',choice(...DEFINE_OPS)),
-            optional(WS),
+            //optional(WS), // avoid conflict with $.list
             field('value',$._text),
+            NL
+        ),
+
+        shell_assignment: $ => seq(
+            field('name',$.word),
+            optional(WS), // avoid conflict with $.list
+            field('operator','!='),
+            // this whitespace shall not be included in shell text
+            optional(token(prec(1,WS))),
+            field('value',alias(
+                // matching anything but newline, and
+                // backlash followed by newline (split line)
+                token(/([^\n]|\\\n)+/),
+                $.shell_text
+            )),
             NL
         ),
         // }}}
