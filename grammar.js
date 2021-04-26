@@ -176,13 +176,23 @@ module.exports = grammar({
             seq(
                 choice('$','$$'),
                 token.immediate('('),
-                choice(...AUTOMATIC_VARS),
-                optional(choice(
-                    token.immediate('D'),
-                    token.immediate('F')
-                )),
+                $._automatic_vars,
                 ')'
             ),
+            seq(
+                choice('$','$$'),
+                token.immediate('{'),
+                $._automatic_vars,
+                '}'
+            ),
+        ),
+
+        _automatic_vars: $ => seq(
+            choice(...AUTOMATIC_VARS),
+            optional(choice(
+                token.immediate('D'),
+                token.immediate('F')
+            )),
         ),
         // }}}
         // List and Literals {{{
