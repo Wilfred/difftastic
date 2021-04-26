@@ -22,6 +22,10 @@
           {
             "type": "SYMBOL",
             "name": "rule"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_variable_definition"
           }
         ]
       }
@@ -440,6 +444,111 @@
           },
           "named": true,
           "value": "shell_text"
+        }
+      ]
+    },
+    "_variable_definition": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "variable_assignment"
+        }
+      ]
+    },
+    "variable_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "word"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[\\t ]"
+                }
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "operator",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "="
+              },
+              {
+                "type": "STRING",
+                "value": ":="
+              },
+              {
+                "type": "STRING",
+                "value": "::="
+              },
+              {
+                "type": "STRING",
+                "value": "?="
+              },
+              {
+                "type": "STRING",
+                "value": "+="
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[\\t ]"
+                }
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_text"
+          }
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "[\\r\\n]"
+            }
+          }
         }
       ]
     },
@@ -1091,6 +1200,7 @@
     "_target_pattern",
     "_prerequisites",
     "_prerequisites_pattern",
+    "_primary",
     "_text"
   ],
   "supertypes": []

@@ -4,6 +4,8 @@ const SPLIT = alias(token(seq('\\', /\r?\n/)), '\\');
 
 const AUTOMATIC_VARS = [ '@', '%', '<', '?', '^', '+', '/', '*' ];
 
+const DEFINE_OPS = ['=', ':=', '::=', '?=', '+='];
+
 module.exports = grammar({
     name: 'make',
 
@@ -15,6 +17,7 @@ module.exports = grammar({
         $._prerequisites,
         $._prerequisites_pattern,
 
+        $._primary,
         $._text,
     ],
 
@@ -31,6 +34,7 @@ module.exports = grammar({
 
         _thing: $ => repeat1(choice(
             $.rule,
+            $._variable_definition
         )),
 
         // Rules {{{
@@ -127,6 +131,19 @@ module.exports = grammar({
         ),
         // }}}
         // Variables {{{
+        _variable_definition: $ => choice(
+            $.variable_assignment,
+        ),
+
+        // 6.5
+        variable_assignment: $ => seq(
+            field('name',$.word),
+            optional(WS),
+            field('operator',choice(...DEFINE_OPS)),
+            optional(WS),
+            field('value',$._text),
+            NL
+        ),
         // }}}
         // Conditional {{{
         // }}}
