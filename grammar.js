@@ -88,6 +88,8 @@ module.exports = grammar({
       $.use_no_version,
       $.require_statement,
 
+      $.use_constant_statement,
+
       $._expression_statement,
 
       $._declaration,
@@ -108,6 +110,18 @@ module.exports = grammar({
     //   /=[\w]*/,
     //   /=cut/,
     // )),
+
+    use_constant_statement: $ => seq(
+      'use',
+      'constant',
+      choice(
+        seq(
+          field('constant', choice($.identifier, $._string)), choice('=>', ','), field('value', $._expression)
+        ),
+        field('value', $.hash_ref),
+      ),
+      $.semi_colon,
+    ),
 
     special_block: $ => seq(
       optional('sub'), // but this is often frowned upon
@@ -611,8 +625,9 @@ module.exports = grammar({
       ),
     ),
 
+    // TODO handle CONSTANTS here
     arrow_notation: $ => prec.left(PRECEDENCE.HASH, seq(
-      field('hash_ref', $.scalar_variable),
+      field('reference_var', $.scalar_variable),
       repeat1(
         seq(
           '->',
