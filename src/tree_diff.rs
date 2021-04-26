@@ -37,6 +37,17 @@ impl Syntax {
             }
         }
     }
+    fn set_change_deep(&mut self, ck: ChangeKind) {
+        self.set_change(ck);
+        if let Items {
+            ref mut children, ..
+        } = self
+        {
+            for child in children {
+                child.set_change_deep(ck);
+            }
+        }
+    }
 }
 
 impl PartialEq for Syntax {
@@ -113,14 +124,15 @@ pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
     for s in lhs {
         // TODO: handle moves
         // TODO: handle moving up/down subtrees.
+
         let count = rhs_subtrees.get_mut(s);
         match count {
             Some(c) if *c > 0 => {
-                set_syntax_change_kind(s, Unchanged);
+                s.set_change_deep(Unchanged);
                 *c -= 1;
             }
             _ => {
-                set_syntax_change_kind(s, Removed);
+                s.set_change_deep(Removed);
             }
         }
     }
@@ -129,11 +141,11 @@ pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
         let count = lhs_subtrees.get_mut(s);
         match count {
             Some(c) if *c > 0 => {
-                set_syntax_change_kind(s, Unchanged);
+                s.set_change_deep(Unchanged);
                 *c -= 1;
             }
             _ => {
-                set_syntax_change_kind(s, Added);
+                s.set_change_deep(Added);
             }
         }
     }
@@ -181,7 +193,7 @@ mod tests {
             start_content: "".into(),
             end_content: "".into(),
         };
-        set_syntax_change_kind(&mut s, Removed);
+        s.set_change_deep(Removed);
     }
 
     #[test]
@@ -219,17 +231,5 @@ mod tests {
                 assert!(false);
             }
         };
-    }
-}
-
-fn set_syntax_change_kind(s: &mut Syntax, ck: ChangeKind) {
-    s.set_change(ck);
-    if let Items {
-        ref mut children, ..
-    } = s
-    {
-        for child in children {
-            set_syntax_change_kind(child, ck);
-        }
     }
 }
