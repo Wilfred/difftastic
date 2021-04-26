@@ -506,10 +506,8 @@ Rule, recipe, automatic variable II
 
 (makefile
   (rule
-    targets: (list
-      (word))
-    normal_prerequisites: (list
-      (word))
+                 targets: (list (word))
+    normal_prerequisites: (list (word))
     (recipe
       (recipe_line
         (shell_text
@@ -527,10 +525,8 @@ foo : bar/lose
 
 (makefile
   (rule
-    targets: (list
-      (word))
-    normal_prerequisites: (list
-      (word))
+                 targets: (list (word))
+    normal_prerequisites: (list (word))
     (recipe
       (recipe_line
         (shell_text
