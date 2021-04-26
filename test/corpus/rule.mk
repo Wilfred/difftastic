@@ -342,6 +342,23 @@ target:
       (recipe_line
         (shell_text)))))
 
+==================================================
+Rule, recipe, multiple lines, whitespace after ":"
+==================================================
+all:   
+	@echo foo\
+	bar
+
+---
+
+(makefile
+  (rule
+    targets: (list (word))
+    (recipe
+      (recipe_line
+        (shell_text)
+        (shell_text)))))
+
 ================================================================
 Rule, recipe, attached to targets-and-prerequisites, single line
 ================================================================
@@ -530,7 +547,9 @@ foo : bar/lose
     (recipe
       (recipe_line
         (shell_text
-          (automatic_variable)
+          (automatic_variable)))
+      (recipe_line
+        (shell_text
           (automatic_variable)
           (automatic_variable))))))
 
@@ -596,4 +615,18 @@ foo.o bar.o: %.o: %.c
                  targets: (list (word) (word))
           target_pattern: (word)
     prerequisite_pattern: (list (word))))
+
+================================
+Rule, static pattern, whitespace
+================================
+foo : bar : baz
+
+---
+
+(makefile
+  (rule
+                 targets: (list (word))
+          target_pattern: (word)
+    prerequisite_pattern: (list (word))))
+
 
