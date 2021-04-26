@@ -478,9 +478,9 @@ target:
       (recipe_line
         (shell_text)))))
 
-================================
-Rule, recipe, automatic variable
-================================
+==================================
+Rule, recipe, automatic variable I
+==================================
 %.o: %.c
 	gcc -c -o $@ $<
 
@@ -490,6 +490,26 @@ Rule, recipe, automatic variable
   (rule
                  targets: (list (word))
     normal_prerequisites: (list (word))
+    (recipe
+      (recipe_line
+        (shell_text
+          (automatic_variable)
+          (automatic_variable))))))
+
+===================================
+Rule, recipe, automatic variable II
+===================================
+%.o: %.c
+	gcc -c -o $(@) ${<}
+
+---
+
+(makefile
+  (rule
+    targets: (list
+      (word))
+    normal_prerequisites: (list
+      (word))
     (recipe
       (recipe_line
         (shell_text
