@@ -34,6 +34,10 @@
         {
           "type": "rule",
           "named": true
+        },
+        {
+          "type": "variable_assignment",
+          "named": true
         }
       ]
     }
@@ -177,6 +181,58 @@
     }
   },
   {
+    "type": "variable_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "::=",
+            "named": false
+          },
+          {
+            "type": ":=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "$",
     "named": false
   },
@@ -209,6 +265,10 @@
     "named": false
   },
   {
+    "type": "+=",
+    "named": false
+  },
+  {
     "type": "-",
     "named": false
   },
@@ -225,6 +285,14 @@
     "named": false
   },
   {
+    "type": "::=",
+    "named": false
+  },
+  {
+    "type": ":=",
+    "named": false
+  },
+  {
     "type": ";",
     "named": false
   },
@@ -233,7 +301,15 @@
     "named": false
   },
   {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": "?",
+    "named": false
+  },
+  {
+    "type": "?=",
     "named": false
   },
   {
