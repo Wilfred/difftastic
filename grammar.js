@@ -2,6 +2,8 @@ const NL = repeat1(token.immediate(/[\r\n]/));
 const WS = repeat1(token.immediate(/[\t ]/));
 const SPLIT = alias(token(seq('\\', /\r?\n/)), '\\');
 
+const AUTOMATIC_VARS = [ '@', '%', '<', '?', '^', '+', '/', '*' ];
+
 module.exports = grammar({
     name: 'make',
 
@@ -124,8 +126,33 @@ module.exports = grammar({
             alias($._shell_text_without_split, $.shell_text),
         ),
         // }}}
-
-        // List
+        // Variables {{{
+        // }}}
+        // Conditional {{{
+        // }}}
+        // Functions {{{
+        // }}}
+        // Automatic variables {{{
+        // 10.5.3
+        automatic_variable: $ => choice(
+            seq(
+                choice('$','$$'),
+                choice(...AUTOMATIC_VARS
+                    .map(c => token.immediate(c)))
+            ),
+            seq(
+                choice('$','$$'),
+                token.immediate('('),
+                choice(...AUTOMATIC_VARS),
+                optional(choice(
+                    token.immediate('D'),
+                    token.immediate('F')
+                )),
+                ')'
+            ),
+        ),
+        // }}}
+        // List and Literals {{{
         list: $ => seq(
             $._primary,
             repeat(seq(
@@ -137,6 +164,7 @@ module.exports = grammar({
 
         _primary: $ => choice(
             $.word,
+            $.automatic_variable
         ),
 
         _text: $ => alias($.list, $.text),
@@ -153,6 +181,7 @@ module.exports = grammar({
         _shell_text_without_split: $ => text($,
             noneOf(...['\\$', '\\n', '\\']),
             choice(
+                $.automatic_variable,
                 alias('$$',$.escape),
                 alias('//',$.escape),
             ),
@@ -164,6 +193,7 @@ module.exports = grammar({
         ),
 
         comment: $ => token(prec(-1,/#.*/)),
+        // }}}
 
     }
 
