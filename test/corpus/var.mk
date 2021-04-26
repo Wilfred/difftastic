@@ -44,7 +44,7 @@ var := foo\
 
 (makefile
   (variable_assignment
-    name: (word)
+     name: (word)
     value: (text (word) (word))))
 
 ==================================
@@ -56,7 +56,7 @@ var != echo foo
 
 (makefile
   (shell_assignment
-    name: (word)
+     name: (word)
     value: (shell_text)))
 
 ==================================
@@ -69,6 +69,6 @@ var != echo foo\
 
 (makefile
   (shell_assignment
-    name: (word)
+     name: (word)
     value: (shell_text)))
 
