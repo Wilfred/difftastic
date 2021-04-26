@@ -2,11 +2,10 @@ use crate::tree_diff::ChangeKind;
 use crate::tree_diff::Syntax;
 use regex::Regex;
 
-fn parse_json_from(s: &str, mut i: usize) -> Vec<Syntax> {
+fn parse_json_from(s: &str, mut i: usize) -> (Syntax, usize) {
     let num_atom = Regex::new(r#"[0-9]+"#).unwrap();
     let str_atom = Regex::new(r#""[^"]+""#).unwrap();
 
-    let mut result = vec![];
     while i < s.len() {
         match num_atom.find_at(s, i) {
             Some(m) => {
@@ -14,10 +13,8 @@ fn parse_json_from(s: &str, mut i: usize) -> Vec<Syntax> {
                     content: m.as_str().into(),
                     change: ChangeKind::Unchanged,
                 };
-                result.push(atom);
 
-                i += m.end();
-                continue;
+                return (atom, m.end());
             }
             None => {}
         };
@@ -28,10 +25,7 @@ fn parse_json_from(s: &str, mut i: usize) -> Vec<Syntax> {
                     content: m.as_str().into(),
                     change: ChangeKind::Unchanged,
                 };
-                result.push(atom);
-
-                i += m.end();
-                continue;
+                return (atom, m.end());
             }
             None => {}
         };
@@ -39,11 +33,19 @@ fn parse_json_from(s: &str, mut i: usize) -> Vec<Syntax> {
         i += 1;
     }
 
-    result
+    // We should error, but still return what we've parsed.
+    todo!("could not parse :(")
 }
 
 fn parse_json(s: &str) -> Vec<Syntax> {
-    parse_json_from(s, 0)
+    let mut i = 0;
+    let mut result = vec![];
+    while i < s.len() {
+        let (syntax, new_i) = parse_json_from(s, i);
+        result.push(syntax);
+        i = new_i;
+    }
+    result
 }
 
 #[cfg(test)]
