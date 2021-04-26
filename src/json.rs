@@ -18,7 +18,7 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
                     change: ChangeKind::Unchanged,
                 };
                 result.push(atom);
-                i = m.end();
+                i += m.end();
                 continue;
             }
             None => {}
@@ -31,8 +31,33 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
                     change: ChangeKind::Unchanged,
                 };
                 result.push(atom);
-                i = m.end();
+                i += m.end();
                 continue;
+            }
+            None => {}
+        };
+
+        match open_brace.find(&s[i..]) {
+            Some(m) => {
+                // TODO: error if there's no closing ] brace?
+                let (children, next_i) = parse_json_from(s, i + m.end());
+                let items = Syntax::Items {
+                    // TODO: rename to open_content?
+                    start_content: m.as_str().into(),
+                    children,
+                    change: ChangeKind::Unchanged,
+                    end_content: "todo".into(),
+                };
+                result.push(items);
+                i = next_i;
+                continue;
+            }
+            None => {}
+        };
+
+        match close_brace.find(&s[i..]) {
+            Some(m) => {
+                return (result, i + m.end());
             }
             None => {}
         };
