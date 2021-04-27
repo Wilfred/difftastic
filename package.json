@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-nix",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tree Sitter grammar for Nix",
   "main": "bindings/node",
   "scripts": {
