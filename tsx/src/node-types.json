@@ -1970,10 +1970,6 @@
           "named": true
         },
         {
-          "type": "function_signature",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         }
