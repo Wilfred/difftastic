@@ -60,6 +60,7 @@ module.exports = grammar({
     [$._primitive_expression, $._list],
     [$.standalone_block, $.hash_ref],
     [$.goto_expression, $._expression],
+    [$._primitive_expression, $.dereference],
   ],
 
   // externals: $ => [
@@ -90,6 +91,8 @@ module.exports = grammar({
 
       $.use_constant_statement,
 
+      $.use_parent_statement,
+
       $._expression_statement,
 
       $._declaration,
@@ -110,6 +113,13 @@ module.exports = grammar({
     //   /=[\w]*/,
     //   /=cut/,
     // )),
+
+    use_parent_statement: $ => seq(
+      'use',
+      'parent',
+      commaSeparated($._string),
+      $.semi_colon,
+    ),
 
     use_constant_statement: $ => seq(
       'use',
@@ -512,7 +522,10 @@ module.exports = grammar({
       )
     ),
 
-    anonymous_function: $ => seq(),
+    anonymous_function: $ => seq(
+      'sub',
+      $.block,
+    ),
 
     block: $ => seq(
       '{',
@@ -615,6 +628,11 @@ module.exports = grammar({
 
       $.type_glob,
 
+      $.anonymous_function,
+
+      $.scalar_reference,
+      $.dereference,
+
       // object oriented stuffs
       $.bless,
       
@@ -625,16 +643,18 @@ module.exports = grammar({
       /@_/,
     ),
 
-    bless: $ => seq(
+    bless: $ => prec.left(seq(
       'bless',
       with_or_without_brackets(
         seq(
           field('self', $._reference),
-          ',',                            // comma separated
-          field('class', $._expression),
+          optional(seq(
+            ',',                            // comma separated
+            field('class', $._expression),
+          )),
         ),
       ),
-    ),
+    )),
 
     type_glob: $ => seq(
       '\*',
@@ -1022,12 +1042,18 @@ module.exports = grammar({
 
     method_invocation: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
       choice(
-        field('package_name', $.package_name),
+        field('package_name', choice($.package_name, $.string_single_quoted)),
         field('object', $.scalar_variable),
       ),
-      '->',
-      field('function_name', $.identifier),
-      field('args', optional(choice($.parenthesized_arguments, $.arguments))),
+      repeat1(seq(
+        '->',
+        choice(
+          field('function_name', $.identifier),
+          $.scalar_variable,
+          $.scalar_reference,
+        ),
+        field('args', optional(choice($.parenthesized_arguments, $.arguments))),
+      )),
     )),
 
     parenthesized_arguments: $ => prec.left(PRECEDENCE.SUB_ARGS, seq(
@@ -1312,7 +1338,12 @@ module.exports = grammar({
     
     hash_ref: $ => seq(
       '{',
-      optional(commaSeparated($._key_value_pair)),
+      optional(
+        choice(
+          commaSeparated($._key_value_pair),
+          commaSeparated($.dereference),
+        ),
+      ),
       '}'
     ),
 
@@ -1320,6 +1351,19 @@ module.exports = grammar({
       $.array_ref,
       $.hash_ref,
       $.scalar_variable,
+      // TODO: { \'string' }
+    ),
+
+    scalar_reference: $ => seq(
+      '$',
+      '{',
+      choice($.call_expression, $.dereference),
+      '}',
+    ),
+
+    dereference: $ => seq(
+      '\\',
+      $._scalar_type,
     ),
 
     // cat => 'meow',

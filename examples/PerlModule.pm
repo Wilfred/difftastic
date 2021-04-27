@@ -13,20 +13,21 @@ BEGIN {
  eval "require Devel::StackTrace";
 }
 
-my $another = BaseModule::YeaThis->new()->hello();
+# my $another = BaseModule::YeaThis->new()->hello();
 
 # eval {
 #   package hello;
 # };
 
-# new();
-# getTrace();
-# toString();
+new();
+getTrace();
+toString();
  
 sub new {
  my $class = shift;
-#  bless { @_ }, $class;
+ bless { @_ }, $class;
 }
+
  
 # sub getTrace {
 #  $_[0]->{Trace};
@@ -80,10 +81,10 @@ sub new {
  
 # sub toString {
 #  my $self = shift;
-#  return <<EOM;
-#  Previous test $self->{Test} '$self->{TestName}'
-#  $self->{Carp}
-# EOM
+# #  return <<EOM;
+# #  Previous test $self->{Test} '$self->{TestName}'
+# #  $self->{Carp}
+# # EOM
 # }
 
  

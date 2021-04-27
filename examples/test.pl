@@ -4,12 +4,20 @@ use Data::Dumper;
 
 
 my $class = 1;
-my $self = [];
+my $self = 'sdfd';
 my @array = (1, 2, 5);
 
-bless({ }, $class);
+bless({ \$self }, $class);
 
-print Dumper($self);
+# print Dumper($self);
 
-my $a = (1, 2, 3);
+# my $sub = sub {
+#   my $a;
+# };
+
+# sub hello {};
+
+# sub meow {
+#   ${hello()};
+# }
 

@@ -1,5 +1,20 @@
 [
   {
+    "type": "anonymous_function",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "arguments",
     "named": true,
     "fields": {},
@@ -7,6 +22,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
         {
           "type": "array",
           "named": true
@@ -41,6 +60,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
           "named": true
         },
         {
@@ -93,6 +116,10 @@
         },
         {
           "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
           "named": true
         },
         {
@@ -435,6 +462,10 @@
         "required": false,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -468,6 +499,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -520,6 +555,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -787,6 +826,10 @@
         "required": false,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -820,6 +863,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -872,6 +919,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -949,6 +1000,10 @@
         "required": false,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -982,6 +1037,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -1034,6 +1093,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -1112,6 +1175,10 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -1145,6 +1212,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
           "named": true
         },
         {
@@ -1197,6 +1268,10 @@
         },
         {
           "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
           "named": true
         },
         {
@@ -1276,8 +1351,12 @@
     "fields": {
       "class": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
           {
             "type": "array",
             "named": true
@@ -1312,6 +1391,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -1364,6 +1447,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -1465,6 +1552,10 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -1502,6 +1593,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
           "named": true
         },
         {
@@ -1594,6 +1689,10 @@
         },
         {
           "type": "return_expression",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
           "named": true
         },
         {
@@ -1709,6 +1808,10 @@
           "named": true
         },
         {
+          "type": "use_parent_statement",
+          "named": true
+        },
+        {
           "type": "variable_declaration",
           "named": true
         },
@@ -1805,6 +1908,61 @@
     }
   },
   {
+    "type": "dereference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array_ref",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "ellipsis_statement",
     "named": true,
     "fields": {},
@@ -1827,6 +1985,10 @@
       "multiple": false,
       "required": false,
       "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
         {
           "type": "array",
           "named": true
@@ -1861,6 +2023,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
           "named": true
         },
         {
@@ -1913,6 +2079,10 @@
         },
         {
           "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
           "named": true
         },
         {
@@ -2052,6 +2222,10 @@
         "required": false,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -2085,6 +2259,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -2137,6 +2315,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -2214,6 +2396,10 @@
         "required": false,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -2247,6 +2433,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -2299,6 +2489,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -2376,6 +2570,10 @@
         "required": false,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -2409,6 +2607,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -2461,6 +2663,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -2813,6 +3019,10 @@
         "required": false,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -2846,6 +3056,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -2898,6 +3112,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -3088,6 +3306,10 @@
           "named": true
         },
         {
+          "type": "dereference",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
@@ -3159,6 +3381,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -3192,6 +3418,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -3248,6 +3478,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -3465,7 +3699,7 @@
     "named": true,
     "fields": {
       "args": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -3479,8 +3713,8 @@
         ]
       },
       "function_name": {
-        "multiple": false,
-        "required": true,
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -3505,9 +3739,27 @@
           {
             "type": "package_name",
             "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "scalar_reference",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3578,6 +3830,10 @@
       "required": true,
       "types": [
         {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -3611,6 +3867,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
           "named": true
         },
         {
@@ -3663,6 +3923,10 @@
         },
         {
           "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
           "named": true
         },
         {
@@ -3811,6 +4075,10 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -3844,6 +4112,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
           "named": true
         },
         {
@@ -3896,6 +4168,10 @@
         },
         {
           "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
           "named": true
         },
         {
@@ -3970,6 +4246,25 @@
     }
   },
   {
+    "type": "scalar_reference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "dereference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "scalar_variable",
     "named": true,
     "fields": {}
@@ -3987,6 +4282,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
         {
           "type": "array",
           "named": true
@@ -4021,6 +4320,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
           "named": true
         },
         {
@@ -4089,6 +4392,10 @@
         },
         {
           "type": "return_expression",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
           "named": true
         },
         {
@@ -4211,6 +4518,10 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -4248,6 +4559,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
           "named": true
         },
         {
@@ -4332,6 +4647,10 @@
         },
         {
           "type": "require_statement",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
           "named": true
         },
         {
@@ -4447,6 +4766,10 @@
           "named": true
         },
         {
+          "type": "use_parent_statement",
+          "named": true
+        },
+        {
           "type": "variable_declaration",
           "named": true
         },
@@ -4512,6 +4835,10 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -4549,6 +4876,10 @@
         },
         {
           "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
           "named": true
         },
         {
@@ -4644,6 +4975,10 @@
           "named": true
         },
         {
+          "type": "scalar_reference",
+          "named": true
+        },
+        {
           "type": "scalar_variable",
           "named": true
         },
@@ -4753,6 +5088,10 @@
         },
         {
           "type": "use_no_version",
+          "named": true
+        },
+        {
+          "type": "use_parent_statement",
           "named": true
         },
         {
@@ -4898,6 +5237,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -4931,6 +5274,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -4983,6 +5330,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -5060,6 +5411,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -5093,6 +5448,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -5145,6 +5504,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -5236,6 +5599,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -5269,6 +5636,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -5321,6 +5692,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -5512,6 +5887,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -5545,6 +5924,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -5597,6 +5980,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -5680,6 +6067,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -5713,6 +6104,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -5769,6 +6164,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -5908,6 +6307,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -5941,6 +6344,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -5997,6 +6404,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -6152,6 +6563,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -6185,6 +6600,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -6237,6 +6656,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -6366,6 +6789,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -6399,6 +6826,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -6455,6 +6886,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -6770,6 +7205,37 @@
     }
   },
   {
+    "type": "use_parent_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "semi_colon",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "variable_declaration",
     "named": true,
     "fields": {
@@ -6777,6 +7243,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
           {
             "type": "array",
             "named": true
@@ -6811,6 +7281,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -6863,6 +7337,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -7001,6 +7479,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -7034,6 +7516,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -7090,6 +7576,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -7183,6 +7673,10 @@
         "required": true,
         "types": [
           {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
             "type": "array",
             "named": true
           },
@@ -7216,6 +7710,10 @@
           },
           {
             "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "dereference",
             "named": true
           },
           {
@@ -7272,6 +7770,10 @@
           },
           {
             "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
             "named": true
           },
           {
@@ -7429,6 +7931,10 @@
   },
   {
     "type": "\"switch\"",
+    "named": false
+  },
+  {
+    "type": "$",
     "named": false
   },
   {
@@ -7838,6 +8344,10 @@
   {
     "type": "package_name_in_call",
     "named": true
+  },
+  {
+    "type": "parent",
+    "named": false
   },
   {
     "type": "prototype",
