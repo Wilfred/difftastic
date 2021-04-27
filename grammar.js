@@ -440,6 +440,7 @@ module.exports = grammar({
       // multi declaration
       // or single declaration without brackets
       choice($.multi_var_declaration, $.single_var_declaration, $.type_glob_declaration),
+      optional($._initializer),
       $.semi_colon,
     ),
 
@@ -453,7 +454,6 @@ module.exports = grammar({
 
     variable_declarator: $ => seq(
       field('name', choice($.scalar_variable, $.array_variable, $.hash_variable)),
-      optional($._initializer),
     ),
 
     _initializer: $ => seq(
@@ -463,7 +463,6 @@ module.exports = grammar({
 
     type_glob_declaration: $ => seq(
       $.type_glob,
-      optional($._initializer),
     ),
     
     scope: $ => choice(
@@ -615,6 +614,26 @@ module.exports = grammar({
       $.arrow_notation,
 
       $.type_glob,
+
+      // object oriented stuffs
+      $.bless,
+      
+      $.special_variable,
+    ),
+
+    special_variable: $ => choice(
+      /@_/,
+    ),
+
+    bless: $ => seq(
+      'bless',
+      with_or_without_brackets(
+        seq(
+          field('self', $._reference),
+          ',',                            // comma separated
+          field('class', $._expression),
+        ),
+      ),
     ),
 
     type_glob: $ => seq(
@@ -625,7 +644,7 @@ module.exports = grammar({
       ),
     ),
 
-    // TODO handle CONSTANTS here
+    // TODO handle CONSTANTS here AND have _expression as left - revisit
     arrow_notation: $ => prec.left(PRECEDENCE.HASH, seq(
       field('reference_var', $.scalar_variable),
       repeat1(
@@ -1002,7 +1021,10 @@ module.exports = grammar({
     )),
 
     method_invocation: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
-      field('package_name', $.package_name),
+      choice(
+        field('package_name', $.package_name),
+        field('object', $.scalar_variable),
+      ),
       '->',
       field('function_name', $.identifier),
       field('args', optional(choice($.parenthesized_arguments, $.arguments))),
@@ -1292,6 +1314,12 @@ module.exports = grammar({
       '{',
       optional(commaSeparated($._key_value_pair)),
       '}'
+    ),
+
+    _reference: $ => choice(
+      $.array_ref,
+      $.hash_ref,
+      $.scalar_variable,
     ),
 
     // cat => 'meow',

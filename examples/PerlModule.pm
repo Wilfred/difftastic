@@ -1,4 +1,4 @@
-package Test::NoWarnings::Warning;
+package PerlModule;
  
 use 5.006;
 use strict;
@@ -13,6 +13,7 @@ BEGIN {
  eval "require Devel::StackTrace";
 }
 
+my $another = BaseModule::YeaThis->new()->hello();
 
 # eval {
 #   package hello;
@@ -22,10 +23,10 @@ BEGIN {
 # getTrace();
 # toString();
  
-# sub new {
-#  my $class = shift;
+sub new {
+ my $class = shift;
 #  bless { @_ }, $class;
-# }
+}
  
 # sub getTrace {
 #  $_[0]->{Trace};
@@ -86,4 +87,4 @@ BEGIN {
 # }
 
  
-# 1;
+1;
