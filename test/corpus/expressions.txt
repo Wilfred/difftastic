@@ -392,8 +392,8 @@ true ? false : true ? "a" : "b";
         (boolean)
         (boolean)
         (boolean))
-      (string)
-      (string)))
+      (encapsed_string (string))
+      (encapsed_string (string))))
   (text_interpolation))
 
 =================================================
@@ -465,7 +465,7 @@ $i .= "a" . "b";
       (assignment_expression
         (variable_name
           (name))
-        (string))))
+        (encapsed_string (string)))))
   (expression_statement
     (augmented_assignment_expression
       (variable_name
@@ -479,15 +479,15 @@ $i .= "a" . "b";
       (variable_name
         (name))
       (binary_expression
-        (string)
-        (string))))
+        (encapsed_string (string))
+        (encapsed_string (string)))))
   (expression_statement
     (binary_expression
-      (string)
+      (encapsed_string (string))
       (augmented_assignment_expression
         (variable_name
           (name))
-        (string))))
+        (encapsed_string (string)))))
   (text_interpolation))
 
 =======================================
@@ -610,9 +610,9 @@ Concatenation precedence
   (php_tag)
   (expression_statement
     (binary_expression
-      (string)
+      (encapsed_string (string))
       (binary_expression
-        (string)
+        (encapsed_string (string))
         (integer)
       )
     )
@@ -647,9 +647,9 @@ $a = [...$values];
       (arguments
         (argument
           (array_creation_expression
-            (array_element_initializer (string) (string))
-            (array_element_initializer (string) (string))
-            (array_element_initializer (string) (string)))))))
+            (array_element_initializer (encapsed_string (string)) (encapsed_string (string)))
+            (array_element_initializer (encapsed_string (string)) (encapsed_string (string)))
+            (array_element_initializer (encapsed_string (string)) (encapsed_string (string))))))))
   (expression_statement
     (assignment_expression
       (variable_name (name))
@@ -688,7 +688,7 @@ ob_start(function($buffer) use (&$storage,) { $storage .= $buffer; }, 20);
           (anonymous_function_creation_expression
             parameters: (formal_parameters)
             body: (compound_statement
-              (echo_statement (string))))))))
+              (echo_statement (encapsed_string (string)))))))))
   (expression_statement
     (function_call_expression
       function: (name)

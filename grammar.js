@@ -35,6 +35,7 @@ module.exports = grammar({
   externals: $ => [
     $._automatic_semicolon,
     $.heredoc,
+    $.encapsed_string_chars,
     $._eof,
   ],
 
@@ -77,6 +78,10 @@ module.exports = grammar({
     $._intrinsic,
     $._class_type_designator,
     $._variable_name,
+  ],
+
+  precedences: $ => [
+    ['member_access', 'subscript', 'variable'],
   ],
 
   extras: $ => [
@@ -1147,29 +1152,85 @@ module.exports = grammar({
       optional(field('parameters', $.arguments))
     ),
 
-    string: $ => {
-      const b_prefix = /[bB]/
-      const single_quote_chars = repeat(/\\'|\\\\|\\?[^'\\]/)
-      const single_quote_string = seq(
-        optional(b_prefix), "'", single_quote_chars, "'"
-      )
+    _string_member_access_expression: $ => prec(PREC.MEMBER, seq(
+      field('object', $._string_dereferencable_expression),
+      '->',
+      $._member_name
+    )),
 
-      const double_quote_string = seq(
-        optional(b_prefix), '"', double_quote_chars(), '"'
-      )
+    _string_dereferencable_expression: $ => prec(PREC.DEREF, choice(
+      $._variable_name,
+      alias($._string_subscript_expression, $.subscript_expression),
+      alias($._string_member_access_expression, $.member_access_expression)
+    )),
 
-      return token(choice(
-        single_quote_string,
-        double_quote_string
-        // nowdoc_string,
-      ))
-    },
+    _string_subscript_expression: $ => seq(
+      $._string_dereferencable_expression,
+      choice(
+        seq('[', optional($._expression), ']'),
+        seq('{', $._expression, '}')
+      )
+    ),
+
+    _complex_string_part: $ => prec.right(seq(
+      "{",
+      choice(
+        alias($._string_member_access_expression, $.member_access_expression),
+        $._variable_name,
+        alias($._string_subscript_expression, $.subscript_expression),
+      ),
+      "}"
+    )),
+
+    _simple_string_part: $ => choice(
+      alias($._string_member_access_expression, $.member_access_expression),
+      $._variable_name,
+      alias($._string_subscript_expression, $.subscript_expression),
+    ),
+
+    escape_sequence: $ => token.immediate(seq(
+      '\\',
+      choice(
+        "n",
+        "r",
+        "t",
+        "v",
+        "e",
+        "f",
+        "\\",
+        /\$/,
+        '"',
+        /[0-7]{1,3}/,
+        /x[0-9A-Fa-f]{1,2}/,
+        /u{[0-9A-Fa-f]+}/,
+      )
+    )),
+
+    encapsed_string: $ => seq(
+      choice(
+        /[bB]"/,
+        '"',
+      ),
+      repeat(
+        choice($.escape_sequence, $._simple_string_part, alias($.encapsed_string_chars, $.string), $._complex_string_part),
+      ),
+      '"',
+    ),
+
+    string: $ => seq(
+      choice(
+        /[bB]'/,
+        "'"
+      ),
+      repeat(/\\'|\\\\|\\?[^'\\]/),
+      "'",
+    ),
 
     boolean: $ => /[Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]/,
 
     null: $ => keyword('null', false),
 
-    _string: $ => choice($.string, $.heredoc),
+    _string: $ => choice($.encapsed_string, $.string, $.heredoc),
 
     dynamic_variable_name: $ => choice(
       seq('$', $._variable_name),
@@ -1305,22 +1366,6 @@ function pipeSep1(rule) {
 
 function pipeSep(rule) {
   return optional(commaSep1(rule));
-}
-
-function double_quote_chars() {
-  const dq_simple_escapes = /\\"|\\\\|\\\$|\\e|\\f|\\n|\\r|\\t|\\v/
-  const octal_digit = /[0-7]/
-  const dq_octal_escapes = seq('\\', octal_digit, optional(octal_digit), optional(octal_digit))
-  const hex_digit = /\d|a-f|A-F/
-  const dq_hex_escapes = seq(
-    /\\[xX]/,
-    hex_digit,
-    optional(hex_digit)
-  )
-
-  const dq_unicode_escapes = seq('\\u{', repeat1(hex_digit), '}')
-  const dq_escapes = choice(dq_simple_escapes, dq_octal_escapes, dq_hex_escapes, dq_unicode_escapes)
-  return repeat(choice(dq_escapes, /[^"\\]|\\[^"\\$efnrtv0-7]/))
 }
 
 function backtick_chars() {

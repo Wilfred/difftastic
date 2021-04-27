@@ -11,6 +11,7 @@ using std::string;
 enum TokenType {
   AUTOMATIC_SEMICOLON,
   HEREDOC,
+  ENCAPSED_STRING_CHARS,
   EOF_TOKEN,
 };
 
@@ -108,6 +109,34 @@ struct Scanner {
     }
   }
 
+  bool scan_encapsed_part_string(TSLexer *lexer) {
+    lexer->result_symbol = ENCAPSED_STRING_CHARS;
+
+    for (bool has_content = false;; has_content = true) {
+      lexer->mark_end(lexer);
+
+      switch (lexer->lookahead) {
+        case '"':
+          return has_content;
+        case '\0':
+          return false;
+        case '\\':
+          return has_content;
+        case '$':
+          return has_content;
+        case '{':
+          advance(lexer);
+          if (lexer->lookahead == '$') {
+            return has_content;
+          } else {
+            break;
+          }
+        default:
+          advance(lexer);
+      }
+    }
+  }
+
   string scan_heredoc_word(TSLexer *lexer) {
     string result;
     int32_t quote;
@@ -180,12 +209,17 @@ struct Scanner {
 
     lexer->mark_end(lexer);
 
+    if (valid_symbols[ENCAPSED_STRING_CHARS]) {
+      return scan_encapsed_part_string(lexer);
+    }
+
     if (!scan_whitespace(lexer)) return false;
 
     if (valid_symbols[EOF_TOKEN] && lexer->eof(lexer)) {
       lexer->result_symbol = EOF_TOKEN;
       return true;
     }
+
 
     if (valid_symbols[HEREDOC]) {
       if (lexer->lookahead == '<') {
