@@ -156,22 +156,8 @@ private foo = bar
 ---
 
 (makefile
-  (export_directive
+  (private_directive
     (variable_assignment
       name: (word)
-      value: (text
-        (word)))))
-
-=======================================
-Directive, private, variable definition
-=======================================
-private define foo
-endef
-
----
-
-(makefile
-  (private_directive
-    (define_directive
-      name: (word))))
+      value: (text (word)))))
 

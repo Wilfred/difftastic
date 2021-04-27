@@ -602,6 +602,32 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "list"
+                  },
+                  "named": true,
+                  "value": "pattern_list"
+                },
+                {
+                  "type": "STRING",
+                  "value": ":"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "FIELD",
           "name": "name",
           "content": {
@@ -1136,17 +1162,8 @@
           "value": "private"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "define_directive"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "variable_assignment"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "variable_assignment"
         }
       ]
     },
