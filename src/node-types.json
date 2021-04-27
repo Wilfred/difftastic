@@ -359,10 +359,6 @@
       "required": true,
       "types": [
         {
-          "type": "define_directive",
-          "named": true
-        },
-        {
           "type": "variable_assignment",
           "named": true
         }
@@ -647,6 +643,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "pattern_list",
+          "named": true
+        }
+      ]
     }
   },
   {

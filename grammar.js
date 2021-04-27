@@ -160,6 +160,10 @@ module.exports = grammar({
 
         // 6.5
         variable_assignment: $ => seq(
+            optional(seq(
+                alias($.list, $.pattern_list),
+                ':'
+            )),
             field('name',$.word),
             optional(WS),
             field('operator',choice(...DEFINE_OPS)),
@@ -251,7 +255,7 @@ module.exports = grammar({
             choice(
                 $.define_directive,
                 $.variable_assignment,
-                $.undefine_directive,
+                $.undefine_directive
             )
         ),
 
@@ -265,10 +269,7 @@ module.exports = grammar({
         // 6.13
         private_directive: $ => seq(
             'private',
-            choice(
-                $.define_directive,
-                $.variable_assignment,
-            )
+            $.variable_assignment
         ),
         // }}}
         // Conditional {{{

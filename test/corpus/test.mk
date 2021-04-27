@@ -1,7 +1,7 @@
-=======================================
-Directive, private, variable assignment
-=======================================
-private foo = bar
+======================================
+Directive, export, variable assignment
+======================================
+export foo = bar
 
 ---
 
