@@ -200,8 +200,11 @@ module.exports = grammar({
         _directive: $ => choice(
             $.include_directive,
             $.vpath_directive,
+            $.export_directive,
+            $.unexport_directive,
             $.override_directive,
             $.undefine_directive,
+            $.private_directive,
         ),
 
         // 3.3
@@ -209,7 +212,7 @@ module.exports = grammar({
             choice(
                 'include',
                 'sinclude',
-                seq('-', token.immediate('include')),
+                '-include',
             ),
             field('filenames',$.list),
             NL
@@ -225,11 +228,29 @@ module.exports = grammar({
             NL
         ),
 
+        // 5.7.2
+        export_directive: $ => seq(
+            'export',
+            optional(choice(
+                field('variable', $.list),
+                $.variable_assignment
+            )),
+            NL
+        ),
+
+        // 5.7.2
+        unexport_directive: $ => seq(
+            'unexport',
+            optional(field('variable', $.list)),
+            NL
+        ),
+
         // 6.7
         override_directive: $ => seq(
             'override',
             choice(
                 $.define_directive,
+                $.variable_assignment,
                 $.undefine_directive,
             )
         ),
@@ -241,6 +262,14 @@ module.exports = grammar({
             NL
         ),
 
+        // 6.13
+        private_directive: $ => seq(
+            'private',
+            choice(
+                $.define_directive,
+                $.variable_assignment,
+            )
+        ),
         // }}}
         // Conditional {{{
         // }}}
