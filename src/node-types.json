@@ -633,6 +633,16 @@
           }
         ]
       },
+      "target_or_pattern": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": false,
         "required": true,
@@ -643,16 +653,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "pattern_list",
-          "named": true
-        }
-      ]
     }
   },
   {
