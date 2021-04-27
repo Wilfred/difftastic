@@ -6,10 +6,12 @@
   "license": "MIT",
   "main": "bindings/node",
   "homepage": "https://github.com/alemuller/tree-sitter-make#readme",
+
   "bugs": {
     "url": "https://github.com/alemuller/tree-sitter-make/issues"
   },
   "homepage": "https://github.com/alemuller/tree-sitter-make#readme",
+
   "keywords": [
     "parsing",
     "incremental",
