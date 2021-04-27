@@ -23,7 +23,7 @@ module.exports = grammar({
         $._primary,
     ],
 
-    extras: $ => [ 
+    extras: $ => [
         /[\s]/,
         alias(token(seq('\\',/\r?\n/)), '\\'),
         $.comment
@@ -168,7 +168,7 @@ module.exports = grammar({
             field('name',$.word),
             optional(WS),
             field('operator',choice(...DEFINE_OPS)),
-            field('value',alias($.list, $.text)),
+            field('value',optional(alias($.list, $.text))),
             NL
         ),
 
@@ -210,6 +210,7 @@ module.exports = grammar({
             $.override_directive,
             $.undefine_directive,
             $.private_directive,
+            $.conditional
         ),
 
         // 3.3
@@ -273,7 +274,68 @@ module.exports = grammar({
             $.variable_assignment
         ),
         // }}}
-        // Conditional {{{
+        // Conditionals {{{
+        conditional: $ => seq(
+            field('condition', $._conditional_directives),
+            optional(field('consequence', $._thing)),
+            repeat(seq(
+                'else',
+                field('alternative', $._conditional_directives),
+            )),
+            optional(seq(
+                'else',
+                NL,
+                optional(field('alternative', $._thing))
+            )),
+            'endif'
+        ),
+
+        _conditional_directives: $ => choice(
+            $.ifeq_directive,
+            $.ifneq_directive,
+            $.ifdef_directive,
+            $.ifndef_directive
+        ),
+
+        ifeq_directive: $ => seq(
+            'ifeq', $._conditional_args_cmp, NL
+        ),
+
+        ifneq_directive: $ => seq(
+            'ifneq', $._conditional_args_cmp, NL
+        ),
+
+        ifdef_directive: $ => seq(
+            'ifdef', field('variable', $._primary), NL
+        ),
+
+        ifndef_directive: $ => seq(
+            'ifndef', field('variable', $._primary), NL
+        ),
+
+        _conditional_args_cmp: $ => choice(
+            // (arg0,arg1)
+            seq(
+                '(',
+                optional(field('arg0', $._primary)),
+                ',',
+                optional(field('arg1', $._primary)),
+                ')'
+            ),
+            // 'arg0' 'arg1'
+            // "arg0" "arg1"
+            // 'arg0' 'arg1'
+            // 'arg0' "arg1"
+            seq(
+                field('arg0', $._conditional_arg_cmp),
+                field('arg1', $._conditional_arg_cmp),
+            ),
+        ),
+
+        _conditional_arg_cmp: $ => choice(
+            seq('"', optional($._primary), '"'),
+            seq("'", optional($._primary), "'"),
+        ),
         // }}}
         // Functions {{{
         // }}}

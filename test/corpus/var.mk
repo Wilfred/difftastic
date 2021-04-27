@@ -169,3 +169,14 @@ Variable, target/pattern-specific
     target_or_pattern: (list (word))
      name: (word)
     value: (text (word))))
+
+=====================
+Variable, empty value
+=====================
+v = 
+
+---
+
+(makefile
+  (variable_assignment
+    name: (word)))
