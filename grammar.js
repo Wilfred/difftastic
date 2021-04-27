@@ -18,9 +18,8 @@ module.exports = grammar({
         $._prerequisites,
         $._order_only_prerequisites,
 
-        $._automatic_vars,
-
         $._primary,
+        $._name,
     ],
 
     extras: $ => [
@@ -275,6 +274,7 @@ module.exports = grammar({
         ),
         // }}}
         // Conditionals {{{
+        // 7
         conditional: $ => seq(
             field('condition', $._conditional_directives),
             optional(field('consequence', $._thing)),
@@ -339,6 +339,27 @@ module.exports = grammar({
         // }}}
         // Functions {{{
         // }}}
+        // Variables {{{
+        _variable: $ => choice(
+            $.variable_reference
+        ),
+
+        variable_reference: $ => seq(
+            choice('$','$$'),
+            choice(
+                seq(
+                    token.immediate('('),
+                        $._primary,
+                        ')'
+                ),
+                seq(
+                    token.immediate('{'),
+                    $._primary,
+                    '}'
+                )
+            ),
+        ),
+        // }}}
         // Automatic variables {{{
         // 10.5.3
         automatic_variable: $ => choice(
@@ -369,16 +390,7 @@ module.exports = grammar({
             )),
         ),
         // }}}
-        // Archive files {{{
-        // 11.1
-        archive: $ => seq(
-            field('archive', $.word),
-            token.immediate('('),
-            field('members', $.list),
-            token.immediate(')'),
-        ),
-        // }}}
-        // List and Literals {{{
+        // Primary and lists {{{
         list: $ => seq(
             $._primary,
             repeat(seq(
@@ -392,23 +404,29 @@ module.exports = grammar({
             $._primary,
             repeat(seq(
                 choice(
-                    token.immediate(':'),
-                    token.immediate(';')
+                    ...[':',';'].map(c=>token.immediate(c))
                 ),
                 $._primary
             )),
         ),
 
         _primary: $ => choice(
-            $.word,
-            $.archive,
-            $.automatic_variable
+            $._name,
+            $._variable,
+            $.automatic_variable,
+            $.concatenation
         ),
 
-        // TODO external parser for .RECIPEPREFIX
-        _recipeprefix: $ => '\t',
-
-        _rawline: $ => token(/.*[\r\n]+/), // any line
+        concatenation: $ => prec.left(seq(
+            $._primary,
+            $._primary
+        )),
+        // }}}
+        // Names {{{
+        _name: $ => choice(
+            $.word,
+            $.archive,
+        ),
 
         word: $ => token(repeat1(choice(
             new RegExp ('[a-zA-Z0-9%\\+\\-\\.@_\\*\\?\\/]'),
@@ -416,6 +434,20 @@ module.exports = grammar({
             new RegExp ('\\\\.'),
             new RegExp ('\\\\[0-9]{3}'),
         ))),
+
+        // 11.1
+        archive: $ => seq(
+            field('archive', $.word),
+            token.immediate('('),
+            field('members', $.list),
+            token.immediate(')'),
+        ),
+        // }}}
+        // Tokens {{{
+        // TODO external parser for .RECIPEPREFIX
+        _recipeprefix: $ => '\t',
+
+        _rawline: $ => token(/.*[\r\n]+/), // any line
 
         _shell_text_without_split: $ => text($,
             noneOf(...['\\$', '\\n', '\\']),
@@ -430,9 +462,9 @@ module.exports = grammar({
             $._shell_text_without_split,
             SPLIT,
         ),
+        // }}}
 
         comment: $ => token(prec(-1,/#.*/)),
-        // }}}
 
     }
 
