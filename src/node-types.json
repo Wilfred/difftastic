@@ -83,6 +83,37 @@
     "fields": {}
   },
   {
+    "type": "concatenation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "conditional",
     "named": true,
     "fields": {
@@ -337,6 +368,14 @@
             "named": true
           },
           {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
             "type": "word",
             "named": true
           }
@@ -369,6 +408,14 @@
             "named": true
           },
           {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
             "type": "word",
             "named": true
           }
@@ -395,6 +442,14 @@
             "named": true
           },
           {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
             "type": "word",
             "named": true
           }
@@ -416,6 +471,14 @@
           },
           {
             "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
             "named": true
           },
           {
@@ -451,6 +514,14 @@
             "named": true
           },
           {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
             "type": "word",
             "named": true
           }
@@ -474,6 +545,14 @@
           },
           {
             "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
             "named": true
           },
           {
@@ -514,6 +593,14 @@
         },
         {
           "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
           "named": true
         },
         {
@@ -626,6 +713,14 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
           "type": "word",
           "named": true
         }
@@ -649,6 +744,14 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
           "type": "word",
           "named": true
         }
@@ -669,6 +772,14 @@
         },
         {
           "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
           "named": true
         },
         {
@@ -860,6 +971,14 @@
           "named": true
         },
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
           "type": "word",
           "named": true
         }
@@ -880,6 +999,14 @@
         },
         {
           "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
           "named": true
         },
         {
@@ -981,6 +1108,37 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "variable_reference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
     }
   },
   {

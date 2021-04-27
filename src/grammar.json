@@ -1525,6 +1525,78 @@
         }
       ]
     },
+    "_variable": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "variable_reference"
+        }
+      ]
+    },
+    "variable_reference": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "$"
+            },
+            {
+              "type": "STRING",
+              "value": "$$"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "("
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_primary"
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "{"
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_primary"
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "automatic_variable": {
       "type": "CHOICE",
       "members": [
@@ -1744,41 +1816,6 @@
         }
       ]
     },
-    "archive": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "archive",
-          "content": {
-            "type": "SYMBOL",
-            "name": "word"
-          }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "("
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "members",
-          "content": {
-            "type": "SYMBOL",
-            "name": "list"
-          }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": ")"
-          }
-        }
-      ]
-    },
     "list": {
       "type": "SEQ",
       "members": [
@@ -1893,28 +1930,51 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "automatic_variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "concatenation"
+        }
+      ]
+    },
+    "concatenation": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_primary"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_primary"
+          }
+        ]
+      }
+    },
+    "_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "word"
         },
         {
           "type": "SYMBOL",
           "name": "archive"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "automatic_variable"
         }
       ]
-    },
-    "_recipeprefix": {
-      "type": "STRING",
-      "value": "\t"
-    },
-    "_rawline": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": ".*[\\r\\n]+"
-      }
     },
     "word": {
       "type": "TOKEN",
@@ -1941,6 +2001,52 @@
             }
           ]
         }
+      }
+    },
+    "archive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "archive",
+          "content": {
+            "type": "SYMBOL",
+            "name": "word"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "members",
+          "content": {
+            "type": "SYMBOL",
+            "name": "list"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
+        }
+      ]
+    },
+    "_recipeprefix": {
+      "type": "STRING",
+      "value": "\t"
+    },
+    "_rawline": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": ".*[\\r\\n]+"
       }
     },
     "_shell_text_without_split": {
@@ -2241,8 +2347,8 @@
     "_prerequisites_pattern",
     "_prerequisites",
     "_order_only_prerequisites",
-    "_automatic_vars",
-    "_primary"
+    "_primary",
+    "_name"
   ],
   "supertypes": []
 }

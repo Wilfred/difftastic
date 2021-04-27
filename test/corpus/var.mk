@@ -180,3 +180,67 @@ v =
 (makefile
   (variable_assignment
     name: (word)))
+
+=====================
+Variable, reference
+=====================
+v = $(v) ${v}
+
+---
+
+(makefile
+  (variable_assignment
+    name: (word)
+    value: (text
+      (variable_reference (word))
+      (variable_reference (word)))))
+
+==============================
+Variable, reference, recursive
+==============================
+v = $($(v)) $(${v}) ${${v}} ${$(v)}
+
+---
+
+(makefile
+  (variable_assignment
+    name: (word)
+    value: (text
+      (variable_reference
+        (variable_reference (word)))
+      (variable_reference
+        (variable_reference (word)))
+      (variable_reference
+        (variable_reference (word)))
+      (variable_reference
+        (variable_reference (word))))))
+
+===============================================
+Variable, concatenation, var reference and text
+===============================================
+v = foo/$(bar)
+
+---
+
+(makefile
+  (variable_assignment
+    name: (word)
+    value: (text
+      (concatenation
+        (word)
+        (variable_reference (word))))))
+
+========================================================
+Variable, concatenation, var reference and var reference
+========================================================
+v = $(foo)$(bar)
+
+---
+
+(makefile
+  (variable_assignment
+    name: (word)
+    value: (text
+      (concatenation
+        (variable_reference (word))
+        (variable_reference (word))))))
