@@ -11,7 +11,7 @@ endef
 (makefile
   (define_directive
      name: (word)
-	value: (raw_text)))
+    value: (raw_text)))
 
 ============================================
 Define directive (whitespace after operator)
@@ -26,5 +26,5 @@ endef
 (makefile
   (define_directive
      name: (word)
-	value: (raw_text)))
+    value: (raw_text)))
 

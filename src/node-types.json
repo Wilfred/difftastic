@@ -83,6 +83,166 @@
     "fields": {}
   },
   {
+    "type": "conditional",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "VPATH_assignment",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "define_directive",
+            "named": true
+          },
+          {
+            "type": "export_directive",
+            "named": true
+          },
+          {
+            "type": "ifdef_directive",
+            "named": true
+          },
+          {
+            "type": "ifeq_directive",
+            "named": true
+          },
+          {
+            "type": "ifndef_directive",
+            "named": true
+          },
+          {
+            "type": "ifneq_directive",
+            "named": true
+          },
+          {
+            "type": "include_directive",
+            "named": true
+          },
+          {
+            "type": "override_directive",
+            "named": true
+          },
+          {
+            "type": "private_directive",
+            "named": true
+          },
+          {
+            "type": "rule",
+            "named": true
+          },
+          {
+            "type": "shell_assignment",
+            "named": true
+          },
+          {
+            "type": "undefine_directive",
+            "named": true
+          },
+          {
+            "type": "unexport_directive",
+            "named": true
+          },
+          {
+            "type": "variable_assignment",
+            "named": true
+          },
+          {
+            "type": "vpath_directive",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ifdef_directive",
+            "named": true
+          },
+          {
+            "type": "ifeq_directive",
+            "named": true
+          },
+          {
+            "type": "ifndef_directive",
+            "named": true
+          },
+          {
+            "type": "ifneq_directive",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "VPATH_assignment",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "define_directive",
+            "named": true
+          },
+          {
+            "type": "export_directive",
+            "named": true
+          },
+          {
+            "type": "include_directive",
+            "named": true
+          },
+          {
+            "type": "override_directive",
+            "named": true
+          },
+          {
+            "type": "private_directive",
+            "named": true
+          },
+          {
+            "type": "rule",
+            "named": true
+          },
+          {
+            "type": "shell_assignment",
+            "named": true
+          },
+          {
+            "type": "undefine_directive",
+            "named": true
+          },
+          {
+            "type": "unexport_directive",
+            "named": true
+          },
+          {
+            "type": "variable_assignment",
+            "named": true
+          },
+          {
+            "type": "vpath_directive",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "define_directive",
     "named": true,
     "fields": {
@@ -161,6 +321,170 @@
     }
   },
   {
+    "type": "ifdef_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ifeq_directive",
+    "named": true,
+    "fields": {
+      "arg0": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "arg1": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ifndef_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ifneq_directive",
+    "named": true,
+    "fields": {
+      "arg0": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "arg1": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "include_directive",
     "named": true,
     "fields": {
@@ -209,6 +533,10 @@
       "types": [
         {
           "type": "VPATH_assignment",
+          "named": true
+        },
+        {
+          "type": "conditional",
           "named": true
         },
         {
@@ -645,7 +973,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "text",
@@ -686,6 +1014,10 @@
     "named": false
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "$",
     "named": false
   },
@@ -699,6 +1031,10 @@
   },
   {
     "type": "&:",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -719,6 +1055,10 @@
   },
   {
     "type": "+=",
+    "named": false
+  },
+  {
+    "type": ",",
     "named": false
   },
   {
@@ -802,7 +1142,15 @@
     "named": false
   },
   {
+    "type": "else",
+    "named": false
+  },
+  {
     "type": "endef",
+    "named": false
+  },
+  {
+    "type": "endif",
     "named": false
   },
   {
@@ -811,6 +1159,22 @@
   },
   {
     "type": "export",
+    "named": false
+  },
+  {
+    "type": "ifdef",
+    "named": false
+  },
+  {
+    "type": "ifeq",
+    "named": false
+  },
+  {
+    "type": "ifndef",
+    "named": false
+  },
+  {
+    "type": "ifneq",
     "named": false
   },
   {
