@@ -608,17 +608,31 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ALIAS",
+                  "type": "FIELD",
+                  "name": "target_or_pattern",
                   "content": {
                     "type": "SYMBOL",
                     "name": "list"
-                  },
-                  "named": true,
-                  "value": "pattern_list"
+                  }
                 },
                 {
                   "type": "STRING",
                   "value": ":"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[\\t ]+"
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             },
@@ -1888,3 +1902,4 @@
   ],
   "supertypes": []
 }
+

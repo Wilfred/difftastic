@@ -161,8 +161,9 @@ module.exports = grammar({
         // 6.5
         variable_assignment: $ => seq(
             optional(seq(
-                alias($.list, $.pattern_list),
-                ':'
+                field('target_or_pattern', $.list),
+                ':',
+                optional(WS)
             )),
             field('name',$.word),
             optional(WS),

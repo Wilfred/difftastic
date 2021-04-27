@@ -156,3 +156,16 @@ VPATH = foo:../bar
   (VPATH_assignment
     value: (paths (word) (word))))
 
+
+=================================
+Variable, target/pattern-specific
+================================
+%.o : v = foo
+
+---
+
+(makefile
+  (variable_assignment
+    target_or_pattern: (list (word))
+     name: (word)
+    value: (text (word))))

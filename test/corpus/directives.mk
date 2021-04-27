@@ -160,3 +160,16 @@ private foo = bar
     (variable_assignment
       name: (word)
       value: (text (word)))))
+
+================================================================
+Directive, private, variable assignment, target/pattern-specific
+================================================================
+%.o : CFLAGS = -O
+
+---
+
+(makefile
+  (variable_assignment
+    target_or_pattern: (list (word))
+    name: (word)
+    value: (text (word))))
