@@ -23,8 +23,23 @@ my $a = 3;
 
 (source_file
   (variable_declaration (scope) (single_var_declaration
-    (scalar_variable) (integer)
-  ) (semi_colon))
+    (scalar_variable)) (integer) (semi_colon))
+)
+
+=================================================
+multi declaration with initialization
+=================================================
+
+my ($self, $args) = @_;
+
+---
+
+(source_file
+  (variable_declaration (scope)
+    (multi_var_declaration
+      (variable_declarator (scalar_variable)) (variable_declarator (scalar_variable))
+    ) (special_variable) (semi_colon)
+  )
 )
 
 =================================================
@@ -51,8 +66,7 @@ my @array = ('meow', 'woof', 'burp');
 
 (source_file
   (variable_declaration (scope) (single_var_declaration
-    (array_variable) (array (string_single_quoted))
-  ) (semi_colon))
+    (array_variable)) (array (string_single_quoted)) (semi_colon))
 )
 
 =================================================
@@ -68,11 +82,11 @@ my $hash = {
 ---
 
 (source_file
-  (variable_declaration (scope) (single_var_declaration (scalar_variable)
+  (variable_declaration (scope) (single_var_declaration (scalar_variable))
     (hash_ref
       (identifier) (string_single_quoted)
       (identifier) (string_single_quoted)
-      (identifier) (string_single_quoted)))
+      (identifier) (string_single_quoted))
     (semi_colon)))
 
 =================================================
@@ -161,6 +175,6 @@ my $line = <$fh>;
   (while_statement (empty_parenthesized_expression (standard_input))
     (block)
   )
-  (variable_declaration (scope) (single_var_declaration (scalar_variable) (standard_input)) (semi_colon))
-  (variable_declaration (scope) (single_var_declaration (scalar_variable) (standard_input_to_variable (scalar_variable))) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (standard_input) (semi_colon))
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (standard_input_to_variable (scalar_variable)) (semi_colon))
 )
