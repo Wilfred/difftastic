@@ -160,4 +160,3 @@ private foo = bar
     (variable_assignment
       name: (word)
       value: (text (word)))))
-
