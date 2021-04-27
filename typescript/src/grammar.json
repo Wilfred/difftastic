@@ -134,16 +134,34 @@
                           "value": "default"
                         },
                         {
-                          "type": "FIELD",
-                          "name": "value",
-                          "content": {
-                            "type": "SYMBOL",
-                            "name": "expression"
-                          }
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "_semicolon"
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "FIELD",
+                              "name": "declaration",
+                              "content": {
+                                "type": "SYMBOL",
+                                "name": "declaration"
+                              }
+                            },
+                            {
+                              "type": "SEQ",
+                              "members": [
+                                {
+                                  "type": "FIELD",
+                                  "name": "value",
+                                  "content": {
+                                    "type": "SYMBOL",
+                                    "name": "expression"
+                                  }
+                                },
+                                {
+                                  "type": "SYMBOL",
+                                  "name": "_semicolon"
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     }
@@ -213,23 +231,6 @@
             {
               "type": "SYMBOL",
               "name": "_semicolon"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "export"
-            },
-            {
-              "type": "STRING",
-              "value": "default"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "function_signature"
             }
           ]
         }
