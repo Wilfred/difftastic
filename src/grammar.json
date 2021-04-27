@@ -895,11 +895,23 @@
         },
         {
           "type": "SYMBOL",
+          "name": "export_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unexport_directive"
+        },
+        {
+          "type": "SYMBOL",
           "name": "override_directive"
         },
         {
           "type": "SYMBOL",
           "name": "undefine_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "private_directive"
         }
       ]
     },
@@ -918,20 +930,8 @@
               "value": "sinclude"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "-"
-                },
-                {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "include"
-                  }
-                }
-              ]
+              "type": "STRING",
+              "value": "-include"
             }
           ]
         },
@@ -1005,6 +1005,79 @@
         }
       ]
     },
+    "export_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "export"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "variable",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "list"
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "variable_assignment"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\r\\n]+"
+          }
+        }
+      ]
+    },
+    "unexport_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "unexport"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "variable",
+              "content": {
+                "type": "SYMBOL",
+                "name": "list"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\r\\n]+"
+          }
+        }
+      ]
+    },
     "override_directive": {
       "type": "SEQ",
       "members": [
@@ -1018,6 +1091,10 @@
             {
               "type": "SYMBOL",
               "name": "define_directive"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "variable_assignment"
             },
             {
               "type": "SYMBOL",
@@ -1048,6 +1125,28 @@
             "type": "PATTERN",
             "value": "[\\r\\n]+"
           }
+        }
+      ]
+    },
+    "private_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "private"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "define_directive"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "variable_assignment"
+            }
+          ]
         }
       ]
     },

@@ -135,6 +135,32 @@
     }
   },
   {
+    "type": "export_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "variable_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "include_directive",
     "named": true,
     "fields": {
@@ -190,11 +216,19 @@
           "named": true
         },
         {
+          "type": "export_directive",
+          "named": true
+        },
+        {
           "type": "include_directive",
           "named": true
         },
         {
           "type": "override_directive",
+          "named": true
+        },
+        {
+          "type": "private_directive",
           "named": true
         },
         {
@@ -207,6 +241,10 @@
         },
         {
           "type": "undefine_directive",
+          "named": true
+        },
+        {
+          "type": "unexport_directive",
           "named": true
         },
         {
@@ -234,6 +272,10 @@
         },
         {
           "type": "undefine_directive",
+          "named": true
+        },
+        {
+          "type": "variable_assignment",
           "named": true
         }
       ]
@@ -303,6 +345,25 @@
         },
         {
           "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "private_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "define_directive",
+          "named": true
+        },
+        {
+          "type": "variable_assignment",
           "named": true
         }
       ]
@@ -521,6 +582,22 @@
     }
   },
   {
+    "type": "unexport_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "variable_assignment",
     "named": true,
     "fields": {
@@ -643,6 +720,10 @@
     "named": false
   },
   {
+    "type": "-include",
+    "named": false
+  },
+  {
     "type": "/",
     "named": false
   },
@@ -723,6 +804,10 @@
     "named": true
   },
   {
+    "type": "export",
+    "named": false
+  },
+  {
     "type": "include",
     "named": false
   },
@@ -731,11 +816,19 @@
     "named": false
   },
   {
+    "type": "private",
+    "named": false
+  },
+  {
     "type": "sinclude",
     "named": false
   },
   {
     "type": "undefine",
+    "named": false
+  },
+  {
+    "type": "unexport",
     "named": false
   },
   {
