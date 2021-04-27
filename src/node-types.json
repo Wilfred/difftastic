@@ -1,144 +1,50 @@
 [
   {
-    "type": "ILLEGAL",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "automatic_variable",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "builtin_target",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "concatenation",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "substitution_reference",
-          "named": true
-        },
-        {
-          "type": "variable_reference",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "conditional",
+    "type": "VPATH_assignment",
     "named": true,
     "fields": {
-      "alternative": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "conditional",
-            "named": true
-          },
-          {
-            "type": "define_directive",
-            "named": true
-          },
-          {
-            "type": "include_directive",
-            "named": true
-          },
-          {
-            "type": "load_directive",
-            "named": true
-          },
-          {
-            "type": "rule",
-            "named": true
-          },
-          {
-            "type": "undefine_directive",
-            "named": true
-          },
-          {
-            "type": "variable_definition",
-            "named": true
-          },
-          {
-            "type": "vpath_directive",
-            "named": true
-          }
-        ]
-      },
-      "condition": {
+      "name": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "ifdef_directive",
-            "named": true
-          },
-          {
-            "type": "ifeq_directive",
-            "named": true
-          },
-          {
-            "type": "ifndef_directive",
-            "named": true
-          },
-          {
-            "type": "ifneq_directive",
-            "named": true
+            "type": "VPATH",
+            "named": false
           }
         ]
       },
-      "consequence": {
-        "multiple": true,
-        "required": false,
+      "operator": {
+        "multiple": false,
+        "required": true,
         "types": [
           {
-            "type": "conditional",
-            "named": true
+            "type": "+=",
+            "named": false
           },
           {
-            "type": "define_directive",
-            "named": true
+            "type": "::=",
+            "named": false
           },
           {
-            "type": "include_directive",
-            "named": true
+            "type": ":=",
+            "named": false
           },
           {
-            "type": "load_directive",
-            "named": true
+            "type": "=",
+            "named": false
           },
           {
-            "type": "rule",
-            "named": true
-          },
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
-            "type": "undefine_directive",
-            "named": true
-          },
-          {
-            "type": "variable_definition",
-            "named": true
-          },
-          {
-            "type": "vpath_directive",
+            "type": "paths",
             "named": true
           }
         ]
@@ -146,15 +52,98 @@
     }
   },
   {
-    "type": "define_directive",
+    "type": "archive",
     "named": true,
     "fields": {
-      "variable": {
+      "archive": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "name",
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "members": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "automatic_variable",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "define_directive",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "::=",
+            "named": false
+          },
+          {
+            "type": ":=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "raw_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "export_directive",
+    "named": true,
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list",
             "named": true
           }
         ]
@@ -165,684 +154,46 @@
       "required": false,
       "types": [
         {
-          "type": "text",
+          "type": "variable_assignment",
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "directories",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "ILLEGAL",
-          "named": true
-        },
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "directory",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "filename",
-          "named": true
-        },
-        {
-          "type": "home",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "root",
-          "named": true
-        },
-        {
-          "type": "substitution_reference",
-          "named": true
-        },
-        {
-          "type": "variable_reference",
-          "named": true
-        },
-        {
-          "type": "wildcard",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "directory",
-    "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "dot",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "filename",
-    "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "filenames",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "directory",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "filename",
-          "named": true
-        },
-        {
-          "type": "home",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "root",
-          "named": true
-        },
-        {
-          "type": "substitution_reference",
-          "named": true
-        },
-        {
-          "type": "variable_reference",
-          "named": true
-        },
-        {
-          "type": "wildcard",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "home",
-    "named": true,
-    "fields": {
-      "user": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "name",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "ifdef_directive",
-    "named": true,
-    "fields": {
-      "variable": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "ifeq_directive",
-    "named": true,
-    "fields": {
-      "arg0": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "'",
-            "named": false
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      },
-      "arg1": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "'",
-            "named": false
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "ifndef_directive",
-    "named": true,
-    "fields": {
-      "variable": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "ifneq_directive",
-    "named": true,
-    "fields": {
-      "arg0": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "'",
-            "named": false
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      },
-      "arg1": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "'",
-            "named": false
-          },
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
     "type": "include_directive",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "filenames",
-          "named": true
-        }
-      ]
+    "fields": {
+      "filenames": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
-    "type": "load_directive",
+    "type": "list",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "object_files",
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "word",
           "named": true
         }
       ]
@@ -857,7 +208,7 @@
       "required": false,
       "types": [
         {
-          "type": "conditional",
+          "type": "VPATH_assignment",
           "named": true
         },
         {
@@ -865,11 +216,19 @@
           "named": true
         },
         {
+          "type": "export_directive",
+          "named": true
+        },
+        {
           "type": "include_directive",
           "named": true
         },
         {
-          "type": "load_directive",
+          "type": "override_directive",
+          "named": true
+        },
+        {
+          "type": "private_directive",
           "named": true
         },
         {
@@ -877,11 +236,19 @@
           "named": true
         },
         {
+          "type": "shell_assignment",
+          "named": true
+        },
+        {
           "type": "undefine_directive",
           "named": true
         },
         {
-          "type": "variable_definition",
+          "type": "unexport_directive",
+          "named": true
+        },
+        {
+          "type": "variable_assignment",
           "named": true
         },
         {
@@ -892,175 +259,72 @@
     }
   },
   {
-    "type": "object_files",
+    "type": "override_directive",
     "named": true,
-    "fields": {
-      "object_file": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      },
-      "object_name": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "name",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "define_directive",
+          "named": true
+        },
+        {
+          "type": "undefine_directive",
+          "named": true
+        },
+        {
+          "type": "variable_assignment",
+          "named": true
+        }
+      ]
     }
   },
   {
-    "type": "pattern",
+    "type": "paths",
     "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pattern_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1072,51 +336,39 @@
       "required": true,
       "types": [
         {
-          "type": "concatenation",
+          "type": "archive",
           "named": true
         },
         {
-          "type": "directory",
+          "type": "automatic_variable",
           "named": true
         },
         {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "filename",
-          "named": true
-        },
-        {
-          "type": "home",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "root",
-          "named": true
-        },
-        {
-          "type": "substitution_reference",
-          "named": true
-        },
-        {
-          "type": "variable_reference",
-          "named": true
-        },
-        {
-          "type": "wildcard",
+          "type": "word",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "private_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "variable_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "raw_text",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "recipe",
@@ -1149,20 +401,45 @@
     }
   },
   {
-    "type": "root",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "rule",
     "named": true,
     "fields": {
+      "normal": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "prerequisites",
+            "named": true
+          }
+        ]
+      },
       "order_only": {
         "multiple": false,
         "required": false,
         "types": [
           {
             "type": "prerequisites",
+            "named": true
+          }
+        ]
+      },
+      "prerequisite": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pattern_list",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "pattern_list",
             "named": true
           }
         ]
@@ -1173,19 +450,7 @@
       "required": true,
       "types": [
         {
-          "type": "builtin_target",
-          "named": true
-        },
-        {
-          "type": "prerequisites",
-          "named": true
-        },
-        {
           "type": "recipe",
-          "named": true
-        },
-        {
-          "type": "target_pattern",
           "named": true
         },
         {
@@ -1193,6 +458,42 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "shell_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "shell_text",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1208,121 +509,7 @@
           "named": true
         },
         {
-          "type": "substitution_reference",
-          "named": true
-        },
-        {
-          "type": "variable_reference",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "substitution_reference",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "directory",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "filename",
-          "named": true
-        },
-        {
-          "type": "home",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "root",
-          "named": true
-        },
-        {
-          "type": "substitution_reference",
-          "named": true
-        },
-        {
-          "type": "variable_reference",
-          "named": true
-        },
-        {
-          "type": "wildcard",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "target_pattern",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "directory",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "filename",
-          "named": true
-        },
-        {
-          "type": "home",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "root",
-          "named": true
-        },
-        {
-          "type": "substitution_reference",
-          "named": true
-        },
-        {
-          "type": "variable_reference",
-          "named": true
-        },
-        {
-          "type": "wildcard",
+          "type": "escape",
           "named": true
         }
       ]
@@ -1337,47 +524,15 @@
       "required": true,
       "types": [
         {
-          "type": "concatenation",
+          "type": "archive",
           "named": true
         },
         {
-          "type": "directory",
+          "type": "automatic_variable",
           "named": true
         },
         {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "filename",
-          "named": true
-        },
-        {
-          "type": "home",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "root",
-          "named": true
-        },
-        {
-          "type": "substitution_reference",
-          "named": true
-        },
-        {
-          "type": "variable_reference",
-          "named": true
-        },
-        {
-          "type": "wildcard",
+          "type": "word",
           "named": true
         }
       ]
@@ -1386,7 +541,25 @@
   {
     "type": "text",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "archive",
+          "named": true
+        },
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "undefine_directive",
@@ -1397,19 +570,7 @@
         "required": true,
         "types": [
           {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
+            "type": "word",
             "named": true
           }
         ]
@@ -1417,70 +578,78 @@
     }
   },
   {
-    "type": "variable_definition",
+    "type": "unexport_directive",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "variable": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
-    "type": "variable_reference",
+    "type": "variable_assignment",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "::=",
+            "named": false
+          },
+          {
+            "type": ":=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "directory",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "filename",
-          "named": true
-        },
-        {
-          "type": "home",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "root",
-          "named": true
-        },
-        {
-          "type": "substitution_reference",
-          "named": true
-        },
-        {
-          "type": "variable_reference",
-          "named": true
-        },
-        {
-          "type": "wildcard",
+          "type": "pattern_list",
           "named": true
         }
       ]
@@ -1489,162 +658,23 @@
   {
     "type": "vpath_directive",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "concatenation",
-          "named": true
-        },
-        {
-          "type": "directories",
-          "named": true
-        },
-        {
-          "type": "directory",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "filename",
-          "named": true
-        },
-        {
-          "type": "home",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "root",
-          "named": true
-        },
-        {
-          "type": "substitution_reference",
-          "named": true
-        },
-        {
-          "type": "variable_reference",
-          "named": true
-        },
-        {
-          "type": "wildcard",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "wildcard",
-    "named": true,
     "fields": {
-      "left": {
+      "directories": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
+            "type": "paths",
             "named": true
           }
         ]
       },
-      "right": {
+      "pattern": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "concatenation",
-            "named": true
-          },
-          {
-            "type": "directory",
-            "named": true
-          },
-          {
-            "type": "dot",
-            "named": true
-          },
-          {
-            "type": "filename",
-            "named": true
-          },
-          {
-            "type": "home",
-            "named": true
-          },
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "root",
-            "named": true
-          },
-          {
-            "type": "substitution_reference",
-            "named": true
-          },
-          {
-            "type": "variable_reference",
-            "named": true
-          },
-          {
-            "type": "wildcard",
+            "type": "word",
             "named": true
           }
         ]
@@ -1652,7 +682,7 @@
     }
   },
   {
-    "type": "\"",
+    "type": "!=",
     "named": false
   },
   {
@@ -1669,10 +699,6 @@
   },
   {
     "type": "&:",
-    "named": false
-  },
-  {
-    "type": "'",
     "named": false
   },
   {
@@ -1696,79 +722,11 @@
     "named": false
   },
   {
-    "type": ",",
-    "named": false
-  },
-  {
     "type": "-",
     "named": false
   },
   {
-    "type": ".",
-    "named": false
-  },
-  {
-    "type": "..",
-    "named": false
-  },
-  {
-    "type": ".DEFAULT",
-    "named": false
-  },
-  {
-    "type": ".DELETE_ON_ERROR",
-    "named": false
-  },
-  {
-    "type": ".EXPORT_ALL_VARIABLES",
-    "named": false
-  },
-  {
-    "type": ".IGNORE",
-    "named": false
-  },
-  {
-    "type": ".INTERMEDIATE",
-    "named": false
-  },
-  {
-    "type": ".LOW_RESOLUTION_TIME",
-    "named": false
-  },
-  {
-    "type": ".NOTPARALLEL",
-    "named": false
-  },
-  {
-    "type": ".ONESHELL",
-    "named": false
-  },
-  {
-    "type": ".PHONY",
-    "named": false
-  },
-  {
-    "type": ".POSIX",
-    "named": false
-  },
-  {
-    "type": ".PRECIOUS",
-    "named": false
-  },
-  {
-    "type": ".SECONDARY",
-    "named": false
-  },
-  {
-    "type": ".SECONDEXPANSION",
-    "named": false
-  },
-  {
-    "type": ".SILENT",
-    "named": false
-  },
-  {
-    "type": ".SUFFIXES",
+    "type": "-include",
     "named": false
   },
   {
@@ -1824,6 +782,14 @@
     "named": false
   },
   {
+    "type": "VPATH",
+    "named": false
+  },
+  {
+    "type": "\\",
+    "named": false
+  },
+  {
     "type": "^",
     "named": false
   },
@@ -1836,31 +802,15 @@
     "named": false
   },
   {
-    "type": "else",
-    "named": false
-  },
-  {
     "type": "endef",
     "named": false
   },
   {
-    "type": "endif",
-    "named": false
+    "type": "escape",
+    "named": true
   },
   {
-    "type": "ifdef",
-    "named": false
-  },
-  {
-    "type": "ifeq",
-    "named": false
-  },
-  {
-    "type": "ifndef",
-    "named": false
-  },
-  {
-    "type": "ifneq",
+    "type": "export",
     "named": false
   },
   {
@@ -1868,15 +818,15 @@
     "named": false
   },
   {
-    "type": "load",
+    "type": "override",
     "named": false
   },
   {
-    "type": "name",
-    "named": true
+    "type": "private",
+    "named": false
   },
   {
-    "type": "override",
+    "type": "sinclude",
     "named": false
   },
   {
@@ -1884,7 +834,19 @@
     "named": false
   },
   {
+    "type": "unexport",
+    "named": false
+  },
+  {
     "type": "vpath",
+    "named": false
+  },
+  {
+    "type": "word",
+    "named": true
+  },
+  {
+    "type": "{",
     "named": false
   },
   {
@@ -1892,7 +854,7 @@
     "named": false
   },
   {
-    "type": "~",
+    "type": "}",
     "named": false
   }
 ]

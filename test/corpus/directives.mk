@@ -1,81 +1,162 @@
-================================================================================
+==================
 Directive, include
-================================================================================
-include foo *.mk $(bar)
+==================
+ include foo *.mk
+-include foo *.mk
+sinclude foo *.mk
 
 ---
 
 (makefile
   (include_directive
-    (filenames
-      (name)
-      (filename
-        left: (wildcard)
-        right: (name))
-      (variable_reference
-        (variable)))))
+    filenames: (list (word) (word)))
+  (include_directive
+    filenames: (list (word) (word)))
+  (include_directive
+    filenames: (list (word) (word))))
 
-================================================================================
+================
 Directive, vpath
-================================================================================
-vpath %.c foo/bar
-vpath %.c foo:bar
-vpath %.c
+================
 vpath
+vpath %.p
+vpath %.p ../foo
+
+---
+
+(makefile
+  (vpath_directive)
+  (vpath_directive
+        pattern: (word))
+  (vpath_directive
+        pattern: (word)
+    directories: (paths (word))))
+
+================================
+Directive, vpath, list delimiter
+================================
+vpath % foo:bar
 
 ---
 
 (makefile
   (vpath_directive
-    (filename
-      left: (pattern)
-      right: (name))
-    (directories
-      (directory
-        left: (name)
-        right: (name))))
-  (vpath_directive
-    (filename
-      left: (pattern)
-      right: (name))
-    (directories
-      (name)
-      (name)))
-  (vpath_directive
-    (filename
-      left: (pattern)
-      right: (name)))
-  (vpath_directive))
+    pattern: (word)
+    directories: (paths (word) (word))))
 
-================================================================================
+======================
+Directive, export, all
+======================
+export
+
+---
+
+(makefile
+  (export_directive))
+
+================================
+Directive, export, variable name
+================================
+export foo bar
+
+---
+
+(makefile
+  (export_directive
+    variable: (list (word) (word))))
+
+======================================
+Directive, export, variable assignment
+======================================
+export foo = bar
+
+---
+
+(makefile
+  (export_directive
+    (variable_assignment
+      name: (word)
+      value: (text (word)))))
+
+========================
+Directive, unexport, all
+========================
+unexport
+
+---
+
+(makefile
+  (unexport_directive))
+
+==================================
+Directive, unexport, variable name
+==================================
+unexport foo bar
+
+---
+
+(makefile
+  (unexport_directive
+    variable: (list (word) (word))))
+
+========================================
+Directive, override, variable assignment
+========================================
+override v = foo
+
+---
+
+(makefile
+  (override_directive
+    (variable_assignment
+      name: (word)
+      value: (text (word)))))
+
+========================================
+Directive, override, variable definition
+========================================
+override define foo =
+endef
+
+---
+
+(makefile
+  (override_directive
+    (define_directive
+      name: (word))))
+
+=============================
+Directive, override, undefine
+=============================
+override undefine foo
+
+---
+
+(makefile
+  (override_directive
+    (undefine_directive
+      variable: (word))))
+
+===================
 Directive, undefine
-================================================================================
+===================
 undefine foo
-override undefine CFLAGS
 
 ---
 
 (makefile
   (undefine_directive
-    variable: (name))
-  (undefine_directive
-    variable: (name)))
+    variable: (word)))
 
-================================================================================
-Directive, conditional I
-================================================================================
-ifdef $(foo)
-bar = yes
-endif
+=======================================
+Directive, private, variable assignment
+=======================================
+private foo = bar
 
 ---
 
-================================================================================
-Directive, conditional II
-================================================================================
-ifeq ($(strip $(foo)),)
-foo = yes
-endif
-
----
-
+(makefile
+  (private_directive
+    (variable_assignment
+      name: (word)
+      value: (text (word)))))
