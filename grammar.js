@@ -3,13 +3,14 @@
 const PRECEDENCE = {
   REGEXP: 1,
   ESCAPE_SEQ: 1,
-  STRING: 2,
-  COMMENTS: 3, // comments over anything. Except in strings or regex.
+  STRING: 4,
+  COMMENTS: 5, // comments over anything. Except in strings or regex.
   
   HASH: 1,
   ARRAY: 2,
   SUB_ARGS: 29,
-  SUB_CALL: 30, // sub call, parathesised have higher precedence than operators
+  SUB_CALL: 30, // sub call, parathesised have higher precedence than operators\
+  BRACKETS: 100, // highest of them all
 
   // begin of operators
   AUTO_INCREMENT_DECREMENT: 23,
@@ -61,6 +62,7 @@ module.exports = grammar({
     [$.standalone_block, $.hash_ref],
     [$.goto_expression, $._expression],
     [$._primitive_expression, $.dereference],
+    [$._expression],
   ],
 
   // externals: $ => [
@@ -602,8 +604,9 @@ module.exports = grammar({
       optional($._expression),
     ),
 
-    _expression: $ => choice(
+    _expression: $ => with_or_without_brackets(choice(
       $._primitive_expression,
+      $._string,
       $._variables,
 
       $.binary_expression,
@@ -637,7 +640,7 @@ module.exports = grammar({
       $.bless,
       
       $.special_variable,
-    ),
+    )),
 
     special_variable: $ => choice(
       /@_/,
@@ -1099,12 +1102,12 @@ module.exports = grammar({
     ),
 
     // the strings
-    _string: $ => choice(
+    _string: $ => prec(PRECEDENCE.STRING, choice(
       $.string_single_quoted,
       $.string_q_quoted,
       $.string_double_quoted,
       $.string_qq_quoted,
-    ),
+    )),
 
     _resolves_to_digit: $ => choice(
       $.string_single_quoted,
@@ -1317,7 +1320,7 @@ module.exports = grammar({
       $.array_variable,
     ),
 
-    array: $ => prec(PRECEDENCE.ARRAY, seq(
+    array: $ => prec.left(PRECEDENCE.ARRAY, seq(
       '(',
       optional(commaSeparated($._primitive_expression)),
       ')',
@@ -1368,9 +1371,10 @@ module.exports = grammar({
 
     // cat => 'meow',
     _key_value_pair: $ => seq(
-      with_or_without_quotes($.identifier),
+      // with_or_without_quotes($.identifier), // TODO: fix this, check examples/control.pl
+      $.identifier,
       '=>',
-      $._primitive_expression,
+      $._expression,
     ),
 
     comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
@@ -1405,10 +1409,10 @@ function commaSeparated(rule) {
  * @returns choice of rules
  */
 function with_or_without_brackets(rule) {
-  return choice(
+  return prec(PRECEDENCE.BRACKETS, choice(
     rule,
     seq('(', rule, ')'),
-  );
+  ));
 }
 
 /**
