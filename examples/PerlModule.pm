@@ -79,13 +79,13 @@ sub new {
 #  $_[0]->{TestName};
 # }
  
-# sub toString {
-#  my $self = shift;
-# #  return <<EOM;
-# #  Previous test $self->{Test} '$self->{TestName}'
-# #  $self->{Carp}
-# # EOM
-# }
+sub toString {
+ my $self = shift;
+#  return <<EOM;
+#  Previous test $self->{Test} '$self->{TestName}'
+#  $self->{Carp}
+# EOM
+}
 
  
 1;

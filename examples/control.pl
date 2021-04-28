@@ -1,3 +1,6 @@
+use strict;
+use warnings;
+
 # sub hello {
 #   if (1) {
 #     return true;
@@ -52,18 +55,24 @@ else {
 #    }
 # }
 
-my $i = 0;
-MEOW: while ($i < 10) {
-  print "hello $i";
+# my $i = 0;
+# MEOW: while ($i < 10) {
+#   print "hello $i";
   
-  next MEOW;
+#   next MEOW;
 
-  $i++;
-}
+#   $i++;
+# }
 
 # standalone blocks
 {
   print "hello";
 } continue {
-  print "con";
+  print "con\n";
 }
+
+my @array = ("dsf");
+
+my $tern_out = (1 == 1) ? ("terry") : ((2 * 28) + 1);
+
+print $tern_out;
