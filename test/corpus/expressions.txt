@@ -913,6 +913,7 @@ $fn1 = fn($x) => $x + $y;
   )
   (expression_statement
     (arrow_function
+      (static_modifier)
       parameters: (formal_parameters
         (simple_parameter
           name: (variable_name (name))

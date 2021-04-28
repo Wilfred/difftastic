@@ -1631,33 +1631,11 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_arrow_function_header"
-        },
-        {
-          "type": "FIELD",
-          "name": "body",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_expression"
-          }
-        }
-      ]
-    },
-    "_arrow_function_header": {
-      "type": "SEQ",
-      "members": [
-        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "PATTERN",
-                "value": "[sS][tT][aA][tT][iI][cC]"
-              },
-              "named": false,
-              "value": "static"
+              "type": "SYMBOL",
+              "name": "static_modifier"
             },
             {
               "type": "BLANK"
@@ -1708,6 +1686,14 @@
         {
           "type": "STRING",
           "value": "=>"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
         }
       ]
     },
@@ -3891,6 +3877,10 @@
         {
           "type": "SYMBOL",
           "name": "throw_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "arrow_function"
         }
       ]
     },
