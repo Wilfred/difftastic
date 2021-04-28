@@ -152,4 +152,25 @@ mod tests {
             }],
         );
     }
+    #[test]
+    fn test_parse_list_with_commas() {
+        assert_eq!(
+            parse_json("[123, 456]"),
+            vec![Syntax::Items {
+                start_content: "[".into(),
+                end_content: "]".into(),
+                change: ChangeKind::Unchanged,
+                children: vec![
+                    Syntax::Atom {
+                        content: "123".into(),
+                        change: ChangeKind::Unchanged,
+                    },
+                    Syntax::Atom {
+                        content: "456".into(),
+                        change: ChangeKind::Unchanged,
+                    }
+                ]
+            }],
+        );
+    }
 }
