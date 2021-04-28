@@ -17,12 +17,12 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.19.1"
+    "tree-sitter-cli": "^0.19.1",
+    "shelljs": "^0.8.4"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && script/parse-examples",
-    "test-windows": "tree-sitter test"
+    "test": "tree-sitter test && node script/parse-examples.js"
   },
   "repository": {
     "type": "git",
