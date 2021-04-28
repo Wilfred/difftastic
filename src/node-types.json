@@ -461,6 +461,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "static_modifier",
+          "named": true
+        }
+      ]
     }
   },
   {

@@ -375,17 +375,13 @@ module.exports = grammar({
     ),
 
     arrow_function: $ => seq(
-      $._arrow_function_header,
-      field('body', $._expression)
-    ),
-
-    _arrow_function_header: $ => seq(
-      optional(keyword('static')),
+      optional($.static_modifier),
       keyword('fn'),
       optional('&'),
       field('parameters', $.formal_parameters),
       optional($._return_type),
-      '=>'
+      '=>',
+      field('body', $._expression)
     ),
 
     formal_parameters: $ => seq(
@@ -807,6 +803,7 @@ module.exports = grammar({
       $.shell_command_expression,
       $.parenthesized_expression,
       $.throw_expression,
+      $.arrow_function,
     ),
 
     parenthesized_expression: $ => seq('(', $._expression, ')'),
