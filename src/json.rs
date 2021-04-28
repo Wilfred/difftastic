@@ -143,15 +143,26 @@ mod tests {
                 start_content: "[".into(),
                 end_content: "]".into(),
                 change: ChangeKind::Unchanged,
-                children: vec![{
-                    Syntax::Atom {
-                        content: "123".into(),
-                        change: ChangeKind::Unchanged,
-                    }
+                children: vec![Syntax::Atom {
+                    content: "123".into(),
+                    change: ChangeKind::Unchanged,
                 }]
             }],
         );
     }
+    #[test]
+    fn test_parse_empty_list() {
+        assert_eq!(
+            parse_json("[]"),
+            vec![Syntax::Items {
+                start_content: "[".into(),
+                end_content: "]".into(),
+                change: ChangeKind::Unchanged,
+                children: vec![]
+            }],
+        );
+    }
+
     #[test]
     fn test_parse_list_with_commas() {
         assert_eq!(
