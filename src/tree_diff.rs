@@ -37,6 +37,15 @@ impl Syntax {
             }
         }
     }
+
+    #[cfg(test)]
+    fn change(&self) -> ChangeKind {
+        match self {
+            Items { change, .. } => *change,
+            Atom { change, .. } => *change,
+        }
+    }
+
     fn set_change_deep(&mut self, ck: ChangeKind) {
         self.set_change(ck);
         if let Items {
@@ -149,7 +158,6 @@ fn walk_nodes(nodes: &mut [Syntax], subtrees: &mut HashMap<Syntax, i64>, ck: Cha
                     }
                     Atom { .. } => {}
                 }
-                s.set_change_deep(ck);
             }
         }
     }
@@ -187,20 +195,6 @@ mod tests {
     }
 
     #[test]
-    fn test_set_syntax_change_kind() {
-        let mut s = Items {
-            change: Unchanged,
-            children: vec![Atom {
-                content: "foo".into(),
-                change: Added,
-            }],
-            start_content: "".into(),
-            end_content: "".into(),
-        };
-        s.set_change_deep(Removed);
-    }
-
-    #[test]
     fn test_add_duplicate_node() {
         let mut lhs = vec![Atom {
             change: Unchanged,
@@ -234,6 +228,43 @@ mod tests {
             Items { .. } => {
                 assert!(false);
             }
+        };
+    }
+    #[test]
+    fn test_add_subtree() {
+        let mut lhs = vec![Items {
+            change: Unchanged,
+            start_content: "[".into(),
+            end_content: "[".into(),
+            children: vec![Atom {
+                change: Unchanged,
+                content: "a".into(),
+            }],
+        }];
+
+        let mut rhs = vec![Items {
+            change: Unchanged,
+            start_content: "[".into(),
+            end_content: "[".into(),
+            children: vec![
+                Atom {
+                    change: Unchanged,
+                    content: "a".into(),
+                },
+                Atom {
+                    change: Unchanged,
+                    content: "a".into(),
+                },
+            ],
+        }];
+
+        set_changed(&mut lhs, &mut rhs);
+
+        match &rhs[0] {
+            Items { children, .. } => {
+                assert_eq!(children[0].change(), Unchanged)
+            }
+            Atom { .. } => unreachable!(),
         };
     }
 }
