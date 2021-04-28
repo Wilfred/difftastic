@@ -196,7 +196,7 @@ v = $(v) ${v}
       (variable_reference (word)))))
 
 ==============================
-Variable, reference, recursive
+Variable, reference, nested
 ==============================
 v = $($(v)) $(${v}) ${${v}} ${$(v)}
 
@@ -214,6 +214,22 @@ v = $($(v)) $(${v}) ${${v}} ${$(v)}
         (variable_reference (word)))
       (variable_reference
         (variable_reference (word))))))
+
+===============================================
+Variable, substitution reference
+===============================================
+v := $(foo:.o=.c)
+
+---
+
+(makefile
+  (variable_assignment
+    name: (word)
+    value: (text
+      (substitution_reference
+               text: (word)
+            pattern: (word)
+        replacement: (word)))))
 
 ===============================================
 Variable, concatenation, var reference and text
@@ -244,3 +260,20 @@ v = $(foo)$(bar)
       (concatenation
         (variable_reference (word))
         (variable_reference (word))))))
+
+==========================================
+Variable, computed variable, concatenation
+==========================================
+v := $($(foo)_$(bar))
+
+---
+
+(makefile
+  (variable_assignment
+    name: (word)
+    value: (text
+      (variable_reference
+        (concatenation
+          (variable_reference (word))
+          (word)
+          (variable_reference (word)))))))
