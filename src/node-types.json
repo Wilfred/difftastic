@@ -103,6 +103,10 @@
           "named": true
         },
         {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
           "type": "variable_reference",
           "named": true
         },
@@ -372,6 +376,10 @@
             "named": true
           },
           {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
             "type": "variable_reference",
             "named": true
           },
@@ -412,6 +420,10 @@
             "named": true
           },
           {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
             "type": "variable_reference",
             "named": true
           },
@@ -446,6 +458,10 @@
             "named": true
           },
           {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
             "type": "variable_reference",
             "named": true
           },
@@ -475,6 +491,10 @@
           },
           {
             "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -518,6 +538,10 @@
             "named": true
           },
           {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
             "type": "variable_reference",
             "named": true
           },
@@ -549,6 +573,10 @@
           },
           {
             "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
             "named": true
           },
           {
@@ -597,6 +625,10 @@
         },
         {
           "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
           "named": true
         },
         {
@@ -717,6 +749,10 @@
           "named": true
         },
         {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
           "type": "variable_reference",
           "named": true
         },
@@ -748,6 +784,10 @@
           "named": true
         },
         {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
           "type": "variable_reference",
           "named": true
         },
@@ -776,6 +816,10 @@
         },
         {
           "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
           "named": true
         },
         {
@@ -950,8 +994,112 @@
         {
           "type": "escape",
           "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "substitution_reference",
+    "named": true,
+    "fields": {
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "replacement": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "archive",
+            "named": true
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          },
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -972,6 +1120,10 @@
         },
         {
           "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
           "named": true
         },
         {
@@ -1003,6 +1155,10 @@
         },
         {
           "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
           "named": true
         },
         {
@@ -1128,6 +1284,10 @@
         },
         {
           "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
           "named": true
         },
         {

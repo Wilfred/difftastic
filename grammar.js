@@ -341,54 +341,47 @@ module.exports = grammar({
         // }}}
         // Variables {{{
         _variable: $ => choice(
-            $.variable_reference
+            $.variable_reference,
+            $.substitution_reference,
         ),
 
         variable_reference: $ => seq(
             choice('$','$$'),
-            choice(
-                seq(
-                    token.immediate('('),
-                        $._primary,
-                        ')'
-                ),
-                seq(
-                    token.immediate('{'),
-                    $._primary,
-                    '}'
-                )
-            ),
+            delimitedVariable($._primary),
         ),
+
+        // 6.3.1
+        substitution_reference: $ => seq(
+            choice('$','$$'),
+            delimitedVariable(seq(
+                field('text',$._primary),
+                ':',
+                field('pattern',$._primary),
+                '=',
+                field('replacement',$._primary),
+            )),
+        ),
+
         // }}}
         // Automatic variables {{{
         // 10.5.3
-        automatic_variable: $ => choice(
-            seq(
-                choice('$','$$'),
-                choice(...AUTOMATIC_VARS
-                    .map(c => token.immediate(c)))
-            ),
-            seq(
-                choice('$','$$'),
-                token.immediate('('),
-                $._automatic_vars,
-                ')'
-            ),
-            seq(
-                choice('$','$$'),
-                token.immediate('{'),
-                $._automatic_vars,
-                '}'
-            ),
+        automatic_variable: $ => seq(
+            choice('$','$$'),
+            choice(
+                choice(
+                    ...AUTOMATIC_VARS
+                        .map(c => token.immediate(c))
+                ),
+                delimitedVariable(seq(
+                    choice(...AUTOMATIC_VARS),
+                    optional(choice(
+                        token.immediate('D'),
+                        token.immediate('F')
+                    )),
+                ))
+            )
         ),
 
-        _automatic_vars: $ => seq(
-            choice(...AUTOMATIC_VARS),
-            optional(choice(
-                token.immediate('D'),
-                token.immediate('F')
-            )),
-        ),
         // }}}
         // Primary and lists {{{
         list: $ => seq(
@@ -417,9 +410,9 @@ module.exports = grammar({
             $.concatenation
         ),
 
-        concatenation: $ => prec.left(seq(
+        concatenation: $ => prec.right(seq(
             $._primary,
-            $._primary
+            repeat1(prec.left($._primary))
         )),
         // }}}
         // Names {{{
@@ -452,6 +445,7 @@ module.exports = grammar({
         _shell_text_without_split: $ => text($,
             noneOf(...['\\$', '\\n', '\\']),
             choice(
+                $._variable,
                 $.automatic_variable,
                 alias('$$',$.escape),
                 alias('//',$.escape),
@@ -473,6 +467,21 @@ module.exports = grammar({
 function noneOf(...characters) {
   const negatedString = characters.map(c => c == '\\' ? '\\\\' : c).join('')
   return new RegExp('[^' + negatedString + ']')
+}
+
+function delimitedVariable(rule) {
+    return choice(
+        seq(
+            token.immediate('('),
+            rule,
+            ')'
+        ),
+        seq(
+            token.immediate('{'),
+            rule,
+            '}'
+        )
+    )
 }
 
 function text($, text, fenced_vars) {
@@ -498,3 +507,6 @@ function text($, text, fenced_vars) {
         )
     )
 }
+
+//function text($, text, fenced_vars) {
+

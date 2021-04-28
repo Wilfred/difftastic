@@ -197,3 +197,13 @@ endif
     alternative: (ifneq_directive
       arg0: (word)
       arg1: (word))))
+
+===============================
+Conditionals, recipe
+===============================
+foo:
+ifeq (x,y)
+	echo a
+else
+	echo b
+endif
