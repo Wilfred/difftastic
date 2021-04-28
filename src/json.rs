@@ -69,7 +69,7 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
     return (result, i);
 }
 
-fn parse_json(s: &str) -> Vec<Syntax> {
+pub fn parse_json(s: &str) -> Vec<Syntax> {
     let (syntax, _) = parse_json_from(s, 0);
     syntax
 }

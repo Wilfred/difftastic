@@ -1,51 +1,12 @@
-mod tree_diff;
 mod json;
+mod tree_diff;
 
+use crate::json::parse_json;
 use crate::tree_diff::set_changed;
-use crate::tree_diff::ChangeKind::*;
-use crate::tree_diff::Syntax::*;
 
 fn main() {
-    let mut lhs = vec![
-        Items {
-            change: Unchanged,
-            start_content: "(".into(),
-            end_content: ")".into(),
-            children: vec![Atom {
-                change: Unchanged,
-                content: "foo".into(),
-            }],
-        },
-        Atom {
-            change: Unchanged,
-            content: "a".into(),
-        },
-    ];
-    let mut rhs = vec![
-        Items {
-            change: Unchanged,
-            start_content: "(".into(),
-            end_content: ")".into(),
-            children: vec![
-                Atom {
-                    change: Unchanged,
-                    content: "foo".into(),
-                },
-                Atom {
-                    change: Unchanged,
-                    content: "bar".into(),
-                },
-            ],
-        },
-        Atom {
-            change: Unchanged,
-            content: "a".into(),
-        },
-        Atom {
-            change: Unchanged,
-            content: "b".into(),
-        },
-    ];
+    let mut lhs = parse_json("[\"a\"]");
+    let mut rhs = parse_json("[\"a\" \"b\"]");
 
     set_changed(&mut lhs, &mut rhs);
 
