@@ -19,6 +19,7 @@ module.exports = grammar({
         $._order_only_prerequisites,
 
         $._primary,
+        $._text,
         $._name,
     ],
 
@@ -30,6 +31,7 @@ module.exports = grammar({
 
     conflicts: $ => [
         [$.recipe],
+        //[$.list, $.concatenation],
     ],
 
     precedences: $ => [],
@@ -167,7 +169,7 @@ module.exports = grammar({
             field('name',$.word),
             optional(WS),
             field('operator',choice(...DEFINE_OPS)),
-            field('value',optional(alias($.list, $.text))),
+            field('value',optional($._text)),
             NL
         ),
 
@@ -343,6 +345,7 @@ module.exports = grammar({
         _variable: $ => choice(
             $.variable_reference,
             $.substitution_reference,
+            $.automatic_variable,
         ),
 
         variable_reference: $ => seq(
@@ -362,18 +365,19 @@ module.exports = grammar({
             )),
         ),
 
-        // }}}
-        // Automatic variables {{{
         // 10.5.3
         automatic_variable: $ => seq(
             choice('$','$$'),
             choice(
                 choice(
                     ...AUTOMATIC_VARS
-                        .map(c => token.immediate(c))
+                        .map(c => token.immediate(prec(1,c)))
                 ),
                 delimitedVariable(seq(
-                    choice(...AUTOMATIC_VARS),
+                    choice(
+                        ...AUTOMATIC_VARS
+                            .map(c => token(prec(1,c)))
+                    ),
                     optional(choice(
                         token.immediate('D'),
                         token.immediate('F')
@@ -381,17 +385,37 @@ module.exports = grammar({
                 ))
             )
         ),
+        // }}}
+        // Functions {{{
+        _function: $ => choice(
+            $.function_call,
+        ),
 
+        function_call: $ => seq(
+            '$',
+            token.immediate('('),
+            field('function', $.word),
+            $.arguments,
+            ')'
+        ),
+
+        arguments: $ => seq(
+            field('argument',$._text),
+            repeat(seq(
+                ',',
+                field('argument',$._text),
+            ))
+        ),
         // }}}
         // Primary and lists {{{
-        list: $ => seq(
+        list: $ => prec(1,seq(
             $._primary,
             repeat(seq(
                 choice(WS, SPLIT),
                 $._primary
             )),
             optional(WS)
-        ),
+        )),
 
         paths: $ => seq(
             $._primary,
@@ -403,10 +427,12 @@ module.exports = grammar({
             )),
         ),
 
+        _text: $ => alias($.list, $.text),
+
         _primary: $ => choice(
             $._name,
             $._variable,
-            $.automatic_variable,
+            $._function,
             $.concatenation
         ),
 
@@ -446,7 +472,8 @@ module.exports = grammar({
             noneOf(...['\\$', '\\n', '\\']),
             choice(
                 $._variable,
-                $.automatic_variable,
+                //$._function,
+                //$.automatic_variable,
                 alias('$$',$.escape),
                 alias('//',$.escape),
             ),
@@ -471,16 +498,8 @@ function noneOf(...characters) {
 
 function delimitedVariable(rule) {
     return choice(
-        seq(
-            token.immediate('('),
-            rule,
-            ')'
-        ),
-        seq(
-            token.immediate('{'),
-            rule,
-            '}'
-        )
+        seq(token.immediate('('), rule, ')'),
+        seq(token.immediate('{'), rule, '}')
     )
 }
 

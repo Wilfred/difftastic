@@ -78,6 +78,22 @@
     }
   },
   {
+    "type": "arguments",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "automatic_variable",
     "named": true,
     "fields": {}
@@ -100,6 +116,10 @@
         },
         {
           "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
           "named": true
         },
         {
@@ -356,6 +376,32 @@
     }
   },
   {
+    "type": "function_call",
+    "named": true,
+    "fields": {
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "arguments",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "ifdef_directive",
     "named": true,
     "fields": {
@@ -373,6 +419,10 @@
           },
           {
             "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
             "named": true
           },
           {
@@ -420,6 +470,10 @@
             "named": true
           },
           {
+            "type": "function_call",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -458,6 +512,10 @@
             "named": true
           },
           {
+            "type": "function_call",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -491,6 +549,10 @@
           },
           {
             "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
             "named": true
           },
           {
@@ -538,6 +600,10 @@
             "named": true
           },
           {
+            "type": "function_call",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -573,6 +639,10 @@
           },
           {
             "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
             "named": true
           },
           {
@@ -625,6 +695,10 @@
         },
         {
           "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
           "named": true
         },
         {
@@ -749,6 +823,10 @@
           "named": true
         },
         {
+          "type": "function_call",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -784,6 +862,10 @@
           "named": true
         },
         {
+          "type": "function_call",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -816,6 +898,10 @@
         },
         {
           "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
           "named": true
         },
         {
@@ -1027,6 +1113,10 @@
             "named": true
           },
           {
+            "type": "function_call",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -1057,6 +1147,10 @@
             "named": true
           },
           {
+            "type": "function_call",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -1084,6 +1178,10 @@
           },
           {
             "type": "concatenation",
+            "named": true
+          },
+          {
+            "type": "function_call",
             "named": true
           },
           {
@@ -1123,6 +1221,10 @@
           "named": true
         },
         {
+          "type": "function_call",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -1155,6 +1257,10 @@
         },
         {
           "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
           "named": true
         },
         {
@@ -1284,6 +1390,10 @@
         },
         {
           "type": "concatenation",
+          "named": true
+        },
+        {
+          "type": "function_call",
           "named": true
         },
         {
