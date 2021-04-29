@@ -25,8 +25,12 @@ toString();
  
 sub new {
  my $class = shift;
- bless { @_ }, $class;
+ bless {}, $class;
 }
+
+my $output = BaseModule::YeaThis::hello('first', {
+  hello => 'beautiful'
+});
 
  
 # sub getTrace {
@@ -79,13 +83,13 @@ sub new {
 #  $_[0]->{TestName};
 # }
  
-sub toString {
- my $self = shift;
+# sub toString {
+#  my $self = shift;
 #  return <<EOM;
 #  Previous test $self->{Test} '$self->{TestName}'
 #  $self->{Carp}
 # EOM
-}
+# }
 
  
-1;
+# 1;

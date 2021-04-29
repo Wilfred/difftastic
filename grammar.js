@@ -10,7 +10,7 @@ const PRECEDENCE = {
   ARRAY: 2,
   SUB_ARGS: 29,
   SUB_CALL: 30, // sub call, parathesised have higher precedence than operators\
-  BRACKETS: 100, // highest of them all
+  BRACKETS: 30, // highest of them all
 
   // begin of operators
   AUTO_INCREMENT_DECREMENT: 23,
@@ -63,6 +63,8 @@ module.exports = grammar({
     [$.goto_expression, $._expression],
     [$._primitive_expression, $.dereference],
     [$._expression],
+    [$.bareword_import, $.package_name],
+    [$.package_name],
   ],
 
   // externals: $ => [
@@ -1037,8 +1039,11 @@ module.exports = grammar({
     ),
 
     call_expression: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
-      optional('&'),
-      optional(field('package_name', $.package_name_in_call)),
+      optional(token.immediate('&')),
+      optional(seq(
+        field('package_name', $.package_name),
+        token.immediate('::'),
+      )),
       field('function_name', $.identifier),
       field('args', optional(choice($.parenthesized_arguments, $.arguments))),
     )),
@@ -1156,12 +1161,20 @@ module.exports = grammar({
     ),
 
     package_name: $ => choice(
-      /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
+      seq(
+        $.identifier,
+        optional(repeat(seq(
+          token.immediate('::'),
+          $.identifier,
+        ))),
+      ),
+      // /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
       // /\$[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/, // TODO fix this
       // /\*[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/, // type glob stuff
       // TODO: put in other package name structures
     ),
-    package_name_in_call: $ => /[A-Z_a-z][0-9A-Z_a-z]*::(?:[0-9A-Z_a-z]+::)*/,
+
+    package_name_in_call: $ => /([A-Z_a-z][0-9A-Z_a-z]::)+/,
     module_name: $ => choice(
       seq('\'', /.*pm/, '\''), 
       seq('\"', /.*pm/, '\"'), 

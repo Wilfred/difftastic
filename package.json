@@ -2,7 +2,7 @@
   "name": "@ganezdragon/tree-sitter-perl",
   "version": "0.1.2",
   "description": "a tree-sitter for perl language.",
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "generate": "tree-sitter generate",
     "test": "tree-sitter test",
@@ -23,6 +23,6 @@
     "nan": "^2.14.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.16.9"
+    "tree-sitter-cli": "^0.19.4"
   }
 }
