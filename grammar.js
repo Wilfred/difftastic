@@ -398,9 +398,19 @@ module.exports = grammar({
 
     formal_parameters: $ => seq(
       '(',
-      commaSep(choice($.simple_parameter, $.variadic_parameter)),
+      commaSep(choice($.simple_parameter, $.variadic_parameter, $.property_promotion_parameter)),
       optional(','),
       ')'
+    ),
+
+    property_promotion_parameter: $ => seq(
+      field('visibility', $.visibility_modifier),
+      field('type', optional($._type)), // Note: callable is not a valid type here, but instead of complicating the parser, we defer this checking to any intelligence using the parser
+      field('name', $.variable_name),
+      optional(seq(
+        '=',
+        field('default_value', $._expression)
+      ))
     ),
 
     simple_parameter: $ => seq(

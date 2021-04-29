@@ -1922,6 +1922,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "variadic_parameter"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "property_promotion_parameter"
                     }
                   ]
                 },
@@ -1944,6 +1948,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "variadic_parameter"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "property_promotion_parameter"
                           }
                         ]
                       }
@@ -1972,6 +1980,68 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "property_promotion_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "visibility",
+          "content": {
+            "type": "SYMBOL",
+            "name": "visibility_modifier"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_type"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "variable_name"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "FIELD",
+                  "name": "default_value",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
