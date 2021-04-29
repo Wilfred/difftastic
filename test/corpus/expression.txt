@@ -98,7 +98,7 @@ use Data::Dumper;
 ---
 
 (source_file
-  (use_no_statement (package_name) (semi_colon))
+  (use_no_statement (package_name (identifier) (identifier)) (semi_colon))
 )
 
 =================================================
@@ -110,7 +110,7 @@ no strict 'refs';
 ---
 
 (source_file
-  (use_no_statement (package_name) (string_single_quoted) (semi_colon))
+  (use_no_statement (package_name (identifier)) (string_single_quoted) (semi_colon))
 )
 
 =================================================
@@ -122,7 +122,7 @@ require Data::Dumper;
 ---
 
 (source_file
-  (require_statement (package_name) (semi_colon))
+  (require_statement (package_name (identifier) (identifier)) (semi_colon))
 )
 
 =================================================

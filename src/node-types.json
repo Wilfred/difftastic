@@ -1891,7 +1891,7 @@
         "required": false,
         "types": [
           {
-            "type": "package_name_in_call",
+            "type": "package_name",
             "named": true
           }
         ]
@@ -4061,7 +4061,17 @@
   {
     "type": "package_name",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "package_statement",
@@ -8434,6 +8444,10 @@
     "named": false
   },
   {
+    "type": "::",
+    "named": false
+  },
+  {
     "type": "<",
     "named": false
   },
@@ -8560,6 +8574,10 @@
   {
     "type": "cmp",
     "named": false
+  },
+  {
+    "type": "comments",
+    "named": true
   },
   {
     "type": "constant",
@@ -8704,10 +8722,6 @@
   {
     "type": "package",
     "named": false
-  },
-  {
-    "type": "package_name_in_call",
-    "named": true
   },
   {
     "type": "parent",
