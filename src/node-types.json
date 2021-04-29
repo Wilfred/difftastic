@@ -141,80 +141,6 @@
     "type": "conditional",
     "named": true,
     "fields": {
-      "alternative": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "VPATH_assignment",
-            "named": true
-          },
-          {
-            "type": "conditional",
-            "named": true
-          },
-          {
-            "type": "define_directive",
-            "named": true
-          },
-          {
-            "type": "export_directive",
-            "named": true
-          },
-          {
-            "type": "ifdef_directive",
-            "named": true
-          },
-          {
-            "type": "ifeq_directive",
-            "named": true
-          },
-          {
-            "type": "ifndef_directive",
-            "named": true
-          },
-          {
-            "type": "ifneq_directive",
-            "named": true
-          },
-          {
-            "type": "include_directive",
-            "named": true
-          },
-          {
-            "type": "override_directive",
-            "named": true
-          },
-          {
-            "type": "private_directive",
-            "named": true
-          },
-          {
-            "type": "rule",
-            "named": true
-          },
-          {
-            "type": "shell_assignment",
-            "named": true
-          },
-          {
-            "type": "undefine_directive",
-            "named": true
-          },
-          {
-            "type": "unexport_directive",
-            "named": true
-          },
-          {
-            "type": "variable_assignment",
-            "named": true
-          },
-          {
-            "type": "vpath_directive",
-            "named": true
-          }
-        ]
-      },
       "condition": {
         "multiple": false,
         "required": true,
@@ -270,6 +196,10 @@
             "named": true
           },
           {
+            "type": "recipe_line",
+            "named": true
+          },
+          {
             "type": "rule",
             "named": true
           },
@@ -295,6 +225,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "else_directive",
+          "named": true
+        },
+        {
+          "type": "elsif_directive",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -343,6 +287,164 @@
         "types": [
           {
             "type": "raw_text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "else_directive",
+    "named": true,
+    "fields": {
+      "consequence": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "VPATH_assignment",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "define_directive",
+            "named": true
+          },
+          {
+            "type": "export_directive",
+            "named": true
+          },
+          {
+            "type": "include_directive",
+            "named": true
+          },
+          {
+            "type": "override_directive",
+            "named": true
+          },
+          {
+            "type": "private_directive",
+            "named": true
+          },
+          {
+            "type": "recipe_line",
+            "named": true
+          },
+          {
+            "type": "rule",
+            "named": true
+          },
+          {
+            "type": "shell_assignment",
+            "named": true
+          },
+          {
+            "type": "undefine_directive",
+            "named": true
+          },
+          {
+            "type": "unexport_directive",
+            "named": true
+          },
+          {
+            "type": "variable_assignment",
+            "named": true
+          },
+          {
+            "type": "vpath_directive",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "elsif_directive",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ifdef_directive",
+            "named": true
+          },
+          {
+            "type": "ifeq_directive",
+            "named": true
+          },
+          {
+            "type": "ifndef_directive",
+            "named": true
+          },
+          {
+            "type": "ifneq_directive",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "VPATH_assignment",
+            "named": true
+          },
+          {
+            "type": "conditional",
+            "named": true
+          },
+          {
+            "type": "define_directive",
+            "named": true
+          },
+          {
+            "type": "export_directive",
+            "named": true
+          },
+          {
+            "type": "include_directive",
+            "named": true
+          },
+          {
+            "type": "override_directive",
+            "named": true
+          },
+          {
+            "type": "private_directive",
+            "named": true
+          },
+          {
+            "type": "recipe_line",
+            "named": true
+          },
+          {
+            "type": "rule",
+            "named": true
+          },
+          {
+            "type": "shell_assignment",
+            "named": true
+          },
+          {
+            "type": "undefine_directive",
+            "named": true
+          },
+          {
+            "type": "unexport_directive",
+            "named": true
+          },
+          {
+            "type": "variable_assignment",
+            "named": true
+          },
+          {
+            "type": "vpath_directive",
             "named": true
           }
         ]
@@ -947,6 +1049,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "conditional",
+          "named": true
+        },
         {
           "type": "recipe_line",
           "named": true

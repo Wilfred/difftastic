@@ -33,23 +33,20 @@ module.exports = grammar({
         $.comment
     ],
 
-    conflicts: $ => [
-        [$.recipe],
-        //[$.list, $.concatenation],
-    ],
+    conflicts: $ => [],
 
     precedences: $ => [],
 
     rules: {
 
         // 3.1
-        makefile: $ => optional($._thing),
+        makefile: $ => repeat($._thing),
 
-        _thing: $ => repeat1(choice(
+        _thing: $ => choice(
             $.rule,
             $._variable_definition,
             $._directive,
-        )),
+        ),
 
         // Rules {{{
         // 2.1
@@ -58,17 +55,19 @@ module.exports = grammar({
             $._static_pattern_rule,
         ),
 
-        _ordinary_rule: $ => seq(
+        _ordinary_rule: $ => prec.right(seq(
             $._targets,
             choice(':', '&:', '::'),
             optional(WS),
             optional($._prerequisites),
-            optional($.recipe),
-            NL
-        ),
+            choice(
+                $.recipe,
+                NL
+            )
+        )),
 
         // 4.12.1
-        _static_pattern_rule: $ => seq(
+        _static_pattern_rule: $ => prec.right(seq(
             $._targets,
             ':',
             optional(WS),
@@ -76,9 +75,11 @@ module.exports = grammar({
             ':',
             optional(WS),
             optional($._prerequisites_pattern),
-            optional($.recipe),
-            NL
-        ),
+            choice(
+                $.recipe,
+                NL
+            )
+        )),
 
         _targets: $ => alias($.list, $.targets),
 
@@ -113,20 +114,36 @@ module.exports = grammar({
             alias($.list, $.pattern_list)
         ),
 
-        recipe: $ => seq(
+        recipe: $ => prec.right(choice(
             // the first recipe line may be attached to the
             // target-and-prerequisites line with a semicolon
             // in between
-            choice(';', seq(NL, $._recipeprefix)),
-            // empty recipe is allowed
-            optional(seq(
-                optional($.recipe_line),
-                repeat(seq(
-                    NL,
-                    $._recipeprefix,
-                    optional($.recipe_line)
-                )),
-            ))
+            seq(
+                $._attached_recipe_line,
+                NL,
+                repeat(choice(
+                    $.conditional,
+                    $._prefixed_recipe_line,
+                ))
+            ),
+            seq(
+                NL,
+                repeat1(choice(
+                    $.conditional,
+                    $._prefixed_recipe_line
+                ))
+            ),
+        )),
+
+        _attached_recipe_line: $ => seq(
+            ';',
+            optional($.recipe_line)
+        ),
+
+        _prefixed_recipe_line: $ => seq(
+            $._recipeprefix,
+            optional($.recipe_line),
+            NL
         ),
 
         recipe_line: $ => seq(
@@ -276,17 +293,23 @@ module.exports = grammar({
         // 7
         conditional: $ => seq(
             field('condition', $._conditional_directives),
-            optional(field('consequence', $._thing)),
-            repeat(seq(
-                'else',
-                field('alternative', $._conditional_directives),
-            )),
-            optional(seq(
-                'else',
-                NL,
-                optional(field('alternative', $._thing))
-            )),
-            'endif'
+            optional(field('consequence', $._conditional_consequence)),
+            repeat($.elsif_directive),
+            optional($.else_directive),
+            'endif',
+            NL
+        ),
+
+        elsif_directive: $ => seq(
+            'else',
+            field('condition', $._conditional_directives),
+            optional(field('consequence', $._conditional_consequence)),
+        ),
+
+        else_directive: $ => seq(
+            'else',
+            NL,
+            optional(field('consequence', $._conditional_consequence)),
         ),
 
         _conditional_directives: $ => choice(
@@ -335,6 +358,11 @@ module.exports = grammar({
             seq('"', optional($._primary), '"'),
             seq("'", optional($._primary), "'"),
         ),
+
+        _conditional_consequence: $ => repeat1(choice(
+            $._thing,
+            $._prefixed_recipe_line
+        )),
         // }}}
         // Functions {{{
         // }}}
