@@ -658,6 +658,40 @@ module.exports = grammar({
       field('body', $.colon_block)
     ),
 
+    match_expression: $ => seq(
+      keyword('match'),
+      field('condition', $.parenthesized_expression),
+      field('body', $.match_block)
+    ),
+
+    match_block: $ => prec.left(
+      seq(
+        '{',
+        commaSep1(
+          choice(
+            $.match_conditional_expression,
+            $.match_default_expression
+          )
+        ),
+        optional(','),
+        '}'
+      )
+    ),
+
+    match_condition_list: $ => commaSep1($._expression),
+
+    match_conditional_expression: $ => seq(
+      field('conditional_expressions', $.match_condition_list),
+      '=>',
+      field('return_expression', $._expression)
+    ),
+
+    match_default_expression: $ => seq(
+      keyword('default'),
+      '=>',
+      field('return_expression', $._expression)
+    ),
+
     switch_statement: $ => seq(
       keyword('switch'),
       field('condition', $.parenthesized_expression),
@@ -709,6 +743,7 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $.conditional_expression,
+      $.match_expression,
       $.augmented_assignment_expression,
       $.assignment_expression,
       $.yield_expression,

@@ -3169,6 +3169,184 @@
         }
       ]
     },
+    "match_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[mM][aA][tT][cC][hH]"
+          },
+          "named": false,
+          "value": "match"
+        },
+        {
+          "type": "FIELD",
+          "name": "condition",
+          "content": {
+            "type": "SYMBOL",
+            "name": "parenthesized_expression"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "match_block"
+          }
+        }
+      ]
+    },
+    "match_block": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "{"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "match_conditional_expression"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "match_default_expression"
+                  }
+                ]
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "match_conditional_expression"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "match_default_expression"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": "}"
+          }
+        ]
+      }
+    },
+    "match_condition_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "match_conditional_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "conditional_expressions",
+          "content": {
+            "type": "SYMBOL",
+            "name": "match_condition_list"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        },
+        {
+          "type": "FIELD",
+          "name": "return_expression",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        }
+      ]
+    },
+    "match_default_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[dD][eE][fF][aA][uU][lL][tT]"
+          },
+          "named": false,
+          "value": "default"
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        },
+        {
+          "type": "FIELD",
+          "name": "return_expression",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        }
+      ]
+    },
     "switch_statement": {
       "type": "SEQ",
       "members": [
@@ -3399,6 +3577,10 @@
         {
           "type": "SYMBOL",
           "name": "conditional_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "match_expression"
         },
         {
           "type": "SYMBOL",
