@@ -63,7 +63,7 @@ export foo bar
 
 (makefile
   (export_directive
-    variable: (list (word) (word))))
+    variables: (list (word) (word))))
 
 ======================================
 Directive, export, variable assignment
@@ -97,7 +97,7 @@ unexport foo bar
 
 (makefile
   (unexport_directive
-    variable: (list (word) (word))))
+    variables: (list (word) (word))))
 
 ========================================
 Directive, override, variable assignment
