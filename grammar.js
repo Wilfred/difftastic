@@ -807,6 +807,7 @@ module.exports = grammar({
       $.qualified_name,
       $.subscript_expression,
       $.member_access_expression,
+      $.nullsafe_member_access_expression,
       $.scoped_property_access_expression,
       $._variable_name
     ),
@@ -875,11 +876,18 @@ module.exports = grammar({
       $._callable_variable,
       $.scoped_property_access_expression,
       $.member_access_expression,
+      $.nullsafe_member_access_expression
     ),
 
     member_access_expression: $ => prec(PREC.MEMBER, seq(
       field('object', $._dereferencable_expression),
       '->',
+      $._member_name
+    )),
+
+    nullsafe_member_access_expression: $ => prec(PREC.MEMBER, seq(
+      field('object', $._dereferencable_expression),
+      '?->',
       $._member_name
     )),
 
@@ -914,6 +922,7 @@ module.exports = grammar({
       $._variable_name,
       $.subscript_expression,
       $.member_call_expression,
+      $.nullsafe_member_call_expression,
       $.scoped_call_expression,
       $.function_call_expression
     ),
@@ -960,6 +969,13 @@ module.exports = grammar({
     member_call_expression: $ => prec(PREC.CALL, seq(
       field('object', $._dereferencable_expression),
       '->',
+      $._member_name,
+      field('arguments', $.arguments)
+    )),
+
+    nullsafe_member_call_expression: $ => prec(PREC.CALL, seq(
+      field('object', $._dereferencable_expression),
+      '?->',
       $._member_name,
       field('arguments', $.arguments)
     )),
