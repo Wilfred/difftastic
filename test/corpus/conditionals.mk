@@ -114,7 +114,8 @@ endif
   (conditional
     condition: (ifeq_directive
       arg0: (word)
-      arg1: (word))))
+      arg1: (word))
+    (else_directive)))
 
 =============================
 Conditionals, else if, single
@@ -130,9 +131,10 @@ endif
     condition: (ifeq_directive
       arg0: (word)
       arg1: (word))
-    alternative: (ifeq_directive
-      arg0: (word)
-      arg1: (word))))
+    (elsif_directive
+      condition: (ifeq_directive
+        arg0: (word)
+        arg1: (word)))))
 
 ===================================
 Conditionals, else if, single, else
@@ -149,9 +151,11 @@ endif
     condition: (ifeq_directive
       arg0: (word)
       arg1: (word))
-    alternative: (ifeq_directive
-      arg0: (word)
-      arg1: (word))))
+    (elsif_directive
+      condition: (ifeq_directive
+        arg0: (word)
+        arg1: (word)))
+    (else_directive)))
 
 ===============================
 Conditionals, else if, multiple
@@ -168,12 +172,14 @@ endif
     condition: (ifeq_directive
       arg0: (word)
       arg1: (word))
-    alternative: (ifeq_directive
-      arg0: (word)
-      arg1: (word))
-    alternative: (ifneq_directive
-      arg0: (word)
-      arg1: (word))))
+    (elsif_directive
+      condition: (ifeq_directive
+        arg0: (word)
+        arg1: (word)))
+    (elsif_directive
+      condition: (ifneq_directive
+        arg0: (word)
+        arg1: (word)))))
 
 ===============================
 Conditionals, else if, multiple, else
@@ -191,15 +197,48 @@ endif
     condition: (ifeq_directive
       arg0: (word)
       arg1: (word))
-    alternative: (ifeq_directive
-      arg0: (word)
-      arg1: (word))
-    alternative: (ifneq_directive
-      arg0: (word)
-      arg1: (word))))
+    (elsif_directive
+      condition: (ifeq_directive
+        arg0: (word)
+        arg1: (word)))
+    (elsif_directive
+      condition: (ifneq_directive
+        arg0: (word)
+        arg1: (word)))
+    (else_directive)))
+
+================================
+Conditionals, consequence, rules
+================================
+ifneq (,)
+all:
+	echo a
+else
+all:
+	echo b
+endif
+
+---
+
+(makefile
+  (conditional
+    condition: (ifneq_directive)
+    consequence: (rule
+      (targets
+        (word))
+      (recipe
+        (recipe_line
+          (shell_text))))
+    (else_directive
+      consequence: (rule
+        (targets
+          (word))
+        (recipe
+          (recipe_line
+            (shell_text)))))))
 
 ===============================
-Conditionals, recipe
+Conditionals, in recipe
 ===============================
 foo:
 ifeq (x,y)
@@ -207,3 +246,80 @@ ifeq (x,y)
 else
 	echo b
 endif
+
+----
+
+(makefile
+  (rule
+    (targets
+      (word))
+    (recipe
+      (conditional
+        condition: (ifeq_directive
+          arg0: (word)
+          arg1: (word))
+        consequence: (recipe_line
+          (shell_text))
+        (else_directive
+          consequence: (recipe_line
+            (shell_text)))))))
+
+=======================================
+Conditionals, rules, recipe, prec.right
+=======================================
+ifeq (a,b)
+all:
+	echo foo
+
+	echo foo
+endif
+
+---
+
+(makefile
+  (conditional
+    condition: (ifeq_directive
+      arg0: (word)
+      arg1: (word))
+    consequence: (rule
+      (targets
+        (word))
+      (recipe
+        (recipe_line
+          (shell_text))
+        (recipe_line
+          (shell_text))))))
+
+=======================================
+Conditionals, in recipe, in consequence
+=======================================
+ifneq (a,b)
+all:
+ifeq (a,b)
+	echo foo
+else
+	echo bar
+endif
+endif
+
+---
+
+(makefile
+  (conditional
+    condition: (ifneq_directive
+      arg0: (word)
+      arg1: (word))
+    consequence: (rule
+      (targets
+        (word))
+      (recipe
+        (conditional
+          condition: (ifeq_directive
+            arg0: (word)
+            arg1: (word))
+          consequence: (recipe_line
+            (shell_text))
+          (else_directive
+            consequence: (recipe_line
+              (shell_text))))))))
+
