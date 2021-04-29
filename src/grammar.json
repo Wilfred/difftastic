@@ -3958,6 +3958,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "nullsafe_member_access_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "scoped_property_access_expression"
         },
         {
@@ -4420,6 +4424,10 @@
         {
           "type": "SYMBOL",
           "name": "member_access_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "nullsafe_member_access_expression"
         }
       ]
     },
@@ -4440,6 +4448,31 @@
           {
             "type": "STRING",
             "value": "->"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_member_name"
+          }
+        ]
+      }
+    },
+    "nullsafe_member_access_expression": {
+      "type": "PREC",
+      "value": 23,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "object",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_dereferencable_expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "?->"
           },
           {
             "type": "SYMBOL",
@@ -4819,6 +4852,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "nullsafe_member_call_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "scoped_call_expression"
         },
         {
@@ -5039,6 +5076,39 @@
           {
             "type": "STRING",
             "value": "->"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_member_name"
+          },
+          {
+            "type": "FIELD",
+            "name": "arguments",
+            "content": {
+              "type": "SYMBOL",
+              "name": "arguments"
+            }
+          }
+        ]
+      }
+    },
+    "nullsafe_member_call_expression": {
+      "type": "PREC",
+      "value": 22,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "object",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_dereferencable_expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "?->"
           },
           {
             "type": "SYMBOL",

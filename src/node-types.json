@@ -132,6 +132,14 @@
         "named": true
       },
       {
+        "type": "nullsafe_member_access_expression",
+        "named": true
+      },
+      {
+        "type": "nullsafe_member_call_expression",
+        "named": true
+      },
+      {
         "type": "object_creation_expression",
         "named": true
       },
@@ -444,6 +452,14 @@
             "named": true
           },
           {
+            "type": "nullsafe_member_access_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_call_expression",
+            "named": true
+          },
+          {
             "type": "scoped_call_expression",
             "named": true
           },
@@ -499,6 +515,14 @@
           },
           {
             "type": "member_call_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_access_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_call_expression",
             "named": true
           },
           {
@@ -749,6 +773,10 @@
             "named": true
           },
           {
+            "type": "nullsafe_member_access_expression",
+            "named": true
+          },
+          {
             "type": "qualified_name",
             "named": true
           },
@@ -940,6 +968,14 @@
         },
         {
           "type": "name",
+          "named": true
+        },
+        {
+          "type": "nullsafe_member_access_expression",
+          "named": true
+        },
+        {
+          "type": "nullsafe_member_call_expression",
           "named": true
         },
         {
@@ -1547,6 +1583,10 @@
             "named": true
           },
           {
+            "type": "nullsafe_member_call_expression",
+            "named": true
+          },
+          {
             "type": "parenthesized_expression",
             "named": true
           },
@@ -1812,6 +1852,14 @@
           "named": true
         },
         {
+          "type": "nullsafe_member_access_expression",
+          "named": true
+        },
+        {
+          "type": "nullsafe_member_call_expression",
+          "named": true
+        },
+        {
           "type": "scoped_call_expression",
           "named": true
         },
@@ -1890,6 +1938,14 @@
           },
           {
             "type": "member_call_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_access_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_call_expression",
             "named": true
           },
           {
@@ -1994,6 +2050,14 @@
           },
           {
             "type": "member_call_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_access_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_call_expression",
             "named": true
           },
           {
@@ -2264,6 +2328,220 @@
     }
   },
   {
+    "type": "nullsafe_member_access_expression",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "variable_name",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_creation_expression",
+            "named": true
+          },
+          {
+            "type": "cast_expression",
+            "named": true
+          },
+          {
+            "type": "class_constant_access_expression",
+            "named": true
+          },
+          {
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
+            "type": "function_call_expression",
+            "named": true
+          },
+          {
+            "type": "heredoc",
+            "named": true
+          },
+          {
+            "type": "member_access_expression",
+            "named": true
+          },
+          {
+            "type": "member_call_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_access_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_call_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "qualified_name",
+            "named": true
+          },
+          {
+            "type": "scoped_call_expression",
+            "named": true
+          },
+          {
+            "type": "scoped_property_access_expression",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subscript_expression",
+            "named": true
+          },
+          {
+            "type": "variable_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "nullsafe_member_call_expression",
+    "named": true,
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arguments",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_expression",
+            "named": true
+          },
+          {
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "variable_name",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_creation_expression",
+            "named": true
+          },
+          {
+            "type": "cast_expression",
+            "named": true
+          },
+          {
+            "type": "class_constant_access_expression",
+            "named": true
+          },
+          {
+            "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
+            "type": "function_call_expression",
+            "named": true
+          },
+          {
+            "type": "heredoc",
+            "named": true
+          },
+          {
+            "type": "member_access_expression",
+            "named": true
+          },
+          {
+            "type": "member_call_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_access_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_call_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "qualified_name",
+            "named": true
+          },
+          {
+            "type": "scoped_call_expression",
+            "named": true
+          },
+          {
+            "type": "scoped_property_access_expression",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "subscript_expression",
+            "named": true
+          },
+          {
+            "type": "variable_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "object_creation_expression",
     "named": true,
     "fields": {},
@@ -2293,6 +2571,10 @@
         },
         {
           "type": "member_access_expression",
+          "named": true
+        },
+        {
+          "type": "nullsafe_member_access_expression",
           "named": true
         },
         {
@@ -2628,6 +2910,14 @@
             "named": true
           },
           {
+            "type": "nullsafe_member_access_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_call_expression",
+            "named": true
+          },
+          {
             "type": "parenthesized_expression",
             "named": true
           },
@@ -2715,6 +3005,14 @@
           },
           {
             "type": "member_call_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_access_expression",
+            "named": true
+          },
+          {
+            "type": "nullsafe_member_call_expression",
             "named": true
           },
           {
@@ -2877,6 +3175,14 @@
         },
         {
           "type": "member_call_expression",
+          "named": true
+        },
+        {
+          "type": "nullsafe_member_access_expression",
+          "named": true
+        },
+        {
+          "type": "nullsafe_member_call_expression",
           "named": true
         },
         {
@@ -3136,6 +3442,14 @@
           "named": true
         },
         {
+          "type": "nullsafe_member_access_expression",
+          "named": true
+        },
+        {
+          "type": "nullsafe_member_call_expression",
+          "named": true
+        },
+        {
           "type": "scoped_call_expression",
           "named": true
         },
@@ -3180,6 +3494,14 @@
         },
         {
           "type": "member_call_expression",
+          "named": true
+        },
+        {
+          "type": "nullsafe_member_access_expression",
+          "named": true
+        },
+        {
+          "type": "nullsafe_member_call_expression",
           "named": true
         },
         {
@@ -3576,6 +3898,10 @@
     "named": false
   },
   {
+    "type": "?->",
+    "named": false
+  },
+  {
     "type": "?>",
     "named": false
   },
@@ -3753,11 +4079,11 @@
   },
   {
     "type": "float",
-    "named": false
+    "named": true
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "for",
@@ -3817,11 +4143,11 @@
   },
   {
     "type": "integer",
-    "named": false
+    "named": true
   },
   {
     "type": "integer",
-    "named": true
+    "named": false
   },
   {
     "type": "interface",

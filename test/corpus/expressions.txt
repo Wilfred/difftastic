@@ -747,3 +747,57 @@ throw $exception ??= new Exception();
     )
   )
 )
+
+===============================================
+Nullsafe operator
+===============================================
+
+<?php
+
+$a?->b;
+$a?->b($c);
+new $a?->b;
+$country = $session?->user?->getAddress()?->country;
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (nullsafe_member_access_expression
+      (variable_name (name))
+      (name)
+    )
+  )
+  (expression_statement
+    (nullsafe_member_call_expression
+      (variable_name (name))
+      (name)
+      (arguments (variable_name (name)))
+    )
+  )
+  (expression_statement
+    (object_creation_expression
+      (nullsafe_member_access_expression
+        (variable_name (name))
+        (name)
+      )
+    )
+  )
+  (expression_statement
+    (assignment_expression
+      (variable_name (name))
+      (nullsafe_member_access_expression
+        (nullsafe_member_call_expression
+          (nullsafe_member_access_expression
+            (variable_name (name))
+            (name)
+          )
+          (name)
+          (arguments)
+        )
+        (name)
+      )
+    )
+  )
+)
