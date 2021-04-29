@@ -353,7 +353,7 @@
     "type": "export_directive",
     "named": true,
     "fields": {
-      "variable": {
+      "variables": {
         "multiple": false,
         "required": false,
         "types": [
@@ -1298,7 +1298,7 @@
     "type": "unexport_directive",
     "named": true,
     "fields": {
-      "variable": {
+      "variables": {
         "multiple": false,
         "required": false,
         "types": [

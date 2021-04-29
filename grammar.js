@@ -1,6 +1,8 @@
+const CHARSET = 'a-zA-Z0-9%\\+\\-\\.@_\\*\\?\\/';
+
 const NL = token.immediate(/[\r\n]+/);
 const WS = token.immediate(/[\t ]+/);
-const SPLIT = alias(token.immediate(seq('\\', /\r?\n/)), '\\');
+const SPLIT = alias(token.immediate(seq('\\', /\r?\n|\r/)), '\\');
 
 const AUTOMATIC_VARS = [ '@', '%', '<', '?', '^', '+', '/', '*' ];
 
@@ -18,6 +20,8 @@ module.exports = grammar({
         $._prerequisites,
         $._order_only_prerequisites,
 
+        $._target_or_pattern_assignment,
+
         $._primary,
         $._text,
         $._name,
@@ -25,7 +29,7 @@ module.exports = grammar({
 
     extras: $ => [
         /[\s]/,
-        alias(token(seq('\\',/\r?\n/)), '\\'),
+        alias(token(seq('\\',/\r?\n|\r/)), '\\'),
         $.comment
     ],
 
@@ -161,16 +165,19 @@ module.exports = grammar({
 
         // 6.5
         variable_assignment: $ => seq(
-            optional(seq(
-                field('target_or_pattern', $.list),
-                ':',
-                optional(WS)
-            )),
-            field('name',$.word),
+            optional($._target_or_pattern_assignment),
+            $._name,
             optional(WS),
             field('operator',choice(...DEFINE_OPS)),
-            field('value',optional($._text)),
+            optional(WS),
+            optional(field('value', $._text)),
             NL
+        ),
+
+        _target_or_pattern_assignment: $ => seq(
+            field('target_or_pattern', $.list),
+            ':',
+            optional(WS),
         ),
 
         shell_assignment: $ => seq(
@@ -182,7 +189,7 @@ module.exports = grammar({
             field('value',alias(
                 // matching anything but newline, and
                 // backlash followed by newline (split line)
-                token(/([^\n]|\\\n)+/),
+                token(repeat1(/[^\r\n]|\\\r?\n|\r/)),
                 $.shell_text
             )),
             NL
@@ -226,40 +233,30 @@ module.exports = grammar({
         ),
 
         // 4.5.2
-        vpath_directive: $ => seq(
-            'vpath',
-            optional(seq(
-                field('pattern', $.word),
-                optional(field('directories', ($.paths))),
-            )),
-            NL
+        vpath_directive: $ => choice(
+            seq('vpath', NL),
+            seq('vpath', field('pattern', $.word), NL),
+            seq('vpath', field('pattern', $.word), field('directories', $.paths), NL)
         ),
 
         // 5.7.2
-        export_directive: $ => seq(
-            'export',
-            optional(choice(
-                field('variable', $.list),
-                $.variable_assignment
-            )),
-            NL
+        export_directive: $ => choice(
+            seq('export', NL),
+            seq('export', field('variables', $.list), NL),
+            seq('export', $.variable_assignment)
         ),
 
         // 5.7.2
-        unexport_directive: $ => seq(
-            'unexport',
-            optional(field('variable', $.list)),
-            NL
+        unexport_directive: $ => choice(
+            seq('unexport', NL),
+            seq('unexport', field('variables', $.list), NL),
         ),
 
         // 6.7
-        override_directive: $ => seq(
-            'override',
-            choice(
-                $.define_directive,
-                $.variable_assignment,
-                $.undefine_directive
-            )
+        override_directive: $ => choice(
+            seq('override', $.define_directive),
+            seq('override', $.variable_assignment),
+            seq('override', $.undefine_directive),
         ),
 
         // 6.9
@@ -430,7 +427,8 @@ module.exports = grammar({
         _text: $ => alias($.list, $.text),
 
         _primary: $ => choice(
-            $._name,
+            $.word,
+            $.archive,
             $._variable,
             $._function,
             $.concatenation
@@ -442,14 +440,11 @@ module.exports = grammar({
         )),
         // }}}
         // Names {{{
-        _name: $ => choice(
-            $.word,
-            $.archive,
-        ),
+        _name: $ => field('name',$.word),
 
         word: $ => token(repeat1(choice(
-            new RegExp ('[a-zA-Z0-9%\\+\\-\\.@_\\*\\?\\/]'),
-            new RegExp ('\\/\\r?\\n]+'), // dont match split
+            new RegExp ('['+CHARSET+']'),
+            new RegExp ('\\/['+CHARSET+']'),
             new RegExp ('\\\\.'),
             new RegExp ('\\\\[0-9]{3}'),
         ))),
@@ -469,7 +464,7 @@ module.exports = grammar({
         _rawline: $ => token(/.*[\r\n]+/), // any line
 
         _shell_text_without_split: $ => text($,
-            noneOf(...['\\$', '\\n', '\\']),
+            noneOf(...['\\$', '\\r', '\\n', '\\']),
             choice(
                 $._variable,
                 //$._function,
@@ -506,7 +501,7 @@ function delimitedVariable(rule) {
 function text($, text, fenced_vars) {
     const raw_text = token(repeat1(choice(
         text,
-        /\\[^\n]/
+        /\\[^\n\r]/
     )))
     return choice(
         seq(

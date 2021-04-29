@@ -1,7 +1,10 @@
 ======================================
-Directive, export, variable assignment
+ERROR
 ======================================
 export foo = bar
+
+
+
 
 ---
 
