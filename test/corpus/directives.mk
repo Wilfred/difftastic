@@ -75,8 +75,8 @@ export foo = bar
 (makefile
   (export_directive
     (variable_assignment
-      name: (word)
-      value: (text (word)))))
+       name: (word)
+      value: (text))))
 
 ========================
 Directive, unexport, all
@@ -109,8 +109,8 @@ override v = foo
 (makefile
   (override_directive
     (variable_assignment
-      name: (word)
-      value: (text (word)))))
+       name: (word)
+      value: (text))))
 
 ========================================
 Directive, override, variable definition
@@ -158,8 +158,8 @@ private foo = bar
 (makefile
   (private_directive
     (variable_assignment
-      name: (word)
-      value: (text (word)))))
+       name: (word)
+      value: (text))))
 
 ================================================================
 Directive, private, variable assignment, target/pattern-specific
@@ -172,4 +172,4 @@ Directive, private, variable assignment, target/pattern-specific
   (variable_assignment
     target_or_pattern: (list (word))
     name: (word)
-    value: (text (word))))
+    value: (text)))

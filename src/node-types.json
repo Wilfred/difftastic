@@ -123,6 +123,10 @@
           "named": true
         },
         {
+          "type": "shell_function",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -184,6 +188,10 @@
             "named": true
           },
           {
+            "type": "function_call",
+            "named": true
+          },
+          {
             "type": "include_directive",
             "named": true
           },
@@ -205,6 +213,10 @@
           },
           {
             "type": "shell_assignment",
+            "named": true
+          },
+          {
+            "type": "shell_function",
             "named": true
           },
           {
@@ -318,6 +330,10 @@
             "named": true
           },
           {
+            "type": "function_call",
+            "named": true
+          },
+          {
             "type": "include_directive",
             "named": true
           },
@@ -339,6 +355,10 @@
           },
           {
             "type": "shell_assignment",
+            "named": true
+          },
+          {
+            "type": "shell_function",
             "named": true
           },
           {
@@ -408,6 +428,10 @@
             "named": true
           },
           {
+            "type": "function_call",
+            "named": true
+          },
+          {
             "type": "include_directive",
             "named": true
           },
@@ -429,6 +453,10 @@
           },
           {
             "type": "shell_assignment",
+            "named": true
+          },
+          {
+            "type": "shell_function",
             "named": true
           },
           {
@@ -486,8 +514,144 @@
         "required": true,
         "types": [
           {
+            "type": "abspath",
+            "named": false
+          },
+          {
+            "type": "addprefix",
+            "named": false
+          },
+          {
+            "type": "addsuffix",
+            "named": false
+          },
+          {
+            "type": "and",
+            "named": false
+          },
+          {
+            "type": "basename",
+            "named": false
+          },
+          {
+            "type": "call",
+            "named": false
+          },
+          {
+            "type": "dir",
+            "named": false
+          },
+          {
+            "type": "error",
+            "named": false
+          },
+          {
+            "type": "eval",
+            "named": false
+          },
+          {
+            "type": "file",
+            "named": false
+          },
+          {
+            "type": "filter",
+            "named": false
+          },
+          {
+            "type": "filter-out",
+            "named": false
+          },
+          {
+            "type": "findstring",
+            "named": false
+          },
+          {
+            "type": "firstword",
+            "named": false
+          },
+          {
+            "type": "flavor",
+            "named": false
+          },
+          {
+            "type": "foreach",
+            "named": false
+          },
+          {
+            "type": "if",
+            "named": false
+          },
+          {
+            "type": "info",
+            "named": false
+          },
+          {
+            "type": "join",
+            "named": false
+          },
+          {
+            "type": "lastword",
+            "named": false
+          },
+          {
+            "type": "notdir",
+            "named": false
+          },
+          {
+            "type": "or",
+            "named": false
+          },
+          {
+            "type": "origin",
+            "named": false
+          },
+          {
+            "type": "patsubst",
+            "named": false
+          },
+          {
+            "type": "realpath",
+            "named": false
+          },
+          {
+            "type": "sort",
+            "named": false
+          },
+          {
+            "type": "strip",
+            "named": false
+          },
+          {
+            "type": "subst",
+            "named": false
+          },
+          {
+            "type": "suffix",
+            "named": false
+          },
+          {
+            "type": "value",
+            "named": false
+          },
+          {
+            "type": "warning",
+            "named": false
+          },
+          {
+            "type": "wildcard",
+            "named": false
+          },
+          {
             "type": "word",
-            "named": true
+            "named": false
+          },
+          {
+            "type": "wordlist",
+            "named": false
+          },
+          {
+            "type": "words",
+            "named": false
           }
         ]
       }
@@ -525,6 +689,10 @@
           },
           {
             "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
             "named": true
           },
           {
@@ -576,6 +744,10 @@
             "named": true
           },
           {
+            "type": "shell_function",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -618,6 +790,10 @@
             "named": true
           },
           {
+            "type": "shell_function",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -655,6 +831,10 @@
           },
           {
             "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
             "named": true
           },
           {
@@ -706,6 +886,10 @@
             "named": true
           },
           {
+            "type": "shell_function",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -745,6 +929,10 @@
           },
           {
             "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
             "named": true
           },
           {
@@ -804,6 +992,10 @@
           "named": true
         },
         {
+          "type": "shell_function",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -843,6 +1035,10 @@
           "named": true
         },
         {
+          "type": "function_call",
+          "named": true
+        },
+        {
           "type": "include_directive",
           "named": true
         },
@@ -860,6 +1056,10 @@
         },
         {
           "type": "shell_assignment",
+          "named": true
+        },
+        {
+          "type": "shell_function",
           "named": true
         },
         {
@@ -929,6 +1129,10 @@
           "named": true
         },
         {
+          "type": "shell_function",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -968,6 +1172,10 @@
           "named": true
         },
         {
+          "type": "shell_function",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -1004,6 +1212,10 @@
         },
         {
           "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
           "named": true
         },
         {
@@ -1164,11 +1376,72 @@
         "required": true,
         "types": [
           {
-            "type": "shell_text",
+            "type": "shell_command",
             "named": true
           }
         ]
       }
+    }
+  },
+  {
+    "type": "shell_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "automatic_variable",
+          "named": true
+        },
+        {
+          "type": "escape",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "substitution_reference",
+          "named": true
+        },
+        {
+          "type": "variable_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "shell_function",
+    "named": true,
+    "fields": {
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "shell",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "shell_command",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1185,6 +1458,14 @@
         },
         {
           "type": "escape",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
           "named": true
         },
         {
@@ -1223,6 +1504,10 @@
             "named": true
           },
           {
+            "type": "shell_function",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -1257,6 +1542,10 @@
             "named": true
           },
           {
+            "type": "shell_function",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -1288,6 +1577,10 @@
           },
           {
             "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
             "named": true
           },
           {
@@ -1331,6 +1624,10 @@
           "named": true
         },
         {
+          "type": "shell_function",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -1351,22 +1648,22 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "archive",
-          "named": true
-        },
         {
           "type": "automatic_variable",
           "named": true
         },
         {
-          "type": "concatenation",
+          "type": "escape",
           "named": true
         },
         {
           "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
           "named": true
         },
         {
@@ -1375,10 +1672,6 @@
         },
         {
           "type": "variable_reference",
-          "named": true
-        },
-        {
-          "type": "word",
           "named": true
         }
       ]
@@ -1500,6 +1793,10 @@
         },
         {
           "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "shell_function",
           "named": true
         },
         {
@@ -1668,11 +1965,39 @@
     "named": false
   },
   {
+    "type": "abspath",
+    "named": false
+  },
+  {
+    "type": "addprefix",
+    "named": false
+  },
+  {
+    "type": "addsuffix",
+    "named": false
+  },
+  {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "basename",
+    "named": false
+  },
+  {
+    "type": "call",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
   {
     "type": "define",
+    "named": false
+  },
+  {
+    "type": "dir",
     "named": false
   },
   {
@@ -1688,11 +2013,51 @@
     "named": false
   },
   {
+    "type": "error",
+    "named": false
+  },
+  {
     "type": "escape",
     "named": true
   },
   {
+    "type": "eval",
+    "named": false
+  },
+  {
     "type": "export",
+    "named": false
+  },
+  {
+    "type": "file",
+    "named": false
+  },
+  {
+    "type": "filter",
+    "named": false
+  },
+  {
+    "type": "filter-out",
+    "named": false
+  },
+  {
+    "type": "findstring",
+    "named": false
+  },
+  {
+    "type": "firstword",
+    "named": false
+  },
+  {
+    "type": "flavor",
+    "named": false
+  },
+  {
+    "type": "foreach",
+    "named": false
+  },
+  {
+    "type": "if",
     "named": false
   },
   {
@@ -1716,7 +2081,35 @@
     "named": false
   },
   {
+    "type": "info",
+    "named": false
+  },
+  {
+    "type": "join",
+    "named": false
+  },
+  {
+    "type": "lastword",
+    "named": false
+  },
+  {
+    "type": "notdir",
+    "named": false
+  },
+  {
+    "type": "or",
+    "named": false
+  },
+  {
+    "type": "origin",
+    "named": false
+  },
+  {
     "type": "override",
+    "named": false
+  },
+  {
+    "type": "patsubst",
     "named": false
   },
   {
@@ -1724,7 +2117,31 @@
     "named": false
   },
   {
+    "type": "realpath",
+    "named": false
+  },
+  {
+    "type": "shell",
+    "named": false
+  },
+  {
     "type": "sinclude",
+    "named": false
+  },
+  {
+    "type": "sort",
+    "named": false
+  },
+  {
+    "type": "strip",
+    "named": false
+  },
+  {
+    "type": "subst",
+    "named": false
+  },
+  {
+    "type": "suffix",
     "named": false
   },
   {
@@ -1736,12 +2153,36 @@
     "named": false
   },
   {
+    "type": "value",
+    "named": false
+  },
+  {
     "type": "vpath",
+    "named": false
+  },
+  {
+    "type": "warning",
+    "named": false
+  },
+  {
+    "type": "wildcard",
     "named": false
   },
   {
     "type": "word",
     "named": true
+  },
+  {
+    "type": "word",
+    "named": false
+  },
+  {
+    "type": "wordlist",
+    "named": false
+  },
+  {
+    "type": "words",
+    "named": false
   },
   {
     "type": "{",

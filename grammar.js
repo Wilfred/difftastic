@@ -1,4 +1,5 @@
 const CHARSET = 'a-zA-Z0-9%\\+\\-\\.@_\\*\\?\\/';
+const ESCAPE_SET = 'abtnvfrE!"#\\$&\'\\(\\)\\*,;<>\\?\\[\\\\\\]^`{\\|}~'
 
 const NL = token.immediate(/[\r\n]+/);
 const WS = token.immediate(/[\t ]+/);
@@ -7,6 +8,44 @@ const SPLIT = alias(token.immediate(seq('\\', /\r?\n|\r/)), '\\');
 const AUTOMATIC_VARS = [ '@', '%', '<', '?', '^', '+', '/', '*' ];
 
 const DEFINE_OPS = ['=', ':=', '::=', '?=', '+='];
+
+const FUNCTIONS = [
+    'subst',
+    'patsubst',
+    'strip',
+    'findstring',
+    'filter',
+    'filter-out',
+    'sort',
+    'word',
+    'words',
+    'wordlist',
+    'firstword',
+    'lastword',
+    'dir',
+    'notdir',
+    'suffix',
+    'basename',
+    'addsuffix',
+    'addprefix',
+    'join',
+    'wildcard',
+    'realpath',
+    'abspath',
+    'error',
+    'warning',
+    'info',
+    'origin',
+    'flavor',
+    'foreach',
+    'if',
+    'or',
+    'and',
+    'call',
+    'eval',
+    'file',
+    'value',
+];
 
 module.exports = grammar({
     name: 'make',
@@ -23,7 +62,6 @@ module.exports = grammar({
         $._target_or_pattern_assignment,
 
         $._primary,
-        $._text,
         $._name,
     ],
 
@@ -46,6 +84,7 @@ module.exports = grammar({
             $.rule,
             $._variable_definition,
             $._directive,
+            seq($._function, NL)
         ),
 
         // Rules {{{
@@ -187,7 +226,7 @@ module.exports = grammar({
             optional(WS),
             field('operator',choice(...DEFINE_OPS)),
             optional(WS),
-            optional(field('value', $._text)),
+            optional(field('value', $.text)),
             NL
         ),
 
@@ -201,14 +240,8 @@ module.exports = grammar({
             field('name',$.word),
             optional(WS),
             field('operator','!='),
-            // this whitespace shall not be included in shell text
             optional(WS),
-            field('value',alias(
-                // matching anything but newline, and
-                // backlash followed by newline (split line)
-                token(repeat1(/[^\r\n]|\\\r?\n|\r/)),
-                $.shell_text
-            )),
+            field('value',$._shell_command),
             NL
         ),
 
@@ -239,14 +272,10 @@ module.exports = grammar({
         ),
 
         // 3.3
-        include_directive: $ => seq(
-            choice(
-                'include',
-                'sinclude',
-                '-include',
-            ),
-            field('filenames',$.list),
-            NL
+        include_directive: $ => choice(
+            seq( 'include', field('filenames',$.list), NL),
+            seq('sinclude', field('filenames',$.list), NL),
+            seq('-include', field('filenames',$.list), NL),
         ),
 
         // 4.5.2
@@ -278,15 +307,12 @@ module.exports = grammar({
 
         // 6.9
         undefine_directive: $ => seq(
-            'undefine',
-            field('variable', $.word),
-            NL
+            'undefine', field('variable', $.word), NL
         ),
 
         // 6.13
         private_directive: $ => seq(
-            'private',
-            $.variable_assignment
+            'private', $.variable_assignment
         ),
         // }}}
         // Conditionals {{{
@@ -318,6 +344,11 @@ module.exports = grammar({
             $.ifdef_directive,
             $.ifndef_directive
         ),
+
+        _conditional_consequence: $ => repeat1(choice(
+            $._thing,
+            $._prefixed_recipe_line
+        )),
 
         ifeq_directive: $ => seq(
             'ifeq', $._conditional_args_cmp, NL
@@ -358,13 +389,6 @@ module.exports = grammar({
             seq('"', optional($._primary), '"'),
             seq("'", optional($._primary), "'"),
         ),
-
-        _conditional_consequence: $ => repeat1(choice(
-            $._thing,
-            $._prefixed_recipe_line
-        )),
-        // }}}
-        // Functions {{{
         // }}}
         // Variables {{{
         _variable: $ => choice(
@@ -375,7 +399,12 @@ module.exports = grammar({
 
         variable_reference: $ => seq(
             choice('$','$$'),
-            delimitedVariable($._primary),
+            choice(
+                delimitedVariable($._primary),
+                // TODO are those legal? $) $$$
+                alias(token.immediate(/./), $.word), // match any single digit
+                //alias(token.immediate('\\\n'), $.word)
+            )
         ),
 
         // 6.3.1
@@ -414,22 +443,36 @@ module.exports = grammar({
         // Functions {{{
         _function: $ => choice(
             $.function_call,
+            $.shell_function,
         ),
 
         function_call: $ => seq(
-            '$',
+            choice('$','$$'),
             token.immediate('('),
-            field('function', $.word),
+            field('function', choice(
+                ...FUNCTIONS.map(f => token.immediate(f))
+            )),
+            optional(WS),
             $.arguments,
             ')'
         ),
 
         arguments: $ => seq(
-            field('argument',$._text),
+            field('argument',$.text),
             repeat(seq(
                 ',',
-                field('argument',$._text),
+                field('argument',$.text),
             ))
+        ),
+
+        // 8.13
+        shell_function: $ => seq(
+            choice('$','$$'),
+            token.immediate('('),
+            field('function', 'shell'),
+            optional(WS),
+            $._shell_command,
+            ')'
         ),
         // }}}
         // Primary and lists {{{
@@ -445,21 +488,17 @@ module.exports = grammar({
         paths: $ => seq(
             $._primary,
             repeat(seq(
-                choice(
-                    ...[':',';'].map(c=>token.immediate(c))
-                ),
+                choice(...[':',';'].map(c=>token.immediate(c))),
                 $._primary
             )),
         ),
-
-        _text: $ => alias($.list, $.text),
 
         _primary: $ => choice(
             $.word,
             $.archive,
             $._variable,
             $._function,
-            $.concatenation
+            $.concatenation,
         ),
 
         concatenation: $ => prec.right(seq(
@@ -472,8 +511,7 @@ module.exports = grammar({
 
         word: $ => token(repeat1(choice(
             new RegExp ('['+CHARSET+']'),
-            new RegExp ('\\/['+CHARSET+']'),
-            new RegExp ('\\\\.'),
+            new RegExp ('\\\\['+ESCAPE_SET+']'),
             new RegExp ('\\\\[0-9]{3}'),
         ))),
 
@@ -489,22 +527,41 @@ module.exports = grammar({
         // TODO external parser for .RECIPEPREFIX
         _recipeprefix: $ => '\t',
 
+        // TODO prefixed line in define is recipe
         _rawline: $ => token(/.*[\r\n]+/), // any line
 
         _shell_text_without_split: $ => text($,
             noneOf(...['\\$', '\\r', '\\n', '\\']),
             choice(
                 $._variable,
-                //$._function,
-                //$.automatic_variable,
+                $._function,
                 alias('$$',$.escape),
                 alias('//',$.escape),
             ),
         ),
 
+        // The SPLIT chars shall be included the injected code
         shell_text_with_split: $ => seq(
             $._shell_text_without_split,
             SPLIT,
+        ),
+
+        _shell_command: $ => alias(
+            $.text,
+            $.shell_command
+        ),
+
+        text: $ => text($,
+            choice(
+                noneOf(...['\\$', '\\(', '\\)', '\\n', '\\r', '\\']),
+                SPLIT
+            ),
+            choice(
+                $._variable,
+                $._function,
+                alias('$$',$.escape),
+                alias('//',$.escape),
+            ),
         ),
         // }}}
 
@@ -529,7 +586,8 @@ function delimitedVariable(rule) {
 function text($, text, fenced_vars) {
     const raw_text = token(repeat1(choice(
         text,
-        /\\[^\n\r]/
+        new RegExp ('\\\\['+ESCAPE_SET+']'),
+        new RegExp ('\\\\[0-9]{3}'),
     )))
     return choice(
         seq(
@@ -549,6 +607,3 @@ function text($, text, fenced_vars) {
         )
     )
 }
-
-//function text($, text, fenced_vars) {
-

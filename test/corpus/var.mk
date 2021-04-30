@@ -8,7 +8,7 @@ v = foo.o bar.o
 (makefile
   (variable_assignment
      name: (word)
-    value: (text (word) (word))))
+    value: (text)))
 
 ==================================
 Variable, simply expanded, setting
@@ -20,11 +20,11 @@ v := foo.o bar.o
 (makefile
   (variable_assignment
      name: (word)
-    value: (text (word) (word))))
+    value: (text)))
 
-==================================
+=========================================
 Variable, simply expanded, POSIX, setting
-==================================
+=========================================
 v ::= foo.o bar.o
 
 ---
@@ -32,11 +32,11 @@ v ::= foo.o bar.o
 (makefile
   (variable_assignment
      name: (word)
-    value: (text (word) (word))))
+    value: (text)))
 
-==================================
+=======================
 Variable, splitted line
-==================================
+=======================
 var := foo\
        bar
 
@@ -45,32 +45,20 @@ var := foo\
 (makefile
   (variable_assignment
      name: (word)
-    value: (text (word) (word))))
+    value: (text)))
 
-==================================
-Variable, shell assignment
-==================================
-var != echo foo
-
----
-
-(makefile
-  (shell_assignment
-     name: (word)
-    value: (shell_text)))
-
-==================================
-Variable, shell assignment, split line
-==================================
-var != echo foo\
-	bar
+=======================
+Variable, special chars
+=======================
+var := 'hello\
+world'
 
 ---
 
 (makefile
-  (shell_assignment
+  (variable_assignment
      name: (word)
-    value: (shell_text)))
+    value: (text)))
 
 ==================================
 Variable, define directive
@@ -145,9 +133,9 @@ endef
      name: (word)
     value: (raw_text)))
 
-=======================================
-Variable, VPATH
-======================================
+================================
+Variable, VPATH, Linux delimiter
+================================
 VPATH = foo:../bar
 
 ---
@@ -156,10 +144,20 @@ VPATH = foo:../bar
   (VPATH_assignment
     value: (paths (word) (word))))
 
+==================================
+Variable, VPATH, Windows delimiter
+==================================
+VPATH = foo;../bar
+
+---
+
+(makefile
+  (VPATH_assignment
+    value: (paths (word) (word))))
 
 =================================
 Variable, target/pattern-specific
-================================
+=================================
 %.o : v = foo
 
 ---
@@ -168,7 +166,7 @@ Variable, target/pattern-specific
   (variable_assignment
     target_or_pattern: (list (word))
      name: (word)
-    value: (text (word))))
+    value: (text)))
 
 =====================
 Variable, empty value
@@ -216,7 +214,7 @@ v = $($(v)) $(${v}) ${${v}} ${$(v)}
         (variable_reference (word))))))
 
 ===============================================
-Variable, substitution reference
+Variable, substitution reference I
 ===============================================
 v := $(foo:.o=.c)
 
@@ -232,9 +230,9 @@ v := $(foo:.o=.c)
         replacement: (word)))))
 
 ===============================================
-Variable, concatenation, var reference and text
+Variable, substitution reference II
 ===============================================
-v = foo/$(bar)
+v := $(foo:%.o=%.c)
 
 ---
 
@@ -242,6 +240,21 @@ v = foo/$(bar)
   (variable_assignment
     name: (word)
     value: (text
+      (substitution_reference
+               text: (word)
+            pattern: (word)
+        replacement: (word)))))
+
+===============================================
+Variable, VPATH, concatenation, var reference and text
+===============================================
+VPATH = foo/$(bar)
+
+---
+
+(makefile
+  (VPATH_assignment
+    value: (paths
       (concatenation
         (word)
         (variable_reference (word))))))
@@ -249,14 +262,13 @@ v = foo/$(bar)
 ========================================================
 Variable, concatenation, var reference and var reference
 ========================================================
-v = $(foo)$(bar)
+VPATH = $(foo)$(bar)
 
 ---
 
 (makefile
-  (variable_assignment
-    name: (word)
-    value: (text
+  (VPATH_assignment
+    value: (paths
       (concatenation
         (variable_reference (word))
         (variable_reference (word))))))
@@ -264,16 +276,39 @@ v = $(foo)$(bar)
 ==========================================
 Variable, computed variable, concatenation
 ==========================================
-v := $($(foo)_$(bar))
+VPATH := $($(foo)_$(bar))
+
+---
+
+(makefile
+  (VPATH_assignment
+    value: (paths
+      (variable_reference
+        (concatenation
+          (variable_reference (word))
+          (word)
+          (variable_reference (word)))))))
+
+==============================================
+Variable, shell command (not shell assignment)
+==============================================
+v = echo "foo"  > bar
+v = echo "foo" !> bar
+v = echo "foo" 1> bar
+v = echo "foo" &> bar
 
 ---
 
 (makefile
   (variable_assignment
     name: (word)
-    value: (text
-      (variable_reference
-        (concatenation
-          (variable_reference (word))
-          (word)
-          (variable_reference (word)))))))
+    value: (text))
+  (variable_assignment
+    name: (word)
+    value: (text))
+  (variable_assignment
+    name: (word)
+    value: (text))
+  (variable_assignment
+    name: (word)
+    value: (text)))
