@@ -58,7 +58,6 @@ module.exports = grammar({
         $._prerequisites_pattern,
         $._prerequisites,
         $._order_only_prerequisites,
-
         $._target_or_pattern_assignment,
 
         $._primary,
@@ -205,6 +204,7 @@ module.exports = grammar({
         // Variables {{{
         _variable_definition: $ => choice(
             $.VPATH_assignment,
+            $.RECIPEPREFIX_assignment,
             $.variable_assignment,
             $.shell_assignment,
             $.define_directive
@@ -216,6 +216,14 @@ module.exports = grammar({
             optional(WS),
             field('operator',choice(...DEFINE_OPS)),
             field('value',$.paths),
+            NL
+        ),
+
+        RECIPEPREFIX_assignment: $ => seq(
+            field('name','.RECIPEPREFIX'),
+            optional(WS),
+            field('operator',choice(...DEFINE_OPS)),
+            field('value', $.text),
             NL
         ),
 
