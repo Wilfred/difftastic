@@ -32,7 +32,11 @@ my $octal = 0577;
 
 my @array2 = ('meow', 'woof', 'burp',);
 
-my @mixed_array = ('meow', 4, 'dog');
+my @number_array = ( 1, 2, 3, 8 );
+
+my @mixed_array = ($octal, 4, 'dog', 4 * 7);
+
+print "mixed". Dumper(\@mixed_array);
 
 my @empty_array = ();
 

@@ -202,6 +202,10 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -210,11 +214,51 @@
           "named": true
         },
         {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bless",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
         {
+          "type": "file_handle",
+          "named": true
+        },
+        {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
           "named": true
         },
         {
@@ -226,6 +270,10 @@
           "named": true
         },
         {
+          "type": "hash_variable",
+          "named": true
+        },
+        {
           "type": "hexadecimal",
           "named": true
         },
@@ -234,11 +282,47 @@
           "named": true
         },
         {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
           "type": "octal",
           "named": true
         },
         {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        },
+        {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "special_variable",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
           "named": true
         },
         {
@@ -258,7 +342,27 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
+          "named": true
+        },
+        {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         },
         {
@@ -277,6 +381,10 @@
       "required": false,
       "types": [
         {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
           "type": "array",
           "named": true
         },
@@ -285,11 +393,51 @@
           "named": true
         },
         {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bless",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "dereference",
+          "named": true
+        },
+        {
           "type": "false",
           "named": true
         },
         {
+          "type": "file_handle",
+          "named": true
+        },
+        {
           "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
           "named": true
         },
         {
@@ -301,6 +449,10 @@
           "named": true
         },
         {
+          "type": "hash_variable",
+          "named": true
+        },
+        {
           "type": "hexadecimal",
           "named": true
         },
@@ -309,11 +461,47 @@
           "named": true
         },
         {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
           "type": "octal",
           "named": true
         },
         {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        },
+        {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "special_variable",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifer",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
           "named": true
         },
         {
@@ -333,7 +521,27 @@
           "named": true
         },
         {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
+          "named": true
+        },
+        {
           "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         },
         {

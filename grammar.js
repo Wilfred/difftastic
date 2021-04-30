@@ -6,8 +6,8 @@ const PRECEDENCE = {
   STRING: 4,
   COMMENTS: 5, // comments over anything. Except in strings or regex.
   
-  HASH: 1,
-  ARRAY: 2,
+  HASH: 3,
+  ARRAY: 4,
   SUB_ARGS: 29,
   SUB_CALL: 30, // sub call, parathesised have higher precedence than operators\
   BRACKETS: 30, // highest of them all
@@ -65,6 +65,7 @@ module.exports = grammar({
     [$._expression],
     [$.bareword_import, $.package_name],
     [$.package_name],
+    [$._list, $._variables],
   ],
 
   // externals: $ => [
@@ -1335,13 +1336,13 @@ module.exports = grammar({
 
     array: $ => prec.left(PRECEDENCE.ARRAY, seq(
       '(',
-      optional(commaSeparated($._primitive_expression)),
+      optional(commaSeparated($._expression)),
       ')',
     )),
 
     array_ref: $ => seq(
       '[',
-      optional(commaSeparated($._primitive_expression)),
+      optional(commaSeparated($._expression)),
       ']',
     ),
 

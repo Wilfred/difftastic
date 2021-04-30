@@ -2869,7 +2869,7 @@
     },
     "arrow_notation": {
       "type": "PREC_LEFT",
-      "value": 1,
+      "value": 3,
       "content": {
         "type": "SEQ",
         "members": [
@@ -7093,7 +7093,7 @@
     },
     "array": {
       "type": "PREC_LEFT",
-      "value": 2,
+      "value": 4,
       "content": {
         "type": "SEQ",
         "members": [
@@ -7109,7 +7109,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_primitive_expression"
+                    "name": "_expression"
                   },
                   {
                     "type": "REPEAT",
@@ -7122,7 +7122,7 @@
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "_primitive_expression"
+                          "name": "_expression"
                         }
                       ]
                     }
@@ -7168,7 +7168,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_primitive_expression"
+                  "name": "_expression"
                 },
                 {
                   "type": "REPEAT",
@@ -7181,7 +7181,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_primitive_expression"
+                        "name": "_expression"
                       }
                     ]
                   }
@@ -7213,7 +7213,7 @@
     },
     "hash": {
       "type": "PREC",
-      "value": 1,
+      "value": 3,
       "content": {
         "type": "SEQ",
         "members": [
@@ -7581,6 +7581,10 @@
     ],
     [
       "package_name"
+    ],
+    [
+      "_list",
+      "_variables"
     ]
   ],
   "precedences": [],
