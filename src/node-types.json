@@ -1,5 +1,57 @@
 [
   {
+    "type": "RECIPEPREFIX_assignment",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ".RECIPEPREFIX",
+            "named": false
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "::=",
+            "named": false
+          },
+          {
+            "type": ":=",
+            "named": false
+          },
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": "?=",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "text",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "VPATH_assignment",
     "named": true,
     "fields": {
@@ -172,6 +224,10 @@
         "required": false,
         "types": [
           {
+            "type": "RECIPEPREFIX_assignment",
+            "named": true
+          },
+          {
             "type": "VPATH_assignment",
             "named": true
           },
@@ -314,6 +370,10 @@
         "required": false,
         "types": [
           {
+            "type": "RECIPEPREFIX_assignment",
+            "named": true
+          },
+          {
             "type": "VPATH_assignment",
             "named": true
           },
@@ -411,6 +471,10 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "RECIPEPREFIX_assignment",
+            "named": true
+          },
           {
             "type": "VPATH_assignment",
             "named": true
@@ -1018,6 +1082,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "RECIPEPREFIX_assignment",
+          "named": true
+        },
         {
           "type": "VPATH_assignment",
           "named": true
@@ -1901,6 +1969,10 @@
     "named": false
   },
   {
+    "type": ".RECIPEPREFIX",
+    "named": false
+  },
+  {
     "type": "/",
     "named": false
   },
@@ -2170,11 +2242,11 @@
   },
   {
     "type": "word",
-    "named": true
+    "named": false
   },
   {
     "type": "word",
-    "named": false
+    "named": true
   },
   {
     "type": "wordlist",
