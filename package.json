@@ -33,8 +33,13 @@
     {
       "scope": "source.mk",
       "file-types": [
+        "makefile",
+        "Makefile",
+        "MAKEFILE",
+        "GNUmakefile",
         "mk",
-        "MAKEFILE"
+        "mak",
+        "dsp"
       ]
     }
   ]
