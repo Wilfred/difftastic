@@ -3100,6 +3100,10 @@
                     {
                       "type": "PATTERN",
                       "value": "\\\\[0-9]{3}"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "\\\\[^\\n\\r]"
                     }
                   ]
                 }
@@ -3162,6 +3166,10 @@
                               {
                                 "type": "PATTERN",
                                 "value": "\\\\[0-9]{3}"
+                              },
+                              {
+                                "type": "PATTERN",
+                                "value": "\\\\[^\\n\\r]"
                               }
                             ]
                           }
@@ -3237,6 +3245,10 @@
                               {
                                 "type": "PATTERN",
                                 "value": "\\\\[0-9]{3}"
+                              },
+                              {
+                                "type": "PATTERN",
+                                "value": "\\\\[^\\n\\r]"
                               }
                             ]
                           }
@@ -3302,6 +3314,10 @@
                         {
                           "type": "PATTERN",
                           "value": "\\\\[0-9]{3}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\\\[^\\n\\r]"
                         }
                       ]
                     }
@@ -3405,6 +3421,10 @@
                     {
                       "type": "PATTERN",
                       "value": "\\\\[0-9]{3}"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "\\\\[^\\n\\r]"
                     }
                   ]
                 }
@@ -3493,6 +3513,10 @@
                               {
                                 "type": "PATTERN",
                                 "value": "\\\\[0-9]{3}"
+                              },
+                              {
+                                "type": "PATTERN",
+                                "value": "\\\\[^\\n\\r]"
                               }
                             ]
                           }
@@ -3594,6 +3618,10 @@
                               {
                                 "type": "PATTERN",
                                 "value": "\\\\[0-9]{3}"
+                              },
+                              {
+                                "type": "PATTERN",
+                                "value": "\\\\[^\\n\\r]"
                               }
                             ]
                           }
@@ -3685,6 +3713,10 @@
                         {
                           "type": "PATTERN",
                           "value": "\\\\[0-9]{3}"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\\\[^\\n\\r]"
                         }
                       ]
                     }

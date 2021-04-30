@@ -596,6 +596,7 @@ function text($, text, fenced_vars) {
         text,
         new RegExp ('\\\\['+ESCAPE_SET+']'),
         new RegExp ('\\\\[0-9]{3}'),
+        new RegExp ('\\\\[^\n\r]'), // used in cmd like sed \1
     )))
     return choice(
         seq(
