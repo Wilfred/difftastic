@@ -164,6 +164,10 @@
         "named": true
       },
       {
+        "type": "throw_expression",
+        "named": true
+      },
+      {
         "type": "update_expression",
         "named": true
       },
@@ -267,10 +271,6 @@
       },
       {
         "type": "switch_statement",
-        "named": true
-      },
-      {
-        "type": "throw_statement",
         "named": true
       },
       {
@@ -2980,7 +2980,7 @@
     }
   },
   {
-    "type": "throw_statement",
+    "type": "throw_expression",
     "named": true,
     "fields": {},
     "children": {

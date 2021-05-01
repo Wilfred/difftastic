@@ -165,10 +165,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "throw_statement"
-        },
-        {
-          "type": "SYMBOL",
           "name": "try_statement"
         },
         {
@@ -2503,7 +2499,7 @@
         }
       ]
     },
-    "throw_statement": {
+    "throw_expression": {
       "type": "SEQ",
       "members": [
         {
@@ -2518,10 +2514,6 @@
         {
           "type": "SYMBOL",
           "name": "_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semicolon"
         }
       ]
     },
@@ -3625,6 +3617,10 @@
         {
           "type": "SYMBOL",
           "name": "parenthesized_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "throw_expression"
         }
       ]
     },

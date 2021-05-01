@@ -120,7 +120,6 @@ module.exports = grammar({
       $.continue_statement,
       $.break_statement,
       $.return_statement,
-      $.throw_statement,
       $.try_statement,
       $.declare_statement,
       $.echo_statement,
@@ -534,8 +533,9 @@ module.exports = grammar({
       keyword('return'), optional($._expression), $._semicolon
     ),
 
-    throw_statement: $ => seq(
-      keyword('throw'), $._expression, $._semicolon
+    throw_expression: $ => seq(
+      keyword('throw'),
+      $._expression
     ),
 
     while_statement: $ => seq(
@@ -717,7 +717,7 @@ module.exports = grammar({
       $.include_expression,
       $.include_once_expression,
       $.require_expression,
-      $.require_once_expression
+      $.require_once_expression,
     ),
 
     _unary_expression: $ => choice(
@@ -755,6 +755,7 @@ module.exports = grammar({
       $.update_expression,
       $.shell_command_expression,
       $.parenthesized_expression,
+      $.throw_expression,
     ),
 
     parenthesized_expression: $ => seq('(', $._expression, ')'),
