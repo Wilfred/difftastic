@@ -672,12 +672,16 @@ module.exports = grammar({
 
     // TODO handle CONSTANTS here AND have _expression as left - revisit
     arrow_notation: $ => prec.left(PRECEDENCE.HASH, seq(
-      field('reference_var', $.scalar_variable),
+      choice(
+        $.scalar_variable,
+        $.array_access_variable,
+        $.hash_access_variable,
+      ),
       repeat1(
         seq(
           '->',
           choice( // either a array element or hash key
-            seq('[', field('array_element', $._resolves_to_digit), ']'),
+            seq('[', field('array_element', $._expression), ']'),
             seq('{', field('hash_key', with_or_without_quotes($.identifier)), '}'),
           ),
         )
@@ -1105,6 +1109,9 @@ module.exports = grammar({
       $._numeric_literals,
       $.array_ref,
       $.hash_ref,
+
+      $.array_access_variable,
+      $.hash_access_variable,
     ),
 
     // the strings
@@ -1183,7 +1190,12 @@ module.exports = grammar({
 
     semi_colon: $ => ';',
 
-    string_single_quoted: $ => prec(PRECEDENCE.STRING, /\'.*\'/),
+    string_single_quoted: $ => prec(PRECEDENCE.STRING, seq(
+      '\'',
+      token(/[^']*/),
+      '\'',
+    )),
+    // TODO change all + to * in regex
     // NOTE/TODO:
     // we are currently only supporting {, /, (, \ as delimiters
     // in future release should use external scanners for delimiters
@@ -1320,14 +1332,28 @@ module.exports = grammar({
     scalar_variable: $ => choice(
       /\$[\d]+/,                      // $0, $1 - they are read-only
       /\$[!]/,
-      /\$\#_?[a-zA-z0-9_]+/,          // length of an array
+      /\$\#_?[a-zA-Z0-9_]+/,          // length of an array
       /\$[A-Z^_?\\]/,                 // checkout https://perldoc.perl.org/perldata#Identifier-parsing
-      /\$_?[a-zA-z0-9_]+/,
+      /\$_?[a-zA-Z0-9_]+/,
     ),
 
-    array_variable: $ => /@[a-zA-z0-9_]+/,
+    array_access_variable: $ => seq(
+      field('array_variable', $.scalar_variable),
+      '[',
+      field('index', $._expression),
+      ']'
+    ),
 
-    hash_variable: $ => /%[a-zA-z0-9_]+/,
+    hash_access_variable: $ => seq(
+      field('hash_variable', $.scalar_variable),
+      '{',
+      field('key', with_or_without_quotes($.identifier)),
+      '}',
+    ),
+
+    array_variable: $ => /@[a-zA-Z0-9_]+/,
+
+    hash_variable: $ => /%[a-zA-Z0-9_]+/,
 
     _list: $ => choice(
       $._array_type,
@@ -1368,6 +1394,7 @@ module.exports = grammar({
       $.array_ref,
       $.hash_ref,
       $.scalar_variable,
+      // TODO: \@array goes as unary_expression array_variable
       // TODO: { \'string' }
     ),
 
