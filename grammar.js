@@ -467,7 +467,7 @@ module.exports = grammar({
             optional(alias($._header,$.entity_header)),
             optional($.declarative_part),
             optional(seq(
-                'begin',
+                reservedWord('begin'),
                 optional($.concurrent_statement_part)
             )),
             reservedWord('end'),

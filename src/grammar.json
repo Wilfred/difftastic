@@ -105,7 +105,19 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": 2,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[bB][eE][gG][iI][nN]"
+                      }
+                    }
+                  },
+                  "named": false,
                   "value": "begin"
                 },
                 {
