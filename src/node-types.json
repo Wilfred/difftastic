@@ -5912,7 +5912,7 @@
     "fields": {
       "component": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "extended_simple_name",
@@ -5927,7 +5927,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "binding_indication",

@@ -183,7 +183,6 @@ module.exports = grammar({
         $._group_template, // 6.10
         $._group_constituent, // 6.10
         $._component_name, // 7.3
-        $._component_specification, // 7.3
         $._name, // 8
         $._range_attribute_designator, // 8.6
         $._external_object_name, // 8.7
@@ -1669,17 +1668,20 @@ module.exports = grammar({
         ),
         // }}}
         // 7.3 Configuration specification {{{
-        configuration_specification: $ => seq(
+        configuration_specification: $ => prec.right(seq(
             reservedWord('for'),
-            $._component_specification,
-            $.binding_indication,
+            // not-optional, used to improve error recovery
             optional(seq(
-                repeat($.verification_unit_binding_indication),
-                reservedWord('end'),
-                reservedWord('for'),
-                ';'
+                $._component_specification,
+                $.binding_indication,
+                optional(seq(
+                    repeat($.verification_unit_binding_indication),
+                    reservedWord('end'),
+                    reservedWord('for'),
+                    ';'
+                ))
             ))
-        ),
+        )),
 
         _component_specification: $ => seq(
             $.instantiation_list,
