@@ -557,3 +557,193 @@ ob_start(function($buffer) use (&$storage) { $storage .= $buffer; }, 20);
             left: (variable_name (name))
             right: (variable_name (name))))))
         (integer)))))
+
+
+================================
+Throw expressions
+================================
+
+<?php
+throw new Exception(__METHOD__);
+
+$value = !empty($array)
+    ? reset($array)
+    : throw new InvalidArgumentException();
+
+$condition && throw new Exception();
+$condition || throw new Exception();
+$condition and throw new Exception();
+$condition or throw new Exception();
+
+throw $this->createNotFoundException();
+throw static::createNotFoundException();
+throw $userIsAuthorized ? new ForbiddenException() : new UnauthorizedException();
+throw $maybeNullException ?? new Exception();
+throw $exception = new Exception();
+throw $condition1 && $condition2 ? new Exception1() : new Exception2();
+throw $exception ??= new Exception();
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (throw_expression
+      (object_creation_expression
+        (qualified_name (name))
+        (arguments (qualified_name (name)))
+      )
+    )
+  )
+  (expression_statement
+    (assignment_expression
+      left: (variable_name (name))
+      right: (conditional_expression
+        condition: (unary_op_expression
+          (function_call_expression
+            function: (qualified_name (name))
+            arguments: (arguments (variable_name (name)))
+          )
+        )
+        body: (function_call_expression
+          function: (qualified_name (name))
+          arguments: (arguments (variable_name (name)))
+        )
+        alternative: (throw_expression
+          (object_creation_expression
+            (qualified_name (name))
+            (arguments)
+          )
+        )
+      )
+    )
+  )
+  (expression_statement
+    (binary_expression
+      left: (variable_name (name))
+      right: (throw_expression
+        (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (binary_expression
+      left: (variable_name (name))
+      right: (throw_expression
+        (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (binary_expression
+      left: (variable_name (name))
+      right: (throw_expression
+        (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (binary_expression
+      left: (variable_name (name))
+      right: (throw_expression
+        (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (throw_expression
+      (member_call_expression
+        object: (variable_name (name))
+        name: (name)
+        arguments: (arguments)
+      )
+    )
+  )
+  (expression_statement
+    (throw_expression
+      (scoped_call_expression
+        scope: (relative_scope)
+        name: (name)
+        arguments: (arguments)
+      )
+    )
+  )
+  (expression_statement
+    (throw_expression
+      (conditional_expression
+        condition: (variable_name (name))
+        body: (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+        alternative: (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (throw_expression
+      (binary_expression
+        (variable_name (name))
+        (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (throw_expression
+      (assignment_expression
+        left: (variable_name (name))
+        right: (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (throw_expression
+      (conditional_expression
+        condition: (binary_expression
+          left: (variable_name (name))
+          right: (variable_name (name))
+        )
+        body: (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+        alternative: (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+      )
+    )
+  )
+  (expression_statement
+    (throw_expression
+      (augmented_assignment_expression
+        left: (variable_name (name))
+        right: (object_creation_expression
+          (qualified_name (name))
+          (arguments)
+        )
+      )
+    )
+  )
+)
