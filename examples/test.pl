@@ -3,21 +3,24 @@ use warnings;
 use Data::Dumper;
 
 
-my $class = 1;
-my $self = 'sdfd';
-my @array = (1, 2, 5);
+# my $class = 1;
+# my $self = 'sdfd';
+# my @array = (1, 2, 5);
 
-# bless({ \$self }, $class);
+# # bless({ \$self }, $class);
 
-print Dumper($self);
+# print Dumper($self);
 
-my $sub = sub {
-  my $a;
-};
+# my $sub = sub {
+#   my $a;
+# };
 
-sub hello {}
+# sub hello {}
 
-sub meow {
-  ${hello()};
-}
+# sub meow {
+#   ${hello()};
+# }
 
+my $string = q{};
+
+print Dumper $string;

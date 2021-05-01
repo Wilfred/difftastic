@@ -47,9 +47,10 @@ my @empty_array = ();
 
 my $array_ref = ['string', 123, "double string"];
 
-my $hash_ref = {
-  cat => 'meow',
-  life => 9
+my $hash = {
+  'cat' => 'meow',
+  "cow" => 'moo',
+  dog => 'woof',
 };
 
 my %hash = (
@@ -75,3 +76,14 @@ print Dumper *somethingelse;
 
 
 print Dumper $hash;
+
+
+my @array5 = (1, 3, 6);
+
+$array5[5] = 23;
+
+my $prev_test = 10;
+$array5[$prev_test - 1]->{name} = 1;
+
+
+print Dumper(\@array5);

@@ -2874,12 +2874,21 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "FIELD",
-            "name": "reference_var",
-            "content": {
-              "type": "SYMBOL",
-              "name": "scalar_variable"
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "scalar_variable"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "array_access_variable"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "hash_access_variable"
+              }
+            ]
           },
           {
             "type": "REPEAT1",
@@ -2905,7 +2914,7 @@
                           "name": "array_element",
                           "content": {
                             "type": "SYMBOL",
-                            "name": "_resolves_to_digit"
+                            "name": "_expression"
                           }
                         },
                         {
@@ -5442,6 +5451,14 @@
         {
           "type": "SYMBOL",
           "name": "hash_ref"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_access_variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hash_access_variable"
         }
       ]
     },
@@ -5683,8 +5700,24 @@
       "type": "PREC",
       "value": 4,
       "content": {
-        "type": "PATTERN",
-        "value": "\\'.*\\'"
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "'"
+          },
+          {
+            "type": "TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "[^']*"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "'"
+          }
+        ]
       }
     },
     "string_q_quoted": {
@@ -7058,7 +7091,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "\\$\\#_?[a-zA-z0-9_]+"
+          "value": "\\$\\#_?[a-zA-Z0-9_]+"
         },
         {
           "type": "PATTERN",
@@ -7066,17 +7099,114 @@
         },
         {
           "type": "PATTERN",
-          "value": "\\$_?[a-zA-z0-9_]+"
+          "value": "\\$_?[a-zA-Z0-9_]+"
+        }
+      ]
+    },
+    "array_access_variable": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "array_variable",
+          "content": {
+            "type": "SYMBOL",
+            "name": "scalar_variable"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "FIELD",
+          "name": "index",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
+    "hash_access_variable": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "hash_variable",
+          "content": {
+            "type": "SYMBOL",
+            "name": "scalar_variable"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "key",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "'"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "'"
+                  }
+                ]
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "\""
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\""
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
     "array_variable": {
       "type": "PATTERN",
-      "value": "@[a-zA-z0-9_]+"
+      "value": "@[a-zA-Z0-9_]+"
     },
     "hash_variable": {
       "type": "PATTERN",
-      "value": "%[a-zA-z0-9_]+"
+      "value": "%[a-zA-Z0-9_]+"
     },
     "_list": {
       "type": "CHOICE",
@@ -7437,8 +7567,47 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "'"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "STRING",
+                  "value": "'"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\""
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\""
+                }
+              ]
+            }
+          ]
         },
         {
           "type": "STRING",
