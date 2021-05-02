@@ -1191,9 +1191,12 @@ module.exports = grammar({
     semi_colon: $ => ';',
 
     string_single_quoted: $ => prec(PRECEDENCE.STRING, seq(
-      '\'',
-      token(/[^']*/),
-      '\'',
+      "'",
+      repeat(choice(
+        token(prec(PRECEDENCE.STRING, /[^']+/)),
+        /\\'/, // TODO: make this work
+      )),
+      "'",
     )),
     // TODO change all + to * in regex
     // NOTE/TODO:
@@ -1202,24 +1205,24 @@ module.exports = grammar({
     string_q_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'q',
       choice(
-        seq('{', token(/[^}]+/), '}'),
-        seq('/', token(/[^/]+/), '/'),
-        seq('(', token(/[^)]+/), ')'),
-        seq('\'', token(/[^']+/), '\''),
+        seq('{', token(prec(PRECEDENCE.STRING, /[^}]+/)), '}'),
+        seq('/', token(prec(PRECEDENCE.STRING, /[^/]+/)), '/'),
+        seq('(', token(prec(PRECEDENCE.STRING, /[^)]+/)), ')'),
+        seq('\'', token(prec(PRECEDENCE.STRING, /[^']+/)), '\''),
       ),
     )),
 
     string_double_quoted: $ => prec(PRECEDENCE.STRING, seq(
       '"',
-      repeat(choice($.interpolation, $.escape_sequence, token(/[^"\\]+/))),
+      repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^"\\]+/)))),
       '"',
     )),
     string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qq',
       choice(
-        seq('{', repeat(choice($.interpolation, $.escape_sequence, token(/[^}]+/))), '}'),
-        seq('/', repeat(choice($.interpolation, $.escape_sequence, token(/[^/]+/))), '/'),
-        seq('(', repeat(choice($.interpolation, $.escape_sequence, token(/[^)]+/))), ')'),
+        seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
+        seq('/', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^/]+/)))), '/'),
+        seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^)]+/)))), ')'),
         /'.*'/, // don't interpolate for a single quote
       ),
     )),
@@ -1227,9 +1230,9 @@ module.exports = grammar({
     command_qx_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qx',
       choice(
-        seq('{', repeat(choice($.interpolation, token(/[^}]+/))), '}'),
-        seq('/', repeat(choice($.interpolation, token(/[^\/]+/))), '/'),
-        seq('(', repeat(choice($.interpolation, token(/[^)]+/))), ')'),
+        seq('{', repeat(choice($.interpolation, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
+        seq('/', repeat(choice($.interpolation, token(prec(PRECEDENCE.STRING, /[^\/]+/)))), '/'),
+        seq('(', repeat(choice($.interpolation, token(prec(PRECEDENCE.STRING, /[^)]+/)))), ')'),
         /'.*'/, // don't interpolate for a single quote
       ),
     )),
@@ -1247,9 +1250,9 @@ module.exports = grammar({
     patter_matcher_m: $ => prec(PRECEDENCE.REGEXP, seq(
       'm',
       choice(
-        seq('{', repeat(choice($.interpolation, $.escape_sequence, token(/[^}]+/))), '}'),
-        seq('/', repeat(choice($.interpolation, $.escape_sequence, token(/[^/]+/))), '/'),
-        seq('(', repeat(choice($.interpolation, $.escape_sequence, token(/[^)]+/))), ')'),
+        seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.REGEXP, /[^}]+/)))), '}'),
+        seq('/', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.REGEXP, /[^/]+/)))), '/'),
+        seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.REGEXP, /[^)]+/)))), ')'),
         /'.*'/, // don't interpolate for a single quote
       ),
       optional($.regex_option),
@@ -1412,8 +1415,7 @@ module.exports = grammar({
 
     // cat => 'meow',
     _key_value_pair: $ => seq(
-      // with_or_without_quotes($.identifier), // TODO: fix this, check examples/control.pl
-      $.identifier,
+      with_or_without_quotes($.identifier), // TODO: fix this, check examples/control.pl
       '=>',
       $._expression,
     ),

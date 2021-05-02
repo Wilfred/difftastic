@@ -5707,10 +5707,26 @@
             "value": "'"
           },
           {
-            "type": "TOKEN",
+            "type": "REPEAT",
             "content": {
-              "type": "PATTERN",
-              "value": "[^']*"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PREC",
+                    "value": 4,
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[^']+"
+                    }
+                  }
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\\\'"
+                }
+              ]
             }
           },
           {
@@ -5743,8 +5759,12 @@
                   {
                     "type": "TOKEN",
                     "content": {
-                      "type": "PATTERN",
-                      "value": "[^}]+"
+                      "type": "PREC",
+                      "value": 4,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[^}]+"
+                      }
                     }
                   },
                   {
@@ -5763,8 +5783,12 @@
                   {
                     "type": "TOKEN",
                     "content": {
-                      "type": "PATTERN",
-                      "value": "[^/]+"
+                      "type": "PREC",
+                      "value": 4,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[^/]+"
+                      }
                     }
                   },
                   {
@@ -5783,8 +5807,12 @@
                   {
                     "type": "TOKEN",
                     "content": {
-                      "type": "PATTERN",
-                      "value": "[^)]+"
+                      "type": "PREC",
+                      "value": 4,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[^)]+"
+                      }
                     }
                   },
                   {
@@ -5803,8 +5831,12 @@
                   {
                     "type": "TOKEN",
                     "content": {
-                      "type": "PATTERN",
-                      "value": "[^']+"
+                      "type": "PREC",
+                      "value": 4,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[^']+"
+                      }
                     }
                   },
                   {
@@ -5844,8 +5876,12 @@
                 {
                   "type": "TOKEN",
                   "content": {
-                    "type": "PATTERN",
-                    "value": "[^\"\\\\]+"
+                    "type": "PREC",
+                    "value": 4,
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[^\"\\\\]+"
+                    }
                   }
                 }
               ]
@@ -5894,8 +5930,12 @@
                         {
                           "type": "TOKEN",
                           "content": {
-                            "type": "PATTERN",
-                            "value": "[^}]+"
+                            "type": "PREC",
+                            "value": 4,
+                            "content": {
+                              "type": "PATTERN",
+                              "value": "[^}]+"
+                            }
                           }
                         }
                       ]
@@ -5930,8 +5970,12 @@
                         {
                           "type": "TOKEN",
                           "content": {
-                            "type": "PATTERN",
-                            "value": "[^/]+"
+                            "type": "PREC",
+                            "value": 4,
+                            "content": {
+                              "type": "PATTERN",
+                              "value": "[^/]+"
+                            }
                           }
                         }
                       ]
@@ -5966,8 +6010,12 @@
                         {
                           "type": "TOKEN",
                           "content": {
-                            "type": "PATTERN",
-                            "value": "[^)]+"
+                            "type": "PREC",
+                            "value": 4,
+                            "content": {
+                              "type": "PATTERN",
+                              "value": "[^)]+"
+                            }
                           }
                         }
                       ]
@@ -6020,8 +6068,12 @@
                         {
                           "type": "TOKEN",
                           "content": {
-                            "type": "PATTERN",
-                            "value": "[^}]+"
+                            "type": "PREC",
+                            "value": 4,
+                            "content": {
+                              "type": "PATTERN",
+                              "value": "[^}]+"
+                            }
                           }
                         }
                       ]
@@ -6052,8 +6104,12 @@
                         {
                           "type": "TOKEN",
                           "content": {
-                            "type": "PATTERN",
-                            "value": "[^\\/]+"
+                            "type": "PREC",
+                            "value": 4,
+                            "content": {
+                              "type": "PATTERN",
+                              "value": "[^\\/]+"
+                            }
                           }
                         }
                       ]
@@ -6084,8 +6140,12 @@
                         {
                           "type": "TOKEN",
                           "content": {
-                            "type": "PATTERN",
-                            "value": "[^)]+"
+                            "type": "PREC",
+                            "value": 4,
+                            "content": {
+                              "type": "PATTERN",
+                              "value": "[^)]+"
+                            }
                           }
                         }
                       ]
@@ -6240,8 +6300,12 @@
                         {
                           "type": "TOKEN",
                           "content": {
-                            "type": "PATTERN",
-                            "value": "[^}]+"
+                            "type": "PREC",
+                            "value": 1,
+                            "content": {
+                              "type": "PATTERN",
+                              "value": "[^}]+"
+                            }
                           }
                         }
                       ]
@@ -6276,8 +6340,12 @@
                         {
                           "type": "TOKEN",
                           "content": {
-                            "type": "PATTERN",
-                            "value": "[^/]+"
+                            "type": "PREC",
+                            "value": 1,
+                            "content": {
+                              "type": "PATTERN",
+                              "value": "[^/]+"
+                            }
                           }
                         }
                       ]
@@ -6312,8 +6380,12 @@
                         {
                           "type": "TOKEN",
                           "content": {
-                            "type": "PATTERN",
-                            "value": "[^)]+"
+                            "type": "PREC",
+                            "value": 1,
+                            "content": {
+                              "type": "PATTERN",
+                              "value": "[^)]+"
+                            }
                           }
                         }
                       ]
@@ -7567,8 +7639,47 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "'"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "STRING",
+                  "value": "'"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\""
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\""
+                }
+              ]
+            }
+          ]
         },
         {
           "type": "STRING",
