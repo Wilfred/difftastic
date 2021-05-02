@@ -61,7 +61,7 @@ module.exports = grammar({
     [$._primitive_expression, $._list],
     [$.standalone_block, $.hash_ref],
     [$.goto_expression, $._expression],
-    [$._primitive_expression, $.dereference],
+    [$._primitive_expression, $.to_reference],
     [$._expression],
     [$.bareword_import, $.package_name],
     [$.package_name],
@@ -550,7 +550,7 @@ module.exports = grammar({
     function_signature: $ => seq(
       '(',
       choice(
-        commaSeparated($._variables), // TODO: this is more
+        commaSeparated($._expression), // TODO: this is more
         /\+\{\}/,
       ),
       ')',
@@ -637,7 +637,8 @@ module.exports = grammar({
       $.anonymous_function,
 
       $.scalar_reference,
-      $.dereference,
+      $.to_reference,
+      $._dereference,
 
       // object oriented stuffs
       $.bless,
@@ -1388,7 +1389,7 @@ module.exports = grammar({
       optional(
         choice(
           commaSeparated($._key_value_pair),
-          commaSeparated($.dereference),
+          commaSeparated($.to_reference),
         ),
       ),
       '}'
@@ -1405,13 +1406,28 @@ module.exports = grammar({
     scalar_reference: $ => seq(
       '$',
       '{',
-      choice($.call_expression, $.dereference),
+      choice($.call_expression, $.to_reference),
       '}',
     ),
 
-    dereference: $ => seq(
+    to_reference: $ => seq(
       '\\',
       $._scalar_type,
+    ),
+
+    _dereference: $ => choice(
+      $.array_dereference,
+      $.hash_dereference,
+    ),
+
+    array_dereference: $ => seq(
+      '@',
+      with_or_without_curly_brackets($._expression),
+    ),
+
+    hash_dereference: $ => seq(
+      '%',
+      with_or_without_curly_brackets($._expression),
     ),
 
     // cat => 'meow',
@@ -1458,6 +1474,22 @@ function with_or_without_brackets(rule) {
   return prec(PRECEDENCE.BRACKETS, choice(
     rule,
     seq('(', rule, ')'),
+  ));
+}
+
+/**
+ * Given a rule, returns back a rule with and without
+ * curly brackets on them.
+ * 
+ * @$array vs @{$array}
+ * 
+ * @param {any} rule the rule
+ * @returns choice of rules
+ */
+ function with_or_without_curly_brackets(rule) {
+  return prec(PRECEDENCE.BRACKETS, choice(
+    rule,
+    seq('{', rule, '}'),
   ));
 }
 
