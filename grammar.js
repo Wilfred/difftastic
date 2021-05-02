@@ -650,7 +650,7 @@ module.exports = grammar({
       /@_/,
     ),
 
-    bless: $ => prec.left(seq(
+    bless: $ => prec.right(seq(
       'bless',
       with_or_without_brackets(
         seq(
@@ -672,7 +672,7 @@ module.exports = grammar({
     ),
 
     // TODO handle CONSTANTS here AND have _expression as left(latter is done) - revisit
-    arrow_notation: $ => prec.left(PRECEDENCE.HASH, seq(
+    arrow_notation: $ => prec.right(PRECEDENCE.HASH, seq(
       choice(
         $.scalar_variable,
         $.array_access_variable,
@@ -1365,7 +1365,7 @@ module.exports = grammar({
       $.array_variable,
     ),
 
-    array: $ => prec.left(PRECEDENCE.ARRAY, seq(
+    array: $ => prec.right(PRECEDENCE.ARRAY, seq(
       '(',
       optional(commaSeparated($._expression)),
       ')',
