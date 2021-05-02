@@ -2261,7 +2261,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_variables"
+                  "name": "_expression"
                 },
                 {
                   "type": "REPEAT",
@@ -2274,7 +2274,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_variables"
+                        "name": "_expression"
                       }
                     ]
                   }
@@ -2604,7 +2604,11 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "dereference"
+                "name": "to_reference"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_dereference"
               },
               {
                 "type": "SYMBOL",
@@ -2708,7 +2712,11 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "dereference"
+                    "name": "to_reference"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_dereference"
                   },
                   {
                     "type": "SYMBOL",
@@ -7482,7 +7490,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "dereference"
+                      "name": "to_reference"
                     },
                     {
                       "type": "REPEAT",
@@ -7495,7 +7503,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "dereference"
+                            "name": "to_reference"
                           }
                         ]
                       }
@@ -7564,7 +7572,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "dereference"
+              "name": "to_reference"
             }
           ]
         },
@@ -7574,7 +7582,7 @@
         }
       ]
     },
-    "dereference": {
+    "to_reference": {
       "type": "SEQ",
       "members": [
         {
@@ -7584,6 +7592,97 @@
         {
           "type": "SYMBOL",
           "name": "_scalar_type"
+        }
+      ]
+    },
+    "_dereference": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "array_dereference"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hash_dereference"
+        }
+      ]
+    },
+    "array_dereference": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@"
+        },
+        {
+          "type": "PREC",
+          "value": 30,
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "{"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "}"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "hash_dereference": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "%"
+        },
+        {
+          "type": "PREC",
+          "value": 30,
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "{"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "}"
+                  }
+                ]
+              }
+            ]
+          }
         }
       ]
     },
@@ -7767,7 +7866,7 @@
     ],
     [
       "_primitive_expression",
-      "dereference"
+      "to_reference"
     ],
     [
       "_expression"
