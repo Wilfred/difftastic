@@ -10,7 +10,7 @@ const PRECEDENCE = {
   ARRAY: 4,
   SUB_ARGS: 29,
   SUB_CALL: 30, // sub call, parathesised have higher precedence than operators\
-  BRACKETS: 30, // highest of them all
+  BRACKETS: 31, // highest of them all
 
   // begin of operators
   AUTO_INCREMENT_DECREMENT: 23,
@@ -1045,7 +1045,7 @@ module.exports = grammar({
       token.immediate('>'),
     ),
 
-    call_expression: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
+    call_expression: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       optional(token.immediate('&')),
       optional(seq(
         field('package_name', $.package_name),
@@ -1055,7 +1055,7 @@ module.exports = grammar({
       field('args', optional(choice($.parenthesized_arguments, $.arguments))),
     )),
 
-    method_invocation: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
+    method_invocation: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       choice(
         field('package_name', choice($.package_name, $.string_single_quoted)),
         field('object', $.scalar_variable),
@@ -1071,13 +1071,13 @@ module.exports = grammar({
       )),
     )),
 
-    parenthesized_arguments: $ => prec.left(PRECEDENCE.SUB_ARGS, seq(
+    parenthesized_arguments: $ => prec.right(PRECEDENCE.SUB_ARGS, seq(
       '(',
       optional($.arguments),
       ')',
     )),
 
-    arguments: $ => prec.left(PRECEDENCE.SUB_ARGS, commaSeparated($._expression)),
+    arguments: $ => prec.right(PRECEDENCE.SUB_ARGS, commaSeparated($._expression)),
 
     call_expression_recursive: $ => seq(
       '__SUB__',
@@ -1343,14 +1343,14 @@ module.exports = grammar({
     ),
 
     array_access_variable: $ => prec(PRECEDENCE.ARRAY, seq(
-      field('array_variable', $.scalar_variable),
+      field('array_variable', $._expression),
       '[',
       field('index', $._expression),
       ']'
     )),
 
     hash_access_variable: $ => prec(PRECEDENCE.HASH, seq(
-      field('hash_variable', $.scalar_variable),
+      field('hash_variable', $._expression),
       '{',
       field('key', choice($.identifier, $._expression)),
       '}',
@@ -1420,15 +1420,15 @@ module.exports = grammar({
       $.hash_dereference,
     ),
 
-    array_dereference: $ => seq(
+    array_dereference: $ => prec(PRECEDENCE.ARRAY, seq(
       '@',
       with_or_without_curly_brackets($._expression),
-    ),
+    )),
 
-    hash_dereference: $ => seq(
+    hash_dereference: $ => prec(PRECEDENCE.HASH ,seq(
       '%',
       with_or_without_curly_brackets($._expression),
-    ),
+    )),
 
     // cat => 'meow',
     _key_value_pair: $ => seq(

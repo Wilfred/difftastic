@@ -27,7 +27,7 @@ hello();
 )
 
 =================================================
-Subroutine with arrow notation - TODO: ALOHA should be identifier and not call_expression
+Subroutine with arrow notation
 =================================================
 
 my $result = GetSalesforceTemplateInfo($dbh)->{$args->{ALOHA}}->{'NAMASTE'};
@@ -43,7 +43,7 @@ my $result = GetSalesforceTemplateInfo($dbh)->{$args->{ALOHA}}->{'NAMASTE'};
         (arrow_notation
           (scalar_variable)
           (arrow_operator)
-          (call_expression (identifier))
+          (identifier)
         )
       ) (arrow_operator) (string_single_quoted)
     ) (semi_colon)
