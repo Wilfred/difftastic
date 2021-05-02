@@ -2,25 +2,15 @@ use strict 'refs';
 use warnings;
 use Data::Dumper;
 
+my $string = 'aloha';
+my @array = ("singleone", "senco");
 
-# my $class = 1;
-# my $self = 'sdfd';
-# my @array = (1, 2, 5);
+print Dumper \@array;
 
-# # bless({ \$self }, $class);
+my $hash = {
+  'cat' => 'meow',
+  "cow" => 'moo',
+  dog => 'woof',
+};
 
-# print Dumper($self);
-
-# my $sub = sub {
-#   my $a;
-# };
-
-# sub hello {}
-
-# sub meow {
-#   ${hello()};
-# }
-
-my $string = q{};
-
-print Dumper $string;
+print Dumper $hash;
