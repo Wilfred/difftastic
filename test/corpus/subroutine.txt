@@ -25,3 +25,27 @@ hello();
   (call_expression
     function_name: (identifier) args: (parenthesized_arguments)) (semi_colon)
 )
+
+=================================================
+Subroutine with arrow notation - TODO: ALOHA should be identifier and not call_expression
+=================================================
+
+my $result = GetSalesforceTemplateInfo($dbh)->{$args->{ALOHA}}->{'NAMASTE'};
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable))
+    (arrow_notation
+      (arrow_notation
+        (call_expression (identifier) (arguments (scalar_variable)))
+        (arrow_operator)
+        (arrow_notation
+          (scalar_variable)
+          (arrow_operator)
+          (call_expression (identifier))
+        )
+      ) (arrow_operator) (string_single_quoted)
+    ) (semi_colon)
+  )
+)

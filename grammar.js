@@ -670,19 +670,20 @@ module.exports = grammar({
       ),
     ),
 
-    // TODO handle CONSTANTS here AND have _expression as left - revisit
+    // TODO handle CONSTANTS here AND have _expression as left(latter is done) - revisit
     arrow_notation: $ => prec.left(PRECEDENCE.HASH, seq(
       choice(
         $.scalar_variable,
         $.array_access_variable,
         $.hash_access_variable,
+        $._expression,
       ),
       repeat1(
         seq(
-          '->',
+          $.arrow_operator,
           choice( // either a array element or hash key
             seq('[', field('array_element', $._expression), ']'),
-            seq('{', field('hash_key', with_or_without_quotes($.identifier)), '}'),
+            seq('{', field('hash_key', choice($.identifier, $._expression)), '}'),
           ),
         )
       ),
@@ -1059,7 +1060,7 @@ module.exports = grammar({
         field('object', $.scalar_variable),
       ),
       repeat1(seq(
-        '->',
+        $.arrow_operator,
         choice(
           field('function_name', $.identifier),
           $.scalar_variable,
@@ -1340,19 +1341,19 @@ module.exports = grammar({
       /\$_?[a-zA-Z0-9_]+/,
     ),
 
-    array_access_variable: $ => seq(
+    array_access_variable: $ => prec(PRECEDENCE.ARRAY, seq(
       field('array_variable', $.scalar_variable),
       '[',
       field('index', $._expression),
       ']'
-    ),
+    )),
 
-    hash_access_variable: $ => seq(
+    hash_access_variable: $ => prec(PRECEDENCE.HASH, seq(
       field('hash_variable', $.scalar_variable),
       '{',
-      field('key', with_or_without_quotes($.identifier)),
+      field('key', choice($.identifier, $._expression)),
       '}',
-    ),
+    )),
 
     array_variable: $ => /@[a-zA-Z0-9_]+/,
 
@@ -1419,6 +1420,8 @@ module.exports = grammar({
       '=>',
       $._expression,
     ),
+
+    arrow_operator: $ => /->/,
 
     comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
       /#.*/, // single line comment
