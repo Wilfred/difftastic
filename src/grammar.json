@@ -2747,7 +2747,7 @@
       ]
     },
     "bless": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -2876,7 +2876,7 @@
       ]
     },
     "arrow_notation": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 3,
       "content": {
         "type": "SEQ",
@@ -7254,7 +7254,7 @@
       ]
     },
     "array": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 4,
       "content": {
         "type": "SEQ",
