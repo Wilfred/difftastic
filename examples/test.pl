@@ -2,15 +2,18 @@ use strict 'refs';
 use warnings;
 use Data::Dumper;
 
-my $string = 'aloha';
-my @array = ("singleone", "senco");
-
-print Dumper \@array;
-
-my $hash = {
-  'cat' => 'meow',
-  "cow" => 'moo',
-  dog => 'woof',
+my $args = {
+  MESSAGETYPE => 'heehaw',
+  MESSAGESUBTYPE => 'meow',
 };
+my $dbh;
 
-print Dumper $hash;
+# my $result = GetSalesforceTemplateInfo($dbh)->{$args->{MESSAGETYPE}}->{$args->{MESSAGESUBTYPE}};
+
+# my $heelsdf = (2*3)->{DSF};
+
+# print Dumper $heelsdf;
+
+my $array = [3, 324, 3];
+
+print Dumper %{$args};
