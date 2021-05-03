@@ -7386,7 +7386,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "to_reference"
+                            "name": "hash_dereference"
                           }
                         ]
                       },
@@ -7408,7 +7408,7 @@
                                 },
                                 {
                                   "type": "SYMBOL",
-                                  "name": "to_reference"
+                                  "name": "hash_dereference"
                                 }
                               ]
                             }
@@ -7812,6 +7812,9 @@
     [
       "_list",
       "_variables"
+    ],
+    [
+      "_dereference"
     ]
   ],
   "precedences": [],
