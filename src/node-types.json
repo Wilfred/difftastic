@@ -151,7 +151,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -346,7 +346,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -549,7 +549,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -747,7 +747,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -943,7 +943,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -1138,7 +1138,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -1341,7 +1341,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -1403,14 +1403,6 @@
         "required": false,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
             "type": "anonymous_function",
             "named": true
           },
@@ -1444,10 +1436,6 @@
           },
           {
             "type": "bless",
-            "named": true
-          },
-          {
-            "type": "call_expression",
             "named": true
           },
           {
@@ -1543,7 +1531,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -1738,7 +1726,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -1979,7 +1967,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -2367,7 +2355,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -2565,7 +2553,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -2756,7 +2744,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -2959,7 +2947,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -3233,7 +3221,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -3568,7 +3556,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -3828,7 +3816,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -4026,7 +4014,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -4224,7 +4212,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -4666,7 +4654,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -4869,7 +4857,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -4951,197 +4939,402 @@
   {
     "type": "hash",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_access_variable",
+            "named": true
+          },
+          {
+            "type": "array_dereference",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "arrow_notation",
+            "named": true
+          },
+          {
+            "type": "bareword",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bless",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "file_handle",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_access_variable",
+            "named": true
+          },
+          {
+            "type": "hash_dereference",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
+            "named": true
+          },
+          {
+            "type": "scalar_variable",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "special_variable",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifier",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_q_quoted",
+            "named": true
+          },
+          {
+            "type": "string_qq_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "to_reference",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_access_variable",
+            "named": true
+          },
+          {
+            "type": "array_dereference",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "arrow_notation",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bless",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "file_handle",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_access_variable",
+            "named": true
+          },
+          {
+            "type": "hash_dereference",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
+            "named": true
+          },
+          {
+            "type": "scalar_variable",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "special_variable",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifier",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_q_quoted",
+            "named": true
+          },
+          {
+            "type": "string_qq_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "to_reference",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "array_access_variable",
-          "named": true
-        },
-        {
-          "type": "array_dereference",
-          "named": true
-        },
-        {
-          "type": "array_ref",
-          "named": true
-        },
-        {
-          "type": "array_variable",
-          "named": true
-        },
-        {
-          "type": "arrow_notation",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "bless",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "call_expression_recursive",
-          "named": true
-        },
-        {
-          "type": "command_qx_quoted",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "file_handle",
-          "named": true
-        },
-        {
-          "type": "floating_point",
-          "named": true
-        },
-        {
-          "type": "goto_expression",
-          "named": true
-        },
-        {
-          "type": "hash",
-          "named": true
-        },
-        {
-          "type": "hash_access_variable",
-          "named": true
-        },
-        {
-          "type": "hash_dereference",
-          "named": true
-        },
-        {
-          "type": "hash_ref",
-          "named": true
-        },
-        {
-          "type": "hash_variable",
-          "named": true
-        },
-        {
-          "type": "hexadecimal",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "method_invocation",
-          "named": true
-        },
-        {
-          "type": "octal",
-          "named": true
-        },
-        {
-          "type": "patter_matcher_m",
-          "named": true
-        },
-        {
-          "type": "regex_pattern_qr",
-          "named": true
-        },
-        {
-          "type": "scalar_reference",
-          "named": true
-        },
-        {
-          "type": "scalar_variable",
-          "named": true
-        },
-        {
-          "type": "scientific_notation",
-          "named": true
-        },
-        {
-          "type": "special_variable",
-          "named": true
-        },
-        {
-          "type": "standard_input",
-          "named": true
-        },
-        {
-          "type": "standard_input_to_identifer",
-          "named": true
-        },
-        {
-          "type": "standard_input_to_variable",
-          "named": true
-        },
-        {
-          "type": "string_double_quoted",
-          "named": true
-        },
-        {
-          "type": "string_q_quoted",
-          "named": true
-        },
-        {
-          "type": "string_qq_quoted",
-          "named": true
-        },
-        {
-          "type": "string_single_quoted",
-          "named": true
-        },
-        {
-          "type": "substitution_pattern_s",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
-          "named": true
-        },
-        {
-          "type": "to_reference",
-          "named": true
-        },
-        {
-          "type": "transliteration_tr_or_y",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "type_glob",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "word_list_qw",
+          "type": "hash_arrow_operator",
           "named": true
         }
       ]
@@ -5292,7 +5485,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -5350,17 +5543,9 @@
         ]
       },
       "key": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
           {
             "type": "anonymous_function",
             "named": true
@@ -5395,10 +5580,6 @@
           },
           {
             "type": "bless",
-            "named": true
-          },
-          {
-            "type": "call_expression",
             "named": true
           },
           {
@@ -5494,7 +5675,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -5690,7 +5871,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -5751,197 +5932,406 @@
   {
     "type": "hash_ref",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_access_variable",
+            "named": true
+          },
+          {
+            "type": "array_dereference",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "arrow_notation",
+            "named": true
+          },
+          {
+            "type": "bareword",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bless",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "file_handle",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_access_variable",
+            "named": true
+          },
+          {
+            "type": "hash_dereference",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
+            "named": true
+          },
+          {
+            "type": "scalar_variable",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "special_variable",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifier",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_q_quoted",
+            "named": true
+          },
+          {
+            "type": "string_qq_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "to_reference",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "array_access_variable",
+            "named": true
+          },
+          {
+            "type": "array_dereference",
+            "named": true
+          },
+          {
+            "type": "array_ref",
+            "named": true
+          },
+          {
+            "type": "array_variable",
+            "named": true
+          },
+          {
+            "type": "arrow_notation",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bless",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression_recursive",
+            "named": true
+          },
+          {
+            "type": "command_qx_quoted",
+            "named": true
+          },
+          {
+            "type": "false",
+            "named": true
+          },
+          {
+            "type": "file_handle",
+            "named": true
+          },
+          {
+            "type": "floating_point",
+            "named": true
+          },
+          {
+            "type": "goto_expression",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "hash_access_variable",
+            "named": true
+          },
+          {
+            "type": "hash_dereference",
+            "named": true
+          },
+          {
+            "type": "hash_ref",
+            "named": true
+          },
+          {
+            "type": "hash_variable",
+            "named": true
+          },
+          {
+            "type": "hexadecimal",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "method_invocation",
+            "named": true
+          },
+          {
+            "type": "octal",
+            "named": true
+          },
+          {
+            "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "regex_pattern_qr",
+            "named": true
+          },
+          {
+            "type": "scalar_reference",
+            "named": true
+          },
+          {
+            "type": "scalar_variable",
+            "named": true
+          },
+          {
+            "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "special_variable",
+            "named": true
+          },
+          {
+            "type": "standard_input",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_identifier",
+            "named": true
+          },
+          {
+            "type": "standard_input_to_variable",
+            "named": true
+          },
+          {
+            "type": "string_double_quoted",
+            "named": true
+          },
+          {
+            "type": "string_q_quoted",
+            "named": true
+          },
+          {
+            "type": "string_qq_quoted",
+            "named": true
+          },
+          {
+            "type": "string_single_quoted",
+            "named": true
+          },
+          {
+            "type": "substitution_pattern_s",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "to_reference",
+            "named": true
+          },
+          {
+            "type": "transliteration_tr_or_y",
+            "named": true
+          },
+          {
+            "type": "true",
+            "named": true
+          },
+          {
+            "type": "type_glob",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "word_list_qw",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "array_access_variable",
-          "named": true
-        },
-        {
-          "type": "array_dereference",
-          "named": true
-        },
-        {
-          "type": "array_ref",
-          "named": true
-        },
-        {
-          "type": "array_variable",
-          "named": true
-        },
-        {
-          "type": "arrow_notation",
-          "named": true
-        },
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "bless",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "call_expression_recursive",
-          "named": true
-        },
-        {
-          "type": "command_qx_quoted",
-          "named": true
-        },
-        {
-          "type": "false",
-          "named": true
-        },
-        {
-          "type": "file_handle",
-          "named": true
-        },
-        {
-          "type": "floating_point",
-          "named": true
-        },
-        {
-          "type": "goto_expression",
-          "named": true
-        },
-        {
-          "type": "hash",
-          "named": true
-        },
-        {
-          "type": "hash_access_variable",
-          "named": true
-        },
-        {
-          "type": "hash_dereference",
-          "named": true
-        },
-        {
-          "type": "hash_ref",
-          "named": true
-        },
-        {
-          "type": "hash_variable",
-          "named": true
-        },
-        {
-          "type": "hexadecimal",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "method_invocation",
-          "named": true
-        },
-        {
-          "type": "octal",
-          "named": true
-        },
-        {
-          "type": "patter_matcher_m",
-          "named": true
-        },
-        {
-          "type": "regex_pattern_qr",
-          "named": true
-        },
-        {
-          "type": "scalar_reference",
-          "named": true
-        },
-        {
-          "type": "scalar_variable",
-          "named": true
-        },
-        {
-          "type": "scientific_notation",
-          "named": true
-        },
-        {
-          "type": "special_variable",
-          "named": true
-        },
-        {
-          "type": "standard_input",
-          "named": true
-        },
-        {
-          "type": "standard_input_to_identifer",
-          "named": true
-        },
-        {
-          "type": "standard_input_to_variable",
-          "named": true
-        },
-        {
-          "type": "string_double_quoted",
-          "named": true
-        },
-        {
-          "type": "string_q_quoted",
-          "named": true
-        },
-        {
-          "type": "string_qq_quoted",
-          "named": true
-        },
-        {
-          "type": "string_single_quoted",
-          "named": true
-        },
-        {
-          "type": "substitution_pattern_s",
-          "named": true
-        },
-        {
-          "type": "ternary_expression",
+          "type": "hash_arrow_operator",
           "named": true
         },
         {
           "type": "to_reference",
-          "named": true
-        },
-        {
-          "type": "transliteration_tr_or_y",
-          "named": true
-        },
-        {
-          "type": "true",
-          "named": true
-        },
-        {
-          "type": "type_glob",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -6096,7 +6486,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -6571,7 +6961,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -6832,7 +7222,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -7072,7 +7462,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -7359,7 +7749,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -7700,7 +8090,7 @@
           "named": true
         },
         {
-          "type": "standard_input_to_identifer",
+          "type": "standard_input_to_identifier",
           "named": true
         },
         {
@@ -7808,7 +8198,7 @@
     "fields": {}
   },
   {
-    "type": "standard_input_to_identifer",
+    "type": "standard_input_to_identifier",
     "named": true,
     "fields": {},
     "children": {
@@ -8066,7 +8456,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -8264,7 +8654,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -8476,7 +8866,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -8544,55 +8934,19 @@
       "required": true,
       "types": [
         {
-          "type": "array_access_variable",
+          "type": "array",
           "named": true
         },
         {
-          "type": "array_ref",
+          "type": "array_variable",
           "named": true
         },
         {
-          "type": "floating_point",
+          "type": "hash",
           "named": true
         },
         {
-          "type": "hash_access_variable",
-          "named": true
-        },
-        {
-          "type": "hash_ref",
-          "named": true
-        },
-        {
-          "type": "hexadecimal",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "octal",
-          "named": true
-        },
-        {
-          "type": "scientific_notation",
-          "named": true
-        },
-        {
-          "type": "string_double_quoted",
-          "named": true
-        },
-        {
-          "type": "string_q_quoted",
-          "named": true
-        },
-        {
-          "type": "string_qq_quoted",
-          "named": true
-        },
-        {
-          "type": "string_single_quoted",
+          "type": "hash_variable",
           "named": true
         }
       ]
@@ -8851,7 +9205,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -9059,7 +9413,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -9323,7 +9677,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -9599,7 +9953,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -9853,7 +10207,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -10328,7 +10682,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -10591,7 +10945,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -10809,7 +11163,7 @@
             "named": true
           },
           {
-            "type": "standard_input_to_identifer",
+            "type": "standard_input_to_identifier",
             "named": true
           },
           {
@@ -11222,6 +11576,10 @@
     "named": true
   },
   {
+    "type": "bareword",
+    "named": true
+  },
+  {
     "type": "bless",
     "named": false
   },
@@ -11288,6 +11646,10 @@
   {
     "type": "gt",
     "named": false
+  },
+  {
+    "type": "hash_arrow_operator",
+    "named": true
   },
   {
     "type": "hash_variable",
