@@ -6331,7 +6331,7 @@
           "named": true
         },
         {
-          "type": "to_reference",
+          "type": "hash_dereference",
           "named": true
         }
       ]

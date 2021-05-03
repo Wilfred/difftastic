@@ -68,6 +68,7 @@ module.exports = grammar({
     [$.bareword_import, $.package_name],
     [$.package_name],
     [$._list, $._variables],
+    [$._dereference],
   ],
 
   // externals: $ => [
@@ -1396,7 +1397,7 @@ module.exports = grammar({
       optional(repeat(
         prec.right(PRECEDENCE.HASH, commaSeparated(choice(
           $._key_value_pair,
-          $.to_reference,
+          $.hash_dereference,
         ))),
       )),
       '}'
