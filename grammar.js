@@ -11,6 +11,7 @@ const PRECEDENCE = {
   SUB_ARGS: 29,
   SUB_CALL: 30, // sub call, parathesised have higher precedence than operators\
   BRACKETS: 31, // highest of them all
+  BAREWORD: 31,
 
   // begin of operators
   AUTO_INCREMENT_DECREMENT: 23,
@@ -63,6 +64,7 @@ module.exports = grammar({
     [$.goto_expression, $._expression],
     [$._primitive_expression, $.to_reference],
     [$._expression],
+    [$._expression_without_call_expression],
     [$.bareword_import, $.package_name],
     [$.package_name],
     [$._list, $._variables],
@@ -608,6 +610,12 @@ module.exports = grammar({
     ),
 
     _expression: $ => with_or_without_brackets(choice(
+      $._expression_without_call_expression,
+      $.call_expression,      
+    )),
+
+    // NOTE: just a hack to handle identifier vs subroutine call
+    _expression_without_call_expression: $ => choice(
       $._primitive_expression,
       $._string,
       $._variables,
@@ -616,7 +624,6 @@ module.exports = grammar({
       $.unary_expression,
       $.ternary_expression,
 
-      $.call_expression,
       $.call_expression_recursive,
       $.method_invocation,
       $.goto_expression,
@@ -644,7 +651,7 @@ module.exports = grammar({
       $.bless,
       
       $.special_variable,
-    )),
+    ),
 
     special_variable: $ => choice(
       /@_/,
@@ -672,7 +679,7 @@ module.exports = grammar({
     ),
 
     // TODO handle CONSTANTS here AND have _expression as left(latter is done) - revisit
-    arrow_notation: $ => prec.right(PRECEDENCE.HASH, seq(
+    arrow_notation: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       choice(
         $.scalar_variable,
         $.array_access_variable,
@@ -684,7 +691,7 @@ module.exports = grammar({
           $.arrow_operator,
           choice( // either a array element or hash key
             seq('[', field('array_element', $._expression), ']'),
-            seq('{', field('hash_key', choice($.identifier, $._expression)), '}'),
+            seq('{', field('hash_key', choice($.identifier, $._expression_without_call_expression)), '}'),
           ),
         )
       ),
@@ -1024,7 +1031,7 @@ module.exports = grammar({
     _i_o_operator: $ => choice(
       $.standard_input,
       $.file_handle,
-      $.standard_input_to_identifer,
+      $.standard_input_to_identifier,
       $.standard_input_to_variable,
     ),
     standard_input: $ => choice(
@@ -1034,7 +1041,7 @@ module.exports = grammar({
       /\\\*STDIN/, // a reference to the STDIN
     ),
     file_handle: $ => /<FILEHANDLE>/,
-    standard_input_to_identifer: $ => seq(
+    standard_input_to_identifier: $ => seq(
       '<',
       $.identifier,
       token.immediate('>'),
@@ -1352,7 +1359,7 @@ module.exports = grammar({
     hash_access_variable: $ => prec(PRECEDENCE.HASH, seq(
       field('hash_variable', $._expression),
       '{',
-      field('key', choice($.identifier, $._expression)),
+      field('key', choice($.identifier, $._expression_without_call_expression)),
       '}',
     )),
 
@@ -1378,22 +1385,22 @@ module.exports = grammar({
     ),
 
     // TODO: accept ('key', value, 'key2', value2) as hash
-    hash: $ => prec(PRECEDENCE.HASH, seq(
+    hash: $ => prec.right(PRECEDENCE.HASH, seq(
       '(',
       optional(commaSeparated($._key_value_pair)),
       ')',
     )),
     
-    hash_ref: $ => seq(
+    hash_ref: $ => prec.right(PRECEDENCE.HASH, seq(
       '{',
-      optional(
-        choice(
-          commaSeparated($._key_value_pair),
-          commaSeparated($.to_reference),
-        ),
-      ),
+      optional(repeat(
+        prec.right(PRECEDENCE.HASH, commaSeparated(choice(
+          $._key_value_pair,
+          $.to_reference,
+        ))),
+      )),
       '}'
-    ),
+    )),
 
     _reference: $ => choice(
       $.array_ref,
@@ -1410,10 +1417,15 @@ module.exports = grammar({
       '}',
     ),
 
-    to_reference: $ => seq(
+    to_reference: $ => prec(PRECEDENCE.SUB_CALL, seq(
       '\\',
-      $._scalar_type,
-    ),
+      choice(
+        $.array_variable,
+        $.hash_variable,
+        $.array,
+        $.hash,
+      ),
+    )),
 
     _dereference: $ => choice(
       $.array_dereference,
@@ -1430,14 +1442,19 @@ module.exports = grammar({
       with_or_without_curly_brackets($._expression),
     )),
 
-    // cat => 'meow',
-    _key_value_pair: $ => seq(
-      with_or_without_quotes($.identifier), // TODO: fix this, check examples/control.pl
-      '=>',
-      $._expression,
-    ),
+    // cat => 'meow', meta => {}
+    // TODO: cat => 'meow' should be bareword => 'string' and not a call_expression => 'string'
+    _key_value_pair: $ => prec.right(seq(
+      field('key', choice(
+        $._expression_without_call_expression,
+        alias($.identifier, $.bareword),
+      )),
+      $.hash_arrow_operator,
+      field('value', $._expression),
+    )),
 
     arrow_operator: $ => /->/,
+    hash_arrow_operator: $ => /=>/,
 
     comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
       /#.*/, // single line comment
