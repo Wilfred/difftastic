@@ -154,32 +154,6 @@ fn walk_nodes_ordered(
                     continue;
                 }
 
-                // Not equal. Do we have more instances of the LHS
-                // node? If so, we've removed some instances on the
-                // RHS, so assume this is a removal.
-                let lhs_count = *lhs_counts.get(lhs_node).unwrap_or(&0);
-                let rhs_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
-                if lhs_count > rhs_count && rhs_count > 0 {
-                    lhs_node.set_change_deep(Removed);
-                    lhs_counts.insert((*lhs_node).clone(), lhs_count - 1);
-                    lhs_i += 1;
-                    continue;
-                }
-
-                // Do we have more instances of the RHS
-                // node? If so, we've added some instances on the
-                // RHS, so assume this is an addition.
-                let lhs_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
-                let rhs_count = *rhs_counts.get(rhs_node).unwrap_or(&0);
-                if rhs_count > lhs_count && lhs_count > 0 {
-                    rhs_node.set_change_deep(Added);
-                    rhs_counts.insert((*rhs_node).clone(), rhs_count - 1);
-                    rhs_i += 1;
-                    continue;
-                }
-
-                // Same number: reordered nodes, or both nodes are
-                // novel to a single side.
                 match (lhs_node, rhs_node) {
                     (
                         Items {
@@ -197,6 +171,10 @@ fn walk_nodes_ordered(
                             ..
                         },
                     ) => {
+                        // Both sides are lists, so check the
+                        // delimiters for the list node themselves, then
+                        // recurse.
+
                         if lhs_start_content == rhs_start_content
                             && lhs_end_content == rhs_end_content
                         {
