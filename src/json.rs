@@ -5,8 +5,8 @@ use regex::Regex;
 fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
     let num_atom = Regex::new(r#"^[0-9]+"#).unwrap();
     let str_atom = Regex::new(r#"^"[^"]+""#).unwrap();
-    let open_brace = Regex::new(r#"^\["#).unwrap();
-    let close_brace = Regex::new(r#"^\]"#).unwrap();
+    let open_brace = Regex::new(r#"^\[|\{"#).unwrap();
+    let close_brace = Regex::new(r#"^\]|\{"#).unwrap();
 
     let mut result = vec![];
 
@@ -184,4 +184,28 @@ mod tests {
             }],
         );
     }
+
+    #[test]
+    fn test_parse_object() {
+        assert_eq!(
+            parse_json("{0: 1}"),
+            vec![Syntax::List {
+                start_content: "{".into(),
+                end_content: "]".into(),
+                change: ChangeKind::Unchanged,
+                children: vec![
+                    Syntax::Atom {
+                        content: "0".into(),
+                        change: ChangeKind::Unchanged,
+                    },
+                    Syntax::Atom {
+                        content: "1".into(),
+                        change: ChangeKind::Unchanged,
+                    }
+
+                ]
+            }],
+        );
+    }
+
 }
