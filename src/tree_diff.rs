@@ -334,7 +334,7 @@ mod tests {
         let mut lhs = vec![List {
             change: Unchanged,
             start_content: "[".into(),
-            end_content: "[".into(),
+            end_content: "]".into(),
             children: vec![Atom {
                 change: Unchanged,
                 content: "a".into(),
@@ -344,7 +344,7 @@ mod tests {
         let mut rhs = vec![List {
             change: Unchanged,
             start_content: "[".into(),
-            end_content: "[".into(),
+            end_content: "]".into(),
             children: vec![
                 Atom {
                     change: Unchanged,
