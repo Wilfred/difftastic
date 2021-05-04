@@ -141,7 +141,7 @@ grammar({
       'function',
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameter_list)),
-      field('parametere', $.parameter_list),
+      field('parameters', $.parameter_list),
       optional($._expression_list),
       'end'
     ),
