@@ -130,8 +130,7 @@ pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
         build_subtrees(s, &mut rhs_subtrees);
     }
 
-    walk_nodes(lhs, &mut rhs_subtrees, Removed);
-    walk_nodes(rhs, &mut lhs_subtrees, Added);
+    walk_nodes_ordered(lhs, rhs, &mut lhs_subtrees, &mut rhs_subtrees);
 }
 
 // Greedy tree differ.
@@ -141,7 +140,6 @@ fn walk_nodes_ordered(
     lhs_counts: &mut HashMap<Syntax, i64>,
     rhs_counts: &mut HashMap<Syntax, i64>,
 ) {
-    // TODO: A B C -> A X B C
     let mut lhs_i = 0;
     let mut rhs_i = 0;
     loop {
@@ -161,7 +159,7 @@ fn walk_nodes_ordered(
                 // RHS, so assume this is a removal.
                 let lhs_count = *lhs_counts.get(lhs_node).unwrap_or(&0);
                 let rhs_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
-                if lhs_count > rhs_count {
+                if lhs_count > rhs_count && rhs_count > 0 {
                     lhs_node.set_change_deep(Removed);
                     lhs_counts.insert((*lhs_node).clone(), lhs_count - 1);
                     lhs_i += 1;
@@ -173,7 +171,7 @@ fn walk_nodes_ordered(
                 // RHS, so assume this is an addition.
                 let lhs_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
                 let rhs_count = *rhs_counts.get(rhs_node).unwrap_or(&0);
-                if rhs_count > lhs_count {
+                if rhs_count > lhs_count && lhs_count > 0 {
                     rhs_node.set_change_deep(Added);
                     rhs_counts.insert((*rhs_node).clone(), rhs_count - 1);
                     rhs_i += 1;
@@ -182,28 +180,87 @@ fn walk_nodes_ordered(
 
                 // Same number: reordered nodes, or both nodes are
                 // novel to a single side.
-                match (&lhs_node, &rhs_node) {
-                    (Items { .. }, Items { .. }) => {
-                        todo!();
+                match (lhs_node, rhs_node) {
+                    (
+                        Items {
+                            start_content: lhs_start_content,
+                            end_content: lhs_end_content,
+                            children: lhs_children,
+                            change: lhs_change,
+                            ..
+                        },
+                        Items {
+                            start_content: rhs_start_content,
+                            end_content: rhs_end_content,
+                            children: rhs_children,
+                            change: rhs_change,
+                            ..
+                        },
+                    ) => {
+                        if lhs_start_content == rhs_start_content
+                            && lhs_end_content == rhs_end_content
+                        {
+                            // We didn't see either the LHS or RHS
+                            // node on the other side, but they have
+                            // the same start/end, so only the
+                            // children are different.
+                            *lhs_change = Unchanged;
+                            *rhs_change = Unchanged;
+                        } else {
+                            // Children are different and the wrapping
+                            // has changed (e.g. from {} to []).
+                            *lhs_change = Removed;
+                            *rhs_change = Added;
+                        }
+                        walk_nodes_ordered(
+                            &mut lhs_children[..],
+                            &mut rhs_children[..],
+                            lhs_counts,
+                            rhs_counts,
+                        );
                     }
-                    (Items { .. }, Atom { .. }) => {
-                        todo!();
+                    (
+                        Items {
+                            children: lhs_children,
+                            change: lhs_change,
+                            ..
+                        },
+                        Atom { .. },
+                    ) => {
+                        *lhs_change = Removed;
+                        walk_nodes_ordered(&mut lhs_children[..], rhs, lhs_counts, rhs_counts);
                     }
-                    (Atom { .. }, Items { .. }) => {
-                        todo!();
+                    (
+                        Atom { .. },
+                        Items {
+                            children: rhs_children,
+                            change: rhs_change,
+                            ..
+                        },
+                    ) => {
+                        *rhs_change = Added;
+                        walk_nodes_ordered(lhs, &mut rhs_children[..], lhs_counts, rhs_counts);
                     }
-                    (Atom { .. }, Atom { .. }) => {
-                        lhs_node.set_change_deep(Removed);
-                        rhs_node.set_change_deep(Added);
-                        lhs_i += 1;
-                        rhs_i += 1;
-                        continue;
+                    (
+                        Atom {
+                            change: lhs_change, ..
+                        },
+                        Atom {
+                            change: rhs_change, ..
+                        },
+                    ) => {
+                        *lhs_change = Removed;
+                        *rhs_change = Added;
                     }
                 }
+                lhs_i += 1;
+                rhs_i += 1;
+                continue;
             }
             (Some(lhs_node), None) => {
+                let lhs_count = *lhs_counts.get(lhs_node).unwrap_or(&0);
                 let rhs_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
-                if rhs_count > 0 {
+                if rhs_count > lhs_count {
                     lhs_node.set_change_deep(Moved);
                     rhs_counts.insert(lhs_node.clone(), rhs_count - 1);
                 } else {
@@ -213,7 +270,8 @@ fn walk_nodes_ordered(
             }
             (None, Some(rhs_node)) => {
                 let lhs_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
-                if lhs_count > 0 {
+                let rhs_count = *rhs_counts.get(rhs_node).unwrap_or(&0);
+                if lhs_count > rhs_count {
                     rhs_node.set_change_deep(Moved);
                     lhs_counts.insert(rhs_node.clone(), lhs_count - 1);
                 } else {
@@ -222,35 +280,6 @@ fn walk_nodes_ordered(
                 rhs_i += 1;
             }
             (None, None) => break,
-        }
-    }
-}
-
-/// For every node in `nodes`, if it's in `subtrees`, mark it as
-/// Unchanged and remove it from `subtrees`.
-///
-/// If it's not in `subtrees`, set the root changekind to `ck` and recurse.
-fn walk_nodes(nodes: &mut [Syntax], subtrees: &mut HashMap<Syntax, i64>, ck: ChangeKind) {
-    for s in nodes {
-        // TODO: handle moves
-        // TODO: this is greedy, so going `A B C D` to `D A B C D` is
-        // considered `D:move A B C D:add` which is not the minimal
-        // diff.
-        let count = subtrees.get_mut(s);
-        match count {
-            Some(c) if *c > 0 => {
-                s.set_change_deep(Unchanged);
-                *c -= 1;
-            }
-            _ => {
-                s.set_change(ck);
-                match s {
-                    Items { children, .. } => {
-                        walk_nodes(children, subtrees, ck);
-                    }
-                    Atom { .. } => {}
-                }
-            }
         }
     }
 }
@@ -352,9 +381,12 @@ mod tests {
 
         set_changed(&mut lhs, &mut rhs);
 
+        assert_eq!(rhs[0].change(), Unchanged);
+
         match &rhs[0] {
             Items { children, .. } => {
-                assert_eq!(children[0].change(), Unchanged)
+                assert_eq!(children[0].change(), Unchanged);
+                assert_eq!(children[1].change(), Added);
             }
             Atom { .. } => unreachable!(),
         };
