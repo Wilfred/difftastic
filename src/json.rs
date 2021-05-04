@@ -4,6 +4,7 @@ use regex::Regex;
 
 fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
     let num_atom = Regex::new(r#"^[0-9]+"#).unwrap();
+    let sym_atom = Regex::new(r#"^[a-zA-Z0-9]+"#).unwrap();
     let str_atom = Regex::new(r#"^"[^"]+""#).unwrap();
     let open_brace = Regex::new(r#"^\[|\{"#).unwrap();
     let close_brace = Regex::new(r#"^\]|\{"#).unwrap();
@@ -25,6 +26,19 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
         };
 
         match str_atom.find(&s[i..]) {
+            Some(m) => {
+                let atom = Syntax::Atom {
+                    content: m.as_str().into(),
+                    change: ChangeKind::Unchanged,
+                };
+                result.push(atom);
+                i += m.end();
+                continue;
+            }
+            None => {}
+        };
+
+        match sym_atom.find(&s[i..]) {
             Some(m) => {
                 let atom = Syntax::Atom {
                     content: m.as_str().into(),
@@ -188,14 +202,14 @@ mod tests {
     #[test]
     fn test_parse_object() {
         assert_eq!(
-            parse_json("{0: 1}"),
+            parse_json("{x: 1}"),
             vec![Syntax::List {
                 start_content: "{".into(),
                 end_content: "]".into(),
                 change: ChangeKind::Unchanged,
                 children: vec![
                     Syntax::Atom {
-                        content: "0".into(),
+                        content: "x".into(),
                         change: ChangeKind::Unchanged,
                     },
                     Syntax::Atom {
