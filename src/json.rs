@@ -41,7 +41,7 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
             Some(m) => {
                 // TODO: error if there's no closing ] brace?
                 let (children, next_i) = parse_json_from(s, i + m.end());
-                let items = Syntax::Items {
+                let items = Syntax::List {
                     // TODO: rename to open_content?
                     start_content: m.as_str().into(),
                     children,
@@ -139,7 +139,7 @@ mod tests {
     fn test_parse_list() {
         assert_eq!(
             parse_json("[ 123 ]"),
-            vec![Syntax::Items {
+            vec![Syntax::List {
                 start_content: "[".into(),
                 end_content: "]".into(),
                 change: ChangeKind::Unchanged,
@@ -154,7 +154,7 @@ mod tests {
     fn test_parse_empty_list() {
         assert_eq!(
             parse_json("[]"),
-            vec![Syntax::Items {
+            vec![Syntax::List {
                 start_content: "[".into(),
                 end_content: "]".into(),
                 change: ChangeKind::Unchanged,
@@ -167,7 +167,7 @@ mod tests {
     fn test_parse_list_with_commas() {
         assert_eq!(
             parse_json("[123, 456]"),
-            vec![Syntax::Items {
+            vec![Syntax::List {
                 start_content: "[".into(),
                 end_content: "]".into(),
                 change: ChangeKind::Unchanged,

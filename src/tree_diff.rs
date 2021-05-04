@@ -14,7 +14,7 @@ pub enum ChangeKind {
 
 #[derive(Debug, Clone)]
 pub enum Syntax {
-    Items {
+    List {
         change: ChangeKind,
         start_content: String,
         end_content: String,
@@ -29,7 +29,7 @@ pub enum Syntax {
 impl Syntax {
     fn set_change(&mut self, ck: ChangeKind) {
         match self {
-            Items { ref mut change, .. } => {
+            List { ref mut change, .. } => {
                 *change = ck;
             }
             Atom { ref mut change, .. } => {
@@ -41,14 +41,14 @@ impl Syntax {
     #[cfg(test)]
     fn change(&self) -> ChangeKind {
         match self {
-            Items { change, .. } => *change,
+            List { change, .. } => *change,
             Atom { change, .. } => *change,
         }
     }
 
     fn set_change_deep(&mut self, ck: ChangeKind) {
         self.set_change(ck);
-        if let Items {
+        if let List {
             ref mut children, ..
         } = self
         {
@@ -73,13 +73,13 @@ impl PartialEq for Syntax {
                 },
             ) => lhs_content == rhs_content,
             (
-                Items {
+                List {
                     start_content: lhs_start_content,
                     end_content: lhs_end_content,
                     children: lhs_children,
                     ..
                 },
-                Items {
+                List {
                     start_content: rhs_start_content,
                     end_content: rhs_end_content,
                     children: rhs_children,
@@ -99,7 +99,7 @@ impl Eq for Syntax {}
 impl Hash for Syntax {
     fn hash<H: Hasher>(&self, state: &mut H) {
         match self {
-            Items {
+            List {
                 start_content,
                 end_content,
                 children,
@@ -156,14 +156,14 @@ fn walk_nodes_ordered(
 
                 match (lhs_node, rhs_node) {
                     (
-                        Items {
+                        List {
                             start_content: lhs_start_content,
                             end_content: lhs_end_content,
                             children: lhs_children,
                             change: lhs_change,
                             ..
                         },
-                        Items {
+                        List {
                             start_content: rhs_start_content,
                             end_content: rhs_end_content,
                             children: rhs_children,
@@ -198,7 +198,7 @@ fn walk_nodes_ordered(
                         );
                     }
                     (
-                        Items {
+                        List {
                             children: lhs_children,
                             change: lhs_change,
                             ..
@@ -210,7 +210,7 @@ fn walk_nodes_ordered(
                     }
                     (
                         Atom { .. },
-                        Items {
+                        List {
                             children: rhs_children,
                             change: rhs_change,
                             ..
@@ -266,7 +266,7 @@ fn build_subtrees(s: &Syntax, subtrees: &mut HashMap<Syntax, i64>) {
     let entry = subtrees.entry(s.clone()).or_insert(0);
     *entry += 1;
     match s {
-        Items { children, .. } => {
+        List { children, .. } => {
             for child in children {
                 build_subtrees(child, subtrees);
             }
@@ -316,7 +316,7 @@ mod tests {
             Atom { change, .. } => {
                 assert_eq!(change, Unchanged);
             }
-            Items { .. } => {
+            List { .. } => {
                 assert!(false);
             }
         };
@@ -324,14 +324,14 @@ mod tests {
             Atom { change, .. } => {
                 assert_eq!(change, Added);
             }
-            Items { .. } => {
+            List { .. } => {
                 assert!(false);
             }
         };
     }
     #[test]
     fn test_add_subtree() {
-        let mut lhs = vec![Items {
+        let mut lhs = vec![List {
             change: Unchanged,
             start_content: "[".into(),
             end_content: "[".into(),
@@ -341,7 +341,7 @@ mod tests {
             }],
         }];
 
-        let mut rhs = vec![Items {
+        let mut rhs = vec![List {
             change: Unchanged,
             start_content: "[".into(),
             end_content: "[".into(),
@@ -362,7 +362,7 @@ mod tests {
         assert_eq!(rhs[0].change(), Unchanged);
 
         match &rhs[0] {
-            Items { children, .. } => {
+            List { children, .. } => {
                 assert_eq!(children[0].change(), Unchanged);
                 assert_eq!(children[1].change(), Added);
             }
