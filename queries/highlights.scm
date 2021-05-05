@@ -5,7 +5,7 @@
 
 (primitive_type) @type.builtin
 (cast_type) @type.builtin
-(type_name (name) @type)
+(type_name) @type
 
 ; Functions
 

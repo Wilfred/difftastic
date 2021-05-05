@@ -58,7 +58,6 @@ module.exports = grammar({
     [$.if_statement],
 
     [$.namespace_name],
-    [$.qualified_name, $.namespace_name],
 
     [$.namespace_name_as_prefix],
     [$.namespace_use_declaration, $.namespace_name_as_prefix]
@@ -191,12 +190,12 @@ module.exports = grammar({
     ),
 
     namespace_use_clause: $ => seq(
-      $.qualified_name, optional($.namespace_aliasing_clause)
+      choice($.name, alias($._reserved_identifier, $.name), $.qualified_name), optional($.namespace_aliasing_clause)
     ),
 
     qualified_name: $ => seq(
-      optional($.namespace_name_as_prefix),
-      choice($.name, alias($._reserved_identifier, $.name))
+      $.namespace_name_as_prefix,
+      $.name
     ),
 
     namespace_name_as_prefix: $ => choice(
@@ -240,7 +239,7 @@ module.exports = grammar({
 
     base_clause: $ => seq(
       keyword('extends'),
-      commaSep1($.qualified_name)
+      commaSep1(choice($.name, alias($._reserved_identifier, $.name), $.qualified_name))
     ),
 
     class_declaration: $ => prec.right(seq(
@@ -267,7 +266,7 @@ module.exports = grammar({
 
     class_interface_clause: $ => seq(
       keyword('implements'),
-      commaSep1($.qualified_name)
+      commaSep1(choice($.name, alias($._reserved_identifier, $.name), $.qualified_name))
     ),
 
     _member_declaration: $ => choice(
@@ -329,7 +328,7 @@ module.exports = grammar({
 
     use_declaration: $ => seq(
       keyword('use'),
-      commaSep1($.qualified_name),
+      commaSep1(choice($.name, alias($._reserved_identifier, $.name), $.qualified_name)),
       choice($.use_list, $._semicolon)
     ),
 
@@ -430,7 +429,7 @@ module.exports = grammar({
       $.primitive_type
     ),
 
-    _type_name: $ => alias($.qualified_name, $.type_name),
+    _type_name: $ => alias(choice($.name, $.qualified_name), $.type_name),
 
     optional_type: $ => seq(
       '?',
@@ -809,6 +808,7 @@ module.exports = grammar({
       $._literal,
       $.class_constant_access_expression,
       $.qualified_name,
+      $.name,
       $.array_creation_expression,
       $.print_intrinsic,
       $.anonymous_function_creation_expression,
@@ -869,6 +869,8 @@ module.exports = grammar({
 
     _class_type_designator: $ => choice(
       $.qualified_name,
+      $.name,
+      alias($._reserved_identifier, $.name),
       $.subscript_expression,
       $.member_access_expression,
       $.nullsafe_member_access_expression,
@@ -992,7 +994,7 @@ module.exports = grammar({
     ),
 
     function_call_expression: $ => prec(PREC.CALL, seq(
-      field('function', choice($.qualified_name, $._callable_expression)),
+      field('function', choice($.name, alias($._reserved_identifier, $.name), $.qualified_name, $._callable_expression)),
       field('arguments', $.arguments)
     )),
 
@@ -1014,6 +1016,8 @@ module.exports = grammar({
 
     _scope_resolution_qualifier: $ => choice(
       $.relative_scope,
+      $.name,
+      alias($._reserved_identifier, $.name),
       $.qualified_name,
       $._dereferencable_expression
     ),
@@ -1077,6 +1081,8 @@ module.exports = grammar({
       $.class_constant_access_expression,
       $.parenthesized_expression,
       $.array_creation_expression,
+      $.name,
+      alias($._reserved_identifier, $.name),
       $.qualified_name,
       $._string
     )),
@@ -1093,7 +1099,7 @@ module.exports = grammar({
     )),
 
     attribute: $ => seq(
-      $.qualified_name,
+      choice($.name, alias($._reserved_identifier, $.name), $.qualified_name),
       optional(field('parameters', $.arguments))
     ),
 

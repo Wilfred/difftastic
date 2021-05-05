@@ -29,7 +29,7 @@ class Exception_foo implements ThrowableInterface {
         parameters: (formal_parameters))))
   (class_declaration
     name: (name)
-    (class_interface_clause (qualified_name (name)))
+    (class_interface_clause (name))
     body: (declaration_list
       (property_declaration
         (visibility_modifier)
@@ -72,18 +72,18 @@ class AbstractCache
   (trait_declaration
     (name)
     (declaration_list
-      (use_declaration (qualified_name (name)))
-      (use_declaration (qualified_name (name)) (qualified_name (name)) (use_list))
-      (use_declaration (qualified_name (name)) (qualified_name (name)))))
+      (use_declaration (name))
+      (use_declaration (name) (name) (use_list))
+      (use_declaration (name) (name))))
   (class_declaration
     (name)
     (declaration_list
       (use_declaration
-        (qualified_name (name))
+        (name)
         (use_list
           (use_as_clause (name) (visibility_modifier))
-          (use_as_clause (class_constant_access_expression (qualified_name (name)) (name)) (name))
-          (use_as_clause (class_constant_access_expression (qualified_name (name)) (name)) (name)))))))
+          (use_as_clause (class_constant_access_expression (name) (name)) (name))
+          (use_as_clause (class_constant_access_expression (name) (name)) (name)))))))
 
 ==========================
 Namespace names in namespaces
@@ -177,7 +177,7 @@ class A extends B {
 	(php_tag)
 	(class_declaration
 		name: (name)
-		(base_clause (qualified_name (name)))
+		(base_clause (name))
 		body: (declaration_list)))
 
 ==========================
@@ -269,7 +269,7 @@ define('ANIMALS', array(
   (php_tag)
   (expression_statement
     (function_call_expression
-      (qualified_name (name))
+      (name)
       (arguments
         (argument (string))
         (argument (string))
@@ -286,7 +286,7 @@ define('ANIMALS', array(
     (const_element
       (name)
       (binary_expression
-        (qualified_name (name))
+        (name)
         (string)
       )
     )
@@ -303,7 +303,7 @@ define('ANIMALS', array(
   )
   (expression_statement
     (function_call_expression
-      (qualified_name (name))
+      (name)
       (arguments
         (argument (string))
         (argument
@@ -358,11 +358,11 @@ class Thing
   (php_tag)
 
   (function_definition
-    attributes: (attribute_list (attribute (qualified_name (name))))
+    attributes: (attribute_list (attribute (name)))
     name: (name)
     parameters: (formal_parameters
       (simple_parameter
-        attributes: (attribute_list (attribute (qualified_name (name))))
+        attributes: (attribute_list (attribute (name)))
         name: (variable_name (name))
       )
     )
@@ -373,12 +373,12 @@ class Thing
     name: (name)
     body: (declaration_list
       (const_declaration
-        attributes: (attribute_list (attribute (qualified_name (name))))
+        attributes: (attribute_list (attribute (name)))
         (const_element (name) (string))
       )
 
       (property_declaration
-        attributes: (attribute_list (attribute (qualified_name (name))))
+        attributes: (attribute_list (attribute (name)))
         (visibility_modifier)
         type: (type_list (primitive_type))
         (property_element (variable_name (name))
@@ -388,7 +388,7 @@ class Thing
       (method_declaration
         attributes: (attribute_list
           (attribute
-            (qualified_name (name))
+            (name)
             parameters: (arguments
               (argument (string))
               (argument
@@ -403,7 +403,7 @@ class Thing
         name: (name)
         parameters: (formal_parameters
           (simple_parameter
-            attributes: (attribute_list (attribute (qualified_name (name))))
+            attributes: (attribute_list (attribute (name)))
             name: (variable_name (name))
           )
         )
@@ -413,7 +413,7 @@ class Thing
   )
   (class_declaration
     attributes: (attribute_list
-      (attribute (qualified_name (name)))
+      (attribute (name))
       (attribute
         (qualified_name
           (namespace_name_as_prefix
@@ -423,22 +423,22 @@ class Thing
         )
       )
       (attribute
-        (qualified_name (name))
+        (name)
         parameters: (arguments (argument (integer)))
       )
       (attribute
-        (qualified_name (name))
+        (name)
         parameters: (arguments
           (argument
             (class_constant_access_expression
-              (qualified_name (name))
+              (name)
               (name)
             )
           )
         )
       )
       (attribute
-        (qualified_name (name))
+        (name)
         parameters: (arguments
           (argument
             (array_creation_expression
@@ -451,7 +451,7 @@ class Thing
         )
       )
       (attribute
-        (qualified_name (name))
+        (name)
         parameters: (arguments
           (argument
             (binary_expression

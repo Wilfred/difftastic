@@ -164,7 +164,7 @@ if ( ! function_exists('xml_parser_create') ) {
     condition: (parenthesized_expression
       (unary_op_expression
         (function_call_expression
-          function: (qualified_name (name))
+          function: (name)
           arguments: (arguments (argument (string)))
         )
       )
@@ -185,4 +185,4 @@ a ?> b <?php c;
   (text)
   (php_tag)
   (expression_statement
-    (qualified_name (name))))
+    (name)))

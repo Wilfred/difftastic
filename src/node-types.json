@@ -140,6 +140,10 @@
         "named": true
       },
       {
+        "type": "name",
+        "named": true
+      },
+      {
         "type": "nullsafe_member_access_expression",
         "named": true
       },
@@ -593,6 +597,10 @@
       "required": true,
       "types": [
         {
+          "type": "name",
+          "named": true
+        },
+        {
           "type": "qualified_name",
           "named": true
         }
@@ -747,6 +755,10 @@
       "required": true,
       "types": [
         {
+          "type": "name",
+          "named": true
+        },
+        {
           "type": "qualified_name",
           "named": true
         }
@@ -895,6 +907,10 @@
           },
           {
             "type": "member_access_expression",
+            "named": true
+          },
+          {
+            "type": "name",
             "named": true
           },
           {
@@ -1200,6 +1216,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "name",
+          "named": true
+        },
         {
           "type": "qualified_name",
           "named": true
@@ -1729,6 +1749,10 @@
             "named": true
           },
           {
+            "type": "name",
+            "named": true
+          },
+          {
             "type": "nullsafe_member_call_expression",
             "named": true
           },
@@ -2199,6 +2223,10 @@
             "named": true
           },
           {
+            "type": "name",
+            "named": true
+          },
+          {
             "type": "nullsafe_member_access_expression",
             "named": true
           },
@@ -2308,6 +2336,10 @@
           },
           {
             "type": "member_call_expression",
+            "named": true
+          },
+          {
+            "type": "name",
             "named": true
           },
           {
@@ -2528,6 +2560,10 @@
       "required": true,
       "types": [
         {
+          "type": "name",
+          "named": true
+        },
+        {
           "type": "namespace_aliasing_clause",
           "named": true
         },
@@ -2658,6 +2694,10 @@
             "named": true
           },
           {
+            "type": "name",
+            "named": true
+          },
+          {
             "type": "nullsafe_member_access_expression",
             "named": true
           },
@@ -2770,6 +2810,10 @@
             "named": true
           },
           {
+            "type": "name",
+            "named": true
+          },
+          {
             "type": "nullsafe_member_access_expression",
             "named": true
           },
@@ -2839,6 +2883,10 @@
         },
         {
           "type": "member_access_expression",
+          "named": true
+        },
+        {
+          "type": "name",
           "named": true
         },
         {
@@ -3188,6 +3236,10 @@
             "named": true
           },
           {
+            "type": "name",
+            "named": true
+          },
+          {
             "type": "nullsafe_member_access_expression",
             "named": true
           },
@@ -3283,6 +3335,10 @@
           },
           {
             "type": "member_call_expression",
+            "named": true
+          },
+          {
+            "type": "name",
             "named": true
           },
           {
@@ -3463,6 +3519,10 @@
         },
         {
           "type": "member_call_expression",
+          "named": true
+        },
+        {
+          "type": "name",
           "named": true
         },
         {
@@ -3673,7 +3733,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "name",
@@ -3842,6 +3902,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "name",
+          "named": true
+        },
         {
           "type": "qualified_name",
           "named": true
