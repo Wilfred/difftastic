@@ -42,7 +42,7 @@ $foo = new self();
   (expression_statement (assignment_expression
     (variable_name (name))
     (object_creation_expression
-      (qualified_name (name))
+      (name)
       (arguments)))))
 
 ==========================
@@ -77,10 +77,10 @@ a() OR b() XOR C();
   (php_tag)
   (expression_statement
     (binary_expression
-      (function_call_expression (qualified_name (name)) (arguments))
+      (function_call_expression (name) (arguments))
       (binary_expression
-        (function_call_expression (qualified_name (name)) (arguments))
-        (function_call_expression (qualified_name (name)) (arguments))))))
+        (function_call_expression (name) (arguments))
+        (function_call_expression (name) (arguments))))))
 
 =================================
 Cast expressions in assignments
@@ -118,7 +118,7 @@ $foo = new static($this->current());
   (expression_statement (assignment_expression
     (variable_name (name))
     (object_creation_expression
-      (qualified_name (name))
+      (name)
       (arguments
         (argument (member_call_expression (variable_name (name)) (name) (arguments))))))))
 
@@ -136,7 +136,7 @@ m::self();
   (php_tag)
   (expression_statement
     (scoped_call_expression
-      (qualified_name (name))
+      (name)
       (name)
       (arguments))))
 
@@ -214,7 +214,7 @@ list($id1, $name1) = $data[0];
         (variable_name (name))
       )
       (scoped_call_expression
-        (qualified_name (name))
+        (name)
         (name)
         (arguments (argument (variable_name (name))))
       )
@@ -333,8 +333,7 @@ Associativity of negation
       (binary_expression
         (variable_name
           (name))
-        (qualified_name
-          (name)))))
+          (name))))
   (text_interpolation))
 
 ====================================
@@ -452,8 +451,7 @@ All binary op precedence levels
                                     (cast_expression
                                       (cast_type)
                                       (integer))
-                                    (qualified_name
-                                      (name)))))))))))))))))))
+                                      (name))))))))))))))))))
   (expression_statement
     (binary_expression
       (binary_expression
@@ -473,8 +471,7 @@ All binary op precedence levels
                                   (cast_expression
                                     (cast_type)
                                     (integer))
-                                  (qualified_name
-                                    (name)))
+                                    (name))
                                 (integer))
                               (integer))
                             (integer))
@@ -508,7 +505,7 @@ $a = [...$values];
 (program
   (php_tag)
   (expression_statement (function_call_expression
-    (qualified_name (name))
+    (name)
     (arguments
       (argument
         (array_creation_expression
@@ -517,7 +514,7 @@ $a = [...$values];
           (array_element_initializer (integer)))))))
   (expression_statement
     (function_call_expression
-      (qualified_name (name))
+      (name)
       (arguments
         (argument
           (array_creation_expression
@@ -556,7 +553,7 @@ ob_start(function($buffer) use (&$storage,) { $storage .= $buffer; }, 20);
   (php_tag)
   (expression_statement
     (function_call_expression
-      function: (qualified_name (name))
+      function: (name)
       arguments: (arguments
         (argument
           (anonymous_function_creation_expression
@@ -565,7 +562,7 @@ ob_start(function($buffer) use (&$storage,) { $storage .= $buffer; }, 20);
               (echo_statement (string))))))))
   (expression_statement
     (function_call_expression
-      function: (qualified_name (name))
+      function: (name)
       arguments: (arguments
         (argument
           (anonymous_function_creation_expression
@@ -577,7 +574,7 @@ ob_start(function($buffer) use (&$storage,) { $storage .= $buffer; }, 20);
         (argument (integer)))))
   (expression_statement
     (function_call_expression
-      function: (qualified_name (name))
+      function: (name)
       arguments: (arguments
         (argument
           (anonymous_function_creation_expression
@@ -620,8 +617,8 @@ throw $exception ??= new Exception();
   (expression_statement
     (throw_expression
       (object_creation_expression
-        (qualified_name (name))
-        (arguments (argument (qualified_name (name))))
+        (name)
+        (arguments (argument (name)))
       )
     )
   )
@@ -631,17 +628,17 @@ throw $exception ??= new Exception();
       right: (conditional_expression
         condition: (unary_op_expression
           (function_call_expression
-            function: (qualified_name (name))
+            function: (name)
             arguments: (arguments (argument (variable_name (name))))
           )
         )
         body: (function_call_expression
-          function: (qualified_name (name))
+          function: (name)
           arguments: (arguments (argument (variable_name (name))))
         )
         alternative: (throw_expression
           (object_creation_expression
-            (qualified_name (name))
+            (name)
             (arguments)
           )
         )
@@ -653,7 +650,7 @@ throw $exception ??= new Exception();
       left: (variable_name (name))
       right: (throw_expression
         (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
       )
@@ -664,7 +661,7 @@ throw $exception ??= new Exception();
       left: (variable_name (name))
       right: (throw_expression
         (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
       )
@@ -675,7 +672,7 @@ throw $exception ??= new Exception();
       left: (variable_name (name))
       right: (throw_expression
         (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
       )
@@ -686,7 +683,7 @@ throw $exception ??= new Exception();
       left: (variable_name (name))
       right: (throw_expression
         (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
       )
@@ -715,11 +712,11 @@ throw $exception ??= new Exception();
       (conditional_expression
         condition: (variable_name (name))
         body: (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
         alternative: (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
       )
@@ -730,7 +727,7 @@ throw $exception ??= new Exception();
       (binary_expression
         (variable_name (name))
         (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
       )
@@ -741,7 +738,7 @@ throw $exception ??= new Exception();
       (assignment_expression
         left: (variable_name (name))
         right: (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
       )
@@ -755,11 +752,11 @@ throw $exception ??= new Exception();
           right: (variable_name (name))
         )
         body: (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
         alternative: (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
       )
@@ -770,7 +767,7 @@ throw $exception ??= new Exception();
       (augmented_assignment_expression
         left: (variable_name (name))
         right: (object_creation_expression
-          (qualified_name (name))
+          (name)
           (arguments)
         )
       )
@@ -858,7 +855,7 @@ $statement = match ($a) {
           (match_conditional_expression
             (match_condition_list
               (class_constant_access_expression
-                (qualified_name (name))
+                (name)
                 (name)
               )
               (variable_name (name))
@@ -868,16 +865,16 @@ $statement = match ($a) {
           (match_conditional_expression
             (match_condition_list
               (class_constant_access_expression
-                (qualified_name (name))
+                (name)
                 (name)
               )
             )
-            (function_call_expression (qualified_name (name)) (arguments))
+            (function_call_expression (name) (arguments))
           )
           (match_conditional_expression
             (match_condition_list
               (class_constant_access_expression
-                (qualified_name (name))
+                (name)
                 (name)
               )
             )
@@ -1006,7 +1003,7 @@ array_fill(start_index: 0, num: 100, value: $val);
   (php_tag)
   (expression_statement
     (function_call_expression
-      (qualified_name (name))
+      (name)
       (arguments
         (argument (name) (integer))
         (argument (name) (integer))

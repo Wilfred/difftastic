@@ -340,13 +340,13 @@ try {
     body: (compound_statement)
     (catch_clause
       type: (type_list
-        (type_name (name))
+        (type_name)
       )
       body: (compound_statement))
     (catch_clause
       type: (type_list
-        (type_name (name))
-        (type_name (name))
+        (type_name)
+        (type_name)
       )
       name: (variable_name (name))
       body: (compound_statement))
@@ -355,11 +355,11 @@ try {
   (try_statement
     body: (compound_statement
       (expression_statement (function_call_expression
-        function: (qualified_name (name))
+        function: (name)
         arguments: (arguments))))
     (catch_clause
       type: (type_list
-        (type_name (name))
+        (type_name)
       )
       name: (variable_name (name))
       body: (compound_statement
@@ -437,10 +437,10 @@ FOREACH ($a AS $b) {
           (if_statement
             (parenthesized_expression (variable_name (name)))
             (compound_statement
-              (expression_statement (function_call_expression (qualified_name (name)) (arguments))))
+              (expression_statement (function_call_expression (name) (arguments))))
               (else_clause
                 (compound_statement
-                  (expression_statement (function_call_expression (qualified_name (name)) (arguments)))))))
+                  (expression_statement (function_call_expression (name) (arguments)))))))
         (parenthesized_expression (variable_name (name)))))))
 
 
@@ -458,11 +458,11 @@ echo ANIMALS[1];
 (program
   (php_tag)
   (echo_statement
-    (qualified_name (name))
+    (name)
   )
   (echo_statement
     (subscript_expression
-      (qualified_name (name))
+      (name)
       (integer)
     )
   )
