@@ -32,8 +32,6 @@ module.exports = grammar({
     env_var: $ => seq('$ENV{', repeat1($._literal_variable), '}'),
     cache_var: $ => seq('$CACHE{', repeat1($._literal_variable), '}'),
 
-
-
     argument: $ => choice(
       $.bracket_argument,
       $.quoted_argument,
