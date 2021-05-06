@@ -1726,7 +1726,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_list"
+          "name": "_expression"
         },
         {
           "type": "STRING",
@@ -5135,61 +5135,65 @@
             ]
           },
           {
-            "type": "REPEAT1",
+            "type": "PREC_RIGHT",
+            "value": 0,
             "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "arrow_operator"
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "FIELD",
-                      "name": "function_name",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "identifier"
-                      }
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "scalar_variable"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "scalar_reference"
-                    }
-                  ]
-                },
-                {
-                  "type": "FIELD",
-                  "name": "args",
-                  "content": {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "arrow_operator"
+                  },
+                  {
                     "type": "CHOICE",
                     "members": [
                       {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "parenthesized_arguments"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "arguments"
-                          }
-                        ]
+                        "type": "FIELD",
+                        "name": "function_name",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "identifier"
+                        }
                       },
                       {
-                        "type": "BLANK"
+                        "type": "SYMBOL",
+                        "name": "scalar_variable"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "scalar_reference"
                       }
                     ]
+                  },
+                  {
+                    "type": "FIELD",
+                    "name": "args",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "parenthesized_arguments"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "arguments"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           }
         ]

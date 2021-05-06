@@ -437,7 +437,7 @@ module.exports = grammar({
         seq('\\', optional($.scope), $.hash_variable), // \my %hash
       ),
       '(',
-      $._list,
+      $._expression,
       ')',
       field('body', $.block),
       optional(
@@ -1068,7 +1068,7 @@ module.exports = grammar({
         field('package_name', choice($.package_name, $.string_single_quoted)),
         field('object', $.scalar_variable),
       ),
-      repeat1(seq(
+      prec.right(repeat1(seq(
         $.arrow_operator,
         choice(
           field('function_name', $.identifier),
@@ -1076,7 +1076,7 @@ module.exports = grammar({
           $.scalar_reference,
         ),
         field('args', optional(choice($.parenthesized_arguments, $.arguments))),
-      )),
+      ))),
     )),
 
     parenthesized_arguments: $ => prec.right(PRECEDENCE.SUB_ARGS, seq(

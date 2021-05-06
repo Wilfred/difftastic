@@ -2,21 +2,4 @@ package BaseModule::YeaThis;
 
 use parent 'PerlModule';
 
-my $base = BaseModule::YeaThis->new();
-my @array;
-sub new {
-  print "new is called\n";
-
-  return bless { }, "BaseModule::YeaThis";
-}
-
-$base->hello();
-
-sub hello {
-  my ($self) = @_;
-
-  print "hello base class\n";
-}
-
-
-1;
+my $base = BaseModule::YeaThis->new()->hello();
