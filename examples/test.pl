@@ -2,18 +2,33 @@ use strict 'refs';
 use warnings;
 use Data::Dumper;
 
-my $args = {
-  MESSAGETYPE => 'heehaw',
-  MESSAGESUBTYPE => 'meow',
-};
-my $dbh;
+# my $args = {
+#   MESSAGETYPE => 'heehaw',
+#   MESSAGESUBTYPE => 'meow',
+# };
+# my $dbh;
 
-# my $result = GetSalesforceTemplateInfo($dbh)->{$args->{MESSAGETYPE}}->{$args->{MESSAGESUBTYPE}};
+my %email;
+my $messagehashes = [];
 
-# my $heelsdf = (2*3)->{DSF};
+my $buildmasterinput = HashAntiSlice($args, [qw(EMAILTEMPLATEID USEWHISKERS REPLACEWORDS PRACTICESETTINGS)]);
+%email = _BuildMasterEmail($dbh, {
+    EMAILMESSAGE => {
+        %$buildmasterinput,
+        CONTEXTDATA => $args->{PRACTICESETTINGS},
+        DATAFORMESSAGE => $args->{REPLACEWORDS},
+        DEEPLINKHASH => shift @$messagehashes,
+    },
+    PRACT1ICEID => 32,
+});
 
-# print Dumper $heelsdf;
+my $sdf = 'sfds';
+my %hash = (
+  hello => 'sdfs',
+  (3*4) => 'vs',
+  $sdf => 'vsdfdsf',
+);
 
-my $array = [3, 324, 3];
+print Dumper \%hash;
 
-print Dumper %{$args};
+
