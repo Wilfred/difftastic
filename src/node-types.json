@@ -87,6 +87,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -115,6 +119,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -124,6 +132,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -140,6 +152,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -200,6 +216,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -282,6 +302,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -310,6 +334,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -319,6 +347,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -335,6 +367,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -395,6 +431,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -485,6 +525,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -513,6 +557,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -522,6 +570,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -538,6 +590,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -598,6 +654,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -683,6 +743,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -711,6 +775,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -720,6 +788,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -736,6 +808,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -796,6 +872,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -879,6 +959,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -907,6 +991,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -916,6 +1004,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -932,6 +1024,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -992,6 +1088,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -1074,6 +1174,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -1102,6 +1206,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -1111,6 +1219,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -1127,6 +1239,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -1187,6 +1303,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -1277,6 +1397,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -1305,6 +1429,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -1314,6 +1442,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -1330,6 +1462,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -1390,6 +1526,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -1463,6 +1603,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -1495,6 +1639,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -1504,6 +1652,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -1520,6 +1672,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -1580,6 +1736,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -1662,6 +1822,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -1690,6 +1854,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -1699,6 +1867,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -1715,6 +1887,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -1775,6 +1951,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -1903,6 +2083,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -1931,6 +2115,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -1940,6 +2128,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -1956,6 +2148,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -2016,6 +2212,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -2291,6 +2491,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -2319,6 +2523,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -2328,6 +2536,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -2344,6 +2556,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -2404,6 +2620,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -2489,6 +2709,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -2517,6 +2741,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -2526,6 +2754,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -2542,6 +2774,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -2602,6 +2838,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -2680,6 +2920,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -2708,6 +2952,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -2717,6 +2965,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -2733,6 +2985,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -2793,6 +3049,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -2883,6 +3143,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -2911,6 +3175,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -2920,6 +3188,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -2936,6 +3208,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -2996,6 +3272,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -3121,6 +3401,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -3153,6 +3437,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "loop_control_statement",
           "named": true
         },
@@ -3170,6 +3458,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -3202,6 +3494,10 @@
         },
         {
           "type": "single_line_statement",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -3274,6 +3570,10 @@
         },
         {
           "type": "unless_statement",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -3492,6 +3792,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -3520,6 +3824,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -3529,6 +3837,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -3545,6 +3857,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -3605,6 +3921,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -3752,6 +4072,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -3780,6 +4104,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -3789,6 +4117,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -3805,6 +4137,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -3865,6 +4201,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -3950,6 +4290,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -3978,6 +4322,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -3987,6 +4335,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -4003,6 +4355,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -4063,6 +4419,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -4148,6 +4508,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -4176,6 +4540,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -4185,6 +4553,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -4201,6 +4573,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -4261,6 +4637,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -4483,6 +4863,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -4511,6 +4895,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -4520,6 +4908,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -4540,6 +4932,10 @@
         },
         {
           "type": "scope",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -4600,6 +4996,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -4754,6 +5154,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -4782,6 +5186,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -4791,6 +5199,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -4807,6 +5219,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -4867,6 +5283,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -4957,6 +5377,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -4985,6 +5409,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -4994,6 +5422,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -5010,6 +5442,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -5073,6 +5509,10 @@
             "named": true
           },
           {
+            "type": "unpack_function",
+            "named": true
+          },
+          {
             "type": "word_list_qw",
             "named": true
           }
@@ -5098,6 +5538,233 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "grep_or_map_function",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_access_variable",
+          "named": true
+        },
+        {
+          "type": "array_dereference",
+          "named": true
+        },
+        {
+          "type": "array_ref",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bless",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "file_handle",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
+          "type": "grep",
+          "named": true
+        },
+        {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "hash_access_variable",
+          "named": true
+        },
+        {
+          "type": "hash_dereference",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
+          "named": true
+        },
+        {
+          "type": "hash_variable",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "join_function",
+          "named": true
+        },
+        {
+          "type": "list_block",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
+          "named": true
+        },
+        {
+          "type": "special_variable",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifier",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        },
+        {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "to_reference",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -5173,6 +5840,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -5201,6 +5872,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -5210,6 +5885,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -5226,6 +5905,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -5286,6 +5969,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -5371,6 +6058,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -5399,6 +6090,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -5408,6 +6103,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -5424,6 +6123,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -5484,6 +6187,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -5585,6 +6292,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -5613,6 +6324,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -5622,6 +6337,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -5638,6 +6357,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -5698,6 +6421,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -5771,6 +6498,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -5803,6 +6534,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -5812,6 +6547,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -5828,6 +6567,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -5888,6 +6631,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -5971,6 +6718,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -5999,6 +6750,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -6008,6 +6763,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -6024,6 +6783,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -6084,6 +6847,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -6166,6 +6933,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -6194,6 +6965,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -6203,6 +6978,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -6219,6 +6998,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -6279,6 +7062,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -6364,6 +7151,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -6392,6 +7183,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -6401,6 +7196,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -6417,6 +7216,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -6477,6 +7280,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -6582,6 +7389,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -6610,6 +7421,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -6626,6 +7441,10 @@
             "named": true
           },
           {
+            "type": "push_function",
+            "named": true
+          },
+          {
             "type": "regex_pattern_qr",
             "named": true
           },
@@ -6639,6 +7458,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -6699,6 +7522,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -6779,6 +7606,440 @@
         },
         {
           "type": "scalar_variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "join_function",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_access_variable",
+          "named": true
+        },
+        {
+          "type": "array_dereference",
+          "named": true
+        },
+        {
+          "type": "array_ref",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bless",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "file_handle",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "hash_access_variable",
+          "named": true
+        },
+        {
+          "type": "hash_dereference",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
+          "named": true
+        },
+        {
+          "type": "hash_variable",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "join",
+          "named": true
+        },
+        {
+          "type": "join_function",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
+          "named": true
+        },
+        {
+          "type": "special_variable",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifier",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        },
+        {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "to_reference",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_access_variable",
+          "named": true
+        },
+        {
+          "type": "array_dereference",
+          "named": true
+        },
+        {
+          "type": "array_ref",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bless",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "file_handle",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "hash_access_variable",
+          "named": true
+        },
+        {
+          "type": "hash_dereference",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
+          "named": true
+        },
+        {
+          "type": "hash_variable",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "join_function",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
+          "named": true
+        },
+        {
+          "type": "special_variable",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifier",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        },
+        {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "to_reference",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -7061,6 +8322,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -7089,6 +8354,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -7098,6 +8367,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -7114,6 +8387,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -7177,6 +8454,10 @@
           "named": true
         },
         {
+          "type": "unpack_function",
+          "named": true
+        },
+        {
           "type": "word_list_qw",
           "named": true
         }
@@ -7201,6 +8482,225 @@
         },
         {
           "type": "regex_option",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "push_function",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_access_variable",
+          "named": true
+        },
+        {
+          "type": "array_dereference",
+          "named": true
+        },
+        {
+          "type": "array_ref",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bless",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "file_handle",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "hash_access_variable",
+          "named": true
+        },
+        {
+          "type": "hash_dereference",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
+          "named": true
+        },
+        {
+          "type": "hash_variable",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "join_function",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push",
+          "named": true
+        },
+        {
+          "type": "push_function",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
+          "named": true
+        },
+        {
+          "type": "special_variable",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifier",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        },
+        {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "to_reference",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -7322,6 +8822,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -7350,6 +8854,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -7359,6 +8867,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -7375,6 +8887,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -7435,6 +8951,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -7554,6 +9074,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -7586,6 +9110,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -7595,6 +9123,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -7615,6 +9147,10 @@
         },
         {
           "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -7682,6 +9218,10 @@
           "named": true
         },
         {
+          "type": "unpack_function",
+          "named": true
+        },
+        {
           "type": "until_simple_statement",
           "named": true
         },
@@ -7722,6 +9262,229 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "sort_function",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_access_variable",
+          "named": true
+        },
+        {
+          "type": "array_dereference",
+          "named": true
+        },
+        {
+          "type": "array_ref",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bless",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "file_handle",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "hash_access_variable",
+          "named": true
+        },
+        {
+          "type": "hash_dereference",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
+          "named": true
+        },
+        {
+          "type": "hash_variable",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "join_function",
+          "named": true
+        },
+        {
+          "type": "list_block",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort",
+          "named": true
+        },
+        {
+          "type": "sort_function",
+          "named": true
+        },
+        {
+          "type": "special_variable",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifier",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        },
+        {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "to_reference",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -7821,6 +9584,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -7853,6 +9620,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "method_invocation",
           "named": true
         },
@@ -7866,6 +9637,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -7894,6 +9669,10 @@
         },
         {
           "type": "single_line_statement",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -7966,6 +9745,10 @@
         },
         {
           "type": "unless_statement",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -8154,6 +9937,10 @@
           "named": true
         },
         {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
           "type": "hash",
           "named": true
         },
@@ -8186,6 +9973,10 @@
           "named": true
         },
         {
+          "type": "join_function",
+          "named": true
+        },
+        {
           "type": "loop_control_statement",
           "named": true
         },
@@ -8203,6 +9994,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
           "named": true
         },
         {
@@ -8235,6 +10030,10 @@
         },
         {
           "type": "single_line_statement",
+          "named": true
+        },
+        {
+          "type": "sort_function",
           "named": true
         },
         {
@@ -8307,6 +10106,10 @@
         },
         {
           "type": "unless_statement",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
           "named": true
         },
         {
@@ -8556,6 +10359,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -8584,6 +10391,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -8593,6 +10404,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -8609,6 +10424,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -8669,6 +10488,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -8754,6 +10577,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -8782,6 +10609,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -8791,6 +10622,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -8807,6 +10642,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -8867,6 +10706,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -8966,6 +10809,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -8994,6 +10841,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -9003,6 +10854,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -9019,6 +10874,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -9079,6 +10938,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -9305,6 +11168,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -9333,6 +11200,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -9342,6 +11213,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -9358,6 +11233,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -9418,6 +11297,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -9509,6 +11392,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -9537,6 +11424,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -9553,6 +11444,10 @@
             "named": true
           },
           {
+            "type": "push_function",
+            "named": true
+          },
+          {
             "type": "regex_pattern_qr",
             "named": true
           },
@@ -9566,6 +11461,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -9626,6 +11525,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -9690,6 +11593,225 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "unpack_function",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "alias",
+          "named": true
+        },
+        {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_access_variable",
+          "named": true
+        },
+        {
+          "type": "array_dereference",
+          "named": true
+        },
+        {
+          "type": "array_ref",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bless",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression_recursive",
+          "named": true
+        },
+        {
+          "type": "command_qx_quoted",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "file_handle",
+          "named": true
+        },
+        {
+          "type": "floating_point",
+          "named": true
+        },
+        {
+          "type": "goto_expression",
+          "named": true
+        },
+        {
+          "type": "grep_or_map_function",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "hash_access_variable",
+          "named": true
+        },
+        {
+          "type": "hash_dereference",
+          "named": true
+        },
+        {
+          "type": "hash_ref",
+          "named": true
+        },
+        {
+          "type": "hash_variable",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "join_function",
+          "named": true
+        },
+        {
+          "type": "method_invocation",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "push_function",
+          "named": true
+        },
+        {
+          "type": "regex_pattern_qr",
+          "named": true
+        },
+        {
+          "type": "scalar_reference",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
+          "named": true
+        },
+        {
+          "type": "scientific_notation",
+          "named": true
+        },
+        {
+          "type": "sort_function",
+          "named": true
+        },
+        {
+          "type": "special_variable",
+          "named": true
+        },
+        {
+          "type": "standard_input",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_identifier",
+          "named": true
+        },
+        {
+          "type": "standard_input_to_variable",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        },
+        {
+          "type": "substitution_pattern_s",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "to_reference",
+          "named": true
+        },
+        {
+          "type": "transliteration_tr_or_y",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "type_glob",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unpack_function",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -9773,6 +11895,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -9801,6 +11927,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -9817,6 +11947,10 @@
             "named": true
           },
           {
+            "type": "push_function",
+            "named": true
+          },
+          {
             "type": "regex_pattern_qr",
             "named": true
           },
@@ -9830,6 +11964,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -9890,6 +12028,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -10053,6 +12195,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -10081,6 +12227,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -10090,6 +12240,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -10106,6 +12260,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -10166,6 +12324,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -10303,6 +12465,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -10331,6 +12497,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -10347,6 +12517,10 @@
             "named": true
           },
           {
+            "type": "push_function",
+            "named": true
+          },
+          {
             "type": "regex_pattern_qr",
             "named": true
           },
@@ -10360,6 +12534,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -10420,6 +12598,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -10782,6 +12964,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -10810,6 +12996,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -10819,6 +13009,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "push_function",
             "named": true
           },
           {
@@ -10835,6 +13029,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -10895,6 +13093,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -11041,6 +13243,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -11069,6 +13275,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -11085,6 +13295,10 @@
             "named": true
           },
           {
+            "type": "push_function",
+            "named": true
+          },
+          {
             "type": "regex_pattern_qr",
             "named": true
           },
@@ -11098,6 +13312,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -11158,6 +13376,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -11259,6 +13481,10 @@
             "named": true
           },
           {
+            "type": "grep_or_map_function",
+            "named": true
+          },
+          {
             "type": "hash",
             "named": true
           },
@@ -11287,6 +13513,10 @@
             "named": true
           },
           {
+            "type": "join_function",
+            "named": true
+          },
+          {
             "type": "method_invocation",
             "named": true
           },
@@ -11303,6 +13533,10 @@
             "named": true
           },
           {
+            "type": "push_function",
+            "named": true
+          },
+          {
             "type": "regex_pattern_qr",
             "named": true
           },
@@ -11316,6 +13550,10 @@
           },
           {
             "type": "scientific_notation",
+            "named": true
+          },
+          {
+            "type": "sort_function",
             "named": true
           },
           {
@@ -11376,6 +13614,10 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unpack_function",
             "named": true
           },
           {
@@ -11728,6 +13970,10 @@
     "named": false
   },
   {
+    "type": "alias",
+    "named": true
+  },
+  {
     "type": "and",
     "named": false
   },
@@ -11808,6 +14054,10 @@
     "named": false
   },
   {
+    "type": "grep",
+    "named": true
+  },
+  {
     "type": "gt",
     "named": false
   },
@@ -11848,6 +14098,10 @@
     "named": false
   },
   {
+    "type": "join",
+    "named": true
+  },
+  {
     "type": "last",
     "named": false
   },
@@ -11866,6 +14120,10 @@
   {
     "type": "m",
     "named": false
+  },
+  {
+    "type": "map",
+    "named": true
   },
   {
     "type": "my",
@@ -11912,6 +14170,10 @@
     "named": false
   },
   {
+    "type": "push",
+    "named": true
+  },
+  {
     "type": "q",
     "named": false
   },
@@ -11956,6 +14218,10 @@
     "named": false
   },
   {
+    "type": "reverse",
+    "named": true
+  },
+  {
     "type": "s",
     "named": false
   },
@@ -11965,6 +14231,10 @@
   },
   {
     "type": "semi_colon",
+    "named": true
+  },
+  {
+    "type": "sort",
     "named": true
   },
   {
