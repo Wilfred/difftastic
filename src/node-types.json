@@ -4513,11 +4513,11 @@
   },
   {
     "type": "integer",
-    "named": false
+    "named": true
   },
   {
     "type": "integer",
-    "named": true
+    "named": false
   },
   {
     "type": "interface",
@@ -4536,6 +4536,10 @@
     "named": false
   },
   {
+    "type": "mixed",
+    "named": false
+  },
+  {
     "type": "namespace",
     "named": false
   },
@@ -4545,11 +4549,11 @@
   },
   {
     "type": "null",
-    "named": false
+    "named": true
   },
   {
     "type": "null",
-    "named": true
+    "named": false
   },
   {
     "type": "object",
@@ -4617,11 +4621,11 @@
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "switch",

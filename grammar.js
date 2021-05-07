@@ -450,6 +450,8 @@ module.exports = grammar({
       'int',
       'string',
       'void',
+      'mixed',
+      'static', // only legal as a return type
       'false', // only legal in unions
       'null', // only legal in unions
     ),

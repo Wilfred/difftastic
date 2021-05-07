@@ -2250,6 +2250,14 @@
         },
         {
           "type": "STRING",
+          "value": "mixed"
+        },
+        {
+          "type": "STRING",
+          "value": "static"
+        },
+        {
+          "type": "STRING",
           "value": "false"
         },
         {
