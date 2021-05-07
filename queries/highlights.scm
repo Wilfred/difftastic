@@ -89,7 +89,9 @@
 
 [
   (prefix_operator)
+  (sign_operator)
   (infix_operator)
+  (hash_operator)
   (indexing_operator)
   (let_operator)
   (and_operator)
