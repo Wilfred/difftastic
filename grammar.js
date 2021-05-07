@@ -652,10 +652,66 @@ module.exports = grammar({
       $.bless,
       
       $.special_variable,
+
+      $.grep_or_map_function, // TODO: make a _list_context, which has all expressions that could return a list context
+      $.join_function,
+      $.sort_function,
+      $.unpack_function,
+
+      $.push_function,
+    ),
+
+    push_function: $ => prec.right(seq(
+      alias('push', $.push),
+      with_or_without_brackets(seq($._expression, ',', $._expression))
+    )),
+
+    grep_or_map_function: $ => prec.right(seq(
+      choice(
+        alias('grep', $.grep),
+        alias('map', $.map),
+      ),
+      choice(
+        seq($.list_block, $._expression),
+        with_or_without_brackets(seq($._expression, ',', $._expression)),
+      ),
+    )),
+
+    join_function: $ => prec.right(seq(
+      choice(
+        alias('join', $.join),
+      ),
+      with_or_without_brackets(commaSeparated($._expression)),
+    )),
+
+    reverse_function: $ => prec.right(seq(
+      alias('reverse', $.reverse),
+      optional(with_or_without_brackets(commaSeparated($._expression))),
+    )),
+
+    sort_function: $ => prec.right(seq(
+      alias('sort', $.sort),
+      choice(
+        $._expression,
+        seq($.list_block, $._expression),
+        seq($.call_expression, $._expression),
+      ),
+    )),
+
+    unpack_function: $ => prec.right(seq(
+      alias('unpack', $.alias),
+      with_or_without_brackets(seq($._expression, ',', $._expression)),
+    )),
+
+    list_block: $ => seq(
+      '{',
+      $._expression,
+      '}'
     ),
 
     special_variable: $ => choice(
       /@_/,
+      /\$_/
     ),
 
     bless: $ => prec.right(seq(
