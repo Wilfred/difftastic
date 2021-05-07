@@ -107,3 +107,60 @@ function a(int|string|null $var) : ?int|MyClass {}
     body: (compound_statement)
   )
 )
+
+==========================
+Mixed type
+==========================
+
+<?php
+
+function a(mixed|string $var) : mixed {
+
+}
+---
+
+(program
+  (php_tag)
+  (function_definition
+    (name)
+    (formal_parameters
+      (simple_parameter
+        (type_list
+          (primitive_type)
+          (primitive_type)
+        )
+        (variable_name (name))
+      )
+    )
+    (type_list (primitive_type))
+    (compound_statement)
+  )
+)
+
+==========================
+Static type
+==========================
+
+<?php
+
+function a(string $var) : static {
+
+}
+---
+
+(program
+  (php_tag)
+  (function_definition
+    (name)
+    (formal_parameters
+      (simple_parameter
+        (type_list
+          (primitive_type)
+        )
+        (variable_name (name))
+      )
+    )
+    (type_list (primitive_type))
+    (compound_statement)
+  )
+)
