@@ -491,6 +491,28 @@ All binary op precedence levels
       (integer))))
 
 ==============================
+Concatenation precedence
+==============================
+
+<?php
+
+"3" . "5" + 7;
+
+---
+(program
+  (php_tag)
+  (expression_statement
+    (binary_expression
+      (string)
+      (binary_expression
+        (string)
+        (integer)
+      )
+    )
+  )
+)
+
+==============================
 Arrays
 ==============================
 

@@ -15,16 +15,17 @@ const PREC = {
   EQUALITY: 12,
   INEQUALITY: 13,
   SHIFT: 14,
-  PLUS: 15,
-  TIMES: 16,
-  NEG: 17,
-  INSTANCEOF: 18,
-  INC: 19,
-  SCOPE: 20,
-  NEW: 21,
-  CALL: 22,
-  MEMBER: 23,
-  DEREF: 24
+  CONCAT: 15,
+  PLUS: 16,
+  TIMES: 17,
+  NEG: 18,
+  INSTANCEOF: 19,
+  INC: 20,
+  SCOPE: 21,
+  NEW: 22,
+  CALL: 23,
+  MEMBER: 24,
+  DEREF: 25
 };
 
 module.exports = grammar({
@@ -1182,7 +1183,7 @@ module.exports = grammar({
         ['>>', PREC.SHIFT],
         ['+', PREC.PLUS],
         ['-', PREC.PLUS],
-        ['.', PREC.PLUS],
+        ['.', PREC.CONCAT],
         ['*', PREC.TIMES],
         ['/', PREC.TIMES],
         ['%', PREC.TIMES],
