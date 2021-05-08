@@ -23,7 +23,7 @@ hello();
 
 (source_file
   (call_expression
-    function_name: (identifier) args: (parenthesized_arguments)) (semi_colon)
+    function_name: (identifier) args: (empty_parenthesized_argument)) (semi_colon)
 )
 
 =================================================
@@ -38,7 +38,7 @@ my $result = GetSalesforceTemplateInfo($dbh)->{$args->{ALOHA}}->{'NAMASTE'};
   (variable_declaration (scope) (single_var_declaration (scalar_variable))
     (arrow_notation
       (arrow_notation
-        (call_expression (identifier) (parenthesized_arguments (arguments (scalar_variable))))
+        (call_expression (identifier) (parenthesized_argument (argument (scalar_variable))))
         (arrow_operator)
         (arrow_notation
           (scalar_variable)
@@ -59,6 +59,6 @@ print Dumper %{$args};
 ---
 
 (source_file
-  (call_expression (identifier) (arguments
-    (call_expression (identifier) (arguments (hash_dereference (scalar_variable)))))) (semi_colon)
+  (call_expression (identifier) (argument
+    (call_expression (identifier) (argument (hash_dereference (scalar_variable)))))) (semi_colon)
 )

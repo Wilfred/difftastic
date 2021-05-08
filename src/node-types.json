@@ -15,7 +15,7 @@
     }
   },
   {
-    "type": "arguments",
+    "type": "argument",
     "named": true,
     "fields": {},
     "children": {
@@ -3632,11 +3632,15 @@
         "required": false,
         "types": [
           {
-            "type": "arguments",
+            "type": "argument",
             "named": true
           },
           {
-            "type": "parenthesized_arguments",
+            "type": "empty_parenthesized_argument",
+            "named": true
+          },
+          {
+            "type": "parenthesized_argument",
             "named": true
           }
         ]
@@ -3683,7 +3687,7 @@
       "required": true,
       "types": [
         {
-          "type": "parenthesized_arguments",
+          "type": "parenthesized_argument",
           "named": true
         }
       ]
@@ -3718,6 +3722,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "empty_parenthesized_argument",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "empty_parenthesized_expression",
@@ -8686,14 +8695,18 @@
     "fields": {
       "args": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
-            "type": "arguments",
+            "type": "argument",
             "named": true
           },
           {
-            "type": "parenthesized_arguments",
+            "type": "empty_parenthesized_argument",
+            "named": true
+          },
+          {
+            "type": "parenthesized_argument",
             "named": true
           }
         ]
@@ -8811,15 +8824,15 @@
     }
   },
   {
-    "type": "parenthesized_arguments",
+    "type": "parenthesized_argument",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "arguments",
+          "type": "argument",
           "named": true
         }
       ]
