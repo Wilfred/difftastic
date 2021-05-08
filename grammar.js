@@ -736,14 +736,14 @@ module.exports = grammar({
     ),
 
     // TODO handle CONSTANTS here AND have _expression as left(latter is done) - revisit
-    arrow_notation: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
+    arrow_notation: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
       choice(
         $.scalar_variable,
         $.array_access_variable,
         $.hash_access_variable,
         $._expression,
       ),
-      repeat1(
+      prec.right(repeat1(
         seq(
           $.arrow_operator,
           choice( // either a array element or hash key
@@ -751,7 +751,7 @@ module.exports = grammar({
             seq('{', field('hash_key', choice($.identifier, $._expression_without_call_expression)), '}'),
           ),
         )
-      ),
+      )),
     )),
 
     goto_expression: $ => seq(
@@ -1116,10 +1116,10 @@ module.exports = grammar({
         token.immediate('::'),
       )),
       field('function_name', $.identifier),
-      field('args', optional(choice($.parenthesized_arguments, $.arguments))),
+      optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument))),
     )),
 
-    method_invocation: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
+    method_invocation: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
       choice(
         field('package_name', choice($.identifier, $.package_name, $.string_single_quoted)),
         field('object', $.scalar_variable),
@@ -1131,22 +1131,24 @@ module.exports = grammar({
           $.scalar_variable,
           $.scalar_reference,
         ),
-        field('args', optional(choice($.parenthesized_arguments, $.arguments))),
+        field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument)),
       ))),
     )),
 
-    parenthesized_arguments: $ => prec.right(PRECEDENCE.SUB_ARGS, seq(
+    empty_parenthesized_argument: $ => prec.right(PRECEDENCE.SUB_ARGS, seq('(', ')')),
+
+    parenthesized_argument: $ => prec.right(PRECEDENCE.SUB_ARGS, seq(
       '(',
-      optional($.arguments),
+      $.argument,
       ')',
     )),
 
-    arguments: $ => prec.right(PRECEDENCE.SUB_ARGS, commaSeparated($._expression)),
+    argument: $ => prec.right(PRECEDENCE.SUB_ARGS, commaSeparated($._expression)),
 
     call_expression_recursive: $ => seq(
       '__SUB__',
       field('operator', '->'),
-      $.parenthesized_arguments,
+      $.parenthesized_argument,
     ),
 
     _primitive_expression: $ => choice(
@@ -1383,9 +1385,11 @@ module.exports = grammar({
     escape_sequence: $ => prec(PRECEDENCE.ESCAPE_SEQ, seq(
       '\\',
       token.immediate(
-        /[tnrfbae]/,
+        /[tnrfbae']/,
       ),
     )),
+
+    not_escape_sequence: $ => '\\',
 
     interpolation: $ => choice(
       $.scalar_variable,
