@@ -7,4 +7,18 @@ my $var = {
 };
 $var->{'there'} = 'yes';
 
-# print "hello $var->{'what'} meow meow";
+# print qq{hello $var->{'what'} meow meow};
+
+
+SQL::Select->new()->Select($dbh, {});
+
+my $event = {
+  user_id => Data::UUID->new->create_b64($dbh, {}),
+};
+
+
+# my $communicatorbrandid = PatientCycle::Enterprise::CommunicatorBrandIDFromPatientID($dbh, {
+#     PATIENTID => $message->{REPLACEWORDS}{PATIENTID},
+# });
+
+

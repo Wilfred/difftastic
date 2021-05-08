@@ -7920,7 +7920,7 @@
               {
                 "type": "REPEAT",
                 "content": {
-                  "type": "PREC_RIGHT",
+                  "type": "PREC_LEFT",
                   "value": 3,
                   "content": {
                     "type": "SEQ",
@@ -8007,7 +8007,7 @@
               {
                 "type": "REPEAT",
                 "content": {
-                  "type": "PREC_RIGHT",
+                  "type": "PREC_LEFT",
                   "value": 3,
                   "content": {
                     "type": "SEQ",
@@ -8259,7 +8259,7 @@
       }
     },
     "_key_value_pair": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -8291,12 +8291,17 @@
             "name": "hash_arrow_operator"
           },
           {
-            "type": "FIELD",
-            "name": "value",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_expression"
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "value",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_expression"
+                }
+              }
+            ]
           }
         ]
       }
@@ -8450,6 +8455,10 @@
     ],
     [
       "_dereference"
+    ],
+    [
+      "_scalar_type",
+      "_key_value_pair"
     ]
   ],
   "precedences": [],

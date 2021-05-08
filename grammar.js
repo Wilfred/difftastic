@@ -69,6 +69,7 @@ module.exports = grammar({
     [$.package_name],
     [$._list, $._variables],
     [$._dereference],
+    [$._scalar_type, $._key_value_pair],
   ],
 
   // externals: $ => [
@@ -1452,7 +1453,7 @@ module.exports = grammar({
     hash: $ => prec.right(PRECEDENCE.HASH, seq(
       '(',
       optional(repeat(
-        prec.right(PRECEDENCE.HASH, commaSeparated(choice(
+        prec.left(PRECEDENCE.HASH, commaSeparated(choice(
           $._key_value_pair,
           $.hash_dereference,
         ))),
@@ -1463,7 +1464,7 @@ module.exports = grammar({
     hash_ref: $ => prec.right(PRECEDENCE.HASH, seq(
       '{',
       optional(repeat(
-        prec.right(PRECEDENCE.HASH, commaSeparated(choice(
+        prec.left(PRECEDENCE.HASH, commaSeparated(choice(
           $._key_value_pair,
           $.hash_dereference,
         ))),
@@ -1513,13 +1514,16 @@ module.exports = grammar({
 
     // cat => 'meow', meta => {}
     // TODO: cat => 'meow' should be bareword => 'string' and not a call_expression => 'string'
-    _key_value_pair: $ => prec.right(seq(
+    _key_value_pair: $ => prec.left(seq(
       field('key', choice(
         $._expression_without_call_expression,
         alias($.identifier, $.bareword),
       )),
       $.hash_arrow_operator,
-      field('value', $._expression),
+      choice(
+        // field('value', $.hash_access_variable),
+        field('value', $._expression),
+      ),
     )),
 
     arrow_operator: $ => /->/,
