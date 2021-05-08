@@ -2,33 +2,9 @@ use strict 'refs';
 use warnings;
 use Data::Dumper;
 
-# my $args = {
-#   MESSAGETYPE => 'heehaw',
-#   MESSAGESUBTYPE => 'meow',
-# };
-# my $dbh;
+my $var = {
+  what => 'im here heyyy'
+};
+$var->{'there'} = 'yes';
 
-my %email;
-my $messagehashes = [];
-
-my $buildmasterinput = HashAntiSlice($args, [qw(EMAILTEMPLATEID USEWHISKERS REPLACEWORDS PRACTICESETTINGS)]);
-%email = _BuildMasterEmail($dbh, {
-    EMAILMESSAGE => {
-        %$buildmasterinput,
-        CONTEXTDATA => $args->{PRACTICESETTINGS},
-        DATAFORMESSAGE => $args->{REPLACEWORDS},
-        DEEPLINKHASH => shift @$messagehashes,
-    },
-    PRACT1ICEID => 32,
-});
-
-my $sdf = 'sfds';
-my %hash = (
-  hello => 'sdfs',
-  (3*4) => 'vs',
-  $sdf => 'vsdfdsf',
-);
-
-print Dumper \%hash;
-
-
+# print "hello $var->{'what'} meow meow";

@@ -31,4 +31,4 @@ print "\n";
 my @chars = map chr, qw(1 2 3);
 print "chars..." . Dumper \@chars;
 
-# map chr, qw(1 2 30);
+map chr, qw(1 2 30);

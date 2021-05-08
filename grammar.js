@@ -303,12 +303,12 @@ module.exports = grammar({
     )),
     for_simple_statement: $ => prec.right(seq(
       'for',
-      field('list', with_or_without_brackets($._list)),
+      field('list', with_or_without_brackets($._expression)),
       $.semi_colon,
     )),
     foreach_simple_statement: $ => prec.right(seq(
       'foreach',
-      field('list', with_or_without_brackets($._list)),
+      field('list', with_or_without_brackets($._expression)),
       $.semi_colon,
     )),
     when_simple_statement: $ => prec.right(seq(
@@ -408,7 +408,7 @@ module.exports = grammar({
         seq('\\', optional($.scope), $.hash_variable), // \my %hash
       ),
       '(',
-      $._list,
+      $._expression,
       ')',      
       field('body', $.block),
       optional(
@@ -1121,7 +1121,7 @@ module.exports = grammar({
 
     method_invocation: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       choice(
-        field('package_name', choice($.package_name, $.string_single_quoted)),
+        field('package_name', choice($.identifier, $.package_name, $.string_single_quoted)),
         field('object', $.scalar_variable),
       ),
       prec.right(repeat1(seq(
@@ -1235,12 +1235,13 @@ module.exports = grammar({
     ),
 
     package_name: $ => choice(
+      $.identifier,
       seq(
         $.identifier,
-        optional(repeat(seq(
+        repeat1(seq(
           token.immediate('::'),
           $.identifier,
-        ))),
+        )),
       ),
       // /[A-Z_a-z][0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/,
       // /\$[0-9A-Z_a-z]*(?:::[0-9A-Z_a-z]+)*/, // TODO fix this
@@ -1389,6 +1390,8 @@ module.exports = grammar({
     interpolation: $ => choice(
       $.scalar_variable,
       $.array_variable,
+      // $.arrow_notation,
+      // $.hash_access_variable,
     ),
 
     _boolean: $ => choice(
@@ -1444,7 +1447,12 @@ module.exports = grammar({
     // TODO: accept ('key', value, 'key2', value2) as hash
     hash: $ => prec.right(PRECEDENCE.HASH, seq(
       '(',
-      optional(commaSeparated($._key_value_pair)),
+      optional(repeat(
+        prec.right(PRECEDENCE.HASH, commaSeparated(choice(
+          $._key_value_pair,
+          $.hash_dereference,
+        ))),
+      )),
       ')',
     )),
     

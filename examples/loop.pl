@@ -13,9 +13,11 @@ my $setting = {
   awesome => 'yes',
 };
 my %final;
-foreach my $key (keys %{ $setting }) {
+foreach my $key (woof()) {
   $final{IRONMAN}{$key} = $setting->{$key};
 
   print Dumper \%final;
   
 }
+
+sub woof {}
