@@ -70,6 +70,8 @@ module.exports = grammar({
     [$._list, $._variables],
     [$._dereference],
     [$._scalar_type, $._key_value_pair],
+    [$.hash_ref],
+    [$.hash_ref, $._dereference],
   ],
 
   // externals: $ => [
@@ -1132,7 +1134,7 @@ module.exports = grammar({
           $.scalar_variable,
           $.scalar_reference,
         ),
-        optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument))),
+        field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument)), // TODO: make this optional and fix errors
       ))),
     )),
 
@@ -1461,16 +1463,25 @@ module.exports = grammar({
       ')',
     )),
     
-    hash_ref: $ => prec(PRECEDENCE.HASH, seq(
+    // hash_ref: $ => prec(PRECEDENCE.HASH, seq(
+    //   '{',
+    //   optional(repeat(
+    //     prec.left(PRECEDENCE.HASH, commaSeparated(choice(
+    //       $._key_value_pair,
+    //       $.hash_dereference,
+    //     ))),
+    //   )),
+    //   '}'
+    // )),
+
+    hash_ref: $ => seq(
       '{',
-      optional(repeat(
-        prec.left(PRECEDENCE.HASH, commaSeparated(choice(
-          $._key_value_pair,
-          $.hash_dereference,
-        ))),
+      repeat(choice(
+        commaSeparated($._key_value_pair),
+        commaSeparated($.hash_dereference),
       )),
-      '}'
-    )),
+      '}',
+    ),
 
     _reference: $ => choice(
       $.array_ref,
@@ -1514,7 +1525,7 @@ module.exports = grammar({
 
     // cat => 'meow', meta => {}
     // TODO: cat => 'meow' should be bareword => 'string' and not a call_expression => 'string'
-    _key_value_pair: $ => seq(
+    _key_value_pair: $ => prec.left(seq(
       field('key', choice(
         $._expression_without_call_expression,
         alias($.identifier, $.bareword),
@@ -1524,7 +1535,7 @@ module.exports = grammar({
         // field('value', $.hash_access_variable),
         field('value', $._expression),
       ),
-    ),
+    )),
 
     arrow_operator: $ => /->/,
     hash_arrow_operator: $ => /=>/,
