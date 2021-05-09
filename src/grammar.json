@@ -5769,25 +5769,33 @@
                     ]
                   },
                   {
-                    "type": "FIELD",
-                    "name": "args",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "empty_parenthesized_argument"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "parenthesized_argument"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "argument"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "FIELD",
+                        "name": "args",
+                        "content": {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "empty_parenthesized_argument"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "parenthesized_argument"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "argument"
+                            }
+                          ]
                         }
-                      ]
-                    }
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   }
                 ]
               }
@@ -8279,10 +8287,6 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_expression_without_call_expression"
-                },
-                {
                   "type": "ALIAS",
                   "content": {
                     "type": "SYMBOL",
@@ -8290,6 +8294,10 @@
                   },
                   "named": true,
                   "value": "bareword"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_string"
                 }
               ]
             }

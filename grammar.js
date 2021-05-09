@@ -1134,7 +1134,7 @@ module.exports = grammar({
           $.scalar_variable,
           $.scalar_reference,
         ),
-        field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument)), // TODO: make this optional and fix errors
+        optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument))), // TODO: make this optional and fix errors
       ))),
     )),
 
@@ -1527,8 +1527,9 @@ module.exports = grammar({
     // TODO: cat => 'meow' should be bareword => 'string' and not a call_expression => 'string'
     _key_value_pair: $ => prec.left(seq(
       field('key', choice(
-        $._expression_without_call_expression,
         alias($.identifier, $.bareword),
+        // $._expression_without_call_expression,
+        $._string,
       )),
       $.hash_arrow_operator,
       choice(
