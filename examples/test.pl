@@ -13,12 +13,13 @@ $var->{'there'} = 'yes';
 SQL::Select->new()->Select($dbh, {});
 
 my $event = {
-  user_id => Data::UUID->new->create_b64($dbh, {}),
+  user_id => Data::UUID->new()->create_b64($dbh, {}),
 };
 
 
-# my $communicatorbrandid = PatientCycle::Enterprise::CommunicatorBrandIDFromPatientID($dbh, {
-#     PATIENTID => $message->{REPLACEWORDS}{PATIENTID},
-# });
-
+# myy $event = {
+#             user_properties => PatientCycle::PortalUtils::GetEmailOpenTrackingProperties($dbh, {
+#                 MESSAGETYPE => $args->{MESSAGETYPE},
+#             }),
+# };
 

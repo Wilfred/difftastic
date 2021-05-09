@@ -744,7 +744,7 @@ module.exports = grammar({
         $.hash_access_variable,
         $._expression,
       ),
-      prec.right(repeat1(
+      prec.left(repeat1(
         seq(
           $.arrow_operator,
           choice( // either a array element or hash key
@@ -1110,7 +1110,7 @@ module.exports = grammar({
       token.immediate('>'),
     ),
 
-    call_expression: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
+    call_expression: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
       optional(token.immediate('&')),
       optional(seq(
         field('package_name', $.package_name),
@@ -1120,7 +1120,7 @@ module.exports = grammar({
       optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument))),
     )),
 
-    method_invocation: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
+    method_invocation: $ => prec.left(PRECEDENCE.SUB_CALL + 1, seq(
       choice(
         field('package_name', choice($.identifier, $.package_name, $.string_single_quoted)),
         field('object', $.scalar_variable),
@@ -1132,19 +1132,19 @@ module.exports = grammar({
           $.scalar_variable,
           $.scalar_reference,
         ),
-        field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument)),
+        optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument))),
       ))),
     )),
 
-    empty_parenthesized_argument: $ => prec.right(PRECEDENCE.SUB_ARGS, seq('(', ')')),
+    empty_parenthesized_argument: $ => prec(PRECEDENCE.SUB_ARGS, seq('(', ')')),
 
-    parenthesized_argument: $ => prec.right(PRECEDENCE.SUB_ARGS, seq(
+    parenthesized_argument: $ => prec(PRECEDENCE.SUB_ARGS, seq(
       '(',
       $.argument,
       ')',
     )),
 
-    argument: $ => prec.right(PRECEDENCE.SUB_ARGS, commaSeparated($._expression)),
+    argument: $ => prec.left(PRECEDENCE.SUB_ARGS, commaSeparated($._expression)),
 
     call_expression_recursive: $ => seq(
       '__SUB__',
@@ -1437,7 +1437,7 @@ module.exports = grammar({
       $.array_variable,
     ),
 
-    array: $ => prec.right(PRECEDENCE.ARRAY, seq(
+    array: $ => prec.left(PRECEDENCE.ARRAY, seq(
       '(',
       optional(commaSeparated($._expression)),
       ')',
@@ -1450,7 +1450,7 @@ module.exports = grammar({
     ),
 
     // TODO: accept ('key', value, 'key2', value2) as hash
-    hash: $ => prec.right(PRECEDENCE.HASH, seq(
+    hash: $ => prec.left(PRECEDENCE.HASH, seq(
       '(',
       optional(repeat(
         prec.left(PRECEDENCE.HASH, commaSeparated(choice(
@@ -1461,7 +1461,7 @@ module.exports = grammar({
       ')',
     )),
     
-    hash_ref: $ => prec.right(PRECEDENCE.HASH, seq(
+    hash_ref: $ => prec(PRECEDENCE.HASH, seq(
       '{',
       optional(repeat(
         prec.left(PRECEDENCE.HASH, commaSeparated(choice(
@@ -1514,7 +1514,7 @@ module.exports = grammar({
 
     // cat => 'meow', meta => {}
     // TODO: cat => 'meow' should be bareword => 'string' and not a call_expression => 'string'
-    _key_value_pair: $ => prec.left(seq(
+    _key_value_pair: $ => seq(
       field('key', choice(
         $._expression_without_call_expression,
         alias($.identifier, $.bareword),
@@ -1524,7 +1524,7 @@ module.exports = grammar({
         // field('value', $.hash_access_variable),
         field('value', $._expression),
       ),
-    )),
+    ),
 
     arrow_operator: $ => /->/,
     hash_arrow_operator: $ => /=>/,
