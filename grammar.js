@@ -72,6 +72,8 @@ module.exports = grammar({
     [$._scalar_type, $._key_value_pair],
     [$.hash_ref],
     [$.hash_ref, $._dereference],
+    [$._expression_without_call_expression, $.argument],
+    [$.argument, $.array],
   ],
 
   // externals: $ => [
@@ -1112,7 +1114,7 @@ module.exports = grammar({
       token.immediate('>'),
     ),
 
-    call_expression: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
+    call_expression: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
       optional(token.immediate('&')),
       optional(seq(
         field('package_name', $.package_name),
@@ -1146,7 +1148,7 @@ module.exports = grammar({
       ')',
     )),
 
-    argument: $ => prec.left(PRECEDENCE.SUB_ARGS, commaSeparated($._expression)),
+    argument: $ => prec.left(PRECEDENCE.SUB_ARGS, commaSeparated(choice($._dereference, $._expression))),
 
     call_expression_recursive: $ => seq(
       '__SUB__',
