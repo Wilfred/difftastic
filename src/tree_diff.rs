@@ -329,116 +329,115 @@ fn build_subtrees(s: &Syntax, subtrees: &mut HashMap<Syntax, i64>) {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn new_atom(id: usize, content: &str) -> Syntax {
-        Atom {
-            id,
-            content: content.into(),
-            change: Unchanged,
+pub(crate) fn assert_syntaxes(expected: &[Syntax], actual: &[Syntax]) {
+    if expected.len() != actual.len() {
+        dbg!(expected, actual);
+        assert!(false);
+    } else {
+        for (lhs_child, rhs_child) in expected.iter().zip(actual.iter()) {
+            assert_syntax(lhs_child, rhs_child);
         }
     }
+}
 
-    fn new_list(
-        id: usize,
-        start_content: &str,
-        end_content: &str,
-        children: Vec<Syntax>,
-    ) -> Syntax {
-        List {
-            id,
-            change: Unchanged,
-            start_content: start_content.into(),
-            end_content: end_content.into(),
-            children,
-        }
-    }
-
-    fn assert_syntaxes(expected: &[Syntax], actual: &[Syntax]) {
-        if expected.len() != actual.len() {
-            dbg!(expected, actual);
-            assert!(false);
-        } else {
-            for (lhs_child, rhs_child) in expected.iter().zip(actual.iter()) {
-                assert_syntax(lhs_child, rhs_child);
+/// Compare all the fields in a Syntax value, not just
+/// those used in its Eq implementation.
+#[cfg(test)]
+pub(crate) fn assert_syntax(expected: &Syntax, actual: &Syntax) {
+    let mut matches = true;
+    match (expected, actual) {
+        (
+            List {
+                id: lhs_id,
+                start_content: lhs_start_content,
+                end_content: lhs_end_content,
+                children: lhs_children,
+                change: lhs_change,
+            },
+            List {
+                id: rhs_id,
+                start_content: rhs_start_content,
+                end_content: rhs_end_content,
+                children: rhs_children,
+                change: rhs_change,
+            },
+        ) => {
+            assert_syntaxes(lhs_children, rhs_children);
+            if lhs_id != rhs_id {
+                dbg!(lhs_id, rhs_id);
+                matches = false;
             }
-        }
-    }
-
-    /// Compare all the fields in a Syntax value, not just
-    /// those used in its Eq implementation.
-    fn assert_syntax(expected: &Syntax, actual: &Syntax) {
-        let mut matches = true;
-        match (expected, actual) {
-            (
-                List {
-                    id: lhs_id,
-                    start_content: lhs_start_content,
-                    end_content: lhs_end_content,
-                    children: lhs_children,
-                    change: lhs_change,
-                },
-                List {
-                    id: rhs_id,
-                    start_content: rhs_start_content,
-                    end_content: rhs_end_content,
-                    children: rhs_children,
-                    change: rhs_change,
-                },
-            ) => {
-                assert_syntaxes(lhs_children, rhs_children);
-                if lhs_id != rhs_id {
-                    dbg!(lhs_id, rhs_id);
-                    matches = false;
-                }
-                if lhs_start_content != rhs_start_content {
-                    dbg!(lhs_start_content, rhs_start_content);
-                    matches = false;
-                }
-                if lhs_end_content != rhs_end_content {
-                    dbg!(lhs_end_content, rhs_end_content);
-                    matches = false;
-                }
-                if lhs_change != rhs_change {
-                    dbg!(lhs_change, rhs_change);
-                    matches = false;
-                }
+            if lhs_start_content != rhs_start_content {
+                dbg!(lhs_start_content, rhs_start_content);
+                matches = false;
             }
-            (
-                Atom {
-                    id: lhs_id,
-                    content: lhs_content,
-                    change: lhs_change,
-                },
-                Atom {
-                    id: rhs_id,
-                    content: rhs_content,
-                    change: rhs_change,
-                },
-            ) => {
-                if lhs_id != rhs_id {
-                    dbg!(lhs_id, rhs_id);
-                    matches = false;
-                }
-                if lhs_content != rhs_content {
-                    dbg!(lhs_content, rhs_content);
-                    matches = false;
-                }
-                if lhs_change != rhs_change {
-                    dbg!(lhs_change, rhs_change);
-                    matches = false;
-                }
+            if lhs_end_content != rhs_end_content {
+                dbg!(lhs_end_content, rhs_end_content);
+                matches = false;
             }
-            _ => {
+            if lhs_change != rhs_change {
+                dbg!(lhs_change, rhs_change);
                 matches = false;
             }
         }
-        if !matches {
-            dbg!(actual, expected);
-            assert!(false);
+        (
+            Atom {
+                id: lhs_id,
+                content: lhs_content,
+                change: lhs_change,
+            },
+            Atom {
+                id: rhs_id,
+                content: rhs_content,
+                change: rhs_change,
+            },
+        ) => {
+            if lhs_id != rhs_id {
+                dbg!(lhs_id, rhs_id);
+                matches = false;
+            }
+            if lhs_content != rhs_content {
+                dbg!(lhs_content, rhs_content);
+                matches = false;
+            }
+            if lhs_change != rhs_change {
+                dbg!(lhs_change, rhs_change);
+                matches = false;
+            }
+        }
+        _ => {
+            matches = false;
         }
     }
+    if !matches {
+        dbg!(actual, expected);
+        assert!(false);
+    }
+}
+
+#[cfg(test)]
+pub(crate) fn new_atom(id: usize, content: &str) -> Syntax {
+    Atom {
+        id,
+        content: content.into(),
+        change: Unchanged,
+    }
+}
+
+#[cfg(test)]
+pub(crate) fn new_list(id: usize, start_content: &str, end_content: &str, children: Vec<Syntax>) -> Syntax {
+    List {
+        id,
+        change: Unchanged,
+        start_content: start_content.into(),
+        end_content: end_content.into(),
+        children,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
 
     #[test]
     fn test_atom_equality_content_only() {
@@ -524,7 +523,12 @@ mod tests {
         ];
 
         let mut rhs = vec![
-            new_list(3, "[", "]", vec![new_list(4, "[", "]", vec![new_atom(5, "1")])]),
+            new_list(
+                3,
+                "[",
+                "]",
+                vec![new_list(4, "[", "]", vec![new_atom(5, "1")])],
+            ),
             new_atom(6, "1"),
         ];
 

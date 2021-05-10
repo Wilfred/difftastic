@@ -117,147 +117,66 @@ pub fn parse_json(s: &str) -> Vec<Syntax> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use pretty_assertions::assert_eq;
+    use crate::tree_diff::{assert_syntaxes, new_atom, new_list};
 
     #[test]
     fn test_parse_integer() {
-        assert_eq!(
-            parse_json("123"),
-            vec![{
-                Syntax::Atom {
-                    id: 0,
-                    content: "123".into(),
-                    change: ChangeKind::Unchanged,
-                }
-            }]
-        );
+        assert_syntaxes(&parse_json("123"), &[new_atom(0, "123")]);
     }
 
     #[test]
     fn test_parse_multiple() {
-        assert_eq!(
-            parse_json("123 456"),
-            vec![
-                Syntax::Atom {
-                    id: 0,
-                    content: "123".into(),
-                    change: ChangeKind::Unchanged,
-                },
-                Syntax::Atom {
-                    id: 1,
-                    content: "456".into(),
-                    change: ChangeKind::Unchanged,
-                }
-            ]
+        assert_syntaxes(
+            &parse_json("123 456"),
+            &[new_atom(0, "123"), new_atom(1, "456")],
         );
     }
 
     #[test]
     fn test_parse_integer_with_whitespace() {
-        assert_eq!(
-            parse_json(" 123 "),
-            vec![{
-                Syntax::Atom {
-                    id: 0,
-                    content: "123".into(),
-                    change: ChangeKind::Unchanged,
-                }
-            }]
-        );
+        assert_syntaxes(&parse_json(" 123 "), &[new_atom(0, "123")]);
     }
 
     #[test]
     fn test_parse_string() {
-        assert_eq!(
-            parse_json("\"abc\""),
-            vec![{
-                Syntax::Atom {
-                    id: 0,
-                    content: "\"abc\"".into(),
-                    change: ChangeKind::Unchanged,
-                }
-            }]
-        );
+        assert_syntaxes(&parse_json("\"abc\""), &[new_atom(0, "\"abc\"")]);
     }
 
     #[test]
     fn test_parse_list() {
-        assert_eq!(
-            parse_json("[ 123 ]"),
-            vec![Syntax::List {
-                id: 0,
-                start_content: "[".into(),
-                end_content: "]".into(),
-                change: ChangeKind::Unchanged,
-                children: vec![Syntax::Atom {
-                    id: 1,
-                    content: "123".into(),
-                    change: ChangeKind::Unchanged,
-                }]
-            }],
+        assert_syntaxes(
+            &parse_json("[ 123 ]"),
+            &[new_list(0, "[", "]", vec![new_atom(1, "123")])],
         );
     }
     #[test]
     fn test_parse_empty_list() {
-        assert_eq!(
-            parse_json("[]"),
-            vec![Syntax::List {
-                id: 0,
-                start_content: "[".into(),
-                end_content: "]".into(),
-                change: ChangeKind::Unchanged,
-                children: vec![]
-            }],
-        );
+        assert_syntaxes(&parse_json("[]"), &[new_list(0, "[", "]", vec![])]);
     }
 
     #[test]
     fn test_parse_list_with_commas() {
-        assert_eq!(
-            parse_json("[123, 456]"),
-            vec![Syntax::List {
-                id: 0,
-                start_content: "[".into(),
-                end_content: "]".into(),
-                change: ChangeKind::Unchanged,
-                children: vec![
-                    Syntax::Atom {
-                        id: 1,
-                        content: "123".into(),
-                        change: ChangeKind::Unchanged,
-                    },
-                    Syntax::Atom {
-                        id: 2,
-                        content: "456".into(),
-                        change: ChangeKind::Unchanged,
-                    }
-                ]
-            }],
+        assert_syntaxes(
+            &parse_json("[123, 456]"),
+            &[new_list(
+                0,
+                "[",
+                "]",
+                vec![new_atom(1, "123"), new_atom(2, "456")],
+            )],
         );
     }
 
     #[test]
     fn test_parse_object() {
-        assert_eq!(
-            parse_json("{x: 1}"),
-            vec![Syntax::List {
-                id: 0,
-                start_content: "{".into(),
-                end_content: "]".into(),
-                change: ChangeKind::Unchanged,
-                children: vec![
-                    Syntax::Atom {
-                        id: 1,
-                        content: "x".into(),
-                        change: ChangeKind::Unchanged,
-                    },
-                    Syntax::Atom {
-                        id: 2,
-                        content: "1".into(),
-                        change: ChangeKind::Unchanged,
-                    }
-                ]
-            }],
+        assert_syntaxes(
+            &parse_json("{x: 1}"),
+            &[new_list(
+                0,
+                "{",
+                "]",
+                vec![new_atom(1, "x"), new_atom(2, "1")],
+            )],
         );
     }
 }
