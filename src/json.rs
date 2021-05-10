@@ -10,14 +10,17 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
     let close_brace = Regex::new(r#"^\]|\{"#).unwrap();
 
     let mut result = vec![];
+    let mut id = 0;
 
     while i < s.len() {
         match num_atom.find(&s[i..]) {
             Some(m) => {
                 let atom = Syntax::Atom {
+                    id,
                     content: m.as_str().into(),
                     change: ChangeKind::Unchanged,
                 };
+                id += 1;
                 result.push(atom);
                 i += m.end();
                 continue;
@@ -28,9 +31,11 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
         match str_atom.find(&s[i..]) {
             Some(m) => {
                 let atom = Syntax::Atom {
+                    id,
                     content: m.as_str().into(),
                     change: ChangeKind::Unchanged,
                 };
+                id += 1;
                 result.push(atom);
                 i += m.end();
                 continue;
@@ -41,9 +46,11 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
         match sym_atom.find(&s[i..]) {
             Some(m) => {
                 let atom = Syntax::Atom {
+                    id,
                     content: m.as_str().into(),
                     change: ChangeKind::Unchanged,
                 };
+                id += 1;
                 result.push(atom);
                 i += m.end();
                 continue;
@@ -56,6 +63,7 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
                 // TODO: error if there's no closing ] brace?
                 let (children, next_i) = parse_json_from(s, i + m.end());
                 let items = Syntax::List {
+                    id,
                     // TODO: rename to open_content?
                     start_content: m.as_str().into(),
                     children,
@@ -63,6 +71,7 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
                     // TODO: get end_content when matching on close_brace.
                     end_content: "]".into(),
                 };
+                id += 1;
                 result.push(items);
                 i = next_i;
                 continue;
@@ -99,6 +108,7 @@ mod tests {
             parse_json("123"),
             vec![{
                 Syntax::Atom {
+                    id: 0,
                     content: "123".into(),
                     change: ChangeKind::Unchanged,
                 }
@@ -112,10 +122,12 @@ mod tests {
             parse_json("123 456"),
             vec![
                 Syntax::Atom {
+                    id: 0,
                     content: "123".into(),
                     change: ChangeKind::Unchanged,
                 },
                 Syntax::Atom {
+                    id: 1,
                     content: "456".into(),
                     change: ChangeKind::Unchanged,
                 }
@@ -129,6 +141,7 @@ mod tests {
             parse_json(" 123 "),
             vec![{
                 Syntax::Atom {
+                    id: 0,
                     content: "123".into(),
                     change: ChangeKind::Unchanged,
                 }
@@ -142,6 +155,7 @@ mod tests {
             parse_json("\"abc\""),
             vec![{
                 Syntax::Atom {
+                    id: 0,
                     content: "\"abc\"".into(),
                     change: ChangeKind::Unchanged,
                 }
@@ -154,10 +168,12 @@ mod tests {
         assert_eq!(
             parse_json("[ 123 ]"),
             vec![Syntax::List {
+                id: 0,
                 start_content: "[".into(),
                 end_content: "]".into(),
                 change: ChangeKind::Unchanged,
                 children: vec![Syntax::Atom {
+                    id: 1,
                     content: "123".into(),
                     change: ChangeKind::Unchanged,
                 }]
@@ -169,6 +185,7 @@ mod tests {
         assert_eq!(
             parse_json("[]"),
             vec![Syntax::List {
+                id: 0,
                 start_content: "[".into(),
                 end_content: "]".into(),
                 change: ChangeKind::Unchanged,
@@ -182,15 +199,18 @@ mod tests {
         assert_eq!(
             parse_json("[123, 456]"),
             vec![Syntax::List {
+                id: 0,
                 start_content: "[".into(),
                 end_content: "]".into(),
                 change: ChangeKind::Unchanged,
                 children: vec![
                     Syntax::Atom {
+                        id: 1,
                         content: "123".into(),
                         change: ChangeKind::Unchanged,
                     },
                     Syntax::Atom {
+                        id: 2,
                         content: "456".into(),
                         change: ChangeKind::Unchanged,
                     }
@@ -204,15 +224,18 @@ mod tests {
         assert_eq!(
             parse_json("{x: 1}"),
             vec![Syntax::List {
+                id: 0,
                 start_content: "{".into(),
                 end_content: "]".into(),
                 change: ChangeKind::Unchanged,
                 children: vec![
                     Syntax::Atom {
+                        id: 1,
                         content: "x".into(),
                         change: ChangeKind::Unchanged,
                     },
                     Syntax::Atom {
+                        id: 2,
                         content: "1".into(),
                         change: ChangeKind::Unchanged,
                     }

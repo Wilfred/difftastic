@@ -15,12 +15,14 @@ pub enum ChangeKind {
 #[derive(Debug, Clone)]
 pub enum Syntax {
     List {
+        id: usize,
         change: ChangeKind,
         start_content: String,
         end_content: String,
         children: Vec<Syntax>,
     },
     Atom {
+        id: usize,
         change: ChangeKind,
         content: String,
     },
@@ -205,12 +207,14 @@ fn walk_nodes_ordered(
                             end_content: lhs_end_content,
                             children: lhs_children,
                             change: lhs_change,
+                            ..
                         },
                         List {
                             start_content: rhs_start_content,
                             end_content: rhs_end_content,
                             children: rhs_children,
                             change: rhs_change,
+                            ..
                         },
                     ) => {
                         // Both sides are lists, so check the
@@ -328,15 +332,22 @@ fn build_subtrees(s: &Syntax, subtrees: &mut HashMap<Syntax, i64>) {
 mod tests {
     use super::*;
 
-    fn new_atom(content: &str) -> Syntax {
+    fn new_atom(id: usize, content: &str) -> Syntax {
         Atom {
+            id,
             content: content.into(),
             change: Unchanged,
         }
     }
 
-    fn new_list(start_content: &str, end_content: &str, children: Vec<Syntax>) -> Syntax {
+    fn new_list(
+        id: usize,
+        start_content: &str,
+        end_content: &str,
+        children: Vec<Syntax>,
+    ) -> Syntax {
         List {
+            id,
             change: Unchanged,
             start_content: start_content.into(),
             end_content: end_content.into(),
@@ -362,12 +373,14 @@ mod tests {
         match (expected, actual) {
             (
                 List {
+                    id: lhs_id,
                     start_content: lhs_start_content,
                     end_content: lhs_end_content,
                     children: lhs_children,
                     change: lhs_change,
                 },
                 List {
+                    id: rhs_id,
                     start_content: rhs_start_content,
                     end_content: rhs_end_content,
                     children: rhs_children,
@@ -375,6 +388,10 @@ mod tests {
                 },
             ) => {
                 assert_syntaxes(lhs_children, rhs_children);
+                if lhs_id != rhs_id {
+                    dbg!(lhs_id, rhs_id);
+                    matches = false;
+                }
                 if lhs_start_content != rhs_start_content {
                     dbg!(lhs_start_content, rhs_start_content);
                     matches = false;
@@ -390,14 +407,20 @@ mod tests {
             }
             (
                 Atom {
+                    id: lhs_id,
                     content: lhs_content,
                     change: lhs_change,
                 },
                 Atom {
+                    id: rhs_id,
                     content: rhs_content,
                     change: rhs_change,
                 },
             ) => {
+                if lhs_id != rhs_id {
+                    dbg!(lhs_id, rhs_id);
+                    matches = false;
+                }
                 if lhs_content != rhs_content {
                     dbg!(lhs_content, rhs_content);
                     matches = false;
@@ -418,14 +441,16 @@ mod tests {
     }
 
     #[test]
-    fn test_atom_equality_ignores_changes() {
+    fn test_atom_equality_content_only() {
         assert_eq!(
             Atom {
                 content: "foo".into(),
+                id: 1,
                 change: Added,
             },
             Atom {
                 content: "foo".into(),
+                id: 2,
                 change: Moved,
             }
         );
@@ -433,17 +458,19 @@ mod tests {
 
     #[test]
     fn test_add_duplicate_node() {
-        let mut lhs = vec![new_atom("a")];
-        let mut rhs = vec![new_atom("a"), new_atom("a")];
+        let mut lhs = vec![new_atom(0, "a")];
+        let mut rhs = vec![new_atom(1, "a"), new_atom(2, "a")];
 
         set_changed(&mut lhs, &mut rhs);
 
         let expected_rhs = vec![
             Atom {
+                id: 1,
                 change: Unchanged,
                 content: "a".into(),
             },
             Atom {
+                id: 2,
                 change: Added,
                 content: "a".into(),
             },
@@ -452,21 +479,29 @@ mod tests {
     }
     #[test]
     fn test_add_subtree() {
-        let mut lhs = vec![new_list("[", "]", vec![new_atom("a")])];
-        let mut rhs = vec![new_list("[", "]", vec![new_atom("a"), new_atom("a")])];
+        let mut lhs = vec![new_list(0, "[", "]", vec![new_atom(1, "a")])];
+        let mut rhs = vec![new_list(
+            2,
+            "[",
+            "]",
+            vec![new_atom(3, "a"), new_atom(4, "a")],
+        )];
 
         set_changed(&mut lhs, &mut rhs);
 
         let expected_rhs = vec![List {
+            id: 2,
             change: Unchanged,
             start_content: "[".into(),
             end_content: "]".into(),
             children: vec![
                 Atom {
+                    id: 3,
                     change: Unchanged,
                     content: "a".into(),
                 },
                 Atom {
+                    id: 4,
                     change: Added,
                     content: "a".into(),
                 },
@@ -484,33 +519,37 @@ mod tests {
     #[test]
     fn test_add_subsubtree() {
         let mut lhs = vec![
-            new_list("[", "]", vec![]),
-            new_list("[", "]", vec![new_atom("1")]),
+            new_list(0, "[", "]", vec![]),
+            new_list(1, "[", "]", vec![new_atom(2, "1")]),
         ];
 
         let mut rhs = vec![
-            new_list("[", "]", vec![new_list("[", "]", vec![new_atom("1")])]),
-            new_atom("1"),
+            new_list(3, "[", "]", vec![new_list(4, "[", "]", vec![new_atom(5, "1")])]),
+            new_atom(6, "1"),
         ];
 
         set_changed(&mut lhs, &mut rhs);
 
         let expected_rhs = vec![
             List {
+                id: 3,
                 start_content: "[".into(),
                 end_content: "]".into(),
                 change: Unchanged,
                 children: vec![List {
+                    id: 4,
                     change: Moved,
                     start_content: "[".into(),
                     end_content: "]".into(),
                     children: vec![Atom {
+                        id: 5,
                         change: Moved,
                         content: "1".into(),
                     }],
                 }],
             },
             Atom {
+                id: 6,
                 change: Added,
                 content: "1".into(),
             },
