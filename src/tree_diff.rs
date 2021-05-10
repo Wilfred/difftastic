@@ -133,6 +133,26 @@ pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
     walk_nodes_ordered(lhs, rhs, &mut lhs_subtrees, &mut rhs_subtrees);
 }
 
+/// Decrement the count of `node` from `counts`, along with all its children.
+fn decrement(node: &Syntax, counts: &mut HashMap<Syntax, i64>) {
+    let count = if let Some(count) = counts.get(node) {
+        *count
+    } else {
+        panic!("Called decrement on a node that isn't in counts")
+    };
+
+    // assert!(count > 0);
+    counts.insert(node.clone(), count - 1);
+    match node {
+        List { children, .. } => {
+            for child in children {
+                decrement(child, counts);
+            }
+        }
+        Atom { .. } => {}
+    }
+}
+
 // Greedy tree differ.
 fn walk_nodes_ordered(
     lhs: &mut [Syntax],
@@ -145,10 +165,16 @@ fn walk_nodes_ordered(
     loop {
         match (lhs.get_mut(lhs_i), rhs.get_mut(rhs_i)) {
             (Some(ref mut lhs_node), Some(ref mut rhs_node)) => {
+                let lhs_count = *lhs_counts.get(lhs_node).unwrap_or(&0);
+                let rhs_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
+
                 // If they're equal, nothing to do.
-                if lhs_node == rhs_node {
+                if lhs_node == rhs_node && lhs_count > 0 && rhs_count > 0 {
                     lhs_node.set_change_deep(Unchanged);
                     rhs_node.set_change_deep(Unchanged);
+
+                    decrement(lhs_node, lhs_counts);
+                    decrement(rhs_node, rhs_counts);
                     lhs_i += 1;
                     rhs_i += 1;
                     continue;
@@ -157,11 +183,9 @@ fn walk_nodes_ordered(
                 // Not equal. Do we have more instances of the LHS
                 // node? If so, we've removed some instances on the
                 // RHS, so assume this is a removal.
-                let lhs_count = *lhs_counts.get(lhs_node).unwrap_or(&0);
-                let rhs_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
                 if lhs_count > rhs_count && rhs_count > 0 {
                     lhs_node.set_change_deep(Removed);
-                    lhs_counts.insert((*lhs_node).clone(), lhs_count - 1);
+                    decrement(lhs_node, lhs_counts);
                     lhs_i += 1;
                     continue;
                 }
@@ -173,14 +197,16 @@ fn walk_nodes_ordered(
                 let rhs_count = *rhs_counts.get(rhs_node).unwrap_or(&0);
                 if rhs_count > lhs_count && lhs_count > 0 {
                     rhs_node.set_change_deep(Added);
-                    rhs_counts.insert((*rhs_node).clone(), rhs_count - 1);
+                    decrement(rhs_node, rhs_counts);
                     rhs_i += 1;
                     continue;
                 }
 
                 // Same number: reordered nodes, or both nodes are
                 // novel to a single side.
-                match (lhs_node, rhs_node) {
+                let mut lhs_node = lhs_node;
+                let mut rhs_node = rhs_node;
+                match (&mut lhs_node, &mut rhs_node) {
                     (
                         List {
                             start_content: lhs_start_content,
@@ -232,7 +258,12 @@ fn walk_nodes_ordered(
                         Atom { .. },
                     ) => {
                         *lhs_change = Removed;
-                        walk_nodes_ordered(&mut lhs_children[..], rhs, lhs_counts, rhs_counts);
+                        walk_nodes_ordered(
+                            &mut lhs_children[..],
+                            std::slice::from_mut(*rhs_node),
+                            lhs_counts,
+                            rhs_counts,
+                        );
                     }
                     (
                         Atom { .. },
@@ -243,7 +274,12 @@ fn walk_nodes_ordered(
                         },
                     ) => {
                         *rhs_change = Added;
-                        walk_nodes_ordered(lhs, &mut rhs_children[..], lhs_counts, rhs_counts);
+                        walk_nodes_ordered(
+                            std::slice::from_mut(*lhs_node),
+                            &mut rhs_children[..],
+                            lhs_counts,
+                            rhs_counts,
+                        );
                     }
                     (
                         Atom {
@@ -259,14 +295,12 @@ fn walk_nodes_ordered(
                 }
                 lhs_i += 1;
                 rhs_i += 1;
-                continue;
             }
             (Some(lhs_node), None) => {
-                let lhs_count = *lhs_counts.get(lhs_node).unwrap_or(&0);
                 let rhs_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
-                if rhs_count > lhs_count {
+                if rhs_count > 0 {
                     lhs_node.set_change_deep(Moved);
-                    rhs_counts.insert(lhs_node.clone(), rhs_count - 1);
+                    decrement(lhs_node, rhs_counts);
                 } else {
                     lhs_node.set_change_deep(Removed);
                 }
@@ -274,10 +308,9 @@ fn walk_nodes_ordered(
             }
             (None, Some(rhs_node)) => {
                 let lhs_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
-                let rhs_count = *rhs_counts.get(rhs_node).unwrap_or(&0);
-                if lhs_count > rhs_count {
+                if lhs_count > 0 {
                     rhs_node.set_change_deep(Moved);
-                    lhs_counts.insert(rhs_node.clone(), lhs_count - 1);
+                    decrement(rhs_node, lhs_counts);
                 } else {
                     rhs_node.set_change_deep(Added);
                 }
@@ -342,17 +375,13 @@ mod tests {
             Atom { change, .. } => {
                 assert_eq!(change, Unchanged);
             }
-            List { .. } => {
-                assert!(false);
-            }
+            List { .. } => unreachable!(),
         };
         match rhs[1] {
             Atom { change, .. } => {
                 assert_eq!(change, Added);
             }
-            List { .. } => {
-                assert!(false);
-            }
+            List { .. } => unreachable!(),
         };
     }
     #[test]
@@ -394,5 +423,65 @@ mod tests {
             }
             Atom { .. } => unreachable!(),
         };
+    }
+
+    /// Moving a subtree should consume its children, so further uses
+    /// of children of that subtree is not a move.
+    ///
+    /// [], [1] -> [[1]], 1
+    ///
+    /// In this example, the second instance of 1 is an addition.
+    #[test]
+    fn test_add_subsubtree() {
+        let mut lhs = vec![
+            List {
+                change: Unchanged,
+                start_content: "[".into(),
+                end_content: "]".into(),
+                children: vec![],
+            },
+            List {
+                change: Unchanged,
+                start_content: "[".into(),
+                end_content: "]".into(),
+                children: vec![Atom {
+                    change: Unchanged,
+                    content: "1".into(),
+                }],
+            },
+        ];
+
+        let mut rhs = vec![
+            List {
+                change: Unchanged,
+                start_content: "[".into(),
+                end_content: "]".into(),
+                children: vec![List {
+                    change: Unchanged,
+                    start_content: "[".into(),
+                    end_content: "]".into(),
+                    children: vec![Atom {
+                        change: Unchanged,
+                        content: "1".into(),
+                    }],
+                }],
+            },
+            Atom {
+                change: Unchanged,
+                content: "1".into(),
+            },
+        ];
+
+        set_changed(&mut lhs, &mut rhs);
+
+        assert_eq!(rhs[0].change(), Unchanged);
+        match &rhs[0] {
+            List { children, .. } => {
+                assert_eq!(children[0].change(), Moved);
+            }
+            _ => unreachable!(),
+        }
+
+        assert_eq!(rhs[1].change(), Added);
     }
 }
