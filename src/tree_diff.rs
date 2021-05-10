@@ -338,6 +338,22 @@ fn build_subtrees(s: &Syntax, subtrees: &mut HashMap<Syntax, i64>) {
 mod tests {
     use super::*;
 
+    fn new_atom(content: &str) -> Syntax {
+        Atom {
+            content: content.into(),
+            change: Unchanged,
+        }
+    }
+
+    fn new_list(start_content: &str, end_content: &str, children: Vec<Syntax>) -> Syntax {
+        List {
+            change: Unchanged,
+            start_content: start_content.into(),
+            end_content: end_content.into(),
+            children,
+        }
+    }
+
     #[test]
     fn test_atom_equality_ignores_changes() {
         assert_eq!(
@@ -354,20 +370,8 @@ mod tests {
 
     #[test]
     fn test_add_duplicate_node() {
-        let mut lhs = vec![Atom {
-            change: Unchanged,
-            content: "a".into(),
-        }];
-        let mut rhs = vec![
-            Atom {
-                change: Unchanged,
-                content: "a".into(),
-            },
-            Atom {
-                change: Unchanged,
-                content: "a".into(),
-            },
-        ];
+        let mut lhs = vec![new_atom("a")];
+        let mut rhs = vec![new_atom("a"), new_atom("a")];
 
         set_changed(&mut lhs, &mut rhs);
 
@@ -386,31 +390,8 @@ mod tests {
     }
     #[test]
     fn test_add_subtree() {
-        let mut lhs = vec![List {
-            change: Unchanged,
-            start_content: "[".into(),
-            end_content: "]".into(),
-            children: vec![Atom {
-                change: Unchanged,
-                content: "a".into(),
-            }],
-        }];
-
-        let mut rhs = vec![List {
-            change: Unchanged,
-            start_content: "[".into(),
-            end_content: "]".into(),
-            children: vec![
-                Atom {
-                    change: Unchanged,
-                    content: "a".into(),
-                },
-                Atom {
-                    change: Unchanged,
-                    content: "a".into(),
-                },
-            ],
-        }];
+        let mut lhs = vec![new_list("[", "]", vec![new_atom("a")])];
+        let mut rhs = vec![new_list("[", "]", vec![new_atom("a"), new_atom("a")])];
 
         set_changed(&mut lhs, &mut rhs);
 
@@ -434,42 +415,13 @@ mod tests {
     #[test]
     fn test_add_subsubtree() {
         let mut lhs = vec![
-            List {
-                change: Unchanged,
-                start_content: "[".into(),
-                end_content: "]".into(),
-                children: vec![],
-            },
-            List {
-                change: Unchanged,
-                start_content: "[".into(),
-                end_content: "]".into(),
-                children: vec![Atom {
-                    change: Unchanged,
-                    content: "1".into(),
-                }],
-            },
+            new_list("[", "]", vec![]),
+            new_list("[", "]", vec![new_atom("1")]),
         ];
 
         let mut rhs = vec![
-            List {
-                change: Unchanged,
-                start_content: "[".into(),
-                end_content: "]".into(),
-                children: vec![List {
-                    change: Unchanged,
-                    start_content: "[".into(),
-                    end_content: "]".into(),
-                    children: vec![Atom {
-                        change: Unchanged,
-                        content: "1".into(),
-                    }],
-                }],
-            },
-            Atom {
-                change: Unchanged,
-                content: "1".into(),
-            },
+            new_list("[", "]", vec![new_list("[", "]", vec![new_atom("1")])]),
+            new_atom("1"),
         ];
 
         set_changed(&mut lhs, &mut rhs);
