@@ -2,7 +2,22 @@ use crate::tree_diff::ChangeKind;
 use crate::tree_diff::Syntax;
 use regex::Regex;
 
-fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
+#[derive(Debug, Copy, Clone)]
+struct ParseState {
+    str_i: usize,
+    next_id: usize,
+}
+
+impl ParseState {
+    fn new() -> Self {
+        ParseState {
+            str_i: 0,
+            next_id: 0,
+        }
+    }
+}
+
+fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
     let num_atom = Regex::new(r#"^[0-9]+"#).unwrap();
     let sym_atom = Regex::new(r#"^[a-zA-Z0-9]+"#).unwrap();
     let str_atom = Regex::new(r#"^"[^"]+""#).unwrap();
@@ -10,58 +25,62 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
     let close_brace = Regex::new(r#"^\]|\{"#).unwrap();
 
     let mut result = vec![];
-    let mut id = 0;
 
-    while i < s.len() {
-        match num_atom.find(&s[i..]) {
+    while state.str_i < s.len() {
+        match num_atom.find(&s[state.str_i..]) {
             Some(m) => {
                 let atom = Syntax::Atom {
-                    id,
+                    id: state.next_id,
                     content: m.as_str().into(),
                     change: ChangeKind::Unchanged,
                 };
-                id += 1;
+                state.next_id += 1;
                 result.push(atom);
-                i += m.end();
+                state.str_i += m.end();
                 continue;
             }
             None => {}
         };
 
-        match str_atom.find(&s[i..]) {
+        match str_atom.find(&s[state.str_i..]) {
             Some(m) => {
                 let atom = Syntax::Atom {
-                    id,
+                    id: state.next_id,
                     content: m.as_str().into(),
                     change: ChangeKind::Unchanged,
                 };
-                id += 1;
+                state.next_id += 1;
                 result.push(atom);
-                i += m.end();
+                state.str_i += m.end();
                 continue;
             }
             None => {}
         };
 
-        match sym_atom.find(&s[i..]) {
+        match sym_atom.find(&s[state.str_i..]) {
             Some(m) => {
                 let atom = Syntax::Atom {
-                    id,
+                    id: state.next_id,
                     content: m.as_str().into(),
                     change: ChangeKind::Unchanged,
                 };
-                id += 1;
+                state.next_id += 1;
                 result.push(atom);
-                i += m.end();
+                state.str_i += m.end();
                 continue;
             }
             None => {}
         };
 
-        match open_brace.find(&s[i..]) {
+        match open_brace.find(&s[state.str_i..]) {
             Some(m) => {
                 // TODO: error if there's no closing ] brace?
-                let (children, next_i) = parse_json_from(s, i + m.end());
+
+                let id = state.next_id;
+                state.next_id += 1;
+                state.str_i += m.end();
+
+                let children = parse_json_from(s, state);
                 let items = Syntax::List {
                     id,
                     // TODO: rename to open_content?
@@ -71,30 +90,28 @@ fn parse_json_from(s: &str, mut i: usize) -> (Vec<Syntax>, usize) {
                     // TODO: get end_content when matching on close_brace.
                     end_content: "]".into(),
                 };
-                id += 1;
                 result.push(items);
-                i = next_i;
                 continue;
             }
             None => {}
         };
 
-        match close_brace.find(&s[i..]) {
+        match close_brace.find(&s[state.str_i..]) {
             Some(m) => {
-                return (result, i + m.end());
+                state.str_i += m.end();
+                return result;
             }
             None => {}
         };
 
-        i += 1;
+        state.str_i += 1;
     }
 
-    return (result, i);
+    return result;
 }
 
 pub fn parse_json(s: &str) -> Vec<Syntax> {
-    let (syntax, _) = parse_json_from(s, 0);
-    syntax
+    parse_json_from(s, &mut ParseState::new())
 }
 
 #[cfg(test)]
@@ -239,10 +256,8 @@ mod tests {
                         content: "1".into(),
                         change: ChangeKind::Unchanged,
                     }
-
                 ]
             }],
         );
     }
-
 }
