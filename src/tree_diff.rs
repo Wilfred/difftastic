@@ -38,14 +38,6 @@ impl Syntax {
         }
     }
 
-    #[cfg(test)]
-    fn change(&self) -> ChangeKind {
-        match self {
-            List { change, .. } => *change,
-            Atom { change, .. } => *change,
-        }
-    }
-
     fn set_change_deep(&mut self, ck: ChangeKind) {
         self.set_change(ck);
         if let List {
@@ -213,14 +205,12 @@ fn walk_nodes_ordered(
                             end_content: lhs_end_content,
                             children: lhs_children,
                             change: lhs_change,
-                            ..
                         },
                         List {
                             start_content: rhs_start_content,
                             end_content: rhs_end_content,
                             children: rhs_children,
                             change: rhs_change,
-                            ..
                         },
                     ) => {
                         // Both sides are lists, so check the
@@ -354,6 +344,79 @@ mod tests {
         }
     }
 
+    fn assert_syntaxes(expected: &[Syntax], actual: &[Syntax]) {
+        if expected.len() != actual.len() {
+            dbg!(expected, actual);
+            assert!(false);
+        } else {
+            for (lhs_child, rhs_child) in expected.iter().zip(actual.iter()) {
+                assert_syntax(lhs_child, rhs_child);
+            }
+        }
+    }
+
+    /// Compare all the fields in a Syntax value, not just
+    /// those used in its Eq implementation.
+    fn assert_syntax(expected: &Syntax, actual: &Syntax) {
+        let mut matches = true;
+        match (expected, actual) {
+            (
+                List {
+                    start_content: lhs_start_content,
+                    end_content: lhs_end_content,
+                    children: lhs_children,
+                    change: lhs_change,
+                },
+                List {
+                    start_content: rhs_start_content,
+                    end_content: rhs_end_content,
+                    children: rhs_children,
+                    change: rhs_change,
+                },
+            ) => {
+                assert_syntaxes(lhs_children, rhs_children);
+                if lhs_start_content != rhs_start_content {
+                    dbg!(lhs_start_content, rhs_start_content);
+                    matches = false;
+                }
+                if lhs_end_content != rhs_end_content {
+                    dbg!(lhs_end_content, rhs_end_content);
+                    matches = false;
+                }
+                if lhs_change != rhs_change {
+                    dbg!(lhs_change, rhs_change);
+                    matches = false;
+                }
+            }
+            (
+                Atom {
+                    content: lhs_content,
+                    change: lhs_change,
+                },
+                Atom {
+                    content: rhs_content,
+                    change: rhs_change,
+                },
+            ) => {
+                if lhs_content != rhs_content {
+                    dbg!(lhs_content, rhs_content);
+                    matches = false;
+                }
+                if lhs_change != rhs_change {
+                    dbg!(lhs_change, rhs_change);
+                    matches = false;
+                }
+            }
+            _ => {
+                matches = false;
+            }
+        }
+        if !matches {
+            dbg!(actual, expected);
+            assert!(false);
+        }
+    }
+
     #[test]
     fn test_atom_equality_ignores_changes() {
         assert_eq!(
@@ -375,18 +438,17 @@ mod tests {
 
         set_changed(&mut lhs, &mut rhs);
 
-        match rhs[0] {
-            Atom { change, .. } => {
-                assert_eq!(change, Unchanged);
-            }
-            List { .. } => unreachable!(),
-        };
-        match rhs[1] {
-            Atom { change, .. } => {
-                assert_eq!(change, Added);
-            }
-            List { .. } => unreachable!(),
-        };
+        let expected_rhs = vec![
+            Atom {
+                change: Unchanged,
+                content: "a".into(),
+            },
+            Atom {
+                change: Added,
+                content: "a".into(),
+            },
+        ];
+        assert_syntaxes(&expected_rhs, &rhs);
     }
     #[test]
     fn test_add_subtree() {
@@ -395,15 +457,22 @@ mod tests {
 
         set_changed(&mut lhs, &mut rhs);
 
-        assert_eq!(rhs[0].change(), Unchanged);
-
-        match &rhs[0] {
-            List { children, .. } => {
-                assert_eq!(children[0].change(), Unchanged);
-                assert_eq!(children[1].change(), Added);
-            }
-            Atom { .. } => unreachable!(),
-        };
+        let expected_rhs = vec![List {
+            change: Unchanged,
+            start_content: "[".into(),
+            end_content: "]".into(),
+            children: vec![
+                Atom {
+                    change: Unchanged,
+                    content: "a".into(),
+                },
+                Atom {
+                    change: Added,
+                    content: "a".into(),
+                },
+            ],
+        }];
+        assert_syntaxes(&expected_rhs, &rhs);
     }
 
     /// Moving a subtree should consume its children, so further uses
@@ -426,14 +495,26 @@ mod tests {
 
         set_changed(&mut lhs, &mut rhs);
 
-        assert_eq!(rhs[0].change(), Unchanged);
-        match &rhs[0] {
-            List { children, .. } => {
-                assert_eq!(children[0].change(), Moved);
-            }
-            _ => unreachable!(),
-        }
-
-        assert_eq!(rhs[1].change(), Added);
+        let expected_rhs = vec![
+            List {
+                start_content: "[".into(),
+                end_content: "]".into(),
+                change: Unchanged,
+                children: vec![List {
+                    change: Moved,
+                    start_content: "[".into(),
+                    end_content: "]".into(),
+                    children: vec![Atom {
+                        change: Moved,
+                        content: "1".into(),
+                    }],
+                }],
+            },
+            Atom {
+                change: Added,
+                content: "1".into(),
+            },
+        ];
+        assert_syntaxes(&expected_rhs, &rhs);
     }
 }
