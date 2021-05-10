@@ -141,7 +141,7 @@ fn decrement(node: &Syntax, counts: &mut HashMap<Syntax, i64>) {
         panic!("Called decrement on a node that isn't in counts")
     };
 
-    // assert!(count > 0);
+    assert!(count > 0);
     counts.insert(node.clone(), count - 1);
     match node {
         List { children, .. } => {
