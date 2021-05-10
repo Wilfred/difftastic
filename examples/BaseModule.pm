@@ -8,7 +8,7 @@ my $simple = SimpleModule->new();
 
 
 my $event = {
-  user_id => Data::UUID->new()->Something($dbh, {}),
+  user_id => Data::UUID->new->Something($dbh, {}),
 };
 
 

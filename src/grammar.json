@@ -5607,7 +5607,7 @@
       ]
     },
     "call_expression": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 30,
       "content": {
         "type": "SEQ",
@@ -5849,8 +5849,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_expression"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_dereference"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            ]
           },
           {
             "type": "REPEAT",
@@ -5862,8 +5871,17 @@
                   "value": ","
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_expression"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_dereference"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_expression"
+                    }
+                  ]
                 }
               ]
             }
@@ -8482,6 +8500,14 @@
     [
       "hash_ref",
       "_dereference"
+    ],
+    [
+      "_expression_without_call_expression",
+      "argument"
+    ],
+    [
+      "argument",
+      "array"
     ]
   ],
   "precedences": [],
