@@ -71,11 +71,16 @@ module.exports = grammar({
     [$._dereference],
     [$._scalar_type, $._key_value_pair],
     [$.hash_ref],
+    [$.hash],
     [$.hash_ref, $._dereference],
     [$._expression_without_call_expression, $.argument],
     [$.argument, $.array],
     [$._expression, $.method_invocation],
     [$._expression, $.goto_expression, $.method_invocation],
+    [$._expression, $.ternary_expression_in_hash],
+    [$.hash, $._dereference],
+    [$._expression_without_call_expression, $.ternary_expression_in_hash],
+    [$._variables, $.ternary_expression_in_hash],
   ],
 
   // externals: $ => [
@@ -1457,37 +1462,24 @@ module.exports = grammar({
     ),
 
     // TODO: accept ('key', value, 'key2', value2) as hash
-    hash: $ => prec(PRECEDENCE.HASH, seq(
+    hash: $ => seq(
       '(',
-      optional(repeat(
-        prec.left(PRECEDENCE.HASH, commaSeparated(choice(
-          // $.ternary_expression_in_hash,
-          $._key_value_pair,
-          $.hash_dereference,
-        ))),
-      )),
+      optional(commaSeparated(choice(
+        $.ternary_expression_in_hash,
+        $._key_value_pair,
+        $.hash_dereference,
+      ))),
       ')',
-    )),
-    
-    // hash_ref: $ => prec(PRECEDENCE.HASH, seq(
-    //   '{',
-    //   optional(repeat(
-    //     prec.left(PRECEDENCE.HASH, commaSeparated(choice(
-    //       $._key_value_pair,
-    //       $.hash_dereference,
-    //     ))),
-    //   )),
-    //   '}'
-    // )),
+    ),
 
     hash_ref: $ => seq(
       '{',
-      repeat(choice(
-        // commaSeparated($.ternary_expression_in_hash),
-        commaSeparated($._key_value_pair),
-        commaSeparated($.hash_dereference),
-      )),
-      '}',
+      optional(commaSeparated(choice(
+        $.ternary_expression_in_hash,
+        $._key_value_pair,
+        $.hash_dereference,
+      ))),
+      '}'
     ),
 
     _reference: $ => choice(
@@ -1531,12 +1523,10 @@ module.exports = grammar({
     )),
 
     // cat => 'meow', meta => {}
-    // TODO: cat => 'meow' should be bareword => 'string' and not a call_expression => 'string'
     _key_value_pair: $ => prec.left(seq(
       field('key', choice(
         alias($.identifier, $.bareword),
-        // $._expression_without_call_expression,
-        $._string,
+        $._expression_without_call_expression,
       )),
       $.hash_arrow_operator,
       choice(
@@ -1545,20 +1535,12 @@ module.exports = grammar({
       ),
     )),
 
-    ternary_expression_in_hash: $ => prec.right(PRECEDENCE.TERNARY_OPERATOR, seq(
+    ternary_expression_in_hash: $ => prec.left(1, seq(
       field('condition', $._expression),
       field('operator', '?'),
-      field('true', seq(
-        '(',
-        optional($._key_value_pair),
-        ')',
-      )),
+      field('true', prec.left($.hash)),
       field('operator', ':'),
-      field('false', seq(
-        '(',
-        optional($._key_value_pair),
-        ')',
-      )),
+      field('false', prec.left($.hash)),
     )),
 
     arrow_operator: $ => /->/,
