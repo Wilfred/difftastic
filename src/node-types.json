@@ -135,6 +135,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -347,6 +351,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -573,6 +581,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -788,6 +800,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -1007,6 +1023,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -1219,6 +1239,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -1445,6 +1469,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -1652,6 +1680,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -1867,6 +1899,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -2128,6 +2164,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -2539,6 +2579,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -2757,6 +2801,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -2965,6 +3013,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -3188,6 +3240,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -3458,6 +3514,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -3849,6 +3909,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -4074,6 +4138,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -4321,6 +4389,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -4539,6 +4611,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -4754,6 +4830,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -5014,6 +5094,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -5238,6 +5322,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -5485,6 +5573,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -5779,6 +5871,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -5999,6 +6095,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -6250,6 +6350,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -6462,6 +6566,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -6680,6 +6788,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -6925,6 +7037,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -7132,6 +7248,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -7351,6 +7471,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -7563,6 +7687,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -7781,6 +7909,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -8027,6 +8159,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -8325,6 +8461,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -8537,6 +8677,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -8977,6 +9121,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -9089,6 +9237,25 @@
         },
         {
           "type": "regex_option",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pattern_matcher",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "regex_option",
+          "named": true
+        },
+        {
+          "type": "regex_pattern",
           "named": true
         }
       ]
@@ -9212,6 +9379,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -9477,6 +9648,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -9730,6 +9905,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -9996,6 +10175,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -10244,6 +10427,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -10601,6 +10788,10 @@
         },
         {
           "type": "patter_matcher_m",
+          "named": true
+        },
+        {
+          "type": "pattern_matcher",
           "named": true
         },
         {
@@ -11014,6 +11205,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -11229,6 +11424,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -11464,6 +11663,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -11685,6 +11888,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -12081,6 +12288,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -12306,6 +12517,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -12585,6 +12800,10 @@
           "named": true
         },
         {
+          "type": "pattern_matcher",
+          "named": true
+        },
+        {
           "type": "push_function",
           "named": true
         },
@@ -12809,6 +13028,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -13108,6 +13331,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -13379,6 +13606,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {
@@ -13877,6 +14108,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -14160,6 +14395,10 @@
             "named": true
           },
           {
+            "type": "pattern_matcher",
+            "named": true
+          },
+          {
             "type": "push_function",
             "named": true
           },
@@ -14395,6 +14634,10 @@
           },
           {
             "type": "patter_matcher_m",
+            "named": true
+          },
+          {
+            "type": "pattern_matcher",
             "named": true
           },
           {

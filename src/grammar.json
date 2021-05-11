@@ -2622,6 +2622,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "pattern_matcher"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_i_o_operator"
         },
         {
@@ -6945,6 +6949,39 @@
                 "value": "'.*'"
               }
             ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "regex_option"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "pattern_matcher": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "/"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "regex_pattern"
+          },
+          {
+            "type": "STRING",
+            "value": "/"
           },
           {
             "type": "CHOICE",
