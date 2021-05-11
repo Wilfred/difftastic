@@ -4016,11 +4016,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "bracket_group"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "paren_group"
+                    "name": "mixed_group"
                   }
                 ]
               }

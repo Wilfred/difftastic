@@ -643,7 +643,7 @@ module.exports = grammar({
           field('name', $.generic_command_name),
           field(
             'arg',
-            repeat(choice($.brace_group, $.bracket_group, $.paren_group))
+            repeat(choice($.brace_group, $.mixed_group))
           )
         )
       ),
