@@ -36,18 +36,10 @@ my $result = GetSalesforceTemplateInfo($dbh)->{$args->{ALOHA}}->{'NAMASTE'};
 
 (source_file
   (variable_declaration (scope) (single_var_declaration (scalar_variable))
+  (call_expression (identifier) (argument
     (arrow_notation
-      (arrow_notation
-        (call_expression (identifier) (parenthesized_argument (argument (scalar_variable))))
-        (arrow_operator)
-        (arrow_notation
-          (scalar_variable)
-          (arrow_operator)
-          (identifier)
-        )
-      ) (arrow_operator) (string_single_quoted)
-    ) (semi_colon)
-  )
+      (arrow_notation (scalar_variable) (arrow_operator) (arrow_notation (scalar_variable) (arrow_operator) (identifier))) (arrow_operator) (string_single_quoted))))
+  (semi_colon))
 )
 
 =================================================
