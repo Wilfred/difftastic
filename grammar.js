@@ -648,6 +648,8 @@ module.exports = grammar({
       $.substitution_pattern_s,
       $.transliteration_tr_or_y,
 
+      $.pattern_matcher,
+
       $._i_o_operator,
 
       $.arrow_notation,
@@ -1337,6 +1339,13 @@ module.exports = grammar({
         seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.REGEXP, /[^)]+/)))), ')'),
         /'.*'/, // don't interpolate for a single quote
       ),
+      optional($.regex_option),
+    )),
+
+    pattern_matcher: $ => prec(PRECEDENCE.REGEXP, seq(
+      '/',
+      $.regex_pattern,
+      '/',
       optional($.regex_option),
     )),
 
