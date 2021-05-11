@@ -8,22 +8,32 @@ way.)
 
 ``` toml
 [dependencies]
-tree-sitter = "0.17"
-tree-sitter-javascript = "0.16"
+tree-sitter = "0.19"
+tree-sitter-javascript = "0.19"
 ```
 
 Typically, you will use the [language][language func] function to add this
-grammar to a tree-sitter [Parser][], and then use the parser to parse some code:
+grammar to a tree-sitter [Parser][], and then use the parser to parse some code.
+
+The below example demonstrates a simple program that parses a JavaScript
+function and prints the result to your terminal.
 
 ``` rust
-let code = r#"
+use tree_sitter::Parser;
+
+fn main() {
+    let code = r#"
     function double(x) {
         return x * 2;
     }
 "#;
-let mut parser = Parser::new();
-parser.set_language(tree_sitter_javascript::language()).expect("Error loading JavaScript grammar");
-let parsed = parser.parse(code, None);
+    let mut parser = Parser::new();
+    parser
+        .set_language(tree_sitter_javascript::language())
+        .expect("Error loading JavaScript grammar");
+    let parsed = parser.parse(code, None);
+    println!("{:#?}", parsed);
+}
 ```
 
 If you have any questions, please reach out to us in the [tree-sitter
