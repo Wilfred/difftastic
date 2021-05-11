@@ -5732,6 +5732,14 @@
                   "type": "SYMBOL",
                   "name": "scalar_variable"
                 }
+              },
+              {
+                "type": "FIELD",
+                "name": "object_return_value",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "call_expression"
+                }
               }
             ]
           },
@@ -7931,7 +7939,7 @@
       ]
     },
     "hash": {
-      "type": "PREC_LEFT",
+      "type": "PREC",
       "value": 3,
       "content": {
         "type": "SEQ",
@@ -8340,6 +8348,97 @@
         ]
       }
     },
+    "ternary_expression_in_hash": {
+      "type": "PREC_RIGHT",
+      "value": 7,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "condition",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "STRING",
+              "value": "?"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "true",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_key_value_pair"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "STRING",
+              "value": ":"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "false",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_key_value_pair"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "arrow_operator": {
       "type": "PATTERN",
       "value": "->"
@@ -8508,6 +8607,15 @@
     [
       "argument",
       "array"
+    ],
+    [
+      "_expression",
+      "method_invocation"
+    ],
+    [
+      "_expression",
+      "goto_expression",
+      "method_invocation"
     ]
   ],
   "precedences": [],
