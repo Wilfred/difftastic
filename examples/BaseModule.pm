@@ -17,3 +17,7 @@ my $output = {
       KEY => $var->{there},
   }),
 };
+
+my $object_return = BaseModule::AtSomeWhere::GetSomething(121, {
+    KEY => $var->{there}->{here},
+})->SomeOtherSub('hahaha');

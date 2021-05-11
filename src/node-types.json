@@ -8363,6 +8363,16 @@
           }
         ]
       },
+      "object_return_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "call_expression",
+            "named": true
+          }
+        ]
+      },
       "package_name": {
         "multiple": false,
         "required": false,
