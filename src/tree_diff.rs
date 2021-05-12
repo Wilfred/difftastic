@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
 use ChangeKind::*;
+use FSyntax::*;
 use Syntax::*;
 
 #[derive(PartialEq, Eq, Copy, Clone, Debug)]
@@ -10,6 +11,87 @@ pub enum ChangeKind {
     Added,
     Removed,
     Moved,
+}
+
+enum FSyntax {
+    FList {
+        id: usize,
+        change: ChangeKind,
+        start_content: String,
+        end_content: String,
+        children: Vec<usize>,
+    },
+    FAtom {
+        id: usize,
+        change: ChangeKind,
+        content: String,
+    },
+}
+
+struct FSyntaxRef<'a> {
+    nodes: &'a [FSyntax],
+    id: usize,
+}
+
+impl<'a> FSyntaxRef<'a> {
+    fn get(&self) -> &'a FSyntax {
+        &self.nodes[self.id]
+    }
+
+    fn get_ref(&self, id: usize) -> FSyntaxRef<'a> {
+        FSyntaxRef {
+            nodes: self.nodes,
+            id: self.id,
+        }
+    }
+}
+
+impl<'a> PartialEq for FSyntaxRef<'a> {
+    fn eq(&self, other: &Self) -> bool {
+        match (self.get(), other.get()) {
+            (
+                FAtom {
+                    content: lhs_content,
+                    ..
+                },
+                FAtom {
+                    content: rhs_content,
+                    ..
+                },
+            ) => lhs_content == rhs_content,
+            (
+                FList {
+                    start_content: lhs_start_content,
+                    end_content: lhs_end_content,
+                    children: lhs_children,
+                    ..
+                },
+                FList {
+                    start_content: rhs_start_content,
+                    end_content: rhs_end_content,
+                    children: rhs_children,
+                    ..
+                },
+            ) => {
+                if lhs_start_content != rhs_start_content || lhs_end_content != rhs_end_content {
+                    return false;
+                }
+
+                if lhs_children.len() != rhs_children.len() {
+                    return false;
+                }
+
+                for (lhs_child_idx, rhs_child_idx) in lhs_children.iter().zip(rhs_children.iter()) {
+                    if self.get_ref(*lhs_child_idx) != other.get_ref(*rhs_child_idx) {
+                        return false;
+                    }
+                }
+
+                true
+            }
+            _ => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
