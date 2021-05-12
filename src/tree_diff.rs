@@ -13,6 +13,7 @@ pub enum ChangeKind {
     Moved,
 }
 
+#[derive(Debug)]
 enum FSyntax {
     FList {
         id: usize,
@@ -28,6 +29,7 @@ enum FSyntax {
     },
 }
 
+#[derive(Clone, Debug)]
 struct FSyntaxRef<'a> {
     nodes: &'a [FSyntax],
     id: usize,
@@ -115,6 +117,23 @@ impl<'a> Hash for FSyntaxRef<'a> {
             }
         }
     }
+}
+
+fn build_fsubtrees<'a>(
+    s: FSyntaxRef<'a>,
+    mut subtrees: HashMap<FSyntaxRef<'a>, i64>,
+) -> HashMap<FSyntaxRef<'a>, i64> {
+    let entry = subtrees.entry(s.clone()).or_insert(0);
+    *entry += 1;
+    match s.get() {
+        FList { children, .. } => {
+            for child in children {
+                subtrees = build_fsubtrees(s.get_ref(*child), subtrees);
+            }
+        }
+        FAtom { .. } => {}
+    }
+    subtrees
 }
 
 #[derive(Debug, Clone)]
