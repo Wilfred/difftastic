@@ -48,6 +48,29 @@ impl<'a> FSyntaxRef<'a> {
     }
 }
 
+fn set_change(nodes: &mut [FSyntax], id: usize, ck: ChangeKind) {
+    match nodes[id] {
+        FList { ref mut change, .. } => {
+            *change = ck;
+        }
+        FAtom { ref mut change, .. } => {
+            *change = ck;
+        }
+    }
+}
+
+fn set_change_deep(nodes: &mut [FSyntax], id: usize, ck: ChangeKind) {
+    set_change(nodes, id, ck);
+    if let FList {
+        children, ..
+    } = &nodes[id]
+    {
+        for child in children.clone() {
+            set_change_deep(nodes, child, ck);
+        }
+    }
+}
+
 impl<'a> PartialEq for FSyntaxRef<'a> {
     fn eq(&self, other: &Self) -> bool {
         match (self.get(), other.get()) {
