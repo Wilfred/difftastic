@@ -22,11 +22,11 @@ simple;
 simple();
 simple('hola');
 
-# sub foo : Expose ($left, $right) {
-#   return $left + $right;
-# }
+sub foo : Expose ($left, $right) {
+  return $left + $right;
+}
 
-# foo();
+foo();
 print "\n";
 my @chars = map chr, qw(1 2 3);
 print "chars..." . Dumper \@chars;
