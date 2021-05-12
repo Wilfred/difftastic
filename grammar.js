@@ -725,7 +725,8 @@ module.exports = grammar({
 
     special_variable: $ => choice(
       /@_/,
-      /\$_/
+      /\$_/,
+      /\$]/,
     ),
 
     bless: $ => prec.right(seq(

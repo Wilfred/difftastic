@@ -60,7 +60,7 @@ my %hash = (
   seconds_things => 2,
 );
 
-my $hash = {
+my $hash2 = {
   name => 'dog',
   sound => 'woof',
 };

@@ -3257,6 +3257,10 @@
         {
           "type": "PATTERN",
           "value": "\\$_"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\$]"
         }
       ]
     },

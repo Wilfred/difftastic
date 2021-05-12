@@ -22,4 +22,4 @@ my $ter = {
   hello() ? (second => 1) : (third => 'ternary false'),
 };
 
-# print Dumper $ter;
+print Dumper $ter->{first};
