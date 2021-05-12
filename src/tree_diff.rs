@@ -507,7 +507,12 @@ pub(crate) fn new_atom(id: usize, content: &str) -> Syntax {
 }
 
 #[cfg(test)]
-pub(crate) fn new_list(id: usize, start_content: &str, end_content: &str, children: Vec<Syntax>) -> Syntax {
+pub(crate) fn new_list(
+    id: usize,
+    start_content: &str,
+    end_content: &str,
+    children: Vec<Syntax>,
+) -> Syntax {
     List {
         id,
         change: Unchanged,
