@@ -61,10 +61,7 @@ fn set_change(nodes: &mut [FSyntax], id: usize, ck: ChangeKind) {
 
 fn set_change_deep(nodes: &mut [FSyntax], id: usize, ck: ChangeKind) {
     set_change(nodes, id, ck);
-    if let FList {
-        children, ..
-    } = &nodes[id]
-    {
+    if let FList { children, .. } = &nodes[id] {
         for child in children.clone() {
             set_change_deep(nodes, child, ck);
         }
@@ -157,6 +154,60 @@ fn build_fsubtrees<'a>(
         FAtom { .. } => {}
     }
     subtrees
+}
+
+fn walk_fnodes<'a, 'b>(
+    lhs_nodes: &'a mut [FSyntax],
+    lhs_ids: &[usize],
+    rhs_nodes: &'a mut [FSyntax],
+    rhs_ids: &[usize],
+    lhs_counts: &mut HashMap<FSyntaxRef<'a>, i64>,
+    rhs_counts: &mut HashMap<FSyntaxRef<'b>, i64>,
+) {
+    let mut lhs_i = 0;
+    let mut rhs_i = 0;
+    loop {
+        let lhs_id = lhs_ids[lhs_i];
+        let rhs_id = rhs_ids[rhs_i];
+        match (lhs_nodes.get(lhs_id), rhs_nodes.get(rhs_id)) {
+            (Some(_), Some(_)) => {
+                let lhs_ref = FSyntaxRef {
+                    nodes: lhs_nodes,
+                    id: lhs_id,
+                };
+                let rhs_ref = FSyntaxRef {
+                    nodes: rhs_nodes,
+                    id: rhs_id,
+                };
+
+                let lhs_count = *lhs_counts.get(&lhs_ref).unwrap_or(&0);
+                let rhs_count = *rhs_counts.get(&rhs_ref).unwrap_or(&0);
+
+                // If they're equal, nothing to do.
+                if lhs_ref == rhs_ref && lhs_count > 0 && rhs_count > 0 {
+                    set_change_deep(lhs_nodes, lhs_id, Unchanged);
+                    set_change_deep(rhs_nodes, rhs_id, Unchanged);
+
+                    // decrement(lhs_node, lhs_counts);
+                    // decrement(rhs_node, rhs_counts);
+                    lhs_i += 1;
+                    rhs_i += 1;
+                    continue;
+                }
+
+                // Not equal. Do we have more instances of the LHS
+                // node? If so, we've removed some instances on the
+                // RHS, so assume this is a removal.
+                if lhs_count > rhs_count && rhs_count > 0 {
+                    set_change_deep(lhs_nodes, lhs_id, Removed);
+                    // decrement(lhs_node, lhs_counts);
+                    lhs_i += 1;
+                    continue;
+                }
+            }
+            _ => {}
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
