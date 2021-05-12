@@ -43,7 +43,7 @@ impl<'a> FSyntaxRef<'a> {
     fn get_ref(&self, id: usize) -> FSyntaxRef<'a> {
         FSyntaxRef {
             nodes: self.nodes,
-            id: self.id,
+            id,
         }
     }
 }
