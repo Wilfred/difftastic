@@ -93,6 +93,29 @@ impl<'a> PartialEq for FSyntaxRef<'a> {
         }
     }
 }
+impl<'a> Eq for FSyntaxRef<'a> {}
+
+impl<'a> Hash for FSyntaxRef<'a> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        match self.get() {
+            FList {
+                start_content,
+                end_content,
+                children,
+                ..
+            } => {
+                start_content.hash(state);
+                end_content.hash(state);
+                for child in children {
+                    self.get_ref(*child).hash(state);
+                }
+            }
+            FAtom { content, .. } => {
+                content.hash(state);
+            }
+        }
+    }
+}
 
 #[derive(Debug, Clone)]
 pub enum Syntax {
