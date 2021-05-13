@@ -1,4 +1,5 @@
 const fs = require('fs')
+const os = require('os')
 const util = require('util');
 const { exec, execSync } = require('child_process')
 const shell = require('shelljs')
@@ -22,6 +23,10 @@ function parseExamples() {
     excludeString = "!" + excludeString
   }
 
+  if (os.platform == 'win32') {
+    excludeString = convertToWindowsPath(excludeString)
+  }
+
   exec('"./node_modules/.bin/tree-sitter" parse -q examples/**/*.php ' + excludeString, (err, stdout) => {
     const failures = extractFailureFilePaths(stdout)
     failures.forEach(failure => {
@@ -30,7 +35,7 @@ function parseExamples() {
       }
     })
 
-    const failureCount = failures.length
+    const failureCount = failures.length + knownFailures.length
     const exampleCount = countExampleFiles()
     const successCount = exampleCount - failureCount;
     const successPercent = 100 * successCount / exampleCount
@@ -45,6 +50,10 @@ function extractFailureFilePaths(stdout) {
 
 function convertToUnixPath(filePathString) {
   return filePathString.split("\\").join("/")
+}
+
+function convertToWindowsPath(filePathString) {
+  return filePathString.split("/").join("\\")
 }
 
 function countExampleFiles() {
