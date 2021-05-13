@@ -2485,6 +2485,25 @@
     }
   },
   {
+    "type": "named_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "namespace_aliasing_clause",
     "named": true,
     "fields": {},
@@ -2925,11 +2944,11 @@
       "required": true,
       "types": [
         {
-          "type": "primitive_type",
+          "type": "named_type",
           "named": true
         },
         {
-          "type": "type_name",
+          "type": "primitive_type",
           "named": true
         }
       ]
@@ -3763,34 +3782,15 @@
       "required": true,
       "types": [
         {
+          "type": "named_type",
+          "named": true
+        },
+        {
           "type": "optional_type",
           "named": true
         },
         {
           "type": "primitive_type",
-          "named": true
-        },
-        {
-          "type": "type_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "type_name",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "namespace_name_as_prefix",
           "named": true
         }
       ]
