@@ -1,4 +1,5 @@
 const fs = require('fs')
+const util = require('util');
 const { exec, execSync } = require('child_process')
 const shell = require('shelljs')
 
@@ -61,9 +62,9 @@ function createExamplesDirectoryIfNotExists() {
 function checkoutExampleProjects(projects) {
   createExamplesDirectoryIfNotExists()
 
-  projects.forEach(function (project) {
-    checkoutExampleProject(project)
-  })
+  checkoutPromise = util.promisify(checkoutExampleProject)
+
+  Promise.all(projects.map((project) => checkoutPromise(project)))
 }
 
 function checkoutExampleProject(project) {
@@ -76,11 +77,11 @@ function checkoutExampleProject(project) {
 }
 
 function cloneRepository(project) {
-  execSync('cd examples && git clone ' + project.repository + ' ' + project.dir + ' && cd ..')
+  execSync('cd examples && git clone --quiet ' + project.repository + ' ' + project.dir + ' && cd ..')
 }
 
 function checkoutCommit(project) {
-  execSync('cd examples/' + project.dir + ' && git fetch && git reset --hard "' + project.sha + '" && cd ../..')
+  execSync('cd examples/' + project.dir + ' && git fetch --quiet && git reset --quiet --hard "' + project.sha + '" && cd ../..')
 }
 
 function loadKnownFailures() {
