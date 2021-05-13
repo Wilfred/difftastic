@@ -12,12 +12,12 @@ function b(): A\B {}
   (php_tag)
   (function_definition
     (name) (formal_parameters)
-    (type_list (type_name))
+    (type_list (named_type (name)))
     (compound_statement))
   (function_definition
     (name) (formal_parameters)
     (type_list
-      (type_name (namespace_name_as_prefix (namespace_name (name))) (name))
+      (named_type (qualified_name (namespace_name_as_prefix (namespace_name (name))) (name)))
     )
     (compound_statement)))
 
@@ -69,7 +69,7 @@ function b(): ?Something {}
   (function_definition
     (name) (formal_parameters)
     (type_list
-      (optional_type (type_name))
+      (optional_type (named_type (name)))
     )
     (compound_statement)))
 
@@ -102,7 +102,7 @@ function a(int|string|null $var) : ?int|MyClass {}
       (optional_type
         (primitive_type)
       )
-      (type_name)
+      (named_type (name))
     )
     body: (compound_statement)
   )

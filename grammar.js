@@ -76,7 +76,6 @@ module.exports = grammar({
     $._intrinsic,
     $._class_type_designator,
     $._variable_name,
-    $._type_name,
   ],
 
   extras: $ => [
@@ -436,16 +435,16 @@ module.exports = grammar({
 
     _types: $ => choice(
       $.optional_type,
-      $._type_name,
+      $.named_type,
       $.primitive_type
     ),
 
-    _type_name: $ => alias(choice($.name, $.qualified_name), $.type_name),
+    named_type: $ => choice($.name, $.qualified_name),
 
     optional_type: $ => seq(
       '?',
       choice(
-        $._type_name,
+        $.named_type,
         $.primitive_type
       )
     ),
@@ -535,7 +534,7 @@ module.exports = grammar({
       field('body', $.compound_statement)
     ),
 
-    type_list: $ => pipeSep1($._type_name),
+    type_list: $ => pipeSep1($.named_type),
 
     finally_clause: $ => seq(
       keyword('finally'),

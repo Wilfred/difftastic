@@ -2206,7 +2206,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_type_name"
+          "name": "named_type"
         },
         {
           "type": "SYMBOL",
@@ -2214,23 +2214,18 @@
         }
       ]
     },
-    "_type_name": {
-      "type": "ALIAS",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "name"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "qualified_name"
-          }
-        ]
-      },
-      "named": true,
-      "value": "type_name"
+    "named_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "qualified_name"
+        }
+      ]
     },
     "optional_type": {
       "type": "SEQ",
@@ -2244,7 +2239,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_type_name"
+              "name": "named_type"
             },
             {
               "type": "SYMBOL",
@@ -2724,7 +2719,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_type_name"
+          "name": "named_type"
         },
         {
           "type": "REPEAT",
@@ -2737,7 +2732,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_type_name"
+                "name": "named_type"
               }
             ]
           }
@@ -7724,8 +7719,7 @@
     "_literal",
     "ReferenceError",
     "_class_type_designator",
-    "_variable_name",
-    "_type_name"
+    "_variable_name"
   ],
   "supertypes": [
     "_statement",

@@ -5,7 +5,8 @@
 
 (primitive_type) @type.builtin
 (cast_type) @type.builtin
-(type_name) @type
+(named_type (name) @type) @type
+(named_type (qualified_name) @type) @type
 
 ; Functions
 

@@ -322,7 +322,7 @@ class A {
       (property_declaration
         (visibility_modifier)
         (static_modifier)
-        type: (type_list (type_name))
+        type: (type_list (named_type (name)))
         (property_element (variable_name (name)))
       )
       (property_declaration

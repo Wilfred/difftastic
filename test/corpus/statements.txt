@@ -340,13 +340,13 @@ try {
     body: (compound_statement)
     (catch_clause
       type: (type_list
-        (type_name)
+        (named_type (name))
       )
       body: (compound_statement))
     (catch_clause
       type: (type_list
-        (type_name)
-        (type_name)
+        (named_type (name))
+        (named_type (name))
       )
       name: (variable_name (name))
       body: (compound_statement))
@@ -359,7 +359,7 @@ try {
         arguments: (arguments))))
     (catch_clause
       type: (type_list
-        (type_name)
+        (named_type (name))
       )
       name: (variable_name (name))
       body: (compound_statement
