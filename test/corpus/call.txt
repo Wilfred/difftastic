@@ -97,6 +97,7 @@ Kernel.+(1, 1)
 (program
   (dot_call
     (module)
+    (function_identifier)
     (arguments
       (integer)
       (integer))))
@@ -111,7 +112,8 @@ a.and
 
 (program
   (dot_call
-    (remote_identifier)))
+    (remote_identifier)
+    (function_identifier)))
 
 ================================================================================
 access call followed by dot call
@@ -688,22 +690,26 @@ captured operator call
     (unary_op
       (binary_op
         (dot_call
-          (module))
+          (module)
+          (function_identifier))
         (integer)))
     (unary_op
       (binary_op
         (dot_call
-          (module))
+          (module)
+          (function_identifier))
         (integer)))
     (unary_op
       (binary_op
         (dot_call
-          (module))
+          (module)
+          (function_identifier))
         (integer)))
     (unary_op
       (binary_op
         (dot_call
-          (module))
+          (module)
+          (function_identifier))
         (integer)))))
 
 ================================================================================
