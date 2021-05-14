@@ -1065,6 +1065,10 @@ use Bitwise
 2 <<< 3
 # ^ operator
 
+1..10//3
+#^ operator
+#    ^ operator
+
 # Protocols
 defprotocol Useless do
 #<- keyword

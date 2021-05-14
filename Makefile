@@ -15,7 +15,7 @@ parse-all:
 	./node_modules/.bin/tree-sitter parse '../elixir/**/*.ex*' --quiet --stat
 
 parse:
-	./node_modules/.bin/tree-sitter parse 'test.ex'
+	./node_modules/.bin/tree-sitter parse -x 'test.ex'
 
 debug-graph:
 	./node_modules/.bin/tree-sitter parse 'test.ex' --debug-graph

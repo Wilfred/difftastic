@@ -67,3 +67,111 @@ a
   (binary_op
     (identifier)
     (identifier)))
+
+================================================================================
+stepped ranges
+================================================================================
+
+1 .. 2 // 3
+(1..2//3).step
+1..2//3
+0..1//-1
+--------------------------------------------------------------------------------
+
+(program
+  (binary_op
+    (integer)
+    (binary_op
+      (integer)
+      (integer)))
+  (dot_call
+    (paren_expr
+      (binary_op
+        (integer)
+        (binary_op
+          (integer)
+          (integer))))
+    (function_identifier))
+  (binary_op
+    (integer)
+    (binary_op
+      (integer)
+      (integer)))
+  (binary_op
+    (integer)
+    (binary_op
+      (integer)
+      (unary_op
+        (integer)))))
+
+================================================================================
+stepped blocks
+================================================================================
+
+foo do end..bar do end//baz do end
+
+--------------------------------------------------------------------------------
+
+(program
+  (binary_op
+    (call
+      (function_identifier)
+      (do_block))
+    (binary_op
+      (call
+        (function_identifier)
+        (do_block))
+      (call
+        (function_identifier)
+        (do_block)))))
+
+================================================================================
+invalid stepped blocks
+================================================================================
+# this is being parsed as (.. foo (// (call bar baz) bat))
+foo..bar baz//bat
+
+foo++bar//bat
+
+foo..(bar//bat)
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (binary_op
+    (identifier)
+    (binary_op
+      (call
+        (function_identifier)
+        (identifier))
+      (identifier)))
+  (binary_op
+    (identifier)
+    (binary_op
+      (identifier)
+      (ERROR)
+      (identifier)))
+  (binary_op
+    (identifier)
+    (block
+      (binary_op
+        (identifier)
+        (ERROR)
+        (identifier)))))
+
+================================================================================
+multiline stepped blocks
+================================================================================
+
+1..2
+// 4
+
+--------------------------------------------------------------------------------
+
+(program
+  (binary_op
+    (integer)
+    (binary_op
+      (integer)
+      (integer))))
