@@ -329,9 +329,16 @@ struct Scanner {
       if (lexer->lookahead != '.') return true;
       advance(lexer);
       lexer->mark_end(lexer);
-      if (lexer->lookahead != '.') return true;
-      advance(lexer);
-      lexer->mark_end(lexer);
+      if (lexer->lookahead == '/') {
+        advance(lexer);
+        if (lexer->lookahead == '/') {
+          advance(lexer);
+          lexer->mark_end(lexer);
+        }
+      } else if (lexer->lookahead == '.') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+      }
       return true;
     case ':':
       advance(lexer);
@@ -584,6 +591,7 @@ struct Scanner {
             is_whitespace(lexer->lookahead)) {
           return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
         }
+        return false;
       }
       if (lexer->lookahead != '.') return false;
       advance(lexer);
@@ -593,7 +601,22 @@ struct Scanner {
             is_whitespace(lexer->lookahead)) {
           return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
         }
+        return false;
       }
+      if (lexer->lookahead == '/') {
+        advance(lexer);
+        if (lexer->lookahead != '/') return false;
+        advance(lexer);
+        if (lexer->lookahead == ':') {
+          advance(lexer);
+          if (is_newline(lexer->lookahead) ||
+              is_whitespace(lexer->lookahead)) {
+            return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
+          }
+        }
+        return false;
+      }
+
       if (lexer->lookahead != '.') return false;
       advance(lexer);
       lexer->mark_end(lexer);
@@ -604,6 +627,7 @@ struct Scanner {
             is_whitespace(lexer->lookahead)) {
           return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
         }
+        return false;
       }
 
       return is_valid(lexer, valid_symbols, IDENTIFIER, false);
