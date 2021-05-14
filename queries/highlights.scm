@@ -1,46 +1,55 @@
-; Methods
+(dotted_identifier_list) @string
 
-(function_type
-  name: (identifier) @function.method)
-(super) @function.builtin
+; Methods
+; --------------------
+;; TODO: does not work
+;(function_type
+  ;name: (identifier) @method)
+(super) @function
 
 ; Annotations
-
+; --------------------
 (annotation
   name: (identifier) @attribute)
 (marker_annotation
   name: (identifier) @attribute)
 
 ; Operators and Tokens
+; --------------------
+(template_substitution
+  "$" @punctuation.special
+  "{" @punctuation.special
+  "}" @punctuation.special
+) @none
 
 (template_substitution
-  "${" @punctuation.special
-  "}" @punctuation.special) @embedded
+  "$" @punctuation.special
+  (identifier_dollar_escaped) @variable
+) @none
+
+(escape_sequence) @string.escape
 
 [
-  ";"
-  "."
-  ","
-] @punctuation.delimiter
-
-[
-  "--"
-  "-"
-  "-="
-  "&&"
-  "+"
-  "++"
-  "+="
-  "<"
-  "<<"
-  "="
-  "=="
-  "==="
-  "=>"
-  ">"
-  ">>"
-  "||"
-  "@"
+ "@"
+ "=>"
+ ".."
+ "??"
+ "=="
+ "?"
+ ":"
+ "&&"
+ "%"
+ "<"
+ ">"
+ "="
+ ">="
+ "<="
+ "||"
+ (increment_operator)
+ (is_operator)
+ (prefix_operator)
+ (equality_operator)
+ (additive_operator)
 ] @operator
 
 [
@@ -52,23 +61,37 @@
   "}"
 ]  @punctuation.bracket
 
+; Delimiters
+; --------------------
+[
+  ";"
+  "."
+  ","
+] @punctuation.delimiter
 
 ; Types
-
+; --------------------
 (class_definition
   name: (identifier) @type)
 (constructor_signature
   name: (identifier) @type)
-(type_identifier
-  (identifier) @type)
+;; TODO: does not work
+;(type_identifier
+  ;(identifier) @type)
 (scoped_identifier
   scope: (identifier) @type)
 (function_signature
-  name: (identifier) @function.method)
+  name: (identifier) @method)
+(getter_signature
+  (identifier) @method)
+(setter_signature
+  name: (identifier) @method)
 (enum_declaration
   name: (identifier) @type)
 (enum_constant
   name: (identifier) @type)
+(type_identifier) @type
+(void_type) @type
 
 ((scoped_identifier
   scope: (identifier) @type
@@ -78,135 +101,126 @@
 (type_identifier) @type
 
 ; Variables
+; --------------------
+; var keyword
+(inferred_type) @keyword
 
-((identifier) @constant
- (#match? @constant "^_*[A-Z][A-Z\d_]+"))
+(const_builtin) @constant.builtin
+(final_builtin) @constant.builtin
 
-(identifier) @variable
+((identifier) @type
+ (#match? @type "^_?[A-Z]"))
+
+("Function" @type)
+
+; properties
+; TODO: add method/call_expression to grammar and
+; distinguish method call from variable access
+(unconditional_assignable_selector
+  (identifier) @property)
+(assignable_selector
+  (identifier) @property)
+
+; assignments
+(assignment_expression
+  left: (assignable_expression) @variable)
 
 (this) @variable.builtin
 
-; Literals
+; Parameters
+; --------------------
+(formal_parameter
+    name: (identifier) @parameter)
 
+(named_argument
+  (label (identifier) @parameter))
+
+; Literals
+; --------------------
 [
     (hex_integer_literal)
     (decimal_integer_literal)
-    (octal_integer_literal)
     (decimal_floating_point_literal)
-    (hex_floating_point_literal)
-
+    ; TODO: inaccessbile nodes
+    ; (octal_integer_literal)
+    ; (hex_floating_point_literal)
 ] @number
 
-(symbol_literal) @string.special.symbol
-
+(symbol_literal) @symbol
 (string_literal) @string
-(true) @constant.builtin
-(false) @constant.builtin
+(true) @boolean
+(false) @boolean
 (null_literal) @constant.builtin
 
+(documentation_comment) @comment
 (comment) @comment
 
 ; Keywords
-
-;; "abstract" @keyword
-;; "assert" @keyword
-;; "break" @keyword
-;; "case" @keyword
-;; "catch" @keyword
-;; "on" @keyword
-;; "class" @keyword
-;; "continue" @keyword
-;; "default" @keyword
-;; "do" @keyword
-;; "else" @keyword
-;; "enum" @keyword
-;; "export" @keyword
-;; "extends" @keyword
-;; "final" @keyword
-;; "finally" @keyword
-;; "for" @keyword
-;; "if" @keyword
-;; "implements" @keyword
-;; "import" @keyword
-;; "is" @keyword
-;; "as" @keyword
-;; "mixin" @keyword
-;; "external" @keyword
-;; "new" @keyword
-;; "return" @keyword
-;; "static" @keyword
-;; "switch" @keyword
-;; "throw" @keyword
-;; ; "rethrow" @keyword
-;; "try" @keyword
-;; "while" @keyword
+; --------------------
+["import" "library" "export"] @include
 
 ; Reserved words (cannot be used as identifiers)
- [
-        "assert"
-        "break"
-        "case"
-        "catch"
-        "class"
-        "const"
-        "continue"
-        "default"
-        "do"
-        "else"
-        "enum"
-        "extends"
-  ;      "false"
-        "final"
-        "finally"
-        "for"
-        "if"
-        "in"
-        "is"
-        "new"
-  ;      "null"
-        "rethrow"
-        "return"
-        "super"
-        "switch"
-  ;      "this"
-        "throw"
-  ;      "true"
-        "try"
-        "var"
-        "void"
-        "while"
-        "with"
-  ] @keyword
+; TODO: "rethrow" @keyword
+[
+    ; "assert"
+    (case_builtin)
+    "extension"
+    "on"
+    "class"
+    "enum"
+    "extends"
+    "in"
+    "is"
+    "new"
+    "return"
+    "super"
+    "with"
+] @keyword
+
 
 ; Built in identifiers:
-
-;; alone:
-
+; alone these are marked as keywords
 [
     "abstract"
     "as"
+    "async"
+    "async*"
+    "yield"
+    "sync*"
+    "await"
     "covariant"
     "deferred"
     "dynamic"
-    "export"
     "external"
     "factory"
-    "Function"
     "get"
     "implements"
-    "import"
     "interface"
     "library"
     "operator"
     "mixin"
     "part"
     "set"
+    "show"
     "static"
     "typedef"
 ] @keyword
 
-;; when used as an identifier:
-
+; when used as an identifier:
 ((identifier) @variable.builtin
- (#match? @variable.builtin "^(abstract|as|covariant|deferred|dynamic|export|external|factory|Function|get|implements|import|interface|library|operator|mixin|part|set|static|typedef)$")
- (#is-not? local))
+ (#vim-match? @variable.builtin "^(abstract|as|covariant|deferred|dynamic|export|external|factory|Function|get|implements|import|interface|library|operator|mixin|part|set|static|typedef)$"))
+
+["if" "else" "switch" "default"] @conditional
+
+[
+  "try"
+  "throw"
+  "catch"
+  "finally"
+  (break_statement)
+] @exception
+
+["do" "while" "continue" "for"] @repeat
+
+; Error
+(ERROR) @error

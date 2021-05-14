@@ -12,3 +12,14 @@ class MyApp extends StatelessWidget {
     return Container();
   }
 }
+
+Future<void> hello() async {
+                     // <- keyword
+}
+
+Stream<String> helloStream() async* {
+                               // <- keyword
+}
+Iterable<String> helloIter() sync* {
+                              // <- keyword
+}
