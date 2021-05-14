@@ -35,6 +35,10 @@ function binaryOp($, assoc, precedence, operator, bare_keyword) {
   );
 }
 
+function aliases(rules, symbol) {
+  return rules.map(rule => alias(rule, symbol));
+}
+
 function unaryOp($, assoc, precedence, operator) {
   return assoc(
     precedence,
@@ -336,12 +340,10 @@ module.exports = grammar({
             field(
               "function",
               choice(
-                alias($._and, "and"),
-                alias($._or, "or"),
-                alias($._not, "not"),
-                alias($._when, "when"),
-                alias($._in, "in"),
-                ...OPERATORS
+                ...aliases(
+                  [$._and, $._or, $._not, $._when, $._in, ...OPERATORS],
+                  $.function_identifier
+                )
               )
             ),
             optional($.arguments)
@@ -353,22 +355,27 @@ module.exports = grammar({
             field(
               "function",
               choice(
-                alias($.identifier, $.function_identifier),
-                $.true,
-                $.false,
-                $.nil,
-                alias($._when, "when"),
-                alias($._and, "and"),
-                alias($._or, "or"),
-                alias($._not, "not"),
-                alias($._in, "in"),
-                alias($._fn, "fn"),
-                alias($._do, "do"),
-                alias($._end, "end"),
-                alias($._catch, "catch"),
-                alias($._rescue, "rescue"),
-                alias($._after, "after"),
-                alias($._else, "else")
+                ...aliases(
+                  [
+                    $.identifier,
+                    $.true,
+                    $.false,
+                    $.nil,
+                    $._when,
+                    $._and,
+                    $._or,
+                    $._not,
+                    $._in,
+                    $._fn,
+                    $._do,
+                    $._end,
+                    $._catch,
+                    $._rescue,
+                    $._after,
+                    $._else
+                  ],
+                  $.function_identifier
+                )
               )
             ),
             optional($.arguments)
