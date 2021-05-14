@@ -85,6 +85,7 @@ module.exports = grammar({
 
   externals: $ => [
     $._string_content,
+    $._string_single_quoted_content,
     //  TODO: handle <<EOF
     $._pod_content,
   ],
@@ -1268,7 +1269,6 @@ module.exports = grammar({
       // TODO: put in other package name structures
     ),
 
-    package_name_in_call: $ => /([A-Z_a-z][0-9A-Z_a-z]::)+/,
     module_name: $ => choice(
       seq('\'', /.*pm/, '\''), 
       seq('\"', /.*pm/, '\"'), 
@@ -1278,10 +1278,7 @@ module.exports = grammar({
 
     string_single_quoted: $ => prec(PRECEDENCE.STRING, seq(
       "'",
-      repeat(choice(
-        token(prec(PRECEDENCE.STRING, /[^']+/)),
-        /\\'/, // TODO: make this work
-      )),
+      optional($._string_single_quoted_content),
       "'",
     )),
     // TODO change all + to * in regex
