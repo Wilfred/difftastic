@@ -79,8 +79,29 @@
         {
           "type": "SYMBOL",
           "name": "special_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pod_statement"
         }
       ]
+    },
+    "pod_statement": {
+      "type": "PREC",
+      "value": 5,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "=[\\w]*"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_pod_content"
+          }
+        ]
+      }
     },
     "use_parent_statement": {
       "type": "SEQ",
@@ -8631,7 +8652,16 @@
     ]
   ],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_string_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_pod_content"
+    }
+  ],
   "inline": [],
   "supertypes": []
 }

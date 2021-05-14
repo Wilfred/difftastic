@@ -83,10 +83,11 @@ module.exports = grammar({
     [$._variables, $.ternary_expression_in_hash],
   ],
 
-  // externals: $ => [
-  //   $._string_content,
-  //  TODO: handle <<EOF
-  // ],
+  externals: $ => [
+    $._string_content,
+    //  TODO: handle <<EOF
+    $._pod_content,
+  ],
   
   extras: $ => [
     $.comments,
@@ -126,13 +127,13 @@ module.exports = grammar({
       $.ellipsis_statement,
       $.special_block,
 
-      // $.pod_statement, TODO: come back to this later
+      $.pod_statement,
     ),
 
-    // pod_statement: $ => prec(1, seq(
-    //   /=[\w]*/,
-    //   /=cut/,
-    // )),
+    pod_statement: $ => prec(PRECEDENCE.COMMENTS, seq(
+      /=[\w]*/,
+      $._pod_content,
+    )),
 
     use_parent_statement: $ => seq(
       'use',

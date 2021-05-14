@@ -1,7 +1,8 @@
 #include <tree_sitter/parser.h>
 
 enum TokenType {
-  STRING_CONTENT
+  STRING_CONTENT,
+  POD_CONTENT,
 };
 
 extern "C" {
@@ -17,7 +18,7 @@ extern "C" {
     void *payload,
     char *buffer
   ) {
-    // ...
+    return 0;
   }
 
   void tree_sitter_perl_external_scanner_deserialize(
@@ -57,5 +58,35 @@ extern "C" {
     //     }
     //   }
     // }
+    
+    if (valid_symbols[POD_CONTENT]) {
+
+      while (lexer->lookahead) {
+        lexer->result_symbol = POD_CONTENT;
+
+        // if it is =cut that marks the end of pod content
+        if (lexer->lookahead == '=') {
+          lexer->advance(lexer, false);
+          if (lexer->lookahead == 'c') {
+            lexer->advance(lexer, false);
+              if (lexer->lookahead == 'u') {
+              lexer->advance(lexer, false);
+                if (lexer->lookahead == 't') {
+                  lexer->advance(lexer, false);
+                  lexer->mark_end(lexer);
+                  return true;
+                }
+            }
+          }
+        }
+        else {
+          lexer->advance(lexer, false);
+        }
+      }
+
+      // or if it end of the file also, mark the end of pod content
+      lexer->mark_end(lexer);
+      return true;
+    }
   }
 }
