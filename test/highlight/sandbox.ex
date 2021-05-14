@@ -944,6 +944,21 @@ anon.(1, 2, 3); self; hd([1,2,3])
 #                            ^ punctuation.delimiter
 #                              ^ punctuation.bracket
 #                               ^ punctuation.bracket
+
+a.when.and.or.not.in.fn.do.end.catch.rescue.after.else
+#^ punctuation.delimiter
+#     ^ punctuation.delimiter
+#         ^ punctuation.delimiter
+#            ^ punctuation.delimiter
+#                ^ punctuation.delimiter
+#                   ^ punctuation.delimiter
+#                      ^ punctuation.delimiter
+#                         ^ punctuation.delimiter
+#                             ^ punctuation.delimiter
+#                                   ^ punctuation.delimiter
+#                                          ^ punctuation.delimiter
+#                                                ^ punctuation.delimiter
+
 Kernel.spawn(fn -> :ok end)
 #<- type
 #     ^ punctuation.delimiter
