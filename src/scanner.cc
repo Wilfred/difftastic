@@ -2,6 +2,7 @@
 
 enum TokenType {
   STRING_CONTENT,
+  STRING_SINGLE_QUOTED_CONTENT,
   POD_CONTENT,
 };
 
@@ -58,6 +59,35 @@ extern "C" {
     //     }
     //   }
     // }
+
+    if (valid_symbols[STRING_SINGLE_QUOTED_CONTENT]) {
+      while (lexer->lookahead) {
+
+        // end when you reach the final single quote '
+        if (lexer->lookahead == '\'') {
+          lexer->mark_end(lexer);
+          return true;
+        }
+        else {
+          lexer->result_symbol = STRING_SINGLE_QUOTED_CONTENT;
+
+          // check for escaped single quote \'
+          if (lexer->lookahead == '\\') {
+            // lexer->mark_end(lexer);
+            lexer->advance(lexer, false);
+
+            if (lexer->lookahead == '\'') {
+              lexer->advance(lexer, false);
+            }
+          }
+        }
+
+        lexer->advance(lexer, false);
+      }
+
+      lexer->mark_end(lexer);
+      return false;
+    }
     
     if (valid_symbols[POD_CONTENT]) {
 

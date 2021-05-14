@@ -6221,10 +6221,6 @@
         }
       ]
     },
-    "package_name_in_call": {
-      "type": "PATTERN",
-      "value": "([A-Z_a-z][0-9A-Z_a-z]::)+"
-    },
     "module_name": {
       "type": "CHOICE",
       "members": [
@@ -6279,27 +6275,16 @@
             "value": "'"
           },
           {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 4,
-                    "content": {
-                      "type": "PATTERN",
-                      "value": "[^']+"
-                    }
-                  }
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\\\'"
-                }
-              ]
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_string_single_quoted_content"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -8656,6 +8641,10 @@
     {
       "type": "SYMBOL",
       "name": "_string_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_string_single_quoted_content"
     },
     {
       "type": "SYMBOL",
