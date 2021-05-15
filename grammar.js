@@ -290,19 +290,12 @@ module.exports = grammar({
         ),
         binaryOp($, prec.left, 180, choice("^^^")),
         binaryOp($, prec.right, 200, choice("++", "--", "<>", "+++", "---")),
-        binaryOp(
-          $,
-          prec.right,
-          200,
-          "..",
-          choice($._expression, alias($._step, $.binary_op))
-        ),
+        binaryOp($, prec.right, 190, choice("//")),
+        binaryOp($, prec.right, 200, ".."),
         binaryOp($, prec.left, 210, choice("+", "-")),
         binaryOp($, prec.left, 220, choice("*", "/")),
         $._op_capture
       ),
-
-    _step: $ => binaryOp($, prec.right, 190, choice("//")),
 
     unary_op: $ =>
       choice(
