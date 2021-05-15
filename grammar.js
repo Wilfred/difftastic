@@ -81,11 +81,15 @@ module.exports = grammar({
     [$.hash, $._dereference],
     [$._expression_without_call_expression, $.ternary_expression_in_hash],
     [$._variables, $.ternary_expression_in_hash],
+    [$.string_qq_quoted],
   ],
 
   externals: $ => [
+    $._start_delimiter,
+    $._end_delimiter,
     $._string_content,
     $._string_single_quoted_content,
+    $._string_qq_quoted_content,
     //  TODO: handle <<EOF
     $._pod_content,
   ],
@@ -1278,7 +1282,7 @@ module.exports = grammar({
 
     string_single_quoted: $ => prec(PRECEDENCE.STRING, seq(
       "'",
-      optional($._string_single_quoted_content),
+      optional($._string_single_quoted_content), // TODO: Sev4, make \' and \\ as a separate token
       "'",
     )),
     // TODO change all + to * in regex
@@ -1302,12 +1306,15 @@ module.exports = grammar({
     )),
     string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qq',
-      choice(
-        seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
-        seq('/', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^/]+/)))), '/'),
-        seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^)]+/)))), ')'),
-        /'.*'/, // don't interpolate for a single quote
-      ),
+      alias($._start_delimiter, $.start_delimiter),
+      // repeat(choice($.interpolation, $.escape_sequence, $._string_qq_quoted_content)),
+      alias($._end_delimiter, $.end_delimiter),
+      // choice(
+      //   seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
+      //   seq('/', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^/]+/)))), '/'),
+      //   seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^)]+/)))), ')'),
+      //   /'.*'/, // don't interpolate for a single quote
+      // ),
     )),
 
     command_qx_quoted: $ => prec(PRECEDENCE.STRING, seq(
@@ -1443,7 +1450,7 @@ module.exports = grammar({
 
     hash_access_variable: $ => prec(PRECEDENCE.HASH, seq(
       field('hash_variable', $._expression),
-      '{',
+      token.immediate('{'),
       field('key', choice($.identifier, $._expression_without_call_expression)),
       '}',
     )),
