@@ -11039,14 +11039,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "escape_sequence",
+          "type": "end_delimiter",
           "named": true
         },
         {
-          "type": "interpolation",
+          "type": "start_delimiter",
           "named": true
         }
       ]
@@ -15143,6 +15143,10 @@
     "named": false
   },
   {
+    "type": "end_delimiter",
+    "named": true
+  },
+  {
     "type": "eq",
     "named": false
   },
@@ -15360,6 +15364,10 @@
   },
   {
     "type": "sort",
+    "named": true
+  },
+  {
+    "type": "start_delimiter",
     "named": true
   },
   {

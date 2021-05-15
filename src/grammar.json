@@ -6462,133 +6462,22 @@
             "value": "qq"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "{"
-                  },
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "interpolation"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "escape_sequence"
-                        },
-                        {
-                          "type": "TOKEN",
-                          "content": {
-                            "type": "PREC",
-                            "value": 4,
-                            "content": {
-                              "type": "PATTERN",
-                              "value": "[^}]+"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "}"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "/"
-                  },
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "interpolation"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "escape_sequence"
-                        },
-                        {
-                          "type": "TOKEN",
-                          "content": {
-                            "type": "PREC",
-                            "value": 4,
-                            "content": {
-                              "type": "PATTERN",
-                              "value": "[^/]+"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "/"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "("
-                  },
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "interpolation"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "escape_sequence"
-                        },
-                        {
-                          "type": "TOKEN",
-                          "content": {
-                            "type": "PREC",
-                            "value": 4,
-                            "content": {
-                              "type": "PATTERN",
-                              "value": "[^)]+"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ")"
-                  }
-                ]
-              },
-              {
-                "type": "PATTERN",
-                "value": "'.*'"
-              }
-            ]
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_start_delimiter"
+            },
+            "named": true,
+            "value": "start_delimiter"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_end_delimiter"
+            },
+            "named": true,
+            "value": "end_delimiter"
           }
         ]
       }
@@ -7817,8 +7706,11 @@
             }
           },
           {
-            "type": "STRING",
-            "value": "{"
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": "{"
+            }
           },
           {
             "type": "FIELD",
@@ -8634,10 +8526,21 @@
     [
       "_variables",
       "ternary_expression_in_hash"
+    ],
+    [
+      "string_qq_quoted"
     ]
   ],
   "precedences": [],
   "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_start_delimiter"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_end_delimiter"
+    },
     {
       "type": "SYMBOL",
       "name": "_string_content"
@@ -8645,6 +8548,10 @@
     {
       "type": "SYMBOL",
       "name": "_string_single_quoted_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_string_qq_quoted_content"
     },
     {
       "type": "SYMBOL",
