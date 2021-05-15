@@ -20,17 +20,14 @@ function atleastOnce(rule) {
   return seq(rule, repeat(rule));
 }
 
-function binaryOp($, assoc, precedence, operator, bare_keyword) {
-  const right = bare_keyword
-    ? choice($._expression, $.keyword_list)
-    : $._expression;
+function binaryOp($, assoc, precedence, operator, right) {
   return assoc(
     precedence,
     seq(
       field("left", $._expression),
       field("operator", operator),
       optional($._terminator),
-      field("right", right)
+      field("right", right || $._expression)
     )
   );
 }
@@ -107,7 +104,8 @@ const OPERATORS = [
   "|",
   "::",
   "<-",
-  "\\\\"
+  "\\\\",
+  "..//"
 ];
 
 const PREC = {
@@ -263,34 +261,37 @@ module.exports = grammar({
     binary_op: $ =>
       choice(
         binaryOp($, prec.left, 40, choice("\\\\", "<-")),
-        binaryOp($, prec.right, 50, alias($._when, "when"), true),
+        binaryOp(
+          $,
+          prec.right,
+          50,
+          alias($._when, "when"),
+          choice($._expression, $.keyword_list)
+        ),
         binaryOp($, prec.right, 60, "::"),
-        binaryOp($, prec.right, 70, "|", true),
+        binaryOp($, prec.right, 70, "|", choice($._expression, $.keyword_list)),
         binaryOp($, prec.right, 80, "=>"),
         binaryOp($, prec.right, 100, "="),
-        binaryOp($, prec.left, 130, choice("||", "|||", alias($._or, "or"))),
-        binaryOp($, prec.left, 140, choice("&&", "&&&", alias($._and, "and"))),
-        binaryOp($, prec.left, 150, choice("==", "!=", "=~", "===", "!==")),
-        binaryOp($, prec.left, 160, choice("<", ">", "<=", ">=")),
+        binaryOp($, prec.left, 120, choice("||", "|||", alias($._or, "or"))),
+        binaryOp($, prec.left, 130, choice("&&", "&&&", alias($._and, "and"))),
+        binaryOp($, prec.left, 140, choice("==", "!=", "=~", "===", "!==")),
+        binaryOp($, prec.left, 150, choice("<", ">", "<=", ">=")),
         binaryOp(
           $,
           prec.left,
-          170,
+          160,
           choice("|>", "<<<", ">>>", "<<~", "~>>", "<~", "~>", "<~>", "<|>")
         ),
         binaryOp(
           $,
           prec.left,
-          180,
+          170,
           choice(alias($._in, "in"), alias($._not_in, "not in"))
         ),
-        binaryOp($, prec.left, 190, choice("^^^")),
-        binaryOp(
-          $,
-          prec.right,
-          200,
-          choice("++", "--", "..", "<>", "+++", "---")
-        ),
+        binaryOp($, prec.left, 180, choice("^^^")),
+        binaryOp($, prec.right, 200, choice("++", "--", "<>", "+++", "---")),
+        binaryOp($, prec.right, 190, choice("//")),
+        binaryOp($, prec.right, 200, ".."),
         binaryOp($, prec.left, 210, choice("+", "-")),
         binaryOp($, prec.left, 220, choice("*", "/")),
         $._op_capture
