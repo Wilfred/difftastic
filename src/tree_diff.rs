@@ -41,10 +41,10 @@ impl Syntax {
         }
     }
 
-    fn set_change_deep(&mut self, ck: ChangeKind) {
+    fn set_change_deep(&self, ck: ChangeKind) {
         self.set_change(ck);
         if let List {
-            ref mut children, ..
+            children, ..
         } = self
         {
             for child in children {
@@ -129,7 +129,7 @@ pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
 }
 
 /// Decrement the count of `node` from `counts`, along with all its children.
-fn decrement(node: &Syntax, counts: &mut HashMap<Syntax, i64>) {
+fn decrement<'a>(node: &'a Syntax, counts: &mut HashMap<&'a Syntax, i64>) {
     let count = if let Some(count) = counts.get(node) {
         *count
     } else {
@@ -137,7 +137,7 @@ fn decrement(node: &Syntax, counts: &mut HashMap<Syntax, i64>) {
     };
 
     assert!(count > 0);
-    counts.insert(node.clone(), count - 1);
+    counts.insert(node, count - 1);
     match node {
         List { children, .. } => {
             for child in children {
@@ -149,17 +149,17 @@ fn decrement(node: &Syntax, counts: &mut HashMap<Syntax, i64>) {
 }
 
 // Greedy tree differ.
-fn walk_nodes_ordered(
-    lhs: &mut [Syntax],
-    rhs: &mut [Syntax],
-    lhs_counts: &mut HashMap<Syntax, i64>,
-    rhs_counts: &mut HashMap<Syntax, i64>,
+fn walk_nodes_ordered<'a>(
+    lhs: &'a [Syntax],
+    rhs: &'a [Syntax],
+    lhs_counts: &mut HashMap<&'a Syntax, i64>,
+    rhs_counts: &mut HashMap<&'a Syntax, i64>,
 ) {
     let mut lhs_i = 0;
     let mut rhs_i = 0;
     loop {
-        match (lhs.get_mut(lhs_i), rhs.get_mut(rhs_i)) {
-            (Some(ref mut lhs_node), Some(ref mut rhs_node)) => {
+        match (lhs.get(lhs_i), rhs.get(rhs_i)) {
+            (Some(ref lhs_node), Some(ref rhs_node)) => {
                 let lhs_count = *lhs_counts.get(lhs_node).unwrap_or(&0);
                 let rhs_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
 
@@ -238,8 +238,8 @@ fn walk_nodes_ordered(
                             rhs_change.set(Added);
                         }
                         walk_nodes_ordered(
-                            &mut lhs_children[..],
-                            &mut rhs_children[..],
+                            &lhs_children[..],
+                            &rhs_children[..],
                             lhs_counts,
                             rhs_counts,
                         );
@@ -254,8 +254,8 @@ fn walk_nodes_ordered(
                     ) => {
                         lhs_change.set(Removed);
                         walk_nodes_ordered(
-                            &mut lhs_children[..],
-                            std::slice::from_mut(*rhs_node),
+                            &lhs_children[..],
+                            std::slice::from_ref(*rhs_node),
                             lhs_counts,
                             rhs_counts,
                         );
@@ -270,8 +270,8 @@ fn walk_nodes_ordered(
                     ) => {
                         rhs_change.set(Added);
                         walk_nodes_ordered(
-                            std::slice::from_mut(*lhs_node),
-                            &mut rhs_children[..],
+                            std::slice::from_ref(*lhs_node),
+                            &rhs_children[..],
                             lhs_counts,
                             rhs_counts,
                         );
@@ -316,8 +316,8 @@ fn walk_nodes_ordered(
     }
 }
 
-fn build_subtrees(s: &Syntax, subtrees: &mut HashMap<Syntax, i64>) {
-    let entry = subtrees.entry(s.clone()).or_insert(0);
+fn build_subtrees<'a>(s: &'a Syntax, subtrees: &mut HashMap<&'a Syntax, i64>) {
+    let entry = subtrees.entry(s).or_insert(0);
     *entry += 1;
     match s {
         List { children, .. } => {
