@@ -1,8 +1,8 @@
+use std::cell::Cell;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
 use ChangeKind::*;
-use FSyntax::*;
 use Syntax::*;
 
 #[derive(PartialEq, Eq, Copy, Clone, Debug)]
@@ -13,227 +13,30 @@ pub enum ChangeKind {
     Moved,
 }
 
-#[derive(Debug)]
-enum FSyntax {
-    FList {
-        id: usize,
-        change: ChangeKind,
-        start_content: String,
-        end_content: String,
-        children: Vec<usize>,
-    },
-    FAtom {
-        id: usize,
-        change: ChangeKind,
-        content: String,
-    },
-}
-
-#[derive(Clone, Debug)]
-struct FSyntaxRef<'a> {
-    nodes: &'a [FSyntax],
-    id: usize,
-}
-
-impl<'a> FSyntaxRef<'a> {
-    fn get(&self) -> &'a FSyntax {
-        &self.nodes[self.id]
-    }
-
-    fn get_ref(&self, id: usize) -> FSyntaxRef<'a> {
-        FSyntaxRef {
-            nodes: self.nodes,
-            id,
-        }
-    }
-}
-
-fn set_change(nodes: &mut [FSyntax], id: usize, ck: ChangeKind) {
-    match nodes[id] {
-        FList { ref mut change, .. } => {
-            *change = ck;
-        }
-        FAtom { ref mut change, .. } => {
-            *change = ck;
-        }
-    }
-}
-
-fn set_change_deep(nodes: &mut [FSyntax], id: usize, ck: ChangeKind) {
-    set_change(nodes, id, ck);
-    if let FList { children, .. } = &nodes[id] {
-        for child in children.clone() {
-            set_change_deep(nodes, child, ck);
-        }
-    }
-}
-
-impl<'a> PartialEq for FSyntaxRef<'a> {
-    fn eq(&self, other: &Self) -> bool {
-        match (self.get(), other.get()) {
-            (
-                FAtom {
-                    content: lhs_content,
-                    ..
-                },
-                FAtom {
-                    content: rhs_content,
-                    ..
-                },
-            ) => lhs_content == rhs_content,
-            (
-                FList {
-                    start_content: lhs_start_content,
-                    end_content: lhs_end_content,
-                    children: lhs_children,
-                    ..
-                },
-                FList {
-                    start_content: rhs_start_content,
-                    end_content: rhs_end_content,
-                    children: rhs_children,
-                    ..
-                },
-            ) => {
-                if lhs_start_content != rhs_start_content || lhs_end_content != rhs_end_content {
-                    return false;
-                }
-
-                if lhs_children.len() != rhs_children.len() {
-                    return false;
-                }
-
-                for (lhs_child_idx, rhs_child_idx) in lhs_children.iter().zip(rhs_children.iter()) {
-                    if self.get_ref(*lhs_child_idx) != other.get_ref(*rhs_child_idx) {
-                        return false;
-                    }
-                }
-
-                true
-            }
-            _ => false,
-        }
-    }
-}
-impl<'a> Eq for FSyntaxRef<'a> {}
-
-impl<'a> Hash for FSyntaxRef<'a> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        match self.get() {
-            FList {
-                start_content,
-                end_content,
-                children,
-                ..
-            } => {
-                start_content.hash(state);
-                end_content.hash(state);
-                for child in children {
-                    self.get_ref(*child).hash(state);
-                }
-            }
-            FAtom { content, .. } => {
-                content.hash(state);
-            }
-        }
-    }
-}
-
-fn build_fsubtrees<'a>(
-    s: FSyntaxRef<'a>,
-    mut subtrees: HashMap<FSyntaxRef<'a>, i64>,
-) -> HashMap<FSyntaxRef<'a>, i64> {
-    let entry = subtrees.entry(s.clone()).or_insert(0);
-    *entry += 1;
-    match s.get() {
-        FList { children, .. } => {
-            for child in children {
-                subtrees = build_fsubtrees(s.get_ref(*child), subtrees);
-            }
-        }
-        FAtom { .. } => {}
-    }
-    subtrees
-}
-
-fn walk_fnodes<'a, 'b>(
-    lhs_nodes: &'a mut [FSyntax],
-    lhs_ids: &[usize],
-    rhs_nodes: &'a mut [FSyntax],
-    rhs_ids: &[usize],
-    lhs_counts: &mut HashMap<FSyntaxRef<'a>, i64>,
-    rhs_counts: &mut HashMap<FSyntaxRef<'b>, i64>,
-) {
-    let mut lhs_i = 0;
-    let mut rhs_i = 0;
-    loop {
-        let lhs_id = lhs_ids[lhs_i];
-        let rhs_id = rhs_ids[rhs_i];
-        match (lhs_nodes.get(lhs_id), rhs_nodes.get(rhs_id)) {
-            (Some(_), Some(_)) => {
-                let lhs_ref = FSyntaxRef {
-                    nodes: lhs_nodes,
-                    id: lhs_id,
-                };
-                let rhs_ref = FSyntaxRef {
-                    nodes: rhs_nodes,
-                    id: rhs_id,
-                };
-
-                let lhs_count = *lhs_counts.get(&lhs_ref).unwrap_or(&0);
-                let rhs_count = *rhs_counts.get(&rhs_ref).unwrap_or(&0);
-
-                // If they're equal, nothing to do.
-                if lhs_ref == rhs_ref && lhs_count > 0 && rhs_count > 0 {
-                    set_change_deep(lhs_nodes, lhs_id, Unchanged);
-                    set_change_deep(rhs_nodes, rhs_id, Unchanged);
-
-                    // decrement(lhs_node, lhs_counts);
-                    // decrement(rhs_node, rhs_counts);
-                    lhs_i += 1;
-                    rhs_i += 1;
-                    continue;
-                }
-
-                // Not equal. Do we have more instances of the LHS
-                // node? If so, we've removed some instances on the
-                // RHS, so assume this is a removal.
-                if lhs_count > rhs_count && rhs_count > 0 {
-                    set_change_deep(lhs_nodes, lhs_id, Removed);
-                    // decrement(lhs_node, lhs_counts);
-                    lhs_i += 1;
-                    continue;
-                }
-            }
-            _ => {}
-        }
-    }
-}
-
 #[derive(Debug, Clone)]
 pub enum Syntax {
     List {
         id: usize,
-        change: ChangeKind,
+        change: Cell<ChangeKind>,
         start_content: String,
         end_content: String,
         children: Vec<Syntax>,
     },
     Atom {
         id: usize,
-        change: ChangeKind,
+        change: Cell<ChangeKind>,
         content: String,
     },
 }
 
 impl Syntax {
-    fn set_change(&mut self, ck: ChangeKind) {
+    fn set_change(&self, ck: ChangeKind) {
         match self {
-            List { ref mut change, .. } => {
-                *change = ck;
+            List { change, .. } => {
+                change.set(ck);
             }
-            Atom { ref mut change, .. } => {
-                *change = ck;
+            Atom { change, .. } => {
+                change.set(ck);
             }
         }
     }
@@ -426,13 +229,13 @@ fn walk_nodes_ordered(
                             // node on the other side, but they have
                             // the same start/end, so only the
                             // children are different.
-                            *lhs_change = Unchanged;
-                            *rhs_change = Unchanged;
+                            lhs_change.set(Unchanged);
+                            rhs_change.set(Unchanged);
                         } else {
                             // Children are different and the wrapping
                             // has changed (e.g. from {} to []).
-                            *lhs_change = Removed;
-                            *rhs_change = Added;
+                            lhs_change.set(Removed);
+                            rhs_change.set(Added);
                         }
                         walk_nodes_ordered(
                             &mut lhs_children[..],
@@ -449,7 +252,7 @@ fn walk_nodes_ordered(
                         },
                         Atom { .. },
                     ) => {
-                        *lhs_change = Removed;
+                        lhs_change.set(Removed);
                         walk_nodes_ordered(
                             &mut lhs_children[..],
                             std::slice::from_mut(*rhs_node),
@@ -465,7 +268,7 @@ fn walk_nodes_ordered(
                             ..
                         },
                     ) => {
-                        *rhs_change = Added;
+                        rhs_change.set(Added);
                         walk_nodes_ordered(
                             std::slice::from_mut(*lhs_node),
                             &mut rhs_children[..],
@@ -481,8 +284,8 @@ fn walk_nodes_ordered(
                             change: rhs_change, ..
                         },
                     ) => {
-                        *lhs_change = Removed;
-                        *rhs_change = Added;
+                        lhs_change.set(Removed);
+                        rhs_change.set(Added);
                     }
                 }
                 lhs_i += 1;
@@ -618,7 +421,7 @@ pub(crate) fn new_atom(id: usize, content: &str) -> Syntax {
     Atom {
         id,
         content: content.into(),
-        change: Unchanged,
+        change: Cell::new(Unchanged),
     }
 }
 
@@ -631,7 +434,7 @@ pub(crate) fn new_list(
 ) -> Syntax {
     List {
         id,
-        change: Unchanged,
+        change: Cell::new(Unchanged),
         start_content: start_content.into(),
         end_content: end_content.into(),
         children,
@@ -648,12 +451,12 @@ mod tests {
             Atom {
                 content: "foo".into(),
                 id: 1,
-                change: Added,
+                change: Cell::new(Added),
             },
             Atom {
                 content: "foo".into(),
                 id: 2,
-                change: Moved,
+                change: Cell::new(Moved),
             }
         );
     }
@@ -668,12 +471,12 @@ mod tests {
         let expected_rhs = vec![
             Atom {
                 id: 1,
-                change: Unchanged,
+                change: Cell::new(Unchanged),
                 content: "a".into(),
             },
             Atom {
                 id: 2,
-                change: Added,
+                change: Cell::new(Added),
                 content: "a".into(),
             },
         ];
@@ -693,18 +496,18 @@ mod tests {
 
         let expected_rhs = vec![List {
             id: 2,
-            change: Unchanged,
+            change: Cell::new(Unchanged),
             start_content: "[".into(),
             end_content: "]".into(),
             children: vec![
                 Atom {
                     id: 3,
-                    change: Unchanged,
+                    change: Cell::new(Unchanged),
                     content: "a".into(),
                 },
                 Atom {
                     id: 4,
-                    change: Added,
+                    change: Cell::new(Added),
                     content: "a".into(),
                 },
             ],
@@ -742,22 +545,22 @@ mod tests {
                 id: 3,
                 start_content: "[".into(),
                 end_content: "]".into(),
-                change: Unchanged,
+                change: Cell::new(Unchanged),
                 children: vec![List {
                     id: 4,
-                    change: Moved,
+                    change: Cell::new(Moved),
                     start_content: "[".into(),
                     end_content: "]".into(),
                     children: vec![Atom {
                         id: 5,
-                        change: Moved,
+                        change: Cell::new(Moved),
                         content: "1".into(),
                     }],
                 }],
             },
             Atom {
                 id: 6,
-                change: Added,
+                change: Cell::new(Added),
                 content: "1".into(),
             },
         ];

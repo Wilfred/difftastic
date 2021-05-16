@@ -1,6 +1,7 @@
 use crate::tree_diff::ChangeKind;
 use crate::tree_diff::Syntax;
 use regex::Regex;
+use std::cell::Cell;
 
 #[derive(Debug, Copy, Clone)]
 struct ParseState {
@@ -32,7 +33,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
                 let atom = Syntax::Atom {
                     id: state.next_id,
                     content: m.as_str().into(),
-                    change: ChangeKind::Unchanged,
+                    change: Cell::new(ChangeKind::Unchanged),
                 };
                 state.next_id += 1;
                 result.push(atom);
@@ -47,7 +48,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
                 let atom = Syntax::Atom {
                     id: state.next_id,
                     content: m.as_str().into(),
-                    change: ChangeKind::Unchanged,
+                    change: Cell::new(ChangeKind::Unchanged),
                 };
                 state.next_id += 1;
                 result.push(atom);
@@ -62,7 +63,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
                 let atom = Syntax::Atom {
                     id: state.next_id,
                     content: m.as_str().into(),
-                    change: ChangeKind::Unchanged,
+                    change: Cell::new(ChangeKind::Unchanged),
                 };
                 state.next_id += 1;
                 result.push(atom);
@@ -86,7 +87,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
                     // TODO: rename to open_content?
                     start_content: m.as_str().into(),
                     children,
-                    change: ChangeKind::Unchanged,
+                    change: Cell::new(ChangeKind::Unchanged),
                     // TODO: get end_content when matching on close_brace.
                     end_content: "]".into(),
                 };
