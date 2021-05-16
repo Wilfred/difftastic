@@ -590,6 +590,16 @@ struct Scanner {
     return false;
   }
 
+  bool is_valid_identifier(TSLexer *lexer, const bool *valid_symbols, std::string token) {
+    if (starts_with(token, std::string("__")) && ends_with(token, std::string("__"))) {
+      return is_valid(lexer, valid_symbols, SPECIAL_IDENTIFIER, false);
+    }
+    if (starts_with(token, std::string("_"))) {
+      return is_valid(lexer, valid_symbols, UNUSED_IDENTIFIER, false);
+    }
+    return is_valid(lexer, valid_symbols, IDENTIFIER, false);
+  }
+
   bool scan_identifier_or_keyword(TSLexer *lexer, const bool *valid_symbols) {
     std::string token= "";
 
@@ -640,6 +650,7 @@ struct Scanner {
         return false;
       }
 
+      // ...
       return is_valid(lexer, valid_symbols, IDENTIFIER, false);
     }
 
@@ -652,6 +663,7 @@ struct Scanner {
 
       if (lexer->lookahead == '?' ||
           lexer->lookahead == '!') {
+        token.push_back(lexer->lookahead);
         advance(lexer);
         lexer->mark_end(lexer);
 
@@ -663,7 +675,7 @@ struct Scanner {
           }
         }
 
-        return is_identifier && is_valid(lexer, valid_symbols, IDENTIFIER, false);
+        return is_identifier && is_valid_identifier(lexer, valid_symbols, token);
       } else if (lexer->lookahead == '@') {
         is_identifier = false;
       } else if (lexer->lookahead == ':') {
@@ -673,16 +685,10 @@ struct Scanner {
             is_whitespace(lexer->lookahead)) {
           return is_valid(lexer, valid_symbols, KEYWORD_LITERAL);
         } else {
-          return is_identifier && is_valid(lexer, valid_symbols, IDENTIFIER, false);
+          return is_identifier && is_valid_identifier(lexer, valid_symbols, token);
         }
       } else if (!is_identifier_body(lexer->lookahead)) {
         lexer->mark_end(lexer);
-        if (starts_with(token, std::string("__")) && ends_with(token, std::string("__"))) {
-          return is_identifier && is_valid(lexer, valid_symbols, SPECIAL_IDENTIFIER);
-        }
-        if (starts_with(token, std::string("_"))) {
-          return is_identifier && is_valid(lexer, valid_symbols, UNUSED_IDENTIFIER);
-        }
         if (token == std::string("true")) {
           return is_valid(lexer, valid_symbols, TRUE);
         }
@@ -733,7 +739,7 @@ struct Scanner {
           return is_valid(lexer, valid_symbols, ELSE);
         }
 
-        return is_identifier && is_valid(lexer, valid_symbols, IDENTIFIER);
+        return is_identifier && is_valid_identifier(lexer, valid_symbols, token);
       }
     }
   }
