@@ -548,4 +548,53 @@ mod tests {
         ];
         assert_syntaxes(&expected_rhs, &rhs);
     }
+
+    /// Moving a subtree should consume its children, so further uses
+    /// of children of that subtree is not a move.
+    ///
+    /// [], [1] -> 1, [[1]]
+    ///
+    /// In this example, the first instance of 1 is an addition.
+    #[test]
+    fn test_add_subsubtree_atom_first() {
+        let mut lhs = vec![
+            Syntax::new_list("[", "]", vec![]),
+            Syntax::new_list("[", "]", vec![Syntax::new_atom("1")]),
+        ];
+
+        let mut rhs = vec![
+            Syntax::new_atom("1"),
+            Syntax::new_list(
+                "[",
+                "]",
+                vec![Syntax::new_list("[", "]", vec![Syntax::new_atom("1")])],
+            ),
+        ];
+
+        set_changed(&mut lhs, &mut rhs);
+
+        let expected_rhs = vec![
+            Atom {
+                change: Cell::new(Added),
+                content: "1".into(),
+            },
+            List {
+                start_content: "[".into(),
+                end_content: "]".into(),
+                change: Cell::new(Unchanged),
+                children: vec![List {
+                    change: Cell::new(Moved),
+                    start_content: "[".into(),
+                    end_content: "]".into(),
+                    children: vec![Atom {
+                        change: Cell::new(Moved),
+                        content: "1".into(),
+                    }],
+                    num_descendants: 1,
+                }],
+                num_descendants: 2,
+            },
+        ];
+        assert_syntaxes(&expected_rhs, &rhs);
+    }
 }
