@@ -1,6 +1,5 @@
 use crate::tree_diff::{AtomKind, Syntax};
 use regex::Regex;
-use std::cell::Cell;
 
 #[derive(Debug, Clone)]
 struct ParseState {
@@ -84,6 +83,7 @@ mod tests {
     use crate::tree_diff::Syntax::*;
     use crate::tree_diff::ChangeKind::*;
     use crate::tree_diff::{assert_syntaxes, set_changed};
+    use std::cell::Cell;
 
     #[test]
     fn test_parse_integer() {
