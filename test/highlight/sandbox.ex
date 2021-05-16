@@ -1088,6 +1088,28 @@ defprotocol Useless do
 #               ^ punctuation.bracket
 
   def func3(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
+# ^ keyword
+#     ^ function
+#          ^ punctuation.bracket
+#           ^ variable.parameter
+#               ^ punctuation.delimiter
+#                 ^ variable.parameter
+#                     ^ punctuation.delimiter
+#                       ^ variable.parameter
+#                           ^ punctuation.delimiter
+#                             ^ variable.parameter
+#                                 ^ punctuation.delimiter
+#                                   ^ variable.parameter
+#                                       ^ punctuation.delimiter
+#                                         ^ variable.parameter
+#                                             ^ punctuation.delimiter
+#                                               ^ variable.parameter
+#                                                   ^ punctuation.delimiter
+#                                                     ^ variable.parameter
+#                                                         ^ punctuation.delimiter
+#                                                           ^ variable.parameter
+#                                                               ^ punctuation.bracket
+
 end
 
 defimpl Useless, for: Atom do

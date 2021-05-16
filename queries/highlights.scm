@@ -17,7 +17,8 @@
  (atom_content)
  (atom_end)] @tag
 
-(comment) @comment
+[(comment)
+ (unused_identifier)] @comment
 
 (escape_sequence) @escape
 
@@ -134,13 +135,6 @@
   ">>"
 ] @punctuation.bracket
 
-[(identifier) @function.special
- (#match? @function.special "^__.+__$")]
-
-[(remote_identifier) @function.special
- (#match? @function.special "^__.+__$")]
-
-[(identifier) @comment
- (#match? @comment "^_")]
+(special_identifier) @function.special
 
 (ERROR) @warning
