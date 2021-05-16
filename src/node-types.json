@@ -11050,6 +11050,14 @@
           "named": true
         },
         {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
           "type": "start_delimiter",
           "named": true
         }

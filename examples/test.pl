@@ -15,4 +15,4 @@ print "\na simple string $var and $hash->{someThing}, haha\n";
 
 print qq /jkj/;
 
-print qq {abgghjgyu};
+print qq {\n$hash->{someThing im on vacation};
