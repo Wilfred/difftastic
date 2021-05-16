@@ -563,6 +563,25 @@ defmodule Long.Module.Name do
 #                        ^ tag
 #                            ^ tag
 
+  def func(_foo?, _bar!, <<_baz::binary>>), do: :ok
+# ^ keyword
+#     ^ function
+#         ^ punctuation.bracket
+#          ^ comment
+#            ^ comment
+#               ^ punctuation.delimiter
+#                 ^ comment
+#                      ^ punctuation.delimiter
+#                        ^ punctuation.bracket
+#                          ^ comment
+#                              ^ operator
+#                                ^ variable.parameter
+#                                      ^ punctuation.bracket
+#                                        ^ punctuation.bracket
+#                                         ^ punctuation.delimiter
+#                                           ^ tag
+#                                               ^ tag
+
   # Function
   def f(x), do: x
 # ^ keyword
