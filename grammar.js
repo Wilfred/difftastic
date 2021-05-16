@@ -1306,7 +1306,7 @@ module.exports = grammar({
     string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qq',
       alias($._start_delimiter, $.start_delimiter),
-      repeat(alias($._string_qq_quoted_content, $.content)),
+      repeat(choice(alias($._string_qq_quoted_content, $.content), $.interpolation, $.escape_sequence)),
       // repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
       alias($._end_delimiter, $.end_delimiter),
       // choice(

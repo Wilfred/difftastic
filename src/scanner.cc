@@ -95,6 +95,23 @@ namespace {
           return true;
         }
         else {
+          // escape sequences, only basic support as of now
+          if (lexer->lookahead == '\\') {
+            advance(lexer);
+            // also, self end delimiter will be treated as string
+            if (
+              lexer->lookahead == 't' || lexer->lookahead == 'n' || lexer->lookahead == 'r' || lexer->lookahead == 'f' || lexer->lookahead == 'b' || lexer->lookahead == 'a' || lexer->lookahead == 'e'
+            ) {
+              advance(lexer);
+              return false;
+            }
+            else {
+              // dont return, below logic will take care
+            }
+          }
+          // oh boy! the interpolation
+          // else if (lexer->lookahead == '$') {}
+
           lexer->result_symbol = STRING_QQ_QUOTED_CONTENT;
           advance(lexer);
           lexer->mark_end(lexer);
@@ -131,40 +148,6 @@ namespace {
         lexer->mark_end(lexer);
         return false;
       }
-
-      // if (valid_symbols[STRING_QQ_QUOTED_CONTENT]) {
-
-      //   while (lexer->lookahead) {
-      //     if (reached) {
-      //       lexer->mark_end(lexer);
-      //       return false;
-      //     }
-      //     if (lexer->lookahead == '}') {
-      //       reached = true;
-      //       lexer->mark_end(lexer);
-      //       return true;
-      //     }
-      //     else {
-      //       // if (lexer->lookahead == '\\') {
-      //       //   lexer->mark_end(lexer);
-      //       //   lexer->advance(lexer, false);
-
-      //       //   // your escape characters
-      //       //   if (lexer->lookahead == 'n') {
-      //       //     lexer->advance(lexer, false);
-
-      //       //     lexer->result_symbol = STRING_QQ_QUOTED_CONTENT;
-      //       //   }
-      //       // }
-      //       lexer->result_symbol = STRING_QQ_QUOTED_CONTENT;
-
-      //       lexer->advance(lexer, false);
-      //     }
-      //   }
-        
-      //   lexer->mark_end(lexer);
-      //   return false;
-      // }
       
       if (valid_symbols[POD_CONTENT]) {
 
