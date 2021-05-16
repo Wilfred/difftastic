@@ -1,3 +1,4 @@
+use crate::lines::AbsoluteRange;
 use crate::tree_diff::{AtomKind, Syntax};
 use regex::Regex;
 
@@ -36,7 +37,11 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
             match pattern.find(&s[state.str_i..]) {
                 Some(m) => {
                     assert_eq!(m.start(), 0);
-                    let atom = Syntax::new_atom(m.as_str(), AtomKind::Other);
+                    let position = AbsoluteRange {
+                        start: state.str_i,
+                        end: state.str_i + m.end(),
+                    };
+                    let atom = Syntax::new_atom(position, m.as_str(), AtomKind::Other);
                     result.push(atom);
                     state.str_i += m.end();
                     continue 'outer;
@@ -47,11 +52,17 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
 
         match open_brace.find(&s[state.str_i..]) {
             Some(m) => {
+                let start = state.str_i;
+
                 state.str_i += m.end();
                 let children = parse_json_from(s, state);
                 let close_brace = state.close_brace.take().unwrap_or("UNCLOSED".into());
 
-                let items = Syntax::new_list(m.as_str(), children, &close_brace);
+                let position = AbsoluteRange {
+                    start,
+                    end: state.str_i,
+                };
+                let items = Syntax::new_list(position, m.as_str(), children, &close_brace);
                 result.push(items);
                 continue;
             }
@@ -80,8 +91,8 @@ pub fn parse_json(s: &str) -> Vec<Syntax> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::tree_diff::Syntax::*;
     use crate::tree_diff::ChangeKind::*;
+    use crate::tree_diff::Syntax::*;
     use crate::tree_diff::{assert_syntaxes, set_changed};
     use std::cell::Cell;
 
@@ -89,7 +100,11 @@ mod tests {
     fn test_parse_integer() {
         assert_syntaxes(
             &parse_json("123"),
-            &[Syntax::new_atom("123", AtomKind::Other)],
+            &[Syntax::new_atom(
+                AbsoluteRange { start: 0, end: 3 },
+                "123",
+                AtomKind::Other,
+            )],
         );
     }
 
@@ -98,8 +113,8 @@ mod tests {
         assert_syntaxes(
             &parse_json("123 456"),
             &[
-                Syntax::new_atom("123", AtomKind::Other),
-                Syntax::new_atom("456", AtomKind::Other),
+                Syntax::new_atom(AbsoluteRange { start: 0, end: 3 }, "123", AtomKind::Other),
+                Syntax::new_atom(AbsoluteRange { start: 4, end: 7 }, "456", AtomKind::Other),
             ],
         );
     }
@@ -108,7 +123,11 @@ mod tests {
     fn test_parse_integer_with_whitespace() {
         assert_syntaxes(
             &parse_json(" 123 "),
-            &[Syntax::new_atom("123", AtomKind::Other)],
+            &[Syntax::new_atom(
+                AbsoluteRange { start: 1, end: 4 },
+                "123",
+                AtomKind::Other,
+            )],
         );
     }
 
@@ -116,7 +135,11 @@ mod tests {
     fn test_parse_string() {
         assert_syntaxes(
             &parse_json("\"abc\""),
-            &[Syntax::new_atom("\"abc\"", AtomKind::Other)],
+            &[Syntax::new_atom(
+                AbsoluteRange { start: 0, end: 5 },
+                "\"abc\"",
+                AtomKind::Other,
+            )],
         );
     }
 
@@ -125,15 +148,28 @@ mod tests {
         assert_syntaxes(
             &parse_json("[ 123 ]"),
             &[Syntax::new_list(
+                AbsoluteRange { start: 0, end: 7 },
                 "[",
-                vec![Syntax::new_atom("123", AtomKind::Other)],
+                vec![Syntax::new_atom(
+                    AbsoluteRange { start: 2, end: 5 },
+                    "123",
+                    AtomKind::Other,
+                )],
                 "]",
             )],
         );
     }
     #[test]
     fn test_parse_empty_list() {
-        assert_syntaxes(&parse_json("[]"), &[Syntax::new_list("[", vec![], "]")]);
+        assert_syntaxes(
+            &parse_json("[]"),
+            &[Syntax::new_list(
+                AbsoluteRange { start: 0, end: 2 },
+                "[",
+                vec![],
+                "]",
+            )],
+        );
     }
 
     #[test]
@@ -141,10 +177,11 @@ mod tests {
         assert_syntaxes(
             &parse_json("[123, 456]"),
             &[Syntax::new_list(
+                AbsoluteRange { start: 0, end: 10 },
                 "[",
                 vec![
-                    Syntax::new_atom("123", AtomKind::Other),
-                    Syntax::new_atom("456", AtomKind::Other),
+                    Syntax::new_atom(AbsoluteRange { start: 1, end: 4 }, "123", AtomKind::Other),
+                    Syntax::new_atom(AbsoluteRange { start: 6, end: 9 }, "456", AtomKind::Other),
                 ],
                 "]",
             )],
@@ -156,10 +193,11 @@ mod tests {
         assert_syntaxes(
             &parse_json("{x: 1}"),
             &[Syntax::new_list(
+                AbsoluteRange { start: 0, end: 6 },
                 "{",
                 vec![
-                    Syntax::new_atom("x", AtomKind::Other),
-                    Syntax::new_atom("1", AtomKind::Other),
+                    Syntax::new_atom(AbsoluteRange { start: 1, end: 2 }, "x", AtomKind::Other),
+                    Syntax::new_atom(AbsoluteRange { start: 4, end: 5 }, "1", AtomKind::Other),
                 ],
                 "}",
             )],
@@ -175,11 +213,13 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
+                position: AbsoluteRange { start: 0, end: 1 },
                 change: Cell::new(Unchanged),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
+                position: AbsoluteRange { start: 2, end: 3 },
                 change: Cell::new(Added),
                 content: "a".into(),
                 kind: AtomKind::Other,
@@ -196,16 +236,19 @@ mod tests {
         set_changed(&lhs, &rhs);
 
         let expected_rhs = vec![List {
+            position: AbsoluteRange { start: 0, end: 5 },
             change: Cell::new(Unchanged),
             open_delimiter: "[".into(),
             close_delimiter: "]".into(),
             children: vec![
                 Atom {
+                    position: AbsoluteRange { start: 1, end: 2 },
                     change: Cell::new(Unchanged),
                     content: "a".into(),
                     kind: AtomKind::Other,
                 },
                 Atom {
+                    position: AbsoluteRange { start: 3, end: 4 },
                     change: Cell::new(Added),
                     content: "a".into(),
                     kind: AtomKind::Other,
@@ -231,14 +274,17 @@ mod tests {
 
         let expected_rhs = vec![
             List {
+                position: AbsoluteRange { start: 0, end: 5 },
                 open_delimiter: "[".into(),
                 close_delimiter: "]".into(),
                 change: Cell::new(Unchanged),
                 children: vec![List {
+                    position: AbsoluteRange { start: 1, end: 4 },
                     change: Cell::new(Moved),
                     open_delimiter: "[".into(),
                     close_delimiter: "]".into(),
                     children: vec![Atom {
+                        position: AbsoluteRange { start: 2, end: 3 },
                         change: Cell::new(Moved),
                         content: "1".into(),
                         kind: AtomKind::Other,
@@ -248,6 +294,7 @@ mod tests {
                 num_descendants: 2,
             },
             Atom {
+                position: AbsoluteRange { start: 6, end: 7 },
                 change: Cell::new(Added),
                 content: "1".into(),
                 kind: AtomKind::Other,
@@ -271,19 +318,23 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
+                position: AbsoluteRange { start: 0, end: 1 },
                 change: Cell::new(Added),
                 content: "1".into(),
                 kind: AtomKind::Other,
             },
             List {
+                position: AbsoluteRange { start: 2, end: 7 },
                 open_delimiter: "[".into(),
                 close_delimiter: "]".into(),
                 change: Cell::new(Unchanged),
                 children: vec![List {
+                    position: AbsoluteRange { start: 3, end: 6 },
                     change: Cell::new(Moved),
                     open_delimiter: "[".into(),
                     close_delimiter: "]".into(),
                     children: vec![Atom {
+                        position: AbsoluteRange { start: 4, end: 5 },
                         change: Cell::new(Moved),
                         content: "1".into(),
                         kind: AtomKind::Other,

@@ -1,4 +1,4 @@
-use crate::diffs::Change;
+// use crate::diffs::Change;
 use regex::Regex;
 use std::cmp::{max, min};
 use std::collections::HashSet;
@@ -194,32 +194,32 @@ pub struct MatchedLine {
     pub opposite_line: LineNumber,
 }
 
-/// Given a slice of changes, return the unique lines that
-/// they land on, plus their corresponding line in the other file.
-pub fn relevant_lines(changes: &[Change], s: &str) -> Vec<MatchedLine> {
-    let newlines: NewlinePositions = s.into();
+// /// Given a slice of changes, return the unique lines that
+// /// they land on, plus their corresponding line in the other file.
+// pub fn relevant_lines(changes: &[Change], s: &str) -> Vec<MatchedLine> {
+//     let newlines: NewlinePositions = s.into();
 
-    let mut line_nums_seen = HashSet::new();
+//     let mut line_nums_seen = HashSet::new();
 
-    let mut result = vec![];
-    for change in changes {
-        // TODO: refactor to from_range.
-        let line_relative_ranges = newlines.from_ranges(&[change.range]);
-        for range in line_relative_ranges {
-            if line_nums_seen.contains(&range.line) {
-                continue;
-            }
+//     let mut result = vec![];
+//     for change in changes {
+//         // TODO: refactor to from_range.
+//         let line_relative_ranges = newlines.from_ranges(&[change.range]);
+//         for range in line_relative_ranges {
+//             if line_nums_seen.contains(&range.line) {
+//                 continue;
+//             }
 
-            line_nums_seen.insert(range.line);
-            result.push(MatchedLine {
-                line: range.line,
-                opposite_line: change.opposite_line,
-            });
-        }
-    }
+//             line_nums_seen.insert(range.line);
+//             result.push(MatchedLine {
+//                 line: range.line,
+//                 opposite_line: change.opposite_line,
+//             });
+//         }
+//     }
 
-    result
-}
+//     result
+// }
 
 pub fn add_context(
     lines: &[MatchedLine],

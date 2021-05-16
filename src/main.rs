@@ -1,5 +1,6 @@
 mod json;
 mod tree_diff;
+mod lines;
 
 use crate::json::parse_json;
 use crate::tree_diff::set_changed;

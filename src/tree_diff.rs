@@ -2,6 +2,7 @@ use std::cell::Cell;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
+use crate::lines::AbsoluteRange;
 use ChangeKind::*;
 use Syntax::*;
 
@@ -24,6 +25,7 @@ pub enum AtomKind {
 pub enum Syntax {
     List {
         change: Cell<ChangeKind>,
+        position: AbsoluteRange,
         open_delimiter: String,
         children: Vec<Syntax>,
         close_delimiter: String,
@@ -31,13 +33,19 @@ pub enum Syntax {
     },
     Atom {
         change: Cell<ChangeKind>,
+        position: AbsoluteRange,
         content: String,
         kind: AtomKind,
     },
 }
 
 impl Syntax {
-    pub fn new_list(open_delimiter: &str, children: Vec<Syntax>, close_delimiter: &str) -> Syntax {
+    pub fn new_list(
+        position: AbsoluteRange,
+        open_delimiter: &str,
+        children: Vec<Syntax>,
+        close_delimiter: &str,
+    ) -> Syntax {
         let mut num_descendants = 0;
         for child in &children {
             num_descendants += match child {
@@ -49,6 +57,7 @@ impl Syntax {
         }
 
         List {
+            position,
             change: Cell::new(Unchanged),
             open_delimiter: open_delimiter.into(),
             close_delimiter: close_delimiter.into(),
@@ -57,8 +66,9 @@ impl Syntax {
         }
     }
 
-    pub fn new_atom(content: &str, kind: AtomKind) -> Syntax {
+    pub fn new_atom(position: AbsoluteRange, content: &str, kind: AtomKind) -> Syntax {
         Atom {
+            position,
             content: content.into(),
             change: Cell::new(Unchanged),
             kind,
@@ -383,21 +393,31 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
     match (actual, expected) {
         (
             List {
-                open_delimiter: lhs_start_content,
-                close_delimiter: lhs_end_content,
-                children: lhs_children,
                 change: lhs_change,
+                position: lhs_position,
+                open_delimiter: lhs_start_content,
+                children: lhs_children,
+                close_delimiter: lhs_end_content,
                 num_descendants: lhs_num_descendants,
             },
             List {
+                change: rhs_change,
+                position: rhs_position,
                 open_delimiter: rhs_start_content,
                 close_delimiter: rhs_end_content,
                 children: rhs_children,
-                change: rhs_change,
                 num_descendants: rhs_num_descendants,
             },
         ) => {
-            assert_syntaxes(lhs_children, rhs_children);
+            if lhs_change != rhs_change {
+                dbg!(lhs_change, rhs_change);
+                matches = false;
+            }
+            if lhs_position != rhs_position {
+                dbg!(lhs_position, rhs_position);
+                matches = false;
+            }
+
             if lhs_start_content != rhs_start_content {
                 dbg!(lhs_start_content, rhs_start_content);
                 matches = false;
@@ -406,33 +426,38 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
                 dbg!(lhs_end_content, rhs_end_content);
                 matches = false;
             }
-            if lhs_change != rhs_change {
-                dbg!(lhs_change, rhs_change);
-                matches = false;
-            }
             if lhs_num_descendants != rhs_num_descendants {
                 dbg!(lhs_num_descendants, rhs_num_descendants);
                 matches = false;
             }
+
+            assert_syntaxes(lhs_children, rhs_children);
         }
         (
             Atom {
-                content: lhs_content,
                 change: lhs_change,
+                position: lhs_position,
+                content: lhs_content,
                 kind: lhs_kind,
             },
             Atom {
-                content: rhs_content,
                 change: rhs_change,
+                position: rhs_position,
+                content: rhs_content,
                 kind: rhs_kind,
             },
         ) => {
-            if lhs_content != rhs_content {
-                dbg!(lhs_content, rhs_content);
-                matches = false;
-            }
             if lhs_change != rhs_change {
                 dbg!(lhs_change, rhs_change);
+                matches = false;
+            }
+            if lhs_position != rhs_position {
+                dbg!(lhs_position, rhs_position);
+                matches = false;
+            }
+
+            if lhs_content != rhs_content {
+                dbg!(lhs_content, rhs_content);
                 matches = false;
             }
             if lhs_kind != rhs_kind {
@@ -456,16 +481,18 @@ mod tests {
     use AtomKind::Other;
 
     #[test]
-    fn test_atom_equality_ignores_change() {
+    fn test_atom_equality_ignores_change_and_pos() {
         assert_eq!(
             Atom {
-                content: "foo".into(),
                 change: Cell::new(Added),
+                position: AbsoluteRange { start: 0, end: 1 },
+                content: "foo".into(),
                 kind: Other,
             },
             Atom {
-                content: "foo".into(),
                 change: Cell::new(Moved),
+                position: AbsoluteRange { start: 42, end: 50 },
+                content: "foo".into(),
                 kind: Other,
             }
         );
