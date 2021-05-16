@@ -20,11 +20,11 @@ impl ParseState {
 fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
     let atom_patterns = &[
         // Numbers
-        Regex::new(r#"^[0-9]+"#).unwrap(),
+        (Regex::new(r#"^[0-9]+"#).unwrap(), AtomKind::Other),
         // Symbols (e.g. variable names)
-        Regex::new(r#"^[a-zA-Z0-9]+"#).unwrap(),
+        (Regex::new(r#"^[a-zA-Z0-9]+"#).unwrap(), AtomKind::Other),
         // String literals
-        Regex::new(r#"^"[^"]+""#).unwrap(),
+        (Regex::new(r#"^"[^"]+""#).unwrap(), AtomKind::String),
     ];
 
     let open_brace = Regex::new(r#"^(\[|\{)"#).unwrap();
@@ -33,7 +33,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
     let mut result = vec![];
 
     'outer: while state.str_i < s.len() {
-        for pattern in atom_patterns {
+        for (pattern, kind) in atom_patterns {
             match pattern.find(&s[state.str_i..]) {
                 Some(m) => {
                     assert_eq!(m.start(), 0);
@@ -41,7 +41,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
                         start: state.str_i,
                         end: state.str_i + m.end(),
                     };
-                    let atom = Syntax::new_atom(position, m.as_str(), AtomKind::Other);
+                    let atom = Syntax::new_atom(position, m.as_str(), *kind);
                     result.push(atom);
                     state.str_i += m.end();
                     continue 'outer;
@@ -138,7 +138,7 @@ mod tests {
             &[Syntax::new_atom(
                 AbsoluteRange { start: 0, end: 5 },
                 "\"abc\"",
-                AtomKind::Other,
+                AtomKind::String,
             )],
         );
     }
