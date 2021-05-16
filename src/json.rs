@@ -1,14 +1,18 @@
 use crate::tree_diff::Syntax;
 use regex::Regex;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 struct ParseState {
     str_i: usize,
+    close_brace: Option<String>,
 }
 
 impl ParseState {
     fn new() -> Self {
-        ParseState { str_i: 0 }
+        ParseState {
+            str_i: 0,
+            close_brace: None,
+        }
     }
 }
 
@@ -16,8 +20,8 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
     let num_atom = Regex::new(r#"^[0-9]+"#).unwrap();
     let sym_atom = Regex::new(r#"^[a-zA-Z0-9]+"#).unwrap();
     let str_atom = Regex::new(r#"^"[^"]+""#).unwrap();
-    let open_brace = Regex::new(r#"^\[|\{"#).unwrap();
-    let close_brace = Regex::new(r#"^\]|\{"#).unwrap();
+    let open_brace = Regex::new(r#"^(\[|\{)"#).unwrap();
+    let close_brace = Regex::new(r#"^(\]|\})"#).unwrap();
 
     let mut result = vec![];
 
@@ -54,16 +58,11 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
 
         match open_brace.find(&s[state.str_i..]) {
             Some(m) => {
-                // TODO: error if there's no closing ] brace?
                 state.str_i += m.end();
-
                 let children = parse_json_from(s, state);
-                let items = Syntax::new_list(
-                    m.as_str(),
-                    // TODO: get end_content when matching on close_brace.
-                    "]",
-                    children,
-                );
+                let close_brace = state.close_brace.take().unwrap_or("UNCLOSED".into());
+
+                let items = Syntax::new_list(m.as_str(), &close_brace, children);
                 result.push(items);
                 continue;
             }
@@ -72,6 +71,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
 
         match close_brace.find(&s[state.str_i..]) {
             Some(m) => {
+                state.close_brace = Some(m.as_str().into());
                 state.str_i += m.end();
                 return result;
             }
@@ -146,7 +146,7 @@ mod tests {
             &parse_json("{x: 1}"),
             &[Syntax::new_list(
                 "{",
-                "]",
+                "}",
                 vec![Syntax::new_atom("x"), Syntax::new_atom("1")],
             )],
         );
