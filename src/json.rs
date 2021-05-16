@@ -24,7 +24,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
     while state.str_i < s.len() {
         match num_atom.find(&s[state.str_i..]) {
             Some(m) => {
-                let atom = Syntax::new_atom(m.as_str().into());
+                let atom = Syntax::new_atom(m.as_str());
                 result.push(atom);
                 state.str_i += m.end();
                 continue;
@@ -34,7 +34,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
 
         match str_atom.find(&s[state.str_i..]) {
             Some(m) => {
-                let atom = Syntax::new_atom(m.as_str().into());
+                let atom = Syntax::new_atom(m.as_str());
                 result.push(atom);
                 state.str_i += m.end();
                 continue;
@@ -44,7 +44,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
 
         match sym_atom.find(&s[state.str_i..]) {
             Some(m) => {
-                let atom = Syntax::new_atom(m.as_str().into());
+                let atom = Syntax::new_atom(m.as_str());
                 result.push(atom);
                 state.str_i += m.end();
                 continue;
@@ -59,9 +59,9 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
 
                 let children = parse_json_from(s, state);
                 let items = Syntax::new_list(
-                    m.as_str().into(),
+                    m.as_str(),
                     // TODO: get end_content when matching on close_brace.
-                    "]".into(),
+                    "]",
                     children,
                 );
                 result.push(items);
