@@ -21,6 +21,7 @@ pub enum Syntax {
         start_content: String,
         end_content: String,
         children: Vec<Syntax>,
+        num_descendants: usize,
     },
     Atom {
         id: usize,
@@ -36,12 +37,23 @@ impl Syntax {
         end_content: &str,
         children: Vec<Syntax>,
     ) -> Syntax {
+        let mut num_descendants = 0;
+        for child in &children {
+            num_descendants += match child {
+                List {
+                    num_descendants, ..
+                } => *num_descendants + 1,
+                Atom { .. } => 1,
+            };
+        }
+
         List {
             id,
             change: Cell::new(Unchanged),
             start_content: start_content.into(),
             end_content: end_content.into(),
             children,
+            num_descendants,
         }
     }
 
@@ -374,6 +386,7 @@ pub(crate) fn assert_syntax(expected: &Syntax, actual: &Syntax) {
                 end_content: lhs_end_content,
                 children: lhs_children,
                 change: lhs_change,
+                num_descendants: lhs_num_descendants,
             },
             List {
                 id: rhs_id,
@@ -381,6 +394,7 @@ pub(crate) fn assert_syntax(expected: &Syntax, actual: &Syntax) {
                 end_content: rhs_end_content,
                 children: rhs_children,
                 change: rhs_change,
+                num_descendants: rhs_num_descendants,
             },
         ) => {
             assert_syntaxes(lhs_children, rhs_children);
@@ -398,6 +412,10 @@ pub(crate) fn assert_syntax(expected: &Syntax, actual: &Syntax) {
             }
             if lhs_change != rhs_change {
                 dbg!(lhs_change, rhs_change);
+                matches = false;
+            }
+            if lhs_num_descendants != rhs_num_descendants {
+                dbg!(lhs_num_descendants, rhs_num_descendants);
                 matches = false;
             }
         }
@@ -479,7 +497,12 @@ mod tests {
     }
     #[test]
     fn test_add_subtree() {
-        let mut lhs = vec![Syntax::new_list(0, "[", "]", vec![Syntax::new_atom(1, "a")])];
+        let mut lhs = vec![Syntax::new_list(
+            0,
+            "[",
+            "]",
+            vec![Syntax::new_atom(1, "a")],
+        )];
         let mut rhs = vec![Syntax::new_list(
             2,
             "[",
@@ -506,6 +529,7 @@ mod tests {
                     content: "a".into(),
                 },
             ],
+            num_descendants: 2,
         }];
         assert_syntaxes(&expected_rhs, &rhs);
     }
@@ -528,7 +552,12 @@ mod tests {
                 3,
                 "[",
                 "]",
-                vec![Syntax::new_list(4, "[", "]", vec![Syntax::new_atom(5, "1")])],
+                vec![Syntax::new_list(
+                    4,
+                    "[",
+                    "]",
+                    vec![Syntax::new_atom(5, "1")],
+                )],
             ),
             Syntax::new_atom(6, "1"),
         ];
@@ -551,7 +580,9 @@ mod tests {
                         change: Cell::new(Moved),
                         content: "1".into(),
                     }],
+                    num_descendants: 1,
                 }],
+                num_descendants: 2,
             },
             Atom {
                 id: 6,
