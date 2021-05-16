@@ -353,12 +353,12 @@ fn build_subtrees<'a>(s: &'a Syntax, subtrees: &mut HashMap<&'a Syntax, i64>) {
 }
 
 #[cfg(test)]
-pub(crate) fn assert_syntaxes(expected: &[Syntax], actual: &[Syntax]) {
-    if expected.len() != actual.len() {
-        dbg!(expected, actual);
+pub(crate) fn assert_syntaxes(actual: &[Syntax], expected: &[Syntax]) {
+    if actual.len() != expected.len() {
+        dbg!(actual, expected);
         assert!(false);
     } else {
-        for (lhs_child, rhs_child) in expected.iter().zip(actual.iter()) {
+        for (lhs_child, rhs_child) in actual.iter().zip(expected.iter()) {
             assert_syntax(lhs_child, rhs_child);
         }
     }
@@ -367,9 +367,9 @@ pub(crate) fn assert_syntaxes(expected: &[Syntax], actual: &[Syntax]) {
 /// Compare all the fields in a Syntax value, not just
 /// those used in its Eq implementation.
 #[cfg(test)]
-pub(crate) fn assert_syntax(expected: &Syntax, actual: &Syntax) {
+pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
     let mut matches = true;
-    match (expected, actual) {
+    match (actual, expected) {
         (
             List {
                 start_content: lhs_start_content,
