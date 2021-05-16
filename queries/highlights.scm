@@ -51,8 +51,7 @@
         left: (identifier) @variable.parameter
         operator: _ @function
         right: (identifier) @variable.parameter)]
-      (#match? @keyword "^(defp|def|defmacrop|defmacro|defguardp|defguard|defdelegate)$")
-      (#match? @variable.parameter "^[^_]"))
+      (#match? @keyword "^(defp|def|defmacrop|defmacro|defguardp|defguard|defdelegate)$"))
 
 (call (function_identifier) @keyword
       [(call
@@ -74,8 +73,7 @@
           (_ (_ (identifier) @variable.parameter))
           (_ (_ (_ (identifier) @variable.parameter)))
           (_ (_ (_ (_ (identifier) @variable.parameter))))
-          (_ (_ (_ (_ (_ (identifier) @variable.parameter)))))]))
- (#match? @variable.parameter "^[^_]"))
+          (_ (_ (_ (_ (_ (identifier) @variable.parameter)))))])))
 
 (unary_op
  operator: "@"
