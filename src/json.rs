@@ -62,7 +62,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
                 let children = parse_json_from(s, state);
                 let close_brace = state.close_brace.take().unwrap_or("UNCLOSED".into());
 
-                let items = Syntax::new_list(m.as_str(), &close_brace, children);
+                let items = Syntax::new_list(m.as_str(), children, &close_brace);
                 result.push(items);
                 continue;
             }
@@ -120,12 +120,12 @@ mod tests {
     fn test_parse_list() {
         assert_syntaxes(
             &parse_json("[ 123 ]"),
-            &[Syntax::new_list("[", "]", vec![Syntax::new_atom("123")])],
+            &[Syntax::new_list("[", vec![Syntax::new_atom("123")], "]")],
         );
     }
     #[test]
     fn test_parse_empty_list() {
-        assert_syntaxes(&parse_json("[]"), &[Syntax::new_list("[", "]", vec![])]);
+        assert_syntaxes(&parse_json("[]"), &[Syntax::new_list("[", vec![], "]")]);
     }
 
     #[test]
@@ -134,8 +134,8 @@ mod tests {
             &parse_json("[123, 456]"),
             &[Syntax::new_list(
                 "[",
-                "]",
                 vec![Syntax::new_atom("123"), Syntax::new_atom("456")],
+                "]",
             )],
         );
     }
@@ -146,8 +146,8 @@ mod tests {
             &parse_json("{x: 1}"),
             &[Syntax::new_list(
                 "{",
-                "}",
                 vec![Syntax::new_atom("x"), Syntax::new_atom("1")],
+                "}",
             )],
         );
     }

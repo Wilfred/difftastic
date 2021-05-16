@@ -18,8 +18,8 @@ pub enum Syntax {
     List {
         change: Cell<ChangeKind>,
         start_content: String,
-        end_content: String,
         children: Vec<Syntax>,
+        end_content: String,
         num_descendants: usize,
     },
     Atom {
@@ -29,7 +29,7 @@ pub enum Syntax {
 }
 
 impl Syntax {
-    pub fn new_list(start_content: &str, end_content: &str, children: Vec<Syntax>) -> Syntax {
+    pub fn new_list(start_content: &str, children: Vec<Syntax>, end_content: &str) -> Syntax {
         let mut num_descendants = 0;
         for child in &children {
             num_descendants += match child {
@@ -472,11 +472,11 @@ mod tests {
     }
     #[test]
     fn test_add_subtree() {
-        let mut lhs = vec![Syntax::new_list("[", "]", vec![Syntax::new_atom("a")])];
+        let mut lhs = vec![Syntax::new_list("[", vec![Syntax::new_atom("a")], "]")];
         let mut rhs = vec![Syntax::new_list(
             "[",
-            "]",
             vec![Syntax::new_atom("a"), Syntax::new_atom("a")],
+            "]",
         )];
 
         set_changed(&mut lhs, &mut rhs);
@@ -509,15 +509,15 @@ mod tests {
     #[test]
     fn test_add_subsubtree() {
         let mut lhs = vec![
-            Syntax::new_list("[", "]", vec![]),
-            Syntax::new_list("[", "]", vec![Syntax::new_atom("1")]),
+            Syntax::new_list("[", vec![], "]"),
+            Syntax::new_list("[", vec![Syntax::new_atom("1")], "]"),
         ];
 
         let mut rhs = vec![
             Syntax::new_list(
                 "[",
+                vec![Syntax::new_list("[", vec![Syntax::new_atom("1")], "]")],
                 "]",
-                vec![Syntax::new_list("[", "]", vec![Syntax::new_atom("1")])],
             ),
             Syntax::new_atom("1"),
         ];
@@ -558,16 +558,16 @@ mod tests {
     #[test]
     fn test_add_subsubtree_atom_first() {
         let mut lhs = vec![
-            Syntax::new_list("[", "]", vec![]),
-            Syntax::new_list("[", "]", vec![Syntax::new_atom("1")]),
+            Syntax::new_list("[", vec![], "]"),
+            Syntax::new_list("[", vec![Syntax::new_atom("1")], "]"),
         ];
 
         let mut rhs = vec![
             Syntax::new_atom("1"),
             Syntax::new_list(
                 "[",
+                vec![Syntax::new_list("[", vec![Syntax::new_atom("1")], "]")],
                 "]",
-                vec![Syntax::new_list("[", "]", vec![Syntax::new_atom("1")])],
             ),
         ];
 
@@ -606,16 +606,16 @@ mod tests {
     #[test]
     fn test_prefer_longer_subtree() {
         let mut lhs = vec![
-            Syntax::new_list("[", "]", vec![]),
-            Syntax::new_list("[", "]", vec![Syntax::new_atom("1")]),
+            Syntax::new_list("[", vec![], "]"),
+            Syntax::new_list("[", vec![Syntax::new_atom("1")], "]"),
         ];
 
         let mut rhs = vec![
             Syntax::new_atom("1"),
             Syntax::new_list(
                 "[",
+                vec![Syntax::new_list("[", vec![Syntax::new_atom("1")], "]")],
                 "]",
-                vec![Syntax::new_list("[", "]", vec![Syntax::new_atom("1")])],
             ),
         ];
 
