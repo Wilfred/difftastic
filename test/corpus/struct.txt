@@ -20,7 +20,7 @@ identifier
 
 (program
   (struct
-    (identifier)))
+    (unused_identifier)))
 
 ================================================================================
 with fields
@@ -55,5 +55,5 @@ with dot call
 (program
   (struct
     (dot_call
-      (remote_identifier)
+      (special_identifier)
       (module))))

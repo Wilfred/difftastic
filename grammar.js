@@ -131,6 +131,8 @@ module.exports = grammar({
     $.string_content,
     $.string_end,
     $.identifier,
+    $.unused_identifier,
+    $.special_identifier,
     $.keyword_literal,
     $.atom_literal,
     $.atom_start,
@@ -165,6 +167,8 @@ module.exports = grammar({
     [$.block, $.paren_expr, $._bare_arguments],
     [$.block, $.stab_expression]
   ],
+
+  inline: $ => [$._identifier],
 
   word: $ => $.identifier,
 
@@ -201,8 +205,11 @@ module.exports = grammar({
         $.tuple,
         $._literal,
         $.char,
-        $.identifier
+        $._identifier
       ),
+
+    _identifier: $ =>
+      choice($.identifier, $.unused_identifier, $.special_identifier),
 
     block: $ =>
       seq(
@@ -224,7 +231,7 @@ module.exports = grammar({
 
     paren_call: $ =>
       seq(
-        field("function", alias($.identifier, $.function_identifier)),
+        field("function", alias($._identifier, $.function_identifier)),
         $.arguments
       ),
 
@@ -236,7 +243,7 @@ module.exports = grammar({
             field(
               "function",
               choice(
-                alias($.identifier, $.function_identifier),
+                alias($._identifier, $.function_identifier),
                 $.dot_call,
                 alias($.paren_call, $.call)
               )
@@ -248,7 +255,7 @@ module.exports = grammar({
             field(
               "function",
               choice(
-                alias($.identifier, $.function_identifier),
+                alias($._identifier, $.function_identifier),
                 $.dot_call,
                 alias($.paren_call, $.call)
               )
@@ -358,7 +365,7 @@ module.exports = grammar({
               choice(
                 ...aliases(
                   [
-                    $.identifier,
+                    $._identifier,
                     $.true,
                     $.false,
                     $.nil,
@@ -395,7 +402,7 @@ module.exports = grammar({
             "remote",
             choice(
               $.module,
-              alias($.identifier, $.remote_identifier),
+              $._identifier,
               $.atom,
               alias($._simple_dot_call, $.dot_call),
               alias($.paren_call, $.call),
@@ -507,11 +514,11 @@ module.exports = grammar({
         "%",
         choice(
           $.module,
-          $.identifier,
+          $._identifier,
           $.atom,
           alias($._simple_dot_call, $.dot_call),
           alias($.paren_call, $.call),
-          seq("^", $.identifier)
+          seq("^", $._identifier)
         ),
         "{",
         optional($._terminator),

@@ -563,6 +563,25 @@ defmodule Long.Module.Name do
 #                        ^ tag
 #                            ^ tag
 
+  def func(_foo?, _bar!, <<_baz::binary>>), do: :ok
+# ^ keyword
+#     ^ function
+#         ^ punctuation.bracket
+#          ^ comment
+#            ^ comment
+#               ^ punctuation.delimiter
+#                 ^ comment
+#                      ^ punctuation.delimiter
+#                        ^ punctuation.bracket
+#                          ^ comment
+#                              ^ operator
+#                                ^ variable.parameter
+#                                      ^ punctuation.bracket
+#                                        ^ punctuation.bracket
+#                                         ^ punctuation.delimiter
+#                                           ^ tag
+#                                               ^ tag
+
   # Function
   def f(x), do: x
 # ^ keyword
@@ -1088,6 +1107,28 @@ defprotocol Useless do
 #               ^ punctuation.bracket
 
   def func3(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
+# ^ keyword
+#     ^ function
+#          ^ punctuation.bracket
+#           ^ variable.parameter
+#               ^ punctuation.delimiter
+#                 ^ variable.parameter
+#                     ^ punctuation.delimiter
+#                       ^ variable.parameter
+#                           ^ punctuation.delimiter
+#                             ^ variable.parameter
+#                                 ^ punctuation.delimiter
+#                                   ^ variable.parameter
+#                                       ^ punctuation.delimiter
+#                                         ^ variable.parameter
+#                                             ^ punctuation.delimiter
+#                                               ^ variable.parameter
+#                                                   ^ punctuation.delimiter
+#                                                     ^ variable.parameter
+#                                                         ^ punctuation.delimiter
+#                                                           ^ variable.parameter
+#                                                               ^ punctuation.bracket
+
 end
 
 defimpl Useless, for: Atom do
