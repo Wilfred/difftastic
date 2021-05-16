@@ -82,7 +82,7 @@ end
         (bare_arguments
           (integer))
         (dot_call
-          (remote_identifier)
+          (identifier)
           (function_identifier)
           (arguments))
         (integer)))))
