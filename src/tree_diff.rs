@@ -17,9 +17,9 @@ pub enum ChangeKind {
 pub enum Syntax {
     List {
         change: Cell<ChangeKind>,
-        start_content: String,
+        open_delimiter: String,
         children: Vec<Syntax>,
-        end_content: String,
+        close_delimiter: String,
         num_descendants: usize,
     },
     Atom {
@@ -29,7 +29,7 @@ pub enum Syntax {
 }
 
 impl Syntax {
-    pub fn new_list(start_content: &str, children: Vec<Syntax>, end_content: &str) -> Syntax {
+    pub fn new_list(open_delimiter: &str, children: Vec<Syntax>, close_delimiter: &str) -> Syntax {
         let mut num_descendants = 0;
         for child in &children {
             num_descendants += match child {
@@ -42,8 +42,8 @@ impl Syntax {
 
         List {
             change: Cell::new(Unchanged),
-            start_content: start_content.into(),
-            end_content: end_content.into(),
+            open_delimiter: open_delimiter.into(),
+            close_delimiter: close_delimiter.into(),
             children,
             num_descendants,
         }
@@ -92,14 +92,14 @@ impl PartialEq for Syntax {
             ) => lhs_content == rhs_content,
             (
                 List {
-                    start_content: lhs_start_content,
-                    end_content: lhs_end_content,
+                    open_delimiter: lhs_start_content,
+                    close_delimiter: lhs_end_content,
                     children: lhs_children,
                     ..
                 },
                 List {
-                    start_content: rhs_start_content,
-                    end_content: rhs_end_content,
+                    open_delimiter: rhs_start_content,
+                    close_delimiter: rhs_end_content,
                     children: rhs_children,
                     ..
                 },
@@ -118,8 +118,8 @@ impl Hash for Syntax {
     fn hash<H: Hasher>(&self, state: &mut H) {
         match self {
             List {
-                start_content,
-                end_content,
+                open_delimiter: start_content,
+                close_delimiter: end_content,
                 children,
                 ..
             } => {
@@ -227,15 +227,15 @@ fn walk_nodes_ordered<'a>(
                 match (&mut lhs_node, &mut rhs_node) {
                     (
                         List {
-                            start_content: lhs_start_content,
-                            end_content: lhs_end_content,
+                            open_delimiter: lhs_start_content,
+                            close_delimiter: lhs_end_content,
                             children: lhs_children,
                             change: lhs_change,
                             ..
                         },
                         List {
-                            start_content: rhs_start_content,
-                            end_content: rhs_end_content,
+                            open_delimiter: rhs_start_content,
+                            close_delimiter: rhs_end_content,
                             children: rhs_children,
                             change: rhs_change,
                             ..
@@ -372,15 +372,15 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
     match (actual, expected) {
         (
             List {
-                start_content: lhs_start_content,
-                end_content: lhs_end_content,
+                open_delimiter: lhs_start_content,
+                close_delimiter: lhs_end_content,
                 children: lhs_children,
                 change: lhs_change,
                 num_descendants: lhs_num_descendants,
             },
             List {
-                start_content: rhs_start_content,
-                end_content: rhs_end_content,
+                open_delimiter: rhs_start_content,
+                close_delimiter: rhs_end_content,
                 children: rhs_children,
                 change: rhs_change,
                 num_descendants: rhs_num_descendants,
@@ -483,8 +483,8 @@ mod tests {
 
         let expected_rhs = vec![List {
             change: Cell::new(Unchanged),
-            start_content: "[".into(),
-            end_content: "]".into(),
+            open_delimiter: "[".into(),
+            close_delimiter: "]".into(),
             children: vec![
                 Atom {
                     change: Cell::new(Unchanged),
@@ -526,13 +526,13 @@ mod tests {
 
         let expected_rhs = vec![
             List {
-                start_content: "[".into(),
-                end_content: "]".into(),
+                open_delimiter: "[".into(),
+                close_delimiter: "]".into(),
                 change: Cell::new(Unchanged),
                 children: vec![List {
                     change: Cell::new(Moved),
-                    start_content: "[".into(),
-                    end_content: "]".into(),
+                    open_delimiter: "[".into(),
+                    close_delimiter: "]".into(),
                     children: vec![Atom {
                         change: Cell::new(Moved),
                         content: "1".into(),
@@ -579,13 +579,13 @@ mod tests {
                 content: "1".into(),
             },
             List {
-                start_content: "[".into(),
-                end_content: "]".into(),
+                open_delimiter: "[".into(),
+                close_delimiter: "]".into(),
                 change: Cell::new(Unchanged),
                 children: vec![List {
                     change: Cell::new(Moved),
-                    start_content: "[".into(),
-                    end_content: "]".into(),
+                    open_delimiter: "[".into(),
+                    close_delimiter: "]".into(),
                     children: vec![Atom {
                         change: Cell::new(Moved),
                         content: "1".into(),
@@ -627,13 +627,13 @@ mod tests {
                 content: "1".into(),
             },
             List {
-                start_content: "[".into(),
-                end_content: "]".into(),
+                open_delimiter: "[".into(),
+                close_delimiter: "]".into(),
                 change: Cell::new(Unchanged),
                 children: vec![List {
                     change: Cell::new(Moved),
-                    start_content: "[".into(),
-                    end_content: "]".into(),
+                    open_delimiter: "[".into(),
+                    close_delimiter: "]".into(),
                     children: vec![Atom {
                         change: Cell::new(Moved),
                         content: "1".into(),
