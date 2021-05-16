@@ -13,5 +13,4 @@ print 'one\'s true \\love';
 
 print "\na simple string $var and $hash->{someThing}, haha\n";
 
-print qq{sdfsd};
-
+print qq{abgghjgyu};
