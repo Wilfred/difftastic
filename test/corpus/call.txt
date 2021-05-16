@@ -82,7 +82,7 @@ a.()()
 (program
   (call
     (dot_call
-      (remote_identifier)
+      (identifier)
       (arguments))
     (arguments)))
 
@@ -112,7 +112,7 @@ a.and
 
 (program
   (dot_call
-    (remote_identifier)
+    (identifier)
     (function_identifier)))
 
 ================================================================================
@@ -157,7 +157,7 @@ end
         (call
           (function_identifier)
           (arguments
-            (identifier)))
+            (special_identifier)))
         (function_identifier)
         (arguments
           (anonymous_function
@@ -607,7 +607,7 @@ inspect(&__MODULE__."weirdly named/fun-"/0)
       (unary_op
         (binary_op
           (dot_call
-            (remote_identifier)
+            (special_identifier)
             (string
               (string_start)
               (string_content)

@@ -200,7 +200,7 @@ end
             (atom_literal)))
         (stab_expression
           (bare_arguments
-            (identifier))
+            (unused_identifier))
           (atom
             (atom_literal)))))))
 

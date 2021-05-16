@@ -28,6 +28,8 @@ enum TokenType {
   STRING_END,
 
   IDENTIFIER,
+  UNUSED_IDENTIFIER,
+  SPECIAL_IDENTIFIER,
   KEYWORD_LITERAL,
 
   ATOM_LITERAL,
@@ -146,6 +148,14 @@ struct Scanner {
     return !is_identifier_body(c) && c != '?' && c != '!' && c != ':';
   }
 
+  bool starts_with(std::string s, std::string needle) {
+    return s.rfind(needle, 0) == 0;
+  }
+
+  bool ends_with(std::string s, std::string needle) {
+    return s.length() >= needle.length() &&
+      (0 == s.compare(s.length() - needle.length(), needle.length(), needle));
+  }
 
   int32_t sigil_terminator(int32_t c) {
     switch (c) {
@@ -667,6 +677,12 @@ struct Scanner {
         }
       } else if (!is_identifier_body(lexer->lookahead)) {
         lexer->mark_end(lexer);
+        if (starts_with(token, std::string("__")) && ends_with(token, std::string("__"))) {
+          return is_identifier && is_valid(lexer, valid_symbols, SPECIAL_IDENTIFIER);
+        }
+        if (starts_with(token, std::string("_"))) {
+          return is_identifier && is_valid(lexer, valid_symbols, UNUSED_IDENTIFIER);
+        }
         if (token == std::string("true")) {
           return is_valid(lexer, valid_symbols, TRUE);
         }
@@ -1340,6 +1356,8 @@ struct Scanner {
         valid_symbols[SIGIL_START] ||
         valid_symbols[KEYWORD_LITERAL] ||
         valid_symbols[IDENTIFIER] ||
+        valid_symbols[UNUSED_IDENTIFIER] ||
+        valid_symbols[SPECIAL_IDENTIFIER] ||
         valid_symbols[ATOM_LITERAL] ||
         valid_symbols[ATOM_START] ||
         valid_symbols[LINE_BREAK] ||
@@ -1386,6 +1404,8 @@ struct Scanner {
     }
 
     if ((valid_symbols[IDENTIFIER] ||
+         valid_symbols[UNUSED_IDENTIFIER] ||
+         valid_symbols[SPECIAL_IDENTIFIER] ||
          valid_symbols[KEYWORD_LITERAL] ||
          valid_symbols[TRUE] ||
          valid_symbols[FALSE] ||
