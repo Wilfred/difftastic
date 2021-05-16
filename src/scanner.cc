@@ -74,23 +74,21 @@ namespace {
     }
 
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
+      // TODO: handle qqqSTRINGq; - this should throw error
       if (valid_symbols[START_DELIMITER]) {
-        while (lexer->lookahead) {
-          if (startd == '{') {
-            lexer->mark_end(lexer);
-            return false;
-          }
-          startd = lexer->lookahead;
-          lexer->result_symbol = START_DELIMITER;
-          advance(lexer);
-          lexer->mark_end(lexer);
-          return true;
+        while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
+          skip(lexer);
         }
+        start_delimiter_char = lexer->lookahead;
+        set_end_delimiter(start_delimiter_char);
+        lexer->result_symbol = START_DELIMITER;
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return true;
       }
       
       if (valid_symbols[STRING_QQ_QUOTED_CONTENT]) {
-
-        if (lexer->lookahead == '}') {
+        if (lexer->lookahead == get_end_delimiter()) {
           lexer->result_symbol = END_DELIMITER;
           advance(lexer);
           lexer->mark_end(lexer);
@@ -102,9 +100,6 @@ namespace {
           lexer->mark_end(lexer);
           return true;
         }
-
-        // lexer->mark_end(lexer);
-        // return false;
       }
 
 
@@ -210,8 +205,31 @@ namespace {
       lexer->advance(lexer, true);
     }
 
-    int32_t startd;
-    int32_t endd;
+    void set_end_delimiter(int32_t start_delimiter) {
+      // round, angle, square, curly
+      if (start_delimiter == '(') {
+        end_delimiter_char = ')';
+      }
+      else if (start_delimiter == '<') {
+        end_delimiter_char = '>';
+      }
+      else if (start_delimiter == '[') {
+        end_delimiter_char = ']';
+      }
+      else if (start_delimiter == '{') {
+        end_delimiter_char = '}';
+      }
+      else {
+        end_delimiter_char = start_delimiter;
+      }
+    }
+
+    int32_t get_end_delimiter() {
+      return end_delimiter_char;
+    }
+
+    int32_t start_delimiter_char;
+    int32_t end_delimiter_char;
     bool reached;
 
   };
