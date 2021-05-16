@@ -1,7 +1,5 @@
-use crate::tree_diff::ChangeKind;
 use crate::tree_diff::Syntax;
 use regex::Regex;
-use std::cell::Cell;
 
 #[derive(Debug, Copy, Clone)]
 struct ParseState {
@@ -30,11 +28,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
     while state.str_i < s.len() {
         match num_atom.find(&s[state.str_i..]) {
             Some(m) => {
-                let atom = Syntax::Atom {
-                    id: state.next_id,
-                    content: m.as_str().into(),
-                    change: Cell::new(ChangeKind::Unchanged),
-                };
+                let atom = Syntax::new_atom(state.next_id, m.as_str().into());
                 state.next_id += 1;
                 result.push(atom);
                 state.str_i += m.end();
@@ -45,11 +39,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
 
         match str_atom.find(&s[state.str_i..]) {
             Some(m) => {
-                let atom = Syntax::Atom {
-                    id: state.next_id,
-                    content: m.as_str().into(),
-                    change: Cell::new(ChangeKind::Unchanged),
-                };
+                let atom = Syntax::new_atom(state.next_id, m.as_str().into());
                 state.next_id += 1;
                 result.push(atom);
                 state.str_i += m.end();
@@ -60,11 +50,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
 
         match sym_atom.find(&s[state.str_i..]) {
             Some(m) => {
-                let atom = Syntax::Atom {
-                    id: state.next_id,
-                    content: m.as_str().into(),
-                    change: Cell::new(ChangeKind::Unchanged),
-                };
+                let atom = Syntax::new_atom(state.next_id, m.as_str().into());
                 state.next_id += 1;
                 result.push(atom);
                 state.str_i += m.end();
@@ -82,15 +68,13 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
                 state.str_i += m.end();
 
                 let children = parse_json_from(s, state);
-                let items = Syntax::List {
+                let items = Syntax::new_list(
                     id,
-                    // TODO: rename to open_content?
-                    start_content: m.as_str().into(),
-                    children,
-                    change: Cell::new(ChangeKind::Unchanged),
+                    m.as_str().into(),
                     // TODO: get end_content when matching on close_brace.
-                    end_content: "]".into(),
-                };
+                    "]".into(),
+                    children,
+                );
                 result.push(items);
                 continue;
             }

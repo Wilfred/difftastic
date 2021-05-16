@@ -30,7 +30,6 @@ pub enum Syntax {
 }
 
 impl Syntax {
-    #[cfg(test)]
     pub fn new_list(
         id: usize,
         start_content: &str,
@@ -46,8 +45,7 @@ impl Syntax {
         }
     }
 
-    #[cfg(test)]
-    pub(crate) fn new_atom(id: usize, content: &str) -> Syntax {
+    pub fn new_atom(id: usize, content: &str) -> Syntax {
         Atom {
             id,
             content: content.into(),
