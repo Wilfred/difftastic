@@ -13,6 +13,13 @@ pub enum ChangeKind {
     Moved,
 }
 
+#[derive(PartialEq, Eq, Copy, Clone, Debug)]
+pub enum AtomKind {
+    String,
+    Comment,
+    Other,
+}
+
 #[derive(Debug, Clone)]
 pub enum Syntax {
     List {
@@ -25,6 +32,7 @@ pub enum Syntax {
     Atom {
         change: Cell<ChangeKind>,
         content: String,
+        kind: AtomKind,
     },
 }
 
@@ -49,10 +57,11 @@ impl Syntax {
         }
     }
 
-    pub fn new_atom(content: &str) -> Syntax {
+    pub fn new_atom(content: &str, kind: AtomKind) -> Syntax {
         Atom {
             content: content.into(),
             change: Cell::new(Unchanged),
+            kind,
         }
     }
 
@@ -83,13 +92,15 @@ impl PartialEq for Syntax {
             (
                 Atom {
                     content: lhs_content,
+                    kind: lhs_kind,
                     ..
                 },
                 Atom {
                     content: rhs_content,
+                    kind: rhs_kind,
                     ..
                 },
-            ) => lhs_content == rhs_content,
+            ) => lhs_content == rhs_content && lhs_kind == rhs_kind,
             (
                 List {
                     open_delimiter: lhs_start_content,
@@ -408,10 +419,12 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
             Atom {
                 content: lhs_content,
                 change: lhs_change,
+                kind: lhs_kind,
             },
             Atom {
                 content: rhs_content,
                 change: rhs_change,
+                kind: rhs_kind,
             },
         ) => {
             if lhs_content != rhs_content {
@@ -420,6 +433,10 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
             }
             if lhs_change != rhs_change {
                 dbg!(lhs_change, rhs_change);
+                matches = false;
+            }
+            if lhs_kind != rhs_kind {
+                dbg!(lhs_kind, rhs_kind);
                 matches = false;
             }
         }
@@ -436,25 +453,28 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use AtomKind::Other;
 
     #[test]
-    fn test_atom_equality_content_only() {
+    fn test_atom_equality_ignores_change() {
         assert_eq!(
             Atom {
                 content: "foo".into(),
                 change: Cell::new(Added),
+                kind: Other,
             },
             Atom {
                 content: "foo".into(),
                 change: Cell::new(Moved),
+                kind: Other,
             }
         );
     }
 
     #[test]
     fn test_add_duplicate_node() {
-        let mut lhs = vec![Syntax::new_atom("a")];
-        let mut rhs = vec![Syntax::new_atom("a"), Syntax::new_atom("a")];
+        let mut lhs = vec![Syntax::new_atom("a", Other)];
+        let mut rhs = vec![Syntax::new_atom("a", Other), Syntax::new_atom("a", Other)];
 
         set_changed(&mut lhs, &mut rhs);
 
@@ -462,20 +482,26 @@ mod tests {
             Atom {
                 change: Cell::new(Unchanged),
                 content: "a".into(),
+                kind: Other,
             },
             Atom {
                 change: Cell::new(Added),
                 content: "a".into(),
+                kind: Other,
             },
         ];
         assert_syntaxes(&expected_rhs, &rhs);
     }
     #[test]
     fn test_add_subtree() {
-        let mut lhs = vec![Syntax::new_list("[", vec![Syntax::new_atom("a")], "]")];
+        let mut lhs = vec![Syntax::new_list(
+            "[",
+            vec![Syntax::new_atom("a", Other)],
+            "]",
+        )];
         let mut rhs = vec![Syntax::new_list(
             "[",
-            vec![Syntax::new_atom("a"), Syntax::new_atom("a")],
+            vec![Syntax::new_atom("a", Other), Syntax::new_atom("a", Other)],
             "]",
         )];
 
@@ -489,10 +515,12 @@ mod tests {
                 Atom {
                     change: Cell::new(Unchanged),
                     content: "a".into(),
+                    kind: Other,
                 },
                 Atom {
                     change: Cell::new(Added),
                     content: "a".into(),
+                    kind: Other,
                 },
             ],
             num_descendants: 2,
@@ -510,16 +538,20 @@ mod tests {
     fn test_add_subsubtree() {
         let mut lhs = vec![
             Syntax::new_list("[", vec![], "]"),
-            Syntax::new_list("[", vec![Syntax::new_atom("1")], "]"),
+            Syntax::new_list("[", vec![Syntax::new_atom("1", Other)], "]"),
         ];
 
         let mut rhs = vec![
             Syntax::new_list(
                 "[",
-                vec![Syntax::new_list("[", vec![Syntax::new_atom("1")], "]")],
+                vec![Syntax::new_list(
+                    "[",
+                    vec![Syntax::new_atom("1", Other)],
+                    "]",
+                )],
                 "]",
             ),
-            Syntax::new_atom("1"),
+            Syntax::new_atom("1", Other),
         ];
 
         set_changed(&mut lhs, &mut rhs);
@@ -536,6 +568,7 @@ mod tests {
                     children: vec![Atom {
                         change: Cell::new(Moved),
                         content: "1".into(),
+                        kind: Other,
                     }],
                     num_descendants: 1,
                 }],
@@ -544,6 +577,7 @@ mod tests {
             Atom {
                 change: Cell::new(Added),
                 content: "1".into(),
+                kind: Other,
             },
         ];
         assert_syntaxes(&expected_rhs, &rhs);
@@ -559,14 +593,18 @@ mod tests {
     fn test_add_subsubtree_atom_first() {
         let mut lhs = vec![
             Syntax::new_list("[", vec![], "]"),
-            Syntax::new_list("[", vec![Syntax::new_atom("1")], "]"),
+            Syntax::new_list("[", vec![Syntax::new_atom("1", Other)], "]"),
         ];
 
         let mut rhs = vec![
-            Syntax::new_atom("1"),
+            Syntax::new_atom("1", Other),
             Syntax::new_list(
                 "[",
-                vec![Syntax::new_list("[", vec![Syntax::new_atom("1")], "]")],
+                vec![Syntax::new_list(
+                    "[",
+                    vec![Syntax::new_atom("1", Other)],
+                    "]",
+                )],
                 "]",
             ),
         ];
@@ -577,6 +615,7 @@ mod tests {
             Atom {
                 change: Cell::new(Added),
                 content: "1".into(),
+                kind: Other,
             },
             List {
                 open_delimiter: "[".into(),
@@ -589,6 +628,7 @@ mod tests {
                     children: vec![Atom {
                         change: Cell::new(Moved),
                         content: "1".into(),
+                        kind: Other,
                     }],
                     num_descendants: 1,
                 }],
@@ -607,14 +647,18 @@ mod tests {
     fn test_prefer_longer_subtree() {
         let mut lhs = vec![
             Syntax::new_list("[", vec![], "]"),
-            Syntax::new_list("[", vec![Syntax::new_atom("1")], "]"),
+            Syntax::new_list("[", vec![Syntax::new_atom("1", Other)], "]"),
         ];
 
         let mut rhs = vec![
-            Syntax::new_atom("1"),
+            Syntax::new_atom("1", Other),
             Syntax::new_list(
                 "[",
-                vec![Syntax::new_list("[", vec![Syntax::new_atom("1")], "]")],
+                vec![Syntax::new_list(
+                    "[",
+                    vec![Syntax::new_atom("1", Other)],
+                    "]",
+                )],
                 "]",
             ),
         ];
@@ -624,6 +668,7 @@ mod tests {
         let expected_rhs = vec![
             Atom {
                 change: Cell::new(Added),
+                kind: Other,
                 content: "1".into(),
             },
             List {
@@ -637,6 +682,7 @@ mod tests {
                     children: vec![Atom {
                         change: Cell::new(Moved),
                         content: "1".into(),
+                        kind: Other,
                     }],
                     num_descendants: 1,
                 }],
