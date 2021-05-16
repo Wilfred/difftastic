@@ -26,7 +26,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
         // String literals
         (Regex::new(r#"^"[^"]+""#).unwrap(), AtomKind::String),
         // Single-line comments
-        (Regex::new(r#"^//.*$"#).unwrap(), AtomKind::Comment),
+        (Regex::new(r#"^//.*(\n|$)"#).unwrap(), AtomKind::Comment),
     ];
 
     let open_brace = Regex::new(r#"^(\[|\{)"#).unwrap();
@@ -148,11 +148,15 @@ mod tests {
     #[test]
     fn test_parse_comment() {
         assert_syntaxes(
-            &parse_json("// foo"),
+            &parse_json("// foo\nx"),
             &[Syntax::new_atom(
-                AbsoluteRange { start: 0, end: 6 },
-                "// foo",
+                AbsoluteRange { start: 0, end: 7 },
+                "// foo\n",
                 AtomKind::Comment,
+            ), Syntax::new_atom(
+                AbsoluteRange { start: 7, end: 8 },
+                "x",
+                AtomKind::Other,
             )],
         );
     }
