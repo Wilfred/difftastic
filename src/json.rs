@@ -118,52 +118,57 @@ pub fn parse_json(s: &str) -> Vec<Syntax> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::tree_diff::{assert_syntaxes, new_atom, new_list};
+    use crate::tree_diff::assert_syntaxes;
 
     #[test]
     fn test_parse_integer() {
-        assert_syntaxes(&parse_json("123"), &[new_atom(0, "123")]);
+        assert_syntaxes(&parse_json("123"), &[Syntax::new_atom(0, "123")]);
     }
 
     #[test]
     fn test_parse_multiple() {
         assert_syntaxes(
             &parse_json("123 456"),
-            &[new_atom(0, "123"), new_atom(1, "456")],
+            &[Syntax::new_atom(0, "123"), Syntax::new_atom(1, "456")],
         );
     }
 
     #[test]
     fn test_parse_integer_with_whitespace() {
-        assert_syntaxes(&parse_json(" 123 "), &[new_atom(0, "123")]);
+        assert_syntaxes(&parse_json(" 123 "), &[Syntax::new_atom(0, "123")]);
     }
 
     #[test]
     fn test_parse_string() {
-        assert_syntaxes(&parse_json("\"abc\""), &[new_atom(0, "\"abc\"")]);
+        assert_syntaxes(&parse_json("\"abc\""), &[Syntax::new_atom(0, "\"abc\"")]);
     }
 
     #[test]
     fn test_parse_list() {
         assert_syntaxes(
             &parse_json("[ 123 ]"),
-            &[new_list(0, "[", "]", vec![new_atom(1, "123")])],
+            &[Syntax::new_list(
+                0,
+                "[",
+                "]",
+                vec![Syntax::new_atom(1, "123")],
+            )],
         );
     }
     #[test]
     fn test_parse_empty_list() {
-        assert_syntaxes(&parse_json("[]"), &[new_list(0, "[", "]", vec![])]);
+        assert_syntaxes(&parse_json("[]"), &[Syntax::new_list(0, "[", "]", vec![])]);
     }
 
     #[test]
     fn test_parse_list_with_commas() {
         assert_syntaxes(
             &parse_json("[123, 456]"),
-            &[new_list(
+            &[Syntax::new_list(
                 0,
                 "[",
                 "]",
-                vec![new_atom(1, "123"), new_atom(2, "456")],
+                vec![Syntax::new_atom(1, "123"), Syntax::new_atom(2, "456")],
             )],
         );
     }
@@ -172,11 +177,11 @@ mod tests {
     fn test_parse_object() {
         assert_syntaxes(
             &parse_json("{x: 1}"),
-            &[new_list(
+            &[Syntax::new_list(
                 0,
                 "{",
                 "]",
-                vec![new_atom(1, "x"), new_atom(2, "1")],
+                vec![Syntax::new_atom(1, "x"), Syntax::new_atom(2, "1")],
             )],
         );
     }

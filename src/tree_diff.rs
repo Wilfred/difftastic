@@ -30,6 +30,31 @@ pub enum Syntax {
 }
 
 impl Syntax {
+    #[cfg(test)]
+    pub fn new_list(
+        id: usize,
+        start_content: &str,
+        end_content: &str,
+        children: Vec<Syntax>,
+    ) -> Syntax {
+        List {
+            id,
+            change: Cell::new(Unchanged),
+            start_content: start_content.into(),
+            end_content: end_content.into(),
+            children,
+        }
+    }
+
+    #[cfg(test)]
+    pub(crate) fn new_atom(id: usize, content: &str) -> Syntax {
+        Atom {
+            id,
+            content: content.into(),
+            change: Cell::new(Unchanged),
+        }
+    }
+
     fn set_change(&self, ck: ChangeKind) {
         match self {
             List { change, .. } => {
@@ -43,10 +68,7 @@ impl Syntax {
 
     fn set_change_deep(&self, ck: ChangeKind) {
         self.set_change(ck);
-        if let List {
-            children, ..
-        } = self
-        {
+        if let List { children, .. } = self {
             for child in children {
                 child.set_change_deep(ck);
             }
@@ -417,31 +439,6 @@ pub(crate) fn assert_syntax(expected: &Syntax, actual: &Syntax) {
 }
 
 #[cfg(test)]
-pub(crate) fn new_atom(id: usize, content: &str) -> Syntax {
-    Atom {
-        id,
-        content: content.into(),
-        change: Cell::new(Unchanged),
-    }
-}
-
-#[cfg(test)]
-pub(crate) fn new_list(
-    id: usize,
-    start_content: &str,
-    end_content: &str,
-    children: Vec<Syntax>,
-) -> Syntax {
-    List {
-        id,
-        change: Cell::new(Unchanged),
-        start_content: start_content.into(),
-        end_content: end_content.into(),
-        children,
-    }
-}
-
-#[cfg(test)]
 mod tests {
     use super::*;
 
@@ -463,8 +460,8 @@ mod tests {
 
     #[test]
     fn test_add_duplicate_node() {
-        let mut lhs = vec![new_atom(0, "a")];
-        let mut rhs = vec![new_atom(1, "a"), new_atom(2, "a")];
+        let mut lhs = vec![Syntax::new_atom(0, "a")];
+        let mut rhs = vec![Syntax::new_atom(1, "a"), Syntax::new_atom(2, "a")];
 
         set_changed(&mut lhs, &mut rhs);
 
@@ -484,12 +481,12 @@ mod tests {
     }
     #[test]
     fn test_add_subtree() {
-        let mut lhs = vec![new_list(0, "[", "]", vec![new_atom(1, "a")])];
-        let mut rhs = vec![new_list(
+        let mut lhs = vec![Syntax::new_list(0, "[", "]", vec![Syntax::new_atom(1, "a")])];
+        let mut rhs = vec![Syntax::new_list(
             2,
             "[",
             "]",
-            vec![new_atom(3, "a"), new_atom(4, "a")],
+            vec![Syntax::new_atom(3, "a"), Syntax::new_atom(4, "a")],
         )];
 
         set_changed(&mut lhs, &mut rhs);
@@ -524,18 +521,18 @@ mod tests {
     #[test]
     fn test_add_subsubtree() {
         let mut lhs = vec![
-            new_list(0, "[", "]", vec![]),
-            new_list(1, "[", "]", vec![new_atom(2, "1")]),
+            Syntax::new_list(0, "[", "]", vec![]),
+            Syntax::new_list(1, "[", "]", vec![Syntax::new_atom(2, "1")]),
         ];
 
         let mut rhs = vec![
-            new_list(
+            Syntax::new_list(
                 3,
                 "[",
                 "]",
-                vec![new_list(4, "[", "]", vec![new_atom(5, "1")])],
+                vec![Syntax::new_list(4, "[", "]", vec![Syntax::new_atom(5, "1")])],
             ),
-            new_atom(6, "1"),
+            Syntax::new_atom(6, "1"),
         ];
 
         set_changed(&mut lhs, &mut rhs);
