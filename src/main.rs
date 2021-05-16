@@ -10,6 +10,6 @@ fn main() {
 
     set_changed(&lhs, &rhs);
 
-    print!("{:#?}\n", lhs);
-    print!("{:#?}\n", rhs);
+    print!("LHS:\n{:#?}\n\n", lhs);
+    print!("RHS:\n{:#?}\n", rhs);
 }
