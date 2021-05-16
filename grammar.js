@@ -81,7 +81,6 @@ module.exports = grammar({
     [$.hash, $._dereference],
     [$._expression_without_call_expression, $.ternary_expression_in_hash],
     [$._variables, $.ternary_expression_in_hash],
-    [$.string_qq_quoted],
   ],
 
   externals: $ => [
@@ -1307,7 +1306,8 @@ module.exports = grammar({
     string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qq',
       alias($._start_delimiter, $.start_delimiter),
-      // repeat(choice($.interpolation, $.escape_sequence, $._string_qq_quoted_content)),
+      repeat(alias($._string_qq_quoted_content, $.content)),
+      // repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
       alias($._end_delimiter, $.end_delimiter),
       // choice(
       //   seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),

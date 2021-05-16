@@ -6471,6 +6471,18 @@
             "value": "start_delimiter"
           },
           {
+            "type": "REPEAT",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_string_qq_quoted_content"
+              },
+              "named": true,
+              "value": "content"
+            }
+          },
+          {
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
@@ -8526,9 +8538,6 @@
     [
       "_variables",
       "ternary_expression_in_hash"
-    ],
-    [
-      "string_qq_quoted"
     ]
   ],
   "precedences": [],

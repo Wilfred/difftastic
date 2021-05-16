@@ -11042,6 +11042,10 @@
       "required": true,
       "types": [
         {
+          "type": "content",
+          "named": true
+        },
+        {
           "type": "end_delimiter",
           "named": true
         },
@@ -15129,6 +15133,10 @@
   {
     "type": "constant",
     "named": false
+  },
+  {
+    "type": "content",
+    "named": true
   },
   {
     "type": "continue",
