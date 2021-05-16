@@ -137,7 +137,7 @@ impl Hash for Syntax {
 }
 
 /// Extremely dumb top-level comparison of `lhs` and `rhs`.
-pub fn set_changed(lhs: &mut [Syntax], rhs: &mut [Syntax]) {
+pub fn set_changed(lhs: &[Syntax], rhs: &[Syntax]) {
     let mut lhs_subtrees = HashMap::new();
     for s in lhs.iter() {
         build_subtrees(s, &mut lhs_subtrees);
