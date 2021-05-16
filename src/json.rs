@@ -4,15 +4,11 @@ use regex::Regex;
 #[derive(Debug, Copy, Clone)]
 struct ParseState {
     str_i: usize,
-    next_id: usize,
 }
 
 impl ParseState {
     fn new() -> Self {
-        ParseState {
-            str_i: 0,
-            next_id: 0,
-        }
+        ParseState { str_i: 0 }
     }
 }
 
@@ -28,8 +24,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
     while state.str_i < s.len() {
         match num_atom.find(&s[state.str_i..]) {
             Some(m) => {
-                let atom = Syntax::new_atom(state.next_id, m.as_str().into());
-                state.next_id += 1;
+                let atom = Syntax::new_atom(m.as_str().into());
                 result.push(atom);
                 state.str_i += m.end();
                 continue;
@@ -39,8 +34,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
 
         match str_atom.find(&s[state.str_i..]) {
             Some(m) => {
-                let atom = Syntax::new_atom(state.next_id, m.as_str().into());
-                state.next_id += 1;
+                let atom = Syntax::new_atom(m.as_str().into());
                 result.push(atom);
                 state.str_i += m.end();
                 continue;
@@ -50,8 +44,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
 
         match sym_atom.find(&s[state.str_i..]) {
             Some(m) => {
-                let atom = Syntax::new_atom(state.next_id, m.as_str().into());
-                state.next_id += 1;
+                let atom = Syntax::new_atom(m.as_str().into());
                 result.push(atom);
                 state.str_i += m.end();
                 continue;
@@ -62,14 +55,10 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
         match open_brace.find(&s[state.str_i..]) {
             Some(m) => {
                 // TODO: error if there's no closing ] brace?
-
-                let id = state.next_id;
-                state.next_id += 1;
                 state.str_i += m.end();
 
                 let children = parse_json_from(s, state);
                 let items = Syntax::new_list(
-                    id,
                     m.as_str().into(),
                     // TODO: get end_content when matching on close_brace.
                     "]".into(),
@@ -106,42 +95,37 @@ mod tests {
 
     #[test]
     fn test_parse_integer() {
-        assert_syntaxes(&parse_json("123"), &[Syntax::new_atom(0, "123")]);
+        assert_syntaxes(&parse_json("123"), &[Syntax::new_atom("123")]);
     }
 
     #[test]
     fn test_parse_multiple() {
         assert_syntaxes(
             &parse_json("123 456"),
-            &[Syntax::new_atom(0, "123"), Syntax::new_atom(1, "456")],
+            &[Syntax::new_atom("123"), Syntax::new_atom("456")],
         );
     }
 
     #[test]
     fn test_parse_integer_with_whitespace() {
-        assert_syntaxes(&parse_json(" 123 "), &[Syntax::new_atom(0, "123")]);
+        assert_syntaxes(&parse_json(" 123 "), &[Syntax::new_atom("123")]);
     }
 
     #[test]
     fn test_parse_string() {
-        assert_syntaxes(&parse_json("\"abc\""), &[Syntax::new_atom(0, "\"abc\"")]);
+        assert_syntaxes(&parse_json("\"abc\""), &[Syntax::new_atom("\"abc\"")]);
     }
 
     #[test]
     fn test_parse_list() {
         assert_syntaxes(
             &parse_json("[ 123 ]"),
-            &[Syntax::new_list(
-                0,
-                "[",
-                "]",
-                vec![Syntax::new_atom(1, "123")],
-            )],
+            &[Syntax::new_list("[", "]", vec![Syntax::new_atom("123")])],
         );
     }
     #[test]
     fn test_parse_empty_list() {
-        assert_syntaxes(&parse_json("[]"), &[Syntax::new_list(0, "[", "]", vec![])]);
+        assert_syntaxes(&parse_json("[]"), &[Syntax::new_list("[", "]", vec![])]);
     }
 
     #[test]
@@ -149,10 +133,9 @@ mod tests {
         assert_syntaxes(
             &parse_json("[123, 456]"),
             &[Syntax::new_list(
-                0,
                 "[",
                 "]",
-                vec![Syntax::new_atom(1, "123"), Syntax::new_atom(2, "456")],
+                vec![Syntax::new_atom("123"), Syntax::new_atom("456")],
             )],
         );
     }
@@ -162,10 +145,9 @@ mod tests {
         assert_syntaxes(
             &parse_json("{x: 1}"),
             &[Syntax::new_list(
-                0,
                 "{",
                 "]",
-                vec![Syntax::new_atom(1, "x"), Syntax::new_atom(2, "1")],
+                vec![Syntax::new_atom("x"), Syntax::new_atom("1")],
             )],
         );
     }

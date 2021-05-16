@@ -16,7 +16,6 @@ pub enum ChangeKind {
 #[derive(Debug, Clone)]
 pub enum Syntax {
     List {
-        id: usize,
         change: Cell<ChangeKind>,
         start_content: String,
         end_content: String,
@@ -24,19 +23,13 @@ pub enum Syntax {
         num_descendants: usize,
     },
     Atom {
-        id: usize,
         change: Cell<ChangeKind>,
         content: String,
     },
 }
 
 impl Syntax {
-    pub fn new_list(
-        id: usize,
-        start_content: &str,
-        end_content: &str,
-        children: Vec<Syntax>,
-    ) -> Syntax {
+    pub fn new_list(start_content: &str, end_content: &str, children: Vec<Syntax>) -> Syntax {
         let mut num_descendants = 0;
         for child in &children {
             num_descendants += match child {
@@ -48,7 +41,6 @@ impl Syntax {
         }
 
         List {
-            id,
             change: Cell::new(Unchanged),
             start_content: start_content.into(),
             end_content: end_content.into(),
@@ -57,9 +49,8 @@ impl Syntax {
         }
     }
 
-    pub fn new_atom(id: usize, content: &str) -> Syntax {
+    pub fn new_atom(content: &str) -> Syntax {
         Atom {
-            id,
             content: content.into(),
             change: Cell::new(Unchanged),
         }
@@ -381,7 +372,6 @@ pub(crate) fn assert_syntax(expected: &Syntax, actual: &Syntax) {
     match (expected, actual) {
         (
             List {
-                id: lhs_id,
                 start_content: lhs_start_content,
                 end_content: lhs_end_content,
                 children: lhs_children,
@@ -389,7 +379,6 @@ pub(crate) fn assert_syntax(expected: &Syntax, actual: &Syntax) {
                 num_descendants: lhs_num_descendants,
             },
             List {
-                id: rhs_id,
                 start_content: rhs_start_content,
                 end_content: rhs_end_content,
                 children: rhs_children,
@@ -398,10 +387,6 @@ pub(crate) fn assert_syntax(expected: &Syntax, actual: &Syntax) {
             },
         ) => {
             assert_syntaxes(lhs_children, rhs_children);
-            if lhs_id != rhs_id {
-                dbg!(lhs_id, rhs_id);
-                matches = false;
-            }
             if lhs_start_content != rhs_start_content {
                 dbg!(lhs_start_content, rhs_start_content);
                 matches = false;
@@ -421,20 +406,14 @@ pub(crate) fn assert_syntax(expected: &Syntax, actual: &Syntax) {
         }
         (
             Atom {
-                id: lhs_id,
                 content: lhs_content,
                 change: lhs_change,
             },
             Atom {
-                id: rhs_id,
                 content: rhs_content,
                 change: rhs_change,
             },
         ) => {
-            if lhs_id != rhs_id {
-                dbg!(lhs_id, rhs_id);
-                matches = false;
-            }
             if lhs_content != rhs_content {
                 dbg!(lhs_content, rhs_content);
                 matches = false;
@@ -463,12 +442,10 @@ mod tests {
         assert_eq!(
             Atom {
                 content: "foo".into(),
-                id: 1,
                 change: Cell::new(Added),
             },
             Atom {
                 content: "foo".into(),
-                id: 2,
                 change: Cell::new(Moved),
             }
         );
@@ -476,19 +453,17 @@ mod tests {
 
     #[test]
     fn test_add_duplicate_node() {
-        let mut lhs = vec![Syntax::new_atom(0, "a")];
-        let mut rhs = vec![Syntax::new_atom(1, "a"), Syntax::new_atom(2, "a")];
+        let mut lhs = vec![Syntax::new_atom("a")];
+        let mut rhs = vec![Syntax::new_atom("a"), Syntax::new_atom("a")];
 
         set_changed(&mut lhs, &mut rhs);
 
         let expected_rhs = vec![
             Atom {
-                id: 1,
                 change: Cell::new(Unchanged),
                 content: "a".into(),
             },
             Atom {
-                id: 2,
                 change: Cell::new(Added),
                 content: "a".into(),
             },
@@ -497,34 +472,25 @@ mod tests {
     }
     #[test]
     fn test_add_subtree() {
-        let mut lhs = vec![Syntax::new_list(
-            0,
-            "[",
-            "]",
-            vec![Syntax::new_atom(1, "a")],
-        )];
+        let mut lhs = vec![Syntax::new_list("[", "]", vec![Syntax::new_atom("a")])];
         let mut rhs = vec![Syntax::new_list(
-            2,
             "[",
             "]",
-            vec![Syntax::new_atom(3, "a"), Syntax::new_atom(4, "a")],
+            vec![Syntax::new_atom("a"), Syntax::new_atom("a")],
         )];
 
         set_changed(&mut lhs, &mut rhs);
 
         let expected_rhs = vec![List {
-            id: 2,
             change: Cell::new(Unchanged),
             start_content: "[".into(),
             end_content: "]".into(),
             children: vec![
                 Atom {
-                    id: 3,
                     change: Cell::new(Unchanged),
                     content: "a".into(),
                 },
                 Atom {
-                    id: 4,
                     change: Cell::new(Added),
                     content: "a".into(),
                 },
@@ -543,40 +509,31 @@ mod tests {
     #[test]
     fn test_add_subsubtree() {
         let mut lhs = vec![
-            Syntax::new_list(0, "[", "]", vec![]),
-            Syntax::new_list(1, "[", "]", vec![Syntax::new_atom(2, "1")]),
+            Syntax::new_list("[", "]", vec![]),
+            Syntax::new_list("[", "]", vec![Syntax::new_atom("1")]),
         ];
 
         let mut rhs = vec![
             Syntax::new_list(
-                3,
                 "[",
                 "]",
-                vec![Syntax::new_list(
-                    4,
-                    "[",
-                    "]",
-                    vec![Syntax::new_atom(5, "1")],
-                )],
+                vec![Syntax::new_list("[", "]", vec![Syntax::new_atom("1")])],
             ),
-            Syntax::new_atom(6, "1"),
+            Syntax::new_atom("1"),
         ];
 
         set_changed(&mut lhs, &mut rhs);
 
         let expected_rhs = vec![
             List {
-                id: 3,
                 start_content: "[".into(),
                 end_content: "]".into(),
                 change: Cell::new(Unchanged),
                 children: vec![List {
-                    id: 4,
                     change: Cell::new(Moved),
                     start_content: "[".into(),
                     end_content: "]".into(),
                     children: vec![Atom {
-                        id: 5,
                         change: Cell::new(Moved),
                         content: "1".into(),
                     }],
@@ -585,7 +542,6 @@ mod tests {
                 num_descendants: 2,
             },
             Atom {
-                id: 6,
                 change: Cell::new(Added),
                 content: "1".into(),
             },
