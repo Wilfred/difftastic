@@ -17,44 +17,33 @@ impl ParseState {
 }
 
 fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
-    let num_atom = Regex::new(r#"^[0-9]+"#).unwrap();
-    let sym_atom = Regex::new(r#"^[a-zA-Z0-9]+"#).unwrap();
-    let str_atom = Regex::new(r#"^"[^"]+""#).unwrap();
+    let atom_patterns = &[
+        // Numbers
+        Regex::new(r#"^[0-9]+"#).unwrap(),
+        // Symbols (e.g. variable names)
+        Regex::new(r#"^[a-zA-Z0-9]+"#).unwrap(),
+        // String literals
+        Regex::new(r#"^"[^"]+""#).unwrap(),
+    ];
+
     let open_brace = Regex::new(r#"^(\[|\{)"#).unwrap();
     let close_brace = Regex::new(r#"^(\]|\})"#).unwrap();
 
     let mut result = vec![];
 
-    while state.str_i < s.len() {
-        match num_atom.find(&s[state.str_i..]) {
-            Some(m) => {
-                let atom = Syntax::new_atom(m.as_str());
-                result.push(atom);
-                state.str_i += m.end();
-                continue;
+    'outer: while state.str_i < s.len() {
+        for pattern in atom_patterns {
+            match pattern.find(&s[state.str_i..]) {
+                Some(m) => {
+                    assert_eq!(m.start(), 0);
+                    let atom = Syntax::new_atom(m.as_str());
+                    result.push(atom);
+                    state.str_i += m.end();
+                    continue 'outer;
+                }
+                None => {}
             }
-            None => {}
-        };
-
-        match str_atom.find(&s[state.str_i..]) {
-            Some(m) => {
-                let atom = Syntax::new_atom(m.as_str());
-                result.push(atom);
-                state.str_i += m.end();
-                continue;
-            }
-            None => {}
-        };
-
-        match sym_atom.find(&s[state.str_i..]) {
-            Some(m) => {
-                let atom = Syntax::new_atom(m.as_str());
-                result.push(atom);
-                state.str_i += m.end();
-                continue;
-            }
-            None => {}
-        };
+        }
 
         match open_brace.find(&s[state.str_i..]) {
             Some(m) => {
