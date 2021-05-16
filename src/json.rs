@@ -1,5 +1,6 @@
 use crate::tree_diff::{AtomKind, Syntax};
 use regex::Regex;
+use std::cell::Cell;
 
 #[derive(Debug, Clone)]
 struct ParseState {
@@ -80,7 +81,9 @@ pub fn parse_json(s: &str) -> Vec<Syntax> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::tree_diff::assert_syntaxes;
+    use crate::tree_diff::Syntax::*;
+    use crate::tree_diff::ChangeKind::*;
+    use crate::tree_diff::{assert_syntaxes, set_changed};
 
     #[test]
     fn test_parse_integer() {
@@ -161,5 +164,135 @@ mod tests {
                 "}",
             )],
         );
+    }
+
+    #[test]
+    fn test_add_duplicate_node() {
+        let lhs = parse_json("a");
+        let rhs = parse_json("a a");
+
+        set_changed(&lhs, &rhs);
+
+        let expected_rhs = vec![
+            Atom {
+                change: Cell::new(Unchanged),
+                content: "a".into(),
+                kind: AtomKind::Other,
+            },
+            Atom {
+                change: Cell::new(Added),
+                content: "a".into(),
+                kind: AtomKind::Other,
+            },
+        ];
+        assert_syntaxes(&expected_rhs, &rhs);
+    }
+
+    #[test]
+    fn test_add_subtree() {
+        let lhs = parse_json("[a]");
+        let rhs = parse_json("[a a]");
+
+        set_changed(&lhs, &rhs);
+
+        let expected_rhs = vec![List {
+            change: Cell::new(Unchanged),
+            open_delimiter: "[".into(),
+            close_delimiter: "]".into(),
+            children: vec![
+                Atom {
+                    change: Cell::new(Unchanged),
+                    content: "a".into(),
+                    kind: AtomKind::Other,
+                },
+                Atom {
+                    change: Cell::new(Added),
+                    content: "a".into(),
+                    kind: AtomKind::Other,
+                },
+            ],
+            num_descendants: 2,
+        }];
+        assert_syntaxes(&expected_rhs, &rhs);
+    }
+
+    /// Moving a subtree should consume its children, so further uses
+    /// of children of that subtree is not a move.
+    ///
+    /// [], [1] -> [[1]], 1
+    ///
+    /// In this example, the second instance of 1 is an addition.
+    #[test]
+    fn test_add_subsubtree() {
+        let lhs = parse_json("[] [1]");
+        let rhs = parse_json("[[1]] 1");
+
+        set_changed(&lhs, &rhs);
+
+        let expected_rhs = vec![
+            List {
+                open_delimiter: "[".into(),
+                close_delimiter: "]".into(),
+                change: Cell::new(Unchanged),
+                children: vec![List {
+                    change: Cell::new(Moved),
+                    open_delimiter: "[".into(),
+                    close_delimiter: "]".into(),
+                    children: vec![Atom {
+                        change: Cell::new(Moved),
+                        content: "1".into(),
+                        kind: AtomKind::Other,
+                    }],
+                    num_descendants: 1,
+                }],
+                num_descendants: 2,
+            },
+            Atom {
+                change: Cell::new(Added),
+                content: "1".into(),
+                kind: AtomKind::Other,
+            },
+        ];
+        assert_syntaxes(&expected_rhs, &rhs);
+    }
+
+    /// Moving a subtree should consume its children, so further uses
+    /// of children of that subtree is not a move.
+    ///
+    /// [], [1] -> 1, [[1]]
+    ///
+    /// In this example, the first instance of 1 is an addition.
+    #[test]
+    fn test_add_subsubtree_atom_first() {
+        let lhs = parse_json("[] [1]");
+        let rhs = parse_json("1 [[1]]");
+
+        set_changed(&lhs, &rhs);
+
+        let expected_rhs = vec![
+            Atom {
+                change: Cell::new(Added),
+                content: "1".into(),
+                kind: AtomKind::Other,
+            },
+            List {
+                open_delimiter: "[".into(),
+                close_delimiter: "]".into(),
+                change: Cell::new(Unchanged),
+                children: vec![List {
+                    change: Cell::new(Moved),
+                    open_delimiter: "[".into(),
+                    close_delimiter: "]".into(),
+                    children: vec![Atom {
+                        change: Cell::new(Moved),
+                        content: "1".into(),
+                        kind: AtomKind::Other,
+                    }],
+                    num_descendants: 1,
+                }],
+                num_descendants: 2,
+            },
+        ];
+        assert_syntaxes(&expected_rhs, &rhs);
     }
 }
