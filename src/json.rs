@@ -31,8 +31,8 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
         (Regex::new(r#"^/\*(?s:.)*?\*/"#).unwrap(), AtomKind::Comment),
     ];
 
-    let open_brace = Regex::new(r#"^(\[|\{)"#).unwrap();
-    let close_brace = Regex::new(r#"^(\]|\})"#).unwrap();
+    let open_delimiter = Regex::new(r#"^(\[|\{|\()"#).unwrap();
+    let close_delimiter = Regex::new(r#"^(\]|\}|\))"#).unwrap();
 
     let mut result = vec![];
 
@@ -54,7 +54,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
             }
         }
 
-        match open_brace.find(&s[state.str_i..]) {
+        match open_delimiter.find(&s[state.str_i..]) {
             Some(m) => {
                 let start = state.str_i;
 
@@ -73,7 +73,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
             None => {}
         };
 
-        match close_brace.find(&s[state.str_i..]) {
+        match close_delimiter.find(&s[state.str_i..]) {
             Some(m) => {
                 state.close_brace = Some(m.as_str().into());
                 state.str_i += m.end();
@@ -212,6 +212,19 @@ mod tests {
                 "[",
                 vec![],
                 "]",
+            )],
+        );
+    }
+
+    #[test]
+    fn test_parse_parens() {
+        assert_syntaxes(
+            &parse_json("()"),
+            &[Syntax::new_list(
+                AbsoluteRange { start: 0, end: 2 },
+                "(",
+                vec![],
+                ")",
             )],
         );
     }
