@@ -62,11 +62,11 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
                 let children = parse_json_from(s, state);
                 let close_brace = state.close_brace.take().unwrap_or("UNCLOSED".into());
 
-                let position = AbsoluteRange {
+                let open_pos = AbsoluteRange {
                     start,
-                    end: state.str_i,
+                    end: start + m.end(),
                 };
-                let items = Syntax::new_list(position, m.as_str(), children, &close_brace);
+                let items = Syntax::new_list(m.as_str(), open_pos, children, &close_brace);
                 result.push(items);
                 continue;
             }
@@ -191,8 +191,8 @@ mod tests {
         assert_syntaxes(
             &parse_json("[ 123 ]"),
             &[Syntax::new_list(
-                AbsoluteRange { start: 0, end: 7 },
                 "[",
+                AbsoluteRange { start: 0, end: 1 },
                 vec![Syntax::new_atom(
                     AbsoluteRange { start: 2, end: 5 },
                     "123",
@@ -207,8 +207,8 @@ mod tests {
         assert_syntaxes(
             &parse_json("[]"),
             &[Syntax::new_list(
-                AbsoluteRange { start: 0, end: 2 },
                 "[",
+                AbsoluteRange { start: 0, end: 1 },
                 vec![],
                 "]",
             )],
@@ -220,8 +220,8 @@ mod tests {
         assert_syntaxes(
             &parse_json("()"),
             &[Syntax::new_list(
-                AbsoluteRange { start: 0, end: 2 },
                 "(",
+                AbsoluteRange { start: 0, end: 1 },
                 vec![],
                 ")",
             )],
@@ -233,8 +233,8 @@ mod tests {
         assert_syntaxes(
             &parse_json("[123, 456]"),
             &[Syntax::new_list(
-                AbsoluteRange { start: 0, end: 10 },
                 "[",
+                AbsoluteRange { start: 0, end: 1 },
                 vec![
                     Syntax::new_atom(AbsoluteRange { start: 1, end: 4 }, "123", AtomKind::Other),
                     Syntax::new_atom(AbsoluteRange { start: 6, end: 9 }, "456", AtomKind::Other),
@@ -249,8 +249,8 @@ mod tests {
         assert_syntaxes(
             &parse_json("{x: 1}"),
             &[Syntax::new_list(
-                AbsoluteRange { start: 0, end: 6 },
                 "{",
+                AbsoluteRange { start: 0, end: 1 },
                 vec![
                     Syntax::new_atom(AbsoluteRange { start: 1, end: 2 }, "x", AtomKind::Other),
                     Syntax::new_atom(AbsoluteRange { start: 4, end: 5 }, "1", AtomKind::Other),
@@ -292,8 +292,8 @@ mod tests {
         set_changed(&lhs, &rhs);
 
         let expected_rhs = vec![List {
-            position: AbsoluteRange { start: 0, end: 5 },
             change: Cell::new(Unchanged),
+            open_position: AbsoluteRange { start: 0, end: 1 },
             open_delimiter: "[".into(),
             close_delimiter: "]".into(),
             children: vec![
@@ -330,14 +330,14 @@ mod tests {
 
         let expected_rhs = vec![
             List {
-                position: AbsoluteRange { start: 0, end: 5 },
                 open_delimiter: "[".into(),
+                open_position: AbsoluteRange { start: 0, end: 1 },
                 close_delimiter: "]".into(),
                 change: Cell::new(Unchanged),
                 children: vec![List {
-                    position: AbsoluteRange { start: 1, end: 4 },
                     change: Cell::new(Moved),
                     open_delimiter: "[".into(),
+                    open_position: AbsoluteRange { start: 1, end: 2 },
                     close_delimiter: "]".into(),
                     children: vec![Atom {
                         position: AbsoluteRange { start: 2, end: 3 },
@@ -380,13 +380,13 @@ mod tests {
                 kind: AtomKind::Other,
             },
             List {
-                position: AbsoluteRange { start: 2, end: 7 },
                 open_delimiter: "[".into(),
+                open_position: AbsoluteRange { start: 2, end: 3 },
                 close_delimiter: "]".into(),
                 change: Cell::new(Unchanged),
                 children: vec![List {
-                    position: AbsoluteRange { start: 3, end: 6 },
                     change: Cell::new(Moved),
+                    open_position: AbsoluteRange { start: 3, end: 4 },
                     open_delimiter: "[".into(),
                     close_delimiter: "]".into(),
                     children: vec![Atom {

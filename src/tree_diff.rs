@@ -25,7 +25,7 @@ pub enum AtomKind {
 pub enum Syntax {
     List {
         change: Cell<ChangeKind>,
-        position: AbsoluteRange,
+        open_position: AbsoluteRange,
         open_delimiter: String,
         children: Vec<Syntax>,
         close_delimiter: String,
@@ -41,8 +41,8 @@ pub enum Syntax {
 
 impl Syntax {
     pub fn new_list(
-        position: AbsoluteRange,
         open_delimiter: &str,
+        open_position: AbsoluteRange,
         children: Vec<Syntax>,
         close_delimiter: &str,
     ) -> Syntax {
@@ -57,8 +57,8 @@ impl Syntax {
         }
 
         List {
-            position,
             change: Cell::new(Unchanged),
+            open_position,
             open_delimiter: open_delimiter.into(),
             close_delimiter: close_delimiter.into(),
             children,
@@ -394,7 +394,7 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
         (
             List {
                 change: lhs_change,
-                position: lhs_position,
+                open_position: lhs_open_position,
                 open_delimiter: lhs_start_content,
                 children: lhs_children,
                 close_delimiter: lhs_end_content,
@@ -402,7 +402,7 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
             },
             List {
                 change: rhs_change,
-                position: rhs_position,
+                open_position: rhs_open_position,
                 open_delimiter: rhs_start_content,
                 close_delimiter: rhs_end_content,
                 children: rhs_children,
@@ -413,8 +413,8 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
                 dbg!(lhs_change, rhs_change);
                 matches = false;
             }
-            if lhs_position != rhs_position {
-                dbg!(lhs_position, rhs_position);
+            if lhs_open_position != rhs_open_position {
+                dbg!(lhs_open_position, rhs_open_position);
                 matches = false;
             }
 
