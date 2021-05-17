@@ -22,7 +22,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
         // Numbers
         (Regex::new(r#"^[0-9]+"#).unwrap(), AtomKind::Other),
         // Symbols (e.g. variable names)
-        (Regex::new(r#"^[a-zA-Z0-9]+"#).unwrap(), AtomKind::Other),
+        (Regex::new(r#"^[.a-zA-Z0-9]+"#).unwrap(), AtomKind::Other),
         // String literals
         (Regex::new(r#"^"[^"]+""#).unwrap(), AtomKind::String),
         // Single-line comments
@@ -120,6 +120,18 @@ mod tests {
                 Syntax::new_atom(AbsoluteRange { start: 0, end: 3 }, "123", AtomKind::Other),
                 Syntax::new_atom(AbsoluteRange { start: 4, end: 7 }, "456", AtomKind::Other),
             ],
+        );
+    }
+
+    #[test]
+    fn test_parse_symbol() {
+        assert_syntaxes(
+            &parse_json(".foo"),
+            &[Syntax::new_atom(
+                AbsoluteRange { start: 0, end: 4 },
+                ".foo",
+                AtomKind::Other,
+            )],
         );
     }
 
