@@ -163,15 +163,14 @@ mod tests {
     fn test_parse_comment() {
         assert_syntaxes(
             &parse_json("// foo\nx"),
-            &[Syntax::new_atom(
-                AbsoluteRange { start: 0, end: 7 },
-                "// foo\n",
-                AtomKind::Comment,
-            ), Syntax::new_atom(
-                AbsoluteRange { start: 7, end: 8 },
-                "x",
-                AtomKind::Other,
-            )],
+            &[
+                Syntax::new_atom(
+                    AbsoluteRange { start: 0, end: 7 },
+                    "// foo\n",
+                    AtomKind::Comment,
+                ),
+                Syntax::new_atom(AbsoluteRange { start: 7, end: 8 }, "x", AtomKind::Other),
+            ],
         );
     }
 
