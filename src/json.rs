@@ -108,10 +108,117 @@ pub fn parse_json(s: &str) -> Vec<Syntax> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::tree_diff::set_changed;
     use crate::tree_diff::ChangeKind::*;
     use crate::tree_diff::Syntax::*;
-    use crate::tree_diff::{assert_syntaxes, set_changed};
     use std::cell::Cell;
+
+    fn assert_syntaxes(actual: &[Syntax], expected: &[Syntax]) {
+        if actual.len() != expected.len() {
+            dbg!(actual, expected);
+            assert!(false);
+        } else {
+            for (lhs_child, rhs_child) in actual.iter().zip(expected.iter()) {
+                assert_syntax(lhs_child, rhs_child);
+            }
+        }
+    }
+
+    /// Compare all the fields in a Syntax value, not just
+    /// those used in its Eq implementation.
+    fn assert_syntax(actual: &Syntax, expected: &Syntax) {
+        let mut matches = true;
+        match (actual, expected) {
+            (
+                List {
+                    change: lhs_change,
+                    open_position: lhs_open_position,
+                    open_delimiter: lhs_start_content,
+                    children: lhs_children,
+                    close_delimiter: lhs_end_content,
+                    close_position: lhs_close_position,
+                    num_descendants: lhs_num_descendants,
+                },
+                List {
+                    change: rhs_change,
+                    open_position: rhs_open_position,
+                    open_delimiter: rhs_start_content,
+                    children: rhs_children,
+                    close_delimiter: rhs_end_content,
+                    close_position: rhs_close_position,
+                    num_descendants: rhs_num_descendants,
+                },
+            ) => {
+                if lhs_change != rhs_change {
+                    dbg!(lhs_change, rhs_change);
+                    matches = false;
+                }
+                if lhs_open_position != rhs_open_position {
+                    dbg!(lhs_open_position, rhs_open_position);
+                    matches = false;
+                }
+
+                if lhs_start_content != rhs_start_content {
+                    dbg!(lhs_start_content, rhs_start_content);
+                    matches = false;
+                }
+                if lhs_end_content != rhs_end_content {
+                    dbg!(lhs_end_content, rhs_end_content);
+                    matches = false;
+                }
+                if lhs_close_position != rhs_close_position {
+                    dbg!(lhs_close_position, rhs_close_position);
+                    matches = false;
+                }
+
+                if lhs_num_descendants != rhs_num_descendants {
+                    dbg!(lhs_num_descendants, rhs_num_descendants);
+                    matches = false;
+                }
+
+                assert_syntaxes(lhs_children, rhs_children);
+            }
+            (
+                Atom {
+                    change: lhs_change,
+                    position: lhs_position,
+                    content: lhs_content,
+                    kind: lhs_kind,
+                },
+                Atom {
+                    change: rhs_change,
+                    position: rhs_position,
+                    content: rhs_content,
+                    kind: rhs_kind,
+                },
+            ) => {
+                if lhs_change != rhs_change {
+                    dbg!(lhs_change, rhs_change);
+                    matches = false;
+                }
+                if lhs_position != rhs_position {
+                    dbg!(lhs_position, rhs_position);
+                    matches = false;
+                }
+
+                if lhs_content != rhs_content {
+                    dbg!(lhs_content, rhs_content);
+                    matches = false;
+                }
+                if lhs_kind != rhs_kind {
+                    dbg!(lhs_kind, rhs_kind);
+                    matches = false;
+                }
+            }
+            _ => {
+                matches = false;
+            }
+        }
+        if !matches {
+            dbg!(actual, expected);
+            assert!(false);
+        }
+    }
 
     #[test]
     fn test_parse_integer() {
