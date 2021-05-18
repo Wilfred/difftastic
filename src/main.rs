@@ -5,7 +5,7 @@ use clap::{App, Arg};
 use std::fs;
 
 use crate::json::parse_json;
-use crate::tree_diff::set_changed;
+use crate::tree_diff::{apply_colors, change_positions, set_changed};
 
 fn read_or_die(path: &str) -> String {
     match fs::read_to_string(path) {
@@ -70,6 +70,9 @@ fn main() {
 
     set_changed(&lhs, &rhs);
 
-    print!("LHS:\n{:#?}\n\n", lhs);
-    print!("RHS:\n{:#?}\n", rhs);
+    let positions = change_positions(&lhs);
+    print!("{}\n\n", apply_colors(&before_src, &positions));
+
+    let positions = change_positions(&rhs);
+    print!("{}\n", apply_colors(&after_src, &positions));
 }

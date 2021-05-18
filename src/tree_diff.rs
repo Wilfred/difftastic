@@ -1,4 +1,6 @@
+use colored::*;
 use std::cell::Cell;
+use std::cmp::min;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
@@ -158,6 +160,62 @@ impl Hash for Syntax {
             }
         }
     }
+}
+
+pub fn change_positions(nodes: &[Syntax]) -> Vec<(ChangeKind, AbsoluteRange)> {
+    let mut res: Vec<(ChangeKind, AbsoluteRange)> = vec![];
+    for node in nodes {
+        match node {
+            List {
+                change,
+                open_position,
+                children,
+                close_position,
+                ..
+            } => {
+                res.push((change.get(), *open_position));
+                let mut child_positions = change_positions(children);
+                res.append(&mut child_positions);
+                res.push((change.get(), *close_position));
+            }
+            Atom {
+                change, position, ..
+            } => {
+                res.push((change.get(), *position));
+            }
+        }
+    }
+    res
+}
+
+pub fn apply_colors(s: &str, positions: &[(ChangeKind, AbsoluteRange)]) -> String {
+    let mut res = String::with_capacity(s.len());
+    let mut i = 0;
+    for (kind, position) in positions {
+        if position.start >= s.len() {
+            break;
+        }
+
+        // Dim text that doesn't have any matching positions.
+        if i < position.start {
+            res.push_str(&s[i..position.start].dimmed());
+        }
+
+        let color = match kind {
+            Unchanged => Color::White,
+            Added => Color::Green,
+            Removed => Color::Red,
+            Moved => Color::Yellow,
+        };
+        let colored = &s[position.start..min(s.len(), position.end)].color(color);
+
+        res.push_str(&colored.to_string());
+        i = position.end;
+    }
+    if i < s.len() {
+        res.push_str(&s[i..s.len()]);
+    }
+    res
 }
 
 /// Extremely dumb top-level comparison of `lhs` and `rhs`.
