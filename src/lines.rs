@@ -1,7 +1,7 @@
 // use crate::diffs::Change;
 use regex::Regex;
 use std::cmp::{max, min};
-use std::collections::HashSet;
+// use std::collections::HashSet;
 
 #[cfg(test)]
 use pretty_assertions::assert_eq;
