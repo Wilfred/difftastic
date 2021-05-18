@@ -8334,6 +8334,14 @@
           "named": true
         },
         {
+          "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "hash_access_variable",
+          "named": true
+        },
+        {
           "type": "scalar_variable",
           "named": true
         }

@@ -7629,11 +7629,75 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "scalar_variable"
+          "name": "array_variable"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "hash_ref_in_interpolation"
+          },
+          "named": true,
+          "value": "arrow_notation"
         },
         {
           "type": "SYMBOL",
-          "name": "array_variable"
+          "name": "hash_access_variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "scalar_variable"
+        }
+      ]
+    },
+    "hash_ref_in_interpolation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\$_?[a-zA-Z0-9_]+"
+          },
+          "named": true,
+          "value": "scalar_variable"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": "->"
+            }
+          },
+          "named": true,
+          "value": "arrow_operator"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "hash_key",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "scalar_variable"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -8551,6 +8615,25 @@
     [
       "_variables",
       "ternary_expression_in_hash"
+    ],
+    [
+      "string_double_quoted"
+    ],
+    [
+      "_variables",
+      "interpolation"
+    ],
+    [
+      "_expression_without_call_expression",
+      "interpolation"
+    ],
+    [
+      "_scalar_type",
+      "interpolation"
+    ],
+    [
+      "patter_matcher_m",
+      "pattern_matcher"
     ]
   ],
   "precedences": [],
