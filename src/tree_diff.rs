@@ -28,6 +28,7 @@ pub enum Syntax {
         open_position: AbsoluteRange,
         open_delimiter: String,
         children: Vec<Syntax>,
+        close_position: AbsoluteRange,
         close_delimiter: String,
         num_descendants: usize,
     },
@@ -45,6 +46,7 @@ impl Syntax {
         open_position: AbsoluteRange,
         children: Vec<Syntax>,
         close_delimiter: &str,
+        close_position: AbsoluteRange,
     ) -> Syntax {
         let mut num_descendants = 0;
         for child in &children {
@@ -61,6 +63,7 @@ impl Syntax {
             open_position,
             open_delimiter: open_delimiter.into(),
             close_delimiter: close_delimiter.into(),
+            close_position,
             children,
             num_descendants,
         }
@@ -398,14 +401,16 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
                 open_delimiter: lhs_start_content,
                 children: lhs_children,
                 close_delimiter: lhs_end_content,
+                close_position: lhs_close_position,
                 num_descendants: lhs_num_descendants,
             },
             List {
                 change: rhs_change,
                 open_position: rhs_open_position,
                 open_delimiter: rhs_start_content,
-                close_delimiter: rhs_end_content,
                 children: rhs_children,
+                close_delimiter: rhs_end_content,
+                close_position: rhs_close_position,
                 num_descendants: rhs_num_descendants,
             },
         ) => {
@@ -426,6 +431,11 @@ pub(crate) fn assert_syntax(actual: &Syntax, expected: &Syntax) {
                 dbg!(lhs_end_content, rhs_end_content);
                 matches = false;
             }
+            if lhs_close_position != rhs_close_position {
+                dbg!(lhs_close_position, rhs_close_position);
+                matches = false;
+            }
+
             if lhs_num_descendants != rhs_num_descendants {
                 dbg!(lhs_num_descendants, rhs_num_descendants);
                 matches = false;
