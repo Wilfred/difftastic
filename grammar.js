@@ -81,6 +81,11 @@ module.exports = grammar({
     [$.hash, $._dereference],
     [$._expression_without_call_expression, $.ternary_expression_in_hash],
     [$._variables, $.ternary_expression_in_hash],
+    [$.string_double_quoted],
+    [$._variables, $.interpolation],
+    [$._expression_without_call_expression, $.interpolation],
+    [$._scalar_type, $.interpolation],
+    [$.patter_matcher_m, $.pattern_matcher],
   ],
 
   externals: $ => [
@@ -1420,10 +1425,18 @@ module.exports = grammar({
     not_escape_sequence: $ => '\\',
 
     interpolation: $ => choice(
-      $.scalar_variable,
       $.array_variable,
-      // $.arrow_notation,
-      // $.hash_access_variable,
+      alias($.hash_ref_in_interpolation, $.arrow_notation),
+      $.hash_access_variable,
+      $.scalar_variable,
+    ),
+
+    hash_ref_in_interpolation: $ => seq(
+      alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable),
+      alias(token.immediate('->'), $.arrow_operator),
+      '{',
+      field('hash_key', choice($.identifier, $.scalar_variable)),
+      '}',
     ),
 
     _boolean: $ => choice(

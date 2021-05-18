@@ -88,13 +88,65 @@ namespace {
       }
       
       if (valid_symbols[STRING_QQ_QUOTED_CONTENT]) {
-        if (lexer->lookahead == get_end_delimiter()) {
+        if (lexer->lookahead == get_end_delimiter() && delimiter_cout < 1) {
           lexer->result_symbol = END_DELIMITER;
           advance(lexer);
           lexer->mark_end(lexer);
           return true;
         }
         else {
+          // oh boy! the interpolation
+          if (lexer->lookahead == '$') {
+            advance(lexer);
+            if (lexer->lookahead != ' ') {
+              advance(lexer);
+              while(lexer->lookahead) {
+                // hash ref access: $hashref->{key}
+                if (lexer->lookahead == '-') {
+                  advance(lexer);
+                  if (lexer->lookahead == '>') {
+                    advance(lexer);
+                    if (lexer->lookahead == '{') {
+                      while(lexer->lookahead) {
+                        if (lexer->lookahead == '}') {
+                          advance(lexer);
+                          lexer->mark_end(lexer);
+                          return false;
+                        }
+                        advance(lexer);
+                      }
+                    }
+                  }
+                }
+                // hash access: $hash{someKey}
+                else if (lexer->lookahead == '{') {
+                  while(lexer->lookahead) {
+                    if (lexer->lookahead == '}') {
+                      advance(lexer);
+                      lexer->mark_end(lexer);
+                      return false;
+                    }
+                    advance(lexer);
+                  }
+                }
+                // scalar variable: $i_am_groot
+                else if (lexer->lookahead == ' ') {
+                  advance(lexer);
+                  lexer->mark_end(lexer);
+                  return false;
+                }
+                advance(lexer);
+              }
+            }
+          }
+
+          // handling nested delimiters qq { hello { from { the}}};
+          if (lexer->lookahead == start_delimiter_char) {
+            delimiter_cout = delimiter_cout + 1;
+          }
+          else if (lexer->lookahead == get_end_delimiter()) {
+            delimiter_cout = delimiter_cout - 1;
+          }
           // escape sequences, only basic support as of now
           if (lexer->lookahead == '\\') {
             advance(lexer);
@@ -103,15 +155,14 @@ namespace {
               lexer->lookahead == 't' || lexer->lookahead == 'n' || lexer->lookahead == 'r' || lexer->lookahead == 'f' || lexer->lookahead == 'b' || lexer->lookahead == 'a' || lexer->lookahead == 'e'
             ) {
               advance(lexer);
+              lexer->mark_end(lexer);
               return false;
             }
             else {
               // dont return, below logic will take care
             }
           }
-          // oh boy! the interpolation
-          // else if (lexer->lookahead == '$') {}
-
+          
           lexer->result_symbol = STRING_QQ_QUOTED_CONTENT;
           advance(lexer);
           lexer->mark_end(lexer);
@@ -213,6 +264,7 @@ namespace {
 
     int32_t start_delimiter_char;
     int32_t end_delimiter_char;
+    int delimiter_cout = 0;
     bool reached;
 
   };
