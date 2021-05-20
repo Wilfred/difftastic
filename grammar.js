@@ -1182,11 +1182,30 @@ module.exports = grammar({
       "}"
     )),
 
-    _simple_string_part: $ => choice(
-      alias($._string_member_access_expression, $.member_access_expression),
-      $._variable_name,
-      alias($._string_subscript_expression, $.subscript_expression),
+    _simple_string_member_access_expression: $ => prec(PREC.MEMBER, seq(
+      field('object', $._simple_string_variable_name),
+      '->',
+      field('name', $.name),
+    )),
+
+    _simple_string_subscript_expression: $ => seq(
+      $._simple_string_variable_name,
+      choice(
+        seq('[', $.integer, ']'),
+        seq('{', $.integer, '}')
+      )
     ),
+
+    _simple_string_variable_name: $ => choice(
+      alias(seq('$', '{', '$', $.name, '}'), $.dynamic_variable_name),
+      $.variable_name
+    ),
+
+    _simple_string_part: $ => prec.right(choice(
+      alias($._simple_string_member_access_expression, $.member_access_expression),
+      $._simple_string_variable_name,
+      alias($._simple_string_subscript_expression, $.subscript_expression),
+    )),
 
     escape_sequence: $ => token.immediate(seq(
       '\\',
