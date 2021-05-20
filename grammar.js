@@ -1487,7 +1487,8 @@ module.exports = grammar({
       field('right', $._type)
     )),
 
-    _identifier_token: $ => token(seq(optional('@'), /[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ_0-9]*/)), // identifier_token in Roslyn
+    // Unicode categories: L = Letter, Nd = Decimal_Number, Pc = Connector_Punctuation, Cf = Format, Mn = Nonspacing_Mark, Mc = Spacing_Mark, Me = Enclosing_Mark
+    _identifier_token: $ => token(seq(optional('@'), /[\p{L}_][\p{L}\p{Nd}\p{Pc}\p{Cf}\p{Mn}\p{Mc}\p{Me}]*/)),
     identifier: $ => choice($._identifier_token, $._contextual_keywords),
 
     global: $ => 'global',
