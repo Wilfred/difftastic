@@ -24,7 +24,7 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
         // Symbols (e.g. variable names)
         (Regex::new(r#"^[.a-zA-Z0-9]+"#).unwrap(), AtomKind::Other),
         // String literals
-        (Regex::new(r#"^"[^"]+""#).unwrap(), AtomKind::String),
+        (Regex::new(r#"^"[^"]*""#).unwrap(), AtomKind::String),
         // Single-line comments
         (Regex::new(r#"^//.*(\n|$)"#).unwrap(), AtomKind::Comment),
         // Multi-line comments
@@ -228,6 +228,18 @@ mod tests {
                 AbsoluteRange { start: 0, end: 3 },
                 "123",
                 AtomKind::Other,
+            )],
+        );
+    }
+
+    #[test]
+    fn test_parse_empty_string() {
+        assert_syntaxes(
+            &parse_json("\"\""),
+            &[Syntax::new_atom(
+                AbsoluteRange { start: 0, end: 2 },
+                "\"\"",
+                AtomKind::String,
             )],
         );
     }
