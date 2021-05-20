@@ -22,7 +22,9 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
         // Numbers
         (Regex::new(r#"^[0-9]+"#).unwrap(), AtomKind::Other),
         // Symbols (e.g. variable names)
-        (Regex::new(r#"^[.a-zA-Z0-9]+"#).unwrap(), AtomKind::Other),
+        (Regex::new(r#"^[.a-zA-Z0-9_]+"#).unwrap(), AtomKind::Other),
+        // Operators
+        (Regex::new(r#"^[=<>/*+-]+"#).unwrap(), AtomKind::Other),
         // String literals
         (Regex::new(r#"^"[^"]*""#).unwrap(), AtomKind::String),
         // Single-line comments
