@@ -1487,8 +1487,8 @@ module.exports = grammar({
       field('right', $._type)
     )),
 
-    // Unicode categories: L = Letter, Nd = Decimal_Number, Pc = Connector_Punctuation, Cf = Format, Mn = Nonspacing_Mark, Mc = Spacing_Mark, Me = Enclosing_Mark
-    _identifier_token: $ => token(seq(optional('@'), /[\p{L}_][\p{L}\p{Nd}\p{Pc}\p{Cf}\p{Mn}\p{Mc}\p{Me}]*/)),
+    // Unicode categories: L = Letter, Nl Letter_Number, = Nd = Decimal_Number, Pc = Connector_Punctuation, Cf = Format, Mn = Nonspacing_Mark, Mc = Spacing_Mark
+    _identifier_token: $ => token(seq(optional('@'), /[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Nd}\p{Pc}\p{Cf}\p{Mn}\p{Mc}]*/)),
     identifier: $ => choice($._identifier_token, $._contextual_keywords),
 
     global: $ => 'global',
