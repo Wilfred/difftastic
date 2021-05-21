@@ -2,11 +2,8 @@
   "name": "tree-sitter-scss",
   "version": "0.0.1",
   "description": "SCSS grammar for tree-sitter",
-  "main": "bindings/node",
-  "keywords": [
-    "parser",
-    "lexer"
-  ],
+  "main": "index.js",
+  "keywords": ["parser", "lexer"],
   "author": "Serenade Labs, Inc.",
   "license": "MIT",
   "dependencies": {
@@ -24,9 +21,7 @@
   "tree-sitter": [
     {
       "scope": "source.scss",
-      "file-types": [
-        "scss"
-      ],
+      "file-types": ["scss"],
       "injection-regex": "^scss$"
     }
   ]

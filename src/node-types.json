@@ -2933,10 +2933,6 @@
     "named": true
   },
   {
-    "type": "comment",
-    "named": true
-  },
-  {
     "type": "feature_name",
     "named": true
   },
@@ -3015,10 +3011,6 @@
   {
     "type": "selector",
     "named": false
-  },
-  {
-    "type": "single_line_comment",
-    "named": true
   },
   {
     "type": "string_value",
