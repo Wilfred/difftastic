@@ -59,7 +59,7 @@ var varæble = 0;
 var Переменная = 0;
 var first‿letter = 0;
 var ග්‍රහලෝකය = 0;
-var كوكب = 0;
+var _كوكبxxx = 0;
 
 ---
 
