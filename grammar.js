@@ -82,10 +82,7 @@ module.exports = grammar({
     [$._expression_without_call_expression, $.ternary_expression_in_hash],
     [$._variables, $.ternary_expression_in_hash],
     [$.string_double_quoted],
-    [$._variables, $.interpolation],
-    [$._expression_without_call_expression, $.interpolation],
-    [$._scalar_type, $.interpolation],
-    [$.patter_matcher_m, $.pattern_matcher],
+    [$.named_block_statement, $.hash_ref],
   ],
 
   externals: $ => [
@@ -132,6 +129,7 @@ module.exports = grammar({
       $._compound_statement,
 
       $.standalone_block,
+      $.named_block_statement,
 
       $.ellipsis_statement,
       $.special_block,
@@ -608,6 +606,21 @@ module.exports = grammar({
       optional($._statement_modifiers),
       $.semi_colon,
     ),
+
+    // there are function calls to be precise
+    // see - https://stackoverflow.com/questions/24526885/does-anyone-know-how-to-understand-such-kind-of-perl-code-blocks
+    named_block_statement: $ => prec(PRECEDENCE.SUB_CALL, seq(
+      repeat1(seq(
+        field('function_name', $.identifier),
+        '{',
+          repeat(choice(
+            $._statement,
+            seq($.return_expression, $.semi_colon),
+          )),
+        '}'
+      )),
+      $.semi_colon,
+    )),
 
     parenthesized_expression: $ => seq(
       '(',
@@ -1310,16 +1323,16 @@ module.exports = grammar({
     )),
     string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qq',
-      alias($._start_delimiter, $.start_delimiter),
+      // alias($._start_delimiter, $.start_delimiter),
       repeat(choice(alias($._string_qq_quoted_content, $.content), $.interpolation, $.escape_sequence)),
       // repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
-      alias($._end_delimiter, $.end_delimiter),
-      // choice(
-      //   seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
-      //   seq('/', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^/]+/)))), '/'),
-      //   seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^)]+/)))), ')'),
-      //   /'.*'/, // don't interpolate for a single quote
-      // ),
+      // alias($._end_delimiter, $.end_delimiter),
+      choice(
+        seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
+        seq('/', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^/]+/)))), '/'),
+        seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^)]+/)))), ')'),
+        /'.*'/, // don't interpolate for a single quote
+      ),
     )),
 
     command_qx_quoted: $ => prec(PRECEDENCE.STRING, seq(
@@ -1426,9 +1439,9 @@ module.exports = grammar({
 
     interpolation: $ => choice(
       $.array_variable,
-      alias($.hash_ref_in_interpolation, $.arrow_notation),
-      $.hash_access_variable,
-      $.scalar_variable,
+      // alias($.hash_ref_in_interpolation, $.arrow_notation),
+      // // $.hash_access_variable,
+      // alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable_2),
     ),
 
     hash_ref_in_interpolation: $ => seq(
