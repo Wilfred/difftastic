@@ -8443,7 +8443,7 @@
           },
           {
             "type": "PATTERN",
-            "value": "[a-zA-Zα-ωΑ-Ωµ_][a-zA-Zα-ωΑ-Ωµ_0-9]*"
+            "value": "[\\p{L}_][\\p{L}\\p{Nd}\\p{Pc}\\p{Cf}\\p{Mn}\\p{Mc}\\p{Me}]*"
           }
         ]
       }
