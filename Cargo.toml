@@ -1,6 +1,6 @@
 [package]
 name = "tree-sitter-elm"
-description = "Rust bindings for the tree sitter elm language parser"
+description = "elm grammar for the tree-sitter parsing library"
 authors = [
     "Harry Sarson <harry.sarson@hotmail.co.uk>",
     "Kolja Lampe <razzeee@gmail.com>"
@@ -12,29 +12,23 @@ keywords = ["elm", "tree", "sitter", "parsing", "incremental"]
 categories = ["parser-implementations", "api-bindings", "text-editors", "parsing"]
 edition = "2018"
 license = "MIT"
-build = "rust/build.rs"
+build = "bindings/rust/build.rs"
 include = [
-  "rust/*",
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
   "src/*",
-  "LICENSE.md"
+  "LICENSE.md",
 ]
 
 # Keep in sync with package.json
 version = "5.3.3"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tree-sitter = "0.19.1"
+tree-sitter = "0.19.5"
 
 [build-dependencies]
-cc = "1.0.61"
-
-
+cc = "1.0"
 [lib]
-path = "rust/lib.rs"    # The source file of the target.
-
-[dev-dependencies]
-serde = { version = "1.0.117", features = ["derive"] }
-serde_json = "1.0.59"
-toml = "0.5.7"
+path = "bindings/rust/lib.rs"
