@@ -28,10 +28,11 @@ use Try::Tiny;
 
 # print qq{\nDoes this make $hash{makes}, really?};
 
-try {
-  my $a = 1;
-}
-catch {
-  print "catch block";
-};
+sub Run (&) {
 
+}
+
+#  $._variables,
+#         $.hash_ref,
+#         $.array_ref,
+#         $._assignment_exp,

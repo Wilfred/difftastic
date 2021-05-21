@@ -54,3 +54,19 @@ print Dumper %{$args};
   (call_expression (identifier) (argument
     (call_expression (identifier) (argument (hash_dereference (scalar_variable)))))) (semi_colon)
 )
+
+=================================================
+Subroutine with CODE signature
+=================================================
+
+sub Run (&) {
+
+}
+
+---
+
+(source_file
+  (function_definition (identifier) (function_prototype (prototype))
+    (block)
+  )
+)

@@ -83,6 +83,7 @@ module.exports = grammar({
     [$._variables, $.ternary_expression_in_hash],
     [$.string_double_quoted],
     [$.named_block_statement, $.hash_ref],
+    [$.variable_declarator, $._variables],
   ],
 
   externals: $ => [
@@ -513,11 +514,11 @@ module.exports = grammar({
     // why perl, why!
     function_definition: $ => seq(
       optional($.scope),
+      'sub',
+      field('name', $.identifier),
       choice(
         // a function declaration to be precise
         seq(
-          'sub',
-          field('name', $.identifier),
           optional($.function_prototype),
           optional($.function_attribute),
           optional($.function_signature),
@@ -525,23 +526,17 @@ module.exports = grammar({
         ),
         // and here is the function definition WITHOUT signatures
         seq(
-          'sub',
-          field('name', $.identifier),
           optional($.function_prototype),
           optional($.function_attribute),
           field('body', $.block),
         ),
         // and here is the function definition WITH signatures
         seq(
-          'sub',
-          field('name', $.identifier),
           optional($.function_attribute),
           optional($.function_signature),
           field('body', $.block),
         ),
         seq(
-          'sub',
-          field('name', $.identifier),
           ':', 'prototype',
           $.function_prototype,
           $.function_signature,
@@ -563,19 +558,27 @@ module.exports = grammar({
 
     function_prototype: $ => seq(
       '(',
-      repeat1(/[$@\\;]+/),
+      optional($.prototype),
       ')',
     ),
+    prototype: $ => /[\[\]$@%&*\\]+/, // (\[$@%&*])
+ 
     function_attribute: $ => seq(
       ':',
       $.identifier,
     ),
     function_signature: $ => seq(
       '(',
-      choice(
-        commaSeparated($._expression), // TODO: this is more
-        /\+\{\}/,
-      ),
+      commaSeparated(choice(
+        $._variables,
+        $.hash_ref,
+        $.array_ref,
+        alias(seq(
+          optional($.scope),
+          choice($.single_var_declaration, $.type_glob_declaration),
+          optional($._initializer),
+        ), $.variable_declaration),
+      )), // TODO: this is more
       ')',
     ),
 
@@ -1514,6 +1517,7 @@ module.exports = grammar({
     ),
 
     hash_ref: $ => seq(
+      optional('+'), // to make into a hash_ref rather than a block
       '{',
       optional(commaSeparated(choice(
         $.ternary_expression_in_hash,
