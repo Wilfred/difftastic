@@ -147,6 +147,7 @@ a {
   &.b {}
   & c {}
   & > d {}
+  &e {}
 }
 
 ---
@@ -157,7 +158,8 @@ a {
     (block
       (rule_set (selectors (class_selector (nesting_selector) (class_name))) (block))
       (rule_set (selectors (descendant_selector (nesting_selector) (tag_name))) (block))
-      (rule_set (selectors (child_selector (nesting_selector) (tag_name))) (block)))))
+      (rule_set (selectors (child_selector (nesting_selector) (tag_name))) (block))
+      (rule_set (selectors (class_selector (nesting_selector) (class_name))) (block)))))
 
 ===========================
 Sibling selectors

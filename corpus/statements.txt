@@ -236,6 +236,10 @@ Extend statements
 
 .foo {
   @extend red;
+  .bar {
+    @extend blue;
+    @extend .green;
+  }
 }
 
 ---
@@ -244,8 +248,11 @@ Extend statements
   (rule_set
     (selectors (class_selector (class_name)))
     (block
-      (extend_statement (plain_value)))))
-
+      (extend_statement (plain_value))
+      (rule_set 
+        (selectors (class_selector (class_name)))
+        (block (extend_statement (plain_value)) 
+          (extend_statement (class_selector (class_name)))))))) 
 =================================
 Operators
 =================================
