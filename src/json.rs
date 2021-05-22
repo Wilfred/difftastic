@@ -424,6 +424,30 @@ mod tests {
     }
 
     #[test]
+    fn test_move_atom() {
+        let lhs = parse_json("a b");
+        let rhs = parse_json("x a");
+
+        set_changed(&lhs, &rhs);
+
+        let expected_lhs = vec![
+            Atom {
+                position: AbsoluteRange { start: 0, end: 1 },
+                change: Cell::new(Moved),
+                content: "a".into(),
+                kind: AtomKind::Other,
+            },
+            Atom {
+                position: AbsoluteRange { start: 2, end: 3 },
+                change: Cell::new(Removed),
+                content: "b".into(),
+                kind: AtomKind::Other,
+            },
+        ];
+        assert_syntaxes(&expected_lhs, &lhs);
+    }
+
+    #[test]
     fn test_add_subtree() {
         let lhs = parse_json("[a]");
         let rhs = parse_json("[a a]");

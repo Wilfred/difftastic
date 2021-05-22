@@ -389,8 +389,21 @@ fn walk_nodes_ordered<'a>(
                             change: rhs_change, ..
                         },
                     ) => {
-                        lhs_change.set(Removed);
-                        rhs_change.set(Added);
+                        let lhs_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
+                        if lhs_count > 0 {
+                            lhs_change.set(Moved);
+                            decrement(lhs_node, rhs_counts);
+                        } else {
+                            lhs_change.set(Removed);
+                        }
+
+                        let rhs_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
+                        if rhs_count > 0 {
+                            rhs_change.set(Moved);
+                            decrement(rhs_node, lhs_counts);
+                        } else {
+                            rhs_change.set(Added);
+                        }
                     }
                 }
                 lhs_i += 1;
