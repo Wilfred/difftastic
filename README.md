@@ -104,6 +104,10 @@ $ diff -y --color=always sample_files/css_before.css sample_files/css_after.css
 
 ### Tree Diff
 
+Most tree diff implementations focus on XML, and there's a great
+overview of techniques [in this blog
+post](http://useless-factor.blogspot.com/2008/01/matching-diffing-and-merging-xml.html).
+
 Jane Street's [patdiff](https://github.com/janestreet/patdiff)
 implements a tree diff, using [an A* algorithm](https://thume.ca/2017/06/17/tree-diffing/).
 
