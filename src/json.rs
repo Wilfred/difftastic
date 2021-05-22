@@ -19,6 +19,10 @@ impl ParseState {
 
 fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
     let atom_patterns = &[
+        // Single-line comments
+        (Regex::new(r#"^//.*(\n|$)"#).unwrap(), AtomKind::Comment),
+        // Multi-line comments
+        (Regex::new(r#"^/\*(?s:.)*?\*/"#).unwrap(), AtomKind::Comment),
         // Numbers
         (Regex::new(r#"^[0-9]+"#).unwrap(), AtomKind::Other),
         // Symbols (e.g. variable names)
@@ -27,10 +31,6 @@ fn parse_json_from(s: &str, state: &mut ParseState) -> Vec<Syntax> {
         (Regex::new(r#"^[=<>/*+-]+"#).unwrap(), AtomKind::Other),
         // String literals
         (Regex::new(r#"^"[^"]*""#).unwrap(), AtomKind::String),
-        // Single-line comments
-        (Regex::new(r#"^//.*(\n|$)"#).unwrap(), AtomKind::Comment),
-        // Multi-line comments
-        (Regex::new(r#"^/\*(?s:.)*?\*/"#).unwrap(), AtomKind::Comment),
     ];
 
     let open_delimiter = Regex::new(r#"^(\[|\{|\()"#).unwrap();
