@@ -42,7 +42,7 @@ namespace
 
             buffer[i++] = indent_length;
 
-            vector<uint16_t>::iterator
+            vector<uint32_t>::iterator
                 iter = indent_length_stack.begin() + 1,
                 end = indent_length_stack.end();
 
@@ -267,7 +267,7 @@ namespace
                 {
                     return false;
                 }
-                indent_length_stack.push_back(lexer->get_column(lexer)); // This needs a `!lexer->eof(lexer)` check or it will get stuck
+                indent_length_stack.push_back(lexer->get_column(lexer));
                 lexer->result_symbol = VIRTUAL_OPEN_SECTION;
                 return true;
             }
@@ -412,7 +412,7 @@ namespace
         // The indention of the current line
         uint32_t indent_length;
         // Our indentation stack
-        vector<uint16_t> indent_length_stack;
+        vector<uint32_t> indent_length_stack;
         // Stack of 0 - for possible VIRTUAL_END_DECL or 1 - for possible VIRTUAL_END_SECTION
         vector<uint8_t> runback;
     };
