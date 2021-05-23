@@ -84,6 +84,7 @@ module.exports = grammar({
     [$.string_double_quoted],
     [$.named_block_statement, $.hash_ref],
     [$.variable_declarator, $._variables],
+    [$.loop_control_statement],
   ],
 
   externals: $ => [
@@ -339,7 +340,7 @@ module.exports = grammar({
     )),
 
     // TODO: should be a boolean expression and not the current one?
-    if_statement: $ => prec.right(seq(
+    if_statement: $ => prec.left(seq(
       'if',
       field('condition', $.parenthesized_expression),
       field('consequence', $.block),
@@ -356,7 +357,7 @@ module.exports = grammar({
       ))
     )),
 
-    unless_statement: $ => prec.right(seq(
+    unless_statement: $ => prec.left(seq(
       'unless',
       field('condition', $.parenthesized_expression),
       field('consequence', $.block),
@@ -563,14 +564,15 @@ module.exports = grammar({
     ),
     prototype: $ => /[\[\]$@%&*\\]+/, // (\[$@%&*])
  
-    function_attribute: $ => seq(
+    function_attribute: $ => repeat1(seq(
       ':',
       $.identifier,
-    ),
+    )),
     function_signature: $ => seq(
       '(',
       commaSeparated(choice(
         $._variables,
+        $._string,
         $.hash_ref,
         $.array_ref,
         alias(seq(
@@ -606,8 +608,10 @@ module.exports = grammar({
     loop_control_statement: $ => seq(
       $.loop_control_keyword,
       optional(field('label', $.identifier)),
-      optional($._statement_modifiers),
-      $.semi_colon,
+      choice(
+        $._statement_modifiers,
+        $.semi_colon
+      ),
     ),
 
     // there are function calls to be precise
@@ -627,13 +631,13 @@ module.exports = grammar({
 
     parenthesized_expression: $ => seq(
       '(',
-      $._expression,
+      prec.left($._expression),
       ')'
     ),
 
     empty_parenthesized_expression: $ => seq(
       '(',
-      optional($._expression),
+      optional(prec.left($._expression)),
       ')'
     ),
 
@@ -1302,7 +1306,8 @@ module.exports = grammar({
 
     string_single_quoted: $ => prec(PRECEDENCE.STRING, seq(
       "'",
-      optional($._string_single_quoted_content), // TODO: Sev4, make \' and \\ as a separate token
+      repeat(choice(/[^']/, /\\'/)),
+      // $._string_single_quoted_content, // TODO: Sev4, make \' and \\ as a separate token
       "'",
     )),
     // TODO change all + to * in regex
@@ -1327,8 +1332,8 @@ module.exports = grammar({
     string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qq',
       // alias($._start_delimiter, $.start_delimiter),
-      repeat(choice(alias($._string_qq_quoted_content, $.content), $.interpolation, $.escape_sequence)),
-      // repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
+      // repeat(choice(alias($._string_qq_quoted_content, $.content), $.interpolation, $.escape_sequence)),
+      // // repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
       // alias($._end_delimiter, $.end_delimiter),
       choice(
         seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
@@ -1390,10 +1395,10 @@ module.exports = grammar({
     substitution_pattern_s: $ => prec(PRECEDENCE.REGEXP, seq(
       's',
       choice(
-        seq('{', optional($.regex_pattern), '}', '{', field('replace', optional($.identifier)), '}'),
-        seq('/', optional($.regex_pattern), '/', field('replace', optional($.identifier)), '/'),
-        seq('(', optional($.regex_pattern), ')', '(', field('replace', optional($.identifier)), ')'),
-        seq('\'', optional($.regex_pattern), '\'', field('replace', optional($.identifier)), '\''),
+        seq('{', optional($.regex_pattern), '}', '{', field('replace', optional($.identifier_1)), '}'),
+        seq('/', optional($.regex_pattern), '/', field('replace', optional($.identifier_1)), '/'),
+        seq('(', optional($.regex_pattern), ')', '(', field('replace', optional($.identifier_1)), ')'),
+        seq('\'', optional($.regex_pattern), '\'', field('replace', optional($.identifier_1)), '\''),
       ),
       field('regex_option', optional($.regex_option_for_substitution)),
     )),
@@ -1442,9 +1447,9 @@ module.exports = grammar({
 
     interpolation: $ => choice(
       $.array_variable,
-      // alias($.hash_ref_in_interpolation, $.arrow_notation),
-      // // $.hash_access_variable,
-      // alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable_2),
+      alias($.hash_ref_in_interpolation, $.arrow_notation),
+      // $.hash_access_variable,
+      alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable_2),
     ),
 
     hash_ref_in_interpolation: $ => seq(
@@ -1480,7 +1485,7 @@ module.exports = grammar({
     hash_access_variable: $ => prec(PRECEDENCE.HASH, seq(
       field('hash_variable', $._expression),
       token.immediate('{'),
-      field('key', choice($.identifier, $._expression_without_call_expression)),
+      field('key', choice($.identifier, $._expression)),
       '}',
     )),
 
@@ -1493,7 +1498,7 @@ module.exports = grammar({
       $.array_variable,
     ),
 
-    array: $ => prec.left(PRECEDENCE.ARRAY, seq(
+    array: $ => prec(PRECEDENCE.ARRAY, seq(
       '(',
       optional(commaSeparated($._expression)),
       ')',
@@ -1571,6 +1576,7 @@ module.exports = grammar({
     _key_value_pair: $ => prec.left(seq(
       field('key', choice(
         alias($.identifier, $.bareword),
+        alias($.key_words_in_hash_key, $.bareword),
         $._expression_without_call_expression,
       )),
       $.hash_arrow_operator,
@@ -1579,6 +1585,11 @@ module.exports = grammar({
         field('value', $._expression),
       ),
     )),
+
+    // NOTE: this is a hack for keys that are keywords
+    key_words_in_hash_key: $ => choice(
+      'sub'
+    ),
 
     ternary_expression_in_hash: $ => prec.left(1, seq(
       field('condition', $._expression),

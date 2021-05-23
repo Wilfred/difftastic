@@ -20,6 +20,7 @@ my $floating_number = 5.5;
 my $floating_negative_number = -7.455;
 
 my $string = 'hello'; # single quoted string
+my $empty_string = '';
 
 my $double_quoted_string = "meow";
 
@@ -30,7 +31,7 @@ my $hexa_decimal = 0xffff;
 my $octal = 0577;
 
 
-my @array2 = ('meow', 'woof', 'burp',);
+my @array2 = ('m\'eow', 'woof', 'burp',);
 
 my @number_array = ( 1, 2, 3, 8 );
 

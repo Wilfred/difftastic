@@ -2001,6 +2001,11 @@
     }
   },
   {
+    "type": "bareword",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "bareword_import",
     "named": true,
     "fields": {
@@ -5691,7 +5696,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -5794,6 +5799,22 @@
         },
         {
           "type": "scalar_variable",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
           "named": true
         },
         {
@@ -6969,9 +6990,17 @@
         ]
       },
       "key": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
           {
             "type": "anonymous_function",
             "named": true
@@ -7006,6 +7035,10 @@
           },
           {
             "type": "bless",
+            "named": true
+          },
+          {
+            "type": "call_expression",
             "named": true
           },
           {
@@ -8161,6 +8194,14 @@
       "types": [
         {
           "type": "array_variable",
+          "named": true
+        },
+        {
+          "type": "arrow_notation",
+          "named": true
+        },
+        {
+          "type": "scalar_variable_2",
           "named": true
         }
       ]
@@ -11214,10 +11255,6 @@
       "required": false,
       "types": [
         {
-          "type": "content",
-          "named": true
-        },
-        {
           "type": "escape_sequence",
           "named": true
         },
@@ -11252,7 +11289,7 @@
         "required": false,
         "types": [
           {
-            "type": "identifier",
+            "type": "identifier_1",
             "named": true
           }
         ]
@@ -15291,10 +15328,6 @@
     "named": true
   },
   {
-    "type": "bareword",
-    "named": true
-  },
-  {
     "type": "bless",
     "named": false
   },
@@ -15309,10 +15342,6 @@
   {
     "type": "constant",
     "named": false
-  },
-  {
-    "type": "content",
-    "named": true
   },
   {
     "type": "continue",
@@ -15476,11 +15505,11 @@
   },
   {
     "type": "prototype",
-    "named": false
+    "named": true
   },
   {
     "type": "prototype",
-    "named": true
+    "named": false
   },
   {
     "type": "push",
@@ -15537,6 +15566,10 @@
   {
     "type": "s",
     "named": false
+  },
+  {
+    "type": "scalar_variable_2",
+    "named": true
   },
   {
     "type": "scientific_notation",

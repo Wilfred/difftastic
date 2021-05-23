@@ -171,6 +171,7 @@ namespace {
       }
 
 
+      // TODO: might have to delete this
       if (valid_symbols[STRING_SINGLE_QUOTED_CONTENT]) {
         while (lexer->lookahead) {
 
@@ -180,7 +181,6 @@ namespace {
             return true;
           }
           else {
-            lexer->result_symbol = STRING_SINGLE_QUOTED_CONTENT;
 
             // check for escaped single quote \'
             if (lexer->lookahead == '\\') {
