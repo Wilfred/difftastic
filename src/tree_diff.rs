@@ -265,16 +265,17 @@ fn walk_nodes_ordered<'a>(
     loop {
         match (lhs.get(lhs_i), rhs.get(rhs_i)) {
             (Some(ref lhs_node), Some(ref rhs_node)) => {
-                let lhs_count = *lhs_counts.get(lhs_node).unwrap_or(&0);
-                let rhs_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
+                // Count the number of nodes on the opposite side.
+                let lhs_node_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
+                let rhs_node_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
 
                 // If they're equal, nothing to do.
-                if lhs_node == rhs_node && lhs_count > 0 && rhs_count > 0 {
+                if lhs_node == rhs_node && lhs_node_count > 0 && rhs_node_count > 0 {
                     lhs_node.set_change_deep(Unchanged);
                     rhs_node.set_change_deep(Unchanged);
 
-                    decrement(lhs_node, lhs_counts);
-                    decrement(rhs_node, rhs_counts);
+                    decrement(lhs_node, rhs_counts);
+                    decrement(rhs_node, lhs_counts);
                     lhs_i += 1;
                     rhs_i += 1;
                     continue;
@@ -283,9 +284,9 @@ fn walk_nodes_ordered<'a>(
                 // Not equal. Do we have more instances of the LHS
                 // node? If so, we've removed some instances on the
                 // RHS, so assume this is a removal.
-                if lhs_count > rhs_count && rhs_count > 0 {
+                if lhs_node_count > rhs_node_count && lhs_node_count > 0 {
                     lhs_node.set_change_deep(Removed);
-                    decrement(lhs_node, lhs_counts);
+                    decrement(lhs_node, rhs_counts);
                     lhs_i += 1;
                     continue;
                 }
@@ -293,11 +294,9 @@ fn walk_nodes_ordered<'a>(
                 // Do we have more instances of the RHS
                 // node? If so, we've added some instances on the
                 // RHS, so assume this is an addition.
-                let lhs_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
-                let rhs_count = *rhs_counts.get(rhs_node).unwrap_or(&0);
-                if rhs_count > lhs_count && lhs_count > 0 {
+                if rhs_node_count > lhs_node_count && rhs_node_count > 0 {
                     rhs_node.set_change_deep(Added);
-                    decrement(rhs_node, rhs_counts);
+                    decrement(rhs_node, lhs_counts);
                     rhs_i += 1;
                     continue;
                 }
@@ -410,8 +409,8 @@ fn walk_nodes_ordered<'a>(
                 rhs_i += 1;
             }
             (Some(lhs_node), None) => {
-                let rhs_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
-                if rhs_count > 0 {
+                let lhs_node_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
+                if lhs_node_count > 0 {
                     lhs_node.set_change_deep(Moved);
                     decrement(lhs_node, rhs_counts);
                 } else {
@@ -420,8 +419,8 @@ fn walk_nodes_ordered<'a>(
                 lhs_i += 1;
             }
             (None, Some(rhs_node)) => {
-                let lhs_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
-                if lhs_count > 0 {
+                let rhs_node_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
+                if rhs_node_count > 0 {
                     rhs_node.set_change_deep(Moved);
                     decrement(rhs_node, lhs_counts);
                 } else {
