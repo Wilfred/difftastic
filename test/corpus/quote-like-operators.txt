@@ -7,7 +7,11 @@ qq {hello $meow print("dsfsdf) %hash};
 ---
 
 (source_file
-  (string_qq_quoted) (semi_colon)
+  (string_qq_quoted
+    (start_delimiter)
+      (interpolation (scalar_variable))
+    (end_delimiter))
+  (semi_colon)
 )
 
 =================================================
@@ -19,7 +23,7 @@ qq /im inside another delimiter/;
 ---
 
 (source_file
-  (string_qq_quoted) (semi_colon)
+  (string_qq_quoted (start_delimiter) (end_delimiter)) (semi_colon)
 )
 
 =================================================
@@ -103,7 +107,7 @@ my $subs =~ s/my.STRING/foo/is;
 (source_file
   (variable_declaration 
     (scope) (single_var_declaration (scalar_variable)) (unary_expression
-      (substitution_pattern_s (regex_pattern) (identifier) (regex_option_for_substitution))) (semi_colon)
+      (substitution_pattern_s (regex_pattern) (identifier_1) (regex_option_for_substitution))) (semi_colon)
   )
 )
 
@@ -118,6 +122,6 @@ my $subs =~ s/my.STRING/foo/is;
 (source_file
   (variable_declaration 
     (scope) (single_var_declaration (scalar_variable)) (unary_expression
-      (substitution_pattern_s (regex_pattern) (identifier) (regex_option_for_substitution))) (semi_colon)
+      (substitution_pattern_s (regex_pattern) (identifier_1) (regex_option_for_substitution))) (semi_colon)
   )
 )
