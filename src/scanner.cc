@@ -74,6 +74,16 @@ namespace {
     }
 
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
+      if (
+        valid_symbols[START_DELIMITER]
+        && valid_symbols[END_DELIMITER]
+        && valid_symbols[STRING_CONTENT]
+        && valid_symbols[STRING_SINGLE_QUOTED_CONTENT]
+        && valid_symbols[STRING_QQ_QUOTED_CONTENT]
+        && valid_symbols[POD_CONTENT]
+      ) {
+        return false;
+      }
       // TODO: handle qqqSTRINGq; - this should throw error
       if (valid_symbols[START_DELIMITER]) {
         while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
@@ -229,6 +239,8 @@ namespace {
         lexer->mark_end(lexer);
         return true;
       }
+
+      return false;
     }
 
     void advance(TSLexer *lexer) {

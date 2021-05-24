@@ -1331,16 +1331,20 @@ module.exports = grammar({
     )),
     string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qq',
-      // alias($._start_delimiter, $.start_delimiter),
-      // repeat(choice(alias($._string_qq_quoted_content, $.content), $.interpolation, $.escape_sequence)),
-      // // repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
-      // alias($._end_delimiter, $.end_delimiter),
       choice(
-        seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
-        seq('/', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^/]+/)))), '/'),
-        seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^)]+/)))), ')'),
-        /'.*'/, // don't interpolate for a single quote
+        $.string_single_quoted, // don't interpolate for a single quote // TODO: this is not working
+        seq(
+          alias($._start_delimiter, $.start_delimiter),
+          repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
+          alias($._end_delimiter, $.end_delimiter),
+        ),
       ),
+      // choice(
+      //   seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
+      //   seq('/', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^/]+/)))), '/'),
+      //   seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^)]+/)))), ')'),
+      //   /'.*'/, // don't interpolate for a single quote
+      // ),
     )),
 
     command_qx_quoted: $ => prec(PRECEDENCE.STRING, seq(
@@ -1449,7 +1453,7 @@ module.exports = grammar({
       $.array_variable,
       alias($.hash_ref_in_interpolation, $.arrow_notation),
       // $.hash_access_variable,
-      alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable_2),
+      alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable),
     ),
 
     hash_ref_in_interpolation: $ => seq(

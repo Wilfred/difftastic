@@ -6635,11 +6635,20 @@
             "type": "CHOICE",
             "members": [
               {
+                "type": "SYMBOL",
+                "name": "string_single_quoted"
+              },
+              {
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": "{"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_start_delimiter"
+                    },
+                    "named": true,
+                    "value": "start_delimiter"
                   },
                   {
                     "type": "REPEAT",
@@ -6648,115 +6657,29 @@
                       "members": [
                         {
                           "type": "SYMBOL",
+                          "name": "_string_qq_quoted_content"
+                        },
+                        {
+                          "type": "SYMBOL",
                           "name": "interpolation"
                         },
                         {
                           "type": "SYMBOL",
                           "name": "escape_sequence"
-                        },
-                        {
-                          "type": "TOKEN",
-                          "content": {
-                            "type": "PREC",
-                            "value": 4,
-                            "content": {
-                              "type": "PATTERN",
-                              "value": "[^}]+"
-                            }
-                          }
                         }
                       ]
                     }
                   },
                   {
-                    "type": "STRING",
-                    "value": "}"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "/"
-                  },
-                  {
-                    "type": "REPEAT",
+                    "type": "ALIAS",
                     "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "interpolation"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "escape_sequence"
-                        },
-                        {
-                          "type": "TOKEN",
-                          "content": {
-                            "type": "PREC",
-                            "value": 4,
-                            "content": {
-                              "type": "PATTERN",
-                              "value": "[^/]+"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "/"
+                      "type": "SYMBOL",
+                      "name": "_end_delimiter"
+                    },
+                    "named": true,
+                    "value": "end_delimiter"
                   }
                 ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "("
-                  },
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "interpolation"
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "escape_sequence"
-                        },
-                        {
-                          "type": "TOKEN",
-                          "content": {
-                            "type": "PREC",
-                            "value": 4,
-                            "content": {
-                              "type": "PATTERN",
-                              "value": "[^)]+"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ")"
-                  }
-                ]
-              },
-              {
-                "type": "PATTERN",
-                "value": "'.*'"
               }
             ]
           }
@@ -7903,7 +7826,7 @@
             "value": "\\$_?[a-zA-Z0-9_]+"
           },
           "named": true,
-          "value": "scalar_variable_2"
+          "value": "scalar_variable"
         }
       ]
     },

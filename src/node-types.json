@@ -8201,7 +8201,7 @@
           "named": true
         },
         {
-          "type": "scalar_variable_2",
+          "type": "scalar_variable",
           "named": true
         }
       ]
@@ -11252,14 +11252,26 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "end_delimiter",
+          "named": true
+        },
         {
           "type": "escape_sequence",
           "named": true
         },
         {
           "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "start_delimiter",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
           "named": true
         }
       ]
@@ -15356,6 +15368,10 @@
     "named": false
   },
   {
+    "type": "end_delimiter",
+    "named": true
+  },
+  {
     "type": "eq",
     "named": false
   },
@@ -15568,10 +15584,6 @@
     "named": false
   },
   {
-    "type": "scalar_variable_2",
-    "named": true
-  },
-  {
     "type": "scientific_notation",
     "named": true
   },
@@ -15581,6 +15593,10 @@
   },
   {
     "type": "sort",
+    "named": true
+  },
+  {
+    "type": "start_delimiter",
     "named": true
   },
   {
