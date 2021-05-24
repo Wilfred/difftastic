@@ -310,9 +310,7 @@ fn walk_nodes_ordered<'a>(
 
                 // Same number: reordered nodes, or both nodes are
                 // novel to a single side.
-                let mut lhs_node = lhs_node;
-                let mut rhs_node = rhs_node;
-                match (&mut lhs_node, &mut rhs_node) {
+                match (lhs_node, rhs_node) {
                     (
                         List {
                             open_delimiter: lhs_start_content,
