@@ -201,7 +201,9 @@ mod tests {
                     return false;
                 }
 
-                assert_syntaxes(lhs_children, rhs_children);
+                if !syntaxes_match(lhs_children, rhs_children) {
+                    return false;
+                }
             }
             (
                 Atom {
