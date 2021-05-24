@@ -131,20 +131,28 @@ mod tests {
     }
 
     fn assert_syntaxes(actual: &[&Syntax], expected: &[&Syntax]) {
-        if actual.len() != expected.len() {
-            dbg!(actual, expected);
+        if !syntaxes_match(actual, expected) {
+            dbg!(expected, actual);
             assert!(false);
+        }
+    }
+
+    fn syntaxes_match(actual: &[&Syntax], expected: &[&Syntax]) -> bool {
+        if actual.len() != expected.len() {
+            return false;
         } else {
             for (lhs_child, rhs_child) in actual.iter().zip(expected.iter()) {
-                assert_syntax(lhs_child, rhs_child);
+                if !syntax_matches(lhs_child, rhs_child) {
+                    return false;
+                }
             }
         }
+        true
     }
 
     /// Compare all the fields in a Syntax value, not just
     /// those used in its Eq implementation.
-    fn assert_syntax(actual: &Syntax, expected: &Syntax) {
-        let mut matches = true;
+    fn syntax_matches(actual: &Syntax, expected: &Syntax) -> bool {
         match (actual, expected) {
             (
                 List {
@@ -167,30 +175,30 @@ mod tests {
                 },
             ) => {
                 if lhs_change != rhs_change {
-                    dbg!(lhs_change, rhs_change);
-                    matches = false;
+                    dbg!(lhs_change.get(), rhs_change.get());
+                    return false;
                 }
                 if lhs_open_position != rhs_open_position {
                     dbg!(lhs_open_position, rhs_open_position);
-                    matches = false;
+                    return false;
                 }
 
                 if lhs_start_content != rhs_start_content {
                     dbg!(lhs_start_content, rhs_start_content);
-                    matches = false;
+                    return false;
                 }
                 if lhs_end_content != rhs_end_content {
                     dbg!(lhs_end_content, rhs_end_content);
-                    matches = false;
+                    return false;
                 }
                 if lhs_close_position != rhs_close_position {
                     dbg!(lhs_close_position, rhs_close_position);
-                    matches = false;
+                    return false;
                 }
 
                 if lhs_num_descendants != rhs_num_descendants {
                     dbg!(lhs_num_descendants, rhs_num_descendants);
-                    matches = false;
+                    return false;
                 }
 
                 assert_syntaxes(lhs_children, rhs_children);
@@ -210,31 +218,28 @@ mod tests {
                 },
             ) => {
                 if lhs_change != rhs_change {
-                    dbg!(lhs_change, rhs_change);
-                    matches = false;
+                    dbg!(lhs_change.get(), rhs_change.get());
+                    return false;
                 }
                 if lhs_position != rhs_position {
                     dbg!(lhs_position, rhs_position);
-                    matches = false;
+                    return false;
                 }
 
                 if lhs_content != rhs_content {
                     dbg!(lhs_content, rhs_content);
-                    matches = false;
+                    return false;
                 }
                 if lhs_kind != rhs_kind {
                     dbg!(lhs_kind, rhs_kind);
-                    matches = false;
+                    return false;
                 }
             }
             _ => {
-                matches = false;
+                return false;
             }
         }
-        if !matches {
-            dbg!(actual, expected);
-            assert!(false);
-        }
+        true
     }
 
     #[test]
@@ -511,7 +516,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
         ];
-        assert_syntaxes(&as_refs(&expected_rhs), &rhs);
+        assert_syntaxes(&rhs, &as_refs(&expected_rhs));
     }
 
     #[test]
@@ -522,8 +527,6 @@ mod tests {
         let rhs = parse_json(&arena, "x a");
 
         set_changed(&lhs, &rhs);
-
-        dbg!(&lhs, &rhs);
 
         let expected_lhs = vec![
             Atom {
@@ -539,7 +542,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
         ];
-        assert_syntaxes(&as_refs(&expected_lhs), &lhs);
+        assert_syntaxes(&lhs, &as_refs(&expected_lhs));
     }
 
     #[test]
@@ -573,7 +576,7 @@ mod tests {
             ],
             num_descendants: 2,
         })];
-        assert_syntaxes(&expected_rhs, &rhs);
+        assert_syntaxes(&rhs, &expected_rhs);
     }
 
     /// Moving a subtree should consume its children, so further uses
@@ -621,7 +624,7 @@ mod tests {
                 kind: AtomKind::Other,
             }),
         ];
-        assert_syntaxes(&expected_rhs, &rhs);
+        assert_syntaxes(&rhs, &expected_rhs);
     }
 
     /// Moving a subtree should consume its children, so further uses
@@ -669,6 +672,6 @@ mod tests {
                 num_descendants: 2,
             }),
         ];
-        assert_syntaxes(&expected_rhs, &rhs);
+        assert_syntaxes(&rhs, &expected_rhs);
     }
 }
