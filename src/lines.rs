@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 // use crate::diffs::Change;
 use regex::Regex;
 use std::cmp::{max, min};
