@@ -240,6 +240,10 @@ pub fn set_changed(lhs: &[&Syntax], rhs: &[&Syntax]) {
     walk_nodes_ordered(lhs, rhs, &mut lhs_subtrees, &mut rhs_subtrees);
 }
 
+fn get_count<T: Hash + Eq>(node: &T, counts: &HashMap<&T, i64>) -> i64 {
+    *counts.get(node).unwrap_or(&0)
+}
+
 /// Decrement the count of `node` from `counts`, along with all its children.
 fn decrement<'a>(node: &'a Syntax<'a>, counts: &mut HashMap<&'a Syntax<'a>, i64>) {
     let count = if let Some(count) = counts.get(node) {
@@ -270,11 +274,12 @@ fn walk_nodes_ordered<'a>(
     let mut lhs_i = 0;
     let mut rhs_i = 0;
     loop {
+        dbg!(lhs_i, rhs_i);
         match (lhs.get(lhs_i), rhs.get(rhs_i)) {
             (Some(lhs_node), Some(rhs_node)) => {
                 // Count the number of nodes on the opposite side.
-                let lhs_node_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
-                let rhs_node_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
+                let lhs_node_count = get_count(*lhs_node, rhs_counts);
+                let rhs_node_count = get_count(*rhs_node, lhs_counts);
 
                 // If they're equal, nothing to do.
                 if lhs_node == rhs_node && lhs_node_count > 0 && rhs_node_count > 0 {
@@ -414,7 +419,7 @@ fn walk_nodes_ordered<'a>(
                 rhs_i += 1;
             }
             (Some(lhs_node), None) => {
-                let lhs_node_count = *rhs_counts.get(lhs_node).unwrap_or(&0);
+                let lhs_node_count = get_count(*lhs_node, rhs_counts);
                 if lhs_node_count > 0 {
                     lhs_node.set_change_deep(Moved);
                     decrement(lhs_node, rhs_counts);
@@ -424,7 +429,7 @@ fn walk_nodes_ordered<'a>(
                 lhs_i += 1;
             }
             (None, Some(rhs_node)) => {
-                let rhs_node_count = *lhs_counts.get(rhs_node).unwrap_or(&0);
+                let rhs_node_count = get_count(*rhs_node, lhs_counts);
                 if rhs_node_count > 0 {
                     rhs_node.set_change_deep(Moved);
                     decrement(rhs_node, lhs_counts);
