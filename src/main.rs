@@ -3,6 +3,7 @@ mod lines;
 mod tree_diff;
 use clap::{App, Arg};
 use std::fs;
+use typed_arena::Arena;
 
 use crate::json::parse_json;
 use crate::tree_diff::{apply_colors, change_positions, set_changed};
@@ -65,8 +66,9 @@ fn main() {
     let after_path = matches.value_of("second").unwrap();
     let after_src = read_or_die(after_path);
 
-    let lhs = parse_json(&before_src);
-    let rhs = parse_json(&after_src);
+    let arena = Arena::new();
+    let lhs = parse_json(&arena, &before_src);
+    let rhs = parse_json(&arena, &after_src);
 
     set_changed(&lhs, &rhs);
 
