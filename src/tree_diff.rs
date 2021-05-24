@@ -291,7 +291,7 @@ fn walk_nodes_ordered<'a>(
                 // Not equal. Do we have more instances of the LHS
                 // node? If so, we've removed some instances on the
                 // RHS, so assume this is a removal.
-                if lhs_node_count > rhs_node_count && lhs_node_count > 0 {
+                if lhs_node_count > rhs_node_count {
                     lhs_node.set_change_deep(Removed);
                     decrement(lhs_node, rhs_counts);
                     lhs_i += 1;
@@ -301,7 +301,7 @@ fn walk_nodes_ordered<'a>(
                 // Do we have more instances of the RHS
                 // node? If so, we've added some instances on the
                 // RHS, so assume this is an addition.
-                if rhs_node_count > lhs_node_count && rhs_node_count > 0 {
+                if rhs_node_count > lhs_node_count {
                     rhs_node.set_change_deep(Added);
                     decrement(rhs_node, lhs_counts);
                     rhs_i += 1;
