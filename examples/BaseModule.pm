@@ -2,9 +2,13 @@ package BaseModule::YeaThis;
 
 use parent 'PerlModule';
 
+$foo::bar = 1;
+
 BaseModule::YeaThis->new->hello();
 
 my $simple = SimpleModule->new();
+
+my $parent_call = $self->SUPER::Something($string);
 
 
 my $event = {

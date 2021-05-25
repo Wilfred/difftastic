@@ -74,6 +74,9 @@ namespace {
     }
 
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
+      // on ERROR, external scanner is called with all valid_symbols to be true.
+      // so for our usecase we need this logic.
+      // ref - https://github.com/tree-sitter/tree-sitter/issues/1128
       if (
         valid_symbols[START_DELIMITER]
         && valid_symbols[END_DELIMITER]
