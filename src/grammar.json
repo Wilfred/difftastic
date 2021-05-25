@@ -6411,7 +6411,7 @@
     },
     "identifier_1": {
       "type": "PATTERN",
-      "value": "[a-zA-Z0-9_$]+"
+      "value": "[a-zA-Z0-9_$:]+"
     },
     "loop_control_keyword": {
       "type": "CHOICE",
@@ -6966,6 +6966,26 @@
                   {
                     "type": "STRING",
                     "value": ")"
+                  }
+                ]
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "["
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "identifier_1"
+                    }
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "]"
                   }
                 ]
               },
