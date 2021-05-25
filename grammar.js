@@ -85,6 +85,7 @@ module.exports = grammar({
     [$.named_block_statement, $.hash_ref],
     [$.variable_declarator, $._variables],
     [$.loop_control_statement],
+    [$.variable_declarator, $.function_signature],
   ],
 
   externals: $ => [
@@ -147,7 +148,11 @@ module.exports = grammar({
     use_parent_statement: $ => seq(
       'use',
       'parent',
-      commaSeparated($._string),
+      optional(seq($.no_require, ',')),
+      choice(
+        commaSeparated($._string),
+        $.word_list_qw,
+      ),
       $.semi_colon,
     ),
 
@@ -493,7 +498,7 @@ module.exports = grammar({
     single_var_declaration: $ => alias($.variable_declarator, 'single_var_declaration'),
 
     variable_declarator: $ => seq(
-      field('name', choice($.scalar_variable, $.array_variable, $.hash_variable)),
+      field('name', $._variables),
     ),
 
     _initializer: $ => seq(
@@ -662,6 +667,7 @@ module.exports = grammar({
       $._primitive_expression,
       $._string,
       $._variables,
+      $.package_variable,
 
       $.binary_expression,
       $.unary_expression,
@@ -703,6 +709,12 @@ module.exports = grammar({
       $.unpack_function,
 
       $.push_function,
+    ),
+
+    package_variable: $ => seq(
+      alias($.scalar_variable, $.package_name),
+      token.immediate('::'),
+      alias($.identifier, $.scalar_variable),
     ),
 
     push_function: $ => prec.right(seq(
@@ -1173,7 +1185,10 @@ module.exports = grammar({
       prec.right(repeat1(seq(
         $.arrow_operator,
         choice(
-          field('function_name', $.identifier),
+          seq(
+            optional(seq($.super, token.immediate('::'))),
+            field('function_name', $.identifier)
+          ),
           $.scalar_variable,
           $.scalar_reference,
         ),
@@ -1307,7 +1322,6 @@ module.exports = grammar({
     string_single_quoted: $ => prec(PRECEDENCE.STRING, seq(
       "'",
       repeat(choice(/[^']/, /\\'/)),
-      // $._string_single_quoted_content, // TODO: Sev4, make \' and \\ as a separate token
       "'",
     )),
     // TODO change all + to * in regex
@@ -1339,12 +1353,6 @@ module.exports = grammar({
           alias($._end_delimiter, $.end_delimiter),
         ),
       ),
-      // choice(
-      //   seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
-      //   seq('/', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^/]+/)))), '/'),
-      //   seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^)]+/)))), ')'),
-      //   /'.*'/, // don't interpolate for a single quote
-      // ),
     )),
 
     command_qx_quoted: $ => prec(PRECEDENCE.STRING, seq(
@@ -1357,6 +1365,7 @@ module.exports = grammar({
       ),
     )),
 
+    // TODO: fix qw ( Parent::Base ) ie space is the only separater
     word_list_qw: $ => prec(PRECEDENCE.REGEXP, seq(
       'qw',
       choice(
@@ -1489,7 +1498,11 @@ module.exports = grammar({
     hash_access_variable: $ => prec(PRECEDENCE.HASH, seq(
       field('hash_variable', $._expression),
       token.immediate('{'),
-      field('key', choice($.identifier, $._expression)),
+      field('key', choice(
+        alias($.identifier, $.bareword),
+        alias($.key_words_in_hash_key, $.bareword),
+        $._expression_without_call_expression, // TODO: should accept call_expression also. But currently bareword is treated as call_expression without brackets
+      )), 
       '}',
     )),
 
@@ -1605,6 +1618,10 @@ module.exports = grammar({
 
     arrow_operator: $ => /->/,
     hash_arrow_operator: $ => /=>/,
+
+    // some key words
+    super: $ => 'SUPER',
+    no_require: $ => '-norequire',
 
     comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
       /#.*/, // single line comment

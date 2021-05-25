@@ -131,6 +131,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -347,6 +351,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -577,6 +585,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -796,6 +808,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -1019,6 +1035,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -1235,6 +1255,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -1465,6 +1489,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -1676,6 +1704,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -1895,6 +1927,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -2165,6 +2201,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -2580,6 +2620,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -2802,6 +2846,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -3014,6 +3062,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -3241,6 +3293,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -3519,6 +3575,10 @@
         },
         {
           "type": "package_statement",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -3918,6 +3978,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -4147,6 +4211,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -4398,6 +4466,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -4620,6 +4692,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -4839,6 +4915,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -5103,6 +5183,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -5331,6 +5415,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -5582,6 +5670,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -5949,6 +6041,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -6201,6 +6297,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -6417,6 +6517,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -6639,6 +6743,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -6888,6 +6996,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -6990,17 +7102,9 @@
         ]
       },
       "key": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
           {
             "type": "anonymous_function",
             "named": true
@@ -7030,15 +7134,15 @@
             "named": true
           },
           {
+            "type": "bareword",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
           {
             "type": "bless",
-            "named": true
-          },
-          {
-            "type": "call_expression",
             "named": true
           },
           {
@@ -7094,10 +7198,6 @@
             "named": true
           },
           {
-            "type": "identifier",
-            "named": true
-          },
-          {
             "type": "integer",
             "named": true
           },
@@ -7111,6 +7211,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -7334,6 +7438,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -7550,6 +7658,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -7772,6 +7884,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -8018,6 +8134,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -8328,6 +8448,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -8544,6 +8668,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -8798,6 +8926,10 @@
         {
           "type": "scalar_variable",
           "named": true
+        },
+        {
+          "type": "super",
+          "named": true
         }
       ]
     }
@@ -8986,6 +9118,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -9166,7 +9302,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "identifier",
@@ -9189,6 +9325,25 @@
         },
         {
           "type": "semi_colon",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_variable",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "package_name",
+          "named": true
+        },
+        {
+          "type": "scalar_variable",
           "named": true
         }
       ]
@@ -9323,6 +9478,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -9592,6 +9751,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -9858,6 +10021,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -10115,6 +10282,10 @@
         },
         {
           "type": "octal",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -10385,6 +10556,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -10641,6 +10816,10 @@
         },
         {
           "type": "package_statement",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -11010,6 +11189,10 @@
         },
         {
           "type": "package_statement",
+          "named": true
+        },
+        {
+          "type": "package_variable",
           "named": true
         },
         {
@@ -11443,6 +11626,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -11662,6 +11849,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -11901,6 +12092,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -12126,6 +12321,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -12526,6 +12725,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -12751,6 +12954,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -13038,6 +13245,10 @@
           "named": true
         },
         {
+          "type": "package_variable",
+          "named": true
+        },
+        {
           "type": "patter_matcher_m",
           "named": true
         },
@@ -13262,6 +13473,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -13569,6 +13784,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "patter_matcher_m",
             "named": true
           },
@@ -13840,6 +14059,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -14199,6 +14422,10 @@
       "required": true,
       "types": [
         {
+          "type": "no_require",
+          "named": true
+        },
+        {
           "type": "semi_colon",
           "named": true
         },
@@ -14216,6 +14443,10 @@
         },
         {
           "type": "string_single_quoted",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -14343,6 +14574,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -14633,6 +14868,10 @@
             "named": true
           },
           {
+            "type": "package_variable",
+            "named": true
+          },
+          {
             "type": "parenthesized_expression",
             "named": true
           },
@@ -14872,6 +15111,10 @@
           },
           {
             "type": "octal",
+            "named": true
+          },
+          {
+            "type": "package_variable",
             "named": true
           },
           {
@@ -15496,6 +15739,10 @@
     "named": false
   },
   {
+    "type": "no_require",
+    "named": true
+  },
+  {
     "type": "not",
     "named": false
   },
@@ -15521,11 +15768,11 @@
   },
   {
     "type": "prototype",
-    "named": true
+    "named": false
   },
   {
     "type": "prototype",
-    "named": false
+    "named": true
   },
   {
     "type": "push",
@@ -15610,6 +15857,10 @@
   {
     "type": "subs",
     "named": false
+  },
+  {
+    "type": "super",
+    "named": true
   },
   {
     "type": "tr",
