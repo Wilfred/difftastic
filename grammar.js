@@ -1289,7 +1289,7 @@ module.exports = grammar({
     // bareword: $ => /[a-zA-Z0-9_$]+/,
 
     // any characters or just bareword(s) and variables
-    identifier_1: $ => /[a-zA-Z0-9_$]+/,
+    identifier_1: $ => /[a-zA-Z0-9_$:]+/,
 
     loop_control_keyword: $ => choice(
       'next',
@@ -1372,6 +1372,7 @@ module.exports = grammar({
         seq('{', repeat($.identifier_1), '}'),
         seq('/', repeat($.identifier_1), '/'),
         seq('(', repeat($.identifier_1), ')'),
+        seq('[', repeat($.identifier_1), ']'),
         seq('\'', repeat($.identifier_1), '\''),
       ),
     )),
