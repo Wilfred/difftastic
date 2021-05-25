@@ -1904,13 +1904,13 @@ static const TSFieldMapSlice ts_field_map_slices[PRODUCTION_ID_COUNT] = {
   [22] = {.index = 25, .length = 2},
   [23] = {.index = 27, .length = 2},
   [24] = {.index = 29, .length = 1},
-  [25] = {.index = 30, .length = 2},
-  [26] = {.index = 32, .length = 1},
-  [27] = {.index = 33, .length = 1},
-  [28] = {.index = 34, .length = 2},
-  [29] = {.index = 36, .length = 3},
-  [30] = {.index = 39, .length = 2},
-  [31] = {.index = 41, .length = 3},
+  [25] = {.index = 30, .length = 3},
+  [26] = {.index = 33, .length = 1},
+  [27] = {.index = 34, .length = 1},
+  [28] = {.index = 35, .length = 2},
+  [29] = {.index = 37, .length = 3},
+  [30] = {.index = 40, .length = 2},
+  [31] = {.index = 42, .length = 2},
   [32] = {.index = 44, .length = 2},
   [33] = {.index = 46, .length = 2},
   [34] = {.index = 48, .length = 2},
@@ -2015,24 +2015,24 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_label, 1},
   [30] =
     {field_left, 0},
+    {field_operator, 1},
     {field_right, 2},
-  [32] =
-    {field_label, 0},
   [33] =
-    {field_declarator, 1},
+    {field_label, 0},
   [34] =
     {field_declarator, 1},
+  [35] =
+    {field_declarator, 1},
     {field_type, 0, .inherited = true},
-  [36] =
+  [37] =
     {field_body, 2},
     {field_declarator, 1},
     {field_type, 0, .inherited = true},
-  [39] =
+  [40] =
     {field_declarator, 0},
     {field_parameters, 1},
-  [41] =
+  [42] =
     {field_left, 0},
-    {field_operator, 1},
     {field_right, 2},
   [44] =
     {field_argument, 0},
@@ -66221,8 +66221,8 @@ static TSParseActionEntry ts_parse_actions[] = {
   [1481] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_cast_expression, 4, .production_id = 39),
   [1483] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_cast_expression, 4, .production_id = 39),
   [1485] = {.entry = {.count = 1, .reusable = true}}, SHIFT(436),
-  [1487] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_binary_expression, 3, .production_id = 31),
-  [1489] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_binary_expression, 3, .production_id = 31),
+  [1487] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_binary_expression, 3, .production_id = 25),
+  [1489] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_binary_expression, 3, .production_id = 25),
   [1491] = {.entry = {.count = 1, .reusable = true}}, SHIFT(408),
   [1493] = {.entry = {.count = 1, .reusable = true}}, SHIFT(983),
   [1495] = {.entry = {.count = 1, .reusable = true}}, SHIFT(431),
@@ -66320,7 +66320,7 @@ static TSParseActionEntry ts_parse_actions[] = {
   [1684] = {.entry = {.count = 1, .reusable = true}}, SHIFT(494),
   [1686] = {.entry = {.count = 1, .reusable = true}}, SHIFT(492),
   [1688] = {.entry = {.count = 1, .reusable = true}}, SHIFT(464),
-  [1690] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_comma_expression, 3, .production_id = 25),
+  [1690] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_comma_expression, 3, .production_id = 31),
   [1692] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_field_declaration, 3, .production_id = 28),
   [1694] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_storage_class_specifier, 1),
   [1696] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_storage_class_specifier, 1),
@@ -66487,8 +66487,8 @@ static TSParseActionEntry ts_parse_actions[] = {
   [2021] = {.entry = {.count = 1, .reusable = true}}, SHIFT(797),
   [2023] = {.entry = {.count = 1, .reusable = true}}, SHIFT(827),
   [2025] = {.entry = {.count = 1, .reusable = true}}, SHIFT(860),
-  [2027] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_preproc_binary_expression, 3, .production_id = 31),
-  [2029] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_preproc_binary_expression, 3, .production_id = 31),
+  [2027] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_preproc_binary_expression, 3, .production_id = 25),
+  [2029] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_preproc_binary_expression, 3, .production_id = 25),
   [2031] = {.entry = {.count = 1, .reusable = false}}, SHIFT(760),
   [2033] = {.entry = {.count = 1, .reusable = true}}, SHIFT(813),
   [2035] = {.entry = {.count = 1, .reusable = false}}, SHIFT(1126),
