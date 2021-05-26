@@ -274,7 +274,6 @@ fn walk_nodes_ordered<'a>(
     let mut lhs_i = 0;
     let mut rhs_i = 0;
     loop {
-        dbg!(lhs_i, rhs_i);
         match (lhs.get(lhs_i), rhs.get(rhs_i)) {
             (Some(lhs_node), Some(rhs_node)) => {
                 // Count the number of nodes on the opposite side.
