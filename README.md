@@ -10,7 +10,7 @@ ast node with correct structure (precedence and associativity).
 ```bash
 git clone git@github.com:ananthakumaran/tree-sitter-elixir.git
 npm install # ignore node-gyp error, we will fix it in the next step
-make generate # this should generate dynamic libraries under ~/.tree-sitter/bin/{elixir.so, elixir.so.dSYM}
+make install # this should generate dynamic libraries under ~/.tree-sitter/bin/{elixir.so, elixir.so.dSYM}
 ```
 
 ## Emacs
