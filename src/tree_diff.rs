@@ -264,6 +264,25 @@ fn decrement<'a>(node: &'a Syntax<'a>, counts: &mut HashMap<&'a Syntax<'a>, i64>
     }
 }
 
+fn try_decrement<'a>(node: &'a Syntax<'a>, counts: &mut HashMap<&'a Syntax<'a>, i64>) -> bool {
+    let node_count = get_count(node, counts);
+
+    if node_count > 0 {
+        counts.insert(node, node_count - 1);
+        match node {
+            List { children, .. } => {
+                for child in children {
+                    try_decrement(child, counts);
+                }
+            }
+            Atom { .. } => {}
+        }
+        true
+    } else {
+        false
+    }
+}
+
 // Greedy tree differ.
 fn walk_nodes_ordered<'a>(
     lhs: &'a [&'a Syntax],
@@ -292,28 +311,25 @@ fn walk_nodes_ordered<'a>(
                     continue;
                 }
 
-                // Not equal. Do we have more instances of the LHS
-                // node? If so, we've removed some instances on the
-                // RHS, so assume this is a removal.
-                if lhs_node_count > rhs_node_count && rhs_node_count > 0 {
-                    lhs_node.set_change_deep(Removed);
-                    decrement(lhs_node, rhs_counts);
+                // Do we have remaining instances of the LHS node on
+                // the RHS? If so, this is a move.
+                if try_decrement(lhs_node, rhs_counts) {
+                    lhs_node.set_change_deep(Moved);
                     lhs_i += 1;
                     continue;
                 }
 
-                // Do we have more instances of the RHS
-                // node? If so, we've added some instances on the
-                // RHS, so assume this is an addition.
-                if rhs_node_count > lhs_node_count && lhs_node_count > 0 {
+                // Do we have remaining instances of the RHS node on
+                // the LHS? If so, this is a move.
+                if try_decrement(rhs_node, lhs_counts) {
                     rhs_node.set_change_deep(Added);
-                    decrement(rhs_node, lhs_counts);
                     rhs_i += 1;
                     continue;
                 }
 
-                // Same number: reordered nodes, or both nodes are
-                // novel to a single side.
+                // Not equal, and neither is present on the opposite
+                // side. Atoms are novel, but check lists for moved
+                // subtrees.
                 match (lhs_node, rhs_node) {
                     (
                         List {
@@ -340,7 +356,7 @@ fn walk_nodes_ordered<'a>(
                         {
                             // We didn't see either the LHS or RHS
                             // node on the other side, but they have
-                            // the same start/end, so only the
+                            // the same delimiters, so only the
                             // children are different.
                             lhs_change.set(Unchanged);
                             rhs_change.set(Unchanged);
@@ -397,43 +413,32 @@ fn walk_nodes_ordered<'a>(
                             change: rhs_change, ..
                         },
                     ) => {
-                        let lhs_node_count = get_count(*lhs_node, rhs_counts);
-                        if lhs_node_count > 0 {
-                            lhs_change.set(Moved);
-                            decrement(lhs_node, rhs_counts);
-                        } else {
-                            lhs_change.set(Removed);
-                        }
-
-                        let rhs_node_count = get_count(*rhs_node, lhs_counts);
-                        if rhs_node_count > 0 {
-                            rhs_change.set(Moved);
-                            decrement(rhs_node, lhs_counts);
-                        } else {
-                            rhs_change.set(Added);
-                        }
+                        lhs_change.set(Removed);
+                        rhs_change.set(Added);
                     }
                 }
                 lhs_i += 1;
                 rhs_i += 1;
             }
             (Some(lhs_node), None) => {
-                let lhs_node_count = get_count(*lhs_node, rhs_counts);
-                if lhs_node_count > 0 {
+                if try_decrement(lhs_node, rhs_counts) {
                     lhs_node.set_change_deep(Moved);
-                    decrement(lhs_node, rhs_counts);
                 } else {
-                    lhs_node.set_change_deep(Removed);
+                    lhs_node.set_change(Removed);
+                    if let List { children, .. } = lhs_node {
+                        walk_nodes_ordered(&children[..], &[], lhs_counts, rhs_counts);
+                    }
                 }
                 lhs_i += 1;
             }
             (None, Some(rhs_node)) => {
-                let rhs_node_count = get_count(*rhs_node, lhs_counts);
-                if rhs_node_count > 0 {
+                if try_decrement(rhs_node, lhs_counts) {
                     rhs_node.set_change_deep(Moved);
-                    decrement(rhs_node, lhs_counts);
                 } else {
-                    rhs_node.set_change_deep(Added);
+                    rhs_node.set_change(Added);
+                    if let List { children, .. } = rhs_node {
+                        walk_nodes_ordered(&[], &children[..], lhs_counts, rhs_counts);
+                    }
                 }
                 rhs_i += 1;
             }
