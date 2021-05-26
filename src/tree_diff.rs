@@ -322,7 +322,7 @@ fn walk_nodes_ordered<'a>(
                 // Do we have remaining instances of the RHS node on
                 // the LHS? If so, this is a move.
                 if try_decrement(rhs_node, lhs_counts) {
-                    rhs_node.set_change_deep(Added);
+                    rhs_node.set_change_deep(Moved);
                     rhs_i += 1;
                     continue;
                 }

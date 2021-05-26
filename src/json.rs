@@ -545,6 +545,48 @@ mod tests {
             },
         ];
         assert_syntaxes(&lhs, &as_refs(&expected_lhs));
+
+        let expected_rhs = vec![
+            Atom {
+                position: AbsoluteRange { start: 0, end: 1 },
+                change: Cell::new(Added),
+                content: "x".into(),
+                kind: AtomKind::Other,
+            },
+            Atom {
+                position: AbsoluteRange { start: 2, end: 3 },
+                change: Cell::new(Moved),
+                content: "a".into(),
+                kind: AtomKind::Other,
+            },
+        ];
+        assert_syntaxes(&rhs, &as_refs(&expected_rhs));
+    }
+
+    #[test]
+    fn test_move_atom2() {
+        let arena = Arena::new();
+
+        let lhs = parse_json(&arena, "x a");
+        let rhs = parse_json(&arena, "a b");
+
+        set_changed(&lhs, &rhs);
+
+        let expected_rhs = vec![
+            Atom {
+                position: AbsoluteRange { start: 0, end: 1 },
+                change: Cell::new(Moved),
+                content: "a".into(),
+                kind: AtomKind::Other,
+            },
+            Atom {
+                position: AbsoluteRange { start: 2, end: 3 },
+                change: Cell::new(Added),
+                content: "b".into(),
+                kind: AtomKind::Other,
+            },
+        ];
+        assert_syntaxes(&rhs, &as_refs(&expected_rhs));
     }
 
     #[test]
