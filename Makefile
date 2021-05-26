@@ -26,6 +26,8 @@ debug:
 test:
 	./node_modules/.bin/tree-sitter test
 
+install: generate test
+
 update-corpus:
 	./node_modules/.bin/tree-sitter test -u
 
