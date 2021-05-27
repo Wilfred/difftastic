@@ -17,7 +17,7 @@ pub enum ChangeKind {
     Moved,
 }
 
-#[derive(PartialEq, Eq, Copy, Clone, Debug)]
+#[derive(PartialEq, Eq, Copy, Clone, Debug, PartialOrd, Ord)]
 pub enum AtomKind {
     String,
     Comment,
