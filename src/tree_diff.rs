@@ -180,15 +180,24 @@ pub fn change_positions(nodes: &[&Syntax]) -> Vec<(ChangeKind, AbsoluteRange)> {
                 close_position,
                 ..
             } => {
-                res.push((change.get().expect("Should have computed change kind"), *open_position));
+                res.push((
+                    change.get().expect("Should have computed change kind"),
+                    *open_position,
+                ));
                 let mut child_positions = change_positions(children);
                 res.append(&mut child_positions);
-                res.push((change.get().expect("Should have computed change kind"), *close_position));
+                res.push((
+                    change.get().expect("Should have computed change kind"),
+                    *close_position,
+                ));
             }
             Atom {
                 change, position, ..
             } => {
-                res.push((change.get().expect("Should have computed change kind"), *position));
+                res.push((
+                    change.get().expect("Should have computed change kind"),
+                    *position,
+                ));
             }
         }
     }
