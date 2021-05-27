@@ -507,13 +507,13 @@ mod tests {
         let expected_rhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Unchanged),
+                change: Cell::new(Some(Unchanged)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
                 position: AbsoluteRange { start: 2, end: 3 },
-                change: Cell::new(Added),
+                change: Cell::new(Some(Added)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -533,13 +533,13 @@ mod tests {
         let expected_lhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Moved),
+                change: Cell::new(Some(Moved)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
                 position: AbsoluteRange { start: 2, end: 3 },
-                change: Cell::new(Removed),
+                change: Cell::new(Some(Removed)),
                 content: "b".into(),
                 kind: AtomKind::Other,
             },
@@ -549,13 +549,13 @@ mod tests {
         let expected_rhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Added),
+                change: Cell::new(Some(Added)),
                 content: "x".into(),
                 kind: AtomKind::Other,
             },
             Atom {
                 position: AbsoluteRange { start: 2, end: 3 },
-                change: Cell::new(Moved),
+                change: Cell::new(Some(Moved)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -575,13 +575,13 @@ mod tests {
         let expected_rhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Moved),
+                change: Cell::new(Some(Moved)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
                 position: AbsoluteRange { start: 2, end: 3 },
-                change: Cell::new(Added),
+                change: Cell::new(Some(Added)),
                 content: "b".into(),
                 kind: AtomKind::Other,
             },
@@ -599,7 +599,7 @@ mod tests {
         set_changed(&lhs, &rhs);
 
         let expected_rhs: Vec<&Syntax> = vec![arena.alloc(List {
-            change: Cell::new(Unchanged),
+            change: Cell::new(Some(Unchanged)),
             open_position: AbsoluteRange { start: 0, end: 1 },
             open_delimiter: "[".into(),
             close_position: AbsoluteRange { start: 4, end: 5 },
@@ -607,13 +607,13 @@ mod tests {
             children: vec![
                 arena.alloc(Atom {
                     position: AbsoluteRange { start: 1, end: 2 },
-                    change: Cell::new(Unchanged),
+                    change: Cell::new(Some(Unchanged)),
                     content: "a".into(),
                     kind: AtomKind::Other,
                 }),
                 arena.alloc(Atom {
                     position: AbsoluteRange { start: 3, end: 4 },
-                    change: Cell::new(Added),
+                    change: Cell::new(Some(Added)),
                     content: "a".into(),
                     kind: AtomKind::Other,
                 }),
@@ -644,16 +644,16 @@ mod tests {
                 open_position: AbsoluteRange { start: 0, end: 1 },
                 close_position: AbsoluteRange { start: 4, end: 5 },
                 close_delimiter: "]".into(),
-                change: Cell::new(Unchanged),
+                change: Cell::new(Some(Unchanged)),
                 children: vec![arena.alloc(List {
-                    change: Cell::new(Moved),
+                    change: Cell::new(Some(Moved)),
                     open_delimiter: "[".into(),
                     open_position: AbsoluteRange { start: 1, end: 2 },
                     close_position: AbsoluteRange { start: 3, end: 4 },
                     close_delimiter: "]".into(),
                     children: vec![arena.alloc(Atom {
                         position: AbsoluteRange { start: 2, end: 3 },
-                        change: Cell::new(Moved),
+                        change: Cell::new(Some(Moved)),
                         content: "1".into(),
                         kind: AtomKind::Other,
                     })],
@@ -663,7 +663,7 @@ mod tests {
             }),
             arena.alloc(Atom {
                 position: AbsoluteRange { start: 6, end: 7 },
-                change: Cell::new(Added),
+                change: Cell::new(Some(Added)),
                 content: "1".into(),
                 kind: AtomKind::Other,
             }),
@@ -689,7 +689,7 @@ mod tests {
         let expected_rhs: Vec<&Syntax> = vec![
             arena.alloc(Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Added),
+                change: Cell::new(Some(Added)),
                 content: "1".into(),
                 kind: AtomKind::Other,
             }),
@@ -698,16 +698,16 @@ mod tests {
                 open_position: AbsoluteRange { start: 2, end: 3 },
                 close_delimiter: "]".into(),
                 close_position: AbsoluteRange { start: 6, end: 7 },
-                change: Cell::new(Unchanged),
+                change: Cell::new(Some(Unchanged)),
                 children: vec![arena.alloc(List {
-                    change: Cell::new(Moved),
+                    change: Cell::new(Some(Moved)),
                     open_position: AbsoluteRange { start: 3, end: 4 },
                     open_delimiter: "[".into(),
                     close_position: AbsoluteRange { start: 5, end: 6 },
                     close_delimiter: "]".into(),
                     children: vec![arena.alloc(Atom {
                         position: AbsoluteRange { start: 4, end: 5 },
-                        change: Cell::new(Moved),
+                        change: Cell::new(Some(Moved)),
                         content: "1".into(),
                         kind: AtomKind::Other,
                     })],

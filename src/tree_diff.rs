@@ -27,7 +27,7 @@ pub enum AtomKind {
 #[derive(Debug, Clone)]
 pub enum Syntax<'a> {
     List {
-        change: Cell<ChangeKind>,
+        change: Cell<Option<ChangeKind>>,
         open_position: AbsoluteRange,
         open_delimiter: String,
         children: Vec<&'a Syntax<'a>>,
@@ -36,7 +36,7 @@ pub enum Syntax<'a> {
         num_descendants: usize,
     },
     Atom {
-        change: Cell<ChangeKind>,
+        change: Cell<Option<ChangeKind>>,
         position: AbsoluteRange,
         content: String,
         kind: AtomKind,
@@ -63,7 +63,7 @@ impl<'a> Syntax<'a> {
         }
 
         arena.alloc(List {
-            change: Cell::new(Unchanged),
+            change: Cell::new(None),
             open_position,
             open_delimiter: open_delimiter.into(),
             close_delimiter: close_delimiter.into(),
@@ -82,7 +82,7 @@ impl<'a> Syntax<'a> {
         arena.alloc(Atom {
             position,
             content: content.into(),
-            change: Cell::new(Unchanged),
+            change: Cell::new(None),
             kind,
         })
     }
@@ -90,10 +90,10 @@ impl<'a> Syntax<'a> {
     fn set_change(&self, ck: ChangeKind) {
         match self {
             List { change, .. } => {
-                change.set(ck);
+                change.set(Some(ck));
             }
             Atom { change, .. } => {
-                change.set(ck);
+                change.set(Some(ck));
             }
         }
     }
@@ -180,15 +180,15 @@ pub fn change_positions(nodes: &[&Syntax]) -> Vec<(ChangeKind, AbsoluteRange)> {
                 close_position,
                 ..
             } => {
-                res.push((change.get(), *open_position));
+                res.push((change.get().expect("Should have computed change kind"), *open_position));
                 let mut child_positions = change_positions(children);
                 res.append(&mut child_positions);
-                res.push((change.get(), *close_position));
+                res.push((change.get().expect("Should have computed change kind"), *close_position));
             }
             Atom {
                 change, position, ..
             } => {
-                res.push((change.get(), *position));
+                res.push((change.get().expect("Should have computed change kind"), *position));
             }
         }
     }
@@ -358,13 +358,13 @@ fn walk_nodes_ordered<'a>(
                             // node on the other side, but they have
                             // the same delimiters, so only the
                             // children are different.
-                            lhs_change.set(Unchanged);
-                            rhs_change.set(Unchanged);
+                            lhs_change.set(Some(Unchanged));
+                            rhs_change.set(Some(Unchanged));
                         } else {
                             // Children are different and the wrapping
                             // has changed (e.g. from {} to []).
-                            lhs_change.set(Removed);
-                            rhs_change.set(Added);
+                            lhs_change.set(Some(Removed));
+                            rhs_change.set(Some(Added));
                         }
                         walk_nodes_ordered(
                             &lhs_children[..],
@@ -381,7 +381,7 @@ fn walk_nodes_ordered<'a>(
                         },
                         Atom { .. },
                     ) => {
-                        lhs_change.set(Removed);
+                        lhs_change.set(Some(Removed));
                         walk_nodes_ordered(
                             &lhs_children[..],
                             std::slice::from_ref(rhs_node),
@@ -397,7 +397,7 @@ fn walk_nodes_ordered<'a>(
                             ..
                         },
                     ) => {
-                        rhs_change.set(Added);
+                        rhs_change.set(Some(Added));
                         walk_nodes_ordered(
                             std::slice::from_ref(lhs_node),
                             &rhs_children[..],
@@ -413,8 +413,8 @@ fn walk_nodes_ordered<'a>(
                             change: rhs_change, ..
                         },
                     ) => {
-                        lhs_change.set(Removed);
-                        rhs_change.set(Added);
+                        lhs_change.set(Some(Removed));
+                        rhs_change.set(Some(Added));
                     }
                 }
                 lhs_i += 1;
@@ -469,13 +469,13 @@ mod tests {
     fn test_atom_equality_ignores_change_and_pos() {
         assert_eq!(
             Atom {
-                change: Cell::new(Added),
+                change: Cell::new(Some(Added)),
                 position: AbsoluteRange { start: 0, end: 1 },
                 content: "foo".into(),
                 kind: Other,
             },
             Atom {
-                change: Cell::new(Moved),
+                change: Cell::new(None),
                 position: AbsoluteRange { start: 42, end: 50 },
                 content: "foo".into(),
                 kind: Other,
