@@ -71,7 +71,7 @@ enum {
   aux_sym_command_invocation_repeat1 = 52,
 };
 
-static const char *ts_symbol_names[] = {
+static const char * const ts_symbol_names[] = {
   [ts_builtin_sym_end] = "end",
   [sym_space] = "space",
   [sym_newline] = "newline",
@@ -127,7 +127,7 @@ static const char *ts_symbol_names[] = {
   [aux_sym_command_invocation_repeat1] = "command_invocation_repeat1",
 };
 
-static TSSymbol ts_symbol_map[] = {
+static const TSSymbol ts_symbol_map[] = {
   [ts_builtin_sym_end] = ts_builtin_sym_end,
   [sym_space] = sym_space,
   [sym_newline] = sym_newline,
@@ -398,11 +398,11 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   },
 };
 
-static TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE_LENGTH] = {
+static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE_LENGTH] = {
   [0] = {0},
 };
 
-static uint16_t ts_non_terminal_alias_map[] = {
+static const uint16_t ts_non_terminal_alias_map[] = {
   0,
 };
 
@@ -753,7 +753,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
   }
 }
 
-static TSLexMode ts_lex_modes[STATE_COUNT] = {
+static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [0] = {.lex_state = 0},
   [1] = {.lex_state = 18},
   [2] = {.lex_state = 1},
@@ -841,7 +841,7 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [84] = {.lex_state = 0},
 };
 
-static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
+static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [0] = {
     [ts_builtin_sym_end] = ACTIONS(1),
     [sym_identifier] = ACTIONS(1),
@@ -1097,7 +1097,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   },
 };
 
-static uint16_t ts_small_parse_table[] = {
+static const uint16_t ts_small_parse_table[] = {
   [0] = 9,
     ACTIONS(15), 1,
       anon_sym_DOLLAR_LBRACE,
@@ -1981,7 +1981,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_RPAREN,
 };
 
-static uint32_t ts_small_parse_table_map[] = {
+static const uint32_t ts_small_parse_table_map[] = {
   [SMALL_STATE(9)] = 0,
   [SMALL_STATE(10)] = 38,
   [SMALL_STATE(11)] = 78,
@@ -2060,7 +2060,7 @@ static uint32_t ts_small_parse_table_map[] = {
   [SMALL_STATE(84)] = 1118,
 };
 
-static TSParseActionEntry ts_parse_actions[] = {
+static const TSParseActionEntry ts_parse_actions[] = {
   [0] = {.entry = {.count = 0, .reusable = false}},
   [1] = {.entry = {.count = 1, .reusable = false}}, RECOVER(),
   [3] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_source_file, 0),
@@ -2205,7 +2205,7 @@ extern "C" {
 #endif
 
 extern const TSLanguage *tree_sitter_CMake(void) {
-  static TSLanguage language = {
+  static const TSLanguage language = {
     .version = LANGUAGE_VERSION,
     .symbol_count = SYMBOL_COUNT,
     .alias_count = ALIAS_COUNT,
@@ -2216,15 +2216,15 @@ extern const TSLanguage *tree_sitter_CMake(void) {
     .production_id_count = PRODUCTION_ID_COUNT,
     .field_count = FIELD_COUNT,
     .max_alias_sequence_length = MAX_ALIAS_SEQUENCE_LENGTH,
-    .parse_table = (const uint16_t *)ts_parse_table,
-    .small_parse_table = (const uint16_t *)ts_small_parse_table,
-    .small_parse_table_map = (const uint32_t *)ts_small_parse_table_map,
+    .parse_table = &ts_parse_table[0][0],
+    .small_parse_table = ts_small_parse_table,
+    .small_parse_table_map = ts_small_parse_table_map,
     .parse_actions = ts_parse_actions,
     .symbol_names = ts_symbol_names,
     .symbol_metadata = ts_symbol_metadata,
     .public_symbol_map = ts_symbol_map,
     .alias_map = ts_non_terminal_alias_map,
-    .alias_sequences = (const TSSymbol *)ts_alias_sequences,
+    .alias_sequences = &ts_alias_sequences[0][0],
     .lex_modes = ts_lex_modes,
     .lex_fn = ts_lex,
   };
