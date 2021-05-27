@@ -345,14 +345,12 @@ fn walk_nodes_ordered<'a>(
                             open_delimiter: lhs_start_content,
                             close_delimiter: lhs_end_content,
                             children: lhs_children,
-                            change: lhs_change,
                             ..
                         },
                         List {
                             open_delimiter: rhs_start_content,
                             close_delimiter: rhs_end_content,
                             children: rhs_children,
-                            change: rhs_change,
                             ..
                         },
                     ) => {
@@ -367,13 +365,13 @@ fn walk_nodes_ordered<'a>(
                             // node on the other side, but they have
                             // the same delimiters, so only the
                             // children are different.
-                            lhs_change.set(Some(Unchanged));
-                            rhs_change.set(Some(Unchanged));
+                            lhs_node.set_change(Unchanged);
+                            rhs_node.set_change(Unchanged);
                         } else {
                             // Children are different and the wrapping
                             // has changed (e.g. from {} to []).
-                            lhs_change.set(Some(Removed));
-                            rhs_change.set(Some(Added));
+                            lhs_node.set_change(Removed);
+                            rhs_node.set_change(Added);
                         }
                         walk_nodes_ordered(
                             &lhs_children[..],
@@ -385,12 +383,11 @@ fn walk_nodes_ordered<'a>(
                     (
                         List {
                             children: lhs_children,
-                            change: lhs_change,
                             ..
                         },
                         Atom { .. },
                     ) => {
-                        lhs_change.set(Some(Removed));
+                        lhs_node.set_change(Removed);
                         walk_nodes_ordered(
                             &lhs_children[..],
                             std::slice::from_ref(rhs_node),
@@ -402,11 +399,10 @@ fn walk_nodes_ordered<'a>(
                         Atom { .. },
                         List {
                             children: rhs_children,
-                            change: rhs_change,
                             ..
                         },
                     ) => {
-                        rhs_change.set(Some(Added));
+                        rhs_node.set_change(Added);
                         walk_nodes_ordered(
                             std::slice::from_ref(lhs_node),
                             &rhs_children[..],
@@ -414,16 +410,9 @@ fn walk_nodes_ordered<'a>(
                             rhs_counts,
                         );
                     }
-                    (
-                        Atom {
-                            change: lhs_change, ..
-                        },
-                        Atom {
-                            change: rhs_change, ..
-                        },
-                    ) => {
-                        lhs_change.set(Some(Removed));
-                        rhs_change.set(Some(Added));
+                    (Atom { .. }, Atom { .. }) => {
+                        lhs_node.set_change(Removed);
+                        rhs_node.set_change(Added);
                     }
                 }
                 lhs_i += 1;
