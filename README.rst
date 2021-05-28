@@ -9,6 +9,8 @@ TODO
 ====
 
 - [ ] Add grammar rules for comments:
+
   - [ ] Bracket Comment
   - [ ] Line Comment
+
 - [ ] Create an quoted argument external scanner
