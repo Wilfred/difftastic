@@ -24,13 +24,13 @@ module.exports = grammar({
       $.env_var,
       $.cache_var,
     ),
-    _literal_variable: $ => choice(
+    variable: $ => repeat1(choice(
       /[a-zA-Z0-9/_.+-]/,
       $.escape_sequence,
-    ),
-    normal_var: $ => seq('${', repeat1($._literal_variable), '}'),
-    env_var: $ => seq('$ENV{', repeat1($._literal_variable), '}'),
-    cache_var: $ => seq('$CACHE{', repeat1($._literal_variable), '}'),
+    )),
+    normal_var: $ => seq('${', $.variable, '}'),
+    env_var: $ => seq('$ENV{', $.variable, '}'),
+    cache_var: $ => seq('$CACHE{', $.variable, '}'),
 
     argument: $ => choice(
       $.bracket_argument,
@@ -40,20 +40,20 @@ module.exports = grammar({
 
     bracket_argument: $ => seq(
       $._bracket_open,
-      optional($._bracket_content),
+      optional($.bracket_content),
       $._bracket_close,
     ),
     _bracket_open: $ => seq('[', repeat('='), '['),
-    _bracket_content: $ => repeat1(/[^\]]/),
+    bracket_content: $ => repeat1(/[^\]]/),
     _bracket_close: $ => seq(']', repeat('='), ']'),
 
-    quoted_argument: $ => seq('"', repeat($._quoted_element), '"'),
-    _quoted_element: $ => choice(
+    quoted_argument: $ => seq('"', optional($.quoted_element), '"'),
+    quoted_element: $ => repeat1(choice(
       $.variable_ref,
       /[^\\"]/,
       $.escape_sequence,
       seq('\\', $.newline),
-    ),
+    )),
 
     unquoted_argument: $ => repeat1(
       choice(

@@ -25,7 +25,7 @@ message("An argument")
   (command_invocation
     (identifier)
     (arguments
-     (argument (quoted_argument))
+     (argument (quoted_argument (quoted_element)))
     )
   )
 )
@@ -41,9 +41,9 @@ message("First argument" "Second argument")
   (command_invocation
     (identifier)
     (arguments
-     (argument (quoted_argument))
+     (argument (quoted_argument (quoted_element)))
      (seperation (space))
-     (argument (quoted_argument))
+     (argument (quoted_argument (quoted_element)))
     )
   )
 )
@@ -60,7 +60,7 @@ with line break")
   (command_invocation
     (identifier)
     (arguments
-     (argument (quoted_argument))
+     (argument (quoted_argument (quoted_element)))
     )
   )
 )
@@ -78,7 +78,9 @@ message("${var}")
     (arguments
      (argument
       (quoted_argument
-        (variable_ref (normal_var))
+        (quoted_element
+          (variable_ref (normal_var (variable)))
+        )
       )
      )
     )
@@ -98,8 +100,10 @@ message("${var} ${var}")
     (arguments
      (argument
       (quoted_argument
-        (variable_ref (normal_var))
-        (variable_ref (normal_var))
+        (quoted_element
+         (variable_ref (normal_var (variable)))
+         (variable_ref (normal_var (variable)))
+        )
       )
      )
     )

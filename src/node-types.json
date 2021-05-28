@@ -44,6 +44,21 @@
   {
     "type": "bracket_argument",
     "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "bracket_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bracket_content",
+    "named": true,
     "fields": {}
   },
   {
@@ -51,11 +66,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "escape_sequence",
+          "type": "variable",
           "named": true
         }
       ]
@@ -93,11 +108,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "escape_sequence",
+          "type": "variable",
           "named": true
         }
       ]
@@ -128,11 +143,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "escape_sequence",
+          "type": "variable",
           "named": true
         }
       ]
@@ -140,6 +155,21 @@
   },
   {
     "type": "quoted_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "quoted_element",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quoted_element",
     "named": true,
     "fields": {},
     "children": {
@@ -209,6 +239,21 @@
         },
         {
           "type": "variable_ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variable",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
           "named": true
         }
       ]
