@@ -57,6 +57,16 @@ Comments
 (compilation_unit (comment) (comment))
 
 =====================================
+Comment with double asterisk
+=====================================
+
+/** test **/
+
+---
+
+(compilation_unit (comment))
+
+=====================================
 Namespaces
 =====================================
 

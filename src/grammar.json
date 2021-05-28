@@ -8443,7 +8443,7 @@
           },
           {
             "type": "PATTERN",
-            "value": "[\\p{L}_][\\p{L}\\p{Nd}\\p{Pc}\\p{Cf}\\p{Mn}\\p{Mc}\\p{Me}]*"
+            "value": "[\\p{L}\\p{Nl}_][\\p{L}\\p{Nl}\\p{Nd}\\p{Pc}\\p{Cf}\\p{Mn}\\p{Mc}]*"
           }
         ]
       }
@@ -8836,24 +8836,12 @@
                 "value": "/*"
               },
               {
-                "type": "REPEAT",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "[^*]"
-                    },
-                    {
-                      "type": "PATTERN",
-                      "value": "\\*[^/]"
-                    }
-                  ]
-                }
+                "type": "PATTERN",
+                "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
               },
               {
                 "type": "STRING",
-                "value": "*/"
+                "value": "/"
               }
             ]
           }
