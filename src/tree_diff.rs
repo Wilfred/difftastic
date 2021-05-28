@@ -1,6 +1,7 @@
 use colored::*;
 use std::cell::Cell;
 use std::cmp::min;
+use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
@@ -167,6 +168,43 @@ impl<'a> Hash for Syntax<'a> {
             }
         }
     }
+}
+
+/// Compare two nodes, treating nodes with more children as
+/// greater. If the number of nodes match, consider nodes with an
+/// earlier position to be greater.
+fn cmp_nodes(lhs: &&Syntax, rhs: &&Syntax) -> Ordering {
+    match lhs {
+        List {
+            open_position: lhs_open_position,
+            num_descendants: lhs_num_descendants,
+            ..
+        } => match rhs {
+            List {
+                open_position: rhs_open_position,
+                num_descendants: rhs_num_descendants,
+                ..
+            } => match lhs_num_descendants.cmp(rhs_num_descendants) {
+                Ordering::Equal => lhs_open_position.cmp(rhs_open_position),
+                o => o,
+            },
+            Atom { .. } => Ordering::Greater,
+        },
+        Atom {
+            position: lhs_position,
+            ..
+        } => match rhs {
+            List { .. } => Ordering::Less,
+            Atom {
+                position: rhs_position,
+                ..
+            } => lhs_position.cmp(rhs_position),
+        },
+    }
+}
+
+fn sort_by_size(nodes: &mut Vec<&Syntax>) {
+    nodes.sort_unstable_by(cmp_nodes);
 }
 
 pub fn change_positions(nodes: &[&Syntax]) -> Vec<(ChangeKind, AbsoluteRange)> {
