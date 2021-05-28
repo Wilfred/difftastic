@@ -291,16 +291,8 @@ pub fn set_changed(lhs: &[&Syntax], rhs: &[&Syntax]) {
         build_subtrees(s, &mut rhs_subtrees);
     }
 
-    let mut move_candidates = Vec::new();
-    walk_nodes_ordered(
-        lhs,
-        rhs,
-        &mut lhs_subtrees,
-        &mut rhs_subtrees,
-        &mut move_candidates,
-    );
-
-    sort_by_size(&mut move_candidates);
+    let mut env = Env::new(lhs_subtrees, rhs_subtrees);
+    walk_nodes_ordered(lhs, rhs, &mut env);
 }
 
 /// Handles nodes that exist on both sides, but in different
@@ -391,10 +383,13 @@ struct Env<'a> {
 }
 
 impl<'a> Env<'a> {
-    fn new() -> Self {
+    fn new(
+        lhs_counts: HashMap<&'a Syntax<'a>, i64>,
+        rhs_counts: HashMap<&'a Syntax<'a>, i64>,
+    ) -> Self {
         Env {
-            lhs_counts: HashMap::new(),
-            rhs_counts: HashMap::new(),
+            lhs_counts,
+            rhs_counts,
             lhs_unmatched: Vec::new(),
             rhs_unmatched: Vec::new(),
         }
@@ -402,29 +397,23 @@ impl<'a> Env<'a> {
 }
 
 // Greedy tree differ.
-fn walk_nodes_ordered<'a>(
-    lhs: &'a [&'a Syntax],
-    rhs: &'a [&'a Syntax],
-    lhs_counts: &mut HashMap<&'a Syntax<'a>, i64>,
-    rhs_counts: &mut HashMap<&'a Syntax<'a>, i64>,
-    move_candidates: &mut Vec<&'a Syntax<'a>>,
-) {
+fn walk_nodes_ordered<'a>(lhs: &'a [&'a Syntax], rhs: &'a [&'a Syntax], env: &mut Env<'a>) {
     let mut lhs_i = 0;
     let mut rhs_i = 0;
     loop {
         match (lhs.get(lhs_i), rhs.get(rhs_i)) {
             (Some(lhs_node), Some(rhs_node)) => {
                 // Count the number of nodes on the opposite side.
-                let lhs_node_count = get_count(*lhs_node, rhs_counts);
-                let rhs_node_count = get_count(*rhs_node, lhs_counts);
+                let lhs_node_count = get_count(*lhs_node, &env.rhs_counts);
+                let rhs_node_count = get_count(*rhs_node, &env.lhs_counts);
 
                 // If they're equal, nothing to do.
                 if lhs_node == rhs_node && lhs_node_count > 0 && rhs_node_count > 0 {
                     lhs_node.set_change_deep(Unchanged);
                     rhs_node.set_change_deep(Unchanged);
 
-                    decrement(lhs_node, rhs_counts);
-                    decrement(rhs_node, lhs_counts);
+                    decrement(lhs_node, &mut env.rhs_counts);
+                    decrement(rhs_node, &mut env.lhs_counts);
                     lhs_i += 1;
                     rhs_i += 1;
                     continue;
@@ -432,7 +421,7 @@ fn walk_nodes_ordered<'a>(
 
                 // Do we have remaining instances of the LHS node on
                 // the RHS? If so, this is a move.
-                if try_decrement(lhs_node, rhs_counts) {
+                if try_decrement(lhs_node, &mut env.rhs_counts) {
                     lhs_node.set_change_deep(Moved);
                     lhs_i += 1;
                     continue;
@@ -440,7 +429,7 @@ fn walk_nodes_ordered<'a>(
 
                 // Do we have remaining instances of the RHS node on
                 // the LHS? If so, this is a move.
-                if try_decrement(rhs_node, lhs_counts) {
+                if try_decrement(rhs_node, &mut env.lhs_counts) {
                     rhs_node.set_change_deep(Moved);
                     rhs_i += 1;
                     continue;
@@ -483,13 +472,7 @@ fn walk_nodes_ordered<'a>(
                             lhs_node.set_change(Removed);
                             rhs_node.set_change(Added);
                         }
-                        walk_nodes_ordered(
-                            &lhs_children[..],
-                            &rhs_children[..],
-                            lhs_counts,
-                            rhs_counts,
-                            move_candidates,
-                        );
+                        walk_nodes_ordered(&lhs_children[..], &rhs_children[..], env);
                     }
                     (
                         List {
@@ -499,13 +482,7 @@ fn walk_nodes_ordered<'a>(
                         Atom { .. },
                     ) => {
                         lhs_node.set_change(Removed);
-                        walk_nodes_ordered(
-                            &lhs_children[..],
-                            std::slice::from_ref(rhs_node),
-                            lhs_counts,
-                            rhs_counts,
-                            move_candidates,
-                        );
+                        walk_nodes_ordered(&lhs_children[..], std::slice::from_ref(rhs_node), env);
                     }
                     (
                         Atom { .. },
@@ -515,13 +492,7 @@ fn walk_nodes_ordered<'a>(
                         },
                     ) => {
                         rhs_node.set_change(Added);
-                        walk_nodes_ordered(
-                            std::slice::from_ref(lhs_node),
-                            &rhs_children[..],
-                            lhs_counts,
-                            rhs_counts,
-                            move_candidates,
-                        );
+                        walk_nodes_ordered(std::slice::from_ref(lhs_node), &rhs_children[..], env);
                     }
                     (Atom { .. }, Atom { .. }) => {
                         lhs_node.set_change(Removed);
@@ -532,35 +503,23 @@ fn walk_nodes_ordered<'a>(
                 rhs_i += 1;
             }
             (Some(lhs_node), None) => {
-                if try_decrement(lhs_node, rhs_counts) {
+                if try_decrement(lhs_node, &mut env.rhs_counts) {
                     lhs_node.set_change_deep(Moved);
                 } else {
                     lhs_node.set_change(Removed);
                     if let List { children, .. } = lhs_node {
-                        walk_nodes_ordered(
-                            &children[..],
-                            &[],
-                            lhs_counts,
-                            rhs_counts,
-                            move_candidates,
-                        );
+                        walk_nodes_ordered(&children[..], &[], env);
                     }
                 }
                 lhs_i += 1;
             }
             (None, Some(rhs_node)) => {
-                if try_decrement(rhs_node, lhs_counts) {
+                if try_decrement(rhs_node, &mut env.lhs_counts) {
                     rhs_node.set_change_deep(Moved);
                 } else {
                     rhs_node.set_change(Added);
                     if let List { children, .. } = rhs_node {
-                        walk_nodes_ordered(
-                            &[],
-                            &children[..],
-                            lhs_counts,
-                            rhs_counts,
-                            move_candidates,
-                        );
+                        walk_nodes_ordered(&[], &children[..], env);
                     }
                 }
                 rhs_i += 1;
