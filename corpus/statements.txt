@@ -1,0 +1,122 @@
+================
+SELECT statement
+================
+
+SELECT;
+
+---
+
+(source_file 
+    (select_statement))
+
+
+=============================
+SELECT statement with numbers
+=============================
+
+SELECT 1, 2;
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (number) (number))))
+
+=============================
+SELECT statement with columns
+=============================
+
+SELECT a, b;
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (identifier) (identifier))))
+
+=====================
+CREATE TYPE statement
+=====================
+
+CREATE TYPE xest AS (data TEXT, val INT);
+
+---
+
+(source_file 
+    (create_type_statement (identifier) 
+        (parameters
+            (parameter (identifier) (data_type (identifier)))
+            (parameter (identifier) (data_type (identifier))))))
+
+
+=====================
+CREATE DOMAIN
+=====================
+
+CREATE DOMAIN test; 
+
+---
+
+(source_file 
+    (create_domain_statement (identifier)))
+
+
+=====================
+CREATE DOMAIN with type
+=====================
+
+CREATE DOMAIN test AS text; 
+
+---
+
+(source_file 
+    (create_domain_statement (identifier) (data_type (identifier))))
+
+
+=====================
+CREATE DOMAIN with array type
+=====================
+
+CREATE DOMAIN test_arr AS text[]; 
+
+---
+
+(source_file 
+    (create_domain_statement (identifier) (data_type (identifier))))
+
+
+=====================
+CREATE DOMAIN type with constraint
+=====================
+
+CREATE DOMAIN test AS text NOT NULL; 
+
+---
+
+(source_file 
+    (create_domain_statement (identifier) (data_type (identifier) (constraint))))
+
+
+=====================
+CREATE DOMAIN array type with constraint
+=====================
+
+CREATE DOMAIN test AS text[] NOT NULL; 
+
+---
+
+(source_file 
+    (create_domain_statement (identifier) (data_type (identifier) (constraint))))
+
+
+=====================
+CREATE INDEX
+=====================
+
+CREATE INDEX test_idx ON table;
+
+---
+
+(source_file 
+    (create_index_statement (identifier) (identifier)))
+
