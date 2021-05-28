@@ -35,20 +35,18 @@ module.exports = grammar({
             field('name', $.identifier),
             caseInsensitive('ON'),
             field('table', $.identifier),
-            optional(seq(
-                '(',
-                $.expression,
-                ')',
-            )),
+            $.index_table_parameters,
+        ),
+        index_table_parameters: $ => seq(
+            '(',
+            commaSep1($._expression),
+            ')',
         ),
         select_statement: $ => seq(
             caseInsensitive('SELECT'), 
             optional($.select_clause),
         ),
-        select_clause: $ => commaSep1(choice(
-            $.identifier,
-            $.number,
-        )),
+        select_clause: $ => commaSep1($._expression),
         // TODO: named constraints
         constraint: $ => choice(
             caseInsensitive('NOT NULL'), 
@@ -61,6 +59,31 @@ module.exports = grammar({
             commaSep1($.parameter),
             ')',
         ),
+        function_call: $ => seq(
+            field('function', $.identifier),
+            '(',
+            field('arguments', commaSep1($.identifier)), // TODO: should this be expression
+            ')',
+        ),
+        where_clause: $ => seq(
+            caseInsensitive('WHERE'), 
+            $._expression,
+        ),
+        comparison_operator: $ => prec.left(1, seq(
+            $._expression,
+              repeat1(seq(
+                field('operator',
+                  choice(
+                    '<',
+                    '<=',
+                    '<>',
+                    '=',
+                    '>',
+                    '>=',
+                  )),
+                  $._expression
+                ))
+        )),
         number: $ => /\d+/,
         identifier: $ => /[a-zA-Z0-9_]+/,
         data_type: $ => seq(
@@ -69,7 +92,7 @@ module.exports = grammar({
             ), 
             optional($.constraint)
         ),
-        expression: $ => choice($.identifier, $.number),
+        _expression: $ => choice($.function_call, $.identifier, $.number, $.comparison_operator),
     }
 });
 
