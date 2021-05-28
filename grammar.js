@@ -71,19 +71,38 @@ module.exports = grammar({
         ),
         comparison_operator: $ => prec.left(1, seq(
             $._expression,
-              repeat1(seq(
-                field('operator',
-                  choice(
+            field('operator',
+                choice(
                     '<',
                     '<=',
                     '<>',
                     '=',
                     '>',
                     '>=',
-                  )),
-                  $._expression
-                ))
+            )),
+            $._expression
         )),
+        is_expression: $ => prec.left(1, seq(
+            $._expression,
+            caseInsensitive('is'),
+            optional(caseInsensitive('not')),
+            choice($.NULL, $.TRUE, $.FALSE)
+        )),
+        boolean_expression: $ => choice(
+            prec.left(4, seq(
+                $._expression,
+                caseInsensitive('AND'),
+                $._expression
+            )),
+            prec.left(3, seq(
+                $._expression,
+                caseInsensitive('OR'),
+                $._expression
+            )),
+        ),
+        NULL: $ => caseInsensitive('NULL'),
+        TRUE: $ => caseInsensitive('TRUE'),
+        FALSE: $ => caseInsensitive('FALSE'),
         number: $ => /\d+/,
         identifier: $ => /[a-zA-Z0-9_]+/,
         data_type: $ => seq(
@@ -92,7 +111,7 @@ module.exports = grammar({
             ), 
             optional($.constraint)
         ),
-        _expression: $ => choice($.function_call, $.identifier, $.number, $.comparison_operator),
+        _expression: $ => choice($.function_call, $.TRUE, $.FALSE, $.NULL, $.identifier, $.number, $.comparison_operator, $.is_expression, $.boolean_expression),
     }
 });
 
