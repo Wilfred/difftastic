@@ -1,5 +1,5 @@
 module.exports = grammar({
-  name: 'CMake',
+  name: 'cmake',
 
   rules: {
     source_file: $ => repeat($.command_invocation),
