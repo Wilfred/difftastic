@@ -63,7 +63,7 @@ module.exports = grammar({
         function_call: $ => seq(
             field('function', $.identifier),
             '(',
-            field('arguments', commaSep1($.identifier)), // TODO: should this be expression
+            field('arguments', commaSep1($._expression)),
             ')',
         ),
         where_clause: $ => seq(
@@ -111,13 +111,23 @@ module.exports = grammar({
         FALSE: $ => caseInsensitive('FALSE'),
         number: $ => /\d+/,
         identifier: $ => /[a-zA-Z0-9_]+/,
+        string: $ => seq(
+            '\'',
+            field('content', /[a-zA-Z0-9_]+/),
+            '\'',
+        ),
+        field_access: $ => seq(
+            $.identifier,
+            '->>',
+            $.string,
+        ),
         data_type: $ => seq(
             choice(
                 $.identifier, seq($.identifier, '[', ']'),
             ), 
             optional($.constraint)
         ),
-        _expression: $ => choice($.function_call, $.TRUE, $.FALSE, $.NULL, $.identifier, $.number, $.comparison_operator, $.is_expression, $.boolean_expression, $._parenthesized_expression),
+        _expression: $ => choice($.function_call, $.string, $.field_access, $.TRUE, $.FALSE, $.NULL, $.identifier, $.number, $.comparison_operator, $.is_expression, $.boolean_expression, $._parenthesized_expression),
     }
 });
 

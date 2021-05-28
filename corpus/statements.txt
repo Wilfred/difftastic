@@ -100,7 +100,7 @@ SELECT TRUE AND foo(1) OR FALSE;
 (source_file 
     (select_statement
         (select_clause 
-         (boolean_expression (boolean_expression (TRUE) (function_call (identifier) (identifier))) (FALSE)))))
+         (boolean_expression (boolean_expression (TRUE) (function_call (identifier) (number))) (FALSE)))))
 
 =====================
 SELECT parenthesized expression
@@ -129,8 +129,31 @@ SELECT TRUE AND (foo(1) OR FALSE);
          (boolean_expression
             (TRUE)
                 (boolean_expression 
-                    (function_call (identifier) (identifier)) (FALSE))))))
+                    (function_call (identifier) (number)) (FALSE))))))
 
+=====================
+SELECT string
+=====================
+
+SELECT 'aaaa'
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (string))))
+
+=====================
+SELECT field_access
+=====================
+
+SELECT foo->>'bar'
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (field_access (identifier) (string)))))
 =====================
 CREATE TYPE statement
 =====================
@@ -255,3 +278,18 @@ CREATE INDEX test_idx ON table(col1) WHERE col1 <> 1
 (source_file 
     (create_index_statement (identifier) (identifier)
         (index_table_parameters (identifier)) (where_clause (comparison_operator (identifier) (number)))))
+
+
+=====================
+CREATE INDEX complex
+=====================
+
+CREATE INDEX foo_idx ON table1 (col2, (lower(col1->>'attr')));
+
+---
+
+(source_file 
+    (create_index_statement (identifier) (identifier)
+        (index_table_parameters 
+            (identifier)
+            (function_call (identifier) (field_access (identifier) (string))))))
