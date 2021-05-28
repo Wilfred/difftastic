@@ -34,6 +34,18 @@ SELECT a, b;
     (select_statement
         (select_clause (identifier) (identifier))))
 
+=============================
+SELECT statement with expression
+=============================
+
+SELECT 1 < 2;
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (comparison_operator (number) (number)))))
+
 =====================
 CREATE TYPE statement
 =====================
@@ -113,10 +125,22 @@ CREATE DOMAIN test AS text[] NOT NULL;
 CREATE INDEX
 =====================
 
-CREATE INDEX test_idx ON table;
+CREATE INDEX test_idx ON table(col1, col2);
 
 ---
 
 (source_file 
-    (create_index_statement (identifier) (identifier)))
+    (create_index_statement (identifier) (identifier)
+        (index_table_parameters (identifier) (identifier))))
 
+=====================
+CREATE INDEX with function
+=====================
+
+CREATE INDEX test_idx ON table(lower(col1), col2);
+
+---
+
+(source_file 
+    (create_index_statement (identifier) (identifier)
+        (index_table_parameters (function_call (identifier) (identifier)) (identifier))))
