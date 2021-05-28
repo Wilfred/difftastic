@@ -88,6 +88,13 @@ impl<'a> Syntax<'a> {
         })
     }
 
+    fn get_change(&self) -> Option<ChangeKind> {
+        match self {
+            List { change, .. } => change.get(),
+            Atom { change, .. } => change.get(),
+        }
+    }
+
     fn set_change(&self, ck: ChangeKind) {
         match self {
             List { change, .. } => {
@@ -285,9 +292,52 @@ pub fn set_changed(lhs: &[&Syntax], rhs: &[&Syntax]) {
     }
 
     let mut move_candidates = Vec::new();
-    walk_nodes_ordered(lhs, rhs, &mut lhs_subtrees, &mut rhs_subtrees, &mut move_candidates);
+    walk_nodes_ordered(
+        lhs,
+        rhs,
+        &mut lhs_subtrees,
+        &mut rhs_subtrees,
+        &mut move_candidates,
+    );
 
     sort_by_size(&mut move_candidates);
+}
+
+/// Handles nodes that exist on both sides, but in different
+/// positions. These may be moves (when both sides have the same
+/// number of a node) or additional nodes.
+///
+/// Try to find a minimal set of moves by considering the largest
+/// subtrees first.
+fn process_moves<'a>(
+    mut lhs_nodes: Vec<&'a Syntax>,
+    mut rhs_nodes: Vec<&'a Syntax>,
+    lhs_counts: &mut HashMap<&'a Syntax<'a>, i64>,
+    rhs_counts: &mut HashMap<&'a Syntax<'a>, i64>,
+) {
+    sort_by_size(&mut lhs_nodes);
+    for lhs_node in lhs_nodes {
+        // Partial overlaps?
+        if lhs_node.get_change().is_none() {
+            if try_decrement(lhs_node, rhs_counts) {
+                lhs_node.set_change_deep(Moved)
+            } else {
+                lhs_node.set_change_deep(Added)
+            }
+        }
+    }
+
+    sort_by_size(&mut rhs_nodes);
+    for rhs_node in rhs_nodes {
+        // Partial overlaps?
+        if rhs_node.get_change().is_none() {
+            if try_decrement(rhs_node, lhs_counts) {
+                rhs_node.set_change_deep(Moved)
+            } else {
+                rhs_node.set_change_deep(Removed)
+            }
+        }
+    }
 }
 
 fn get_count<T: Hash + Eq>(node: &T, counts: &HashMap<&T, i64>) -> i64 {
