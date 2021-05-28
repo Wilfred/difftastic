@@ -36,6 +36,7 @@ module.exports = grammar({
             caseInsensitive('ON'),
             field('table', $.identifier),
             $.index_table_parameters,
+            optional($.where_clause)
         ),
         index_table_parameters: $ => seq(
             '(',
@@ -82,6 +83,11 @@ module.exports = grammar({
             )),
             $._expression
         )),
+        _parenthesized_expression: $ => seq(
+            '(',
+            $._expression,
+            ')',
+        ),
         is_expression: $ => prec.left(1, seq(
             $._expression,
             caseInsensitive('is'),
@@ -111,7 +117,7 @@ module.exports = grammar({
             ), 
             optional($.constraint)
         ),
-        _expression: $ => choice($.function_call, $.TRUE, $.FALSE, $.NULL, $.identifier, $.number, $.comparison_operator, $.is_expression, $.boolean_expression),
+        _expression: $ => choice($.function_call, $.TRUE, $.FALSE, $.NULL, $.identifier, $.number, $.comparison_operator, $.is_expression, $.boolean_expression, $._parenthesized_expression),
     }
 });
 
