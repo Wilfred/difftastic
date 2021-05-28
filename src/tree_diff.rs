@@ -383,6 +383,24 @@ fn try_decrement<'a>(node: &'a Syntax<'a>, counts: &mut HashMap<&'a Syntax<'a>, 
     }
 }
 
+struct Env<'a> {
+    lhs_counts: HashMap<&'a Syntax<'a>, i64>,
+    rhs_counts: HashMap<&'a Syntax<'a>, i64>,
+    lhs_unmatched: Vec<&'a Syntax<'a>>,
+    rhs_unmatched: Vec<&'a Syntax<'a>>,
+}
+
+impl<'a> Env<'a> {
+    fn new() -> Self {
+        Env {
+            lhs_counts: HashMap::new(),
+            rhs_counts: HashMap::new(),
+            lhs_unmatched: Vec::new(),
+            rhs_unmatched: Vec::new(),
+        }
+    }
+}
+
 // Greedy tree differ.
 fn walk_nodes_ordered<'a>(
     lhs: &'a [&'a Syntax],
