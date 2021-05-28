@@ -284,7 +284,10 @@ pub fn set_changed(lhs: &[&Syntax], rhs: &[&Syntax]) {
         build_subtrees(s, &mut rhs_subtrees);
     }
 
-    walk_nodes_ordered(lhs, rhs, &mut lhs_subtrees, &mut rhs_subtrees);
+    let mut move_candidates = Vec::new();
+    walk_nodes_ordered(lhs, rhs, &mut lhs_subtrees, &mut rhs_subtrees, &mut move_candidates);
+
+    sort_by_size(&mut move_candidates);
 }
 
 fn get_count<T: Hash + Eq>(node: &T, counts: &HashMap<&T, i64>) -> i64 {
@@ -336,6 +339,7 @@ fn walk_nodes_ordered<'a>(
     rhs: &'a [&'a Syntax],
     lhs_counts: &mut HashMap<&'a Syntax<'a>, i64>,
     rhs_counts: &mut HashMap<&'a Syntax<'a>, i64>,
+    move_candidates: &mut Vec<&'a Syntax<'a>>,
 ) {
     let mut lhs_i = 0;
     let mut rhs_i = 0;
@@ -416,6 +420,7 @@ fn walk_nodes_ordered<'a>(
                             &rhs_children[..],
                             lhs_counts,
                             rhs_counts,
+                            move_candidates,
                         );
                     }
                     (
@@ -431,6 +436,7 @@ fn walk_nodes_ordered<'a>(
                             std::slice::from_ref(rhs_node),
                             lhs_counts,
                             rhs_counts,
+                            move_candidates,
                         );
                     }
                     (
@@ -446,6 +452,7 @@ fn walk_nodes_ordered<'a>(
                             &rhs_children[..],
                             lhs_counts,
                             rhs_counts,
+                            move_candidates,
                         );
                     }
                     (Atom { .. }, Atom { .. }) => {
@@ -462,7 +469,13 @@ fn walk_nodes_ordered<'a>(
                 } else {
                     lhs_node.set_change(Removed);
                     if let List { children, .. } = lhs_node {
-                        walk_nodes_ordered(&children[..], &[], lhs_counts, rhs_counts);
+                        walk_nodes_ordered(
+                            &children[..],
+                            &[],
+                            lhs_counts,
+                            rhs_counts,
+                            move_candidates,
+                        );
                     }
                 }
                 lhs_i += 1;
@@ -473,7 +486,13 @@ fn walk_nodes_ordered<'a>(
                 } else {
                     rhs_node.set_change(Added);
                     if let List { children, .. } = rhs_node {
-                        walk_nodes_ordered(&[], &children[..], lhs_counts, rhs_counts);
+                        walk_nodes_ordered(
+                            &[],
+                            &children[..],
+                            lhs_counts,
+                            rhs_counts,
+                            move_candidates,
+                        );
                     }
                 }
                 rhs_i += 1;
