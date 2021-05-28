@@ -210,8 +210,10 @@ fn cmp_nodes(lhs: &&Syntax, rhs: &&Syntax) -> Ordering {
     }
 }
 
+// Sort a vec of nodes by size, largest first.
 fn sort_by_size(nodes: &mut Vec<&Syntax>) {
     nodes.sort_unstable_by(cmp_nodes);
+    nodes.reverse();
 }
 
 pub fn change_positions(nodes: &[&Syntax]) -> Vec<(ChangeKind, AbsoluteRange)> {
@@ -293,6 +295,8 @@ pub fn set_changed(lhs: &[&Syntax], rhs: &[&Syntax]) {
 
     let mut env = Env::new(lhs_subtrees, rhs_subtrees);
     walk_nodes_ordered(lhs, rhs, &mut env);
+
+    process_moves(env);
 }
 
 /// Handles nodes that exist on both sides, but in different
@@ -301,32 +305,27 @@ pub fn set_changed(lhs: &[&Syntax], rhs: &[&Syntax]) {
 ///
 /// Try to find a minimal set of moves by considering the largest
 /// subtrees first.
-fn process_moves<'a>(
-    mut lhs_nodes: Vec<&'a Syntax>,
-    mut rhs_nodes: Vec<&'a Syntax>,
-    lhs_counts: &mut HashMap<&'a Syntax<'a>, i64>,
-    rhs_counts: &mut HashMap<&'a Syntax<'a>, i64>,
-) {
-    sort_by_size(&mut lhs_nodes);
-    for lhs_node in lhs_nodes {
+fn process_moves<'a>(mut env: Env<'a>) {
+    sort_by_size(&mut env.lhs_unmatched);
+    for lhs_node in env.lhs_unmatched {
         // Partial overlaps?
         if lhs_node.get_change().is_none() {
-            if try_decrement(lhs_node, rhs_counts) {
+            if try_decrement(lhs_node, &mut env.rhs_counts) {
                 lhs_node.set_change_deep(Moved)
             } else {
-                lhs_node.set_change_deep(Added)
+                lhs_node.set_change_deep(Removed)
             }
         }
     }
 
-    sort_by_size(&mut rhs_nodes);
-    for rhs_node in rhs_nodes {
+    sort_by_size(&mut env.rhs_unmatched);
+    for rhs_node in env.rhs_unmatched {
         // Partial overlaps?
         if rhs_node.get_change().is_none() {
-            if try_decrement(rhs_node, lhs_counts) {
+            if try_decrement(rhs_node, &mut env.lhs_counts) {
                 rhs_node.set_change_deep(Moved)
             } else {
-                rhs_node.set_change_deep(Removed)
+                rhs_node.set_change_deep(Added)
             }
         }
     }
@@ -421,16 +420,16 @@ fn walk_nodes_ordered<'a>(lhs: &'a [&'a Syntax], rhs: &'a [&'a Syntax], env: &mu
 
                 // Do we have remaining instances of the LHS node on
                 // the RHS? If so, this is a move.
-                if try_decrement(lhs_node, &mut env.rhs_counts) {
-                    lhs_node.set_change_deep(Moved);
+                if lhs_node_count > 0 {
+                    env.lhs_unmatched.push(lhs_node);
                     lhs_i += 1;
                     continue;
                 }
 
                 // Do we have remaining instances of the RHS node on
                 // the LHS? If so, this is a move.
-                if try_decrement(rhs_node, &mut env.lhs_counts) {
-                    rhs_node.set_change_deep(Moved);
+                if rhs_node_count > 0 {
+                    env.rhs_unmatched.push(rhs_node);
                     rhs_i += 1;
                     continue;
                 }
@@ -503,8 +502,8 @@ fn walk_nodes_ordered<'a>(lhs: &'a [&'a Syntax], rhs: &'a [&'a Syntax], env: &mu
                 rhs_i += 1;
             }
             (Some(lhs_node), None) => {
-                if try_decrement(lhs_node, &mut env.rhs_counts) {
-                    lhs_node.set_change_deep(Moved);
+                if get_count(*lhs_node, &env.rhs_counts) > 0 {
+                    env.lhs_unmatched.push(lhs_node);
                 } else {
                     lhs_node.set_change(Removed);
                     if let List { children, .. } = lhs_node {
@@ -514,8 +513,8 @@ fn walk_nodes_ordered<'a>(lhs: &'a [&'a Syntax], rhs: &'a [&'a Syntax], env: &mu
                 lhs_i += 1;
             }
             (None, Some(rhs_node)) => {
-                if try_decrement(rhs_node, &mut env.lhs_counts) {
-                    rhs_node.set_change_deep(Moved);
+                if get_count(*rhs_node, &env.lhs_counts) > 0 {
+                    env.rhs_unmatched.push(rhs_node);
                 } else {
                     rhs_node.set_change(Added);
                     if let List { children, .. } = rhs_node {
