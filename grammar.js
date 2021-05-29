@@ -46,6 +46,7 @@ module.exports = grammar({
             optional($.null_constraint),
             optional($.primary_key_constraint),
             optional($.references_constraint),
+            optional($.unique_constraint),
             optional(seq(
                 caseInsensitive('DEFAULT'), 
                 $._expression, // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
@@ -116,6 +117,7 @@ module.exports = grammar({
             caseInsensitive('CASCADE'),
             caseInsensitive('SET NULL'),
         ),
+        unique_constraint: $ => caseInsensitive('UNIQUE'),
         primary_key_constraint: $ => caseInsensitive('PRIMARY KEY'),
         null_constraint: $ => seq(
             optional(caseInsensitive('NOT')), 
