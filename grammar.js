@@ -243,28 +243,41 @@ module.exports = grammar({
             optional($.null_constraint),
             optional($.check_constraint),
         ),
-        _expression: $ => choice(
-            $.function_call,
-            $.string,
-            $.field_access,
-            $.TRUE,
-            $.FALSE,
-            $.NULL,
-            $.identifier,
-            $.number,
-            $.comparison_operator,
-            $.in_expression,
-            $.is_expression,
-            $.boolean_expression,
-            $._parenthesized_expression
+        type_cast: $ => seq(
+            // TODO: should be moved to basic expression or somethign
+            choice(
+                $._parenthesized_expression,
+                $.string,
+                $.identifier,
+                $.function_call,
+            ),
+            '::',
+            $.identifier
         ),
+
+        _expression: $ => choice(
+                $.function_call,
+                $.string,
+                $.field_access,
+                $.TRUE,
+                $.FALSE,
+                $.NULL,
+                $.identifier,
+                $.number,
+                $.comparison_operator,
+                $.in_expression,
+                $.is_expression,
+                $.boolean_expression,
+                $._parenthesized_expression,
+                $.type_cast,
+            ),
+        }
+    });
+
+    function commaSep1 (rule) {
+      return sep1(rule, ',')
     }
-});
 
-function commaSep1 (rule) {
-  return sep1(rule, ',')
-}
-
-function sep1 (rule, separator) {
-  return seq(rule, repeat(seq(separator, rule)))
-}
+    function sep1 (rule, separator) {
+      return seq(rule, repeat(seq(separator, rule)))
+    }
