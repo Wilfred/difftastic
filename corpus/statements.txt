@@ -447,3 +447,35 @@ CREATE TABLE my_table (col1 INT REFERENCES table1)
                 (identifier)
                 (identifier)
                 (references_constraint (identifier))))))
+
+=====================
+CREATE TABLE with references constraint with column specified
+=====================
+
+CREATE TABLE my_table (col1 INT REFERENCES table1(col1))
+
+---
+
+(source_file 
+    (create_table_statement (identifier)
+        (create_table_parameters
+            (create_table_column_parameter
+                (identifier)
+                (identifier)
+                (references_constraint (identifier) (identifier))))))
+
+=====================
+CREATE TABLE with references constraint with actions
+=====================
+
+CREATE TABLE my_table (col1 INT REFERENCES table1(col1) ON DELETE SET NULL ON UPDATE RESTRICT)
+
+---
+
+(source_file 
+    (create_table_statement (identifier)
+        (create_table_parameters
+            (create_table_column_parameter
+                (identifier)
+                (identifier)
+                (references_constraint (identifier) (identifier) (on_delete_action) (on_update_action))))))
