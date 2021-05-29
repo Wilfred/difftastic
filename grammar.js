@@ -43,7 +43,7 @@ module.exports = grammar({
         create_table_column_parameter: $ => seq(
             field("name", $.identifier),
             field("type", $.identifier),
-            optional($.constraint),
+            optional($.null_constraint),
             optional(seq(
                 caseInsensitive('DEFAULT'), 
                 $._expression, // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
@@ -87,10 +87,17 @@ module.exports = grammar({
         ),
         select_clause: $ => commaSep1($._expression),
         // TODO: named constraints
-        constraint: $ => choice(
-            caseInsensitive('NOT NULL'), 
-            caseInsensitive('NULL'), 
-            seq(caseInsensitive('CHECK'), $.identifier), 
+        null_constraint: $ => seq(
+            caseInsensitive('NOT'), 
+            $.NULL,
+        ),
+        check_constraint: $ => seq(
+            caseInsensitive('CHECK'),
+            $._expression,
+        ),
+        _constraint: $ => seq(
+            choice($.null_constraint, $.check_constraint),
+            optional($.check_constraint),
         ),
         parameter: $ => seq($.identifier, $.data_type),
         parameters: $ => seq(
@@ -170,7 +177,8 @@ module.exports = grammar({
             choice(
                 $.identifier, seq($.identifier, '[', ']'),
             ), 
-            optional($.constraint)
+            optional($.null_constraint),
+            optional($.check_constraint),
         ),
         _expression: $ => choice($.function_call, $.string, $.field_access, $.TRUE, $.FALSE, $.NULL, $.identifier, $.number, $.comparison_operator, $.in_expression,  $.is_expression, $.boolean_expression, $._parenthesized_expression),
     }
