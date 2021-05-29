@@ -58,6 +58,7 @@ module.exports = grammar({
             // TODO: simple expression to use for check and default
             choice(
                 $._parenthesized_expression,
+                $.string,
                 $.identifier,
                 $.function_call,
             ),
@@ -79,6 +80,7 @@ module.exports = grammar({
         ),
         _table_constraint: $ => choice(
             $.foreign_key_constraint,
+            $.unique_table_constraint,
         ),
         create_table_statement: $ => seq(
             caseInsensitive('CREATE TABLE'), 
@@ -141,6 +143,12 @@ module.exports = grammar({
             caseInsensitive('SET NULL'),
         ),
         unique_constraint: $ => caseInsensitive('UNIQUE'),
+        unique_table_constraint: $ => seq(
+            caseInsensitive('UNIQUE'),
+            '(',
+            commaSep1($.identifier),
+            ')',
+        ),
         primary_key_constraint: $ => caseInsensitive('PRIMARY KEY'),
         null_constraint: $ => seq(
             optional(caseInsensitive('NOT')), 
@@ -213,7 +221,7 @@ module.exports = grammar({
         identifier: $ => /[a-zA-Z0-9_]+[.a-zA-Z0-9_]*/,
         string: $ => seq(
             '\'',
-            field('content', /[a-zA-Z0-9_%{}.]+/),
+            field('content', /[a-zA-Z0-9_%{}.*]*/),
             '\'',
         ),
         field_access: $ => seq(
