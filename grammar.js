@@ -43,19 +43,42 @@ module.exports = grammar({
         create_table_column_parameter: $ => seq(
             field("name", $.identifier),
             field("type", $.identifier),
-            optional($.null_constraint),
-            optional($.primary_key_constraint),
-            optional($.references_constraint),
-            optional($.unique_constraint),
-            optional(seq(
-                caseInsensitive('DEFAULT'), 
-                $._expression, // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
+            repeat(choice(
+                $.column_default,
+                $.primary_key_constraint,
+                $.check_constraint,
+                $.references_constraint,
+                $.unique_constraint,
+                $.null_constraint,
             )),
+        ),
+        column_default: $ => seq(
+            caseInsensitive('DEFAULT'), 
+            // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
+            // TODO: simple expression to use for check and default
+            choice(
+                $._parenthesized_expression,
+                $.identifier,
+                $.function_call,
+            ),
         ),
         create_table_parameters: $ => seq(
             '(',
-            commaSep1($.create_table_column_parameter),
+            commaSep1(choice(
+                $.create_table_column_parameter,
+                $._table_constraint,
+            )),
             ')',
+        ),
+        foreign_key_constraint: $ => seq(
+            caseInsensitive('FOREIGN KEY'), 
+            '(',
+            commaSep1($.identifier),
+            ')',
+            $.references_constraint,
+        ),
+        _table_constraint: $ => choice(
+            $.foreign_key_constraint,
         ),
         create_table_statement: $ => seq(
             caseInsensitive('CREATE TABLE'), 
@@ -76,12 +99,12 @@ module.exports = grammar({
             optional($.select_clause),
             optional($.where_clause),
         ),
-        in_expression: $ => seq(
+        in_expression: $ => prec.left(1, seq(
             $._expression,
             optional(caseInsensitive('NOT')),
             caseInsensitive('IN'),
             $.tuple,
-        ),
+        )),
         tuple: $ => seq(
             // TODO: maybe collapse with function arguments, but make sure to preserve clarity 
             '(',
@@ -212,7 +235,21 @@ module.exports = grammar({
             optional($.null_constraint),
             optional($.check_constraint),
         ),
-        _expression: $ => choice($.function_call, $.string, $.field_access, $.TRUE, $.FALSE, $.NULL, $.identifier, $.number, $.comparison_operator, $.in_expression,  $.is_expression, $.boolean_expression, $._parenthesized_expression),
+        _expression: $ => choice(
+            $.function_call,
+            $.string,
+            $.field_access,
+            $.TRUE,
+            $.FALSE,
+            $.NULL,
+            $.identifier,
+            $.number,
+            $.comparison_operator,
+            $.in_expression,
+            $.is_expression,
+            $.boolean_expression,
+            $._parenthesized_expression
+        ),
     }
 });
 
