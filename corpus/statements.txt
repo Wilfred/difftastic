@@ -265,7 +265,7 @@ CREATE DOMAIN test AS text NOT NULL;
 ---
 
 (source_file 
-    (create_domain_statement (identifier) (data_type (identifier) (constraint))))
+    (create_domain_statement (identifier) (data_type (identifier) (null_constraint (NULL)))))
 
 
 =====================
@@ -277,7 +277,7 @@ CREATE DOMAIN test AS text[] NOT NULL;
 ---
 
 (source_file 
-    (create_domain_statement (identifier) (data_type (identifier) (constraint))))
+    (create_domain_statement (identifier) (data_type (identifier) (null_constraint (NULL)))))
 
 
 =====================
@@ -398,7 +398,7 @@ CREATE TABLE my_table (col1 INT NOT NULL)
     (create_table_statement (identifier)
         (create_table_parameters
             (create_table_column_parameter
-                (identifier) (identifier) (constraint)))))
+                (identifier) (identifier) (null_constraint (NULL))))))
 
 =====================
 CREATE TABLE with default
