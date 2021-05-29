@@ -23,6 +23,18 @@ SELECT 1, 2;
         (select_clause (number) (number))))
 
 =============================
+SELECT statement with empty string
+=============================
+
+SELECT '';
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (string))))
+
+=============================
 SELECT statement with columns
 =============================
 
@@ -417,6 +429,22 @@ CREATE TABLE my_table (col1 INT DEFAULT get_num())
                 (column_default (function_call (identifier)))))))
 
 =====================
+CREATE TABLE with default string
+=====================
+
+CREATE TABLE my_table (col1 INT DEFAULT 'hey')
+
+---
+
+(source_file 
+    (create_table_statement (identifier)
+        (create_table_parameters
+            (create_table_column_parameter
+                (identifier)
+                (identifier)
+                (column_default (string))))))
+
+=====================
 CREATE TABLE with primary key constraint
 =====================
 
@@ -548,3 +576,33 @@ CREATE TABLE my_table (
             (create_table_column_parameter (identifier) (identifier))
             (create_table_column_parameter (identifier) (identifier))
             (foreign_key_constraint (identifier) (identifier) (references_constraint (identifier))))))
+
+=====================
+CREATE TABLE with multiple constraints
+=====================
+
+CREATE TABLE foo(col1 INT NOT NULL REFERENCES bar(col1) ON UPDATE CASCADE ON DELETE CASCADE)
+
+---
+
+(source_file 
+    (create_table_statement (identifier)
+        (create_table_parameters
+            (create_table_column_parameter (identifier) (identifier)
+                (null_constraint (NULL))
+                (references_constraint (identifier) (identifier) (on_update_action) (on_delete_action))))))
+
+=====================
+CREATE TABLE with unique constraint
+=====================
+
+CREATE TABLE foo(col1 INT, col2 INT, UNIQUE(col1, col2))
+
+---
+
+(source_file 
+    (create_table_statement (identifier)
+        (create_table_parameters
+            (create_table_column_parameter (identifier) (identifier))
+            (create_table_column_parameter (identifier) (identifier))
+            (unique_table_constraint (identifier) (identifier)))))
