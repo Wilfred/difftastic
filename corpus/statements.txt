@@ -35,6 +35,18 @@ SELECT '';
         (select_clause (string))))
 
 =============================
+SELECT statement with type cast
+=============================
+
+SELECT ''::JSONB;
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (type_cast (string) (identifier)))))
+
+=============================
 SELECT statement with columns
 =============================
 
