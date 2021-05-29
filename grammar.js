@@ -44,6 +44,8 @@ module.exports = grammar({
             field("name", $.identifier),
             field("type", $.identifier),
             optional($.null_constraint),
+            optional($.primary_key_constraint),
+            optional($.references_constraint),
             optional(seq(
                 caseInsensitive('DEFAULT'), 
                 $._expression, // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
@@ -87,8 +89,13 @@ module.exports = grammar({
         ),
         select_clause: $ => commaSep1($._expression),
         // TODO: named constraints
+        references_constraint: $ => seq(
+            caseInsensitive('REFERENCES'),
+            $.identifier, // table_name
+        ),
+        primary_key_constraint: $ => caseInsensitive('PRIMARY KEY'),
         null_constraint: $ => seq(
-            caseInsensitive('NOT'), 
+            optional(caseInsensitive('NOT')), 
             $.NULL,
         ),
         check_constraint: $ => seq(

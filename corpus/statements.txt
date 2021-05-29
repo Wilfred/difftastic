@@ -415,3 +415,35 @@ CREATE TABLE my_table (col1 INT DEFAULT get_num())
                 (identifier)
                 (identifier)
                 (function_call (identifier))))))
+
+=====================
+CREATE TABLE with primary key constraint
+=====================
+
+CREATE TABLE my_table (col1 INT PRIMARY KEY)
+
+---
+
+(source_file 
+    (create_table_statement (identifier)
+        (create_table_parameters
+            (create_table_column_parameter
+                (identifier)
+                (identifier)
+                (primary_key_constraint)))))
+
+=====================
+CREATE TABLE with references constraint
+=====================
+
+CREATE TABLE my_table (col1 INT REFERENCES table1)
+
+---
+
+(source_file 
+    (create_table_statement (identifier)
+        (create_table_parameters
+            (create_table_column_parameter
+                (identifier)
+                (identifier)
+                (references_constraint (identifier))))))
