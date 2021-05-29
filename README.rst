@@ -8,7 +8,18 @@ project is still underdevelopment but basic highlighting should already work.
 TODO
 ====
 
-- [ ] Add grammar rules for comments:
+- [ ] Control structures
+
+  - [ ] if()/elseif()/else()endif()
+  - [ ] foreach()/endforeach()
+  - [ ] while()/endwhile()
+
+- [ ] Command definitions
+
+  - [ ] macro()/endmacro()
+  - [ ] function()/endfunction()
+
+- [ ] Add grammar rules for comments
 
   - [ ] Bracket Comment
   - [ ] Line Comment
