@@ -92,6 +92,29 @@ module.exports = grammar({
         references_constraint: $ => seq(
             caseInsensitive('REFERENCES'),
             $.identifier, // table_name
+            optional(seq(
+                '(',
+                repeat1($.identifier),
+                ')',
+            )),
+            // seems like a case for https://github.com/tree-sitter/tree-sitter/issues/130
+            optional(choice(
+                seq($.on_update_action, $.on_delete_action),
+                seq($.on_delete_action, $.on_update_action),
+            )),
+        ),
+        on_update_action: $ => seq(
+            caseInsensitive('ON UPDATE'),
+            field("action", $._constraint_action)
+        ),
+        on_delete_action: $ => seq(
+            caseInsensitive('ON DELETE'),
+            field("action", $._constraint_action)
+        ),
+        _constraint_action: $ => choice(
+            caseInsensitive('RESTRICT'),
+            caseInsensitive('CASCADE'),
+            caseInsensitive('SET NULL'),
         ),
         primary_key_constraint: $ => caseInsensitive('PRIMARY KEY'),
         null_constraint: $ => seq(
