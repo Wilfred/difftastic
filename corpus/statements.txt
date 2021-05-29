@@ -618,3 +618,13 @@ CREATE TABLE foo(col1 INT, col2 INT, UNIQUE(col1, col2))
             (create_table_column_parameter (identifier) (identifier))
             (create_table_column_parameter (identifier) (identifier))
             (unique_table_constraint (identifier) (identifier)))))
+
+=====================
+Comment
+=====================
+
+-- Smile and wave
+
+---
+
+(source_file (comment))

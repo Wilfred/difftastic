@@ -8,6 +8,10 @@ function caseInsensitive (keyword) {
 
 module.exports = grammar({
     name: 'SQL',
+    extras: $ => [
+        $.comment,
+        /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/,
+    ],
     rules: {
         source_file: $ => repeat($._statement),
         _statement: $ => seq(choice(
@@ -254,7 +258,7 @@ module.exports = grammar({
             '::',
             $.identifier
         ),
-
+        comment: $ => token(seq('--', /.*/)),
         _expression: $ => choice(
                 $.function_call,
                 $.string,
