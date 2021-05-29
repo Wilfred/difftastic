@@ -15,6 +15,7 @@ module.exports = grammar({
             $.create_type_statement,
             $.create_domain_statement,
             $.create_index_statement,
+            $.create_table_statement,
         ), optional(';')),
         create_domain_statement: $ => seq(
             caseInsensitive('CREATE DOMAIN'), 
@@ -35,17 +36,54 @@ module.exports = grammar({
             field('name', $.identifier),
             caseInsensitive('ON'),
             field('table', $.identifier),
+            optional($.using_clause),
             $.index_table_parameters,
             optional($.where_clause)
         ),
+        create_table_column_parameter: $ => seq(
+            field("name", $.identifier),
+            field("type", $.identifier),
+            optional($.constraint),
+            optional(seq(
+                caseInsensitive('DEFAULT'), 
+                $._expression, // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
+            )),
+        ),
+        create_table_parameters: $ => seq(
+            '(',
+            commaSep1($.create_table_column_parameter),
+            ')',
+        ),
+        create_table_statement: $ => seq(
+            caseInsensitive('CREATE TABLE'), 
+            $.identifier,
+            $.create_table_parameters,
+        ),
+        using_clause: $ => seq(
+            caseInsensitive('USING'),
+            field("type", $.identifier)
+        ),
         index_table_parameters: $ => seq(
             '(',
-            commaSep1($._expression),
+            commaSep1(choice($._expression, $.ordered_expression)),
             ')',
         ),
         select_statement: $ => seq(
             caseInsensitive('SELECT'), 
             optional($.select_clause),
+            optional($.where_clause),
+        ),
+        in_expression: $ => seq(
+            $._expression,
+            optional(caseInsensitive('NOT')),
+            caseInsensitive('IN'),
+            $.tuple,
+        ),
+        tuple: $ => seq(
+            // TODO: maybe collapse with function arguments, but make sure to preserve clarity 
+            '(',
+            field('elements', commaSep1($._expression)),
+            ')',
         ),
         select_clause: $ => commaSep1($._expression),
         // TODO: named constraints
@@ -63,7 +101,7 @@ module.exports = grammar({
         function_call: $ => seq(
             field('function', $.identifier),
             '(',
-            field('arguments', commaSep1($._expression)),
+            optional(field('arguments', commaSep1($._expression))),
             ')',
         ),
         where_clause: $ => seq(
@@ -110,10 +148,10 @@ module.exports = grammar({
         TRUE: $ => caseInsensitive('TRUE'),
         FALSE: $ => caseInsensitive('FALSE'),
         number: $ => /\d+/,
-        identifier: $ => /[a-zA-Z0-9_]+/,
+        identifier: $ => /[a-zA-Z0-9_]+[.a-zA-Z0-9_]*/,
         string: $ => seq(
             '\'',
-            field('content', /[a-zA-Z0-9_]+/),
+            field('content', /[a-zA-Z0-9_%{}.]+/),
             '\'',
         ),
         field_access: $ => seq(
@@ -121,13 +159,20 @@ module.exports = grammar({
             '->>',
             $.string,
         ),
+        ordered_expression: $ => seq(
+            $._expression,
+            field("order", choice(
+                caseInsensitive('ASC'),
+                caseInsensitive('DESC'),
+            )),
+        ),
         data_type: $ => seq(
             choice(
                 $.identifier, seq($.identifier, '[', ']'),
             ), 
             optional($.constraint)
         ),
-        _expression: $ => choice($.function_call, $.string, $.field_access, $.TRUE, $.FALSE, $.NULL, $.identifier, $.number, $.comparison_operator, $.is_expression, $.boolean_expression, $._parenthesized_expression),
+        _expression: $ => choice($.function_call, $.string, $.field_access, $.TRUE, $.FALSE, $.NULL, $.identifier, $.number, $.comparison_operator, $.in_expression,  $.is_expression, $.boolean_expression, $._parenthesized_expression),
     }
 });
 
