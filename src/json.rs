@@ -522,6 +522,38 @@ mod tests {
     }
 
     #[test]
+    fn test_add_node_before_sequence() {
+        let arena = Arena::new();
+
+        let lhs = parse_json(&arena, "a b");
+        let rhs = parse_json(&arena, "a a b");
+
+        set_changed(&lhs, &rhs);
+
+        let expected_rhs = vec![
+            Atom {
+                position: AbsoluteRange { start: 0, end: 1 },
+                change: Cell::new(Some(Added)),
+                content: "a".into(),
+                kind: AtomKind::Other,
+            },
+            Atom {
+                position: AbsoluteRange { start: 2, end: 3 },
+                change: Cell::new(Some(Unchanged)),
+                content: "a".into(),
+                kind: AtomKind::Other,
+            },
+            Atom {
+                position: AbsoluteRange { start: 4, end: 5 },
+                change: Cell::new(Some(Unchanged)),
+                content: "b".into(),
+                kind: AtomKind::Other,
+            },
+        ];
+        assert_syntaxes(&rhs, &as_refs(&expected_rhs));
+    }
+
+    #[test]
     fn test_move_atom() {
         let arena = Arena::new();
 
