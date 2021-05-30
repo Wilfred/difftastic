@@ -49,7 +49,7 @@ module.exports = grammar({
     create_table_column_parameter: ($) =>
       seq(
         field("name", $.identifier),
-        field("type", $.identifier),
+        field("type", $._type),
         repeat(
           choice(
             $.column_default,
@@ -58,14 +58,11 @@ module.exports = grammar({
             $.references_constraint,
             $.unique_constraint,
             $.null_constraint,
-            $.named_constraint,
+            $.named_constraint
           )
         )
       ),
-    named_constraint: ($) => seq(
-      "CONSTRAINT",
-      $.identifier,
-    ),
+    named_constraint: ($) => seq("CONSTRAINT", $.identifier),
     column_default: ($) =>
       seq(
         caseInsensitive("DEFAULT"),
@@ -96,7 +93,11 @@ module.exports = grammar({
         $.references_constraint
       ),
     _table_constraint: ($) =>
-      choice($.foreign_key_constraint, $.unique_table_constraint, $.primary_key_table_constraint),
+      choice(
+        $.foreign_key_constraint,
+        $.unique_table_constraint,
+        $.primary_key_table_constraint
+      ),
     create_table_statement: ($) =>
       seq(
         caseInsensitive("CREATE TABLE"),
@@ -215,6 +216,9 @@ module.exports = grammar({
         $._expression,
         field("order", choice(caseInsensitive("ASC"), caseInsensitive("DESC")))
       ),
+    _type_alias: ($) => alias($.identifier, $.type),
+    array_type: ($) => seq($._type, "[", "]"),
+    _type: ($) => choice($._type_alias, $.array_type),
     data_type: ($) =>
       seq(
         choice($.identifier, seq($.identifier, "[", "]")),
