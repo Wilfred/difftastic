@@ -102,8 +102,10 @@ module.exports = grammar({
       choice(
         $.foreign_key_constraint,
         $.unique_table_constraint,
-        $.primary_key_table_constraint
+        $.primary_key_table_constraint,
+        $.check_table_constraint
       ),
+    check_table_constraint: ($) => seq(caseInsensitive("CHECK"), $._expression),
     create_table_statement: ($) =>
       seq(
         caseInsensitive("CREATE TABLE"),
