@@ -296,7 +296,7 @@ pub fn set_changed(lhs: &[&Node], rhs: &[&Node]) {
     }
 
     let mut env = Env::new(lhs_subtrees, rhs_subtrees);
-    walk_nodes_ordered(lhs, rhs, &mut env);
+    mark_unchanged_nodes(lhs, rhs, &mut env);
 
     process_moves(env);
 }
@@ -397,7 +397,7 @@ impl<'a> Env<'a> {
 }
 
 // Greedy tree differ.
-fn walk_nodes_ordered<'a>(lhs: &[&'a Node], rhs: &[&'a Node], env: &mut Env<'a>) {
+fn mark_unchanged_nodes<'a>(lhs: &[&'a Node], rhs: &[&'a Node], env: &mut Env<'a>) {
     // Run a diff algorithm on the nodes at this level, and mark as
     // many things as unchanged as we can.
     for res in slice(lhs, rhs) {
@@ -423,11 +423,11 @@ fn walk_nodes_ordered<'a>(lhs: &[&'a Node], rhs: &[&'a Node], env: &mut Env<'a>)
             EitherOrBoth::Left(lhs_node) => (Some(*lhs_node), None),
             EitherOrBoth::Right(rhs_node) => (None, Some(*rhs_node)),
         };
-        walk_node(lhs_node, rhs_node, env);
+        mark_unchanged_node(lhs_node, rhs_node, env);
     }
 }
 
-fn walk_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>) {
+fn mark_unchanged_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>) {
     match (lhs, rhs) {
         (Some(lhs_node), Some(rhs_node)) => {
             let lhs_possible_move = get_count(lhs_node, &env.rhs_counts) > 0;
@@ -441,12 +441,12 @@ fn walk_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>
                 }
                 (true, false) => {
                     env.lhs_unmatched.push(lhs_node);
-                    walk_node(None, rhs, env);
+                    mark_unchanged_node(None, rhs, env);
                     return;
                 }
                 (false, true) => {
                     env.rhs_unmatched.push(rhs_node);
-                    walk_node(lhs, None, env);
+                    mark_unchanged_node(lhs, None, env);
                     return;
                 }
                 (false, false) => {}
@@ -487,7 +487,7 @@ fn walk_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>
                         lhs_node.set_change(Novel);
                         rhs_node.set_change(Novel);
                     }
-                    walk_nodes_ordered(&lhs_children[..], &rhs_children[..], env);
+                    mark_unchanged_nodes(&lhs_children[..], &rhs_children[..], env);
                 }
                 (
                     List {
@@ -497,7 +497,7 @@ fn walk_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>
                     Atom { .. },
                 ) => {
                     lhs_node.set_change(Novel);
-                    walk_nodes_ordered(&lhs_children[..], std::slice::from_ref(&rhs_node), env);
+                    mark_unchanged_nodes(&lhs_children[..], std::slice::from_ref(&rhs_node), env);
                 }
                 (
                     Atom { .. },
@@ -507,7 +507,7 @@ fn walk_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>
                     },
                 ) => {
                     rhs_node.set_change(Novel);
-                    walk_nodes_ordered(std::slice::from_ref(&lhs_node), &rhs_children[..], env);
+                    mark_unchanged_nodes(std::slice::from_ref(&lhs_node), &rhs_children[..], env);
                 }
                 (Atom { .. }, Atom { .. }) => {
                     lhs_node.set_change(Novel);
@@ -521,7 +521,7 @@ fn walk_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>
             } else {
                 lhs_node.set_change(Novel);
                 if let List { children, .. } = lhs_node {
-                    walk_nodes_ordered(&children[..], &[], env);
+                    mark_unchanged_nodes(&children[..], &[], env);
                 }
             }
         }
@@ -531,7 +531,7 @@ fn walk_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>
             } else {
                 rhs_node.set_change(Novel);
                 if let List { children, .. } = rhs_node {
-                    walk_nodes_ordered(&[], &children[..], env);
+                    mark_unchanged_nodes(&[], &children[..], env);
                 }
             }
         }
