@@ -407,7 +407,8 @@ module.exports = grammar({
               alias($._simple_dot_call, $.dot_call),
               alias($.paren_call, $.call),
               alias($._capture_op, $.unary_op),
-              $.integer
+              $.integer,
+              $.char
             )
           ),
           ".",

@@ -25,6 +25,8 @@ jobs:
         run: npm install || true
       - name: Test
         run: make generate test
+      - name: Integration
+        run: make integration
   publish:
     name: Publish playground
     runs-on: ubuntu-latest
