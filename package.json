@@ -4,7 +4,8 @@
   "description": "SQL grammar from tree-sitter",
   "main": "bindings/node",
   "scripts": {
-    "test": "tree-sitter generate && tree-sitter test"
+    "test": "tree-sitter generate && tree-sitter test",
+    "gen": "tree-sitter generate"
   },
   "keywords": [
     "parser",
