@@ -73,8 +73,8 @@ fn main() {
     set_changed(&lhs, &rhs);
 
     let positions = change_positions(&lhs);
-    print!("{}\n\n", apply_colors(&before_src, true, &positions));
+    println!("{}\n", apply_colors(&before_src, true, &positions));
 
     let positions = change_positions(&rhs);
-    print!("{}\n", apply_colors(&after_src, false, &positions));
+    println!("{}", apply_colors(&after_src, false, &positions));
 }

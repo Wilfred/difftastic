@@ -1,3 +1,5 @@
+#![allow(clippy::mutable_key_type)] // Hash for Node doesn't use mutable fields.
+
 use colored::*;
 use diff::{slice, Result::*};
 use itertools::EitherOrBoth;
@@ -47,6 +49,7 @@ pub enum Node<'a> {
 }
 
 impl<'a> Node<'a> {
+    #[allow(clippy::clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_list(
         arena: &'a Arena<Node<'a>>,
         open_delimiter: &str,
@@ -76,6 +79,7 @@ impl<'a> Node<'a> {
         })
     }
 
+    #[allow(clippy::clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_atom(
         arena: &'a Arena<Node<'a>>,
         position: AbsoluteRange,
@@ -307,7 +311,7 @@ pub fn set_changed(lhs: &[&Node], rhs: &[&Node]) {
 ///
 /// Try to find a minimal set of moves by considering the largest
 /// subtrees first.
-fn process_moves<'a>(mut env: Env<'a>) {
+fn process_moves(mut env: Env) {
     sort_by_size(&mut env.lhs_unmatched);
     for lhs_node in env.lhs_unmatched {
         // Partial overlaps?
@@ -398,15 +402,12 @@ fn mark_unchanged_nodes<'a>(lhs: &[&'a Node], rhs: &[&'a Node], env: &mut Env<'a
     // Run a diff algorithm on the nodes at this level, and mark as
     // many things as unchanged as we can.
     for res in slice(lhs, rhs) {
-        match res {
-            Both(lhs_node, rhs_node) => {
-                lhs_node.set_change_deep(Unchanged);
-                rhs_node.set_change_deep(Unchanged);
+        if let Both(lhs_node, rhs_node) = res {
+            lhs_node.set_change_deep(Unchanged);
+            rhs_node.set_change_deep(Unchanged);
 
-                decrement(lhs_node, &mut env.rhs_counts);
-                decrement(rhs_node, &mut env.lhs_counts);
-            }
-            _ => {}
+            decrement(lhs_node, &mut env.rhs_counts);
+            decrement(rhs_node, &mut env.lhs_counts);
         }
     }
 

@@ -45,73 +45,64 @@ fn parse_json_from<'a>(
 
     'outer: while state.str_i < s.len() {
         for (pattern, kind) in atom_patterns {
-            match pattern.find(&s[state.str_i..]) {
-                Some(m) => {
-                    assert_eq!(m.start(), 0);
-                    let position = AbsoluteRange {
-                        start: state.str_i,
-                        end: state.str_i + m.end(),
-                    };
-                    let atom = Node::new_atom(arena, position, m.as_str(), *kind);
-                    result.push(atom);
-                    state.str_i += m.end();
-                    continue 'outer;
-                }
-                None => {}
+            if let Some(m) = pattern.find(&s[state.str_i..]) {
+                assert_eq!(m.start(), 0);
+                let position = AbsoluteRange {
+                    start: state.str_i,
+                    end: state.str_i + m.end(),
+                };
+                let atom = Node::new_atom(arena, position, m.as_str(), *kind);
+                result.push(atom);
+                state.str_i += m.end();
+                continue 'outer;
             }
         }
 
-        match open_delimiter.find(&s[state.str_i..]) {
-            Some(m) => {
-                let start = state.str_i;
+        if let Some(m) = open_delimiter.find(&s[state.str_i..]) {
+            let start = state.str_i;
 
-                state.str_i += m.end();
-                let children = parse_json_from(arena, s, state);
-                let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
-                    "UNCLOSED".into(),
-                    AbsoluteRange {
-                        start: state.str_i,
-                        end: state.str_i + 1,
-                    },
-                ));
+            state.str_i += m.end();
+            let children = parse_json_from(arena, s, state);
+            let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
+                "UNCLOSED".into(),
+                AbsoluteRange {
+                    start: state.str_i,
+                    end: state.str_i + 1,
+                },
+            ));
 
-                let open_pos = AbsoluteRange {
-                    start,
-                    end: start + m.end(),
-                };
-                let items = Node::new_list(
-                    arena,
-                    m.as_str(),
-                    open_pos,
-                    children,
-                    &close_brace,
-                    close_pos,
-                );
-                result.push(items);
-                continue;
-            }
-            None => {}
+            let open_pos = AbsoluteRange {
+                start,
+                end: start + m.end(),
+            };
+            let items = Node::new_list(
+                arena,
+                m.as_str(),
+                open_pos,
+                children,
+                &close_brace,
+                close_pos,
+            );
+            result.push(items);
+            continue;
         };
 
-        match close_delimiter.find(&s[state.str_i..]) {
-            Some(m) => {
-                state.close_brace = Some((
-                    m.as_str().into(),
-                    AbsoluteRange {
-                        start: state.str_i,
-                        end: state.str_i + m.end(),
-                    },
-                ));
-                state.str_i += m.end();
-                return result;
-            }
-            None => {}
+        if let Some(m) = close_delimiter.find(&s[state.str_i..]) {
+            state.close_brace = Some((
+                m.as_str().into(),
+                AbsoluteRange {
+                    start: state.str_i,
+                    end: state.str_i + m.end(),
+                },
+            ));
+            state.str_i += m.end();
+            return result;
         };
 
         state.str_i += 1;
     }
 
-    return result;
+    result
 }
 
 pub fn parse_json<'a>(arena: &'a Arena<Node<'a>>, s: &str) -> Vec<&'a Node<'a>> {
