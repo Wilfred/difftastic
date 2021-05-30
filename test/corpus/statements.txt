@@ -44,7 +44,7 @@ SELECT ''::JSONB;
 
 (source_file 
     (select_statement
-        (select_clause (type_cast (string) (identifier)))))
+        (select_clause (type_cast (string) (type)))))
 
 =============================
 SELECT statement with columns
@@ -240,8 +240,8 @@ CREATE TYPE xest AS (data TEXT, val INT);
 (source_file 
     (create_type_statement (identifier) 
         (parameters
-            (parameter (identifier) (data_type (identifier)))
-            (parameter (identifier) (data_type (identifier))))))
+            (parameter (identifier) (type))
+            (parameter (identifier) (type)))))
 
 
 =====================
@@ -265,7 +265,7 @@ CREATE DOMAIN test AS text;
 ---
 
 (source_file 
-    (create_domain_statement (identifier) (data_type (identifier))))
+    (create_domain_statement (identifier) (type)))
 
 
 =====================
@@ -277,7 +277,7 @@ CREATE DOMAIN test_arr AS text[];
 ---
 
 (source_file 
-    (create_domain_statement (identifier) (data_type (identifier))))
+    (create_domain_statement (identifier) (array_type (type))))
 
 
 =====================
@@ -289,7 +289,7 @@ CREATE DOMAIN test AS text NOT NULL;
 ---
 
 (source_file 
-    (create_domain_statement (identifier) (data_type (identifier) (null_constraint (NULL)))))
+    (create_domain_statement (identifier) (type) (null_constraint (NULL))))
 
 
 =====================
@@ -301,7 +301,7 @@ CREATE DOMAIN test AS text[] NOT NULL;
 ---
 
 (source_file 
-    (create_domain_statement (identifier) (data_type (identifier) (null_constraint (NULL)))))
+    (create_domain_statement (identifier) (array_type (type)) (null_constraint (NULL))))
 
 
 =====================

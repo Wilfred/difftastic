@@ -27,7 +27,13 @@ module.exports = grammar({
       seq(
         caseInsensitive("CREATE DOMAIN"),
         $.identifier,
-        optional(seq(caseInsensitive("AS"), $.data_type))
+        optional(
+          seq(
+            caseInsensitive("AS"),
+            $._type,
+            repeat(choice($.null_constraint, $.check_constraint))
+          )
+        )
       ),
     create_type_statement: ($) =>
       seq(
@@ -169,7 +175,7 @@ module.exports = grammar({
         choice($.null_constraint, $.check_constraint),
         optional($.check_constraint)
       ),
-    parameter: ($) => seq($.identifier, $.data_type),
+    parameter: ($) => seq($.identifier, $._type),
     parameters: ($) => seq("(", commaSep1($.parameter), ")"),
     function_call: ($) =>
       seq(
@@ -219,12 +225,6 @@ module.exports = grammar({
     _type_alias: ($) => alias($.identifier, $.type),
     array_type: ($) => seq($._type, "[", "]"),
     _type: ($) => choice($._type_alias, $.array_type),
-    data_type: ($) =>
-      seq(
-        choice($.identifier, seq($.identifier, "[", "]")),
-        optional($.null_constraint),
-        optional($.check_constraint)
-      ),
     type_cast: ($) =>
       seq(
         // TODO: should be moved to basic expression or somethign
@@ -235,7 +235,7 @@ module.exports = grammar({
           $.function_call
         ),
         "::",
-        $.identifier
+        $._type
       ),
     comment: ($) => token(seq("--", /.*/)),
     _expression: ($) =>
