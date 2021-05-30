@@ -403,6 +403,23 @@
         {
           "type": "SYMBOL",
           "name": "primary_key_table_constraint"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "check_table_constraint"
+        }
+      ]
+    },
+    "check_table_constraint": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[CC][HH][EE][CC][KK]"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
         }
       ]
     },
