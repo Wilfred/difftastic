@@ -1,5 +1,5 @@
 use crate::lines::AbsoluteRange;
-use crate::tree_diff::{AtomKind, Syntax};
+use crate::tree_diff::{AtomKind, Node};
 use regex::Regex;
 use typed_arena::Arena;
 
@@ -19,10 +19,10 @@ impl ParseState {
 }
 
 fn parse_json_from<'a>(
-    arena: &'a Arena<Syntax<'a>>,
+    arena: &'a Arena<Node<'a>>,
     s: &str,
     state: &mut ParseState,
-) -> Vec<&'a Syntax<'a>> {
+) -> Vec<&'a Node<'a>> {
     let atom_patterns = &[
         // Single-line comments
         (Regex::new(r#"^//.*(\n|$)"#).unwrap(), AtomKind::Comment),
@@ -41,7 +41,7 @@ fn parse_json_from<'a>(
     let open_delimiter = Regex::new(r#"^(\[|\{|\()"#).unwrap();
     let close_delimiter = Regex::new(r#"^(\]|\}|\))"#).unwrap();
 
-    let mut result: Vec<&'a Syntax<'a>> = vec![];
+    let mut result: Vec<&'a Node<'a>> = vec![];
 
     'outer: while state.str_i < s.len() {
         for (pattern, kind) in atom_patterns {
@@ -52,7 +52,7 @@ fn parse_json_from<'a>(
                         start: state.str_i,
                         end: state.str_i + m.end(),
                     };
-                    let atom = Syntax::new_atom(arena, position, m.as_str(), *kind);
+                    let atom = Node::new_atom(arena, position, m.as_str(), *kind);
                     result.push(atom);
                     state.str_i += m.end();
                     continue 'outer;
@@ -79,7 +79,7 @@ fn parse_json_from<'a>(
                     start,
                     end: start + m.end(),
                 };
-                let items = Syntax::new_list(
+                let items = Node::new_list(
                     arena,
                     m.as_str(),
                     open_pos,
@@ -114,7 +114,7 @@ fn parse_json_from<'a>(
     return result;
 }
 
-pub fn parse_json<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<'a>> {
+pub fn parse_json<'a>(arena: &'a Arena<Node<'a>>, s: &str) -> Vec<&'a Node<'a>> {
     parse_json_from(arena, s, &mut ParseState::new())
 }
 
@@ -123,21 +123,21 @@ mod tests {
     use super::*;
     use crate::tree_diff::set_changed;
     use crate::tree_diff::ChangeKind::*;
-    use crate::tree_diff::Syntax::*;
+    use crate::tree_diff::Node::*;
     use std::cell::Cell;
 
     fn as_refs<'a, T>(items: &'a Vec<T>) -> Vec<&'a T> {
         items.iter().collect()
     }
 
-    fn assert_syntaxes(actual: &[&Syntax], expected: &[&Syntax]) {
+    fn assert_syntaxes(actual: &[&Node], expected: &[&Node]) {
         if !syntaxes_match(actual, expected) {
             dbg!(expected, actual);
             assert!(false);
         }
     }
 
-    fn syntaxes_match(actual: &[&Syntax], expected: &[&Syntax]) -> bool {
+    fn syntaxes_match(actual: &[&Node], expected: &[&Node]) -> bool {
         if actual.len() != expected.len() {
             return false;
         } else {
@@ -152,7 +152,7 @@ mod tests {
 
     /// Compare all the fields in a Syntax value, not just
     /// those used in its Eq implementation.
-    fn syntax_matches(actual: &Syntax, expected: &Syntax) -> bool {
+    fn syntax_matches(actual: &Node, expected: &Node) -> bool {
         match (actual, expected) {
             (
                 List {
@@ -250,7 +250,7 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, "123"),
-            &[Syntax::new_atom(
+            &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 0, end: 3 },
                 "123",
@@ -265,7 +265,7 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, "\"\""),
-            &[Syntax::new_atom(
+            &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 0, end: 2 },
                 "\"\"",
@@ -281,13 +281,13 @@ mod tests {
         assert_syntaxes(
             &parse_json(&arena, "123 456"),
             &[
-                Syntax::new_atom(
+                Node::new_atom(
                     &arena,
                     AbsoluteRange { start: 0, end: 3 },
                     "123",
                     AtomKind::Other,
                 ),
-                Syntax::new_atom(
+                Node::new_atom(
                     &arena,
                     AbsoluteRange { start: 4, end: 7 },
                     "456",
@@ -303,7 +303,7 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, ".foo"),
-            &[Syntax::new_atom(
+            &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 0, end: 4 },
                 ".foo",
@@ -318,7 +318,7 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, " 123 "),
-            &[Syntax::new_atom(
+            &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 1, end: 4 },
                 "123",
@@ -333,7 +333,7 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, "\"abc\""),
-            &[Syntax::new_atom(
+            &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 0, end: 5 },
                 "\"abc\"",
@@ -349,13 +349,13 @@ mod tests {
         assert_syntaxes(
             &parse_json(&arena, "// foo\nx"),
             &[
-                Syntax::new_atom(
+                Node::new_atom(
                     &arena,
                     AbsoluteRange { start: 0, end: 7 },
                     "// foo\n",
                     AtomKind::Comment,
                 ),
-                Syntax::new_atom(
+                Node::new_atom(
                     &arena,
                     AbsoluteRange { start: 7, end: 8 },
                     "x",
@@ -371,7 +371,7 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, "/* foo\nbar */"),
-            &[Syntax::new_atom(
+            &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 0, end: 13 },
                 "/* foo\nbar */",
@@ -386,11 +386,11 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, "[ 123 ]"),
-            &[Syntax::new_list(
+            &[Node::new_list(
                 &arena,
                 "[",
                 AbsoluteRange { start: 0, end: 1 },
-                vec![Syntax::new_atom(
+                vec![Node::new_atom(
                     &arena,
                     AbsoluteRange { start: 2, end: 5 },
                     "123",
@@ -407,7 +407,7 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, "[]"),
-            &[Syntax::new_list(
+            &[Node::new_list(
                 &arena,
                 "[",
                 AbsoluteRange { start: 0, end: 1 },
@@ -424,7 +424,7 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, "()"),
-            &[Syntax::new_list(
+            &[Node::new_list(
                 &arena,
                 "(",
                 AbsoluteRange { start: 0, end: 1 },
@@ -441,18 +441,18 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, "[123, 456]"),
-            &[Syntax::new_list(
+            &[Node::new_list(
                 &arena,
                 "[",
                 AbsoluteRange { start: 0, end: 1 },
                 vec![
-                    Syntax::new_atom(
+                    Node::new_atom(
                         &arena,
                         AbsoluteRange { start: 1, end: 4 },
                         "123",
                         AtomKind::Other,
                     ),
-                    Syntax::new_atom(
+                    Node::new_atom(
                         &arena,
                         AbsoluteRange { start: 6, end: 9 },
                         "456",
@@ -471,18 +471,18 @@ mod tests {
 
         assert_syntaxes(
             &parse_json(&arena, "{x: 1}"),
-            &[Syntax::new_list(
+            &[Node::new_list(
                 &arena,
                 "{",
                 AbsoluteRange { start: 0, end: 1 },
                 vec![
-                    Syntax::new_atom(
+                    Node::new_atom(
                         &arena,
                         AbsoluteRange { start: 1, end: 2 },
                         "x",
                         AtomKind::Other,
                     ),
-                    Syntax::new_atom(
+                    Node::new_atom(
                         &arena,
                         AbsoluteRange { start: 4, end: 5 },
                         "1",
@@ -630,7 +630,7 @@ mod tests {
 
         set_changed(&lhs, &rhs);
 
-        let expected_rhs: Vec<&Syntax> = vec![arena.alloc(List {
+        let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
             change: Cell::new(Some(Unchanged)),
             open_position: AbsoluteRange { start: 0, end: 1 },
             open_delimiter: "[".into(),
@@ -670,7 +670,7 @@ mod tests {
 
         set_changed(&lhs, &rhs);
 
-        let expected_rhs: Vec<&Syntax> = vec![
+        let expected_rhs: Vec<&Node> = vec![
             arena.alloc(List {
                 open_delimiter: "[".into(),
                 open_position: AbsoluteRange { start: 0, end: 1 },
@@ -718,7 +718,7 @@ mod tests {
 
         set_changed(&lhs, &rhs);
 
-        let expected_rhs: Vec<&Syntax> = vec![
+        let expected_rhs: Vec<&Node> = vec![
             arena.alloc(Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
                 change: Cell::new(Some(Novel)),

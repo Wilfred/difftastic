@@ -11,7 +11,7 @@ use typed_arena::Arena;
 
 use crate::lines::AbsoluteRange;
 use ChangeKind::*;
-use Syntax::*;
+use Node::*;
 
 #[derive(PartialEq, Eq, Copy, Clone, Debug)]
 pub enum ChangeKind {
@@ -28,12 +28,12 @@ pub enum AtomKind {
 }
 
 #[derive(Debug, Clone)]
-pub enum Syntax<'a> {
+pub enum Node<'a> {
     List {
         change: Cell<Option<ChangeKind>>,
         open_position: AbsoluteRange,
         open_delimiter: String,
-        children: Vec<&'a Syntax<'a>>,
+        children: Vec<&'a Node<'a>>,
         close_position: AbsoluteRange,
         close_delimiter: String,
         num_descendants: usize,
@@ -46,15 +46,15 @@ pub enum Syntax<'a> {
     },
 }
 
-impl<'a> Syntax<'a> {
+impl<'a> Node<'a> {
     pub fn new_list(
-        arena: &'a Arena<Syntax<'a>>,
+        arena: &'a Arena<Node<'a>>,
         open_delimiter: &str,
         open_position: AbsoluteRange,
-        children: Vec<&'a Syntax<'a>>,
+        children: Vec<&'a Node<'a>>,
         close_delimiter: &str,
         close_position: AbsoluteRange,
-    ) -> &'a mut Syntax<'a> {
+    ) -> &'a mut Node<'a> {
         let mut num_descendants = 0;
         for child in &children {
             num_descendants += match child {
@@ -77,11 +77,11 @@ impl<'a> Syntax<'a> {
     }
 
     pub fn new_atom(
-        arena: &'a Arena<Syntax<'a>>,
+        arena: &'a Arena<Node<'a>>,
         position: AbsoluteRange,
         content: &str,
         kind: AtomKind,
-    ) -> &'a mut Syntax<'a> {
+    ) -> &'a mut Node<'a> {
         arena.alloc(Atom {
             position,
             content: content.into(),
@@ -118,7 +118,7 @@ impl<'a> Syntax<'a> {
     }
 }
 
-impl<'a> PartialEq for Syntax<'a> {
+impl<'a> PartialEq for Node<'a> {
     fn eq(&self, other: &Self) -> bool {
         match (&self, other) {
             (
@@ -155,9 +155,9 @@ impl<'a> PartialEq for Syntax<'a> {
         }
     }
 }
-impl<'a> Eq for Syntax<'a> {}
+impl<'a> Eq for Node<'a> {}
 
-impl<'a> Hash for Syntax<'a> {
+impl<'a> Hash for Node<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         match self {
             List {
@@ -182,7 +182,7 @@ impl<'a> Hash for Syntax<'a> {
 /// Compare two nodes, treating nodes with more children as
 /// greater. If the number of nodes match, consider nodes with an
 /// earlier position to be greater.
-fn cmp_nodes(lhs: &&Syntax, rhs: &&Syntax) -> Ordering {
+fn cmp_nodes(lhs: &&Node, rhs: &&Node) -> Ordering {
     match lhs {
         List {
             open_position: lhs_open_position,
@@ -213,12 +213,12 @@ fn cmp_nodes(lhs: &&Syntax, rhs: &&Syntax) -> Ordering {
 }
 
 // Sort a vec of nodes by size, largest first.
-fn sort_by_size(nodes: &mut Vec<&Syntax>) {
+fn sort_by_size(nodes: &mut Vec<&Node>) {
     nodes.sort_unstable_by(cmp_nodes);
     nodes.reverse();
 }
 
-pub fn change_positions(nodes: &[&Syntax]) -> Vec<(ChangeKind, AbsoluteRange)> {
+pub fn change_positions(nodes: &[&Node]) -> Vec<(ChangeKind, AbsoluteRange)> {
     let mut res: Vec<(ChangeKind, AbsoluteRange)> = vec![];
     for node in nodes {
         match node {
@@ -284,7 +284,7 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[(ChangeKind, AbsoluteRan
 }
 
 /// Extremely dumb top-level comparison of `lhs` and `rhs`.
-pub fn set_changed(lhs: &[&Syntax], rhs: &[&Syntax]) {
+pub fn set_changed(lhs: &[&Node], rhs: &[&Node]) {
     let mut lhs_subtrees = HashMap::new();
     for s in lhs.iter() {
         build_subtrees(s, &mut lhs_subtrees);
@@ -337,7 +337,7 @@ fn get_count<T: Hash + Eq>(node: &T, counts: &HashMap<&T, i64>) -> i64 {
 }
 
 /// Decrement the count of `node` from `counts`, along with all its children.
-fn decrement<'a>(node: &'a Syntax<'a>, counts: &mut HashMap<&'a Syntax<'a>, i64>) {
+fn decrement<'a>(node: &'a Node<'a>, counts: &mut HashMap<&'a Node<'a>, i64>) {
     let count = if let Some(count) = counts.get(node) {
         *count
     } else {
@@ -356,7 +356,7 @@ fn decrement<'a>(node: &'a Syntax<'a>, counts: &mut HashMap<&'a Syntax<'a>, i64>
     }
 }
 
-fn try_decrement<'a>(node: &'a Syntax<'a>, counts: &mut HashMap<&'a Syntax<'a>, i64>) -> bool {
+fn try_decrement<'a>(node: &'a Node<'a>, counts: &mut HashMap<&'a Node<'a>, i64>) -> bool {
     let node_count = get_count(node, counts);
 
     if node_count > 0 {
@@ -376,16 +376,16 @@ fn try_decrement<'a>(node: &'a Syntax<'a>, counts: &mut HashMap<&'a Syntax<'a>, 
 }
 
 struct Env<'a> {
-    lhs_counts: HashMap<&'a Syntax<'a>, i64>,
-    rhs_counts: HashMap<&'a Syntax<'a>, i64>,
-    lhs_unmatched: Vec<&'a Syntax<'a>>,
-    rhs_unmatched: Vec<&'a Syntax<'a>>,
+    lhs_counts: HashMap<&'a Node<'a>, i64>,
+    rhs_counts: HashMap<&'a Node<'a>, i64>,
+    lhs_unmatched: Vec<&'a Node<'a>>,
+    rhs_unmatched: Vec<&'a Node<'a>>,
 }
 
 impl<'a> Env<'a> {
     fn new(
-        lhs_counts: HashMap<&'a Syntax<'a>, i64>,
-        rhs_counts: HashMap<&'a Syntax<'a>, i64>,
+        lhs_counts: HashMap<&'a Node<'a>, i64>,
+        rhs_counts: HashMap<&'a Node<'a>, i64>,
     ) -> Self {
         Env {
             lhs_counts,
@@ -397,7 +397,7 @@ impl<'a> Env<'a> {
 }
 
 // Greedy tree differ.
-fn walk_nodes_ordered<'a>(lhs: &[&'a Syntax], rhs: &[&'a Syntax], env: &mut Env<'a>) {
+fn walk_nodes_ordered<'a>(lhs: &[&'a Node], rhs: &[&'a Node], env: &mut Env<'a>) {
     // Run a diff algorithm on the nodes at this level, and mark as
     // many things as unchanged as we can.
     for res in slice(lhs, rhs) {
@@ -427,7 +427,7 @@ fn walk_nodes_ordered<'a>(lhs: &[&'a Syntax], rhs: &[&'a Syntax], env: &mut Env<
     }
 }
 
-fn walk_node<'a>(lhs: Option<&'a Syntax>, rhs: Option<&'a Syntax>, env: &mut Env<'a>) {
+fn walk_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>) {
     match (lhs, rhs) {
         (Some(lhs_node), Some(rhs_node)) => {
             let lhs_possible_move = get_count(lhs_node, &env.rhs_counts) > 0;
@@ -539,7 +539,7 @@ fn walk_node<'a>(lhs: Option<&'a Syntax>, rhs: Option<&'a Syntax>, env: &mut Env
     }
 }
 
-fn build_subtrees<'a>(s: &'a Syntax<'a>, subtrees: &mut HashMap<&'a Syntax<'a>, i64>) {
+fn build_subtrees<'a>(s: &'a Node<'a>, subtrees: &mut HashMap<&'a Node<'a>, i64>) {
     let entry = subtrees.entry(s).or_insert(0);
     *entry += 1;
     match s {
