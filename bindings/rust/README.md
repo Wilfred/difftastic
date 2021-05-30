@@ -15,6 +15,7 @@ tree-sitter-php = { git = "https://github.com/tree-sitter/tree-sitter-php.git", 
 
 To you the parser, you need to obtain an instance of a [`tree_sitter::Language`][Language] struct for php.
 The `language()` function provides this.
+Passing this struct to a [`tree_sitter::Parser`][Parser] will enable it to parse PHP.
 
 ``` rust
 use tree_sitter::Parser;
