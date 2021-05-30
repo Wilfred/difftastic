@@ -19,6 +19,73 @@
     }
   },
   {
+    "type": "binary_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "comparison_operator",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "boolean_expression",
     "named": true,
     "fields": {},
@@ -36,6 +103,77 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "comparison_operator",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "check",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -102,66 +240,7 @@
           "named": true
         },
         {
-          "type": "boolean_expression",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "field_access",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "in_expression",
-          "named": true
-        },
-        {
-          "type": "is_expression",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "type_cast",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "check_table_constraint",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "FALSE",
-          "named": true
-        },
-        {
-          "type": "NULL",
-          "named": true
-        },
-        {
-          "type": "TRUE",
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -225,6 +304,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -319,6 +402,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -512,7 +599,7 @@
       "required": true,
       "types": [
         {
-          "type": "check_table_constraint",
+          "type": "check",
           "named": true
         },
         {
@@ -520,15 +607,15 @@
           "named": true
         },
         {
-          "type": "foreign_key_constraint",
+          "type": "foreign_key",
           "named": true
         },
         {
-          "type": "primary_key_table_constraint",
+          "type": "primary_key",
           "named": true
         },
         {
-          "type": "unique_table_constraint",
+          "type": "unique",
           "named": true
         }
       ]
@@ -592,7 +679,7 @@
     }
   },
   {
-    "type": "foreign_key_constraint",
+    "type": "foreign_key",
     "named": true,
     "fields": {},
     "children": {
@@ -640,6 +727,10 @@
           },
           {
             "type": "TRUE",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -717,6 +808,10 @@
           "named": true
         },
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "boolean_expression",
           "named": true
         },
@@ -784,6 +879,10 @@
           "named": true
         },
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "boolean_expression",
           "named": true
         },
@@ -848,6 +947,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -954,6 +1057,10 @@
           "named": true
         },
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "boolean_expression",
           "named": true
         },
@@ -1035,12 +1142,7 @@
     }
   },
   {
-    "type": "primary_key_constraint",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "primary_key_table_constraint",
+    "type": "primary_key",
     "named": true,
     "fields": {},
     "children": {
@@ -1053,6 +1155,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "primary_key_constraint",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "references_constraint",
@@ -1095,6 +1202,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -1228,6 +1339,10 @@
             "named": true
           },
           {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
             "type": "boolean_expression",
             "named": true
           },
@@ -1296,6 +1411,10 @@
           "named": true
         },
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "boolean_expression",
           "named": true
         },
@@ -1343,12 +1462,7 @@
     }
   },
   {
-    "type": "unique_constraint",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "unique_table_constraint",
+    "type": "unique",
     "named": true,
     "fields": {},
     "children": {
@@ -1361,6 +1475,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "unique_constraint",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "using_clause",
@@ -1396,6 +1515,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -1451,6 +1574,10 @@
   },
   {
     "type": ")",
+    "named": false
+  },
+  {
+    "type": "+",
     "named": false
   },
   {
@@ -1532,5 +1659,9 @@
   {
     "type": "type",
     "named": true
+  },
+  {
+    "type": "~",
+    "named": false
   }
 ]

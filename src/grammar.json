@@ -343,7 +343,61 @@
         }
       ]
     },
-    "foreign_key_constraint": {
+    "_table_constraint": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "table_constraint_foreign_key"
+          },
+          "named": true,
+          "value": "foreign_key"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "table_constraint_unique"
+          },
+          "named": true,
+          "value": "unique"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "table_constraint_primary_key"
+          },
+          "named": true,
+          "value": "primary_key"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "table_constraint_check"
+          },
+          "named": true,
+          "value": "check"
+        }
+      ]
+    },
+    "table_constraint_check": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[CC][HH][EE][CC][KK]"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
+    "table_constraint_foreign_key": {
       "type": "SEQ",
       "members": [
         {
@@ -389,39 +443,93 @@
         }
       ]
     },
-    "_table_constraint": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "foreign_key_constraint"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unique_table_constraint"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "primary_key_table_constraint"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "check_table_constraint"
-        }
-      ]
-    },
-    "check_table_constraint": {
+    "table_constraint_unique": {
       "type": "SEQ",
       "members": [
         {
           "type": "PATTERN",
-          "value": "[CC][HH][EE][CC][KK]"
+          "value": "[UU][NN][II][QQ][UU][EE]"
         },
         {
-          "type": "SYMBOL",
-          "name": "_expression"
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
+    },
+    "table_constraint_primary_key": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[PP][RR][II][MM][AA][RR][YY][  ][KK][EE][YY]"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "primary_key_constraint": {
+      "type": "PATTERN",
+      "value": "[PP][RR][II][MM][AA][RR][YY][  ][KK][EE][YY]"
     },
     "create_table_statement": {
       "type": "SEQ",
@@ -780,94 +888,6 @@
     "unique_constraint": {
       "type": "PATTERN",
       "value": "[UU][NN][II][QQ][UU][EE]"
-    },
-    "unique_table_constraint": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[UU][NN][II][QQ][UU][EE]"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
-    },
-    "primary_key_table_constraint": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[PP][RR][II][MM][AA][RR][YY][  ][KK][EE][YY]"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
-    },
-    "primary_key_constraint": {
-      "type": "PATTERN",
-      "value": "[PP][RR][II][MM][AA][RR][YY][  ][KK][EE][YY]"
     },
     "null_constraint": {
       "type": "SEQ",
@@ -1247,7 +1267,7 @@
           "name": "content",
           "content": {
             "type": "PATTERN",
-            "value": "[a-zA-Z0-9_%{}.*\\[\\]]*"
+            "value": "[^']*"
           }
         },
         {
@@ -1388,6 +1408,49 @@
         ]
       }
     },
+    "binary_expression": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              },
+              {
+                "type": "STRING",
+                "value": "~"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              },
+              {
+                "type": "STRING",
+                "value": "+"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "_expression": {
       "type": "CHOICE",
       "members": [
@@ -1446,6 +1509,10 @@
         {
           "type": "SYMBOL",
           "name": "type_cast"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "binary_expression"
         }
       ]
     }
