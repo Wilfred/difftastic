@@ -310,11 +310,23 @@
       "required": true,
       "types": [
         {
-          "type": "data_type",
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "check_constraint",
           "named": true
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "null_constraint",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -488,29 +500,6 @@
         },
         {
           "type": "parameters",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "data_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "check_constraint",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "null_constraint",
           "named": true
         }
       ]
@@ -949,11 +938,15 @@
       "required": true,
       "types": [
         {
-          "type": "data_type",
+          "type": "array_type",
           "named": true
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -1232,6 +1225,10 @@
           "named": true
         },
         {
+          "type": "array_type",
+          "named": true
+        },
+        {
           "type": "boolean_expression",
           "named": true
         },
@@ -1265,6 +1262,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         },
         {
