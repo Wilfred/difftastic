@@ -150,7 +150,7 @@ module.exports = grammar({
       seq(
         caseInsensitive("REFERENCES"),
         $.identifier, // table_name
-        optional(seq("(", repeat1($.identifier), ")")),
+        optional(seq("(", commaSep1($.identifier), ")")),
         // seems like a case for https://github.com/tree-sitter/tree-sitter/issues/130
         optional(
           choice(
@@ -204,9 +204,11 @@ module.exports = grammar({
           $._expression,
           caseInsensitive("is"),
           optional(caseInsensitive("not")),
-          choice($.NULL, $.TRUE, $.FALSE)
+          choice($.NULL, $.TRUE, $.FALSE, $.distinct_from)
         )
       ),
+    distinct_from: ($) =>
+      prec.left(seq(caseInsensitive("DISTINCT FROM"), $._expression)),
     boolean_expression: ($) =>
       choice(
         prec.left(4, seq($._expression, caseInsensitive("AND"), $._expression)),
