@@ -61,10 +61,13 @@ module.exports = grammar({
             // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
             // TODO: simple expression to use for check and default
             choice(
-                $._parenthesized_expression,
-                $.string,
-                $.identifier,
-                $.function_call,
+                choice(
+                    $._parenthesized_expression,
+                    $.string,
+                    $.identifier,
+                    $.function_call,
+                ),
+                $.type_cast,
             ),
         ),
         create_table_parameters: $ => seq(
@@ -225,7 +228,7 @@ module.exports = grammar({
         identifier: $ => /[a-zA-Z0-9_]+[.a-zA-Z0-9_]*/,
         string: $ => seq(
             '\'',
-            field('content', /[a-zA-Z0-9_%{}.*]*/),
+            field('content', /[a-zA-Z0-9_%{}.*\[\]]*/),
             '\'',
         ),
         field_access: $ => seq(
