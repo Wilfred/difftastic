@@ -643,3 +643,18 @@ CREATE TABLE foo(col1 INT CONSTRAINT col1_constraint)
             (create_table_column_parameter
                 (identifier) (identifier) (named_constraint (identifier))
             ))))
+
+=====================
+CREATE TABLE with composite primary key
+=====================
+
+CREATE TABLE foo(col1 INT, col2 INT, PRIMARY KEY(col1, col2))
+
+---
+
+(source_file 
+    (create_table_statement (identifier)
+        (create_table_parameters
+            (create_table_column_parameter (identifier) (identifier))
+            (create_table_column_parameter (identifier) (identifier))
+            (primary_key_table_constraint (identifier) (identifier)))))

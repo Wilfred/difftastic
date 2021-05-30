@@ -209,9 +209,26 @@
               {
                 "type": "SYMBOL",
                 "name": "null_constraint"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "named_constraint"
               }
             ]
           }
+        }
+      ]
+    },
+    "named_constraint": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "CONSTRAINT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
         }
       ]
     },
@@ -366,6 +383,10 @@
         {
           "type": "SYMBOL",
           "name": "unique_table_constraint"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "primary_key_table_constraint"
         }
       ]
     },
@@ -733,6 +754,48 @@
         {
           "type": "PATTERN",
           "value": "[UU][NN][II][QQ][UU][EE]"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "primary_key_table_constraint": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[PP][RR][II][MM][AA][RR][YY][  ][KK][EE][YY]"
         },
         {
           "type": "STRING",

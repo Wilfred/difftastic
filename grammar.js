@@ -57,10 +57,15 @@ module.exports = grammar({
             $.check_constraint,
             $.references_constraint,
             $.unique_constraint,
-            $.null_constraint
+            $.null_constraint,
+            $.named_constraint,
           )
         )
       ),
+    named_constraint: ($) => seq(
+      "CONSTRAINT",
+      $.identifier,
+    ),
     column_default: ($) =>
       seq(
         caseInsensitive("DEFAULT"),
@@ -91,7 +96,7 @@ module.exports = grammar({
         $.references_constraint
       ),
     _table_constraint: ($) =>
-      choice($.foreign_key_constraint, $.unique_table_constraint),
+      choice($.foreign_key_constraint, $.unique_table_constraint, $.primary_key_table_constraint),
     create_table_statement: ($) =>
       seq(
         caseInsensitive("CREATE TABLE"),
@@ -153,6 +158,8 @@ module.exports = grammar({
     unique_constraint: ($) => caseInsensitive("UNIQUE"),
     unique_table_constraint: ($) =>
       seq(caseInsensitive("UNIQUE"), "(", commaSep1($.identifier), ")"),
+    primary_key_table_constraint: ($) =>
+      seq(caseInsensitive("PRIMARY KEY"), "(", commaSep1($.identifier), ")"),
     primary_key_constraint: ($) => caseInsensitive("PRIMARY KEY"),
     null_constraint: ($) => seq(optional(caseInsensitive("NOT")), $.NULL),
     check_constraint: ($) => seq(caseInsensitive("CHECK"), $._expression),
