@@ -628,3 +628,18 @@ Comment
 ---
 
 (source_file (comment))
+
+=====================
+CREATE TABLE with named constraint
+=====================
+
+CREATE TABLE foo(col1 INT CONSTRAINT col1_constraint)
+
+---
+
+(source_file 
+    (create_table_statement (identifier)
+        (create_table_parameters
+            (create_table_column_parameter
+                (identifier) (identifier) (named_constraint (identifier))
+            ))))
