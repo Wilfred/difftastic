@@ -16,9 +16,8 @@ use Syntax::*;
 #[derive(PartialEq, Eq, Copy, Clone, Debug)]
 pub enum ChangeKind {
     Unchanged,
-    Added,
-    Removed,
     Moved,
+    Novel,
 }
 
 #[derive(PartialEq, Eq, Copy, Clone, Debug, PartialOrd, Ord)]
@@ -254,7 +253,7 @@ pub fn change_positions(nodes: &[&Syntax]) -> Vec<(ChangeKind, AbsoluteRange)> {
     res
 }
 
-pub fn apply_colors(s: &str, positions: &[(ChangeKind, AbsoluteRange)]) -> String {
+pub fn apply_colors(s: &str, is_lhs: bool, positions: &[(ChangeKind, AbsoluteRange)]) -> String {
     let mut res = String::with_capacity(s.len());
     let mut i = 0;
     for (kind, position) in positions {
@@ -269,8 +268,8 @@ pub fn apply_colors(s: &str, positions: &[(ChangeKind, AbsoluteRange)]) -> Strin
 
         let color = match kind {
             Unchanged => Color::White,
-            Added => Color::Green,
-            Removed => Color::Red,
+            Novel if is_lhs => Color::Red,
+            Novel => Color::Green,
             Moved => Color::Yellow,
         };
         let colored = &s[position.start..min(s.len(), position.end)].color(color);
@@ -316,7 +315,7 @@ fn process_moves<'a>(mut env: Env<'a>) {
             if try_decrement(lhs_node, &mut env.rhs_counts) {
                 lhs_node.set_change_deep(Moved)
             } else {
-                lhs_node.set_change_deep(Removed)
+                lhs_node.set_change_deep(Novel)
             }
         }
     }
@@ -327,7 +326,7 @@ fn process_moves<'a>(mut env: Env<'a>) {
             if try_decrement(rhs_node, &mut env.lhs_counts) {
                 rhs_node.set_change_deep(Moved)
             } else {
-                rhs_node.set_change_deep(Added)
+                rhs_node.set_change_deep(Novel)
             }
         }
     }
@@ -485,8 +484,8 @@ fn walk_node<'a>(lhs: Option<&'a Syntax>, rhs: Option<&'a Syntax>, env: &mut Env
                     } else {
                         // Children are different and the wrapping
                         // has changed (e.g. from {} to []).
-                        lhs_node.set_change(Removed);
-                        rhs_node.set_change(Added);
+                        lhs_node.set_change(Novel);
+                        rhs_node.set_change(Novel);
                     }
                     walk_nodes_ordered(&lhs_children[..], &rhs_children[..], env);
                 }
@@ -497,7 +496,7 @@ fn walk_node<'a>(lhs: Option<&'a Syntax>, rhs: Option<&'a Syntax>, env: &mut Env
                     },
                     Atom { .. },
                 ) => {
-                    lhs_node.set_change(Removed);
+                    lhs_node.set_change(Novel);
                     walk_nodes_ordered(&lhs_children[..], std::slice::from_ref(&rhs_node), env);
                 }
                 (
@@ -507,12 +506,12 @@ fn walk_node<'a>(lhs: Option<&'a Syntax>, rhs: Option<&'a Syntax>, env: &mut Env
                         ..
                     },
                 ) => {
-                    rhs_node.set_change(Added);
+                    rhs_node.set_change(Novel);
                     walk_nodes_ordered(std::slice::from_ref(&lhs_node), &rhs_children[..], env);
                 }
                 (Atom { .. }, Atom { .. }) => {
-                    lhs_node.set_change(Removed);
-                    rhs_node.set_change(Added);
+                    lhs_node.set_change(Novel);
+                    rhs_node.set_change(Novel);
                 }
             }
         }
@@ -520,7 +519,7 @@ fn walk_node<'a>(lhs: Option<&'a Syntax>, rhs: Option<&'a Syntax>, env: &mut Env
             if get_count(lhs_node, &env.rhs_counts) > 0 {
                 env.lhs_unmatched.push(lhs_node);
             } else {
-                lhs_node.set_change(Removed);
+                lhs_node.set_change(Novel);
                 if let List { children, .. } = lhs_node {
                     walk_nodes_ordered(&children[..], &[], env);
                 }
@@ -530,7 +529,7 @@ fn walk_node<'a>(lhs: Option<&'a Syntax>, rhs: Option<&'a Syntax>, env: &mut Env
             if get_count(rhs_node, &env.lhs_counts) > 0 {
                 env.rhs_unmatched.push(rhs_node);
             } else {
-                rhs_node.set_change(Added);
+                rhs_node.set_change(Novel);
                 if let List { children, .. } = rhs_node {
                     walk_nodes_ordered(&[], &children[..], env);
                 }
@@ -562,7 +561,7 @@ mod tests {
     fn test_atom_equality_ignores_change_and_pos() {
         assert_eq!(
             Atom {
-                change: Cell::new(Some(Added)),
+                change: Cell::new(Some(Novel)),
                 position: AbsoluteRange { start: 0, end: 1 },
                 content: "foo".into(),
                 kind: Other,
