@@ -776,11 +776,29 @@
                   "value": "("
                 },
                 {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "identifier"
-                  }
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "identifier"
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 },
                 {
                   "type": "STRING",
@@ -1182,8 +1200,29 @@
               {
                 "type": "SYMBOL",
                 "name": "FALSE"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "distinct_from"
               }
             ]
+          }
+        ]
+      }
+    },
+    "distinct_from": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[DD][II][SS][TT][II][NN][CC][TT][  ][FF][RR][OO][MM]"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
           }
         ]
       }
