@@ -90,7 +90,15 @@ module.exports = grammar({
         commaSep1(choice($.create_table_column_parameter, $._table_constraint)),
         ")"
       ),
-    foreign_key_constraint: ($) =>
+    _table_constraint: ($) =>
+      choice(
+        alias($.table_constraint_foreign_key, $.foreign_key),
+        alias($.table_constraint_unique, $.unique),
+        alias($.table_constraint_primary_key, $.primary_key),
+        alias($.table_constraint_check, $.check)
+      ),
+    table_constraint_check: ($) => seq(caseInsensitive("CHECK"), $._expression),
+    table_constraint_foreign_key: ($) =>
       seq(
         caseInsensitive("FOREIGN KEY"),
         "(",
@@ -98,14 +106,11 @@ module.exports = grammar({
         ")",
         $.references_constraint
       ),
-    _table_constraint: ($) =>
-      choice(
-        $.foreign_key_constraint,
-        $.unique_table_constraint,
-        $.primary_key_table_constraint,
-        $.check_table_constraint
-      ),
-    check_table_constraint: ($) => seq(caseInsensitive("CHECK"), $._expression),
+    table_constraint_unique: ($) =>
+      seq(caseInsensitive("UNIQUE"), "(", commaSep1($.identifier), ")"),
+    table_constraint_primary_key: ($) =>
+      seq(caseInsensitive("PRIMARY KEY"), "(", commaSep1($.identifier), ")"),
+    primary_key_constraint: ($) => caseInsensitive("PRIMARY KEY"),
     create_table_statement: ($) =>
       seq(
         caseInsensitive("CREATE TABLE"),
@@ -165,11 +170,6 @@ module.exports = grammar({
         caseInsensitive("SET NULL")
       ),
     unique_constraint: ($) => caseInsensitive("UNIQUE"),
-    unique_table_constraint: ($) =>
-      seq(caseInsensitive("UNIQUE"), "(", commaSep1($.identifier), ")"),
-    primary_key_table_constraint: ($) =>
-      seq(caseInsensitive("PRIMARY KEY"), "(", commaSep1($.identifier), ")"),
-    primary_key_constraint: ($) => caseInsensitive("PRIMARY KEY"),
     null_constraint: ($) => seq(optional(caseInsensitive("NOT")), $.NULL),
     check_constraint: ($) => seq(caseInsensitive("CHECK"), $._expression),
     _constraint: ($) =>
@@ -217,7 +217,7 @@ module.exports = grammar({
     FALSE: ($) => caseInsensitive("FALSE"),
     number: ($) => /\d+/,
     identifier: ($) => /[a-zA-Z0-9_]+[.a-zA-Z0-9_]*/,
-    string: ($) => seq("'", field("content", /[a-zA-Z0-9_%{}.*\[\]]*/), "'"),
+    string: ($) => seq("'", field("content", /[^']*/), "'"),
     field_access: ($) => seq($.identifier, "->>", $.string),
     ordered_expression: ($) =>
       seq(
@@ -240,6 +240,13 @@ module.exports = grammar({
         $._type
       ),
     comment: ($) => token(seq("--", /.*/)),
+    binary_expression: ($) =>
+      prec.left(
+        choice(
+          seq($._expression, "~", $._expression),
+          seq($._expression, "+", $._expression)
+        )
+      ),
     _expression: ($) =>
       choice(
         $.function_call,
@@ -255,7 +262,8 @@ module.exports = grammar({
         $.is_expression,
         $.boolean_expression,
         $._parenthesized_expression,
-        $.type_cast
+        $.type_cast,
+        $.binary_expression
       ),
   },
 });

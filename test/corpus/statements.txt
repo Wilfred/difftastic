@@ -23,6 +23,18 @@ SELECT 1, 2;
         (select_clause (number) (number))))
 
 =============================
+SELECT statement with expression
+=============================
+
+SELECT 1 + 2;
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (binary_expression (number) (number)))))
+
+=============================
 SELECT statement with empty string
 =============================
 
@@ -587,7 +599,7 @@ CREATE TABLE my_table (
         (create_table_parameters
             (create_table_column_parameter (identifier) (type))
             (create_table_column_parameter (identifier) (type))
-            (foreign_key_constraint (identifier) (identifier) (references_constraint (identifier))))))
+            (foreign_key (identifier) (identifier) (references_constraint (identifier))))))
 
 =====================
 CREATE TABLE with multiple constraints
@@ -617,7 +629,7 @@ CREATE TABLE foo(col1 INT, col2 INT, UNIQUE(col1, col2))
         (create_table_parameters
             (create_table_column_parameter (identifier) (type))
             (create_table_column_parameter (identifier) (type))
-            (unique_table_constraint (identifier) (identifier)))))
+            (unique (identifier) (identifier)))))
 
 =====================
 Comment
@@ -657,7 +669,7 @@ CREATE TABLE foo(col1 INT, col2 INT, PRIMARY KEY(col1, col2))
         (create_table_parameters
             (create_table_column_parameter (identifier) (type))
             (create_table_column_parameter (identifier) (type))
-            (primary_key_table_constraint (identifier) (identifier)))))
+            (primary_key (identifier) (identifier)))))
 
 =====================
 CREATE TABLE with array type column
@@ -686,4 +698,4 @@ CREATE TABLE foo(col1 INT, col2 INT, CHECK(col1 > col2))
         (create_table_parameters
             (create_table_column_parameter (identifier) (type))
             (create_table_column_parameter (identifier) (type))
-            (check_table_constraint (comparison_operator (identifier) (identifier))))))
+            (check (comparison_operator (identifier) (identifier))))))
