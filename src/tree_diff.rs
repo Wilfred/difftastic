@@ -332,8 +332,8 @@ fn process_moves<'a>(mut env: Env<'a>) {
     }
 }
 
-fn get_count<T: Hash + Eq>(node: &T, counts: &HashMap<&T, i64>) -> i64 {
-    *counts.get(node).unwrap_or(&0)
+fn possible_move(node: &Node, counts: &HashMap<&Node, i64>) -> bool {
+    *counts.get(node).unwrap_or(&0) > 0
 }
 
 /// Decrement the count of `node` from `counts`, along with all its children.
@@ -357,7 +357,7 @@ fn decrement<'a>(node: &'a Node<'a>, counts: &mut HashMap<&'a Node<'a>, i64>) {
 }
 
 fn try_decrement<'a>(node: &'a Node<'a>, counts: &mut HashMap<&'a Node<'a>, i64>) -> bool {
-    let node_count = get_count(node, counts);
+    let node_count = *counts.get(node).unwrap_or(&0);
 
     if node_count > 0 {
         counts.insert(node, node_count - 1);
@@ -383,10 +383,7 @@ struct Env<'a> {
 }
 
 impl<'a> Env<'a> {
-    fn new(
-        lhs_counts: HashMap<&'a Node<'a>, i64>,
-        rhs_counts: HashMap<&'a Node<'a>, i64>,
-    ) -> Self {
+    fn new(lhs_counts: HashMap<&'a Node<'a>, i64>, rhs_counts: HashMap<&'a Node<'a>, i64>) -> Self {
         Env {
             lhs_counts,
             rhs_counts,
@@ -430,10 +427,10 @@ fn mark_unchanged_nodes<'a>(lhs: &[&'a Node], rhs: &[&'a Node], env: &mut Env<'a
 fn mark_unchanged_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>) {
     match (lhs, rhs) {
         (Some(lhs_node), Some(rhs_node)) => {
-            let lhs_possible_move = get_count(lhs_node, &env.rhs_counts) > 0;
-            let rhs_possible_move = get_count(rhs_node, &env.lhs_counts) > 0;
-
-            match (lhs_possible_move, rhs_possible_move) {
+            match (
+                possible_move(lhs_node, &env.rhs_counts),
+                possible_move(rhs_node, &env.lhs_counts),
+            ) {
                 (true, true) => {
                     env.lhs_unmatched.push(lhs_node);
                     env.rhs_unmatched.push(rhs_node);
@@ -516,7 +513,7 @@ fn mark_unchanged_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &m
             }
         }
         (Some(lhs_node), None) => {
-            if get_count(lhs_node, &env.rhs_counts) > 0 {
+            if possible_move(lhs_node, &env.rhs_counts) {
                 env.lhs_unmatched.push(lhs_node);
             } else {
                 lhs_node.set_change(Novel);
@@ -526,7 +523,7 @@ fn mark_unchanged_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &m
             }
         }
         (None, Some(rhs_node)) => {
-            if get_count(rhs_node, &env.lhs_counts) > 0 {
+            if possible_move(rhs_node, &env.lhs_counts) {
                 env.rhs_unmatched.push(rhs_node);
             } else {
                 rhs_node.set_change(Novel);
