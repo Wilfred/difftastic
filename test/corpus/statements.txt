@@ -407,8 +407,8 @@ CREATE TABLE my_table (col1 INT, col2 INT)
 (source_file 
     (create_table_statement (identifier)
         (create_table_parameters
-            (create_table_column_parameter (identifier) (identifier))
-            (create_table_column_parameter (identifier) (identifier)))))
+            (create_table_column_parameter (identifier) (type))
+            (create_table_column_parameter (identifier) (type)))))
 
 =====================
 CREATE TABLE with not null constraint
@@ -422,7 +422,7 @@ CREATE TABLE my_table (col1 INT NOT NULL)
     (create_table_statement (identifier)
         (create_table_parameters
             (create_table_column_parameter
-                (identifier) (identifier) (null_constraint (NULL))))))
+                (identifier) (type) (null_constraint (NULL))))))
 
 =====================
 CREATE TABLE with default
@@ -437,7 +437,7 @@ CREATE TABLE my_table (col1 INT DEFAULT get_num())
         (create_table_parameters
             (create_table_column_parameter
                 (identifier)
-                (identifier)
+                (type)
                 (column_default (function_call (identifier)))))))
 
 =====================
@@ -453,7 +453,7 @@ CREATE TABLE my_table (col1 INT DEFAULT 'hey')
         (create_table_parameters
             (create_table_column_parameter
                 (identifier)
-                (identifier)
+                (type)
                 (column_default (string))))))
 
 =====================
@@ -469,7 +469,7 @@ CREATE TABLE my_table (col1 INT PRIMARY KEY)
         (create_table_parameters
             (create_table_column_parameter
                 (identifier)
-                (identifier)
+                (type)
                 (primary_key_constraint)))))
 
 =====================
@@ -485,7 +485,7 @@ CREATE TABLE my_table (col1 INT REFERENCES table1)
         (create_table_parameters
             (create_table_column_parameter
                 (identifier)
-                (identifier)
+                (type)
                 (references_constraint (identifier))))))
 
 =====================
@@ -501,7 +501,7 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1))
         (create_table_parameters
             (create_table_column_parameter
                 (identifier)
-                (identifier)
+                (type)
                 (references_constraint (identifier) (identifier))))))
 
 =====================
@@ -517,7 +517,7 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1) ON DELETE SET NULL ON UP
         (create_table_parameters
             (create_table_column_parameter
                 (identifier)
-                (identifier)
+                (type)
                 (references_constraint (identifier) (identifier) (on_delete_action) (on_update_action))))))
 
 =====================
@@ -533,7 +533,7 @@ CREATE TABLE my_table (col1 INT UNIQUE)
         (create_table_parameters
             (create_table_column_parameter
                 (identifier)
-                (identifier)
+                (type)
                 (unique_constraint)))))
 
 =====================
@@ -549,7 +549,7 @@ CREATE TABLE my_table (col1 INT DEFAULT get_val() NOT NULL)
         (create_table_parameters
             (create_table_column_parameter
                 (identifier)
-                (identifier)
+                (type)
                 (column_default (function_call (identifier)))
                 (null_constraint (NULL))))))
 
@@ -567,7 +567,7 @@ CREATE TABLE my_table (col1 INT CHECK(col1 IN (1, 2)));
         (create_table_parameters
             (create_table_column_parameter
                 (identifier)
-                (identifier)
+                (type)
                 (check_constraint (in_expression (identifier) (tuple (number) (number))))))))
 
 =====================
@@ -585,8 +585,8 @@ CREATE TABLE my_table (
 (source_file 
     (create_table_statement (identifier)
         (create_table_parameters
-            (create_table_column_parameter (identifier) (identifier))
-            (create_table_column_parameter (identifier) (identifier))
+            (create_table_column_parameter (identifier) (type))
+            (create_table_column_parameter (identifier) (type))
             (foreign_key_constraint (identifier) (identifier) (references_constraint (identifier))))))
 
 =====================
@@ -600,7 +600,7 @@ CREATE TABLE foo(col1 INT NOT NULL REFERENCES bar(col1) ON UPDATE CASCADE ON DEL
 (source_file 
     (create_table_statement (identifier)
         (create_table_parameters
-            (create_table_column_parameter (identifier) (identifier)
+            (create_table_column_parameter (identifier) (type)
                 (null_constraint (NULL))
                 (references_constraint (identifier) (identifier) (on_update_action) (on_delete_action))))))
 
@@ -615,8 +615,8 @@ CREATE TABLE foo(col1 INT, col2 INT, UNIQUE(col1, col2))
 (source_file 
     (create_table_statement (identifier)
         (create_table_parameters
-            (create_table_column_parameter (identifier) (identifier))
-            (create_table_column_parameter (identifier) (identifier))
+            (create_table_column_parameter (identifier) (type))
+            (create_table_column_parameter (identifier) (type))
             (unique_table_constraint (identifier) (identifier)))))
 
 =====================
@@ -641,7 +641,7 @@ CREATE TABLE foo(col1 INT CONSTRAINT col1_constraint)
     (create_table_statement (identifier)
         (create_table_parameters
             (create_table_column_parameter
-                (identifier) (identifier) (named_constraint (identifier))
+                (identifier) (type) (named_constraint (identifier))
             ))))
 
 =====================
@@ -655,6 +655,19 @@ CREATE TABLE foo(col1 INT, col2 INT, PRIMARY KEY(col1, col2))
 (source_file 
     (create_table_statement (identifier)
         (create_table_parameters
-            (create_table_column_parameter (identifier) (identifier))
-            (create_table_column_parameter (identifier) (identifier))
+            (create_table_column_parameter (identifier) (type))
+            (create_table_column_parameter (identifier) (type))
             (primary_key_table_constraint (identifier) (identifier)))))
+
+=====================
+CREATE TABLE with array type column
+=====================
+
+CREATE TABLE foo(col1 INT[])
+
+---
+
+(source_file 
+    (create_table_statement (identifier)
+        (create_table_parameters
+            (create_table_column_parameter (identifier) (array_type (type))))))
