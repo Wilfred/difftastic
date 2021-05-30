@@ -383,6 +383,10 @@
           "named": true
         },
         {
+          "type": "named_constraint",
+          "named": true
+        },
+        {
           "type": "null_constraint",
           "named": true
         },
@@ -415,6 +419,10 @@
         },
         {
           "type": "foreign_key_constraint",
+          "named": true
+        },
+        {
+          "type": "primary_key_table_constraint",
           "named": true
         },
         {
@@ -807,6 +815,21 @@
     }
   },
   {
+    "type": "named_constraint",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "null_constraint",
     "named": true,
     "fields": {},
@@ -923,6 +946,26 @@
       "types": [
         {
           "type": "parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "primary_key_constraint",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "primary_key_table_constraint",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -1360,6 +1403,10 @@
     "named": false
   },
   {
+    "type": "CONSTRAINT",
+    "named": false
+  },
+  {
     "type": "FALSE",
     "named": true
   },
@@ -1389,10 +1436,6 @@
   },
   {
     "type": "number",
-    "named": true
-  },
-  {
-    "type": "primary_key_constraint",
     "named": true
   }
 ]
