@@ -22,3 +22,8 @@ Tests files are located in [test/corpus](./test/corpus)
 npm install --also=dev
 npm test
 ```
+
+### Debbuging
+
+* `npm run parse <file.sql>` outputs a syntax tree
+* `npm run extract-error <file.sql>` shows first offending line
