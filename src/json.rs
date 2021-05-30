@@ -533,13 +533,13 @@ mod tests {
         let expected_rhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Some(Added)),
+                change: Cell::new(Some(Unchanged)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
                 position: AbsoluteRange { start: 2, end: 3 },
-                change: Cell::new(Some(Unchanged)),
+                change: Cell::new(Some(Added)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -565,7 +565,7 @@ mod tests {
         let expected_lhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Some(Moved)),
+                change: Cell::new(Some(Unchanged)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -587,7 +587,7 @@ mod tests {
             },
             Atom {
                 position: AbsoluteRange { start: 2, end: 3 },
-                change: Cell::new(Some(Moved)),
+                change: Cell::new(Some(Unchanged)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -607,7 +607,7 @@ mod tests {
         let expected_rhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Some(Moved)),
+                change: Cell::new(Some(Unchanged)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -730,7 +730,7 @@ mod tests {
                 open_position: AbsoluteRange { start: 2, end: 3 },
                 close_delimiter: "]".into(),
                 close_position: AbsoluteRange { start: 6, end: 7 },
-                change: Cell::new(Some(Unchanged)),
+                change: Cell::new(Some(Added)),
                 children: vec![arena.alloc(List {
                     change: Cell::new(Some(Moved)),
                     open_position: AbsoluteRange { start: 3, end: 4 },

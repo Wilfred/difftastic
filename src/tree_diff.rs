@@ -1,4 +1,7 @@
 use colored::*;
+use diff::{slice, Result::*};
+use itertools::EitherOrBoth;
+use itertools::Itertools;
 use std::cell::Cell;
 use std::cmp::min;
 use std::cmp::Ordering;
@@ -320,7 +323,6 @@ fn process_moves<'a>(mut env: Env<'a>) {
 
     sort_by_size(&mut env.rhs_unmatched);
     for rhs_node in env.rhs_unmatched {
-        // Partial overlaps?
         if rhs_node.get_change().is_none() {
             if try_decrement(rhs_node, &mut env.lhs_counts) {
                 rhs_node.set_change_deep(Moved)
@@ -396,135 +398,145 @@ impl<'a> Env<'a> {
 }
 
 // Greedy tree differ.
-fn walk_nodes_ordered<'a>(lhs: &'a [&'a Syntax], rhs: &'a [&'a Syntax], env: &mut Env<'a>) {
-    let mut lhs_i = 0;
-    let mut rhs_i = 0;
-    loop {
-        match (lhs.get(lhs_i), rhs.get(rhs_i)) {
-            (Some(lhs_node), Some(rhs_node)) => {
-                // Count the number of nodes on the opposite side.
-                let lhs_node_count = get_count(*lhs_node, &env.rhs_counts);
-                let rhs_node_count = get_count(*rhs_node, &env.lhs_counts);
+fn walk_nodes_ordered<'a>(lhs: &[&'a Syntax], rhs: &[&'a Syntax], env: &mut Env<'a>) {
+    // Run a diff algorithm on the nodes at this level, and mark as
+    // many things as unchanged as we can.
+    for res in slice(lhs, rhs) {
+        match res {
+            Both(lhs_node, rhs_node) => {
+                lhs_node.set_change_deep(Unchanged);
+                rhs_node.set_change_deep(Unchanged);
 
-                // If they're equal, nothing to do.
-                if lhs_node == rhs_node && lhs_node_count > 0 && rhs_node_count > 0 {
-                    lhs_node.set_change_deep(Unchanged);
-                    rhs_node.set_change_deep(Unchanged);
-
-                    decrement(lhs_node, &mut env.rhs_counts);
-                    decrement(rhs_node, &mut env.lhs_counts);
-                    lhs_i += 1;
-                    rhs_i += 1;
-                    continue;
-                }
-
-                // Do we have remaining instances of the LHS node on
-                // the RHS? If so, this is a move.
-                if lhs_node_count > 0 {
-                    env.lhs_unmatched.push(lhs_node);
-                    lhs_i += 1;
-                    continue;
-                }
-
-                // Do we have remaining instances of the RHS node on
-                // the LHS? If so, this is a move.
-                if rhs_node_count > 0 {
-                    env.rhs_unmatched.push(rhs_node);
-                    rhs_i += 1;
-                    continue;
-                }
-
-                // Not equal, and neither is present on the opposite
-                // side. Atoms are novel, but check lists for moved
-                // subtrees.
-                match (lhs_node, rhs_node) {
-                    (
-                        List {
-                            open_delimiter: lhs_start_content,
-                            close_delimiter: lhs_end_content,
-                            children: lhs_children,
-                            ..
-                        },
-                        List {
-                            open_delimiter: rhs_start_content,
-                            close_delimiter: rhs_end_content,
-                            children: rhs_children,
-                            ..
-                        },
-                    ) => {
-                        // Both sides are lists, so check the
-                        // delimiters for the list node themselves, then
-                        // recurse.
-
-                        if lhs_start_content == rhs_start_content
-                            && lhs_end_content == rhs_end_content
-                        {
-                            // We didn't see either the LHS or RHS
-                            // node on the other side, but they have
-                            // the same delimiters, so only the
-                            // children are different.
-                            lhs_node.set_change(Unchanged);
-                            rhs_node.set_change(Unchanged);
-                        } else {
-                            // Children are different and the wrapping
-                            // has changed (e.g. from {} to []).
-                            lhs_node.set_change(Removed);
-                            rhs_node.set_change(Added);
-                        }
-                        walk_nodes_ordered(&lhs_children[..], &rhs_children[..], env);
-                    }
-                    (
-                        List {
-                            children: lhs_children,
-                            ..
-                        },
-                        Atom { .. },
-                    ) => {
-                        lhs_node.set_change(Removed);
-                        walk_nodes_ordered(&lhs_children[..], std::slice::from_ref(rhs_node), env);
-                    }
-                    (
-                        Atom { .. },
-                        List {
-                            children: rhs_children,
-                            ..
-                        },
-                    ) => {
-                        rhs_node.set_change(Added);
-                        walk_nodes_ordered(std::slice::from_ref(lhs_node), &rhs_children[..], env);
-                    }
-                    (Atom { .. }, Atom { .. }) => {
-                        lhs_node.set_change(Removed);
-                        rhs_node.set_change(Added);
-                    }
-                }
-                lhs_i += 1;
-                rhs_i += 1;
+                decrement(lhs_node, &mut env.rhs_counts);
+                decrement(rhs_node, &mut env.lhs_counts);
             }
-            (Some(lhs_node), None) => {
-                if get_count(*lhs_node, &env.rhs_counts) > 0 {
-                    env.lhs_unmatched.push(lhs_node);
-                } else {
-                    lhs_node.set_change(Removed);
-                    if let List { children, .. } = lhs_node {
-                        walk_nodes_ordered(&children[..], &[], env);
-                    }
-                }
-                lhs_i += 1;
-            }
-            (None, Some(rhs_node)) => {
-                if get_count(*rhs_node, &env.lhs_counts) > 0 {
-                    env.rhs_unmatched.push(rhs_node);
-                } else {
-                    rhs_node.set_change(Added);
-                    if let List { children, .. } = rhs_node {
-                        walk_nodes_ordered(&[], &children[..], env);
-                    }
-                }
-                rhs_i += 1;
-            }
-            (None, None) => break,
+            _ => {}
         }
+    }
+
+    let lhs_unprocessed = lhs.iter().filter(|node| node.get_change().is_none());
+    let rhs_unprocessed = rhs.iter().filter(|node| node.get_change().is_none());
+
+    // For the remaining nodes, process children.
+    for res in lhs_unprocessed.zip_longest(rhs_unprocessed) {
+        let (lhs_node, rhs_node) = match res {
+            EitherOrBoth::Both(lhs_node, rhs_node) => (Some(*lhs_node), Some(*rhs_node)),
+            EitherOrBoth::Left(lhs_node) => (Some(*lhs_node), None),
+            EitherOrBoth::Right(rhs_node) => (None, Some(*rhs_node)),
+        };
+        walk_node(lhs_node, rhs_node, env);
+    }
+}
+
+fn walk_node<'a>(lhs: Option<&'a Syntax>, rhs: Option<&'a Syntax>, env: &mut Env<'a>) {
+    match (lhs, rhs) {
+        (Some(lhs_node), Some(rhs_node)) => {
+            let lhs_possible_move = get_count(lhs_node, &env.rhs_counts) > 0;
+            let rhs_possible_move = get_count(rhs_node, &env.lhs_counts) > 0;
+
+            match (lhs_possible_move, rhs_possible_move) {
+                (true, true) => {
+                    env.lhs_unmatched.push(lhs_node);
+                    env.rhs_unmatched.push(rhs_node);
+                    return;
+                }
+                (true, false) => {
+                    env.lhs_unmatched.push(lhs_node);
+                    walk_node(None, rhs, env);
+                    return;
+                }
+                (false, true) => {
+                    env.rhs_unmatched.push(rhs_node);
+                    walk_node(lhs, None, env);
+                    return;
+                }
+                (false, false) => {}
+            }
+
+            // Neither is present on the opposite side. Atoms are
+            // novel, but check lists for moved subtrees.
+            match (lhs_node, rhs_node) {
+                (
+                    List {
+                        open_delimiter: lhs_start_content,
+                        close_delimiter: lhs_end_content,
+                        children: lhs_children,
+                        ..
+                    },
+                    List {
+                        open_delimiter: rhs_start_content,
+                        close_delimiter: rhs_end_content,
+                        children: rhs_children,
+                        ..
+                    },
+                ) => {
+                    // Both sides are lists, so check the
+                    // delimiters for the list node themselves, then
+                    // recurse.
+
+                    if lhs_start_content == rhs_start_content && lhs_end_content == rhs_end_content
+                    {
+                        // We didn't see either the LHS or RHS
+                        // node on the other side, but they have
+                        // the same delimiters, so only the
+                        // children are different.
+                        lhs_node.set_change(Unchanged);
+                        rhs_node.set_change(Unchanged);
+                    } else {
+                        // Children are different and the wrapping
+                        // has changed (e.g. from {} to []).
+                        lhs_node.set_change(Removed);
+                        rhs_node.set_change(Added);
+                    }
+                    walk_nodes_ordered(&lhs_children[..], &rhs_children[..], env);
+                }
+                (
+                    List {
+                        children: lhs_children,
+                        ..
+                    },
+                    Atom { .. },
+                ) => {
+                    lhs_node.set_change(Removed);
+                    walk_nodes_ordered(&lhs_children[..], std::slice::from_ref(&rhs_node), env);
+                }
+                (
+                    Atom { .. },
+                    List {
+                        children: rhs_children,
+                        ..
+                    },
+                ) => {
+                    rhs_node.set_change(Added);
+                    walk_nodes_ordered(std::slice::from_ref(&lhs_node), &rhs_children[..], env);
+                }
+                (Atom { .. }, Atom { .. }) => {
+                    lhs_node.set_change(Removed);
+                    rhs_node.set_change(Added);
+                }
+            }
+        }
+        (Some(lhs_node), None) => {
+            if get_count(lhs_node, &env.rhs_counts) > 0 {
+                env.lhs_unmatched.push(lhs_node);
+            } else {
+                lhs_node.set_change(Removed);
+                if let List { children, .. } = lhs_node {
+                    walk_nodes_ordered(&children[..], &[], env);
+                }
+            }
+        }
+        (None, Some(rhs_node)) => {
+            if get_count(rhs_node, &env.lhs_counts) > 0 {
+                env.rhs_unmatched.push(rhs_node);
+            } else {
+                rhs_node.set_change(Added);
+                if let List { children, .. } = rhs_node {
+                    walk_nodes_ordered(&[], &children[..], env);
+                }
+            }
+        }
+        (None, None) => {}
     }
 }
 
