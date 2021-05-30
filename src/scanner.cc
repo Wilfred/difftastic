@@ -182,16 +182,15 @@ namespace
                 {
                     skip(lexer);
                     has_newline = true;
-                    indent_length = 0;
                     while (true)
                     {
                         if (lexer->lookahead == ' ')
                         {
-                            indent_length++;
                             skip(lexer);
                         }
                         else
                         {
+                            indent_length = lexer->get_column(lexer);
                             break;
                         }
                     }
