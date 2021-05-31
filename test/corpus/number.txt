@@ -46,10 +46,14 @@ a = 0xA8
 a = 0XEF84Fe23
 a = 0xa_e_123_4
 a = 0xa_e_123_4##
+a = 0x0.1p-4
+a = 0xFp3
 
 ---
 
 (haskell
+ (function (variable) (exp_literal (integer)))
+ (function (variable) (exp_literal (integer)))
  (function (variable) (exp_literal (integer)))
  (function (variable) (exp_literal (integer)))
  (function (variable) (exp_literal (integer)))
