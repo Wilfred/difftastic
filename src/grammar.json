@@ -8168,6 +8168,10 @@
         {
           "type": "STRING",
           "value": "safe"
+        },
+        {
+          "type": "STRING",
+          "value": "interruptible"
         }
       ]
     },

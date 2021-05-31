@@ -98,7 +98,7 @@ module.exports = {
     'dotnet',
   ),
 
-  safety: _ => choice('unsafe', 'safe'),
+  safety: _ => choice('unsafe', 'safe', 'interruptible'),
 
   impent: $ => $.string,
 
