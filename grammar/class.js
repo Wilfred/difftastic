@@ -16,7 +16,7 @@ module.exports = {
     $._gendecl,
     $.default_signature,
     $.function,
-    $.decl_type_sig,
+    $.decl_tyfam_sig,
     $.decl_type,
     alias($.class_datafam, $.data_family),
   ),

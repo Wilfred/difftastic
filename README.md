@@ -108,7 +108,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * Safe ➖️
 * ScopedTypeVariables ✅
 * StandaloneDeriving ✅
-* StandaloneKindSignatures ❌
+* StandaloneKindSignatures ✅
 * StarIsType ✅
 * StaticPointers ❌
 * Strict ➖️

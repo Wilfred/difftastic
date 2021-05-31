@@ -188,9 +188,9 @@ class A a where
   (class_head (class_name (type)) (type_name (type_variable)))
   (class_body
    (where)
-   (decl_type_sig (type) (type_variable) (type_name (type_variable)))
+   (decl_type (type) (type_variable) (type_name (type_variable)))
    (decl_type (type) (type_variable) (type_name (type)))
-   (decl_type_sig (type) (type_variable) (type_name (type_variable))))))
+   (decl_tyfam_sig (type) (type_variable) (type_name (type_variable))))))
 
 ================================================================================
 class: associated data
