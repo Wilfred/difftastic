@@ -131,7 +131,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * UndecidableSuperClasses ➖️
 * UnicodeSyntax ✅
 * UnliftedFFITypes ➖️
-* UnliftedNewtypes ❌
+* UnliftedNewtypes ✅
 * Unsafe ➖️
 * ViewPatterns ✅
 

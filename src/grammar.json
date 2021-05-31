@@ -6696,8 +6696,25 @@
               "name": "_newtype"
             },
             {
-              "type": "SYMBOL",
-              "name": "_gadt_rhs"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_type_annotation"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_gadt_rhs"
+                }
+              ]
             }
           ]
         }
