@@ -42,7 +42,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * DuplicateRecordFields ➖️
 * EmptyCase ✅
 * EmptyDataDecls ✅
-* EmptyDataDeriving ❌
+* EmptyDataDeriving ✅
 * ExistentialQuantification ✅
 * ExplicitForAll ✅
 * ExplicitNamespaces ✅
