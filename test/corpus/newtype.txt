@@ -87,3 +87,23 @@ newtype A a =
   (deriving
    (type)
    (via (type_parens (type_apply (type_name (type)) (type_name (type_variable))))))))
+
+================================================================================
+newtype: unlifted
+================================================================================
+
+newtype A :: TYPE 'A where
+  A :: A# -> A
+
+---
+
+(haskell
+ (newtype
+  (type)
+  (type_apply
+   (type_name (type))
+   (type_name (promoted (type))))
+  (where)
+  (gadt_constructor
+   (constructor)
+   (fun (type_name (type)) (type_name (type))))))
