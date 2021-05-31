@@ -80,7 +80,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * NamedFieldPuns ✅
 * NamedWildCards ✅
 * NegativeLiterals ➖️
-* NondecreasingIndentation ✅
+* NondecreasingIndentation ❌
 * NPlusKPatterns ➖️
 * NullaryTypeClasses ✅
 * NumDecimals ➖️
