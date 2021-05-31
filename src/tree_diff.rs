@@ -8,6 +8,7 @@ use std::cell::Cell;
 use std::cmp::min;
 use std::cmp::Ordering;
 use std::collections::HashMap;
+use std::fmt;
 use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
 
@@ -15,11 +16,25 @@ use crate::lines::AbsoluteRange;
 use ChangeKind::*;
 use Node::*;
 
-#[derive(PartialEq, Eq, Copy, Clone, Debug)]
-pub enum ChangeKind {
-    Unchanged,
+#[derive(PartialEq, Eq, Clone, Copy)]
+pub enum ChangeKind<'a> {
+    Unchanged(&'a Node<'a>),
     Moved,
     Novel,
+}
+
+/// A Debug implementation that ignores the corresponding node
+/// mentioned for Unchanged. Otherwise we will infinitely loop on
+/// unchanged nodes, which both point to the other.
+impl<'a> fmt::Debug for ChangeKind<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let desc = match self {
+            Unchanged(_) => "Unchanged",
+            Moved => "Moved",
+            Novel => "Novel",
+        };
+        f.write_str(desc)
+    }
 }
 
 #[derive(PartialEq, Eq, Copy, Clone, Debug, PartialOrd, Ord)]
@@ -32,7 +47,7 @@ pub enum AtomKind {
 #[derive(Debug, Clone)]
 pub enum Node<'a> {
     List {
-        change: Cell<Option<ChangeKind>>,
+        change: Cell<Option<ChangeKind<'a>>>,
         open_position: AbsoluteRange,
         open_delimiter: String,
         children: Vec<&'a Node<'a>>,
@@ -41,7 +56,7 @@ pub enum Node<'a> {
         num_descendants: usize,
     },
     Atom {
-        change: Cell<Option<ChangeKind>>,
+        change: Cell<Option<ChangeKind<'a>>>,
         position: AbsoluteRange,
         content: String,
         kind: AtomKind,
@@ -94,14 +109,14 @@ impl<'a> Node<'a> {
         })
     }
 
-    fn get_change(&self) -> Option<ChangeKind> {
+    fn get_change(&self) -> Option<ChangeKind<'a>> {
         match self {
             List { change, .. } => change.get(),
             Atom { change, .. } => change.get(),
         }
     }
 
-    fn set_change(&self, ck: ChangeKind) {
+    fn set_change(&self, ck: ChangeKind<'a>) {
         match self {
             List { change, .. } => {
                 change.set(Some(ck));
@@ -112,7 +127,7 @@ impl<'a> Node<'a> {
         }
     }
 
-    fn set_change_deep(&self, ck: ChangeKind) {
+    fn set_change_deep(&self, ck: ChangeKind<'a>) {
         self.set_change(ck);
         if let List { children, .. } = self {
             for child in children {
@@ -222,8 +237,8 @@ fn sort_by_size(nodes: &mut Vec<&Node>) {
     nodes.reverse();
 }
 
-pub fn change_positions(nodes: &[&Node]) -> Vec<(ChangeKind, AbsoluteRange)> {
-    let mut res: Vec<(ChangeKind, AbsoluteRange)> = vec![];
+pub fn change_positions<'a>(nodes: &[&Node<'a>]) -> Vec<(ChangeKind<'a>, AbsoluteRange)> {
+    let mut res: Vec<(ChangeKind<'a>, AbsoluteRange)> = vec![];
     for node in nodes {
         match node {
             List {
@@ -257,7 +272,11 @@ pub fn change_positions(nodes: &[&Node]) -> Vec<(ChangeKind, AbsoluteRange)> {
     res
 }
 
-pub fn apply_colors(s: &str, is_lhs: bool, positions: &[(ChangeKind, AbsoluteRange)]) -> String {
+pub fn apply_colors<'a>(
+    s: &str,
+    is_lhs: bool,
+    positions: &[(ChangeKind<'a>, AbsoluteRange)],
+) -> String {
     let mut res = String::with_capacity(s.len());
     let mut i = 0;
     for (kind, position) in positions {
@@ -271,7 +290,7 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[(ChangeKind, AbsoluteRan
         }
 
         let color = match kind {
-            Unchanged => Color::White,
+            Unchanged(_) => Color::White,
             Novel if is_lhs => Color::Red,
             Novel => Color::Green,
             Moved => Color::Yellow,
@@ -288,7 +307,7 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[(ChangeKind, AbsoluteRan
 }
 
 /// Extremely dumb top-level comparison of `lhs` and `rhs`.
-pub fn set_changed(lhs: &[&Node], rhs: &[&Node]) {
+pub fn set_changed<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>]) {
     let mut lhs_subtrees = HashMap::new();
     for s in lhs.iter() {
         build_subtrees(s, &mut lhs_subtrees);
@@ -336,7 +355,7 @@ fn process_moves(mut env: Env) {
     }
 }
 
-fn possible_move(node: &Node, counts: &HashMap<&Node, i64>) -> bool {
+fn possible_move<'a>(node: &'a Node<'a>, counts: &HashMap<&'a Node<'a>, i64>) -> bool {
     *counts.get(node).unwrap_or(&0) > 0
 }
 
@@ -398,13 +417,13 @@ impl<'a> Env<'a> {
 }
 
 // Greedy tree differ.
-fn mark_unchanged_nodes<'a>(lhs: &[&'a Node], rhs: &[&'a Node], env: &mut Env<'a>) {
+fn mark_unchanged_nodes<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>], env: &mut Env<'a>) {
     // Run a diff algorithm on the nodes at this level, and mark as
     // many things as unchanged as we can.
     for res in slice(lhs, rhs) {
         if let Both(lhs_node, rhs_node) = res {
-            lhs_node.set_change_deep(Unchanged);
-            rhs_node.set_change_deep(Unchanged);
+            lhs_node.set_change_deep(Unchanged(rhs_node));
+            rhs_node.set_change_deep(Unchanged(lhs_node));
 
             decrement(lhs_node, &mut env.rhs_counts);
             decrement(rhs_node, &mut env.lhs_counts);
@@ -425,7 +444,11 @@ fn mark_unchanged_nodes<'a>(lhs: &[&'a Node], rhs: &[&'a Node], env: &mut Env<'a
     }
 }
 
-fn mark_unchanged_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &mut Env<'a>) {
+fn mark_unchanged_node<'a>(
+    lhs: Option<&'a Node<'a>>,
+    rhs: Option<&'a Node<'a>>,
+    env: &mut Env<'a>,
+) {
     match (lhs, rhs) {
         (Some(lhs_node), Some(rhs_node)) => {
             match (
@@ -477,8 +500,8 @@ fn mark_unchanged_node<'a>(lhs: Option<&'a Node>, rhs: Option<&'a Node>, env: &m
                         // node on the other side, but they have
                         // the same delimiters, so only the
                         // children are different.
-                        lhs_node.set_change(Unchanged);
-                        rhs_node.set_change(Unchanged);
+                        lhs_node.set_change(Unchanged(rhs_node));
+                        rhs_node.set_change(Unchanged(lhs_node));
                     } else {
                         // Children are different and the wrapping
                         // has changed (e.g. from {} to []).

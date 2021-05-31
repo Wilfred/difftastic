@@ -121,14 +121,14 @@ mod tests {
         items.iter().collect()
     }
 
-    fn assert_syntaxes(actual: &[&Node], expected: &[&Node]) {
+    fn assert_syntaxes<'a>(actual: &[&'a Node<'a>], expected: &[&'a Node<'a>]) {
         if !syntaxes_match(actual, expected) {
             dbg!(expected, actual);
             assert!(false);
         }
     }
 
-    fn syntaxes_match(actual: &[&Node], expected: &[&Node]) -> bool {
+    fn syntaxes_match<'a>(actual: &[&'a Node<'a>], expected: &[&'a Node<'a>]) -> bool {
         if actual.len() != expected.len() {
             return false;
         } else {
@@ -143,7 +143,7 @@ mod tests {
 
     /// Compare all the fields in a Syntax value, not just
     /// those used in its Eq implementation.
-    fn syntax_matches(actual: &Node, expected: &Node) -> bool {
+    fn syntax_matches<'a>(actual: &'a Node<'a>, expected: &'a Node<'a>) -> bool {
         match (actual, expected) {
             (
                 List {
@@ -498,7 +498,7 @@ mod tests {
         let expected_rhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Some(Unchanged)),
+                change: Cell::new(Some(Unchanged(lhs[0]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -524,7 +524,7 @@ mod tests {
         let expected_rhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Some(Unchanged)),
+                change: Cell::new(Some(Unchanged(lhs[0]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -536,7 +536,7 @@ mod tests {
             },
             Atom {
                 position: AbsoluteRange { start: 4, end: 5 },
-                change: Cell::new(Some(Unchanged)),
+                change: Cell::new(Some(Unchanged(lhs[1]))),
                 content: "b".into(),
                 kind: AtomKind::Other,
             },
@@ -556,7 +556,7 @@ mod tests {
         let expected_lhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Some(Unchanged)),
+                change: Cell::new(Some(Unchanged(rhs[1]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -578,7 +578,7 @@ mod tests {
             },
             Atom {
                 position: AbsoluteRange { start: 2, end: 3 },
-                change: Cell::new(Some(Unchanged)),
+                change: Cell::new(Some(Unchanged(lhs[0]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -598,7 +598,7 @@ mod tests {
         let expected_rhs = vec![
             Atom {
                 position: AbsoluteRange { start: 0, end: 1 },
-                change: Cell::new(Some(Unchanged)),
+                change: Cell::new(Some(Unchanged(lhs[1]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
@@ -621,8 +621,13 @@ mod tests {
 
         set_changed(&lhs, &rhs);
 
+        let lhs_atom = match lhs[0] {
+            List { children, .. } => children[0],
+            Atom { .. } => unreachable!(),
+        };
+
         let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
-            change: Cell::new(Some(Unchanged)),
+            change: Cell::new(Some(Unchanged(lhs[0]))),
             open_position: AbsoluteRange { start: 0, end: 1 },
             open_delimiter: "[".into(),
             close_position: AbsoluteRange { start: 4, end: 5 },
@@ -630,7 +635,7 @@ mod tests {
             children: vec![
                 arena.alloc(Atom {
                     position: AbsoluteRange { start: 1, end: 2 },
-                    change: Cell::new(Some(Unchanged)),
+                    change: Cell::new(Some(Unchanged(lhs_atom))),
                     content: "a".into(),
                     kind: AtomKind::Other,
                 }),
@@ -667,7 +672,7 @@ mod tests {
                 open_position: AbsoluteRange { start: 0, end: 1 },
                 close_position: AbsoluteRange { start: 4, end: 5 },
                 close_delimiter: "]".into(),
-                change: Cell::new(Some(Unchanged)),
+                change: Cell::new(Some(Unchanged(lhs[0]))),
                 children: vec![arena.alloc(List {
                     change: Cell::new(Some(Moved)),
                     open_delimiter: "[".into(),
