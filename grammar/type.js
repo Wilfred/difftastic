@@ -38,6 +38,8 @@ module.exports = {
 
   type_tuple: $ => parens($._type_tuple),
 
+  _type_sum: $ => sep2('|', $._type_or_implicit),
+
   _type_promotable_literal: $ => choice(
     $.type_literal,
     $.type_tuple,
@@ -62,12 +64,15 @@ module.exports = {
 
   type_unboxed_tuple: $ => seq('(# ', $._type_tuple, $._unboxed_tuple_close),
 
+  type_unboxed_sum: $ => seq('(# ', $._type_sum, $._unboxed_tuple_close),
+
   _atype: $ => choice(
     $.type_name,
     $.type_star,
     $._type_literal,
     $.type_parens,
     $.type_unboxed_tuple,
+    $.type_unboxed_sum,
     $.splice,
     $.quasiquote,
   ),

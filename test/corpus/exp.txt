@@ -1113,13 +1113,38 @@ exp: unboxed tuple
 ================================================================================
 
 a :: (Int#, Int#)
+a :: (# Int, Int #)
 a = (# a, a #)
 
 ---
 
 (haskell
  (signature (variable) (type_tuple (type_name (type)) (comma) (type_name (type))))
+ (signature (variable) (type_unboxed_tuple (type_name (type)) (comma) (type_name (type))))
  (function (variable) (exp_unboxed_tuple (exp_name (variable)) (comma) (exp_name (variable)))))
+
+================================================================================
+exp: unboxed sum
+================================================================================
+
+a :: (# A | (# A, A #) | A #)
+a = (# a | | #)
+
+---
+
+(haskell
+ (signature
+  (variable)
+  (type_unboxed_sum
+   (type_name (type))
+   (type_unboxed_tuple (type_name (type)) (comma) (type_name (type)))
+   (type_name (type))))
+ (function
+  (variable)
+  (exp_unboxed_sum
+   (exp_name (variable))
+   (exp_sum_empty)
+   (exp_sum_empty))))
 
 ================================================================================
 exp: label
