@@ -57,7 +57,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * GHCForeignImportPrim ❌
 * Haskell2010 ➖️
 * Haskell98 ➖️
-* HexFloatLiterals ❌
+* HexFloatLiterals ✅
 * ImplicitParams ✅
 * ImplicitPrelude ➖️
 * ImportQualifiedPost ✅

@@ -238,29 +238,23 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "\\.[0-9_]+"
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "PATTERN",
-                            "value": "[eE][+-]?[0-9_]+"
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
-                      }
-                    ]
+                    "type": "PATTERN",
+                    "value": "\\.[0-9_]+"
                   },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "CHOICE",
+                "members": [
                   {
                     "type": "PATTERN",
                     "value": "[eE][+-]?[0-9_]+"
+                  },
+                  {
+                    "type": "BLANK"
                   }
                 ]
               }
@@ -463,8 +457,37 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "PATTERN",
-            "value": "0[xX][0-9a-fA-F_]+"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "0[xX][0-9a-fA-F_]+"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "\\.[0-9a-fA-F_]+"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[pP][+-]?[0-9a-fA-F_]+"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
           },
           {
             "type": "CHOICE",
