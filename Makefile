@@ -11,7 +11,8 @@ ui:
 	./node_modules/.bin/tree-sitter build-wasm
 	./node_modules/tree-sitter-cli/tree-sitter web-ui -q
 
-parse-all:
+integration:
+	-[ ! -d "../elixir" ] && cd .. && git clone https://github.com/elixir-lang/elixir.git
 	./node_modules/.bin/tree-sitter parse '../elixir/**/*.ex*' --quiet --stat
 
 parse:
