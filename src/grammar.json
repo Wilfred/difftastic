@@ -2281,16 +2281,30 @@
           "name": "_simpletype"
         },
         {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_type_or_implicit"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_type_or_implicit"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_type_annotation"
+            }
+          ]
         }
       ]
     },
-    "decl_type_sig": {
+    "decl_tyfam_sig": {
       "type": "SEQ",
       "members": [
         {
@@ -2298,16 +2312,8 @@
           "value": "type"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "family"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "STRING",
+          "value": "family"
         },
         {
           "type": "SYMBOL",
@@ -6916,7 +6922,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "decl_type_sig"
+          "name": "decl_tyfam_sig"
         },
         {
           "type": "SYMBOL",

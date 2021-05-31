@@ -173,13 +173,15 @@ module.exports = {
   decl_type: $ => seq(
     'type',
     $._simpletype,
-    '=',
-    $._type_or_implicit,
+    choice(
+      seq('=', $._type_or_implicit),
+      $._type_annotation
+    ),
   ),
 
-  decl_type_sig: $ => seq(
+  decl_tyfam_sig: $ => seq(
     'type',
-    optional('family'),
+    'family',
     $._simpletype,
     $._type_annotation,
   ),
