@@ -2,7 +2,7 @@
 foreign: safety, calling convention
 ================================================================================
 
-foreign import ccall safe "safe import" a :: A
+foreign import ccall interruptible "safe import" a :: A
 foreign export stdcall unsafe "unsafe import" a :: A
 foreign export cplusplus safe "safe import" a :: A
 foreign import jvm unsafe "unsafe import" a :: A

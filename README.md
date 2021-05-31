@@ -64,7 +64,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * ImpredicativeTypes ➖️
 * IncoherentInstances ➖️
 * InstanceSigs ✅
-* InterruptibleFFI ❌
+* InterruptibleFFI ✅
 * KindSignatures ✅
 * LambdaCase ✅
 * LexicalNegation ❌
@@ -79,7 +79,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * MultiWayIf ✅
 * NamedFieldPuns ✅
 * NamedWildCards ✅
-* NegativeLiterals ❌
+* NegativeLiterals ➖️
 * NondecreasingIndentation ✅
 * NPlusKPatterns ➖️
 * NullaryTypeClasses ✅
