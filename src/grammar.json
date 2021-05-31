@@ -238,23 +238,29 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "PATTERN",
-                    "value": "\\.[0-9_]+"
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "\\.[0-9_]+"
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "[eE][+-]?[0-9_]+"
+                          },
+                          {
+                            "type": "BLANK"
+                          }
+                        ]
+                      }
+                    ]
                   },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
-              {
-                "type": "CHOICE",
-                "members": [
                   {
                     "type": "PATTERN",
                     "value": "[eE][+-]?[0-9_]+"
-                  },
-                  {
-                    "type": "BLANK"
                   }
                 ]
               }
@@ -8178,6 +8184,14 @@
         {
           "type": "STRING",
           "value": "dotnet"
+        },
+        {
+          "type": "STRING",
+          "value": "prim"
+        },
+        {
+          "type": "STRING",
+          "value": "capi"
         }
       ]
     },

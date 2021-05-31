@@ -96,6 +96,8 @@ module.exports = {
     'cplusplus',
     'jvm',
     'dotnet',
+    'prim',
+    'capi',
   ),
 
   safety: _ => choice('unsafe', 'safe', 'interruptible'),
