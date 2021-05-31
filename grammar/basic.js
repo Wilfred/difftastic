@@ -10,11 +10,14 @@ module.exports = {
   // literals
   // ------------------------------------------------------------------------
 
+  // the `choice` here is necessary to avoid integers being parsed as floats
   float: _ => magic_hash(
     seq(
       decimal,
-      optional(/\.[0-9_]+/),
-      optional(exponent),
+      choice(
+        seq(/\.[0-9_]+/, optional(exponent)),
+        exponent,
+      ),
     ),
   ),
 

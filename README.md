@@ -21,7 +21,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * BangPatterns ✅
 * BinaryLiterals ✅
 * BlockArguments ✅
-* CApiFFI ➖️
+* CApiFFI ✅
 * ConstrainedClassMethods ✅
 * ConstraintKinds ✅
 * CPP ✅
@@ -54,7 +54,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * GADTs ✅
 * GADTSyntax ✅
 * GeneralisedNewtypeDeriving ➖️
-* GHCForeignImportPrim ❌
+* GHCForeignImportPrim ✅
 * Haskell2010 ➖️
 * Haskell98 ➖️
 * HexFloatLiterals ✅

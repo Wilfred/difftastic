@@ -12925,6 +12925,10 @@
     "named": false
   },
   {
+    "type": "capi",
+    "named": false
+  },
+  {
     "type": "case",
     "named": false
   },
@@ -13091,6 +13095,10 @@
   {
     "type": "pragma",
     "named": true
+  },
+  {
+    "type": "prim",
+    "named": false
   },
   {
     "type": "qualified",
