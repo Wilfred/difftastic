@@ -1694,6 +1694,31 @@
         }
       ]
     },
+    "_type_sum": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_type_or_implicit"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "|"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_type_or_implicit"
+              }
+            ]
+          }
+        }
+      ]
+    },
     "_type_promotable_literal": {
       "type": "CHOICE",
       "members": [
@@ -1789,6 +1814,23 @@
         }
       ]
     },
+    "type_unboxed_sum": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "(# "
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type_sum"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_unboxed_tuple_close"
+        }
+      ]
+    },
     "_atype": {
       "type": "CHOICE",
       "members": [
@@ -1811,6 +1853,10 @@
         {
           "type": "SYMBOL",
           "name": "type_unboxed_tuple"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_unboxed_sum"
         },
         {
           "type": "SYMBOL",
@@ -2751,7 +2797,7 @@
         }
       ]
     },
-    "_tuple": {
+    "_exp_tuple": {
       "type": "SEQ",
       "members": [
         {
@@ -2826,6 +2872,53 @@
         }
       ]
     },
+    "exp_sum_empty": {
+      "type": "STRING",
+      "value": " "
+    },
+    "_exp_sum": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_exp"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "exp_sum_empty"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "|"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_exp"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "exp_sum_empty"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
     "exp_tuple": {
       "type": "SEQ",
       "members": [
@@ -2835,7 +2928,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_tuple"
+          "name": "_exp_tuple"
         },
         {
           "type": "STRING",
@@ -2852,7 +2945,24 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_tuple"
+          "name": "_exp_tuple"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_unboxed_tuple_close"
+        }
+      ]
+    },
+    "exp_unboxed_sum": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "(# "
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_exp_sum"
         },
         {
           "type": "SYMBOL",
@@ -4368,6 +4478,10 @@
         {
           "type": "SYMBOL",
           "name": "exp_unboxed_tuple"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_unboxed_sum"
         },
         {
           "type": "SYMBOL",

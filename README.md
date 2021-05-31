@@ -125,7 +125,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * TypeInType ✅
 * TypeOperators ✅
 * TypeSynonymInstances ➖️
-* UnboxedSums ❌
+* UnboxedSums ✅
 * UnboxedTuples ✅
 * UndecidableInstances ➖️
 * UndecidableSuperClasses ➖️

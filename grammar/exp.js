@@ -19,14 +19,20 @@ module.exports = {
     * means that the optional `_exp` after `(5,)` needs to be included in the `choice`, otherwise a simple pair would be
     * impossible.
     */
-  _tuple: $ => seq(
+  _exp_tuple: $ => seq(
     choice(seq(repeat1($.comma), $._exp), seq($._exp, $.comma, optional($._exp))),
     repeat(seq($.comma, optional($._exp)))
   ),
 
-  exp_tuple: $ => parens($._tuple),
+  exp_sum_empty: _ => ' ',
 
-  exp_unboxed_tuple: $ => seq('(# ', $._tuple, $._unboxed_tuple_close),
+  _exp_sum: $ => sep2('|', choice($._exp, $.exp_sum_empty)),
+
+  exp_tuple: $ => parens($._exp_tuple),
+
+  exp_unboxed_tuple: $ => seq('(# ', $._exp_tuple, $._unboxed_tuple_close),
+
+  exp_unboxed_sum: $ => seq('(# ', $._exp_sum, $._unboxed_tuple_close),
 
   exp_list: $ => brackets(sep1($.comma, $._exp)),
 
@@ -190,6 +196,7 @@ module.exports = {
     $.exp_section_left,
     $.exp_section_right,
     $.exp_unboxed_tuple,
+    $.exp_unboxed_sum,
     $.splice,
     $.quasiquote,
     alias($.literal, $.exp_literal),
