@@ -35,6 +35,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.1
+      - name: Install emscripten
+        uses: mymindstorm/setup-emsdk@v7
+        with:
+          version: 2.0.17
       - name: Install
         run: npm install || true
       - name: Build
