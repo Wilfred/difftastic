@@ -122,5 +122,5 @@ fn main() {
     let positions = change_positions(&rhs);
     let rhs_colored = apply_colors(&after_src, false, &positions);
 
-    println!("{}", horizontal_concat(&lhs_colored, &rhs_colored));
+    print!("{}", horizontal_concat(&lhs_colored, &rhs_colored));
 }
