@@ -100,7 +100,7 @@ module.exports = {
     optional($.context),
     $._simpletype,
     optional($._type_annotation),
-    optional($._adt),
+    optional(choice($._adt, repeat($.deriving))),
   ),
 
   newtype_constructor: $ => seq(
