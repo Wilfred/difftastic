@@ -51,12 +51,29 @@ fn parse_from<'a>(
     lang: &Language,
     state: &mut ParseState,
 ) -> Vec<&'a Node<'a>> {
+    // TODO: properly handle malformed user-supplied regexes.
+    let comment_patterns: Vec<_> = lang
+        .comment_patterns
+        .iter()
+        .map(|pattern| Regex::new(&pattern).unwrap())
+        .collect();
+    let atom_patterns: Vec<_> = lang
+        .atom_patterns
+        .iter()
+        .map(|pattern| Regex::new(&pattern).unwrap())
+        .collect();
+    let string_patterns: Vec<_> = lang
+        .string_patterns
+        .iter()
+        .map(|pattern| Regex::new(&pattern).unwrap())
+        .collect();
+    let open_delimiter = Regex::new(&lang.open_delimiter_pattern).unwrap();
+    let close_delimiter = Regex::new(&lang.close_delimiter_pattern).unwrap();
+
     let mut result: Vec<&'a Node<'a>> = vec![];
 
     'outer: while state.str_i < s.len() {
-        for pattern in &lang.comment_patterns {
-            // TODO: properly handle malformed user-supplied regexes.
-            let pattern = Regex::new(&pattern).unwrap();
+        for pattern in &comment_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 if m.start() == 0 {
                     assert_eq!(m.start(), 0);
@@ -72,8 +89,7 @@ fn parse_from<'a>(
             }
         }
 
-        for pattern in &lang.atom_patterns {
-            let pattern = Regex::new(&pattern).unwrap();
+        for pattern in &atom_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 if m.start() == 0 {
                     assert_eq!(m.start(), 0);
@@ -89,8 +105,7 @@ fn parse_from<'a>(
             }
         }
 
-        for pattern in &lang.string_patterns {
-            let pattern = Regex::new(&pattern).unwrap();
+        for pattern in &string_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 if m.start() == 0 {
                     assert_eq!(m.start(), 0);
@@ -106,7 +121,6 @@ fn parse_from<'a>(
             }
         }
 
-        let open_delimiter = Regex::new(&lang.open_delimiter_pattern).unwrap();
         if let Some(m) = open_delimiter.find(&s[state.str_i..]) {
             if m.start() == 0 {
                 let start = state.str_i;
@@ -138,7 +152,6 @@ fn parse_from<'a>(
             }
         };
 
-        let close_delimiter = Regex::new(&lang.close_delimiter_pattern).unwrap();
         if let Some(m) = close_delimiter.find(&s[state.str_i..]) {
             if m.start() == 0 {
                 state.close_brace = Some((
