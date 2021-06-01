@@ -25,80 +25,85 @@ fn parse_json_from<'a>(
 ) -> Vec<&'a Node<'a>> {
     let atom_patterns = &[
         // Single-line comments
-        (Regex::new(r#"^//.*(\n|$)"#).unwrap(), AtomKind::Comment),
+        (Regex::new(r#"//.*(\n|$)"#).unwrap(), AtomKind::Comment),
         // Multi-line comments
-        (Regex::new(r#"^/\*(?s:.)*?\*/"#).unwrap(), AtomKind::Comment),
+        (Regex::new(r#"/\*(?s:.)*?\*/"#).unwrap(), AtomKind::Comment),
         // Numbers
-        (Regex::new(r#"^[0-9]+"#).unwrap(), AtomKind::Other),
+        (Regex::new(r#"[0-9]+"#).unwrap(), AtomKind::Other),
         // Symbols (e.g. variable names)
-        (Regex::new(r#"^[.a-zA-Z0-9_]+"#).unwrap(), AtomKind::Other),
+        (Regex::new(r#"[.a-zA-Z0-9_]+"#).unwrap(), AtomKind::Other),
         // Operators
-        (Regex::new(r#"^[=<>/*+-]+"#).unwrap(), AtomKind::Other),
+        (Regex::new(r#"[=<>/*+-]+"#).unwrap(), AtomKind::Other),
         // String literals
-        (Regex::new(r#"^"[^"]*""#).unwrap(), AtomKind::String),
+        (Regex::new(r#""[^"]*""#).unwrap(), AtomKind::String),
     ];
 
-    let open_delimiter = Regex::new(r#"^(\[|\{|\()"#).unwrap();
-    let close_delimiter = Regex::new(r#"^(\]|\}|\))"#).unwrap();
+    let open_delimiter = Regex::new(r#"(\[|\{|\()"#).unwrap();
+    let close_delimiter = Regex::new(r#"(\]|\}|\))"#).unwrap();
 
     let mut result: Vec<&'a Node<'a>> = vec![];
 
     'outer: while state.str_i < s.len() {
         for (pattern, kind) in atom_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
-                assert_eq!(m.start(), 0);
-                let position = AbsoluteRange {
-                    start: state.str_i,
-                    end: state.str_i + m.end(),
-                };
-                let atom = Node::new_atom(arena, position, m.as_str(), *kind);
-                result.push(atom);
-                state.str_i += m.end();
-                continue 'outer;
+                if m.start() == 0 {
+                    assert_eq!(m.start(), 0);
+                    let position = AbsoluteRange {
+                        start: state.str_i,
+                        end: state.str_i + m.end(),
+                    };
+                    let atom = Node::new_atom(arena, position, m.as_str(), *kind);
+                    result.push(atom);
+                    state.str_i += m.end();
+                    continue 'outer;
+                }
             }
         }
 
         if let Some(m) = open_delimiter.find(&s[state.str_i..]) {
-            let start = state.str_i;
+            if m.start() == 0 {
+                let start = state.str_i;
 
-            state.str_i += m.end();
-            let children = parse_json_from(arena, s, state);
-            let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
-                "UNCLOSED".into(),
-                AbsoluteRange {
-                    start: state.str_i,
-                    end: state.str_i + 1,
-                },
-            ));
+                state.str_i += m.end();
+                let children = parse_json_from(arena, s, state);
+                let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
+                    "UNCLOSED".into(),
+                    AbsoluteRange {
+                        start: state.str_i,
+                        end: state.str_i + 1,
+                    },
+                ));
 
-            let open_pos = AbsoluteRange {
-                start,
-                end: start + m.end(),
-            };
-            let items = Node::new_list(
-                arena,
-                m.as_str(),
-                open_pos,
-                children,
-                &close_brace,
-                close_pos,
-            );
-            result.push(items);
-            continue;
+                let open_pos = AbsoluteRange {
+                    start,
+                    end: start + m.end(),
+                };
+                let items = Node::new_list(
+                    arena,
+                    m.as_str(),
+                    open_pos,
+                    children,
+                    &close_brace,
+                    close_pos,
+                );
+                result.push(items);
+                continue;
+            }
         };
 
         if let Some(m) = close_delimiter.find(&s[state.str_i..]) {
-            state.close_brace = Some((
-                m.as_str().into(),
-                AbsoluteRange {
-                    start: state.str_i,
-                    end: state.str_i + m.end(),
-                },
-            ));
-            state.str_i += m.end();
-            return result;
-        };
-
+            if m.start() == 0 {
+                state.close_brace = Some((
+                    m.as_str().into(),
+                    AbsoluteRange {
+                        start: state.str_i,
+                        end: state.str_i + m.end(),
+                    },
+                ));
+                state.str_i += m.end();
+                return result;
+            };
+        }
         state.str_i += 1;
     }
 
