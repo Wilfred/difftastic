@@ -2,10 +2,9 @@ mod json;
 mod lines;
 mod tree_diff;
 use clap::{App, Arg};
-use std::fs;
 use typed_arena::Arena;
 
-use crate::json::parse_json;
+use crate::json::{lang_from_str, parse, read_or_die};
 use crate::lines::enforce_length;
 use crate::tree_diff::{apply_colors, change_positions, set_changed};
 
@@ -42,26 +41,6 @@ fn horizontal_concat(left: &str, right: &str, max_left_length: usize,) -> String
     }
 
     res
-}
-
-fn read_or_die(path: &str) -> String {
-    match fs::read_to_string(path) {
-        Ok(src) => src,
-        Err(e) => {
-            match e.kind() {
-                std::io::ErrorKind::NotFound => {
-                    eprintln!("No such file: {}", path);
-                }
-                std::io::ErrorKind::PermissionDenied => {
-                    eprintln!("Permission denied when reading file: {}", path);
-                }
-                _ => {
-                    eprintln!("Could not read file: {} (error {:?})", path, e.kind());
-                }
-            };
-            std::process::exit(1);
-        }
-    }
 }
 
 fn main() {
@@ -102,6 +81,9 @@ fn main() {
     let after_path = matches.value_of("second").unwrap();
     let after_src = read_or_die(after_path);
 
+    let syntax_toml = read_or_die("syntax.toml");
+    let lang = lang_from_str(&syntax_toml);
+
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => usize::from_str_radix(width, 10).unwrap(),
         None => term_width().unwrap_or(80),
@@ -113,8 +95,8 @@ fn main() {
     let after_src = enforce_length(&after_src, line_length);
 
     let arena = Arena::new();
-    let lhs = parse_json(&arena, &before_src);
-    let rhs = parse_json(&arena, &after_src);
+    let lhs = parse(&arena, &before_src, &lang);
+    let rhs = parse(&arena, &after_src, &lang);
 
     set_changed(&lhs, &rhs);
 

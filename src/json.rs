@@ -1,50 +1,62 @@
 use crate::lines::AbsoluteRange;
 use crate::tree_diff::{AtomKind, Node};
 use regex::Regex;
+use serde_derive::Deserialize;
+use std::fs;
+use toml;
 use typed_arena::Arena;
 
-#[derive(Debug, Clone)]
-struct ParseState {
-    str_i: usize,
-    close_brace: Option<(String, AbsoluteRange)>,
-}
-
-impl ParseState {
-    fn new() -> Self {
-        ParseState {
-            str_i: 0,
-            close_brace: None,
+pub fn read_or_die(path: &str) -> String {
+    match fs::read_to_string(path) {
+        Ok(src) => src,
+        Err(e) => {
+            match e.kind() {
+                std::io::ErrorKind::NotFound => {
+                    eprintln!("No such file: {}", path);
+                }
+                std::io::ErrorKind::PermissionDenied => {
+                    eprintln!("Permission denied when reading file: {}", path);
+                }
+                _ => {
+                    eprintln!("Could not read file: {} (error {:?})", path, e.kind());
+                }
+            };
+            std::process::exit(1);
         }
     }
 }
 
-fn parse_json_from<'a>(
+#[derive(Deserialize)]
+pub struct Language {
+    extensions: Vec<String>,
+    atom_patterns: Vec<String>,
+    string_patterns: Vec<String>,
+    comment_patterns: Vec<String>,
+    open_delimiter_pattern: String,
+    close_delimiter_pattern: String,
+}
+
+pub fn lang_from_str(s: &str) -> Language {
+    let lang: Language = toml::from_str(s).unwrap();
+    lang
+}
+
+pub fn parse<'a>(arena: &'a Arena<Node<'a>>, s: &str, lang: &Language) -> Vec<&'a Node<'a>> {
+    parse_from(arena, s, lang, &mut ParseState::new())
+}
+
+fn parse_from<'a>(
     arena: &'a Arena<Node<'a>>,
     s: &str,
+    lang: &Language,
     state: &mut ParseState,
 ) -> Vec<&'a Node<'a>> {
-    let atom_patterns = &[
-        // Single-line comments
-        (Regex::new(r#"//.*(\n|$)"#).unwrap(), AtomKind::Comment),
-        // Multi-line comments
-        (Regex::new(r#"/\*(?s:.)*?\*/"#).unwrap(), AtomKind::Comment),
-        // Numbers
-        (Regex::new(r#"[0-9]+"#).unwrap(), AtomKind::Other),
-        // Symbols (e.g. variable names)
-        (Regex::new(r#"[.a-zA-Z0-9_]+"#).unwrap(), AtomKind::Other),
-        // Operators
-        (Regex::new(r#"[=<>/*+-]+"#).unwrap(), AtomKind::Other),
-        // String literals
-        (Regex::new(r#""[^"]*""#).unwrap(), AtomKind::String),
-    ];
-
-    let open_delimiter = Regex::new(r#"(\[|\{|\()"#).unwrap();
-    let close_delimiter = Regex::new(r#"(\]|\}|\))"#).unwrap();
-
     let mut result: Vec<&'a Node<'a>> = vec![];
 
     'outer: while state.str_i < s.len() {
-        for (pattern, kind) in atom_patterns {
+        for pattern in &lang.comment_patterns {
+            // TODO: properly handle malformed user-supplied regexes.
+            let pattern = Regex::new(&pattern).unwrap();
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 if m.start() == 0 {
                     assert_eq!(m.start(), 0);
@@ -52,7 +64,7 @@ fn parse_json_from<'a>(
                         start: state.str_i,
                         end: state.str_i + m.end(),
                     };
-                    let atom = Node::new_atom(arena, position, m.as_str(), *kind);
+                    let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::Comment);
                     result.push(atom);
                     state.str_i += m.end();
                     continue 'outer;
@@ -60,12 +72,47 @@ fn parse_json_from<'a>(
             }
         }
 
+        for pattern in &lang.atom_patterns {
+            let pattern = Regex::new(&pattern).unwrap();
+            if let Some(m) = pattern.find(&s[state.str_i..]) {
+                if m.start() == 0 {
+                    assert_eq!(m.start(), 0);
+                    let position = AbsoluteRange {
+                        start: state.str_i,
+                        end: state.str_i + m.end(),
+                    };
+                    let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::Other);
+                    result.push(atom);
+                    state.str_i += m.end();
+                    continue 'outer;
+                }
+            }
+        }
+
+        for pattern in &lang.string_patterns {
+            let pattern = Regex::new(&pattern).unwrap();
+            if let Some(m) = pattern.find(&s[state.str_i..]) {
+                if m.start() == 0 {
+                    assert_eq!(m.start(), 0);
+                    let position = AbsoluteRange {
+                        start: state.str_i,
+                        end: state.str_i + m.end(),
+                    };
+                    let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::String);
+                    result.push(atom);
+                    state.str_i += m.end();
+                    continue 'outer;
+                }
+            }
+        }
+
+        let open_delimiter = Regex::new(&lang.open_delimiter_pattern).unwrap();
         if let Some(m) = open_delimiter.find(&s[state.str_i..]) {
             if m.start() == 0 {
                 let start = state.str_i;
 
                 state.str_i += m.end();
-                let children = parse_json_from(arena, s, state);
+                let children = parse_from(arena, s, lang, state);
                 let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
                     "UNCLOSED".into(),
                     AbsoluteRange {
@@ -91,6 +138,7 @@ fn parse_json_from<'a>(
             }
         };
 
+        let close_delimiter = Regex::new(&lang.close_delimiter_pattern).unwrap();
         if let Some(m) = close_delimiter.find(&s[state.str_i..]) {
             if m.start() == 0 {
                 state.close_brace = Some((
@@ -110,8 +158,19 @@ fn parse_json_from<'a>(
     result
 }
 
-pub fn parse_json<'a>(arena: &'a Arena<Node<'a>>, s: &str) -> Vec<&'a Node<'a>> {
-    parse_json_from(arena, s, &mut ParseState::new())
+#[derive(Debug, Clone)]
+struct ParseState {
+    str_i: usize,
+    close_brace: Option<(String, AbsoluteRange)>,
+}
+
+impl ParseState {
+    fn new() -> Self {
+        ParseState {
+            str_i: 0,
+            close_brace: None,
+        }
+    }
 }
 
 #[cfg(test)]
@@ -121,6 +180,11 @@ mod tests {
     use crate::tree_diff::ChangeKind::*;
     use crate::tree_diff::Node::*;
     use std::cell::Cell;
+
+    fn lang() -> Language {
+        let syntax_toml = read_or_die("syntax.toml");
+        lang_from_str(&syntax_toml)
+    }
 
     fn as_refs<'a, T>(items: &'a Vec<T>) -> Vec<&'a T> {
         items.iter().collect()
@@ -245,7 +309,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "123"),
+            &parse(&arena, "123", &lang()),
             &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 0, end: 3 },
@@ -260,7 +324,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "\"\""),
+            &parse(&arena, "\"\"", &lang()),
             &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 0, end: 2 },
@@ -275,7 +339,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "123 456"),
+            &parse(&arena, "123 456", &lang()),
             &[
                 Node::new_atom(
                     &arena,
@@ -298,7 +362,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, ".foo"),
+            &parse(&arena, ".foo", &lang()),
             &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 0, end: 4 },
@@ -313,7 +377,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, " 123 "),
+            &parse(&arena, " 123 ", &lang()),
             &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 1, end: 4 },
@@ -328,7 +392,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "\"abc\""),
+            &parse(&arena, "\"abc\"", &lang()),
             &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 0, end: 5 },
@@ -343,7 +407,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "// foo\nx"),
+            &parse(&arena, "// foo\nx", &lang()),
             &[
                 Node::new_atom(
                     &arena,
@@ -366,7 +430,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "/* foo\nbar */"),
+            &parse(&arena, "/* foo\nbar */", &lang()),
             &[Node::new_atom(
                 &arena,
                 AbsoluteRange { start: 0, end: 13 },
@@ -381,7 +445,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "[ 123 ]"),
+            &parse(&arena, "[ 123 ]", &lang()),
             &[Node::new_list(
                 &arena,
                 "[",
@@ -402,7 +466,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "[]"),
+            &parse(&arena, "[]", &lang()),
             &[Node::new_list(
                 &arena,
                 "[",
@@ -419,7 +483,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "()"),
+            &parse(&arena, "()", &lang()),
             &[Node::new_list(
                 &arena,
                 "(",
@@ -436,7 +500,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "[123, 456]"),
+            &parse(&arena, "[123, 456]", &lang()),
             &[Node::new_list(
                 &arena,
                 "[",
@@ -466,7 +530,7 @@ mod tests {
         let arena = Arena::new();
 
         assert_syntaxes(
-            &parse_json(&arena, "{x: 1}"),
+            &parse(&arena, "{x: 1}", &lang()),
             &[Node::new_list(
                 &arena,
                 "{",
@@ -495,8 +559,8 @@ mod tests {
     fn test_add_duplicate_node() {
         let arena = Arena::new();
 
-        let lhs = parse_json(&arena, "a");
-        let rhs = parse_json(&arena, "a a");
+        let lhs = parse(&arena, "a", &lang());
+        let rhs = parse(&arena, "a a", &lang());
 
         set_changed(&lhs, &rhs);
 
@@ -521,8 +585,8 @@ mod tests {
     fn test_add_node_before_sequence() {
         let arena = Arena::new();
 
-        let lhs = parse_json(&arena, "a b");
-        let rhs = parse_json(&arena, "a a b");
+        let lhs = parse(&arena, "a b", &lang());
+        let rhs = parse(&arena, "a a b", &lang());
 
         set_changed(&lhs, &rhs);
 
@@ -553,8 +617,8 @@ mod tests {
     fn test_move_atom() {
         let arena = Arena::new();
 
-        let lhs = parse_json(&arena, "a b");
-        let rhs = parse_json(&arena, "x a");
+        let lhs = parse(&arena, "a b", &lang());
+        let rhs = parse(&arena, "x a", &lang());
 
         set_changed(&lhs, &rhs);
 
@@ -595,8 +659,8 @@ mod tests {
     fn test_move_atom2() {
         let arena = Arena::new();
 
-        let lhs = parse_json(&arena, "x a");
-        let rhs = parse_json(&arena, "a b");
+        let lhs = parse(&arena, "x a", &lang());
+        let rhs = parse(&arena, "a b", &lang());
 
         set_changed(&lhs, &rhs);
 
@@ -621,8 +685,8 @@ mod tests {
     fn test_add_subtree() {
         let arena = Arena::new();
 
-        let lhs = parse_json(&arena, "[a]");
-        let rhs = parse_json(&arena, "[a a]");
+        let lhs = parse(&arena, "[a]", &lang());
+        let rhs = parse(&arena, "[a a]", &lang());
 
         set_changed(&lhs, &rhs);
 
@@ -666,8 +730,8 @@ mod tests {
     fn test_add_subsubtree() {
         let arena = Arena::new();
 
-        let lhs = parse_json(&arena, "[] [1]");
-        let rhs = parse_json(&arena, "[[1]] 1");
+        let lhs = parse(&arena, "[] [1]", &lang());
+        let rhs = parse(&arena, "[[1]] 1", &lang());
 
         set_changed(&lhs, &rhs);
 
@@ -714,8 +778,8 @@ mod tests {
     fn test_add_subsubtree_atom_first() {
         let arena = Arena::new();
 
-        let lhs = parse_json(&arena, "[] [1]");
-        let rhs = parse_json(&arena, "1 [[1]]");
+        let lhs = parse(&arena, "[] [1]", &lang());
+        let rhs = parse(&arena, "1 [[1]]", &lang());
 
         set_changed(&lhs, &rhs);
 

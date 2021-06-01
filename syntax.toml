@@ -1,0 +1,23 @@
+extensions = ["js"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+  # Symbols (e.g. variable names)
+  '[.a-zA-Z0-9_]+',
+  # Operators
+  '[=<>/*+-]+',
+]
+string_patterns = [
+  # String literals
+  '"[^"]*"',
+]
+comment_patterns = [
+  # Single line comments
+  '//.*(\n|$)',
+  # Mult-line comments
+  '/\*(?s:.)*?\*/',
+  # Lisp-style comments
+  ';.*',
+]
+open_delimiter_pattern = '(\[|\{|\()'
+close_delimiter_pattern = '(\]|\}|\))'

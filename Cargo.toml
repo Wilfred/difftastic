@@ -12,6 +12,9 @@ clap = "2.32"
 itertools = "0.8.0"
 term_size = "0.3"
 typed-arena = "2.0.1"
+toml = "0.5.8"
+serde = "1.0.126"
+serde_derive = "1.0.126"
 
 [dev-dependencies]
 pretty_assertions = "0.6.1"
