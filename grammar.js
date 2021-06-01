@@ -969,7 +969,7 @@ module.exports = grammar({
       commaSep(field('label', $.identifier)),
     ),
 
-    argument_list: $ => seq('(', commaSep($._expression), ')'),
+    argument_list: $ => seq('(', commaSep(choice($._expression, $.compound_statement)), ')'),
 
     field_expression: $ => seq(
       prec(PREC.FIELD, seq(
