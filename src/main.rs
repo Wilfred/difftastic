@@ -12,7 +12,7 @@ fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
 }
 
-fn horizontal_concat(left: &str, right: &str, max_left_length: usize,) -> String {
+fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> String {
     let left_str_lines: Vec<&str> = left.lines().collect();
     let right_str_lines: Vec<&str> = right.lines().collect();
 
@@ -106,5 +106,8 @@ fn main() {
     let positions = change_positions(&rhs);
     let rhs_colored = apply_colors(&after_src, false, &positions);
 
-    print!("{}", horizontal_concat(&lhs_colored, &rhs_colored, line_length));
+    print!(
+        "{}",
+        horizontal_concat(&lhs_colored, &rhs_colored, line_length)
+    );
 }
