@@ -1,3 +1,4 @@
+[javascript]
 extensions = ["js"]
 atom_patterns = [
   # Numbers

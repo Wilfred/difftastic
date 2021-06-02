@@ -1,9 +1,9 @@
 use crate::lines::AbsoluteRange;
 use crate::tree_diff::{AtomKind, Node};
 use regex::Regex;
-use serde_derive::Deserialize;
 use std::fs;
 use toml;
+use toml::Value;
 use typed_arena::Arena;
 
 pub fn read_or_die(path: &str) -> String {
@@ -26,7 +26,6 @@ pub fn read_or_die(path: &str) -> String {
     }
 }
 
-#[derive(Deserialize)]
 pub struct Language {
     extensions: Vec<String>,
     atom_patterns: Vec<String>,
@@ -37,8 +36,38 @@ pub struct Language {
 }
 
 pub fn lang_from_str(s: &str) -> Language {
-    let lang: Language = toml::from_str(s).unwrap();
-    lang
+    let v = s.parse::<Value>().unwrap();
+    let table = v.as_table().unwrap();
+    let js = table.get("javascript").expect("javascript in syntax.toml");
+    lang_from_value(js)
+}
+
+fn as_regex_vec(v: &Value) -> Vec<String> {
+    // TODO: Make this robust against invalid toml
+    let arr = v.as_array().unwrap();
+    arr.iter().map(|v| v.as_str().unwrap().into()).collect()
+}
+
+fn lang_from_value(v: &Value) -> Language {
+    let table = v.as_table().unwrap();
+    Language {
+        extensions: as_regex_vec(v.get("extensions").unwrap()),
+        atom_patterns: as_regex_vec(v.get("atom_patterns").unwrap()),
+        string_patterns: as_regex_vec(v.get("string_patterns").unwrap()),
+        comment_patterns: as_regex_vec(v.get("comment_patterns").unwrap()),
+        open_delimiter_pattern: table
+            .get("open_delimiter_pattern")
+            .unwrap()
+            .as_str()
+            .unwrap()
+            .into(),
+        close_delimiter_pattern: table
+            .get("close_delimiter_pattern")
+            .unwrap()
+            .as_str()
+            .unwrap()
+            .into(),
+    }
 }
 
 pub fn parse<'a>(arena: &'a Arena<Node<'a>>, s: &str, lang: &Language) -> Vec<&'a Node<'a>> {
