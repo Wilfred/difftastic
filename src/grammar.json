@@ -4533,36 +4533,36 @@
       ]
     },
     "modifiers": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "annotation"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "annotation"
+          },
+          {
             "type": "SYMBOL",
             "name": "_modifier"
           }
-        }
-      ]
+        ]
+      }
     },
     "parameter_modifiers": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "annotation"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "annotation"
+          },
+          {
             "type": "SYMBOL",
             "name": "parameter_modifier"
           }
-        }
-      ]
+        ]
+      }
     },
     "_modifier": {
       "type": "CHOICE",
