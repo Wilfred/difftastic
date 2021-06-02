@@ -59,7 +59,11 @@ fn as_regex_vec(v: &Value) -> Vec<Regex> {
 }
 
 fn as_regex(s: &str) -> Regex {
-    Regex::new(&s).unwrap()
+    let mut pattern = String::with_capacity(1 + s.len());
+    pattern.push_str("^");
+    pattern.push_str(s);
+
+    Regex::new(&pattern).unwrap()
 }
 
 fn lang_from_value(v: &Value) -> Language {
@@ -103,96 +107,86 @@ fn parse_from<'a>(
     'outer: while state.str_i < s.len() {
         for pattern in &lang.comment_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
-                if m.start() == 0 {
-                    assert_eq!(m.start(), 0);
-                    let position = AbsoluteRange {
-                        start: state.str_i,
-                        end: state.str_i + m.end(),
-                    };
-                    let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::Comment);
-                    result.push(atom);
-                    state.str_i += m.end();
-                    continue 'outer;
-                }
+                assert_eq!(m.start(), 0);
+                let position = AbsoluteRange {
+                    start: state.str_i,
+                    end: state.str_i + m.end(),
+                };
+                let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::Comment);
+                result.push(atom);
+                state.str_i += m.end();
+                continue 'outer;
             }
         }
 
         for pattern in &lang.atom_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
-                if m.start() == 0 {
-                    assert_eq!(m.start(), 0);
-                    let position = AbsoluteRange {
-                        start: state.str_i,
-                        end: state.str_i + m.end(),
-                    };
-                    let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::Other);
-                    result.push(atom);
-                    state.str_i += m.end();
-                    continue 'outer;
-                }
+                assert_eq!(m.start(), 0);
+                let position = AbsoluteRange {
+                    start: state.str_i,
+                    end: state.str_i + m.end(),
+                };
+                let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::Other);
+                result.push(atom);
+                state.str_i += m.end();
+                continue 'outer;
             }
         }
 
         for pattern in &lang.string_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
-                if m.start() == 0 {
-                    assert_eq!(m.start(), 0);
-                    let position = AbsoluteRange {
-                        start: state.str_i,
-                        end: state.str_i + m.end(),
-                    };
-                    let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::String);
-                    result.push(atom);
-                    state.str_i += m.end();
-                    continue 'outer;
-                }
+                assert_eq!(m.start(), 0);
+                let position = AbsoluteRange {
+                    start: state.str_i,
+                    end: state.str_i + m.end(),
+                };
+                let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::String);
+                result.push(atom);
+                state.str_i += m.end();
+                continue 'outer;
             }
         }
 
         if let Some(m) = lang.open_delimiter_pattern.find(&s[state.str_i..]) {
-            if m.start() == 0 {
-                let start = state.str_i;
+            let start = state.str_i;
 
-                state.str_i += m.end();
-                let children = parse_from(arena, s, lang, state);
-                let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
-                    "UNCLOSED".into(),
-                    AbsoluteRange {
-                        start: state.str_i,
-                        end: state.str_i + 1,
-                    },
-                ));
+            state.str_i += m.end();
+            let children = parse_from(arena, s, lang, state);
+            let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
+                "UNCLOSED".into(),
+                AbsoluteRange {
+                    start: state.str_i,
+                    end: state.str_i + 1,
+                },
+            ));
 
-                let open_pos = AbsoluteRange {
-                    start,
-                    end: start + m.end(),
-                };
-                let items = Node::new_list(
-                    arena,
-                    m.as_str(),
-                    open_pos,
-                    children,
-                    &close_brace,
-                    close_pos,
-                );
-                result.push(items);
-                continue;
-            }
+            let open_pos = AbsoluteRange {
+                start,
+                end: start + m.end(),
+            };
+            let items = Node::new_list(
+                arena,
+                m.as_str(),
+                open_pos,
+                children,
+                &close_brace,
+                close_pos,
+            );
+            result.push(items);
+            continue;
         };
 
         if let Some(m) = lang.close_delimiter_pattern.find(&s[state.str_i..]) {
-            if m.start() == 0 {
-                state.close_brace = Some((
-                    m.as_str().into(),
-                    AbsoluteRange {
-                        start: state.str_i,
-                        end: state.str_i + m.end(),
-                    },
-                ));
-                state.str_i += m.end();
-                return result;
-            };
-        }
+            state.close_brace = Some((
+                m.as_str().into(),
+                AbsoluteRange {
+                    start: state.str_i,
+                    end: state.str_i + m.end(),
+                },
+            ));
+            state.str_i += m.end();
+            return result;
+        };
         state.str_i += 1;
     }
 
