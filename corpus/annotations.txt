@@ -41,3 +41,60 @@ var x: Int
     (property_declaration
         (modifiers (annotation (use_site_target) (user_type (type_identifier)) (user_type (type_identifier))))
         (variable_declaration (simple_identifier) (user_type (type_identifier)))))
+
+==================
+Multiple annotations on a variable
+==================
+
+class X {
+ @A @B
+ override val s: String
+}
+
+---
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (modifiers
+          (annotation (user_type (type_identifier)))
+          (annotation (user_type (type_identifier)))
+          (member_modifier))
+        (variable_declaration (simple_identifier) (user_type (type_identifier)))
+      )
+    )
+  )
+)
+
+
+==================
+Multiple annotations on a function
+==================
+
+class X {
+ @A @B
+ fun s(): String
+}
+
+---
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (function_declaration
+        (modifiers
+          (annotation (user_type (type_identifier)))
+          (annotation (user_type (type_identifier))))
+        (simple_identifier)
+        (user_type (type_identifier))
+      )
+    )
+  )
+)
+
+
+
+
