@@ -28,11 +28,11 @@ pub fn read_or_die(path: &str) -> String {
 
 pub struct Language {
     extensions: Vec<String>,
-    atom_patterns: Vec<String>,
-    string_patterns: Vec<String>,
-    comment_patterns: Vec<String>,
-    open_delimiter_pattern: String,
-    close_delimiter_pattern: String,
+    atom_patterns: Vec<Regex>,
+    string_patterns: Vec<Regex>,
+    comment_patterns: Vec<Regex>,
+    open_delimiter_pattern: Regex,
+    close_delimiter_pattern: Regex,
 }
 
 pub fn lang_from_str(s: &str) -> Language {
@@ -42,31 +42,44 @@ pub fn lang_from_str(s: &str) -> Language {
     lang_from_value(js)
 }
 
-fn as_regex_vec(v: &Value) -> Vec<String> {
+fn as_string_vec(v: &Value) -> Vec<String> {
     // TODO: Make this robust against invalid toml
     let arr = v.as_array().unwrap();
     arr.iter().map(|v| v.as_str().unwrap().into()).collect()
 }
 
+fn as_regex_vec(v: &Value) -> Vec<Regex> {
+    // TODO: properly handle malformed user-supplied regexes.
+    as_string_vec(v).iter().map(|s| as_regex(&s)).collect()
+}
+
+fn as_regex(s: &str) -> Regex {
+    Regex::new(&s).unwrap()
+}
+
 fn lang_from_value(v: &Value) -> Language {
     let table = v.as_table().unwrap();
     Language {
-        extensions: as_regex_vec(v.get("extensions").unwrap()),
+        extensions: as_string_vec(v.get("extensions").unwrap()),
         atom_patterns: as_regex_vec(v.get("atom_patterns").unwrap()),
         string_patterns: as_regex_vec(v.get("string_patterns").unwrap()),
         comment_patterns: as_regex_vec(v.get("comment_patterns").unwrap()),
-        open_delimiter_pattern: table
-            .get("open_delimiter_pattern")
-            .unwrap()
-            .as_str()
-            .unwrap()
-            .into(),
-        close_delimiter_pattern: table
-            .get("close_delimiter_pattern")
-            .unwrap()
-            .as_str()
-            .unwrap()
-            .into(),
+        open_delimiter_pattern: as_regex(
+            table
+                .get("open_delimiter_pattern")
+                .unwrap()
+                .as_str()
+                .unwrap()
+                .into(),
+        ),
+        close_delimiter_pattern: as_regex(
+            table
+                .get("close_delimiter_pattern")
+                .unwrap()
+                .as_str()
+                .unwrap()
+                .into(),
+        ),
     }
 }
 
@@ -80,29 +93,10 @@ fn parse_from<'a>(
     lang: &Language,
     state: &mut ParseState,
 ) -> Vec<&'a Node<'a>> {
-    // TODO: properly handle malformed user-supplied regexes.
-    let comment_patterns: Vec<_> = lang
-        .comment_patterns
-        .iter()
-        .map(|pattern| Regex::new(&pattern).unwrap())
-        .collect();
-    let atom_patterns: Vec<_> = lang
-        .atom_patterns
-        .iter()
-        .map(|pattern| Regex::new(&pattern).unwrap())
-        .collect();
-    let string_patterns: Vec<_> = lang
-        .string_patterns
-        .iter()
-        .map(|pattern| Regex::new(&pattern).unwrap())
-        .collect();
-    let open_delimiter = Regex::new(&lang.open_delimiter_pattern).unwrap();
-    let close_delimiter = Regex::new(&lang.close_delimiter_pattern).unwrap();
-
     let mut result: Vec<&'a Node<'a>> = vec![];
 
     'outer: while state.str_i < s.len() {
-        for pattern in &comment_patterns {
+        for pattern in &lang.comment_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 if m.start() == 0 {
                     assert_eq!(m.start(), 0);
@@ -118,7 +112,7 @@ fn parse_from<'a>(
             }
         }
 
-        for pattern in &atom_patterns {
+        for pattern in &lang.atom_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 if m.start() == 0 {
                     assert_eq!(m.start(), 0);
@@ -134,7 +128,7 @@ fn parse_from<'a>(
             }
         }
 
-        for pattern in &string_patterns {
+        for pattern in &lang.string_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 if m.start() == 0 {
                     assert_eq!(m.start(), 0);
@@ -150,7 +144,7 @@ fn parse_from<'a>(
             }
         }
 
-        if let Some(m) = open_delimiter.find(&s[state.str_i..]) {
+        if let Some(m) = lang.open_delimiter_pattern.find(&s[state.str_i..]) {
             if m.start() == 0 {
                 let start = state.str_i;
 
@@ -181,7 +175,7 @@ fn parse_from<'a>(
             }
         };
 
-        if let Some(m) = close_delimiter.find(&s[state.str_i..]) {
+        if let Some(m) = lang.close_delimiter_pattern.find(&s[state.str_i..]) {
             if m.start() == 0 {
                 state.close_brace = Some((
                     m.as_str().into(),
