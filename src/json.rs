@@ -35,11 +35,16 @@ pub struct Language {
     close_delimiter_pattern: Regex,
 }
 
-pub fn lang_from_str(s: &str) -> Language {
+pub fn lang_from_str(s: &str, extension: &str) -> Language {
     let v = s.parse::<Value>().unwrap();
     let table = v.as_table().unwrap();
-    let js = table.get("javascript").expect("javascript in syntax.toml");
-    lang_from_value(js)
+
+    table
+        .iter()
+        .map(|(_, value)| lang_from_value(value))
+        // TODO: Multiple extensions
+        .find(|lang| lang.extensions[0] == extension)
+        .unwrap()
 }
 
 fn as_string_vec(v: &Value) -> Vec<String> {
@@ -219,7 +224,7 @@ mod tests {
 
     fn lang() -> Language {
         let syntax_toml = read_or_die("syntax.toml");
-        lang_from_str(&syntax_toml)
+        lang_from_str(&syntax_toml, "js")
     }
 
     fn as_refs<'a, T>(items: &'a Vec<T>) -> Vec<&'a T> {

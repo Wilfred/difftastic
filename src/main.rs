@@ -2,6 +2,8 @@ mod json;
 mod lines;
 mod tree_diff;
 use clap::{App, Arg};
+use std::ffi::OsStr;
+use std::path::Path;
 use typed_arena::Arena;
 
 use crate::json::{lang_from_str, parse, read_or_die};
@@ -82,7 +84,13 @@ fn main() {
     let after_src = read_or_die(after_path);
 
     let syntax_toml = read_or_die("syntax.toml");
-    let lang = lang_from_str(&syntax_toml);
+
+    let before_extension = Path::new(before_path)
+        .extension()
+        .and_then(OsStr::to_str)
+        .unwrap();
+
+    let lang = lang_from_str(&syntax_toml, before_extension);
 
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => usize::from_str_radix(width, 10).unwrap(),

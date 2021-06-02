@@ -9,15 +9,33 @@ atom_patterns = [
   '[=<>/*+-]+',
 ]
 string_patterns = [
-  # String literals
+  # Double-quoted strings
   '"[^"]*"',
+  # Single quoted strings
+  "'[^']*'",
 ]
 comment_patterns = [
   # Single line comments
   '//.*(\n|$)',
   # Mult-line comments
   '/\*(?s:.)*?\*/',
-  # Lisp-style comments
+]
+open_delimiter_pattern = '(\[|\{|\()'
+close_delimiter_pattern = '(\]|\}|\))'
+
+[elisp]
+extensions = ["el"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+  # Symbols (e.g. variable names)
+  '[a-zA-Z0-9_-]+',
+]
+string_patterns = [
+  # String literals
+  '"[^"]*"',
+]
+comment_patterns = [
   ';.*',
 ]
 open_delimiter_pattern = '(\[|\{|\()'
