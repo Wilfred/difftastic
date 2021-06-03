@@ -1,4 +1,5 @@
 mod json;
+mod diffs;
 mod lines;
 mod tree_diff;
 use clap::{App, Arg};

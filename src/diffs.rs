@@ -1,4 +1,6 @@
-use crate::language::{language_lexer, lex, Language};
+#![allow(dead_code)]
+
+// use crate::language::{language_lexer, lex, Language};
 use crate::lines::{AbsoluteRange, LineNumber, LineRange, NewlinePositions};
 use colored::*;
 use itertools::EitherOrBoth;
@@ -13,6 +15,7 @@ use pretty_assertions::assert_eq;
 pub enum ChangeKind {
     Add,
     Remove,
+    Move,
 }
 
 /// An addition or removal in a string.
@@ -26,51 +29,51 @@ pub struct Change {
     pub opposite_line: LineNumber,
 }
 
-pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -> Vec<Change> {
-    let re = language_lexer(lang);
-    let before_tokens = lex(&before_src, &re);
-    let after_tokens = lex(&after_src, &re);
+// pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -> Vec<Change> {
+//     let re = language_lexer(lang);
+//     let before_tokens = lex(&before_src, &re);
+//     let after_tokens = lex(&after_src, &re);
 
-    let before_newlines = NewlinePositions::from(before_src);
-    let after_newlines = NewlinePositions::from(after_src);
+//     let before_newlines = NewlinePositions::from(before_src);
+//     let after_newlines = NewlinePositions::from(after_src);
 
-    let mut left_line = LineNumber::from(0);
-    let mut right_line = LineNumber::from(0);
-    let mut positions = vec![];
+//     let mut left_line = LineNumber::from(0);
+//     let mut right_line = LineNumber::from(0);
+//     let mut positions = vec![];
 
-    for d in diff::slice(&before_tokens, &after_tokens) {
-        match d {
-            // Only present in the before, so has been removed.
-            diff::Result::Left(l) => {
-                positions.push(Change {
-                    kind: ChangeKind::Remove,
-                    range: AbsoluteRange {
-                        start: l.start,
-                        end: l.start + l.text.len(),
-                    },
-                    opposite_line: right_line,
-                });
-            }
-            // Present in both.
-            diff::Result::Both(l, r) => {
-                left_line = before_newlines.from_offset(l.start).line;
-                right_line = after_newlines.from_offset(r.start).line;
-            }
-            // Only present in the after.
-            diff::Result::Right(r) => {
-                positions.push(Change {
-                    kind: ChangeKind::Add,
-                    range: AbsoluteRange {
-                        start: r.start,
-                        end: r.start + r.text.len(),
-                    },
-                    opposite_line: left_line,
-                });
-            }
-        }
-    }
-    positions
-}
+//     for d in diff::slice(&before_tokens, &after_tokens) {
+//         match d {
+//             // Only present in the before, so has been removed.
+//             diff::Result::Left(l) => {
+//                 positions.push(Change {
+//                     kind: ChangeKind::Remove,
+//                     range: AbsoluteRange {
+//                         start: l.start,
+//                         end: l.start + l.text.len(),
+//                     },
+//                     opposite_line: right_line,
+//                 });
+//             }
+//             // Present in both.
+//             diff::Result::Both(l, r) => {
+//                 left_line = before_newlines.from_offset(l.start).line;
+//                 right_line = after_newlines.from_offset(r.start).line;
+//             }
+//             // Only present in the after.
+//             diff::Result::Right(r) => {
+//                 positions.push(Change {
+//                     kind: ChangeKind::Add,
+//                     range: AbsoluteRange {
+//                         start: r.start,
+//                         end: r.start + r.text.len(),
+//                     },
+//                     opposite_line: left_line,
+//                 });
+//             }
+//         }
+//     }
+//     positions
+// }
 
 /// Return a copy of `s` with this colour applied to the ranges specified.
 fn apply_bold_color(s: &str, ranges: &[AbsoluteRange], c: Color) -> String {
