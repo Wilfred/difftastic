@@ -70,6 +70,18 @@ SELECT $$hey$$;
         (select_clause (string))))
 
 =============================
+SELECT statement with dollar quoted brackets inside
+=============================
+
+SELECT $$(a + b)$$;
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (string))))
+
+=============================
 SELECT statement with type cast
 =============================
 
@@ -860,15 +872,14 @@ CREATE FUNCTION add(integer NOT NULL) RETURNS integer STABLE LANGUAGE SQL AS 'se
 
 
 =====================
-CREATE FUNCTION with default arg args
+CREATE FUNCTION lowercase
 =====================
 
-CREATE FUNCTION add(integer = NULL) RETURNS integer STABLE LANGUAGE SQL AS 'select $1';
+create function add(integer) returns integer language sql as 'select $1';
 
 ---
 
 (source_file
-    (create_function_statement (identifier)
-        (create_function_parameters 
-            (create_function_parameter (type) (default (NULL)))) 
-            (type) (optimizer_hint) (language) (function_body)))
+    (create_function_statement (identifier) 
+        (create_function_parameters (create_function_parameter (type))) 
+                                    (type) (language) (function_body)))
