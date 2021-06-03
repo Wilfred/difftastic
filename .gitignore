@@ -16,3 +16,6 @@ node_modules
 *.asm.js
 *.wasm
 *.wasm.mem
+
+# Rust build artifacts
+target
