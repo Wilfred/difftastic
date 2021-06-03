@@ -33,6 +33,10 @@
             {
               "type": "SYMBOL",
               "name": "create_table_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "create_function_statement"
             }
           ]
         },
@@ -49,6 +53,120 @@
           ]
         }
       ]
+    },
+    "create_function_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[CC][RR][EE][AA][TT][EE][  ][FF][UU][NN][CC][TT][II][OO][NN]"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "create_function_parameters"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[RR][EE][TT][UU][RR][NN][SS]"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[AA][SS]"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_function_body"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[LL][AA][NN][GG][UU][AA][GG][EE]"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          ]
+        }
+      ]
+    },
+    "create_function_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        }
+      ]
+    },
+    "create_function_parameters": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "create_function_parameter"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "create_function_parameter"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "_function_body": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "string"
+      },
+      "named": true,
+      "value": "function_body"
     },
     "create_domain_statement": {
       "type": "SEQ",
@@ -1311,23 +1429,49 @@
       "value": "[a-zA-Z0-9_]+[.a-zA-Z0-9_]*"
     },
     "string": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "'"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "'"
+            },
+            {
+              "type": "FIELD",
+              "name": "content",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^']*"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "'"
+            }
+          ]
         },
         {
-          "type": "FIELD",
-          "name": "content",
-          "content": {
-            "type": "PATTERN",
-            "value": "[^']*"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "'"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "$$"
+            },
+            {
+              "type": "FIELD",
+              "name": "content",
+              "content": {
+                "type": "PATTERN",
+                "value": "(\\$?[^$]+)+"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "$$"
+            }
+          ]
         }
       ]
     },
