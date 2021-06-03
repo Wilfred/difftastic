@@ -315,17 +315,17 @@ pub fn apply_colors<'a>(
 
 /// Extremely dumb top-level comparison of `lhs` and `rhs`.
 pub fn set_changed<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>]) {
-    let mut lhs_subtrees = HashMap::new();
+    let mut lhs_counts = HashMap::new();
     for s in lhs.iter() {
-        build_subtrees(s, &mut lhs_subtrees);
+        count_nodes(s, &mut lhs_counts);
     }
 
-    let mut rhs_subtrees = HashMap::new();
+    let mut rhs_counts = HashMap::new();
     for s in rhs.iter() {
-        build_subtrees(s, &mut rhs_subtrees);
+        count_nodes(s, &mut rhs_counts);
     }
 
-    let mut env = Env::new(lhs_subtrees, rhs_subtrees);
+    let mut env = Env::new(lhs_counts, rhs_counts);
     mark_unchanged_nodes(lhs, rhs, &mut env);
 
     process_moves(env);
@@ -567,13 +567,13 @@ fn mark_unchanged_node<'a>(
     }
 }
 
-fn build_subtrees<'a>(s: &'a Node<'a>, subtrees: &mut HashMap<&'a Node<'a>, i64>) {
+fn count_nodes<'a>(s: &'a Node<'a>, subtrees: &mut HashMap<&'a Node<'a>, i64>) {
     let entry = subtrees.entry(s).or_insert(0);
     *entry += 1;
     match s {
         List { children, .. } => {
             for child in children {
-                build_subtrees(child, subtrees);
+                count_nodes(child, subtrees);
             }
         }
         Atom { .. } => {}
