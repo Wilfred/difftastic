@@ -8,20 +8,23 @@ project is still underdevelopment but basic highlighting should already work.
 TODO
 ====
 
-- [ ] Control structures
+- |uncheck| Control structures
 
-  - [ ] if()/elseif()/else()endif()
-  - [ ] foreach()/endforeach()
-  - [ ] while()/endwhile()
+  - |uncheck| if()/elseif()/else()endif()
+  - |uncheck| foreach()/endforeach()
+  - |uncheck| while()/endwhile()
 
-- [ ] Command definitions
+- |uncheck| Command definitions
 
-  - [ ] macro()/endmacro()
-  - [ ] function()/endfunction()
+  - |uncheck| macro()/endmacro()
+  - |uncheck| function()/endfunction()
 
-- [ ] Add grammar rules for comments
+- |uncheck| Add grammar rules for comments
 
-  - [ ] Bracket Comment
-  - [ ] Line Comment
+  - |uncheck| Bracket Comment
+  - |uncheck| Line Comment
 
-- [ ] Create an quoted argument external scanner
+- |uncheck| Create an quoted argument external scanner
+
+.. |check| unicode:: U+2611
+.. |uncheck| unicode:: U+2610
