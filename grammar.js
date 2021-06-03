@@ -31,20 +31,38 @@ module.exports = grammar({
         $.create_function_parameters,
         caseInsensitive("RETURNS"),
         $._create_function_return_type,
-        caseInsensitive("AS"),
-        $._function_body,
-        seq(caseInsensitive("LANGUAGE"), $.identifier)
+        repeat(
+          choice(
+            $._function_language,
+            $._function_body,
+            alias($._function_optimizer_hint, $.optimizer_hint)
+          )
+        )
       ),
+    _function_optimizer_hint: ($) =>
+      choice(
+        caseInsensitive("VOLATILE"),
+        caseInsensitive("IMMUTABLE"),
+        caseInsensitive("STABLE")
+      ),
+    _function_language: ($) =>
+      seq(caseInsensitive("LANGUAGE"), alias($.identifier, $.language)),
     _create_function_return_type: ($) =>
       choice($._type, $.setof, $.constrained_type),
     setof: ($) =>
       seq(caseInsensitive("SETOF"), choice($._type, $.constrained_type)),
     constrained_type: ($) =>
       seq(seq($._type, alias(caseInsensitive("NOT NULL"), $.not_null))),
-    create_function_parameter: ($) => seq(optional($.identifier), $._type),
+    create_function_parameter: ($) =>
+      seq(
+        optional($.identifier),
+        choice($._type, $.constrained_type),
+        optional(seq("=", alias($._expression, $.default)))
+      ),
     create_function_parameters: ($) =>
       seq("(", commaSep1($.create_function_parameter), ")"),
-    _function_body: ($) => alias($.string, $.function_body),
+    _function_body: ($) =>
+      seq(caseInsensitive("AS"), alias($.string, $.function_body)),
     create_domain_statement: ($) =>
       seq(
         caseInsensitive("CREATE DOMAIN"),
