@@ -339,6 +339,19 @@ CREATE INDEX test_idx ON table(col1, col2);
     (create_index_statement (identifier) (identifier)
         (index_table_parameters (identifier) (identifier))))
 
+
+=====================
+CREATE UNIQUE INDEX
+=====================
+
+CREATE UNIQUE INDEX test_idx ON table(col1, col2);
+
+---
+
+(source_file 
+    (create_index_statement (unique_constraint) (identifier) (identifier)
+        (index_table_parameters (identifier) (identifier))))
+
 =====================
 CREATE INDEX with function
 =====================
@@ -652,6 +665,17 @@ Comment
 
 (source_file (comment))
 
+=====================
+Multiline comment
+=====================
+
+/*
+Smile and wave
+*/
+
+---
+
+(source_file (comment))
 =====================
 CREATE TABLE with named constraint
 =====================

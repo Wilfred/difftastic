@@ -516,6 +516,10 @@
           "named": true
         },
         {
+          "type": "unique_constraint",
+          "named": true
+        },
+        {
           "type": "using_clause",
           "named": true
         },
