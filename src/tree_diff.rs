@@ -297,9 +297,9 @@ pub fn apply_colors<'a>(
         let colored = &s[position.start..min(s.len(), position.end)].color(color).bold();
         if let Novel = kind {
             if is_lhs {
-                res.push_str(&colored.clone().on_red().to_string());
+                res.push_str(&colored.clone().on_red().black().to_string());
             } else {
-                res.push_str(&colored.clone().on_green().to_string());
+                res.push_str(&colored.clone().on_green().black().to_string());
             }
         } else {
             res.push_str(&colored.to_string());
