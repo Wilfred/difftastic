@@ -19,10 +19,26 @@ module.exports = grammar({
           $.create_type_statement,
           $.create_domain_statement,
           $.create_index_statement,
-          $.create_table_statement
+          $.create_table_statement,
+          $.create_function_statement
         ),
         optional(";")
       ),
+    create_function_statement: ($) =>
+      seq(
+        caseInsensitive("CREATE FUNCTION"),
+        $.identifier,
+        $.create_function_parameters,
+        caseInsensitive("RETURNS"),
+        $._type,
+        caseInsensitive("AS"),
+        $._function_body,
+        seq(caseInsensitive("LANGUAGE"), $.identifier)
+      ),
+    create_function_parameter: ($) => seq(optional($.identifier), $._type),
+    create_function_parameters: ($) =>
+      seq("(", commaSep1($.create_function_parameter), ")"),
+    _function_body: ($) => alias($.string, $.function_body),
     create_domain_statement: ($) =>
       seq(
         caseInsensitive("CREATE DOMAIN"),
@@ -221,7 +237,11 @@ module.exports = grammar({
     FALSE: ($) => caseInsensitive("FALSE"),
     number: ($) => /\d+/,
     identifier: ($) => /[a-zA-Z0-9_]+[.a-zA-Z0-9_]*/,
-    string: ($) => seq("'", field("content", /[^']*/), "'"),
+    string: ($) =>
+      choice(
+        seq("'", field("content", /[^']*/), "'"),
+        seq("$$", field("content", /(\$?[^$]+)+/), "$$") // FIXME empty string test, maybe read a bit more into c comments answer
+      ),
     field_access: ($) => seq($.identifier, "->>", $.string),
     ordered_expression: ($) =>
       seq(
@@ -244,14 +264,10 @@ module.exports = grammar({
         $._type
       ),
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
-    comment: ($) => token(choice(
-      seq("--", /.*/),
-      seq(
-        '/*',
-        /[^*]*\*+([^/*][^*]*\*+)*/,
-        '/'
-      )
-    )),
+    comment: ($) =>
+      token(
+        choice(seq("--", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"))
+      ),
     binary_expression: ($) =>
       prec.left(
         choice(

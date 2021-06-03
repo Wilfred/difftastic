@@ -58,6 +58,18 @@ SELECT '';
         (select_clause (string))))
 
 =============================
+SELECT statement with dollar quoted string
+=============================
+
+SELECT $$hey$$;
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (string))))
+
+=============================
 SELECT statement with type cast
 =============================
 
@@ -753,3 +765,20 @@ CREATE TABLE my_table (
             (create_table_column_parameter (identifier) (type))
             (create_table_column_parameter (identifier) (type))
             (foreign_key (identifier) (identifier) (references_constraint (identifier) (identifier) (identifier))))))
+
+
+=====================
+CREATE FUNCTION
+=====================
+
+CREATE FUNCTION add(integer, integer) RETURNS integer
+    AS 'select $1 + $2;'
+    LANGUAGE SQL;
+
+---
+
+(source_file
+    (create_function_statement (identifier) 
+        (create_function_parameters (create_function_parameter (type))
+                                    (create_function_parameter (type))) 
+                                    (type) (function_body) (identifier)))

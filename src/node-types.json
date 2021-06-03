@@ -483,6 +483,75 @@
     }
   },
   {
+    "type": "create_function_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "create_function_parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "create_function_parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "create_function_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "create_function_parameters",
+          "named": true
+        },
+        {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "create_index_statement",
     "named": true,
     "fields": {
@@ -767,6 +836,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "function_body",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "function_call",
@@ -1358,6 +1432,10 @@
           "named": true
         },
         {
+          "type": "create_function_statement",
+          "named": true
+        },
+        {
           "type": "create_index_statement",
           "named": true
         },
@@ -1638,6 +1716,10 @@
         }
       ]
     }
+  },
+  {
+    "type": "$$",
+    "named": false
   },
   {
     "type": "'",
