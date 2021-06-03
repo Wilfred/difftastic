@@ -81,23 +81,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "arguments",
+          "type": "foreach_loop",
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "seperation",
-          "named": true
-        },
-        {
-          "type": "space",
+          "type": "normal_command",
           "named": true
         }
       ]
@@ -124,6 +116,60 @@
     "fields": {}
   },
   {
+    "type": "foreach_lists_items",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "foreach_loop",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "command_invocation",
+          "named": true
+        },
+        {
+          "type": "foreach_lists_items",
+          "named": true
+        },
+        {
+          "type": "foreach_range",
+          "named": true
+        },
+        {
+          "type": "foreach_zip_lists",
+          "named": true
+        },
+        {
+          "type": "seperation",
+          "named": true
+        },
+        {
+          "type": "space",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "foreach_range",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "foreach_zip_lists",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "line_ending",
     "named": true,
     "fields": {},
@@ -133,6 +179,33 @@
       "types": [
         {
           "type": "newline",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "normal_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arguments",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "seperation",
+          "named": true
+        },
+        {
+          "type": "space",
           "named": true
         }
       ]
@@ -335,8 +408,32 @@
     "named": false
   },
   {
+    "type": "a",
+    "named": false
+  },
+  {
+    "type": "b",
+    "named": false
+  },
+  {
+    "type": "c",
+    "named": false
+  },
+  {
+    "type": "endforeach",
+    "named": false
+  },
+  {
+    "type": "foreach",
+    "named": false
+  },
+  {
     "type": "identifier",
     "named": true
+  },
+  {
+    "type": "items",
+    "named": false
   },
   {
     "type": "newline",

@@ -79,6 +79,22 @@
       "type": "STRING",
       "value": ";"
     },
+    "variable": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[a-zA-Z0-9/_.+-]"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "escape_sequence"
+          }
+        ]
+      }
+    },
     "variable_ref": {
       "type": "CHOICE",
       "members": [
@@ -95,22 +111,6 @@
           "name": "cache_var"
         }
       ]
-    },
-    "variable": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[a-zA-Z0-9/_.+-]"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "escape_sequence"
-          }
-        ]
-      }
     },
     "normal_var": {
       "type": "SEQ",
@@ -374,7 +374,136 @@
         ]
       }
     },
-    "command_invocation": {
+    "foreach_loop": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "foreach"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "seperation"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "foreach_range"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "foreach_lists_items"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "foreach_zip_lists"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "command_invocation"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "endforeach"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "seperation"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "variable"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "foreach_items": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "items"
+        }
+      ]
+    },
+    "foreach_range": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "a"
+        }
+      ]
+    },
+    "foreach_lists_items": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "b"
+        }
+      ]
+    },
+    "foreach_zip_lists": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "c"
+        }
+      ]
+    },
+    "normal_command": {
       "type": "SEQ",
       "members": [
         {
@@ -392,7 +521,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "seperation"
+            "name": "space"
           }
         },
         {
@@ -421,6 +550,19 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "command_invocation": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "normal_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach_loop"
         }
       ]
     }
