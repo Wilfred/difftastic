@@ -2,7 +2,7 @@ function caseInsensitive(keyword) {
   return new RegExp(
     keyword
       .split("")
-      .map((letter) => `[${letter}${letter.toUpperCase()}]`)
+      .map((letter) => `[${letter.toLowerCase()}${letter.toUpperCase()}]`)
       .join("")
   );
 }
