@@ -126,7 +126,23 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[CC][RR][EE][AA][TT][EE][  ][II][NN][DD][EE][XX]"
+          "value": "[CC][RR][EE][AA][TT][EE]"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "unique_constraint"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "PATTERN",
+          "value": "[II][NN][DD][EE][XX]"
         },
         {
           "type": "FIELD",
@@ -1434,15 +1450,37 @@
     "comment": {
       "type": "TOKEN",
       "content": {
-        "type": "SEQ",
+        "type": "CHOICE",
         "members": [
           {
-            "type": "STRING",
-            "value": "--"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "--"
+              },
+              {
+                "type": "PATTERN",
+                "value": ".*"
+              }
+            ]
           },
           {
-            "type": "PATTERN",
-            "value": ".*"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "/*"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+              },
+              {
+                "type": "STRING",
+                "value": "/"
+              }
+            ]
           }
         ]
       }
