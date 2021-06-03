@@ -27,6 +27,9 @@ TODO
 - |uncheck| Create an quoted argument external scanner
 
 .. |check| raw:: html
+
    <input checked="" type="checkbox">
+
 .. |uncheck| raw:: html
+
    <input type="checkbox">
