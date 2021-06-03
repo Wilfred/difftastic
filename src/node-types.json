@@ -3638,6 +3638,10 @@
           "named": true
         },
         {
+          "type": "special_literal",
+          "named": true
+        },
+        {
           "type": "special_variable",
           "named": true
         },
@@ -9178,6 +9182,10 @@
           "named": true
         },
         {
+          "type": "special_literal",
+          "named": true
+        },
+        {
           "type": "special_variable",
           "named": true
         },
@@ -10875,6 +10883,10 @@
           "named": true
         },
         {
+          "type": "special_literal",
+          "named": true
+        },
+        {
           "type": "special_variable",
           "named": true
         },
@@ -11008,6 +11020,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "special_literal",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "special_variable",
@@ -11249,6 +11266,10 @@
         },
         {
           "type": "special_block",
+          "named": true
+        },
+        {
+          "type": "special_literal",
           "named": true
         },
         {
@@ -15563,6 +15584,26 @@
     "named": false
   },
   {
+    "type": "__DATA__",
+    "named": false
+  },
+  {
+    "type": "__END__",
+    "named": false
+  },
+  {
+    "type": "__FILE__",
+    "named": false
+  },
+  {
+    "type": "__LINE__",
+    "named": false
+  },
+  {
+    "type": "__PACKAGE__",
+    "named": false
+  },
+  {
     "type": "__SUB__",
     "named": false
   },
@@ -15768,11 +15809,11 @@
   },
   {
     "type": "prototype",
-    "named": false
+    "named": true
   },
   {
     "type": "prototype",
-    "named": true
+    "named": false
   },
   {
     "type": "push",

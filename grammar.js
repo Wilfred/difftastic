@@ -137,6 +137,8 @@ module.exports = grammar({
       $.ellipsis_statement,
       $.special_block,
 
+      $.special_literal,
+
       $.pod_statement,
     ),
 
@@ -144,6 +146,15 @@ module.exports = grammar({
       /=[\w]*/,
       $._pod_content,
     )),
+
+    special_literal: $ => choice(
+      '__FILE__',
+      '__LINE__',
+      '__PACKAGE__',
+      '__SUB__',
+      '__END__',
+      '__DATA__',
+    ),
 
     use_parent_statement: $ => seq(
       'use',

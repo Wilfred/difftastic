@@ -101,7 +101,7 @@ namespace {
       }
       
       if (valid_symbols[STRING_QQ_QUOTED_CONTENT]) {
-        if (lexer->lookahead == get_end_delimiter() && delimiter_cout < 1) {
+        if (lexer->lookahead == get_end_delimiter()) {
           lexer->result_symbol = END_DELIMITER;
           advance(lexer);
           lexer->mark_end(lexer);
@@ -152,14 +152,6 @@ namespace {
               }
             }
           }
-
-          // handling nested delimiters qq { hello { from { the}}};
-          if (lexer->lookahead == start_delimiter_char) {
-            delimiter_cout = delimiter_cout + 1;
-          }
-          else if (lexer->lookahead == get_end_delimiter()) {
-            delimiter_cout = delimiter_cout - 1;
-          }
           // escape sequences, only basic support as of now
           if (lexer->lookahead == '\\') {
             advance(lexer);
@@ -176,6 +168,18 @@ namespace {
             }
           }
           
+          if (!lexer->lookahead) {
+            lexer->mark_end(lexer);
+            return false;
+          }
+
+          // handling nested delimiters qq { hello { from { the}}};
+          if (lexer->lookahead == start_delimiter_char) {
+            lexer->result_symbol = STRING_QQ_QUOTED_CONTENT;
+            advance(lexer);
+            return scan_nested_delimiters(lexer, valid_symbols);
+          }
+
           lexer->result_symbol = STRING_QQ_QUOTED_CONTENT;
           advance(lexer);
           lexer->mark_end(lexer);
@@ -243,6 +247,31 @@ namespace {
         return true;
       }
 
+      return false;
+    }
+
+    bool scan_nested_delimiters(TSLexer *lexer, const bool *valid_symbols) {
+      while(lexer->lookahead) {
+        if (lexer->lookahead == get_end_delimiter()) {
+          lexer->result_symbol = STRING_QQ_QUOTED_CONTENT;
+          advance(lexer);
+          lexer->mark_end(lexer);
+          return true;
+        }
+        else if (lexer->lookahead == start_delimiter_char) {
+          lexer->result_symbol = STRING_QQ_QUOTED_CONTENT;
+          advance(lexer);
+          scan_nested_delimiters(lexer, valid_symbols);
+        }
+        else if (lexer->lookahead == '\\') {
+          advance(lexer);
+          advance(lexer);
+        }
+        else {
+          advance(lexer);
+        }
+      }
+      lexer->mark_end(lexer);
       return false;
     }
 
