@@ -199,10 +199,6 @@
 ;; Attribute
 (attribute) @type
 
-;; Preprocessor
-(preprocessor_directive) @function.macro
-(preprocessor_call (identifier) @constant)
-
 ;; Parameter
 (parameter
   type: (identifier) @type
