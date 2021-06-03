@@ -8,28 +8,20 @@ project is still underdevelopment but basic highlighting should already work.
 TODO
 ====
 
-- |uncheck| Control structures
+- Control structures
 
-  - |uncheck| if()/elseif()/else()endif()
-  - |uncheck| foreach()/endforeach()
-  - |uncheck| while()/endwhile()
+  - if()/elseif()/else()endif()
+  - foreach()/endforeach()
+  - while()/endwhile()
 
-- |uncheck| Command definitions
+- Command definitions
 
-  - |uncheck| macro()/endmacro()
-  - |uncheck| function()/endfunction()
+  - macro()/endmacro()
+  - function()/endfunction()
 
-- |uncheck| Add grammar rules for comments
+- Add grammar rules for comments
 
-  - |uncheck| Bracket Comment
-  - |uncheck| Line Comment
+  - Bracket Comment
+  - Line Comment
 
-- |uncheck| Create an quoted argument external scanner
-
-.. |check| raw:: html
-
-   <input checked="" type="checkbox">
-
-.. |uncheck| raw:: html
-
-   <input type="checkbox">
+- Create an quoted argument external scanner
