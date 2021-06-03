@@ -452,6 +452,29 @@
     }
   },
   {
+    "type": "constrained_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "not_null",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "create_domain_statement",
     "named": true,
     "fields": {},
@@ -533,6 +556,10 @@
           "named": true
         },
         {
+          "type": "constrained_type",
+          "named": true
+        },
+        {
           "type": "create_function_parameters",
           "named": true
         },
@@ -542,6 +569,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "setof",
           "named": true
         },
         {
@@ -1420,6 +1451,29 @@
     }
   },
   {
+    "type": "setof",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "constrained_type",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "source_file",
     "named": true,
     "fields": {},
@@ -1807,6 +1861,10 @@
   },
   {
     "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "not_null",
     "named": true
   },
   {

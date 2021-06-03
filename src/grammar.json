@@ -75,7 +75,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_type"
+          "name": "_create_function_return_type"
         },
         {
           "type": "PATTERN",
@@ -95,6 +95,68 @@
             {
               "type": "SYMBOL",
               "name": "identifier"
+            }
+          ]
+        }
+      ]
+    },
+    "_create_function_return_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "setof"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constrained_type"
+        }
+      ]
+    },
+    "setof": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[SS][EE][TT][OO][FF]"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "constrained_type"
+            }
+          ]
+        }
+      ]
+    },
+    "constrained_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_type"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[NN][OO][TT][  ][NN][UU][LL][LL]"
+              },
+              "named": true,
+              "value": "not_null"
             }
           ]
         }

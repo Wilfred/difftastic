@@ -30,11 +30,17 @@ module.exports = grammar({
         $.identifier,
         $.create_function_parameters,
         caseInsensitive("RETURNS"),
-        $._type,
+        $._create_function_return_type,
         caseInsensitive("AS"),
         $._function_body,
         seq(caseInsensitive("LANGUAGE"), $.identifier)
       ),
+    _create_function_return_type: ($) =>
+      choice($._type, $.setof, $.constrained_type),
+    setof: ($) =>
+      seq(caseInsensitive("SETOF"), choice($._type, $.constrained_type)),
+    constrained_type: ($) =>
+      seq(seq($._type, alias(caseInsensitive("NOT NULL"), $.not_null))),
     create_function_parameter: ($) => seq(optional($.identifier), $._type),
     create_function_parameters: ($) =>
       seq("(", commaSep1($.create_function_parameter), ")"),
