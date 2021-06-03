@@ -781,7 +781,7 @@ CREATE FUNCTION add(integer, integer) RETURNS integer
     (create_function_statement (identifier) 
         (create_function_parameters (create_function_parameter (type))
                                     (create_function_parameter (type))) 
-                                    (type) (function_body) (identifier)))
+                                    (type) (function_body) (language)))
 
 =====================
 CREATE FUNCTION returns setof
@@ -796,7 +796,7 @@ CREATE FUNCTION add(text) RETURNS SETOF int
 (source_file
     (create_function_statement (identifier) 
         (create_function_parameters (create_function_parameter (type)))
-                                    (setof (type)) (function_body) (identifier)))
+                                    (setof (type)) (function_body) (language)))
 
 =====================
 CREATE FUNCTION returns constrained setof
@@ -812,4 +812,63 @@ CREATE FUNCTION add(text) RETURNS SETOF int NOT NULL
     (create_function_statement (identifier) 
         (create_function_parameters (create_function_parameter (type))) 
                                     (setof (constrained_type (type) (not_null)))
-                                    (function_body) (identifier)))
+                                    (function_body) (language)))
+
+=====================
+CREATE FUNCTION Language in first pos
+=====================
+
+CREATE FUNCTION add(integer) RETURNS integer LANGUAGE SQL AS 'select $1';
+
+---
+
+(source_file
+    (create_function_statement (identifier) 
+        (create_function_parameters (create_function_parameter (type))) 
+                                    (type) (language) (function_body)))
+
+
+
+=====================
+CREATE FUNCTION with optimizer hint
+=====================
+
+CREATE FUNCTION add(integer) RETURNS integer STABLE LANGUAGE SQL AS 'select $1';
+
+---
+
+(source_file
+    (create_function_statement (identifier) 
+        (create_function_parameters (create_function_parameter (type))) 
+                                    (type) (optimizer_hint) (language) (function_body)))
+
+
+
+=====================
+CREATE FUNCTION with constrained args
+=====================
+
+CREATE FUNCTION add(integer NOT NULL) RETURNS integer STABLE LANGUAGE SQL AS 'select $1';
+
+---
+
+(source_file
+    (create_function_statement (identifier)
+        (create_function_parameters 
+            (create_function_parameter (constrained_type (type) (not_null)))) 
+            (type) (optimizer_hint) (language) (function_body)))
+
+
+=====================
+CREATE FUNCTION with default arg args
+=====================
+
+CREATE FUNCTION add(integer = NULL) RETURNS integer STABLE LANGUAGE SQL AS 'select $1';
+
+---
+
+(source_file
+    (create_function_statement (identifier)
+        (create_function_parameters 
+            (create_function_parameter (type) (default (NULL)))) 
+            (type) (optimizer_hint) (language) (function_body)))
