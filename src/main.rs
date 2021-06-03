@@ -97,7 +97,7 @@ fn main() {
         None => term_width().unwrap_or(80),
     };
 
-    let line_length = terminal_width / 2 - 10;
+    let line_length = terminal_width / 2 - 1;
     // TODO: enforce length after parsing.
     let before_src = enforce_length(&before_src, line_length);
     let after_src = enforce_length(&after_src, line_length);
