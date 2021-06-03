@@ -86,6 +86,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "special_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "pod_statement"
         }
       ]
@@ -106,6 +110,35 @@
           }
         ]
       }
+    },
+    "special_literal": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "__FILE__"
+        },
+        {
+          "type": "STRING",
+          "value": "__LINE__"
+        },
+        {
+          "type": "STRING",
+          "value": "__PACKAGE__"
+        },
+        {
+          "type": "STRING",
+          "value": "__SUB__"
+        },
+        {
+          "type": "STRING",
+          "value": "__END__"
+        },
+        {
+          "type": "STRING",
+          "value": "__DATA__"
+        }
+      ]
     },
     "use_parent_statement": {
       "type": "SEQ",
@@ -6594,7 +6627,7 @@
                       "value": 4,
                       "content": {
                         "type": "PATTERN",
-                        "value": "[^/]+"
+                        "value": "[^\\/]+"
                       }
                     }
                   },
@@ -7094,7 +7127,7 @@
                             "value": 1,
                             "content": {
                               "type": "PATTERN",
-                              "value": "[^/]+"
+                              "value": "[^\\/]+"
                             }
                           }
                         }
@@ -7861,7 +7894,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "[^/\\\\\\[\\n]"
+              "value": "[^\\/\\\\\\[\\n]"
             }
           ]
         }
