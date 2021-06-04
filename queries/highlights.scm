@@ -26,6 +26,12 @@
 ] @punctuation.bracket
 
 [
+  (type)
+  (array_type)
+] @type
+
+
+[
   "CREATE TABLE"
   "CREATE TYPE"
   "CREATE DOMAIN"
