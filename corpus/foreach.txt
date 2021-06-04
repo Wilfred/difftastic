@@ -16,6 +16,25 @@ endforeach()
  )
  )
 
+=================================
+No items with endforeach argument
+=================================
+
+foreach(var)
+endforeach(var)
+
+---
+(source_file
+ (command_invocation
+  (foreach_loop
+   (foreach_items
+    loop_var: (variable)
+   )
+   (variable)
+  )
+ )
+ )
+
 ========
 One item
 ========
