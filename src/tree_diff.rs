@@ -283,7 +283,7 @@ pub struct MatchedPos {
     prev_opposite_pos: Option<AbsoluteRange>,
 }
 
-fn matched_positions<'a>(nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
+pub fn matched_positions<'a>(nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
     let mut positions = Vec::new();
     let mut prev_unchanged = None;
     matched_positions_(nodes, &mut prev_unchanged, &mut positions);
@@ -306,8 +306,8 @@ fn matched_positions_<'a>(
             } => {
                 let change = change.get().expect("Should have changes set in all nodes");
 
-                match change {
-                    Unchanged(opposite_node) => match opposite_node {
+                if let Unchanged(opposite_node) = change {
+                    match opposite_node {
                         List {
                             open_position: opposite_open_pos,
                             ..
@@ -315,25 +315,24 @@ fn matched_positions_<'a>(
                             *prev_unchanged = Some((*open_position, *opposite_open_pos));
                         }
                         Atom { .. } => unreachable!(),
-                    },
-                    Novel | Moved => {
-                        let (prev_pos, prev_opposite_pos) = match prev_unchanged {
-                            Some((p, po)) => (Some(*p), Some(*po)),
-                            None => (None, None),
-                        };
-                        positions.push(MatchedPos {
-                            kind: MatchKind::from_change(change),
-                            pos: *open_position,
-                            prev_pos,
-                            prev_opposite_pos,
-                        });
                     }
                 }
 
+                let (prev_pos, prev_opposite_pos) = match prev_unchanged {
+                    Some((p, po)) => (Some(*p), Some(*po)),
+                    None => (None, None),
+                };
+                positions.push(MatchedPos {
+                    kind: MatchKind::from_change(change),
+                    pos: *open_position,
+                    prev_pos,
+                    prev_opposite_pos,
+                });
+
                 matched_positions_(children, prev_unchanged, positions);
 
-                match change {
-                    Unchanged(opposite_node) => match opposite_node {
+                if let Unchanged(opposite_node) = change {
+                    match opposite_node {
                         List {
                             close_position: opposite_close_pos,
                             ..
@@ -341,116 +340,74 @@ fn matched_positions_<'a>(
                             *prev_unchanged = Some((*close_position, *opposite_close_pos));
                         }
                         Atom { .. } => unreachable!(),
-                    },
-                    Novel | Moved => {
-                        let (prev_pos, prev_opposite_pos) = match prev_unchanged {
-                            Some((p, po)) => (Some(*p), Some(*po)),
-                            None => (None, None),
-                        };
-                        positions.push(MatchedPos {
-                            kind: MatchKind::from_change(change),
-                            pos: *close_position,
-                            prev_pos,
-                            prev_opposite_pos,
-                        });
                     }
                 }
+                let (prev_pos, prev_opposite_pos) = match prev_unchanged {
+                    Some((p, po)) => (Some(*p), Some(*po)),
+                    None => (None, None),
+                };
+                positions.push(MatchedPos {
+                    kind: MatchKind::from_change(change),
+                    pos: *close_position,
+                    prev_pos,
+                    prev_opposite_pos,
+                });
             }
             Atom {
                 change, position, ..
             } => {
                 let change = change.get().expect("Should have changes set in all nodes");
-                match change {
-                    Unchanged(opposite_node) => {
-                        match opposite_node {
-                            List { .. } => unreachable!(),
-                            Atom {
-                                position: opposite_position,
-                                ..
-                            } => {
-                                *prev_unchanged = Some((*position, *opposite_position));
-                            }
+                if let Unchanged(opposite_node) = change {
+                    match opposite_node {
+                        List { .. } => {
+                            dbg!(node, opposite_node);
+                            unreachable!()
+                        }
+                        Atom {
+                            position: opposite_position,
+                            ..
+                        } => {
+                            *prev_unchanged = Some((*position, *opposite_position));
                         }
                     }
-                    Novel | Moved => {
-                        let (prev_pos, prev_opposite_pos) = match prev_unchanged {
-                            Some((p, po)) => (Some(*p), Some(*po)),
-                            None => (None, None),
-                        };
-                        positions.push(MatchedPos {
-                            kind: MatchKind::from_change(change),
-                            pos: *position,
-                            prev_pos,
-                            prev_opposite_pos,
-                        });
-                    }
                 }
+                let (prev_pos, prev_opposite_pos) = match prev_unchanged {
+                    Some((p, po)) => (Some(*p), Some(*po)),
+                    None => (None, None),
+                };
+                positions.push(MatchedPos {
+                    kind: MatchKind::from_change(change),
+                    pos: *position,
+                    prev_pos,
+                    prev_opposite_pos,
+                });
             }
         }
     }
 }
 
-pub fn change_positions<'a>(nodes: &[&Node<'a>]) -> Vec<(ChangeKind<'a>, AbsoluteRange)> {
-    let mut res: Vec<(ChangeKind<'a>, AbsoluteRange)> = vec![];
-    for node in nodes {
-        match node {
-            List {
-                change,
-                open_position,
-                children,
-                close_position,
-                ..
-            } => {
-                res.push((
-                    change.get().expect("Should have computed change kind"),
-                    *open_position,
-                ));
-                let mut child_positions = change_positions(children);
-                res.append(&mut child_positions);
-                res.push((
-                    change.get().expect("Should have computed change kind"),
-                    *close_position,
-                ));
-            }
-            Atom {
-                change, position, ..
-            } => {
-                res.push((
-                    change.get().expect("Should have computed change kind"),
-                    *position,
-                ));
-            }
-        }
-    }
-    res
-}
-
-pub fn apply_colors<'a>(
-    s: &str,
-    is_lhs: bool,
-    positions: &[(ChangeKind<'a>, AbsoluteRange)],
-) -> String {
+pub fn apply_colors<'a>(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
     let mut res = String::with_capacity(s.len());
     let mut i = 0;
-    for (kind, position) in positions {
-        if position.start >= s.len() {
+    for mp in positions {
+        if mp.pos.start >= s.len() {
             break;
         }
 
         // Dim text that doesn't have any matching positions.
-        if i < position.start {
-            res.push_str(&s[i..position.start].dimmed());
+        if i < mp.pos.start {
+            res.push_str(&s[i..mp.pos.start].dimmed());
         }
 
-        let color = match kind {
-            Unchanged(_) => Color::White,
+        let color = match mp.kind {
+            MatchKind::Unchanged => Color::White,
             _ if is_lhs => Color::BrightRed,
             _ => Color::BrightGreen,
         };
-        let colored = &s[position.start..min(s.len(), position.end)]
+        let colored = &s[mp.pos.start..min(s.len(), mp.pos.end)]
             .color(color)
             .bold();
-        if let Novel = kind {
+        if let MatchKind::Novel = mp.kind {
             if is_lhs {
                 res.push_str(&colored.clone().on_red().black().to_string());
             } else {
@@ -460,7 +417,7 @@ pub fn apply_colors<'a>(
             res.push_str(&colored.to_string());
         }
 
-        i = position.end;
+        i = mp.pos.end;
     }
     if i < s.len() {
         res.push_str(&s[i..s.len()]);

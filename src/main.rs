@@ -9,7 +9,7 @@ use typed_arena::Arena;
 
 use crate::json::{lang_from_str, parse, read_or_die};
 use crate::lines::enforce_length;
-use crate::tree_diff::{apply_colors, change_positions, set_changed};
+use crate::tree_diff::{apply_colors, set_changed, matched_positions};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
@@ -109,10 +109,10 @@ fn main() {
 
     set_changed(&lhs, &rhs);
 
-    let positions = change_positions(&lhs);
+    let positions = matched_positions(&lhs);
     let lhs_colored = apply_colors(&before_src, true, &positions);
 
-    let positions = change_positions(&rhs);
+    let positions = matched_positions(&rhs);
     let rhs_colored = apply_colors(&after_src, false, &positions);
 
     print!(
