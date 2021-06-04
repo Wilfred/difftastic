@@ -1,10 +1,11 @@
 function caseInsensitive(keyword) {
-  return new RegExp(
+  const result = new RegExp(
     keyword
       .split("")
       .map((letter) => `[${letter.toLowerCase()}${letter.toUpperCase()}]`)
       .join("")
   );
+  return alias(result, keyword);
 }
 
 module.exports = grammar({
@@ -169,6 +170,7 @@ module.exports = grammar({
         optional($.select_clause),
         optional($.where_clause)
       ),
+    where_clause: ($) => seq(caseInsensitive("WHERE"), $._expression),
     in_expression: ($) =>
       prec.left(
         1,
@@ -228,7 +230,6 @@ module.exports = grammar({
         optional(field("arguments", commaSep1($._expression))),
         ")"
       ),
-    where_clause: ($) => seq(caseInsensitive("WHERE"), $._expression),
     comparison_operator: ($) =>
       prec.left(
         1,

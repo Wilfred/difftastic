@@ -1,5 +1,20 @@
 [
   {
+    "type": "FALSE",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "NULL",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "TRUE",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "array_type",
     "named": true,
     "fields": {},
@@ -1292,12 +1307,50 @@
   {
     "type": "on_delete_action",
     "named": true,
-    "fields": {}
+    "fields": {
+      "action": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CASCADE",
+            "named": false
+          },
+          {
+            "type": "RESTRICT",
+            "named": false
+          },
+          {
+            "type": "SET NULL",
+            "named": false
+          }
+        ]
+      }
+    }
   },
   {
     "type": "on_update_action",
     "named": true,
-    "fields": {}
+    "fields": {
+      "action": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CASCADE",
+            "named": false
+          },
+          {
+            "type": "RESTRICT",
+            "named": false
+          },
+          {
+            "type": "SET NULL",
+            "named": false
+          }
+        ]
+      }
+    }
   },
   {
     "type": "optimizer_hint",
@@ -1307,7 +1360,22 @@
   {
     "type": "ordered_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "order": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ASC",
+            "named": false
+          },
+          {
+            "type": "DESC",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": false,
@@ -1920,20 +1988,160 @@
     "named": false
   },
   {
+    "type": "AND",
+    "named": false
+  },
+  {
+    "type": "AS",
+    "named": false
+  },
+  {
+    "type": "ASC",
+    "named": false
+  },
+  {
+    "type": "CASCADE",
+    "named": false
+  },
+  {
+    "type": "CHECK",
+    "named": false
+  },
+  {
     "type": "CONSTRAINT",
     "named": false
   },
   {
+    "type": "CREATE",
+    "named": false
+  },
+  {
+    "type": "CREATE DOMAIN",
+    "named": false
+  },
+  {
+    "type": "CREATE FUNCTION",
+    "named": false
+  },
+  {
+    "type": "CREATE TABLE",
+    "named": false
+  },
+  {
+    "type": "CREATE TYPE",
+    "named": false
+  },
+  {
+    "type": "DEFAULT",
+    "named": false
+  },
+  {
+    "type": "DESC",
+    "named": false
+  },
+  {
+    "type": "DISTINCT FROM",
+    "named": false
+  },
+  {
     "type": "FALSE",
-    "named": true
+    "named": false
+  },
+  {
+    "type": "FOREIGN KEY",
+    "named": false
+  },
+  {
+    "type": "IMMUTABLE",
+    "named": false
+  },
+  {
+    "type": "IN",
+    "named": false
+  },
+  {
+    "type": "INDEX",
+    "named": false
+  },
+  {
+    "type": "LANGUAGE",
+    "named": false
+  },
+  {
+    "type": "NOT",
+    "named": false
   },
   {
     "type": "NULL",
-    "named": true
+    "named": false
+  },
+  {
+    "type": "ON",
+    "named": false
+  },
+  {
+    "type": "ON DELETE",
+    "named": false
+  },
+  {
+    "type": "ON UPDATE",
+    "named": false
+  },
+  {
+    "type": "OR",
+    "named": false
+  },
+  {
+    "type": "PRIMARY KEY",
+    "named": false
+  },
+  {
+    "type": "REFERENCES",
+    "named": false
+  },
+  {
+    "type": "RESTRICT",
+    "named": false
+  },
+  {
+    "type": "RETURNS",
+    "named": false
+  },
+  {
+    "type": "SELECT",
+    "named": false
+  },
+  {
+    "type": "SET NULL",
+    "named": false
+  },
+  {
+    "type": "SETOF",
+    "named": false
+  },
+  {
+    "type": "STABLE",
+    "named": false
   },
   {
     "type": "TRUE",
-    "named": true
+    "named": false
+  },
+  {
+    "type": "UNIQUE",
+    "named": false
+  },
+  {
+    "type": "USING",
+    "named": false
+  },
+  {
+    "type": "VOLATILE",
+    "named": false
+  },
+  {
+    "type": "WHERE",
+    "named": false
   },
   {
     "type": "[",
@@ -1952,8 +2160,16 @@
     "named": true
   },
   {
+    "type": "is",
+    "named": false
+  },
+  {
     "type": "language",
     "named": true
+  },
+  {
+    "type": "not",
+    "named": false
   },
   {
     "type": "not_null",
