@@ -222,22 +222,14 @@ class Point {
           (block (expression_statement (assignment_expression
             left: (assignable_expression
                     (this)
-                (assignable_selector_part
-                    (assignable_selector
                         (unconditional_assignable_selector (identifier))
-                    )
-                )
              )
             right: (identifier))
             )
           (expression_statement (assignment_expression
               left: (assignable_expression
                       (this)
-                  (assignable_selector_part
-                      (assignable_selector
                           (unconditional_assignable_selector (identifier))
-                      )
-                  )
                )
               right: (identifier))
           )
@@ -253,8 +245,8 @@ class Point {
                       (selector
                             (argument_part
                                     (arguments
-                                        (decimal_integer_literal)
-                                        (decimal_integer_literal)
+                                        (argument (decimal_integer_literal))
+                                        (argument (decimal_integer_literal))
                                     )
                             )
                       )
@@ -513,7 +505,7 @@ const my.MyType newMyType = my.MyType();
                 (static_final_declaration
                         (identifier)
                         (identifier) (selector
-                                        (assignable_selector (unconditional_assignable_selector (identifier)))
+                                        (unconditional_assignable_selector (identifier))
                                      )
                         (selector (argument_part (arguments)))
                 )
@@ -550,7 +542,7 @@ if (blah) {
 
 (program
      (local_variable_declaration (initialized_variable_definition (final_builtin) (type_identifier) (type_identifier) (identifier) (identifier) (selector
-        (assignable_selector (unconditional_assignable_selector (identifier)))) (selector (argument_part (arguments)))))
+        (unconditional_assignable_selector (identifier))) (selector (argument_part (arguments)))))
     (local_variable_declaration (initialized_variable_definition (final_builtin) (type_identifier) (type_identifier) (identifier)))
     (if_statement (parenthesized_expression (identifier))
         (block
