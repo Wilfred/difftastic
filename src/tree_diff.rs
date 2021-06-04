@@ -403,7 +403,9 @@ pub fn apply_colors<'a>(
             _ if is_lhs => Color::BrightRed,
             _ => Color::BrightGreen,
         };
-        let colored = &s[position.start..min(s.len(), position.end)].color(color).bold();
+        let colored = &s[position.start..min(s.len(), position.end)]
+            .color(color)
+            .bold();
         if let Novel = kind {
             if is_lhs {
                 res.push_str(&colored.clone().on_red().black().to_string());
