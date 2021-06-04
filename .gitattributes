@@ -1,1 +1,3 @@
+/src/** linguist-vendored
+/examples/* linguist-vendored
 *.js eof=lf
