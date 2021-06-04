@@ -1517,7 +1517,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "_expression",
@@ -1525,6 +1525,10 @@
         },
         {
           "type": "dynamic_variable_name",
+          "named": true
+        },
+        {
+          "type": "name",
           "named": true
         },
         {
@@ -2419,7 +2423,7 @@
         ]
       },
       "object": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -4079,6 +4083,10 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "integer",
           "named": true
         }
       ]
