@@ -1,15 +1,16 @@
-mod json;
 mod diffs;
+mod json;
 mod lines;
 mod tree_diff;
 use clap::{App, Arg};
+use std::cmp::min;
 use std::ffi::OsStr;
 use std::path::Path;
 use typed_arena::Arena;
 
 use crate::json::{lang_from_str, parse, read_or_die};
 use crate::lines::enforce_length;
-use crate::tree_diff::{apply_colors, set_changed, matched_positions};
+use crate::tree_diff::{apply_colors, matched_positions, set_changed};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
@@ -98,10 +99,18 @@ fn main() {
         None => term_width().unwrap_or(80),
     };
 
-    let line_length = terminal_width / 2 - 1;
+    let max_left_length = min(
+        before_src.lines().map(|line| line.len()).max().unwrap_or(1),
+        terminal_width / 2 - 1,
+    );
+    let max_right_length = min(
+        after_src.lines().map(|line| line.len()).max().unwrap_or(1),
+        terminal_width - 1 - max_left_length,
+    );
+
     // TODO: enforce length after parsing.
-    let before_src = enforce_length(&before_src, line_length);
-    let after_src = enforce_length(&after_src, line_length);
+    let before_src = enforce_length(&before_src, max_left_length);
+    let after_src = enforce_length(&after_src, max_right_length);
 
     let arena = Arena::new();
     let lhs = parse(&arena, &before_src, &lang);
@@ -117,6 +126,6 @@ fn main() {
 
     print!(
         "{}",
-        horizontal_concat(&lhs_colored, &rhs_colored, line_length)
+        horizontal_concat(&lhs_colored, &rhs_colored, max_left_length)
     );
 }
