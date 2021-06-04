@@ -108,7 +108,8 @@ fn main() {
         terminal_width - 1 - max_left_length,
     );
 
-    // TODO: enforce length after parsing.
+    // TODO: enforce length after parsing (requires converting
+    // absolute positions to line-relative positions).
     let before_src = enforce_length(&before_src, max_left_length);
     let after_src = enforce_length(&after_src, max_right_length);
 
