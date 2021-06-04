@@ -13,7 +13,7 @@ use std::fmt;
 use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
 
-use crate::lines::AbsoluteRange;
+use crate::lines::AbsoluteSpan;
 use ChangeKind::*;
 use Node::*;
 
@@ -49,16 +49,16 @@ pub enum AtomKind {
 pub enum Node<'a> {
     List {
         change: Cell<Option<ChangeKind<'a>>>,
-        open_position: AbsoluteRange,
+        open_position: AbsoluteSpan,
         open_delimiter: String,
         children: Vec<&'a Node<'a>>,
-        close_position: AbsoluteRange,
+        close_position: AbsoluteSpan,
         close_delimiter: String,
         num_descendants: usize,
     },
     Atom {
         change: Cell<Option<ChangeKind<'a>>>,
-        position: AbsoluteRange,
+        position: AbsoluteSpan,
         content: String,
         kind: AtomKind,
     },
@@ -69,10 +69,10 @@ impl<'a> Node<'a> {
     pub fn new_list(
         arena: &'a Arena<Node<'a>>,
         open_delimiter: &str,
-        open_position: AbsoluteRange,
+        open_position: AbsoluteSpan,
         children: Vec<&'a Node<'a>>,
         close_delimiter: &str,
-        close_position: AbsoluteRange,
+        close_position: AbsoluteSpan,
     ) -> &'a mut Node<'a> {
         let mut num_descendants = 0;
         for child in &children {
@@ -98,7 +98,7 @@ impl<'a> Node<'a> {
     #[allow(clippy::clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_atom(
         arena: &'a Arena<Node<'a>>,
-        position: AbsoluteRange,
+        position: AbsoluteSpan,
         content: &str,
         kind: AtomKind,
     ) -> &'a mut Node<'a> {
@@ -269,9 +269,9 @@ impl MatchKind {
 
 pub struct MatchedPos {
     kind: MatchKind,
-    pos: AbsoluteRange,
-    prev_pos: Option<AbsoluteRange>,
-    prev_opposite_pos: Option<AbsoluteRange>,
+    pos: AbsoluteSpan,
+    prev_pos: Option<AbsoluteSpan>,
+    prev_opposite_pos: Option<AbsoluteSpan>,
 }
 
 pub fn matched_positions<'a>(nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
@@ -283,7 +283,7 @@ pub fn matched_positions<'a>(nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
 
 fn matched_positions_<'a>(
     nodes: &[&Node<'a>],
-    prev_unchanged: &mut Option<(AbsoluteRange, AbsoluteRange)>,
+    prev_unchanged: &mut Option<(AbsoluteSpan, AbsoluteSpan)>,
     positions: &mut Vec<MatchedPos>,
 ) {
     for node in nodes {
@@ -693,13 +693,13 @@ mod tests {
         assert_eq!(
             Atom {
                 change: Cell::new(Some(Novel)),
-                position: AbsoluteRange { start: 0, end: 1 },
+                position: AbsoluteSpan { start: 0, end: 1 },
                 content: "foo".into(),
                 kind: Other,
             },
             Atom {
                 change: Cell::new(None),
-                position: AbsoluteRange { start: 42, end: 50 },
+                position: AbsoluteSpan { start: 42, end: 50 },
                 content: "foo".into(),
                 kind: Other,
             }

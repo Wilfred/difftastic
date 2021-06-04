@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 // use crate::language::{language_lexer, lex, Language};
-use crate::lines::{AbsoluteRange, LineNumber, LineRange, NewlinePositions};
+use crate::lines::{AbsoluteSpan, LineNumber, LineRange, NewlinePositions};
 use colored::*;
 use itertools::EitherOrBoth;
 use itertools::Itertools;
@@ -23,7 +23,7 @@ pub enum ChangeKind {
 pub struct Change {
     kind: ChangeKind,
     /// The position of the affected text.
-    pub range: AbsoluteRange,
+    pub range: AbsoluteSpan,
     /// The corresponding position of the comparison string. This
     /// enables us to line up changed lines between the two strings.
     pub opposite_line: LineNumber,
@@ -76,7 +76,7 @@ pub struct Change {
 // }
 
 /// Return a copy of `s` with this colour applied to the ranges specified.
-fn apply_bold_color(s: &str, ranges: &[AbsoluteRange], c: Color) -> String {
+fn apply_bold_color(s: &str, ranges: &[AbsoluteSpan], c: Color) -> String {
     let mut res = String::with_capacity(s.len());
     let mut i = 0;
     for range in ranges {
@@ -126,7 +126,7 @@ fn apply_color_by_line(s: &str, ranges: &[LineRange], c: Color) -> String {
             Some(line_ranges) => {
                 let ranges: Vec<_> = line_ranges
                     .iter()
-                    .map(|lr| AbsoluteRange {
+                    .map(|lr| AbsoluteSpan {
                         start: lr.start_col,
                         end: lr.end_col,
                     })
@@ -159,7 +159,7 @@ fn apply_color_no_positions() {
 #[test]
 fn apply_color_whole_length() {
     assert_eq!(
-        apply_bold_color("foo", &vec![AbsoluteRange { start: 0, end: 3 }], Color::Red),
+        apply_bold_color("foo", &vec![AbsoluteSpan { start: 0, end: 3 }], Color::Red),
         "foo".red().bold().to_string()
     );
 }
@@ -169,7 +169,7 @@ fn apply_color_beyond_end() {
     assert_eq!(
         apply_bold_color(
             "foobar",
-            &vec![AbsoluteRange { start: 6, end: 10 }],
+            &vec![AbsoluteSpan { start: 6, end: 10 }],
             Color::Black
         ),
         "foobar"
@@ -187,7 +187,7 @@ fn apply_color_overlapping_end() {
     assert_eq!(
         apply_bold_color(
             "foobar",
-            &vec![AbsoluteRange { start: 3, end: 100 }],
+            &vec![AbsoluteSpan { start: 3, end: 100 }],
             Color::Green
         ),
         expected
@@ -263,7 +263,7 @@ pub fn highlight_differences_combined(
 
                 let ranges: Vec<_> = line_ranges
                     .iter()
-                    .map(|lr| AbsoluteRange {
+                    .map(|lr| AbsoluteSpan {
                         start: lr.start_col,
                         end: lr.end_col,
                     })
@@ -284,7 +284,7 @@ pub fn highlight_differences_combined(
 
                 let ranges: Vec<_> = line_ranges
                     .iter()
-                    .map(|lr| AbsoluteRange {
+                    .map(|lr| AbsoluteSpan {
                         start: lr.start_col,
                         end: lr.end_col,
                     })
