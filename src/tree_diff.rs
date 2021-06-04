@@ -1,4 +1,5 @@
 #![allow(clippy::mutable_key_type)] // Hash for Node doesn't use mutable fields.
+#![allow(dead_code)]
 
 use colored::*;
 use diff::{slice, Result::*};
@@ -21,6 +22,15 @@ pub enum ChangeKind<'a> {
     Unchanged(&'a Node<'a>),
     Moved,
     Novel,
+}
+
+impl<'a> ChangeKind<'a> {
+    fn is_novel(&self) -> bool {
+        match self {
+            Novel => true,
+            _ => false,
+        }
+    }
 }
 
 /// A Debug implementation that ignores the corresponding node
@@ -235,6 +245,105 @@ fn cmp_nodes(lhs: &&Node, rhs: &&Node) -> Ordering {
 fn sort_by_size(nodes: &mut Vec<&Node>) {
     nodes.sort_unstable_by(cmp_nodes);
     nodes.reverse();
+}
+
+pub struct MatchedPos {
+    is_novel: bool,
+    pos: AbsoluteRange,
+    prev_pos: Option<AbsoluteRange>,
+    prev_opposite_pos: Option<AbsoluteRange>,
+}
+
+pub fn matched_positions_<'a>(
+    nodes: &[&Node<'a>],
+    prev_unchanged: &mut Option<(AbsoluteRange, AbsoluteRange)>,
+    positions: &mut Vec<MatchedPos>,
+) {
+    for node in nodes {
+        match node {
+            List {
+                change,
+                open_position,
+                children,
+                close_position,
+                ..
+            } => {
+                let change = change.get().expect("Should have changes set in all nodes");
+
+                match change {
+                    Unchanged(opposite_node) => match opposite_node {
+                        List {
+                            open_position: opposite_open_pos,
+                            ..
+                        } => {
+                            *prev_unchanged = Some((*open_position, *opposite_open_pos));
+                        }
+                        Atom { .. } => unreachable!(),
+                    },
+                    Novel | Moved => {
+                        let (prev_pos, prev_opposite_pos) = match prev_unchanged {
+                            Some((p, po)) => (Some(*p), Some(*po)),
+                            None => (None, None),
+                        };
+                        positions.push(MatchedPos {
+                            is_novel: change.is_novel(),
+                            pos: *open_position,
+                            prev_pos,
+                            prev_opposite_pos,
+                        });
+                    }
+                }
+
+                matched_positions_(children, prev_unchanged, positions);
+
+                match change {
+                    Unchanged(opposite_node) => match opposite_node {
+                        List {
+                            close_position: opposite_close_pos,
+                            ..
+                        } => {
+                            *prev_unchanged = Some((*close_position, *opposite_close_pos));
+                        }
+                        Atom { .. } => unreachable!(),
+                    },
+                    Novel | Moved => {
+                        let (prev_pos, prev_opposite_pos) = match prev_unchanged {
+                            Some((p, po)) => (Some(*p), Some(*po)),
+                            None => (None, None),
+                        };
+                        positions.push(MatchedPos {
+                            is_novel: change.is_novel(),
+                            pos: *close_position,
+                            prev_pos,
+                            prev_opposite_pos,
+                        });
+                    }
+                }
+            }
+            Atom {
+                change, position, ..
+            } => {
+                let change = change.get().expect("Should have changes set in all nodes");
+                match change {
+                    Unchanged(_opposite_node) => {
+                        *prev_unchanged = Some((*position, *position));
+                    }
+                    Novel | Moved => {
+                        let (prev_pos, prev_opposite_pos) = match prev_unchanged {
+                            Some((p, po)) => (Some(*p), Some(*po)),
+                            None => (None, None),
+                        };
+                        positions.push(MatchedPos {
+                            is_novel: change.is_novel(),
+                            pos: *position,
+                            prev_pos,
+                            prev_opposite_pos,
+                        });
+                    }
+                }
+            }
+        }
+    }
 }
 
 pub fn change_positions<'a>(nodes: &[&Node<'a>]) -> Vec<(ChangeKind<'a>, AbsoluteRange)> {
