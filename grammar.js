@@ -9,13 +9,14 @@ module.exports = grammar({
     space: ($) => /[ \t]+/,
     newline: ($) => /\n/,
     identifier: ($) => /[A-Za-z_][A-Za-z0-9_]*/,
+    integer: ($) => /[+-]*\d+/,
 
     escape_sequence: ($) => choice($._escape_identity, $._escape_encoded, $._escape_semicolon),
     _escape_identity: ($) => /\\[^A-Za-z0-9;]/,
     _escape_encoded: ($) => choice("\\t", "\\r", "\\n"),
     _escape_semicolon: ($) => ";",
 
-    variable: ($) => repeat1(choice(/[a-zA-Z0-9/_.+-]/, $.escape_sequence)),
+    variable: ($) => prec.left(repeat1(choice(/[a-zA-Z0-9/_.+-]/, $.escape_sequence))),
     variable_ref: ($) => choice($.normal_var, $.env_var, $.cache_var),
     normal_var: ($) => seq("${", $.variable, "}"),
     env_var: ($) => seq("$ENV{", $.variable, "}"),
@@ -29,7 +30,8 @@ module.exports = grammar({
     _bracket_close: ($) => seq("]", repeat("="), "]"),
 
     quoted_argument: ($) => seq('"', optional($.quoted_element), '"'),
-    quoted_element: ($) => repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence, seq("\\", $.newline))),
+    quoted_element: ($) =>
+      repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence, seq("\\", $.newline))),
 
     unquoted_argument: ($) => repeat1(choice($.variable_ref, /[^ ()#\"\\]/, $.escape_sequence)),
 
@@ -42,7 +44,8 @@ module.exports = grammar({
         "foreach",
         repeat($.seperation),
         "(",
-        choice($.foreach_range, $.foreach_lists_items, $.foreach_zip_lists),
+        repeat($.seperation),
+        choice($.foreach_items, $.foreach_range, $.foreach_lists_items, $.foreach_zip_lists),
         ")",
         repeat($.command_invocation),
         repeat($.space),
@@ -52,13 +55,42 @@ module.exports = grammar({
         optional($.variable),
         ")"
       ),
-    foreach_items: ($) => seq("items"),
-    foreach_range: ($) => seq("a"),
+    foreach_items: ($) =>
+      seq(field("loop_var", $.variable), repeat($.seperation), optional($.arguments)),
     foreach_lists_items: ($) => seq("b"),
     foreach_zip_lists: ($) => seq("c"),
 
+    foreach_range: ($) => choice($.foreach_range_stop, $.foreach_range_full),
+    foreach_range_stop: ($) =>
+      seq(
+        field("loop_var", $.variable),
+        repeat1($.seperation),
+        "RANGE",
+        repeat1($.seperation),
+        field("stop", $.integer)
+      ),
+    foreach_range_full: ($) =>
+      seq(
+        field("loop_var", $.variable),
+        repeat1($.seperation),
+        "RANGE",
+        repeat1($.seperation),
+        field("start", $.integer),
+        repeat1($.seperation),
+        field("stop", $.integer),
+        optional(seq(repeat1($.seperation), field("step", $.integer)))
+      ),
+
     normal_command: ($) =>
-      seq(repeat($.space), $.identifier, repeat($.space), "(", repeat($.seperation), optional($.arguments), ")"),
+      seq(
+        repeat($.space),
+        $.identifier,
+        repeat($.space),
+        "(",
+        repeat($.seperation),
+        optional($.arguments),
+        ")"
+      ),
 
     command_invocation: ($) => choice($.normal_command, $.foreach_loop),
   },

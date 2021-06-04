@@ -118,13 +118,24 @@
   {
     "type": "foreach_items",
     "named": true,
-    "fields": {},
+    "fields": {
+      "loop_var": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "argument",
+          "type": "arguments",
           "named": true
         },
         {
@@ -145,7 +156,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "command_invocation",
@@ -185,7 +196,113 @@
   {
     "type": "foreach_range",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "foreach_range_full",
+          "named": true
+        },
+        {
+          "type": "foreach_range_stop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "foreach_range_full",
+    "named": true,
+    "fields": {
+      "loop_var": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "step": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "stop": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "seperation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "foreach_range_stop",
+    "named": true,
+    "fields": {
+      "loop_var": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "stop": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "seperation",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "foreach_zip_lists",
@@ -407,6 +524,10 @@
     "named": false
   },
   {
+    "type": "RANGE",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
@@ -431,10 +552,6 @@
     "named": false
   },
   {
-    "type": "a",
-    "named": false
-  },
-  {
     "type": "b",
     "named": false
   },
@@ -452,6 +569,10 @@
   },
   {
     "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "integer",
     "named": true
   },
   {
