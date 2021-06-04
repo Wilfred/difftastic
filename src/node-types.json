@@ -116,6 +116,25 @@
     "fields": {}
   },
   {
+    "type": "foreach_items",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "seperation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "foreach_lists_items",
     "named": true,
     "fields": {}
@@ -126,10 +145,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "command_invocation",
+          "named": true
+        },
+        {
+          "type": "foreach_items",
           "named": true
         },
         {
@@ -430,10 +453,6 @@
   {
     "type": "identifier",
     "named": true
-  },
-  {
-    "type": "items",
-    "named": false
   },
   {
     "type": "newline",

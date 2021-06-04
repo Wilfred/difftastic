@@ -6,13 +6,15 @@ message([[]])
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-      (argument (bracket_argument))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (bracket_argument))
+   )
   )
-)
+ )
+ )
 
 ==========================
 One empty bracket argument
@@ -22,13 +24,15 @@ message([[An argument]])
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-      (argument (bracket_argument (bracket_content)))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (bracket_argument (bracket_content)))
+   )
   )
-)
+ )
+ )
 
 ====================
 One bracket argument
@@ -38,13 +42,15 @@ message([[An argument]])
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-      (argument (bracket_argument (bracket_content)))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (bracket_argument (bracket_content)))
+   )
   )
-)
+ )
+ )
 
 =====================
 Two bracket arguments
@@ -54,15 +60,17 @@ message([[First argument]] [[Second argument]])
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-      (argument (bracket_argument (bracket_content)))
-      (seperation (space))
-      (argument (bracket_argument (bracket_content)))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (bracket_argument (bracket_content)))
+    (seperation (space))
+    (argument (bracket_argument (bracket_content)))
+   )
   )
-)
+ )
+ )
 
 =====================================
 Two bracket with two equals arguments
@@ -75,17 +83,19 @@ message(
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
+ (command_invocation
+  (normal_command
+   (identifier)
+   (seperation (space))
+   (arguments
+    (argument (bracket_argument (bracket_content)))
     (seperation (space))
-    (arguments
-      (argument (bracket_argument (bracket_content)))
-      (seperation (space))
-      (argument (bracket_argument (bracket_content)))
-      (seperation (line_ending (newline)))
-    )
+    (argument (bracket_argument (bracket_content)))
+    (seperation (line_ending (newline)))
+   )
   )
-)
+ )
+ )
 
 ================================
 Bracket argument with line break
@@ -97,11 +107,13 @@ with line break
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-      (argument (bracket_argument (bracket_content)))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (bracket_argument (bracket_content)))
+   )
   )
-)
+ )
+ )
 

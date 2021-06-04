@@ -6,13 +6,15 @@ message("")
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-     (argument (quoted_argument))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (quoted_argument))
+   )
   )
-)
+ )
+ )
 
 ===================
 One quoted argument
@@ -22,13 +24,15 @@ message("An argument")
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-     (argument (quoted_argument (quoted_element)))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (quoted_argument (quoted_element)))
+   )
   )
-)
+ )
+ )
 
 ====================
 Two quoted arguments
@@ -38,15 +42,17 @@ message("First argument" "Second argument")
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-     (argument (quoted_argument (quoted_element)))
-     (seperation (space))
-     (argument (quoted_argument (quoted_element)))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (quoted_argument (quoted_element)))
+    (seperation (space))
+    (argument (quoted_argument (quoted_element)))
+   )
   )
-)
+ )
+ )
 
 =================================
 A quoted argument with line break
@@ -57,13 +63,15 @@ with line break")
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-     (argument (quoted_argument (quoted_element)))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (quoted_argument (quoted_element)))
+   )
   )
-)
+ )
+ )
 
 ======================
 One variable reference
@@ -73,19 +81,21 @@ message("${var}")
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-     (argument
-      (quoted_argument
-        (quoted_element
-          (variable_ref (normal_var (variable)))
-        )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument
+     (quoted_argument
+      (quoted_element
+       (variable_ref (normal_var (variable)))
       )
      )
     )
+   )
   )
-)
+ )
+ )
 
 =======================
 Two Variable references
@@ -95,17 +105,19 @@ message("${var} ${var}")
 
 ---
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-     (argument
-      (quoted_argument
-        (quoted_element
-         (variable_ref (normal_var (variable)))
-         (variable_ref (normal_var (variable)))
-        )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument
+     (quoted_argument
+      (quoted_element
+       (variable_ref (normal_var (variable)))
+       (variable_ref (normal_var (variable)))
       )
      )
     )
+   )
   )
-)
+ )
+ )

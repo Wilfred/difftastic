@@ -7,13 +7,15 @@ message(STATUS)
 ---
 
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-      (argument (unquoted_argument))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (unquoted_argument))
+   )
   )
-)
+ )
+ )
 
 =====================================
 Command invocation with two arguments
@@ -24,15 +26,17 @@ message(STATUS Hello)
 ---
 
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-      (argument (unquoted_argument))
-      (seperation (space))
-      (argument (unquoted_argument))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument (unquoted_argument))
+    (seperation (space))
+    (argument (unquoted_argument))
+   )
   )
-)
+ )
+ )
 
 ===========================================
 Command invocations with leading seperation
@@ -44,21 +48,25 @@ STATUS)
 ---
 
 (source_file
-  (command_invocation
-    (identifier)
-    (seperation (space))
-    (arguments
-      (argument (unquoted_argument))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (seperation (space))
+   (arguments
+    (argument (unquoted_argument))
+   )
   )
-  (command_invocation
-    (identifier)
-    (seperation (line_ending (newline)))
-    (arguments
-      (argument (unquoted_argument))
-    )
+ )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (seperation (line_ending (newline)))
+   (arguments
+    (argument (unquoted_argument))
+   )
   )
-)
+ )
+ )
 ========================================
 Command invocations with escape sequence
 ========================================
@@ -69,21 +77,25 @@ STATUS)
 ---
 
 (source_file
-  (command_invocation
-    (identifier)
-    (seperation (space))
-    (arguments
-      (argument (unquoted_argument))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (seperation (space))
+   (arguments
+    (argument (unquoted_argument))
+   )
   )
-  (command_invocation
-    (identifier)
-    (seperation (line_ending (newline)))
-    (arguments
-      (argument (unquoted_argument))
-    )
+ )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (seperation (line_ending (newline)))
+   (arguments
+    (argument (unquoted_argument))
+   )
   )
-)
+ )
+ )
 
 ====================
 Variable referencing
@@ -92,15 +104,17 @@ message(${var_ref})
 ---
 
 (source_file
-  (command_invocation
-    (identifier)
-    (arguments
-      (argument
-        (unquoted_argument
-          (variable_ref (normal_var (variable)))
-        )
-      )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (arguments
+    (argument
+     (unquoted_argument
+      (variable_ref (normal_var (variable)))
+     )
     )
+   )
   )
-)
+ )
+ )
 

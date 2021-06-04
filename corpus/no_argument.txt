@@ -7,8 +7,12 @@ message()
 ---
 
 (source_file
-  (command_invocation
-  (identifier)))
+ (command_invocation
+  (normal_command
+   (identifier)
+  )
+ )
+ )
 
 ===============================================
 Command invocation without argument with spaces
@@ -19,11 +23,13 @@ message( )
 ---
 
 (source_file
-  (command_invocation
-    (identifier)
-    (seperation (space))
+ (command_invocation
+  (normal_command
+   (identifier)
+   (seperation (space))
   )
-)
+ )
+ )
 
 ================================================
 Command invocation without argument with newline
@@ -36,11 +42,13 @@ message(
 ---
 
 (source_file
-  (command_invocation
-    (identifier)
-    (seperation
-      (line_ending (newline))
-    )
+ (command_invocation
+  (normal_command
+   (identifier)
+   (seperation
+    (line_ending (newline))
+   )
   )
-)
+ )
+ )
 

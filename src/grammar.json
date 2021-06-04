@@ -400,8 +400,32 @@
           "value": "("
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "seperation"
+          }
+        },
+        {
           "type": "CHOICE",
           "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "arguments"
+                  },
+                  "named": true,
+                  "value": "foreach_items"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
             {
               "type": "SYMBOL",
               "name": "foreach_range"
@@ -464,15 +488,6 @@
         {
           "type": "STRING",
           "value": ")"
-        }
-      ]
-    },
-    "foreach_items": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "items"
         }
       ]
     },
