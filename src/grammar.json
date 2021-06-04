@@ -9936,6 +9936,7 @@
       "function_signature"
     ]
   ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
