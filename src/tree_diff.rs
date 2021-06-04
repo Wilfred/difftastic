@@ -24,15 +24,6 @@ pub enum ChangeKind<'a> {
     Novel,
 }
 
-impl<'a> ChangeKind<'a> {
-    fn is_novel(&self) -> bool {
-        match self {
-            Novel => true,
-            _ => false,
-        }
-    }
-}
-
 /// A Debug implementation that ignores the corresponding node
 /// mentioned for Unchanged. Otherwise we will infinitely loop on
 /// unchanged nodes, which both point to the other.
