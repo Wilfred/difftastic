@@ -236,23 +236,21 @@ for (j.init(i); j.check(); j.update()) {
       (expression_statement
         (identifier)
         (selector
-            (assignable_selector
-                (unconditional_assignable_selector (identifier))
-            )
+          (unconditional_assignable_selector (identifier))
          )
         (selector
-            (assignable_selector
-                (unconditional_assignable_selector (identifier))
-            )
+          (unconditional_assignable_selector (identifier))
         )
         (selector
             (argument_part
                 (arguments
+                  (argument
                     (additive_expression
                         (string_literal)
                         (additive_operator)
                         (identifier)
                     )
+                  )
                 )
             )
         )
@@ -261,31 +259,28 @@ for (j.init(i); j.check(); j.update()) {
   )
   (for_statement
      init: (identifier)
-     init: (selector (assignable_selector (unconditional_assignable_selector (identifier))))
-     init: (selector (argument_part (arguments (identifier))))
+     init: (selector (unconditional_assignable_selector (identifier)))
+     init: (selector (argument_part (arguments (argument (identifier)))))
     condition: (identifier)
-    condition: (selector (assignable_selector (unconditional_assignable_selector (identifier))))
+    condition: (selector (unconditional_assignable_selector (identifier)))
     condition: (selector (argument_part (arguments)))
     update: (identifier)
-    update: (selector (assignable_selector (unconditional_assignable_selector (identifier))))
+    update: (selector (unconditional_assignable_selector (identifier)))
     update: (selector (argument_part (arguments)))
     body: (block
       (expression_statement
         (identifier)
+        (selector    
+          (unconditional_assignable_selector (identifier))
+        )
         (selector
-            (assignable_selector
-                (unconditional_assignable_selector (identifier))
-            )
-         )
-        (selector
-            (assignable_selector
-                (unconditional_assignable_selector (identifier))
-            )
+          (unconditional_assignable_selector (identifier))
         )
         (selector
             (argument_part
                 (arguments
-                    (identifier)
+                  (argument
+                    (identifier))
                 )
             )
         )
@@ -310,7 +305,7 @@ for (A b in c) {
     (identifier)
     (identifier)
     (block
-      (expression_statement (identifier) (selector (argument_part (arguments (identifier))))))))
+      (expression_statement (identifier) (selector (argument_part (arguments (argument (identifier)))))))))
 
 
 ================================
@@ -326,10 +321,10 @@ void main() async {
 (program (function_signature (void_type) (identifier) (formal_parameter_list)) 
   (function_body (block 
     (local_variable_declaration (initialized_variable_definition (final_builtin) (identifier) (unary_expression 
-      (await_expression (identifier) (selector (assignable_selector (unconditional_assignable_selector (identifier)))) 
-        (selector (argument_part (arguments 
+      (await_expression (identifier) (selector (unconditional_assignable_selector (identifier))) 
+        (selector (argument_part (arguments (argument
           (const_object_expression (const_builtin) (type_identifier) 
-            (arguments (named_argument (label (identifier)) (decimal_integer_literal))))))))))))))
+            (arguments (named_argument (label (identifier)) (decimal_integer_literal)))))))))))))))
 
 ================================
 unary negation expression
@@ -377,7 +372,7 @@ if (data['frame_count'] as int < 5) {
             (relational_expression
                 (type_cast_expression
                     (identifier) (selector
-                                    (assignable_selector (unconditional_assignable_selector (string_literal)))
+                                    (unconditional_assignable_selector (string_literal))
                                  )
                                  (type_cast (as_operator) (type_identifier))
                 )
@@ -407,7 +402,7 @@ if ((data['frame_count'] as int) < 5) {
             (relational_expression
                 (type_cast_expression
                     (identifier) (selector
-                                    (assignable_selector (unconditional_assignable_selector (string_literal)))
+                                    (unconditional_assignable_selector (string_literal))
                                  )
                                  (type_cast (as_operator) (type_identifier))
                 )
@@ -431,12 +426,8 @@ my!.size = 1;
     (expression_statement
         (assignment_expression
             (assignable_expression (identifier)
-                (assignable_selector_part
-                    (selector)
-                    (assignable_selector
-                        (unconditional_assignable_selector (identifier))
-                    )
-                )
+              (selector)
+              (unconditional_assignable_selector (identifier))
             )
             (decimal_integer_literal)
         )
@@ -453,15 +444,11 @@ my!.size += 1;
 (program
     (expression_statement
         (assignment_expression
-            (assignable_expression (identifier)
-                (assignable_selector_part
-                    (selector)
-                    (assignable_selector
-                        (unconditional_assignable_selector (identifier))
-                    )
-                )
-            )
-            (decimal_integer_literal)
+          (assignable_expression (identifier)  
+            (selector)
+            (unconditional_assignable_selector (identifier))
+          )
+          (decimal_integer_literal)
         )
     )
 )
@@ -478,8 +465,8 @@ my.size!.run();
 (program
     (expression_statement (identifier)
         (selector
-            (assignable_selector (unconditional_assignable_selector (identifier)))) (selector)
-        (selector (assignable_selector (unconditional_assignable_selector (identifier))))
+            (unconditional_assignable_selector (identifier))) (selector)
+        (selector (unconditional_assignable_selector (identifier)))
         (selector (argument_part (arguments))))
     )
 
@@ -495,15 +482,9 @@ my.size.whatever = 1;
     (expression_statement
         (assignment_expression
             (assignable_expression (identifier)
-                (assignable_selector_part
-                    (selector
-                        (assignable_selector
-                            (unconditional_assignable_selector (identifier)))
-                    )
-                    (assignable_selector
-                        (unconditional_assignable_selector  (identifier))
-                    )
-                )
+              (selector
+                (unconditional_assignable_selector (identifier)))
+              (unconditional_assignable_selector  (identifier))
             )
             (decimal_integer_literal)
         )
@@ -526,14 +507,16 @@ printStream(args['json'] as bool ? '' : 'hi');
         (selector
             (argument_part
                 (arguments
+                  (argument
                     (conditional_expression
                         (type_cast_expression (identifier)
-                            (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                            (selector (unconditional_assignable_selector (string_literal)))
                             (type_cast (as_operator) (type_identifier))
                         )
                         (string_literal)
                         (string_literal)
                     )
+                  )
                 )
             )
         )
@@ -554,14 +537,16 @@ printStream((args['json'] as bool) ? '' : 'hi');
         (selector
             (argument_part
                 (arguments
+                  (argument
                     (conditional_expression
                         (type_cast_expression (identifier)
-                            (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                            (selector (unconditional_assignable_selector (string_literal)))
                             (type_cast (as_operator) (type_identifier))
                         )
                         (string_literal)
                         (string_literal)
                     )
+                  )
                 )
             )
         )
@@ -589,14 +574,14 @@ a as BigB | b as BigB;
     (expression_statement
         (relational_expression
             (type_cast_expression (identifier)
-                (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                (selector (unconditional_assignable_selector (string_literal)))
                 (type_cast (as_operator) (type_identifier)))
             (relational_operator)
             (identifier)))
     (expression_statement
         (relational_expression (identifier) (relational_operator)
             (type_cast_expression (identifier)
-                (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                (selector (unconditional_assignable_selector (string_literal)))
                     (type_cast (as_operator) (type_identifier)))))
     (expression_statement (equality_expression (identifier) (equality_operator) (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier)))))
     (expression_statement (relational_expression (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))) (relational_operator) (identifier)))
@@ -608,7 +593,7 @@ a as BigB | b as BigB;
         (parenthesized_expression
             (relational_expression
                 (type_cast_expression (identifier)
-                        (selector (assignable_selector (unconditional_assignable_selector (string_literal))))
+                        (selector (unconditional_assignable_selector (string_literal)))
                         (type_cast (as_operator) (type_identifier)))
                 (relational_operator)
                 (type_cast_expression (identifier) (type_cast (as_operator) (type_identifier))))) (block))
@@ -629,4 +614,4 @@ parameters?["charset"];
 
 (program 
   (expression_statement (identifier) 
-    (selector (assignable_selector (unconditional_assignable_selector (string_literal))))))
+    (selector (unconditional_assignable_selector (string_literal)))))

@@ -300,31 +300,12 @@
     }
   },
   {
-    "type": "argument_part",
+    "type": "argument",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
-      "types": [
-        {
-          "type": "arguments",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "arguments",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
       "types": [
         {
           "type": "_literal",
@@ -391,10 +372,6 @@
           "named": true
         },
         {
-          "type": "named_argument",
-          "named": true
-        },
-        {
           "type": "new_expression",
           "named": true
         },
@@ -440,6 +417,44 @@
         },
         {
           "type": "unconditional_assignable_selector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "argument_part",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arguments",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "named_argument",
           "named": true
         }
       ]
@@ -605,10 +620,6 @@
           "named": true
         },
         {
-          "type": "assignable_selector_part",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -626,6 +637,10 @@
         },
         {
           "type": "cascade_section",
+          "named": true
+        },
+        {
+          "type": "conditional_assignable_selector",
           "named": true
         },
         {
@@ -720,44 +735,6 @@
     }
   },
   {
-    "type": "assignable_selector",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "unconditional_assignable_selector",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "assignable_selector_part",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignable_selector",
-          "named": true
-        },
-        {
-          "type": "selector",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "assignment_expression",
     "named": true,
     "fields": {
@@ -772,7 +749,7 @@
         ]
       },
       "operator": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -826,7 +803,7 @@
         ]
       },
       "right": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -968,7 +945,7 @@
         ]
       },
       "operator": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1022,7 +999,7 @@
         ]
       },
       "right": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1736,10 +1713,6 @@
           "named": true
         },
         {
-          "type": "assignable_selector",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -1765,6 +1738,10 @@
         },
         {
           "type": "cascade_selector",
+          "named": true
+        },
+        {
+          "type": "conditional_assignable_selector",
           "named": true
         },
         {
@@ -2117,11 +2094,26 @@
     }
   },
   {
+    "type": "conditional_assignable_selector",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "conditional_expression",
     "named": true,
     "fields": {
       "alternative": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -2255,7 +2247,7 @@
         ]
       },
       "consequence": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -3114,7 +3106,7 @@
         ]
       },
       "object": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -3424,7 +3416,7 @@
         ]
       },
       "class": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -3646,7 +3638,7 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -3788,7 +3780,7 @@
         ]
       },
       "condition": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -4180,7 +4172,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -4368,7 +4360,7 @@
         ]
       },
       "condition": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -4760,7 +4752,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -5168,7 +5160,7 @@
         ]
       },
       "parameters": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -5443,7 +5435,7 @@
     "named": true,
     "fields": {
       "alternative": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -5595,7 +5587,7 @@
         ]
       },
       "consequence": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -5743,7 +5735,7 @@
     "named": true,
     "fields": {
       "first": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -5870,7 +5862,7 @@
       },
       "second": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "(",
@@ -6236,7 +6228,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -7605,7 +7597,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "_literal",
@@ -7765,7 +7757,7 @@
     "named": true,
     "fields": {
       "key": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -7891,7 +7883,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -8766,7 +8758,11 @@
           "named": true
         },
         {
-          "type": "assignable_selector",
+          "type": "conditional_assignable_selector",
+          "named": true
+        },
+        {
+          "type": "unconditional_assignable_selector",
           "named": true
         }
       ]
@@ -11320,10 +11316,6 @@
     "named": false
   },
   {
-    "type": "comment",
-    "named": true
-  },
-  {
     "type": "const_builtin",
     "named": true
   },
@@ -11354,10 +11346,6 @@
   {
     "type": "do",
     "named": false
-  },
-  {
-    "type": "documentation_comment",
-    "named": true
   },
   {
     "type": "dynamic",

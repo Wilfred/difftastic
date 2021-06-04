@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   (library_import (import_specification (configurable_uri (uri (string_literal)))))) 
 (function_signature (void_type) (identifier) (formal_parameter_list)) 
   (function_body (block (expression_statement (identifier) (selector (argument_part 
-  (arguments (identifier) (selector (argument_part (arguments))))))))) 
+  (arguments (argument (identifier) (selector (argument_part (arguments)))))))))) 
 (class_definition (identifier) (superclass (type_identifier)) 
   (class_body 
     (declaration (constant_constructor_signature (const_builtin) (qualified (identifier)) 
@@ -91,21 +91,22 @@ class CatalogThumbnailUI extends StatelessWidget {
                 (block (comment)
                     (local_variable_declaration
                         (initialized_variable_definition (inferred_type) (identifier) (identifier)
-                            (selector (assignable_selector (unconditional_assignable_selector (identifier))))
-                            (selector (assignable_selector (unconditional_assignable_selector (identifier))))))
+                            (selector (unconditional_assignable_selector (identifier)))
+                            (selector (unconditional_assignable_selector (identifier)))))
                     (local_variable_declaration
                         (initialized_variable_definition (inferred_type) (identifier) (identifier)
-                            (selector (assignable_selector (unconditional_assignable_selector (identifier))))
-                            (selector (assignable_selector (unconditional_assignable_selector (identifier))))
-                            (selector (argument_part (arguments (decimal_integer_literal) (identifier)
-                                (selector (assignable_selector (unconditional_assignable_selector (identifier))))
-                                (selector (assignable_selector (unconditional_assignable_selector (identifier)))))))))
+                            (selector (unconditional_assignable_selector (identifier)))
+                            (selector (unconditional_assignable_selector (identifier)))
+                            (selector (argument_part (arguments (argument (decimal_integer_literal)) (argument (identifier)
+                                (selector (unconditional_assignable_selector (identifier)))
+                                (selector (unconditional_assignable_selector (identifier)))))))))
                     (local_variable_declaration
                         (initialized_variable_definition (inferred_type) (identifier) (identifier)
-                            (selector (assignable_selector (unconditional_assignable_selector (identifier))))
+                            (selector (unconditional_assignable_selector (identifier)))
                             (selector
                                 (argument_part
                                     (arguments
+                                      (argument
                                         (function_expression
                                             (formal_parameter_list (formal_parameter (identifier)))
                                             (function_expression_body (identifier)
@@ -125,42 +126,36 @@ class CatalogThumbnailUI extends StatelessWidget {
                                                                                         (identifier)
                                                                                         (selector
                                                                                             (argument_part
-                                                                                                (arguments (identifier)
+                                                                                                (arguments (argument (identifier)
                                                                                                     (selector
-                                                                                                        (assignable_selector
-                                                                                                            (unconditional_assignable_selector
-                                                                                                            (identifier))))
+                                                                                                      (unconditional_assignable_selector
+                                                                                                      (identifier)))
                                                                                                     (selector
-                                                                                                        (assignable_selector
-                                                                                                            (unconditional_assignable_selector
-                                                                                                            (identifier))))
+                                                                                                      (unconditional_assignable_selector
+                                                                                                      (identifier)))
                                                                                                     (selector
                                                                                                         (argument_part
-                                                                                                            (arguments (identifier)
+                                                                                                            (arguments (argument (identifier)
                                                                                                                 (selector
-                                                                                                                    (assignable_selector
-                                                                                                                        (unconditional_assignable_selector (identifier))))
-                                                                                                                (selector (argument_part (arguments))))))
+                                                                                                                  (unconditional_assignable_selector (identifier)))
+                                                                                                                (selector (argument_part (arguments)))))))
                                                                                                     (selector
-                                                                                                        (assignable_selector
-                                                                                                            (unconditional_assignable_selector (identifier))))
+                                                                                                            (unconditional_assignable_selector (identifier)))
                                                                                                     (selector
-                                                                                                        (assignable_selector
-                                                                                                            (unconditional_assignable_selector (identifier))))
-                                                                                                    (selector (argument_part (arguments))))))
+                                                                                                            (unconditional_assignable_selector (identifier)))
+                                                                                                    (selector (argument_part (arguments)))))))
                                                                                         (identifier)
                                                                                         (selector
                                                                                             (argument_part
-                                                                                                (arguments (identifier)
+                                                                                                (arguments (argument (identifier)
                                                                                                     (selector
-                                                                                                        (assignable_selector
                                                                                                             (unconditional_assignable_selector (identifier)))))))
                                                                                         (identifier)
                                                                                         (selector
                                                                                             (argument_part
-                                                                                                (arguments
-                                                                                                    (string_literal))))
-                                                                                    )))))))))))))))))
+                                                                                                (arguments (argument 
+                                                                                                    (string_literal)))))
+                                                                                    ))))))))))))))))))
                     (return_statement
                         (identifier)
                         (selector
@@ -182,7 +177,7 @@ class CatalogThumbnailUI extends StatelessWidget {
                                                                     (named_argument (label (identifier))
                                                                     (identifier)
                                                                     (selector
-                                                                        (argument_part (arguments (identifier) (true))))))))
+                                                                        (argument_part (arguments (argument (identifier)) (argument (true)))))))))
                                                         (spread_element (identifier))))))))))))
                     )))))
 
@@ -218,8 +213,8 @@ class AWidget extends StatelessWidget {
               (list_literal (const_builtin) (identifier) 
                 (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
                   (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
-                  (selector (assignable_selector (unconditional_assignable_selector (identifier)))))))))))) (identifier) 
+                  (selector (unconditional_assignable_selector (identifier))))))))))) (identifier) 
                 (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
                   (selector (argument_part (arguments (named_argument (label (identifier)) (identifier) 
-                  (selector (assignable_selector (unconditional_assignable_selector (identifier)))))))))))))))))))))))
+                  (selector (unconditional_assignable_selector (identifier))))))))))))))))))))))
 

@@ -46,22 +46,18 @@ class WhileDemo {
                 (expression_statement
                     (identifier)
                     (selector
-                      (assignable_selector
-                          (unconditional_assignable_selector (identifier))
-                      )
+                      (unconditional_assignable_selector (identifier))
                     )
                     (selector
-                      (assignable_selector
-                          (unconditional_assignable_selector (identifier))
-                      )
+                      (unconditional_assignable_selector (identifier))
                     )
                     (selector
                       (argument_part (arguments
-                        (additive_expression
+                        (argument (additive_expression
                             (string_literal)
                             (additive_operator)
                             (identifier)
-                        )
+                        ))
                       ))
                     )
                 )
@@ -108,9 +104,7 @@ var a;
                       value: (identifier)
                       value:
                             (selector
-                                (assignable_selector
-                                    (unconditional_assignable_selector (identifier))
-                                )
+                              (unconditional_assignable_selector (identifier))
                             )
                       value:
                       (selector
@@ -155,7 +149,7 @@ return fire(x);
   (return_statement (identifier))
   (return_statement (multiplicative_expression (identifier) (multiplicative_operator) (identifier)))
   (return_statement (additive_expression (identifier) (additive_operator) (decimal_integer_literal)))
-  (return_statement (identifier) (selector (argument_part (arguments (identifier))))))
+  (return_statement (identifier) (selector (argument_part (arguments (argument (identifier)))))))
 
 ==================================
 annotation
@@ -172,11 +166,11 @@ class Duck {
 (program
   (annotation
     (identifier)
-        (arguments (assignment_expression (assignable_expression (identifier)) (string_literal)))
+        (arguments (argument (assignment_expression (assignable_expression (identifier)) (string_literal))))
     )
   (annotation
     (identifier)
-        (arguments (assignment_expression (assignable_expression (identifier)) (true)))
+        (arguments (argument (assignment_expression (assignable_expression (identifier)) (true))))
     )
     (class_definition
     (identifier)
@@ -228,9 +222,9 @@ class Quack {
 
 (program
   (annotation (identifier)
-  (arguments (identifier) (selector (assignable_selector (unconditional_assignable_selector (identifier)))))
+  (arguments (argument (identifier) (selector (unconditional_assignable_selector (identifier)))))
   )
-  (annotation (identifier) (arguments (string_literal)))
+  (annotation (identifier) (arguments (argument (string_literal))))
     (class_definition
     (identifier)
     (class_body)))
@@ -366,17 +360,13 @@ class SwitchDemo {
           (expression_statement
               (identifier)
               (selector
-                (assignable_selector
-                    (unconditional_assignable_selector (identifier))
-                )
+                (unconditional_assignable_selector (identifier))
               )
               (selector
-                (assignable_selector
-                    (unconditional_assignable_selector (identifier))
-                )
+                (unconditional_assignable_selector (identifier))
               )
               (selector
-                (argument_part (arguments (identifier)))
+                (argument_part (arguments (argument (identifier))))
               )
           )
         )
@@ -480,9 +470,7 @@ class someClass <T> {
                   (identifier)
                     (identifier)
                     (selector
-                        (assignable_selector
-                            (unconditional_assignable_selector (identifier))
-                        )
+                      (unconditional_assignable_selector (identifier))
                     )
                     (selector
                         (argument_part
@@ -502,7 +490,7 @@ class someClass <T> {
                                 (type_identifier)
                                 (type_identifier)
                             )
-                            (arguments (identifier))
+                            (arguments (argument (identifier)))
                         )
                     )
               )
@@ -526,11 +514,9 @@ class someClass <T> {
                     (identifier)
                     (identifier)
                     (selector
-                        (assignable_selector
-                            (unconditional_assignable_selector
-                                (identifier)
-                            )
-                        )
+                      (unconditional_assignable_selector
+                          (identifier)
+                      )
                     )
                     (selector
                         (argument_part

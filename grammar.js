@@ -127,9 +127,9 @@ module.exports = grammar({
         [$.library_name, $.dotted_identifier_list],
         [$._top_level_definition, $.inferred_type],
         [$._final_const_var_or_type, $._top_level_definition, $.function_signature],
-        [$.assignable_selector_part, $.selector],
-        [$.assignable_selector_part, $._postfix_expression],
-        [$.assignable_selector_part, $.postfix_expression],
+        [$._assignable_selector_part, $.selector],
+        [$._assignable_selector_part, $._postfix_expression],
+        [$._assignable_selector_part, $.postfix_expression],
         [$._primary, $.assignable_expression],
         [$._simple_formal_parameter, $.assignable_expression],
         // [$._type_name, $._primary, $.assignable_expression],
@@ -629,14 +629,14 @@ module.exports = grammar({
         )),
 
         assignable_expression: $ => choice(
-            seq($._primary, $.assignable_selector_part), // dart issue?
+            seq($._primary, $._assignable_selector_part), // dart issue?
             seq($.super, $.unconditional_assignable_selector),
-            seq($.constructor_invocation, $.assignable_selector_part),
+            seq($.constructor_invocation, $._assignable_selector_part),
             $.identifier
         ),
-        assignable_selector_part: $ => seq(
+        _assignable_selector_part: $ => seq(
             repeat($.selector),
-            $.assignable_selector
+            $._assignable_selector
         ),
         //'+=', '-=', '*=', '/=', '&=', '|=', '^=', '%=', '<<=', '>>=', '>>>=', '??='
         //todo: use the op names in place of these.
@@ -962,7 +962,7 @@ module.exports = grammar({
         selector: $ => choice(
             // '!',
             $._exclamation_operator,
-            $.assignable_selector,
+            $._assignable_selector,
             $.argument_part
         ),
 
@@ -1072,7 +1072,7 @@ module.exports = grammar({
 
         _argument_list: $ => choice(
             commaSep1($.named_argument),
-            seq(commaSep1($._expression),
+            seq(commaSep1($.argument),
                 repeat(
                     seq(
                         ',',
@@ -1081,6 +1081,8 @@ module.exports = grammar({
                 )
             )
         ),
+
+        argument: $ => $._expression,
 
         named_argument: $ => seq($.label, $._expression),
 
@@ -1103,7 +1105,7 @@ module.exports = grammar({
         // DART_PREC.Cascade,
         // ),
         _cascade_subsection: $ => seq(
-            $.assignable_selector,
+            $._assignable_selector,
             repeat($.argument_part)
         ),
         _cascade_assignment_section: $ => seq(
@@ -1130,9 +1132,11 @@ module.exports = grammar({
             seq('.', $.identifier)
         ),
 
-        assignable_selector: $ => choice(
+        conditional_assignable_selector: $ => seq('?.', $.identifier),
+
+        _assignable_selector: $ => choice(
             $.unconditional_assignable_selector,
-            seq('?.', $.identifier)
+            $.conditional_assignable_selector
         ),
 
         type_arguments: $ => choice( // was prec.right
