@@ -8082,6 +8082,14 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "call_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "method_invocation"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "_expression"
                 }
               ]
@@ -8096,20 +8104,14 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "arrow_operator"
+                      "type": "STRING",
+                      "value": "->["
                     },
                     {
-                      "type": "BLANK"
+                      "type": "STRING",
+                      "value": "["
                     }
                   ]
-                },
-                {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "["
-                  }
                 },
                 {
                   "type": "FIELD",
@@ -8155,6 +8157,14 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "call_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "method_invocation"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "_expression"
                 }
               ]
@@ -8169,20 +8179,14 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "arrow_operator"
+                      "type": "STRING",
+                      "value": "->{"
                     },
                     {
-                      "type": "BLANK"
+                      "type": "STRING",
+                      "value": "{"
                     }
                   ]
-                },
-                {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "{"
-                  }
                 },
                 {
                   "type": "FIELD",
@@ -9071,6 +9075,10 @@
     [
       "variable_declarator",
       "function_signature"
+    ],
+    [
+      "array_access_variable",
+      "array_ref"
     ]
   ],
   "precedences": [],
