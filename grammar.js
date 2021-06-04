@@ -699,7 +699,7 @@ module.exports = grammar({
 
       $._i_o_operator,
 
-      $.arrow_notation,
+      // $.arrow_notation,
 
       $.type_glob,
 
@@ -1501,21 +1501,41 @@ module.exports = grammar({
     ),
 
     array_access_variable: $ => prec(PRECEDENCE.ARRAY, seq(
-      field('array_variable', $._expression),
-      '[',
-      field('index', $._expression),
-      ']'
+      field('array_variable', choice(
+        $.scalar_variable,
+        $.array_access_variable,
+        $.hash_access_variable,
+        $._expression,
+      )),
+      repeat1(
+        seq(
+          optional($.arrow_operator),
+          token.immediate('['),
+          field('index', $._expression),
+          ']',
+        )
+      ),
     )),
 
     hash_access_variable: $ => prec(PRECEDENCE.HASH, seq(
-      field('hash_variable', $._expression),
-      token.immediate('{'),
-      field('key', choice(
-        alias($.identifier, $.bareword),
-        alias($.key_words_in_hash_key, $.bareword),
-        $._expression_without_call_expression, // TODO: should accept call_expression also. But currently bareword is treated as call_expression without brackets
-      )), 
-      '}',
+      field('hash_variable', choice(
+        $.scalar_variable,
+        $.array_access_variable,
+        $.hash_access_variable,
+        $._expression,
+      )),
+      repeat1(
+        seq(
+          optional($.arrow_operator),
+          token.immediate('{'),
+          field('key', choice(
+            alias($.identifier, $.bareword),
+            alias($.key_words_in_hash_key, $.bareword),
+            $._expression_without_call_expression, // TODO: should accept call_expression also. But currently bareword is treated as call_expression without brackets
+          )),
+          '}',
+        )
+      ),
     )),
 
     array_variable: $ => /@[a-zA-Z0-9_]+/,
