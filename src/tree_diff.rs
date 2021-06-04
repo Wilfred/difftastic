@@ -254,7 +254,14 @@ pub struct MatchedPos {
     prev_opposite_pos: Option<AbsoluteRange>,
 }
 
-pub fn matched_positions_<'a>(
+fn matched_positions<'a>(nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
+    let mut positions = Vec::new();
+    let mut prev_unchanged = None;
+    matched_positions_(nodes, &mut prev_unchanged, &mut positions);
+    positions
+}
+
+fn matched_positions_<'a>(
     nodes: &[&Node<'a>],
     prev_unchanged: &mut Option<(AbsoluteRange, AbsoluteRange)>,
     positions: &mut Vec<MatchedPos>,
