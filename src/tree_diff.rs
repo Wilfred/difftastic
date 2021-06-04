@@ -348,8 +348,16 @@ fn matched_positions_<'a>(
             } => {
                 let change = change.get().expect("Should have changes set in all nodes");
                 match change {
-                    Unchanged(_opposite_node) => {
-                        *prev_unchanged = Some((*position, *position));
+                    Unchanged(opposite_node) => {
+                        match opposite_node {
+                            List { .. } => unreachable!(),
+                            Atom {
+                                position: opposite_position,
+                                ..
+                            } => {
+                                *prev_unchanged = Some((*position, *opposite_position));
+                            }
+                        }
                     }
                     Novel | Moved => {
                         let (prev_pos, prev_opposite_pos) = match prev_unchanged {
