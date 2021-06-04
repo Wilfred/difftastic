@@ -247,8 +247,24 @@ fn sort_by_size(nodes: &mut Vec<&Node>) {
     nodes.reverse();
 }
 
+pub enum MatchKind {
+    Unchanged,
+    Moved,
+    Novel,
+}
+
+impl MatchKind {
+    fn from_change<'a>(ck: ChangeKind<'a>) -> Self {
+        match ck {
+            Unchanged(_) => MatchKind::Unchanged,
+            Moved => MatchKind::Moved,
+            Novel => MatchKind::Novel,
+        }
+    }
+}
+
 pub struct MatchedPos {
-    is_novel: bool,
+    kind: MatchKind,
     pos: AbsoluteRange,
     prev_pos: Option<AbsoluteRange>,
     prev_opposite_pos: Option<AbsoluteRange>,
@@ -293,7 +309,7 @@ fn matched_positions_<'a>(
                             None => (None, None),
                         };
                         positions.push(MatchedPos {
-                            is_novel: change.is_novel(),
+                            kind: MatchKind::from_change(change),
                             pos: *open_position,
                             prev_pos,
                             prev_opposite_pos,
@@ -319,7 +335,7 @@ fn matched_positions_<'a>(
                             None => (None, None),
                         };
                         positions.push(MatchedPos {
-                            is_novel: change.is_novel(),
+                            kind: MatchKind::from_change(change),
                             pos: *close_position,
                             prev_pos,
                             prev_opposite_pos,
@@ -341,7 +357,7 @@ fn matched_positions_<'a>(
                             None => (None, None),
                         };
                         positions.push(MatchedPos {
-                            is_novel: change.is_novel(),
+                            kind: MatchKind::from_change(change),
                             pos: *position,
                             prev_pos,
                             prev_opposite_pos,
