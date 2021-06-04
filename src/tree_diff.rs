@@ -139,10 +139,23 @@ impl<'a> Node<'a> {
 
     fn set_change_deep(&self, ck: ChangeKind<'a>) {
         self.set_change(ck);
+
         if let List { children, .. } = self {
-            for child in children {
-                child.set_change_deep(ck);
-            }
+            // For unchanged lists, match up children with the
+            // unchanged children on the other side.
+            if let Unchanged(List {
+                children: other_children,
+                ..
+            }) = ck
+            {
+                for (child, other_child) in children.iter().zip(other_children) {
+                    child.set_change_deep(Unchanged(other_child));
+                }
+            } else {
+                for child in children {
+                    child.set_change_deep(ck);
+                }
+            };
         }
     }
 }

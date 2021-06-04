@@ -755,6 +755,39 @@ mod tests {
         assert_syntaxes(&rhs, &expected_rhs);
     }
 
+    #[test]
+    fn test_equal_list() {
+        let arena = Arena::new();
+
+        let lhs = parse(&arena, "[a]", &lang());
+        let rhs = parse(&arena, "[a]", &lang());
+
+        set_changed(&lhs, &rhs);
+
+        let lhs_atom = match lhs[0] {
+            List { children, .. } => children[0],
+            Atom { .. } => unreachable!(),
+        };
+
+        let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
+            change: Cell::new(Some(Unchanged(lhs[0]))),
+            open_position: AbsoluteRange { start: 0, end: 1 },
+            open_delimiter: "[".into(),
+            close_position: AbsoluteRange { start: 2, end: 3 },
+            close_delimiter: "]".into(),
+            children: vec![
+                arena.alloc(Atom {
+                    position: AbsoluteRange { start: 1, end: 2 },
+                    change: Cell::new(Some(Unchanged(lhs_atom))),
+                    content: "a".into(),
+                    kind: AtomKind::Other,
+                }),
+            ],
+            num_descendants: 1,
+        })];
+        assert_syntaxes(&rhs, &expected_rhs);
+    }
+
     /// Moving a subtree should consume its children, so further uses
     /// of children of that subtree is not a move.
     ///
