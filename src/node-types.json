@@ -900,16 +900,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "arrow_operator",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -6591,16 +6581,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "arrow_operator",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -14599,6 +14579,14 @@
   },
   {
     "type": "->",
+    "named": false
+  },
+  {
+    "type": "->[",
+    "named": false
+  },
+  {
+    "type": "->{",
     "named": false
   },
   {

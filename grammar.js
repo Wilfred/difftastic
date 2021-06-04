@@ -86,6 +86,7 @@ module.exports = grammar({
     [$.variable_declarator, $._variables],
     [$.loop_control_statement],
     [$.variable_declarator, $.function_signature],
+    [$.array_access_variable, $.array_ref],
   ],
 
   externals: $ => [
@@ -1193,19 +1194,21 @@ module.exports = grammar({
         field('object', $.scalar_variable),
         field('object_return_value', $.call_expression),
       ),
-      prec.right(repeat1(seq(
-        $.arrow_operator,
-        choice(
-          seq(
-            optional(seq($.super, token.immediate('::'))),
-            field('function_name', $.identifier)
+      prec.right(repeat1(
+        seq(
+          $.arrow_operator,
+          choice(
+            seq(
+              optional(seq($.super, token.immediate('::'))),
+              field('function_name', $.identifier)
+            ),
+            $.scalar_variable,
+            $.scalar_reference,
           ),
-          $.scalar_variable,
-          $.scalar_reference,
+          optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument))), // TODO: make this optional and fix errors
         ),
-        optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument))), // TODO: make this optional and fix errors
-      ))),
-    )),
+      ),
+    ))),
 
     empty_parenthesized_argument: $ => prec(PRECEDENCE.SUB_ARGS, seq('(', ')')),
 
@@ -1505,12 +1508,16 @@ module.exports = grammar({
         $.scalar_variable,
         $.array_access_variable,
         $.hash_access_variable,
+        $.call_expression,
+        $.method_invocation,
         $._expression,
       )),
       repeat1(
         seq(
-          optional($.arrow_operator),
-          token.immediate('['),
+          choice(
+            '->[',
+            '['
+          ),
           field('index', $._expression),
           ']',
         )
@@ -1522,12 +1529,16 @@ module.exports = grammar({
         $.scalar_variable,
         $.array_access_variable,
         $.hash_access_variable,
+        $.call_expression,
+        $.method_invocation,
         $._expression,
       )),
       repeat1(
         seq(
-          optional($.arrow_operator),
-          token.immediate('{'),
+          choice(
+            '->{',
+            '{',
+          ),
           field('key', choice(
             alias($.identifier, $.bareword),
             alias($.key_words_in_hash_key, $.bareword),
