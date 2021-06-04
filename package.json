@@ -1,7 +1,7 @@
 {
   "name": "tree-sitter-sql",
   "version": "0.1.0",
-  "description": "SQL grammar from tree-sitter",
+  "description": "SQL grammar fom tree-sitter",
   "main": "bindings/node",
   "scripts": {
     "test": "tree-sitter generate && tree-sitter test",
@@ -11,9 +11,15 @@
   },
   "keywords": [
     "parser",
-    "lexer"
+    "lexer",
+    "sql"
   ],
-  "author": "Maksim Novikov",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/m-novikov/tree-sitter-sql"
+  },
+  "author": "Maksim Novikov <mnovikov.work@gmail.com>",
+  "repository": "https://github.com/m-novikov/tree-sitter-sql",
   "license": "MIT",
   "dependencies": {
     "nan": "^2.14.2"
@@ -21,5 +27,13 @@
   "devDependencies": {
     "prettier": "2.3.0",
     "tree-sitter-cli": "^0.19.5"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.sql",
+      "file-types": [
+        "sql"
+      ]
+    }
+  ]
 }

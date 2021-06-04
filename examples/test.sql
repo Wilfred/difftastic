@@ -1,0 +1,4 @@
+SELECT 1 + 2, NULL, col1::INT, a <> b, TRUE, false WHERE a = b;
+CREATE TABLE foo(a TEXT DEFAULT 'foo');
+CREATE TYPE foo(a TEXT);
+CREATE DOMAIN foo AS TEXT;
