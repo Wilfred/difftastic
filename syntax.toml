@@ -1,0 +1,42 @@
+[javascript]
+extensions = ["js"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+  # Symbols (e.g. variable names)
+  '[.a-zA-Z0-9_]+',
+  # Operators
+  '[=<>/*+-]+',
+]
+string_patterns = [
+  # Double-quoted strings
+  '"[^"]*"',
+  # Single quoted strings
+  "'[^']*'",
+]
+comment_patterns = [
+  # Single line comments
+  '//.*(\n|$)',
+  # Mult-line comments
+  '/\*(?s:.)*?\*/',
+]
+open_delimiter_pattern = '(\[|\{|\()'
+close_delimiter_pattern = '(\]|\}|\))'
+
+[elisp]
+extensions = ["el"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+  # Symbols (e.g. variable names)
+  '[a-zA-Z0-9_-]+',
+]
+string_patterns = [
+  # String literals
+  '"[^"]*"',
+]
+comment_patterns = [
+  ';.*',
+]
+open_delimiter_pattern = '(\[|\{|\()'
+close_delimiter_pattern = '(\]|\}|\))'

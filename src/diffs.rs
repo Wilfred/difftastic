@@ -1,5 +1,7 @@
-use crate::language::{language_lexer, lex, Language};
-use crate::lines::{AbsoluteRange, LineNumber, LineRange, NewlinePositions};
+#![allow(dead_code)]
+
+// use crate::language::{language_lexer, lex, Language};
+use crate::lines::{AbsoluteSpan, LineNumber, LineRange, NewlinePositions};
 use colored::*;
 use itertools::EitherOrBoth;
 use itertools::Itertools;
@@ -13,6 +15,7 @@ use pretty_assertions::assert_eq;
 pub enum ChangeKind {
     Add,
     Remove,
+    Move,
 }
 
 /// An addition or removal in a string.
@@ -20,60 +23,60 @@ pub enum ChangeKind {
 pub struct Change {
     kind: ChangeKind,
     /// The position of the affected text.
-    pub range: AbsoluteRange,
+    pub range: AbsoluteSpan,
     /// The corresponding position of the comparison string. This
     /// enables us to line up changed lines between the two strings.
     pub opposite_line: LineNumber,
 }
 
-pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -> Vec<Change> {
-    let re = language_lexer(lang);
-    let before_tokens = lex(&before_src, &re);
-    let after_tokens = lex(&after_src, &re);
+// pub fn difference_positions(before_src: &str, after_src: &str, lang: Language) -> Vec<Change> {
+//     let re = language_lexer(lang);
+//     let before_tokens = lex(&before_src, &re);
+//     let after_tokens = lex(&after_src, &re);
 
-    let before_newlines = NewlinePositions::from(before_src);
-    let after_newlines = NewlinePositions::from(after_src);
+//     let before_newlines = NewlinePositions::from(before_src);
+//     let after_newlines = NewlinePositions::from(after_src);
 
-    let mut left_line = LineNumber::from(0);
-    let mut right_line = LineNumber::from(0);
-    let mut positions = vec![];
+//     let mut left_line = LineNumber::from(0);
+//     let mut right_line = LineNumber::from(0);
+//     let mut positions = vec![];
 
-    for d in diff::slice(&before_tokens, &after_tokens) {
-        match d {
-            // Only present in the before, so has been removed.
-            diff::Result::Left(l) => {
-                positions.push(Change {
-                    kind: ChangeKind::Remove,
-                    range: AbsoluteRange {
-                        start: l.start,
-                        end: l.start + l.text.len(),
-                    },
-                    opposite_line: right_line,
-                });
-            }
-            // Present in both.
-            diff::Result::Both(l, r) => {
-                left_line = before_newlines.from_offset(l.start).line;
-                right_line = after_newlines.from_offset(r.start).line;
-            }
-            // Only present in the after.
-            diff::Result::Right(r) => {
-                positions.push(Change {
-                    kind: ChangeKind::Add,
-                    range: AbsoluteRange {
-                        start: r.start,
-                        end: r.start + r.text.len(),
-                    },
-                    opposite_line: left_line,
-                });
-            }
-        }
-    }
-    positions
-}
+//     for d in diff::slice(&before_tokens, &after_tokens) {
+//         match d {
+//             // Only present in the before, so has been removed.
+//             diff::Result::Left(l) => {
+//                 positions.push(Change {
+//                     kind: ChangeKind::Remove,
+//                     range: AbsoluteRange {
+//                         start: l.start,
+//                         end: l.start + l.text.len(),
+//                     },
+//                     opposite_line: right_line,
+//                 });
+//             }
+//             // Present in both.
+//             diff::Result::Both(l, r) => {
+//                 left_line = before_newlines.from_offset(l.start).line;
+//                 right_line = after_newlines.from_offset(r.start).line;
+//             }
+//             // Only present in the after.
+//             diff::Result::Right(r) => {
+//                 positions.push(Change {
+//                     kind: ChangeKind::Add,
+//                     range: AbsoluteRange {
+//                         start: r.start,
+//                         end: r.start + r.text.len(),
+//                     },
+//                     opposite_line: left_line,
+//                 });
+//             }
+//         }
+//     }
+//     positions
+// }
 
 /// Return a copy of `s` with this colour applied to the ranges specified.
-fn apply_bold_color(s: &str, ranges: &[AbsoluteRange], c: Color) -> String {
+fn apply_bold_color(s: &str, ranges: &[AbsoluteSpan], c: Color) -> String {
     let mut res = String::with_capacity(s.len());
     let mut i = 0;
     for range in ranges {
@@ -123,7 +126,7 @@ fn apply_color_by_line(s: &str, ranges: &[LineRange], c: Color) -> String {
             Some(line_ranges) => {
                 let ranges: Vec<_> = line_ranges
                     .iter()
-                    .map(|lr| AbsoluteRange {
+                    .map(|lr| AbsoluteSpan {
                         start: lr.start_col,
                         end: lr.end_col,
                     })
@@ -156,7 +159,7 @@ fn apply_color_no_positions() {
 #[test]
 fn apply_color_whole_length() {
     assert_eq!(
-        apply_bold_color("foo", &vec![AbsoluteRange { start: 0, end: 3 }], Color::Red),
+        apply_bold_color("foo", &vec![AbsoluteSpan { start: 0, end: 3 }], Color::Red),
         "foo".red().bold().to_string()
     );
 }
@@ -166,7 +169,7 @@ fn apply_color_beyond_end() {
     assert_eq!(
         apply_bold_color(
             "foobar",
-            &vec![AbsoluteRange { start: 6, end: 10 }],
+            &vec![AbsoluteSpan { start: 6, end: 10 }],
             Color::Black
         ),
         "foobar"
@@ -184,7 +187,7 @@ fn apply_color_overlapping_end() {
     assert_eq!(
         apply_bold_color(
             "foobar",
-            &vec![AbsoluteRange { start: 3, end: 100 }],
+            &vec![AbsoluteSpan { start: 3, end: 100 }],
             Color::Green
         ),
         expected
@@ -260,7 +263,7 @@ pub fn highlight_differences_combined(
 
                 let ranges: Vec<_> = line_ranges
                     .iter()
-                    .map(|lr| AbsoluteRange {
+                    .map(|lr| AbsoluteSpan {
                         start: lr.start_col,
                         end: lr.end_col,
                     })
@@ -281,7 +284,7 @@ pub fn highlight_differences_combined(
 
                 let ranges: Vec<_> = line_ranges
                     .iter()
-                    .map(|lr| AbsoluteRange {
+                    .map(|lr| AbsoluteSpan {
                         start: lr.start_col,
                         end: lr.end_col,
                     })
