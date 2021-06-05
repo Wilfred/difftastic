@@ -1204,6 +1204,21 @@
     "named": true,
     "fields": {},
     "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "group_by_clause_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "group_by_clause_body",
+    "named": true,
+    "fields": {},
+    "children": {
       "multiple": true,
       "required": false,
       "types": [
@@ -1563,6 +1578,88 @@
     "fields": {}
   },
   {
+    "type": "order_by_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "order_by_clause_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "order_by_clause_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "comparison_operator",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "ordered_expression",
     "named": true,
     "fields": {
@@ -1825,6 +1922,10 @@
         },
         {
           "type": "group_by_clause",
+          "named": true
+        },
+        {
+          "type": "order_by_clause",
           "named": true
         },
         {
@@ -2329,6 +2430,10 @@
   },
   {
     "type": "OR",
+    "named": false
+  },
+  {
+    "type": "ORDER BY",
     "named": false
   },
   {
