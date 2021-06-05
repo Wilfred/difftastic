@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use crate::diffs::Change;
-use crate::positions::Span;
+use crate::positions::{Span, LineSpan};
 use regex::Regex;
 use std::cmp::{max, min};
 use std::collections::HashSet;
@@ -26,15 +26,6 @@ pub struct LinePosition {
     /// Both zero-indexed.
     pub line: LineNumber,
     column: usize,
-}
-
-/// A range within a single line of a string.
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct LineSpan {
-    /// All zero-indexed.
-    pub line: LineNumber,
-    pub start_col: usize,
-    pub end_col: usize,
 }
 
 /// A struct for efficiently converting absolute string positions to

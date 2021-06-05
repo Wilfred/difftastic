@@ -1,8 +1,8 @@
 #![allow(dead_code)]
 
 // use crate::language::{language_lexer, lex, Language};
-use crate::positions::Span;
-use crate::lines::{LineNumber, LineSpan, NewlinePositions};
+use crate::positions::{Span, LineSpan};
+use crate::lines::{LineNumber, NewlinePositions};
 use colored::*;
 use itertools::EitherOrBoth;
 use itertools::Itertools;
