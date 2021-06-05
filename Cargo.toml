@@ -1,6 +1,7 @@
 [package]
 name = "tree-sitter-sql"
 description = "SQL grammar for the tree-sitter parsing library"
+authors = ["Maksim Novikov <mnovikov.work@gmail.com>"]
 version = "0.0.1"
 keywords = ["incremental", "parsing", "sql"]
 categories = ["parsing", "text-editors"]
