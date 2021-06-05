@@ -1,6 +1,10 @@
-(identifier) @variable
+; (identifier) @variable FIXME this overrides function call pattern
 (string) @string
 (number) @number
+(comment) @comment
+
+(function_call
+    function: (identifier) @function)
 
 [
   (NULL)
@@ -41,4 +45,6 @@
   "SELECT"
   "WHERE"
   "FROM"
+  "AS"
+  "GROUP BY"
 ] @keyword

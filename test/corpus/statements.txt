@@ -48,6 +48,22 @@ SELECT a, b AS c FROM table1 AS t;
         (from_clause (alias (identifier) (identifier)))))
 
 ================
+SELECT statement with group by
+================
+
+SELECT a, b
+FROM table1
+GROUP BY lower(a), b;
+
+---
+
+(source_file
+    (select_statement
+        (select_clause (identifier) (identifier))
+        (from_clause (identifier))
+        (group_by_clause (function_call (identifier) (identifier)) (identifier))))
+
+================
 SELECT statement FROM multiple tables
 ================
 
