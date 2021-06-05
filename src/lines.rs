@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 use crate::positions::{LineSpan, Span};
+use crate::tree_diff::MatchedPos;
 use regex::Regex;
 
 #[cfg(test)]
@@ -14,6 +15,115 @@ pub struct LineNumber {
 impl From<usize> for LineNumber {
     fn from(number: usize) -> Self {
         LineNumber { number }
+    }
+}
+
+struct LineGroup {
+    lhs_lines: Vec<LineNumber>,
+    rhs_lines: Vec<LineNumber>,
+}
+
+impl LineGroup {
+    fn new() -> Self {
+        Self {
+            lhs_lines: vec![],
+            rhs_lines: vec![],
+        }
+    }
+
+    fn overlaps_lhs(&self, nl_pos: &NewlinePositions, mp: &MatchedPos) -> bool {
+        if self.lhs_lines.is_empty() {
+            return false;
+        }
+
+        let lines = nl_pos.lines(&mp.pos);
+        assert!(!lines.is_empty());
+        let first_match_line = lines[0].number;
+        let last_match_line = lines.last().unwrap().number;
+
+        let first_group_line = self.lhs_lines[0].number;
+        let last_group_line = self.lhs_lines.last().unwrap().number;
+
+        // [    ] match region
+        //   []   group region
+        if first_match_line <= first_group_line && last_match_line >= last_group_line {
+            return true;
+        }
+
+        // [  ]   match region
+        //   [  ] group region
+        if first_match_line <= first_group_line && last_match_line >= first_group_line {
+            return true;
+        }
+
+        //   [  ] match region
+        // [  ]   group region
+        if first_match_line >= first_group_line && first_match_line >= last_group_line {
+            return true;
+        }
+
+        false
+    }
+
+    fn overlaps_rhs(&self, nl_pos: &NewlinePositions, mp: &MatchedPos) -> bool {
+        if self.rhs_lines.is_empty() {
+            return false;
+        }
+
+        let lines = nl_pos.lines(&mp.pos);
+        assert!(!lines.is_empty());
+        let first_match_line = lines[0].number;
+        let last_match_line = lines.last().unwrap().number;
+
+        let first_group_line = self.rhs_lines[0].number;
+        let last_group_line = self.rhs_lines.last().unwrap().number;
+
+        // [    ] match region
+        //   []   group region
+        if first_match_line <= first_group_line && last_match_line >= last_group_line {
+            return true;
+        }
+
+        // [  ]   match region
+        //   [  ] group region
+        if first_match_line <= first_group_line && last_match_line >= first_group_line {
+            return true;
+        }
+
+        //   [  ] match region
+        // [  ]   group region
+        if first_match_line >= first_group_line && first_match_line >= last_group_line {
+            return true;
+        }
+
+        false
+    }
+
+    fn add_lhs(&mut self, nl_pos: &NewlinePositions, mp: &MatchedPos) {
+        let current_highest = self
+            .lhs_lines
+            .last()
+            .map(|ln| ln.number as isize)
+            .unwrap_or(-1);
+        let lines = nl_pos.lines(&mp.pos);
+        for line in lines {
+            if (line.number as isize) > current_highest {
+                self.lhs_lines.push(line);
+            }
+        }
+    }
+    fn add_rhs(&mut self, nl_pos: &NewlinePositions, mp: &MatchedPos) {
+        let current_highest = self
+            .rhs_lines
+            .last()
+            .map(|ln| ln.number as isize)
+            .unwrap_or(-1);
+        let lines = nl_pos.lines(&mp.pos);
+        for line in lines {
+            if (line.number as isize) > current_highest {
+                self.rhs_lines.push(line);
+            }
+        }
     }
 }
 
