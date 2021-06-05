@@ -7,10 +7,10 @@ SELECT;
 ---
 
 (source_file 
-    (select_statement))
+    (select_statement (select_clause)))
 
 ================
-SELECT statement
+SELECT statement with distinct expression
 ================
 
 SELECT 1 IS DISTINCT FROM NULL;
@@ -19,7 +19,8 @@ SELECT 1 IS DISTINCT FROM NULL;
 
 (source_file 
     (select_statement
-        (select_clause (is_expression (number) (distinct_from (NULL))))))
+        (select_clause 
+            (select_clause_body (is_expression (number) (distinct_from (NULL)))))))
 
 ================
 SELECT statement FROM clause
@@ -31,7 +32,7 @@ SELECT a, b FROM table1;
 
 (source_file 
     (select_statement
-        (select_clause (identifier) (identifier))
+        (select_clause (select_clause_body (identifier) (identifier)))
         (from_clause (identifier)))) 
 
 ================
@@ -44,7 +45,8 @@ SELECT a, b AS c FROM table1 AS t;
 
 (source_file 
     (select_statement
-        (select_clause (identifier) (alias (identifier) (identifier)))
+        (select_clause 
+            (select_clause_body (identifier) (alias (identifier) (identifier))))
         (from_clause (alias (identifier) (identifier)))))
 
 ================
@@ -59,7 +61,8 @@ GROUP BY lower(a), b;
 
 (source_file
     (select_statement
-        (select_clause (identifier) (identifier))
+        (select_clause 
+            (select_clause_body (identifier) (identifier)))
         (from_clause (identifier))
         (group_by_clause (function_call (identifier) (identifier)) (identifier))))
 
@@ -73,7 +76,8 @@ SELECT a, b FROM table1, table2;
 
 (source_file 
     (select_statement
-        (select_clause (identifier) (identifier))
+        (select_clause 
+            (select_clause_body (identifier) (identifier)))
         (from_clause (identifier) (identifier))))
 
 =============================
@@ -86,7 +90,7 @@ SELECT 1, 2;
 
 (source_file 
     (select_statement
-        (select_clause (number) (number))))
+        (select_clause (select_clause_body (number) (number)))))
 
 =============================
 SELECT statement with expression
@@ -98,7 +102,7 @@ SELECT 1 + 2;
 
 (source_file 
     (select_statement
-        (select_clause (binary_expression (number) (number)))))
+        (select_clause (select_clause_body (binary_expression (number) (number))))))
 
 =============================
 SELECT statement with empty string
@@ -110,7 +114,7 @@ SELECT '';
 
 (source_file 
     (select_statement
-        (select_clause (string))))
+        (select_clause (select_clause_body (string)))))
 
 =============================
 SELECT statement with dollar quoted string
@@ -122,7 +126,7 @@ SELECT $$hey$$;
 
 (source_file 
     (select_statement
-        (select_clause (string))))
+        (select_clause (select_clause_body (string)))))
 
 =============================
 SELECT statement with dollar quoted brackets inside
@@ -134,7 +138,7 @@ SELECT $$(a + b)$$;
 
 (source_file 
     (select_statement
-        (select_clause (string))))
+        (select_clause (select_clause_body (string)))))
 
 =============================
 SELECT statement with type cast
@@ -146,7 +150,7 @@ SELECT ''::JSONB;
 
 (source_file 
     (select_statement
-        (select_clause (type_cast (string) (type)))))
+        (select_clause (select_clause_body (type_cast (string) (type))))))
 
 =============================
 SELECT statement with columns
@@ -158,7 +162,7 @@ SELECT a, b;
 
 (source_file 
     (select_statement
-        (select_clause (identifier) (identifier))))
+        (select_clause (select_clause_body (identifier) (identifier)))))
 
 =============================
 SELECT statement with comparison expression
@@ -170,7 +174,7 @@ SELECT 1 < 2;
 
 (source_file 
     (select_statement
-        (select_clause (comparison_operator (number) (number)))))
+        (select_clause (select_clause_body (comparison_operator (number) (number))))))
 
 =============================
 SELECT statement with is expression
@@ -182,10 +186,10 @@ SELECT a IS TRUE, b IS NOT NULL, c IS FALSE;
 
 (source_file 
     (select_statement
-        (select_clause 
+        (select_clause (select_clause_body
             (is_expression (identifier) (TRUE))
             (is_expression (identifier) (NULL))
-            (is_expression (identifier) (FALSE)))))
+            (is_expression (identifier) (FALSE))))))
 
 ================
 SELECT field
@@ -196,7 +200,7 @@ SELECT a.b;
 ---
 
 (source_file 
-    (select_statement (select_clause (identifier))))
+    (select_statement (select_clause (select_clause_body (identifier)))))
 
 =============================
 SELECT statement with comparison expression and is expression
@@ -208,7 +212,8 @@ SELECT 1 < 2 IS TRUE;
 
 (source_file 
     (select_statement
-        (select_clause (is_expression (comparison_operator (number) (number)) (TRUE)))))
+        (select_clause (select_clause_body
+            (is_expression (comparison_operator (number) (number)) (TRUE))))))
 
 
 =====================
@@ -221,10 +226,10 @@ SELECT foo(bar, baz) < 10;
 
 (source_file 
     (select_statement
-        (select_clause 
+        (select_clause (select_clause_body
          (comparison_operator
             (function_call (identifier) (identifier) (identifier)) 
-            (number)))))
+            (number))))))
 
 =====================
 SELECT expression with function without args
@@ -236,8 +241,8 @@ SELECT foo();
 
 (source_file 
     (select_statement
-        (select_clause 
-            (function_call (identifier)))))
+        (select_clause (select_clause_body
+            (function_call (identifier))))))
 
 =====================
 SELECT comparison expression boolean
@@ -249,8 +254,8 @@ SELECT TRUE AND foo(1) OR FALSE;
 
 (source_file 
     (select_statement
-        (select_clause 
-         (boolean_expression (boolean_expression (TRUE) (function_call (identifier) (number))) (FALSE)))))
+        (select_clause (select_clause_body
+         (boolean_expression (boolean_expression (TRUE) (function_call (identifier) (number))) (FALSE))))))
 
 =====================
 SELECT parenthesized expression
@@ -262,7 +267,7 @@ SELECT (TRUE);
 
 (source_file 
     (select_statement
-        (select_clause (TRUE))))
+        (select_clause (select_clause_body (TRUE)))))
 
 
 =====================
@@ -275,11 +280,11 @@ SELECT TRUE AND (foo(1) OR FALSE);
 
 (source_file 
     (select_statement
-        (select_clause 
+        (select_clause (select_clause_body
          (boolean_expression
             (TRUE)
                 (boolean_expression 
-                    (function_call (identifier) (number)) (FALSE))))))
+                    (function_call (identifier) (number)) (FALSE)))))))
 
 =====================
 SELECT string
@@ -291,7 +296,7 @@ SELECT 'aaaa'
 
 (source_file 
     (select_statement
-        (select_clause (string))))
+        (select_clause (select_clause_body (string)))))
 
 
 =====================
@@ -304,7 +309,7 @@ SELECT '%{a.b}'
 
 (source_file 
     (select_statement
-        (select_clause (string))))
+        (select_clause (select_clause_body (string)))))
 
 
 =====================
@@ -317,7 +322,7 @@ SELECT foo->>'bar'
 
 (source_file 
     (select_statement
-        (select_clause (field_access (identifier) (string)))))
+        (select_clause (select_clause_body (field_access (identifier) (string))))))
 
 =====================
 SELECT in clause
@@ -329,7 +334,7 @@ SELECT 1 IN (1, 2);
 
 (source_file 
     (select_statement
-        (select_clause (in_expression (number) (tuple (number) (number))))))
+        (select_clause (select_clause_body (in_expression (number) (tuple (number) (number)))))))
 
 =====================
 CREATE TYPE statement
