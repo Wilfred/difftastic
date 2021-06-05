@@ -4,6 +4,8 @@
 #include <iostream>
 #include <functional>
 #include <algorithm>
+#include <string>
+#include <iterator>
 
 using namespace std;
 
