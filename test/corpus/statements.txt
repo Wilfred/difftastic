@@ -88,7 +88,7 @@ SELECT 1, 2;
 
 ---
 
-(source_file 
+(source_file
     (select_statement
         (select_clause (select_clause_body (number) (number)))))
 
