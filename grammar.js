@@ -169,10 +169,15 @@ module.exports = grammar({
         $.select_clause,
         optional($.from_clause),
         optional($.where_clause),
-        optional($.group_by_clause)
+        optional($.group_by_clause),
+        optional($.order_by_clause)
       ),
+    group_by_clause_body: ($) => commaSep1($._expression),
     group_by_clause: ($) =>
-      seq(caseInsensitive("GROUP BY"), commaSep1($._expression)),
+      seq(caseInsensitive("GROUP BY"), $.group_by_clause_body),
+    order_by_clause_body: ($) => commaSep1($._expression),
+    order_by_clause: ($) =>
+      seq(caseInsensitive("ORDER BY"), $.order_by_clause_body),
     where_clause: ($) => seq(caseInsensitive("WHERE"), $._expression),
     _aliased_expression: ($) =>
       seq($._expression, caseInsensitive("AS"), $.identifier),
