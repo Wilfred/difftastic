@@ -873,6 +873,7 @@ module.exports = grammar({
     interpolation: $ => seq(
       '{',
       $.expression,
+      optional('='),
       optional($.type_conversion),
       optional($.format_specifier),
       '}'
