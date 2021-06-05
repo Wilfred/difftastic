@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use crate::positions::{Span, LineSpan};
+use crate::positions::{LineSpan, Span};
 use regex::Regex;
 
 #[cfg(test)]
@@ -104,6 +104,15 @@ impl NewlinePositions {
         });
 
         ranges
+    }
+
+    pub fn lines(&self, span: &Span) -> Vec<LineNumber> {
+        let start_pos = self.from_offset(span.start);
+        let end_pos = self.from_offset(span.end);
+
+        (start_pos.line.number..=end_pos.line.number)
+            .map(|n| LineNumber::from(n))
+            .collect()
     }
 
     /// Convert absolute string ranges to line-relative ranges. If the
