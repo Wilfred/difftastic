@@ -22,7 +22,7 @@ SELECT 1 IS DISTINCT FROM NULL;
         (select_clause (is_expression (number) (distinct_from (NULL))))))
 
 ================
-SELECT statement
+SELECT statement FROM clause
 ================
 
 SELECT a, b FROM table1;
@@ -33,6 +33,32 @@ SELECT a, b FROM table1;
     (select_statement
         (select_clause (identifier) (identifier))
         (from_clause (identifier)))) 
+
+================
+SELECT statement with aliases
+================
+
+SELECT a, b AS c FROM table1 AS t;
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (identifier) (alias (identifier) (identifier)))
+        (from_clause (alias (identifier) (identifier)))))
+
+================
+SELECT statement FROM multiple tables
+================
+
+SELECT a, b FROM table1, table2;
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (identifier) (identifier))
+        (from_clause (identifier) (identifier))))
 
 =============================
 SELECT statement with numbers
