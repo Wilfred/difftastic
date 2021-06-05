@@ -1,10 +1,7 @@
 #![allow(dead_code)]
 
-use crate::diffs::Change;
 use crate::positions::{Span, LineSpan};
 use regex::Regex;
-use std::cmp::{max, min};
-use std::collections::HashSet;
 
 #[cfg(test)]
 use pretty_assertions::assert_eq;
@@ -174,129 +171,8 @@ fn from_ranges_split_over_multiple_lines() {
     );
 }
 
-#[derive(Debug, PartialEq, Copy, Clone)]
-pub struct MatchedLine {
-    pub line: LineNumber,
-    pub opposite_line: LineNumber,
-}
-
-/// Given a slice of changes, return the unique lines that
-/// they land on, plus their corresponding line in the other file.
-pub fn relevant_lines(changes: &[Change], s: &str) -> Vec<MatchedLine> {
-    let newlines: NewlinePositions = s.into();
-
-    let mut line_nums_seen = HashSet::new();
-
-    let mut result = vec![];
-    for change in changes {
-        // TODO: refactor to from_range.
-        let line_relative_ranges = newlines.from_ranges(&[change.range]);
-        for range in line_relative_ranges {
-            if line_nums_seen.contains(&range.line) {
-                continue;
-            }
-
-            line_nums_seen.insert(range.line);
-            result.push(MatchedLine {
-                line: range.line,
-                opposite_line: change.opposite_line,
-            });
-        }
-    }
-
-    result
-}
-
-pub fn add_context(
-    lines: &[MatchedLine],
-    context: usize,
-    max_line: LineNumber,
-) -> Vec<MatchedLine> {
-    let mut result: Vec<MatchedLine> = vec![];
-
-    for matched_line in lines {
-        // We know the line number that matches this line. In order to
-        // calculate the opposite line number for the context lines,
-        // we assume that they line up. Context line -1 should have
-        // opposite_line - 1.
-        let opposite_offset =
-            matched_line.opposite_line.number as isize - matched_line.line.number as isize;
-
-        let line_number = matched_line.line.number;
-        let earliest = max(0, line_number as isize - context as isize) as usize;
-        let latest = min(line_number + context, max_line.number);
-
-        for i in earliest..latest + 1 {
-            let mut is_new = true;
-            if let Some(last_line) = result.last() {
-                if i <= last_line.line.number {
-                    is_new = false;
-                }
-            }
-            if is_new {
-                result.push(MatchedLine {
-                    line: i.into(),
-                    opposite_line: LineNumber::from(max(i as isize + opposite_offset, 0) as usize),
-                });
-            }
-        }
-    }
-
-    result
-}
-
 pub fn max_line(s: &str) -> LineNumber {
     LineNumber::from(s.lines().count() - 1)
-}
-
-#[test]
-fn test_add_context() {
-    fn matched_line(i: usize) -> MatchedLine {
-        MatchedLine {
-            line: i.into(),
-            opposite_line: i.into(),
-        }
-    }
-
-    let start_lines = [matched_line(5), matched_line(12), matched_line(14)];
-    let result = add_context(&start_lines, 2, 20.into());
-
-    let expected = [
-        matched_line(3),
-        matched_line(4),
-        matched_line(5),
-        matched_line(6),
-        matched_line(7),
-        matched_line(10),
-        matched_line(11),
-        matched_line(12),
-        matched_line(13),
-        matched_line(14),
-        matched_line(15),
-        matched_line(16),
-    ];
-    assert_eq!(result, expected);
-}
-
-#[test]
-fn test_add_zero_context() {
-    let start_lines = [
-        MatchedLine {
-            line: 5.into(),
-            opposite_line: 5.into(),
-        },
-        MatchedLine {
-            line: 12.into(),
-            opposite_line: 12.into(),
-        },
-        MatchedLine {
-            line: 14.into(),
-            opposite_line: 14.into(),
-        },
-    ];
-    let result = add_context(&start_lines, 0, 20.into());
-
-    assert_eq!(result, start_lines);
 }
 
 /// Ensure that every line in `s` has this length. Pad short lines and
