@@ -169,8 +169,11 @@ module.exports = grammar({
         caseInsensitive("SELECT"),
         optional($.select_clause),
         optional($.from_clause),
-        optional($.where_clause)
+        optional($.where_clause),
+        optional($.group_by_clause)
       ),
+    group_by_clause: ($) =>
+      seq(caseInsensitive("GROUP BY"), commaSep1($._expression)),
     where_clause: ($) => seq(caseInsensitive("WHERE"), $._expression),
     _aliased_expression: ($) =>
       seq($._expression, caseInsensitive("AS"), $.identifier),
