@@ -13,3 +13,7 @@ WHERE a = b
 GROUP BY a, b
 -- <- keyword
 --    ^ keyword
+ORDER BY lower(a), b
+-- <- keyword
+--    ^ keyword
+--        ^ function
