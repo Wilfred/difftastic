@@ -109,7 +109,7 @@ impl NewlinePositions {
     /// Convert absolute string ranges to line-relative ranges. If the
     /// absolute range crosses a newline, split it into multiple
     /// line-relative ranges.
-    pub fn from_ranges(self: &NewlinePositions, ranges: &[Span]) -> Vec<LineSpan> {
+    pub fn from_ranges(&self, ranges: &[Span]) -> Vec<LineSpan> {
         let mut rel_positions = vec![];
         for range in ranges {
             let start_pos = self.from_offset(range.start);
