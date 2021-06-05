@@ -4,20 +4,12 @@ SELECT a, b::INT;
 --            ^ type
 
 SELECT foo(a)
+-- <- keyword
 --      ^ function
-
-SELECT foo(a)
 FROM table1
 -- <- keyword
-
-SELECT foo(a)
-FROM table1
 WHERE a = b
--- <- keyword
 --      ^ operator
-
-SELECT foo(a)
-FROM table1
 GROUP BY a, b
 -- <- keyword
 --    ^ keyword
