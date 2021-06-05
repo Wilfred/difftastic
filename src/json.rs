@@ -1,4 +1,4 @@
-use crate::lines::AbsoluteSpan;
+use crate::lines::Span;
 use crate::tree_diff::{AtomKind, Node};
 use regex::Regex;
 use std::fs;
@@ -108,7 +108,7 @@ fn parse_from<'a>(
         for pattern in &lang.comment_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 assert_eq!(m.start(), 0);
-                let position = AbsoluteSpan {
+                let position = Span {
                     start: state.str_i,
                     end: state.str_i + m.end(),
                 };
@@ -122,7 +122,7 @@ fn parse_from<'a>(
         for pattern in &lang.atom_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 assert_eq!(m.start(), 0);
-                let position = AbsoluteSpan {
+                let position = Span {
                     start: state.str_i,
                     end: state.str_i + m.end(),
                 };
@@ -136,7 +136,7 @@ fn parse_from<'a>(
         for pattern in &lang.string_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 assert_eq!(m.start(), 0);
-                let position = AbsoluteSpan {
+                let position = Span {
                     start: state.str_i,
                     end: state.str_i + m.end(),
                 };
@@ -154,13 +154,13 @@ fn parse_from<'a>(
             let children = parse_from(arena, s, lang, state);
             let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
                 "UNCLOSED".into(),
-                AbsoluteSpan {
+                Span {
                     start: state.str_i,
                     end: state.str_i + 1,
                 },
             ));
 
-            let open_pos = AbsoluteSpan {
+            let open_pos = Span {
                 start,
                 end: start + m.end(),
             };
@@ -179,7 +179,7 @@ fn parse_from<'a>(
         if let Some(m) = lang.close_delimiter_pattern.find(&s[state.str_i..]) {
             state.close_brace = Some((
                 m.as_str().into(),
-                AbsoluteSpan {
+                Span {
                     start: state.str_i,
                     end: state.str_i + m.end(),
                 },
@@ -196,7 +196,7 @@ fn parse_from<'a>(
 #[derive(Debug, Clone)]
 struct ParseState {
     str_i: usize,
-    close_brace: Option<(String, AbsoluteSpan)>,
+    close_brace: Option<(String, Span)>,
 }
 
 impl ParseState {
@@ -347,7 +347,7 @@ mod tests {
             &parse(&arena, "123", &lang()),
             &[Node::new_atom(
                 &arena,
-                AbsoluteSpan { start: 0, end: 3 },
+                Span { start: 0, end: 3 },
                 "123",
                 AtomKind::Other,
             )],
@@ -362,7 +362,7 @@ mod tests {
             &parse(&arena, "\"\"", &lang()),
             &[Node::new_atom(
                 &arena,
-                AbsoluteSpan { start: 0, end: 2 },
+                Span { start: 0, end: 2 },
                 "\"\"",
                 AtomKind::String,
             )],
@@ -378,13 +378,13 @@ mod tests {
             &[
                 Node::new_atom(
                     &arena,
-                    AbsoluteSpan { start: 0, end: 3 },
+                    Span { start: 0, end: 3 },
                     "123",
                     AtomKind::Other,
                 ),
                 Node::new_atom(
                     &arena,
-                    AbsoluteSpan { start: 4, end: 7 },
+                    Span { start: 4, end: 7 },
                     "456",
                     AtomKind::Other,
                 ),
@@ -400,7 +400,7 @@ mod tests {
             &parse(&arena, ".foo", &lang()),
             &[Node::new_atom(
                 &arena,
-                AbsoluteSpan { start: 0, end: 4 },
+                Span { start: 0, end: 4 },
                 ".foo",
                 AtomKind::Other,
             )],
@@ -415,7 +415,7 @@ mod tests {
             &parse(&arena, " 123 ", &lang()),
             &[Node::new_atom(
                 &arena,
-                AbsoluteSpan { start: 1, end: 4 },
+                Span { start: 1, end: 4 },
                 "123",
                 AtomKind::Other,
             )],
@@ -430,7 +430,7 @@ mod tests {
             &parse(&arena, "\"abc\"", &lang()),
             &[Node::new_atom(
                 &arena,
-                AbsoluteSpan { start: 0, end: 5 },
+                Span { start: 0, end: 5 },
                 "\"abc\"",
                 AtomKind::String,
             )],
@@ -446,13 +446,13 @@ mod tests {
             &[
                 Node::new_atom(
                     &arena,
-                    AbsoluteSpan { start: 0, end: 7 },
+                    Span { start: 0, end: 7 },
                     "// foo\n",
                     AtomKind::Comment,
                 ),
                 Node::new_atom(
                     &arena,
-                    AbsoluteSpan { start: 7, end: 8 },
+                    Span { start: 7, end: 8 },
                     "x",
                     AtomKind::Other,
                 ),
@@ -468,7 +468,7 @@ mod tests {
             &parse(&arena, "/* foo\nbar */", &lang()),
             &[Node::new_atom(
                 &arena,
-                AbsoluteSpan { start: 0, end: 13 },
+                Span { start: 0, end: 13 },
                 "/* foo\nbar */",
                 AtomKind::Comment,
             )],
@@ -484,15 +484,15 @@ mod tests {
             &[Node::new_list(
                 &arena,
                 "[",
-                AbsoluteSpan { start: 0, end: 1 },
+                Span { start: 0, end: 1 },
                 vec![Node::new_atom(
                     &arena,
-                    AbsoluteSpan { start: 2, end: 5 },
+                    Span { start: 2, end: 5 },
                     "123",
                     AtomKind::Other,
                 )],
                 "]",
-                AbsoluteSpan { start: 6, end: 7 },
+                Span { start: 6, end: 7 },
             )],
         );
     }
@@ -505,10 +505,10 @@ mod tests {
             &[Node::new_list(
                 &arena,
                 "[",
-                AbsoluteSpan { start: 0, end: 1 },
+                Span { start: 0, end: 1 },
                 vec![],
                 "]",
-                AbsoluteSpan { start: 1, end: 2 },
+                Span { start: 1, end: 2 },
             )],
         );
     }
@@ -522,10 +522,10 @@ mod tests {
             &[Node::new_list(
                 &arena,
                 "(",
-                AbsoluteSpan { start: 0, end: 1 },
+                Span { start: 0, end: 1 },
                 vec![],
                 ")",
-                AbsoluteSpan { start: 1, end: 2 },
+                Span { start: 1, end: 2 },
             )],
         );
     }
@@ -539,23 +539,23 @@ mod tests {
             &[Node::new_list(
                 &arena,
                 "[",
-                AbsoluteSpan { start: 0, end: 1 },
+                Span { start: 0, end: 1 },
                 vec![
                     Node::new_atom(
                         &arena,
-                        AbsoluteSpan { start: 1, end: 4 },
+                        Span { start: 1, end: 4 },
                         "123",
                         AtomKind::Other,
                     ),
                     Node::new_atom(
                         &arena,
-                        AbsoluteSpan { start: 6, end: 9 },
+                        Span { start: 6, end: 9 },
                         "456",
                         AtomKind::Other,
                     ),
                 ],
                 "]",
-                AbsoluteSpan { start: 9, end: 10 },
+                Span { start: 9, end: 10 },
             )],
         );
     }
@@ -569,23 +569,23 @@ mod tests {
             &[Node::new_list(
                 &arena,
                 "{",
-                AbsoluteSpan { start: 0, end: 1 },
+                Span { start: 0, end: 1 },
                 vec![
                     Node::new_atom(
                         &arena,
-                        AbsoluteSpan { start: 1, end: 2 },
+                        Span { start: 1, end: 2 },
                         "x",
                         AtomKind::Other,
                     ),
                     Node::new_atom(
                         &arena,
-                        AbsoluteSpan { start: 4, end: 5 },
+                        Span { start: 4, end: 5 },
                         "1",
                         AtomKind::Other,
                     ),
                 ],
                 "}",
-                AbsoluteSpan { start: 5, end: 6 },
+                Span { start: 5, end: 6 },
             )],
         );
     }
@@ -601,13 +601,13 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
-                position: AbsoluteSpan { start: 0, end: 1 },
+                position: Span { start: 0, end: 1 },
                 change: Cell::new(Some(Unchanged(lhs[0]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: AbsoluteSpan { start: 2, end: 3 },
+                position: Span { start: 2, end: 3 },
                 change: Cell::new(Some(Novel)),
                 content: "a".into(),
                 kind: AtomKind::Other,
@@ -627,19 +627,19 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
-                position: AbsoluteSpan { start: 0, end: 1 },
+                position: Span { start: 0, end: 1 },
                 change: Cell::new(Some(Unchanged(lhs[0]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: AbsoluteSpan { start: 2, end: 3 },
+                position: Span { start: 2, end: 3 },
                 change: Cell::new(Some(Novel)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: AbsoluteSpan { start: 4, end: 5 },
+                position: Span { start: 4, end: 5 },
                 change: Cell::new(Some(Unchanged(lhs[1]))),
                 content: "b".into(),
                 kind: AtomKind::Other,
@@ -659,13 +659,13 @@ mod tests {
 
         let expected_lhs = vec![
             Atom {
-                position: AbsoluteSpan { start: 0, end: 1 },
+                position: Span { start: 0, end: 1 },
                 change: Cell::new(Some(Unchanged(rhs[1]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: AbsoluteSpan { start: 2, end: 3 },
+                position: Span { start: 2, end: 3 },
                 change: Cell::new(Some(Novel)),
                 content: "b".into(),
                 kind: AtomKind::Other,
@@ -675,13 +675,13 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
-                position: AbsoluteSpan { start: 0, end: 1 },
+                position: Span { start: 0, end: 1 },
                 change: Cell::new(Some(Novel)),
                 content: "x".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: AbsoluteSpan { start: 2, end: 3 },
+                position: Span { start: 2, end: 3 },
                 change: Cell::new(Some(Unchanged(lhs[0]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
@@ -701,13 +701,13 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
-                position: AbsoluteSpan { start: 0, end: 1 },
+                position: Span { start: 0, end: 1 },
                 change: Cell::new(Some(Unchanged(lhs[1]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: AbsoluteSpan { start: 2, end: 3 },
+                position: Span { start: 2, end: 3 },
                 change: Cell::new(Some(Novel)),
                 content: "b".into(),
                 kind: AtomKind::Other,
@@ -732,19 +732,19 @@ mod tests {
 
         let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
             change: Cell::new(Some(Unchanged(lhs[0]))),
-            open_position: AbsoluteSpan { start: 0, end: 1 },
+            open_position: Span { start: 0, end: 1 },
             open_delimiter: "[".into(),
-            close_position: AbsoluteSpan { start: 4, end: 5 },
+            close_position: Span { start: 4, end: 5 },
             close_delimiter: "]".into(),
             children: vec![
                 arena.alloc(Atom {
-                    position: AbsoluteSpan { start: 1, end: 2 },
+                    position: Span { start: 1, end: 2 },
                     change: Cell::new(Some(Unchanged(lhs_atom))),
                     content: "a".into(),
                     kind: AtomKind::Other,
                 }),
                 arena.alloc(Atom {
-                    position: AbsoluteSpan { start: 3, end: 4 },
+                    position: Span { start: 3, end: 4 },
                     change: Cell::new(Some(Novel)),
                     content: "a".into(),
                     kind: AtomKind::Other,
@@ -771,13 +771,13 @@ mod tests {
 
         let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
             change: Cell::new(Some(Unchanged(lhs[0]))),
-            open_position: AbsoluteSpan { start: 0, end: 1 },
+            open_position: Span { start: 0, end: 1 },
             open_delimiter: "[".into(),
-            close_position: AbsoluteSpan { start: 2, end: 3 },
+            close_position: Span { start: 2, end: 3 },
             close_delimiter: "]".into(),
             children: vec![
                 arena.alloc(Atom {
-                    position: AbsoluteSpan { start: 1, end: 2 },
+                    position: Span { start: 1, end: 2 },
                     change: Cell::new(Some(Unchanged(lhs_atom))),
                     content: "a".into(),
                     kind: AtomKind::Other,
@@ -806,18 +806,18 @@ mod tests {
         let expected_rhs: Vec<&Node> = vec![
             arena.alloc(List {
                 open_delimiter: "[".into(),
-                open_position: AbsoluteSpan { start: 0, end: 1 },
-                close_position: AbsoluteSpan { start: 4, end: 5 },
+                open_position: Span { start: 0, end: 1 },
+                close_position: Span { start: 4, end: 5 },
                 close_delimiter: "]".into(),
                 change: Cell::new(Some(Unchanged(lhs[0]))),
                 children: vec![arena.alloc(List {
                     change: Cell::new(Some(Moved)),
                     open_delimiter: "[".into(),
-                    open_position: AbsoluteSpan { start: 1, end: 2 },
-                    close_position: AbsoluteSpan { start: 3, end: 4 },
+                    open_position: Span { start: 1, end: 2 },
+                    close_position: Span { start: 3, end: 4 },
                     close_delimiter: "]".into(),
                     children: vec![arena.alloc(Atom {
-                        position: AbsoluteSpan { start: 2, end: 3 },
+                        position: Span { start: 2, end: 3 },
                         change: Cell::new(Some(Moved)),
                         content: "1".into(),
                         kind: AtomKind::Other,
@@ -827,7 +827,7 @@ mod tests {
                 num_descendants: 2,
             }),
             arena.alloc(Atom {
-                position: AbsoluteSpan { start: 6, end: 7 },
+                position: Span { start: 6, end: 7 },
                 change: Cell::new(Some(Novel)),
                 content: "1".into(),
                 kind: AtomKind::Other,
@@ -853,25 +853,25 @@ mod tests {
 
         let expected_rhs: Vec<&Node> = vec![
             arena.alloc(Atom {
-                position: AbsoluteSpan { start: 0, end: 1 },
+                position: Span { start: 0, end: 1 },
                 change: Cell::new(Some(Novel)),
                 content: "1".into(),
                 kind: AtomKind::Other,
             }),
             arena.alloc(List {
                 open_delimiter: "[".into(),
-                open_position: AbsoluteSpan { start: 2, end: 3 },
+                open_position: Span { start: 2, end: 3 },
                 close_delimiter: "]".into(),
-                close_position: AbsoluteSpan { start: 6, end: 7 },
+                close_position: Span { start: 6, end: 7 },
                 change: Cell::new(Some(Novel)),
                 children: vec![arena.alloc(List {
                     change: Cell::new(Some(Moved)),
-                    open_position: AbsoluteSpan { start: 3, end: 4 },
+                    open_position: Span { start: 3, end: 4 },
                     open_delimiter: "[".into(),
-                    close_position: AbsoluteSpan { start: 5, end: 6 },
+                    close_position: Span { start: 5, end: 6 },
                     close_delimiter: "]".into(),
                     children: vec![arena.alloc(Atom {
-                        position: AbsoluteSpan { start: 4, end: 5 },
+                        position: Span { start: 4, end: 5 },
                         change: Cell::new(Some(Moved)),
                         content: "1".into(),
                         kind: AtomKind::Other,

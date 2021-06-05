@@ -9,9 +9,11 @@ use std::collections::HashSet;
 use pretty_assertions::assert_eq;
 
 // TODO: Move to a separate file, this isn't line related.
-/// A range in a string, relative to the string start.
+
+/// A range in a string, relative to the string start. May include
+/// newlines.
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
-pub struct AbsoluteSpan {
+pub struct Span {
     pub start: usize, // inclusive
     pub end: usize,   // exclusive
 }
@@ -37,7 +39,7 @@ pub struct LinePosition {
 
 /// A range within a single line of a string.
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub struct LineRange {
+pub struct LineSpan {
     /// All zero-indexed.
     pub line: LineNumber,
     pub start_col: usize,
@@ -85,11 +87,11 @@ impl NewlinePositions {
         self: &NewlinePositions,
         start: LinePosition,
         end: LinePosition,
-    ) -> Vec<LineRange> {
+    ) -> Vec<LineSpan> {
         let mut ranges = vec![];
 
         if start.line == end.line {
-            ranges.push(LineRange {
+            ranges.push(LineSpan {
                 line: start.line,
                 start_col: start.column,
                 end_col: end.column,
@@ -98,7 +100,7 @@ impl NewlinePositions {
         } else {
             let first_line_end_pos = self.positions[start.line.number + 1] - 1;
             let first_line_length = first_line_end_pos - self.positions[start.line.number];
-            ranges.push(LineRange {
+            ranges.push(LineSpan {
                 line: start.line,
                 start_col: start.column,
                 end_col: first_line_length,
@@ -108,7 +110,7 @@ impl NewlinePositions {
         for line_num in (start.line.number + 1)..end.line.number {
             let line_end_pos = self.positions[line_num + 1] - 1;
             let line_length = line_end_pos - self.positions[line_num];
-            ranges.push(LineRange {
+            ranges.push(LineSpan {
                 line: line_num.into(),
                 start_col: 0,
                 end_col: line_length,
@@ -116,7 +118,7 @@ impl NewlinePositions {
         }
 
         // Last line, up to end.
-        ranges.push(LineRange {
+        ranges.push(LineSpan {
             line: end.line,
             start_col: 0,
             end_col: end.column,
@@ -128,7 +130,7 @@ impl NewlinePositions {
     /// Convert absolute string ranges to line-relative ranges. If the
     /// absolute range crosses a newline, split it into multiple
     /// line-relative ranges.
-    pub fn from_ranges(self: &NewlinePositions, ranges: &[AbsoluteSpan]) -> Vec<LineRange> {
+    pub fn from_ranges(self: &NewlinePositions, ranges: &[Span]) -> Vec<LineSpan> {
         let mut rel_positions = vec![];
         for range in ranges {
             let start_pos = self.from_offset(range.start);
@@ -157,10 +159,10 @@ fn from_offset_newline_boundary() {
 #[test]
 fn from_ranges_first_line() {
     let newline_positions: NewlinePositions = "foo".into();
-    let relative_ranges = newline_positions.from_ranges(&vec![AbsoluteSpan { start: 1, end: 3 }]);
+    let relative_ranges = newline_positions.from_ranges(&vec![Span { start: 1, end: 3 }]);
     assert_eq!(
         relative_ranges,
-        vec![LineRange {
+        vec![LineSpan {
             line: 0.into(),
             start_col: 1,
             end_col: 3
@@ -171,17 +173,17 @@ fn from_ranges_first_line() {
 #[test]
 fn from_ranges_split_over_multiple_lines() {
     let newline_positions: NewlinePositions = "foo\nbar\nbaz\naaaaaaaaaaa".into();
-    let relative_ranges = newline_positions.from_ranges(&vec![AbsoluteSpan { start: 5, end: 10 }]);
+    let relative_ranges = newline_positions.from_ranges(&vec![Span { start: 5, end: 10 }]);
 
     assert_eq!(
         relative_ranges,
         vec![
-            (LineRange {
+            (LineSpan {
                 line: 1.into(),
                 start_col: 1,
                 end_col: 3
             }),
-            (LineRange {
+            (LineSpan {
                 line: 2.into(),
                 start_col: 0,
                 end_col: 2
