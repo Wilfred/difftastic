@@ -13,7 +13,7 @@ use std::fmt;
 use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
 
-use crate::lines::Span;
+use crate::positions::Span;
 use ChangeKind::*;
 use Node::*;
 

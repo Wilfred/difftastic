@@ -1,4 +1,4 @@
-use crate::lines::Span;
+use crate::positions::Span;
 use crate::tree_diff::{AtomKind, Node};
 use regex::Regex;
 use std::fs;

@@ -1,22 +1,13 @@
 #![allow(dead_code)]
 
 use crate::diffs::Change;
+use crate::positions::Span;
 use regex::Regex;
 use std::cmp::{max, min};
 use std::collections::HashSet;
 
 #[cfg(test)]
 use pretty_assertions::assert_eq;
-
-// TODO: Move to a separate file, this isn't line related.
-
-/// A range in a string, relative to the string start. May include
-/// newlines.
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
-pub struct Span {
-    pub start: usize, // inclusive
-    pub end: usize,   // exclusive
-}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LineNumber {
