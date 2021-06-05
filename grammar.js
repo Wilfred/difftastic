@@ -64,7 +64,7 @@ module.exports = grammar({
     [$.goto_expression, $._expression],
     [$._primitive_expression, $.to_reference],
     [$._expression],
-    [$._expression_without_call_expression],
+    [$._expression_without_call_expression_with_just_name],
     [$.bareword_import, $.package_name],
     [$.package_name],
     [$._list, $._variables],
@@ -73,13 +73,13 @@ module.exports = grammar({
     [$.hash_ref],
     [$.hash],
     [$.hash_ref, $._dereference],
-    [$._expression_without_call_expression, $.argument],
+    [$._expression_without_call_expression_with_just_name, $.argument],
     [$.argument, $.array],
     [$._expression, $.method_invocation],
     [$._expression, $.goto_expression, $.method_invocation],
     [$._expression, $.ternary_expression_in_hash],
     [$.hash, $._dereference],
-    [$._expression_without_call_expression, $.ternary_expression_in_hash],
+    [$._expression_without_call_expression_with_just_name, $.ternary_expression_in_hash],
     [$._variables, $.ternary_expression_in_hash],
     [$.string_double_quoted],
     [$.named_block_statement, $.hash_ref],
@@ -87,6 +87,12 @@ module.exports = grammar({
     [$.loop_control_statement],
     [$.variable_declarator, $.function_signature],
     [$.array_access_variable, $.array_ref],
+    [$.named_block_statement, $.hash_access_variable],
+    [$.list_block, $.hash_ref],
+    [$._expression_without_call_expression_with_just_name, $.sort_function],
+    [$._expression_without_call_expression_with_just_name, $.goto_expression],
+    [$._expression_without_call_expression_with_just_name, $.method_invocation],
+    [$._expression_without_call_expression_with_just_name, $.goto_expression, $.method_invocation],
   ],
 
   externals: $ => [
@@ -664,18 +670,19 @@ module.exports = grammar({
     //   ')'
     // ),
 
+    // TODO: return hello => 'dsfs' && meow => 'dsf';
     return_expression: $ => seq(
       'return',
       optional($._expression),
     ),
 
     _expression: $ => with_or_without_brackets(choice(
-      $._expression_without_call_expression,
-      $.call_expression,      
+      $._expression_without_call_expression_with_just_name,
+      alias($.call_expression_with_just_name, $.call_expression),
     )),
 
     // NOTE: just a hack to handle identifier vs subroutine call
-    _expression_without_call_expression: $ => choice(
+    _expression_without_call_expression_with_just_name: $ => with_or_without_brackets(choice(
       $._primitive_expression,
       $._string,
       $._variables,
@@ -685,6 +692,7 @@ module.exports = grammar({
       $.unary_expression,
       $.ternary_expression,
 
+      $.call_expression,
       $.call_expression_recursive,
       $.method_invocation,
       $.goto_expression,
@@ -699,8 +707,6 @@ module.exports = grammar({
       $.pattern_matcher,
 
       $._i_o_operator,
-
-      // $.arrow_notation,
 
       $.type_glob,
 
@@ -721,7 +727,7 @@ module.exports = grammar({
       $.unpack_function,
 
       $.push_function,
-    ),
+    )),
 
     package_variable: $ => seq(
       alias($.scalar_variable, $.package_name),
@@ -771,9 +777,13 @@ module.exports = grammar({
       with_or_without_brackets(seq($._expression, ',', $._expression)),
     )),
 
+    // TODO: this needs more cases coverage
     list_block: $ => seq(
       '{',
-      $._expression,
+      choice(
+        repeat1(choice($._expression_without_call_expression_with_just_name, $._key_value_pair)),
+        repeat1($._statement),
+      ),
       '}'
     ),
 
@@ -781,6 +791,8 @@ module.exports = grammar({
       /@_/,
       /\$_/,
       /\$]/,
+      '$$',
+      '$0',
     ),
 
     bless: $ => prec.right(seq(
@@ -803,25 +815,6 @@ module.exports = grammar({
         $.identifier,
       ),
     ),
-
-    // TODO handle CONSTANTS here AND have _expression as left(latter is done) - revisit
-    arrow_notation: $ => prec.left(PRECEDENCE.SUB_CALL, seq(
-      choice(
-        $.scalar_variable,
-        $.array_access_variable,
-        $.hash_access_variable,
-        $._expression,
-      ),
-      prec.left(repeat1(
-        seq(
-          $.arrow_operator,
-          choice( // either a array element or hash key
-            seq('[', field('array_element', $._expression), ']'),
-            seq('{', field('hash_key', choice($.identifier, $._expression_without_call_expression)), '}'),
-          ),
-        )
-      )),
-    )),
 
     goto_expression: $ => seq(
       'goto',
@@ -1185,7 +1178,16 @@ module.exports = grammar({
         token.immediate('::'),
       )),
       field('function_name', $.identifier),
-      optional(field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument))),
+      field('args', choice($.empty_parenthesized_argument, $.parenthesized_argument, $.argument)),
+    )),
+
+    call_expression_with_just_name: $ => prec.right(PRECEDENCE.SUB_CALL, seq(
+      optional(token.immediate('&')),
+      optional(seq(
+        field('package_name', $.package_name),
+        token.immediate('::'),
+      )),
+      field('function_name', $.identifier),
     )),
 
     method_invocation: $ => prec.left(PRECEDENCE.SUB_CALL + 1, seq(
@@ -1515,8 +1517,8 @@ module.exports = grammar({
       repeat1(
         seq(
           choice(
-            '->[',
-            '['
+            token.immediate('->['),
+            token.immediate('[')
           ),
           field('index', $._expression),
           ']',
@@ -1536,13 +1538,13 @@ module.exports = grammar({
       repeat1(
         seq(
           choice(
-            '->{',
-            '{',
+            token.immediate('->{'),
+            token.immediate('{'),
           ),
           field('key', choice(
             alias($.identifier, $.bareword),
             alias($.key_words_in_hash_key, $.bareword),
-            $._expression_without_call_expression, // TODO: should accept call_expression also. But currently bareword is treated as call_expression without brackets
+            $._expression_without_call_expression_with_just_name,
           )),
           '}',
         )
@@ -1637,7 +1639,7 @@ module.exports = grammar({
       field('key', choice(
         alias($.identifier, $.bareword),
         alias($.key_words_in_hash_key, $.bareword),
-        $._expression_without_call_expression,
+        $._expression_without_call_expression_with_just_name,
       )),
       $.hash_arrow_operator,
       choice(
