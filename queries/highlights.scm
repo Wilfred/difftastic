@@ -47,4 +47,5 @@
   "FROM"
   "AS"
   "GROUP BY"
+  "ORDER BY"
 ] @keyword
