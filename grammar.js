@@ -9,7 +9,7 @@ function caseInsensitive(keyword) {
 }
 
 module.exports = grammar({
-  name: "SQL",
+  name: "sql",
   extras: ($) => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
   rules: {
     source_file: ($) => repeat($._statement),
@@ -166,8 +166,7 @@ module.exports = grammar({
       seq("(", commaSep1(choice($._expression, $.ordered_expression)), ")"),
     select_statement: ($) =>
       seq(
-        caseInsensitive("SELECT"),
-        optional($.select_clause),
+        $.select_clause,
         optional($.from_clause),
         optional($.where_clause),
         optional($.group_by_clause)
@@ -179,7 +178,9 @@ module.exports = grammar({
       seq($._expression, caseInsensitive("AS"), $.identifier),
     _aliasable_expression: ($) =>
       choice($._expression, alias($._aliased_expression, $.alias)),
-    select_clause: ($) => commaSep1($._aliasable_expression),
+    select_clause_body: ($) => commaSep1($._aliasable_expression),
+    select_clause: ($) =>
+      seq(caseInsensitive("SELECT"), optional($.select_clause_body)),
     from_clause: ($) =>
       seq(caseInsensitive("FROM"), commaSep1($._aliasable_expression)),
     in_expression: ($) =>

@@ -1,5 +1,5 @@
 {
-  "name": "SQL",
+  "name": "sql",
   "rules": {
     "source_file": {
       "type": "REPEAT",
@@ -1024,25 +1024,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "[sS][eE][lL][eE][cC][tT]"
-          },
-          "named": false,
-          "value": "SELECT"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "select_clause"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "select_clause"
         },
         {
           "type": "CHOICE",
@@ -1179,7 +1162,7 @@
         }
       ]
     },
-    "select_clause": {
+    "select_clause_body": {
       "type": "SEQ",
       "members": [
         {
@@ -1201,6 +1184,32 @@
               }
             ]
           }
+        }
+      ]
+    },
+    "select_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[sS][eE][lL][eE][cC][tT]"
+          },
+          "named": false,
+          "value": "SELECT"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "select_clause_body"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
