@@ -40,4 +40,5 @@
   "UNIQUE"
   "SELECT"
   "WHERE"
+  "FROM"
 ] @keyword

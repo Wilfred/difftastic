@@ -6,6 +6,7 @@
   "scripts": {
     "test": "tree-sitter generate && tree-sitter test",
     "gen": "tree-sitter generate",
+    "hl": "tree-sitter highlight",
     "parse": "tree-sitter parse",
     "extract-error": "node ./scripts/extract_error.js"
   },
