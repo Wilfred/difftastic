@@ -1049,12 +1049,60 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "from_clause"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
               "name": "where_clause"
             },
             {
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "where_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[wW][hH][eE][rR][eE]"
+          },
+          "named": false,
+          "value": "WHERE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
+    "from_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[fF][rR][oO][mM]"
+          },
+          "named": false,
+          "value": "FROM"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
         }
       ]
     },
@@ -1536,24 +1584,6 @@
         {
           "type": "STRING",
           "value": ")"
-        }
-      ]
-    },
-    "where_clause": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "[wW][hH][eE][rR][eE]"
-          },
-          "named": false,
-          "value": "WHERE"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
         }
       ]
     },

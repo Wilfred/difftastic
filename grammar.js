@@ -168,9 +168,11 @@ module.exports = grammar({
       seq(
         caseInsensitive("SELECT"),
         optional($.select_clause),
+        optional($.from_clause),
         optional($.where_clause)
       ),
     where_clause: ($) => seq(caseInsensitive("WHERE"), $._expression),
+    from_clause: ($) => seq(caseInsensitive("FROM"), $._expression),
     in_expression: ($) =>
       prec.left(
         1,

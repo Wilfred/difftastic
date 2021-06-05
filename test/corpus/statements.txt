@@ -21,6 +21,19 @@ SELECT 1 IS DISTINCT FROM NULL;
     (select_statement
         (select_clause (is_expression (number) (distinct_from (NULL))))))
 
+================
+SELECT statement
+================
+
+SELECT a, b FROM table1;
+
+---
+
+(source_file 
+    (select_statement
+        (select_clause (identifier) (identifier))
+        (from_clause (identifier)))) 
+
 =============================
 SELECT statement with numbers
 =============================
