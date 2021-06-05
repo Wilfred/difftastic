@@ -172,7 +172,13 @@ module.exports = grammar({
         optional($.where_clause)
       ),
     where_clause: ($) => seq(caseInsensitive("WHERE"), $._expression),
-    from_clause: ($) => seq(caseInsensitive("FROM"), $._expression),
+    _aliased_expression: ($) =>
+      seq($._expression, caseInsensitive("AS"), $.identifier),
+    _aliasable_expression: ($) =>
+      choice($._expression, alias($._aliased_expression, $.alias)),
+    select_clause: ($) => commaSep1($._aliasable_expression),
+    from_clause: ($) =>
+      seq(caseInsensitive("FROM"), commaSep1($._aliasable_expression)),
     in_expression: ($) =>
       prec.left(
         1,
@@ -190,7 +196,6 @@ module.exports = grammar({
         field("elements", commaSep1($._expression)),
         ")"
       ),
-    select_clause: ($) => commaSep1($._expression),
     // TODO: named constraints
     references_constraint: ($) =>
       seq(
