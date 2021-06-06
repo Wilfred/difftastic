@@ -1,16 +1,16 @@
 mod diffs;
 mod json;
-mod positions;
 mod lines;
+mod positions;
 mod tree_diff;
 use clap::{App, Arg};
-use std::cmp::min;
+use std::cmp::{max, min};
 use std::ffi::OsStr;
 use std::path::Path;
 use typed_arena::Arena;
 
 use crate::json::{lang_from_str, parse, read_or_die};
-use crate::lines::{enforce_length, visible_groups, apply_groups};
+use crate::lines::{apply_groups, enforce_length, visible_groups};
 use crate::tree_diff::{apply_colors, matched_positions, set_changed};
 
 fn term_width() -> Option<usize> {
@@ -100,13 +100,19 @@ fn main() {
         None => term_width().unwrap_or(80),
     };
 
-    let max_left_length = min(
-        before_src.lines().map(|line| line.len()).max().unwrap_or(1),
-        terminal_width / 2 - 1,
+    let max_left_length = max(
+        35,
+        min(
+            before_src.lines().map(|line| line.len()).max().unwrap_or(1),
+            terminal_width / 2 - 1,
+        ),
     );
-    let max_right_length = min(
-        after_src.lines().map(|line| line.len()).max().unwrap_or(1),
-        terminal_width - 1 - max_left_length,
+    let max_right_length = max(
+        35,
+        min(
+            after_src.lines().map(|line| line.len()).max().unwrap_or(1),
+            terminal_width - 1 - max_left_length,
+        ),
     );
 
     // TODO: enforce length after parsing (requires converting
