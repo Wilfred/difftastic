@@ -50,7 +50,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-sql"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "cc",
  "tree-sitter",
