@@ -23,6 +23,27 @@ comment_patterns = [
 open_delimiter_pattern = '(\[|\{|\()'
 close_delimiter_pattern = '(\]|\}|\))'
 
+[CSS]
+extensions = ["css"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+  # Symbols (e.g. variable names)
+  '[.a-zA-Z0-9_]+',
+]
+string_patterns = [
+  # Double-quoted strings
+  '"[^"]*"',
+  # Single quoted strings
+  "'[^']*'",
+]
+comment_patterns = [
+  # Mult-line comments
+  '/\*(?s:.)*?\*/',
+]
+open_delimiter_pattern = '(\[|\{|\()'
+close_delimiter_pattern = '(\]|\}|\))'
+
 [elisp]
 extensions = ["el"]
 atom_patterns = [
