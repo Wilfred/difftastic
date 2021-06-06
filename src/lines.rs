@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use crate::positions::{LineSpan, Span};
-use crate::tree_diff::MatchedPos;
+use crate::tree_diff::{MatchKind, MatchedPos};
 use regex::Regex;
 
 #[cfg(test)]
@@ -150,6 +150,15 @@ pub fn visible_groups(
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
 ) -> Vec<LineGroup> {
+    let lhs_positions: Vec<_> = lhs_positions
+        .iter()
+        .filter(|mp| mp.kind != MatchKind::Unchanged)
+        .collect();
+    let rhs_positions: Vec<_> = rhs_positions
+        .iter()
+        .filter(|mp| mp.kind != MatchKind::Unchanged)
+        .collect();
+
     let lhs_nl_pos = NewlinePositions::from(lhs_src);
     let rhs_nl_pos = NewlinePositions::from(rhs_src);
 
@@ -161,7 +170,7 @@ pub fn visible_groups(
     loop {
         // If the LHS overlaps, add to the current group.
         if let Some(lhs_pos) = lhs_positions.get(lhs_i) {
-            if group.overlaps_lhs(&lhs_nl_pos, lhs_pos) {
+            if group.is_empty() || group.overlaps_lhs(&lhs_nl_pos, lhs_pos) {
                 group.add_lhs(&lhs_nl_pos, lhs_pos);
                 lhs_i += 1;
                 continue;
@@ -170,7 +179,7 @@ pub fn visible_groups(
 
         // If the RHS overlaps, add to the current group.
         if let Some(rhs_pos) = rhs_positions.get(rhs_i) {
-            if group.overlaps_rhs(&rhs_nl_pos, rhs_pos) {
+            if group.is_empty() || group.overlaps_rhs(&rhs_nl_pos, rhs_pos) {
                 group.add_rhs(&rhs_nl_pos, rhs_pos);
                 rhs_i += 1;
                 continue;
