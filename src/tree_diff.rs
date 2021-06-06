@@ -269,9 +269,9 @@ impl MatchKind {
 
 pub struct MatchedPos {
     kind: MatchKind,
-    pos: Span,
+    pub pos: Span,
     prev_pos: Option<Span>,
-    prev_opposite_pos: Option<Span>,
+    pub prev_opposite_pos: Option<Span>,
 }
 
 pub fn matched_positions<'a>(nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
