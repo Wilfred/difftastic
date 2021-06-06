@@ -1,10 +1,11 @@
-; (identifier) @variable FIXME this overrides function call pattern
 (string) @string
 (number) @number
 (comment) @comment
 
 (function_call
     function: (identifier) @function)
+
+(identifier) @variable
 
 [
   (NULL)
