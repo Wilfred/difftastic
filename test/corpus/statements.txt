@@ -870,10 +870,15 @@ CREATE FUNCTION add(integer, integer) RETURNS integer
 ---
 
 (source_file
-    (create_function_statement (identifier) 
+    (create_function_statement
+        (identifier) 
         (create_function_parameters (create_function_parameter (type))
                                     (create_function_parameter (type))) 
-                                    (type) (function_body) (language)))
+
+        (type)
+        (function_body (select_statement (select_clause 
+            (select_clause_body (binary_expression (argument_reference) (argument_reference)))))) 
+        (language)))
 
 =====================
 CREATE FUNCTION returns setof
@@ -888,7 +893,12 @@ CREATE FUNCTION add(text) RETURNS SETOF int
 (source_file
     (create_function_statement (identifier) 
         (create_function_parameters (create_function_parameter (type)))
-                                    (setof (type)) (function_body) (language)))
+                                    (setof (type)) 
+        (function_body 
+            (select_statement (select_clause (select_clause_body (identifier))) 
+                (from_clause (identifier)) 
+                (where_clause (comparison_operator (identifier) (argument_reference))))) 
+        (language)))
 
 =====================
 CREATE FUNCTION returns constrained setof
@@ -904,7 +914,11 @@ CREATE FUNCTION add(text) RETURNS SETOF int NOT NULL
     (create_function_statement (identifier) 
         (create_function_parameters (create_function_parameter (type))) 
                                     (setof (constrained_type (type) (not_null)))
-                                    (function_body) (language)))
+        (function_body 
+            (select_statement (select_clause (select_clause_body (identifier))) 
+                (from_clause (identifier))
+                (where_clause (comparison_operator (identifier) (argument_reference)))))
+        (language)))
 
 =====================
 CREATE FUNCTION Language in first pos
@@ -917,8 +931,9 @@ CREATE FUNCTION add(integer) RETURNS integer LANGUAGE SQL AS 'select $1';
 (source_file
     (create_function_statement (identifier) 
         (create_function_parameters (create_function_parameter (type))) 
-                                    (type) (language) (function_body)))
-
+                                    (type) (language)
+        (function_body 
+            (select_statement (select_clause (select_clause_body (argument_reference)))))))
 
 
 =====================
@@ -932,8 +947,8 @@ CREATE FUNCTION add(integer) RETURNS integer STABLE LANGUAGE SQL AS 'select $1';
 (source_file
     (create_function_statement (identifier) 
         (create_function_parameters (create_function_parameter (type))) 
-                                    (type) (optimizer_hint) (language) (function_body)))
-
+                                    (type) (optimizer_hint) (language) 
+        (function_body (select_statement (select_clause (select_clause_body (argument_reference)))))))
 
 
 =====================
@@ -948,7 +963,8 @@ CREATE FUNCTION add(integer NOT NULL) RETURNS integer STABLE LANGUAGE SQL AS 'se
     (create_function_statement (identifier)
         (create_function_parameters 
             (create_function_parameter (constrained_type (type) (not_null)))) 
-            (type) (optimizer_hint) (language) (function_body)))
+            (type) (optimizer_hint) (language)
+            (function_body (select_statement (select_clause (select_clause_body (argument_reference)))))))
 
 
 =====================
@@ -962,4 +978,22 @@ create function add(integer) returns integer language sql as 'select $1';
 (source_file
     (create_function_statement (identifier) 
         (create_function_parameters (create_function_parameter (type))) 
-                                    (type) (language) (function_body)))
+        (type)
+        (language)
+        (function_body (select_statement (select_clause (select_clause_body (argument_reference)))))))
+
+=====================
+CREATE FUNCTION highlight function body
+=====================
+
+create function add(integer) returns integer language sql as 'select a, b';
+
+---
+
+(source_file
+    (create_function_statement (identifier) 
+        (create_function_parameters (create_function_parameter (type))) 
+                                    (type) (language) 
+                                    (function_body
+                                        (select_statement
+                                            (select_clause (select_clause_body (identifier) (identifier)))))))

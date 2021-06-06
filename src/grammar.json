@@ -98,7 +98,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_function_body"
+                "name": "function_body"
               },
               {
                 "type": "ALIAS",
@@ -335,7 +335,7 @@
         }
       ]
     },
-    "_function_body": {
+    "function_body": {
       "type": "SEQ",
       "members": [
         {
@@ -348,13 +348,67 @@
           "value": "AS"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "string"
-          },
-          "named": true,
-          "value": "function_body"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "$$"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "select_statement"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ";"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "$$"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "'"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "select_statement"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ";"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "'"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1247,30 +1301,34 @@
       ]
     },
     "select_clause": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "[sS][eE][lL][eE][cC][tT]"
-          },
-          "named": false,
-          "value": "SELECT"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "select_clause_body"
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "[sS][eE][lL][eE][cC][tT]"
             },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+            "named": false,
+            "value": "SELECT"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "select_clause_body"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "from_clause": {
       "type": "SEQ",
@@ -2262,6 +2320,19 @@
         ]
       }
     },
+    "argument_reference": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\d+"
+        }
+      ]
+    },
     "_expression": {
       "type": "CHOICE",
       "members": [
@@ -2324,6 +2395,10 @@
         {
           "type": "SYMBOL",
           "name": "binary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "argument_reference"
         }
       ]
     }
