@@ -3,13 +3,20 @@
 use crate::positions::{LineSpan, Span};
 use crate::tree_diff::{MatchKind, MatchedPos};
 use regex::Regex;
+use std::fmt;
 
 #[cfg(test)]
 use pretty_assertions::assert_eq;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LineNumber {
     pub number: usize,
+}
+
+impl fmt::Debug for LineNumber {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_fmt(format_args!("LineNumber: {}", self.number))
+    }
 }
 
 impl From<usize> for LineNumber {
@@ -18,6 +25,7 @@ impl From<usize> for LineNumber {
     }
 }
 
+#[derive(Debug)]
 pub struct LineGroup {
     lhs_lines: Vec<LineNumber>,
     rhs_lines: Vec<LineNumber>,
