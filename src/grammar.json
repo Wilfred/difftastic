@@ -386,14 +386,7 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "space"
-          }
-        },
-        {
-          "type": "PATTERN",
+          "type": "STRING",
           "value": "foreach"
         },
         {
@@ -406,6 +399,10 @@
         {
           "type": "STRING",
           "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "variable"
         },
         {
           "type": "REPEAT",
@@ -429,19 +426,36 @@
         {
           "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "endforeach"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "variable"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
     "normal_command": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "space"
-          }
-        },
         {
           "type": "SYMBOL",
           "name": "identifier"

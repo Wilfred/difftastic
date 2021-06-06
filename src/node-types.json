@@ -121,7 +121,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "arguments",
@@ -133,6 +133,10 @@
         },
         {
           "type": "space",
+          "named": true
+        },
+        {
+          "type": "variable",
           "named": true
         }
       ]
@@ -374,6 +378,14 @@
   },
   {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "endforeach",
+    "named": false
+  },
+  {
+    "type": "foreach",
     "named": false
   },
   {

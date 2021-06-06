@@ -40,24 +40,20 @@ module.exports = grammar({
 
     foreach_loop: ($) =>
       seq(
-        repeat($.space),
-        /foreach/i,
+        "foreach",
         repeat($.space),
         "(",
+        $.variable,
         repeat($.seperation),
         optional($.arguments),
+        ")",
+        "endforeach",
+        "(",
+        optional($.variable),
         ")"
       ),
     normal_command: ($) =>
-      seq(
-        repeat($.space),
-        $.identifier,
-        repeat($.space),
-        "(",
-        repeat($.seperation),
-        optional($.arguments),
-        ")"
-      ),
+      seq($.identifier, repeat($.space), "(", repeat($.seperation), optional($.arguments), ")"),
 
     command_invocation: ($) => choice($.normal_command, $.foreach_loop),
   },

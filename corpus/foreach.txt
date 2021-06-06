@@ -1,0 +1,34 @@
+==========================================
+[foreach, lowercase, empty_for, empty_end]
+==========================================
+
+foreach(var)
+endforeach()
+
+---
+
+(source_file
+ (command_invocation
+  (foreach_loop
+   (variable)
+  )
+ )
+)
+
+==============================================
+[foreach, lowercase, empty_for, non_empty_end]
+==============================================
+
+foreach(var)
+endforeach(var)
+
+---
+
+(source_file
+ (command_invocation
+  (foreach_loop
+   (variable)
+   (variable)
+  )
+ )
+)
