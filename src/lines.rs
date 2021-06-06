@@ -246,6 +246,17 @@ fn test_visible_groups_ignores_unchanged() {
     assert_eq!(res, vec![]);
 }
 
+pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup]) -> String {
+    let spacer = "--------------------------\n";
+    dbg!(groups);
+
+    let mut result = String::new();
+    result.push_str(spacer);
+    result.push_str(spacer);
+
+    result
+}
+
 /// A position in a single line of a string.
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct LinePosition {

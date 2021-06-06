@@ -10,7 +10,7 @@ use std::path::Path;
 use typed_arena::Arena;
 
 use crate::json::{lang_from_str, parse, read_or_die};
-use crate::lines::enforce_length;
+use crate::lines::{enforce_length, visible_groups, apply_groups};
 use crate::tree_diff::{apply_colors, matched_positions, set_changed};
 
 fn term_width() -> Option<usize> {
@@ -120,14 +120,17 @@ fn main() {
 
     set_changed(&lhs, &rhs);
 
-    let positions = matched_positions(&lhs);
-    let lhs_colored = apply_colors(&before_src, true, &positions);
+    let lhs_positions = matched_positions(&lhs);
+    let lhs_colored = apply_colors(&before_src, true, &lhs_positions);
 
-    let positions = matched_positions(&rhs);
-    let rhs_colored = apply_colors(&after_src, false, &positions);
+    let rhs_positions = matched_positions(&rhs);
+    let rhs_colored = apply_colors(&after_src, false, &rhs_positions);
 
     print!(
         "{}",
         horizontal_concat(&lhs_colored, &rhs_colored, max_left_length)
     );
+
+    let groups = visible_groups(&before_src, &after_src, &lhs_positions, &rhs_positions);
+    print!("{}", apply_groups(&lhs_colored, &rhs_colored, &groups));
 }
