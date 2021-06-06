@@ -251,7 +251,7 @@ fn sort_by_size(nodes: &mut Vec<&Node>) {
     nodes.reverse();
 }
 
-#[derive(PartialEq, Eq)]
+#[derive(PartialEq, Eq, Debug)]
 pub enum MatchKind {
     Unchanged,
     Moved,
@@ -268,10 +268,11 @@ impl MatchKind {
     }
 }
 
+#[derive(Debug)]
 pub struct MatchedPos {
     pub kind: MatchKind,
     pub pos: Span,
-    prev_pos: Option<Span>,
+    pub prev_pos: Option<Span>,
     pub prev_opposite_pos: Option<Span>,
 }
 

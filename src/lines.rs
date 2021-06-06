@@ -25,7 +25,7 @@ impl From<usize> for LineNumber {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct LineGroup {
     lhs_lines: Vec<LineNumber>,
     rhs_lines: Vec<LineNumber>,
@@ -222,6 +222,28 @@ pub fn visible_groups(
     }
 
     groups
+}
+
+#[test]
+fn test_visible_groups_ignores_unchanged() {
+    let lhs_src = "foo\nbar";
+    let rhs_src = "bar\nbar";
+
+    let lhs_positions = vec![MatchedPos {
+        kind: MatchKind::Unchanged,
+        pos: Span { start: 0, end: 1 },
+        prev_pos: None,
+        prev_opposite_pos: None,
+    }];
+    let rhs_positions = vec![MatchedPos {
+        kind: MatchKind::Unchanged,
+        pos: Span { start: 0, end: 1 },
+        prev_pos: None,
+        prev_opposite_pos: None,
+    }];
+
+    let res = visible_groups(&lhs_src, &rhs_src, &lhs_positions, &rhs_positions);
+    assert_eq!(res, vec![]);
 }
 
 /// A position in a single line of a string.
