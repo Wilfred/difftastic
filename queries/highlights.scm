@@ -40,6 +40,7 @@
   "CREATE TABLE"
   "CREATE TYPE"
   "CREATE DOMAIN"
+  "CREATE FUNCTION"
   "CREATE"
   "INDEX"
   "UNIQUE"
@@ -47,6 +48,8 @@
   "WHERE"
   "FROM"
   "AS"
+  "RETURNS"
+  "LANGUAGE"
   "GROUP BY"
   "ORDER BY"
 ] @keyword

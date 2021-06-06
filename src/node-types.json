@@ -35,6 +35,10 @@
           "named": true
         },
         {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -82,6 +86,11 @@
     }
   },
   {
+    "type": "argument_reference",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "array_type",
     "named": true,
     "fields": {},
@@ -118,6 +127,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
           "named": true
         },
         {
@@ -188,6 +201,10 @@
           "named": true
         },
         {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -252,6 +269,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
           "named": true
         },
         {
@@ -322,6 +343,10 @@
           "named": true
         },
         {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -386,6 +411,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
           "named": true
         },
         {
@@ -484,6 +513,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
           "named": true
         },
         {
@@ -882,6 +915,10 @@
           "named": true
         },
         {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -946,6 +983,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
           "named": true
         },
         {
@@ -1058,6 +1099,10 @@
           "named": true
         },
         {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1107,7 +1152,17 @@
   {
     "type": "function_body",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "select_statement",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "function_call",
@@ -1139,6 +1194,10 @@
           },
           {
             "type": "TRUE",
+            "named": true
+          },
+          {
+            "type": "argument_reference",
             "named": true
           },
           {
@@ -1235,6 +1294,10 @@
           "named": true
         },
         {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1299,6 +1362,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
           "named": true
         },
         {
@@ -1373,6 +1440,10 @@
           "named": true
         },
         {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1441,6 +1512,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
           "named": true
         },
         {
@@ -1523,6 +1598,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "number",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "on_delete_action",
@@ -1613,6 +1693,10 @@
           "named": true
         },
         {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -1692,6 +1776,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
           "named": true
         },
         {
@@ -1859,6 +1947,10 @@
         },
         {
           "type": "alias",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
           "named": true
         },
         {
@@ -2035,6 +2127,10 @@
             "named": true
           },
           {
+            "type": "argument_reference",
+            "named": true
+          },
+          {
             "type": "binary_expression",
             "named": true
           },
@@ -2100,6 +2196,10 @@
         },
         {
           "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
           "named": true
         },
         {
@@ -2214,6 +2314,10 @@
           "named": true
         },
         {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -2259,6 +2363,10 @@
         }
       ]
     }
+  },
+  {
+    "type": "$",
+    "named": false
   },
   {
     "type": "$$",
@@ -2518,10 +2626,6 @@
   },
   {
     "type": "not_null",
-    "named": true
-  },
-  {
-    "type": "number",
     "named": true
   },
   {

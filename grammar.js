@@ -35,7 +35,7 @@ module.exports = grammar({
         repeat(
           choice(
             $._function_language,
-            $._function_body,
+            $.function_body,
             alias($._function_optimizer_hint, $.optimizer_hint),
           ),
         ),
@@ -62,8 +62,14 @@ module.exports = grammar({
       ),
     create_function_parameters: $ =>
       seq("(", commaSep1($.create_function_parameter), ")"),
-    _function_body: $ =>
-      seq(caseInsensitive("AS"), alias($.string, $.function_body)),
+    function_body: $ =>
+      seq(
+        caseInsensitive("AS"),
+        choice(
+          seq("$$", $.select_statement, optional(";"), "$$"),
+          seq("'", $.select_statement, optional(";"), "'"),
+        ),
+      ),
     create_domain_statement: $ =>
       seq(
         caseInsensitive("CREATE DOMAIN"),
@@ -185,7 +191,7 @@ module.exports = grammar({
       choice($._expression, alias($._aliased_expression, $.alias)),
     select_clause_body: $ => commaSep1($._aliasable_expression),
     select_clause: $ =>
-      seq(caseInsensitive("SELECT"), optional($.select_clause_body)),
+      prec.left(seq(caseInsensitive("SELECT"), optional($.select_clause_body))),
     from_clause: $ =>
       seq(caseInsensitive("FROM"), commaSep1($._aliasable_expression)),
     in_expression: $ =>
@@ -316,6 +322,7 @@ module.exports = grammar({
           seq($._expression, "+", $._expression),
         ),
       ),
+    argument_reference: $ => seq("$", /\d+/),
     _expression: $ =>
       choice(
         $.function_call,
@@ -333,6 +340,7 @@ module.exports = grammar({
         $._parenthesized_expression,
         $.type_cast,
         $.binary_expression,
+        $.argument_reference,
       ),
   },
 });
