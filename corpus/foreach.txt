@@ -9,7 +9,7 @@ endforeach()
 (source_file
  (command_invocation
   (foreach_loop
-   (foreach_items
+   (foreach_iter
     loop_var: (variable)
    )
   )
@@ -27,7 +27,7 @@ endforeach(var)
 (source_file
  (command_invocation
   (foreach_loop
-   (foreach_items
+   (foreach_iter
     loop_var: (variable)
    )
    (variable)
@@ -46,7 +46,53 @@ endforeach()
 (source_file
  (command_invocation
   (foreach_loop
-   (foreach_items
+   (foreach_iter
+    loop_var: (variable)
+    (seperation (space))
+    (arguments
+     (argument (unquoted_argument))
+    )
+   )
+  )
+ )
+ )
+
+=========
+Two items
+=========
+
+foreach(var item item)
+endforeach()
+
+---
+(source_file
+ (command_invocation
+  (foreach_loop
+   (foreach_iter
+    loop_var: (variable)
+    (seperation (space))
+    (arguments
+     (argument (unquoted_argument))
+     (seperation (space))
+     (argument (unquoted_argument))
+    )
+   )
+  )
+ )
+ )
+
+=====================
+Iter containing RANGE
+=====================
+
+foreach(var RANGE1)
+endforeach()
+
+---
+(source_file
+ (command_invocation
+  (foreach_loop
+   (foreach_iter
     loop_var: (variable)
     (seperation (space))
     (arguments
@@ -72,7 +118,6 @@ endforeach()
     (foreach_range_stop
      loop_var: (variable)
      (seperation (space))
-     (seperation (space))
      stop: (integer)
     )
    )
@@ -95,9 +140,7 @@ endforeach()
     (foreach_range_full
      loop_var: (variable)
      (seperation (space))
-     (seperation (space))
      start: (integer)
-     (seperation (space))
      stop: (integer)
     )
    )
@@ -106,3 +149,52 @@ endforeach()
  )
 
 
+=========================
+Range lists with one list
+=========================
+
+foreach(var IN LISTS A)
+endforeach()
+
+---
+(source_file
+ (command_invocation
+  (foreach_loop
+   (foreach_lists_items
+    loop_var: (variable)
+    (seperation (space))
+    (seperation (space))
+    (seperation (space))
+    (arguments
+     (argument (unquoted_argument))
+    )
+   )
+  )
+ )
+ )
+
+==========================
+Range lists with two lists
+==========================
+
+foreach(var IN LISTS A B)
+endforeach()
+
+---
+(source_file
+ (command_invocation
+  (foreach_loop
+   (foreach_lists_items
+    loop_var: (variable)
+    (seperation (space))
+    (seperation (space))
+    (seperation (space))
+    (arguments
+     (argument (unquoted_argument))
+     (seperation (space))
+     (argument (unquoted_argument))
+    )
+   )
+  )
+ )
+ )

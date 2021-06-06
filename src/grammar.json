@@ -31,7 +31,7 @@
     },
     "newline": {
       "type": "PATTERN",
-      "value": "\\n"
+      "value": "\\n+"
     },
     "identifier": {
       "type": "PATTERN",
@@ -419,10 +419,6 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "foreach_items"
-            },
-            {
-              "type": "SYMBOL",
               "name": "foreach_range"
             },
             {
@@ -431,7 +427,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "foreach_zip_lists"
+              "name": "foreach_iter"
             }
           ]
         },
@@ -486,56 +482,6 @@
         }
       ]
     },
-    "foreach_items": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "loop_var",
-          "content": {
-            "type": "SYMBOL",
-            "name": "variable"
-          }
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "seperation"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "arguments"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "foreach_lists_items": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "b"
-        }
-      ]
-    },
-    "foreach_zip_lists": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "c"
-        }
-      ]
-    },
     "foreach_range": {
       "type": "CHOICE",
       "members": [
@@ -568,23 +514,41 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "RANGE"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "RANGE"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "seperation"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "seperation"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "stop",
-          "content": {
-            "type": "SYMBOL",
-            "name": "integer"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "stop",
+              "content": {
+                "type": "SYMBOL",
+                "name": "integer"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -607,15 +571,8 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "RANGE"
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "seperation"
-          }
+          "type": "PATTERN",
+          "value": "RANGE[ \\t\\n]+"
         },
         {
           "type": "FIELD",
@@ -623,13 +580,6 @@
           "content": {
             "type": "SYMBOL",
             "name": "integer"
-          }
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "seperation"
           }
         },
         {
@@ -660,6 +610,121 @@
                     "type": "SYMBOL",
                     "name": "integer"
                   }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "foreach_lists_items": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "loop_var",
+          "content": {
+            "type": "SYMBOL",
+            "name": "variable"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "IN"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "REPEAT1",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "seperation"
+                }
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "foreach_lists"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "foreach_lists": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "LISTS"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "seperation"
+                    }
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "variable"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "foreach_iter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "loop_var",
+          "content": {
+            "type": "SYMBOL",
+            "name": "variable"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "seperation"
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "arguments"
                 }
               ]
             },

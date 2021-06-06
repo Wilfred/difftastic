@@ -7,7 +7,7 @@ module.exports = grammar({
     line_ending: ($) => $.newline,
     seperation: ($) => choice($.space, $.line_ending),
     space: ($) => /[ \t]+/,
-    newline: ($) => /\n/,
+    newline: ($) => /\n+/,
     identifier: ($) => /[A-Za-z_][A-Za-z0-9_]*/,
     integer: ($) => /[+-]*\d+/,
 
@@ -45,7 +45,7 @@ module.exports = grammar({
         repeat($.seperation),
         "(",
         repeat($.seperation),
-        choice($.foreach_items, $.foreach_range, $.foreach_lists_items, $.foreach_zip_lists),
+        choice($.foreach_range, $.foreach_lists_items, $.foreach_iter),
         ")",
         repeat($.command_invocation),
         repeat($.space),
@@ -55,31 +55,37 @@ module.exports = grammar({
         optional($.variable),
         ")"
       ),
-    foreach_items: ($) =>
-      seq(field("loop_var", $.variable), repeat($.seperation), optional($.arguments)),
-    foreach_lists_items: ($) => seq("b"),
-    foreach_zip_lists: ($) => seq("c"),
 
     foreach_range: ($) => choice($.foreach_range_stop, $.foreach_range_full),
     foreach_range_stop: ($) =>
       seq(
         field("loop_var", $.variable),
         repeat1($.seperation),
-        "RANGE",
-        repeat1($.seperation),
-        field("stop", $.integer)
+        seq("RANGE", optional($.seperation)),
+        optional(field("stop", $.integer))
       ),
     foreach_range_full: ($) =>
       seq(
         field("loop_var", $.variable),
         repeat1($.seperation),
-        "RANGE",
-        repeat1($.seperation),
+        /RANGE[ \t\n]+/,
         field("start", $.integer),
-        repeat1($.seperation),
         field("stop", $.integer),
         optional(seq(repeat1($.seperation), field("step", $.integer)))
       ),
+
+    foreach_lists_items: ($) =>
+      seq(
+        field("loop_var", $.variable),
+        "IN",
+        repeat(seq(repeat1($.seperation), choice($.foreach_lists)))
+      ),
+    foreach_lists: ($) =>
+      prec.left(seq("LISTS", optional(seq(repeat1($.seperation), $.variable)))),
+    // foreach_items: ($) => prec.left(seq("ITEMS", repeat(seq(repeat1($.seperation), $.argument)))),
+
+    foreach_iter: ($) =>
+      seq(field("loop_var", $.variable), optional(seq(repeat1($.seperation), $.arguments))),
 
     normal_command: ($) =>
       seq(

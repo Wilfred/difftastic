@@ -116,7 +116,7 @@
     "fields": {}
   },
   {
-    "type": "foreach_items",
+    "type": "foreach_iter",
     "named": true,
     "fields": {
       "loop_var": {
@@ -146,9 +146,53 @@
     }
   },
   {
+    "type": "foreach_lists",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "seperation",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "foreach_lists_items",
     "named": true,
-    "fields": {}
+    "fields": {
+      "loop_var": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "foreach_lists",
+          "named": true
+        },
+        {
+          "type": "seperation",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "foreach_loop",
@@ -163,7 +207,7 @@
           "named": true
         },
         {
-          "type": "foreach_items",
+          "type": "foreach_iter",
           "named": true
         },
         {
@@ -172,10 +216,6 @@
         },
         {
           "type": "foreach_range",
-          "named": true
-        },
-        {
-          "type": "foreach_zip_lists",
           "named": true
         },
         {
@@ -284,7 +324,7 @@
       },
       "stop": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "integer",
@@ -303,11 +343,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "foreach_zip_lists",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "line_ending",
@@ -524,6 +559,14 @@
     "named": false
   },
   {
+    "type": "IN",
+    "named": false
+  },
+  {
+    "type": "LISTS",
+    "named": false
+  },
+  {
     "type": "RANGE",
     "named": false
   },
@@ -549,14 +592,6 @@
   },
   {
     "type": "]",
-    "named": false
-  },
-  {
-    "type": "b",
-    "named": false
-  },
-  {
-    "type": "c",
     "named": false
   },
   {
