@@ -41,52 +41,13 @@ module.exports = grammar({
     foreach_loop: ($) =>
       seq(
         repeat($.space),
-        "foreach",
-        repeat($.seperation),
-        "(",
-        repeat($.seperation),
-        choice($.foreach_range, $.foreach_lists_items, $.foreach_iter),
-        ")",
-        repeat($.command_invocation),
+        /foreach/i,
         repeat($.space),
-        "endforeach",
-        repeat($.seperation),
         "(",
-        optional($.variable),
+        repeat($.seperation),
+        optional($.arguments),
         ")"
       ),
-
-    foreach_range: ($) => choice($.foreach_range_stop, $.foreach_range_full),
-    foreach_range_stop: ($) =>
-      seq(
-        field("loop_var", $.variable),
-        repeat1($.seperation),
-        seq("RANGE", optional($.seperation)),
-        optional(field("stop", $.integer))
-      ),
-    foreach_range_full: ($) =>
-      seq(
-        field("loop_var", $.variable),
-        repeat1($.seperation),
-        /RANGE[ \t\n]+/,
-        field("start", $.integer),
-        field("stop", $.integer),
-        optional(seq(repeat1($.seperation), field("step", $.integer)))
-      ),
-
-    foreach_lists_items: ($) =>
-      seq(
-        field("loop_var", $.variable),
-        "IN",
-        repeat(seq(repeat1($.seperation), choice($.foreach_lists)))
-      ),
-    foreach_lists: ($) =>
-      prec.left(seq("LISTS", optional(seq(repeat1($.seperation), $.variable)))),
-    // foreach_items: ($) => prec.left(seq("ITEMS", repeat(seq(repeat1($.seperation), $.argument)))),
-
-    foreach_iter: ($) =>
-      seq(field("loop_var", $.variable), optional(seq(repeat1($.seperation), $.arguments))),
-
     normal_command: ($) =>
       seq(
         repeat($.space),

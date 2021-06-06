@@ -393,54 +393,8 @@
           }
         },
         {
-          "type": "STRING",
+          "type": "PATTERN",
           "value": "foreach"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "seperation"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "seperation"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "foreach_range"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "foreach_lists_items"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "foreach_iter"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "command_invocation"
-          }
         },
         {
           "type": "REPEAT",
@@ -451,7 +405,7 @@
         },
         {
           "type": "STRING",
-          "value": "endforeach"
+          "value": "("
         },
         {
           "type": "REPEAT",
@@ -461,15 +415,11 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "variable"
+              "name": "arguments"
             },
             {
               "type": "BLANK"
@@ -479,259 +429,6 @@
         {
           "type": "STRING",
           "value": ")"
-        }
-      ]
-    },
-    "foreach_range": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "foreach_range_stop"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "foreach_range_full"
-        }
-      ]
-    },
-    "foreach_range_stop": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "loop_var",
-          "content": {
-            "type": "SYMBOL",
-            "name": "variable"
-          }
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "seperation"
-          }
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "RANGE"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "seperation"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "stop",
-              "content": {
-                "type": "SYMBOL",
-                "name": "integer"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "foreach_range_full": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "loop_var",
-          "content": {
-            "type": "SYMBOL",
-            "name": "variable"
-          }
-        },
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "seperation"
-          }
-        },
-        {
-          "type": "PATTERN",
-          "value": "RANGE[ \\t\\n]+"
-        },
-        {
-          "type": "FIELD",
-          "name": "start",
-          "content": {
-            "type": "SYMBOL",
-            "name": "integer"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "stop",
-          "content": {
-            "type": "SYMBOL",
-            "name": "integer"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "seperation"
-                  }
-                },
-                {
-                  "type": "FIELD",
-                  "name": "step",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "integer"
-                  }
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "foreach_lists_items": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "loop_var",
-          "content": {
-            "type": "SYMBOL",
-            "name": "variable"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "IN"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "REPEAT1",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "seperation"
-                }
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "foreach_lists"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
-    "foreach_lists": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "LISTS"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "REPEAT1",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "seperation"
-                    }
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "variable"
-                  }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "foreach_iter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "loop_var",
-          "content": {
-            "type": "SYMBOL",
-            "name": "variable"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "seperation"
-                  }
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "arguments"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         }
       ]
     },

@@ -116,20 +116,9 @@
     "fields": {}
   },
   {
-    "type": "foreach_iter",
+    "type": "foreach_loop",
     "named": true,
-    "fields": {
-      "loop_var": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "variable",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
@@ -141,204 +130,9 @@
         {
           "type": "seperation",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "foreach_lists",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "seperation",
-          "named": true
-        },
-        {
-          "type": "variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "foreach_lists_items",
-    "named": true,
-    "fields": {
-      "loop_var": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "variable",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "foreach_lists",
-          "named": true
-        },
-        {
-          "type": "seperation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "foreach_loop",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "command_invocation",
-          "named": true
-        },
-        {
-          "type": "foreach_iter",
-          "named": true
-        },
-        {
-          "type": "foreach_lists_items",
-          "named": true
-        },
-        {
-          "type": "foreach_range",
-          "named": true
-        },
-        {
-          "type": "seperation",
-          "named": true
         },
         {
           "type": "space",
-          "named": true
-        },
-        {
-          "type": "variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "foreach_range",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "foreach_range_full",
-          "named": true
-        },
-        {
-          "type": "foreach_range_stop",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "foreach_range_full",
-    "named": true,
-    "fields": {
-      "loop_var": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "variable",
-            "named": true
-          }
-        ]
-      },
-      "start": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "integer",
-            "named": true
-          }
-        ]
-      },
-      "step": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "integer",
-            "named": true
-          }
-        ]
-      },
-      "stop": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "integer",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "seperation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "foreach_range_stop",
-    "named": true,
-    "fields": {
-      "loop_var": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "variable",
-            "named": true
-          }
-        ]
-      },
-      "stop": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "integer",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "seperation",
           "named": true
         }
       ]
@@ -559,18 +353,6 @@
     "named": false
   },
   {
-    "type": "IN",
-    "named": false
-  },
-  {
-    "type": "LISTS",
-    "named": false
-  },
-  {
-    "type": "RANGE",
-    "named": false
-  },
-  {
     "type": "[",
     "named": false
   },
@@ -595,19 +377,7 @@
     "named": false
   },
   {
-    "type": "endforeach",
-    "named": false
-  },
-  {
-    "type": "foreach",
-    "named": false
-  },
-  {
     "type": "identifier",
-    "named": true
-  },
-  {
-    "type": "integer",
     "named": true
   },
   {
