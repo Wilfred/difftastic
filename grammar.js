@@ -2,7 +2,7 @@ module.exports = grammar({
   name: "cmake",
 
   rules: {
-    source_file: ($) => repeat($.command_invocation),
+    source_file: ($) => repeat($._command_invocation),
 
     line_ending: ($) => $.newline,
     seperation: ($) => choice($.space, $.line_ending),
@@ -46,7 +46,7 @@ module.exports = grammar({
     normal_command: ($) =>
       seq($.identifier, "(", repeat($.seperation), optional($.arguments), ")"),
 
-    command_invocation: ($) => choice($.normal_command, $.foreach_command, $.endforeach_command),
+    _command_invocation: ($) => choice($.normal_command, $.foreach_command, $.endforeach_command),
   },
 });
 

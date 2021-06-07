@@ -7,10 +7,8 @@ message()
 ---
 
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-  )
+ (normal_command
+  (identifier)
  )
  )
 
@@ -23,11 +21,9 @@ message( )
 ---
 
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (seperation (space))
-  )
+ (normal_command
+  (identifier)
+  (seperation (space))
  )
  )
 
@@ -42,12 +38,10 @@ message(
 ---
 
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (seperation
-    (line_ending (newline))
-   )
+ (normal_command
+  (identifier)
+  (seperation
+   (line_ending (newline))
   )
  )
  )

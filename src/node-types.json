@@ -77,29 +77,6 @@
     }
   },
   {
-    "type": "command_invocation",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "endforeach_command",
-          "named": true
-        },
-        {
-          "type": "foreach_command",
-          "named": true
-        },
-        {
-          "type": "normal_command",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "endforeach_command",
     "named": true,
     "fields": {},
@@ -261,7 +238,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -284,7 +261,15 @@
       "required": false,
       "types": [
         {
-          "type": "command_invocation",
+          "type": "endforeach_command",
+          "named": true
+        },
+        {
+          "type": "foreach_command",
+          "named": true
+        },
+        {
+          "type": "normal_command",
           "named": true
         }
       ]

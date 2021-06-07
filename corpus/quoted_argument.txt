@@ -6,12 +6,10 @@ message("")
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (quoted_argument))
-   )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument (quoted_argument))
   )
  )
  )
@@ -24,12 +22,10 @@ message("An argument")
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (quoted_argument (quoted_element)))
-   )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument (quoted_argument (quoted_element)))
   )
  )
  )
@@ -42,14 +38,12 @@ message("First argument" "Second argument")
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (quoted_argument (quoted_element)))
-    (seperation (space))
-    (argument (quoted_argument (quoted_element)))
-   )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument (quoted_argument (quoted_element)))
+   (seperation (space))
+   (argument (quoted_argument (quoted_element)))
   )
  )
  )
@@ -63,12 +57,10 @@ with line break")
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (quoted_argument (quoted_element)))
-   )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument (quoted_argument (quoted_element)))
   )
  )
  )
@@ -81,15 +73,13 @@ message("${var}")
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument
-     (quoted_argument
-      (quoted_element
-       (variable_ref (normal_var (variable)))
-      )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument
+    (quoted_argument
+     (quoted_element
+      (variable_ref (normal_var (variable)))
      )
     )
    )
@@ -105,16 +95,14 @@ message("${var} ${var}")
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument
-     (quoted_argument
-      (quoted_element
-       (variable_ref (normal_var (variable)))
-       (variable_ref (normal_var (variable)))
-      )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument
+    (quoted_argument
+     (quoted_element
+      (variable_ref (normal_var (variable)))
+      (variable_ref (normal_var (variable)))
      )
     )
    )

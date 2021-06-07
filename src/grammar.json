@@ -5,7 +5,7 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "command_invocation"
+        "name": "_command_invocation"
       }
     },
     "line_ending": {
@@ -13,25 +13,32 @@
       "name": "newline"
     },
     "seperation": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "space"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "line_ending"
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "space"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "line_ending"
+            }
+          ]
         }
-      ]
+      }
     },
     "space": {
       "type": "PATTERN",
-      "value": "[ \\t]+"
+      "value": "[ \\t]"
     },
     "newline": {
       "type": "PATTERN",
-      "value": "\\n+"
+      "value": "\\n"
     },
     "foreach": {
       "type": "PATTERN",
@@ -490,7 +497,7 @@
         }
       ]
     },
-    "command_invocation": {
+    "_command_invocation": {
       "type": "CHOICE",
       "members": [
         {

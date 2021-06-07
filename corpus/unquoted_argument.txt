@@ -7,12 +7,10 @@ message(STATUS)
 ---
 
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (unquoted_argument))
-   )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument (unquoted_argument))
   )
  )
  )
@@ -26,14 +24,12 @@ message(STATUS Hello)
 ---
 
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (unquoted_argument))
-    (seperation (space))
-    (argument (unquoted_argument))
-   )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument (unquoted_argument))
+   (seperation (space))
+   (argument (unquoted_argument))
   )
  )
  )
@@ -48,22 +44,18 @@ STATUS)
 ---
 
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (seperation (space))
-   (arguments
-    (argument (unquoted_argument))
-   )
+ (normal_command
+  (identifier)
+  (seperation (space))
+  (arguments
+   (argument (unquoted_argument))
   )
  )
- (command_invocation
-  (normal_command
-   (identifier)
-   (seperation (line_ending (newline)))
-   (arguments
-    (argument (unquoted_argument))
-   )
+ (normal_command
+  (identifier)
+  (seperation (line_ending (newline)))
+  (arguments
+   (argument (unquoted_argument))
   )
  )
  )
@@ -71,28 +63,24 @@ STATUS)
 Command invocations with escape sequence [unquoted_argument]
 ============================================================
 
-message( STATUS)
+  message( STATUS)
 message(
 STATUS)
 ---
 
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (seperation (space))
-   (arguments
-    (argument (unquoted_argument))
-   )
+ (normal_command
+  (identifier)
+  (seperation (space))
+  (arguments
+   (argument (unquoted_argument))
   )
  )
- (command_invocation
-  (normal_command
-   (identifier)
-   (seperation (line_ending (newline)))
-   (arguments
-    (argument (unquoted_argument))
-   )
+ (normal_command
+  (identifier)
+  (seperation (line_ending (newline)))
+  (arguments
+   (argument (unquoted_argument))
   )
  )
  )
@@ -104,14 +92,12 @@ message(${var_ref})
 ---
 
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument
-     (unquoted_argument
-      (variable_ref (normal_var (variable)))
-     )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument
+    (unquoted_argument
+     (variable_ref (normal_var (variable)))
     )
    )
   )

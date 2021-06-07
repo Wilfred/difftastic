@@ -6,12 +6,10 @@ message([[]])
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (bracket_argument))
-   )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument (bracket_argument))
   )
  )
  )
@@ -20,16 +18,14 @@ message([[]])
 One bracket argument [bracket_argument]
 =======================================
 
-message([[An argument]])
+message([[an argument]])
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (bracket_argument (bracket_content)))
-   )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument (bracket_argument (bracket_content)))
   )
  )
  )
@@ -38,18 +34,16 @@ message([[An argument]])
 Two bracket arguments [bracket_argument]
 ========================================
 
-message([[First argument]] [[Second argument]])
+message([[first argument]] [[second argument]])
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (bracket_argument (bracket_content)))
-    (seperation (space))
-    (argument (bracket_argument (bracket_content)))
-   )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument (bracket_argument (bracket_content)))
+   (seperation (space))
+   (argument (bracket_argument (bracket_content)))
   )
  )
  )
@@ -59,22 +53,20 @@ Two bracket with two equals arguments [bracket_argument]
 ========================================================
 
 message(
-  [====[First argument]====]
-  [====[Second argument]====]
+  [====[first argument]====]
+  [====[second argument]====]
 )
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
+ (normal_command
+  (identifier)
+  (seperation (space))
+  (arguments
+   (argument (bracket_argument (bracket_content)))
    (seperation (space))
-   (arguments
-    (argument (bracket_argument (bracket_content)))
-    (seperation (space))
-    (argument (bracket_argument (bracket_content)))
-    (seperation (line_ending (newline)))
-   )
+   (argument (bracket_argument (bracket_content)))
+   (seperation (line_ending (newline)))
   )
  )
  )
@@ -83,18 +75,16 @@ message(
 Bracket argument with line break [bracket_argument]
 ===================================================
 
-message([[An argument
+message([[an argument
 with line break
 ]])
 
 ---
 (source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (bracket_argument (bracket_content)))
-   )
+ (normal_command
+  (identifier)
+  (arguments
+   (argument (bracket_argument (bracket_content)))
   )
  )
  )
