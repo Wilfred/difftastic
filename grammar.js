@@ -41,6 +41,12 @@ module.exports = grammar({
       '}',
     ),
 
+    // TODO: not to spec, but maybe good enough
+    identifier: $ => token(seq(
+      unicodeLetter,
+      repeat(choice(unicodeLetter, unicodeDigit, unicodePunctuation))
+    )),
+
     expression: $ => choice(
       $.expr_term,
       //$.operation,
@@ -112,12 +118,6 @@ module.exports = grammar({
 
     // TODO: string_literals are special template literals
     string_lit: $ => seq('"', /\w+/, '"'),
-
-    // TODO: not to spec, but maybe good enough
-    identifier: $ => token(seq(
-      unicodeLetter,
-      repeat(choice(unicodeLetter, unicodeDigit, unicodePunctuation))
-    )),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(
