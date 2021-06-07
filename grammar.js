@@ -27,13 +27,13 @@ module.exports = grammar({
     )),
 
     attribute: $ => seq(
-      $.identifier, 
+      field('name', $.identifier),
       '=', 
       $.expression
     ),
 
     block: $ => seq(
-      field('type', $.identifier),
+      field('name', $.identifier),
       repeat(choice($.string_lit, $.identifier)),
       '{',
       optional($.body),

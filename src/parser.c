@@ -294,12 +294,12 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
 };
 
 enum {
-  field_type = 1,
+  field_name = 1,
 };
 
 static const char * const ts_field_names[] = {
   [0] = NULL,
-  [field_type] = "type",
+  [field_name] = "name",
 };
 
 static const TSFieldMapSlice ts_field_map_slices[PRODUCTION_ID_COUNT] = {
@@ -308,7 +308,7 @@ static const TSFieldMapSlice ts_field_map_slices[PRODUCTION_ID_COUNT] = {
 
 static const TSFieldMapEntry ts_field_map_entries[] = {
   [0] =
-    {field_type, 0},
+    {field_name, 0},
 };
 
 static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE_LENGTH] = {
@@ -2942,7 +2942,7 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [109] = {.entry = {.count = 1, .reusable = true}}, SHIFT(5),
   [111] = {.entry = {.count = 1, .reusable = true}}, SHIFT(15),
   [113] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_block, 4, .production_id = 1),
-  [115] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_attribute, 3),
+  [115] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_attribute, 3, .production_id = 1),
   [117] = {.entry = {.count = 1, .reusable = true}}, SHIFT(14),
   [119] = {.entry = {.count = 1, .reusable = true}}, SHIFT(13),
   [121] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_block, 5, .production_id = 1),
