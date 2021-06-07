@@ -1,0 +1,25 @@
+{
+  "name": "tree-sitter-hcl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bindings/node",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nan": "^2.14.2",
+    "tree-sitter-cli": "^0.19.5"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.hcl",
+      "file-types": [
+        "hcl",
+        "tf",
+        "tfvars"
+      ]
+    }
+  ]
+}
