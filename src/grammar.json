@@ -3001,7 +3001,7 @@
           "name": "body",
           "content": {
             "type": "SYMBOL",
-            "name": "_record_base"
+            "name": "_record_body"
           }
         }
       ]
@@ -3113,7 +3113,7 @@
         }
       ]
     },
-    "_record_base": {
+    "_record_body": {
       "type": "CHOICE",
       "members": [
         {
