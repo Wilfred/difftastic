@@ -33,7 +33,7 @@ module.exports = grammar({
     ),
 
     block: $ => seq(
-      $.identifier,
+      field('type', $.identifier),
       repeat(choice($.string_lit, $.identifier)),
       '{',
       optional($.body),
@@ -55,13 +55,11 @@ module.exports = grammar({
     expr_term: $ => choice(
       $.literal_value,
       $.collection_value,
-      // $.template_expr,
       $.variable_expr,
       // $.function_call,
       // $.for_expr,
       // seq($.expr_term, $.index),
       // seq($.expr_term, $.get_attr),
-      // seq($.expr_term, $.splat),
       // seq($.expr_term, $.splat),
       seq('(', $.expression, ')'),
     ),
@@ -75,7 +73,7 @@ module.exports = grammar({
 
     numeric_lit: $ => /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
 
-    string_lit: $ => seq('"', repeat(/./), '"'),
+    string_lit: $ => seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
 
     bool_lit: $ => choice('true', 'false'),
 
