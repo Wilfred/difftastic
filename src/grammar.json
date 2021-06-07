@@ -175,22 +175,55 @@
           "name": "string_lit"
         },
         {
-          "type": "STRING",
-          "value": "true"
+          "type": "SYMBOL",
+          "name": "bool_lit"
         },
         {
-          "type": "STRING",
-          "value": "false"
-        },
-        {
-          "type": "STRING",
-          "value": "null"
+          "type": "SYMBOL",
+          "name": "null_lit"
         }
       ]
     },
     "numeric_lit": {
       "type": "PATTERN",
       "value": "[0-9]+(\\.[0-9]+([eE][-+]?[0-9]+)?)?"
+    },
+    "string_lit": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "."
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "bool_lit": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "false"
+        }
+      ]
+    },
+    "null_lit": {
+      "type": "STRING",
+      "value": "null"
     },
     "collection_value": {
       "type": "CHOICE",
@@ -335,23 +368,6 @@
     "variable_expr": {
       "type": "SYMBOL",
       "name": "identifier"
-    },
-    "string_lit": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "\""
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\w+"
-        },
-        {
-          "type": "STRING",
-          "value": "\""
-        }
-      ]
     },
     "comment": {
       "type": "TOKEN",

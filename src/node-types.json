@@ -61,6 +61,11 @@
     }
   },
   {
+    "type": "bool_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "collection_value",
     "named": true,
     "fields": {},
@@ -142,8 +147,16 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "bool_lit",
+          "named": true
+        },
+        {
+          "type": "null_lit",
+          "named": true
+        },
         {
           "type": "numeric_lit",
           "named": true
@@ -269,8 +282,8 @@
     "named": true
   },
   {
-    "type": "null",
-    "named": false
+    "type": "null_lit",
+    "named": true
   },
   {
     "type": "numeric_lit",

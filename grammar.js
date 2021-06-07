@@ -1,5 +1,4 @@
 const
-  //TODO figure out how to subtact regex sets
   unicodeLetter = /\p{L}/
   unicodePunctuation = /\p{Pc}/
   unicodeDigit = /[0-9]/
@@ -41,7 +40,7 @@ module.exports = grammar({
       '}',
     ),
 
-    // TODO: not to spec, but maybe good enough
+    // TODO: not to spec but good enough for now
     identifier: $ => token(seq(
       unicodeLetter,
       repeat(choice(unicodeLetter, unicodeDigit, unicodePunctuation))
@@ -70,12 +69,17 @@ module.exports = grammar({
     literal_value: $ => choice(
       $.numeric_lit,
       $.string_lit,
-      'true',
-      'false',
-      'null',
+      $.bool_lit,
+      $.null_lit,
     ),
 
     numeric_lit: $ => /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
+
+    string_lit: $ => seq('"', repeat(/./), '"'),
+
+    bool_lit: $ => choice('true', 'false'),
+
+    null_lit: $ => 'null',
 
     collection_value: $ => choice(
       $.tuple,
@@ -107,17 +111,6 @@ module.exports = grammar({
     ),
 
     variable_expr: $ => $.identifier,
-
-    // TODO: template expressions
-    //template_expr: $ => choice(
-      //$.quoted_template, 
-      //$.heredoc_template,
-    //),
-    //quoted_template: $ => seq('"', /\w+/, '"'),
-    //heredoc_template: $ => '',
-
-    // TODO: string_literals are special template literals
-    string_lit: $ => seq('"', /\w+/, '"'),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(
