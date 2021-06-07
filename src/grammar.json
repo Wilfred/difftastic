@@ -495,15 +495,15 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "normal_command"
+        },
+        {
+          "type": "SYMBOL",
           "name": "foreach_command"
         },
         {
           "type": "SYMBOL",
           "name": "endforeach_command"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "normal_command"
         }
       ]
     }
