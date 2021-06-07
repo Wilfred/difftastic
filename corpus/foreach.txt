@@ -9,8 +9,14 @@ endforeach()
 
 (source_file
  (command_invocation
-  (foreach_loop
+  (foreach_command
+   (foreach)
    (variable)
+  )
+ )
+ (command_invocation
+  (endforeach_command
+   (endforeach)
   )
  )
 )
@@ -26,9 +32,61 @@ endforeach(var)
 
 (source_file
  (command_invocation
-  (foreach_loop
+  (foreach_command
+   (foreach)
    (variable)
+  )
+ )
+ (command_invocation
+  (endforeach_command
+   (endforeach)
    (variable)
+  )
+ )
+)
+
+==========================================
+[foreach, uppercase, empty_for, empty_end]
+==========================================
+
+FOREACH(var)
+ENDFOREACH()
+
+---
+
+(source_file
+ (command_invocation
+  (foreach_command
+   (foreach)
+   (variable)
+  )
+ )
+ (command_invocation
+  (endforeach_command
+   (endforeach)
+  )
+ )
+)
+
+===========================================
+[foreach, mixed_case, empty_for, empty_end]
+===========================================
+
+forEach(var)
+endForEach()
+
+---
+
+(source_file
+ (command_invocation
+  (foreach_command
+   (foreach)
+   (variable)
+  )
+ )
+ (command_invocation
+  (endforeach_command
+   (endforeach)
   )
  )
 )

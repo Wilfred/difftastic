@@ -33,6 +33,14 @@
       "type": "PATTERN",
       "value": "\\n+"
     },
+    "foreach": {
+      "type": "PATTERN",
+      "value": "[fF][oO][rR][eE][aA][cC][hH]"
+    },
+    "endforeach": {
+      "type": "PATTERN",
+      "value": "[eE][nN][dD][fF][oO][rR][eE][aA][cC][hH]"
+    },
     "identifier": {
       "type": "PATTERN",
       "value": "[A-Za-z_][A-Za-z0-9_]*"
@@ -382,27 +390,16 @@
         ]
       }
     },
-    "foreach_loop": {
+    "foreach_command": {
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "foreach"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "space"
-          }
+          "type": "SYMBOL",
+          "name": "foreach"
         },
         {
           "type": "STRING",
           "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "variable"
         },
         {
           "type": "REPEAT",
@@ -412,28 +409,32 @@
           }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "arguments"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "variable"
         },
         {
           "type": "STRING",
           "value": ")"
-        },
+        }
+      ]
+    },
+    "endforeach_command": {
+      "type": "SEQ",
+      "members": [
         {
-          "type": "STRING",
-          "value": "endforeach"
+          "type": "SYMBOL",
+          "name": "endforeach"
         },
         {
           "type": "STRING",
           "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "seperation"
+          }
         },
         {
           "type": "CHOICE",
@@ -459,13 +460,6 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "space"
-          }
         },
         {
           "type": "STRING",
@@ -501,11 +495,15 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "normal_command"
+          "name": "foreach_command"
         },
         {
           "type": "SYMBOL",
-          "name": "foreach_loop"
+          "name": "endforeach_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "normal_command"
         }
       ]
     }

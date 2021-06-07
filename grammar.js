@@ -8,6 +8,7 @@ module.exports = grammar({
     seperation: ($) => choice($.space, $.line_ending),
     space: ($) => /[ \t]+/,
     newline: ($) => /\n+/,
+    ...commands("foreach", "endforeach"),
     identifier: ($) => /[A-Za-z_][A-Za-z0-9_]*/,
     integer: ($) => /[+-]*\d+/,
 
@@ -38,23 +39,27 @@ module.exports = grammar({
     arguments: ($) => seq($.argument, repeat($._seperated_arguments)),
     _seperated_arguments: ($) => prec.left(seq(repeat1($.seperation), optional($.argument))),
 
-    foreach_loop: ($) =>
-      seq(
-        "foreach",
-        repeat($.space),
-        "(",
-        $.variable,
-        repeat($.seperation),
-        optional($.arguments),
-        ")",
-        "endforeach",
-        "(",
-        optional($.variable),
-        ")"
-      ),
+    foreach_command: ($) =>
+      seq($.foreach, "(", repeat($.seperation), $.variable, ")"),
+    endforeach_command: ($) =>
+      seq($.endforeach, "(", repeat($.seperation), optional($.variable), ")"),
     normal_command: ($) =>
-      seq($.identifier, repeat($.space), "(", repeat($.seperation), optional($.arguments), ")"),
+      seq($.identifier, "(", repeat($.seperation), optional($.arguments), ")"),
 
-    command_invocation: ($) => choice($.normal_command, $.foreach_loop),
+    command_invocation: ($) => choice($.normal_command, $.foreach_command, $.endforeach_command),
   },
 });
+
+function iregex(s) {
+  return new RegExp(
+    Array.from(s).reduce((acc, value) => acc + `[${value.toLowerCase()}${value.toUpperCase()}]`, "")
+  );
+}
+
+function commandName(name) {
+  return { [name]: ($) => iregex(name) };
+}
+
+function commands(...names) {
+  return Object.assign({}, ...names.map(commandName));
+}
