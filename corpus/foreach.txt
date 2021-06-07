@@ -8,12 +8,14 @@ endforeach()
 ---
 
 (source_file
- (foreach_command
-  (foreach)
-  (variable)
- )
- (endforeach_command
-  (endforeach)
+ (foreach_loop
+  (foreach_command
+   (foreach)
+   (variable)
+  )
+  (endforeach_command
+   (endforeach)
+  )
  )
  )
 
@@ -27,15 +29,17 @@ endforeach(var)
 ---
 
 (source_file
- (foreach_command
-  (foreach)
-  (variable)
+ (foreach_loop
+  (foreach_command
+   (foreach)
+   (variable)
+  )
+  (endforeach_command
+   (endforeach)
+   (variable)
+  )
  )
- (endforeach_command
-  (endforeach)
-  (variable)
  )
-)
 
 ===========================
 Uppercase foreach [foreach]
@@ -47,12 +51,14 @@ ENDFOREACH()
 ---
 
 (source_file
- (foreach_command
-  (foreach)
-  (variable)
- )
- (endforeach_command
-  (endforeach)
+ (foreach_loop
+  (foreach_command
+   (foreach)
+   (variable)
+  )
+  (endforeach_command
+   (endforeach)
+  )
  )
  )
 
@@ -66,11 +72,13 @@ endForEach()
 ---
 
 (source_file
- (foreach_command
-  (foreach)
-  (variable)
- )
- (endforeach_command
-  (endforeach)
+ (foreach_loop
+  (foreach_command
+   (foreach)
+   (variable)
+  )
+  (endforeach_command
+   (endforeach)
+  )
  )
  )

@@ -39,14 +39,14 @@ module.exports = grammar({
     arguments: ($) => seq($.argument, repeat($._seperated_arguments)),
     _seperated_arguments: ($) => prec.left(seq(repeat1($.seperation), optional($.argument))),
 
-    foreach_command: ($) =>
-      seq($.foreach, "(", repeat($.seperation), $.variable, ")"),
+    foreach_command: ($) => seq($.foreach, "(", repeat($.seperation), $.variable, ")"),
     endforeach_command: ($) =>
       seq($.endforeach, "(", repeat($.seperation), optional($.variable), ")"),
-    normal_command: ($) =>
-      seq($.identifier, "(", repeat($.seperation), optional($.arguments), ")"),
+    foreach_loop: ($) =>
+      seq($.foreach_command, repeat($._command_invocation), $.endforeach_command),
+    normal_command: ($) => seq($.identifier, "(", repeat($.seperation), optional($.arguments), ")"),
 
-    _command_invocation: ($) => choice($.normal_command, $.foreach_command, $.endforeach_command),
+    _command_invocation: ($) => choice($.normal_command, $.foreach_loop),
   },
 });
 

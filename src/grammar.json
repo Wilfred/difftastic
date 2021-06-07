@@ -13,32 +13,25 @@
       "name": "newline"
     },
     "seperation": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "space"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "line_ending"
-            }
-          ]
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "space"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "line_ending"
         }
-      }
+      ]
     },
     "space": {
       "type": "PATTERN",
-      "value": "[ \\t]"
+      "value": "[ \\t]+"
     },
     "newline": {
       "type": "PATTERN",
-      "value": "\\n"
+      "value": "\\n+"
     },
     "foreach": {
       "type": "PATTERN",
@@ -461,6 +454,26 @@
         }
       ]
     },
+    "foreach_loop": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "foreach_command"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_command_invocation"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "endforeach_command"
+        }
+      ]
+    },
     "normal_command": {
       "type": "SEQ",
       "members": [
@@ -506,11 +519,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "foreach_command"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "endforeach_command"
+          "name": "foreach_loop"
         }
       ]
     }
