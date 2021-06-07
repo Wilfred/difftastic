@@ -1,6 +1,6 @@
-=========================
-One empty quoted argument
-=========================
+===========================================
+One empty quoted argument [quoted_argument]
+===========================================
 
 message("")
 
@@ -16,9 +16,9 @@ message("")
  )
  )
 
-===================
-One quoted argument
-===================
+=====================================
+One quoted argument [quoted_argument] 
+=====================================
 
 message("An argument")
 
@@ -34,9 +34,9 @@ message("An argument")
  )
  )
 
-====================
-Two quoted arguments
-====================
+======================================
+Two quoted arguments [quoted_argument] 
+======================================
 
 message("First argument" "Second argument")
 
@@ -54,9 +54,9 @@ message("First argument" "Second argument")
  )
  )
 
-=================================
-A quoted argument with line break
-=================================
+===================================================
+A quoted argument with line break [quoted_argument] 
+===================================================
 
 message("An argument
 with line break")
@@ -73,9 +73,9 @@ with line break")
  )
  )
 
-======================
-One variable reference
-======================
+========================================
+One variable reference [quoted_argument] 
+========================================
 
 message("${var}")
 
@@ -97,9 +97,9 @@ message("${var}")
  )
  )
 
-=======================
-Two Variable references
-=======================
+=========================================
+Two Variable references [quoted_argument] 
+=========================================
 
 message("${var} ${var}")
 

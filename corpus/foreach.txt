@@ -1,6 +1,6 @@
-==========================================
-[foreach, lowercase, empty_for, empty_end]
-==========================================
+============================
+Empty foreach loop [foreach]
+============================
 
 foreach(var)
 endforeach()
@@ -21,9 +21,9 @@ endforeach()
  )
 )
 
-==============================================
-[foreach, lowercase, empty_for, non_empty_end]
-==============================================
+=========================================================
+Empty foreach loop with one argument endforeach [foreach]
+=========================================================
 
 foreach(var)
 endforeach(var)
@@ -45,9 +45,9 @@ endforeach(var)
  )
 )
 
-==========================================
-[foreach, uppercase, empty_for, empty_end]
-==========================================
+===========================
+Uppercase foreach [foreach]
+===========================
 
 FOREACH(var)
 ENDFOREACH()
@@ -68,9 +68,9 @@ ENDFOREACH()
  )
 )
 
-===========================================
-[foreach, mixed_case, empty_for, empty_end]
-===========================================
+============================
+Mixed case foreach [foreach]
+============================
 
 forEach(var)
 endForEach()

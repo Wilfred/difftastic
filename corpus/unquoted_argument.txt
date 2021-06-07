@@ -1,6 +1,6 @@
-====================================
-Command invocation with one argument
-====================================
+========================================================
+Command invocation with one argument [unquoted_argument]
+========================================================
 
 message(STATUS)
 
@@ -17,9 +17,9 @@ message(STATUS)
  )
  )
 
-=====================================
-Command invocation with two arguments
-=====================================
+=========================================================
+Command invocation with two arguments [unquoted_argument]
+=========================================================
 
 message(STATUS Hello)
 
@@ -38,9 +38,9 @@ message(STATUS Hello)
  )
  )
 
-===========================================
-Command invocations with leading seperation
-===========================================
+===============================================================
+Command invocations with leading seperation [unquoted_argument]
+===============================================================
 
 message( STATUS)
 message(
@@ -67,9 +67,9 @@ STATUS)
   )
  )
  )
-========================================
-Command invocations with escape sequence
-========================================
+============================================================
+Command invocations with escape sequence [unquoted_argument]
+============================================================
 
 message( STATUS)
 message(
@@ -97,9 +97,9 @@ STATUS)
  )
  )
 
-====================
-Variable referencing
-====================
+========================================
+Variable referencing [unquoted_argument]
+========================================
 message(${var_ref})
 ---
 

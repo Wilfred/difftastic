@@ -1,6 +1,6 @@
-===================================
-Command invocation without argument
-===================================
+=================================================
+Command invocation without argument [no_argument]
+=================================================
 
 message()
 
@@ -14,9 +14,9 @@ message()
  )
  )
 
-===============================================
-Command invocation without argument with spaces
-===============================================
+=============================================================
+Command invocation without argument with spaces [no_argument]
+=============================================================
 
 message( )
 
@@ -31,9 +31,9 @@ message( )
  )
  )
 
-================================================
-Command invocation without argument with newline
-================================================
+==============================================================
+Command invocation without argument with newline [no_argument]
+==============================================================
 
 message(
 

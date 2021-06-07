@@ -1,6 +1,6 @@
-======================
-Empty bracket argument
-======================
+=========================================
+Empty bracket argument [bracket_argument]
+=========================================
 
 message([[]])
 
@@ -16,9 +16,9 @@ message([[]])
  )
  )
 
-==========================
-One empty bracket argument
-==========================
+=======================================
+One bracket argument [bracket_argument]
+=======================================
 
 message([[An argument]])
 
@@ -34,27 +34,9 @@ message([[An argument]])
  )
  )
 
-====================
-One bracket argument
-====================
-
-message([[An argument]])
-
----
-(source_file
- (command_invocation
-  (normal_command
-   (identifier)
-   (arguments
-    (argument (bracket_argument (bracket_content)))
-   )
-  )
- )
- )
-
-=====================
-Two bracket arguments
-=====================
+========================================
+Two bracket arguments [bracket_argument]
+========================================
 
 message([[First argument]] [[Second argument]])
 
@@ -72,9 +54,9 @@ message([[First argument]] [[Second argument]])
  )
  )
 
-=====================================
-Two bracket with two equals arguments
-=====================================
+========================================================
+Two bracket with two equals arguments [bracket_argument]
+========================================================
 
 message(
   [====[First argument]====]
@@ -97,9 +79,9 @@ message(
  )
  )
 
-================================
-Bracket argument with line break
-================================
+===================================================
+Bracket argument with line break [bracket_argument]
+===================================================
 
 message([[An argument
 with line break
