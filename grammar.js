@@ -1,12 +1,15 @@
 const
-  space = ' ',
-  decimal = /[0-9]/
+  //TODO figure out how to subtact regex sets
+  unicodeLetter = /\p{L}/
+  unicodePunctuation = /\p{Pc}/
+  unicodeDigit = /[0-9]/
 
 module.exports = grammar({
   name: 'hcl',
 
   conflicts: $ => [
       [$.body],
+      [$.object_elem, $.variable_expr],
   ],
 
   extras: $ => [
@@ -46,7 +49,7 @@ module.exports = grammar({
 
     expr_term: $ => choice(
       $.literal_value,
-      // $.collection_value,
+      $.collection_value,
       // $.template_expr,
       $.variable_expr,
       // $.function_call,
@@ -68,6 +71,35 @@ module.exports = grammar({
 
     numeric_lit: $ => /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
 
+    collection_value: $ => choice(
+      $.tuple,
+      $.object,
+    ),
+
+    tuple: $ => seq(
+      '[',
+      optional(seq(
+        $.expression,
+        repeat(seq(',', $.expression)),
+      )),
+      ']',
+    ),
+
+    object: $ => seq(
+      '{',
+      optional(seq(
+        $.object_elem,
+        repeat(seq(',', $.object_elem)),
+      )),
+      '}',
+    ),
+
+    object_elem: $ => seq(
+      choice($.identifier, $.expression),
+      choice('=', ':'),
+      $.expression,
+    ),
+
     variable_expr: $ => $.identifier,
 
     // TODO: template expressions
@@ -81,8 +113,11 @@ module.exports = grammar({
     // TODO: string_literals are special template literals
     string_lit: $ => seq('"', /\w+/, '"'),
 
-    // TODO: unicode identifier
-    identifier: $ => /\w+/,
+    // TODO: not to spec, but maybe good enough
+    identifier: $ => token(seq(
+      unicodeLetter,
+      repeat(choice(unicodeLetter, unicodeDigit, unicodePunctuation))
+    )),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(
@@ -93,6 +128,6 @@ module.exports = grammar({
         /[^*]*\*+([^/*][^*]*\*+)*/,
         '/'
       )
-    ))
+    )),
   }
 });
