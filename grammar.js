@@ -585,7 +585,7 @@ module.exports = grammar({
       field('parameters', optional($.parameter_list)),
       field('bases', optional(alias($.record_base, $.base_list))),
       repeat($.type_parameter_constraints_clause),
-      field('body', $._record_base),
+      field('body', $._record_body),
     ),
 
     record_base: $ => choice(
@@ -598,7 +598,7 @@ module.exports = grammar({
       $.argument_list
     ),
 
-    _record_base: $ => choice(
+    _record_body: $ => choice(
       $.declaration_list,
       ';'
     ),
