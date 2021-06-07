@@ -88,6 +88,38 @@
         }
       ]
     },
+    "identifier": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "\\p{L}"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "\\p{L}"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[0-9]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\p{Pc}"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "expression": {
       "type": "CHOICE",
       "members": [
@@ -320,38 +352,6 @@
           "value": "\""
         }
       ]
-    },
-    "identifier": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "\\p{L}"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "\\p{L}"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[0-9]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\p{Pc}"
-                }
-              ]
-            }
-          }
-        ]
-      }
     },
     "comment": {
       "type": "TOKEN",
