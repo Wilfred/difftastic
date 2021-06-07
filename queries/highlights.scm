@@ -1,6 +1,7 @@
 ; highlights.scm
 
-(block type: (identifier) @keyword)
+(block name: (identifier) @hcl_block_name)
+(attribute name: (identifier) @hcl_attribute_name)
 (identifier) @string.special
 (string_lit) @string
 (numeric_lit) @number
