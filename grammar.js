@@ -1,5 +1,4 @@
 const
-  newline = '\n',
   space = ' ',
   decimal = /[0-9]/
 
@@ -23,7 +22,6 @@ module.exports = grammar({
         $.attribute, 
         $.block,
       ),
-      repeat1(newline),
     )),
 
     attribute: $ => seq(
@@ -36,9 +34,7 @@ module.exports = grammar({
       $.identifier,
       repeat(choice($.string_lit, $.identifier)),
       '{',
-      repeat1(newline),
       optional($.body),
-      // newline is handled in body
       '}',
     ),
 
@@ -70,11 +66,7 @@ module.exports = grammar({
       'null',
     ),
 
-    numeric_lit: $ => seq(
-      repeat1(decimal), 
-      optional(seq('.', repeat1(decimal))), 
-      optional(seq(choice('e', 'E'), optional(choice('+', '-')), repeat1(decimal))),
-    ),
+    numeric_lit: $ => /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
 
     variable_expr: $ => $.identifier,
 

@@ -138,11 +138,6 @@
     }
   },
   {
-    "type": "numeric_lit",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "string_lit",
     "named": true,
     "fields": {}
@@ -163,10 +158,6 @@
     }
   },
   {
-    "type": "\n",
-    "named": false
-  },
-  {
     "type": "\"",
     "named": false
   },
@@ -179,32 +170,12 @@
     "named": false
   },
   {
-    "type": "+",
-    "named": false
-  },
-  {
-    "type": "-",
-    "named": false
-  },
-  {
-    "type": ".",
-    "named": false
-  },
-  {
     "type": "=",
-    "named": false
-  },
-  {
-    "type": "E",
     "named": false
   },
   {
     "type": "comment",
     "named": true
-  },
-  {
-    "type": "e",
-    "named": false
   },
   {
     "type": "false",
@@ -213,6 +184,10 @@
   {
     "type": "null",
     "named": false
+  },
+  {
+    "type": "numeric_lit",
+    "named": true
   },
   {
     "type": "true",
