@@ -118,7 +118,6 @@ foo = "bar"
           (literal_value
             (string_lit)))))))
 
-
 ==================
 string literal multi line error
 ==================
@@ -137,3 +136,73 @@ bar"
           (literal_value
             (string_lit (ERROR (UNEXPECTED 'b')))))))))
 
+==================
+bool literal true
+==================
+
+foo = true
+
+---
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (literal_value
+            (bool_lit)))))))
+
+==================
+bool literal false
+==================
+
+foo = false
+
+---
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (literal_value
+            (bool_lit)))))))
+
+==================
+null literal
+==================
+
+foo = null
+
+---
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (literal_value
+            (null_lit)))))))
+
+==================
+collection value tuple
+==================
+
+foo = [1, 2, "foo"]
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+        (expression 
+          (expr_term 
+            (collection_value 
+              (tuple 
+                (expression (expr_term (literal_value (numeric_lit)))) 
+                (expression (expr_term (literal_value (numeric_lit)))) 
+                (expression (expr_term (literal_value (string_lit)))))))))))
