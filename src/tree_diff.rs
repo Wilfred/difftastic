@@ -1,5 +1,4 @@
 #![allow(clippy::mutable_key_type)] // Hash for Node doesn't use mutable fields.
-#![allow(dead_code)]
 
 use diff::{slice, Result::*};
 use itertools::EitherOrBoth;

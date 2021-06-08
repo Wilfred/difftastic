@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use crate::positions::{LineSpan, SingleLineSpan, Span};
 use crate::tree_diff::{MatchKind, MatchedPos};
 use regex::Regex;
@@ -418,10 +416,6 @@ fn from_ranges_split_over_multiple_lines() {
             })
         ]
     );
-}
-
-pub fn max_line(s: &str) -> LineNumber {
-    LineNumber::from(s.lines().count() - 1)
 }
 
 /// Ensure that every line in `s` has this length. Pad short lines and
