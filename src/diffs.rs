@@ -209,7 +209,7 @@ pub fn apply_color_at_changes(src: &str, changes: &[Change], color: Color) -> St
     let newlines = NewlinePositions::from(src);
     let abs_ranges: Vec<_> = (changes).iter().map(|c| c.range).collect();
     let ranges = newlines.from_ranges(&abs_ranges);
-    apply_color_by_line(&src, &ranges, color)
+    apply_color_by_line(&src, &ranges.spans, color)
 }
 
 /// Given a list of differences, build up a string of the form:
@@ -232,8 +232,8 @@ pub fn highlight_differences_combined(
     let before_ranges = before_newlines.from_ranges(&before_abs_ranges);
     let after_ranges = after_newlines.from_ranges(&after_abs_ranges);
 
-    let before_ranges = group_by_line(&before_ranges);
-    let after_ranges = group_by_line(&after_ranges);
+    let before_ranges = group_by_line(&before_ranges.spans);
+    let after_ranges = group_by_line(&after_ranges.spans);
 
     let mut res = String::new();
 
