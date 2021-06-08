@@ -246,7 +246,7 @@ fn test_visible_groups_ignores_unchanged() {
     assert_eq!(res, vec![]);
 }
 
-pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup]) -> String {
+pub fn apply_groups(_lhs: &str, _rhs: &str, groups: &[LineGroup]) -> String {
     let spacer = "--------------------------\n";
     dbg!(groups);
 
