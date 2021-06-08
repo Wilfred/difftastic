@@ -126,10 +126,10 @@ fn main() {
 
     set_changed(&lhs, &rhs);
 
-    let lhs_positions = matched_positions(&lhs);
+    let lhs_positions = matched_positions(&before_src, &lhs);
     let lhs_colored = apply_colors(&before_src, true, &lhs_positions);
 
-    let rhs_positions = matched_positions(&rhs);
+    let rhs_positions = matched_positions(&after_src, &rhs);
     let rhs_colored = apply_colors(&after_src, false, &rhs_positions);
 
     print!(

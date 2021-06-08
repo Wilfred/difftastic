@@ -13,6 +13,7 @@ use std::fmt;
 use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
 
+use crate::lines::NewlinePositions;
 use crate::positions::Span;
 use ChangeKind::*;
 use Node::*;
@@ -276,14 +277,17 @@ pub struct MatchedPos {
     pub prev_opposite_pos: Option<Span>,
 }
 
-pub fn matched_positions<'a>(nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
+pub fn matched_positions<'a>(src: &str, nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
+    let nl_pos = NewlinePositions::from(src);
+
     let mut positions = Vec::new();
     let mut prev_unchanged = None;
-    matched_positions_(nodes, &mut prev_unchanged, &mut positions);
+    matched_positions_(&nl_pos, nodes, &mut prev_unchanged, &mut positions);
     positions
 }
 
 fn matched_positions_<'a>(
+    nl_pos: &NewlinePositions,
     nodes: &[&Node<'a>],
     prev_unchanged: &mut Option<(Span, Span)>,
     positions: &mut Vec<MatchedPos>,
@@ -322,7 +326,7 @@ fn matched_positions_<'a>(
                     prev_opposite_pos,
                 });
 
-                matched_positions_(children, prev_unchanged, positions);
+                matched_positions_(nl_pos, children, prev_unchanged, positions);
 
                 if let Unchanged(opposite_node) = change {
                     match opposite_node {
