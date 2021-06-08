@@ -9,4 +9,5 @@
 (null_lit) @null
 (comment) @comment
 (for_intro) @keyword
+(for_cond) @keyword
 
