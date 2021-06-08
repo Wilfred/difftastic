@@ -2,6 +2,7 @@ mod diffs;
 mod json;
 mod lines;
 mod positions;
+mod style;
 mod tree_diff;
 use clap::{App, Arg};
 use std::cmp::{max, min};
@@ -11,7 +12,8 @@ use typed_arena::Arena;
 
 use crate::json::{lang_from_str, parse, read_or_die};
 use crate::lines::{apply_groups, enforce_length, visible_groups};
-use crate::tree_diff::{apply_colors, matched_positions, set_changed};
+use crate::style::apply_colors;
+use crate::tree_diff::{matched_positions, set_changed};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)

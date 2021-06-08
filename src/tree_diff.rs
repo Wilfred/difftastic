@@ -1,12 +1,10 @@
 #![allow(clippy::mutable_key_type)] // Hash for Node doesn't use mutable fields.
 #![allow(dead_code)]
 
-use colored::*;
 use diff::{slice, Result::*};
 use itertools::EitherOrBoth;
 use itertools::Itertools;
 use std::cell::Cell;
-use std::cmp::min;
 use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::fmt;
@@ -381,45 +379,6 @@ fn matched_positions_<'a>(
             }
         }
     }
-}
-
-pub fn apply_colors<'a>(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
-    let mut res = String::with_capacity(s.len());
-    let mut i = 0;
-    for mp in positions {
-        if mp.pos.start >= s.len() {
-            break;
-        }
-
-        // Dim text that doesn't have any matching positions.
-        if i < mp.pos.start {
-            res.push_str(&s[i..mp.pos.start].dimmed());
-        }
-
-        let color = match mp.kind {
-            MatchKind::Unchanged => Color::White,
-            _ if is_lhs => Color::BrightRed,
-            _ => Color::BrightGreen,
-        };
-        let colored = &s[mp.pos.start..min(s.len(), mp.pos.end)]
-            .color(color)
-            .bold();
-        if let MatchKind::Novel = mp.kind {
-            if is_lhs {
-                res.push_str(&colored.clone().on_red().black().to_string());
-            } else {
-                res.push_str(&colored.clone().on_green().black().to_string());
-            }
-        } else {
-            res.push_str(&colored.to_string());
-        }
-
-        i = mp.pos.end;
-    }
-    if i < s.len() {
-        res.push_str(&s[i..s.len()]);
-    }
-    res
 }
 
 /// Extremely dumb top-level comparison of `lhs` and `rhs`.
