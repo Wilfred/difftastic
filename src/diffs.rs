@@ -1,6 +1,5 @@
 #![allow(dead_code)]
 
-// use crate::language::{language_lexer, lex, Language};
 use crate::lines::{LineNumber, NewlinePositions};
 use crate::positions::{SingleLineSpan, Span};
 use colored::*;
