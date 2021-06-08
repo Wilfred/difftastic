@@ -93,6 +93,7 @@ module.exports = grammar({
     [$._expression_without_call_expression_with_just_name, $.goto_expression],
     [$._expression_without_call_expression_with_just_name, $.method_invocation],
     [$._expression_without_call_expression_with_just_name, $.goto_expression, $.method_invocation],
+    [$.list_block],
   ],
 
   externals: $ => [
@@ -721,13 +722,21 @@ module.exports = grammar({
       
       $.special_variable,
 
-      $.grep_or_map_function, // TODO: make a _list_context, which has all expressions that could return a list context
+      $.grep_or_map_function,
       $.join_function,
       $.sort_function,
       $.unpack_function,
 
       $.push_function,
+
+      $.array_function,
     )),
+
+    array_function: $ => seq(
+      alias($.identifier, $.function),
+      $.list_block,
+      $._expression,
+    ),
 
     package_variable: $ => seq(
       alias($.scalar_variable, $.package_name),
@@ -1305,7 +1314,7 @@ module.exports = grammar({
     // bareword: $ => /[a-zA-Z0-9_$]+/,
 
     // any characters or just bareword(s) and variables
-    identifier_1: $ => /[a-zA-Z0-9_$:]+/,
+    identifier_1: $ => /[a-zA-Z0-9_$:\./@%\^]+/,
 
     loop_control_keyword: $ => choice(
       'next',
@@ -1356,7 +1365,7 @@ module.exports = grammar({
 
     string_double_quoted: $ => prec(PRECEDENCE.STRING, seq(
       '"',
-      repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, /[^"\\]+/)))),
+      repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, choice(/[^"]/, /\\"/))))),
       '"',
     )),
     string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(
