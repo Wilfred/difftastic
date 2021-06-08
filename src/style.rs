@@ -2,7 +2,7 @@ use crate::tree_diff::{MatchKind, MatchedPos};
 use colored::*;
 use std::cmp::min;
 
-pub fn apply_colors<'a>(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
+pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
     let mut res = String::with_capacity(s.len());
     let mut i = 0;
     for mp in positions {
