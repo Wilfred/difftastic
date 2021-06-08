@@ -1,0 +1,87 @@
+==================
+basic block
+==================
+
+block_1 {
+}
+
+---
+
+(config_file
+  (body
+    (block
+      (identifier))))
+
+==================
+basic block on one line
+==================
+
+block_1 {}
+
+---
+
+(config_file
+  (body
+    (block
+      (identifier))))
+
+==================
+block with attribute
+==================
+
+block_1 "strlit1" "strlit2" {
+    attr1 = "val1"
+}
+
+---
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (string_lit)
+      (string_lit)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (expr_term
+              (literal_value
+                (string_lit)))))))))
+
+==================
+nested block
+==================
+
+block_1 {
+  block_2 {
+  }
+}
+
+---
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (body
+        (block
+          (identifier))))))
+
+==================
+nested block on one line
+==================
+
+block_1 {
+  block_2 {}
+}
+
+---
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (body
+        (block
+          (identifier))))))
