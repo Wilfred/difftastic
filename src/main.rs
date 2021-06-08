@@ -1,4 +1,3 @@
-mod diffs;
 mod json;
 mod lines;
 mod positions;
