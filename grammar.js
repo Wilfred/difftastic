@@ -75,7 +75,7 @@ module.exports = grammar({
 
     numeric_lit: $ => /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
 
-    string_lit: $ => seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
+    string_lit: $ => (seq('"', token.immediate(repeat(choice(/[^\\"\n]/, /\\(.|\n)/))), '"')),
 
     bool_lit: $ => choice('true', 'false'),
 

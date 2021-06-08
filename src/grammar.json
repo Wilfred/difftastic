@@ -247,19 +247,22 @@
           "value": "\""
         },
         {
-          "type": "REPEAT",
+          "type": "IMMEDIATE_TOKEN",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "PATTERN",
-                "value": "[^\\\\\"\\n]"
-              },
-              {
-                "type": "PATTERN",
-                "value": "\\\\(.|\\n)"
-              }
-            ]
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[^\\\\\"\\n]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\\\(.|\\n)"
+                }
+              ]
+            }
           }
         },
         {
