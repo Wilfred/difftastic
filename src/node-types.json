@@ -1,5 +1,20 @@
 [
   {
+    "type": "attr_splat",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "get_attr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attribute",
     "named": true,
     "fields": {
@@ -122,7 +137,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -130,11 +145,27 @@
           "named": true
         },
         {
+          "type": "expr_term",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
         {
+          "type": "get_attr",
+          "named": true
+        },
+        {
+          "type": "index",
+          "named": true
+        },
+        {
           "type": "literal_value",
+          "named": true
+        },
+        {
+          "type": "splat",
           "named": true
         },
         {
@@ -154,6 +185,55 @@
       "types": [
         {
           "type": "expr_term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "full_splat",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "get_attr",
+          "named": true
+        },
+        {
+          "type": "index",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "get_attr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "index",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
           "named": true
         }
       ]
@@ -221,6 +301,25 @@
     }
   },
   {
+    "type": "splat",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "attr_splat",
+          "named": true
+        },
+        {
+          "type": "full_splat",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "string_lit",
     "named": true,
     "fields": {}
@@ -268,7 +367,15 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": ".",
     "named": false
   },
   {
