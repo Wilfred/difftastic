@@ -9,12 +9,11 @@ module.exports = grammar({
   conflicts: $ => [
       [$.body],
       [$.object_elem, $.variable_expr],
+      [$.attr_splat],
+      [$.full_splat],
   ],
 
-  extras: $ => [
-    $.comment,
-    /\s/,
-  ],
+  extras: $ => [$.comment, /\s/],
 
   rules: {
     config_file: $ => $.body,
@@ -58,9 +57,9 @@ module.exports = grammar({
       $.variable_expr,
       // $.function_call,
       // $.for_expr,
-      // seq($.expr_term, $.index),
-      // seq($.expr_term, $.get_attr),
-      // seq($.expr_term, $.splat),
+      seq($.expr_term, $.index),
+      seq($.expr_term, $.get_attr),
+      seq($.expr_term, $.splat),
       seq('(', $.expression, ')'),
     ),
 
@@ -107,6 +106,15 @@ module.exports = grammar({
       choice('=', ':'),
       $.expression,
     ),
+
+    index: $ => seq('[', $.expression, ']'),
+
+    get_attr: $ => seq('.', $.identifier),
+
+    splat: $ => choice($.attr_splat, $.full_splat),
+
+    attr_splat: $ => seq('.', '*', repeat($.get_attr)),
+    full_splat: $ => seq('[', '*', ']', repeat(choice($.get_attr, $.index))),
 
     variable_expr: $ => $.identifier,
 
