@@ -10,7 +10,7 @@ pub struct Span {
 
 /// A range within a single line of a string.
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub struct LineSpan {
+pub struct SingleLineSpan {
     /// All zero-indexed.
     pub line: LineNumber,
     pub start_col: usize,

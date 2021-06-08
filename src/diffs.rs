@@ -1,8 +1,8 @@
 #![allow(dead_code)]
 
 // use crate::language::{language_lexer, lex, Language};
-use crate::positions::{Span, LineSpan};
 use crate::lines::{LineNumber, NewlinePositions};
+use crate::positions::{SingleLineSpan, Span};
 use colored::*;
 use itertools::EitherOrBoth;
 use itertools::Itertools;
@@ -98,8 +98,9 @@ fn apply_bold_color(s: &str, ranges: &[Span], c: Color) -> String {
     res
 }
 
-fn group_by_line(ranges: &[LineSpan]) -> HashMap<usize, Vec<LineSpan>> {
-    let mut ranges_by_line: HashMap<usize, Vec<LineSpan>> = HashMap::with_capacity(ranges.len());
+fn group_by_line(ranges: &[SingleLineSpan]) -> HashMap<usize, Vec<SingleLineSpan>> {
+    let mut ranges_by_line: HashMap<usize, Vec<SingleLineSpan>> =
+        HashMap::with_capacity(ranges.len());
     for range in ranges {
         let mut inserted = false;
         if let Some(matching_ranges) = ranges_by_line.get_mut(&range.line.number) {
@@ -116,7 +117,7 @@ fn group_by_line(ranges: &[LineSpan]) -> HashMap<usize, Vec<LineSpan>> {
 
 /// Apply this colour to all the ranges specified. Handle lines being
 /// shorter than the ranges specified.
-fn apply_color_by_line(s: &str, ranges: &[LineSpan], c: Color) -> String {
+fn apply_color_by_line(s: &str, ranges: &[SingleLineSpan], c: Color) -> String {
     // TODO: we're assuming ranges is sorted. Either sort, or assert.
 
     let ranges_by_line = group_by_line(ranges);
@@ -168,11 +169,7 @@ fn apply_color_whole_length() {
 #[test]
 fn apply_color_beyond_end() {
     assert_eq!(
-        apply_bold_color(
-            "foobar",
-            &vec![Span { start: 6, end: 10 }],
-            Color::Black
-        ),
+        apply_bold_color("foobar", &vec![Span { start: 6, end: 10 }], Color::Black),
         "foobar"
     );
 }
@@ -186,11 +183,7 @@ fn apply_color_overlapping_end() {
     expected.push_str(&"bar".green().bold().to_string());
 
     assert_eq!(
-        apply_bold_color(
-            "foobar",
-            &vec![Span { start: 3, end: 100 }],
-            Color::Green
-        ),
+        apply_bold_color("foobar", &vec![Span { start: 3, end: 100 }], Color::Green),
         expected
     );
 }

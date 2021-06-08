@@ -376,18 +376,8 @@ mod tests {
         assert_syntaxes(
             &parse(&arena, "123 456", &lang()),
             &[
-                Node::new_atom(
-                    &arena,
-                    Span { start: 0, end: 3 },
-                    "123",
-                    AtomKind::Other,
-                ),
-                Node::new_atom(
-                    &arena,
-                    Span { start: 4, end: 7 },
-                    "456",
-                    AtomKind::Other,
-                ),
+                Node::new_atom(&arena, Span { start: 0, end: 3 }, "123", AtomKind::Other),
+                Node::new_atom(&arena, Span { start: 4, end: 7 }, "456", AtomKind::Other),
             ],
         );
     }
@@ -450,12 +440,7 @@ mod tests {
                     "// foo\n",
                     AtomKind::Comment,
                 ),
-                Node::new_atom(
-                    &arena,
-                    Span { start: 7, end: 8 },
-                    "x",
-                    AtomKind::Other,
-                ),
+                Node::new_atom(&arena, Span { start: 7, end: 8 }, "x", AtomKind::Other),
             ],
         );
     }
@@ -541,18 +526,8 @@ mod tests {
                 "[",
                 Span { start: 0, end: 1 },
                 vec![
-                    Node::new_atom(
-                        &arena,
-                        Span { start: 1, end: 4 },
-                        "123",
-                        AtomKind::Other,
-                    ),
-                    Node::new_atom(
-                        &arena,
-                        Span { start: 6, end: 9 },
-                        "456",
-                        AtomKind::Other,
-                    ),
+                    Node::new_atom(&arena, Span { start: 1, end: 4 }, "123", AtomKind::Other),
+                    Node::new_atom(&arena, Span { start: 6, end: 9 }, "456", AtomKind::Other),
                 ],
                 "]",
                 Span { start: 9, end: 10 },
@@ -571,18 +546,8 @@ mod tests {
                 "{",
                 Span { start: 0, end: 1 },
                 vec![
-                    Node::new_atom(
-                        &arena,
-                        Span { start: 1, end: 2 },
-                        "x",
-                        AtomKind::Other,
-                    ),
-                    Node::new_atom(
-                        &arena,
-                        Span { start: 4, end: 5 },
-                        "1",
-                        AtomKind::Other,
-                    ),
+                    Node::new_atom(&arena, Span { start: 1, end: 2 }, "x", AtomKind::Other),
+                    Node::new_atom(&arena, Span { start: 4, end: 5 }, "1", AtomKind::Other),
                 ],
                 "}",
                 Span { start: 5, end: 6 },
@@ -775,14 +740,12 @@ mod tests {
             open_delimiter: "[".into(),
             close_position: Span { start: 2, end: 3 },
             close_delimiter: "]".into(),
-            children: vec![
-                arena.alloc(Atom {
-                    position: Span { start: 1, end: 2 },
-                    change: Cell::new(Some(Unchanged(lhs_atom))),
-                    content: "a".into(),
-                    kind: AtomKind::Other,
-                }),
-            ],
+            children: vec![arena.alloc(Atom {
+                position: Span { start: 1, end: 2 },
+                change: Cell::new(Some(Unchanged(lhs_atom))),
+                content: "a".into(),
+                kind: AtomKind::Other,
+            })],
             num_descendants: 1,
         })];
         assert_syntaxes(&rhs, &expected_rhs);
