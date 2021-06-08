@@ -60,13 +60,13 @@ impl LineGroup {
 
         // [ ]  match region
         //  [ ] group region
-        if first_match_line <= first_group_line && last_match_line >= first_group_line {
+        if last_match_line >= first_group_line && last_match_line <= last_group_line {
             return true;
         }
 
         //  [ ] match region
         // [ ]  group region
-        if first_match_line >= first_group_line && first_match_line >= last_group_line {
+        if first_match_line >= first_group_line && first_match_line <= last_group_line {
             return true;
         }
 
@@ -86,21 +86,21 @@ impl LineGroup {
         let first_group_line = self.rhs_lines[0].number;
         let last_group_line = self.rhs_lines.last().unwrap().number;
 
-        // [    ] match region
-        //   []   group region
+        // [  ] match region
+        //  []  group region
         if first_match_line <= first_group_line && last_match_line >= last_group_line {
             return true;
         }
 
-        // [  ]   match region
-        //   [  ] group region
-        if first_match_line <= first_group_line && last_match_line >= first_group_line {
+        // [ ]  match region
+        //  [ ] group region
+        if last_match_line >= first_group_line && last_match_line <= last_group_line {
             return true;
         }
 
-        //   [  ] match region
-        // [  ]   group region
-        if first_match_line >= first_group_line && first_match_line >= last_group_line {
+        //  [ ] match region
+        // [ ]  group region
+        if first_match_line >= first_group_line && first_match_line <= last_group_line {
             return true;
         }
 
