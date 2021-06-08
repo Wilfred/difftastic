@@ -13,7 +13,10 @@ module.exports = grammar({
       [$.full_splat],
   ],
 
-  extras: $ => [$.comment, /\s/],
+  extras: $ => [
+    $.comment, 
+    /\s/,
+  ],
 
   rules: {
     config_file: $ => $.body,
@@ -28,7 +31,7 @@ module.exports = grammar({
     attribute: $ => seq(
       field('name', $.identifier),
       '=', 
-      $.expression
+      $.expression,
     ),
 
     block: $ => seq(
@@ -42,7 +45,7 @@ module.exports = grammar({
     // TODO: not to spec but good enough for now
     identifier: $ => token(seq(
       unicodeLetter,
-      repeat(choice(unicodeLetter, unicodeDigit, unicodePunctuation))
+      repeat(choice(unicodeLetter, unicodeDigit, unicodePunctuation)),
     )),
 
     expression: $ => choice(
@@ -56,7 +59,7 @@ module.exports = grammar({
       $.collection_value,
       $.variable_expr,
       // $.function_call,
-      // $.for_expr,
+      $.for_expr,
       seq($.expr_term, $.index),
       seq($.expr_term, $.get_attr),
       seq($.expr_term, $.splat),
@@ -114,7 +117,40 @@ module.exports = grammar({
     splat: $ => choice($.attr_splat, $.full_splat),
 
     attr_splat: $ => seq('.', '*', repeat($.get_attr)),
+
     full_splat: $ => seq('[', '*', ']', repeat(choice($.get_attr, $.index))),
+
+    for_expr: $ => choice($.for_tuple_expr, $.for_object_expr),
+
+    for_tuple_expr: $ => seq(
+      '[', 
+      $.for_intro,
+      $.expression,
+      optional($.for_cond),
+      ']',
+    ),
+
+    for_object_expr: $ => seq(
+      '{',
+      $.for_intro,
+      $.expression,
+      '=>',
+      $.expression,
+      optional('...'),
+      optional($.for_cond),
+      '}',
+    ),
+
+    for_intro: $ => seq(
+      'for',
+      $.identifier,
+      optional(seq(',', $.identifier)),
+      'in',
+      $.expression,
+      ':',
+    ),
+
+    for_cond: $ => seq('if', $.expression),
 
     variable_expr: $ => $.identifier,
 

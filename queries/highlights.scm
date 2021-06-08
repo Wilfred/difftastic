@@ -8,4 +8,5 @@
 (bool_lit) @boolean
 (null_lit) @null
 (comment) @comment
+(for_intro) @keyword
 
