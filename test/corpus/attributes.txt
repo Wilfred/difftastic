@@ -1,0 +1,34 @@
+==================
+attribute with literal
+==================
+
+foo = "bar"
+
+---
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (literal_value
+            (string_lit)))))))
+
+==================
+attribute with variable
+==================
+
+foo = bar
+
+---
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (variable_expr
+            (identifier)))))))
+
