@@ -738,9 +738,13 @@ module.exports = grammar({
       $._expression,
     ),
 
+    // TODO: the output tree is wrong for this. fix it.
     package_variable: $ => seq(
-      alias($.scalar_variable, $.package_name),
-      token.immediate('::'),
+      alias(seq(
+        $.scalar_variable,
+        token.immediate('::'),
+        repeat(seq($.identifier, '::')),
+      ), $.package_name),
       alias($.identifier, $.scalar_variable),
     ),
 
