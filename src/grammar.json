@@ -2936,6 +2936,10 @@
               {
                 "type": "SYMBOL",
                 "name": "push_function"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "array_function"
               }
             ]
           },
@@ -3068,6 +3072,10 @@
                   {
                     "type": "SYMBOL",
                     "name": "push_function"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "array_function"
                   }
                 ]
               },
@@ -3079,6 +3087,28 @@
           }
         ]
       }
+    },
+    "array_function": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          "named": true,
+          "value": "function"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
     },
     "package_variable": {
       "type": "SEQ",
@@ -6583,7 +6613,7 @@
     },
     "identifier_1": {
       "type": "PATTERN",
-      "value": "[a-zA-Z0-9_$:]+"
+      "value": "[a-zA-Z0-9_$:\\.\\/@%\\^]+"
     },
     "loop_control_keyword": {
       "type": "CHOICE",
@@ -6858,8 +6888,17 @@
                     "type": "PREC",
                     "value": 4,
                     "content": {
-                      "type": "PATTERN",
-                      "value": "[^\"\\\\]+"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "[^\"]"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": "\\\\\""
+                        }
+                      ]
                     }
                   }
                 }
@@ -9259,6 +9298,9 @@
       "_expression_without_call_expression_with_just_name",
       "goto_expression",
       "method_invocation"
+    ],
+    [
+      "list_block"
     ]
   ],
   "precedences": [],
