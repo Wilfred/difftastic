@@ -778,11 +778,11 @@
         "required": false,
         "types": [
           {
-            "type": "method_definition",
+            "type": "field_definition",
             "named": true
           },
           {
-            "type": "public_field_definition",
+            "type": "method_definition",
             "named": true
           }
         ]
@@ -1069,6 +1069,58 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "field_definition",
+    "named": true,
+    "fields": {
+      "decorator": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "decorator",
+            "named": true
+          }
+        ]
+      },
+      "property": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "computed_property_name",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "private_property_identifier",
+            "named": true
+          },
+          {
+            "type": "property_identifier",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1812,6 +1864,10 @@
         "required": true,
         "types": [
           {
+            "type": "private_property_identifier",
+            "named": true
+          },
+          {
             "type": "property_identifier",
             "named": true
           }
@@ -1858,6 +1914,10 @@
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "private_property_identifier",
             "named": true
           },
           {
@@ -2062,6 +2122,10 @@
             "named": true
           },
           {
+            "type": "private_property_identifier",
+            "named": true
+          },
+          {
             "type": "property_identifier",
             "named": true
           },
@@ -2097,6 +2161,10 @@
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "private_property_identifier",
             "named": true
           },
           {
@@ -2157,54 +2225,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "public_field_definition",
-    "named": true,
-    "fields": {
-      "decorator": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "decorator",
-            "named": true
-          }
-        ]
-      },
-      "property": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "computed_property_name",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "property_identifier",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "expression",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -3158,6 +3178,10 @@
   {
     "type": "of",
     "named": false
+  },
+  {
+    "type": "private_property_identifier",
+    "named": true
   },
   {
     "type": "property_identifier",
