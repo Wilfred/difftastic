@@ -270,7 +270,6 @@ impl MatchKind {
 pub struct MatchedPos {
     pub kind: MatchKind,
     pub pos: Span,
-    pub prev_pos: Option<Span>,
     pub prev_opposite_pos: Option<Span>,
 }
 
@@ -286,7 +285,7 @@ pub fn matched_positions<'a>(src: &str, nodes: &[&Node<'a>]) -> Vec<MatchedPos> 
 fn matched_positions_<'a>(
     nl_pos: &NewlinePositions,
     nodes: &[&Node<'a>],
-    prev_unchanged: &mut Option<(Span, Span)>,
+    prev_opposite_pos: &mut Option<Span>,
     positions: &mut Vec<MatchedPos>,
 ) {
     for node in nodes {
@@ -306,24 +305,19 @@ fn matched_positions_<'a>(
                             open_position: opposite_open_pos,
                             ..
                         } => {
-                            *prev_unchanged = Some((*open_position, *opposite_open_pos));
+                            *prev_opposite_pos = Some(*opposite_open_pos);
                         }
                         Atom { .. } => unreachable!(),
                     }
                 }
 
-                let (prev_pos, prev_opposite_pos) = match prev_unchanged {
-                    Some((p, po)) => (Some(*p), Some(*po)),
-                    None => (None, None),
-                };
                 positions.push(MatchedPos {
                     kind: MatchKind::from_change(change),
                     pos: *open_position,
-                    prev_pos,
-                    prev_opposite_pos,
+                    prev_opposite_pos: *prev_opposite_pos,
                 });
 
-                matched_positions_(nl_pos, children, prev_unchanged, positions);
+                matched_positions_(nl_pos, children, prev_opposite_pos, positions);
 
                 if let Unchanged(opposite_node) = change {
                     match opposite_node {
@@ -331,20 +325,15 @@ fn matched_positions_<'a>(
                             close_position: opposite_close_pos,
                             ..
                         } => {
-                            *prev_unchanged = Some((*close_position, *opposite_close_pos));
+                            *prev_opposite_pos = Some(*opposite_close_pos);
                         }
                         Atom { .. } => unreachable!(),
                     }
                 }
-                let (prev_pos, prev_opposite_pos) = match prev_unchanged {
-                    Some((p, po)) => (Some(*p), Some(*po)),
-                    None => (None, None),
-                };
                 positions.push(MatchedPos {
                     kind: MatchKind::from_change(change),
                     pos: *close_position,
-                    prev_pos,
-                    prev_opposite_pos,
+                    prev_opposite_pos: *prev_opposite_pos,
                 });
             }
             Atom {
@@ -361,19 +350,14 @@ fn matched_positions_<'a>(
                             position: opposite_position,
                             ..
                         } => {
-                            *prev_unchanged = Some((*position, *opposite_position));
+                            *prev_opposite_pos = Some(*opposite_position);
                         }
                     }
                 }
-                let (prev_pos, prev_opposite_pos) = match prev_unchanged {
-                    Some((p, po)) => (Some(*p), Some(*po)),
-                    None => (None, None),
-                };
                 positions.push(MatchedPos {
                     kind: MatchKind::from_change(change),
                     pos: *position,
-                    prev_pos,
-                    prev_opposite_pos,
+                    prev_opposite_pos: *prev_opposite_pos,
                 });
             }
         }

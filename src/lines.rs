@@ -230,13 +230,11 @@ fn test_visible_groups_ignores_unchanged() {
     let lhs_positions = vec![MatchedPos {
         kind: MatchKind::Unchanged,
         pos: Span { start: 0, end: 1 },
-        prev_pos: None,
         prev_opposite_pos: None,
     }];
     let rhs_positions = vec![MatchedPos {
         kind: MatchKind::Unchanged,
         pos: Span { start: 0, end: 1 },
-        prev_pos: None,
         prev_opposite_pos: None,
     }];
 
