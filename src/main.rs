@@ -10,43 +10,12 @@ use std::path::Path;
 use typed_arena::Arena;
 
 use crate::json::{lang_from_str, parse, read_or_die};
-use crate::lines::{apply_groups, enforce_length, visible_groups};
+use crate::lines::{apply_groups, enforce_length, horizontal_concat, visible_groups};
 use crate::style::apply_colors;
 use crate::tree_diff::{matched_positions, set_changed};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
-}
-
-fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> String {
-    let left_str_lines: Vec<&str> = left.lines().collect();
-    let right_str_lines: Vec<&str> = right.lines().collect();
-
-    let mut i = 0;
-    let mut res = String::new();
-    let spacer = "  ";
-    loop {
-        match (left_str_lines.get(i), right_str_lines.get(i)) {
-            (Some(left_line), Some(right_line)) => {
-                res.push_str(left_line);
-                res.push_str(spacer);
-                res.push_str(right_line);
-            }
-            (Some(left_line), None) => {
-                res.push_str(left_line);
-            }
-            (None, Some(right_line)) => {
-                res.push_str(&" ".repeat(max_left_length));
-                res.push_str(spacer);
-                res.push_str(right_line);
-            }
-            (None, None) => break,
-        }
-        res.push('\n');
-        i += 1;
-    }
-
-    res
 }
 
 fn main() {

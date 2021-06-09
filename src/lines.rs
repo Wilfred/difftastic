@@ -148,6 +148,37 @@ impl LineGroup {
     }
 }
 
+pub fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> String {
+    let left_str_lines: Vec<&str> = left.lines().collect();
+    let right_str_lines: Vec<&str> = right.lines().collect();
+
+    let mut i = 0;
+    let mut res = String::new();
+    let spacer = "  ";
+    loop {
+        match (left_str_lines.get(i), right_str_lines.get(i)) {
+            (Some(left_line), Some(right_line)) => {
+                res.push_str(left_line);
+                res.push_str(spacer);
+                res.push_str(right_line);
+            }
+            (Some(left_line), None) => {
+                res.push_str(left_line);
+            }
+            (None, Some(right_line)) => {
+                res.push_str(&" ".repeat(max_left_length));
+                res.push_str(spacer);
+                res.push_str(right_line);
+            }
+            (None, None) => break,
+        }
+        res.push('\n');
+        i += 1;
+    }
+
+    res
+}
+
 /// The exact lines that have changes, grouped into contiguous
 /// sections with the corresponding line numbers of the other side.
 pub fn visible_groups(
