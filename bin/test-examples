@@ -2,6 +2,8 @@
 
 set -e
 
+source bin/require_fd
+
 while [[ $# -gt 0 ]]; do
   case $1 in
   --filter)
@@ -28,7 +30,7 @@ function filter-hack() {
 }
 
 function find-hack() {
-  find "$@" -regex '.*\.\(hack\|php\)$' | sort -u
+  $fd '\.(hack|php)$' "$@" | sort -u
 }
 
 function print-results() {

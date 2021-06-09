@@ -2,6 +2,8 @@
 
 set -e
 
+source bin/require_fd
+
 bin/generate-parser
 bin/generate-corpus
 
@@ -11,4 +13,4 @@ npx tree-sitter test
 printf "\n"
 
 printf "\033[1mGetting Hacklang corpus errors...\033[0m\n"
-bin/hh-errors "$(find test/cases -regex '.*\.\(hack\|php\)$')"
+bin/hh-errors "$($fd '\.(hack|php)$' test/cases)"

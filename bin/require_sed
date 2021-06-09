@@ -1,0 +1,10 @@
+#!/bin/bash
+
+[ -n "$sed" ] && exit 0
+
+sed="$(command -v gsed || command -v sed)"
+
+if ! $sed --version 2>/dev/null | grep -q "GNU sed"; then
+  echo "GNU sed is required for this script to work."
+  exit 1
+fi

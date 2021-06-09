@@ -1,0 +1,14 @@
+#!/bin/bash
+
+[ -n "$fd" ] && exit 0
+
+if [[ "$(uname)" == Darwin* ]]; then
+  fd="$(command -v fd || echo "")"
+else
+  fd="$(command -v fdfind || echo "")"
+fi
+
+if [ -z "$fd" ]; then
+  echo "fd is required for this script to work."
+  exit 1
+fi

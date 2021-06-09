@@ -2,6 +2,8 @@
 
 set -e
 
+source bin/require_sed
+
 # This script creates corpus *.txt files expected by `tree-sitter test` in the format
 # expected [0] based on *.php and *.exp files in test/cases.
 #
@@ -11,7 +13,9 @@ for cases_path in test/cases/*; do
   corpus_name=$(basename $cases_path)
   corpus_path="test/corpus/$corpus_name.txt"
 
-  cases="$(ls -d $cases_path/* | grep -E '^[^.]*\.exp$' | sed -Ee 's/.exp$//' | sort -bu)"
+  echo "Generating $corpus_path"
+
+  cases="$(ls -d $cases_path/* | grep -E '^[^.]*\.exp$' | $sed -Ee 's/.exp$//' | sort -bu)"
 
   printf "" >$corpus_path
   first=1
@@ -31,7 +35,7 @@ for cases_path in test/cases/*; do
     fi
 
     # Use the test case file name as the description
-    description=$(printf "$(basename $case)" | sed -e 's/^\(.\)/\u\1/g' -e 's/-/ /g')
+    description=$(printf "$(basename $case)" | $sed -e 's/^\(.\)/\u\1/g' -e 's/-/ /g')
 
     if [[ $first -eq 0 ]]; then
       printf "\n" >>$corpus_path

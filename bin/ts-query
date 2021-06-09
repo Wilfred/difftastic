@@ -2,6 +2,8 @@
 
 set -e
 
+source bin/require_sed
+
 # Make Tree-sitter output look like a query.
 #
 #     $ npx tree-sitter parse $@
@@ -22,4 +24,4 @@ set -e
 
 bin/generate-parser 1>/dev/null
 
-npx tree-sitter parse $@ | sed -e 's/ \[.*\]//'
+npx tree-sitter parse $@ | $sed -e 's/ \[.*\]//'
