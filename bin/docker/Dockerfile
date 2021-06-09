@@ -7,7 +7,7 @@ WORKDIR /tree-sitter-hack
 
 RUN \
   apt-get update -y && \
-  apt-get install -y build-essential ruby
+  apt-get install -y build-essential ruby fd-find
 
 RUN \
   mkdir -p ${NVM_DIR} && \

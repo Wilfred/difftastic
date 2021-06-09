@@ -19,4 +19,5 @@ docker run -td \
   $IMAGE_NAME
 
 docker exec -it $CONTAINER_NAME sh -c 'ln -s /mnt/tree-sitter-hack/* /tree-sitter-hack'
-docker exec -it $CONTAINER_NAME sh -c 'rm -f build node_modules package-lock.json'
+docker exec -it $CONTAINER_NAME sh -c 'rm -rf build node_modules package-lock.json'
+docker exec -it $CONTAINER_NAME sh -c 'npm install'

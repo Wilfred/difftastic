@@ -2,6 +2,8 @@
 
 set -e
 
+source bin/require_ruby
+
 # Find errors in `tree-sitter parse` output and print them in a format easily consumable
 # by VSCode. The Hacklang parser already has an error format easily consumable by VSCode
 # so we match that format.
