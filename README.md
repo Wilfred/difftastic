@@ -66,6 +66,20 @@ We use `bin/generate-corpus` to generate the `test/corpus/case1.txt` from indivi
 
 Run `bin/generate-corpus` and `bin/generate-parser` before running `tree-sitter test`.
 
+**`bin/test-dir`**
+
+Run `bin/ts-errors` on all files with `.hack` or `.php` extension in the given directory recursively.
+
+```
+$ ./bin/test-dir hhvm/hphp/hack/test
+examples/hhvm/hphp/hack/test/error_formatting_highlighted/zero_width_syntax_err.php
+(3,11)-(3,18) extends
+examples/hhvm/hphp/hack/test/autocomplete/not_shape_key_string.php
+(3,1)-(6,1) function foo(): string {\n  return "AUTO332\n}\n
+(4,10)-(6,1) "AUTO332\n}\n
+...
+```
+
 ## References
 
 There's no published official Hacklang language spec so we have to make do.
