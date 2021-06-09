@@ -351,19 +351,14 @@ impl NewlinePositions {
             .collect()
     }
 
-    /// Convert absolute string ranges to line-relative ranges. If the
+    /// Convert absolute string range to line-relative ranges. If the
     /// absolute range crosses a newline, split it into multiple
     /// line-relative ranges.
-    pub fn from_ranges(&self, ranges: &[Span]) -> Vec<SingleLineSpan> {
-        let mut res = vec![];
-        for range in ranges {
-            let start_pos = self.from_offset(range.start);
-            let end_pos = self.from_offset(range.end);
+    pub fn from_range(&self, range: &Span) -> Vec<SingleLineSpan> {
+        let start_pos = self.from_offset(range.start);
+        let end_pos = self.from_offset(range.end);
 
-            res.extend(self.split_line_boundaries(start_pos, end_pos));
-        }
-
-        res
+        self.split_line_boundaries(start_pos, end_pos)
     }
 }
 
@@ -383,7 +378,7 @@ fn from_offset_newline_boundary() {
 #[test]
 fn from_ranges_first_line() {
     let newline_positions: NewlinePositions = "foo".into();
-    let relative_ranges = newline_positions.from_ranges(&vec![Span { start: 1, end: 3 }]);
+    let relative_ranges = newline_positions.from_range(&Span { start: 1, end: 3 });
     assert_eq!(
         relative_ranges,
         vec![SingleLineSpan {
@@ -397,7 +392,7 @@ fn from_ranges_first_line() {
 #[test]
 fn from_ranges_split_over_multiple_lines() {
     let newline_positions: NewlinePositions = "foo\nbar\nbaz\naaaaaaaaaaa".into();
-    let relative_ranges = newline_positions.from_ranges(&vec![Span { start: 5, end: 10 }]);
+    let relative_ranges = newline_positions.from_range(&Span { start: 5, end: 10 });
 
     assert_eq!(
         relative_ranges,
