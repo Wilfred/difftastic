@@ -1,4 +1,4 @@
-use crate::positions::{LineSpan, SingleLineSpan, Span};
+use crate::positions::{SingleLineSpan, Span};
 use crate::tree_diff::{MatchKind, MatchedPos};
 use regex::Regex;
 use std::fmt;
@@ -302,20 +302,20 @@ impl NewlinePositions {
         self: &NewlinePositions,
         start: LinePosition,
         end: LinePosition,
-    ) -> LineSpan {
-        let mut ls = LineSpan { spans: vec![] };
+    ) -> Vec<SingleLineSpan> {
+        let mut res = vec![];
 
         if start.line == end.line {
-            ls.spans.push(SingleLineSpan {
+            res.push(SingleLineSpan {
                 line: start.line,
                 start_col: start.column,
                 end_col: end.column,
             });
-            return ls;
+            return res;
         } else {
             let first_line_end_pos = self.positions[start.line.number + 1] - 1;
             let first_line_length = first_line_end_pos - self.positions[start.line.number];
-            ls.spans.push(SingleLineSpan {
+            res.push(SingleLineSpan {
                 line: start.line,
                 start_col: start.column,
                 end_col: first_line_length,
@@ -325,7 +325,7 @@ impl NewlinePositions {
         for line_num in (start.line.number + 1)..end.line.number {
             let line_end_pos = self.positions[line_num + 1] - 1;
             let line_length = line_end_pos - self.positions[line_num];
-            ls.spans.push(SingleLineSpan {
+            res.push(SingleLineSpan {
                 line: line_num.into(),
                 start_col: 0,
                 end_col: line_length,
@@ -333,13 +333,13 @@ impl NewlinePositions {
         }
 
         // Last line, up to end.
-        ls.spans.push(SingleLineSpan {
+        res.push(SingleLineSpan {
             line: end.line,
             start_col: 0,
             end_col: end.column,
         });
 
-        ls
+        res
     }
 
     pub fn lines(&self, span: &Span) -> Vec<LineNumber> {
@@ -354,16 +354,16 @@ impl NewlinePositions {
     /// Convert absolute string ranges to line-relative ranges. If the
     /// absolute range crosses a newline, split it into multiple
     /// line-relative ranges.
-    pub fn from_ranges(&self, ranges: &[Span]) -> LineSpan {
-        let mut rel_positions = LineSpan { spans: vec![] };
+    pub fn from_ranges(&self, ranges: &[Span]) -> Vec<SingleLineSpan> {
+        let mut res = vec![];
         for range in ranges {
             let start_pos = self.from_offset(range.start);
             let end_pos = self.from_offset(range.end);
 
-            rel_positions.spans.extend(self.split_line_boundaries(start_pos, end_pos).spans);
+            res.extend(self.split_line_boundaries(start_pos, end_pos));
         }
 
-        rel_positions
+        res
     }
 }
 
@@ -385,7 +385,7 @@ fn from_ranges_first_line() {
     let newline_positions: NewlinePositions = "foo".into();
     let relative_ranges = newline_positions.from_ranges(&vec![Span { start: 1, end: 3 }]);
     assert_eq!(
-        relative_ranges.spans,
+        relative_ranges,
         vec![SingleLineSpan {
             line: 0.into(),
             start_col: 1,
@@ -400,7 +400,7 @@ fn from_ranges_split_over_multiple_lines() {
     let relative_ranges = newline_positions.from_ranges(&vec![Span { start: 5, end: 10 }]);
 
     assert_eq!(
-        relative_ranges.spans,
+        relative_ranges,
         vec![
             (SingleLineSpan {
                 line: 1.into(),

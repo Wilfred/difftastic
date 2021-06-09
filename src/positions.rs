@@ -8,12 +8,6 @@ pub struct Span {
     pub end: usize,   // exclusive
 }
 
-/// A contiguous sequence of line spans.
-#[derive(Debug, PartialEq)]
-pub struct LineSpan {
-    pub spans: Vec<SingleLineSpan>,
-}
-
 /// A range within a single line of a string.
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct SingleLineSpan {

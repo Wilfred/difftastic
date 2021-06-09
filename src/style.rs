@@ -97,7 +97,7 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
                 background: Some(if is_lhs { Color::Red } else { Color::Green }),
             },
         };
-        for line_pos in nl_pos.from_ranges(&[pos.pos]).spans {
+        for line_pos in nl_pos.from_ranges(&[pos.pos]) {
             styles.push((line_pos, style));
         }
     }
