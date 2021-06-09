@@ -273,13 +273,35 @@ fn test_visible_groups_ignores_unchanged() {
     assert_eq!(res, vec![]);
 }
 
-pub fn apply_groups(_lhs: &str, _rhs: &str, groups: &[LineGroup]) -> String {
-    let spacer = "--------------------------\n";
-    dbg!(groups);
+pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length: usize) -> String {
+    let lhs_lines: Vec<_> = lhs.lines().collect();
+    let rhs_lines: Vec<_> = rhs.lines().collect();
 
     let mut result = String::new();
-    result.push_str(spacer);
-    result.push_str(spacer);
+    let spacer = "--------------------------\n";
+
+    for group in groups {
+        dbg!(group);
+
+        let mut lhs_result = String::new();
+        for lhs_line_num in &group.lhs_lines {
+            lhs_result.push_str(lhs_lines[lhs_line_num.number]);
+            lhs_result.push_str("\n");
+        }
+
+        let mut rhs_result = String::new();
+        for rhs_line_num in &group.rhs_lines {
+            rhs_result.push_str(rhs_lines[rhs_line_num.number]);
+            rhs_result.push_str("\n");
+        }
+
+        result.push_str(&horizontal_concat(
+            &lhs_result,
+            &rhs_result,
+            max_left_length,
+        ));
+        result.push_str(spacer);
+    }
 
     result
 }

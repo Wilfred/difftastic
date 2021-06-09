@@ -107,6 +107,7 @@ fn main() {
         horizontal_concat(&lhs_colored, &rhs_colored, max_left_length)
     );
 
+    println!("--------------- groups ----------------");
     let groups = visible_groups(&before_src, &after_src, &lhs_positions, &rhs_positions);
-    print!("{}", apply_groups(&lhs_colored, &rhs_colored, &groups));
+    print!("{}", apply_groups(&lhs_colored, &rhs_colored, &groups, max_left_length));
 }
