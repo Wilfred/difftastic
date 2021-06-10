@@ -327,13 +327,13 @@ pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length:
 
         let mut lhs_result = String::new();
         for lhs_line_num in &group.lhs_lines {
-            lhs_result.push_str(lhs_lines[lhs_line_num.number]);
+            lhs_result.push_str(lhs_lines.get(lhs_line_num.number).unwrap_or(&""));
             lhs_result.push_str("\n");
         }
 
         let mut rhs_result = String::new();
         for rhs_line_num in &group.rhs_lines {
-            rhs_result.push_str(rhs_lines[rhs_line_num.number]);
+            rhs_result.push_str(rhs_lines.get(rhs_line_num.number).unwrap_or(&""));
             rhs_result.push_str("\n");
         }
 
