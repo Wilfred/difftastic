@@ -108,6 +108,13 @@ fn main() {
     );
 
     println!("--------------- groups ----------------");
-    let groups = visible_groups(&before_src, &after_src, &lhs_positions, &rhs_positions);
-    print!("{}", apply_groups(&lhs_colored, &rhs_colored, &groups, max_left_length));
+    let mut groups = visible_groups(&before_src, &after_src, &lhs_positions, &rhs_positions);
+    for group in &mut groups {
+        group.pad(1);
+    }
+
+    print!(
+        "{}",
+        apply_groups(&lhs_colored, &rhs_colored, &groups, max_left_length)
+    );
 }

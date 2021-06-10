@@ -37,6 +37,48 @@ impl LineGroup {
         }
     }
 
+    pub fn pad(&mut self, amount: usize) {
+        if !self.lhs_lines.is_empty() {
+            for _ in 0..amount {
+                let current = self.lhs_lines[0].number;
+                if current <= 0 {
+                    break;
+                }
+
+                self.lhs_lines.insert(0, (current - 1).into());
+            }
+
+            for _ in 0..amount {
+                let current = self.lhs_lines.last().unwrap().number;
+                if current <= 0 {
+                    break;
+                }
+
+                self.lhs_lines.push((current + 1).into());
+            }
+        }
+
+        if !self.rhs_lines.is_empty() {
+            for _ in 0..amount {
+                let current = self.rhs_lines[0].number;
+                if current <= 0 {
+                    break;
+                }
+
+                self.rhs_lines.insert(0, (current - 1).into());
+            }
+
+            for _ in 0..amount {
+                let current = self.rhs_lines.last().unwrap().number;
+                if current <= 0 {
+                    break;
+                }
+
+                self.rhs_lines.push((current + 1).into());
+            }
+        }
+    }
+
     fn overlaps_lhs(&self, nl_pos: &NewlinePositions, mp: &MatchedPos) -> bool {
         if self.lhs_lines.is_empty() {
             return false;
