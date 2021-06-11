@@ -54,10 +54,7 @@ foo = bar(x...)
           (function_call 
             (identifier) 
             (function_arguments 
-              (expression 
-                (expr_term 
-                  (variable_expr
-                    (identifier))))))))))) 
+              (expression (expr_term (variable_expr (identifier)))) (ellipsis)))))))) 
 
 ==================
 multiline function call
