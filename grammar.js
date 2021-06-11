@@ -136,7 +136,7 @@ module.exports = grammar({
       $.expression,
       '=>',
       $.expression,
-      optional('...'),
+      optional($.ellipsis),
       optional($.for_cond),
       '}',
     ),
@@ -164,8 +164,10 @@ module.exports = grammar({
     function_arguments: $ => seq(
       $.expression, 
       repeat(seq(',', $.expression)), 
-      optional(choice(',', '...'))
+      optional(choice(',', $.ellipsis))
     ),
+
+    ellipsis: $ => token('...'),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(

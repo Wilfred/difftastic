@@ -601,8 +601,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "..."
+              "type": "SYMBOL",
+              "name": "ellipsis"
             },
             {
               "type": "BLANK"
@@ -757,8 +757,8 @@
                   "value": ","
                 },
                 {
-                  "type": "STRING",
-                  "value": "..."
+                  "type": "SYMBOL",
+                  "name": "ellipsis"
                 }
               ]
             },
@@ -768,6 +768,13 @@
           ]
         }
       ]
+    },
+    "ellipsis": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "..."
+      }
     },
     "comment": {
       "type": "TOKEN",

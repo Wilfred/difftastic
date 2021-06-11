@@ -260,6 +260,10 @@
       "required": true,
       "types": [
         {
+          "type": "ellipsis",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
@@ -324,6 +328,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "ellipsis",
+          "named": true
+        },
         {
           "type": "expression",
           "named": true
@@ -527,10 +535,6 @@
     "named": false
   },
   {
-    "type": "...",
-    "named": false
-  },
-  {
     "type": ":",
     "named": false
   },
@@ -552,6 +556,10 @@
   },
   {
     "type": "comment",
+    "named": true
+  },
+  {
+    "type": "ellipsis",
     "named": true
   },
   {

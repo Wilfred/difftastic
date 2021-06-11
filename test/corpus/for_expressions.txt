@@ -24,3 +24,85 @@ foo = [for v in ["a", "b"]: v]
                       (expression (expr_term (literal_value (string_lit)))))))))
               (expression (expr_term (variable_expr (identifier))))))))))) 
 
+==================
+for tuple expression with index
+==================
+
+foo = [for i, v in ["a", "b"]: i]
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+      (expression 
+        (expr_term 
+          (for_expr 
+            (for_tuple_expr 
+              (for_intro 
+              (identifier) 
+              (identifier) 
+              (expression 
+                (expr_term 
+                  (collection_value 
+                    (tuple 
+                      (expression (expr_term (literal_value (string_lit)))) 
+                      (expression (expr_term (literal_value (string_lit)))))))))
+              (expression (expr_term (variable_expr (identifier))))))))))) 
+
+==================
+for object expression 
+==================
+
+foo = {for i, v in ["a", "b"]: v => i}
+
+---
+
+(config_file
+  (body
+    (attribute 
+      (identifier) 
+      (expression 
+        (expr_term 
+          (for_expr 
+            (for_object_expr 
+              (for_intro 
+                (identifier)
+                (identifier) 
+                  (expression 
+                    (expr_term 
+                      (collection_value 
+                        (tuple 
+                          (expression (expr_term (literal_value (string_lit)))) 
+                          (expression (expr_term (literal_value (string_lit))))))))) 
+              (expression (expr_term (variable_expr (identifier)))) 
+              (expression (expr_term (variable_expr (identifier))))))))))) 
+
+==================
+for object expression 2
+==================
+
+foo = {for i, v in ["a", "b"]: v => i...}
+
+---
+
+(config_file
+  (body
+    (attribute 
+      (identifier) 
+      (expression 
+        (expr_term 
+          (for_expr 
+            (for_object_expr 
+              (for_intro 
+                (identifier)
+                (identifier) 
+                  (expression 
+                    (expr_term 
+                      (collection_value 
+                        (tuple 
+                          (expression (expr_term (literal_value (string_lit)))) 
+                          (expression (expr_term (literal_value (string_lit))))))))) 
+              (expression (expr_term (variable_expr (identifier)))) 
+              (expression (expr_term (variable_expr (identifier)))) (ellipsis)))))))) 
