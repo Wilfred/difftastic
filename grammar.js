@@ -154,7 +154,12 @@ module.exports = grammar({
 
     variable_expr: $ => $.identifier,
 
-    function_call: $ => seq($.identifier, '(', optional($.function_arguments), ')'),
+    function_call: $ => seq(
+      field('name', $.identifier),
+      '(',
+      optional($.function_arguments),
+      ')'
+    ),
 
     function_arguments: $ => seq(
       $.expression, 
