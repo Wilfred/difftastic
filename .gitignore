@@ -5,7 +5,6 @@ build/
 .vscode/settings.json
 examples
 package-lock.json
-.npmrc
 tmp
 
 # Source test files in test/cases. We can ignore test/corpus.
