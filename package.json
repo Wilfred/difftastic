@@ -15,6 +15,9 @@
   "bugs": {
     "url": "https://github.com/antoniodejesusochoasolano/tree-sitter-hack/issues"
   },
+  "engines": {
+    "node": ">=14.7.0"
+  },
   "dependencies": {
     "nan": "^2.14.1"
   },
