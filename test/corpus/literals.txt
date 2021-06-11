@@ -119,6 +119,24 @@ foo = "bar"
             (string_lit)))))))
 
 ==================
+string literal escaped newline
+==================
+
+foo = "bar\nbaz"
+
+---
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (literal_value
+            (string_lit)))))))
+
+
+==================
 string literal multi line error
 ==================
 
@@ -187,22 +205,3 @@ foo = null
           (literal_value
             (null_lit)))))))
 
-==================
-collection value tuple
-==================
-
-foo = [1, 2, "foo"]
-
----
-
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-        (expression 
-          (expr_term 
-            (collection_value 
-              (tuple 
-                (expression (expr_term (literal_value (numeric_lit)))) 
-                (expression (expr_term (literal_value (numeric_lit)))) 
-                (expression (expr_term (literal_value (string_lit)))))))))))
