@@ -1,0 +1,86 @@
+==================
+nonary function call
+==================
+
+foo = bar()
+
+---
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (function_call
+            (identifier)))))))
+
+==================
+unary function call
+==================
+
+foo = bar("foo")
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+      (expression 
+        (expr_term 
+          (function_call 
+            (identifier) 
+            (function_arguments 
+              (expression 
+                (expr_term 
+                  (literal_value 
+                    (string_lit))))))))))) 
+
+==================
+variadic function call
+==================
+
+foo = bar(x...)
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+      (expression 
+        (expr_term 
+          (function_call 
+            (identifier) 
+            (function_arguments 
+              (expression 
+                (expr_term 
+                  (variable_expr
+                    (identifier))))))))))) 
+
+==================
+multiline function call
+==================
+
+foo = bar(
+  "a",
+  "b",
+  "c"
+)
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+      (expression 
+        (expr_term 
+          (function_call 
+            (identifier) 
+            (function_arguments 
+              (expression (expr_term (literal_value (string_lit)))) 
+              (expression (expr_term (literal_value (string_lit)))) 
+              (expression (expr_term (literal_value (string_lit))))))))))) 
+

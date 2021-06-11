@@ -58,7 +58,7 @@ module.exports = grammar({
       $.literal_value,
       $.collection_value,
       $.variable_expr,
-      // $.function_call,
+      $.function_call,
       $.for_expr,
       seq($.expr_term, $.index),
       seq($.expr_term, $.get_attr),
@@ -153,6 +153,14 @@ module.exports = grammar({
     for_cond: $ => seq('if', $.expression),
 
     variable_expr: $ => $.identifier,
+
+    function_call: $ => seq($.identifier, '(', optional($.function_arguments), ')'),
+
+    function_arguments: $ => seq(
+      $.expression, 
+      repeat(seq(',', $.expression)), 
+      optional(choice(',', '...'))
+    ),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(

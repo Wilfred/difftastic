@@ -1,0 +1,43 @@
+==================
+collection value tuple
+==================
+
+foo = [1, 2, "foo"]
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+      (expression 
+        (expr_term 
+          (collection_value 
+            (tuple 
+              (expression (expr_term (literal_value (numeric_lit)))) 
+              (expression (expr_term (literal_value (numeric_lit)))) 
+              (expression (expr_term (literal_value (string_lit)))))))))))
+
+==================
+collection value object
+==================
+
+foo = {1: 2, "foo"="bar"}
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+      (expression 
+        (expr_term 
+          (collection_value 
+            (object 
+              (object_elem 
+                (expression (expr_term (literal_value (numeric_lit)))) 
+                (expression (expr_term (literal_value (numeric_lit))))) 
+              (object_elem 
+                (expression (expr_term (literal_value (string_lit)))) 
+                (expression (expr_term (literal_value (string_lit)))))))))))) 
+
