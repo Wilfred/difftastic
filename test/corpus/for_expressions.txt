@@ -1,0 +1,26 @@
+==================
+for tuple expression
+==================
+
+foo = [for v in ["a", "b"]: v]
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+      (expression 
+        (expr_term 
+          (for_expr 
+            (for_tuple_expr 
+              (for_intro 
+              (identifier) 
+              (expression 
+                (expr_term 
+                  (collection_value 
+                    (tuple 
+                      (expression (expr_term (literal_value (string_lit)))) 
+                      (expression (expr_term (literal_value (string_lit)))))))))
+              (expression (expr_term (variable_expr (identifier))))))))))) 
+
