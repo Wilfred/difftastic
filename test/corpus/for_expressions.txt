@@ -63,20 +63,28 @@ foo = [for i, v in ["a", "b", "c"]: v if pred(i)]
   (body 
     (attribute 
       (identifier) 
-      (expression 
-        (expr_term 
-          (for_expr 
-            (for_tuple_expr 
-              (for_intro 
-              (identifier) 
-              (identifier) 
-              (expression 
-                (expr_term 
-                  (collection_value 
-                    (tuple 
-                      (expression (expr_term (literal_value (string_lit)))) 
-                      (expression (expr_term (literal_value (string_lit)))))))))
-              (expression (expr_term (variable_expr (identifier))))))))))) 
+        (expression 
+          (expr_term 
+            (for_expr 
+              (for_tuple_expr 
+                (for_intro 
+                  (identifier) 
+                  (identifier) 
+                    (expression 
+                      (expr_term 
+                        (collection_value 
+                          (tuple 
+                            (expression (expr_term (literal_value (string_lit)))) 
+                            (expression (expr_term (literal_value (string_lit)))) 
+                            (expression (expr_term (literal_value (string_lit))))))))) 
+                (expression (expr_term (variable_expr (identifier)))) 
+                (for_cond 
+                  (expression 
+                    (expr_term 
+                      (function_call 
+                        (identifier) 
+                        (function_arguments (expression (expr_term (variable_expr (identifier)))))))))))))))) 
+
 
 ==================
 for object expression 
