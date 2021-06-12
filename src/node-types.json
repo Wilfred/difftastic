@@ -497,7 +497,17 @@
   {
     "type": "string_lit",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "tuple",
@@ -583,6 +593,10 @@
   },
   {
     "type": "ellipsis",
+    "named": true
+  },
+  {
+    "type": "escape_sequence",
     "named": true
   },
   {

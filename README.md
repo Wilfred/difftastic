@@ -14,4 +14,4 @@ To run tests simply run `nix-shell --run 'tree-sitter test'`.
 
 * use [Unicode® Standard Annex #31](https://www.unicode.org/reports/tr31/) (augmented with '-')for identifiers
 * add [operations](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#operations)
-* add [template expressions](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#template-expressions) and express string literals using them
+* add [template expressions](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#template-expressions) 
