@@ -325,8 +325,6 @@ pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length:
     let spacer = "--------------------------\n";
 
     for group in groups {
-        dbg!(group);
-
         let mut lhs_result = String::new();
         for lhs_line_num in &group.lhs_lines {
             lhs_result.push_str(lhs_lines.get(lhs_line_num.number).unwrap_or(&""));
