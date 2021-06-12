@@ -1,7 +1,5 @@
 node_modules
 build
-queries
 npm-debug.log
 .env
 .DS_Store
-tmp
