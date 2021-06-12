@@ -1,0 +1,18 @@
+==================
+simple conditional expression
+==================
+
+foo = predicate() ? 1: 2
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+      (expression 
+        (conditional 
+          (expression (expr_term (function_call (identifier))))
+          (expression (expr_term (literal_value (numeric_lit)))) 
+          (expression (expr_term (literal_value (numeric_lit))))))))) 
+
