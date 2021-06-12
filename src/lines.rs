@@ -1,6 +1,7 @@
 use crate::positions::SingleLineSpan;
 use crate::tree_diff::{MatchKind, MatchedPos};
 use regex::Regex;
+use std::cmp::{min, Ordering};
 use std::fmt;
 
 #[cfg(test)]
@@ -78,6 +79,14 @@ impl LineGroup {
 
                 self.rhs_lines.push((current + 1).into());
             }
+        }
+    }
+
+    fn overlaps(&self, is_lhs: bool, mp: &MatchedPos) -> bool {
+        if is_lhs {
+            self.overlaps_lhs(mp)
+        } else {
+            self.overlaps_rhs(mp)
         }
     }
 
@@ -223,66 +232,57 @@ pub fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> Str
     res
 }
 
+/// Compare two MatchedPos to see which starts earlier (on either
+/// side).
+fn compare_matched_pos(lhs: &MatchedPos, rhs: &MatchedPos) -> Ordering {
+    let mut lhs_line = lhs.pos[0].line;
+    if let Some(opposite_pos) = &lhs.prev_opposite_pos {
+        lhs_line = min(opposite_pos[0].line, lhs_line);
+    }
+
+    let mut rhs_line = rhs.pos[0].line;
+    if let Some(opposite_pos) = &rhs.prev_opposite_pos {
+        rhs_line = min(opposite_pos[0].line, rhs_line);
+    }
+
+    lhs_line.cmp(&rhs_line)
+}
+
 /// The exact lines that have changes, grouped into contiguous
 /// sections with the corresponding line numbers of the other side.
 pub fn visible_groups(
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
 ) -> Vec<LineGroup> {
-    let lhs_positions: Vec<_> = lhs_positions
+    let lhs_positions = lhs_positions
         .iter()
-        .filter(|mp| mp.kind != MatchKind::Unchanged)
-        .collect();
-    let rhs_positions: Vec<_> = rhs_positions
+        .filter(|mp| mp.kind != MatchKind::Unchanged);
+    let rhs_positions = rhs_positions
         .iter()
-        .filter(|mp| mp.kind != MatchKind::Unchanged)
-        .collect();
+        .filter(|mp| mp.kind != MatchKind::Unchanged);
+
+    let mut positions = vec![];
+    positions.extend(lhs_positions.map(|p| (true, p)));
+    positions.extend(rhs_positions.map(|p| (false, p)));
+
+    positions.sort_unstable_by(|(_, x), (_, y)| compare_matched_pos(x, y));
 
     let mut groups = vec![];
     let mut group = LineGroup::new();
 
-    let mut lhs_i = 0;
-    let mut rhs_i = 0;
-    loop {
-        // If the LHS overlaps, add to the current group.
-        if let Some(lhs_pos) = lhs_positions.get(lhs_i) {
-            if group.is_empty() || group.overlaps_lhs(lhs_pos) {
-                group.add_lhs(lhs_pos);
-                lhs_i += 1;
-                continue;
-            }
-        }
-
-        // If the RHS overlaps, add to the current group.
-        if let Some(rhs_pos) = rhs_positions.get(rhs_i) {
-            if group.is_empty() || group.overlaps_rhs(rhs_pos) {
-                group.add_rhs(rhs_pos);
-                rhs_i += 1;
-                continue;
-            }
-        }
-
-        // Otherwise, start a new group.
-        if let Some(lhs_pos) = lhs_positions.get(lhs_i) {
+    for (is_lhs, position) in positions {
+        if group.is_empty() || group.overlaps(is_lhs, position) {
+            // Add to the current group.
+        } else {
+            // Start new group
             groups.push(group);
-
             group = LineGroup::new();
-            group.add_lhs(lhs_pos);
-            lhs_i += 1;
-            continue;
         }
-        // Likewise on RHS.
-        if let Some(rhs_pos) = rhs_positions.get(rhs_i) {
-            groups.push(group);
-
-            group = LineGroup::new();
-            group.add_rhs(rhs_pos);
-            rhs_i += 1;
-            continue;
+        if is_lhs {
+            group.add_lhs(position);
+        } else {
+            group.add_rhs(position);
         }
-
-        // Otherwise, no positions left.
-        break;
     }
 
     if !group.is_empty() {
