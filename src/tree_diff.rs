@@ -11,7 +11,7 @@ use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
 
 use crate::lines::NewlinePositions;
-use crate::positions::Span;
+use crate::positions::{SingleLineSpan, Span};
 use ChangeKind::*;
 use Node::*;
 
@@ -269,21 +269,33 @@ impl MatchKind {
 #[derive(Debug)]
 pub struct MatchedPos {
     pub kind: MatchKind,
-    pub pos: Span,
-    pub prev_opposite_pos: Option<Span>,
+    pub pos: Vec<SingleLineSpan>,
+    pub prev_opposite_pos: Option<Vec<SingleLineSpan>>,
 }
 
-pub fn matched_positions<'a>(src: &str, nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
+pub fn matched_positions<'a>(
+    src: &str,
+    opposite_src: &str,
+    nodes: &[&Node<'a>],
+) -> Vec<MatchedPos> {
     let nl_pos = NewlinePositions::from(src);
+    let opposite_nl_pos = NewlinePositions::from(opposite_src);
 
     let mut positions = Vec::new();
     let mut prev_unchanged = None;
-    matched_positions_(&nl_pos, nodes, &mut prev_unchanged, &mut positions);
+    matched_positions_(
+        &nl_pos,
+        &opposite_nl_pos,
+        nodes,
+        &mut prev_unchanged,
+        &mut positions,
+    );
     positions
 }
 
 fn matched_positions_<'a>(
     nl_pos: &NewlinePositions,
+    opposite_nl_pos: &NewlinePositions,
     nodes: &[&Node<'a>],
     prev_opposite_pos: &mut Option<Span>,
     positions: &mut Vec<MatchedPos>,
@@ -313,11 +325,11 @@ fn matched_positions_<'a>(
 
                 positions.push(MatchedPos {
                     kind: MatchKind::from_change(change),
-                    pos: *open_position,
-                    prev_opposite_pos: *prev_opposite_pos,
+                    pos: open_position.to_line_spans(nl_pos),
+                    prev_opposite_pos: prev_opposite_pos.map(|p| p.to_line_spans(nl_pos)),
                 });
 
-                matched_positions_(nl_pos, children, prev_opposite_pos, positions);
+                matched_positions_(nl_pos, opposite_nl_pos, children, prev_opposite_pos, positions);
 
                 if let Unchanged(opposite_node) = change {
                     match opposite_node {
@@ -332,8 +344,8 @@ fn matched_positions_<'a>(
                 }
                 positions.push(MatchedPos {
                     kind: MatchKind::from_change(change),
-                    pos: *close_position,
-                    prev_opposite_pos: *prev_opposite_pos,
+                    pos: close_position.to_line_spans(nl_pos),
+                    prev_opposite_pos: prev_opposite_pos.map(|p| p.to_line_spans(opposite_nl_pos)),
                 });
             }
             Atom {
@@ -356,8 +368,8 @@ fn matched_positions_<'a>(
                 }
                 positions.push(MatchedPos {
                     kind: MatchKind::from_change(change),
-                    pos: *position,
-                    prev_opposite_pos: *prev_opposite_pos,
+                    pos: position.to_line_spans(nl_pos),
+                    prev_opposite_pos: prev_opposite_pos.map(|p| p.to_line_spans(opposite_nl_pos)),
                 });
             }
         }

@@ -1,4 +1,4 @@
-use crate::lines::{LineNumber, NewlinePositions};
+use crate::lines::LineNumber;
 use crate::positions::SingleLineSpan;
 use crate::tree_diff::{MatchKind, MatchedPos};
 use colored::*;
@@ -79,8 +79,6 @@ pub fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 }
 
 pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
-    let nl_pos = NewlinePositions::from(s);
-
     let mut styles = vec![];
     for pos in positions {
         let style = match pos.kind {
@@ -97,8 +95,8 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
                 background: Some(if is_lhs { Color::Red } else { Color::Green }),
             },
         };
-        for line_pos in pos.pos.to_line_spans(&nl_pos) {
-            styles.push((line_pos, style));
+        for line_pos in &pos.pos {
+            styles.push((*line_pos, style));
         }
     }
 

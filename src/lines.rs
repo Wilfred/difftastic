@@ -1,8 +1,10 @@
-use crate::positions::{SingleLineSpan, Span};
+use crate::positions::SingleLineSpan;
 use crate::tree_diff::{MatchKind, MatchedPos};
 use regex::Regex;
 use std::fmt;
 
+#[cfg(test)]
+use crate::positions::Span;
 #[cfg(test)]
 use pretty_assertions::assert_eq;
 
@@ -79,15 +81,15 @@ impl LineGroup {
         }
     }
 
-    fn overlaps_lhs(&self, nl_pos: &NewlinePositions, mp: &MatchedPos) -> bool {
+    fn overlaps_lhs(&self, mp: &MatchedPos) -> bool {
         if self.lhs_lines.is_empty() {
             return false;
         }
 
-        let lines = nl_pos.lines(&mp.pos);
+        let lines = &mp.pos;
         assert!(!lines.is_empty());
-        let first_match_line = lines[0].number;
-        let last_match_line = lines.last().unwrap().number;
+        let first_match_line = lines[0].line.number;
+        let last_match_line = lines.last().unwrap().line.number;
 
         let first_group_line = self.lhs_lines[0].number;
         let last_group_line = self.lhs_lines.last().unwrap().number;
@@ -113,15 +115,15 @@ impl LineGroup {
         false
     }
 
-    fn overlaps_rhs(&self, nl_pos: &NewlinePositions, mp: &MatchedPos) -> bool {
+    fn overlaps_rhs(&self, mp: &MatchedPos) -> bool {
         if self.rhs_lines.is_empty() {
             return false;
         }
 
-        let lines = nl_pos.lines(&mp.pos);
+        let lines = &mp.pos;
         assert!(!lines.is_empty());
-        let first_match_line = lines[0].number;
-        let last_match_line = lines.last().unwrap().number;
+        let first_match_line = lines[0].line.number;
+        let last_match_line = lines.last().unwrap().line.number;
 
         let first_group_line = self.rhs_lines[0].number;
         let last_group_line = self.rhs_lines.last().unwrap().number;
@@ -147,41 +149,41 @@ impl LineGroup {
         false
     }
 
-    fn add_lhs_pos(&mut self, nl_pos: &NewlinePositions, span: &Span) {
+    fn add_lhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
         let current_highest = self
             .lhs_lines
             .last()
             .map(|ln| ln.number as isize)
             .unwrap_or(-1);
-        for line in nl_pos.lines(span) {
-            if (line.number as isize) > current_highest {
-                self.lhs_lines.push(line);
+        for line_span in line_spans {
+            if (line_span.line.number as isize) > current_highest {
+                self.lhs_lines.push(line_span.line);
             }
         }
     }
-    fn add_rhs_pos(&mut self, nl_pos: &NewlinePositions, span: &Span) {
+    fn add_rhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
         let current_highest = self
             .rhs_lines
             .last()
             .map(|ln| ln.number as isize)
             .unwrap_or(-1);
-        for line in nl_pos.lines(span) {
-            if (line.number as isize) > current_highest {
-                self.rhs_lines.push(line);
+        for line_span in line_spans {
+            if (line_span.line.number as isize) > current_highest {
+                self.rhs_lines.push(line_span.line);
             }
         }
     }
 
-    fn add_lhs(&mut self, nl_pos: &NewlinePositions, mp: &MatchedPos) {
-        self.add_lhs_pos(nl_pos, &mp.pos);
-        if let Some(opposite_pos) = mp.prev_opposite_pos {
-            self.add_rhs_pos(nl_pos, &opposite_pos);
+    fn add_lhs(&mut self, mp: &MatchedPos) {
+        self.add_lhs_pos(&mp.pos);
+        if let Some(ref opposite_pos) = mp.prev_opposite_pos {
+            self.add_rhs_pos(opposite_pos);
         }
     }
-    fn add_rhs(&mut self, nl_pos: &NewlinePositions, mp: &MatchedPos) {
-        self.add_rhs_pos(nl_pos, &mp.pos);
-        if let Some(opposite_pos) = mp.prev_opposite_pos {
-            self.add_lhs_pos(nl_pos, &opposite_pos);
+    fn add_rhs(&mut self, mp: &MatchedPos) {
+        self.add_rhs_pos(&mp.pos);
+        if let Some(ref opposite_pos) = mp.prev_opposite_pos {
+            self.add_lhs_pos(opposite_pos);
         }
     }
 
@@ -224,8 +226,6 @@ pub fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> Str
 /// The exact lines that have changes, grouped into contiguous
 /// sections with the corresponding line numbers of the other side.
 pub fn visible_groups(
-    lhs_src: &str,
-    rhs_src: &str,
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
 ) -> Vec<LineGroup> {
@@ -238,9 +238,6 @@ pub fn visible_groups(
         .filter(|mp| mp.kind != MatchKind::Unchanged)
         .collect();
 
-    let lhs_nl_pos = NewlinePositions::from(lhs_src);
-    let rhs_nl_pos = NewlinePositions::from(rhs_src);
-
     let mut groups = vec![];
     let mut group = LineGroup::new();
 
@@ -249,8 +246,8 @@ pub fn visible_groups(
     loop {
         // If the LHS overlaps, add to the current group.
         if let Some(lhs_pos) = lhs_positions.get(lhs_i) {
-            if group.is_empty() || group.overlaps_lhs(&lhs_nl_pos, lhs_pos) {
-                group.add_lhs(&lhs_nl_pos, lhs_pos);
+            if group.is_empty() || group.overlaps_lhs(lhs_pos) {
+                group.add_lhs(lhs_pos);
                 lhs_i += 1;
                 continue;
             }
@@ -258,8 +255,8 @@ pub fn visible_groups(
 
         // If the RHS overlaps, add to the current group.
         if let Some(rhs_pos) = rhs_positions.get(rhs_i) {
-            if group.is_empty() || group.overlaps_rhs(&rhs_nl_pos, rhs_pos) {
-                group.add_rhs(&rhs_nl_pos, rhs_pos);
+            if group.is_empty() || group.overlaps_rhs(rhs_pos) {
+                group.add_rhs(rhs_pos);
                 rhs_i += 1;
                 continue;
             }
@@ -270,7 +267,7 @@ pub fn visible_groups(
             groups.push(group);
 
             group = LineGroup::new();
-            group.add_lhs(&lhs_nl_pos, lhs_pos);
+            group.add_lhs(lhs_pos);
             lhs_i += 1;
             continue;
         }
@@ -279,7 +276,7 @@ pub fn visible_groups(
             groups.push(group);
 
             group = LineGroup::new();
-            group.add_rhs(&rhs_nl_pos, rhs_pos);
+            group.add_rhs(rhs_pos);
             rhs_i += 1;
             continue;
         }
@@ -297,21 +294,26 @@ pub fn visible_groups(
 
 #[test]
 fn test_visible_groups_ignores_unchanged() {
-    let lhs_src = "foo\nbar";
-    let rhs_src = "bar\nbar";
-
     let lhs_positions = vec![MatchedPos {
         kind: MatchKind::Unchanged,
-        pos: Span { start: 0, end: 1 },
+        pos: vec![SingleLineSpan {
+            line: 1.into(),
+            start_col: 0,
+            end_col: 1,
+        }],
         prev_opposite_pos: None,
     }];
     let rhs_positions = vec![MatchedPos {
         kind: MatchKind::Unchanged,
-        pos: Span { start: 0, end: 1 },
+        pos: vec![SingleLineSpan {
+            line: 1.into(),
+            start_col: 0,
+            end_col: 1,
+        }],
         prev_opposite_pos: None,
     }];
 
-    let res = visible_groups(&lhs_src, &rhs_src, &lhs_positions, &rhs_positions);
+    let res = visible_groups(&lhs_positions, &rhs_positions);
     assert_eq!(res, vec![]);
 }
 
@@ -435,15 +437,6 @@ impl NewlinePositions {
         });
 
         res
-    }
-
-    pub fn lines(&self, span: &Span) -> Vec<LineNumber> {
-        let start_pos = self.from_offset(span.start);
-        let end_pos = self.from_offset(span.end);
-
-        (start_pos.line.number..=end_pos.line.number)
-            .map(|n| LineNumber::from(n))
-            .collect()
     }
 }
 

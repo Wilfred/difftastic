@@ -96,10 +96,10 @@ fn main() {
 
     set_changed(&lhs, &rhs);
 
-    let lhs_positions = matched_positions(&before_src, &lhs);
+    let lhs_positions = matched_positions(&before_src, &after_src, &lhs);
     let lhs_colored = apply_colors(&before_src, true, &lhs_positions);
 
-    let rhs_positions = matched_positions(&after_src, &rhs);
+    let rhs_positions = matched_positions(&after_src, &before_src, &rhs);
     let rhs_colored = apply_colors(&after_src, false, &rhs_positions);
 
     print!(
@@ -108,7 +108,7 @@ fn main() {
     );
 
     println!("--------------- groups ----------------");
-    let mut groups = visible_groups(&before_src, &after_src, &lhs_positions, &rhs_positions);
+    let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     for group in &mut groups {
         group.pad(1);
     }
