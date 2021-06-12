@@ -81,7 +81,7 @@ fn main() {
         35,
         min(
             after_src.lines().map(|line| line.len()).max().unwrap_or(1),
-            terminal_width - 1 - max_left_length,
+            terminal_width - 2 - max_left_length,
         ),
     );
 
