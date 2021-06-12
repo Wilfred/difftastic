@@ -118,6 +118,21 @@
     }
   },
   {
+    "type": "conditional",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "config_file",
     "named": true,
     "fields": {},
@@ -191,6 +206,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "conditional",
+          "named": true
+        },
         {
           "type": "expr_term",
           "named": true
@@ -544,6 +563,10 @@
   },
   {
     "type": "=>",
+    "named": false
+  },
+  {
+    "type": "?",
     "named": false
   },
   {

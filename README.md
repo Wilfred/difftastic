@@ -9,3 +9,9 @@ It is recommended to use `nix` to fulfill all development dependencies. To activ
 ## running tests
 
 To run tests simply run `nix-shell --run 'tree-sitter test'`. 
+
+## todo
+
+* use [Unicode® Standard Annex #31](https://www.unicode.org/reports/tr31/) (augmented with '-')for identifiers
+* add [operations](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#operations)
+* add [template expressions](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#template-expressions) and express string literals using them

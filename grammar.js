@@ -11,6 +11,7 @@ module.exports = grammar({
       [$.object_elem, $.variable_expr],
       [$.attr_splat],
       [$.full_splat],
+      [$.conditional],
   ],
 
   extras: $ => [
@@ -51,7 +52,7 @@ module.exports = grammar({
     expression: $ => choice(
       $.expr_term,
       //$.operation,
-      //$.conditional,
+      $.conditional,
     ),
 
     expr_term: $ => choice(
@@ -171,6 +172,14 @@ module.exports = grammar({
     ),
 
     ellipsis: $ => token('...'),
+
+    conditional: $ => seq(
+      $.expression,
+      '?',
+      $.expression,
+      ':',
+      $.expression,
+    ),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(
