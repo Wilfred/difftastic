@@ -134,6 +134,10 @@
         {
           "type": "SYMBOL",
           "name": "expr_term"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "conditional"
         }
       ]
     },
@@ -776,6 +780,31 @@
         "value": "..."
       }
     },
+    "conditional": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        },
+        {
+          "type": "STRING",
+          "value": "?"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        }
+      ]
+    },
     "comment": {
       "type": "TOKEN",
       "content": {
@@ -816,7 +845,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
+                "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
               },
               {
                 "type": "STRING",
@@ -851,6 +880,9 @@
     ],
     [
       "full_splat"
+    ],
+    [
+      "conditional"
     ]
   ],
   "precedences": [],
