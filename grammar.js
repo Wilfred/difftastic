@@ -150,7 +150,10 @@ module.exports = grammar({
       ':',
     ),
 
-    for_cond: $ => seq('if', $.expression),
+    for_cond: $ => seq(
+      'if',
+      $.expression,
+    ),
 
     variable_expr: $ => $.identifier,
 
