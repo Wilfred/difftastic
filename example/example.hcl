@@ -15,11 +15,11 @@ resource_1 "strlit1" "strlit2" {
   splat1 = tuple.*.foo.bar[0]
   splat2 = tuple[*].foo.bar[0]
   for1   = { for i, v in ["a", "a", "b"] : v => i... }
-  for2   = [ for k, v in local.list : "${k}-${v}" ]
+  for2   = [ for k, v in local.map : "${k}-${v}" ]
   for3   = { for k, v in local.map : k => v }
-  for4   = [ for k in local.list : k ]
-  for5   = { for i in local.list : i => i }
-  for6   = [ for i in local.list : i if i < 3 ]
+  for4   = [ for v in local.list : v ]
+  for5   = { for v in local.list : v => v }
+  for6   = [ for v in local.list : v if v < 3 ]
   func1  = is_number("123")
   cond1  = pred() ? 1 : "foobar"
   esc1   = "\" \t \UFF11FF22 \uFFFF \n"
