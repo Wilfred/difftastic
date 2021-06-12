@@ -76,7 +76,24 @@ module.exports = grammar({
 
     numeric_lit: $ => /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
 
-    string_lit: $ => (seq('"', token.immediate(repeat(choice(/[^\\"\n]/, /\\(.|\n)/))), '"')),
+    string_lit: $ => seq(
+      '"', 
+      repeat(choice(token.immediate(prec(1, /[^\\"\n\r\t]+/)), $.escape_sequence)),
+      '"',
+    ),
+
+    escape_sequence: $ => token.immediate(seq(
+      '\\',
+      choice(
+        '\\',
+        '"',
+        'n',
+        'r',
+        't',
+        /u[0-9a-fA-F]{4}/,
+        /U[0-9a-fA-F]{8}/
+      )
+    )),
 
     bool_lit: $ => choice('true', 'false'),
 
