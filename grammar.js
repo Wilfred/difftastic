@@ -57,6 +57,7 @@ module.exports = grammar({
 
     expr_term: $ => choice(
       $.literal_value,
+      // $.template_expr,
       $.collection_value,
       $.variable_expr,
       $.function_call,
