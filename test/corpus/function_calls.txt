@@ -10,10 +10,7 @@ foo = bar()
   (body
     (attribute
       (identifier)
-      (expression
-        (expr_term
-          (function_call
-            (identifier)))))))
+      (expression (expr_term (function_call (identifier)))))))
 
 ==================
 unary function call
@@ -32,10 +29,7 @@ foo = bar("foo")
           (function_call 
             (identifier) 
             (function_arguments 
-              (expression 
-                (expr_term 
-                  (literal_value 
-                    (string_lit))))))))))) 
+              (expression (expr_term (template_expr (quoted_template))))))))))) 
 
 ==================
 variadic function call
@@ -77,7 +71,7 @@ foo = bar(
           (function_call 
             (identifier) 
             (function_arguments 
-              (expression (expr_term (literal_value (string_lit)))) 
-              (expression (expr_term (literal_value (string_lit)))) 
-              (expression (expr_term (literal_value (string_lit))))))))))) 
+              (expression (expr_term (template_expr (quoted_template)))) 
+              (expression (expr_term (template_expr (quoted_template)))) 
+              (expression (expr_term (template_expr (quoted_template))))))))))) 
 
