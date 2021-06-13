@@ -1,5 +1,6 @@
 use crate::positions::Span;
 use crate::tree_diff::{AtomKind, Node};
+use crate::lines::NewlinePositions;
 use regex::Regex;
 use std::fs;
 use toml;
@@ -93,12 +94,14 @@ fn lang_from_value(v: &Value) -> Language {
 }
 
 pub fn parse<'a>(arena: &'a Arena<Node<'a>>, s: &str, lang: &Language) -> Vec<&'a Node<'a>> {
-    parse_from(arena, s, lang, &mut ParseState::new())
+    let nl_pos = NewlinePositions::from(s);
+    parse_from(arena, s, &nl_pos, lang, &mut ParseState::new())
 }
 
 fn parse_from<'a>(
     arena: &'a Arena<Node<'a>>,
     s: &str,
+    nl_pos: &NewlinePositions,
     lang: &Language,
     state: &mut ParseState,
 ) -> Vec<&'a Node<'a>> {
@@ -151,7 +154,7 @@ fn parse_from<'a>(
             let start = state.str_i;
 
             state.str_i += m.end();
-            let children = parse_from(arena, s, lang, state);
+            let children = parse_from(arena, s, nl_pos, lang, state);
             let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
                 "UNCLOSED".into(),
                 Span {
