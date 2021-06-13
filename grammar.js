@@ -51,7 +51,7 @@ module.exports = grammar({
 
     expression: $ => choice(
       $.expr_term,
-      //$.operation,
+      $.operation,
       $.conditional,
     ),
 
@@ -197,6 +197,26 @@ module.exports = grammar({
       ':',
       $.expression,
     ),
+
+    operation: $ => choice($.unary_operation, $.binary_operation),
+
+    unary_operation: $ => prec.left(7, seq(choice('-', '!'), $.expr_term)),
+
+    binary_operation: $ => {
+      const table = [
+        [6, choice('*', '/', '%')],
+        [5, choice('+', '-')],
+        [4, choice('>', '>=', '<', '<=')],
+        [3, choice('==', '!=')],
+        [2, choice('&&')],
+        [1, choice('||')],
+      ];
+
+      return choice(...table.map(([precedence, operator]) =>
+        prec.left(precedence, seq($.expr_term, operator, $.expr_term),
+        ))
+      );
+    },
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(
