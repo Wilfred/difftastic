@@ -428,11 +428,13 @@ impl NewlinePositions {
         }
 
         // Last line, up to end.
-        res.push(SingleLineSpan {
-            line: end.line,
-            start_col: 0,
-            end_col: end.column,
-        });
+        if end.column > 0 {
+            res.push(SingleLineSpan {
+                line: end.line,
+                start_col: 0,
+                end_col: end.column,
+            });
+        }
 
         res
     }

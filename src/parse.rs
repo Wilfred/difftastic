@@ -498,7 +498,7 @@ mod tests {
                     vec![SingleLineSpan {
                         line: 0.into(),
                         start_col: 0,
-                        end_col: 7,
+                        end_col: 6,
                     }],
                     "// foo\n",
                     AtomKind::Comment,
