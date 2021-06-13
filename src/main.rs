@@ -1,4 +1,4 @@
-mod json;
+mod parse;
 mod lines;
 mod positions;
 mod style;
@@ -9,7 +9,7 @@ use std::ffi::OsStr;
 use std::path::Path;
 use typed_arena::Arena;
 
-use crate::json::{lang_from_str, parse, read_or_die};
+use crate::parse::{lang_from_str, parse, read_or_die};
 use crate::lines::{apply_groups, enforce_length, horizontal_concat, visible_groups};
 use crate::style::apply_colors;
 use crate::tree_diff::{matched_positions, set_changed};
