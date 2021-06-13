@@ -85,16 +85,14 @@ fn main() {
         ),
     );
 
-    // TODO: enforce length after parsing (requires converting
-    // absolute positions to line-relative positions).
-    let before_src = enforce_length(&before_src, max_left_length);
-    let after_src = enforce_length(&after_src, max_right_length);
-
     let arena = Arena::new();
     let lhs = parse(&arena, &before_src, &lang);
     let rhs = parse(&arena, &after_src, &lang);
 
     set_changed(&lhs, &rhs);
+
+    let before_src = enforce_length(&before_src, max_left_length);
+    let after_src = enforce_length(&after_src, max_right_length);
 
     let lhs_positions = matched_positions(&before_src, &after_src, &lhs);
     let lhs_colored = apply_colors(&before_src, true, &lhs_positions);
