@@ -21,7 +21,8 @@ resource_1 "strlit1" "strlit2" {
   for5   = { for v in local.list : v => v }
   for6   = [ for v in local.list : v if v < 3 ]
   func1  = is_number("123")
-  cond1  = pred() ? 1 : "foobar"
+  cond1  = (1 == 2) ? 1 : "foobar"
+  bin1   = ((1+2)%3)*4
   esc1   = "\" \t \UFF11FF22 \uFFFF \n"
 
   nested_resource_1 {

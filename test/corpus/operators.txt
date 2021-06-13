@@ -1,0 +1,50 @@
+==================
+unary operator -
+==================
+
+foo = -3
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+      (expression 
+        (operation 
+          (unary_operation (expr_term (literal_value (numeric_lit))))))))) 
+
+==================
+unary operator !
+==================
+
+foo = !true
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+        (expression 
+          (operation 
+            (unary_operation (expr_term (literal_value (bool_lit))))))))) 
+
+==================
+binary operators +
+==================
+
+foo = 1+2
+
+---
+
+(config_file 
+  (body 
+    (attribute 
+      (identifier) 
+        (expression 
+          (operation 
+            (binary_operation 
+              (expr_term (literal_value (numeric_lit))) 
+              (expr_term (literal_value (numeric_lit))))))))) 
+
