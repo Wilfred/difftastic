@@ -1,16 +1,18 @@
-mod parse;
 mod lines;
+mod parse;
 mod positions;
 mod style;
 mod tree_diff;
 use clap::{App, Arg};
-use std::cmp::{max, min};
 use std::ffi::OsStr;
 use std::path::Path;
 use typed_arena::Arena;
 
+use crate::lines::{
+    apply_groups, enforce_length, horizontal_concat, lhs_printable_width, printed_line_num_width,
+    rhs_printable_width, visible_groups,
+};
 use crate::parse::{lang_from_str, parse, read_or_die};
-use crate::lines::{apply_groups, enforce_length, horizontal_concat, visible_groups};
 use crate::style::apply_colors;
 use crate::tree_diff::{matched_positions, set_changed};
 
@@ -70,20 +72,8 @@ fn main() {
         None => term_width().unwrap_or(80),
     };
 
-    let max_left_length = max(
-        35,
-        min(
-            before_src.lines().map(|line| line.len()).max().unwrap_or(1),
-            terminal_width / 2 - 1,
-        ),
-    );
-    let max_right_length = max(
-        35,
-        min(
-            after_src.lines().map(|line| line.len()).max().unwrap_or(1),
-            terminal_width - 2 - max_left_length,
-        ),
-    );
+    let max_left_length = lhs_printable_width(&before_src, terminal_width);
+    let max_right_length = rhs_printable_width(&after_src, max_left_length, terminal_width);
 
     let arena = Arena::new();
     let lhs = parse(&arena, &before_src, &lang);
@@ -91,8 +81,14 @@ fn main() {
 
     set_changed(&lhs, &rhs);
 
-    let before_src = enforce_length(&before_src, max_left_length);
-    let after_src = enforce_length(&after_src, max_right_length);
+    let before_src = enforce_length(
+        &before_src,
+        max_left_length - printed_line_num_width(&before_src),
+    );
+    let after_src = enforce_length(
+        &after_src,
+        max_right_length - printed_line_num_width(&after_src),
+    );
 
     let lhs_positions = matched_positions(&before_src, &after_src, &lhs);
     let lhs_colored = apply_colors(&before_src, true, &lhs_positions);

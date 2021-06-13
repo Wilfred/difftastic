@@ -1,7 +1,7 @@
 use crate::positions::SingleLineSpan;
 use crate::tree_diff::{MatchKind, MatchedPos};
 use regex::Regex;
-use std::cmp::Ordering;
+use std::cmp::{max, min, Ordering};
 use std::fmt;
 
 #[cfg(test)]
@@ -309,6 +309,33 @@ fn test_visible_groups_ignores_unchanged() {
     assert_eq!(res, vec![]);
 }
 
+fn format_line_num(line_num: usize) -> String {
+    format!("{:<2} ", line_num + 1)
+}
+
+pub fn printed_line_num_width(s: &str) -> usize {
+    format_line_num(s.lines().count() + 1).len()
+}
+
+pub fn lhs_printable_width(lhs: &str, terminal_width: usize) -> usize {
+    let longest_src_line = lhs.lines().map(|line| line.len()).max().unwrap_or(1);
+    let line_number_width = printed_line_num_width(lhs);
+    let longest_line = longest_src_line + line_number_width;
+
+    let space_available = terminal_width / 2 - 1;
+    max(35, min(longest_line, space_available))
+}
+
+pub fn rhs_printable_width(rhs: &str, lhs_width: usize, terminal_width: usize) -> usize {
+    let longest_src_line = rhs.lines().map(|line| line.len()).max().unwrap_or(1);
+    let line_number_width = printed_line_num_width(rhs);
+    let longest_line = longest_src_line + line_number_width;
+
+    let space_available = (terminal_width - 1) - lhs_width;
+
+    max(35, min(longest_line, space_available))
+}
+
 pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length: usize) -> String {
     let lhs_lines: Vec<_> = lhs.lines().collect();
     let rhs_lines: Vec<_> = rhs.lines().collect();
@@ -319,14 +346,14 @@ pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length:
     for group in groups {
         let mut lhs_result = String::new();
         for lhs_line_num in &group.lhs_lines {
-            lhs_result.push_str(&format!("{} ", lhs_line_num.number + 1));
+            lhs_result.push_str(&format_line_num(lhs_line_num.number));
             lhs_result.push_str(lhs_lines.get(lhs_line_num.number).unwrap_or(&""));
             lhs_result.push_str("\n");
         }
 
         let mut rhs_result = String::new();
         for rhs_line_num in &group.rhs_lines {
-            rhs_result.push_str(&format!("{} ", rhs_line_num.number + 1));
+            rhs_result.push_str(&format_line_num(rhs_line_num.number));
             rhs_result.push_str(rhs_lines.get(rhs_line_num.number).unwrap_or(&""));
             rhs_result.push_str("\n");
         }
