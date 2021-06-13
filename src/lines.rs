@@ -1,7 +1,7 @@
 use crate::positions::SingleLineSpan;
 use crate::tree_diff::{MatchKind, MatchedPos};
 use regex::Regex;
-use std::cmp::{min, Ordering};
+use std::cmp::Ordering;
 use std::fmt;
 
 #[cfg(test)]
@@ -235,16 +235,8 @@ pub fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> Str
 /// Compare two MatchedPos to see which starts earlier (on either
 /// side).
 fn compare_matched_pos(lhs: &MatchedPos, rhs: &MatchedPos) -> Ordering {
-    let mut lhs_line = lhs.pos[0].line;
-    if let Some(opposite_pos) = &lhs.prev_opposite_pos {
-        lhs_line = min(opposite_pos[0].line, lhs_line);
-    }
-
-    let mut rhs_line = rhs.pos[0].line;
-    if let Some(opposite_pos) = &rhs.prev_opposite_pos {
-        rhs_line = min(opposite_pos[0].line, rhs_line);
-    }
-
+    let lhs_line = lhs.pos[0].line;
+    let rhs_line = rhs.pos[0].line;
     lhs_line.cmp(&rhs_line)
 }
 
