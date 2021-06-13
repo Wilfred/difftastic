@@ -82,80 +82,27 @@ impl LineGroup {
         }
     }
 
-    fn overlaps(&self, is_lhs: bool, mp: &MatchedPos) -> bool {
-        if is_lhs {
-            self.overlaps_lhs(mp)
+    /// Does `mp`, a MatchedPos that occurs after self, overlap with self?
+    fn next_overlaps(&self, is_lhs: bool, mp: &MatchedPos, max_gap: usize) -> bool {
+        let group_lines = if is_lhs {
+            &self.lhs_lines
         } else {
-            self.overlaps_rhs(mp)
-        }
-    }
-
-    fn overlaps_lhs(&self, mp: &MatchedPos) -> bool {
-        if self.lhs_lines.is_empty() {
+            &self.rhs_lines
+        };
+        if group_lines.is_empty() {
             return false;
         }
 
-        let lines = &mp.pos;
-        assert!(!lines.is_empty());
-        let first_match_line = lines[0].line.number;
-        let last_match_line = lines.last().unwrap().line.number;
+        let last_group_line = group_lines.last().unwrap().number;
 
-        let first_group_line = self.lhs_lines[0].number;
-        let last_group_line = self.lhs_lines.last().unwrap().number;
 
-        // [  ] match region
-        //  []  group region
-        if first_match_line <= first_group_line && last_match_line >= last_group_line {
-            return true;
-        }
+        let match_lines = &mp.pos;
+        assert!(!match_lines.is_empty());
+        let first_match_line = match_lines[0].line.number;
 
-        // [ ]  match region
-        //  [ ] group region
-        if last_match_line >= first_group_line && last_match_line <= last_group_line {
-            return true;
-        }
+        // TODO: consider mp.prev_opposite_pos.
 
-        //  [ ] match region
-        // [ ]  group region
-        if first_match_line >= first_group_line && first_match_line <= last_group_line {
-            return true;
-        }
-
-        false
-    }
-
-    fn overlaps_rhs(&self, mp: &MatchedPos) -> bool {
-        if self.rhs_lines.is_empty() {
-            return false;
-        }
-
-        let lines = &mp.pos;
-        assert!(!lines.is_empty());
-        let first_match_line = lines[0].line.number;
-        let last_match_line = lines.last().unwrap().line.number;
-
-        let first_group_line = self.rhs_lines[0].number;
-        let last_group_line = self.rhs_lines.last().unwrap().number;
-
-        // [  ] match region
-        //  []  group region
-        if first_match_line <= first_group_line && last_match_line >= last_group_line {
-            return true;
-        }
-
-        // [ ]  match region
-        //  [ ] group region
-        if last_match_line >= first_group_line && last_match_line <= last_group_line {
-            return true;
-        }
-
-        //  [ ] match region
-        // [ ]  group region
-        if first_match_line >= first_group_line && first_match_line <= last_group_line {
-            return true;
-        }
-
-        false
+        first_match_line <= last_group_line + max_gap
     }
 
     fn add_lhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
@@ -241,7 +188,10 @@ fn compare_matched_pos(lhs: &MatchedPos, rhs: &MatchedPos) -> Ordering {
 }
 
 /// The exact lines that have changes, grouped into contiguous
-/// sections with the corresponding line numbers of the other side.
+/// sections. Try to match up LHS and RHS lines, where the
+/// corresponding changes are contiguous.
+///
+/// Moves across large distances will not be grouped.
 pub fn visible_groups(
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
@@ -263,7 +213,7 @@ pub fn visible_groups(
     let mut group = LineGroup::new();
 
     for (is_lhs, position) in positions {
-        if group.is_empty() || group.overlaps(is_lhs, position) {
+        if group.is_empty() || group.next_overlaps(is_lhs, position, 1) {
             // Add to the current group.
         } else {
             // Start new group
