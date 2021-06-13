@@ -82,14 +82,10 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "argument",
-          "named": true
-        },
-        {
-          "type": "endforeach",
           "named": true
         },
         {
@@ -124,15 +120,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
           "type": "arguments",
-          "named": true
-        },
-        {
-          "type": "foreach",
           "named": true
         }
       ]
@@ -402,14 +394,6 @@
   {
     "type": "]",
     "named": false
-  },
-  {
-    "type": "endforeach",
-    "named": true
-  },
-  {
-    "type": "foreach",
-    "named": true
   },
   {
     "type": "identifier",

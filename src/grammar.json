@@ -33,11 +33,11 @@
       "type": "PATTERN",
       "value": "\\n+"
     },
-    "foreach": {
+    "_foreach": {
       "type": "PATTERN",
       "value": "[fF][oO][rR][eE][aA][cC][hH]"
     },
-    "endforeach": {
+    "_endforeach": {
       "type": "PATTERN",
       "value": "[eE][nN][dD][fF][oO][rR][eE][aA][cC][hH]"
     },
@@ -395,7 +395,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "foreach"
+          "name": "_foreach"
         },
         {
           "type": "STRING",
@@ -416,7 +416,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "endforeach"
+          "name": "_endforeach"
         },
         {
           "type": "STRING",
