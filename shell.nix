@@ -1,16 +1,19 @@
-{ nixpkgs ? import <nixpkgs> {  } }:
- 
 let
-  pkgs = [
-    nixpkgs.nodejs
-  ];
- 
+  nixpkgs = fetchTarball {
+    name = "nixpkgs";
+    url = "https://github.com/NixOS/nixpkgs/archive/refs/tags/21.05.tar.gz";
+    sha256 = "1ckzhh24mgz6jd1xhfgx0i9mijk6xjqxwsshnvq789xsavrmsc36";
+  };
+  pkgs = import nixpkgs {};
 in
-  nixpkgs.stdenv.mkDerivation {
+  pkgs.mkShell {
     name = "env";
-    buildInputs = pkgs;
+    buildInputs = with pkgs; [
+      nodejs
+    ];
     shellHook = ''
-        PATH=./node_modules/.bin:$PATH
-        command -v tree-sitter >/dev/null 2>&1 || npm install tree-sitter-cli
+PATH=./node_modules/.bin:$PATH
+command -v tree-sitter >/dev/null 2>&1 || npm install tree-sitter-cli
     '';
   }
+
