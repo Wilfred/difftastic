@@ -15,7 +15,7 @@ module.exports = grammar({
   ],
 
   extras: $ => [
-    $.comment, 
+    $.comment,
     /\s/,
   ],
 
@@ -24,14 +24,14 @@ module.exports = grammar({
 
     body: $ => repeat1(seq(
       choice(
-        $.attribute, 
+        $.attribute,
         $.block,
       ),
     )),
 
     attribute: $ => seq(
       field('name', $.identifier),
-      '=', 
+      '=',
       $.expression,
     ),
 
@@ -77,7 +77,7 @@ module.exports = grammar({
     numeric_lit: $ => /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
 
     string_lit: $ => seq(
-      '"', 
+      '"',
       repeat(choice(token.immediate(prec(1, /[^\\"\n\r\t]+/)), $.escape_sequence)),
       '"',
     ),
@@ -134,14 +134,23 @@ module.exports = grammar({
 
     splat: $ => choice($.attr_splat, $.full_splat),
 
-    attr_splat: $ => seq('.', '*', repeat($.get_attr)),
+    attr_splat: $ => seq(
+      '.',
+      '*',
+      repeat($.get_attr),
+    ),
 
-    full_splat: $ => seq('[', '*', ']', repeat(choice($.get_attr, $.index))),
+    full_splat: $ => seq(
+      '[',
+      '*',
+      ']',
+      repeat(choice($.get_attr, $.index)),
+    ),
 
     for_expr: $ => choice($.for_tuple_expr, $.for_object_expr),
 
     for_tuple_expr: $ => seq(
-      '[', 
+      '[',
       $.for_intro,
       $.expression,
       optional($.for_cond),
@@ -183,8 +192,8 @@ module.exports = grammar({
     ),
 
     function_arguments: $ => seq(
-      $.expression, 
-      repeat(seq(',', $.expression)), 
+      $.expression,
+      repeat(seq(',', $.expression)),
       optional(choice(',', $.ellipsis))
     ),
 
