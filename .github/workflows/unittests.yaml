@@ -1,0 +1,12 @@
+name: unittests
+on:
+  push:
+  pull_request:
+
+jobs:
+  unittests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: nixbuild/nix-quick-install-action@v5
+    - run: nix-shell --run 'tree-sitter test'
