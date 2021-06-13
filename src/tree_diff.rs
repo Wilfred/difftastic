@@ -11,7 +11,7 @@ use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
 
 use crate::lines::NewlinePositions;
-use crate::positions::{SingleLineSpan, Span};
+use crate::positions::SingleLineSpan;
 use ChangeKind::*;
 use Node::*;
 
@@ -47,16 +47,16 @@ pub enum AtomKind {
 pub enum Node<'a> {
     List {
         change: Cell<Option<ChangeKind<'a>>>,
-        open_position: Span,
+        open_position: Vec<SingleLineSpan>,
         open_delimiter: String,
         children: Vec<&'a Node<'a>>,
-        close_position: Span,
+        close_position: Vec<SingleLineSpan>,
         close_delimiter: String,
         num_descendants: usize,
     },
     Atom {
         change: Cell<Option<ChangeKind<'a>>>,
-        position: Span,
+        position: Vec<SingleLineSpan>,
         content: String,
         kind: AtomKind,
     },
@@ -67,10 +67,10 @@ impl<'a> Node<'a> {
     pub fn new_list(
         arena: &'a Arena<Node<'a>>,
         open_delimiter: &str,
-        open_position: Span,
+        open_position: Vec<SingleLineSpan>,
         children: Vec<&'a Node<'a>>,
         close_delimiter: &str,
-        close_position: Span,
+        close_position: Vec<SingleLineSpan>,
     ) -> &'a mut Node<'a> {
         let mut num_descendants = 0;
         for child in &children {
@@ -96,7 +96,7 @@ impl<'a> Node<'a> {
     #[allow(clippy::clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_atom(
         arena: &'a Arena<Node<'a>>,
-        position: Span,
+        position: Vec<SingleLineSpan>,
         content: &str,
         kind: AtomKind,
     ) -> &'a mut Node<'a> {
@@ -297,7 +297,7 @@ fn matched_positions_<'a>(
     nl_pos: &NewlinePositions,
     opposite_nl_pos: &NewlinePositions,
     nodes: &[&Node<'a>],
-    prev_opposite_pos: &mut Option<Span>,
+    prev_opposite_pos: &mut Option<Vec<SingleLineSpan>>,
     positions: &mut Vec<MatchedPos>,
 ) {
     for node in nodes {
@@ -317,7 +317,7 @@ fn matched_positions_<'a>(
                             open_position: opposite_open_pos,
                             ..
                         } => {
-                            *prev_opposite_pos = Some(*opposite_open_pos);
+                            *prev_opposite_pos = Some(opposite_open_pos.clone());
                         }
                         Atom { .. } => unreachable!(),
                     }
@@ -325,11 +325,17 @@ fn matched_positions_<'a>(
 
                 positions.push(MatchedPos {
                     kind: MatchKind::from_change(change),
-                    pos: open_position.to_line_spans(nl_pos),
-                    prev_opposite_pos: prev_opposite_pos.map(|p| p.to_line_spans(nl_pos)),
+                    pos: open_position.clone(),
+                    prev_opposite_pos: prev_opposite_pos.clone(),
                 });
 
-                matched_positions_(nl_pos, opposite_nl_pos, children, prev_opposite_pos, positions);
+                matched_positions_(
+                    nl_pos,
+                    opposite_nl_pos,
+                    children,
+                    prev_opposite_pos,
+                    positions,
+                );
 
                 if let Unchanged(opposite_node) = change {
                     match opposite_node {
@@ -337,15 +343,15 @@ fn matched_positions_<'a>(
                             close_position: opposite_close_pos,
                             ..
                         } => {
-                            *prev_opposite_pos = Some(*opposite_close_pos);
+                            *prev_opposite_pos = Some(opposite_close_pos.clone());
                         }
                         Atom { .. } => unreachable!(),
                     }
                 }
                 positions.push(MatchedPos {
                     kind: MatchKind::from_change(change),
-                    pos: close_position.to_line_spans(nl_pos),
-                    prev_opposite_pos: prev_opposite_pos.map(|p| p.to_line_spans(opposite_nl_pos)),
+                    pos: close_position.clone(),
+                    prev_opposite_pos: prev_opposite_pos.clone(),
                 });
             }
             Atom {
@@ -362,14 +368,14 @@ fn matched_positions_<'a>(
                             position: opposite_position,
                             ..
                         } => {
-                            *prev_opposite_pos = Some(*opposite_position);
+                            *prev_opposite_pos = Some(opposite_position.clone());
                         }
                     }
                 }
                 positions.push(MatchedPos {
                     kind: MatchKind::from_change(change),
-                    pos: position.to_line_spans(nl_pos),
-                    prev_opposite_pos: prev_opposite_pos.map(|p| p.to_line_spans(opposite_nl_pos)),
+                    pos: position.clone(),
+                    prev_opposite_pos: prev_opposite_pos.clone(),
                 });
             }
         }
@@ -653,13 +659,21 @@ mod tests {
         assert_eq!(
             Atom {
                 change: Cell::new(Some(Novel)),
-                position: Span { start: 0, end: 1 },
+                position: vec![SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 2,
+                    end_col: 3
+                }],
                 content: "foo".into(),
                 kind: Other,
             },
             Atom {
                 change: Cell::new(None),
-                position: Span { start: 42, end: 50 },
+                position: vec![SingleLineSpan {
+                    line: 10.into(),
+                    start_col: 20,
+                    end_col: 30
+                }],
                 content: "foo".into(),
                 kind: Other,
             }

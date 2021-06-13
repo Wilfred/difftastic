@@ -1,11 +1,14 @@
+use crate::lines::NewlinePositions;
 use crate::positions::Span;
 use crate::tree_diff::{AtomKind, Node};
-use crate::lines::NewlinePositions;
 use regex::Regex;
 use std::fs;
 use toml;
 use toml::Value;
 use typed_arena::Arena;
+
+#[cfg(test)]
+use crate::positions::SingleLineSpan;
 
 pub fn read_or_die(path: &str) -> String {
     match fs::read_to_string(path) {
@@ -115,7 +118,12 @@ fn parse_from<'a>(
                     start: state.str_i,
                     end: state.str_i + m.end(),
                 };
-                let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::Comment);
+                let atom = Node::new_atom(
+                    arena,
+                    position.to_line_spans(nl_pos),
+                    m.as_str(),
+                    AtomKind::Comment,
+                );
                 result.push(atom);
                 state.str_i += m.end();
                 continue 'outer;
@@ -129,7 +137,12 @@ fn parse_from<'a>(
                     start: state.str_i,
                     end: state.str_i + m.end(),
                 };
-                let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::Other);
+                let atom = Node::new_atom(
+                    arena,
+                    position.to_line_spans(nl_pos),
+                    m.as_str(),
+                    AtomKind::Other,
+                );
                 result.push(atom);
                 state.str_i += m.end();
                 continue 'outer;
@@ -143,7 +156,12 @@ fn parse_from<'a>(
                     start: state.str_i,
                     end: state.str_i + m.end(),
                 };
-                let atom = Node::new_atom(arena, position, m.as_str(), AtomKind::String);
+                let atom = Node::new_atom(
+                    arena,
+                    position.to_line_spans(nl_pos),
+                    m.as_str(),
+                    AtomKind::String,
+                );
                 result.push(atom);
                 state.str_i += m.end();
                 continue 'outer;
@@ -170,10 +188,10 @@ fn parse_from<'a>(
             let items = Node::new_list(
                 arena,
                 m.as_str(),
-                open_pos,
+                open_pos.to_line_spans(nl_pos),
                 children,
                 &close_brace,
-                close_pos,
+                close_pos.to_line_spans(nl_pos),
             );
             result.push(items);
             continue;
@@ -350,7 +368,11 @@ mod tests {
             &parse(&arena, "123", &lang()),
             &[Node::new_atom(
                 &arena,
-                Span { start: 0, end: 3 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 3,
+                }],
                 "123",
                 AtomKind::Other,
             )],
@@ -365,7 +387,11 @@ mod tests {
             &parse(&arena, "\"\"", &lang()),
             &[Node::new_atom(
                 &arena,
-                Span { start: 0, end: 2 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 2,
+                }],
                 "\"\"",
                 AtomKind::String,
             )],
@@ -379,8 +405,26 @@ mod tests {
         assert_syntaxes(
             &parse(&arena, "123 456", &lang()),
             &[
-                Node::new_atom(&arena, Span { start: 0, end: 3 }, "123", AtomKind::Other),
-                Node::new_atom(&arena, Span { start: 4, end: 7 }, "456", AtomKind::Other),
+                Node::new_atom(
+                    &arena,
+                    vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 3,
+                    }],
+                    "123",
+                    AtomKind::Other,
+                ),
+                Node::new_atom(
+                    &arena,
+                    vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 4,
+                        end_col: 7,
+                    }],
+                    "456",
+                    AtomKind::Other,
+                ),
             ],
         );
     }
@@ -393,7 +437,11 @@ mod tests {
             &parse(&arena, ".foo", &lang()),
             &[Node::new_atom(
                 &arena,
-                Span { start: 0, end: 4 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 4,
+                }],
                 ".foo",
                 AtomKind::Other,
             )],
@@ -408,7 +456,11 @@ mod tests {
             &parse(&arena, " 123 ", &lang()),
             &[Node::new_atom(
                 &arena,
-                Span { start: 1, end: 4 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 1,
+                    end_col: 4,
+                }],
                 "123",
                 AtomKind::Other,
             )],
@@ -423,7 +475,11 @@ mod tests {
             &parse(&arena, "\"abc\"", &lang()),
             &[Node::new_atom(
                 &arena,
-                Span { start: 0, end: 5 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 5,
+                }],
                 "\"abc\"",
                 AtomKind::String,
             )],
@@ -439,11 +495,24 @@ mod tests {
             &[
                 Node::new_atom(
                     &arena,
-                    Span { start: 0, end: 7 },
+                    vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 7,
+                    }],
                     "// foo\n",
                     AtomKind::Comment,
                 ),
-                Node::new_atom(&arena, Span { start: 7, end: 8 }, "x", AtomKind::Other),
+                Node::new_atom(
+                    &arena,
+                    vec![SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                    "x",
+                    AtomKind::Other,
+                ),
             ],
         );
     }
@@ -456,7 +525,18 @@ mod tests {
             &parse(&arena, "/* foo\nbar */", &lang()),
             &[Node::new_atom(
                 &arena,
-                Span { start: 0, end: 13 },
+                vec![
+                    SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 6,
+                    },
+                    SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 0,
+                        end_col: 6,
+                    },
+                ],
                 "/* foo\nbar */",
                 AtomKind::Comment,
             )],
@@ -472,15 +552,27 @@ mod tests {
             &[Node::new_list(
                 &arena,
                 "[",
-                Span { start: 0, end: 1 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 vec![Node::new_atom(
                     &arena,
-                    Span { start: 2, end: 5 },
+                    vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 2,
+                        end_col: 5,
+                    }],
                     "123",
                     AtomKind::Other,
                 )],
                 "]",
-                Span { start: 6, end: 7 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 6,
+                    end_col: 7,
+                }],
             )],
         );
     }
@@ -493,10 +585,18 @@ mod tests {
             &[Node::new_list(
                 &arena,
                 "[",
-                Span { start: 0, end: 1 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 vec![],
                 "]",
-                Span { start: 1, end: 2 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 1,
+                    end_col: 2,
+                }],
             )],
         );
     }
@@ -510,10 +610,18 @@ mod tests {
             &[Node::new_list(
                 &arena,
                 "(",
-                Span { start: 0, end: 1 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 vec![],
                 ")",
-                Span { start: 1, end: 2 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 1,
+                    end_col: 2,
+                }],
             )],
         );
     }
@@ -527,13 +635,39 @@ mod tests {
             &[Node::new_list(
                 &arena,
                 "[",
-                Span { start: 0, end: 1 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 vec![
-                    Node::new_atom(&arena, Span { start: 1, end: 4 }, "123", AtomKind::Other),
-                    Node::new_atom(&arena, Span { start: 6, end: 9 }, "456", AtomKind::Other),
+                    Node::new_atom(
+                        &arena,
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 1,
+                            end_col: 4,
+                        }],
+                        "123",
+                        AtomKind::Other,
+                    ),
+                    Node::new_atom(
+                        &arena,
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 6,
+                            end_col: 9,
+                        }],
+                        "456",
+                        AtomKind::Other,
+                    ),
                 ],
                 "]",
-                Span { start: 9, end: 10 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 9,
+                    end_col: 10,
+                }],
             )],
         );
     }
@@ -547,13 +681,39 @@ mod tests {
             &[Node::new_list(
                 &arena,
                 "{",
-                Span { start: 0, end: 1 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 vec![
-                    Node::new_atom(&arena, Span { start: 1, end: 2 }, "x", AtomKind::Other),
-                    Node::new_atom(&arena, Span { start: 4, end: 5 }, "1", AtomKind::Other),
+                    Node::new_atom(
+                        &arena,
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 1,
+                            end_col: 2,
+                        }],
+                        "x",
+                        AtomKind::Other,
+                    ),
+                    Node::new_atom(
+                        &arena,
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 4,
+                            end_col: 5,
+                        }],
+                        "1",
+                        AtomKind::Other,
+                    ),
                 ],
                 "}",
-                Span { start: 5, end: 6 },
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 5,
+                    end_col: 6,
+                }],
             )],
         );
     }
@@ -569,13 +729,21 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
-                position: Span { start: 0, end: 1 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 change: Cell::new(Some(Unchanged(lhs[0]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: Span { start: 2, end: 3 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 2,
+                    end_col: 3,
+                }],
                 change: Cell::new(Some(Novel)),
                 content: "a".into(),
                 kind: AtomKind::Other,
@@ -595,19 +763,31 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
-                position: Span { start: 0, end: 1 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 change: Cell::new(Some(Unchanged(lhs[0]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: Span { start: 2, end: 3 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 2,
+                    end_col: 3,
+                }],
                 change: Cell::new(Some(Novel)),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: Span { start: 4, end: 5 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 4,
+                    end_col: 5,
+                }],
                 change: Cell::new(Some(Unchanged(lhs[1]))),
                 content: "b".into(),
                 kind: AtomKind::Other,
@@ -627,13 +807,21 @@ mod tests {
 
         let expected_lhs = vec![
             Atom {
-                position: Span { start: 0, end: 1 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 change: Cell::new(Some(Unchanged(rhs[1]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: Span { start: 2, end: 3 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 2,
+                    end_col: 3,
+                }],
                 change: Cell::new(Some(Novel)),
                 content: "b".into(),
                 kind: AtomKind::Other,
@@ -643,13 +831,21 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
-                position: Span { start: 0, end: 1 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 change: Cell::new(Some(Novel)),
                 content: "x".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: Span { start: 2, end: 3 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 2,
+                    end_col: 3,
+                }],
                 change: Cell::new(Some(Unchanged(lhs[0]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
@@ -669,13 +865,21 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
-                position: Span { start: 0, end: 1 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 change: Cell::new(Some(Unchanged(lhs[1]))),
                 content: "a".into(),
                 kind: AtomKind::Other,
             },
             Atom {
-                position: Span { start: 2, end: 3 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 2,
+                    end_col: 3,
+                }],
                 change: Cell::new(Some(Novel)),
                 content: "b".into(),
                 kind: AtomKind::Other,
@@ -700,19 +904,35 @@ mod tests {
 
         let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
             change: Cell::new(Some(Unchanged(lhs[0]))),
-            open_position: Span { start: 0, end: 1 },
+            open_position: vec![SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 1,
+            }],
             open_delimiter: "[".into(),
-            close_position: Span { start: 4, end: 5 },
+            close_position: vec![SingleLineSpan {
+                line: 0.into(),
+                start_col: 4,
+                end_col: 5,
+            }],
             close_delimiter: "]".into(),
             children: vec![
                 arena.alloc(Atom {
-                    position: Span { start: 1, end: 2 },
+                    position: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 1,
+                        end_col: 2,
+                    }],
                     change: Cell::new(Some(Unchanged(lhs_atom))),
                     content: "a".into(),
                     kind: AtomKind::Other,
                 }),
                 arena.alloc(Atom {
-                    position: Span { start: 3, end: 4 },
+                    position: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 3,
+                        end_col: 4,
+                    }],
                     change: Cell::new(Some(Novel)),
                     content: "a".into(),
                     kind: AtomKind::Other,
@@ -739,12 +959,24 @@ mod tests {
 
         let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
             change: Cell::new(Some(Unchanged(lhs[0]))),
-            open_position: Span { start: 0, end: 1 },
+            open_position: vec![SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 1,
+            }],
             open_delimiter: "[".into(),
-            close_position: Span { start: 2, end: 3 },
+            close_position: vec![SingleLineSpan {
+                line: 0.into(),
+                start_col: 2,
+                end_col: 3,
+            }],
             close_delimiter: "]".into(),
             children: vec![arena.alloc(Atom {
-                position: Span { start: 1, end: 2 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 1,
+                    end_col: 2,
+                }],
                 change: Cell::new(Some(Unchanged(lhs_atom))),
                 content: "a".into(),
                 kind: AtomKind::Other,
@@ -772,18 +1004,38 @@ mod tests {
         let expected_rhs: Vec<&Node> = vec![
             arena.alloc(List {
                 open_delimiter: "[".into(),
-                open_position: Span { start: 0, end: 1 },
-                close_position: Span { start: 4, end: 5 },
+                open_position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
+                close_position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 4,
+                    end_col: 5,
+                }],
                 close_delimiter: "]".into(),
                 change: Cell::new(Some(Unchanged(lhs[0]))),
                 children: vec![arena.alloc(List {
                     change: Cell::new(Some(Moved)),
                     open_delimiter: "[".into(),
-                    open_position: Span { start: 1, end: 2 },
-                    close_position: Span { start: 3, end: 4 },
+                    open_position: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 1,
+                        end_col: 2,
+                    }],
+                    close_position: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 3,
+                        end_col: 4,
+                    }],
                     close_delimiter: "]".into(),
                     children: vec![arena.alloc(Atom {
-                        position: Span { start: 2, end: 3 },
+                        position: vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 2,
+                            end_col: 3,
+                        }],
                         change: Cell::new(Some(Moved)),
                         content: "1".into(),
                         kind: AtomKind::Other,
@@ -793,7 +1045,11 @@ mod tests {
                 num_descendants: 2,
             }),
             arena.alloc(Atom {
-                position: Span { start: 6, end: 7 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 6,
+                    end_col: 7,
+                }],
                 change: Cell::new(Some(Novel)),
                 content: "1".into(),
                 kind: AtomKind::Other,
@@ -819,25 +1075,49 @@ mod tests {
 
         let expected_rhs: Vec<&Node> = vec![
             arena.alloc(Atom {
-                position: Span { start: 0, end: 1 },
+                position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
                 change: Cell::new(Some(Novel)),
                 content: "1".into(),
                 kind: AtomKind::Other,
             }),
             arena.alloc(List {
                 open_delimiter: "[".into(),
-                open_position: Span { start: 2, end: 3 },
+                open_position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 2,
+                    end_col: 3,
+                }],
                 close_delimiter: "]".into(),
-                close_position: Span { start: 6, end: 7 },
+                close_position: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 6,
+                    end_col: 7,
+                }],
                 change: Cell::new(Some(Novel)),
                 children: vec![arena.alloc(List {
                     change: Cell::new(Some(Moved)),
-                    open_position: Span { start: 3, end: 4 },
+                    open_position: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 3,
+                        end_col: 4,
+                    }],
                     open_delimiter: "[".into(),
-                    close_position: Span { start: 5, end: 6 },
+                    close_position: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 5,
+                        end_col: 6,
+                    }],
                     close_delimiter: "]".into(),
                     children: vec![arena.alloc(Atom {
-                        position: Span { start: 4, end: 5 },
+                        position: vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 4,
+                            end_col: 5,
+                        }],
                         change: Cell::new(Some(Moved)),
                         content: "1".into(),
                         kind: AtomKind::Other,

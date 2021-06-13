@@ -20,7 +20,7 @@ impl Span {
 }
 
 /// A range within a single line of a string.
-#[derive(Debug, PartialEq, Clone, Copy)]
+#[derive(Debug, PartialEq, Clone, Copy, Eq, PartialOrd, Ord)]
 pub struct SingleLineSpan {
     /// All zero-indexed.
     pub line: LineNumber,
