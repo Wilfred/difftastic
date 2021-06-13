@@ -319,12 +319,14 @@ pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length:
     for group in groups {
         let mut lhs_result = String::new();
         for lhs_line_num in &group.lhs_lines {
+            lhs_result.push_str(&format!("{} ", lhs_line_num.number + 1));
             lhs_result.push_str(lhs_lines.get(lhs_line_num.number).unwrap_or(&""));
             lhs_result.push_str("\n");
         }
 
         let mut rhs_result = String::new();
         for rhs_line_num in &group.rhs_lines {
+            rhs_result.push_str(&format!("{} ", rhs_line_num.number + 1));
             rhs_result.push_str(rhs_lines.get(rhs_line_num.number).unwrap_or(&""));
             rhs_result.push_str("\n");
         }
