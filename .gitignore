@@ -1,4 +1,6 @@
 node_modules
+queries
+package-lock.json
 build
 npm-debug.log
 .env

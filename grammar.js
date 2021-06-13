@@ -1,4 +1,16 @@
 const
+  PREC = {
+    unary: 7,
+    binary_mult: 6,
+    binary_add: 5,
+    binary_ord: 4,
+    binary_comp: 3,
+    binary_and: 2,
+    binary_or: 1,
+
+    quoted_string: 2,
+    quoted_template: 1,
+  }
   unicodeLetter = /\p{L}/
   unicodePunctuation = /\p{Pc}/
   unicodeDigit = /[0-9]/
@@ -7,11 +19,17 @@ module.exports = grammar({
   name: 'hcl',
 
   conflicts: $ => [
-      [$.body],
-      [$.object_elem, $.variable_expr],
-      [$.attr_splat],
-      [$.full_splat],
-      [$.conditional],
+    [$.body],
+    [$.object_elem, $.variable_expr],
+    [$.attr_splat],
+    [$.full_splat],
+    [$.conditional],
+  ],
+
+  externals: $ => [
+    $._template_char,
+    $._template_char_in_interpolation,
+    $.escape_sequence,
   ],
 
   extras: $ => [
@@ -57,7 +75,7 @@ module.exports = grammar({
 
     expr_term: $ => choice(
       $.literal_value,
-      // $.template_expr,
+      $.template_expr,
       $.collection_value,
       $.variable_expr,
       $.function_call,
@@ -70,35 +88,17 @@ module.exports = grammar({
 
     literal_value: $ => choice(
       $.numeric_lit,
-      $.string_lit,
       $.bool_lit,
       $.null_lit,
     ),
 
     numeric_lit: $ => /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
 
-    string_lit: $ => seq(
-      '"',
-      repeat(choice(token.immediate(prec(1, /[^\\"\n\r\t]+/)), $.escape_sequence)),
-      '"',
-    ),
-
-    escape_sequence: $ => token.immediate(seq(
-      '\\',
-      choice(
-        '\\',
-        '"',
-        'n',
-        'r',
-        't',
-        /u[0-9a-fA-F]{4}/,
-        /U[0-9a-fA-F]{8}/
-      )
-    )),
-
     bool_lit: $ => choice('true', 'false'),
 
     null_lit: $ => 'null',
+
+    // string_lit is defined as quoted template
 
     collection_value: $ => choice(
       $.tuple,
@@ -210,16 +210,16 @@ module.exports = grammar({
 
     operation: $ => choice($.unary_operation, $.binary_operation),
 
-    unary_operation: $ => prec.left(7, seq(choice('-', '!'), $.expr_term)),
+    unary_operation: $ => prec.left(PREC.unary, seq(choice('-', '!'), $.expr_term)),
 
     binary_operation: $ => {
       const table = [
-        [6, choice('*', '/', '%')],
-        [5, choice('+', '-')],
-        [4, choice('>', '>=', '<', '<=')],
-        [3, choice('==', '!=')],
-        [2, choice('&&')],
-        [1, choice('||')],
+        [PREC.binary_mult, choice('*', '/', '%')],
+        [PREC.binary_add, choice('+', '-')],
+        [PREC.binary_ord, choice('>', '>=', '<', '<=')],
+        [PREC.binary_comp, choice('==', '!=')],
+        [PREC.binary_and, choice('&&')],
+        [PREC.binary_or, choice('||')],
       ];
 
       return choice(...table.map(([precedence, operator]) =>
@@ -227,6 +227,30 @@ module.exports = grammar({
         ))
       );
     },
+
+    template_expr: $ => choice(
+      $.quoted_template,
+      // $.heredoc_template,
+    ),
+
+    // application should check that no template interpolation is contained
+    string_lit: $ => $.quoted_template,
+
+    quoted_template: $ => seq(
+      '"', 
+      repeat(choice(
+        $._template_char, 
+        $.escape_sequence,
+        $.template_interpolation,
+      )), 
+      '"',
+    ),
+
+    template_interpolation: $ => seq(
+      choice('${', '${~'),
+      repeat(choice($._template_char_in_interpolation, $.escape_sequence)),
+      choice('}', '~}'),
+    ),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(

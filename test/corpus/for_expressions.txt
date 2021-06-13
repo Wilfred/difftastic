@@ -20,8 +20,8 @@ foo = [for v in ["a", "b"]: v]
                 (expr_term 
                   (collection_value 
                     (tuple 
-                      (expression (expr_term (literal_value (string_lit)))) 
-                      (expression (expr_term (literal_value (string_lit)))))))))
+                      (expression (expr_term (template_expr (quoted_template)))) 
+                      (expression (expr_term (template_expr (quoted_template)))))))))
               (expression (expr_term (variable_expr (identifier))))))))))) 
 
 ==================
@@ -47,8 +47,8 @@ foo = [for i, v in ["a", "b"]: i]
                 (expr_term 
                   (collection_value 
                     (tuple 
-                      (expression (expr_term (literal_value (string_lit)))) 
-                      (expression (expr_term (literal_value (string_lit)))))))))
+                      (expression (expr_term (template_expr (quoted_template)))) 
+                      (expression (expr_term (template_expr (quoted_template)))))))))
               (expression (expr_term (variable_expr (identifier))))))))))) 
 
 ==================
@@ -74,9 +74,9 @@ foo = [for i, v in ["a", "b", "c"]: v if pred(i)]
                       (expr_term 
                         (collection_value 
                           (tuple 
-                            (expression (expr_term (literal_value (string_lit)))) 
-                            (expression (expr_term (literal_value (string_lit)))) 
-                            (expression (expr_term (literal_value (string_lit))))))))) 
+                            (expression (expr_term (template_expr (quoted_template)))) 
+                            (expression (expr_term (template_expr (quoted_template)))) 
+                            (expression (expr_term (template_expr (quoted_template))))))))) 
                 (expression (expr_term (variable_expr (identifier)))) 
                 (for_cond 
                   (expression 
@@ -109,8 +109,8 @@ foo = {for i, v in ["a", "b"]: v => i}
                     (expr_term 
                       (collection_value 
                         (tuple 
-                          (expression (expr_term (literal_value (string_lit)))) 
-                          (expression (expr_term (literal_value (string_lit))))))))) 
+                          (expression (expr_term (template_expr (quoted_template)))) 
+                          (expression (expr_term (template_expr (quoted_template))))))))) 
               (expression (expr_term (variable_expr (identifier)))) 
               (expression (expr_term (variable_expr (identifier))))))))))) 
 
@@ -137,7 +137,7 @@ foo = {for i, v in ["a", "b"]: v => i...}
                     (expr_term 
                       (collection_value 
                         (tuple 
-                          (expression (expr_term (literal_value (string_lit)))) 
-                          (expression (expr_term (literal_value (string_lit))))))))) 
+                          (expression (expr_term (template_expr (quoted_template)))) 
+                          (expression (expr_term (template_expr (quoted_template))))))))) 
               (expression (expr_term (variable_expr (identifier)))) 
               (expression (expr_term (variable_expr (identifier)))) (ellipsis)))))))) 
