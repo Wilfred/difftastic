@@ -39,9 +39,9 @@ module.exports = grammar({
     arguments: ($) => seq($.argument, repeat($._seperated_arguments)),
     _seperated_arguments: ($) => prec.left(seq(repeat1($.seperation), optional($.argument))),
 
-    foreach_command: ($) => seq($.foreach, "(", repeat($.seperation), $.variable, ")"),
+    foreach_command: ($) => seq($.foreach, "(", $.arguments, ")"),
     endforeach_command: ($) =>
-      seq($.endforeach, "(", repeat($.seperation), optional($.variable), ")"),
+      seq($.endforeach, "(", repeat($.seperation), optional($.argument), ")"),
     foreach_loop: ($) =>
       seq($.foreach_command, repeat($._command_invocation), $.endforeach_command),
     normal_command: ($) => seq($.identifier, "(", repeat($.seperation), optional($.arguments), ")"),

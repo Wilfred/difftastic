@@ -402,15 +402,8 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "seperation"
-          }
-        },
-        {
           "type": "SYMBOL",
-          "name": "variable"
+          "name": "arguments"
         },
         {
           "type": "STRING",
@@ -441,7 +434,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "variable"
+              "name": "argument"
             },
             {
               "type": "BLANK"

@@ -85,15 +85,15 @@
       "required": true,
       "types": [
         {
+          "type": "argument",
+          "named": true
+        },
+        {
           "type": "endforeach",
           "named": true
         },
         {
           "type": "seperation",
-          "named": true
-        },
-        {
-          "type": "variable",
           "named": true
         }
       ]
@@ -128,15 +128,11 @@
       "required": true,
       "types": [
         {
+          "type": "arguments",
+          "named": true
+        },
+        {
           "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "seperation",
-          "named": true
-        },
-        {
-          "type": "variable",
           "named": true
         }
       ]
