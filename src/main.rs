@@ -9,7 +9,7 @@ use std::path::Path;
 use typed_arena::Arena;
 
 use crate::lines::{
-    apply_groups, enforce_length, horizontal_concat, lhs_printable_width, printed_line_num_width,
+    apply_groups, enforce_length, lhs_printable_width, printed_line_num_width,
     rhs_printable_width, visible_groups,
 };
 use crate::parse::{lang_from_str, parse, read_or_die};
@@ -96,12 +96,6 @@ fn main() {
     let rhs_positions = matched_positions(&after_src, &before_src, &rhs);
     let rhs_colored = apply_colors(&after_src, false, &rhs_positions);
 
-    print!(
-        "{}",
-        horizontal_concat(&lhs_colored, &rhs_colored, max_left_length)
-    );
-
-    println!("--------------- groups ----------------");
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     for group in &mut groups {
         group.pad(1);

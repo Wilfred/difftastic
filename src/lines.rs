@@ -148,7 +148,7 @@ impl LineGroup {
     }
 }
 
-pub fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> String {
+fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> String {
     let left_str_lines: Vec<&str> = left.lines().collect();
     let right_str_lines: Vec<&str> = right.lines().collect();
 
