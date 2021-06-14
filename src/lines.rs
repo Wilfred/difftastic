@@ -319,7 +319,7 @@ pub fn apply_groups(
     let mut result = String::new();
     let spacer = "-".repeat(terminal_width);
 
-    for group in groups {
+    for (i, group) in groups.iter().enumerate() {
         let mut lhs_result = String::new();
         for lhs_line_num in &group.lhs_lines {
             lhs_result.push_str(&format_line_num(lhs_line_num.number));
@@ -340,8 +340,10 @@ pub fn apply_groups(
             lhs_content_width,
             lhs_column_width,
         ));
-        result.push_str(&spacer);
-        result.push_str("\n");
+        if i != groups.len() - 1 {
+            result.push_str(&spacer);
+            result.push_str("\n");
+        }
     }
 
     result
