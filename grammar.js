@@ -7,9 +7,6 @@ const
     binary_comp: 3,
     binary_and: 2,
     binary_or: 1,
-
-    quoted_string: 2,
-    quoted_template: 1,
   }
   unicodeLetter = /\p{L}/
   unicodePunctuation = /\p{Pc}/
