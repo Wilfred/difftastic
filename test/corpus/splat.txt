@@ -6,16 +6,16 @@ foo = bar.baz
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (expr_term 
-            (variable_expr 
-              (identifier))) 
-          (get_attr 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (expr_term
+            (variable_expr
+              (identifier)))
+          (get_attr
             (identifier)))))))
 
 ==================
@@ -26,15 +26,15 @@ foo = bar[1]
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (expr_term 
-            (variable_expr 
-              (identifier))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (expr_term
+            (variable_expr
+              (identifier)))
           (index
             (expression
               (expr_term
@@ -49,19 +49,19 @@ foo = bar.*.foo
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (expr_term 
-            (variable_expr 
-              (identifier))) 
-        (splat 
-          (attr_splat 
-            (get_attr 
-              (identifier))))))))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (expr_term
+            (variable_expr
+              (identifier)))
+        (splat
+          (attr_splat
+            (get_attr
+              (identifier)))))))))
 
 ==================
 full splat
@@ -71,16 +71,16 @@ foo = bar[*].foo
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (expr_term 
-            (variable_expr 
-              (identifier))) 
-        (splat 
-          (full_splat 
-            (get_attr 
-              (identifier))))))))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (expr_term
+            (variable_expr
+              (identifier)))
+        (splat
+          (full_splat
+            (get_attr
+              (identifier)))))))))

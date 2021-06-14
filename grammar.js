@@ -24,6 +24,7 @@ module.exports = grammar({
     [$.attr_splat],
     [$.full_splat],
     [$.conditional],
+    [$.string_lit, $.quoted_template],
   ],
 
   externals: $ => [
@@ -233,8 +234,14 @@ module.exports = grammar({
       // $.heredoc_template,
     ),
 
-    // application should check that no template interpolation is contained
-    string_lit: $ => $.quoted_template,
+    string_lit: $ => seq(
+      '"', 
+      repeat(choice(
+        $._template_char, 
+        $.escape_sequence,
+      )), 
+      '"',
+    ),
 
     quoted_template: $ => seq(
       '"', 

@@ -6,16 +6,16 @@ foo = [1, 2, "foo"]
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (collection_value 
-            (tuple 
-              (expression (expr_term (literal_value (numeric_lit)))) 
-              (expression (expr_term (literal_value (numeric_lit)))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (collection_value
+            (tuple
+              (expression (expr_term (literal_value (numeric_lit))))
+              (expression (expr_term (literal_value (numeric_lit))))
               (expression (expr_term (template_expr (quoted_template)))))))))))
 
 ==================
@@ -26,18 +26,18 @@ foo = {1: 2, "foo"="bar"}
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (collection_value 
-            (object 
-              (object_elem 
-                (expression (expr_term (literal_value (numeric_lit)))) 
-                (expression (expr_term (literal_value (numeric_lit))))) 
-              (object_elem 
-                (expression (expr_term (template_expr (quoted_template)))) 
-                (expression (expr_term (template_expr (quoted_template)))))))))))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (collection_value
+            (object
+              (object_elem
+                (expression (expr_term (literal_value (numeric_lit))))
+                (expression (expr_term (literal_value (numeric_lit)))))
+              (object_elem
+                (expression (expr_term (template_expr (quoted_template))))
+                (expression (expr_term (template_expr (quoted_template))))))))))))
 

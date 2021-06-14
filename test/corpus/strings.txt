@@ -90,11 +90,11 @@ foo = "bar\pbaz"
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression (expr_term (template_expr (quoted_template (ERROR (UNEXPECTED '\'))))))))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression (expr_term (template_expr (quoted_template (ERROR (UNEXPECTED '\')))))))))
 
 ==================
 string bad escape sequence 2
@@ -104,11 +104,11 @@ foo = "bar\uZZ"
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression (expr_term (template_expr (quoted_template (ERROR (UNEXPECTED '\'))))))))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression (expr_term (template_expr (quoted_template (ERROR (UNEXPECTED '\')))))))))
 
 ==================
 string literal multi line error
@@ -221,10 +221,10 @@ foo = "%\n\t"
 (config_file
   (body
     (attribute
-      (identifier) 
-      (expression (expr_term (template_expr (quoted_template 
-        (escape_sequence) 
-        (escape_sequence)))))))) 
+      (identifier)
+      (expression (expr_term (template_expr (quoted_template
+        (escape_sequence)
+        (escape_sequence))))))))
 
 ==================
 string literal template chars but no template 4
@@ -237,10 +237,10 @@ foo = "%%\n\t"
 (config_file
   (body
     (attribute
-      (identifier) 
-      (expression (expr_term (template_expr (quoted_template 
-        (escape_sequence) 
-        (escape_sequence)))))))) 
+      (identifier)
+      (expression (expr_term (template_expr (quoted_template
+        (escape_sequence)
+        (escape_sequence))))))))
 
 ==================
 string literal template chars but no template 5
@@ -253,8 +253,8 @@ foo = "$$"
 (config_file
   (body
     (attribute
-      (identifier) 
-      (expression (expr_term (template_expr (quoted_template))))))) 
+      (identifier)
+      (expression (expr_term (template_expr (quoted_template)))))))
 
 ==================
 string literal template chars but no template 6
@@ -267,11 +267,11 @@ foo = "%%{\n\t"
 (config_file
   (body
     (attribute
-      (identifier) 
-      (expression (expr_term (template_expr (quoted_template 
-        (escape_sequence) 
-        (escape_sequence) 
-        (escape_sequence)))))))) 
+      (identifier)
+      (expression (expr_term (template_expr (quoted_template
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence))))))))
 
 ==================
 string literal escaped template
@@ -284,5 +284,20 @@ foo = "$${ var.bar }"
 (config_file
   (body
     (attribute
-      (identifier) 
+      (identifier)
       (expression (expr_term (template_expr (quoted_template (escape_sequence))))))))
+
+==================
+proper quoted template in string literal position errors
+==================
+
+resource "${var.bar}" {
+}
+
+---
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (string_lit (ERROR)))))

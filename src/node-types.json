@@ -556,11 +556,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
+      "multiple": true,
+      "required": false,
       "types": [
         {
-          "type": "quoted_template",
+          "type": "escape_sequence",
           "named": true
         }
       ]
