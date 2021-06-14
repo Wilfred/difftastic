@@ -494,8 +494,8 @@ impl<'a> Env<'a> {
 
 // Greedy tree differ.
 fn mark_unchanged_nodes<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>], env: &mut Env<'a>) {
-    // Run a diff algorithm on the nodes at this level, and mark as
-    // many things as unchanged as we can.
+    // Run a longest-common-subsequence diff algorithm on the nodes at
+    // this level, and mark as many things as unchanged as we can.
     for res in slice(lhs, rhs) {
         if let Both(lhs_node, rhs_node) = res {
             lhs_node.set_change_deep(Unchanged(rhs_node));
