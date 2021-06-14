@@ -9,8 +9,8 @@ use std::path::Path;
 use typed_arena::Arena;
 
 use crate::lines::{
-    apply_groups, enforce_length, lhs_printable_width, printed_line_num_width,
-    rhs_printable_width, visible_groups,
+    apply_groups, enforce_length, lhs_printable_width, printed_line_num_width, rhs_printable_width,
+    visible_groups,
 };
 use crate::parse::{lang_from_str, parse, read_or_die};
 use crate::style::apply_colors;
@@ -103,6 +103,12 @@ fn main() {
 
     print!(
         "{}",
-        apply_groups(&lhs_colored, &rhs_colored, &groups, max_left_length)
+        apply_groups(
+            &lhs_colored,
+            &rhs_colored,
+            &groups,
+            max_left_length,
+            terminal_width
+        )
     );
 }

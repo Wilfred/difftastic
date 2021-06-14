@@ -288,12 +288,12 @@ pub fn rhs_printable_width(rhs: &str, lhs_width: usize, terminal_width: usize) -
     max(MIN_WIDTH, min(longest_line, space_available))
 }
 
-pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length: usize) -> String {
+pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length: usize, terminal_width: usize) -> String {
     let lhs_lines: Vec<_> = lhs.lines().collect();
     let rhs_lines: Vec<_> = rhs.lines().collect();
 
     let mut result = String::new();
-    let spacer = "--------------------------\n";
+    let spacer = "-".repeat(terminal_width);
 
     for group in groups {
         let mut lhs_result = String::new();
@@ -315,7 +315,8 @@ pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length:
             &rhs_result,
             max_left_length,
         ));
-        result.push_str(spacer);
+        result.push_str(&spacer);
+        result.push_str("\n");
     }
 
     result
