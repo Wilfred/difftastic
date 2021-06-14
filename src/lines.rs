@@ -149,6 +149,19 @@ impl LineGroup {
     fn is_empty(&self) -> bool {
         self.lhs_lines.is_empty() && self.rhs_lines.is_empty()
     }
+
+    pub fn max_visible_lhs(&self) -> LineNumber {
+        match self.lhs_lines.last() {
+            Some(line) => line.clone(),
+            None => 0.into(),
+        }
+    }
+    pub fn max_visible_rhs(&self) -> LineNumber {
+        match self.rhs_lines.last() {
+            Some(line) => line.clone(),
+            None => 0.into(),
+        }
+    }
 }
 
 fn horizontal_concat(
@@ -266,27 +279,26 @@ fn test_visible_groups_ignores_unchanged() {
     assert_eq!(res, vec![]);
 }
 
-fn format_line_num(line_num: usize) -> String {
+pub fn format_line_num(line_num: usize) -> String {
     format!("{:<2} ", line_num + 1)
 }
 
-pub fn printed_line_num_width(s: &str) -> usize {
-    format_line_num(s.lines().count()).len()
-}
-
-pub fn lhs_printable_width(lhs: &str, terminal_width: usize) -> usize {
-    let longest_src_line = lhs.lines().map(|line| line.len()).max().unwrap_or(1);
-    let line_number_width = printed_line_num_width(lhs);
-    let longest_line = longest_src_line + line_number_width;
+pub fn lhs_printable_width(lhs: &str, lhs_column_width: usize, terminal_width: usize) -> usize {
+    let longest_line_length = lhs.lines().map(|line| line.len()).max().unwrap_or(1);
+    let longest_line = longest_line_length + lhs_column_width;
 
     let space_available = terminal_width / 2 - SPACER.len();
     max(MIN_WIDTH, min(longest_line, space_available))
 }
 
-pub fn rhs_printable_width(rhs: &str, lhs_width: usize, terminal_width: usize) -> usize {
-    let longest_src_line = rhs.lines().map(|line| line.len()).max().unwrap_or(1);
-    let line_number_width = printed_line_num_width(rhs);
-    let longest_line = longest_src_line + line_number_width;
+pub fn rhs_printable_width(
+    rhs: &str,
+    lhs_width: usize,
+    rhs_column_width: usize,
+    terminal_width: usize,
+) -> usize {
+    let longest_line_length = rhs.lines().map(|line| line.len()).max().unwrap_or(1);
+    let longest_line = longest_line_length + rhs_column_width;
 
     let space_available = (terminal_width - SPACER.len()) - lhs_width;
 

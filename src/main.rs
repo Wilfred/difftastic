@@ -9,7 +9,7 @@ use std::path::Path;
 use typed_arena::Arena;
 
 use crate::lines::{
-    apply_groups, enforce_length, lhs_printable_width, printed_line_num_width, rhs_printable_width,
+    apply_groups, enforce_length, format_line_num, lhs_printable_width, rhs_printable_width,
     visible_groups,
 };
 use crate::parse::{lang_from_str, parse, read_or_die};
@@ -72,32 +72,38 @@ fn main() {
         None => term_width().unwrap_or(80),
     };
 
-    let lhs_formatted_length = lhs_printable_width(&lhs_src, terminal_width);
-    let rhs_formatted_length = rhs_printable_width(&rhs_src, lhs_formatted_length, terminal_width);
-
     let arena = Arena::new();
     let lhs = parse(&arena, &lhs_src, &lang);
     let rhs = parse(&arena, &rhs_src, &lang);
 
     set_changed(&lhs, &rhs);
 
-    let lhs_column_width = printed_line_num_width(&lhs_src);
-    let lhs_content_width = lhs_formatted_length - lhs_column_width;
-    let before_src = enforce_length(&lhs_src, lhs_content_width);
-    let rhs_column_width = printed_line_num_width(&rhs_src);
-    let rhs_content_width = rhs_formatted_length - rhs_column_width;
-    let rhs_src = enforce_length(&rhs_src, rhs_content_width);
-
-    let lhs_positions = matched_positions(&before_src, &rhs_src, &lhs);
-    let lhs_colored = apply_colors(&before_src, true, &lhs_positions);
-
-    let rhs_positions = matched_positions(&rhs_src, &before_src, &rhs);
-    let rhs_colored = apply_colors(&rhs_src, false, &rhs_positions);
+    let lhs_positions = matched_positions(&lhs_src, &rhs_src, &lhs);
+    let rhs_positions = matched_positions(&rhs_src, &lhs_src, &rhs);
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     for group in &mut groups {
         group.pad(1);
     }
+
+    let lhs_column_width = format_line_num(groups.last().unwrap().max_visible_lhs().number).len();
+    let rhs_column_width = format_line_num(groups.last().unwrap().max_visible_rhs().number).len();
+
+    let lhs_formatted_length = lhs_printable_width(&lhs_src, lhs_column_width, terminal_width);
+    let rhs_formatted_length = rhs_printable_width(
+        &rhs_src,
+        lhs_formatted_length,
+        rhs_column_width,
+        terminal_width,
+    );
+
+    let lhs_content_width = lhs_formatted_length - lhs_column_width;
+    let rhs_content_width = rhs_formatted_length - rhs_column_width;
+
+    let lhs_src = enforce_length(&lhs_src, lhs_content_width);
+    let rhs_src = enforce_length(&rhs_src, rhs_content_width);
+    let lhs_colored = apply_colors(&lhs_src, true, &lhs_positions);
+    let rhs_colored = apply_colors(&rhs_src, false, &rhs_positions);
 
     print!(
         "{}",
