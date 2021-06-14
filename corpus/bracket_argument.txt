@@ -42,7 +42,6 @@ message([[first argument]] [[second argument]])
   (identifier)
   (arguments
    (argument (bracket_argument (bracket_content)))
-   (seperation (space))
    (argument (bracket_argument (bracket_content)))
   )
  )
@@ -61,12 +60,9 @@ message(
 (source_file
  (normal_command
   (identifier)
-  (seperation (space))
   (arguments
    (argument (bracket_argument (bracket_content)))
-   (seperation (space))
    (argument (bracket_argument (bracket_content)))
-   (seperation (line_ending (newline)))
   )
  )
  )

@@ -23,7 +23,6 @@ message( )
 (source_file
  (normal_command
   (identifier)
-  (seperation (space))
  )
  )
 
@@ -40,9 +39,6 @@ message(
 (source_file
  (normal_command
   (identifier)
-  (seperation
-   (line_ending (newline))
-  )
  )
  )
 

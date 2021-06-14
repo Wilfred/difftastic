@@ -8,36 +8,36 @@
         "name": "_command_invocation"
       }
     },
-    "line_ending": {
+    "_line_ending": {
       "type": "SYMBOL",
-      "name": "newline"
+      "name": "_newline"
     },
-    "seperation": {
+    "_seperation": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "space"
+          "name": "_space"
         },
         {
           "type": "SYMBOL",
-          "name": "line_ending"
+          "name": "_line_ending"
         }
       ]
     },
-    "space": {
+    "_space": {
       "type": "PATTERN",
       "value": "[ \\t]+"
     },
-    "newline": {
+    "_newline": {
       "type": "PATTERN",
       "value": "\\n+"
     },
-    "_foreach": {
+    "foreach": {
       "type": "PATTERN",
       "value": "[fF][oO][rR][eE][aA][cC][hH]"
     },
-    "_endforeach": {
+    "endforeach": {
       "type": "PATTERN",
       "value": "[eE][nN][dD][fF][oO][rR][eE][aA][cC][hH]"
     },
@@ -319,7 +319,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "newline"
+                "name": "_newline"
               }
             ]
           }
@@ -372,7 +372,7 @@
             "type": "REPEAT1",
             "content": {
               "type": "SYMBOL",
-              "name": "seperation"
+              "name": "_seperation"
             }
           },
           {
@@ -395,7 +395,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_foreach"
+          "name": "foreach"
         },
         {
           "type": "STRING",
@@ -416,7 +416,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_endforeach"
+          "name": "endforeach"
         },
         {
           "type": "STRING",
@@ -426,7 +426,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "seperation"
+            "name": "_seperation"
           }
         },
         {
@@ -482,7 +482,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "seperation"
+            "name": "_seperation"
           }
         },
         {

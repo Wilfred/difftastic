@@ -28,7 +28,6 @@ message(STATUS Hello)
   (identifier)
   (arguments
    (argument (unquoted_argument))
-   (seperation (space))
    (argument (unquoted_argument))
   )
  )
@@ -46,14 +45,12 @@ STATUS)
 (source_file
  (normal_command
   (identifier)
-  (seperation (space))
   (arguments
    (argument (unquoted_argument))
   )
  )
  (normal_command
   (identifier)
-  (seperation (line_ending (newline)))
   (arguments
    (argument (unquoted_argument))
   )
@@ -71,14 +68,12 @@ STATUS)
 (source_file
  (normal_command
   (identifier)
-  (seperation (space))
   (arguments
    (argument (unquoted_argument))
   )
  )
  (normal_command
   (identifier)
-  (seperation (line_ending (newline)))
   (arguments
    (argument (unquoted_argument))
   )

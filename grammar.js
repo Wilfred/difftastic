@@ -4,10 +4,10 @@ module.exports = grammar({
   rules: {
     source_file: ($) => repeat($._command_invocation),
 
-    line_ending: ($) => $.newline,
-    seperation: ($) => choice($.space, $.line_ending),
-    space: ($) => /[ \t]+/,
-    newline: ($) => /\n+/,
+    _line_ending: ($) => $._newline,
+    _seperation: ($) => choice($._space, $._line_ending),
+    _space: ($) => /[ \t]+/,
+    _newline: ($) => /\n+/,
     ...commands("foreach", "endforeach"),
     identifier: ($) => /[A-Za-z_][A-Za-z0-9_]*/,
     integer: ($) => /[+-]*\d+/,
@@ -32,19 +32,20 @@ module.exports = grammar({
 
     quoted_argument: ($) => seq('"', optional($.quoted_element), '"'),
     quoted_element: ($) =>
-      repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence, seq("\\", $.newline))),
+      repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence, seq("\\", $._newline))),
 
     unquoted_argument: ($) => repeat1(choice($.variable_ref, /[^ ()#\"\\]/, $.escape_sequence)),
 
     arguments: ($) => seq($.argument, repeat($._seperated_arguments)),
-    _seperated_arguments: ($) => prec.left(seq(repeat1($.seperation), optional($.argument))),
+    _seperated_arguments: ($) => prec.left(seq(repeat1($._seperation), optional($.argument))),
 
     foreach_command: ($) => seq($.foreach, "(", $.arguments, ")"),
     endforeach_command: ($) =>
-      seq($.endforeach, "(", repeat($.seperation), optional($.argument), ")"),
+      seq($.endforeach, "(", repeat($._seperation), optional($.argument), ")"),
     foreach_loop: ($) =>
       seq($.foreach_command, repeat($._command_invocation), $.endforeach_command),
-    normal_command: ($) => seq($.identifier, "(", repeat($.seperation), optional($.arguments), ")"),
+    normal_command: ($) =>
+      seq($.identifier, "(", repeat($._seperation), optional($.arguments), ")"),
 
     _command_invocation: ($) => choice($.normal_command, $.foreach_loop),
   },
@@ -63,4 +64,3 @@ function commandName(name) {
 function commands(...names) {
   return Object.assign({}, ...names.map(commandName));
 }
-

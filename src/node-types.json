@@ -33,10 +33,6 @@
         {
           "type": "argument",
           "named": true
-        },
-        {
-          "type": "seperation",
-          "named": true
         }
       ]
     }
@@ -82,14 +78,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "argument",
           "named": true
         },
         {
-          "type": "seperation",
+          "type": "endforeach",
           "named": true
         }
       ]
@@ -120,11 +116,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "arguments",
+          "named": true
+        },
+        {
+          "type": "foreach",
           "named": true
         }
       ]
@@ -158,21 +158,6 @@
     }
   },
   {
-    "type": "line_ending",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "newline",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "normal_command",
     "named": true,
     "fields": {},
@@ -186,10 +171,6 @@
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "seperation",
           "named": true
         }
       ]
@@ -238,30 +219,7 @@
           "named": true
         },
         {
-          "type": "newline",
-          "named": true
-        },
-        {
           "type": "variable_ref",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "seperation",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "line_ending",
-          "named": true
-        },
-        {
-          "type": "space",
           "named": true
         }
       ]
@@ -396,15 +354,15 @@
     "named": false
   },
   {
+    "type": "endforeach",
+    "named": true
+  },
+  {
+    "type": "foreach",
+    "named": true
+  },
+  {
     "type": "identifier",
-    "named": true
-  },
-  {
-    "type": "newline",
-    "named": true
-  },
-  {
-    "type": "space",
     "named": true
   },
   {
