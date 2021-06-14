@@ -1,5 +1,5 @@
 ==================================
-Empty foreach loop [foreach_empty]
+Empty foreach loop [foreach]
 ==================================
 
 foreach(var)
@@ -18,7 +18,7 @@ endforeach()
  )
 
 ===============================================================
-Empty foreach loop with one argument endforeach [foreach_empty]
+Empty foreach loop with one argument endforeach [foreach]
 ===============================================================
 
 foreach(var)
@@ -39,7 +39,7 @@ endforeach(var)
  ))
 
 =================================
-Uppercase foreach [foreach_empty]
+Uppercase foreach [foreach]
 =================================
 
 FOREACH(var)
@@ -58,11 +58,49 @@ ENDFOREACH()
  )
 
 ==================================
-Mixed case foreach [foreach_empty]
+Mixed case foreach [foreach]
 ==================================
 
 forEach(var)
 endForEach()
+
+---
+
+(source_file
+ (foreach_loop
+  (foreach_command
+    (foreach)
+    (argument (unquoted_argument))
+  )
+  (endforeach_command (endforeach))
+ )
+ )
+
+==================================
+Empty IN [foreach]
+==================================
+
+foreach(var IN)
+endforeach()
+
+---
+
+(source_file
+ (foreach_loop
+  (foreach_command
+    (foreach)
+    (argument (unquoted_argument))
+  )
+  (endforeach_command (endforeach))
+ )
+ )
+
+==================================
+Empty RANGE [foreach]
+==================================
+
+foreach(var RANGE)
+endforeach()
 
 ---
 

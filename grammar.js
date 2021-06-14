@@ -38,7 +38,8 @@ module.exports = grammar({
 
     arguments: ($) => args($, $.argument),
 
-    foreach_command: ($) => seq($.foreach, "(", args($, $.argument, "IN"), ")"),
+    foreach_command: ($) =>
+      seq($.foreach, "(", args($, $.argument, "IN", "ZIP_LIST", "RANGE", "LISTS", "ITEMS"), ")"),
     endforeach_command: ($) =>
       seq($.endforeach, "(", repeat($._seperation), optional($.argument), ")"),
     foreach_loop: ($) =>
@@ -65,5 +66,8 @@ function commands(...names) {
 }
 
 function args($, ...rules) {
-  return seq(choice(...rules), repeat(prec.left(seq(repeat1($._seperation), optional(choice(...rules))))));
+  return seq(
+    choice(...rules),
+    repeat(prec.left(seq(repeat1($._seperation), optional(choice(...rules)))))
+  );
 }

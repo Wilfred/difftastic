@@ -420,6 +420,22 @@
                 {
                   "type": "STRING",
                   "value": "IN"
+                },
+                {
+                  "type": "STRING",
+                  "value": "ZIP_LIST"
+                },
+                {
+                  "type": "STRING",
+                  "value": "RANGE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "LISTS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "ITEMS"
                 }
               ]
             },
@@ -451,6 +467,22 @@
                             {
                               "type": "STRING",
                               "value": "IN"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "ZIP_LIST"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "RANGE"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "LISTS"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "ITEMS"
                             }
                           ]
                         },

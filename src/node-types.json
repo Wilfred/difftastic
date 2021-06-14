@@ -334,6 +334,22 @@
     "named": false
   },
   {
+    "type": "ITEMS",
+    "named": false
+  },
+  {
+    "type": "LISTS",
+    "named": false
+  },
+  {
+    "type": "RANGE",
+    "named": false
+  },
+  {
+    "type": "ZIP_LIST",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
