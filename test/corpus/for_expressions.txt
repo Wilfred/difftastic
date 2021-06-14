@@ -6,23 +6,23 @@ foo = [for v in ["a", "b"]: v]
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (for_expr 
-            (for_tuple_expr 
-              (for_intro 
-              (identifier) 
-              (expression 
-                (expr_term 
-                  (collection_value 
-                    (tuple 
-                      (expression (expr_term (template_expr (quoted_template)))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (for_expr
+            (for_tuple_expr
+              (for_intro
+              (identifier)
+              (expression
+                (expr_term
+                  (collection_value
+                    (tuple
+                      (expression (expr_term (template_expr (quoted_template))))
                       (expression (expr_term (template_expr (quoted_template)))))))))
-              (expression (expr_term (variable_expr (identifier))))))))))) 
+              (expression (expr_term (variable_expr (identifier)))))))))))
 
 ==================
 for tuple expression with index
@@ -32,24 +32,24 @@ foo = [for i, v in ["a", "b"]: i]
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (for_expr 
-            (for_tuple_expr 
-              (for_intro 
-              (identifier) 
-              (identifier) 
-              (expression 
-                (expr_term 
-                  (collection_value 
-                    (tuple 
-                      (expression (expr_term (template_expr (quoted_template)))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (for_expr
+            (for_tuple_expr
+              (for_intro
+              (identifier)
+              (identifier)
+              (expression
+                (expr_term
+                  (collection_value
+                    (tuple
+                      (expression (expr_term (template_expr (quoted_template))))
                       (expression (expr_term (template_expr (quoted_template)))))))))
-              (expression (expr_term (variable_expr (identifier))))))))))) 
+              (expression (expr_term (variable_expr (identifier)))))))))))
 
 ==================
 for tuple expression with predicate
@@ -59,35 +59,35 @@ foo = [for i, v in ["a", "b", "c"]: v if pred(i)]
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-        (expression 
-          (expr_term 
-            (for_expr 
-              (for_tuple_expr 
-                (for_intro 
-                  (identifier) 
-                  (identifier) 
-                    (expression 
-                      (expr_term 
-                        (collection_value 
-                          (tuple 
-                            (expression (expr_term (template_expr (quoted_template)))) 
-                            (expression (expr_term (template_expr (quoted_template)))) 
-                            (expression (expr_term (template_expr (quoted_template))))))))) 
-                (expression (expr_term (variable_expr (identifier)))) 
-                (for_cond 
-                  (expression 
-                    (expr_term 
-                      (function_call 
-                        (identifier) 
-                        (function_arguments (expression (expr_term (variable_expr (identifier)))))))))))))))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+        (expression
+          (expr_term
+            (for_expr
+              (for_tuple_expr
+                (for_intro
+                  (identifier)
+                  (identifier)
+                    (expression
+                      (expr_term
+                        (collection_value
+                          (tuple
+                            (expression (expr_term (template_expr (quoted_template))))
+                            (expression (expr_term (template_expr (quoted_template))))
+                            (expression (expr_term (template_expr (quoted_template)))))))))
+                (expression (expr_term (variable_expr (identifier))))
+                (for_cond
+                  (expression
+                    (expr_term
+                      (function_call
+                        (identifier)
+                        (function_arguments (expression (expr_term (variable_expr (identifier))))))))))))))))
 
 
 ==================
-for object expression 
+for object expression
 ==================
 
 foo = {for i, v in ["a", "b"]: v => i}
@@ -96,23 +96,23 @@ foo = {for i, v in ["a", "b"]: v => i}
 
 (config_file
   (body
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (for_expr 
-            (for_object_expr 
-              (for_intro 
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (for_expr
+            (for_object_expr
+              (for_intro
                 (identifier)
-                (identifier) 
-                  (expression 
-                    (expr_term 
-                      (collection_value 
-                        (tuple 
-                          (expression (expr_term (template_expr (quoted_template)))) 
-                          (expression (expr_term (template_expr (quoted_template))))))))) 
-              (expression (expr_term (variable_expr (identifier)))) 
-              (expression (expr_term (variable_expr (identifier))))))))))) 
+                (identifier)
+                  (expression
+                    (expr_term
+                      (collection_value
+                        (tuple
+                          (expression (expr_term (template_expr (quoted_template))))
+                          (expression (expr_term (template_expr (quoted_template)))))))))
+              (expression (expr_term (variable_expr (identifier))))
+              (expression (expr_term (variable_expr (identifier)))))))))))
 
 ==================
 for object expression 2
@@ -124,20 +124,20 @@ foo = {for i, v in ["a", "b"]: v => i...}
 
 (config_file
   (body
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (for_expr 
-            (for_object_expr 
-              (for_intro 
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (for_expr
+            (for_object_expr
+              (for_intro
                 (identifier)
-                (identifier) 
-                  (expression 
-                    (expr_term 
-                      (collection_value 
-                        (tuple 
-                          (expression (expr_term (template_expr (quoted_template)))) 
-                          (expression (expr_term (template_expr (quoted_template))))))))) 
-              (expression (expr_term (variable_expr (identifier)))) 
-              (expression (expr_term (variable_expr (identifier)))) (ellipsis)))))))) 
+                (identifier)
+                  (expression
+                    (expr_term
+                      (collection_value
+                        (tuple
+                          (expression (expr_term (template_expr (quoted_template))))
+                          (expression (expr_term (template_expr (quoted_template)))))))))
+              (expression (expr_term (variable_expr (identifier))))
+              (expression (expr_term (variable_expr (identifier)))) (ellipsis))))))))

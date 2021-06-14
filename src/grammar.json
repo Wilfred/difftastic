@@ -1015,8 +1015,33 @@
       ]
     },
     "string_lit": {
-      "type": "SYMBOL",
-      "name": "quoted_template"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_template_char"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "escape_sequence"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
     },
     "quoted_template": {
       "type": "SEQ",
@@ -1176,6 +1201,10 @@
     ],
     [
       "conditional"
+    ],
+    [
+      "string_lit",
+      "quoted_template"
     ]
   ],
   "precedences": [],

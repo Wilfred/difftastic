@@ -20,16 +20,16 @@ foo = bar("foo")
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (function_call 
-            (identifier) 
-            (function_arguments 
-              (expression (expr_term (template_expr (quoted_template))))))))))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (function_call
+            (identifier)
+            (function_arguments
+              (expression (expr_term (template_expr (quoted_template)))))))))))
 
 ==================
 variadic function call
@@ -39,16 +39,16 @@ foo = bar(x...)
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (function_call 
-            (identifier) 
-            (function_arguments 
-              (expression (expr_term (variable_expr (identifier)))) (ellipsis)))))))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (function_call
+            (identifier)
+            (function_arguments
+              (expression (expr_term (variable_expr (identifier)))) (ellipsis))))))))
 
 ==================
 multiline function call
@@ -62,16 +62,16 @@ foo = bar(
 
 ---
 
-(config_file 
-  (body 
-    (attribute 
-      (identifier) 
-      (expression 
-        (expr_term 
-          (function_call 
-            (identifier) 
-            (function_arguments 
-              (expression (expr_term (template_expr (quoted_template)))) 
-              (expression (expr_term (template_expr (quoted_template)))) 
-              (expression (expr_term (template_expr (quoted_template))))))))))) 
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (expr_term
+          (function_call
+            (identifier)
+            (function_arguments
+              (expression (expr_term (template_expr (quoted_template))))
+              (expression (expr_term (template_expr (quoted_template))))
+              (expression (expr_term (template_expr (quoted_template)))))))))))
 
