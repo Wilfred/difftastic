@@ -14,7 +14,7 @@ To run tests simply run `nix-shell --run 'tree-sitter test'`.
 
 Highlighting `example/example.hcl`:
 
-![Highlighting Example](https://imgur.com/JdfxHvE)
+![Highlighting Example](https://i.imgur.com/JdfxHvE.jpeg)
 
 ## Quoted Template Expressions
 
