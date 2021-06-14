@@ -4,6 +4,10 @@ use regex::Regex;
 use std::cmp::{max, min, Ordering};
 use std::fmt;
 
+const SPACER: &str = "  ";
+const MAX_GAP: usize = 1;
+const MIN_WIDTH: usize = 35;
+
 #[cfg(test)]
 use crate::positions::Span;
 #[cfg(test)]
@@ -95,7 +99,6 @@ impl LineGroup {
 
         let last_group_line = group_lines.last().unwrap().number;
 
-
         let match_lines = &mp.pos;
         assert!(!match_lines.is_empty());
         let first_match_line = match_lines[0].line.number;
@@ -154,12 +157,11 @@ fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> String 
 
     let mut i = 0;
     let mut res = String::new();
-    let spacer = "  ";
     loop {
         match (left_str_lines.get(i), right_str_lines.get(i)) {
             (Some(left_line), Some(right_line)) => {
                 res.push_str(left_line);
-                res.push_str(spacer);
+                res.push_str(SPACER);
                 res.push_str(right_line);
             }
             (Some(left_line), None) => {
@@ -167,7 +169,7 @@ fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> String 
             }
             (None, Some(right_line)) => {
                 res.push_str(&" ".repeat(max_left_length));
-                res.push_str(spacer);
+                res.push_str(SPACER);
                 res.push_str(right_line);
             }
             (None, None) => break,
@@ -213,7 +215,7 @@ pub fn visible_groups(
     let mut group = LineGroup::new();
 
     for (is_lhs, position) in positions {
-        if group.is_empty() || group.next_overlaps(is_lhs, position, 1) {
+        if group.is_empty() || group.next_overlaps(is_lhs, position, MAX_GAP) {
             // Add to the current group.
         } else {
             // Start new group
@@ -272,8 +274,8 @@ pub fn lhs_printable_width(lhs: &str, terminal_width: usize) -> usize {
     let line_number_width = printed_line_num_width(lhs);
     let longest_line = longest_src_line + line_number_width;
 
-    let space_available = terminal_width / 2 - 1;
-    max(35, min(longest_line, space_available))
+    let space_available = terminal_width / 2 - SPACER.len();
+    max(MIN_WIDTH, min(longest_line, space_available))
 }
 
 pub fn rhs_printable_width(rhs: &str, lhs_width: usize, terminal_width: usize) -> usize {
@@ -281,9 +283,9 @@ pub fn rhs_printable_width(rhs: &str, lhs_width: usize, terminal_width: usize) -
     let line_number_width = printed_line_num_width(rhs);
     let longest_line = longest_src_line + line_number_width;
 
-    let space_available = (terminal_width - 1) - lhs_width;
+    let space_available = (terminal_width - SPACER.len()) - lhs_width;
 
-    max(35, min(longest_line, space_available))
+    max(MIN_WIDTH, min(longest_line, space_available))
 }
 
 pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length: usize) -> String {
