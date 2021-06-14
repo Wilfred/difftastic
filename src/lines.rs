@@ -151,7 +151,12 @@ impl LineGroup {
     }
 }
 
-fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> String {
+fn horizontal_concat(
+    left: &str,
+    right: &str,
+    lhs_content_width: usize,
+    lhs_column_width: usize,
+) -> String {
     let left_str_lines: Vec<&str> = left.lines().collect();
     let right_str_lines: Vec<&str> = right.lines().collect();
 
@@ -168,7 +173,7 @@ fn horizontal_concat(left: &str, right: &str, max_left_length: usize) -> String 
                 res.push_str(left_line);
             }
             (None, Some(right_line)) => {
-                res.push_str(&" ".repeat(max_left_length));
+                res.push_str(&" ".repeat(lhs_column_width + lhs_content_width));
                 res.push_str(SPACER);
                 res.push_str(right_line);
             }
@@ -266,7 +271,7 @@ fn format_line_num(line_num: usize) -> String {
 }
 
 pub fn printed_line_num_width(s: &str) -> usize {
-    format_line_num(s.lines().count() + 1).len()
+    format_line_num(s.lines().count()).len()
 }
 
 pub fn lhs_printable_width(lhs: &str, terminal_width: usize) -> usize {
@@ -288,7 +293,14 @@ pub fn rhs_printable_width(rhs: &str, lhs_width: usize, terminal_width: usize) -
     max(MIN_WIDTH, min(longest_line, space_available))
 }
 
-pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length: usize, terminal_width: usize) -> String {
+pub fn apply_groups(
+    lhs: &str,
+    rhs: &str,
+    groups: &[LineGroup],
+    lhs_content_width: usize,
+    lhs_column_width: usize,
+    terminal_width: usize,
+) -> String {
     let lhs_lines: Vec<_> = lhs.lines().collect();
     let rhs_lines: Vec<_> = rhs.lines().collect();
 
@@ -313,7 +325,8 @@ pub fn apply_groups(lhs: &str, rhs: &str, groups: &[LineGroup], max_left_length:
         result.push_str(&horizontal_concat(
             &lhs_result,
             &rhs_result,
-            max_left_length,
+            lhs_content_width,
+            lhs_column_width,
         ));
         result.push_str(&spacer);
         result.push_str("\n");

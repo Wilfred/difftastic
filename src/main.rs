@@ -81,13 +81,15 @@ fn main() {
 
     set_changed(&lhs, &rhs);
 
+    let before_column_width = printed_line_num_width(&before_src);
     let before_src = enforce_length(
         &before_src,
-        max_left_length - printed_line_num_width(&before_src),
+        max_left_length - before_column_width,
     );
+    let after_column_width = printed_line_num_width(&after_src);
     let after_src = enforce_length(
         &after_src,
-        max_right_length - printed_line_num_width(&after_src),
+        max_right_length - after_column_width,
     );
 
     let lhs_positions = matched_positions(&before_src, &after_src, &lhs);
@@ -107,7 +109,8 @@ fn main() {
             &lhs_colored,
             &rhs_colored,
             &groups,
-            max_left_length,
+            max_left_length - before_column_width,
+            before_column_width,
             terminal_width
         )
     );
