@@ -16,7 +16,7 @@ foo = [1, 2, "foo"]
             (tuple 
               (expression (expr_term (literal_value (numeric_lit)))) 
               (expression (expr_term (literal_value (numeric_lit)))) 
-              (expression (expr_term (literal_value (string_lit)))))))))))
+              (expression (expr_term (template_expr (quoted_template)))))))))))
 
 ==================
 collection value object
@@ -38,6 +38,6 @@ foo = {1: 2, "foo"="bar"}
                 (expression (expr_term (literal_value (numeric_lit)))) 
                 (expression (expr_term (literal_value (numeric_lit))))) 
               (object_elem 
-                (expression (expr_term (literal_value (string_lit)))) 
-                (expression (expr_term (literal_value (string_lit)))))))))))) 
+                (expression (expr_term (template_expr (quoted_template)))) 
+                (expression (expr_term (template_expr (quoted_template)))))))))))) 
 

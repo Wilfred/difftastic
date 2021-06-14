@@ -39,15 +39,12 @@ block_1 "strlit1" "strlit2" {
   (body
     (block
       (identifier)
-      (string_lit)
-      (string_lit)
+      (string_lit (quoted_template))
+      (string_lit (quoted_template))
       (body
         (attribute
           (identifier)
-          (expression
-            (expr_term
-              (literal_value
-                (string_lit)))))))))
+          (expression (expr_term (template_expr (quoted_template)))))))))
 
 ==================
 nested block

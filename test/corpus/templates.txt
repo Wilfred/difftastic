@@ -1,0 +1,13 @@
+==================
+quoted template expression
+==================
+
+foo = "${ var.bar }"
+
+---
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression (expr_term (template_expr (quoted_template (template_interpolation))))))))
