@@ -20,8 +20,8 @@ static bool advance_and_accept_template_char(TSLexer *lexer) {
 }
 
 static bool advance_and_accept_escape_sequence(TSLexer *lexer) {
-    lexer->result_symbol = ESCAPE_SEQUENCE;
     advance(lexer);
+    lexer->result_symbol = ESCAPE_SEQUENCE;
     return true;
 }
 
