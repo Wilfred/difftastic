@@ -384,15 +384,8 @@ fn matched_positions_<'a>(
 
 /// Extremely dumb top-level comparison of `lhs` and `rhs`.
 pub fn set_changed<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>]) {
-    let mut lhs_counts = HashMap::new();
-    for s in lhs.iter() {
-        count_nodes(s, &mut lhs_counts);
-    }
-
-    let mut rhs_counts = HashMap::new();
-    for s in rhs.iter() {
-        count_nodes(s, &mut rhs_counts);
-    }
+    let lhs_counts = NodeCounts::new(lhs);
+    let rhs_counts = NodeCounts::new(rhs);
 
     let mut env = Env::new(lhs_counts, rhs_counts);
     mark_unchanged_nodes(lhs, rhs, &mut env);
@@ -411,7 +404,7 @@ fn process_moves(mut env: Env) {
     for lhs_node in env.lhs_unmatched {
         // Partial overlaps?
         if lhs_node.get_change().is_none() {
-            if try_decrement(lhs_node, &mut env.rhs_counts) {
+            if env.rhs_counts.try_decrement(lhs_node) {
                 lhs_node.set_change_deep(Moved)
             } else {
                 lhs_node.set_change_deep(Novel)
@@ -422,7 +415,7 @@ fn process_moves(mut env: Env) {
     sort_by_size(&mut env.rhs_unmatched);
     for rhs_node in env.rhs_unmatched {
         if rhs_node.get_change().is_none() {
-            if try_decrement(rhs_node, &mut env.lhs_counts) {
+            if env.lhs_counts.try_decrement(rhs_node) {
                 rhs_node.set_change_deep(Moved)
             } else {
                 rhs_node.set_change_deep(Novel)
@@ -431,58 +424,86 @@ fn process_moves(mut env: Env) {
     }
 }
 
-fn possible_move<'a>(node: &'a Node<'a>, counts: &HashMap<&'a Node<'a>, i64>) -> bool {
-    *counts.get(node).unwrap_or(&0) > 0
+struct NodeCounts<'a> {
+    counts: HashMap<&'a Node<'a>, i64>,
 }
 
-/// Decrement the count of `node` from `counts`, along with all its children.
-fn decrement<'a>(node: &'a Node<'a>, counts: &mut HashMap<&'a Node<'a>, i64>) {
-    let count = if let Some(count) = counts.get(node) {
-        *count
-    } else {
-        panic!("Called decrement on a node that isn't in counts")
-    };
-
-    assert!(count > 0);
-    counts.insert(node, count - 1);
-    match node {
-        List { children, .. } => {
-            for child in children {
-                decrement(child, counts);
-            }
+impl<'a> NodeCounts<'a> {
+    fn new(nodes: &[&'a Node<'a>]) -> Self {
+        let mut res = Self {
+            counts: HashMap::new(),
+        };
+        for node in nodes {
+            res._insert_node(node);
         }
-        Atom { .. } => {}
+        res
     }
-}
 
-fn try_decrement<'a>(node: &'a Node<'a>, counts: &mut HashMap<&'a Node<'a>, i64>) -> bool {
-    let node_count = *counts.get(node).unwrap_or(&0);
-
-    if node_count > 0 {
-        counts.insert(node, node_count - 1);
+    fn _insert_node(&mut self, node: &'a Node<'a>) {
+        let entry = self.counts.entry(node).or_insert(0);
+        *entry += 1;
         match node {
             List { children, .. } => {
                 for child in children {
-                    try_decrement(child, counts);
+                    self._insert_node(child);
                 }
             }
             Atom { .. } => {}
         }
-        true
-    } else {
-        false
+    }
+
+    fn possible_move(&self, node: &'a Node<'a>) -> bool {
+        *self.counts.get(node).unwrap_or(&0) > 0
+    }
+
+    /// Decrement the count of `node` from `counts`, along with all its children.
+    fn decrement(&mut self, node: &'a Node<'a>) {
+        let count = if let Some(count) = self.counts.get(node) {
+            *count
+        } else {
+            panic!("Called decrement on a node that isn't in counts")
+        };
+
+        assert!(count > 0);
+        self.counts.insert(node, count - 1);
+        match node {
+            List { children, .. } => {
+                for child in children {
+                    self.decrement(child);
+                }
+            }
+            Atom { .. } => {}
+        }
+    }
+    fn try_decrement(&mut self, node: &'a Node<'a>) -> bool {
+        let node_count = *self.counts.get(node).unwrap_or(&0);
+
+        if node_count > 0 {
+            self.counts.insert(node, node_count - 1);
+            match node {
+                List { children, .. } => {
+                    for child in children {
+                        self.try_decrement(child);
+                    }
+                }
+                Atom { .. } => {}
+            }
+            true
+        } else {
+            false
+        }
     }
 }
 
 struct Env<'a> {
-    lhs_counts: HashMap<&'a Node<'a>, i64>,
-    rhs_counts: HashMap<&'a Node<'a>, i64>,
+    lhs_counts: NodeCounts<'a>,
+    rhs_counts: NodeCounts<'a>,
     lhs_unmatched: Vec<&'a Node<'a>>,
     rhs_unmatched: Vec<&'a Node<'a>>,
 }
 
 impl<'a> Env<'a> {
-    fn new(lhs_counts: HashMap<&'a Node<'a>, i64>, rhs_counts: HashMap<&'a Node<'a>, i64>) -> Self {
+    fn new(lhs_counts: NodeCounts<'a>, rhs_counts: NodeCounts<'a>) -> Self {
         Env {
             lhs_counts,
             rhs_counts,
@@ -501,8 +522,8 @@ fn mark_unchanged_nodes<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>], env: &mu
             lhs_node.set_change_deep(Unchanged(rhs_node));
             rhs_node.set_change_deep(Unchanged(lhs_node));
 
-            decrement(lhs_node, &mut env.rhs_counts);
-            decrement(rhs_node, &mut env.lhs_counts);
+            env.lhs_counts.decrement(lhs_node);
+            env.rhs_counts.decrement(rhs_node);
         }
     }
 
@@ -528,8 +549,8 @@ fn mark_unchanged_node<'a>(
     match (lhs, rhs) {
         (Some(lhs_node), Some(rhs_node)) => {
             match (
-                possible_move(lhs_node, &env.rhs_counts),
-                possible_move(rhs_node, &env.lhs_counts),
+                env.rhs_counts.possible_move(lhs_node),
+                env.lhs_counts.possible_move(rhs_node),
             ) {
                 (true, true) => {
                     env.lhs_unmatched.push(lhs_node);
@@ -613,7 +634,7 @@ fn mark_unchanged_node<'a>(
             }
         }
         (Some(lhs_node), None) => {
-            if possible_move(lhs_node, &env.rhs_counts) {
+            if env.rhs_counts.possible_move(lhs_node) {
                 env.lhs_unmatched.push(lhs_node);
             } else {
                 lhs_node.set_change(Novel);
@@ -623,7 +644,7 @@ fn mark_unchanged_node<'a>(
             }
         }
         (None, Some(rhs_node)) => {
-            if possible_move(rhs_node, &env.lhs_counts) {
+            if env.lhs_counts.possible_move(rhs_node) {
                 env.rhs_unmatched.push(rhs_node);
             } else {
                 rhs_node.set_change(Novel);
@@ -633,19 +654,6 @@ fn mark_unchanged_node<'a>(
             }
         }
         (None, None) => {}
-    }
-}
-
-fn count_nodes<'a>(s: &'a Node<'a>, subtrees: &mut HashMap<&'a Node<'a>, i64>) {
-    let entry = subtrees.entry(s).or_insert(0);
-    *entry += 1;
-    match s {
-        List { children, .. } => {
-            for child in children {
-                count_nodes(child, subtrees);
-            }
-        }
-        Atom { .. } => {}
     }
 }
 
