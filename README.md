@@ -2,6 +2,12 @@
 
 tree-sitter grammar for the [HCL](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md) language
 
+## Example
+
+Highlighting `example/example.hcl`:
+
+![Highlighting Example](https://i.imgur.com/JdfxHvE.jpeg)
+
 ## Developing
 
 It is recommended to use `nix` to fulfill all development dependencies. To activate the development environment simply run `nix-shell` in the project root.
@@ -10,16 +16,9 @@ It is recommended to use `nix` to fulfill all development dependencies. To activ
 
 To run tests simply run `nix-shell --run 'tree-sitter test'`. 
 
-## Example
-
-Highlighting `example/example.hcl`:
-
-![Highlighting Example](https://i.imgur.com/JdfxHvE.jpeg)
-
 ## Quoted Template Expressions
 
-In principle it is allowed to contain arbitary expressions in quoted template expressions.
-Consider for example:
+In principle it is allowed to contain arbitary expressions in quoted template interpolations. Consider for example:
 
 ```hcl
 foo = "prefix-${func(\"bar\"}"
@@ -34,5 +33,9 @@ String literals are parsed as quoted templates. The calling application should c
 
 ## Todo
 
-* use [Unicode® Standard Annex #31](https://www.unicode.org/reports/tr31/) (augmented with '-') for identifiers
-* add [template expressions](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#template-expressions) 
+* [ ] use [Unicode® Standard Annex #31](https://www.unicode.org/reports/tr31/) (augmented with '-') for identifiers
+* [ ] add [template expressions](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#template-expressions) 
+  * [x] add quoted templates
+    * [x] add quoted template interpolations
+    * [ ] add quoted template directives
+  * [ ] add heredoc templates
