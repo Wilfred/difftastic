@@ -384,10 +384,7 @@ fn matched_positions_<'a>(
 
 /// Extremely dumb top-level comparison of `lhs` and `rhs`.
 pub fn set_changed<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>]) {
-    let lhs_counts = NodeCounts::new(lhs);
-    let rhs_counts = NodeCounts::new(rhs);
-
-    let mut env = Env::new(lhs_counts, rhs_counts);
+    let mut env = Env::new(lhs, rhs);
     mark_unchanged_nodes(lhs, rhs, &mut env);
 
     process_moves(env);
@@ -503,10 +500,10 @@ struct Env<'a> {
 }
 
 impl<'a> Env<'a> {
-    fn new(lhs_counts: NodeCounts<'a>, rhs_counts: NodeCounts<'a>) -> Self {
+    fn new(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>]) -> Self {
         Env {
-            lhs_counts,
-            rhs_counts,
+            lhs_counts: NodeCounts::new(lhs),
+            rhs_counts: NodeCounts::new(rhs),
             lhs_unmatched: Vec::new(),
             rhs_unmatched: Vec::new(),
         }
