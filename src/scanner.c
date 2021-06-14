@@ -1,15 +1,11 @@
 #include <tree_sitter/parser.h>
 #include <wctype.h>
 
-// forward declarations
-
 enum TokenType {
   TEMPLATE_CHAR,
   TEMPLATE_CHAR_IN_INTERPOLATION,
   ESCAPE_SEQUENCE
 };
-
-// helpers
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
