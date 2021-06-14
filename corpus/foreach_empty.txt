@@ -11,7 +11,7 @@ endforeach()
  (foreach_loop
   (foreach_command
     (foreach)
-    (arguments (argument (unquoted_argument)))
+    (argument (unquoted_argument))
   )
   (endforeach_command (endforeach))
  )
@@ -30,7 +30,7 @@ endforeach(var)
  (foreach_loop
   (foreach_command
     (foreach)
-    (arguments (argument (unquoted_argument)))
+    (argument (unquoted_argument))
   )
   (endforeach_command
     (endforeach)
@@ -51,7 +51,7 @@ ENDFOREACH()
  (foreach_loop
   (foreach_command
     (foreach)
-    (arguments (argument (unquoted_argument)))
+    (argument (unquoted_argument))
   )
   (endforeach_command (endforeach))
  )
@@ -70,7 +70,7 @@ endForEach()
  (foreach_loop
   (foreach_command
     (foreach)
-    (arguments (argument (unquoted_argument)))
+    (argument (unquoted_argument))
   )
   (endforeach_command (endforeach))
  )

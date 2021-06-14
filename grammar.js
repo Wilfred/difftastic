@@ -36,10 +36,9 @@ module.exports = grammar({
 
     unquoted_argument: ($) => repeat1(choice($.variable_ref, /[^ ()#\"\\]/, $.escape_sequence)),
 
-    arguments: ($) => seq($.argument, repeat($._seperated_arguments)),
-    _seperated_arguments: ($) => prec.left(seq(repeat1($._seperation), optional($.argument))),
+    arguments: ($) => args($, $.argument),
 
-    foreach_command: ($) => seq($.foreach, "(", $.arguments, ")"),
+    foreach_command: ($) => seq($.foreach, "(", args($, $.argument, "IN"), ")"),
     endforeach_command: ($) =>
       seq($.endforeach, "(", repeat($._seperation), optional($.argument), ")"),
     foreach_loop: ($) =>
@@ -63,4 +62,8 @@ function commandName(name) {
 
 function commands(...names) {
   return Object.assign({}, ...names.map(commandName));
+}
+
+function args($, ...rules) {
+  return seq(choice(...rules), repeat(prec.left(seq(repeat1($._seperation), optional(choice(...rules))))));
 }

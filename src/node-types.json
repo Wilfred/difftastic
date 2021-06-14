@@ -120,7 +120,7 @@
       "required": true,
       "types": [
         {
-          "type": "arguments",
+          "type": "argument",
           "named": true
         },
         {
@@ -327,6 +327,10 @@
   },
   {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "IN",
     "named": false
   },
   {
