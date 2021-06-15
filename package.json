@@ -2,7 +2,7 @@
   "name": "tree-sitter-php",
   "version": "0.19.0",
   "description": "PHP grammar for tree-sitter",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "parser",
     "php"
