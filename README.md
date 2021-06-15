@@ -6,7 +6,7 @@ tree-sitter grammar for the [HCL](https://github.com/hashicorp/hcl/blob/main/hcl
 
 Highlighting `example/example.hcl`:
 
-![Highlighting Example](https://i.imgur.com/TEWlCwT.png)
+![Highlighting Example](https://i.imgur.com/M1PZkqL.png)
 
 ## Developing
 
