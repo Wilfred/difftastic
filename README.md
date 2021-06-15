@@ -6,7 +6,7 @@ tree-sitter grammar for the [HCL](https://github.com/hashicorp/hcl/blob/main/hcl
 
 Highlighting `example/example.hcl`:
 
-![Highlighting Example](https://i.imgur.com/JdfxHvE.jpeg)
+![Highlighting Example](https://i.imgur.com/TEWlCwT.png)
 
 ## Developing
 
@@ -21,7 +21,7 @@ To run tests simply run `nix-shell --run 'tree-sitter test'`.
 In principle it is allowed to contain arbitary expressions in quoted template interpolations. Consider for example:
 
 ```hcl
-foo = "prefix-${func(\"bar\"}"
+foo = "prefix-${func(\"bar\")}"
 ```
 
 To make parsing a little easier, this parser only checks for valid escape sequences and template chars.
