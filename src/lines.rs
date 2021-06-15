@@ -323,7 +323,11 @@ pub fn apply_groups(
         let mut lhs_result = String::new();
         for lhs_line_num in &group.lhs_lines {
             lhs_result.push_str(&format_line_num(lhs_line_num.number));
-            lhs_result.push_str(lhs_lines.get(lhs_line_num.number).unwrap_or(&""));
+
+            match lhs_lines.get(lhs_line_num.number) {
+                Some(line) => lhs_result.push_str(line),
+                None => lhs_result.push_str(&" ".repeat(lhs_content_width)),
+            }
             lhs_result.push_str("\n");
         }
 
