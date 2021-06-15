@@ -23,6 +23,22 @@ comment_patterns = [
 open_delimiter_pattern = '(\[|\{|\()'
 close_delimiter_pattern = '(\]|\}|\))'
 
+[JSON]
+extensions = ["json"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+]
+string_patterns = [
+  # Double-quoted strings
+  '"[^"]*"',
+  # Single quoted strings
+  "'[^']*'",
+]
+comment_patterns = []
+open_delimiter_pattern = '(\[|\{)'
+close_delimiter_pattern = '(\]|\})'
+
 [CSS]
 extensions = ["css"]
 atom_patterns = [
