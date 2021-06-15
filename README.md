@@ -126,3 +126,16 @@ implementations in Rust.
 
 [json-diff](https://github.com/andreyvit/json-diff) provides a proper
 structural diff for JSON files.
+
+### graphtage
+
+[graphtage](https://blog.trailofbits.com/2020/08/28/graphtage/)
+compares structured data by parsing into a generic file format, then
+displaying a diff. It finds the optimal edit sequence, and even allows
+things like diffing JSON against YAML.
+
+### Lisp diffs
+
+[sdiff](https://fosdem.org/2021/schedule/event/sexpressiondiff/) and
+[diff-sexp](https://web.archive.org/web/20160320134909/https://foldr.org/~michaelw/log/programming/lisp/diff-sexp)
+explore s-expression oriented diffs.
