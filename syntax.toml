@@ -50,7 +50,29 @@ atom_patterns = [
   # Numbers
   '[0-9]+',
   # Symbols (e.g. variable names)
-  '[a-zA-Z0-9_-]+',
+  '[a-zA-Z0-9_?:-]+',
+  # Operators
+  "[`',]",
+]
+string_patterns = [
+  # String literals
+  '"[^"]*"',
+]
+comment_patterns = [
+  ';.*',
+]
+open_delimiter_pattern = '(\[|\{|\()'
+close_delimiter_pattern = '(\]|\}|\))'
+
+[Scheme]
+extensions = ["scm"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+  # Symbols (e.g. variable names)
+  '#?[a-zA-Z0-9_?:-]+',
+  # Operators
+  "[`',]",
 ]
 string_patterns = [
   # String literals
