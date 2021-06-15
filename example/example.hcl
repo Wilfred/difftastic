@@ -26,7 +26,7 @@ resource_1 "strlit1" "strlit2" {
   esc1   = "\" \t \UFF11FF22 \uFFFF \n"
   esc2   = "$${} %%{}"
   tpl1   = "prefix-${var.bar}"
-  tpl2   = "prefix-${func(\"bar\"}"
+  tpl2   = "prefix-${func(\"bar\")}"
 
   nested_resource_1 {
     attr1 = 2
