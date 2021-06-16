@@ -86,6 +86,73 @@ impl LineGroup {
         }
     }
 
+    /// Does `lg` overlap with `self`, or occur on exactly the next
+    /// line?
+    fn next_lg_touches(&self, lg: &LineGroup) -> bool {
+        match (self.lhs_lines.last(), lg.lhs_lines.first()) {
+            (Some(self_last), Some(lg_first)) => {
+                if lg_first.number <= self_last.number + 1 {
+                    return true;
+                }
+            }
+            _ => {}
+        }
+
+        match (self.rhs_lines.last(), lg.rhs_lines.first()) {
+            (Some(self_last), Some(lg_first)) => {
+                if lg_first.number <= self_last.number + 1 {
+                    return true;
+                }
+            }
+            _ => {}
+        }
+
+        false
+    }
+
+    /// Extend LHS and RHS of self until it includes all the lines in
+    /// `lg`. If either side of `lg` do not overlap with self, fill in
+    /// the gap.
+    fn next_extend(&mut self, mut lg: LineGroup) {
+        match self.lhs_lines.last() {
+            Some(self_last) => {
+                let last_num = self_last.number;
+
+                if let Some(lg_first) = lg.lhs_lines.first() {
+                    for i in last_num + 1..lg_first.number {
+                        self.lhs_lines.push(i.into());
+                    }
+                }
+
+                for line in lg.lhs_lines {
+                    if line.number > last_num {
+                        self.lhs_lines.push(line);
+                    }
+                }
+            }
+            None => self.lhs_lines.append(&mut lg.lhs_lines),
+        }
+
+        match self.rhs_lines.last() {
+            Some(last) => {
+                let last_num = last.number;
+
+                if let Some(first) = lg.rhs_lines.first() {
+                    for i in last_num + 1..first.number {
+                        self.rhs_lines.push(i.into());
+                    }
+                }
+
+                for line in lg.rhs_lines {
+                    if line.number > last_num {
+                        self.rhs_lines.push(line);
+                    }
+                }
+            }
+            None => self.rhs_lines.append(&mut lg.rhs_lines),
+        }
+    }
+
     /// Does `mp`, a MatchedPos that occurs after self, overlap with self?
     fn next_overlaps(&self, is_lhs: bool, mp: &MatchedPos, max_gap: usize) -> bool {
         let group_lines = if is_lhs {
@@ -205,6 +272,35 @@ fn compare_matched_pos(lhs: &MatchedPos, rhs: &MatchedPos) -> Ordering {
     let lhs_line = lhs.pos[0].line;
     let rhs_line = rhs.pos[0].line;
     lhs_line.cmp(&rhs_line)
+}
+
+pub fn join_overlapping(line_groups: Vec<LineGroup>) -> Vec<LineGroup> {
+    let mut res = vec![];
+
+    let mut prev: Option<LineGroup> = None;
+    for line_group in line_groups {
+        match prev.take() {
+            Some(mut p) => {
+                if p.next_lg_touches(&line_group) {
+                    p.next_extend(line_group);
+                    prev = Some(p);
+                } else {
+                    // Does not overlap, just append to the result.
+                    res.push(p);
+                    prev = Some(line_group);
+                }
+            }
+            None => {
+                prev = Some(line_group);
+            }
+        }
+    }
+
+    if let Some(prev) = prev {
+        res.push(prev);
+    }
+
+    res
 }
 
 /// The exact lines that have changes, grouped into contiguous
