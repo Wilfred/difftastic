@@ -114,6 +114,7 @@ fn main() {
             &groups,
             lhs_content_width,
             lhs_column_width,
+            rhs_column_width,
             terminal_width
         )
     );
