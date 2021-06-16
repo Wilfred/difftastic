@@ -9,8 +9,8 @@ use std::path::Path;
 use typed_arena::Arena;
 
 use crate::lines::{
-    apply_groups, enforce_length, format_line_num, lhs_printable_width, rhs_printable_width,
-    visible_groups,
+    apply_groups, enforce_length, format_line_num, join_overlapping, lhs_printable_width,
+    rhs_printable_width, visible_groups,
 };
 use crate::parse::{lang_from_str, parse, read_or_die};
 use crate::style::apply_colors;
@@ -85,6 +85,7 @@ fn main() {
     for group in &mut groups {
         group.pad(1);
     }
+    groups = join_overlapping(groups);
 
     let lhs_column_width = format_line_num(groups.last().unwrap().max_visible_lhs().number).len();
     let rhs_column_width = format_line_num(groups.last().unwrap().max_visible_rhs().number).len();
