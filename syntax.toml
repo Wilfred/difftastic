@@ -99,3 +99,25 @@ comment_patterns = [
 ]
 open_delimiter_pattern = '(\[|\{|\()'
 close_delimiter_pattern = '(\]|\}|\))'
+
+
+[OCaml]
+extensions = ["ml"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+  # Symbols (e.g. variable names)
+  '[.a-zA-Z0-9_]+',
+  # Operators
+  '[?~=<>/*+-]+',
+]
+string_patterns = [
+  # Double-quoted strings
+  '"[^"]*"',
+]
+comment_patterns = [
+  # Mult-line comments
+  '\(\*(?s:.)*?\*\)',
+]
+open_delimiter_pattern = '(\[|\{|\()'
+close_delimiter_pattern = '(\]|\}|\))'
