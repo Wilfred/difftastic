@@ -121,3 +121,21 @@ comment_patterns = [
 ]
 open_delimiter_pattern = '(\[|\{|\()'
 close_delimiter_pattern = '(\]|\}|\))'
+
+[Clojure]
+extensions = ["clj"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+  # Symbols (e.g. variable names)
+  ':?[a-zA-Z0-9_>+-]+',
+]
+string_patterns = [
+  # Double-quoted strings
+  '"[^"]*"',
+]
+comment_patterns = [
+  ';.*',
+]
+open_delimiter_pattern = '(\[|\{|\()'
+close_delimiter_pattern = '(\]|\}|\))'
