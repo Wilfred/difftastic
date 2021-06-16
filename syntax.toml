@@ -139,3 +139,25 @@ comment_patterns = [
 ]
 open_delimiter_pattern = '(\[|\{|\()'
 close_delimiter_pattern = '(\]|\}|\))'
+
+[Rust]
+extensions = ["rs"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+  # Symbols (e.g. variable names)
+  '[.a-zA-Z0-9_]+',
+  # Operators
+  '[&=<>/*+-]+',
+]
+string_patterns = [
+  '"[^"]*"',
+]
+comment_patterns = [
+  # Single line comments
+  '//.*(\n|$)',
+  # Mult-line comments
+  '/\*(?s:.)*?\*/',
+]
+open_delimiter_pattern = '(\[|\{|\()'
+close_delimiter_pattern = '(\]|\}|\))'
