@@ -379,6 +379,10 @@ pub fn format_line_num(line_num: usize) -> String {
     format!("{:<2} ", line_num + 1)
 }
 
+pub fn format_line_num_padded(line_num: usize, column_width: usize) -> String {
+    format!("{:width$} ", line_num + 1, width = column_width - 1)
+}
+
 pub fn lhs_printable_width(lhs: &str, lhs_column_width: usize, terminal_width: usize) -> usize {
     let longest_line_length = lhs.lines().map(|line| line.len()).max().unwrap_or(1);
     let longest_line = longest_line_length + lhs_column_width;
@@ -407,6 +411,7 @@ pub fn apply_groups(
     groups: &[LineGroup],
     lhs_content_width: usize,
     lhs_column_width: usize,
+    rhs_column_width: usize,
     terminal_width: usize,
 ) -> String {
     let lhs_lines: Vec<_> = lhs.lines().collect();
@@ -418,7 +423,10 @@ pub fn apply_groups(
     for (i, group) in groups.iter().enumerate() {
         let mut lhs_result = String::new();
         for lhs_line_num in &group.lhs_lines {
-            lhs_result.push_str(&format_line_num(lhs_line_num.number));
+            lhs_result.push_str(&format_line_num_padded(
+                lhs_line_num.number,
+                lhs_column_width,
+            ));
 
             match lhs_lines.get(lhs_line_num.number) {
                 Some(line) => lhs_result.push_str(line),
@@ -429,7 +437,10 @@ pub fn apply_groups(
 
         let mut rhs_result = String::new();
         for rhs_line_num in &group.rhs_lines {
-            rhs_result.push_str(&format_line_num(rhs_line_num.number));
+            rhs_result.push_str(&format_line_num_padded(
+                rhs_line_num.number,
+                rhs_column_width,
+            ));
             rhs_result.push_str(rhs_lines.get(rhs_line_num.number).unwrap_or(&""));
             rhs_result.push_str("\n");
         }
