@@ -8,47 +8,6 @@
         "name": "_command_invocation"
       }
     },
-    "_line_ending": {
-      "type": "SYMBOL",
-      "name": "_newline"
-    },
-    "_seperation": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_space"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_line_ending"
-        }
-      ]
-    },
-    "_space": {
-      "type": "PATTERN",
-      "value": "[ \\t]+"
-    },
-    "_newline": {
-      "type": "PATTERN",
-      "value": "\\n+"
-    },
-    "foreach": {
-      "type": "PATTERN",
-      "value": "[fF][oO][rR][eE][aA][cC][hH]"
-    },
-    "endforeach": {
-      "type": "PATTERN",
-      "value": "[eE][nN][dD][fF][oO][rR][eE][aA][cC][hH]"
-    },
-    "identifier": {
-      "type": "PATTERN",
-      "value": "[A-Za-z_][A-Za-z0-9_]*"
-    },
-    "integer": {
-      "type": "PATTERN",
-      "value": "[+-]*\\d+"
-    },
     "escape_sequence": {
       "type": "CHOICE",
       "members": [
@@ -150,7 +109,11 @@
       "members": [
         {
           "type": "STRING",
-          "value": "$ENV{"
+          "value": "$ENV"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
         },
         {
           "type": "SYMBOL",
@@ -167,7 +130,11 @@
       "members": [
         {
           "type": "STRING",
-          "value": "$CACHE{"
+          "value": "$CACHE"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
         },
         {
           "type": "SYMBOL",
@@ -318,8 +285,8 @@
                 "value": "\\"
               },
               {
-                "type": "SYMBOL",
-                "name": "_newline"
+                "type": "PATTERN",
+                "value": "\\n+"
               }
             ]
           }
@@ -346,56 +313,6 @@
         ]
       }
     },
-    "arguments": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "argument"
-            }
-          ]
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "PREC_LEFT",
-            "value": 0,
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_seperation"
-                  }
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "argument"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
     "foreach_command": {
       "type": "SEQ",
       "members": [
@@ -406,6 +323,22 @@
         {
           "type": "STRING",
           "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[ \\t]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\n+"
+              }
+            ]
+          }
         },
         {
           "type": "SEQ",
@@ -423,11 +356,11 @@
                 },
                 {
                   "type": "STRING",
-                  "value": "ZIP_LIST"
+                  "value": "RANGE"
                 },
                 {
                   "type": "STRING",
-                  "value": "RANGE"
+                  "value": "ZIP_LISTS"
                 },
                 {
                   "type": "STRING",
@@ -450,8 +383,17 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "_seperation"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "[ \\t]+"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "\\n+"
+                          }
+                        ]
                       }
                     },
                     {
@@ -470,11 +412,11 @@
                             },
                             {
                               "type": "STRING",
-                              "value": "ZIP_LIST"
+                              "value": "RANGE"
                             },
                             {
                               "type": "STRING",
-                              "value": "RANGE"
+                              "value": "ZIP_LISTS"
                             },
                             {
                               "type": "STRING",
@@ -517,8 +459,17 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_seperation"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[ \\t]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\n+"
+              }
+            ]
           }
         },
         {
@@ -573,16 +524,70 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_seperation"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[ \\t]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\n+"
+              }
+            ]
           }
         },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "arguments"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "argument"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "PREC_LEFT",
+                    "value": 0,
+                    "content": {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "REPEAT1",
+                          "content": {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "PATTERN",
+                                "value": "[ \\t]+"
+                              },
+                              {
+                                "type": "PATTERN",
+                                "value": "\\n+"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "argument"
+                            },
+                            {
+                              "type": "BLANK"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -607,6 +612,22 @@
           "name": "foreach_loop"
         }
       ]
+    },
+    "foreach": {
+      "type": "PATTERN",
+      "value": "[fF][oO][rR][eE][aA][cC][hH]"
+    },
+    "endforeach": {
+      "type": "PATTERN",
+      "value": "[eE][nN][dD][fF][oO][rR][eE][aA][cC][hH]"
+    },
+    "identifier": {
+      "type": "PATTERN",
+      "value": "[A-Za-z_][A-Za-z0-9_]*"
+    },
+    "integer": {
+      "type": "PATTERN",
+      "value": "[+-]*\\d+"
     }
   },
   "extras": [

@@ -23,21 +23,6 @@
     }
   },
   {
-    "type": "arguments",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "argument",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "bracket_argument",
     "named": true,
     "fields": {},
@@ -166,7 +151,7 @@
       "required": true,
       "types": [
         {
-          "type": "arguments",
+          "type": "argument",
           "named": true
         },
         {
@@ -306,11 +291,11 @@
     "named": false
   },
   {
-    "type": "$CACHE{",
+    "type": "$CACHE",
     "named": false
   },
   {
-    "type": "$ENV{",
+    "type": "$ENV",
     "named": false
   },
   {
@@ -346,7 +331,7 @@
     "named": false
   },
   {
-    "type": "ZIP_LIST",
+    "type": "ZIP_LISTS",
     "named": false
   },
   {
@@ -384,6 +369,10 @@
   {
     "type": "identifier",
     "named": true
+  },
+  {
+    "type": "{",
+    "named": false
   },
   {
     "type": "}",
