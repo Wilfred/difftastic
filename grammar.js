@@ -78,13 +78,14 @@ module.exports = grammar({
     elseif_command: ($) => command($.elseif, args(choice($.argument, ...if_args))),
     else_command: ($) => command($.else, optional(args(choice($.argument, ...if_args)))),
     endif_command: ($) => command($.endif, optional(args(choice($.argument, ...if_args)))),
-    foreach_command: ($) => command($.foreach, args(choice($.argument, ...foreach_args))),
-    endforeach_command: ($) => command($.endforeach, optional($.argument)),
-    normal_command: ($) => command($.identifier, optional(args($.argument))),
-
-    foreach_loop: ($) => seq($.foreach_command, repeat($._command_invocation), $.endforeach_command),
     if_condition: ($) =>
       seq($.if_command, repeat(choice($._command_invocation, $.elseif_command, $.else_command)), $.endif_command),
+
+    foreach_command: ($) => command($.foreach, args(choice($.argument, ...foreach_args))),
+    endforeach_command: ($) => command($.endforeach, optional($.argument)),
+    foreach_loop: ($) => seq($.foreach_command, repeat($._command_invocation), $.endforeach_command),
+
+    normal_command: ($) => command($.identifier, optional(args($.argument))),
 
     _command_invocation: ($) => choice($.normal_command, $.if_condition, $.foreach_loop),
 
