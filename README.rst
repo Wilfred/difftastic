@@ -16,8 +16,8 @@ TODO
 
 - Command definitions
 
-  - macro()/endmacro()
-  - function()/endfunction()
+  - macro()/endmacro() [DONE]
+  - function()/endfunction() [DONE]
 
 - Add grammar rules for comments
 
