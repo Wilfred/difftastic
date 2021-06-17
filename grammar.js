@@ -25,9 +25,11 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $._template_char,
-    $._template_char_in_interpolation,
-    $.escape_sequence,
+    $._quoted_template_start,
+    $._quoted_template_end,
+    $._template_literal_chunk,
+    $._template_interpolation_start,
+    $._template_interpolation_end,
   ],
 
   extras: $ => [
@@ -54,10 +56,13 @@ module.exports = grammar({
     block: $ => seq(
       field('name', $.identifier),
       repeat(choice($.string_lit, $.identifier)),
-      '{',
+      $._block_start,
       optional($.body),
-      '}',
+      $._block_end,
     ),
+
+    _block_start: $ => '{',
+    _block_end: $ => '}',
 
     // TODO: not to spec but good enough for now
     identifier: $ => token(seq(
@@ -66,21 +71,21 @@ module.exports = grammar({
     )),
 
     expression: $ => choice(
-      $.expr_term,
+      $._expr_term,
       $.operation,
       $.conditional,
     ),
 
-    expr_term: $ => choice(
+    _expr_term: $ => choice(
       $.literal_value,
       $.template_expr,
       $.collection_value,
       $.variable_expr,
       $.function_call,
       $.for_expr,
-      seq($.expr_term, $.index),
-      seq($.expr_term, $.get_attr),
-      seq($.expr_term, $.splat),
+      seq($._expr_term, $.index),
+      seq($._expr_term, $.get_attr),
+      seq($._expr_term, $.splat),
       seq('(', $.expression, ')'),
     ),
 
@@ -88,6 +93,7 @@ module.exports = grammar({
       $.numeric_lit,
       $.bool_lit,
       $.null_lit,
+      $.string_lit,
     ),
 
     numeric_lit: $ => /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
@@ -96,7 +102,12 @@ module.exports = grammar({
 
     null_lit: $ => 'null',
 
-    // string_lit is defined as quoted template
+    string_lit: $ => seq(
+      $._quoted_template_start,
+      $.template_literal,
+      $._quoted_template_end,
+    ),
+
 
     collection_value: $ => choice(
       $.tuple,
@@ -113,13 +124,16 @@ module.exports = grammar({
     ),
 
     object: $ => seq(
-      '{',
+      $._object_start,
       optional(seq(
         $.object_elem,
         repeat(seq(',', $.object_elem)),
       )),
-      '}',
+      $._object_end,
     ),
+
+    _object_start: $ => '{',
+    _object_end: $ => '}',
 
     object_elem: $ => seq(
       choice($.identifier, $.expression),
@@ -157,14 +171,14 @@ module.exports = grammar({
     ),
 
     for_object_expr: $ => seq(
-      '{',
+      $._object_start,
       $.for_intro,
       $.expression,
       '=>',
       $.expression,
       optional($.ellipsis),
       optional($.for_cond),
-      '}',
+      $._object_end,
     ),
 
     for_intro: $ => seq(
@@ -185,10 +199,13 @@ module.exports = grammar({
 
     function_call: $ => seq(
       field('name', $.identifier),
-      '(',
+      $._function_call_start,
       optional($.function_arguments),
-      ')'
+      $._function_call_end,
     ),
+
+    _function_call_start: $ => '(',
+    _function_call_end: $ => ')',
 
     function_arguments: $ => seq(
       $.expression,
@@ -208,7 +225,7 @@ module.exports = grammar({
 
     operation: $ => choice($.unary_operation, $.binary_operation),
 
-    unary_operation: $ => prec.left(PREC.unary, seq(choice('-', '!'), $.expr_term)),
+    unary_operation: $ => prec.left(PREC.unary, seq(choice('-', '!'), $._expr_term)),
 
     binary_operation: $ => {
       const table = [
@@ -221,7 +238,7 @@ module.exports = grammar({
       ];
 
       return choice(...table.map(([precedence, operator]) =>
-        prec.left(precedence, seq($.expr_term, operator, $.expr_term),
+        prec.left(precedence, seq($._expr_term, operator, $._expr_term),
         ))
       );
     },
@@ -231,30 +248,36 @@ module.exports = grammar({
       // $.heredoc_template,
     ),
 
-    string_lit: $ => seq(
-      '"', 
+    quoted_template: $ => seq(
+      $._quoted_template_start,
       repeat(choice(
-        $._template_char, 
-        $.escape_sequence,
-      )), 
-      '"',
+        $.template_literal,
+        $.template_interpolation,
+        $.template_directive,
+      )),
+      $._quoted_template_end,
     ),
 
-    quoted_template: $ => seq(
-      '"', 
-      repeat(choice(
-        $._template_char, 
-        $.escape_sequence,
-        $.template_interpolation,
-      )), 
-      '"',
-    ),
+    strip_marker: $ => '~',
+
+    template_literal: $ => prec.right(repeat1(
+      $._template_literal_chunk,
+    )),
 
     template_interpolation: $ => seq(
-      choice('${', '${~'),
-      repeat(choice($._template_char_in_interpolation, $.escape_sequence)),
-      choice('}', '~}'),
+      $._template_interpolation_start,
+      optional($.strip_marker),
+      $.expression,
+      optional($.strip_marker),
+      $._template_interpolation_end,
     ),
+
+    // TODO
+    template_directive: $ => choice(
+      //$.template_for,
+      //$.template_if,
+    ),
+
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(

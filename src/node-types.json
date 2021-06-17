@@ -49,7 +49,43 @@
       "required": true,
       "types": [
         {
-          "type": "expr_term",
+          "type": "collection_value",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "for_expr",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "get_attr",
+          "named": true
+        },
+        {
+          "type": "index",
+          "named": true
+        },
+        {
+          "type": "literal_value",
+          "named": true
+        },
+        {
+          "type": "splat",
+          "named": true
+        },
+        {
+          "type": "template_expr",
+          "named": true
+        },
+        {
+          "type": "variable_expr",
           "named": true
         }
       ]
@@ -163,7 +199,7 @@
     }
   },
   {
-    "type": "expr_term",
+    "type": "expression",
     "named": true,
     "fields": {},
     "children": {
@@ -175,7 +211,7 @@
           "named": true
         },
         {
-          "type": "expr_term",
+          "type": "conditional",
           "named": true
         },
         {
@@ -203,6 +239,10 @@
           "named": true
         },
         {
+          "type": "operation",
+          "named": true
+        },
+        {
           "type": "splat",
           "named": true
         },
@@ -212,29 +252,6 @@
         },
         {
           "type": "variable_expr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "conditional",
-          "named": true
-        },
-        {
-          "type": "expr_term",
-          "named": true
-        },
-        {
-          "type": "operation",
           "named": true
         }
       ]
@@ -456,6 +473,10 @@
         {
           "type": "numeric_lit",
           "named": true
+        },
+        {
+          "type": "string_lit",
+          "named": true
         }
       ]
     }
@@ -522,11 +543,15 @@
       "required": false,
       "types": [
         {
-          "type": "escape_sequence",
+          "type": "template_directive",
           "named": true
         },
         {
           "type": "template_interpolation",
+          "named": true
+        },
+        {
+          "type": "template_literal",
           "named": true
         }
       ]
@@ -556,15 +581,20 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "escape_sequence",
+          "type": "template_literal",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "template_directive",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "template_expr",
@@ -587,14 +617,23 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "escape_sequence",
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "strip_marker",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "template_literal",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "tuple",
@@ -616,11 +655,47 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "expr_term",
+          "type": "collection_value",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "for_expr",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "get_attr",
+          "named": true
+        },
+        {
+          "type": "index",
+          "named": true
+        },
+        {
+          "type": "literal_value",
+          "named": true
+        },
+        {
+          "type": "splat",
+          "named": true
+        },
+        {
+          "type": "template_expr",
+          "named": true
+        },
+        {
+          "type": "variable_expr",
           "named": true
         }
       ]
@@ -647,18 +722,6 @@
   },
   {
     "type": "!=",
-    "named": false
-  },
-  {
-    "type": "\"",
-    "named": false
-  },
-  {
-    "type": "${",
-    "named": false
-  },
-  {
-    "type": "${~",
     "named": false
   },
   {
@@ -754,10 +817,6 @@
     "named": true
   },
   {
-    "type": "escape_sequence",
-    "named": true
-  },
-  {
     "type": "false",
     "named": false
   },
@@ -786,6 +845,10 @@
     "named": true
   },
   {
+    "type": "strip_marker",
+    "named": true
+  },
+  {
     "type": "true",
     "named": false
   },
@@ -799,10 +862,6 @@
   },
   {
     "type": "}",
-    "named": false
-  },
-  {
-    "type": "~}",
     "named": false
   }
 ]
