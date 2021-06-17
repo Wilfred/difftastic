@@ -137,13 +137,8 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
   }
 
   // handle escape sequences in direct surrounding quoted contexts
-  if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && scanner->quoted_context_depth > 0) {
+  if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && scanner->in_quoted_context) {
     switch (lexer->lookahead) {
-      case '"':
-      case '\n':
-      case '\r':
-      case '\t':
-        return false;
       case '\\':
         advance(lexer);
         switch (lexer->lookahead) {
@@ -166,8 +161,6 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
           default:
             return false;
         }
-      case '$':
-        // handled above
       default:
         return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
     }
