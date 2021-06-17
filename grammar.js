@@ -1164,9 +1164,11 @@ module.exports = grammar({
 
     interpolated_string_text: $ => choice(
       '{{',
-      token.immediate(prec(1, /[^{"\\\n]+/)),
+      $._interpolated_string_text_fragment,
       $.escape_sequence
     ),
+
+    _interpolated_string_text_fragment: $ => token.immediate(prec(1, /[^{"\\\n]+/)),
 
     interpolated_verbatim_string_text: $ => choice(
       '{{',
@@ -1569,11 +1571,13 @@ module.exports = grammar({
     string_literal: $ => seq(
       '"',
       repeat(choice(
-        token.immediate(prec(1, /[^"\\\n]+/)),
+        $._string_literal_fragment,
         $.escape_sequence
       )),
       '"'
     ),
+
+    _string_literal_fragment: $ => token.immediate(prec(1, /[^"\\\n]+/)),
 
     verbatim_string_literal: $ => token(seq(
       '@"',
