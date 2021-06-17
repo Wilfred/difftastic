@@ -65,7 +65,9 @@ void scanner_enter_interpolation_context(Scanner *scanner) {
 void scanner_exit_interpolation_context(Scanner *scanner) {
   scanner->template_interpolation_depth--;
   scanner->in_template_interpolation = false;
-  scanner->in_quoted_context = true;
+  if (scanner->quoted_context_depth > 0) {
+    scanner->in_quoted_context = true;
+  }
 }
 
 void scanner_enter_quoted_context(Scanner *scanner) {
