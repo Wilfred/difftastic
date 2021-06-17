@@ -314,6 +314,44 @@ class A {
           (identifier)
           (equals_value_clause (string_literal (escape_sequence)))))))))
 
+==================================================
+string literals containing block comment
+==================================================
+
+string s = "\u0065/* \u0065 */\u0065";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (string_literal
+              (escape_sequence)
+              (escape_sequence)
+              (escape_sequence))))))))
+
+==================================================
+verbatim string literals containing block comment
+==================================================
+
+string s = @"/* comment */";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (verbatim_string_literal)))))))
 
 ==================================================
 interpolated string literals
@@ -432,6 +470,32 @@ class A {
               (interpolation (identifier)
                 (interpolation_alignment_clause (integer_literal)))
               (interpolated_string_text)))))))))
+
+==================================================
+interpolated string literals containing block comment
+==================================================
+
+string s = $"\u0065/* \u0065 */\u0065";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text
+                (escape_sequence))
+              (interpolated_string_text)
+              (interpolated_string_text
+                (escape_sequence))
+              (interpolated_string_text)
+              (interpolated_string_text
+                (escape_sequence)))))))))
 
 ==================================================
 interpolated verbatim string literals
@@ -591,3 +655,26 @@ class A
               (interpolated_verbatim_string_text)
               (interpolation (identifier))
               (interpolated_verbatim_string_text))))))))
+
+==================================================
+interpolated verbatim string with block comment
+==================================================
+
+string s = $@"{a}/* comment */{a}";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolation
+                (identifier))
+              (interpolated_verbatim_string_text)
+              (interpolation
+                (identifier)))))))))
