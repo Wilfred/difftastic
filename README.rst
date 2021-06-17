@@ -12,7 +12,7 @@ TODO
 
   - if()/elseif()/else()endif() [DONE]
   - foreach()/endforeach() [DONE]
-  - while()/endwhile()
+  - while()/endwhile() [DONE]
 
 - Command definitions
 
