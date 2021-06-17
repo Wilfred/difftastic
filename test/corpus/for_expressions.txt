@@ -1,143 +1,182 @@
-==================
+================================================================================
 for tuple expression
-==================
+================================================================================
 
 foo = [for v in ["a", "b"]: v]
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (for_expr
-            (for_tuple_expr
-              (for_intro
+        (for_expr
+          (for_tuple_expr
+            (for_intro
               (identifier)
               (expression
-                (expr_term
-                  (collection_value
-                    (tuple
-                      (expression (expr_term (template_expr (quoted_template))))
-                      (expression (expr_term (template_expr (quoted_template)))))))))
-              (expression (expr_term (variable_expr (identifier)))))))))))
+                (collection_value
+                  (tuple
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal))))
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal))))))))
+            (expression
+              (variable_expr
+                (identifier)))))))))
 
-==================
+================================================================================
 for tuple expression with index
-==================
+================================================================================
 
 foo = [for i, v in ["a", "b"]: i]
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (for_expr
-            (for_tuple_expr
-              (for_intro
+        (for_expr
+          (for_tuple_expr
+            (for_intro
               (identifier)
               (identifier)
               (expression
-                (expr_term
-                  (collection_value
-                    (tuple
-                      (expression (expr_term (template_expr (quoted_template))))
-                      (expression (expr_term (template_expr (quoted_template)))))))))
-              (expression (expr_term (variable_expr (identifier)))))))))))
+                (collection_value
+                  (tuple
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal))))
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal))))))))
+            (expression
+              (variable_expr
+                (identifier)))))))))
 
-==================
+================================================================================
 for tuple expression with predicate
-==================
+================================================================================
 
 foo = [for i, v in ["a", "b", "c"]: v if pred(i)]
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
-        (expression
-          (expr_term
-            (for_expr
-              (for_tuple_expr
-                (for_intro
-                  (identifier)
-                  (identifier)
+      (expression
+        (for_expr
+          (for_tuple_expr
+            (for_intro
+              (identifier)
+              (identifier)
+              (expression
+                (collection_value
+                  (tuple
                     (expression
-                      (expr_term
-                        (collection_value
-                          (tuple
-                            (expression (expr_term (template_expr (quoted_template))))
-                            (expression (expr_term (template_expr (quoted_template))))
-                            (expression (expr_term (template_expr (quoted_template)))))))))
-                (expression (expr_term (variable_expr (identifier))))
-                (for_cond
-                  (expression
-                    (expr_term
-                      (function_call
-                        (identifier)
-                        (function_arguments (expression (expr_term (variable_expr (identifier))))))))))))))))
+                      (literal_value
+                        (string_lit
+                          (template_literal))))
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal))))
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal))))))))
+            (expression
+              (variable_expr
+                (identifier)))
+            (for_cond
+              (expression
+                (function_call
+                  (identifier)
+                  (function_arguments
+                    (expression
+                      (variable_expr
+                        (identifier)))))))))))))
 
-
-==================
+================================================================================
 for object expression
-==================
+================================================================================
 
 foo = {for i, v in ["a", "b"]: v => i}
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (for_expr
-            (for_object_expr
-              (for_intro
-                (identifier)
-                (identifier)
-                  (expression
-                    (expr_term
-                      (collection_value
-                        (tuple
-                          (expression (expr_term (template_expr (quoted_template))))
-                          (expression (expr_term (template_expr (quoted_template)))))))))
-              (expression (expr_term (variable_expr (identifier))))
-              (expression (expr_term (variable_expr (identifier)))))))))))
+        (for_expr
+          (for_object_expr
+            (for_intro
+              (identifier)
+              (identifier)
+              (expression
+                (collection_value
+                  (tuple
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal))))
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal))))))))
+            (expression
+              (variable_expr
+                (identifier)))
+            (expression
+              (variable_expr
+                (identifier)))))))))
 
-==================
+================================================================================
 for object expression 2
-==================
+================================================================================
 
 foo = {for i, v in ["a", "b"]: v => i...}
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (for_expr
-            (for_object_expr
-              (for_intro
-                (identifier)
-                (identifier)
-                  (expression
-                    (expr_term
-                      (collection_value
-                        (tuple
-                          (expression (expr_term (template_expr (quoted_template))))
-                          (expression (expr_term (template_expr (quoted_template)))))))))
-              (expression (expr_term (variable_expr (identifier))))
-              (expression (expr_term (variable_expr (identifier)))) (ellipsis))))))))
+        (for_expr
+          (for_object_expr
+            (for_intro
+              (identifier)
+              (identifier)
+              (expression
+                (collection_value
+                  (tuple
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal))))
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal))))))))
+            (expression
+              (variable_expr
+                (identifier)))
+            (expression
+              (variable_expr
+                (identifier)))
+            (ellipsis)))))))

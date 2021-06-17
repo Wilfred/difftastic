@@ -1,86 +1,77 @@
-==================
+================================================================================
 get attr
-==================
+================================================================================
 
 foo = bar.baz
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (expr_term
-            (variable_expr
-              (identifier)))
-          (get_attr
-            (identifier)))))))
+        (variable_expr
+          (identifier))
+        (get_attr
+          (identifier))))))
 
-==================
+================================================================================
 get index
-==================
+================================================================================
 
 foo = bar[1]
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (expr_term
-            (variable_expr
-              (identifier)))
-          (index
-            (expression
-              (expr_term
-                (literal_value
-                  (numeric_lit))))))))))
+        (variable_expr
+          (identifier))
+        (index
+          (expression
+            (literal_value
+              (numeric_lit))))))))
 
-==================
+================================================================================
 attr splat
-==================
+================================================================================
 
 foo = bar.*.foo
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (expr_term
-            (variable_expr
-              (identifier)))
+        (variable_expr
+          (identifier))
         (splat
-          (attr_splat
-            (get_attr
-              (identifier)))))))))
+          (attr_splat))
+        (get_attr
+          (identifier))))))
 
-==================
+================================================================================
 full splat
-==================
+================================================================================
 
 foo = bar[*].foo
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (expr_term
-            (variable_expr
-              (identifier)))
+        (variable_expr
+          (identifier))
         (splat
-          (full_splat
-            (get_attr
-              (identifier)))))))))
+          (full_splat))
+        (get_attr
+          (identifier))))))

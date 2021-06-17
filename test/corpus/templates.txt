@@ -1,13 +1,145 @@
-==================
-quoted template expression
-==================
+================================================================================
+simple quoted template expression
+================================================================================
 
 foo = "${ var.bar }"
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
-      (expression (expr_term (template_expr (quoted_template (template_interpolation))))))))
+      (expression
+        (template_expr
+          (quoted_template
+            (template_interpolation
+              (expression
+                (variable_expr
+                  (identifier))
+                (get_attr
+                  (identifier))))))))))
+
+================================================================================
+quoted template expression with escaped strings and fake strip marker
+================================================================================
+
+foo = "${ " ~ " }"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (template_interpolation
+              (expression
+                (literal_value
+                  (string_lit
+                    (template_literal)))))))))))
+
+================================================================================
+quoted template with nested quoted template
+================================================================================
+
+foo = "p-${ foo("v-${a.b}") }"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (template_literal)
+            (template_interpolation
+              (expression
+                (function_call
+                  (identifier)
+                  (function_arguments
+                    (expression
+                      (template_expr
+                        (quoted_template
+                          (template_literal)
+                          (template_interpolation
+                            (expression
+                              (variable_expr
+                                (identifier))
+                              (get_attr
+                                (identifier)))))))))))))))))
+
+================================================================================
+quoted template interpolation with strip markers
+================================================================================
+
+foo = "hello ${~ "world" ~} hello"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (template_literal)
+            (template_interpolation
+              (strip_marker)
+              (expression
+                (literal_value
+                  (string_lit
+                    (template_literal))))
+              (strip_marker))
+            (template_literal)))))))
+
+================================================================================
+quoted template object expression in template
+================================================================================
+
+foo = "${ {a=b}[a] }"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (template_interpolation
+              (expression
+                (collection_value
+                  (object
+                    (object_elem
+                      (identifier)
+                      (expression
+                        (variable_expr
+                          (identifier))))))
+                (index
+                  (expression
+                    (variable_expr
+                      (identifier))))))))))))
+
+================================================================================
+escaped template interpolation start
+================================================================================
+
+foo = "hello $${ world"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (template_literal)))))))
