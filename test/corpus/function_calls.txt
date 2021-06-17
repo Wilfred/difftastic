@@ -1,58 +1,64 @@
-==================
+================================================================================
 nonary function call
-==================
+================================================================================
 
 foo = bar()
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
-      (expression (expr_term (function_call (identifier)))))))
+      (expression
+        (function_call
+          (identifier))))))
 
-==================
+================================================================================
 unary function call
-==================
+================================================================================
 
 foo = bar("foo")
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (function_call
-            (identifier)
-            (function_arguments
-              (expression (expr_term (template_expr (quoted_template)))))))))))
+        (function_call
+          (identifier)
+          (function_arguments
+            (expression
+              (literal_value
+                (string_lit
+                  (template_literal))))))))))
 
-==================
+================================================================================
 variadic function call
-==================
+================================================================================
 
 foo = bar(x...)
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (function_call
-            (identifier)
-            (function_arguments
-              (expression (expr_term (variable_expr (identifier)))) (ellipsis))))))))
+        (function_call
+          (identifier)
+          (function_arguments
+            (expression
+              (variable_expr
+                (identifier)))
+            (ellipsis)))))))
 
-==================
+================================================================================
 multiline function call
-==================
+================================================================================
 
 foo = bar(
   "a",
@@ -60,18 +66,25 @@ foo = bar(
   "c"
 )
 
----
+--------------------------------------------------------------------------------
 
 (config_file
   (body
     (attribute
       (identifier)
       (expression
-        (expr_term
-          (function_call
-            (identifier)
-            (function_arguments
-              (expression (expr_term (template_expr (quoted_template))))
-              (expression (expr_term (template_expr (quoted_template))))
-              (expression (expr_term (template_expr (quoted_template)))))))))))
-
+        (function_call
+          (identifier)
+          (function_arguments
+            (expression
+              (literal_value
+                (string_lit
+                  (template_literal))))
+            (expression
+              (literal_value
+                (string_lit
+                  (template_literal))))
+            (expression
+              (literal_value
+                (string_lit
+                  (template_literal))))))))))
