@@ -134,6 +134,25 @@
     }
   },
   {
+    "type": "endwhile_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "endwhile",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "env_var",
     "named": true,
     "fields": {},
@@ -199,6 +218,10 @@
         {
           "type": "normal_command",
           "named": true
+        },
+        {
+          "type": "while_loop",
+          "named": true
         }
       ]
     }
@@ -256,6 +279,10 @@
         },
         {
           "type": "normal_command",
+          "named": true
+        },
+        {
+          "type": "while_loop",
           "named": true
         }
       ]
@@ -348,6 +375,10 @@
         {
           "type": "normal_command",
           "named": true
+        },
+        {
+          "type": "while_loop",
+          "named": true
         }
       ]
     }
@@ -404,6 +435,60 @@
         },
         {
           "type": "normal_var",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "while_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "while_loop",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "endwhile_command",
+          "named": true
+        },
+        {
+          "type": "foreach_loop",
+          "named": true
+        },
+        {
+          "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "normal_command",
+          "named": true
+        },
+        {
+          "type": "while_command",
+          "named": true
+        },
+        {
+          "type": "while_loop",
           "named": true
         }
       ]
@@ -674,6 +759,10 @@
     "named": true
   },
   {
+    "type": "endwhile",
+    "named": true
+  },
+  {
     "type": "foreach",
     "named": true
   },
@@ -683,6 +772,10 @@
   },
   {
     "type": "if",
+    "named": true
+  },
+  {
+    "type": "while",
     "named": true
   },
   {

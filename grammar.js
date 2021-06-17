@@ -76,8 +76,8 @@ module.exports = grammar({
 
     if_command: ($) => command($.if, args(choice($.argument, ...if_args))),
     elseif_command: ($) => command($.elseif, args(choice($.argument, ...if_args))),
-    else_command: ($) => command($.else, optional(args(choice($.argument, ...if_args)))),
-    endif_command: ($) => command($.endif, optional(args(choice($.argument, ...if_args)))),
+    else_command: ($) => command($.else, optional(choice($.argument, ...if_args))),
+    endif_command: ($) => command($.endif, optional(choice($.argument, ...if_args))),
     if_condition: ($) =>
       seq($.if_command, repeat(choice($._command_invocation, $.elseif_command, $.else_command)), $.endif_command),
 
@@ -85,11 +85,15 @@ module.exports = grammar({
     endforeach_command: ($) => command($.endforeach, optional($.argument)),
     foreach_loop: ($) => seq($.foreach_command, repeat($._command_invocation), $.endforeach_command),
 
+    while_command: ($) => command($.while, args(choice($.argument, ...if_args))),
+    endwhile_command: ($) => command($.endwhile, optional(choice($.argument, ...if_args))),
+    while_loop: ($) => seq($.while_command, repeat($._command_invocation), $.endwhile_command),
+
     normal_command: ($) => command($.identifier, optional(args($.argument))),
 
-    _command_invocation: ($) => choice($.normal_command, $.if_condition, $.foreach_loop),
+    _command_invocation: ($) => choice($.normal_command, $.if_condition, $.foreach_loop, $.while_loop),
 
-    ...commandNames("if", "elseif", "else", "endif", "foreach", "endforeach"),
+    ...commandNames("if", "elseif", "else", "endif", "foreach", "endforeach", "while", "endwhile"),
     identifier: (_) => /[A-Za-z_][A-Za-z0-9_]*/,
     integer: (_) => /[+-]*\d+/,
   },

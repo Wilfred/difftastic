@@ -1232,413 +1232,187 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
+              "type": "CHOICE",
               "members": [
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "argument"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "1"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "ON"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "YES"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "TRUE"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "Y"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "0"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "OFF"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "NO"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "FALSE"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "N"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IGNORE"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "NOTFOUND"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "NOT"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "AND"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "OR"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "COMMAND"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "POLICY"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "TARGET"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "TEST"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "DEFINED"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "CACHE"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "ENV"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IN_LIST"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "EXISTS"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IS_NEWER_THAN"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IS_DIRECTORY"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IS_SYMLINK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IS_ABSOLUTE"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "MATCHES"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "LESS"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "GREATER"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "LESS_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "GREATER_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "STRLESS"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "STRGREATER"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "STREQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "STRLESS_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "STRGREATER_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "VERSION_LESS"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "VERSION_GREATER"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "VERSION_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "VERSION_LESS_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "VERSION_GREATER_EQUAL"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "argument"
                 },
                 {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "PREC_LEFT",
-                    "value": 0,
-                    "content": {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "REPEAT1",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "[ \\t]+"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "\\n+"
-                              }
-                            ]
-                          }
-                        },
-                        {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "CHOICE",
-                              "members": [
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "argument"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "1"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "ON"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "YES"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "TRUE"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "Y"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "0"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "OFF"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "NO"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "FALSE"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "N"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IGNORE"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "NOTFOUND"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "NOT"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "AND"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "OR"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "COMMAND"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "POLICY"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "TARGET"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "TEST"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "DEFINED"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "CACHE"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "ENV"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IN_LIST"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "EXISTS"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IS_NEWER_THAN"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IS_DIRECTORY"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IS_SYMLINK"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IS_ABSOLUTE"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "MATCHES"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "LESS"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "GREATER"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "LESS_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "GREATER_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "STRLESS"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "STRGREATER"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "STREQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "STRLESS_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "STRGREATER_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "VERSION_LESS"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "VERSION_GREATER"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "VERSION_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "VERSION_LESS_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "VERSION_GREATER_EQUAL"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "BLANK"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  }
+                  "type": "STRING",
+                  "value": "1"
+                },
+                {
+                  "type": "STRING",
+                  "value": "ON"
+                },
+                {
+                  "type": "STRING",
+                  "value": "YES"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TRUE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "Y"
+                },
+                {
+                  "type": "STRING",
+                  "value": "0"
+                },
+                {
+                  "type": "STRING",
+                  "value": "OFF"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NO"
+                },
+                {
+                  "type": "STRING",
+                  "value": "FALSE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "N"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IGNORE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NOTFOUND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NOT"
+                },
+                {
+                  "type": "STRING",
+                  "value": "AND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "OR"
+                },
+                {
+                  "type": "STRING",
+                  "value": "COMMAND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "POLICY"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TARGET"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TEST"
+                },
+                {
+                  "type": "STRING",
+                  "value": "DEFINED"
+                },
+                {
+                  "type": "STRING",
+                  "value": "CACHE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "ENV"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IN_LIST"
+                },
+                {
+                  "type": "STRING",
+                  "value": "EXISTS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_NEWER_THAN"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_DIRECTORY"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_SYMLINK"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_ABSOLUTE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "MATCHES"
+                },
+                {
+                  "type": "STRING",
+                  "value": "LESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "GREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "LESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "GREATER_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRLESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRGREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STREQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRLESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRGREATER_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_LESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_GREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_LESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_GREATER_EQUAL"
                 }
               ]
             },
@@ -1684,413 +1458,187 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
+              "type": "CHOICE",
               "members": [
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "argument"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "1"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "ON"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "YES"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "TRUE"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "Y"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "0"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "OFF"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "NO"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "FALSE"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "N"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IGNORE"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "NOTFOUND"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "NOT"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "AND"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "OR"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "COMMAND"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "POLICY"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "TARGET"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "TEST"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "DEFINED"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "CACHE"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "ENV"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IN_LIST"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "EXISTS"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IS_NEWER_THAN"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IS_DIRECTORY"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IS_SYMLINK"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "IS_ABSOLUTE"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "MATCHES"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "LESS"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "GREATER"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "LESS_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "GREATER_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "STRLESS"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "STRGREATER"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "STREQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "STRLESS_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "STRGREATER_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "VERSION_LESS"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "VERSION_GREATER"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "VERSION_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "VERSION_LESS_EQUAL"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "VERSION_GREATER_EQUAL"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "argument"
                 },
                 {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "PREC_LEFT",
-                    "value": 0,
-                    "content": {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "REPEAT1",
-                          "content": {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "[ \\t]+"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "\\n+"
-                              }
-                            ]
-                          }
-                        },
-                        {
-                          "type": "CHOICE",
-                          "members": [
-                            {
-                              "type": "CHOICE",
-                              "members": [
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "argument"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "1"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "ON"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "YES"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "TRUE"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "Y"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "0"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "OFF"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "NO"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "FALSE"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "N"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IGNORE"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "NOTFOUND"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "NOT"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "AND"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "OR"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "COMMAND"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "POLICY"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "TARGET"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "TEST"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "DEFINED"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "CACHE"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "ENV"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IN_LIST"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "EXISTS"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IS_NEWER_THAN"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IS_DIRECTORY"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IS_SYMLINK"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "IS_ABSOLUTE"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "MATCHES"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "LESS"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "GREATER"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "LESS_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "GREATER_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "STRLESS"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "STRGREATER"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "STREQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "STRLESS_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "STRGREATER_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "VERSION_LESS"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "VERSION_GREATER"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "VERSION_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "VERSION_LESS_EQUAL"
-                                },
-                                {
-                                  "type": "STRING",
-                                  "value": "VERSION_GREATER_EQUAL"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "BLANK"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  }
+                  "type": "STRING",
+                  "value": "1"
+                },
+                {
+                  "type": "STRING",
+                  "value": "ON"
+                },
+                {
+                  "type": "STRING",
+                  "value": "YES"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TRUE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "Y"
+                },
+                {
+                  "type": "STRING",
+                  "value": "0"
+                },
+                {
+                  "type": "STRING",
+                  "value": "OFF"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NO"
+                },
+                {
+                  "type": "STRING",
+                  "value": "FALSE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "N"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IGNORE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NOTFOUND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NOT"
+                },
+                {
+                  "type": "STRING",
+                  "value": "AND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "OR"
+                },
+                {
+                  "type": "STRING",
+                  "value": "COMMAND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "POLICY"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TARGET"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TEST"
+                },
+                {
+                  "type": "STRING",
+                  "value": "DEFINED"
+                },
+                {
+                  "type": "STRING",
+                  "value": "CACHE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "ENV"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IN_LIST"
+                },
+                {
+                  "type": "STRING",
+                  "value": "EXISTS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_NEWER_THAN"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_DIRECTORY"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_SYMLINK"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_ABSOLUTE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "MATCHES"
+                },
+                {
+                  "type": "STRING",
+                  "value": "LESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "GREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "LESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "GREATER_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRLESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRGREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STREQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRLESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRGREATER_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_LESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_GREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_LESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_GREATER_EQUAL"
                 }
               ]
             },
@@ -2102,6 +1650,39 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "if_condition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "if_command"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_command_invocation"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "elseif_command"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "else_command"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "endif_command"
         }
       ]
     },
@@ -2282,6 +1863,716 @@
         }
       ]
     },
+    "foreach_loop": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "foreach_command"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_command_invocation"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "endforeach_command"
+        }
+      ]
+    },
+    "while_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "while"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[ \\t]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\n+"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "argument"
+                },
+                {
+                  "type": "STRING",
+                  "value": "1"
+                },
+                {
+                  "type": "STRING",
+                  "value": "ON"
+                },
+                {
+                  "type": "STRING",
+                  "value": "YES"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TRUE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "Y"
+                },
+                {
+                  "type": "STRING",
+                  "value": "0"
+                },
+                {
+                  "type": "STRING",
+                  "value": "OFF"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NO"
+                },
+                {
+                  "type": "STRING",
+                  "value": "FALSE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "N"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IGNORE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NOTFOUND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NOT"
+                },
+                {
+                  "type": "STRING",
+                  "value": "AND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "OR"
+                },
+                {
+                  "type": "STRING",
+                  "value": "COMMAND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "POLICY"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TARGET"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TEST"
+                },
+                {
+                  "type": "STRING",
+                  "value": "DEFINED"
+                },
+                {
+                  "type": "STRING",
+                  "value": "CACHE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "ENV"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IN_LIST"
+                },
+                {
+                  "type": "STRING",
+                  "value": "EXISTS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_NEWER_THAN"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_DIRECTORY"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_SYMLINK"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_ABSOLUTE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "MATCHES"
+                },
+                {
+                  "type": "STRING",
+                  "value": "LESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "GREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "LESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "GREATER_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRLESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRGREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STREQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRLESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRGREATER_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_LESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_GREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_LESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_GREATER_EQUAL"
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "PREC_LEFT",
+                "value": 0,
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "REPEAT1",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "[ \\t]+"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "\\n+"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "argument"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "1"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "ON"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "YES"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "TRUE"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "Y"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "0"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "OFF"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "NO"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "FALSE"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "N"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "IGNORE"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "NOTFOUND"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "NOT"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "AND"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "OR"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "COMMAND"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "POLICY"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "TARGET"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "TEST"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "DEFINED"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "CACHE"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "ENV"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "IN_LIST"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "EXISTS"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "IS_NEWER_THAN"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "IS_DIRECTORY"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "IS_SYMLINK"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "IS_ABSOLUTE"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "MATCHES"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "LESS"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "GREATER"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "EQUAL"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "LESS_EQUAL"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "GREATER_EQUAL"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "STRLESS"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "STRGREATER"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "STREQUAL"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "STRLESS_EQUAL"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "STRGREATER_EQUAL"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "VERSION_LESS"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "VERSION_GREATER"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "VERSION_EQUAL"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "VERSION_LESS_EQUAL"
+                            },
+                            {
+                              "type": "STRING",
+                              "value": "VERSION_GREATER_EQUAL"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "endwhile_command": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "endwhile"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[ \\t]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\n+"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "argument"
+                },
+                {
+                  "type": "STRING",
+                  "value": "1"
+                },
+                {
+                  "type": "STRING",
+                  "value": "ON"
+                },
+                {
+                  "type": "STRING",
+                  "value": "YES"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TRUE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "Y"
+                },
+                {
+                  "type": "STRING",
+                  "value": "0"
+                },
+                {
+                  "type": "STRING",
+                  "value": "OFF"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NO"
+                },
+                {
+                  "type": "STRING",
+                  "value": "FALSE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "N"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IGNORE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NOTFOUND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "NOT"
+                },
+                {
+                  "type": "STRING",
+                  "value": "AND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "OR"
+                },
+                {
+                  "type": "STRING",
+                  "value": "COMMAND"
+                },
+                {
+                  "type": "STRING",
+                  "value": "POLICY"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TARGET"
+                },
+                {
+                  "type": "STRING",
+                  "value": "TEST"
+                },
+                {
+                  "type": "STRING",
+                  "value": "DEFINED"
+                },
+                {
+                  "type": "STRING",
+                  "value": "CACHE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "ENV"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IN_LIST"
+                },
+                {
+                  "type": "STRING",
+                  "value": "EXISTS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_NEWER_THAN"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_DIRECTORY"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_SYMLINK"
+                },
+                {
+                  "type": "STRING",
+                  "value": "IS_ABSOLUTE"
+                },
+                {
+                  "type": "STRING",
+                  "value": "MATCHES"
+                },
+                {
+                  "type": "STRING",
+                  "value": "LESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "GREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "LESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "GREATER_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRLESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRGREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STREQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRLESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "STRGREATER_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_LESS"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_GREATER"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_LESS_EQUAL"
+                },
+                {
+                  "type": "STRING",
+                  "value": "VERSION_GREATER_EQUAL"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "while_loop": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "while_command"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_command_invocation"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "endwhile_command"
+        }
+      ]
+    },
     "normal_command": {
       "type": "SEQ",
       "members": [
@@ -2372,59 +2663,6 @@
         }
       ]
     },
-    "foreach_loop": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "foreach_command"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_command_invocation"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "endforeach_command"
-        }
-      ]
-    },
-    "if_condition": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "if_command"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_command_invocation"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "elseif_command"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "else_command"
-              }
-            ]
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "endif_command"
-        }
-      ]
-    },
     "_command_invocation": {
       "type": "CHOICE",
       "members": [
@@ -2439,6 +2677,10 @@
         {
           "type": "SYMBOL",
           "name": "foreach_loop"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "while_loop"
         }
       ]
     },
@@ -2465,6 +2707,14 @@
     "endforeach": {
       "type": "PATTERN",
       "value": "[eE][nN][dD][fF][oO][rR][eE][aA][cC][hH]"
+    },
+    "while": {
+      "type": "PATTERN",
+      "value": "[wW][hH][iI][lL][eE]"
+    },
+    "endwhile": {
+      "type": "PATTERN",
+      "value": "[eE][nN][dD][wW][hH][iI][lL][eE]"
     },
     "identifier": {
       "type": "PATTERN",

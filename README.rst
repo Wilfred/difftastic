@@ -10,8 +10,8 @@ TODO
 
 - Control structures
 
-  - if()/elseif()/else()endif()
-  - foreach()/endforeach()
+  - if()/elseif()/else()endif() [DONE]
+  - foreach()/endforeach() [DONE]
   - while()/endwhile()
 
 - Command definitions
