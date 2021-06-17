@@ -6300,21 +6300,25 @@
           "value": "{{"
         },
         {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PREC",
-            "value": 1,
-            "content": {
-              "type": "PATTERN",
-              "value": "[^{\"\\\\\\n]+"
-            }
-          }
+          "type": "SYMBOL",
+          "name": "_interpolated_string_text_fragment"
         },
         {
           "type": "SYMBOL",
           "name": "escape_sequence"
         }
       ]
+    },
+    "_interpolated_string_text_fragment": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^{\"\\\\\\n]+"
+        }
+      }
     },
     "interpolated_verbatim_string_text": {
       "type": "CHOICE",
@@ -8755,15 +8759,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "IMMEDIATE_TOKEN",
-                "content": {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[^\"\\\\\\n]+"
-                  }
-                }
+                "type": "SYMBOL",
+                "name": "_string_literal_fragment"
               },
               {
                 "type": "SYMBOL",
@@ -8777,6 +8774,17 @@
           "value": "\""
         }
       ]
+    },
+    "_string_literal_fragment": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^\"\\\\\\n]+"
+        }
+      }
     },
     "verbatim_string_literal": {
       "type": "TOKEN",
