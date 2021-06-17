@@ -6,8 +6,8 @@ message("")
 
 ---
 (source_file
- (normal_command
-  (identifier)
+ (message_command
+  (message)
   (argument (quoted_argument))
  )
  )
@@ -20,8 +20,8 @@ message("An argument")
 
 ---
 (source_file
- (normal_command
-  (identifier)
+ (message_command
+  (message)
   (argument (quoted_argument (quoted_element)))
  )
  )
@@ -34,8 +34,8 @@ message("First argument" "Second argument")
 
 ---
 (source_file
- (normal_command
-  (identifier)
+ (message_command
+  (message)
   (argument (quoted_argument (quoted_element)))
   (argument (quoted_argument (quoted_element)))
  )
@@ -50,8 +50,8 @@ with line break")
 
 ---
 (source_file
- (normal_command
-  (identifier)
+ (message_command
+  (message)
   (argument (quoted_argument (quoted_element)))
  )
  )
@@ -64,8 +64,8 @@ message("${var}")
 
 ---
 (source_file
- (normal_command
-  (identifier)
+ (message_command
+  (message)
   (argument
    (quoted_argument
     (quoted_element
@@ -84,8 +84,8 @@ message("${var} ${var}")
 
 ---
 (source_file
- (normal_command
-  (identifier)
+ (message_command
+  (message)
   (argument
    (quoted_argument
     (quoted_element

@@ -7,9 +7,8 @@ message(STATUS)
 ---
 
 (source_file
- (normal_command
-  (identifier)
-  (argument (unquoted_argument))
+ (message_command
+  (message)
  )
  )
 
@@ -22,9 +21,8 @@ message(STATUS Hello)
 ---
 
 (source_file
- (normal_command
-  (identifier)
-  (argument (unquoted_argument))
+ (message_command
+  (message)
   (argument (unquoted_argument))
  )
  )
@@ -39,14 +37,8 @@ STATUS)
 ---
 
 (source_file
- (normal_command
-  (identifier)
-  (argument (unquoted_argument))
- )
- (normal_command
-  (identifier)
-  (argument (unquoted_argument))
- )
+ (message_command (message))
+ (message_command (message))
  )
 ============================================================
 Command invocations with escape sequence [unquoted_argument]
@@ -58,14 +50,8 @@ STATUS)
 ---
 
 (source_file
- (normal_command
-  (identifier)
-  (argument (unquoted_argument))
- )
- (normal_command
-  (identifier)
-  (argument (unquoted_argument))
- )
+ (message_command (message))
+ (message_command (message))
  )
 
 ========================================
@@ -75,8 +61,8 @@ message(${var_ref})
 ---
 
 (source_file
- (normal_command
-  (identifier)
+ (message_command
+  (message)
   (argument
    (unquoted_argument
     (variable_ref (normal_var (variable)))

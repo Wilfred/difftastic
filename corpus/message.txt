@@ -1,0 +1,43 @@
+=====================
+No argument [message]
+=====================
+
+message()
+
+---
+
+(source_file
+ (message_command
+  (message)
+ )
+ )
+
+=================================
+No argument with spaces [message]
+=================================
+
+message( )
+
+---
+
+(source_file
+ (message_command
+  (message)
+ )
+ )
+
+===============================================
+Message without argument with newline [message]
+===============================================
+
+message(
+
+)
+
+---
+
+(source_file
+ (message_command
+  (message)
+ )
+ )

@@ -1,3 +1,18 @@
+commands = [
+  "if",
+  "elseif",
+  "else",
+  "endif",
+  "foreach",
+  "endforeach",
+  "while",
+  "endwhile",
+  "function",
+  "endfunction",
+  "macro",
+  "endmacro",
+  "message",
+];
 if_args = [
   "1",
   "ON",
@@ -45,6 +60,22 @@ if_args = [
   "VERSION_GREATER_EQUAL",
 ];
 foreach_args = ["IN", "RANGE", "ZIP_LISTS", "LISTS", "ITEMS"];
+message_args = [
+  "FATAL_ERROR",
+  "SEND_ERROR",
+  "WARNING",
+  "AUTHOR_WARNING",
+  "DEPRECATION",
+  "NOTICE",
+  "STATUS",
+  "VERBOSE",
+  "DEBUG",
+  "TRACE",
+  "CHECK_START",
+  "CHECK_PASS",
+  "CHECK_FAIL",
+];
+
 module.exports = grammar({
   name: "cmake",
 
@@ -89,11 +120,30 @@ module.exports = grammar({
     endwhile_command: ($) => command($.endwhile, optional(choice($.argument, ...if_args))),
     while_loop: ($) => seq($.while_command, repeat($._command_invocation), $.endwhile_command),
 
+    function_command: ($) => command($.function, args($.argument)),
+    endfunction_command: ($) => command($.endfunction, args($.argument)),
+    function_def: ($) => seq($.function_command, repeat($._command_invocation), $.endfunction_command),
+
+    macro_command: ($) => command($.macro, args($.argument)),
+    endmacro_command: ($) => command($.endmacro, args($.argument)),
+    macro_def: ($) => seq($.macro_command, repeat($._command_invocation), $.endmacro_command),
+
+    message_command: ($) => command($.message, optional(args(choice($.argument, ...message_args)))),
+
     normal_command: ($) => command($.identifier, optional(args($.argument))),
 
-    _command_invocation: ($) => choice($.normal_command, $.if_condition, $.foreach_loop, $.while_loop),
+    _command_invocation: ($) =>
+      choice(
+        $.normal_command,
+        $.if_condition,
+        $.foreach_loop,
+        $.while_loop,
+        $.function_def,
+        $.macro_def,
+        $.message_command
+      ),
 
-    ...commandNames("if", "elseif", "else", "endif", "foreach", "endforeach", "while", "endwhile"),
+    ...commandNames(...commands),
     identifier: (_) => /[A-Za-z_][A-Za-z0-9_]*/,
     integer: (_) => /[+-]*\d+/,
   },

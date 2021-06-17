@@ -115,6 +115,25 @@
     }
   },
   {
+    "type": "endfunction_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "endfunction",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "endif_command",
     "named": true,
     "fields": {},
@@ -128,6 +147,25 @@
         },
         {
           "type": "endif",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "endmacro_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "endmacro",
           "named": true
         }
       ]
@@ -212,7 +250,85 @@
           "named": true
         },
         {
+          "type": "function_def",
+          "named": true
+        },
+        {
           "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "macro_def",
+          "named": true
+        },
+        {
+          "type": "message_command",
+          "named": true
+        },
+        {
+          "type": "normal_command",
+          "named": true
+        },
+        {
+          "type": "while_loop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_def",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "endfunction_command",
+          "named": true
+        },
+        {
+          "type": "foreach_loop",
+          "named": true
+        },
+        {
+          "type": "function_command",
+          "named": true
+        },
+        {
+          "type": "function_def",
+          "named": true
+        },
+        {
+          "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "macro_def",
+          "named": true
+        },
+        {
+          "type": "message_command",
           "named": true
         },
         {
@@ -270,6 +386,10 @@
           "named": true
         },
         {
+          "type": "function_def",
+          "named": true
+        },
+        {
           "type": "if_command",
           "named": true
         },
@@ -278,11 +398,104 @@
           "named": true
         },
         {
+          "type": "macro_def",
+          "named": true
+        },
+        {
+          "type": "message_command",
+          "named": true
+        },
+        {
           "type": "normal_command",
           "named": true
         },
         {
           "type": "while_loop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "macro_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "macro",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "macro_def",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "endmacro_command",
+          "named": true
+        },
+        {
+          "type": "foreach_loop",
+          "named": true
+        },
+        {
+          "type": "function_def",
+          "named": true
+        },
+        {
+          "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "macro_command",
+          "named": true
+        },
+        {
+          "type": "macro_def",
+          "named": true
+        },
+        {
+          "type": "message_command",
+          "named": true
+        },
+        {
+          "type": "normal_command",
+          "named": true
+        },
+        {
+          "type": "while_loop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "message_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "message",
           "named": true
         }
       ]
@@ -369,7 +582,19 @@
           "named": true
         },
         {
+          "type": "function_def",
+          "named": true
+        },
+        {
           "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "macro_def",
+          "named": true
+        },
+        {
+          "type": "message_command",
           "named": true
         },
         {
@@ -476,7 +701,19 @@
           "named": true
         },
         {
+          "type": "function_def",
+          "named": true
+        },
+        {
           "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "macro_def",
+          "named": true
+        },
+        {
+          "type": "message_command",
           "named": true
         },
         {
@@ -535,7 +772,23 @@
     "named": false
   },
   {
+    "type": "AUTHOR_WARNING",
+    "named": false
+  },
+  {
     "type": "CACHE",
+    "named": false
+  },
+  {
+    "type": "CHECK_FAIL",
+    "named": false
+  },
+  {
+    "type": "CHECK_PASS",
+    "named": false
+  },
+  {
+    "type": "CHECK_START",
     "named": false
   },
   {
@@ -543,7 +796,15 @@
     "named": false
   },
   {
+    "type": "DEBUG",
+    "named": false
+  },
+  {
     "type": "DEFINED",
+    "named": false
+  },
+  {
+    "type": "DEPRECATION",
     "named": false
   },
   {
@@ -560,6 +821,10 @@
   },
   {
     "type": "FALSE",
+    "named": false
+  },
+  {
+    "type": "FATAL_ERROR",
     "named": false
   },
   {
@@ -635,6 +900,10 @@
     "named": false
   },
   {
+    "type": "NOTICE",
+    "named": false
+  },
+  {
     "type": "OFF",
     "named": false
   },
@@ -652,6 +921,14 @@
   },
   {
     "type": "RANGE",
+    "named": false
+  },
+  {
+    "type": "SEND_ERROR",
+    "named": false
+  },
+  {
+    "type": "STATUS",
     "named": false
   },
   {
@@ -683,7 +960,15 @@
     "named": false
   },
   {
+    "type": "TRACE",
+    "named": false
+  },
+  {
     "type": "TRUE",
+    "named": false
+  },
+  {
+    "type": "VERBOSE",
     "named": false
   },
   {
@@ -704,6 +989,10 @@
   },
   {
     "type": "VERSION_LESS_EQUAL",
+    "named": false
+  },
+  {
+    "type": "WARNING",
     "named": false
   },
   {
@@ -755,7 +1044,15 @@
     "named": true
   },
   {
+    "type": "endfunction",
+    "named": true
+  },
+  {
     "type": "endif",
+    "named": true
+  },
+  {
+    "type": "endmacro",
     "named": true
   },
   {
@@ -767,11 +1064,23 @@
     "named": true
   },
   {
+    "type": "function",
+    "named": true
+  },
+  {
     "type": "identifier",
     "named": true
   },
   {
     "type": "if",
+    "named": true
+  },
+  {
+    "type": "macro",
+    "named": true
+  },
+  {
+    "type": "message",
     "named": true
   },
   {
