@@ -1,14 +1,11 @@
 use crate::lines::NewlinePositions;
-use crate::positions::Span;
+use crate::positions::SingleLineSpan;
 use crate::tree_diff::{AtomKind, Node};
 use regex::Regex;
 use std::fs;
 use toml;
 use toml::Value;
 use typed_arena::Arena;
-
-#[cfg(test)]
-use crate::positions::SingleLineSpan;
 
 pub fn read_or_die(path: &str) -> String {
     match fs::read_to_string(path) {
@@ -114,13 +111,9 @@ fn parse_from<'a>(
         for pattern in &lang.comment_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 assert_eq!(m.start(), 0);
-                let position = Span {
-                    start: state.str_i,
-                    end: state.str_i + m.end(),
-                };
                 let atom = Node::new_atom(
                     arena,
-                    position.to_line_spans(nl_pos),
+                    nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
                     AtomKind::Comment,
                 );
@@ -133,13 +126,9 @@ fn parse_from<'a>(
         for pattern in &lang.atom_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 assert_eq!(m.start(), 0);
-                let position = Span {
-                    start: state.str_i,
-                    end: state.str_i + m.end(),
-                };
                 let atom = Node::new_atom(
                     arena,
-                    position.to_line_spans(nl_pos),
+                    nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
                     AtomKind::Other,
                 );
@@ -152,13 +141,9 @@ fn parse_from<'a>(
         for pattern in &lang.string_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 assert_eq!(m.start(), 0);
-                let position = Span {
-                    start: state.str_i,
-                    end: state.str_i + m.end(),
-                };
                 let atom = Node::new_atom(
                     arena,
-                    position.to_line_spans(nl_pos),
+                    nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
                     AtomKind::String,
                 );
@@ -175,23 +160,17 @@ fn parse_from<'a>(
             let children = parse_from(arena, s, nl_pos, lang, state);
             let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
                 "UNCLOSED".into(),
-                Span {
-                    start: state.str_i,
-                    end: state.str_i + 1,
-                },
+                nl_pos.from_offsets(state.str_i, state.str_i + 1),
             ));
 
-            let open_pos = Span {
-                start,
-                end: start + m.end(),
-            };
+            let open_pos = nl_pos.from_offsets(start, start + m.end());
             let items = Node::new_list(
                 arena,
                 m.as_str(),
-                open_pos.to_line_spans(nl_pos),
+                open_pos,
                 children,
                 &close_brace,
-                close_pos.to_line_spans(nl_pos),
+                close_pos,
             );
             result.push(items);
             continue;
@@ -200,10 +179,7 @@ fn parse_from<'a>(
         if let Some(m) = lang.close_delimiter_pattern.find(&s[state.str_i..]) {
             state.close_brace = Some((
                 m.as_str().into(),
-                Span {
-                    start: state.str_i,
-                    end: state.str_i + m.end(),
-                },
+                nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
             ));
             state.str_i += m.end();
             return result;
@@ -217,7 +193,7 @@ fn parse_from<'a>(
 #[derive(Debug, Clone)]
 struct ParseState {
     str_i: usize,
-    close_brace: Option<(String, Span)>,
+    close_brace: Option<(String, Vec<SingleLineSpan>)>,
 }
 
 impl ParseState {
