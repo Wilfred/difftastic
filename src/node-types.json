@@ -58,6 +58,44 @@
     }
   },
   {
+    "type": "else_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "else",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "elseif_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "elseif",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "endforeach_command",
     "named": true,
     "fields": {},
@@ -71,6 +109,25 @@
         },
         {
           "type": "endforeach",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "endif_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "endif",
           "named": true
         }
       ]
@@ -133,6 +190,68 @@
         },
         {
           "type": "foreach_loop",
+          "named": true
+        },
+        {
+          "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "normal_command",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "if_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "if_condition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "else_command",
+          "named": true
+        },
+        {
+          "type": "elseif_command",
+          "named": true
+        },
+        {
+          "type": "endif_command",
+          "named": true
+        },
+        {
+          "type": "foreach_loop",
+          "named": true
+        },
+        {
+          "type": "if_command",
+          "named": true
+        },
+        {
+          "type": "if_condition",
           "named": true
         },
         {
@@ -220,6 +339,10 @@
       "types": [
         {
           "type": "foreach_loop",
+          "named": true
+        },
+        {
+          "type": "if_condition",
           "named": true
         },
         {
@@ -311,7 +434,59 @@
     "named": false
   },
   {
+    "type": "0",
+    "named": false
+  },
+  {
+    "type": "1",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "AND",
+    "named": false
+  },
+  {
+    "type": "CACHE",
+    "named": false
+  },
+  {
+    "type": "COMMAND",
+    "named": false
+  },
+  {
+    "type": "DEFINED",
+    "named": false
+  },
+  {
+    "type": "ENV",
+    "named": false
+  },
+  {
+    "type": "EQUAL",
+    "named": false
+  },
+  {
+    "type": "EXISTS",
+    "named": false
+  },
+  {
+    "type": "FALSE",
+    "named": false
+  },
+  {
+    "type": "GREATER",
+    "named": false
+  },
+  {
+    "type": "GREATER_EQUAL",
+    "named": false
+  },
+  {
+    "type": "IGNORE",
     "named": false
   },
   {
@@ -319,7 +494,35 @@
     "named": false
   },
   {
+    "type": "IN_LIST",
+    "named": false
+  },
+  {
+    "type": "IS_ABSOLUTE",
+    "named": false
+  },
+  {
+    "type": "IS_DIRECTORY",
+    "named": false
+  },
+  {
+    "type": "IS_NEWER_THAN",
+    "named": false
+  },
+  {
+    "type": "IS_SYMLINK",
+    "named": false
+  },
+  {
     "type": "ITEMS",
+    "named": false
+  },
+  {
+    "type": "LESS",
+    "named": false
+  },
+  {
+    "type": "LESS_EQUAL",
     "named": false
   },
   {
@@ -327,7 +530,103 @@
     "named": false
   },
   {
+    "type": "MATCHES",
+    "named": false
+  },
+  {
+    "type": "N",
+    "named": false
+  },
+  {
+    "type": "NO",
+    "named": false
+  },
+  {
+    "type": "NOT",
+    "named": false
+  },
+  {
+    "type": "NOTFOUND",
+    "named": false
+  },
+  {
+    "type": "OFF",
+    "named": false
+  },
+  {
+    "type": "ON",
+    "named": false
+  },
+  {
+    "type": "OR",
+    "named": false
+  },
+  {
+    "type": "POLICY",
+    "named": false
+  },
+  {
     "type": "RANGE",
+    "named": false
+  },
+  {
+    "type": "STREQUAL",
+    "named": false
+  },
+  {
+    "type": "STRGREATER",
+    "named": false
+  },
+  {
+    "type": "STRGREATER_EQUAL",
+    "named": false
+  },
+  {
+    "type": "STRLESS",
+    "named": false
+  },
+  {
+    "type": "STRLESS_EQUAL",
+    "named": false
+  },
+  {
+    "type": "TARGET",
+    "named": false
+  },
+  {
+    "type": "TEST",
+    "named": false
+  },
+  {
+    "type": "TRUE",
+    "named": false
+  },
+  {
+    "type": "VERSION_EQUAL",
+    "named": false
+  },
+  {
+    "type": "VERSION_GREATER",
+    "named": false
+  },
+  {
+    "type": "VERSION_GREATER_EQUAL",
+    "named": false
+  },
+  {
+    "type": "VERSION_LESS",
+    "named": false
+  },
+  {
+    "type": "VERSION_LESS_EQUAL",
+    "named": false
+  },
+  {
+    "type": "Y",
+    "named": false
+  },
+  {
+    "type": "YES",
     "named": false
   },
   {
@@ -359,7 +658,19 @@
     "named": false
   },
   {
+    "type": "else",
+    "named": true
+  },
+  {
+    "type": "elseif",
+    "named": true
+  },
+  {
     "type": "endforeach",
+    "named": true
+  },
+  {
+    "type": "endif",
     "named": true
   },
   {
@@ -368,6 +679,10 @@
   },
   {
     "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "if",
     "named": true
   },
   {
