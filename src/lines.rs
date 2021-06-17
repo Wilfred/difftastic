@@ -523,35 +523,6 @@ impl NewlinePositions {
         }
         res
     }
-
-    pub fn from_offset(self: &NewlinePositions, offset: usize) -> LinePosition {
-        for line_num in (0..self.positions.len()).rev() {
-            if offset >= self.positions[line_num] {
-                return LinePosition {
-                    line: line_num.into(),
-                    column: offset - self.positions[line_num],
-                };
-            }
-        }
-
-        LinePosition {
-            line: 0.into(),
-            column: offset,
-        }
-    }
-}
-
-#[test]
-fn from_offset_newline_boundary() {
-    let newline_positions = NewlinePositions::from("abc\nbar");
-    let position = newline_positions.from_offset(4);
-    assert_eq!(
-        position,
-        LinePosition {
-            line: 1.into(),
-            column: 0
-        }
-    );
 }
 
 #[test]
