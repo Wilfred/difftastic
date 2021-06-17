@@ -56,7 +56,6 @@ void print_debug_info(Scanner *scanner, TSLexer *lexer, const bool *valid_symbol
   printf("\nDEBUG INFO END\n\n");
 }
 
-// some helpers to keep track of template depth
 void scanner_enter_interpolation_context(Scanner *scanner) {
   scanner->template_interpolation_depth++;
   scanner->in_template_interpolation = true;
@@ -78,7 +77,6 @@ void scanner_enter_quoted_context(Scanner *scanner) {
 void scanner_exit_quoted_context(Scanner *scanner) {
   scanner->quoted_context_depth--;
   scanner->in_quoted_context = false;
-  // check if we are reentering a nested template interpolation
   if (scanner->template_interpolation_depth > 0) {
     scanner->in_template_interpolation = true;
   }
@@ -102,6 +100,7 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
   }
   while (iswspace(lexer->lookahead) && !scanner->in_quoted_context) skip(lexer);
 
+
   // manage quoted context
   if (valid_symbols[QUOTED_TEMPLATE_START] && lexer->lookahead == '"') {
     scanner_enter_quoted_context(scanner);
@@ -112,6 +111,8 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     return accept_and_advance(lexer, QUOTED_TEMPLATE_END);
   }
 
+
+  // manage template interpolations
   if (valid_symbols[TEMPLATE_INTERPOLATION_START] && lexer->lookahead == '$') {
     advance(lexer);
     if (lexer->lookahead == '{') {
@@ -130,11 +131,11 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
       return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
   }
-
   if (valid_symbols[TEMPLATE_INTERPOLATION_END] && lexer->lookahead == '}') {
     scanner_exit_interpolation_context(scanner);
     return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_END);
   }
+
 
   // handle escape sequences in direct surrounding quoted contexts
   if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && scanner->in_quoted_context) {
