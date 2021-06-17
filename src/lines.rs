@@ -9,8 +9,6 @@ const MAX_GAP: usize = 1;
 const MIN_WIDTH: usize = 35;
 
 #[cfg(test)]
-use crate::positions::Span;
-#[cfg(test)]
 use pretty_assertions::assert_eq;
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -474,6 +472,7 @@ pub struct LinePosition {
 pub struct NewlinePositions {
     /// A vector of the start positions of all the lines in `s`.
     positions: Vec<usize>,
+    str_length: usize,
 }
 
 impl From<&str> for NewlinePositions {
@@ -482,11 +481,49 @@ impl From<&str> for NewlinePositions {
         let mut positions: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
         positions.insert(0, 0);
 
-        NewlinePositions { positions }
+        NewlinePositions {
+            positions,
+            str_length: s.len(),
+        }
     }
 }
 
 impl NewlinePositions {
+    /// Convert to single-line spans. If the original span crosses a
+    /// newline, the vec will contain multiple items.
+    pub fn from_offsets(&self, region_start: usize, region_end: usize) -> Vec<SingleLineSpan> {
+        let mut res = vec![];
+        for (line_num, line_start) in self.positions.iter().enumerate() {
+            let line_end = match self.positions.get(line_num + 1) {
+                // TODO: this assumes lines terminate with \n, not \r\n.
+                Some(v) => *v - 1,
+                None => self.str_length,
+            };
+
+            if region_start > line_end {
+                continue;
+            }
+            if *line_start >= region_end {
+                break;
+            }
+
+            res.push(SingleLineSpan {
+                line: line_num.into(),
+                start_col: if *line_start > region_start {
+                    0
+                } else {
+                    region_start - line_start
+                },
+                end_col: if region_end < line_end {
+                    region_end - line_start
+                } else {
+                    line_end - line_start
+                },
+            });
+        }
+        res
+    }
+
     pub fn from_offset(self: &NewlinePositions, offset: usize) -> LinePosition {
         for line_num in (0..self.positions.len()).rev() {
             if offset >= self.positions[line_num] {
@@ -501,54 +538,6 @@ impl NewlinePositions {
             line: 0.into(),
             column: offset,
         }
-    }
-
-    // Given a range within a string, split it into ranges where each
-    // range is on a single line.
-    pub fn split_line_boundaries(
-        self: &NewlinePositions,
-        start: LinePosition,
-        end: LinePosition,
-    ) -> Vec<SingleLineSpan> {
-        let mut res = vec![];
-
-        if start.line == end.line {
-            res.push(SingleLineSpan {
-                line: start.line,
-                start_col: start.column,
-                end_col: end.column,
-            });
-            return res;
-        } else {
-            let first_line_end_pos = self.positions[start.line.number + 1] - 1;
-            let first_line_length = first_line_end_pos - self.positions[start.line.number];
-            res.push(SingleLineSpan {
-                line: start.line,
-                start_col: start.column,
-                end_col: first_line_length,
-            });
-        }
-
-        for line_num in (start.line.number + 1)..end.line.number {
-            let line_end_pos = self.positions[line_num + 1] - 1;
-            let line_length = line_end_pos - self.positions[line_num];
-            res.push(SingleLineSpan {
-                line: line_num.into(),
-                start_col: 0,
-                end_col: line_length,
-            });
-        }
-
-        // Last line, up to end.
-        if end.column > 0 {
-            res.push(SingleLineSpan {
-                line: end.line,
-                start_col: 0,
-                end_col: end.column,
-            });
-        }
-
-        res
     }
 }
 
@@ -568,8 +557,7 @@ fn from_offset_newline_boundary() {
 #[test]
 fn from_ranges_first_line() {
     let newline_positions: NewlinePositions = "foo".into();
-    let pos = Span { start: 1, end: 3 };
-    let line_spans = pos.to_line_spans(&newline_positions);
+    let line_spans = newline_positions.from_offsets(1, 3);
     assert_eq!(
         line_spans,
         vec![SingleLineSpan {
@@ -583,8 +571,7 @@ fn from_ranges_first_line() {
 #[test]
 fn from_ranges_split_over_multiple_lines() {
     let newline_positions: NewlinePositions = "foo\nbar\nbaz\naaaaaaaaaaa".into();
-    let pos = Span { start: 5, end: 10 };
-    let line_spans = pos.to_line_spans(&newline_positions);
+    let line_spans = newline_positions.from_offsets(5, 10);
 
     assert_eq!(
         line_spans,
