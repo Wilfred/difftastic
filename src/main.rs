@@ -83,7 +83,7 @@ fn main() {
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     for group in &mut groups {
-        group.pad(1);
+        group.pad(3);
     }
     groups = join_overlapping(groups);
 
