@@ -20,7 +20,7 @@ module.exports = grammar({
     [$.object_elem, $.variable_expr],
     [$.attr_splat],
     [$.full_splat],
-    [$.conditional],
+    // string literals are just quoted template without template stuff
     [$.string_lit, $.quoted_template],
   ],
 
@@ -215,13 +215,13 @@ module.exports = grammar({
 
     ellipsis: $ => token('...'),
 
-    conditional: $ => seq(
+    conditional: $ => prec.left(seq(
       $.expression,
       '?',
       $.expression,
       ':',
       $.expression,
-    ),
+    )),
 
     operation: $ => choice($.unary_operation, $.binary_operation),
 
