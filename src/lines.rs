@@ -178,14 +178,28 @@ impl LineGroup {
     }
 
     fn add_lhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
-        let current_lowest = self.lhs_lines.first().map(|ln| ln.number).unwrap_or(0);
         let new_highest = line_spans.last().map(|ln| ln.line.number).unwrap_or(0);
-        self.lhs_lines = (current_lowest..=new_highest).map(|i| i.into()).collect();
+        match self.lhs_lines.first().map(|ln| ln.number) {
+            Some(current_lowest) => {
+                self.lhs_lines = (current_lowest..=new_highest).map(|i| i.into()).collect();
+            }
+            None => {
+                let new_lowest = line_spans.last().map(|ln| ln.line.number).unwrap_or(0);
+                self.lhs_lines = (new_lowest..=new_highest).map(|i| i.into()).collect();
+            }
+        }
     }
     fn add_rhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
-        let current_lowest = self.rhs_lines.first().map(|ln| ln.number).unwrap_or(0);
-        let new_highest = line_spans.last().map(|ln| ln.line.number).unwrap_or(0);
-        self.rhs_lines = (current_lowest..=new_highest).map(|i| i.into()).collect();
+        let new_highest = dbg!(line_spans).last().map(|ln| ln.line.number).unwrap_or(0);
+        match self.rhs_lines.first().map(|ln| ln.number) {
+            Some(current_lowest) => {
+                self.rhs_lines = (current_lowest..=new_highest).map(|i| i.into()).collect();
+            }
+            None => {
+                let new_lowest = line_spans.last().map(|ln| ln.line.number).unwrap_or(0);
+                self.rhs_lines = (new_lowest..=new_highest).map(|i| i.into()).collect();
+            }
+        }
     }
 
     fn add_lhs(&mut self, mp: &MatchedPos) {
