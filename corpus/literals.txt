@@ -657,7 +657,7 @@ class A
               (interpolated_verbatim_string_text))))))))
 
 ==================================================
-interpolated verbatim string with block comment
+interpolated verbatim string containing block comment
 ==================================================
 
 string s = $@"{a}/* comment */{a}";
@@ -678,3 +678,25 @@ string s = $@"{a}/* comment */{a}";
               (interpolated_verbatim_string_text)
               (interpolation
                 (identifier)))))))))
+
+==================================================
+interpolated verbatim string comment with interpolation
+==================================================
+
+var x = $@"/* {world} */";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_verbatim_string_text)
+              (interpolation
+                (identifier))
+              (interpolated_verbatim_string_text))))))))
