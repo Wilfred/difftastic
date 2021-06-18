@@ -1,43 +1,125 @@
-(variable) @variable
-(operator) @operator
-(exp_name (constructor) @constructor)
-(constructor_operator) @operator
-(module) @module_name
-(type) @type
-(type) @class
-(constructor) @constructor
-(pragma) @pragma
+;; ----------------------------------------------------------------------------
+;; Literals and comments
+
+(integer) @number
+(exp_negation) @number
+(exp_literal (float)) @float
+(char) @character
+(string) @string
+
+(con_unit) @symbol  ; unit, as in ()
+
 (comment) @comment
-(signature name: (variable) @fun_type_name)
-(function name: (variable) @fun_name)
-(constraint class: (class_name (type)) @class)
-(class (class_head class: (class_name (type)) @class))
-(instance (instance_head class: (class_name (type)) @class))
-(integer) @literal
-(exp_literal (float)) @literal
-(char) @literal
-(con_unit) @literal
-(con_list) @literal
-(tycon_arrow) @operator
-(where) @keyword
-"module" @keyword
-"let" @keyword
-"in" @keyword
-"class" @keyword
-"instance" @keyword
-"data" @keyword
-"newtype" @keyword
-"family" @keyword
-"type" @keyword
-"import" @keyword
-"qualified" @keyword
-"as" @keyword
-"deriving" @keyword
-"via" @keyword
-"stock" @keyword
-"anyclass" @keyword
-"do" @keyword
-"mdo" @keyword
-"rec" @keyword
-"(" @paren
-")" @paren
+
+
+;; ----------------------------------------------------------------------------
+;; Punctuation
+
+[
+  "("
+  ")"
+  "{"
+  "}"
+  "["
+  "]"
+] @punctuation.bracket
+
+[
+  (comma)
+  ";"
+] @punctuation.delimiter
+
+
+;; ----------------------------------------------------------------------------
+;; Keywords, operators, includes
+
+[
+  "forall"
+  "∀"
+] @repeat
+
+(pragma) @constant.macro
+
+[
+  "if"
+  "then"
+  "else"
+  "case"
+  "of"
+] @conditional
+
+[
+  "import"
+  "qualified"
+  "module"
+] @include
+
+[
+  (operator)
+  (constructor_operator)
+  (type_operator)
+  (tycon_arrow)
+  (qualified_module)  ; grabs the `.` (dot), ex: import System.IO
+  (all_names)
+  (wildcard)
+  "="
+  "|"
+  "::"
+  "=>"
+  "->"
+  "<-"
+  "\\"
+  "`"
+  "@"
+] @operator
+
+(qualified_module (module) @constructor)
+(qualified_type (module) @namespace)
+(qualified_variable (module) @namespace)
+(import (module) @namespace)
+
+[
+  (where)
+  "let"
+  "in"
+  "class"
+  "instance"
+  "data"
+  "newtype"
+  "family"
+  "type"
+  "as"
+  "hiding"
+  "deriving"
+  "via"
+  "stock"
+  "anyclass"
+  "do"
+  "mdo"
+  "rec"
+] @keyword
+
+
+;; ----------------------------------------------------------------------------
+;; Functions and variables
+
+(signature name: (variable) @type)
+(function name: (variable) @function)
+
+(variable) @variable
+"_" @variable.special
+
+(exp_infix (variable) @operator)  ; consider infix functions as operators
+
+("@" @namespace)  ; "as" pattern operator, e.g. x@Constructor
+
+
+;; ----------------------------------------------------------------------------
+;; Types
+
+(type) @type
+
+(constructor) @constructor
+
+; True or False
+((constructor) @_bool (#match? @_bool "(True|False)")) @boolean
