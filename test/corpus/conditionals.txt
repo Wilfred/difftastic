@@ -21,3 +21,38 @@ foo = predicate() ? 1: 2
           (expression
             (literal_value
               (numeric_lit))))))))
+
+================================================================================
+nested conditional expression expression
+================================================================================
+
+foo = ( true ? false : true ) ? "yes" : "no"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (conditional
+          (expression
+            (expression
+              (conditional
+                (expression
+                  (literal_value
+                    (bool_lit)))
+                (expression
+                  (literal_value
+                    (bool_lit)))
+                (expression
+                  (literal_value
+                    (bool_lit))))))
+          (expression
+            (literal_value
+              (string_lit
+                (template_literal))))
+          (expression
+            (literal_value
+              (string_lit
+                (template_literal)))))))))
