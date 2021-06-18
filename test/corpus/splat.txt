@@ -52,9 +52,9 @@ foo = bar.*.foo
         (variable_expr
           (identifier))
         (splat
-          (attr_splat))
-        (get_attr
-          (identifier))))))
+          (attr_splat
+            (get_attr
+              (identifier))))))))
 
 ================================================================================
 full splat
@@ -72,6 +72,36 @@ foo = bar[*].foo
         (variable_expr
           (identifier))
         (splat
+          (full_splat
+            (get_attr
+              (identifier))))))))
+
+================================================================================
+full splat repeated
+================================================================================
+
+foo = bar[*][*].a.b.c[d]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (variable_expr
+          (identifier))
+        (splat
           (full_splat))
-        (get_attr
-          (identifier))))))
+        (splat
+          (full_splat
+            (get_attr
+              (identifier))
+            (get_attr
+              (identifier))
+            (get_attr
+              (identifier))
+            (index
+              (expression
+                (variable_expr
+                  (identifier))))))))))
