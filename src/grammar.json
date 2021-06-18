@@ -414,17 +414,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "expression"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "expression"
         },
         {
           "type": "CHOICE",
@@ -1219,13 +1210,6 @@
     }
   ],
   "conflicts": [
-    [
-      "body"
-    ],
-    [
-      "object_elem",
-      "variable_expr"
-    ],
     [
       "attr_splat"
     ],

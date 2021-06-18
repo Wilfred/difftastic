@@ -16,8 +16,6 @@ module.exports = grammar({
   name: 'hcl',
 
   conflicts: $ => [
-    [$.body],
-    [$.object_elem, $.variable_expr],
     [$.attr_splat],
     [$.full_splat],
     // string literals are just quoted template without template stuff
@@ -136,7 +134,7 @@ module.exports = grammar({
     _object_end: $ => '}',
 
     object_elem: $ => seq(
-      choice($.identifier, $.expression),
+      $.expression,
       choice('=', ':'),
       $.expression,
     ),
