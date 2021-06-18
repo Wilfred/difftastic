@@ -178,28 +178,14 @@ impl LineGroup {
     }
 
     fn add_lhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
-        let current_highest = self
-            .lhs_lines
-            .last()
-            .map(|ln| ln.number as isize)
-            .unwrap_or(-1);
-        for line_span in line_spans {
-            if (line_span.line.number as isize) > current_highest {
-                self.lhs_lines.push(line_span.line);
-            }
-        }
+        let current_lowest = self.lhs_lines.first().map(|ln| ln.number).unwrap_or(0);
+        let new_highest = line_spans.last().map(|ln| ln.line.number).unwrap_or(0);
+        self.lhs_lines = (current_lowest..=new_highest).map(|i| i.into()).collect();
     }
     fn add_rhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
-        let current_highest = self
-            .rhs_lines
-            .last()
-            .map(|ln| ln.number as isize)
-            .unwrap_or(-1);
-        for line_span in line_spans {
-            if (line_span.line.number as isize) > current_highest {
-                self.rhs_lines.push(line_span.line);
-            }
-        }
+        let current_lowest = self.rhs_lines.first().map(|ln| ln.number).unwrap_or(0);
+        let new_highest = line_spans.last().map(|ln| ln.line.number).unwrap_or(0);
+        self.rhs_lines = (current_lowest..=new_highest).map(|i| i.into()).collect();
     }
 
     fn add_lhs(&mut self, mp: &MatchedPos) {
