@@ -118,7 +118,9 @@ foo = "${ {a=b}[a] }"
                 (collection_value
                   (object
                     (object_elem
-                      (identifier)
+                      (expression
+                        (variable_expr
+                          (identifier)))
                       (expression
                         (variable_expr
                           (identifier))))))
