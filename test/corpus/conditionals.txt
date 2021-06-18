@@ -56,3 +56,37 @@ foo = ( true ? false : true ) ? "yes" : "no"
             (literal_value
               (string_lit
                 (template_literal)))))))))
+
+================================================================================
+nested conditional expression expression without parentheses
+================================================================================
+
+foo =  true ? false : true  ? "yes" : "no"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (conditional
+          (expression
+            (conditional
+              (expression
+                (literal_value
+                  (bool_lit)))
+              (expression
+                (literal_value
+                  (bool_lit)))
+              (expression
+                (literal_value
+                  (bool_lit)))))
+          (expression
+            (literal_value
+              (string_lit
+                (template_literal))))
+          (expression
+            (literal_value
+              (string_lit
+                (template_literal)))))))))
