@@ -10,7 +10,7 @@ use typed_arena::Arena;
 
 use crate::lines::{
     apply_groups, enforce_length, format_line_num, join_overlapping, lhs_printable_width,
-    rhs_printable_width, visible_groups,
+    rhs_printable_width, visible_groups, MaxLine,
 };
 use crate::parse::{lang_from_str, parse, read_or_die};
 use crate::style::apply_colors;
@@ -83,7 +83,7 @@ fn main() {
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     for group in &mut groups {
-        group.pad(3);
+        group.pad(3, lhs_src.max_line(), rhs_src.max_line());
     }
     groups = join_overlapping(groups);
 

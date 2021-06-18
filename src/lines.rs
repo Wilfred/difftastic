@@ -42,8 +42,9 @@ impl LineGroup {
         }
     }
 
-    pub fn pad(&mut self, amount: usize) {
+    pub fn pad(&mut self, amount: usize, max_lhs_line: LineNumber, max_rhs_line: LineNumber) {
         if !self.lhs_lines.is_empty() {
+            // Pad before.
             for _ in 0..amount {
                 let current = self.lhs_lines[0].number;
                 if current <= 0 {
@@ -53,9 +54,10 @@ impl LineGroup {
                 self.lhs_lines.insert(0, (current - 1).into());
             }
 
+            // Pad after.
             for _ in 0..amount {
                 let current = self.lhs_lines.last().unwrap().number;
-                if current <= 0 {
+                if current + 1 == max_lhs_line.number {
                     break;
                 }
 
@@ -64,6 +66,7 @@ impl LineGroup {
         }
 
         if !self.rhs_lines.is_empty() {
+            // Pad before.
             for _ in 0..amount {
                 let current = self.rhs_lines[0].number;
                 if current <= 0 {
@@ -73,9 +76,10 @@ impl LineGroup {
                 self.rhs_lines.insert(0, (current - 1).into());
             }
 
+            // Pad after.
             for _ in 0..amount {
                 let current = self.rhs_lines.last().unwrap().number;
-                if current <= 0 {
+                if current + 1 == max_rhs_line.number {
                     break;
                 }
 
@@ -590,4 +594,14 @@ fn enforce_length_short() {
 fn enforce_length_long() {
     let result = enforce_length("foobar\nbarbaz\n", 3);
     assert_eq!(result, "foo\nbar\n");
+}
+
+pub trait MaxLine {
+    fn max_line(&self) -> LineNumber;
+}
+
+impl MaxLine for String {
+    fn max_line(&self) -> LineNumber {
+        self.lines().count().into()
+    }
 }
