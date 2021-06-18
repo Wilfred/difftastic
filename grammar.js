@@ -16,8 +16,6 @@ module.exports = grammar({
   name: 'hcl',
 
   conflicts: $ => [
-    [$.attr_splat],
-    [$.full_splat],
     // string literals are just quoted template without template stuff
     [$.string_lit, $.quoted_template],
   ],
@@ -145,18 +143,15 @@ module.exports = grammar({
 
     splat: $ => choice($.attr_splat, $.full_splat),
 
-    attr_splat: $ => seq(
-      '.',
-      '*',
+    attr_splat: $ => prec.right(seq(
+      '.*',
       repeat($.get_attr),
-    ),
+    )),
 
-    full_splat: $ => seq(
-      '[',
-      '*',
-      ']',
+    full_splat: $ => prec.right(seq(
+      '[*]',
       repeat(choice($.get_attr, $.index)),
-    ),
+    )),
 
     for_expr: $ => choice($.for_tuple_expr, $.for_object_expr),
 
