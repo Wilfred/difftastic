@@ -3,5 +3,6 @@ queries
 package-lock.json
 build
 npm-debug.log
+tree-sitter-hcl.wasm
 .env
 .DS_Store
