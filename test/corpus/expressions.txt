@@ -18,7 +18,7 @@ contract Example {
         (function_definition
          function_name: (identifier)
          body: (function_body 
-            (variable_declaration_statement (variable_declaration (type_name) name: (identifier)))
+            (variable_declaration_statement (variable_declaration (type_name (primitive_type)) name: (identifier)))
             (expression_statement (member_expression object: (identifier) property: (property_identifier))))))))
 
 ====================
@@ -139,7 +139,7 @@ contract Example {
         (function_definition
          function_name: (identifier)
          body: (function_body 
-            (expression_statement (call_expresion 
+            (expression_statement (call_expression 
             (identifier) 
             (identifier))))))))
 
@@ -296,7 +296,8 @@ contract Example {
     (expression_statement (inline_array_expression  (number_literal) (number_literal)))
     (expression_statement (identifier)) 
     (expression_statement (number_literal))
-    (expression_statement (member_expression (identifier) (property_identifier))) (expression_statement))))))
+    (expression_statement (member_expression (identifier) (property_identifier)))
+    (expression_statement (primitive_type)))))))
 
 
 ====================
@@ -337,4 +338,4 @@ contract Example {
 ---
         
 (source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
-    (expression_statement (type_cast_expression (number_literal ))))))))
+    (expression_statement (type_cast_expression (primitive_type) (number_literal ))))))))

@@ -13,7 +13,7 @@ contract StateVariable {
     name: (identifier)
     body: (contract_body 
         (state_variable_declaration 
-            type: (type_name)
+            type: (type_name (primitive_type))
             name: (identifier)))))
 
 ====================
@@ -31,7 +31,7 @@ contract StateVariable {
     name: (identifier)
     body: (contract_body 
         (state_variable_declaration 
-            type: (type_name)
+            type: (type_name (primitive_type))
             name:  (identifier) 
             value: (number_literal)))))
 
@@ -50,7 +50,7 @@ contract StateVariable {
     name: (identifier)
     body: (contract_body 
         (state_variable_declaration 
-            type: (type_name)
+            type: (type_name (primitive_type))
             (override_specifier (identifier) (identifier)) 
             name: (identifier) 
             value: (number_literal)))))

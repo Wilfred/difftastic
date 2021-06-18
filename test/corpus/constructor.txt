@@ -30,7 +30,7 @@ contract Example {
     name: (identifier)
     body: (contract_body 
         (constructor_definition 
-            type: (type_name) name: (identifier)
+            type: (type_name (primitive_type)) name: (identifier)
             type: (type_name (identifier) (identifier)) name: (identifier)
             body: (function_body)))))
 
@@ -50,7 +50,7 @@ contract Example {
     name: (identifier)
     body: (contract_body 
         (constructor_definition 
-            type: (type_name) name: (identifier)
+            type: (type_name (primitive_type)) name: (identifier)
             type: (type_name (identifier) (identifier)) name: (identifier)
             (modifier_invocation (identifier))
             body: (function_body)))))

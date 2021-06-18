@@ -31,4 +31,4 @@ contract Example {
     body: (contract_body 
       (using_directive 
         (type_alias (identifier) (identifier))
-        source: (type_name)))))
+        source: (type_name (primitive_type))))))

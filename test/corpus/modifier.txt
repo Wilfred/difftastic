@@ -31,7 +31,7 @@ contract Example {
     body: (contract_body 
         (modifier_definition 
             name: (identifier)
-            type: (type_name)
+            type: (type_name (primitive_type))
             name: (identifier)
             body: (function_body)))))
 

@@ -29,7 +29,7 @@ const PREC = {
 
 // The following is the core grammar for Solidity. It accepts Solidity smart contracts between the versions 0.4.x and 0.7.x.
 module.exports = grammar({
-    name: 'Solidity',
+    name: 'solidity',
 
     // Extras is an array of tokens that is allowed anywhere in the document.
     extras: $ => [
@@ -644,7 +644,7 @@ module.exports = grammar({
             $.binary_expression,
             $.unary_expression,
             $.update_expression,
-            $.call_expresion,
+            $.call_expression,
             // TODO: $.function_call_options_expression,
             $.payable_conversion_expression,
             $.meta_type_expression,
@@ -660,7 +660,7 @@ module.exports = grammar({
             $.member_expression,
             $.array_access,
             $.slice_access,
-            $._primitive_type,
+            $.primitive_type,
             $.assignment_expression,
             $.augmented_assignment_expression,
             $._user_defined_type,
@@ -671,8 +671,8 @@ module.exports = grammar({
             $.new_expression,
         ),
 
-        // TODO: back this up with official dcumentation
-        type_cast_expression: $ => prec.left(seq($._primitive_type, '(', $._expression,')')),
+        // TODO: back this up with official documentation
+        type_cast_expression: $ => prec.left(seq($.primitive_type, '(', $._expression,')')),
 
         ternary_expression: $ => prec.left(seq($._expression, "?", $._expression, ':', $._expression)),
 
@@ -811,7 +811,7 @@ module.exports = grammar({
             field('right', $._expression)
         )),
           
-        call_expresion: $ => seq(
+        call_expression: $ => seq(
             seq($._expression, $._call_arguments),
         ),
 
@@ -819,7 +819,7 @@ module.exports = grammar({
         meta_type_expression: $ => seq('type', '(', $.type_name, ')'),
         
         type_name: $ => prec(0, choice(
-            $._primitive_type,
+            $.primitive_type,
             $._user_defined_type,
             $._mapping,
             $._array_type,
@@ -871,11 +871,11 @@ module.exports = grammar({
         ),
 
         _mapping_key: $ => choice(
-            $._primitive_type,
+            $.primitive_type,
             $._user_defined_type
         ),
 
-        _primitive_type: $ => prec.left(choice(
+        primitive_type: $ => prec.left(choice(
             seq('address', optional('payable')),
             'bool',
             'string',

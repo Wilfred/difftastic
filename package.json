@@ -2,7 +2,7 @@
   "name": "tree-sitter-solidity",
   "version": "1.0.5",
   "description": "A tree sitter parser for Solidity",
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "test": "tree-sitter generate && tree-sitter test"
   },
@@ -13,5 +13,17 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.16.9"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.sol",
+      "file-types": [
+        "sol"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "injection-regex": "^(sol|solidity)$"
+    }
+  ]
 }

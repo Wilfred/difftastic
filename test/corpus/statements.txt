@@ -18,7 +18,7 @@ contract Example {
          function_name: (identifier)
          body: (function_body 
             (variable_declaration_statement (variable_declaration 
-                    (type_name (type_name)) 
+                    (type_name (type_name (primitive_type))) 
                     name: (identifier))))))))
 
 
@@ -78,7 +78,7 @@ contract Example {
 (source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) 
     (function_body 
         (for_statement 
-            (variable_declaration_statement (variable_declaration (type_name) (identifier)) (number_literal)) 
+            (variable_declaration_statement (variable_declaration (type_name (primitive_type)) (identifier)) (number_literal)) 
             (expression_statement (update_expression (identifier)))
             (binary_expression (identifier) (number_literal)) 
             (expression_statement (update_expression (identifier))))
@@ -141,8 +141,8 @@ contract Example {
 
 ---
 (source_file (contract_declaration (identifier) (contract_body (function_definition (identifier) (function_body 
-    (try_statement (call_expresion (identifier)) (type_name) (identifier) (block_statement (expression_statement (update_expression (identifier))))
-    (catch_clause (identifier) (type_name) (identifier) (block_statement (expression_statement (update_expression (identifier)))))))))))
+    (try_statement (call_expression (identifier)) (type_name (primitive_type)) (identifier) (block_statement (expression_statement (update_expression (identifier))))
+    (catch_clause (identifier) (type_name (primitive_type)) (identifier) (block_statement (expression_statement (update_expression (identifier)))))))))))
 
 ====================
 Return statement
@@ -182,3 +182,12 @@ contract Example {
     }
 }
 ---
+(source_file 
+    (contract_declaration 
+        (identifier) 
+        (contract_body 
+            (function_definition 
+                (identifier) 
+                (function_body 
+                    (emit_statement 
+                    (identifier)))))))

@@ -2,3 +2,7 @@ corpus
 examples
 build
 script
+
+# Rust 
+target
+Cargo.lock

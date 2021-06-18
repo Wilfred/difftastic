@@ -49,7 +49,7 @@ contract Example {
     body: (contract_body
         (event_definition
             name: (identifier)
-            (event_paramater type: (type_name))))))
+            (event_paramater type: (type_name (primitive_type)))))))
 
 ====================
 Event parameters
@@ -68,14 +68,14 @@ contract Example {
         (event_definition
             name: (identifier)
 
-            (event_paramater type: (type_name))
+            (event_paramater type: (type_name (primitive_type)))
             
             (event_paramater 
-              type: (type_name)
+              type: (type_name (primitive_type))
               name: (identifier))
 
-            (event_paramater type: (type_name))
+            (event_paramater type: (type_name (primitive_type)))
             
             (event_paramater 
-              type: (type_name)
+              type: (type_name (primitive_type))
               name: (identifier))))))
