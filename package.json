@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-solidity",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A tree sitter parser for Solidity",
   "main": "bindings/node",
   "scripts": {
