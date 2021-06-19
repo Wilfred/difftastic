@@ -36,16 +36,25 @@ pub struct Language {
     close_delimiter_pattern: Regex,
 }
 
-pub fn lang_from_str(s: &str, extension: &str) -> Language {
-    let v = s.parse::<Value>().unwrap();
+fn read_syntax_toml(src: &str) -> Vec<Language> {
+    let v = src.parse::<Value>().unwrap();
     let table = v.as_table().unwrap();
 
     table
         .iter()
         .map(|(_, value)| lang_from_value(value))
-        // TODO: Multiple extensions
-        .find(|lang| lang.extensions[0] == extension)
-        .unwrap()
+        .collect()
+}
+
+pub fn lang_from_str(toml_src: &str, extension: &str) -> Language {
+    let languages = read_syntax_toml(toml_src);
+
+    for language in languages {
+        if language.extensions.iter().any(|e| e == extension) {
+            return language;
+        }
+    }
+    todo!()
 }
 
 fn as_string_vec(v: &Value) -> Vec<String> {
