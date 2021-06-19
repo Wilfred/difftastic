@@ -126,6 +126,10 @@
         {
           "type": "block",
           "named": true
+        },
+        {
+          "type": "one_line_block",
+          "named": true
         }
       ]
     }
@@ -509,6 +513,29 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "one_line_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "string_lit",
           "named": true
         }
       ]
