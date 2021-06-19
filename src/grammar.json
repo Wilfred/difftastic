@@ -6207,7 +6207,7 @@
                 "name": "object_return_value",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "call_expression"
+                  "name": "_expression"
                 }
               }
             ]
@@ -6634,7 +6634,11 @@
     },
     "identifier_1": {
       "type": "PATTERN",
-      "value": "[a-zA-Z0-9_$:\\.\\/@%\\^]+"
+      "value": "[a-zA-Z0-9_$:\\./@%\\^]+"
+    },
+    "identifier_2": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z0-9_$:\\.@%\\^]+"
     },
     "loop_control_keyword": {
       "type": "CHOICE",
@@ -6817,7 +6821,7 @@
                       "value": 4,
                       "content": {
                         "type": "PATTERN",
-                        "value": "[^\\/]+"
+                        "value": "[^/]+"
                       }
                     }
                   },
@@ -7172,7 +7176,7 @@
                     "type": "REPEAT",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "identifier_1"
+                      "name": "identifier_2"
                     }
                   },
                   {
@@ -7326,7 +7330,7 @@
                             "value": 1,
                             "content": {
                               "type": "PATTERN",
-                              "value": "[^\\/]+"
+                              "value": "[^/]+"
                             }
                           }
                         }
@@ -7611,7 +7615,7 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "identifier_1"
+                          "name": "identifier_2"
                         },
                         {
                           "type": "BLANK"
@@ -7656,7 +7660,7 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "identifier_1"
+                          "name": "identifier_2"
                         },
                         {
                           "type": "BLANK"
@@ -7705,7 +7709,7 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "identifier_1"
+                          "name": "identifier_2"
                         },
                         {
                           "type": "BLANK"
@@ -7750,7 +7754,7 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "identifier_1"
+                          "name": "identifier_2"
                         },
                         {
                           "type": "BLANK"
@@ -8093,7 +8097,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "[^\\/\\\\\\[\\n]"
+              "value": "[^/\\\\\\[\\n]"
             }
           ]
         }
@@ -9322,6 +9326,14 @@
     ],
     [
       "list_block"
+    ],
+    [
+      "method_invocation",
+      "hash_dereference"
+    ],
+    [
+      "method_invocation",
+      "array_dereference"
     ]
   ],
   "precedences": [],
