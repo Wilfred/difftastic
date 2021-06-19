@@ -125,9 +125,10 @@ foo = "${ {a=b}[a] }"
                         (variable_expr
                           (identifier))))))
                 (index
-                  (expression
-                    (variable_expr
-                      (identifier))))))))))))
+                  (new_index
+                    (expression
+                      (variable_expr
+                        (identifier)))))))))))))
 
 ================================================================================
 escaped template interpolation start
