@@ -29,7 +29,7 @@ nix-shell --run 'tree-sitter parse --quiet --stat example/real_world_stuff/*'
 Total parses: 886; successful parses: 801; failed parses: 85; success percentage: 90.41%
 ```
 
-The aim is to build unit testcases from selected failure classes and 100%. 
+The aim is to build unit testcases from selected failure classes and slowly get to 100%. 
 
 
 ## Todo
