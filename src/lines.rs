@@ -215,10 +215,6 @@ impl LineGroup {
         }
     }
 
-    fn is_empty(&self) -> bool {
-        self.lhs_lines.is_empty() && self.rhs_lines.is_empty()
-    }
-
     pub fn max_visible_lhs(&self) -> LineNumber {
         match self.lhs_lines.last() {
             Some(line) => line.clone(),
@@ -328,24 +324,33 @@ pub fn visible_groups(
     positions.sort_unstable_by(|(_, x), (_, y)| compare_matched_pos(x, y));
 
     let mut groups = vec![];
-    let mut group = LineGroup::new();
+    let mut current: Option<LineGroup> = None;
 
     for (is_lhs, position) in positions {
-        if group.is_empty() || group.next_overlaps(is_lhs, position, MAX_GAP) {
-            // Add to the current group.
-        } else {
-            // Start new group
-            groups.push(group);
-            group = LineGroup::new();
+        match current.take() {
+            Some(group) => {
+                if group.next_overlaps(is_lhs, position, MAX_GAP) {
+                    // Continue with this group.
+                    current = Some(group);
+                } else {
+                    // Start new group
+                    groups.push(group);
+                    current = None;
+                }
+            }
+            None => {}
         }
+
+        let mut group = current.unwrap_or(LineGroup::new());
         if is_lhs {
             group.add_lhs(position);
         } else {
             group.add_rhs(position);
         }
+        current = Some(group);
     }
 
-    if !group.is_empty() {
+    if let Some(group) = current {
         groups.push(group);
     }
 
