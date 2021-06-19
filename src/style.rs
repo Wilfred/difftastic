@@ -9,11 +9,15 @@ use std::collections::HashMap;
 pub struct Style {
     foreground: Color,
     background: Option<Color>,
+    bold: bool,
 }
 
 impl Style {
     fn apply(&self, s: &str) -> String {
-        let mut res = s.color(self.foreground).bold();
+        let mut res = s.color(self.foreground);
+        if self.bold {
+            res = res.bold();
+        }
         if let Some(background) = self.background {
             res = res.on_color(background);
         };
@@ -85,14 +89,21 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
             MatchKind::Unchanged => Style {
                 foreground: Color::White,
                 background: None,
+                bold: false,
             },
             MatchKind::Moved => Style {
                 foreground: if is_lhs { Color::Red } else { Color::Green },
                 background: None,
+                bold: false,
             },
             MatchKind::Novel => Style {
-                foreground: Color::Black,
-                background: Some(if is_lhs { Color::Red } else { Color::Green }),
+                foreground: if is_lhs {
+                    Color::BrightRed
+                } else {
+                    Color::BrightGreen
+                },
+                background: None,
+                bold: true,
             },
         };
         for line_pos in &pos.pos {
