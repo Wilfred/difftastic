@@ -27,6 +27,16 @@ where a = b
 group by a, b
 -- <- keyword
 --    ^ keyword
-order by lower(a), b
+order by lower(a), b;
 -- <- keyword
 --    ^ keyword
+
+SELECT (SELECT 1), a
+-- <- keyword
+--         ^ keyword
+--             ^ number
+FROM (SELECT a FROM table) AS b;
+-- <- keyword
+--     ^ keyword
+--             ^ keyword  
+--                         ^ keyword  
