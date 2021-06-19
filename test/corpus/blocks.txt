@@ -10,8 +10,7 @@ block_1 {
 (config_file
   (body
     (block
-      (identifier)
-      (body))))
+      (identifier))))
 
 ================================================================================
 basic block on one line
@@ -69,8 +68,7 @@ block_1 {
       (identifier)
       (body
         (block
-          (identifier)
-          (body))))))
+          (identifier))))))
 
 ================================================================================
 nested block on one line
@@ -122,20 +120,22 @@ locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
 
 (config_file
   (body
-    (one_line_block
+    (block
       (identifier)
-      (identifier)
-      (expression
-        (function_call
+      (body
+        (attribute
           (identifier)
-          (function_arguments
-            (expression
-              (function_call
-                (identifier)))
-            (expression
-              (literal_value
-                (string_lit
-                  (template_literal))))
-            (expression
-              (template_expr
-                (quoted_template)))))))))
+          (expression
+            (function_call
+              (identifier)
+              (function_arguments
+                (expression
+                  (function_call
+                    (identifier)))
+                (expression
+                  (literal_value
+                    (string_lit
+                      (template_literal))))
+                (expression
+                  (template_expr
+                    (quoted_template)))))))))))

@@ -15,12 +15,9 @@ module.exports = grammar({
   conflicts: $ => [
     // string literals are just quoted template without template stuff
     [$.string_lit, $.quoted_template],
-    // empty block may be both
-    [$.block, $.one_line_block],
   ],
 
   externals: $ => [
-    $._newline,
     $._quoted_template_start,
     $._quoted_template_end,
     $._template_literal_chunk,
@@ -30,46 +27,31 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    ' ',
-    '\t',
+    $._whitespace,
   ],
 
   rules: {
-    config_file: $ => $.body,
+    config_file: $ => optional($.body),
 
-    body: $ => repeat1(prec.left(
+    body: $ => repeat1(
       choice(
         $.attribute,
         $.block,
-        $.one_line_block,
-        $._newlines,
       ),
-    )),
+    ),
 
-    attribute: $ => prec.left(seq(
+    attribute: $ => seq(
       $.identifier,
       '=',
       $.expression,
-      $._newlines,
-    )),
+    ),
 
-    block: $ => prec.left(seq(
+    block: $ => seq(
       $.identifier,
       repeat(choice($.string_lit, $.identifier)),
       $._block_start,
-      optional($._newlines),
       optional($.body),
       $._block_end,
-      optional($._newlines),
-    )),
-
-    one_line_block: $ => seq(
-      $.identifier,
-      repeat(choice($.string_lit, $.identifier)),
-      $._block_start,
-      optional(seq($.identifier, '=', $.expression)),
-      $._block_end,
-      $._newlines,
     ),
 
     _block_start: $ => '{',
@@ -77,14 +59,14 @@ module.exports = grammar({
 
     // TODO: not to spec but good enough for now
     identifier: $ => token(seq(
-      /\p{L}/,
+      choice(/\p{L}/, '_'),
       repeat(choice(/\p{L}/, /[0-9]/, /(-|_)/)),
     )),
 
-    expression: $ => choice(
+    expression: $ => prec.right(choice(
       $._expr_term,
       $.conditional,
-    ),
+    )),
 
     // operations are documented as expressions, but our real world samples
     // contain instances of operations without parentheses. think for example:
@@ -110,7 +92,10 @@ module.exports = grammar({
       $.string_lit,
     ),
 
-    numeric_lit: $ => /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
+    numeric_lit: $ => choice(
+      /[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/,
+      /0x[0-9a-zA-Z]+/
+    ),
 
     bool_lit: $ => choice('true', 'false'),
 
@@ -133,41 +118,38 @@ module.exports = grammar({
     tuple: $ => seq(
       $._tuple_start,
       optional($._tuple_elems),
-      optional($._newlines),
       $._tuple_end,
     ),
 
     _tuple_start: $ => '[',
     _tuple_end: $ => ']',
 
-    _tuple_elems: $ => prec.right(seq(
-      optional($._newlines),
+    _tuple_elems: $ => seq(
       $.expression,
-      repeat(seq($._comma, optional($._newlines), $.expression)),
+      repeat(seq(
+        $._comma,
+        $.expression,
+      )),
       optional($._comma),
-      optional($._newlines),
-    )),
+    ),
 
     object: $ => seq(
       $._object_start,
       optional($._object_elems),
-      optional($._newlines),
       $._object_end,
     ),
 
     _object_start: $ => '{',
     _object_end: $ => '}',
 
-    _object_elems: $ => prec.right(seq(
-      optional($._newlines),
+    _object_elems: $ => seq(
       $.object_elem,
       repeat(seq(
-        choice($._comma, $._newlines, seq($._comma, $._newlines)),
+        optional($._comma),
         $.object_elem
       )),
       optional($._comma),
-      optional($._newlines),
-    )),
+    ),
 
     object_elem: $ => seq(
       $.expression,
@@ -196,28 +178,22 @@ module.exports = grammar({
 
     for_expr: $ => choice($.for_tuple_expr, $.for_object_expr),
 
-    // newlines
     for_tuple_expr: $ => seq(
       $._tuple_start,
-      optional($._newlines),
       $.for_intro,
       $.expression,
       optional($.for_cond),
-      optional($._newlines),
       $._tuple_end,
     ),
 
-    // newlines
     for_object_expr: $ => seq(
       $._object_start,
-      optional($._newlines),
       $.for_intro,
       $.expression,
       '=>',
       $.expression,
       optional($.ellipsis),
       optional($.for_cond),
-      optional($._newlines),
       $._object_end,
     ),
 
@@ -235,13 +211,12 @@ module.exports = grammar({
       $.expression,
     ),
 
-    variable_expr: $ => $.identifier,
+    variable_expr: $ => prec.right($.identifier),
 
     function_call: $ => seq(
       $.identifier,
       $._function_call_start,
       optional($.function_arguments),
-      optional($._newlines),
       $._function_call_end,
     ),
 
@@ -249,10 +224,8 @@ module.exports = grammar({
     _function_call_end: $ => ')',
 
     function_arguments: $ => prec.right(seq(
-      optional($._newline),
       $.expression,
-      repeat(seq(',', optional($._newline), $.expression,)),
-      optional($._newline),
+      repeat(seq($._comma, $.expression,)),
       optional(choice(',', $.ellipsis)),
     )),
 
@@ -321,8 +294,6 @@ module.exports = grammar({
       //$.template_if,
     ),
 
-    _newlines: $ => prec.right(repeat1($._newline)),
-
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(
       seq('#', /.*/),
@@ -333,5 +304,7 @@ module.exports = grammar({
         '/'
       )
     )),
+
+    _whitespace: $ => token(/\s/),
   }
 });

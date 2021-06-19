@@ -5,7 +5,6 @@
 #include <stdio.h>
 
 enum TokenType {
-  NEWLINE,
   QUOTED_TEMPLATE_START,
   QUOTED_TEMPLATE_END,
   TEMPLATE_LITERAL_CHUNK,
@@ -48,7 +47,6 @@ void print_debug_info(Scanner *scanner, TSLexer *lexer, const bool *valid_symbol
   printf("template_literal_chunk: %x\n", valid_symbols[TEMPLATE_LITERAL_CHUNK]);
   printf("template_interpolation_start: %x\n", valid_symbols[TEMPLATE_INTERPOLATION_START]);
   printf("template_interpolation_end: %x\n", valid_symbols[TEMPLATE_INTERPOLATION_END]);
-  printf("newline: %x\n", valid_symbols[NEWLINE]);
   printf("\n");
   printf("scanner state:\n");
   printf("in_template_interpolation %x\n", scanner->in_template_interpolation);
@@ -86,29 +84,11 @@ void scanner_exit_quoted_context(Scanner *scanner) {
   }
 }
 
-bool is_newline(char c) {
-  return c == '\n' || c == '\r';
-}
-
-bool is_skippable_whitespace_outside_of_quoted_context(char c) {
-  return c == ' ' || c == '\t';
-}
-
 bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
   // print_debug_info(scanner, lexer, valid_symbols);
 
-  while (
-    is_skippable_whitespace_outside_of_quoted_context(lexer->lookahead) &&
-    !scanner->in_quoted_context
-  ) {
+  while (iswspace(lexer->lookahead) && !scanner->in_quoted_context) {
     skip(lexer);
-  }
-
-  if (valid_symbols[NEWLINE] &&
-    is_newline(lexer->lookahead) &&
-    scanner->quoted_context_depth == 0
-  ) {
-    return accept_and_advance(lexer, NEWLINE);
   }
 
   // manage quoted context
@@ -162,9 +142,6 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
   //
   // they may not contain newlines and may contain escape sequences
   if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && scanner->in_quoted_context) {
-    if (is_newline(lexer->lookahead)) {
-      return false;
-    }
     switch (lexer->lookahead) {
       case '\\':
         advance(lexer);
