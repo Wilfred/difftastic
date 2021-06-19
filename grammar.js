@@ -71,7 +71,6 @@ module.exports = grammar({
 
     expression: $ => choice(
       $._expr_term,
-      $.operation,
       $.conditional,
     ),
 
@@ -82,6 +81,7 @@ module.exports = grammar({
       $.variable_expr,
       $.function_call,
       $.for_expr,
+      $.operation,
       seq($._expr_term, $.index),
       seq($._expr_term, $.get_attr),
       seq($._expr_term, $.splat),
@@ -224,8 +224,8 @@ module.exports = grammar({
       $._function_call_end,
     ),
 
-    _function_call_start: $ => token('('),
-    _function_call_end: $ => token(')'),
+    _function_call_start: $ => '(',
+    _function_call_end: $ => ')',
 
     function_arguments: $ => prec.right(seq(
       optional($._newline),

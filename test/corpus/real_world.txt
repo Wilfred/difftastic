@@ -343,13 +343,20 @@ resource "azurerm_storage_blob" "proxy_cert" {
               (expression
                 (operation
                   (binary_operation
-                    (variable_expr
-                      (identifier))
+                    (operation
+                      (binary_operation
+                        (operation
+                          (binary_operation
+                            (variable_expr
+                              (identifier))
+                            (get_attr
+                              (identifier))
+                            (template_expr
+                              (quoted_template))))
+                        (variable_expr
+                          (identifier))))
                     (get_attr
                       (identifier))
-                    (ERROR
-                      (template_expr
-                        (quoted_template)))
                     (template_expr
                       (quoted_template)))))
               (expression

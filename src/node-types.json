@@ -70,6 +70,10 @@
           "named": true
         },
         {
+          "type": "operation",
+          "named": true
+        },
+        {
           "type": "splat",
           "named": true
         },
@@ -679,6 +683,10 @@
         },
         {
           "type": "literal_value",
+          "named": true
+        },
+        {
+          "type": "operation",
           "named": true
         },
         {

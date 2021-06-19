@@ -53,3 +53,31 @@ foo = 1+2
               (numeric_lit))
             (literal_value
               (numeric_lit))))))))
+
+================================================================================
+precedence in binary operators
+================================================================================
+
+foo = a != b && c == d
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (operation
+          (binary_operation
+            (operation
+              (binary_operation
+                (variable_expr
+                  (identifier))
+                (variable_expr
+                  (identifier))))
+            (operation
+              (binary_operation
+                (variable_expr
+                  (identifier))
+                (variable_expr
+                  (identifier))))))))))
