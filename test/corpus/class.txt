@@ -15,7 +15,7 @@ abstract class A {
 (program
   (php_tag)
   (class_declaration
-    (class_modifier)
+    (abstract_modifier)
     (name)
     (declaration_list
       (method_declaration
@@ -25,7 +25,7 @@ abstract class A {
         (compound_statement)
       )
       (method_declaration
-        (class_modifier)
+        (abstract_modifier)
         (visibility_modifier)
         (name)
         (formal_parameters)
@@ -223,7 +223,7 @@ final class A {}
 (program
   (php_tag)
   (class_declaration
-    (class_modifier)
+    (final_modifier)
     (name)
     (declaration_list)
   )
@@ -250,7 +250,7 @@ abstract class A {
 (program
   (php_tag)
   (class_declaration
-    (class_modifier)
+    (abstract_modifier)
     (name)
     (declaration_list
       (property_declaration
@@ -262,12 +262,12 @@ abstract class A {
         (property_element (variable_name (name)))
       )
       (method_declaration
-        (class_modifier)
+        (abstract_modifier)
         (name)
         (formal_parameters)
       )
       (method_declaration
-        (class_modifier)
+        (final_modifier)
         (name)
         (formal_parameters)
         (compound_statement)
@@ -279,7 +279,7 @@ abstract class A {
         (compound_statement)
       )
       (method_declaration
-        (class_modifier)
+        (final_modifier)
         (static_modifier)
         (name)
         (formal_parameters)

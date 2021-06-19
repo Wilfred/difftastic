@@ -244,7 +244,7 @@ module.exports = grammar({
 
     class_declaration: $ => prec.right(seq(
       optional(field('attributes', $.attribute_list)),
-      optional($.class_modifier),
+      optional(field('modifier', choice($.final_modifier, $.abstract_modifier))),
       keyword('class'),
       field('name', $.name),
       optional($.base_clause),
@@ -259,10 +259,8 @@ module.exports = grammar({
       '}'
     ),
 
-    class_modifier: $ => choice(
-      keyword('abstract'),
-      keyword('final')
-    ),
+    final_modifier: $ => keyword('final'),
+    abstract_modifier: $ => keyword('abstract'),
 
     class_interface_clause: $ => seq(
       keyword('implements'),
@@ -280,6 +278,7 @@ module.exports = grammar({
 
     _class_const_declaration: $ => seq(
       optional(field('attributes', $.attribute_list)),
+      optional(field('modifier', $.final_modifier)),
       $._const_declaration
     ),
 
@@ -298,12 +297,13 @@ module.exports = grammar({
       $._semicolon
     ),
 
-    _modifier: $ => choice(
+    _modifier: $ => prec.left(choice(
       $.var_modifier,
       $.visibility_modifier,
       $.static_modifier,
-      $.class_modifier
-    ),
+      $.final_modifier,
+      $.abstract_modifier
+    )),
 
     property_element: $ => seq(
       $.variable_name, optional($.property_initializer)
