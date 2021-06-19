@@ -555,7 +555,7 @@ module.exports = grammar({
 
     integer: $ => {
       const decimal = /[1-9]\d*(_\d+)*/
-      const octal = /0[0-7]*(_[0-7]+)*/
+      const octal = /0[oO]?[0-7]*(_[0-7]+)*/
       const hex = /0[xX][0-9a-fA-F]+(_[0-9a-fA-F]+)*/
       const binary = /0[bB][01]+(_[01]+)*/
       return token(choice(

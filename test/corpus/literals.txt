@@ -64,11 +64,13 @@ Integers
 0x1A_2B_3C;
 0b111111111;
 0b1111_1111_1111;
+0o123;
 
 ---
 
 (program
   (php_tag)
+  (expression_statement (integer))
   (expression_statement (integer))
   (expression_statement (integer))
   (expression_statement (integer))
