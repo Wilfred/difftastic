@@ -181,6 +181,7 @@ class Foo {
     public const B = 2;
     protected const C = 3;
     private const D = 4;
+    final const E = 5;
 }
 
 ---
@@ -203,6 +204,10 @@ class Foo {
       )
       (const_declaration
         (visibility_modifier)
+        (const_element (name) (integer))
+      )
+      (const_declaration
+        (final_modifier)
         (const_element (name) (integer))
       )
     )
