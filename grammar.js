@@ -15,6 +15,8 @@ module.exports = grammar({
   conflicts: $ => [
     // string literals are just quoted template without template stuff
     [$.string_lit, $.quoted_template],
+    // empty block may be both
+    [$.block, $.one_line_block],
   ],
 
   externals: $ => [
@@ -39,6 +41,7 @@ module.exports = grammar({
       choice(
         $.attribute,
         $.block,
+        $.one_line_block,
         $._newlines,
       ),
     )),
@@ -60,6 +63,15 @@ module.exports = grammar({
       optional($._newlines),
     )),
 
+    one_line_block: $ => seq(
+      $.identifier,
+      repeat(choice($.string_lit, $.identifier)),
+      $._block_start,
+      optional(seq($.identifier, '=', $.expression)),
+      $._block_end,
+      $._newlines,
+    ),
+
     _block_start: $ => '{',
     _block_end: $ => '}',
 
@@ -74,6 +86,9 @@ module.exports = grammar({
       $.conditional,
     ),
 
+    // operations are documented as expressions, but our real world samples
+    // contain instances of operations without parentheses. think for example:
+    // x = a == "" && b != ""
     _expr_term: $ => choice(
       $.literal_value,
       $.template_expr,
@@ -181,22 +196,28 @@ module.exports = grammar({
 
     for_expr: $ => choice($.for_tuple_expr, $.for_object_expr),
 
+    // newlines
     for_tuple_expr: $ => seq(
       $._tuple_start,
+      optional($._newlines),
       $.for_intro,
       $.expression,
       optional($.for_cond),
+      optional($._newlines),
       $._tuple_end,
     ),
 
+    // newlines
     for_object_expr: $ => seq(
       $._object_start,
+      optional($._newlines),
       $.for_intro,
       $.expression,
       '=>',
       $.expression,
       optional($.ellipsis),
       optional($.for_cond),
+      optional($._newlines),
       $._object_end,
     ),
 
