@@ -117,7 +117,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "attribute",
@@ -125,10 +125,6 @@
         },
         {
           "type": "block",
-          "named": true
-        },
-        {
-          "type": "one_line_block",
           "named": true
         }
       ]
@@ -179,7 +175,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "body",
@@ -489,6 +485,11 @@
     }
   },
   {
+    "type": "numeric_lit",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "object",
     "named": true,
     "fields": {},
@@ -513,29 +514,6 @@
       "types": [
         {
           "type": "expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "one_line_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "string_lit",
           "named": true
         }
       ]
@@ -876,10 +854,6 @@
   },
   {
     "type": "null_lit",
-    "named": true
-  },
-  {
-    "type": "numeric_lit",
     "named": true
   },
   {

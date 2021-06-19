@@ -11,31 +11,11 @@ foo = "bar\uZZ"
     (attribute
       (identifier)
       (expression
-        (literal_value
-          (string_lit
+        (template_expr
+          (quoted_template
             (template_literal
               (ERROR
                 (UNEXPECTED '\')))))))))
-
-================================================================================
-literal multi line error
-================================================================================
-
-foo = "
-bar"
-
---------------------------------------------------------------------------------
-
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (ERROR
-              (UNEXPECTED '\n'))
-            (template_literal)))))))
 
 ================================================================================
 unescaped tab
@@ -67,8 +47,8 @@ foo = "foo\bar"
     (attribute
       (identifier)
       (expression
-        (literal_value
-          (string_lit
+        (template_expr
+          (quoted_template
             (template_literal
               (ERROR
                 (UNEXPECTED '\')))))))))

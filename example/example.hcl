@@ -36,5 +36,6 @@ resource_1 "strlit1" "strlit2" {
     attr4 = 2.112e+12
     attr5 = 2.112E+12
     attr6 = 2.112E-12
+    attr7 = 0x21FF
   }
 }
