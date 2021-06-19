@@ -176,10 +176,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "operation"
-        },
-        {
-          "type": "SYMBOL",
           "name": "conditional"
         }
       ]
@@ -210,6 +206,10 @@
         {
           "type": "SYMBOL",
           "name": "for_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "operation"
         },
         {
           "type": "SEQ",
@@ -947,18 +947,12 @@
       ]
     },
     "_function_call_start": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "("
-      }
+      "type": "STRING",
+      "value": "("
     },
     "_function_call_end": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": ")"
-      }
+      "type": "STRING",
+      "value": ")"
     },
     "function_arguments": {
       "type": "PREC_RIGHT",

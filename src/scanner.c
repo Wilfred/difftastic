@@ -218,9 +218,7 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
   }
 
   // handle all other quoted template or string literal characters
-  if (
-    valid_symbols[TEMPLATE_LITERAL_CHUNK]
-  ) {
+  if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && scanner->in_quoted_context) {
     return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
   }
 
