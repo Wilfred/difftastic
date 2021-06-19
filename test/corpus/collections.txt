@@ -1,5 +1,5 @@
 ================================================================================
-collection value tuple
+tuple
 ================================================================================
 
 foo = [1, 2, "foo"]
@@ -25,7 +25,70 @@ foo = [1, 2, "foo"]
                   (template_literal))))))))))
 
 ================================================================================
-collection value object
+multiline tuple
+================================================================================
+
+foo = [
+  1,
+  2,
+  "foo"
+]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (collection_value
+          (tuple
+            (expression
+              (literal_value
+                (numeric_lit)))
+            (expression
+              (literal_value
+                (numeric_lit)))
+            (expression
+              (literal_value
+                (string_lit
+                  (template_literal))))))))))
+
+================================================================================
+empty tuple
+================================================================================
+
+foo = []
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (collection_value
+          (tuple))))))
+
+================================================================================
+multiline empty tuple
+================================================================================
+
+foo = [
+]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (collection_value
+          (tuple))))))
+
+================================================================================
+object
 ================================================================================
 
 foo = {1: 2, "foo"="bar"}
@@ -55,3 +118,250 @@ foo = {1: 2, "foo"="bar"}
                 (literal_value
                   (string_lit
                     (template_literal)))))))))))
+
+================================================================================
+multiline object
+================================================================================
+
+foo = {
+  1: 2,
+  "foo"="bar"
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (collection_value
+          (object
+            (object_elem
+              (expression
+                (literal_value
+                  (numeric_lit)))
+              (expression
+                (literal_value
+                  (numeric_lit))))
+            (object_elem
+              (expression
+                (literal_value
+                  (string_lit
+                    (template_literal))))
+              (expression
+                (literal_value
+                  (string_lit
+                    (template_literal)))))))))))
+
+================================================================================
+empty object
+================================================================================
+
+foo = { }
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (collection_value
+          (object))))))
+
+================================================================================
+multiline empty object
+================================================================================
+
+foo = {
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (collection_value
+          (object))))))
+
+================================================================================
+multiline object weird newlines
+================================================================================
+
+foo = { 1: 2,
+  "foo"="bar"
+
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (collection_value
+          (object
+            (object_elem
+              (expression
+                (literal_value
+                  (numeric_lit)))
+              (expression
+                (literal_value
+                  (numeric_lit))))
+            (object_elem
+              (expression
+                (literal_value
+                  (string_lit
+                    (template_literal))))
+              (expression
+                (literal_value
+                  (string_lit
+                    (template_literal)))))))))))
+
+================================================================================
+complex object
+================================================================================
+
+foo = {
+  a = "1",
+  b = "2"
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (collection_value
+          (object
+            (object_elem
+              (expression
+                (variable_expr
+                  (identifier)))
+              (expression
+                (literal_value
+                  (string_lit
+                    (template_literal)))))
+            (object_elem
+              (expression
+                (variable_expr
+                  (identifier)))
+              (expression
+                (literal_value
+                  (string_lit
+                    (template_literal)))))))))))
+
+================================================================================
+complex from real world
+================================================================================
+
+worker_groups = [
+    {
+      name                          = "jasonb-test-group-1"
+      instance_type                 = "t2.small"
+      asg_desired_capacity          = 2
+      additional_security_group_ids = [aws_security_group.external_connection.id]
+    },
+    {
+      name                          = "jasonb-test-group-2"
+      instance_type                 = "t2.medium"
+      additional_security_group_ids = [aws_security_group.external_connection.id]
+      asg_desired_capacity          = 1
+    },
+  ]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (collection_value
+          (tuple
+            (expression
+              (collection_value
+                (object
+                  (object_elem
+                    (expression
+                      (variable_expr
+                        (identifier)))
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal)))))
+                  (object_elem
+                    (expression
+                      (variable_expr
+                        (identifier)))
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal)))))
+                  (object_elem
+                    (expression
+                      (variable_expr
+                        (identifier)))
+                    (expression
+                      (literal_value
+                        (numeric_lit))))
+                  (object_elem
+                    (expression
+                      (variable_expr
+                        (identifier)))
+                    (expression
+                      (collection_value
+                        (tuple
+                          (expression
+                            (variable_expr
+                              (identifier))
+                            (get_attr
+                              (identifier))
+                            (get_attr
+                              (identifier))))))))))
+            (expression
+              (collection_value
+                (object
+                  (object_elem
+                    (expression
+                      (variable_expr
+                        (identifier)))
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal)))))
+                  (object_elem
+                    (expression
+                      (variable_expr
+                        (identifier)))
+                    (expression
+                      (literal_value
+                        (string_lit
+                          (template_literal)))))
+                  (object_elem
+                    (expression
+                      (variable_expr
+                        (identifier)))
+                    (expression
+                      (collection_value
+                        (tuple
+                          (expression
+                            (variable_expr
+                              (identifier))
+                            (get_attr
+                              (identifier))
+                            (get_attr
+                              (identifier)))))))
+                  (object_elem
+                    (expression
+                      (variable_expr
+                        (identifier)))
+                    (expression
+                      (literal_value
+                        (numeric_lit)))))))))))))

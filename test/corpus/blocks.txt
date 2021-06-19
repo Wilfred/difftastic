@@ -10,7 +10,8 @@ block_1 {
 (config_file
   (body
     (block
-      (identifier))))
+      (identifier)
+      (body))))
 
 ================================================================================
 basic block on one line
@@ -68,7 +69,8 @@ block_1 {
       (identifier)
       (body
         (block
-          (identifier))))))
+          (identifier)
+          (body))))))
 
 ================================================================================
 nested block on one line

@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 enum TokenType {
+  NEWLINE,
   QUOTED_TEMPLATE_START,
   QUOTED_TEMPLATE_END,
   TEMPLATE_LITERAL_CHUNK,
@@ -44,9 +45,10 @@ void print_debug_info(Scanner *scanner, TSLexer *lexer, const bool *valid_symbol
   printf("could be one of\n");
   printf("quoted_template_start: %x\n", valid_symbols[QUOTED_TEMPLATE_START]);
   printf("quoted_template_end: %x\n", valid_symbols[QUOTED_TEMPLATE_END]);
-  printf("template_literal_chunk: %x", valid_symbols[TEMPLATE_LITERAL_CHUNK]);
+  printf("template_literal_chunk: %x\n", valid_symbols[TEMPLATE_LITERAL_CHUNK]);
   printf("template_interpolation_start: %x\n", valid_symbols[TEMPLATE_INTERPOLATION_START]);
   printf("template_interpolation_end: %x\n", valid_symbols[TEMPLATE_INTERPOLATION_END]);
+  printf("newline: %x\n", valid_symbols[NEWLINE]);
   printf("\n");
   printf("scanner state:\n");
   printf("in_template_interpolation %x\n", scanner->in_template_interpolation);
@@ -84,38 +86,54 @@ void scanner_exit_quoted_context(Scanner *scanner) {
   }
 }
 
-bool must_escape_in_nested_quoted_context(char c) {
-  switch (c) {
-    case '\n':
-    case '\r':
-    case '\t':
-      return true;
-    default:
-      return false;
-  }
+bool is_newline(char c) {
+  return c == '\n' || c == '\r';
+}
+
+bool is_skippable_whitespace_outside_of_quoted_context(char c) {
+  return c == ' ' || c == '\t';
 }
 
 bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
-  // literal newlines are not allowed inside a quoted context
-  if (must_escape_in_nested_quoted_context(lexer->lookahead) && scanner->quoted_context_depth > 0) {
-    return false;
-  }
-  while (iswspace(lexer->lookahead) && !scanner->in_quoted_context) skip(lexer);
+  // print_debug_info(scanner, lexer, valid_symbols);
 
+  while (
+    is_skippable_whitespace_outside_of_quoted_context(lexer->lookahead) &&
+    !scanner->in_quoted_context
+  ) {
+    skip(lexer);
+  }
+
+  if (valid_symbols[NEWLINE] &&
+    is_newline(lexer->lookahead) &&
+    scanner->quoted_context_depth == 0
+  ) {
+    return accept_and_advance(lexer, NEWLINE);
+  }
 
   // manage quoted context
-  if (valid_symbols[QUOTED_TEMPLATE_START] && lexer->lookahead == '"') {
+  if (
+    valid_symbols[QUOTED_TEMPLATE_START] &&
+    !scanner->in_quoted_context &&
+    lexer->lookahead == '"'
+  ) {
     scanner_enter_quoted_context(scanner);
     return accept_and_advance(lexer, QUOTED_TEMPLATE_START);
   }
-  if (valid_symbols[QUOTED_TEMPLATE_END] && lexer->lookahead == '"') {
+  if (
+    valid_symbols[QUOTED_TEMPLATE_END] &&
+    scanner->in_quoted_context &&
+    lexer->lookahead == '"'
+  ) {
     scanner_exit_quoted_context(scanner);
     return accept_and_advance(lexer, QUOTED_TEMPLATE_END);
   }
 
-
   // manage template interpolations
-  if (valid_symbols[TEMPLATE_INTERPOLATION_START] && lexer->lookahead == '$') {
+  if (
+    valid_symbols[TEMPLATE_INTERPOLATION_START] &&
+    lexer->lookahead == '$'
+  ) {
     advance(lexer);
     if (lexer->lookahead == '{') {
       scanner_enter_interpolation_context(scanner);
@@ -138,9 +156,15 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_END);
   }
 
+  // handle template literal chunks
 
-  // handle escape sequences in direct surrounding quoted contexts
+  // handle template literal chunks in quoted contexts
+  //
+  // they may not contain newlines and may contain escape sequences
   if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && scanner->in_quoted_context) {
+    if (is_newline(lexer->lookahead)) {
+      return false;
+    }
     switch (lexer->lookahead) {
       case '\\':
         advance(lexer);
@@ -164,10 +188,44 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
           default:
             return false;
         }
-      default:
-        return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
     }
   }
+
+  // handle escaped template interpolations in string literals
+  if (
+    valid_symbols[TEMPLATE_LITERAL_CHUNK] &&
+    !valid_symbols[TEMPLATE_INTERPOLATION_START] &&
+    scanner->in_quoted_context
+  ) {
+    // try to scan escaped template interpolation
+    switch (lexer->lookahead) {
+      case '$':
+        advance(lexer);
+        if (lexer->lookahead == '{') {
+          // unescaped template interpolation
+          skip(lexer);
+          return false;
+        }
+        if (lexer->lookahead == '$') {
+          advance(lexer);
+          if (lexer->lookahead == '{') {
+            // $${
+            return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+          }
+        return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
+        }
+    }
+  }
+
+  // handle all other quoted template or string literal characters
+  if (
+    valid_symbols[TEMPLATE_LITERAL_CHUNK]
+  ) {
+    return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+  }
+
+  // probably not handled by the external scanner
+
   return false;
 }
 

@@ -16,6 +16,22 @@ It is recommended to use `nix` to fulfill all development dependencies. To activ
 
 To run tests simply run `nix-shell --run 'tree-sitter test'`.
 
+## Compliance
+
+The directory `example/real_world_stuff` contains a corpus of hcl files that I found with the github query `user:hashicorp language:HCL`. Just to be sure I encrypted them using `git-crypt`.
+
+Given that some language features are still missing ( see TODO ) there are some expected parse errors:
+
+```bash
+nix-shell --run 'tree-sitter parse --quiet --stat example/real_world_stuff/*'
+...
+...
+Total parses: 886; successful parses: 801; failed parses: 85; success percentage: 90.41%
+```
+
+The aim is to build unit testcases from selected failure classes and 100%. 
+
+
 ## Todo
 
 * [ ] use [Unicode® Standard Annex #31](https://www.unicode.org/reports/tr31/) (augmented with '-') for identifiers

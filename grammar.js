@@ -8,9 +8,6 @@ const
     binary_and: 2,
     binary_or: 1,
   }
-  unicodeLetter = /\p{L}/
-  unicodePunctuation = /\p{Pc}/
-  unicodeDigit = /[0-9]/
 
 module.exports = grammar({
   name: 'hcl',
@@ -21,6 +18,7 @@ module.exports = grammar({
   ],
 
   externals: $ => [
+    $._newline,
     $._quoted_template_start,
     $._quoted_template_end,
     $._template_literal_chunk,
@@ -30,40 +28,45 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /\s/,
+    ' ',
+    '\t',
   ],
 
   rules: {
     config_file: $ => $.body,
 
-    body: $ => repeat1(seq(
+    body: $ => repeat1(prec.left(
       choice(
         $.attribute,
         $.block,
+        $._newlines,
       ),
     )),
 
-    attribute: $ => seq(
-      field('name', $.identifier),
+    attribute: $ => prec.left(seq(
+      $.identifier,
       '=',
       $.expression,
-    ),
+      $._newlines,
+    )),
 
-    block: $ => seq(
-      field('name', $.identifier),
+    block: $ => prec.left(seq(
+      $.identifier,
       repeat(choice($.string_lit, $.identifier)),
       $._block_start,
+      optional($._newlines),
       optional($.body),
       $._block_end,
-    ),
+      optional($._newlines),
+    )),
 
     _block_start: $ => '{',
     _block_end: $ => '}',
 
     // TODO: not to spec but good enough for now
     identifier: $ => token(seq(
-      unicodeLetter,
-      repeat(choice(unicodeLetter, unicodeDigit, unicodePunctuation)),
+      /\p{L}/,
+      repeat(choice(/\p{L}/, /[0-9]/, /(-|_)/)),
     )),
 
     expression: $ => choice(
@@ -110,26 +113,46 @@ module.exports = grammar({
       $.object,
     ),
 
+    _comma: $ => ',',
+
     tuple: $ => seq(
-      '[',
-      optional(seq(
-        $.expression,
-        repeat(seq(',', $.expression)),
-      )),
-      ']',
+      $._tuple_start,
+      optional($._tuple_elems),
+      optional($._newlines),
+      $._tuple_end,
     ),
+
+    _tuple_start: $ => '[',
+    _tuple_end: $ => ']',
+
+    _tuple_elems: $ => prec.right(seq(
+      optional($._newlines),
+      $.expression,
+      repeat(seq($._comma, optional($._newlines), $.expression)),
+      optional($._comma),
+      optional($._newlines),
+    )),
 
     object: $ => seq(
       $._object_start,
-      optional(seq(
-        $.object_elem,
-        repeat(seq(',', $.object_elem)),
-      )),
+      optional($._object_elems),
+      optional($._newlines),
       $._object_end,
     ),
 
     _object_start: $ => '{',
     _object_end: $ => '}',
+
+    _object_elems: $ => prec.right(seq(
+      optional($._newlines),
+      $.object_elem,
+      repeat(seq(
+        choice($._comma, $._newlines, seq($._comma, $._newlines)),
+        $.object_elem
+      )),
+      optional($._comma),
+      optional($._newlines),
+    )),
 
     object_elem: $ => seq(
       $.expression,
@@ -137,7 +160,10 @@ module.exports = grammar({
       $.expression,
     ),
 
-    index: $ => seq('[', $.expression, ']'),
+    index: $ => choice($.new_index, $.legacy_index),
+
+    new_index: $ => seq('[', $.expression, ']'),
+    legacy_index: $ => seq('.', /[0-9]+/),
 
     get_attr: $ => seq('.', $.identifier),
 
@@ -156,11 +182,11 @@ module.exports = grammar({
     for_expr: $ => choice($.for_tuple_expr, $.for_object_expr),
 
     for_tuple_expr: $ => seq(
-      '[',
+      $._tuple_start,
       $.for_intro,
       $.expression,
       optional($.for_cond),
-      ']',
+      $._tuple_end,
     ),
 
     for_object_expr: $ => seq(
@@ -191,20 +217,23 @@ module.exports = grammar({
     variable_expr: $ => $.identifier,
 
     function_call: $ => seq(
-      field('name', $.identifier),
+      $.identifier,
       $._function_call_start,
       optional($.function_arguments),
+      optional($._newlines),
       $._function_call_end,
     ),
 
-    _function_call_start: $ => '(',
-    _function_call_end: $ => ')',
+    _function_call_start: $ => token('('),
+    _function_call_end: $ => token(')'),
 
-    function_arguments: $ => seq(
+    function_arguments: $ => prec.right(seq(
+      optional($._newline),
       $.expression,
-      repeat(seq(',', $.expression)),
-      optional(choice(',', $.ellipsis))
-    ),
+      repeat(seq(',', optional($._newline), $.expression,)),
+      optional($._newline),
+      optional(choice(',', $.ellipsis)),
+    )),
 
     ellipsis: $ => token('...'),
 
@@ -271,6 +300,7 @@ module.exports = grammar({
       //$.template_if,
     ),
 
+    _newlines: $ => prec.right(repeat1($._newline)),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(

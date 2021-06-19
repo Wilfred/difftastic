@@ -1,5 +1,5 @@
 ================================================================================
-string bad escape sequence 2
+bad escape sequence 2
 ================================================================================
 
 foo = "bar\uZZ"
@@ -11,14 +11,14 @@ foo = "bar\uZZ"
     (attribute
       (identifier)
       (expression
-        (template_expr
-          (quoted_template
+        (literal_value
+          (string_lit
             (template_literal
               (ERROR
                 (UNEXPECTED '\')))))))))
 
 ================================================================================
-string literal multi line error
+literal multi line error
 ================================================================================
 
 foo = "
@@ -31,14 +31,14 @@ bar"
     (attribute
       (identifier)
       (expression
-        (template_expr
-          (quoted_template
+        (literal_value
+          (string_lit
             (ERROR
-              (UNEXPECTED 'b'))
+              (UNEXPECTED '\n'))
             (template_literal)))))))
 
 ================================================================================
-string literal unescaped tab
+unescaped tab
 ================================================================================
 
 foo = "foo	bar"
@@ -50,14 +50,12 @@ foo = "foo	bar"
     (attribute
       (identifier)
       (expression
-        (template_expr
-          (quoted_template
-            (template_literal
-              (ERROR
-                (UNEXPECTED 'b')))))))))
+        (literal_value
+          (string_lit
+            (template_literal)))))))
 
 ================================================================================
-string literal unescaped backslash
+unescaped backslash
 ================================================================================
 
 foo = "foo\bar"
@@ -69,14 +67,14 @@ foo = "foo\bar"
     (attribute
       (identifier)
       (expression
-        (template_expr
-          (quoted_template
+        (literal_value
+          (string_lit
             (template_literal
               (ERROR
                 (UNEXPECTED '\')))))))))
 
 ================================================================================
-string literal escaped backslash at end
+escaped backslash at end
 ================================================================================
 
 foo = "foo\\"
@@ -110,7 +108,7 @@ foo = "$${foo.bar}"
             (template_literal)))))))
 
 ================================================================================
-string literal template chars but no template 1
+template chars but no template 1
 ================================================================================
 
 foo = "$$$"
@@ -127,7 +125,7 @@ foo = "$$$"
             (template_literal)))))))
 
 ================================================================================
-string literal template chars but no template 2
+template chars but no template 2
 ================================================================================
 
 foo = "100%"
@@ -144,7 +142,7 @@ foo = "100%"
             (template_literal)))))))
 
 ================================================================================
-string literal template chars but no template 3
+template chars but no template 3
 ================================================================================
 
 foo = "%\n\t"
@@ -161,7 +159,7 @@ foo = "%\n\t"
             (template_literal)))))))
 
 ================================================================================
-string literal template chars but no template 4
+template chars but no template 4
 ================================================================================
 
 foo = "%%\n\t"
@@ -178,7 +176,7 @@ foo = "%%\n\t"
             (template_literal)))))))
 
 ================================================================================
-string literal template chars but no template 5
+template chars but no template 5
 ================================================================================
 
 foo = "$$"
@@ -195,7 +193,7 @@ foo = "$$"
             (template_literal)))))))
 
 ================================================================================
-string literal template chars but no template 6
+template chars but no template 6
 ================================================================================
 
 foo = "%%{\n\t"
@@ -212,7 +210,7 @@ foo = "%%{\n\t"
             (template_literal)))))))
 
 ================================================================================
-string literal escaped template
+escaped template
 ================================================================================
 
 foo = "$${ var.bar }"
