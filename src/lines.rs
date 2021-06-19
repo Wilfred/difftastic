@@ -3,6 +3,7 @@ use crate::tree_diff::{MatchKind, MatchedPos};
 use regex::Regex;
 use std::cmp::{max, min, Ordering};
 use std::fmt;
+use std::ops::RangeInclusive;
 
 const SPACER: &str = "  ";
 const MAX_GAP: usize = 1;
@@ -30,79 +31,77 @@ impl From<usize> for LineNumber {
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct LineGroup {
-    lhs_lines: Vec<LineNumber>,
-    rhs_lines: Vec<LineNumber>,
+    lhs_lines: Option<RangeInclusive<LineNumber>>,
+    rhs_lines: Option<RangeInclusive<LineNumber>>,
 }
 
 impl LineGroup {
     fn new() -> Self {
         Self {
-            lhs_lines: vec![],
-            rhs_lines: vec![],
+            lhs_lines: None,
+            rhs_lines: None,
+        }
+    }
+
+    // We can't iterate over a RangeInclusive<LineNumber> in safe, stable Rust. See
+    // https://github.com/rust-lang/rust/issues/42168
+    pub fn iter_lhs_lines(&self) -> RangeInclusive<usize> {
+        let empty_iter = 1usize..=0;
+        match &self.lhs_lines {
+            Some(lhs_lines) => lhs_lines.start().number..=lhs_lines.end().number,
+            None => empty_iter,
+        }
+    }
+
+    pub fn iter_rhs_lines(&self) -> RangeInclusive<usize> {
+        let empty_iter = 1usize..=0;
+        match &self.rhs_lines {
+            Some(rhs_lines) => rhs_lines.start().number..=rhs_lines.end().number,
+            None => empty_iter,
         }
     }
 
     pub fn pad(&mut self, amount: usize, max_lhs_line: LineNumber, max_rhs_line: LineNumber) {
-        if !self.lhs_lines.is_empty() {
-            // Pad before.
-            for _ in 0..amount {
-                let current = self.lhs_lines[0].number;
-                if current <= 0 {
-                    break;
-                }
+        if let Some(lhs_lines) = self.lhs_lines.take() {
+            let (mut start, mut end) = lhs_lines.into_inner();
 
-                self.lhs_lines.insert(0, (current - 1).into());
-            }
+            start = (max(0, start.number as isize - amount as isize) as usize).into();
+            end = min(max_lhs_line.number, end.number + amount).into();
 
-            // Pad after.
-            for _ in 0..amount {
-                let current = self.lhs_lines.last().unwrap().number;
-                if current + 1 == max_lhs_line.number {
-                    break;
-                }
-
-                self.lhs_lines.push((current + 1).into());
-            }
+            self.lhs_lines = Some(start..=end);
         }
 
-        if !self.rhs_lines.is_empty() {
-            // Pad before.
-            for _ in 0..amount {
-                let current = self.rhs_lines[0].number;
-                if current <= 0 {
-                    break;
-                }
+        if let Some(rhs_lines) = self.rhs_lines.take() {
+            let (mut start, mut end) = rhs_lines.into_inner();
 
-                self.rhs_lines.insert(0, (current - 1).into());
-            }
+            start = (max(0, start.number as isize - amount as isize) as usize).into();
+            end = min(max_rhs_line.number, end.number + amount).into();
 
-            // Pad after.
-            for _ in 0..amount {
-                let current = self.rhs_lines.last().unwrap().number;
-                if current + 1 == max_rhs_line.number {
-                    break;
-                }
-
-                self.rhs_lines.push((current + 1).into());
-            }
+            self.rhs_lines = Some(start..=end);
         }
     }
 
     /// Does `lg` overlap with `self`, or occur on exactly the next
     /// line?
     fn next_lg_touches(&self, lg: &LineGroup) -> bool {
-        match (self.lhs_lines.last(), lg.lhs_lines.first()) {
-            (Some(self_last), Some(lg_first)) => {
-                if lg_first.number <= self_last.number + 1 {
+        match (&self.lhs_lines, &lg.lhs_lines) {
+            (Some(self_lines), Some(lg_lines)) => {
+                let self_end = self_lines.end();
+                let lg_start = lg_lines.start();
+
+                if lg_start.number <= self_end.number + 1 {
                     return true;
                 }
             }
             _ => {}
         }
 
-        match (self.rhs_lines.last(), lg.rhs_lines.first()) {
-            (Some(self_last), Some(lg_first)) => {
-                if lg_first.number <= self_last.number + 1 {
+        match (&self.rhs_lines, &lg.rhs_lines) {
+            (Some(self_lines), Some(lg_lines)) => {
+                let self_end = self_lines.end();
+                let lg_start = lg_lines.start();
+
+                if lg_start.number <= self_end.number + 1 {
                     return true;
                 }
             }
@@ -113,92 +112,82 @@ impl LineGroup {
     }
 
     /// Extend LHS and RHS of self until it includes all the lines in
-    /// `lg`. If either side of `lg` do not overlap with self, fill in
+    /// `lg`. If either side of `lg` does not overlap with self, fill in
     /// the gap.
-    fn next_extend(&mut self, mut lg: LineGroup) {
-        match self.lhs_lines.last() {
-            Some(self_last) => {
-                let last_num = self_last.number;
-
-                if let Some(lg_first) = lg.lhs_lines.first() {
-                    for i in last_num + 1..lg_first.number {
-                        self.lhs_lines.push(i.into());
-                    }
-                }
-
-                for line in lg.lhs_lines {
-                    if line.number > last_num {
-                        self.lhs_lines.push(line);
-                    }
+    fn next_extend(&mut self, lg: &LineGroup) {
+        match &self.lhs_lines {
+            Some(self_lhs) => {
+                if let Some(lg_lines) = &lg.lhs_lines {
+                    self.lhs_lines = Some(*self_lhs.start()..=*lg_lines.end());
                 }
             }
-            None => self.lhs_lines.append(&mut lg.lhs_lines),
+            None => {
+                self.lhs_lines = lg.lhs_lines.clone();
+            }
         }
 
-        match self.rhs_lines.last() {
-            Some(last) => {
-                let last_num = last.number;
-
-                if let Some(first) = lg.rhs_lines.first() {
-                    for i in last_num + 1..first.number {
-                        self.rhs_lines.push(i.into());
-                    }
-                }
-
-                for line in lg.rhs_lines {
-                    if line.number > last_num {
-                        self.rhs_lines.push(line);
-                    }
+        match &self.rhs_lines {
+            Some(self_rhs) => {
+                if let Some(lg_lines) = &lg.rhs_lines {
+                    self.rhs_lines = Some(*self_rhs.start()..=*lg_lines.end());
                 }
             }
-            None => self.rhs_lines.append(&mut lg.rhs_lines),
+            None => {
+                self.rhs_lines = lg.rhs_lines.clone();
+            }
         }
     }
 
-    /// Does `mp`, a MatchedPos that occurs after self, overlap with self?
+    /// Does `mp`, a MatchedPos that occurs on or after self, overlap
+    /// with self?
     fn next_overlaps(&self, is_lhs: bool, mp: &MatchedPos, max_gap: usize) -> bool {
         let group_lines = if is_lhs {
             &self.lhs_lines
         } else {
             &self.rhs_lines
         };
-        if group_lines.is_empty() {
-            return false;
+
+        if let Some(group_lines) = group_lines {
+            let last_group_line = group_lines.end();
+
+            let match_lines = &mp.pos;
+            assert!(!match_lines.is_empty());
+            let first_match_line = match_lines[0].line.number;
+
+            // TODO: consider mp.prev_opposite_pos.
+
+            first_match_line <= last_group_line.number + max_gap
+        } else {
+            false
         }
-
-        let last_group_line = group_lines.last().unwrap().number;
-
-        let match_lines = &mp.pos;
-        assert!(!match_lines.is_empty());
-        let first_match_line = match_lines[0].line.number;
-
-        // TODO: consider mp.prev_opposite_pos.
-
-        first_match_line <= last_group_line + max_gap
     }
 
     fn add_lhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
-        let new_highest = line_spans.last().map(|ln| ln.line.number).unwrap_or(0);
-        match self.lhs_lines.first().map(|ln| ln.number) {
-            Some(current_lowest) => {
-                self.lhs_lines = (current_lowest..=new_highest).map(|i| i.into()).collect();
+        match (line_spans.first(), line_spans.last()) {
+            (Some(first), Some(last)) => {
+                if let Some(lhs_lines) = &self.lhs_lines {
+                    let start = min(*lhs_lines.start(), first.line);
+                    let end = max(*lhs_lines.end(), last.line);
+                    self.lhs_lines = Some(start..=end);
+                } else {
+                    self.lhs_lines = Some(first.line..=last.line);
+                }
             }
-            None => {
-                let new_lowest = line_spans.last().map(|ln| ln.line.number).unwrap_or(0);
-                self.lhs_lines = (new_lowest..=new_highest).map(|i| i.into()).collect();
-            }
+            _ => {}
         }
     }
     fn add_rhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
-        let new_highest = dbg!(line_spans).last().map(|ln| ln.line.number).unwrap_or(0);
-        match self.rhs_lines.first().map(|ln| ln.number) {
-            Some(current_lowest) => {
-                self.rhs_lines = (current_lowest..=new_highest).map(|i| i.into()).collect();
+        match (line_spans.first(), line_spans.last()) {
+            (Some(first), Some(last)) => {
+                if let Some(rhs_lines) = &self.rhs_lines {
+                    let start = min(*rhs_lines.start(), first.line);
+                    let end = max(*rhs_lines.end(), last.line);
+                    self.rhs_lines = Some(start..=end);
+                } else {
+                    self.rhs_lines = Some(first.line..=last.line);
+                }
             }
-            None => {
-                let new_lowest = line_spans.last().map(|ln| ln.line.number).unwrap_or(0);
-                self.rhs_lines = (new_lowest..=new_highest).map(|i| i.into()).collect();
-            }
+            _ => {}
         }
     }
 
@@ -216,14 +205,14 @@ impl LineGroup {
     }
 
     pub fn max_visible_lhs(&self) -> LineNumber {
-        match self.lhs_lines.last() {
-            Some(line) => line.clone(),
+        match &self.lhs_lines {
+            Some(lhs_lines) => *lhs_lines.end(),
             None => 0.into(),
         }
     }
     pub fn max_visible_rhs(&self) -> LineNumber {
-        match self.rhs_lines.last() {
-            Some(line) => line.clone(),
+        match &self.rhs_lines {
+            Some(rhs_lines) => *rhs_lines.end(),
             None => 0.into(),
         }
     }
@@ -280,7 +269,7 @@ pub fn join_overlapping(line_groups: Vec<LineGroup>) -> Vec<LineGroup> {
         match prev.take() {
             Some(mut p) => {
                 if p.next_lg_touches(&line_group) {
-                    p.next_extend(line_group);
+                    p.next_extend(&line_group);
                     prev = Some(p);
                 } else {
                     // Does not overlap, just append to the result.
@@ -412,9 +401,13 @@ pub fn rhs_printable_width(
     max(MIN_WIDTH, min(longest_line, space_available))
 }
 
+/// Display all the lines in `lhs` and `rhs` that are mentioned in
+/// `groups`. horizontally concatenating the matched lines.
 pub fn apply_groups(
     lhs: &str,
     rhs: &str,
+    // TODO: define a helper function that operates on a single
+    // LineGroup.
     groups: &[LineGroup],
     lhs_content_width: usize,
     lhs_column_width: usize,
@@ -429,13 +422,10 @@ pub fn apply_groups(
 
     for (i, group) in groups.iter().enumerate() {
         let mut lhs_result = String::new();
-        for lhs_line_num in &group.lhs_lines {
-            lhs_result.push_str(&format_line_num_padded(
-                lhs_line_num.number,
-                lhs_column_width,
-            ));
+        for lhs_line_num in group.iter_lhs_lines() {
+            lhs_result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
 
-            match lhs_lines.get(lhs_line_num.number) {
+            match lhs_lines.get(lhs_line_num) {
                 Some(line) => lhs_result.push_str(line),
                 None => lhs_result.push_str(&" ".repeat(lhs_content_width)),
             }
@@ -443,12 +433,9 @@ pub fn apply_groups(
         }
 
         let mut rhs_result = String::new();
-        for rhs_line_num in &group.rhs_lines {
-            rhs_result.push_str(&format_line_num_padded(
-                rhs_line_num.number,
-                rhs_column_width,
-            ));
-            rhs_result.push_str(rhs_lines.get(rhs_line_num.number).unwrap_or(&""));
+        for rhs_line_num in group.iter_rhs_lines() {
+            rhs_result.push_str(&format_line_num_padded(rhs_line_num, rhs_column_width));
+            rhs_result.push_str(rhs_lines.get(rhs_line_num).unwrap_or(&""));
             rhs_result.push_str("\n");
         }
 
