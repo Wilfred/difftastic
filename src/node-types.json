@@ -75,6 +75,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -170,6 +174,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -238,6 +246,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
           "named": true
         },
         {
@@ -312,6 +324,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -383,6 +399,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -451,6 +471,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
           "named": true
         },
         {
@@ -553,6 +577,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
           "named": true
         },
         {
@@ -955,6 +983,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1023,6 +1055,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
           "named": true
         },
         {
@@ -1139,6 +1175,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1234,6 +1274,10 @@
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "select_subexpression",
             "named": true
           },
           {
@@ -1334,6 +1378,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1402,6 +1450,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
           "named": true
         },
         {
@@ -1484,6 +1536,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1556,6 +1612,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
           "named": true
         },
         {
@@ -1733,6 +1793,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1816,6 +1880,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
           "named": true
         },
         {
@@ -1990,6 +2058,10 @@
           "named": true
         },
         {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2026,6 +2098,21 @@
         },
         {
           "type": "where_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "select_subexpression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "select_statement",
           "named": true
         }
       ]
@@ -2167,6 +2254,10 @@
             "named": true
           },
           {
+            "type": "select_subexpression",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -2240,6 +2331,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
           "named": true
         },
         {
@@ -2351,6 +2446,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
           "named": true
         },
         {

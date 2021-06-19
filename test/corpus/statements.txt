@@ -36,6 +36,21 @@ SELECT a, b FROM table1;
         (from_clause (identifier)))) 
 
 ================
+SELECT statement with SELECT subexpression
+================
+
+SELECT (SELECT 1) AS a
+
+---
+
+(source_file
+    (select_statement
+        (select_clause (select_clause_body (alias 
+                (select_subexpression 
+                    (select_statement (select_clause (select_clause_body (number)))))
+                (identifier))))))
+
+================
 SELECT statement with aliases
 ================
 

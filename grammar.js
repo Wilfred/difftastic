@@ -194,6 +194,7 @@ module.exports = grammar({
       prec.left(seq(caseInsensitive("SELECT"), optional($.select_clause_body))),
     from_clause: $ =>
       seq(caseInsensitive("FROM"), commaSep1($._aliasable_expression)),
+    select_subexpression: $ => seq("(", $.select_statement, ")"),
     in_expression: $ =>
       prec.left(
         1,
@@ -341,6 +342,7 @@ module.exports = grammar({
         $.type_cast,
         $.binary_expression,
         $.argument_reference,
+        $.select_subexpression,
       ),
   },
 });

@@ -1369,6 +1369,23 @@
         }
       ]
     },
+    "select_subexpression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "select_statement"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "in_expression": {
       "type": "PREC_LEFT",
       "value": 1,
@@ -2399,6 +2416,10 @@
         {
           "type": "SYMBOL",
           "name": "argument_reference"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "select_subexpression"
         }
       ]
     }
