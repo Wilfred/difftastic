@@ -94,6 +94,8 @@ module.exports = grammar({
     [$._expression_without_call_expression_with_just_name, $.method_invocation],
     [$._expression_without_call_expression_with_just_name, $.goto_expression, $.method_invocation],
     [$.list_block],
+    [$.method_invocation, $.hash_dereference],
+    [$.method_invocation, $.array_dereference],
   ],
 
   externals: $ => [
@@ -1207,7 +1209,7 @@ module.exports = grammar({
       choice(
         field('package_name', choice($.identifier, $.package_name, $.string_single_quoted)),
         field('object', $.scalar_variable),
-        field('object_return_value', $.call_expression),
+        field('object_return_value', $._expression),
       ),
       prec.right(repeat1(
         seq(
@@ -1319,6 +1321,7 @@ module.exports = grammar({
 
     // any characters or just bareword(s) and variables
     identifier_1: $ => /[a-zA-Z0-9_$:\./@%\^]+/,
+    identifier_2: $ => /[a-zA-Z0-9_$:\.@%\^]+/,
 
     loop_control_keyword: $ => choice(
       'next',
@@ -1399,7 +1402,7 @@ module.exports = grammar({
       'qw',
       choice(
         seq('{', repeat($.identifier_1), '}'),
-        seq('/', repeat($.identifier_1), '/'),
+        seq('/', repeat($.identifier_2), '/'),
         seq('(', repeat($.identifier_1), ')'),
         seq('[', repeat($.identifier_1), ']'),
         seq('\'', repeat($.identifier_1), '\''),
@@ -1438,10 +1441,10 @@ module.exports = grammar({
     substitution_pattern_s: $ => prec(PRECEDENCE.REGEXP, seq(
       's',
       choice(
-        seq('{', optional($.regex_pattern), '}', '{', field('replace', optional($.identifier_1)), '}'),
-        seq('/', optional($.regex_pattern), '/', field('replace', optional($.identifier_1)), '/'),
-        seq('(', optional($.regex_pattern), ')', '(', field('replace', optional($.identifier_1)), ')'),
-        seq('\'', optional($.regex_pattern), '\'', field('replace', optional($.identifier_1)), '\''),
+        seq('{', optional($.regex_pattern), '}', '{', field('replace', optional($.identifier_2)), '}'),
+        seq('/', optional($.regex_pattern), '/', field('replace', optional($.identifier_2)), '/'),
+        seq('(', optional($.regex_pattern), ')', '(', field('replace', optional($.identifier_2)), ')'),
+        seq('\'', optional($.regex_pattern), '\'', field('replace', optional($.identifier_2)), '\''),
       ),
       field('regex_option', optional($.regex_option_for_substitution)),
     )),
