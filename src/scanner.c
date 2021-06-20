@@ -3,6 +3,7 @@
 #include <wctype.h>
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>
 
 enum TokenType {
   QUOTED_TEMPLATE_START,
@@ -63,6 +64,7 @@ void scanner_enter_interpolation_context(Scanner *scanner) {
 }
 
 void scanner_exit_interpolation_context(Scanner *scanner) {
+  assert(scanner->template_interpolation_depth > 0);
   scanner->template_interpolation_depth--;
   scanner->in_template_interpolation = false;
   if (scanner->quoted_context_depth > 0) {
@@ -77,6 +79,7 @@ void scanner_enter_quoted_context(Scanner *scanner) {
 }
 
 void scanner_exit_quoted_context(Scanner *scanner) {
+  assert(scanner->quoted_context_depth > 0);
   scanner->quoted_context_depth--;
   scanner->in_quoted_context = false;
   if (scanner->template_interpolation_depth > 0) {
