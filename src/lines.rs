@@ -160,7 +160,7 @@ impl LineGroup {
         }
         match (mp.prev_opposite_pos.first(), opposite_group_lines) {
             (Some(first_opposite), Some(opposite_group_lines)) => {
-                if dbg!(first_opposite.line.number <= opposite_group_lines.end().number + max_gap) {
+                if first_opposite.line.number <= opposite_group_lines.end().number + max_gap {
                     return true;
                 }
             }
