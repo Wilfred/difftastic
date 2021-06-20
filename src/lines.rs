@@ -84,28 +84,22 @@ impl LineGroup {
     /// Does `lg` overlap with `self`, or occur on exactly the next
     /// line?
     fn next_lg_touches(&self, lg: &LineGroup) -> bool {
-        match (&self.lhs_lines, &lg.lhs_lines) {
-            (Some(self_lines), Some(lg_lines)) => {
-                let self_end = self_lines.end();
-                let lg_start = lg_lines.start();
+        if let (Some(self_lines), Some(lg_lines)) = (&self.lhs_lines, &lg.lhs_lines) {
+            let self_end = self_lines.end();
+            let lg_start = lg_lines.start();
 
-                if lg_start.number <= self_end.number + 1 {
-                    return true;
-                }
+            if lg_start.number <= self_end.number + 1 {
+                return true;
             }
-            _ => {}
         }
 
-        match (&self.rhs_lines, &lg.rhs_lines) {
-            (Some(self_lines), Some(lg_lines)) => {
-                let self_end = self_lines.end();
-                let lg_start = lg_lines.start();
+        if let (Some(self_lines), Some(lg_lines)) = (&self.rhs_lines, &lg.rhs_lines) {
+            let self_end = self_lines.end();
+            let lg_start = lg_lines.start();
 
-                if lg_start.number <= self_end.number + 1 {
-                    return true;
-                }
+            if lg_start.number <= self_end.number + 1 {
+                return true;
             }
-            _ => {}
         }
 
         false
@@ -158,44 +152,37 @@ impl LineGroup {
                 return true;
             }
         }
-        match (mp.prev_opposite_pos.first(), opposite_group_lines) {
-            (Some(first_opposite), Some(opposite_group_lines)) => {
-                if first_opposite.line.number <= opposite_group_lines.end().number + max_gap {
-                    return true;
-                }
+        if let (Some(first_opposite), Some(opposite_group_lines)) =
+            (mp.prev_opposite_pos.first(), opposite_group_lines)
+        {
+            if first_opposite.line.number <= opposite_group_lines.end().number + max_gap {
+                return true;
             }
-            _ => {}
         }
 
         false
     }
 
     fn add_lhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
-        match (line_spans.first(), line_spans.last()) {
-            (Some(first), Some(last)) => {
-                if let Some(lhs_lines) = &self.lhs_lines {
-                    let start = min(*lhs_lines.start(), first.line);
-                    let end = max(*lhs_lines.end(), last.line);
-                    self.lhs_lines = Some(start..=end);
-                } else {
-                    self.lhs_lines = Some(first.line..=last.line);
-                }
+        if let (Some(first), Some(last)) = (line_spans.first(), line_spans.last()) {
+            if let Some(lhs_lines) = &self.lhs_lines {
+                let start = min(*lhs_lines.start(), first.line);
+                let end = max(*lhs_lines.end(), last.line);
+                self.lhs_lines = Some(start..=end);
+            } else {
+                self.lhs_lines = Some(first.line..=last.line);
             }
-            _ => {}
         }
     }
     fn add_rhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
-        match (line_spans.first(), line_spans.last()) {
-            (Some(first), Some(last)) => {
-                if let Some(rhs_lines) = &self.rhs_lines {
-                    let start = min(*rhs_lines.start(), first.line);
-                    let end = max(*rhs_lines.end(), last.line);
-                    self.rhs_lines = Some(start..=end);
-                } else {
-                    self.rhs_lines = Some(first.line..=last.line);
-                }
+        if let (Some(first), Some(last)) = (line_spans.first(), line_spans.last()) {
+            if let Some(rhs_lines) = &self.rhs_lines {
+                let start = min(*rhs_lines.start(), first.line);
+                let end = max(*rhs_lines.end(), last.line);
+                self.rhs_lines = Some(start..=end);
+            } else {
+                self.rhs_lines = Some(first.line..=last.line);
             }
-            _ => {}
         }
     }
 
@@ -320,18 +307,15 @@ pub fn visible_groups(
     let mut current: Option<LineGroup> = None;
 
     for (is_lhs, position) in positions {
-        match current.take() {
-            Some(group) => {
-                if group.next_overlaps(is_lhs, position, MAX_GAP) {
-                    // Continue with this group.
-                    current = Some(group);
-                } else {
-                    // Start new group
-                    groups.push(group);
-                    current = None;
-                }
+        if let Some(group) = current.take() {
+            if group.next_overlaps(is_lhs, position, MAX_GAP) {
+                // Continue with this group.
+                current = Some(group);
+            } else {
+                // Start new group
+                groups.push(group);
+                current = None;
             }
-            None => {}
         }
 
         let mut group = current.unwrap_or_else(LineGroup::new);
