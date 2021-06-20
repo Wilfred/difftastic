@@ -60,7 +60,7 @@ comment_patterns = [
 open_delimiter_pattern = '(\[|\{|\()'
 close_delimiter_pattern = '(\]|\}|\))'
 
-[elisp]
+["Emacs Lisp"]
 extensions = ["el"]
 atom_patterns = [
   # Numbers
