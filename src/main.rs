@@ -12,7 +12,7 @@ use crate::lines::{
     apply_groups, enforce_length, format_line_num, join_overlapping, lhs_printable_width,
     rhs_printable_width, visible_groups, MaxLine,
 };
-use crate::parse::{lang_from_str, parse, read_or_die};
+use crate::parse::{find_lang, parse, read_or_die, ConfigDir};
 use crate::style::apply_colors;
 use crate::tree_diff::{change_positions, set_changed};
 
@@ -58,14 +58,15 @@ fn main() {
     let rhs_path = matches.value_of("second").unwrap();
     let rhs_src = read_or_die(rhs_path);
 
-    let syntax_toml = read_or_die("syntax.toml");
+    let syntax_toml = ConfigDir::read_default_toml();
 
     let lhs_extension = Path::new(lhs_path)
         .extension()
         .and_then(OsStr::to_str)
         .unwrap();
 
-    let lang = lang_from_str(&syntax_toml, lhs_extension);
+    let lang = find_lang(syntax_toml, lhs_extension)
+        .expect("todo: handle unsupported languages gracefully");
 
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => width.parse::<usize>().unwrap(),
