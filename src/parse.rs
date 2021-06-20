@@ -2,6 +2,7 @@ use crate::lines::NewlinePositions;
 use crate::positions::SingleLineSpan;
 use crate::tree_diff::{AtomKind, Node};
 use regex::Regex;
+use rust_embed::RustEmbed;
 use std::fs;
 use toml::Value;
 use typed_arena::Arena;
@@ -26,6 +27,18 @@ pub fn read_or_die(path: &str) -> String {
     }
 }
 
+#[derive(RustEmbed)]
+#[folder = "config/"]
+pub struct ConfigDir;
+
+impl ConfigDir {
+    pub fn read_default_toml() -> Vec<Language> {
+        let syntax_toml_bytes = ConfigDir::get("syntax.toml").unwrap();
+        let syntax_toml = std::str::from_utf8(syntax_toml_bytes.as_ref()).unwrap();
+        read_syntax_toml(syntax_toml)
+    }
+}
+
 pub struct Language {
     extensions: Vec<String>,
     atom_patterns: Vec<Regex>,
@@ -45,15 +58,13 @@ fn read_syntax_toml(src: &str) -> Vec<Language> {
         .collect()
 }
 
-pub fn lang_from_str(toml_src: &str, extension: &str) -> Language {
-    let languages = read_syntax_toml(toml_src);
-
+pub fn find_lang(languages: Vec<Language>, extension: &str) -> Option<Language> {
     for language in languages {
         if language.extensions.iter().any(|e| e == extension) {
-            return language;
+            return Some(language);
         }
     }
-    todo!()
+    None
 }
 
 fn as_string_vec(v: &Value) -> Vec<String> {
@@ -220,8 +231,8 @@ mod tests {
     use std::cell::Cell;
 
     fn lang() -> Language {
-        let syntax_toml = read_or_die("syntax.toml");
-        lang_from_str(&syntax_toml, "js")
+        let syntax_toml = ConfigDir::read_default_toml();
+        find_lang(syntax_toml, "js").unwrap()
     }
 
     fn as_refs<'a, T>(items: &'a Vec<T>) -> Vec<&'a T> {
