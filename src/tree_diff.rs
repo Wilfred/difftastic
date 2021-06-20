@@ -517,6 +517,8 @@ fn mark_unchanged_nodes<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>], env: &mu
     // this level, and mark as many things as unchanged as we can.
     for res in slice(lhs, rhs) {
         if let Both(lhs_node, rhs_node) = res {
+            // todo: fix sliders by preferring atoms that come before
+            // a list.
             lhs_node.set_change_deep(Unchanged(rhs_node));
             rhs_node.set_change_deep(Unchanged(lhs_node));
 
