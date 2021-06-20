@@ -68,7 +68,7 @@ fn main() {
     let lang = lang_from_str(&syntax_toml, lhs_extension);
 
     let terminal_width = match matches.value_of("COLUMNS") {
-        Some(width) => usize::from_str_radix(width, 10).unwrap(),
+        Some(width) => width.parse::<usize>().unwrap(),
         None => term_width().unwrap_or(80),
     };
 

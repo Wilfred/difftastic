@@ -257,7 +257,7 @@ pub enum MatchKind {
 }
 
 impl MatchKind {
-    fn from_change<'a>(ck: ChangeKind<'a>) -> Self {
+    fn from_change(ck: ChangeKind) -> Self {
         match ck {
             Unchanged(_) => MatchKind::Unchanged,
             Moved => MatchKind::Moved,

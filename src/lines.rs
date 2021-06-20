@@ -330,7 +330,7 @@ pub fn visible_groups(
             None => {}
         }
 
-        let mut group = current.unwrap_or(LineGroup::new());
+        let mut group = current.unwrap_or_else(LineGroup::new);
         if is_lhs {
             group.add_lhs(position);
         } else {
@@ -429,14 +429,14 @@ pub fn apply_groups(
                 Some(line) => lhs_result.push_str(line),
                 None => lhs_result.push_str(&" ".repeat(lhs_content_width)),
             }
-            lhs_result.push_str("\n");
+            lhs_result.push('\n');
         }
 
         let mut rhs_result = String::new();
         for rhs_line_num in group.iter_rhs_lines() {
             rhs_result.push_str(&format_line_num_padded(rhs_line_num, rhs_column_width));
             rhs_result.push_str(rhs_lines.get(rhs_line_num).unwrap_or(&""));
-            rhs_result.push_str("\n");
+            rhs_result.push('\n');
         }
 
         result.push_str(&horizontal_concat(
@@ -447,7 +447,7 @@ pub fn apply_groups(
         ));
         if i != groups.len() - 1 {
             result.push_str(&spacer);
-            result.push_str("\n");
+            result.push('\n');
         }
     }
 
