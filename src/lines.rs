@@ -158,15 +158,13 @@ impl LineGroup {
                 return true;
             }
         }
-        if let Some(opposite_lines) = &mp.prev_opposite_pos {
-            match (opposite_lines.first(), opposite_group_lines) {
-                (Some(first_opposite), Some(opposite_group_lines)) => {
-                    if dbg!(first_opposite.line.number <= opposite_group_lines.end().number + max_gap) {
-                        return true;
-                    }
+        match (mp.prev_opposite_pos.first(), opposite_group_lines) {
+            (Some(first_opposite), Some(opposite_group_lines)) => {
+                if dbg!(first_opposite.line.number <= opposite_group_lines.end().number + max_gap) {
+                    return true;
                 }
-                _ => {}
             }
+            _ => {}
         }
 
         false
@@ -203,15 +201,11 @@ impl LineGroup {
 
     fn add_lhs(&mut self, mp: &MatchedPos) {
         self.add_lhs_pos(&mp.pos);
-        if let Some(ref opposite_pos) = mp.prev_opposite_pos {
-            self.add_rhs_pos(opposite_pos);
-        }
+        self.add_rhs_pos(&mp.prev_opposite_pos);
     }
     fn add_rhs(&mut self, mp: &MatchedPos) {
         self.add_rhs_pos(&mp.pos);
-        if let Some(ref opposite_pos) = mp.prev_opposite_pos {
-            self.add_lhs_pos(opposite_pos);
-        }
+        self.add_lhs_pos(&mp.prev_opposite_pos);
     }
 
     pub fn max_visible_lhs(&self) -> LineNumber {
@@ -365,7 +359,7 @@ fn test_visible_groups_ignores_unchanged() {
             start_col: 0,
             end_col: 1,
         }],
-        prev_opposite_pos: None,
+        prev_opposite_pos: vec![],
     }];
     let rhs_positions = vec![MatchedPos {
         kind: MatchKind::Unchanged,
@@ -374,7 +368,7 @@ fn test_visible_groups_ignores_unchanged() {
             start_col: 0,
             end_col: 1,
         }],
-        prev_opposite_pos: None,
+        prev_opposite_pos: vec![],
     }];
 
     let res = visible_groups(&lhs_positions, &rhs_positions);

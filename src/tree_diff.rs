@@ -270,7 +270,7 @@ impl MatchKind {
 pub struct MatchedPos {
     pub kind: MatchKind,
     pub pos: Vec<SingleLineSpan>,
-    pub prev_opposite_pos: Option<Vec<SingleLineSpan>>,
+    pub prev_opposite_pos: Vec<SingleLineSpan>,
 }
 
 /// Walk `nodes` and return a vec of all the changed positions.
@@ -279,11 +279,11 @@ pub fn change_positions<'a>(src: &str, opposite_src: &str, nodes: &[&Node<'a>]) 
     let opposite_nl_pos = NewlinePositions::from(opposite_src);
 
     let mut positions = Vec::new();
-    let mut prev_unchanged: Option<Vec<SingleLineSpan>> = Some(vec![SingleLineSpan {
+    let mut prev_unchanged = vec![SingleLineSpan {
         line: 0.into(),
         start_col: 0,
         end_col: 0,
-    }]);
+    }];
     change_positions_(
         &nl_pos,
         &opposite_nl_pos,
@@ -298,7 +298,7 @@ fn change_positions_<'a>(
     nl_pos: &NewlinePositions,
     opposite_nl_pos: &NewlinePositions,
     nodes: &[&Node<'a>],
-    prev_opposite_pos: &mut Option<Vec<SingleLineSpan>>,
+    prev_opposite_pos: &mut Vec<SingleLineSpan>,
     positions: &mut Vec<MatchedPos>,
 ) {
     for node in nodes {
@@ -318,7 +318,7 @@ fn change_positions_<'a>(
                             open_position: opposite_open_pos,
                             ..
                         } => {
-                            *prev_opposite_pos = Some(opposite_open_pos.clone());
+                            *prev_opposite_pos = opposite_open_pos.clone();
                         }
                         Atom { .. } => unreachable!(),
                     }
@@ -344,7 +344,7 @@ fn change_positions_<'a>(
                             close_position: opposite_close_pos,
                             ..
                         } => {
-                            *prev_opposite_pos = Some(opposite_close_pos.clone());
+                            *prev_opposite_pos = opposite_close_pos.clone();
                         }
                         Atom { .. } => unreachable!(),
                     }
@@ -369,7 +369,7 @@ fn change_positions_<'a>(
                             position: opposite_position,
                             ..
                         } => {
-                            *prev_opposite_pos = Some(opposite_position.clone());
+                            *prev_opposite_pos = opposite_position.clone();
                         }
                     }
                 }
@@ -677,11 +677,11 @@ mod tests {
         let positions = change_positions("irrelevant", "also irrelevant", nodes);
         assert_eq!(
             positions[0].prev_opposite_pos,
-            Some(vec![SingleLineSpan {
+            vec![SingleLineSpan {
                 line: 0.into(),
                 start_col: 0,
                 end_col: 0
-            }])
+            }]
         );
     }
 
