@@ -648,6 +648,16 @@ mod tests {
                         &arena,
                         vec![SingleLineSpan {
                             line: 0.into(),
+                            start_col: 4,
+                            end_col: 5,
+                        }],
+                        ",",
+                        AtomKind::Other,
+                    ),
+                    Node::new_atom(
+                        &arena,
+                        vec![SingleLineSpan {
+                            line: 0.into(),
                             start_col: 6,
                             end_col: 9,
                         }],
