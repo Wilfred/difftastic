@@ -279,7 +279,11 @@ pub fn change_positions<'a>(src: &str, opposite_src: &str, nodes: &[&Node<'a>]) 
     let opposite_nl_pos = NewlinePositions::from(opposite_src);
 
     let mut positions = Vec::new();
-    let mut prev_unchanged = None;
+    let mut prev_unchanged: Option<Vec<SingleLineSpan>> = Some(vec![SingleLineSpan {
+        line: 0.into(),
+        start_col: 0,
+        end_col: 0,
+    }]);
     change_positions_(
         &nl_pos,
         &opposite_nl_pos,
@@ -654,7 +658,32 @@ fn mark_unchanged_node<'a>(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
     use AtomKind::Other;
+
+    /// Ensure that we assign prev_opposite_pos even if the change is on the first node.
+    #[test]
+    fn test_prev_opposite_pos_first_node() {
+        let nodes = &[&Atom {
+            change: Cell::new(Some(Novel)),
+            position: vec![SingleLineSpan {
+                line: 0.into(),
+                start_col: 2,
+                end_col: 3,
+            }],
+            content: "foo".into(),
+            kind: Other,
+        }];
+        let positions = change_positions("irrelevant", "also irrelevant", nodes);
+        assert_eq!(
+            positions[0].prev_opposite_pos,
+            Some(vec![SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 0
+            }])
+        );
+    }
 
     #[test]
     fn test_atom_equality_ignores_change_and_pos() {
