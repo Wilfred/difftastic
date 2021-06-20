@@ -14,7 +14,7 @@ use crate::lines::{
 };
 use crate::parse::{lang_from_str, parse, read_or_die};
 use crate::style::apply_colors;
-use crate::tree_diff::{matched_positions, set_changed};
+use crate::tree_diff::{change_positions, set_changed};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
@@ -78,8 +78,8 @@ fn main() {
 
     set_changed(&lhs, &rhs);
 
-    let lhs_positions = matched_positions(&lhs_src, &rhs_src, &lhs);
-    let rhs_positions = matched_positions(&rhs_src, &lhs_src, &rhs);
+    let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
+    let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     for group in &mut groups {

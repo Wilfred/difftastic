@@ -273,17 +273,14 @@ pub struct MatchedPos {
     pub prev_opposite_pos: Option<Vec<SingleLineSpan>>,
 }
 
-pub fn matched_positions<'a>(
-    src: &str,
-    opposite_src: &str,
-    nodes: &[&Node<'a>],
-) -> Vec<MatchedPos> {
+/// Walk `nodes` and return a vec of all the changed positions.
+pub fn change_positions<'a>(src: &str, opposite_src: &str, nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
     let nl_pos = NewlinePositions::from(src);
     let opposite_nl_pos = NewlinePositions::from(opposite_src);
 
     let mut positions = Vec::new();
     let mut prev_unchanged = None;
-    matched_positions_(
+    change_positions_(
         &nl_pos,
         &opposite_nl_pos,
         nodes,
@@ -293,7 +290,7 @@ pub fn matched_positions<'a>(
     positions
 }
 
-fn matched_positions_<'a>(
+fn change_positions_<'a>(
     nl_pos: &NewlinePositions,
     opposite_nl_pos: &NewlinePositions,
     nodes: &[&Node<'a>],
@@ -329,7 +326,7 @@ fn matched_positions_<'a>(
                     prev_opposite_pos: prev_opposite_pos.clone(),
                 });
 
-                matched_positions_(
+                change_positions_(
                     nl_pos,
                     opposite_nl_pos,
                     children,
