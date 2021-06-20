@@ -3,7 +3,6 @@ use crate::positions::SingleLineSpan;
 use crate::tree_diff::{AtomKind, Node};
 use regex::Regex;
 use std::fs;
-use toml;
 use toml::Value;
 use typed_arena::Arena;
 
@@ -70,7 +69,7 @@ fn as_regex_vec(v: &Value) -> Vec<Regex> {
 
 fn as_regex(s: &str) -> Regex {
     let mut pattern = String::with_capacity(1 + s.len());
-    pattern.push_str("^");
+    pattern.push('^');
     pattern.push_str(s);
 
     Regex::new(&pattern).unwrap()
@@ -88,16 +87,14 @@ fn lang_from_value(v: &Value) -> Language {
                 .get("open_delimiter_pattern")
                 .unwrap()
                 .as_str()
-                .unwrap()
-                .into(),
+                .unwrap(),
         ),
         close_delimiter_pattern: as_regex(
             table
                 .get("close_delimiter_pattern")
                 .unwrap()
                 .as_str()
-                .unwrap()
-                .into(),
+                .unwrap(),
         ),
     }
 }

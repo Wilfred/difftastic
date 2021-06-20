@@ -75,9 +75,9 @@ pub fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 
     let mut res = String::with_capacity(s.len());
     for (i, line) in s.lines().enumerate() {
-        let ranges = ranges_by_line.remove(&i.into()).unwrap_or(vec![]);
+        let ranges = ranges_by_line.remove(&i.into()).unwrap_or_default();
         res.push_str(&apply_line(line, &ranges));
-        res.push_str("\n");
+        res.push('\n');
     }
     res
 }
