@@ -138,13 +138,13 @@ impl LineGroup {
         }
     }
 
-    /// Does `mp`, a MatchedPos that occurs on or after self, overlap
-    /// with self?
+    /// Does `mp` overlap with self? Assumes that `mp` either overlaps
+    /// or occurs after self.
     fn next_overlaps(&self, is_lhs: bool, mp: &MatchedPos, max_gap: usize) -> bool {
-        let group_lines = if is_lhs {
-            &self.lhs_lines
+        let (group_lines, opposite_group_lines) = if is_lhs {
+            (&self.lhs_lines, &self.rhs_lines)
         } else {
-            &self.rhs_lines
+            (&self.rhs_lines, &self.lhs_lines)
         };
 
         if let Some(group_lines) = group_lines {
@@ -154,12 +154,22 @@ impl LineGroup {
             assert!(!match_lines.is_empty());
             let first_match_line = match_lines[0].line.number;
 
-            // TODO: consider mp.prev_opposite_pos.
-
-            first_match_line <= last_group_line.number + max_gap
-        } else {
-            false
+            if first_match_line <= last_group_line.number + max_gap {
+                return true;
+            }
         }
+        if let Some(opposite_lines) = &mp.prev_opposite_pos {
+            match (opposite_lines.first(), opposite_group_lines) {
+                (Some(first_opposite), Some(opposite_group_lines)) => {
+                    if dbg!(first_opposite.line.number <= opposite_group_lines.end().number + max_gap) {
+                        return true;
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        false
     }
 
     fn add_lhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
