@@ -302,21 +302,25 @@
       "value": "null"
     },
     "string_lit": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_quoted_template_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "template_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_quoted_template_end"
-        }
-      ]
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_quoted_template_start"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "template_literal"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_quoted_template_end"
+          }
+        ]
+      }
     },
     "collection_value": {
       "type": "CHOICE",
@@ -1163,37 +1167,41 @@
       ]
     },
     "quoted_template": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_quoted_template_start"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "template_literal"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "template_interpolation"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "template_directive"
-              }
-            ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_quoted_template_start"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "template_literal"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "template_interpolation"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "template_directive"
+                }
+              ]
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_quoted_template_end"
           }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_quoted_template_end"
-        }
-      ]
+        ]
+      }
     },
     "strip_marker": {
       "type": "STRING",
@@ -1324,12 +1332,7 @@
       "name": "_whitespace"
     }
   ],
-  "conflicts": [
-    [
-      "string_lit",
-      "quoted_template"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [
     {

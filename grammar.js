@@ -7,14 +7,16 @@ const
     binary_comp: 3,
     binary_and: 2,
     binary_or: 1,
+
+    // if possible prefer string_literals to quoted templates
+    string_lit: 2,
+    quoted_template: 1,
   }
 
 module.exports = grammar({
   name: 'hcl',
 
   conflicts: $ => [
-    // string literals are just quoted template without template stuff
-    [$.string_lit, $.quoted_template],
   ],
 
   externals: $ => [
@@ -103,11 +105,11 @@ module.exports = grammar({
 
     null_lit: $ => 'null',
 
-    string_lit: $ => seq(
+    string_lit: $ => prec(PREC.string_lit, seq(
       $._quoted_template_start,
       $.template_literal,
       $._quoted_template_end,
-    ),
+    )),
 
 
     collection_value: $ => choice(
@@ -266,7 +268,7 @@ module.exports = grammar({
       // $.heredoc_template,
     ),
 
-    quoted_template: $ => seq(
+    quoted_template: $ => prec(PREC.quoted_template, seq(
       $._quoted_template_start,
       repeat(choice(
         $.template_literal,
@@ -274,7 +276,7 @@ module.exports = grammar({
         $.template_directive,
       )),
       $._quoted_template_end,
-    ),
+    )),
 
     strip_marker: $ => '~',
 

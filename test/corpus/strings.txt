@@ -11,8 +11,8 @@ foo = "bar\uZZ"
     (attribute
       (identifier)
       (expression
-        (template_expr
-          (quoted_template
+        (literal_value
+          (string_lit
             (template_literal
               (ERROR
                 (UNEXPECTED '\')))))))))
@@ -47,8 +47,8 @@ foo = "foo\bar"
     (attribute
       (identifier)
       (expression
-        (template_expr
-          (quoted_template
+        (literal_value
+          (string_lit
             (template_literal
               (ERROR
                 (UNEXPECTED '\')))))))))
