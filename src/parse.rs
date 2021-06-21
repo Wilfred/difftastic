@@ -110,6 +110,54 @@ fn lang_from_value(v: &Value) -> Language {
     }
 }
 
+/// Split `s` by lines, and treat each line as an atom.
+///
+/// This is a fallback for files that we don't know how to parse.
+pub fn parse_lines<'a>(arena: &'a Arena<Node<'a>>, s: &str) -> Vec<&'a Node<'a>> {
+    let mut line_start = 0;
+    let mut res: Vec<&'a Node<'a>> = vec![];
+
+    for (i, c) in s.chars().enumerate() {
+        if c == '\n' {
+            let line = &s[line_start..i];
+            let atom = Node::new_atom(
+                arena,
+                vec![SingleLineSpan {
+                    line: res.len().into(),
+                    start_col: 0,
+                    end_col: i - line_start,
+                }],
+                line,
+                AtomKind::Other,
+            );
+            res.push(atom);
+
+            line_start = i + 1;
+        }
+    }
+
+    if let Some(last) = s.chars().last() {
+        if last != '\n' {
+            let line = &s[line_start..];
+
+            let atom = Node::new_atom(
+                arena,
+                vec![SingleLineSpan {
+                    line: res.len().into(),
+                    start_col: 0,
+                    end_col: s.len() - line_start,
+                }],
+                line,
+                AtomKind::Other,
+            );
+            res.push(atom);
+        }
+    }
+
+    res
+}
+
+/// Parse `s` according to `lang`.
 pub fn parse<'a>(arena: &'a Arena<Node<'a>>, s: &str, lang: &Language) -> Vec<&'a Node<'a>> {
     let nl_pos = NewlinePositions::from(s);
     parse_from(arena, s, &nl_pos, lang, &mut ParseState::new())
@@ -351,6 +399,37 @@ mod tests {
             }
         }
         true
+    }
+
+    #[test]
+    fn test_parse_lines() {
+        let arena = Arena::new();
+
+        assert_syntaxes(
+            &parse_lines(&arena, "foo\nbar"),
+            &[
+                Node::new_atom(
+                    &arena,
+                    vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 3,
+                    }],
+                    "foo",
+                    AtomKind::Other,
+                ),
+                Node::new_atom(
+                    &arena,
+                    vec![SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 0,
+                        end_col: 3,
+                    }],
+                    "bar",
+                    AtomKind::Other,
+                ),
+            ],
+        );
     }
 
     #[test]

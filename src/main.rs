@@ -12,7 +12,7 @@ use crate::lines::{
     apply_groups, enforce_length, format_line_num, join_overlapping, lhs_printable_width,
     rhs_printable_width, visible_groups, MaxLine,
 };
-use crate::parse::{find_lang, parse, read_or_die, ConfigDir};
+use crate::parse::{find_lang, parse, parse_lines, read_or_die, ConfigDir};
 use crate::style::apply_colors;
 use crate::tree_diff::{change_positions, set_changed};
 
@@ -65,8 +65,7 @@ fn main() {
         .and_then(OsStr::to_str)
         .unwrap();
 
-    let lang = find_lang(syntax_toml, lhs_extension)
-        .expect("todo: handle unsupported languages gracefully");
+    let lang = find_lang(syntax_toml, lhs_extension);
 
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => width.parse::<usize>().unwrap(),
@@ -74,8 +73,11 @@ fn main() {
     };
 
     let arena = Arena::new();
-    let lhs = parse(&arena, &lhs_src, &lang);
-    let rhs = parse(&arena, &rhs_src, &lang);
+
+    let (lhs, rhs) = match lang {
+        Some(lang) => (parse(&arena, &lhs_src, &lang), parse(&arena, &rhs_src, &lang)),
+        None => (parse_lines(&arena, &lhs_src), parse_lines(&arena, &rhs_src))
+    };
 
     set_changed(&lhs, &rhs);
 
