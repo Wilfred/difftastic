@@ -151,7 +151,7 @@ atom_patterns = [
   '[.a-zA-Z0-9_]+!?',
   # Operators
   # | is a delimiter for lambdas, but also used in pattern matching.
-  '[&=<>/*+:;,|-]+',
+  '[&=<>/*+:;,|#!-]+',
 ]
 string_patterns = [
   '"[^"]*"',
