@@ -6,7 +6,7 @@ tree-sitter grammar for the [HCL](https://github.com/hashicorp/hcl/blob/main/hcl
 
 Highlighting `example/example.hcl`:
 
-![Highlighting Example](https://i.imgur.com/sgFcxLK.png)
+![Highlighting Example](https://i.imgur.com/4XFVNVT.png)
 
 ## Developing
 
@@ -26,7 +26,7 @@ Given that some language features are still missing ( see TODO ) there are some 
 nix-shell --run 'tree-sitter parse --quiet --stat example/real_world_stuff/*/*'
 ...
 ...
-Total parses: 1130; successful parses: 1053; failed parses: 77; success percentage: 93.19%
+Total parses: 1126; successful parses: 1110; failed parses: 16; success percentage: 98.58%
 
 ```
 
@@ -40,4 +40,6 @@ The aim is to build unit testcases from selected failure classes and slowly get 
   * [x] add quoted templates
     * [x] add quoted template interpolations
     * [ ] add quoted template directives
-  * [ ] add heredoc templates
+  * [WIP] add heredoc templates
+    * support arbitary markers, at the moment for playground usage its only EOF
+

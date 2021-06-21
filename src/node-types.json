@@ -427,6 +427,42 @@
     }
   },
   {
+    "type": "heredoc_start",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "heredoc_template",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "heredoc_identifier",
+          "named": true
+        },
+        {
+          "type": "heredoc_start",
+          "named": true
+        },
+        {
+          "type": "template_directive",
+          "named": true
+        },
+        {
+          "type": "template_interpolation",
+          "named": true
+        },
+        {
+          "type": "template_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "index",
     "named": true,
     "fields": {},
@@ -617,6 +653,10 @@
       "required": true,
       "types": [
         {
+          "type": "heredoc_template",
+          "named": true
+        },
+        {
           "type": "quoted_template",
           "named": true
         }
@@ -793,6 +833,14 @@
     "named": false
   },
   {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<<-",
+    "named": false
+  },
+  {
     "type": "<=",
     "named": false
   },
@@ -847,6 +895,10 @@
   {
     "type": "for",
     "named": false
+  },
+  {
+    "type": "heredoc_identifier",
+    "named": true
   },
   {
     "type": "identifier",
