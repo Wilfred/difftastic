@@ -1172,9 +1172,11 @@ module.exports = grammar({
 
     interpolated_verbatim_string_text: $ => choice(
       '{{',
-      /[^{"]+/,
+      $._interpolated_verbatim_string_text_fragment,
       '""'
     ),
+
+    _interpolated_verbatim_string_text_fragment: $ => token.immediate(prec(1, /[^{"]+/)),
 
     interpolation: $ => seq(
       '{',
