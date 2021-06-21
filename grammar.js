@@ -37,7 +37,7 @@ module.exports = grammar({
       choice(
         $.attribute,
         $.block,
-        // not to spec but handles .tfvars
+        // not to spec but handles .tfvars in json format
         $.object,
       ),
     ),
