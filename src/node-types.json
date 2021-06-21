@@ -10,6 +10,10 @@
         {
           "type": "get_attr",
           "named": true
+        },
+        {
+          "type": "index",
+          "named": true
         }
       ]
     }
@@ -125,6 +129,10 @@
         },
         {
           "type": "block",
+          "named": true
+        },
+        {
+          "type": "object",
           "named": true
         }
       ]

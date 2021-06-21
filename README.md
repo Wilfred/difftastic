@@ -18,15 +18,16 @@ To run tests simply run `nix-shell --run 'tree-sitter test'`.
 
 ## Compliance
 
-The directory `example/real_world_stuff` contains a corpus of hcl files that I found with the github query `user:hashicorp language:HCL`. Just to be sure I encrypted them using `git-crypt`.
+The directory `example/real_world_stuff` contains a corpus of hcl files that I found with the github query `language:HCL` for users `coreos` and `hashicorp`
 
 Given that some language features are still missing ( see TODO ) there are some expected parse errors:
 
 ```bash
-nix-shell --run 'tree-sitter parse --quiet --stat example/real_world_stuff/*'
+nix-shell --run 'tree-sitter parse --quiet --stat example/real_world_stuff/*/*'
 ...
 ...
-Total parses: 886; successful parses: 801; failed parses: 85; success percentage: 90.41%
+Total parses: 1130; successful parses: 1053; failed parses: 77; success percentage: 93.19%
+
 ```
 
 The aim is to build unit testcases from selected failure classes and slowly get to 100%. 

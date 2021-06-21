@@ -37,6 +37,8 @@ module.exports = grammar({
       choice(
         $.attribute,
         $.block,
+        // not to spec but handles .tfvars
+        $.object,
       ),
     ),
 
@@ -168,7 +170,7 @@ module.exports = grammar({
 
     attr_splat: $ => prec.right(seq(
       '.*',
-      repeat($.get_attr),
+      repeat(choice($.get_attr, $.index)),
     )),
 
     full_splat: $ => prec.right(seq(
