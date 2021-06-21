@@ -90,9 +90,10 @@ void scanner_exit_quoted_context(Scanner *scanner) {
 bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
   // print_debug_info(scanner, lexer, valid_symbols);
 
-  while (iswspace(lexer->lookahead) && !scanner->in_quoted_context) {
+  while (iswspace(lexer->lookahead)) {
     skip(lexer);
   }
+  if (lexer->lookahead == '\0') return false;
 
   // manage quoted context
   if (
@@ -134,7 +135,11 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
       return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
   }
-  if (valid_symbols[TEMPLATE_INTERPOLATION_END] && lexer->lookahead == '}') {
+  if (
+    valid_symbols[TEMPLATE_INTERPOLATION_END] &&
+    lexer->lookahead == '}' &&
+    scanner->in_template_interpolation
+  ) {
     scanner_exit_interpolation_context(scanner);
     return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_END);
   }
@@ -144,6 +149,7 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
   // handle template literal chunks in quoted contexts
   //
   // they may not contain newlines and may contain escape sequences
+
   if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && scanner->in_quoted_context) {
     switch (lexer->lookahead) {
       case '\\':
@@ -183,7 +189,6 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         advance(lexer);
         if (lexer->lookahead == '{') {
           // unescaped template interpolation
-          skip(lexer);
           return false;
         }
         if (lexer->lookahead == '$') {
@@ -203,7 +208,6 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
   }
 
   // probably not handled by the external scanner
-
   return false;
 }
 

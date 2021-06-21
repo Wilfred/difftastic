@@ -437,3 +437,53 @@ private_key_pem = element(tls_private_key.server.*.private_key_pem, count.index)
                 (identifier))
               (get_attr
                 (identifier)))))))))
+
+================================================================================
+example 4
+================================================================================
+
+locals {
+  bootstrapping_host = "${var.tectonic_azure_private_cluster ?
+    module.vnet.master_private_ip_addresses[0] :
+    module.vnet.api_fqdn}"
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (template_expr
+              (quoted_template
+                (template_interpolation
+                  (expression
+                    (conditional
+                      (expression
+                        (variable_expr
+                          (identifier))
+                        (get_attr
+                          (identifier)))
+                      (expression
+                        (variable_expr
+                          (identifier))
+                        (get_attr
+                          (identifier))
+                        (get_attr
+                          (identifier))
+                        (index
+                          (new_index
+                            (expression
+                              (literal_value
+                                (numeric_lit))))))
+                      (expression
+                        (variable_expr
+                          (identifier))
+                        (get_attr
+                          (identifier))
+                        (get_attr
+                          (identifier))))))))))))))
