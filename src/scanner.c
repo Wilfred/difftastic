@@ -11,6 +11,7 @@ enum TokenType {
   TEMPLATE_LITERAL_CHUNK,
   TEMPLATE_INTERPOLATION_START,
   TEMPLATE_INTERPOLATION_END,
+  HEREDOC_IDENTIFIER,
 };
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -202,8 +203,24 @@ bool scanner_scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     }
   }
 
+  // handle heredoc identifier
+  if (valid_symbols[HEREDOC_IDENTIFIER]) {
+    if (lexer->lookahead != 'E') {
+       if (valid_symbols[TEMPLATE_LITERAL_CHUNK]) return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+    }
+    advance(lexer);
+    if (lexer->lookahead != 'O') {
+       if (valid_symbols[TEMPLATE_LITERAL_CHUNK]) return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+    }
+    advance(lexer);
+    if (lexer->lookahead != 'F') {
+       if (valid_symbols[TEMPLATE_LITERAL_CHUNK]) return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+    }
+    return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
+  }
+
   // handle all other quoted template or string literal characters
-  if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && scanner->in_quoted_context) {
+  if (valid_symbols[TEMPLATE_LITERAL_CHUNK]) {
     return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
   }
 
