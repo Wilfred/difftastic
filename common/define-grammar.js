@@ -71,6 +71,7 @@ module.exports = function defineGrammar(dialect) {
       [$.jsx_namespace_name, $._primary_type],
 
       [$.primary_expression, $._parameter_name],
+      [$.primary_expression, $.override_modifier],
       [$.primary_expression, $._parameter_name, $.predefined_type],
       [$.primary_expression, $._parameter_name, $._primary_type],
       [$.primary_expression, $._parameter_name, $.array_type, $.tuple_type],
@@ -120,6 +121,7 @@ module.exports = function defineGrammar(dialect) {
       public_field_definition: $ => seq(
         optional('declare'),
         optional($.accessibility_modifier),
+        optional($.override_modifier),
         choice(
           seq(optional('static'), optional('readonly')),
           seq(optional('abstract'), optional('readonly')),
@@ -278,6 +280,7 @@ module.exports = function defineGrammar(dialect) {
       method_signature: $ => seq(
         optional($.accessibility_modifier),
         optional('static'),
+        optional($.override_modifier),
         optional('readonly'),
         optional('async'),
         optional(choice('get', 'set', '*')),
@@ -338,6 +341,7 @@ module.exports = function defineGrammar(dialect) {
       method_definition: $ => prec.left(seq(
         optional($.accessibility_modifier),
         optional('static'),
+        optional($.override_modifier),
         optional('readonly'),
         optional('async'),
         optional(choice('get', 'set', '*')),
@@ -509,6 +513,8 @@ module.exports = function defineGrammar(dialect) {
         'protected'
       ),
 
+      override_modifier: _ => 'override',
+
       required_parameter: $ => seq(
         $._parameter_name,
         optional($.type_annotation),
@@ -525,6 +531,7 @@ module.exports = function defineGrammar(dialect) {
       _parameter_name: $ => seq(
         repeat(field('decorator', $.decorator)),
         optional($.accessibility_modifier),
+        optional($.override_modifier),
         optional('readonly'),
         choice($.pattern, $.this)
       ),
@@ -710,6 +717,7 @@ module.exports = function defineGrammar(dialect) {
       property_signature: $ => seq(
         optional($.accessibility_modifier),
         optional('static'),
+        optional($.override_modifier),
         optional('readonly'),
         field('name', $._property_name),
         optional('?'),
@@ -803,6 +811,7 @@ module.exports = function defineGrammar(dialect) {
         'public',
         'private',
         'protected',
+        'override',
         'readonly',
         'module',
         'any',

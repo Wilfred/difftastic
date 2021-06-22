@@ -1,4 +1,4 @@
-{
+{ 
   "name": "tree-sitter-typescript",
   "version": "0.19.0",
   "description": "Typescript grammar for tree-sitter",
