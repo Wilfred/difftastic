@@ -63,23 +63,26 @@ public:
     }
 
     // manage template interpolations
-    if (valid_symbols[TEMPLATE_INTERPOLATION_START] && !in_interpolation_context() && lexer->lookahead == '$') {
+    if (
+      valid_symbols[TEMPLATE_INTERPOLATION_START] &&
+      valid_symbols[TEMPLATE_LITERAL_CHUNK] &&
+      !in_interpolation_context() &&
+      lexer->lookahead == '$'
+    ) {
       advance(lexer);
       if (lexer->lookahead == '{') {
         context_stack.push_back({ .type = TEMPLATE_INTERPOLATION});
         return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_START);
       }
-      if (valid_symbols[TEMPLATE_LITERAL_CHUNK]) {
-        // try to scan escape sequence
-        if (lexer->lookahead == '$') {
-          advance(lexer);
-          if (lexer->lookahead == '{') {
-            // $${
-            return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
-          }
+      // try to scan escape sequence
+      if (lexer->lookahead == '$') {
+        advance(lexer);
+        if (lexer->lookahead == '{') {
+          // $${
+          return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
         }
-        return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
       }
+      return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
     if (valid_symbols[TEMPLATE_INTERPOLATION_END] && in_interpolation_context() && lexer->lookahead == '}') {
       context_stack.pop_back();
@@ -89,6 +92,7 @@ public:
     // manage heredoc context
     if (valid_symbols[HEREDOC_IDENTIFIER] && !in_heredoc_context()) {
       string identifier;
+      // TODO: check that this is a valid identifier
       while (iswalnum(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '-') {
         identifier.push_back(lexer->lookahead);
         advance(lexer);
@@ -138,27 +142,6 @@ public:
               return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
             default:
               return false;
-          }
-      }
-    }
-
-    // handle escaped template interpolations in string literals
-    if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && !valid_symbols[TEMPLATE_INTERPOLATION_START] && in_quoted_context()) {
-      // try to scan escaped template interpolation
-      switch (lexer->lookahead) {
-        case '$':
-          advance(lexer);
-          if (lexer->lookahead == '{') {
-            // unescaped template interpolation
-            return false;
-          }
-          if (lexer->lookahead == '$') {
-            advance(lexer);
-            if (lexer->lookahead == '{') {
-              // $${
-              return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
-            }
-          return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
           }
       }
     }
