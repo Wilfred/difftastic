@@ -86,7 +86,30 @@ public:
       return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_END);
     }
 
-    // handle template literal chunks
+    // manage heredoc context
+    if (valid_symbols[HEREDOC_IDENTIFIER] && !in_heredoc_context()) {
+      string identifier;
+      while (iswalnum(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '-') {
+        identifier.push_back(lexer->lookahead);
+        advance(lexer);
+      }
+      context_stack.push_back({ .type = HEREDOC_TEMPLATE, .heredoc_identifier = identifier });
+      return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
+    }
+    if (valid_symbols[HEREDOC_IDENTIFIER] && in_heredoc_context()) {
+      string expected_identifier = context_stack.back().heredoc_identifier;
+
+      for (string::iterator it = expected_identifier.begin(); it != expected_identifier.end(); ++it) {
+        if (lexer->lookahead == *it) {
+          advance(lexer);
+        } else {
+          return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+        }
+      }
+      context_stack.pop_back();
+      return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
+    }
+    // manage template literal chunks
 
     // handle template literal chunks in quoted contexts
     //
@@ -138,30 +161,6 @@ public:
           return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
           }
       }
-    }
-
-    // handle heredoc context
-    if (valid_symbols[HEREDOC_IDENTIFIER] && !in_heredoc_context()) {
-      string identifier;
-      while (iswalnum(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '-') {
-        identifier.push_back(lexer->lookahead);
-        advance(lexer);
-      }
-      context_stack.push_back({ .type = HEREDOC_TEMPLATE, .heredoc_identifier = identifier });
-      return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
-    }
-    if (valid_symbols[HEREDOC_IDENTIFIER] && in_heredoc_context()) {
-      string expected_identifier = context_stack.back().heredoc_identifier;
-
-      for (string::iterator it = expected_identifier.begin(); it != expected_identifier.end(); ++it) {
-        if (lexer->lookahead == *it) {
-          advance(lexer);
-        } else {
-          return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
-        }
-      }
-      context_stack.pop_back();
-      return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
     }
 
     // handle all other quoted template or string literal characters
