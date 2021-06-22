@@ -30,8 +30,7 @@ struct Context {
   ContextType type;
 
   // valid if type == HEREDOC_TEMPLATE
-  char* identifier;
-  size_t identifier_size;
+  string heredoc_identifier;
 };
 
 struct Scanner {
@@ -141,31 +140,27 @@ public:
       }
     }
 
-    // handle heredoc identifier
-    if (valid_symbols[HEREDOC_IDENTIFIER]) {
-      if (lexer->lookahead != 'E') {
-        if (valid_symbols[TEMPLATE_LITERAL_CHUNK]) {
-          return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+    // handle heredoc context
+    if (valid_symbols[HEREDOC_IDENTIFIER] && !in_heredoc_context()) {
+      string identifier;
+      while (iswalnum(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '-') {
+        identifier.push_back(lexer->lookahead);
+        advance(lexer);
+      }
+      context_stack.push_back({ .type = HEREDOC_TEMPLATE, .heredoc_identifier = identifier });
+      return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
+    }
+    if (valid_symbols[HEREDOC_IDENTIFIER] && in_heredoc_context()) {
+      string expected_identifier = context_stack.back().heredoc_identifier;
+
+      for (string::iterator it = expected_identifier.begin(); it != expected_identifier.end(); ++it) {
+        if (lexer->lookahead == *it) {
+          advance(lexer);
         } else {
-          return false;
+          return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
         }
       }
-      advance(lexer);
-      if (lexer->lookahead != 'O') {
-        if (valid_symbols[TEMPLATE_LITERAL_CHUNK]) {
-          return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
-        } else {
-          return false;
-        }
-      }
-      advance(lexer);
-      if (lexer->lookahead != 'F') {
-        if (valid_symbols[TEMPLATE_LITERAL_CHUNK]) {
-          return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
-        } else {
-          return false;
-        }
-      }
+      context_stack.pop_back();
       return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
     }
 
@@ -180,7 +175,6 @@ public:
 
 private:
   vector<Context> context_stack;
-  vector<string> heredoc_identifier_stack;
 
   void advance(TSLexer* lexer) {
     lexer->advance(lexer, false);
@@ -197,6 +191,7 @@ private:
     advance(lexer);
     return accept_inplace(lexer, token);
   }
+
   bool consume_wxdigit(TSLexer* lexer) {
     advance(lexer);
     return iswxdigit(lexer->lookahead);
@@ -213,8 +208,12 @@ private:
     return in_context_type(QUOTED_TEMPLATE);
   }
 
+  bool in_heredoc_context() {
+    return in_context_type(HEREDOC_TEMPLATE);
+  }
+
   bool in_template_context() {
-    return in_context_type(QUOTED_TEMPLATE) || in_context_type(HEREDOC_TEMPLATE);
+    return in_quoted_context() || in_heredoc_context();
   }
 
   bool in_interpolation_context() {
