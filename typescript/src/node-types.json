@@ -3535,11 +3535,15 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
           "type": "accessibility_modifier",
+          "named": true
+        },
+        {
+          "type": "override_modifier",
           "named": true
         }
       ]
@@ -3611,11 +3615,15 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
           "type": "accessibility_modifier",
+          "named": true
+        },
+        {
+          "type": "override_modifier",
           "named": true
         }
       ]
@@ -4020,6 +4028,10 @@
           "named": true
         },
         {
+          "type": "override_modifier",
+          "named": true
+        },
+        {
           "type": "pattern",
           "named": true
         },
@@ -4072,6 +4084,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "override_modifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "pair",
@@ -4273,11 +4290,15 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
           "type": "accessibility_modifier",
+          "named": true
+        },
+        {
+          "type": "override_modifier",
           "named": true
         }
       ]
@@ -4331,11 +4352,15 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
           "type": "accessibility_modifier",
+          "named": true
+        },
+        {
+          "type": "override_modifier",
           "named": true
         }
       ]
@@ -4437,6 +4462,10 @@
       "types": [
         {
           "type": "accessibility_modifier",
+          "named": true
+        },
+        {
+          "type": "override_modifier",
           "named": true
         },
         {
@@ -5857,14 +5886,18 @@
   },
   {
     "type": "number",
-    "named": true
-  },
-  {
-    "type": "number",
     "named": false
   },
   {
+    "type": "number",
+    "named": true
+  },
+  {
     "type": "of",
+    "named": false
+  },
+  {
+    "type": "override",
     "named": false
   },
   {
