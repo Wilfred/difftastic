@@ -14,7 +14,7 @@ use crate::lines::{
 };
 use crate::parse::{find_lang, parse, parse_lines, read_or_die, ConfigDir};
 use crate::style::apply_colors;
-use crate::tree_diff::{change_positions, set_changed};
+use crate::tree_diff::{change_positions, mark_nodes};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
@@ -82,7 +82,7 @@ fn main() {
         None => (parse_lines(&arena, &lhs_src), parse_lines(&arena, &rhs_src)),
     };
 
-    set_changed(&lhs, &rhs);
+    mark_nodes(&lhs, &rhs);
 
     let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
     let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);

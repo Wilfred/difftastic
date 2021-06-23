@@ -273,7 +273,7 @@ impl ParseState {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::tree_diff::set_changed;
+    use crate::tree_diff::mark_nodes;
     use crate::tree_diff::ChangeKind::*;
     use crate::tree_diff::Node::*;
     use std::cell::Cell;
@@ -817,7 +817,7 @@ mod tests {
         let lhs = parse(&arena, "a", &lang());
         let rhs = parse(&arena, "a a", &lang());
 
-        set_changed(&lhs, &rhs);
+        mark_nodes(&lhs, &rhs);
 
         let expected_rhs = vec![
             Atom {
@@ -851,7 +851,7 @@ mod tests {
         let lhs = parse(&arena, "a b", &lang());
         let rhs = parse(&arena, "a a b", &lang());
 
-        set_changed(&lhs, &rhs);
+        mark_nodes(&lhs, &rhs);
 
         let expected_rhs = vec![
             Atom {
@@ -895,7 +895,7 @@ mod tests {
         let lhs = parse(&arena, "a b", &lang());
         let rhs = parse(&arena, "x a", &lang());
 
-        set_changed(&lhs, &rhs);
+        mark_nodes(&lhs, &rhs);
 
         let expected_lhs = vec![
             Atom {
@@ -953,7 +953,7 @@ mod tests {
         let lhs = parse(&arena, "x a", &lang());
         let rhs = parse(&arena, "a b", &lang());
 
-        set_changed(&lhs, &rhs);
+        mark_nodes(&lhs, &rhs);
 
         let expected_rhs = vec![
             Atom {
@@ -987,7 +987,7 @@ mod tests {
         let lhs = parse(&arena, "[a]", &lang());
         let rhs = parse(&arena, "[a a]", &lang());
 
-        set_changed(&lhs, &rhs);
+        mark_nodes(&lhs, &rhs);
 
         let lhs_atom = match lhs[0] {
             List { children, .. } => children[0],
@@ -1042,7 +1042,7 @@ mod tests {
         let lhs = parse(&arena, "[a]", &lang());
         let rhs = parse(&arena, "[a]", &lang());
 
-        set_changed(&lhs, &rhs);
+        mark_nodes(&lhs, &rhs);
 
         let lhs_atom = match lhs[0] {
             List { children, .. } => children[0],
@@ -1091,7 +1091,7 @@ mod tests {
         let lhs = parse(&arena, "[] [1]", &lang());
         let rhs = parse(&arena, "[[1]] 1", &lang());
 
-        set_changed(&lhs, &rhs);
+        mark_nodes(&lhs, &rhs);
 
         let expected_rhs: Vec<&Node> = vec![
             arena.alloc(List {
@@ -1163,7 +1163,7 @@ mod tests {
         let lhs = parse(&arena, "[] [1]", &lang());
         let rhs = parse(&arena, "1 [[1]]", &lang());
 
-        set_changed(&lhs, &rhs);
+        mark_nodes(&lhs, &rhs);
 
         let expected_rhs: Vec<&Node> = vec![
             arena.alloc(Atom {
