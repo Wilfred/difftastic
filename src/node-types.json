@@ -90,6 +90,10 @@
         "named": true
       },
       {
+        "type": "floating_point_literal",
+        "named": true
+      },
+      {
         "type": "generic_function",
         "named": true
       },
@@ -110,15 +114,15 @@
         "named": true
       },
       {
+        "type": "integer_literal",
+        "named": true
+      },
+      {
         "type": "interpolated_string_expression",
         "named": true
       },
       {
         "type": "match_expression",
-        "named": true
-      },
-      {
-        "type": "number",
         "named": true
       },
       {
@@ -172,6 +176,10 @@
         "named": true
       },
       {
+        "type": "floating_point_literal",
+        "named": true
+      },
+      {
         "type": "identifier",
         "named": true
       },
@@ -180,7 +188,7 @@
         "named": true
       },
       {
-        "type": "number",
+        "type": "integer_literal",
         "named": true
       },
       {
@@ -3220,6 +3228,10 @@
     "named": false
   },
   {
+    "type": "floating_point_literal",
+    "named": true
+  },
+  {
     "type": "identifier",
     "named": true
   },
@@ -3236,6 +3248,10 @@
     "named": false
   },
   {
+    "type": "integer_literal",
+    "named": true
+  },
+  {
     "type": "lazy",
     "named": false
   },
@@ -3246,10 +3262,6 @@
   {
     "type": "new",
     "named": false
-  },
-  {
-    "type": "number",
-    "named": true
   },
   {
     "type": "object",

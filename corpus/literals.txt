@@ -54,16 +54,50 @@ works even in multiline strings, ${name}
       (identifier) (interpolated_string
         (interpolation (block (identifier)))))))
 
+
 ==========================
-Floating point numbers
+Integer literals
 ==========================
 
-val string = 3.14
+val i1 = 0
+val i2 = 1234
+val i3 = -0xF2
+val i4 = 0XA0
+val l1 = -0l
+val l2 = 1234L
+val l3 = 0xF23l
+val l4 = 0XA03L
 
 ---
 
 (compilation_unit
-  (val_definition (identifier) (number)))
+  (val_definition (identifier) (integer_literal))
+  (val_definition (identifier) (integer_literal))
+  (val_definition (identifier) (integer_literal))
+  (val_definition (identifier) (integer_literal))
+  (val_definition (identifier) (integer_literal))
+  (val_definition (identifier) (integer_literal))
+  (val_definition (identifier) (integer_literal))
+  (val_definition (identifier) (integer_literal))
+)
+
+==========================
+Floating point literals
+==========================
+
+val f1 = 3.14
+val f2 = -3f
+val f2 = 3E-1
+val d1 = .314D
+
+---
+
+(compilation_unit
+  (val_definition (identifier) (floating_point_literal))
+  (val_definition (identifier) (floating_point_literal))
+  (val_definition (identifier) (floating_point_literal))
+  (val_definition (identifier) (floating_point_literal))
+  )
 
 ==========================
 Boolean literals
@@ -118,7 +152,7 @@ def foo(a: Char = 'c') = a + 'd'
       (character_literal))))
 
 ==========================
-Symobl literals
+Symbol literals
 ==========================
 
 val mySymbol = 'c

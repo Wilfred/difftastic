@@ -5,6 +5,7 @@ Call expressions
 class C {
   def main() {
     a()
+    a(123)
     a(b, c)
   }
 }
@@ -20,6 +21,7 @@ class C {
         (parameters)
         (block
           (call_expression (identifier) (arguments))
+          (call_expression (identifier) (arguments (integer_literal)))
           (call_expression (identifier) (arguments (identifier) (identifier))))))))
 
 ===============================
@@ -77,7 +79,12 @@ class C {
         (parameters)
         (block
           (assignment_expression (identifier) (identifier))
-          (assignment_expression (call_expression (identifier) (arguments (number))) (identifier)))))))
+          (assignment_expression (call_expression (identifier) (arguments (integer_literal))) (identifier))
+        )
+      )
+    )
+  )
+)
 
 ===============================
 If expressions
@@ -162,7 +169,7 @@ def main() {
     (block
       (try_expression
         (call_expression (identifier) (arguments))
-        (finally_clause (infix_expression (identifier) (operator_identifier) (number))))
+        (finally_clause (infix_expression (identifier) (operator_identifier) (integer_literal))))
       (try_expression
         (block (call_expression (identifier) (arguments)))
         (catch_clause (case_block (case_clause
@@ -209,10 +216,10 @@ def matchTest(x: Int): String = x match {
     (parameters (parameter (identifier) (type_identifier)))
     (type_identifier)
     (match_expression (identifier) (case_block
-      (case_clause (number))
-      (case_clause (number) (string) (string))
-      (case_clause (number) (string))
-      (case_clause (number) (block (string)))
+      (case_clause (integer_literal))
+      (case_clause (integer_literal) (string) (string))
+      (case_clause (integer_literal) (string))
+      (case_clause (integer_literal) (block (string)))
       (case_clause (wildcard) (val_definition (identifier) (string)) (string))))))
 
 ===============================

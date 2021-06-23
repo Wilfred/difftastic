@@ -183,7 +183,7 @@ implicit final sealed class Point {
         (modifiers)
         (identifier)
         (parameters)
-        (number)))))
+        (integer_literal)))))
 
 =======================================
 Trait definitions
@@ -260,7 +260,7 @@ class A {
     (template_body
       (val_definition
         (identifier)
-        (number))
+        (integer_literal))
       (val_definition
         (identifier)
         (type_identifier)
@@ -306,7 +306,7 @@ class A {
       (var_definition
         (identifier)
         (type_identifier)
-        (number)))))
+        (integer_literal)))))
 
 =======================================
 Type definitions
@@ -373,7 +373,7 @@ class A {
         (parameters
           (parameter (identifier) (type_identifier))
           (parameter (identifier) (type_identifier)))
-        (number))
+        (integer_literal))
       (function_definition
         (identifier)
         (type_parameters (identifier))
@@ -402,13 +402,13 @@ class A(val x: Int, val y: Int) {
       (class_parameter (identifier) (type_identifier)))
     (template_body
       (call_expression (identifier)
-        (arguments (infix_expression (identifier) (operator_identifier) (number)))))))
+        (arguments (infix_expression (identifier) (operator_identifier) (integer_literal)))))))
 
 =======================================
 Optional parameters
 =======================================
 
-def mkLines(header: String, indented: Boolean = false, embraced: Boolean = false): String = {}
+def mkLines(header: String, indented: Boolean = false, repeated: Long = 0L): String = {}
 
 ---
 
@@ -418,5 +418,5 @@ def mkLines(header: String, indented: Boolean = false, embraced: Boolean = false
     (parameters
       (parameter (identifier) (type_identifier))
       (parameter (identifier) (type_identifier) (boolean_literal))
-      (parameter (identifier) (type_identifier) (boolean_literal)))
+      (parameter (identifier) (type_identifier) (integer_literal)))
     (type_identifier) (block)))
