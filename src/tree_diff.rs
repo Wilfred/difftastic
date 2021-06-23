@@ -387,7 +387,7 @@ fn change_positions_<'a>(
 /// change state to the `.change` field on the nodes.
 pub fn mark_nodes<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>]) {
     let mut env = Env::new(lhs, rhs);
-    mark_unchanged_or_novel_nodes(lhs, rhs, &mut env);
+    mark_unchanged_or_novel(lhs, rhs, &mut env);
 
     mark_moves(env);
 }
@@ -515,7 +515,7 @@ impl<'a> Env<'a> {
 /// Mark nodes that are unambiguously unchanged (they have a
 /// corresponding node on the other side) or unambiguously novel
 /// (exactly zero occurrences on the other side).
-fn mark_unchanged_or_novel_nodes<'a>(
+fn mark_unchanged_or_novel<'a>(
     lhs: &[&'a Node<'a>],
     rhs: &[&'a Node<'a>],
     env: &mut Env<'a>,
@@ -544,11 +544,11 @@ fn mark_unchanged_or_novel_nodes<'a>(
             EitherOrBoth::Left(lhs_node) => (Some(*lhs_node), None),
             EitherOrBoth::Right(rhs_node) => (None, Some(*rhs_node)),
         };
-        mark_unchanged_or_novel(lhs_node, rhs_node, env);
+        mark_novel(lhs_node, rhs_node, env);
     }
 }
 
-fn mark_unchanged_or_novel<'a>(
+fn mark_novel<'a>(
     lhs: Option<&'a Node<'a>>,
     rhs: Option<&'a Node<'a>>,
     env: &mut Env<'a>,
@@ -566,12 +566,12 @@ fn mark_unchanged_or_novel<'a>(
                 }
                 (true, false) => {
                     env.lhs_unmatched.push(lhs_node);
-                    mark_unchanged_or_novel(None, rhs, env);
+                    mark_novel(None, rhs, env);
                     return;
                 }
                 (false, true) => {
                     env.rhs_unmatched.push(rhs_node);
-                    mark_unchanged_or_novel(lhs, None, env);
+                    mark_novel(lhs, None, env);
                     return;
                 }
                 (false, false) => {}
@@ -612,7 +612,7 @@ fn mark_unchanged_or_novel<'a>(
                         lhs_node.set_change(Novel);
                         rhs_node.set_change(Novel);
                     }
-                    mark_unchanged_or_novel_nodes(&lhs_children[..], &rhs_children[..], env);
+                    mark_unchanged_or_novel(&lhs_children[..], &rhs_children[..], env);
                 }
                 (
                     List {
@@ -626,7 +626,7 @@ fn mark_unchanged_or_novel<'a>(
                     // step over RHS in that case. RHS is never a
                     // descendant, or it would be a potential move.
                     lhs_node.set_change(Novel);
-                    mark_unchanged_or_novel_nodes(
+                    mark_unchanged_or_novel(
                         &lhs_children[..],
                         std::slice::from_ref(&rhs_node),
                         env,
@@ -640,7 +640,7 @@ fn mark_unchanged_or_novel<'a>(
                     },
                 ) => {
                     rhs_node.set_change(Novel);
-                    mark_unchanged_or_novel_nodes(
+                    mark_unchanged_or_novel(
                         std::slice::from_ref(&lhs_node),
                         &rhs_children[..],
                         env,
@@ -658,7 +658,7 @@ fn mark_unchanged_or_novel<'a>(
             } else {
                 lhs_node.set_change(Novel);
                 if let List { children, .. } = lhs_node {
-                    mark_unchanged_or_novel_nodes(&children[..], &[], env);
+                    mark_unchanged_or_novel(&children[..], &[], env);
                 }
             }
         }
@@ -668,7 +668,7 @@ fn mark_unchanged_or_novel<'a>(
             } else {
                 rhs_node.set_change(Novel);
                 if let List { children, .. } = rhs_node {
-                    mark_unchanged_or_novel_nodes(&[], &children[..], env);
+                    mark_unchanged_or_novel(&[], &children[..], env);
                 }
             }
         }
