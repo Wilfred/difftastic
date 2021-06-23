@@ -385,11 +385,11 @@ fn change_positions_<'a>(
 
 /// Calculate a structural diff between `lhs` and `rhs`, and write the
 /// change state to the `.change` field on the nodes.
-pub fn set_changed<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>]) {
+pub fn mark_nodes<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>]) {
     let mut env = Env::new(lhs, rhs);
-    mark_unchanged_nodes(lhs, rhs, &mut env);
+    mark_unchanged_or_novel_nodes(lhs, rhs, &mut env);
 
-    process_moves(env);
+    mark_moves(env);
 }
 
 /// Handles nodes that exist on both sides, but in different
@@ -398,7 +398,7 @@ pub fn set_changed<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>]) {
 ///
 /// Try to find a minimal set of moves by considering the largest
 /// subtrees first.
-fn process_moves(mut env: Env) {
+fn mark_moves(mut env: Env) {
     sort_by_size(&mut env.lhs_unmatched);
     for lhs_node in env.lhs_unmatched {
         // Partial overlaps?
@@ -513,7 +513,11 @@ impl<'a> Env<'a> {
 }
 
 // Greedy tree differ.
-fn mark_unchanged_nodes<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>], env: &mut Env<'a>) {
+fn mark_unchanged_or_novel_nodes<'a>(
+    lhs: &[&'a Node<'a>],
+    rhs: &[&'a Node<'a>],
+    env: &mut Env<'a>,
+) {
     // Run a longest-common-subsequence diff algorithm on the nodes at
     // this level, and mark as many things as unchanged as we can.
     for res in slice(lhs, rhs) {
@@ -538,11 +542,11 @@ fn mark_unchanged_nodes<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>], env: &mu
             EitherOrBoth::Left(lhs_node) => (Some(*lhs_node), None),
             EitherOrBoth::Right(rhs_node) => (None, Some(*rhs_node)),
         };
-        mark_unchanged_node(lhs_node, rhs_node, env);
+        mark_unchanged_or_novel(lhs_node, rhs_node, env);
     }
 }
 
-fn mark_unchanged_node<'a>(
+fn mark_unchanged_or_novel<'a>(
     lhs: Option<&'a Node<'a>>,
     rhs: Option<&'a Node<'a>>,
     env: &mut Env<'a>,
@@ -560,12 +564,12 @@ fn mark_unchanged_node<'a>(
                 }
                 (true, false) => {
                     env.lhs_unmatched.push(lhs_node);
-                    mark_unchanged_node(None, rhs, env);
+                    mark_unchanged_or_novel(None, rhs, env);
                     return;
                 }
                 (false, true) => {
                     env.rhs_unmatched.push(rhs_node);
-                    mark_unchanged_node(lhs, None, env);
+                    mark_unchanged_or_novel(lhs, None, env);
                     return;
                 }
                 (false, false) => {}
@@ -606,7 +610,7 @@ fn mark_unchanged_node<'a>(
                         lhs_node.set_change(Novel);
                         rhs_node.set_change(Novel);
                     }
-                    mark_unchanged_nodes(&lhs_children[..], &rhs_children[..], env);
+                    mark_unchanged_or_novel_nodes(&lhs_children[..], &rhs_children[..], env);
                 }
                 (
                     List {
@@ -620,7 +624,11 @@ fn mark_unchanged_node<'a>(
                     // step over RHS in that case. RHS is never a
                     // descendant, or it would be a potential move.
                     lhs_node.set_change(Novel);
-                    mark_unchanged_nodes(&lhs_children[..], std::slice::from_ref(&rhs_node), env);
+                    mark_unchanged_or_novel_nodes(
+                        &lhs_children[..],
+                        std::slice::from_ref(&rhs_node),
+                        env,
+                    );
                 }
                 (
                     Atom { .. },
@@ -630,7 +638,11 @@ fn mark_unchanged_node<'a>(
                     },
                 ) => {
                     rhs_node.set_change(Novel);
-                    mark_unchanged_nodes(std::slice::from_ref(&lhs_node), &rhs_children[..], env);
+                    mark_unchanged_or_novel_nodes(
+                        std::slice::from_ref(&lhs_node),
+                        &rhs_children[..],
+                        env,
+                    );
                 }
                 (Atom { .. }, Atom { .. }) => {
                     lhs_node.set_change(Novel);
@@ -644,7 +656,7 @@ fn mark_unchanged_node<'a>(
             } else {
                 lhs_node.set_change(Novel);
                 if let List { children, .. } = lhs_node {
-                    mark_unchanged_nodes(&children[..], &[], env);
+                    mark_unchanged_or_novel_nodes(&children[..], &[], env);
                 }
             }
         }
@@ -654,7 +666,7 @@ fn mark_unchanged_node<'a>(
             } else {
                 rhs_node.set_change(Novel);
                 if let List { children, .. } = rhs_node {
-                    mark_unchanged_nodes(&[], &children[..], env);
+                    mark_unchanged_or_novel_nodes(&[], &children[..], env);
                 }
             }
         }
