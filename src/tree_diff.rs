@@ -512,7 +512,9 @@ impl<'a> Env<'a> {
     }
 }
 
-// Greedy tree differ.
+/// Mark nodes that are unambiguously unchanged (they have a
+/// corresponding node on the other side) or unambiguously novel
+/// (exactly zero occurrences on the other side).
 fn mark_unchanged_or_novel_nodes<'a>(
     lhs: &[&'a Node<'a>],
     rhs: &[&'a Node<'a>],
