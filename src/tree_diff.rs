@@ -616,7 +616,8 @@ fn mark_unchanged_node<'a>(
                 ) => {
                     // TODO: this produces poor results when RHS is
                     // not a descedant of the LHS children. We should
-                    // step over RHS in that case.
+                    // step over RHS in that case. RHS is never a
+                    // descendant, or it would be a potential move.
                     lhs_node.set_change(Novel);
                     mark_unchanged_nodes(&lhs_children[..], std::slice::from_ref(&rhs_node), env);
                 }
