@@ -25,6 +25,7 @@ module.exports = grammar({
     $._template_literal_chunk,
     $._template_interpolation_start,
     $._template_interpolation_end,
+    $.heredoc_identifier,
   ],
 
   extras: $ => [
@@ -265,7 +266,7 @@ module.exports = grammar({
 
     template_expr: $ => choice(
       $.quoted_template,
-      // $.heredoc_template,
+      $.heredoc_template,
     ),
 
     quoted_template: $ => prec(PREC.quoted_template, seq(
@@ -277,6 +278,20 @@ module.exports = grammar({
       )),
       $._quoted_template_end,
     )),
+
+    // TODO user chosen identifiers
+    heredoc_template: $ => seq(
+      $.heredoc_start,
+      $.heredoc_identifier,
+      repeat(choice(
+        $.template_literal,
+        $.template_interpolation,
+        $.template_directive,
+      )),
+      $.heredoc_identifier,
+    ),
+
+    heredoc_start: $ => choice('<<', '<<-'),
 
     strip_marker: $ => '~',
 
