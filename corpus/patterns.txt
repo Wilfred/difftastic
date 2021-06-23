@@ -14,7 +14,7 @@ val x = y match {
     (identifier)
     (match_expression (identifier) (case_block
       (case_clause
-        (alternative_pattern (number) (identifier))
+        (alternative_pattern (integer_literal) (identifier))
         (identifier))
       (case_clause
         (alternative_pattern
@@ -39,7 +39,7 @@ val x = y match {
     (identifier)
     (match_expression (identifier) (case_block
       (case_clause
-        (typed_pattern (number) (type_identifier)) (number))
+        (typed_pattern (integer_literal) (type_identifier)) (integer_literal))
       (case_clause
         (typed_pattern (identifier) (compound_type (type_identifier) (type_identifier)))
         (identifier))
@@ -47,7 +47,7 @@ val x = y match {
         (alternative_pattern
           (typed_pattern (wildcard) (type_identifier))
           (typed_pattern (wildcard) (type_identifier)))
-        (number))))))
+        (integer_literal))))))
 
 ============================
 Tuple patterns
@@ -147,7 +147,7 @@ val x = y match {
       (identifier)
       (case_block
         (case_clause
-          (capture_pattern (identifier) (case_class_pattern (type_identifier) (number)))
+          (capture_pattern (identifier) (case_class_pattern (type_identifier) (integer_literal)))
           (identifier))
         (case_clause
           (capture_pattern (identifier)
