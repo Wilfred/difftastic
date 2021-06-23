@@ -1163,6 +1163,10 @@
         {
           "type": "SYMBOL",
           "name": "quoted_template"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "heredoc_template"
         }
       ]
     },
@@ -1202,6 +1206,56 @@
           }
         ]
       }
+    },
+    "heredoc_template": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "heredoc_start"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "heredoc_identifier"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "template_literal"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "template_interpolation"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "template_directive"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "heredoc_identifier"
+        }
+      ]
+    },
+    "heredoc_start": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<<"
+        },
+        {
+          "type": "STRING",
+          "value": "<<-"
+        }
+      ]
     },
     "strip_marker": {
       "type": "STRING",
@@ -1354,6 +1408,10 @@
     {
       "type": "SYMBOL",
       "name": "_template_interpolation_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "heredoc_identifier"
     }
   ],
   "inline": [],

@@ -1,6 +1,6 @@
 root = true
 
-[*.{c,txt,js}]
+[*.{cc,txt,js}]
 indent_style = space
 indent_size = 2
 tab_width = 8
