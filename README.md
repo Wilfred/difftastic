@@ -18,15 +18,16 @@ To run tests simply run `nix-shell --run 'tree-sitter test'`.
 
 ## Compliance
 
-The directory `example/real_world_stuff` contains a corpus of hcl files that I found with the github query `language:HCL` for users `coreos` and `hashicorp`
+The directory `example/real_world_stuff` contains a corpus of hcl files that I found with the github query `language:HCL` for users `coreos`, `hashicorp`, `oracle` and `terraform-community-modules`.
 
 Given that some language features are still missing ( see TODO ) there are some expected parse errors:
 
 ```bash
-nix-shell --run 'tree-sitter parse --quiet --stat example/real_world_stuff/*/*'
-...
-...
-Total parses: 1126; successful parses: 1110; failed parses: 16; success percentage: 98.58%
+tree-sitter parse --quiet --stat example/real_world_stuff/*/*
+
+example/real_world_stuff/oracle/oracle%opengrok%opengrok-indexer%src%test%resources%analysis%terraform%sample.tf                                                              	1 ms	(ERROR [205, 8] - [214, 1])
+
+Total parses: 2015; successful parses: 2014; failed parses: 1; success percentage: 99.95%
 
 ```
 
@@ -40,6 +41,5 @@ The aim is to build unit testcases from selected failure classes and slowly get 
   * [x] add quoted templates
     * [x] add quoted template interpolations
     * [ ] add quoted template directives
-  * [WIP] add heredoc templates
-    * support arbitary markers, at the moment for playground usage its only EOF
+  * [x] add heredoc templates
 

@@ -36,13 +36,40 @@ struct Context {
 struct Scanner {
 
 public:
-  // TODO: implement properly
+
   unsigned serialize(char* buf) {
-    return 0;
+    unsigned size = 0;
+
+    buf[size++] = context_stack.size();
+    for (vector<Context>::iterator it = context_stack.begin(); it != context_stack.end(); ++it) {
+      if (size + 2 + it->heredoc_identifier.size() >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+        return 0;
+      }
+      buf[size++] = it->type;
+      buf[size++] = it->heredoc_identifier.size();
+      it->heredoc_identifier.copy(&buf[size], it->heredoc_identifier.size());
+      size += it->heredoc_identifier.size();
+    }
+    return size;
   }
 
-  // TODO: implement properly
   void deserialize(const char* buf, unsigned n) {
+    unsigned size = 0;
+    if (n == 0) {
+      return;
+    }
+    context_stack.clear();
+
+    uint8_t context_stack_size = buf[size++];
+    for (unsigned j = 0; j < context_stack_size; j++) {
+      Context ctx;
+      ctx.type = static_cast<ContextType>(buf[size++]);
+      uint8_t heredoc_identifier_size = buf[size++];
+      ctx.heredoc_identifier.assign(buf + size, buf + size + heredoc_identifier_size);
+      size += heredoc_identifier_size;
+      context_stack.push_back(ctx);
+    }
+    assert(size == n);
   }
 
   bool scan(TSLexer* lexer, const bool* valid_symbols) {
