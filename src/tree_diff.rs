@@ -383,7 +383,8 @@ fn change_positions_<'a>(
     }
 }
 
-/// Extremely dumb top-level comparison of `lhs` and `rhs`.
+/// Calculate a structural diff between `lhs` and `rhs`, and write the
+/// change state to the `.change` field on the nodes.
 pub fn set_changed<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>]) {
     let mut env = Env::new(lhs, rhs);
     mark_unchanged_nodes(lhs, rhs, &mut env);
