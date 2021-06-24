@@ -54,9 +54,10 @@ contract Example {
     body: (contract_body 
         (function_definition
             function_name: (identifier) 
-            type: (type_name (primitive_type))
-            type: (type_name (primitive_type))
-            name: (identifier)
+            return_type: (return_type_definition
+                type: (type_name (primitive_type))
+                type: (type_name (primitive_type))
+                name: (identifier))
             body: (function_body)))))
 
 
@@ -81,9 +82,10 @@ contract Example {
             (visibility)
             (modifier_invocation (identifier))
             (virtual)
-            type: (type_name (primitive_type))
-            type: (type_name (primitive_type))
-            name: (identifier)
+            return_type: (return_type_definition
+                type: (type_name (primitive_type))
+                type: (type_name (primitive_type))
+                name: (identifier))
             body: (function_body)))))
 
 

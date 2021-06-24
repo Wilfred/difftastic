@@ -612,12 +612,15 @@ module.exports = grammar({
                 $.virtual,
                 $.override_specifier,
             )),
-            optional(seq(     
-                'returns',
-                $._parameter_list,
-            )),
+            field("return_type", optional($.return_type_definition)),
             choice($._semicolon, field('body', $.function_body))
         ),
+
+        return_type_definition: $ => seq(     
+            'returns',
+            $._parameter_list,
+        ),
+
         virtual: $ => "virtual",
         modifier_invocation: $ => seq($.identifier, optional($._call_arguments)),
         
