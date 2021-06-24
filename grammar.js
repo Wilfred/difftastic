@@ -836,7 +836,7 @@ module.exports = grammar({
         )),
 
         _parameter_list: $ => seq(
-            '(', commaSep($._parameter), ')'
+            '(', commaSep($.parameter), ')'
         ),
 
         _return_parameters: $ => seq(
@@ -848,7 +848,7 @@ module.exports = grammar({
             optional($._storage_location),
         ),
 
-        _parameter: $ =>  seq(
+        parameter: $ =>  seq(
             field("type", $.type_name),
             optional(field("storage_location", $._storage_location)),
             optional(field("name", $.identifier)),
