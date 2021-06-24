@@ -24,6 +24,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install yarn
+    - name: Install dependencies
+      run: |
+        npm install yarn
+        npm install tree-sitter-cli
+    - name: Generate tree-sitter parser
+      run: tree-sitter-generate
     - run: yarn
     - run: yarn test
