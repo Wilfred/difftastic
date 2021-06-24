@@ -1,8 +1,18 @@
+# Tree-sitter
 corpus
 examples
-build
 script
+
+# Other compilation artefacts
+build
 
 # Rust 
 target
 Cargo.lock
+
+# Js
+node_modules
+
+# Other
+.github
+.vscode
