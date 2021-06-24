@@ -26,8 +26,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
       run: |
-        npm install yarn
-        npm install tree-sitter-cli
+        npm install yarn -g
+        npm install tree-sitter-cli -g 
     - name: Generate tree-sitter parser
       run: tree-sitter generate
     - run: yarn
