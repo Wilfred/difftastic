@@ -6,7 +6,6 @@
 node_modules/
 src/
 .vscode/
-binding.gyp
 index.js
 
 # Rust
