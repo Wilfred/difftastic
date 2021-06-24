@@ -29,6 +29,6 @@ jobs:
         npm install yarn
         npm install tree-sitter-cli
     - name: Generate tree-sitter parser
-      run: tree-sitter-generate
+      run: tree-sitter generate
     - run: yarn
     - run: yarn test
