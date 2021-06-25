@@ -14,3 +14,16 @@ See `config/syntax.toml` to see how languages are defined.
 
 The [wiki](https://github.com/Wilfred/difftastic/wiki) includes a
 thorough overview of alternative diffing techniques and tools.
+
+## Testing with Git
+
+```
+[diff]
+        tool = difftastic
+
+[difftool "difftastic"]
+        cmd = ~/projects/difftastic/target/debug/difftastic "$LOCAL" "$REMOTE"
+```
+
+You can then run `git difftool -y` to see the current repo changes in
+difftastic.
