@@ -56,3 +56,20 @@ message(STATUS [=[Some argument ]==] ]=] )
   (argument (bracket_argument))
  )
  )
+
+=============================================================
+Message with STATUS and bracket argument and newline [message]
+=============================================================
+
+message(STATUS 
+[=[Some argument 
+]==] ]=] )
+
+---
+
+(source_file
+ (message_command
+  (message)
+  (argument (bracket_argument))
+ )
+ )

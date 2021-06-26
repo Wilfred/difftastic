@@ -1,0 +1,26 @@
+=========================
+Bracket comment [comment]
+=========================
+#[[Some comment]]
+
+---
+
+(source_file
+  (comment (bracket_argument))
+)
+
+==========================================================
+Command invocation with embedded bracket comment [comment]
+==========================================================
+message(STATUS #[[Some comment]] "comment is next" #[[Some comment]])
+
+---
+
+(source_file
+  (message_command
+    (message)
+    (comment (bracket_argument))
+    (argument (quoted_argument (quoted_element)))
+    (comment (bracket_argument))
+  )
+)

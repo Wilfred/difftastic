@@ -80,6 +80,7 @@ module.exports = grammar({
   name: "cmake",
 
   externals: ($) => [$.bracket_argument],
+  extras: ($) => [/[\s\n\r]/, $.comment],
 
   rules: {
     source_file: ($) => repeat($._command_invocation),
@@ -98,36 +99,36 @@ module.exports = grammar({
     argument: ($) => choice($.bracket_argument, $.quoted_argument, $.unquoted_argument),
 
     quoted_argument: ($) => seq('"', optional($.quoted_element), '"'),
-    quoted_element: ($) => repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence, seq("\\", newline()))),
+    quoted_element: ($) => repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence)),
 
-    unquoted_argument: ($) => repeat1(choice($.variable_ref, /[^ ()#\"\\]/, $.escape_sequence)),
+    unquoted_argument: ($) => prec.right(repeat1(choice($.variable_ref, /[^\s\n\r()#\"\\]/, $.escape_sequence))),
 
-    if_command: ($) => command($.if, args(choice($.argument, ...if_args))),
-    elseif_command: ($) => command($.elseif, args(choice($.argument, ...if_args))),
+    if_command: ($) => command($.if, repeat(choice($.argument, ...if_args))),
+    elseif_command: ($) => command($.elseif, repeat(choice($.argument, ...if_args))),
     else_command: ($) => command($.else, optional(choice($.argument, ...if_args))),
     endif_command: ($) => command($.endif, optional(choice($.argument, ...if_args))),
     if_condition: ($) =>
       seq($.if_command, repeat(choice($._command_invocation, $.elseif_command, $.else_command)), $.endif_command),
 
-    foreach_command: ($) => command($.foreach, args(choice($.argument, ...foreach_args))),
+    foreach_command: ($) => command($.foreach, repeat(choice($.argument, ...foreach_args))),
     endforeach_command: ($) => command($.endforeach, optional($.argument)),
     foreach_loop: ($) => seq($.foreach_command, repeat($._command_invocation), $.endforeach_command),
 
-    while_command: ($) => command($.while, args(choice($.argument, ...if_args))),
+    while_command: ($) => command($.while, repeat(choice($.argument, ...if_args))),
     endwhile_command: ($) => command($.endwhile, optional(choice($.argument, ...if_args))),
     while_loop: ($) => seq($.while_command, repeat($._command_invocation), $.endwhile_command),
 
-    function_command: ($) => command($.function, args($.argument)),
-    endfunction_command: ($) => command($.endfunction, args($.argument)),
+    function_command: ($) => command($.function, repeat($.argument)),
+    endfunction_command: ($) => command($.endfunction, repeat($.argument)),
     function_def: ($) => seq($.function_command, repeat($._command_invocation), $.endfunction_command),
 
-    macro_command: ($) => command($.macro, args($.argument)),
-    endmacro_command: ($) => command($.endmacro, args($.argument)),
+    macro_command: ($) => command($.macro, repeat($.argument)),
+    endmacro_command: ($) => command($.endmacro, repeat($.argument)),
     macro_def: ($) => seq($.macro_command, repeat($._command_invocation), $.endmacro_command),
 
-    message_command: ($) => command($.message, optional(args(choice($.argument, ...message_args)))),
+    message_command: ($) => command($.message, optional(repeat(choice($.argument, ...message_args)))),
 
-    normal_command: ($) => command($.identifier, optional(args($.argument))),
+    normal_command: ($) => command($.identifier, repeat($.argument)),
 
     _command_invocation: ($) =>
       choice(
@@ -139,6 +140,8 @@ module.exports = grammar({
         $.macro_def,
         $.message_command
       ),
+
+    comment: ($) => seq("#", choice($.bracket_argument)),
 
     ...commandNames(...commands),
     identifier: (_) => /[A-Za-z_][A-Za-z0-9_]*/,
@@ -158,18 +161,6 @@ function commandNames(...names) {
   return Object.assign({}, ...names.map(commandName));
 }
 
-function args(rule) {
-  return seq(rule, repeat(prec.left(seq(repeat1(seperation()), optional(rule)))));
-}
 function command(name_rule, arg_rule) {
-  return seq(name_rule, "(", repeat(seperation()), arg_rule, ")");
-}
-function seperation() {
-  return choice(space(), newline());
-}
-function space() {
-  return /[ \t]+/;
-}
-function newline() {
-  return /\n+/;
+  return seq(name_rule, "(", arg_rule, ")");
 }

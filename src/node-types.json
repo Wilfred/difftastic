@@ -38,6 +38,21 @@
     }
   },
   {
+    "type": "comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bracket_argument",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "else_command",
     "named": true,
     "fields": {},
@@ -716,6 +731,10 @@
     "named": false
   },
   {
+    "type": "#",
+    "named": false
+  },
+  {
     "type": "$CACHE",
     "named": false
   },
@@ -981,10 +1000,6 @@
   },
   {
     "type": "ZIP_LISTS",
-    "named": false
-  },
-  {
-    "type": "\\",
     "named": false
   },
   {
