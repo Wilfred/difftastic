@@ -137,8 +137,19 @@ public:
           return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
         }
       }
-      context_stack.pop_back();
-      return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
+      // check if the identifier is on a line of its own
+      lexer->mark_end(lexer);
+      while (iswspace(lexer->lookahead) && lexer->lookahead != '\n') {
+          advance(lexer);
+      }
+      if (lexer->lookahead == '\n') {
+        context_stack.pop_back();
+        return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
+      } else {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
+      }
     }
     // manage template literal chunks
 
