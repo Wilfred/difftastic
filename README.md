@@ -20,15 +20,10 @@ To run tests simply run `nix-shell --run 'tree-sitter test'`.
 
 The directory `example/real_world_stuff` contains a corpus of hcl files that I found with the github query `language:HCL` for users `coreos`, `hashicorp`, `oracle` and `terraform-community-modules`.
 
-Given that some language features are still missing ( see TODO ) there are some expected parse errors:
-
 ```bash
 tree-sitter parse --quiet --stat example/real_world_stuff/*/*
 
-example/real_world_stuff/oracle/oracle%opengrok%opengrok-indexer%src%test%resources%analysis%terraform%sample.tf                                                              	1 ms	(ERROR [205, 8] - [214, 1])
-
-Total parses: 2015; successful parses: 2014; failed parses: 1; success percentage: 99.95%
-
+Total parses: 1892; successful parses: 1892; failed parses: 0; success percentage: 100.00%
 ```
 
 The aim is to build unit testcases from selected failure classes and slowly get to 100%. 
