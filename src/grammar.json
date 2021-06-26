@@ -1911,20 +1911,11 @@
       ]
     },
     "comment": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "#"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "bracket_argument"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "bracket_comment"
         }
       ]
     },
@@ -2005,6 +1996,10 @@
     {
       "type": "SYMBOL",
       "name": "bracket_argument"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "bracket_comment"
     }
   ],
   "inline": [],

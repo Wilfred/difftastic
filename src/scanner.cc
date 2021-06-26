@@ -3,16 +3,19 @@
 #include <tree_sitter/parser.h>
 
 namespace {
-enum TokenType { BRACKET_ARGUMENT, LINE_COMMENT };
+enum TokenType { BRACKET_ARGUMENT, BRACKET_COMMENT };
 void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
-bool scan_bracket_argument(TSLexer *lexer) {
-  while (std::iswspace(lexer->lookahead))
-    skip(lexer);
+bool scan_bracket_argument(TSLexer *lexer, bool skip_wspace) {
+  if (skip_wspace) {
+    while (std::iswspace(lexer->lookahead)) {
+      skip(lexer);
+    }
+  }
 
-  if (lexer->lookahead != '[')
+  if (lexer->lookahead != '[') {
     return false;
-
+  }
   advance(lexer);
 
   int open_level = 0;
@@ -21,8 +24,9 @@ bool scan_bracket_argument(TSLexer *lexer) {
     advance(lexer);
   }
 
-  if (lexer->lookahead != '[')
+  if (lexer->lookahead != '[') {
     return false;
+  }
 
   while (lexer->lookahead != '\0') {
     advance(lexer);
@@ -44,9 +48,22 @@ bool scan_bracket_argument(TSLexer *lexer) {
   }
   return false;
 }
+bool scan_bracket_comment(TSLexer *lexer) {
+  if (lexer->lookahead != '#') {
+    return false;
+  }
+  advance(lexer);
+  if (scan_bracket_argument(lexer, false)) {
+    lexer->result_symbol = BRACKET_COMMENT;
+    return true;
+  }
+  return false;
+}
 bool scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
   if (valid_symbols[BRACKET_ARGUMENT])
-    return scan_bracket_argument(lexer);
+    return scan_bracket_argument(lexer, true);
+  if (valid_symbols[BRACKET_ARGUMENT])
+    return scan_bracket_comment(lexer);
 
   return false;
 }

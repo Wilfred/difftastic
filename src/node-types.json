@@ -46,7 +46,7 @@
       "required": true,
       "types": [
         {
-          "type": "bracket_argument",
+          "type": "bracket_comment",
           "named": true
         }
       ]
@@ -731,10 +731,6 @@
     "named": false
   },
   {
-    "type": "#",
-    "named": false
-  },
-  {
     "type": "$CACHE",
     "named": false
   },
@@ -1016,6 +1012,10 @@
   },
   {
     "type": "bracket_argument",
+    "named": true
+  },
+  {
+    "type": "bracket_comment",
     "named": true
   },
   {
