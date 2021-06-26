@@ -46,6 +46,7 @@ pub enum AtomKind {
 #[derive(Debug)]
 pub enum Node<'a> {
     List {
+        parent: Cell<Option<&'a Node<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         open_position: Vec<SingleLineSpan>,
         open_delimiter: String,
@@ -83,6 +84,7 @@ impl<'a> Node<'a> {
         }
 
         arena.alloc(List {
+            parent: Cell::new(None),
             change: Cell::new(None),
             open_position,
             open_delimiter: open_delimiter.into(),
