@@ -43,7 +43,7 @@ pub enum AtomKind {
     Other,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub enum Node<'a> {
     List {
         change: Cell<Option<ChangeKind<'a>>>,
