@@ -320,6 +320,7 @@ mod tests {
                     close_delimiter: lhs_end_content,
                     close_position: lhs_close_position,
                     num_descendants: lhs_num_descendants,
+                    ..
                 },
                 List {
                     change: rhs_change,
@@ -329,6 +330,7 @@ mod tests {
                     close_delimiter: rhs_end_content,
                     close_position: rhs_close_position,
                     num_descendants: rhs_num_descendants,
+                    ..
                 },
             ) => {
                 if lhs_change != rhs_change {
@@ -995,6 +997,7 @@ mod tests {
         };
 
         let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
+            parent: Cell::new(None),
             change: Cell::new(Some(Unchanged(lhs[0]))),
             open_position: vec![SingleLineSpan {
                 line: 0.into(),
@@ -1050,6 +1053,7 @@ mod tests {
         };
 
         let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
+            parent: Cell::new(None),
             change: Cell::new(Some(Unchanged(lhs[0]))),
             open_position: vec![SingleLineSpan {
                 line: 0.into(),
@@ -1095,6 +1099,7 @@ mod tests {
 
         let expected_rhs: Vec<&Node> = vec![
             arena.alloc(List {
+                parent: Cell::new(None),
                 open_delimiter: "[".into(),
                 open_position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -1109,6 +1114,7 @@ mod tests {
                 close_delimiter: "]".into(),
                 change: Cell::new(Some(Unchanged(lhs[0]))),
                 children: vec![arena.alloc(List {
+                    parent: Cell::new(None),
                     change: Cell::new(Some(Moved)),
                     open_delimiter: "[".into(),
                     open_position: vec![SingleLineSpan {
@@ -1177,6 +1183,7 @@ mod tests {
                 kind: AtomKind::Other,
             }),
             arena.alloc(List {
+                parent: Cell::new(None),
                 open_delimiter: "[".into(),
                 open_position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -1191,6 +1198,7 @@ mod tests {
                 }],
                 change: Cell::new(Some(Novel)),
                 children: vec![arena.alloc(List {
+                    parent: Cell::new(None),
                     change: Cell::new(Some(Moved)),
                     open_position: vec![SingleLineSpan {
                         line: 0.into(),
