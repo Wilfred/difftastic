@@ -122,6 +122,7 @@ package-lock.json
 parser.exp
 parser.lib
 parser.obj
+scanner.obj
 
 # Rust files
 target/**
