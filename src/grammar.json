@@ -163,78 +163,6 @@
         }
       ]
     },
-    "bracket_argument": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_bracket_open"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "bracket_content"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_bracket_close"
-        }
-      ]
-    },
-    "_bracket_open": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "["
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "STRING",
-            "value": "="
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "["
-        }
-      ]
-    },
-    "bracket_content": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "PATTERN",
-        "value": "[^\\]]"
-      }
-    },
-    "_bracket_close": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "]"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "STRING",
-            "value": "="
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "]"
-        }
-      ]
-    },
     "quoted_argument": {
       "type": "SEQ",
       "members": [
@@ -3337,7 +3265,12 @@
   ],
   "conflicts": [],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "bracket_argument"
+    }
+  ],
   "inline": [],
   "supertypes": []
 }

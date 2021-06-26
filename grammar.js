@@ -79,6 +79,8 @@ message_args = [
 module.exports = grammar({
   name: "cmake",
 
+  externals: ($) => [$.bracket_argument],
+
   rules: {
     source_file: ($) => repeat($._command_invocation),
 
@@ -94,11 +96,6 @@ module.exports = grammar({
     cache_var: ($) => seq("$CACHE", "{", $.variable, "}"),
 
     argument: ($) => choice($.bracket_argument, $.quoted_argument, $.unquoted_argument),
-
-    bracket_argument: ($) => seq($._bracket_open, optional($.bracket_content), $._bracket_close),
-    _bracket_open: (_) => seq("[", repeat("="), "["),
-    bracket_content: (_) => repeat1(/[^\]]/),
-    _bracket_close: (_) => seq("]", repeat("="), "]"),
 
     quoted_argument: ($) => seq('"', optional($.quoted_element), '"'),
     quoted_element: ($) => repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence, seq("\\", newline()))),

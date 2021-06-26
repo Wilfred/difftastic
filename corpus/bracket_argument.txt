@@ -22,7 +22,7 @@ message([[an argument]])
 (source_file
  (message_command
   (message)
-  (argument (bracket_argument (bracket_content)))
+  (argument (bracket_argument))
  )
  )
 
@@ -36,8 +36,8 @@ message([[first argument]] [[second argument]])
 (source_file
  (message_command
   (message)
-  (argument (bracket_argument (bracket_content)))
-  (argument (bracket_argument (bracket_content)))
+  (argument (bracket_argument))
+  (argument (bracket_argument))
  )
  )
 
@@ -54,8 +54,8 @@ message(
 (source_file
  (message_command
   (message)
-  (argument (bracket_argument (bracket_content)))
-  (argument (bracket_argument (bracket_content)))
+  (argument (bracket_argument))
+  (argument (bracket_argument))
  )
  )
 
@@ -71,7 +71,23 @@ with line break
 (source_file
  (message_command
   (message)
-  (argument (bracket_argument (bracket_content)))
+  (argument (bracket_argument))
+ )
+ )
+
+=====================================================================================
+Bracket argument with embedded brackets and equal signs line break [bracket_argument]
+=====================================================================================
+
+message([===[an argument
+with line break ]==]
+]===])
+
+---
+(source_file
+ (message_command
+  (message)
+  (argument (bracket_argument))
  )
  )
 
