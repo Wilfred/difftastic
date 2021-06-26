@@ -146,3 +146,26 @@ foo = "hello $${ world"
         (literal_value
           (string_lit
             (template_literal)))))))
+
+================================================================================
+tricky heredoc
+================================================================================
+
+foo = <<END
+    contains fake endings
+    END (ineligible) END
+END
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (heredoc_template
+            (heredoc_start)
+            (heredoc_identifier)
+            (template_literal)
+            (heredoc_identifier)))))))
