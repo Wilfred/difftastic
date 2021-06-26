@@ -24,3 +24,7 @@ message(STATUS #[[Some comment]] "comment is next" #[[Some comment]])
     (comment (bracket_argument))
   )
 )
+
+======================
+Line comment [comment]
+======================

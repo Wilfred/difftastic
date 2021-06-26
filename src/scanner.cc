@@ -3,16 +3,11 @@
 #include <tree_sitter/parser.h>
 
 namespace {
-enum TokenType { BRACKET_ARGUMENT };
+enum TokenType { BRACKET_ARGUMENT, LINE_COMMENT };
 void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
-bool scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
-  using std::iswspace;
-
-  if (!valid_symbols[BRACKET_ARGUMENT])
-    return false;
-
-  while (iswspace(lexer->lookahead))
+bool scan_bracket_argument(TSLexer *lexer) {
+  while (std::iswspace(lexer->lookahead))
     skip(lexer);
 
   if (lexer->lookahead != '[')
@@ -47,6 +42,11 @@ bool scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
       }
     }
   }
+  return false;
+}
+bool scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+  if (valid_symbols[BRACKET_ARGUMENT])
+    return scan_bracket_argument(lexer);
 
   return false;
 }
