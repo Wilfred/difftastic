@@ -37,4 +37,3 @@ The aim is to build unit testcases from selected failure classes and slowly get 
     * [x] add quoted template interpolations
     * [ ] add quoted template directives
   * [x] add heredoc templates
-

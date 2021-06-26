@@ -12,14 +12,15 @@ After=coreos-metadata.service
 EOF
 
   cert_options = <<EOF
---cert-file=/etc/ssl/etcd/server.crt \
+  --cert-file=/etc/ssl/etcd/server.crt \
   --client-cert-auth=true \
   --key-file=/etc/ssl/etcd/server.key \
   --peer-cert-file=/etc/ssl/etcd/peer.crt \
   --peer-key-file=/etc/ssl/etcd/peer.key \
   --peer-trusted-ca-file=/etc/ssl/etcd/ca.crt \
   --peer-client-cert-auth=true \
-  --trusted-ca-file=/etc/ssl/etcd/ca.crtEOF
+  --trusted-ca-file=/etc/ssl/etcd/ca.crt
+EOF
 }
 
 data "template_file" "etcd_names" {

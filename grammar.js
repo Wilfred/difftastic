@@ -279,7 +279,6 @@ module.exports = grammar({
       $._quoted_template_end,
     )),
 
-    // TODO user chosen identifiers
     heredoc_template: $ => seq(
       $.heredoc_start,
       $.heredoc_identifier,

@@ -73,7 +73,11 @@ public:
   }
 
   bool scan(TSLexer* lexer, const bool* valid_symbols) {
+    bool has_leading_whitespace_with_newline = false;
     while (iswspace(lexer->lookahead)) {
+      if (lexer->lookahead == '\n') {
+        has_leading_whitespace_with_newline = true;
+      }
       skip(lexer);
     }
     if (lexer->lookahead == '\0') {
@@ -127,7 +131,7 @@ public:
       context_stack.push_back({ .type = HEREDOC_TEMPLATE, .heredoc_identifier = identifier });
       return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
     }
-    if (valid_symbols[HEREDOC_IDENTIFIER] && in_heredoc_context()) {
+    if (valid_symbols[HEREDOC_IDENTIFIER] && in_heredoc_context() && has_leading_whitespace_with_newline) {
       string expected_identifier = context_stack.back().heredoc_identifier;
 
       for (string::iterator it = expected_identifier.begin(); it != expected_identifier.end(); ++it) {
