@@ -182,11 +182,9 @@ impl<'a> Hash for GraphNode<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         // Deliberately ignore distance: we want to find equal nodes
         // regardless of the distance of different paths to them.
-        self.lhs_next.hash(state);
-        self.rhs_next.hash(state);
-
-        // next_idx fields are unnecessary: they're unique to the
-        // current node fields and just used for convenience of
-        // traversing.
+        let lhs_node = self.lhs_next.as_ref().map(|(n, _)| n);
+        let rhs_node = self.rhs_next.as_ref().map(|(n, _)| n);
+        lhs_node.hash(state);
+        rhs_node.hash(state);
     }
 }
