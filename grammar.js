@@ -269,22 +269,22 @@ module.exports = grammar({
 
     quoted_template: $ => prec(PREC.quoted_template, seq(
       $._quoted_template_start,
-      repeat(choice(
+      optional(repeat(choice(
         $.template_literal,
         $.template_interpolation,
         $.template_directive,
-      )),
+      ))),
       $._quoted_template_end,
     )),
 
     heredoc_template: $ => seq(
       $.heredoc_start,
       $.heredoc_identifier,
-      repeat(choice(
+      optional(repeat(choice(
         $.template_literal,
         $.template_interpolation,
         $.template_directive,
-      )),
+      ))),
       $.heredoc_identifier,
     ),
 
@@ -299,7 +299,7 @@ module.exports = grammar({
     template_interpolation: $ => seq(
       $._template_interpolation_start,
       optional($.strip_marker),
-      $.expression,
+      optional($.expression),
       optional($.strip_marker),
       $._template_interpolation_end,
     ),
