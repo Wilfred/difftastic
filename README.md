@@ -32,7 +32,6 @@ The directory `fuzz/crashers` contains a set of crashes that were found with fuz
 
 ## Todo
 
-* [x] use [Unicode® Standard Annex #31](https://www.unicode.org/reports/tr31/) (augmented with '-') for identifiers
 * [ ] add [template expressions](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#template-expressions)
   * [x] add template interpolations
   * [ ] add template directives
