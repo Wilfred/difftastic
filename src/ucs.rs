@@ -13,6 +13,15 @@ struct GraphNode<'a> {
     rhs_next: Option<(&'a Node<'a>, Vec<usize>)>,
 }
 
+impl<'a> GraphNode<'a> {
+    fn lhs_next_node(&self) -> Option<&'a Node<'a>> {
+        self.lhs_next.as_ref().map(|(n, _)| *n)
+    }
+    fn rhs_next_node(&self) -> Option<&'a Node<'a>> {
+        self.rhs_next.as_ref().map(|(n, _)| *n)
+    }
+}
+
 #[derive(Debug, Copy, Clone)]
 enum Action {
     UnchangedNode,
@@ -134,7 +143,6 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
         }
     }
 
-
     res
 }
 
@@ -168,13 +176,8 @@ fn next_node<'a>(
 
 impl<'a> PartialEq for GraphNode<'a> {
     fn eq(&self, other: &Self) -> bool {
-        let lhs_node = self.lhs_next.as_ref().map(|(n, _)| n);
-        let rhs_node = self.rhs_next.as_ref().map(|(n, _)| n);
-
-        let other_lhs_node = other.lhs_next.as_ref().map(|(n, _)| n);
-        let other_rhs_node = other.rhs_next.as_ref().map(|(n, _)| n);
-
-        lhs_node == other_lhs_node && rhs_node == other_rhs_node
+        self.lhs_next_node() == other.lhs_next_node()
+            && self.rhs_next_node() == other.rhs_next_node()
     }
 }
 
@@ -182,9 +185,7 @@ impl<'a> Hash for GraphNode<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         // Deliberately ignore distance: we want to find equal nodes
         // regardless of the distance of different paths to them.
-        let lhs_node = self.lhs_next.as_ref().map(|(n, _)| n);
-        let rhs_node = self.rhs_next.as_ref().map(|(n, _)| n);
-        lhs_node.hash(state);
-        rhs_node.hash(state);
+        self.lhs_next_node().hash(state);
+        self.rhs_next_node().hash(state);
     }
 }
