@@ -1,18 +1,16 @@
 #include <cwctype>
-#include <iostream>
 #include <tree_sitter/parser.h>
 
 namespace {
-enum TokenType { BRACKET_ARGUMENT, BRACKET_COMMENT };
+enum TokenType { BRACKET_ARGUMENT, BRACKET_COMMENT, LINE_COMMENT };
 void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
-bool scan_bracket_argument(TSLexer *lexer, bool skip_wspace) {
-  if (skip_wspace) {
-    while (std::iswspace(lexer->lookahead)) {
-      skip(lexer);
-    }
+void skip_wspace(TSLexer *lexer) {
+  while (std::iswspace(lexer->lookahead)) {
+    skip(lexer);
   }
-
+}
+bool is_bracket_argument(TSLexer *lexer) {
   if (lexer->lookahead != '[') {
     return false;
   }
@@ -41,29 +39,35 @@ bool scan_bracket_argument(TSLexer *lexer, bool skip_wspace) {
 
       if (lexer->lookahead == ']' && close_level == open_level) {
         advance(lexer);
-        lexer->result_symbol = BRACKET_ARGUMENT;
         return true;
       }
     }
   }
   return false;
 }
-bool scan_bracket_comment(TSLexer *lexer) {
-  if (lexer->lookahead != '#') {
-    return false;
+bool scan(void *payload, TSLexer *lexer, bool const *valid_symbols) {
+  skip_wspace(lexer);
+
+  if (lexer->lookahead != '#' && valid_symbols[BRACKET_ARGUMENT]) {
+    if (is_bracket_argument(lexer)) {
+      lexer->result_symbol = BRACKET_ARGUMENT;
+      return true;
+    }
   }
-  advance(lexer);
-  if (scan_bracket_argument(lexer, false)) {
-    lexer->result_symbol = BRACKET_COMMENT;
-    return true;
+  if (lexer->lookahead == '#' &&
+      (valid_symbols[BRACKET_COMMENT] || valid_symbols[LINE_COMMENT])) {
+    advance(lexer);
+    if (is_bracket_argument(lexer)) {
+      lexer->result_symbol = BRACKET_COMMENT;
+      return true;
+    } else {
+      while (lexer->lookahead != '\n' && lexer->lookahead != '\0') {
+        advance(lexer);
+      }
+      lexer->result_symbol = LINE_COMMENT;
+      return true;
+    }
   }
-  return false;
-}
-bool scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
-  if (valid_symbols[BRACKET_ARGUMENT])
-    return scan_bracket_argument(lexer, true);
-  if (valid_symbols[BRACKET_ARGUMENT])
-    return scan_bracket_comment(lexer);
 
   return false;
 }
@@ -77,10 +81,10 @@ unsigned tree_sitter_cmake_external_scanner_serialize(void *payload,
   return 0;
 }
 void tree_sitter_cmake_external_scanner_deserialize(void *payload,
-                                                    const char *buffer,
+                                                    char const *buffer,
                                                     unsigned length) {}
 bool tree_sitter_cmake_external_scanner_scan(void *payload, TSLexer *lexer,
-                                             const bool *valid_symbols) {
+                                             bool const *valid_symbols) {
   return scan(payload, lexer, valid_symbols);
 }
 }

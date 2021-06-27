@@ -6,7 +6,7 @@ Bracket comment [comment]
 ---
 
 (source_file
-  (comment (bracket_argument))
+  (bracket_comment)
 )
 
 ==========================================================
@@ -19,12 +19,37 @@ message(STATUS #[[Some comment]] "comment is next" #[[Some comment]])
 (source_file
   (message_command
     (message)
-    (comment (bracket_argument))
+    (bracket_comment)
     (argument (quoted_argument (quoted_element)))
-    (comment (bracket_argument))
+    (bracket_comment)
   )
 )
 
 ======================
 Line comment [comment]
 ======================
+# [[Some comment]] "comment is next" #[[Some comment]]
+
+---
+
+(source_file
+  (line_comment)
+)
+
+===================================
+Message with Line comment [comment]
+===================================
+message(STATUS # Some line comment
+message #Some other line comment
+)
+
+---
+
+(source_file
+  (message_command
+    (message)
+    (line_comment)
+    (argument (unquoted_argument))
+    (line_comment)
+  )
+)

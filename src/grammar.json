@@ -1910,15 +1910,6 @@
         }
       ]
     },
-    "comment": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "bracket_comment"
-        }
-      ]
-    },
     "if": {
       "type": "PATTERN",
       "value": "[iI][fF]"
@@ -1987,7 +1978,11 @@
     },
     {
       "type": "SYMBOL",
-      "name": "comment"
+      "name": "bracket_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "line_comment"
     }
   ],
   "conflicts": [],
@@ -2000,6 +1995,10 @@
     {
       "type": "SYMBOL",
       "name": "bracket_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "line_comment"
     }
   ],
   "inline": [],

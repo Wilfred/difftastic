@@ -79,8 +79,8 @@ message_args = [
 module.exports = grammar({
   name: "cmake",
 
-  externals: ($) => [$.bracket_argument, $.bracket_comment],
-  extras: ($) => [/[\s\n\r]/, $.comment],
+  externals: ($) => [$.bracket_argument, $.bracket_comment, $.line_comment],
+  extras: ($) => [/[\s\n\r]/, $.bracket_comment, $.line_comment],
 
   rules: {
     source_file: ($) => repeat($._command_invocation),
@@ -140,8 +140,6 @@ module.exports = grammar({
         $.macro_def,
         $.message_command
       ),
-
-    comment: ($) => choice($.bracket_comment),
 
     ...commandNames(...commands),
     identifier: (_) => /[A-Za-z_][A-Za-z0-9_]*/,
