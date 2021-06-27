@@ -168,7 +168,13 @@ fn next_node<'a>(
 
 impl<'a> PartialEq for GraphNode<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.lhs_next == other.lhs_next && self.rhs_next == other.rhs_next
+        let lhs_node = self.lhs_next.as_ref().map(|(n, _)| n);
+        let rhs_node = self.rhs_next.as_ref().map(|(n, _)| n);
+
+        let other_lhs_node = other.lhs_next.as_ref().map(|(n, _)| n);
+        let other_rhs_node = other.rhs_next.as_ref().map(|(n, _)| n);
+
+        lhs_node == other_lhs_node && rhs_node == other_rhs_node
     }
 }
 impl<'a> Eq for GraphNode<'a> {}
