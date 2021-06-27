@@ -112,6 +112,13 @@ impl<'a> Node<'a> {
         })
     }
 
+    pub fn get_parent(&self) -> Option<&'a Node<'a>> {
+        match self {
+            List { parent, .. } => parent.get(),
+            Atom { parent, .. } => parent.get(),
+        }
+    }
+
     fn get_change(&self) -> Option<ChangeKind<'a>> {
         match self {
             List { change, .. } => change.get(),
