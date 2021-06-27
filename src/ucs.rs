@@ -64,35 +64,64 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
         }
     }
 
-    let new_lhs_next = next_node(gn.lhs_next.unwrap(), gn.lhs_idx.clone());
-    let new_rhs_next = next_node(gn.rhs_next.unwrap(), gn.rhs_idx.clone());
-    // New atom on LHS.
-    // TODO: step into list.
-    if let Some((new_lhs_next, new_lhs_idx)) = &new_lhs_next {
-        let action = NovelAtomLHS;
-        res.push(GraphNode {
-            action,
-            distance: gn.distance + action.cost(),
-            lhs_next: Some(new_lhs_next),
-            rhs_next: gn.rhs_next,
-            lhs_idx: new_lhs_idx.to_vec(),
-            rhs_idx: gn.rhs_idx.clone(),
-        });
+    if let Some(lhs_next) = gn.lhs_next {
+        match lhs_next {
+            // Step over this novel atom.
+            Node::Atom { .. } => {
+                let (new_lhs_next, new_lhs_idx) = match next_node(lhs_next, gn.lhs_idx.clone()) {
+                    Some((new_lhs_next, new_lhs_idx)) => (Some(new_lhs_next), new_lhs_idx),
+                    None => (None, vec![]),
+                };
+                let action = NovelAtomLHS;
+                res.push(GraphNode {
+                    action,
+                    distance: gn.distance + action.cost(),
+                    lhs_next: new_lhs_next,
+                    rhs_next: gn.rhs_next,
+                    // TODO: store idx with the node to have a single optional.
+                    lhs_idx: new_lhs_idx,
+                    rhs_idx: gn.rhs_idx.clone(),
+                });
+            }
+            // Step into this partially/fully novel list.
+            Node::List { children, .. } => {
+                // TODO: handle unchanged delimiter.
+                let action = NovelDelimiterLHS;
+                if children.len() == 0 {
+                    let (new_lhs_next, new_lhs_idx) = match next_node(lhs_next, gn.lhs_idx.clone())
+                    {
+                        Some((new_lhs_next, new_lhs_idx)) => (Some(new_lhs_next), new_lhs_idx),
+                        None => (None, vec![]),
+                    };
+
+                    res.push(GraphNode {
+                        action,
+                        distance: gn.distance + action.cost(),
+                        lhs_next: new_lhs_next,
+                        rhs_next: gn.rhs_next,
+                        // TODO: store idx with the node to have a single optional.
+                        lhs_idx: new_lhs_idx,
+                        rhs_idx: gn.rhs_idx.clone(),
+                    });
+                } else {
+                    let mut new_lhs_idx = gn.lhs_idx.clone();
+                    new_lhs_idx.push(0);
+
+                    res.push(GraphNode {
+                        action,
+                        distance: gn.distance + action.cost(),
+                        lhs_next: Some(children[0]),
+                        rhs_next: gn.rhs_next,
+                        // TODO: store idx with the node to have a single optional.
+                        lhs_idx: new_lhs_idx,
+                        rhs_idx: gn.rhs_idx.clone(),
+                    });
+                }
+            }
+        }
     }
 
-    // New atom on RHS.
-    // TODO: step into list.
-    if let Some((new_rhs_next, new_rhs_idx)) = &new_rhs_next {
-        let action = NovelAtomLHS;
-        res.push(GraphNode {
-            action,
-            distance: gn.distance + action.cost(),
-            lhs_next: gn.rhs_next,
-            rhs_next: Some(new_rhs_next),
-            lhs_idx: gn.lhs_idx.clone(),
-            rhs_idx: new_rhs_idx.to_vec(),
-        });
-    }
+    // TODO: rhs
 
     res
 }
