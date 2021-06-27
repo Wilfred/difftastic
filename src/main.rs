@@ -3,6 +3,7 @@ mod parse;
 mod positions;
 mod style;
 mod tree_diff;
+mod ucs;
 use clap::{App, Arg};
 use std::ffi::OsStr;
 use std::path::Path;
