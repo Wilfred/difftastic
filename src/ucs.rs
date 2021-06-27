@@ -13,8 +13,32 @@ struct GraphNode<'a> {
     rhs_idx: usize,
 }
 
-fn next_node<'a>(current: &'a Node<'a>, current_idx: &[usize]) -> Option<(&'a Node<'a>, Vec<usize>)> {
-    None
+fn next_node<'a>(
+    current: &'a Node<'a>,
+    mut current_idx: Vec<usize>,
+) -> Option<(&'a Node<'a>, Vec<usize>)> {
+    match current.get_parent() {
+        Some(parent) => {
+            let idx_in_parent = current_idx.last().unwrap();
+            match parent {
+                Node::List {
+                    children: siblings, ..
+                } => match siblings.get(idx_in_parent + 1) {
+                    Some(node) => {
+                        let new_idx = current_idx.last_mut().unwrap();
+                        *new_idx += 1;
+                        Some((node, current_idx))
+                    }
+                    None => {
+                        current_idx.pop();
+                        next_node(parent, current_idx)
+                    }
+                },
+                Node::Atom { .. } => unreachable!(),
+            }
+        }
+        None => None,
+    }
 }
 
 impl<'a> PartialEq for GraphNode<'a> {
