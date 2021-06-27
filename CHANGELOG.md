@@ -6,8 +6,8 @@ fix:
 * correct expression for identifiers
 * allow empty template interpolations
 * allow empty templates
-* fix bug in serializer when the `context_stack.size()` exceeds `CHAR_MAX`
-* fix bug in serializer when the `heredoc_identifier.size()` exceeds `CHAR_MAX`
+* fix crash when `context_stack.size()` exceeds `CHAR_MAX`
+* fix crash when `heredoc_identifier.size()` exceeds `CHAR_MAX`
 
 quality:
 * add fuzzing
