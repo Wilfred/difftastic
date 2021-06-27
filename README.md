@@ -34,11 +34,10 @@ The directory `fuzz/crashers` contains a set of crashes that were found with fuz
 
 * [x] use [Unicode® Standard Annex #31](https://www.unicode.org/reports/tr31/) (augmented with '-') for identifiers
 * [ ] add [template expressions](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#template-expressions)
-  * [x] add templates
-    * [x] add template interpolations
-    * [ ] add template directives
-    * [x] add quoted templates
-    * [x] add heredoc templates
+  * [x] add template interpolations
+  * [ ] add template directives
+  * [x] add quoted templates
+  * [x] add heredoc templates
 * [ ] fuzzing
   * [x] start with fuzzing the parser
   * [ ] upload fuzzing instrumentation
