@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 - not yet released
+
+fix:
+* correct expression for identifiers
+* allow empty template interpolations
+* allow empty templates
+
 ## 0.2.0 - 2021-06-26
 
 feature:

@@ -129,7 +129,7 @@ public:
         advance(lexer);
       }
       context_stack.push_back({ .type = HEREDOC_TEMPLATE, .heredoc_identifier = identifier });
-      return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
+      return accept_inplace(lexer, HEREDOC_IDENTIFIER);
     }
     if (valid_symbols[HEREDOC_IDENTIFIER] && in_heredoc_context() && has_leading_whitespace_with_newline) {
       string expected_identifier = context_stack.back().heredoc_identifier;
@@ -138,7 +138,7 @@ public:
         if (lexer->lookahead == *it) {
           advance(lexer);
         } else {
-          return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+          return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
         }
       }
       // check if the identifier is on a line of its own
@@ -148,7 +148,7 @@ public:
       }
       if (lexer->lookahead == '\n') {
         context_stack.pop_back();
-        return accept_and_advance(lexer, HEREDOC_IDENTIFIER);
+        return accept_inplace(lexer, HEREDOC_IDENTIFIER);
       } else {
         advance(lexer);
         lexer->mark_end(lexer);
