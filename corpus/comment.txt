@@ -17,12 +17,13 @@ message(STATUS #[[Some comment]] "comment is next" #[[Some comment]])
 ---
 
 (source_file
-  (message_command
-    (message)
-    (bracket_comment)
-    (argument (quoted_argument (quoted_element)))
-    (bracket_comment)
-  )
+ (normal_command
+  (identifier)
+  (argument (unquoted_argument))
+  (bracket_comment)
+  (argument (quoted_argument (quoted_element)))
+  (bracket_comment)
+ )
 )
 
 ======================
@@ -39,17 +40,18 @@ Line comment [comment]
 ===================================
 Message with Line comment [comment]
 ===================================
-message(STATUS # Some line comment
+message(STATUS #Some line comment
 message #Some other line comment
 )
 
 ---
 
 (source_file
-  (message_command
-    (message)
-    (line_comment)
-    (argument (unquoted_argument))
-    (line_comment)
-  )
+ (normal_command
+  (identifier)
+  (argument (unquoted_argument))
+  (line_comment)
+  (argument (unquoted_argument))
+  (line_comment)
+ )
 )

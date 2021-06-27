@@ -6,8 +6,8 @@ message([[]])
 
 ---
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
   (argument (bracket_argument))
  )
  )
@@ -20,8 +20,8 @@ message([[an argument]])
 
 ---
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
   (argument (bracket_argument))
  )
  )
@@ -34,8 +34,8 @@ message([[first argument]] [[second argument]])
 
 ---
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
   (argument (bracket_argument))
   (argument (bracket_argument))
  )
@@ -52,8 +52,8 @@ message(
 
 ---
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
   (argument (bracket_argument))
   (argument (bracket_argument))
  )
@@ -69,8 +69,8 @@ with line break
 
 ---
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
   (argument (bracket_argument))
  )
  )
@@ -85,8 +85,8 @@ with line break ]==]
 
 ---
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
   (argument (bracket_argument))
  )
  )

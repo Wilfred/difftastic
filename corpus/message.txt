@@ -7,8 +7,8 @@ message()
 ---
 
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
  )
  )
 
@@ -21,8 +21,8 @@ message( )
 ---
 
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
  )
  )
 
@@ -37,8 +37,8 @@ message(
 ---
 
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
  )
  )
 
@@ -51,25 +51,27 @@ message(STATUS [=[Some argument ]==] ]=] )
 ---
 
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
+  (argument (unquoted_argument))
   (argument (bracket_argument))
  )
  )
 
-=============================================================
+==============================================================
 Message with STATUS and bracket argument and newline [message]
-=============================================================
+==============================================================
 
-message(STATUS 
-[=[Some argument 
+message(STATUS
+[=[Some argument
 ]==] ]=] )
 
 ---
 
 (source_file
- (message_command
-  (message)
+ (normal_command
+  (identifier)
+  (argument (unquoted_argument))
   (argument (bracket_argument))
  )
  )

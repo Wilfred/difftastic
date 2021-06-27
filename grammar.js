@@ -11,69 +11,6 @@ commands = [
   "endfunction",
   "macro",
   "endmacro",
-  "message",
-];
-if_args = [
-  "1",
-  "ON",
-  "YES",
-  "TRUE",
-  "Y",
-  "0",
-  "OFF",
-  "NO",
-  "FALSE",
-  "N",
-  "IGNORE",
-  "NOTFOUND",
-  "NOT",
-  "AND",
-  "OR",
-  "COMMAND",
-  "POLICY",
-  "TARGET",
-  "TEST",
-  "DEFINED",
-  "CACHE",
-  "ENV",
-  "IN_LIST",
-  "EXISTS",
-  "IS_NEWER_THAN",
-  "IS_DIRECTORY",
-  "IS_SYMLINK",
-  "IS_ABSOLUTE",
-  "MATCHES",
-  "LESS",
-  "GREATER",
-  "EQUAL",
-  "LESS_EQUAL",
-  "GREATER_EQUAL",
-  "STRLESS",
-  "STRGREATER",
-  "STREQUAL",
-  "STRLESS_EQUAL",
-  "STRGREATER_EQUAL",
-  "VERSION_LESS",
-  "VERSION_GREATER",
-  "VERSION_EQUAL",
-  "VERSION_LESS_EQUAL",
-  "VERSION_GREATER_EQUAL",
-];
-foreach_args = ["IN", "RANGE", "ZIP_LISTS", "LISTS", "ITEMS"];
-message_args = [
-  "FATAL_ERROR",
-  "SEND_ERROR",
-  "WARNING",
-  "AUTHOR_WARNING",
-  "DEPRECATION",
-  "NOTICE",
-  "STATUS",
-  "VERBOSE",
-  "DEBUG",
-  "TRACE",
-  "CHECK_START",
-  "CHECK_PASS",
-  "CHECK_FAIL",
 ];
 
 module.exports = grammar({
@@ -103,19 +40,19 @@ module.exports = grammar({
 
     unquoted_argument: ($) => prec.right(repeat1(choice($.variable_ref, /[^\s\n\r()#\"\\]/, $.escape_sequence))),
 
-    if_command: ($) => command($.if, repeat(choice($.argument, ...if_args))),
-    elseif_command: ($) => command($.elseif, repeat(choice($.argument, ...if_args))),
-    else_command: ($) => command($.else, optional(choice($.argument, ...if_args))),
-    endif_command: ($) => command($.endif, optional(choice($.argument, ...if_args))),
+    if_command: ($) => command($.if, repeat(choice($.argument))),
+    elseif_command: ($) => command($.elseif, repeat(choice($.argument))),
+    else_command: ($) => command($.else, optional(choice($.argument))),
+    endif_command: ($) => command($.endif, optional(choice($.argument))),
     if_condition: ($) =>
       seq($.if_command, repeat(choice($._command_invocation, $.elseif_command, $.else_command)), $.endif_command),
 
-    foreach_command: ($) => command($.foreach, repeat(choice($.argument, ...foreach_args))),
+    foreach_command: ($) => command($.foreach, repeat(choice($.argument))),
     endforeach_command: ($) => command($.endforeach, optional($.argument)),
     foreach_loop: ($) => seq($.foreach_command, repeat($._command_invocation), $.endforeach_command),
 
-    while_command: ($) => command($.while, repeat(choice($.argument, ...if_args))),
-    endwhile_command: ($) => command($.endwhile, optional(choice($.argument, ...if_args))),
+    while_command: ($) => command($.while, repeat(choice($.argument))),
+    endwhile_command: ($) => command($.endwhile, optional(choice($.argument))),
     while_loop: ($) => seq($.while_command, repeat($._command_invocation), $.endwhile_command),
 
     function_command: ($) => command($.function, repeat($.argument)),
@@ -126,20 +63,10 @@ module.exports = grammar({
     endmacro_command: ($) => command($.endmacro, repeat($.argument)),
     macro_def: ($) => seq($.macro_command, repeat($._command_invocation), $.endmacro_command),
 
-    message_command: ($) => command($.message, optional(repeat(choice($.argument, ...message_args)))),
-
     normal_command: ($) => command($.identifier, repeat($.argument)),
 
     _command_invocation: ($) =>
-      choice(
-        $.normal_command,
-        $.if_condition,
-        $.foreach_loop,
-        $.while_loop,
-        $.function_def,
-        $.macro_def,
-        $.message_command
-      ),
+      choice($.normal_command, $.if_condition, $.foreach_loop, $.while_loop, $.function_def, $.macro_def),
 
     ...commandNames(...commands),
     identifier: (_) => /[A-Za-z_][A-Za-z0-9_]*/,

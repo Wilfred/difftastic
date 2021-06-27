@@ -74,12 +74,15 @@ endif()
 ---
 
 (source_file
-  (if_condition
-    (if_command
-      (if)
-      (argument (unquoted_argument))
-    )
-    (message_command (message))
-    (endif_command (endif))
+ (if_condition
+  (if_command
+   (if)
+   (argument (unquoted_argument))
   )
+  (normal_command
+   (identifier)
+   (argument (unquoted_argument))
+  )
+  (endif_command (endif))
+ )
 )
