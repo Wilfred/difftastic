@@ -130,10 +130,6 @@
         {
           "type": "block",
           "named": true
-        },
-        {
-          "type": "object",
-          "named": true
         }
       ]
     }
@@ -187,6 +183,10 @@
       "types": [
         {
           "type": "body",
+          "named": true
+        },
+        {
+          "type": "object",
           "named": true
         }
       ]

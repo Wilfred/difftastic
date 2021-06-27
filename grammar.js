@@ -34,14 +34,13 @@ module.exports = grammar({
   ],
 
   rules: {
-    config_file: $ => optional($.body),
+    // also allow objects to handle .tfvars in json format
+    config_file: $ => optional(choice($.body, $.object)),
 
     body: $ => repeat1(
       choice(
         $.attribute,
         $.block,
-        // not to spec but handles .tfvars in json format
-        $.object,
       ),
     ),
 
@@ -62,10 +61,9 @@ module.exports = grammar({
     _block_start: $ => '{',
     _block_end: $ => '}',
 
-    // TODO: not to spec but good enough for now
     identifier: $ => token(seq(
-      choice(/\p{L}/, '_'),
-      repeat(choice(/\p{L}/, /[0-9]/, /(-|_)/)),
+      choice(/\p{ID_Start}/, '_'),
+      repeat(choice(/\p{ID_Continue}/, '-')),
     )),
 
     expression: $ => prec.right(choice(
