@@ -21,7 +21,7 @@ foo = "${ var.bar }"
                   (identifier))))))))))
 
 ================================================================================
-empty template
+empty template interpolation
 ================================================================================
 
 foo = "${}"
@@ -36,6 +36,48 @@ foo = "${}"
         (template_expr
           (quoted_template
             (template_interpolation)))))))
+
+================================================================================
+empty heredoc template
+================================================================================
+
+foo = <<END
+END
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (heredoc_template
+            (heredoc_start)
+            (heredoc_identifier)
+            (heredoc_identifier)))))))
+
+================================================================================
+heredoc with fake ending
+================================================================================
+
+foo = <<END
+  END    not!
+END
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (heredoc_template
+            (heredoc_start)
+            (heredoc_identifier)
+            (template_literal)
+            (heredoc_identifier)))))))
 
 ================================================================================
 quoted template expression with escaped strings and fake strip marker
