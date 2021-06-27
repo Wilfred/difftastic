@@ -9,8 +9,56 @@ struct GraphNode<'a> {
     distance: u64,
     lhs_next: &'a Node<'a>,
     rhs_next: &'a Node<'a>,
-    lhs_idx: usize,
-    rhs_idx: usize,
+    lhs_idx: Vec<usize>,
+    rhs_idx: Vec<usize>,
+}
+
+fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
+    let mut res = vec![];
+    let new_lhs_next = next_node(gn.lhs_next, gn.lhs_idx.clone());
+    let new_rhs_next = next_node(gn.rhs_next, gn.rhs_idx.clone());
+
+    if gn.lhs_next == gn.rhs_next {
+        // We can step over both sides, with a cost of 0.
+        match (&new_lhs_next, &new_rhs_next) {
+            (Some((new_lhs_next, new_lhs_idx)), Some((new_rhs_next, new_rhs_idx))) => {
+                res.push(GraphNode {
+                    distance: gn.distance,
+                    lhs_next: new_lhs_next,
+                    rhs_next: new_rhs_next,
+                    lhs_idx: new_lhs_idx.to_vec(),
+                    rhs_idx: new_rhs_idx.to_vec(),
+                });
+            }
+            _ => {}
+        }
+    }
+
+    // New atom on LHS.
+    // TODO: step into list.
+    if let Some((new_lhs_next, new_lhs_idx)) = &new_lhs_next {
+        res.push(GraphNode {
+            distance: gn.distance + 1,
+            lhs_next: new_lhs_next,
+            rhs_next: gn.rhs_next,
+            lhs_idx: new_lhs_idx.to_vec(),
+            rhs_idx: gn.rhs_idx.clone(),
+        });
+    }
+
+    // New atom on RHS.
+    // TODO: step into list.
+    if let Some((new_rhs_next, new_rhs_idx)) = &new_rhs_next {
+        res.push(GraphNode {
+            distance: gn.distance + 1,
+            lhs_next: gn.rhs_next,
+            rhs_next: new_rhs_next,
+            lhs_idx: gn.lhs_idx.clone(),
+            rhs_idx: new_rhs_idx.to_vec(),
+        });
+    }
+
+    res
 }
 
 fn next_node<'a>(
