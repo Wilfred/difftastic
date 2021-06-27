@@ -7,6 +7,9 @@ fix:
 * allow empty template interpolations
 * allow empty templates
 
+quality:
+* add fuzzing
+
 ## 0.2.0 - 2021-06-26
 
 feature:

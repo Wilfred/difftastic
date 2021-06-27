@@ -26,8 +26,9 @@ tree-sitter parse --quiet --stat example/real_world_stuff/*/*
 Total parses: 1892; successful parses: 1892; failed parses: 0; success percentage: 100.00%
 ```
 
-The aim is to build unit testcases from selected failure classes and slowly get to 100%. 
+## Fuzzing
 
+The directory `fuzz/crashers` contains a set of crashes that were found with fuzzing. To fuzz the parser i used the instrumentation of [tree-sitter](https://github.com/tree-sitter/tree-sitter/tree/master/test/fuzz) 
 
 ## Todo
 
@@ -37,3 +38,8 @@ The aim is to build unit testcases from selected failure classes and slowly get 
     * [x] add quoted template interpolations
     * [ ] add quoted template directives
   * [x] add heredoc templates
+* [ ] fuzzing
+  * [x] start with fuzzing the parser
+  * [ ] upload fuzzing instrumentation
+  * [ ] document fuzzing process
+  * [ ] add parsing of crashers to CI process

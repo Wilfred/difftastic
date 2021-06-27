@@ -1,10 +1,10 @@
 #include <tree_sitter/parser.h>
 
+#include <climits>
 #include <vector>
 #include <string>
 #include <wctype.h>
 #include <assert.h>
-#include <stdio.h>
 
 namespace {
 
@@ -40,6 +40,10 @@ public:
   unsigned serialize(char* buf) {
     unsigned size = 0;
 
+    if (context_stack.size() > CHAR_MAX) {
+      return 0;
+    }
+
     buf[size++] = context_stack.size();
     for (vector<Context>::iterator it = context_stack.begin(); it != context_stack.end(); ++it) {
       if (size + 2 + it->heredoc_identifier.size() >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
@@ -54,12 +58,13 @@ public:
   }
 
   void deserialize(const char* buf, unsigned n) {
-    unsigned size = 0;
+    context_stack.clear();
+
     if (n == 0) {
       return;
     }
-    context_stack.clear();
 
+    unsigned size = 0;
     uint8_t context_stack_size = buf[size++];
     for (unsigned j = 0; j < context_stack_size; j++) {
       Context ctx;
