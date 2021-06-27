@@ -96,7 +96,44 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
         }
     }
 
-    // TODO: rhs
+    if let Some((rhs_next_node, rhs_next_idx)) = &gn.rhs_next {
+        match rhs_next_node {
+            // Step over this novel atom.
+            Node::Atom { .. } => {
+                let action = NovelAtomRHS;
+                res.push(GraphNode {
+                    action,
+                    distance: gn.distance + action.cost(),
+                    lhs_next: gn.lhs_next.clone(),
+                    rhs_next: next_node(rhs_next_node, rhs_next_idx.clone()),
+                });
+            }
+            // Step into this partially/fully novel list.
+            Node::List { children, .. } => {
+                // TODO: handle unchanged delimiter.
+                let action = NovelDelimiterRHS;
+                if children.len() == 0 {
+                    res.push(GraphNode {
+                        action,
+                        distance: gn.distance + action.cost(),
+                        lhs_next: gn.lhs_next.clone(),
+                        rhs_next: next_node(rhs_next_node, rhs_next_idx.clone()),
+                    });
+                } else {
+                    let mut new_rhs_idx = rhs_next_idx.clone();
+                    new_rhs_idx.push(0);
+
+                    res.push(GraphNode {
+                        action,
+                        distance: gn.distance + action.cost(),
+                        lhs_next: gn.lhs_next.clone(),
+                        rhs_next: Some((children[0], new_rhs_idx)),
+                    });
+                }
+            }
+        }
+    }
+
 
     res
 }
