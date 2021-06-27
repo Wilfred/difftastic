@@ -1,6 +1,6 @@
 use crate::lines::NewlinePositions;
 use crate::positions::SingleLineSpan;
-use crate::tree_diff::{AtomKind, Node};
+use crate::tree_diff::{AtomKind, Node, set_parents};
 use regex::Regex;
 use rust_embed::RustEmbed;
 use std::fs;
@@ -160,7 +160,12 @@ pub fn parse_lines<'a>(arena: &'a Arena<Node<'a>>, s: &str) -> Vec<&'a Node<'a>>
 /// Parse `s` according to `lang`.
 pub fn parse<'a>(arena: &'a Arena<Node<'a>>, s: &str, lang: &Language) -> Vec<&'a Node<'a>> {
     let nl_pos = NewlinePositions::from(s);
-    parse_from(arena, s, &nl_pos, lang, &mut ParseState::new())
+    let nodes = parse_from(arena, s, &nl_pos, lang, &mut ParseState::new());
+    for node in &nodes {
+        set_parents(node);
+    }
+
+    nodes
 }
 
 fn parse_from<'a>(

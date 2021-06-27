@@ -151,6 +151,24 @@ impl<'a> Node<'a> {
     }
 }
 
+pub fn set_parents<'a>(node: &'a Node<'a>) {
+    set_parents_(node, None);
+}
+
+fn set_parents_<'a>(node: &'a Node<'a>, new_parent: Option<&'a Node<'a>>) {
+    match node {
+        List {
+            parent, children, ..
+        } => {
+            parent.set(new_parent);
+            for child in children {
+                set_parents_(child, Some(node));
+            }
+        }
+        Atom { .. } => {}
+    }
+}
+
 impl<'a> PartialEq for Node<'a> {
     fn eq(&self, other: &Self) -> bool {
         match (&self, other) {
@@ -517,11 +535,7 @@ impl<'a> Env<'a> {
 /// Mark nodes that are unambiguously unchanged (they have a
 /// corresponding node on the other side) or unambiguously novel
 /// (exactly zero occurrences on the other side).
-fn mark_unchanged_or_novel<'a>(
-    lhs: &[&'a Node<'a>],
-    rhs: &[&'a Node<'a>],
-    env: &mut Env<'a>,
-) {
+fn mark_unchanged_or_novel<'a>(lhs: &[&'a Node<'a>], rhs: &[&'a Node<'a>], env: &mut Env<'a>) {
     // Run a longest-common-subsequence diff algorithm on the nodes at
     // this level, and mark as many things as unchanged as we can.
     for res in slice(lhs, rhs) {
@@ -550,11 +564,7 @@ fn mark_unchanged_or_novel<'a>(
     }
 }
 
-fn mark_novel<'a>(
-    lhs: Option<&'a Node<'a>>,
-    rhs: Option<&'a Node<'a>>,
-    env: &mut Env<'a>,
-) {
+fn mark_novel<'a>(lhs: Option<&'a Node<'a>>, rhs: Option<&'a Node<'a>>, env: &mut Env<'a>) {
     match (lhs, rhs) {
         (Some(lhs_node), Some(rhs_node)) => {
             match (
