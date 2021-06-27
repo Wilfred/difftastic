@@ -9,8 +9,8 @@ use Action::*;
 struct GraphNode<'a> {
     distance: u64,
     action: Action,
-    lhs_next: &'a Node<'a>,
-    rhs_next: &'a Node<'a>,
+    lhs_next: Option<&'a Node<'a>>,
+    rhs_next: Option<&'a Node<'a>>,
     lhs_idx: Vec<usize>,
     rhs_idx: Vec<usize>,
 }
@@ -46,16 +46,16 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
 
     if gn.lhs_next == gn.rhs_next {
         // Both nodes are equal, the happy case.
-        let new_lhs_next = next_node(gn.lhs_next, gn.lhs_idx.clone());
-        let new_rhs_next = next_node(gn.rhs_next, gn.rhs_idx.clone());
+        let new_lhs_next = next_node(gn.lhs_next.unwrap(), gn.lhs_idx.clone());
+        let new_rhs_next = next_node(gn.rhs_next.unwrap(), gn.rhs_idx.clone());
         match (new_lhs_next, new_rhs_next) {
             (Some((new_lhs_next, new_lhs_idx)), Some((new_rhs_next, new_rhs_idx))) => {
                 let action = UnchangedNode;
                 res.push(GraphNode {
                     action,
                     distance: gn.distance + action.cost(),
-                    lhs_next: new_lhs_next,
-                    rhs_next: new_rhs_next,
+                    lhs_next: Some(new_lhs_next),
+                    rhs_next: Some(new_rhs_next),
                     lhs_idx: new_lhs_idx,
                     rhs_idx: new_rhs_idx,
                 });
@@ -64,8 +64,8 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
         }
     }
 
-    let new_lhs_next = next_node(gn.lhs_next, gn.lhs_idx.clone());
-    let new_rhs_next = next_node(gn.rhs_next, gn.rhs_idx.clone());
+    let new_lhs_next = next_node(gn.lhs_next.unwrap(), gn.lhs_idx.clone());
+    let new_rhs_next = next_node(gn.rhs_next.unwrap(), gn.rhs_idx.clone());
     // New atom on LHS.
     // TODO: step into list.
     if let Some((new_lhs_next, new_lhs_idx)) = &new_lhs_next {
@@ -73,7 +73,7 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
         res.push(GraphNode {
             action,
             distance: gn.distance + action.cost(),
-            lhs_next: new_lhs_next,
+            lhs_next: Some(new_lhs_next),
             rhs_next: gn.rhs_next,
             lhs_idx: new_lhs_idx.to_vec(),
             rhs_idx: gn.rhs_idx.clone(),
@@ -88,7 +88,7 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
             action,
             distance: gn.distance + action.cost(),
             lhs_next: gn.rhs_next,
-            rhs_next: new_rhs_next,
+            rhs_next: Some(new_rhs_next),
             lhs_idx: gn.lhs_idx.clone(),
             rhs_idx: new_rhs_idx.to_vec(),
         });
