@@ -1,6 +1,6 @@
 use crate::lines::NewlinePositions;
 use crate::positions::SingleLineSpan;
-use crate::tree_diff::{AtomKind, Node, set_parents};
+use crate::tree_diff::{set_parents, AtomKind, Node};
 use regex::Regex;
 use rust_embed::RustEmbed;
 use std::fs;
@@ -375,12 +375,14 @@ mod tests {
                     position: lhs_position,
                     content: lhs_content,
                     kind: lhs_kind,
+                    ..
                 },
                 Atom {
                     change: rhs_change,
                     position: rhs_position,
                     content: rhs_content,
                     kind: rhs_kind,
+                    ..
                 },
             ) => {
                 if lhs_change != rhs_change {
@@ -828,6 +830,7 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 0,
@@ -838,6 +841,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 2,
@@ -862,6 +866,7 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 0,
@@ -872,6 +877,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 2,
@@ -882,6 +888,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 4,
@@ -906,6 +913,7 @@ mod tests {
 
         let expected_lhs = vec![
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 0,
@@ -916,6 +924,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 2,
@@ -930,6 +939,7 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 0,
@@ -940,6 +950,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 2,
@@ -964,6 +975,7 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 0,
@@ -974,6 +986,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 2,
@@ -1018,6 +1031,7 @@ mod tests {
             close_delimiter: "]".into(),
             children: vec![
                 arena.alloc(Atom {
+                    parent: Cell::new(None),
                     position: vec![SingleLineSpan {
                         line: 0.into(),
                         start_col: 1,
@@ -1028,6 +1042,7 @@ mod tests {
                     kind: AtomKind::Other,
                 }),
                 arena.alloc(Atom {
+                    parent: Cell::new(None),
                     position: vec![SingleLineSpan {
                         line: 0.into(),
                         start_col: 3,
@@ -1073,6 +1088,7 @@ mod tests {
             }],
             close_delimiter: "]".into(),
             children: vec![arena.alloc(Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 1,
@@ -1134,6 +1150,7 @@ mod tests {
                     }],
                     close_delimiter: "]".into(),
                     children: vec![arena.alloc(Atom {
+                        parent: Cell::new(None),
                         position: vec![SingleLineSpan {
                             line: 0.into(),
                             start_col: 2,
@@ -1148,6 +1165,7 @@ mod tests {
                 num_descendants: 2,
             }),
             arena.alloc(Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 6,
@@ -1178,6 +1196,7 @@ mod tests {
 
         let expected_rhs: Vec<&Node> = vec![
             arena.alloc(Atom {
+                parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
                     start_col: 0,
@@ -1218,6 +1237,7 @@ mod tests {
                     }],
                     close_delimiter: "]".into(),
                     children: vec![arena.alloc(Atom {
+                        parent: Cell::new(None),
                         position: vec![SingleLineSpan {
                             line: 0.into(),
                             start_col: 4,
