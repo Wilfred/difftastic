@@ -56,6 +56,7 @@ pub enum Node<'a> {
         num_descendants: usize,
     },
     Atom {
+        parent: Cell<Option<&'a Node<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         position: Vec<SingleLineSpan>,
         content: String,
@@ -103,6 +104,7 @@ impl<'a> Node<'a> {
         kind: AtomKind,
     ) -> &'a mut Node<'a> {
         arena.alloc(Atom {
+            parent: Cell::new(None),
             position,
             content: content.into(),
             change: Cell::new(None),
@@ -698,6 +700,7 @@ mod tests {
     #[test]
     fn test_prev_opposite_pos_first_node() {
         let nodes = &[&Atom {
+            parent: Cell::new(None),
             change: Cell::new(Some(Novel)),
             position: vec![SingleLineSpan {
                 line: 0.into(),
@@ -722,6 +725,7 @@ mod tests {
     fn test_atom_equality_ignores_change_and_pos() {
         assert_eq!(
             Atom {
+                parent: Cell::new(None),
                 change: Cell::new(Some(Novel)),
                 position: vec![SingleLineSpan {
                     line: 1.into(),
@@ -732,6 +736,7 @@ mod tests {
                 kind: Other,
             },
             Atom {
+                parent: Cell::new(None),
                 change: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 10.into(),
