@@ -6,6 +6,7 @@ fix:
 * correct expression for identifiers
 * allow empty template interpolations
 * allow empty templates
+* fix bug in serializer when the `context_stack.size()` exceeds `CHAR_MAX`
 
 quality:
 * add fuzzing
