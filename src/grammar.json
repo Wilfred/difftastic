@@ -5,8 +5,17 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "body"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "body"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "object"
+            }
+          ]
         },
         {
           "type": "BLANK"
@@ -25,10 +34,6 @@
           {
             "type": "SYMBOL",
             "name": "block"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "object"
           }
         ]
       }
@@ -113,7 +118,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "\\p{L}"
+                "value": "\\p{ID_Start}"
               },
               {
                 "type": "STRING",
@@ -128,15 +133,11 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "\\p{L}"
+                  "value": "\\p{ID_Continue}"
                 },
                 {
-                  "type": "PATTERN",
-                  "value": "[0-9]"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "(-|_)"
+                  "type": "STRING",
+                  "value": "-"
                 }
               ]
             }

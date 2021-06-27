@@ -31,7 +31,8 @@ The aim is to build unit testcases from selected failure classes and slowly get 
 
 ## Todo
 
-* [ ] use [Unicode® Standard Annex #31](https://www.unicode.org/reports/tr31/) (augmented with '-') for identifiers
+* [x] use [Unicode® Standard Annex #31](https://www.unicode.org/reports/tr31/) (augmented with '-') for identifiers
+  * allow starting '_' also, not to spec but terraform allows it
 * [ ] add [template expressions](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#template-expressions)
   * [x] add quoted templates
     * [x] add quoted template interpolations
