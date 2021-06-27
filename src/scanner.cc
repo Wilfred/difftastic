@@ -6,6 +6,8 @@
 #include <wctype.h>
 #include <assert.h>
 
+#include <stdio.h>
+
 namespace {
 
 using std::vector;
@@ -47,6 +49,9 @@ public:
     buf[size++] = context_stack.size();
     for (vector<Context>::iterator it = context_stack.begin(); it != context_stack.end(); ++it) {
       if (size + 2 + it->heredoc_identifier.size() >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+        return 0;
+      }
+      if (it->heredoc_identifier.size() > CHAR_MAX) {
         return 0;
       }
       buf[size++] = it->type;
