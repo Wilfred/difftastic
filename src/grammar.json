@@ -1182,24 +1182,32 @@
             "name": "_quoted_template_start"
           },
           {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "template_literal"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "template_interpolation"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "template_directive"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "template_literal"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "template_interpolation"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "template_directive"
+                    }
+                  ]
                 }
-              ]
-            }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
@@ -1220,24 +1228,32 @@
           "name": "heredoc_identifier"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "template_literal"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "template_interpolation"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "template_directive"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "template_literal"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "template_interpolation"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "template_directive"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -1293,8 +1309,16 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "expression"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
