@@ -9,10 +9,8 @@ use Action::*;
 struct GraphNode<'a> {
     distance: u64,
     action: Action,
-    lhs_next: Option<&'a Node<'a>>,
-    rhs_next: Option<&'a Node<'a>>,
-    lhs_idx: Vec<usize>,
-    rhs_idx: Vec<usize>,
+    lhs_next: Option<(&'a Node<'a>, Vec<usize>)>,
+    rhs_next: Option<(&'a Node<'a>, Vec<usize>)>,
 }
 
 #[derive(Debug, Copy, Clone)]
@@ -44,43 +42,32 @@ impl Action {
 fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
     let mut res = vec![];
 
-    if gn.lhs_next == gn.rhs_next {
-        // Both nodes are equal, the happy case.
-        let new_lhs_next = next_node(gn.lhs_next.unwrap(), gn.lhs_idx.clone());
-        let new_rhs_next = next_node(gn.rhs_next.unwrap(), gn.rhs_idx.clone());
-        match (new_lhs_next, new_rhs_next) {
-            (Some((new_lhs_next, new_lhs_idx)), Some((new_rhs_next, new_rhs_idx))) => {
+    match (&gn.lhs_next, &gn.rhs_next) {
+        (Some((lhs_next_node, lhs_next_idx)), Some((rhs_next_node, rhs_next_idx))) => {
+            if lhs_next_node == rhs_next_node {
+                // Both nodes are equal, the happy case.
                 let action = UnchangedNode;
                 res.push(GraphNode {
                     action,
                     distance: gn.distance + action.cost(),
-                    lhs_next: Some(new_lhs_next),
-                    rhs_next: Some(new_rhs_next),
-                    lhs_idx: new_lhs_idx,
-                    rhs_idx: new_rhs_idx,
+                    lhs_next: next_node(lhs_next_node, lhs_next_idx.clone()),
+                    rhs_next: next_node(rhs_next_node, rhs_next_idx.clone()),
                 });
             }
-            _ => {}
         }
+        _ => {}
     }
 
-    if let Some(lhs_next) = gn.lhs_next {
-        match lhs_next {
+    if let Some((lhs_next_node, lhs_next_idx)) = &gn.lhs_next {
+        match lhs_next_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
-                let (new_lhs_next, new_lhs_idx) = match next_node(lhs_next, gn.lhs_idx.clone()) {
-                    Some((new_lhs_next, new_lhs_idx)) => (Some(new_lhs_next), new_lhs_idx),
-                    None => (None, vec![]),
-                };
                 let action = NovelAtomLHS;
                 res.push(GraphNode {
                     action,
                     distance: gn.distance + action.cost(),
-                    lhs_next: new_lhs_next,
-                    rhs_next: gn.rhs_next,
-                    // TODO: store idx with the node to have a single optional.
-                    lhs_idx: new_lhs_idx,
-                    rhs_idx: gn.rhs_idx.clone(),
+                    lhs_next: next_node(lhs_next_node, lhs_next_idx.clone()),
+                    rhs_next: gn.rhs_next.clone(),
                 });
             }
             // Step into this partially/fully novel list.
@@ -88,33 +75,21 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
                 // TODO: handle unchanged delimiter.
                 let action = NovelDelimiterLHS;
                 if children.len() == 0 {
-                    let (new_lhs_next, new_lhs_idx) = match next_node(lhs_next, gn.lhs_idx.clone())
-                    {
-                        Some((new_lhs_next, new_lhs_idx)) => (Some(new_lhs_next), new_lhs_idx),
-                        None => (None, vec![]),
-                    };
-
                     res.push(GraphNode {
                         action,
                         distance: gn.distance + action.cost(),
-                        lhs_next: new_lhs_next,
-                        rhs_next: gn.rhs_next,
-                        // TODO: store idx with the node to have a single optional.
-                        lhs_idx: new_lhs_idx,
-                        rhs_idx: gn.rhs_idx.clone(),
+                        lhs_next: next_node(lhs_next_node, lhs_next_idx.clone()),
+                        rhs_next: gn.rhs_next.clone(),
                     });
                 } else {
-                    let mut new_lhs_idx = gn.lhs_idx.clone();
+                    let mut new_lhs_idx = lhs_next_idx.clone();
                     new_lhs_idx.push(0);
 
                     res.push(GraphNode {
                         action,
                         distance: gn.distance + action.cost(),
-                        lhs_next: Some(children[0]),
-                        rhs_next: gn.rhs_next,
-                        // TODO: store idx with the node to have a single optional.
-                        lhs_idx: new_lhs_idx,
-                        rhs_idx: gn.rhs_idx.clone(),
+                        lhs_next: Some((children[0], new_lhs_idx)),
+                        rhs_next: gn.rhs_next.clone(),
                     });
                 }
             }
