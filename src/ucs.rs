@@ -3,42 +3,76 @@
 use std::hash::{Hash, Hasher};
 
 use crate::tree_diff::Node;
+use Action::*;
 
 #[derive(Debug)]
 struct GraphNode<'a> {
     distance: u64,
+    action: Action,
     lhs_next: &'a Node<'a>,
     rhs_next: &'a Node<'a>,
     lhs_idx: Vec<usize>,
     rhs_idx: Vec<usize>,
 }
 
+#[derive(Debug, Copy, Clone)]
+enum Action {
+    UnchangedNode,
+    UnchangedDelimiter,
+    NovelAtomLHS,
+    NovelAtomRHS,
+    NovelDelimiterLHS,
+    NovelDelimiterRHS,
+}
+
+impl Action {
+    fn cost(&self) -> u64 {
+        match self {
+            // Matching nodes is always best.
+            UnchangedNode => 0,
+            // Matcing an outer delimiter is good.
+            UnchangedDelimiter => 1,
+            // Otherwise, we've added/removed a node.
+            NovelAtomLHS => 2,
+            NovelAtomRHS => 2,
+            NovelDelimiterLHS => 2,
+            NovelDelimiterRHS => 2,
+        }
+    }
+}
+
 fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
     let mut res = vec![];
-    let new_lhs_next = next_node(gn.lhs_next, gn.lhs_idx.clone());
-    let new_rhs_next = next_node(gn.rhs_next, gn.rhs_idx.clone());
 
     if gn.lhs_next == gn.rhs_next {
-        // We can step over both sides, with a cost of 0.
-        match (&new_lhs_next, &new_rhs_next) {
+        // Both nodes are equal, the happy case.
+        let new_lhs_next = next_node(gn.lhs_next, gn.lhs_idx.clone());
+        let new_rhs_next = next_node(gn.rhs_next, gn.rhs_idx.clone());
+        match (new_lhs_next, new_rhs_next) {
             (Some((new_lhs_next, new_lhs_idx)), Some((new_rhs_next, new_rhs_idx))) => {
+                let action = UnchangedNode;
                 res.push(GraphNode {
-                    distance: gn.distance,
+                    action,
+                    distance: gn.distance + action.cost(),
                     lhs_next: new_lhs_next,
                     rhs_next: new_rhs_next,
-                    lhs_idx: new_lhs_idx.to_vec(),
-                    rhs_idx: new_rhs_idx.to_vec(),
+                    lhs_idx: new_lhs_idx,
+                    rhs_idx: new_rhs_idx,
                 });
             }
             _ => {}
         }
     }
 
+    let new_lhs_next = next_node(gn.lhs_next, gn.lhs_idx.clone());
+    let new_rhs_next = next_node(gn.rhs_next, gn.rhs_idx.clone());
     // New atom on LHS.
     // TODO: step into list.
     if let Some((new_lhs_next, new_lhs_idx)) = &new_lhs_next {
+        let action = NovelAtomLHS;
         res.push(GraphNode {
-            distance: gn.distance + 1,
+            action,
+            distance: gn.distance + action.cost(),
             lhs_next: new_lhs_next,
             rhs_next: gn.rhs_next,
             lhs_idx: new_lhs_idx.to_vec(),
@@ -49,8 +83,10 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
     // New atom on RHS.
     // TODO: step into list.
     if let Some((new_rhs_next, new_rhs_idx)) = &new_rhs_next {
+        let action = NovelAtomLHS;
         res.push(GraphNode {
-            distance: gn.distance + 1,
+            action,
+            distance: gn.distance + action.cost(),
             lhs_next: gn.rhs_next,
             rhs_next: new_rhs_next,
             lhs_idx: gn.lhs_idx.clone(),
