@@ -177,7 +177,6 @@ impl<'a> PartialEq for GraphNode<'a> {
         lhs_node == other_lhs_node && rhs_node == other_rhs_node
     }
 }
-impl<'a> Eq for GraphNode<'a> {}
 
 impl<'a> Hash for GraphNode<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
