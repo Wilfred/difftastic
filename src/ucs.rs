@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::hash::{Hash, Hasher};
 
 use crate::tree_diff::Node;
@@ -7,8 +9,12 @@ struct GraphNode<'a> {
     distance: u64,
     lhs_current: &'a Node<'a>,
     rhs_current: &'a Node<'a>,
-    lhs_next_idx: Option<usize>,
-    rhs_next_idx: Option<usize>,
+    lhs_idx: usize,
+    rhs_idx: usize,
+}
+
+fn next_node<'a>(current: &'a Node<'a>, current_idx: &[usize]) -> Option<(&'a Node<'a>, Vec<usize>)> {
+    None
 }
 
 impl<'a> PartialEq for GraphNode<'a> {
