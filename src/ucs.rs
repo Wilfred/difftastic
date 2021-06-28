@@ -53,6 +53,20 @@ impl<'a> PartialEq for OrderedGraphNode<'a> {
     }
 }
 
+// A GraphNode that only considers the underlying Nodes for equality,
+// ignoring distance.
+struct EqualityGraphNode<'a> {
+    gn: GraphNode<'a>,
+}
+
+impl<'a> PartialEq for EqualityGraphNode<'a> {
+    fn eq(&self, other: &Self) -> bool {
+        self.gn.lhs_next_node() == other.gn.lhs_next_node()
+            && self.gn.rhs_next_node() == other.gn.rhs_next_node()
+    }
+}
+impl<'a> Eq for EqualityGraphNode<'a> {}
+
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 enum Action {
     UnchangedNode,
