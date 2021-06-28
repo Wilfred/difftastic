@@ -23,6 +23,10 @@ impl<'a> GraphNode<'a> {
     fn rhs_next_node(&self) -> Option<&'a Node<'a>> {
         self.rhs_next.as_ref().map(|(n, _)| *n)
     }
+
+    fn is_end(&self) -> bool {
+        self.lhs_next.is_none() && self.rhs_next.is_none()
+    }
 }
 
 // Rust requires that PartialEq, PartialOrd and Ord agree.
@@ -118,6 +122,11 @@ fn find_route<'a>(start: GraphNode<'a>) {
 
                 let gn = egn.gn;
                 for new_gn in next_graph_nodes(&gn) {
+                    if new_gn.is_end() {
+                        println!("Success!");
+                        break;
+                    }
+
                     heap.push(OrderedGraphNode { gn: new_gn });
                 }
 
