@@ -1,6 +1,8 @@
 #![allow(dead_code)]
 
 use std::cmp::Ordering;
+use std::collections::BinaryHeap;
+use std::collections::HashSet;
 use std::hash::{Hash, Hasher};
 
 use crate::tree_diff::Node;
@@ -67,6 +69,13 @@ impl<'a> PartialEq for EqualityGraphNode<'a> {
 }
 impl<'a> Eq for EqualityGraphNode<'a> {}
 
+impl<'a> Hash for EqualityGraphNode<'a> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.gn.lhs_next_node().hash(state);
+        self.gn.rhs_next_node().hash(state);
+    }
+}
+
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 enum Action {
     UnchangedNode,
@@ -89,6 +98,32 @@ impl Action {
             NovelAtomRHS => 2,
             NovelDelimiterLHS => 2,
             NovelDelimiterRHS => 2,
+        }
+    }
+}
+
+fn find_route<'a>(start: GraphNode<'a>) {
+    let mut heap = BinaryHeap::new();
+    heap.push(OrderedGraphNode { gn: start });
+
+    let mut visited: HashSet<EqualityGraphNode> = HashSet::new();
+
+    loop {
+        match heap.pop() {
+            Some(ogn) => {
+                let egn = EqualityGraphNode { gn: ogn.gn };
+                if visited.contains(&egn) {
+                    continue;
+                }
+
+                let gn = egn.gn;
+                for new_gn in next_graph_nodes(&gn) {
+                    heap.push(OrderedGraphNode { gn: new_gn });
+                }
+
+                visited.insert(EqualityGraphNode { gn });
+            }
+            None => break,
         }
     }
 }
