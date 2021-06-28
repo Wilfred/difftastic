@@ -1,11 +1,12 @@
 #![allow(dead_code)]
 
+use std::cmp::Ordering;
 use std::hash::{Hash, Hasher};
 
 use crate::tree_diff::Node;
 use Action::*;
 
-#[derive(Debug)]
+#[derive(Debug, Eq)]
 struct GraphNode<'a> {
     distance: u64,
     action: Action,
@@ -22,7 +23,37 @@ impl<'a> GraphNode<'a> {
     }
 }
 
-#[derive(Debug, Copy, Clone)]
+// Rust requires that PartialEq, PartialOrd and Ord agree.
+// https://doc.rust-lang.org/std/cmp/trait.Ord.html
+//
+// For GraphNode, we want to compare by distance in a priority queue,
+// but equality should only consider LHS/RHS node when deciding if
+// we've visited a node. We define separate wrappers for these two use
+// cases.
+#[derive(Debug, Eq)]
+struct OrderedGraphNode<'a> {
+    gn: GraphNode<'a>,
+}
+
+impl<'a> PartialOrd for OrderedGraphNode<'a> {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl<'a> Ord for OrderedGraphNode<'a> {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.gn.distance.cmp(&other.gn.distance)
+    }
+}
+
+impl<'a> PartialEq for OrderedGraphNode<'a> {
+    fn eq(&self, other: &Self) -> bool {
+        self.gn.distance == other.gn.distance
+    }
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 enum Action {
     UnchangedNode,
     UnchangedDelimiter,
