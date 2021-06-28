@@ -17,6 +17,16 @@ struct GraphNode<'a> {
 }
 
 impl<'a> GraphNode<'a> {
+    fn new(lhs: &'a Node<'a>, rhs: &'a Node<'a>) -> Self {
+        Self {
+            distance: 0,
+            // TODO: this makes no sense for the source node.
+            action: Action::UnchangedNode,
+            lhs_next: Some((lhs, vec![0])),
+            rhs_next: Some((rhs, vec![0])),
+        }
+    }
+
     fn lhs_next_node(&self) -> Option<&'a Node<'a>> {
         self.lhs_next.as_ref().map(|(n, _)| *n)
     }
@@ -61,6 +71,7 @@ impl<'a> PartialEq for OrderedGraphNode<'a> {
 
 // A GraphNode that only considers the underlying Nodes for equality,
 // ignoring distance.
+#[derive(Debug)]
 struct EqualityGraphNode<'a> {
     gn: GraphNode<'a>,
 }
@@ -113,6 +124,7 @@ fn find_route<'a>(start: GraphNode<'a>) -> Vec<GraphNode<'a>> {
     let mut visited: HashSet<EqualityGraphNode> = HashSet::new();
     let mut predecessors: HashMap<EqualityGraphNode, GraphNode> = HashMap::new();
 
+    let end;
     'outer: loop {
         match heap.pop() {
             Some(ogn) => {
@@ -126,6 +138,7 @@ fn find_route<'a>(start: GraphNode<'a>) -> Vec<GraphNode<'a>> {
                     predecessors.insert(EqualityGraphNode { gn: new_gn.clone() }, gn.clone());
 
                     if new_gn.is_end() {
+                        end = new_gn;
                         break 'outer;
                     }
 
@@ -138,19 +151,22 @@ fn find_route<'a>(start: GraphNode<'a>) -> Vec<GraphNode<'a>> {
         }
     }
 
-    let mut current = start;
+    let mut current = end;
     let mut res = vec![];
     loop {
         res.push(current.clone());
-        if current.is_end() {
-            break;
-        }
 
-        current = predecessors
-            .remove(&EqualityGraphNode { gn: current })
-            .unwrap();
+        match predecessors.remove(&EqualityGraphNode {
+            gn: current.clone(),
+        }) {
+            Some(node) => {
+                current = node;
+            }
+            None => break,
+        }
     }
 
+    res.reverse();
     res
 }
 
@@ -293,5 +309,54 @@ impl<'a> Hash for GraphNode<'a> {
         // regardless of the distance of different paths to them.
         self.lhs_next_node().hash(state);
         self.rhs_next_node().hash(state);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::positions::SingleLineSpan;
+    use crate::tree_diff::AtomKind;
+    use crate::tree_diff::Node::*;
+
+    use std::cell::Cell;
+    use typed_arena::Arena;
+
+    #[test]
+    fn identical_atoms() {
+        let arena = Arena::new();
+
+        let lhs = arena.alloc(Atom {
+            parent: Cell::new(None),
+            position: vec![SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 1,
+            }],
+            change: Cell::new(None),
+            content: "foo".into(),
+            kind: AtomKind::Other,
+        });
+
+        // Same as LHS, but with a different position.
+        let rhs = arena.alloc(Atom {
+            parent: Cell::new(None),
+            position: vec![SingleLineSpan {
+                line: 1.into(),
+                start_col: 2,
+                end_col: 3,
+            }],
+            change: Cell::new(None),
+            content: "foo".into(),
+            kind: AtomKind::Other,
+        });
+
+        let start = GraphNode::new(lhs, rhs);
+        let route = find_route(start);
+
+        assert_eq!(route.len(), 2);
+        let final_node = route.last().unwrap();
+        assert_eq!(final_node.distance, 0);
+        assert_eq!(final_node.action, UnchangedNode);
     }
 }
