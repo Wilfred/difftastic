@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0 - not yet released
+## 0.3.0 - 2021-06-28
 
 fix:
 * correct expression for identifiers
