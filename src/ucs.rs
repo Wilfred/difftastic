@@ -1,14 +1,14 @@
 #![allow(dead_code)]
 
 use std::cmp::Ordering;
-use std::collections::BinaryHeap;
 use std::collections::HashSet;
+use std::collections::{BinaryHeap, HashMap};
 use std::hash::{Hash, Hasher};
 
 use crate::tree_diff::Node;
 use Action::*;
 
-#[derive(Debug, Eq)]
+#[derive(Debug, Eq, Clone)]
 struct GraphNode<'a> {
     distance: u64,
     action: Action,
@@ -106,13 +106,14 @@ impl Action {
     }
 }
 
-fn find_route<'a>(start: GraphNode<'a>) {
+fn find_route<'a>(start: GraphNode<'a>) -> Vec<GraphNode<'a>> {
     let mut heap = BinaryHeap::new();
-    heap.push(OrderedGraphNode { gn: start });
+    heap.push(OrderedGraphNode { gn: start.clone() });
 
     let mut visited: HashSet<EqualityGraphNode> = HashSet::new();
+    let mut predecessors: HashMap<EqualityGraphNode, GraphNode> = HashMap::new();
 
-    loop {
+    'outer: loop {
         match heap.pop() {
             Some(ogn) => {
                 let egn = EqualityGraphNode { gn: ogn.gn };
@@ -122,9 +123,10 @@ fn find_route<'a>(start: GraphNode<'a>) {
 
                 let gn = egn.gn;
                 for new_gn in next_graph_nodes(&gn) {
+                    predecessors.insert(EqualityGraphNode { gn: new_gn.clone() }, gn.clone());
+
                     if new_gn.is_end() {
-                        println!("Success!");
-                        break;
+                        break 'outer;
                     }
 
                     heap.push(OrderedGraphNode { gn: new_gn });
@@ -132,9 +134,24 @@ fn find_route<'a>(start: GraphNode<'a>) {
 
                 visited.insert(EqualityGraphNode { gn });
             }
-            None => break,
+            None => panic!("Ran out of graph nodes before reaching end"),
         }
     }
+
+    let mut current = start;
+    let mut res = vec![];
+    loop {
+        res.push(current.clone());
+        if current.is_end() {
+            break;
+        }
+
+        current = predecessors
+            .remove(&EqualityGraphNode { gn: current })
+            .unwrap();
+    }
+
+    res
 }
 
 fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
