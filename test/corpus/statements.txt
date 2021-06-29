@@ -71,6 +71,7 @@ export default function name1() { }
 export { name1 as default };
 
 export * from 'foo';
+export * as someIdentifier from "someModule";
 export { name1, name2, nameN } from 'foo';
 export { import1 as name1, import2 as name2, nameN } from 'foo';
 
@@ -113,6 +114,9 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
     (export_clause (export_specifier (identifier) (identifier))))
   (export_statement
     (string))
+  (export_statement
+    (namespace_import (identifier))
+    source: (string))
   (export_statement
     (export_clause
       (export_specifier (identifier))

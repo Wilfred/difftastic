@@ -100,6 +100,7 @@ module.exports = grammar({
         'export',
         choice(
           seq('*', $._from_clause, $._semicolon),
+          seq($.namespace_import, $._from_clause),
           seq($.export_clause, $._from_clause, $._semicolon),
           seq($.export_clause, $._semicolon)
         )
