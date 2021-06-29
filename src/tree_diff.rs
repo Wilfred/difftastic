@@ -46,7 +46,6 @@ pub enum AtomKind {
 #[derive(Debug)]
 pub enum Node<'a> {
     List {
-        parent: Cell<Option<&'a Node<'a>>>,
         next: Cell<Option<&'a Node<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         open_position: Vec<SingleLineSpan>,
@@ -57,7 +56,6 @@ pub enum Node<'a> {
         num_descendants: usize,
     },
     Atom {
-        parent: Cell<Option<&'a Node<'a>>>,
         next: Cell<Option<&'a Node<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         position: Vec<SingleLineSpan>,
@@ -87,7 +85,6 @@ impl<'a> Node<'a> {
         }
 
         arena.alloc(List {
-            parent: Cell::new(None),
             next: Cell::new(None),
             change: Cell::new(None),
             open_position,
@@ -107,20 +104,12 @@ impl<'a> Node<'a> {
         kind: AtomKind,
     ) -> &'a mut Node<'a> {
         arena.alloc(Atom {
-            parent: Cell::new(None),
             next: Cell::new(None),
             position,
             content: content.into(),
             change: Cell::new(None),
             kind,
         })
-    }
-
-    pub fn get_parent(&self) -> Option<&'a Node<'a>> {
-        match self {
-            List { parent, .. } => parent.get(),
-            Atom { parent, .. } => parent.get(),
-        }
     }
 
     pub fn get_next(&self) -> Option<&'a Node<'a>> {
@@ -171,34 +160,13 @@ impl<'a> Node<'a> {
     }
 }
 
-pub fn set_parents<'a>(node: &'a Node<'a>) {
-    set_parents_(node, None);
-}
-
-fn set_parents_<'a>(node: &'a Node<'a>, new_parent: Option<&'a Node<'a>>) {
-    match node {
-        List {
-            parent, children, ..
-        } => {
-            parent.set(new_parent);
-            for child in children {
-                set_parents_(child, Some(node));
-            }
-        }
-        Atom { .. } => {}
-    }
-}
-
 pub fn set_next<'a>(node: &'a Node<'a>) {
     set_next_(node, None);
 }
 
-
 fn set_next_<'a>(node: &'a Node<'a>, new_next: Option<&'a Node<'a>>) {
     match node {
-        List {
-            next, children, ..
-        } => {
+        List { next, children, .. } => {
             next.set(new_next);
             for (i, child) in children.iter().enumerate() {
                 let child_next = match children.get(i + 1) {
@@ -743,7 +711,6 @@ mod tests {
     #[test]
     fn test_prev_opposite_pos_first_node() {
         let nodes = &[&Atom {
-            parent: Cell::new(None),
             next: Cell::new(None),
             change: Cell::new(Some(Novel)),
             position: vec![SingleLineSpan {
@@ -770,7 +737,6 @@ mod tests {
         assert_eq!(
             Atom {
                 next: Cell::new(None),
-                parent: Cell::new(None),
                 change: Cell::new(Some(Novel)),
                 position: vec![SingleLineSpan {
                     line: 1.into(),
@@ -782,7 +748,6 @@ mod tests {
             },
             Atom {
                 next: Cell::new(None),
-                parent: Cell::new(None),
                 change: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 10.into(),
