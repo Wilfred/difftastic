@@ -47,6 +47,7 @@ pub enum AtomKind {
 pub enum Node<'a> {
     List {
         parent: Cell<Option<&'a Node<'a>>>,
+        next: Cell<Option<&'a Node<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         open_position: Vec<SingleLineSpan>,
         open_delimiter: String,
@@ -57,6 +58,7 @@ pub enum Node<'a> {
     },
     Atom {
         parent: Cell<Option<&'a Node<'a>>>,
+        next: Cell<Option<&'a Node<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         position: Vec<SingleLineSpan>,
         content: String,
@@ -86,6 +88,7 @@ impl<'a> Node<'a> {
 
         arena.alloc(List {
             parent: Cell::new(None),
+            next: Cell::new(None),
             change: Cell::new(None),
             open_position,
             open_delimiter: open_delimiter.into(),
@@ -105,6 +108,7 @@ impl<'a> Node<'a> {
     ) -> &'a mut Node<'a> {
         arena.alloc(Atom {
             parent: Cell::new(None),
+            next: Cell::new(None),
             position,
             content: content.into(),
             change: Cell::new(None),
@@ -175,6 +179,31 @@ fn set_parents_<'a>(node: &'a Node<'a>, new_parent: Option<&'a Node<'a>>) {
             }
         }
         Atom { .. } => {}
+    }
+}
+
+pub fn set_next<'a>(node: &'a Node<'a>) {
+    set_next_(node, None);
+}
+
+
+fn set_next_<'a>(node: &'a Node<'a>, new_next: Option<&'a Node<'a>>) {
+    match node {
+        List {
+            next, children, ..
+        } => {
+            next.set(new_next);
+            for (i, child) in children.iter().enumerate() {
+                let child_next = match children.get(i + 1) {
+                    Some(child_next) => Some(*child_next),
+                    None => new_next,
+                };
+                set_next_(child, child_next);
+            }
+        }
+        Atom { next, .. } => {
+            next.set(new_next);
+        }
     }
 }
 
@@ -708,6 +737,7 @@ mod tests {
     fn test_prev_opposite_pos_first_node() {
         let nodes = &[&Atom {
             parent: Cell::new(None),
+            next: Cell::new(None),
             change: Cell::new(Some(Novel)),
             position: vec![SingleLineSpan {
                 line: 0.into(),
@@ -732,6 +762,7 @@ mod tests {
     fn test_atom_equality_ignores_change_and_pos() {
         assert_eq!(
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 change: Cell::new(Some(Novel)),
                 position: vec![SingleLineSpan {
@@ -743,6 +774,7 @@ mod tests {
                 kind: Other,
             },
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 change: Cell::new(None),
                 position: vec![SingleLineSpan {
