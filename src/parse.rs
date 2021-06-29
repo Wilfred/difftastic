@@ -830,6 +830,7 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -841,6 +842,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -866,6 +868,7 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -877,6 +880,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -888,6 +892,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -913,6 +918,7 @@ mod tests {
 
         let expected_lhs = vec![
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -924,6 +930,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -939,6 +946,7 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -950,6 +958,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -975,6 +984,7 @@ mod tests {
 
         let expected_rhs = vec![
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -986,6 +996,7 @@ mod tests {
                 kind: AtomKind::Other,
             },
             Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -1015,6 +1026,7 @@ mod tests {
         };
 
         let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
+            next: Cell::new(None),
             parent: Cell::new(None),
             change: Cell::new(Some(Unchanged(lhs[0]))),
             open_position: vec![SingleLineSpan {
@@ -1031,6 +1043,7 @@ mod tests {
             close_delimiter: "]".into(),
             children: vec![
                 arena.alloc(Atom {
+                    next: Cell::new(None),
                     parent: Cell::new(None),
                     position: vec![SingleLineSpan {
                         line: 0.into(),
@@ -1042,6 +1055,7 @@ mod tests {
                     kind: AtomKind::Other,
                 }),
                 arena.alloc(Atom {
+                    next: Cell::new(None),
                     parent: Cell::new(None),
                     position: vec![SingleLineSpan {
                         line: 0.into(),
@@ -1073,6 +1087,7 @@ mod tests {
         };
 
         let expected_rhs: Vec<&Node> = vec![arena.alloc(List {
+            next: Cell::new(None),
             parent: Cell::new(None),
             change: Cell::new(Some(Unchanged(lhs[0]))),
             open_position: vec![SingleLineSpan {
@@ -1088,6 +1103,7 @@ mod tests {
             }],
             close_delimiter: "]".into(),
             children: vec![arena.alloc(Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -1120,6 +1136,7 @@ mod tests {
 
         let expected_rhs: Vec<&Node> = vec![
             arena.alloc(List {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 open_delimiter: "[".into(),
                 open_position: vec![SingleLineSpan {
@@ -1135,6 +1152,7 @@ mod tests {
                 close_delimiter: "]".into(),
                 change: Cell::new(Some(Unchanged(lhs[0]))),
                 children: vec![arena.alloc(List {
+                    next: Cell::new(None),
                     parent: Cell::new(None),
                     change: Cell::new(Some(Moved)),
                     open_delimiter: "[".into(),
@@ -1150,6 +1168,7 @@ mod tests {
                     }],
                     close_delimiter: "]".into(),
                     children: vec![arena.alloc(Atom {
+                        next: Cell::new(None),
                         parent: Cell::new(None),
                         position: vec![SingleLineSpan {
                             line: 0.into(),
@@ -1165,6 +1184,7 @@ mod tests {
                 num_descendants: 2,
             }),
             arena.alloc(Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -1196,6 +1216,7 @@ mod tests {
 
         let expected_rhs: Vec<&Node> = vec![
             arena.alloc(Atom {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 position: vec![SingleLineSpan {
                     line: 0.into(),
@@ -1207,6 +1228,7 @@ mod tests {
                 kind: AtomKind::Other,
             }),
             arena.alloc(List {
+                next: Cell::new(None),
                 parent: Cell::new(None),
                 open_delimiter: "[".into(),
                 open_position: vec![SingleLineSpan {
@@ -1222,6 +1244,7 @@ mod tests {
                 }],
                 change: Cell::new(Some(Novel)),
                 children: vec![arena.alloc(List {
+                    next: Cell::new(None),
                     parent: Cell::new(None),
                     change: Cell::new(Some(Moved)),
                     open_position: vec![SingleLineSpan {
@@ -1237,6 +1260,7 @@ mod tests {
                     }],
                     close_delimiter: "]".into(),
                     children: vec![arena.alloc(Atom {
+                        next: Cell::new(None),
                         parent: Cell::new(None),
                         position: vec![SingleLineSpan {
                             line: 0.into(),

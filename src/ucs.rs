@@ -327,6 +327,7 @@ mod tests {
         let arena = Arena::new();
 
         let lhs = arena.alloc(Atom {
+            next: Cell::new(None),
             parent: Cell::new(None),
             position: vec![SingleLineSpan {
                 line: 0.into(),
@@ -340,6 +341,7 @@ mod tests {
 
         // Same as LHS, but with a different position.
         let rhs = arena.alloc(Atom {
+            next: Cell::new(None),
             parent: Cell::new(None),
             position: vec![SingleLineSpan {
                 line: 1.into(),
