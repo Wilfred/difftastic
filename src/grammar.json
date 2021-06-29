@@ -65,6 +65,23 @@
                   "members": [
                     {
                       "type": "SYMBOL",
+                      "name": "namespace_import"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_from_clause"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_semicolon"
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
                       "name": "export_clause"
                     },
                     {
