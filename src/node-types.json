@@ -1048,6 +1048,10 @@
         {
           "type": "export_clause",
           "named": true
+        },
+        {
+          "type": "namespace_import",
+          "named": true
         }
       ]
     }
