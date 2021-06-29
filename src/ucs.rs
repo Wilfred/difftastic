@@ -12,8 +12,8 @@ use Action::*;
 struct GraphNode<'a> {
     distance: u64,
     action: Action,
-    lhs_next: Option<(&'a Node<'a>, Vec<usize>)>,
-    rhs_next: Option<(&'a Node<'a>, Vec<usize>)>,
+    lhs_next: Option<&'a Node<'a>>,
+    rhs_next: Option<&'a Node<'a>>,
 }
 
 impl<'a> GraphNode<'a> {
@@ -22,16 +22,9 @@ impl<'a> GraphNode<'a> {
             distance: 0,
             // TODO: this makes no sense for the source node.
             action: Action::UnchangedNode,
-            lhs_next: Some((lhs, vec![0])),
-            rhs_next: Some((rhs, vec![0])),
+            lhs_next: Some(lhs),
+            rhs_next: Some(rhs),
         }
-    }
-
-    fn lhs_next_node(&self) -> Option<&'a Node<'a>> {
-        self.lhs_next.as_ref().map(|(n, _)| *n)
-    }
-    fn rhs_next_node(&self) -> Option<&'a Node<'a>> {
-        self.rhs_next.as_ref().map(|(n, _)| *n)
     }
 
     fn is_end(&self) -> bool {
@@ -78,16 +71,15 @@ struct EqualityGraphNode<'a> {
 
 impl<'a> PartialEq for EqualityGraphNode<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.gn.lhs_next_node() == other.gn.lhs_next_node()
-            && self.gn.rhs_next_node() == other.gn.rhs_next_node()
+        self.gn.lhs_next == other.gn.lhs_next && self.gn.rhs_next == other.gn.rhs_next
     }
 }
 impl<'a> Eq for EqualityGraphNode<'a> {}
 
 impl<'a> Hash for EqualityGraphNode<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.gn.lhs_next_node().hash(state);
-        self.gn.rhs_next_node().hash(state);
+        self.gn.lhs_next.hash(state);
+        self.gn.rhs_next.hash(state);
     }
 }
 
@@ -174,22 +166,22 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
     let mut res = vec![];
 
     match (&gn.lhs_next, &gn.rhs_next) {
-        (Some((lhs_next_node, lhs_next_idx)), Some((rhs_next_node, rhs_next_idx))) => {
+        (Some(lhs_next_node), Some(rhs_next_node)) => {
             if lhs_next_node == rhs_next_node {
                 // Both nodes are equal, the happy case.
                 let action = UnchangedNode;
                 res.push(GraphNode {
                     action,
                     distance: gn.distance + action.cost(),
-                    lhs_next: next_node(lhs_next_node, lhs_next_idx.clone()),
-                    rhs_next: next_node(rhs_next_node, rhs_next_idx.clone()),
+                    lhs_next: lhs_next_node.get_next(),
+                    rhs_next: rhs_next_node.get_next(),
                 });
             }
         }
         _ => {}
     }
 
-    if let Some((lhs_next_node, lhs_next_idx)) = &gn.lhs_next {
+    if let Some(lhs_next_node) = &gn.lhs_next {
         match lhs_next_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
@@ -197,7 +189,7 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
                 res.push(GraphNode {
                     action,
                     distance: gn.distance + action.cost(),
-                    lhs_next: next_node(lhs_next_node, lhs_next_idx.clone()),
+                    lhs_next: lhs_next_node.get_next(),
                     rhs_next: gn.rhs_next.clone(),
                 });
             }
@@ -209,17 +201,14 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
                     res.push(GraphNode {
                         action,
                         distance: gn.distance + action.cost(),
-                        lhs_next: next_node(lhs_next_node, lhs_next_idx.clone()),
+                        lhs_next: lhs_next_node.get_next(),
                         rhs_next: gn.rhs_next.clone(),
                     });
                 } else {
-                    let mut new_lhs_idx = lhs_next_idx.clone();
-                    new_lhs_idx.push(0);
-
                     res.push(GraphNode {
                         action,
                         distance: gn.distance + action.cost(),
-                        lhs_next: Some((children[0], new_lhs_idx)),
+                        lhs_next: Some(children[0]),
                         rhs_next: gn.rhs_next.clone(),
                     });
                 }
@@ -227,7 +216,7 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
         }
     }
 
-    if let Some((rhs_next_node, rhs_next_idx)) = &gn.rhs_next {
+    if let Some(rhs_next_node) = &gn.rhs_next {
         match rhs_next_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
@@ -236,7 +225,7 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
                     action,
                     distance: gn.distance + action.cost(),
                     lhs_next: gn.lhs_next.clone(),
-                    rhs_next: next_node(rhs_next_node, rhs_next_idx.clone()),
+                    rhs_next: rhs_next_node.get_next(),
                 });
             }
             // Step into this partially/fully novel list.
@@ -248,17 +237,14 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
                         action,
                         distance: gn.distance + action.cost(),
                         lhs_next: gn.lhs_next.clone(),
-                        rhs_next: next_node(rhs_next_node, rhs_next_idx.clone()),
+                        rhs_next: rhs_next_node.get_next(),
                     });
                 } else {
-                    let mut new_rhs_idx = rhs_next_idx.clone();
-                    new_rhs_idx.push(0);
-
                     res.push(GraphNode {
                         action,
                         distance: gn.distance + action.cost(),
                         lhs_next: gn.lhs_next.clone(),
-                        rhs_next: Some((children[0], new_rhs_idx)),
+                        rhs_next: Some(children[0]),
                     });
                 }
             }
@@ -268,38 +254,9 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
     res
 }
 
-fn next_node<'a>(
-    current: &'a Node<'a>,
-    mut current_idx: Vec<usize>,
-) -> Option<(&'a Node<'a>, Vec<usize>)> {
-    match current.get_parent() {
-        Some(parent) => {
-            let idx_in_parent = current_idx.last().unwrap();
-            match parent {
-                Node::List {
-                    children: siblings, ..
-                } => match siblings.get(idx_in_parent + 1) {
-                    Some(node) => {
-                        let new_idx = current_idx.last_mut().unwrap();
-                        *new_idx += 1;
-                        Some((node, current_idx))
-                    }
-                    None => {
-                        current_idx.pop();
-                        next_node(parent, current_idx)
-                    }
-                },
-                Node::Atom { .. } => unreachable!(),
-            }
-        }
-        None => None,
-    }
-}
-
 impl<'a> PartialEq for GraphNode<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.lhs_next_node() == other.lhs_next_node()
-            && self.rhs_next_node() == other.rhs_next_node()
+        self.lhs_next == other.lhs_next && self.rhs_next == other.rhs_next
     }
 }
 
@@ -307,8 +264,8 @@ impl<'a> Hash for GraphNode<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         // Deliberately ignore distance: we want to find equal nodes
         // regardless of the distance of different paths to them.
-        self.lhs_next_node().hash(state);
-        self.rhs_next_node().hash(state);
+        self.lhs_next.hash(state);
+        self.rhs_next.hash(state);
     }
 }
 

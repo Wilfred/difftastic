@@ -123,6 +123,13 @@ impl<'a> Node<'a> {
         }
     }
 
+    pub fn get_next(&self) -> Option<&'a Node<'a>> {
+        match self {
+            List { next, .. } => next.get(),
+            Atom { next, .. } => next.get(),
+        }
+    }
+
     fn get_change(&self) -> Option<ChangeKind<'a>> {
         match self {
             List { change, .. } => change.get(),
