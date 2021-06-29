@@ -25,6 +25,7 @@ message(STATUS Hello)
  (normal_command
   (identifier)
   (argument (unquoted_argument))
+  (argument (unquoted_argument))
  )
  )
 

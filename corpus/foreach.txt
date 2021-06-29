@@ -90,6 +90,7 @@ endforeach()
   (foreach_command
     (foreach)
     (argument (unquoted_argument))
+    (argument (unquoted_argument))
   )
   (endforeach_command (endforeach))
  )
@@ -108,6 +109,7 @@ endforeach()
  (foreach_loop
   (foreach_command
     (foreach)
+    (argument (unquoted_argument))
     (argument (unquoted_argument))
   )
   (endforeach_command (endforeach))

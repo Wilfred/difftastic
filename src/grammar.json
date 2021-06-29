@@ -5,7 +5,7 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "_command_invocation"
+        "name": "_untrimmed_command_invocation"
       }
     },
     "escape_sequence": {
@@ -163,6 +163,19 @@
         }
       ]
     },
+    "_untrimmed_argument": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\s"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "argument"
+        }
+      ]
+    },
     "quoted_argument": {
       "type": "SEQ",
       "members": [
@@ -222,7 +235,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "[^\\s\\n\\r()#\\\"\\\\]"
+              "value": "[^\\s()#\\\"\\\\]"
             },
             {
               "type": "SYMBOL",
@@ -240,19 +253,21 @@
           "name": "if"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "argument"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_untrimmed_argument"
           }
         },
         {
@@ -269,19 +284,21 @@
           "name": "elseif"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "argument"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_untrimmed_argument"
           }
         },
         {
@@ -298,6 +315,13 @@
           "name": "else"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
@@ -305,11 +329,19 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "\\s*"
+                },
                 {
                   "type": "SYMBOL",
                   "name": "argument"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\s*"
                 }
               ]
             },
@@ -332,6 +364,13 @@
           "name": "endif"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
@@ -339,11 +378,19 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "\\s*"
+                },
                 {
                   "type": "SYMBOL",
                   "name": "argument"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\s*"
                 }
               ]
             },
@@ -372,7 +419,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_command_invocation"
+                "name": "_untrimmed_command_invocation"
               },
               {
                 "type": "SYMBOL",
@@ -399,19 +446,21 @@
           "name": "foreach"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "argument"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_untrimmed_argument"
           }
         },
         {
@@ -426,6 +475,13 @@
         {
           "type": "SYMBOL",
           "name": "endforeach"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
         },
         {
           "type": "STRING",
@@ -460,7 +516,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_command_invocation"
+            "name": "_untrimmed_command_invocation"
           }
         },
         {
@@ -477,19 +533,21 @@
           "name": "while"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "argument"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_untrimmed_argument"
           }
         },
         {
@@ -506,6 +564,13 @@
           "name": "endwhile"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
@@ -513,11 +578,19 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "\\s*"
+                },
                 {
                   "type": "SYMBOL",
                   "name": "argument"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "\\s*"
                 }
               ]
             },
@@ -543,7 +616,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_command_invocation"
+            "name": "_untrimmed_command_invocation"
           }
         },
         {
@@ -560,6 +633,13 @@
           "name": "function"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
@@ -567,7 +647,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "argument"
+            "name": "_untrimmed_argument"
           }
         },
         {
@@ -584,6 +664,13 @@
           "name": "endfunction"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
@@ -591,7 +678,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "argument"
+            "name": "_untrimmed_argument"
           }
         },
         {
@@ -611,7 +698,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_command_invocation"
+            "name": "_untrimmed_command_invocation"
           }
         },
         {
@@ -628,6 +715,13 @@
           "name": "macro"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
@@ -635,7 +729,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "argument"
+            "name": "_untrimmed_argument"
           }
         },
         {
@@ -652,6 +746,13 @@
           "name": "endmacro"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
@@ -659,7 +760,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "argument"
+            "name": "_untrimmed_argument"
           }
         },
         {
@@ -679,7 +780,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_command_invocation"
+            "name": "_untrimmed_command_invocation"
           }
         },
         {
@@ -696,6 +797,13 @@
           "name": "identifier"
         },
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[\\t ]"
+          }
+        },
+        {
           "type": "STRING",
           "value": "("
         },
@@ -703,7 +811,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "argument"
+            "name": "_untrimmed_argument"
           }
         },
         {
@@ -738,6 +846,19 @@
         {
           "type": "SYMBOL",
           "name": "macro_def"
+        }
+      ]
+    },
+    "_untrimmed_command_invocation": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\s"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_command_invocation"
         }
       ]
     },
@@ -799,10 +920,6 @@
     }
   },
   "extras": [
-    {
-      "type": "PATTERN",
-      "value": "[\\s\\n\\r]"
-    },
     {
       "type": "SYMBOL",
       "name": "bracket_comment"

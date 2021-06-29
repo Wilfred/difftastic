@@ -41,7 +41,8 @@ Line comment [comment]
 Message with Line comment [comment]
 ===================================
 message(STATUS #Some line comment
-message #Some other line comment
+
+Second #Some other line comment
 )
 
 ---

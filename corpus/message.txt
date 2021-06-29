@@ -75,3 +75,19 @@ message(STATUS
   (argument (bracket_argument))
  )
  )
+
+======================================================
+Message with STATUS and an unquoted argument [message]
+======================================================
+
+message(STATUS argument)
+
+---
+
+(source_file
+ (normal_command
+  (identifier)
+  (argument (unquoted_argument))
+  (argument (unquoted_argument))
+ )
+ )

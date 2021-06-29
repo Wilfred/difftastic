@@ -17,10 +17,10 @@ module.exports = grammar({
   name: "cmake",
 
   externals: ($) => [$.bracket_argument, $.bracket_comment, $.line_comment],
-  extras: ($) => [/[\s\n\r]/, $.bracket_comment, $.line_comment],
+  extras: ($) => [$.bracket_comment, $.line_comment],
 
   rules: {
-    source_file: ($) => repeat($._command_invocation),
+    source_file: ($) => repeat($._untrimmed_command_invocation),
 
     escape_sequence: ($) => choice($._escape_identity, $._escape_encoded, $._escape_semicolon),
     _escape_identity: (_) => /\\[^A-Za-z0-9;]/,
@@ -34,39 +34,45 @@ module.exports = grammar({
     cache_var: ($) => seq("$CACHE", "{", $.variable, "}"),
 
     argument: ($) => choice($.bracket_argument, $.quoted_argument, $.unquoted_argument),
+    _untrimmed_argument: ($) => choice(/\s/, $.argument),
 
     quoted_argument: ($) => seq('"', optional($.quoted_element), '"'),
     quoted_element: ($) => repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence)),
 
-    unquoted_argument: ($) => prec.right(repeat1(choice($.variable_ref, /[^\s\n\r()#\"\\]/, $.escape_sequence))),
+    unquoted_argument: ($) => prec.right(repeat1(choice($.variable_ref, /[^\s()#\"\\]/, $.escape_sequence))),
 
-    if_command: ($) => command($.if, repeat(choice($.argument))),
-    elseif_command: ($) => command($.elseif, repeat(choice($.argument))),
-    else_command: ($) => command($.else, optional(choice($.argument))),
-    endif_command: ($) => command($.endif, optional(choice($.argument))),
+    if_command: ($) => command($.if, repeat($._untrimmed_argument)),
+    elseif_command: ($) => command($.elseif, repeat($._untrimmed_argument)),
+    else_command: ($) => command($.else, optional(seq(/\s*/, $.argument, /\s*/))),
+    endif_command: ($) => command($.endif, optional(seq(/\s*/, $.argument, /\s*/))),
     if_condition: ($) =>
-      seq($.if_command, repeat(choice($._command_invocation, $.elseif_command, $.else_command)), $.endif_command),
+      seq(
+        $.if_command,
+        repeat(choice($._untrimmed_command_invocation, $.elseif_command, $.else_command)),
+        $.endif_command
+      ),
 
-    foreach_command: ($) => command($.foreach, repeat(choice($.argument))),
+    foreach_command: ($) => command($.foreach, repeat($._untrimmed_argument)),
     endforeach_command: ($) => command($.endforeach, optional($.argument)),
-    foreach_loop: ($) => seq($.foreach_command, repeat($._command_invocation), $.endforeach_command),
+    foreach_loop: ($) => seq($.foreach_command, repeat($._untrimmed_command_invocation), $.endforeach_command),
 
-    while_command: ($) => command($.while, repeat(choice($.argument))),
-    endwhile_command: ($) => command($.endwhile, optional(choice($.argument))),
-    while_loop: ($) => seq($.while_command, repeat($._command_invocation), $.endwhile_command),
+    while_command: ($) => command($.while, repeat($._untrimmed_argument)),
+    endwhile_command: ($) => command($.endwhile, optional(seq(/\s*/, $.argument, /\s*/))),
+    while_loop: ($) => seq($.while_command, repeat($._untrimmed_command_invocation), $.endwhile_command),
 
-    function_command: ($) => command($.function, repeat($.argument)),
-    endfunction_command: ($) => command($.endfunction, repeat($.argument)),
-    function_def: ($) => seq($.function_command, repeat($._command_invocation), $.endfunction_command),
+    function_command: ($) => command($.function, repeat($._untrimmed_argument)),
+    endfunction_command: ($) => command($.endfunction, repeat($._untrimmed_argument)),
+    function_def: ($) => seq($.function_command, repeat($._untrimmed_command_invocation), $.endfunction_command),
 
-    macro_command: ($) => command($.macro, repeat($.argument)),
-    endmacro_command: ($) => command($.endmacro, repeat($.argument)),
-    macro_def: ($) => seq($.macro_command, repeat($._command_invocation), $.endmacro_command),
+    macro_command: ($) => command($.macro, repeat($._untrimmed_argument)),
+    endmacro_command: ($) => command($.endmacro, repeat($._untrimmed_argument)),
+    macro_def: ($) => seq($.macro_command, repeat($._untrimmed_command_invocation), $.endmacro_command),
 
-    normal_command: ($) => command($.identifier, repeat($.argument)),
+    normal_command: ($) => command($.identifier, repeat($._untrimmed_argument)),
 
     _command_invocation: ($) =>
       choice($.normal_command, $.if_condition, $.foreach_loop, $.while_loop, $.function_def, $.macro_def),
+    _untrimmed_command_invocation: ($) => choice(/\s/, $._command_invocation),
 
     ...commandNames(...commands),
     identifier: (_) => /[A-Za-z_][A-Za-z0-9_]*/,
@@ -87,5 +93,5 @@ function commandNames(...names) {
 }
 
 function command(name_rule, arg_rule) {
-  return seq(name_rule, "(", arg_rule, ")");
+  return seq(name_rule, repeat(/[\t ]/), "(", arg_rule, ")");
 }
