@@ -3245,13 +3245,22 @@
             "type": "FIELD",
             "name": "property",
             "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              "named": true,
-              "value": "property_identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "private_property_identifier"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  },
+                  "named": true,
+                  "value": "property_identifier"
+                }
+              ]
             }
           }
         ]
@@ -5523,6 +5532,29 @@
         ]
       }
     },
+    "private_property_identifier": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "#"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\x00-\\x1F\\s0-9:;`\"'@#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}\\uFEFF\\u2060\\u200B\\u00A0]|\\\\u[0-9a-fA-F]{4}|\\\\u\\{[0-9a-fA-F]+\\}"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "PATTERN",
+              "value": "[^\\x00-\\x1F\\s:;`\"'@#.,|^&<=>+\\-*/\\\\%?!~()\\[\\]{}\\uFEFF\\u2060\\u200B\\u00A0]|\\\\u[0-9a-fA-F]{4}|\\\\u\\{[0-9a-fA-F]+\\}"
+            }
+          }
+        ]
+      }
+    },
     "meta_property": {
       "type": "SEQ",
       "members": [
@@ -5812,7 +5844,7 @@
                     "name": "member",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "public_field_definition"
+                      "name": "field_definition"
                     }
                   },
                   {
@@ -5830,7 +5862,7 @@
         }
       ]
     },
-    "public_field_definition": {
+    "field_definition": {
       "type": "SEQ",
       "members": [
         {
@@ -6152,6 +6184,10 @@
           },
           "named": true,
           "value": "property_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "private_property_identifier"
         },
         {
           "type": "SYMBOL",

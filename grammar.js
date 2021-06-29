@@ -724,7 +724,9 @@ module.exports = grammar({
     member_expression: $ => prec('member', seq(
       field('object', choice($.expression, $.primary_expression)),
       choice('.', '?.'),
-      field('property', alias($.identifier, $.property_identifier))
+      field('property', choice(
+        $.private_property_identifier,
+        alias($.identifier, $.property_identifier)))
     )),
 
     subscript_expression: $ => prec.right('member', seq(
@@ -983,6 +985,12 @@ module.exports = grammar({
       return token(seq(alpha, repeat(alphanumeric)))
     },
 
+    private_property_identifier: $ => {
+      const alpha = /[^\x00-\x1F\s0-9:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
+      const alphanumeric = /[^\x00-\x1F\s:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
+      return token(seq('#', alpha, repeat(alphanumeric)))
+    },
+
     meta_property: $ => seq('new', '.', 'target'),
 
     this: $ => 'this',
@@ -1032,12 +1040,12 @@ module.exports = grammar({
       '{',
       repeat(choice(
         seq(field('member', $.method_definition), optional(';')),
-        seq(field('member', $.public_field_definition), $._semicolon)
+        seq(field('member', $.field_definition), $._semicolon)
       )),
       '}'
     ),
 
-    public_field_definition: $ => seq(
+    field_definition: $ => seq(
       repeat(field('decorator', $.decorator)),
       optional('static'),
       field('property', $._property_name),
@@ -1098,6 +1106,7 @@ module.exports = grammar({
         $.identifier,
         $._reserved_identifier
       ), $.property_identifier),
+      $.private_property_identifier,
       $.string,
       $.number,
       $.computed_property_name

@@ -340,9 +340,12 @@ Classes
 ============================================
 
 class Foo {
+  #e
+
   static one(a) { return a; };
   two(b) { return b; }
   three(c) { return c; }
+  #four(d) { return this.#e; }
 }
 
 class Foo extends require('another-class') {
@@ -351,6 +354,11 @@ class Foo extends require('another-class') {
   }
 
   bar() {
+    super.a()
+    this.#baz()
+  }
+
+  #baz() {
     super.a()
   }
 }
@@ -361,6 +369,7 @@ class Foo extends require('another-class') {
   (class_declaration
     (identifier)
     (class_body
+      (field_definition (private_property_identifier))
       (method_definition
         (property_identifier)
         (formal_parameters (identifier))
@@ -372,7 +381,11 @@ class Foo extends require('another-class') {
       (method_definition
         (property_identifier)
         (formal_parameters (identifier))
-        (statement_block (return_statement (identifier))))))
+        (statement_block (return_statement (identifier))))
+      (method_definition
+        (private_property_identifier)
+        (formal_parameters (identifier))
+        (statement_block (return_statement (member_expression (this) (private_property_identifier)))))))
 
   (class_declaration
     (identifier)
@@ -385,6 +398,12 @@ class Foo extends require('another-class') {
           (expression_statement (call_expression (super) (arguments)))))
       (method_definition
         (property_identifier)
+        (formal_parameters)
+        (statement_block
+          (expression_statement (call_expression (member_expression (super) (property_identifier)) (arguments)))
+          (expression_statement (call_expression (member_expression (this) (private_property_identifier)) (arguments)))))
+      (method_definition
+        (private_property_identifier)
         (formal_parameters)
         (statement_block
           (expression_statement (call_expression (member_expression (super) (property_identifier)) (arguments))))))))
@@ -427,7 +446,23 @@ class Foo {
   (class_declaration
     (identifier)
     (class_body
-      (public_field_definition (property_identifier) (number)))))
+      (field_definition (property_identifier) (number)))))
+
+============================================
+Private Class Property Fields
+============================================
+
+class Foo {
+	static #FOO = 2
+}
+
+---
+
+(program
+  (class_declaration
+    (identifier)
+    (class_body
+      (field_definition (private_property_identifier) (number)))))
 
 ============================================
 Class Decorators
@@ -458,7 +493,7 @@ class Foo {
         (property_identifier)
         (formal_parameters)
         (statement_block))
-      (public_field_definition
+      (field_definition
         (decorator
           (identifier))
         (property_identifier)
