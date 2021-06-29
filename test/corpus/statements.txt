@@ -80,55 +80,55 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
 (program
   (export_statement
     (export_clause
-      (export_specifier (identifier))
-      (export_specifier (identifier))
-      (export_specifier (identifier))
-      (export_specifier (identifier))))
+      (export_specifier name: (identifier))
+      (export_specifier name: (identifier))
+      (export_specifier name: (identifier))
+      (export_specifier name: (identifier))))
   (export_statement
     (export_clause
-      (export_specifier (identifier) (identifier))
-      (export_specifier (identifier) (identifier))
-      (export_specifier (identifier))))
+      (export_specifier name: (identifier) alias: (identifier))
+      (export_specifier name: (identifier) alias: (identifier))
+      (export_specifier name: (identifier))))
   (export_statement
-    (lexical_declaration
-      (variable_declarator (identifier))
-      (variable_declarator (identifier))
-      (variable_declarator (identifier))))
+    declaration: (lexical_declaration
+      (variable_declarator name: (identifier))
+      (variable_declarator name: (identifier))
+      (variable_declarator name: (identifier))))
   (export_statement
-    (lexical_declaration
-      (variable_declarator (identifier) (identifier))
-      (variable_declarator (identifier) (identifier))
-      (variable_declarator (identifier))
-      (variable_declarator (identifier))))
+    declaration: (lexical_declaration
+      (variable_declarator name: (identifier) value: (identifier))
+      (variable_declarator name: (identifier) value: (identifier))
+      (variable_declarator name: (identifier))
+      (variable_declarator name: (identifier))))
   (export_statement
-    (identifier))
+    value: (identifier))
   (export_statement
-    (object
-      (pair (property_identifier) (number))
-      (pair (property_identifier) (array))))
+    value: (object
+      (pair key: (property_identifier) value: (number))
+      (pair key: (property_identifier) value: (array))))
   (export_statement
-    (function (formal_parameters) (statement_block)))
+    value: (function parameters: (formal_parameters) body: (statement_block)))
   (export_statement
-    (function_declaration (identifier) (formal_parameters) (statement_block)))
+    declaration: (function_declaration name: (identifier) parameters: (formal_parameters) body: (statement_block)))
   (export_statement
-    (export_clause (export_specifier (identifier) (identifier))))
+    (export_clause (export_specifier name: (identifier) alias: (identifier))))
   (export_statement
-    (string))
+    source: (string))
   (export_statement
     (namespace_import (identifier))
     source: (string))
   (export_statement
     (export_clause
-      (export_specifier (identifier))
-      (export_specifier (identifier))
-      (export_specifier (identifier)))
-    (string))
+      (export_specifier name: (identifier))
+      (export_specifier name: (identifier))
+      (export_specifier name: (identifier)))
+    source: (string))
   (export_statement
     (export_clause
-      (export_specifier (identifier) (identifier))
-      (export_specifier (identifier) (identifier))
-      (export_specifier (identifier)))
-    (string)))
+      (export_specifier name: (identifier) alias: (identifier))
+      (export_specifier name: (identifier) alias: (identifier))
+      (export_specifier name: (identifier)))
+    source: (string)))
 
 ============================================
 Decorators before exports
