@@ -1020,9 +1020,9 @@ const rules = {
       ),
     ),
 
-  xhp_comment: $ => /<!--(.|[\n\r])*-->/,
+  xhp_comment: $ => token(seq('<!--', /(-?>)?([^>]|[^-]>|[^-]->)*/, '-->')),
 
-  xhp_string: $ => /[^<]+/,
+  xhp_string: $ => /[^<{]+/,
 
   xhp_open: $ => seq('<', $.xhp_identifier, rep($.xhp_attribute), '>'),
 
