@@ -188,6 +188,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "bracket_comment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "line_comment"
+        },
+        {
+          "type": "SYMBOL",
           "name": "argument"
         }
       ]
@@ -874,6 +882,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "bracket_comment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "line_comment"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_command_invocation"
         }
       ]
@@ -935,16 +951,7 @@
       "value": "[+-]*\\d+"
     }
   },
-  "extras": [
-    {
-      "type": "SYMBOL",
-      "name": "bracket_comment"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "line_comment"
-    }
-  ],
+  "extras": [],
   "conflicts": [],
   "precedences": [],
   "externals": [

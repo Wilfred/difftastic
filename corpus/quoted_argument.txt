@@ -116,3 +116,43 @@ message("${var_${var}}")
   )
  )
  )
+
+======================================================================
+Lookalike bracket comment inside quoted argument [quoted_argument]
+======================================================================
+
+message("${var_${var}} #[[comment]]")
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument
+   (quoted_argument
+    (quoted_element
+     (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
+    )
+   )
+  )
+ )
+ )
+
+======================================================================
+Lookalike line comment inside quoted argument [quoted_argument]
+======================================================================
+
+message("${var_${var}} #comment")
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument
+   (quoted_argument
+    (quoted_element
+     (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
+    )
+   )
+  )
+ )
+ )

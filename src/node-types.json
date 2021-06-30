@@ -69,7 +69,15 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "elseif",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         }
       ]
@@ -107,7 +115,15 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "endfunction",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         }
       ]
@@ -145,7 +161,15 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "endmacro",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         }
       ]
@@ -203,7 +227,15 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         }
       ]
@@ -217,6 +249,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "bracket_comment",
+          "named": true
+        },
         {
           "type": "endforeach_command",
           "named": true
@@ -235,6 +271,10 @@
         },
         {
           "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         },
         {
@@ -265,7 +305,15 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "function",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         }
       ]
@@ -279,6 +327,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "bracket_comment",
+          "named": true
+        },
         {
           "type": "endfunction_command",
           "named": true
@@ -297,6 +349,10 @@
         },
         {
           "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         },
         {
@@ -327,7 +383,15 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "if",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         }
       ]
@@ -341,6 +405,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "bracket_comment",
+          "named": true
+        },
         {
           "type": "else_command",
           "named": true
@@ -367,6 +435,10 @@
         },
         {
           "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         },
         {
@@ -397,6 +469,14 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
+          "type": "line_comment",
+          "named": true
+        },
+        {
           "type": "macro",
           "named": true
         }
@@ -412,6 +492,10 @@
       "required": true,
       "types": [
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "endmacro_command",
           "named": true
         },
@@ -425,6 +509,10 @@
         },
         {
           "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         },
         {
@@ -459,7 +547,15 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         }
       ]
@@ -523,6 +619,10 @@
       "required": false,
       "types": [
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "foreach_loop",
           "named": true
         },
@@ -532,6 +632,10 @@
         },
         {
           "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         },
         {
@@ -623,6 +727,14 @@
           "named": true
         },
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
+          "type": "line_comment",
+          "named": true
+        },
+        {
           "type": "while",
           "named": true
         }
@@ -638,6 +750,10 @@
       "required": true,
       "types": [
         {
+          "type": "bracket_comment",
+          "named": true
+        },
+        {
           "type": "endwhile_command",
           "named": true
         },
@@ -651,6 +767,10 @@
         },
         {
           "type": "if_condition",
+          "named": true
+        },
+        {
+          "type": "line_comment",
           "named": true
         },
         {

@@ -17,7 +17,7 @@ module.exports = grammar({
   name: "cmake",
 
   externals: ($) => [$.bracket_argument, $.bracket_comment, $.line_comment],
-  extras: ($) => [$.bracket_comment, $.line_comment],
+  extras: (_) => [],
 
   rules: {
     source_file: ($) => repeat($._untrimmed_command_invocation),
@@ -34,7 +34,7 @@ module.exports = grammar({
     cache_var: ($) => seq("$", "CACHE", "{", $.variable, "}"),
 
     argument: ($) => choice($.bracket_argument, $.quoted_argument, $.unquoted_argument),
-    _untrimmed_argument: ($) => choice(/\s/, $.argument),
+    _untrimmed_argument: ($) => choice(/\s/, $.bracket_comment, $.line_comment, $.argument),
 
     quoted_argument: ($) => seq('"', optional($.quoted_element), '"'),
     quoted_element: ($) => repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence)),
@@ -72,7 +72,7 @@ module.exports = grammar({
 
     _command_invocation: ($) =>
       choice($.normal_command, $.if_condition, $.foreach_loop, $.while_loop, $.function_def, $.macro_def),
-    _untrimmed_command_invocation: ($) => choice(/\s/, $._command_invocation),
+    _untrimmed_command_invocation: ($) => choice(/\s/, $.bracket_comment, $.line_comment, $._command_invocation),
 
     ...commandNames(...commands),
     identifier: (_) => /[A-Za-z_][A-Za-z0-9_]*/,
