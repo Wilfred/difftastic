@@ -20,8 +20,7 @@ impl<'a> GraphNode<'a> {
     fn new(lhs: &'a Node<'a>, rhs: &'a Node<'a>) -> Self {
         Self {
             distance: 0,
-            // TODO: this makes no sense for the source node.
-            action: Action::UnchangedNode,
+            action: Action::StartNode,
             lhs_next: Some(lhs),
             rhs_next: Some(rhs),
         }
@@ -85,6 +84,7 @@ impl<'a> Hash for EqualityGraphNode<'a> {
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 enum Action {
+    StartNode,
     UnchangedNode,
     UnchangedDelimiter,
     NovelAtomLHS,
@@ -96,6 +96,7 @@ enum Action {
 impl Action {
     fn cost(&self) -> u64 {
         match self {
+            StartNode => 0,
             // Matching nodes is always best.
             UnchangedNode => 0,
             // Matcing an outer delimiter is good.
