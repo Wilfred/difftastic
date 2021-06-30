@@ -41,4 +41,6 @@ The directory `fuzz/crashers` contains a set of crashes that were found with fuz
   * [x] start with fuzzing the parser
   * [ ] upload fuzzing instrumentation
   * [ ] document fuzzing process
-  * [ ] add parsing of crashers to CI process
+* [ ] quality
+  * [ ] add CI job that ensures the parser builds on different plattforms
+  * [ ] add CI job that parses crashers that were found during fuzzing

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1 - 2021-06-30
+
+fix:
+* dont use c struct initializer syntax in src/scanner.cc
+
 ## 0.3.0 - 2021-06-28
 
 fix:
