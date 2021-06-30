@@ -85,3 +85,20 @@ message(${var_ref})
  )
  )
 
+====================================================================
+Variable referencing inside variable referencing [unquoted_argument]
+====================================================================
+message(${var_${var_ref}})
+---
+
+(source_file
+ (normal_command
+  (identifier)
+  (argument
+   (unquoted_argument
+    (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
+   )
+  )
+ )
+ )
+

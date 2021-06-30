@@ -77,7 +77,7 @@ message("${var}")
  )
 
 =========================================
-Two Variable references [quoted_argument] 
+Two Variable references [quoted_argument]
 =========================================
 
 message("${var} ${var}")
@@ -91,6 +91,26 @@ message("${var} ${var}")
     (quoted_element
      (variable_ref (normal_var (variable)))
      (variable_ref (normal_var (variable)))
+    )
+   )
+  )
+ )
+ )
+
+======================================================================
+Variable reference inside another variable reference [quoted_argument]
+======================================================================
+
+message("${var_${var}}")
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument
+   (quoted_argument
+    (quoted_element
+     (variable_ref (normal_var (variable (variable_ref (normal_var (variable))))))
     )
    )
   )
