@@ -7344,12 +7344,28 @@
       ]
     },
     "xhp_comment": {
-      "type": "PATTERN",
-      "value": "<!--(.|[\\n\\r])*-->"
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "<!--"
+          },
+          {
+            "type": "PATTERN",
+            "value": "(-?>)?([^>]|[^-]>|[^-]->)*"
+          },
+          {
+            "type": "STRING",
+            "value": "-->"
+          }
+        ]
+      }
     },
     "xhp_string": {
       "type": "PATTERN",
-      "value": "[^<]+"
+      "value": "[^<{]+"
     },
     "xhp_open": {
       "type": "SEQ",
