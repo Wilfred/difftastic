@@ -95,7 +95,7 @@ public:
     }
     // manage quoted context
     if (valid_symbols[QUOTED_TEMPLATE_START] && !in_quoted_context() && lexer->lookahead == '"') {
-      context_stack.push_back({ .type = QUOTED_TEMPLATE });
+      context_stack.push_back({ QUOTED_TEMPLATE });
       return accept_and_advance(lexer, QUOTED_TEMPLATE_START);
     }
     if (valid_symbols[QUOTED_TEMPLATE_END] && in_quoted_context() && lexer->lookahead == '"') {
@@ -112,7 +112,7 @@ public:
     ) {
       advance(lexer);
       if (lexer->lookahead == '{') {
-        context_stack.push_back({ .type = TEMPLATE_INTERPOLATION});
+        context_stack.push_back({ TEMPLATE_INTERPOLATION });
         return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_START);
       }
       // try to scan escape sequence
@@ -138,7 +138,7 @@ public:
         identifier.push_back(lexer->lookahead);
         advance(lexer);
       }
-      context_stack.push_back({ .type = HEREDOC_TEMPLATE, .heredoc_identifier = identifier });
+      context_stack.push_back({ HEREDOC_TEMPLATE, identifier });
       return accept_inplace(lexer, HEREDOC_IDENTIFIER);
     }
     if (valid_symbols[HEREDOC_IDENTIFIER] && in_heredoc_context() && has_leading_whitespace_with_newline) {
