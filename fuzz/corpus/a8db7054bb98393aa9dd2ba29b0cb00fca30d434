@@ -1,0 +1,27 @@
+// comment
+# comment
+/*
+    comment
+*/
+
+resource_1 "strlit1" "strlit2" {
+  attr1  = "val1"
+  tupl1  = [ 1, ÎÏ 3.4, "foopl1   = "ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ{
+  attr1  = "val1"
+  tupl1  = [ 1, ÎÏ 3.4, "foopl1   = "ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿment
+/*
+   @comment
+*/
+
+resource_1 "strlit1" "strlit2" {
+  attr1  = "val1"
+  tupl1  = [ 1, ÎÏ 3.4, "foo" ]    ${func("foo${ var.bar }")}
+    suffix
+  EOF
+
+  nestÿÿesuedor_rce_1 {
+   2.112E+12
+    attr6 = 2.112E-12
+    attr7 = 0x21FF
+  }
+}

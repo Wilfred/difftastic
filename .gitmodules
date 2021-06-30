@@ -1,0 +1,3 @@
+[submodule "fuzz/tree-sitter"]
+	path = fuzz/tree-sitter
+	url = https://github.com/tree-sitter/tree-sitter.git
