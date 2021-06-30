@@ -10,7 +10,7 @@ use Action::*;
 
 #[derive(Debug, Eq, Clone)]
 struct GraphNode<'a> {
-    distance: u64,
+    distance: i64,
     action: Action,
     lhs_next: Option<&'a Node<'a>>,
     rhs_next: Option<&'a Node<'a>>,
@@ -94,18 +94,18 @@ enum Action {
 }
 
 impl Action {
-    fn cost(&self) -> u64 {
+    fn cost(&self) -> i64 {
         match self {
             StartNode => 0,
             // Matching nodes is always best.
             UnchangedNode => 0,
             // Matcing an outer delimiter is good.
-            UnchangedDelimiter => 1,
+            UnchangedDelimiter => -1,
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS => 2,
-            NovelAtomRHS => 2,
-            NovelDelimiterLHS => 2,
-            NovelDelimiterRHS => 2,
+            NovelAtomLHS => -2,
+            NovelAtomRHS => -2,
+            NovelDelimiterLHS => -2,
+            NovelDelimiterRHS => -2,
         }
     }
 }
