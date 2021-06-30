@@ -273,11 +273,19 @@ impl<'a> Hash for GraphNode<'a> {
 mod tests {
     use super::*;
     use crate::positions::SingleLineSpan;
-    use crate::tree_diff::AtomKind;
+    use crate::tree_diff::{AtomKind, set_next};
     use crate::tree_diff::Node::*;
 
     use std::cell::Cell;
     use typed_arena::Arena;
+
+    fn pos_helper() -> Vec<SingleLineSpan> {
+        vec![SingleLineSpan {
+            line: 0.into(),
+            start_col: 0,
+            end_col: 1,
+        }]
+    }
 
     #[test]
     fn identical_atoms() {
@@ -285,24 +293,16 @@ mod tests {
 
         let lhs = arena.alloc(Atom {
             next: Cell::new(None),
-            position: vec![SingleLineSpan {
-                line: 0.into(),
-                start_col: 0,
-                end_col: 1,
-            }],
+            position: pos_helper(),
             change: Cell::new(None),
             content: "foo".into(),
             kind: AtomKind::Other,
         });
 
-        // Same as LHS, but with a different position.
+        // Same as LHS.
         let rhs = arena.alloc(Atom {
             next: Cell::new(None),
-            position: vec![SingleLineSpan {
-                line: 1.into(),
-                start_col: 2,
-                end_col: 3,
-            }],
+            position: pos_helper(),
             change: Cell::new(None),
             content: "foo".into(),
             kind: AtomKind::Other,
@@ -315,5 +315,38 @@ mod tests {
         let final_node = route.last().unwrap();
         assert_eq!(final_node.distance, 0);
         assert_eq!(final_node.action, UnchangedNode);
+    }
+
+    #[test]
+    fn extra_atom_lhs() {
+        let arena = Arena::new();
+
+        let lhs = Node::new_list(
+            &arena,
+            "[".into(),
+            pos_helper(),
+            vec![Node::new_atom(&arena, pos_helper(), "foo", AtomKind::Other)],
+            "]".into(),
+            pos_helper(),
+        );
+        set_next(lhs);
+
+        let rhs = Node::new_list(
+            &arena,
+            "[".into(),
+            pos_helper(),
+            vec![],
+            "]".into(),
+            pos_helper(),
+        );
+        set_next(rhs);
+
+        let start = GraphNode::new(lhs, rhs);
+        let route = find_route(start);
+
+        assert_eq!(route.len(), 4);
+        assert_eq!(route[1].action, NovelDelimiterLHS);
+        assert_eq!(route[2].action, NovelAtomLHS);
+        assert_eq!(route[3].action, NovelDelimiterRHS);
     }
 }
