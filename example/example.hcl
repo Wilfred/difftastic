@@ -33,6 +33,11 @@ resource_1 "strlit1" "strlit2" {
     ${func("foo${ var.bar }")}
     suffix
   EOF
+  func_of_object = func({
+    "foo": 2,
+    bar: 1,
+    fizz: buzz,
+  })
 
   nested_resource_1 {
     attr1 = 2

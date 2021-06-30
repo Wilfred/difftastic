@@ -28,7 +28,7 @@ Total parses: 1892; successful parses: 1892; failed parses: 0; success percentag
 
 ## Fuzzing
 
-The directory `fuzz/crashers` contains a set of crashes that were found with fuzzing. To fuzz the parser i used the instrumentation of [tree-sitter](https://github.com/tree-sitter/tree-sitter/tree/master/test/fuzz) 
+The directory `fuzz/crashers` contains a set of crashes that were found with fuzzing.
 
 ## Todo
 
@@ -39,8 +39,8 @@ The directory `fuzz/crashers` contains a set of crashes that were found with fuz
   * [x] add heredoc templates
 * [ ] fuzzing
   * [x] start with fuzzing the parser
-  * [ ] upload fuzzing instrumentation
+  * [x] upload fuzzing instrumentation
   * [ ] document fuzzing process
 * [ ] quality
-  * [ ] add CI job that ensures the parser builds on different plattforms
+  * [x] add CI job that ensures the parser builds on different plattforms
   * [ ] add CI job that parses crashers that were found during fuzzing

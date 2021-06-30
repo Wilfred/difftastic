@@ -1,0 +1,23 @@
+// comment
+# comment
+/*
+    comment
+*/
+reuo
+rsce_1 "strlit1" "strlit2" {
+  attr1  = "val1"
+  tupl1  = [ 1, fix
+    ${func("foo${ var.bar }")}
+    suffix?
+  EOF
+
+  nestesuedor_rce_1` {
+    attr1 = 2
+    attr2 = 2.112
+    attr3 = 2.112e-12
+    attr4 = 2.112e+12
+    attr5 = 2.112E+12
+ /  attr6 = 2.112E-12
+    attr7 = 0x21FF
+  }
+}
