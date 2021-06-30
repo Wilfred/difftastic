@@ -75,6 +75,7 @@ const rules = {
         $.qualified_identifier,
         $.variable,
         $.scope_identifier,
+        $.xhp_identifier,
         $.xhp_class_identifier,
         $.pipe_variable,
       ),
@@ -96,6 +97,7 @@ const rules = {
       $.scoped_identifier,
       $.scope_identifier,
       $.selection_expression,
+      $.xhp_identifier,
       $.xhp_class_identifier,
     ),
 
@@ -425,6 +427,7 @@ const rules = {
         $._primitive_type,
         $.qualified_identifier,
         $._collection_type,
+        $.xhp_identifier,
         $.xhp_class_identifier,
       ),
       opt($.type_arguments),
@@ -798,8 +801,9 @@ const rules = {
       opt($.attribute_modifier),
       opt($._class_modifier),
       opt($._class_modifier),
+      opt($.xhp_modifier),
       'class',
-      field('name', choice($.identifier, $.xhp_class_identifier)),
+      field('name', choice($.identifier, $.xhp_identifier, $.xhp_class_identifier)),
       opt($.type_parameters),
       opt($.extends_clause),
       opt($.implements_clause),
@@ -973,6 +977,8 @@ const rules = {
   final_modifier: $ => 'final',
 
   abstract_modifier: $ => 'abstract',
+
+  xhp_modifier: $ => 'xhp',
 
   static_modifier: $ => 'static',
 
