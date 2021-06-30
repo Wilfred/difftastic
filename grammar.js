@@ -29,9 +29,9 @@ module.exports = grammar({
 
     variable: ($) => prec.left(repeat1(choice(/[a-zA-Z0-9/_.+-]/, $.escape_sequence, $.variable_ref))),
     variable_ref: ($) => choice($.normal_var, $.env_var, $.cache_var),
-    normal_var: ($) => seq("${", $.variable, "}"),
-    env_var: ($) => seq("$ENV", "{", $.variable, "}"),
-    cache_var: ($) => seq("$CACHE", "{", $.variable, "}"),
+    normal_var: ($) => seq("$", "{", $.variable, "}"),
+    env_var: ($) => seq("$", "ENV", "{", $.variable, "}"),
+    cache_var: ($) => seq("$", "CACHE", "{", $.variable, "}"),
 
     argument: ($) => choice($.bracket_argument, $.quoted_argument, $.unquoted_argument),
     _untrimmed_argument: ($) => choice(/\s/, $.argument),

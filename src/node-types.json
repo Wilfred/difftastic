@@ -677,15 +677,7 @@
     "named": false
   },
   {
-    "type": "$CACHE",
-    "named": false
-  },
-  {
-    "type": "$ENV",
-    "named": false
-  },
-  {
-    "type": "${",
+    "type": "$",
     "named": false
   },
   {
@@ -694,6 +686,14 @@
   },
   {
     "type": ")",
+    "named": false
+  },
+  {
+    "type": "CACHE",
+    "named": false
+  },
+  {
+    "type": "ENV",
     "named": false
   },
   {
