@@ -199,20 +199,20 @@ impl<'a> PartialEq for Node<'a> {
             ) => lhs_content == rhs_content && lhs_kind == rhs_kind,
             (
                 List {
-                    open_delimiter: lhs_start_content,
-                    close_delimiter: lhs_end_content,
+                    open_delimiter: lhs_open_delimiter,
+                    close_delimiter: lhs_close_delimiter,
                     children: lhs_children,
                     ..
                 },
                 List {
-                    open_delimiter: rhs_start_content,
-                    close_delimiter: rhs_end_content,
+                    open_delimiter: rhs_open_delimiter,
+                    close_delimiter: rhs_close_delimiter,
                     children: rhs_children,
                     ..
                 },
             ) => {
-                lhs_start_content == rhs_start_content
-                    && lhs_end_content == rhs_end_content
+                lhs_open_delimiter == rhs_open_delimiter
+                    && lhs_close_delimiter == rhs_close_delimiter
                     && lhs_children == rhs_children
             }
             _ => false,
@@ -225,13 +225,13 @@ impl<'a> Hash for Node<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         match self {
             List {
-                open_delimiter: start_content,
-                close_delimiter: end_content,
+                open_delimiter,
+                close_delimiter,
                 children,
                 ..
             } => {
-                start_content.hash(state);
-                end_content.hash(state);
+                open_delimiter.hash(state);
+                close_delimiter.hash(state);
                 for child in children {
                     child.hash(state);
                 }
