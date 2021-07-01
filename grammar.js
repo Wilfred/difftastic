@@ -988,15 +988,16 @@ module.exports = grammar({
         ),
         
 
+        // https://github.com/tree-sitter/tree-sitter-c/blob/master/grammar.js#L965
         comment: $ => token(
-            prec(PREC.COMMENT, 
+            prec(PREC.COMMENT,
                 choice(
-                    seq('//', /.*/),
+                    seq('//', /(\\(.|\r?\n)|[^\\\n])*/),
                     seq(
                         '/*',
-                        /.*/,
-                        '*/'
-                    )       
+                        /[^*]*\*+([^/*][^*]*\*+)*/,
+                        '/'
+                    )
                 )
             )
         ),
