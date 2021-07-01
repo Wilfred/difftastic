@@ -25,6 +25,7 @@ module.exports = grammar({
     $.statement,
     $._expressions,
     $._semicolon,
+    $._identifier,
     $._reserved_identifier,
     $._jsx_attribute,
     $._jsx_element_name,
@@ -441,7 +442,7 @@ module.exports = grammar({
       $.subscript_expression,
       $.member_expression,
       $.parenthesized_expression,
-      $.identifier,
+      $._identifier,
       alias($._reserved_identifier, $.identifier),
       $.this,
       $.super,
@@ -452,7 +453,6 @@ module.exports = grammar({
       $.true,
       $.false,
       $.null,
-      $.undefined,
       $.import,
       $.object,
       $.array,
@@ -738,7 +738,7 @@ module.exports = grammar({
     _lhs_expression: $ => choice(
       $.member_expression,
       $.subscript_expression,
-      $.identifier,
+      $._identifier,
       alias($._reserved_identifier, $.identifier),
       $._destructuring_pattern
     ),
@@ -978,6 +978,16 @@ module.exports = grammar({
         bigint_literal,
       ))
     },
+
+    // 'undefined' is syntactically a regular identifier in JavaScript.
+    // However, its main use is as the read-only global variable whose
+    // value is [undefined], for which there's no literal representation
+    // unlike 'null'. We gave it its own rule so it's easy to
+    // highlight in text editors and other applications.
+    _identifier: $ => choice(
+      $.undefined,
+      $.identifier
+    ),
 
     identifier: $ => {
       const alpha = /[^\x00-\x1F\s0-9:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/
