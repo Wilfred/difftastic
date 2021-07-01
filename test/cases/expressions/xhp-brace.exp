@@ -4,10 +4,10 @@
       (xhp_open
         (xhp_identifier))
       (xhp_string)
-      (xhp_braced_expression
+      (braced_expression
         (variable))
       (xhp_string)
-      (xhp_braced_expression
+      (braced_expression
         (call_expression
           function: (selection_expression
             (variable)

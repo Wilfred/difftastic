@@ -57,6 +57,9 @@ const rules = {
       'newtype',
       'shape',
       'tupe',
+      'clone',
+      'new',
+      'print',
       $._primitive_type,
       $._collection_type,
     ),
@@ -173,6 +176,8 @@ const rules = {
         $._variablish,
       ),
     ),
+
+  braced_expression: $ => seq('{', $._expression, '}'),
 
   _expression: $ =>
     choice(
@@ -722,7 +727,7 @@ const rules = {
       seq(
         $._variablish,
         field('selection_operator', choice('?->', '->')),
-        $._variablish,
+        choice($._variablish, $.braced_expression, alias($._keyword, $.identifier)),
       ),
     ),
 
@@ -1012,7 +1017,7 @@ const rules = {
           choice(
             $.xhp_string,
             $.xhp_comment,
-            $.xhp_braced_expression,
+            $.braced_expression,
             $.xhp_expression,
           ),
         ),
@@ -1032,11 +1037,9 @@ const rules = {
 
   xhp_attribute: $ =>
     choice(
-      seq($.xhp_identifier, '=', choice($.string, $.xhp_braced_expression)),
-      choice($.xhp_braced_expression, $.xhp_spread_expression),
+      seq($.xhp_identifier, '=', choice($.string, $.braced_expression)),
+      choice($.braced_expression, $.xhp_spread_expression),
     ),
-
-  xhp_braced_expression: $ => seq('{', $._expression, '}'),
 
   xhp_spread_expression: $ => seq('{', '...', $._expression, '}'),
 
@@ -1158,6 +1161,7 @@ module.exports = grammar({
     $._primitive_type,
     $._collection_type,
     $._xhp_attribute_expression,
+    $._keyword,
   ],
 
   conflicts: $ => [

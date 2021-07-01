@@ -765,6 +765,21 @@
     }
   },
   {
+    "type": "braced_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "break_statement",
     "named": true,
     "fields": {},
@@ -1691,21 +1706,6 @@
     }
   },
   {
-    "type": "identifier",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "null",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "if_statement",
     "named": true,
     "fields": {
@@ -2576,7 +2576,15 @@
       "required": true,
       "types": [
         {
+          "type": "braced_expression",
+          "named": true
+        },
+        {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -3500,11 +3508,11 @@
       "required": true,
       "types": [
         {
-          "type": "string",
+          "type": "braced_expression",
           "named": true
         },
         {
-          "type": "xhp_braced_expression",
+          "type": "string",
           "named": true
         },
         {
@@ -3528,21 +3536,6 @@
       "types": [
         {
           "type": "xhp_class_attribute",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "xhp_braced_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
           "named": true
         }
       ]
@@ -3681,7 +3674,7 @@
       "required": true,
       "types": [
         {
-          "type": "xhp_braced_expression",
+          "type": "braced_expression",
           "named": true
         },
         {
@@ -4204,6 +4197,10 @@
     "named": false
   },
   {
+    "type": "identifier",
+    "named": true
+  },
+  {
     "type": "if",
     "named": false
   },
@@ -4353,11 +4350,11 @@
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "super",

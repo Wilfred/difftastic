@@ -44,8 +44,7 @@
       value: (integer)))
   (const_declaration
     (const_declarator
-      name: (identifier
-        (null))
+      name: (identifier)
       value: (integer)))
   (const_declaration
     (const_declarator
