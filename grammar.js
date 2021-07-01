@@ -34,7 +34,8 @@ module.exports = grammar({
     cache_var: ($) => seq("$", "CACHE", "{", $.variable, "}"),
 
     argument: ($) => choice($.bracket_argument, $.quoted_argument, $.unquoted_argument),
-    _untrimmed_argument: ($) => choice(/\s/, $.bracket_comment, $.line_comment, $.argument),
+    _untrimmed_argument: ($) => choice(/\s/, $.bracket_comment, $.line_comment, $.argument, $._paren_argument),
+    _paren_argument: ($) => seq("(", $._untrimmed_argument, ")"),
 
     quoted_argument: ($) => seq('"', optional($.quoted_element), '"'),
     quoted_element: ($) => repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence)),
