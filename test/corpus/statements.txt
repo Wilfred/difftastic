@@ -1,4 +1,38 @@
 ============================================
+Assignments
+============================================
+
+a = 0;
+var b = 0;
+const c = 0;
+let d = 0;
+
+---
+(program
+  (expression_statement
+    (assignment_expression (identifier) (number)))
+  (variable_declaration (variable_declarator (identifier) (number)))
+  (lexical_declaration
+    (variable_declarator (identifier) (number)))
+  (lexical_declaration (variable_declarator (identifier) (number))))
+
+============================================
+'undefined' is a variable
+============================================
+
+undefined = 42;
+var undefined = 42;
+const undefined = 42;
+let undefined = 42;
+
+---
+(program
+  (expression_statement (assignment_expression (undefined) (number)))
+  (variable_declaration (variable_declarator (identifier) (number)))
+  (lexical_declaration (variable_declarator (identifier) (number)))
+  (lexical_declaration (variable_declarator (identifier) (number))))
+
+============================================
 Imports
 ============================================
 
