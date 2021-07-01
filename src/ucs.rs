@@ -118,9 +118,14 @@ fn find_route<'a>(start: GraphNode<'a>) -> Vec<GraphNode<'a>> {
     let mut predecessors: HashMap<EqualityGraphNode, GraphNode> = HashMap::new();
 
     let end;
-    'outer: loop {
+    loop {
         match heap.pop() {
             Some(ogn) => {
+                if ogn.gn.is_end() {
+                    end = ogn.gn;
+                    break;
+                }
+
                 let egn = EqualityGraphNode { gn: ogn.gn };
                 if visited.contains(&egn) {
                     continue;
@@ -129,12 +134,6 @@ fn find_route<'a>(start: GraphNode<'a>) -> Vec<GraphNode<'a>> {
                 let gn = egn.gn;
                 for new_gn in next_graph_nodes(&gn) {
                     predecessors.insert(EqualityGraphNode { gn: new_gn.clone() }, gn.clone());
-
-                    if new_gn.is_end() {
-                        end = new_gn;
-                        break 'outer;
-                    }
-
                     heap.push(OrderedGraphNode { gn: new_gn });
                 }
 
