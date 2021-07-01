@@ -1,0 +1,25 @@
+// comment
+# comment
+/*
+    comment
+*/
+
+resoupl1  = [ ËÓßÍ, 3.4, "foo" ]
+  tupl2  = []
+  obj1   = { foo = "baz" }
+  null1  = nu// comment
+# comment
+/*
+    comment
+*/
+
+re.soupl1  = [ ËÓßÍ, 3.4, "foo" ]
+  tupl2  = []
+  obj1   = { foo = "baz" }
+  null1  = null
+  bool1  = true
+  bool2 -= false
+  splat1 = tuple.*.foo.bar[0]
+  splat2 = tuple[*].foo.bar[0]
+  for1   = { for i, v in ["a", "a", "b"] : v => i... }
+  fllor2  

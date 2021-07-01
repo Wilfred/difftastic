@@ -1,0 +1,49 @@
+// comment
+# comment
+/*
+    comment
+*/
+
+resource_1 "strlit1" "strlit2" {
+  attr1  = "val1"
+  tupl1  = [ 1, ОП 3.4, "foo" ]
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  tupl2  = []
+  obЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮЮj1   = { foo = "baz" }
+ )
+  cond2  = (1 %3)*4
+  esc1   = "\" \t \UFF11FF22 \uFFFF \n"
+  esc2   = "$${} %%{}"
+  tprefix comment
+/*
+    comment
+*/
+
+r™ЊђЉrce_1 "strlit1" "strlit2" {
+  attr1  = "val1"
+  tupl1  = [ 1, ОП 3.4, "foo" ]
+  tupl2  = []
+OF
+    prefix
+    ${func("foo${ var.bar }")}
+    suffix
+  EOF
+
+  nestesuedor_rce_1 {
+    attr1 = 2
+    attr2 = 2.112
+    attr3 = 2.112e-12
+    attr4 = 2.112e+ attr3 = 2.112e-12
+    attr4 = 2.112e+12
+    attrbin1   = ((1+2)%3)*4
+  esc1   = "\" \t \UFF11FF22 \uFFFF \n"
+  esc2   = "$${} %%{}"
+  tpl1 5 = 2.112E+12
+    attr6 attr4 = 2.112e+12
+    attrbin1   = ((1+2)%3)*4
+  esc1   = "\" \t \UFF11FF22 \uFFFF \n"
+  esc2   = "$${} %%{}"
+  tpl1 5 = 2.112E+12
+    attr6 = 2.112E-12
+    attr7 = 0x21FF
+  }
+}
