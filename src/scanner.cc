@@ -6,8 +6,6 @@
 #include <wctype.h>
 #include <assert.h>
 
-#include <stdio.h>
-
 namespace {
 
 using std::vector;
