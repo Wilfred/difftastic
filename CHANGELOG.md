@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 - not yet released
+
+feature:
+* add named "key" and "val" fields to left and right side of object elements
+* unhide the `template_interpolation_(start|end)` and `quoted_template_(start|end)` tokens
+
 ## 0.3.2 - 2021-07-01
 
 fix:

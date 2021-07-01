@@ -33,7 +33,9 @@ foo = bar("foo")
             (expression
               (literal_value
                 (string_lit
-                  (template_literal))))))))))
+                  (quoted_template_start)
+                  (template_literal)
+                  (quoted_template_end))))))))))
 
 ================================================================================
 variadic function call
@@ -79,12 +81,18 @@ foo = bar(
             (expression
               (literal_value
                 (string_lit
-                  (template_literal))))
+                  (quoted_template_start)
+                  (template_literal)
+                  (quoted_template_end))))
             (expression
               (literal_value
                 (string_lit
-                  (template_literal))))
+                  (quoted_template_start)
+                  (template_literal)
+                  (quoted_template_end))))
             (expression
               (literal_value
                 (string_lit
-                  (template_literal))))))))))
+                  (quoted_template_start)
+                  (template_literal)
+                  (quoted_template_end))))))))))
