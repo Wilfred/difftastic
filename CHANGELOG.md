@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.3.2 - not yet released
+## 0.3.2 - 2021-07-01
 
 fix:
 * add a build step to CI to make sure the scanner is compilable
+* add fuzzing instrumentation
 
 ## 0.3.1 - 2021-06-30
 
