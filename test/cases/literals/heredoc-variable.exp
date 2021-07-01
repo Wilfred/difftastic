@@ -1,4 +1,9 @@
-(script
+(script 
+  (comment)
+  (comment)
+  (expression_statement
+    (heredoc
+      (variable)))
   (expression_statement
     (heredoc
       (variable))))
