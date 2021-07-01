@@ -417,6 +417,10 @@
           {
             "type": "subscript_expression",
             "named": true
+          },
+          {
+            "type": "undefined",
+            "named": true
           }
         ]
       },
@@ -1183,6 +1187,10 @@
           },
           {
             "type": "subscript_expression",
+            "named": true
+          },
+          {
+            "type": "undefined",
             "named": true
           }
         ]
