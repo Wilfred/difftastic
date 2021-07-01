@@ -551,16 +551,27 @@
   {
     "type": "object_elem",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        }
-      ]
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "val": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -588,8 +599,16 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "quoted_template_end",
+          "named": true
+        },
+        {
+          "type": "quoted_template_start",
+          "named": true
+        },
         {
           "type": "template_directive",
           "named": true
@@ -629,9 +648,17 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "quoted_template_end",
+          "named": true
+        },
+        {
+          "type": "quoted_template_start",
+          "named": true
+        },
         {
           "type": "template_literal",
           "named": true
@@ -669,7 +696,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "expression",
@@ -677,6 +704,14 @@
         },
         {
           "type": "strip_marker",
+          "named": true
+        },
+        {
+          "type": "template_interpolation_end",
+          "named": true
+        },
+        {
+          "type": "template_interpolation_start",
           "named": true
         }
       ]
@@ -917,7 +952,23 @@
     "named": true
   },
   {
+    "type": "quoted_template_end",
+    "named": true
+  },
+  {
+    "type": "quoted_template_start",
+    "named": true
+  },
+  {
     "type": "strip_marker",
+    "named": true
+  },
+  {
+    "type": "template_interpolation_end",
+    "named": true
+  },
+  {
+    "type": "template_interpolation_start",
     "named": true
   },
   {
