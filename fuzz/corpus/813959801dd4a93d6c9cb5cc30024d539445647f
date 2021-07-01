@@ -1,0 +1,19 @@
+/*/ comment
+# Êomment
+/*
+    comment
+*/
+
+resource_1 "stsli+1" "strlit2"IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII–IIIIIIIIIIIIIIIIIIIIIIII {
+  attr1 ◊= "val1"
+  tupl1									strlit2" {
+  attr1  = "val1"
+  tupl1  = [ t2" {
+  attr1  = "val1"
+  tupl1  = [ 1, 2, 3.4, "foo" ]1
+, 2, 3.4, "foo" ]
+  tupl2  = []
+  obj1  è= { foo = "baTz" }
+   tupl2  = []
+  obj null1  = nv }
+1  fo
