@@ -979,8 +979,11 @@ module.exports = grammar({
       ))
     },
 
-    // Matches the same set of tokens as $.identifier alone but reports
-    // 'undefined' differently.
+    // 'undefined' is syntactically a regular identifier in JavaScript.
+    // However, its main use is as the read-only global variable whose
+    // value is [undefined], for which there's no literal representation
+    // unlike 'null'. We gave it its own rule so it's easy to
+    // highlight in text editors and other applications.
     _identifier: $ => choice(
       $.undefined,
       $.identifier
