@@ -212,8 +212,11 @@
           "value": "("
         },
         {
-          "type": "SYMBOL",
-          "name": "_untrimmed_argument"
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_untrimmed_argument"
+          }
         },
         {
           "type": "STRING",

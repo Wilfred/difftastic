@@ -36,3 +36,17 @@ message(STATUS ((TEST))
     (argument (unquoted_argument)) (MISSING ")")
   )
 )
+
+===============================================
+Many arguments inside parentheses [parentheses]
+===============================================
+message(STATUS (TEST SECOND_TEST))
+---
+(source_file
+  (normal_command
+    (identifier)
+    (argument (unquoted_argument))
+    (argument (unquoted_argument))
+    (argument (unquoted_argument))
+  )
+)
