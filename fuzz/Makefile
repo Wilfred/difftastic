@@ -8,7 +8,7 @@ fuzz: fuzzer hcl.dict
 
 .PHONY: clean
 clean:
-	rm fuzzer parser.o scanner.o libtree-sitter.a hcl.dict *.log
+	rm fuzzer parser.o scanner.o libtree-sitter.a *.log
 
 fuzzer: parser.o scanner.o libtree-sitter.a
 	clang++ -o fuzzer ${FUZZFLAGS} -std=c++11 fuzzer.cc -Itree-sitter/lib/include scanner.o parser.o libtree-sitter.a

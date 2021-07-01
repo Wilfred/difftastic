@@ -1,4 +1,7 @@
-# taken from tree-sitter because i wanted to have the token in the output
+"""
+  taken from https://raw.githubusercontent.com/tree-sitter/tree-sitter/master/test/fuzz/gen-dict.py
+"""
+
 
 import json
 import sys
