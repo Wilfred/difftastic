@@ -70,6 +70,7 @@ struct EqualityGraphNode<'a> {
 
 impl<'a> PartialEq for EqualityGraphNode<'a> {
     fn eq(&self, other: &Self) -> bool {
+        self.gn.action == other.gn.action &&
         self.gn.lhs_next == other.gn.lhs_next && self.gn.rhs_next == other.gn.rhs_next
     }
 }
@@ -77,12 +78,13 @@ impl<'a> Eq for EqualityGraphNode<'a> {}
 
 impl<'a> Hash for EqualityGraphNode<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
+        self.gn.action.hash(state);
         self.gn.lhs_next.hash(state);
         self.gn.rhs_next.hash(state);
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 enum Action {
     StartNode,
     UnchangedNode,
