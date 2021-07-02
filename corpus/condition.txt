@@ -86,3 +86,23 @@ endif()
   (endif_command (endif))
  )
 )
+
+======================================
+Condition with parentheses [condition]
+======================================
+if((A AND B) OR C)
+endif()
+---
+(source_file
+ (if_condition
+  (if_command
+   (if)
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+   (argument (unquoted_argument))
+  )
+  (endif_command (endif))
+ )
+)
