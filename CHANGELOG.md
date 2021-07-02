@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0 - not yet released
+## 0.4.0 - 2021-07-02
 
 feature:
 * add named "key" and "val" fields to left and right side of object elements
