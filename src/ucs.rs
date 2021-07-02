@@ -308,6 +308,7 @@ mod tests {
     use crate::tree_diff::Node::*;
     use crate::tree_diff::{set_next, AtomKind};
 
+    use itertools::Itertools;
     use std::cell::Cell;
     use typed_arena::Arena;
 
@@ -343,10 +344,8 @@ mod tests {
         let start = GraphNode::new(lhs, rhs);
         let route = find_route(start);
 
-        assert_eq!(route.len(), 2);
-        let final_node = route.last().unwrap();
-        assert_eq!(final_node.distance, 0);
-        assert_eq!(final_node.action, UnchangedNode);
+        let actions = route.iter().map(|gn| gn.action).collect_vec();
+        assert_eq!(actions, vec![StartNode, UnchangedNode]);
     }
 
     #[test]
@@ -376,8 +375,7 @@ mod tests {
         let start = GraphNode::new(lhs, rhs);
         let route = find_route(start);
 
-        assert_eq!(route.len(), 3);
-        assert_eq!(route[1].action, UnchangedDelimiter);
-        assert_eq!(route[2].action, NovelAtomLHS);
+        let actions = route.iter().map(|gn| gn.action).collect_vec();
+        assert_eq!(actions, vec![StartNode, UnchangedDelimiter, NovelAtomLHS]);
     }
 }
