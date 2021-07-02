@@ -51,11 +51,15 @@ foo = ( true ? false : true ) ? "yes" : "no"
           (expression
             (literal_value
               (string_lit
-                (template_literal))))
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end))))
           (expression
             (literal_value
               (string_lit
-                (template_literal)))))))))
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end)))))))))
 
 ================================================================================
 nested conditional expression expression without parentheses
@@ -85,8 +89,12 @@ foo =  true ? false : true  ? "yes" : "no"
           (expression
             (literal_value
               (string_lit
-                (template_literal))))
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end))))
           (expression
             (literal_value
               (string_lit
-                (template_literal)))))))))
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end)))))))))

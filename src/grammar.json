@@ -310,7 +310,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_quoted_template_start"
+            "name": "quoted_template_start"
           },
           {
             "type": "SYMBOL",
@@ -318,7 +318,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_quoted_template_end"
+            "name": "quoted_template_end"
           }
         ]
       }
@@ -492,8 +492,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "expression"
+          "type": "FIELD",
+          "name": "key",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expression"
+          }
         },
         {
           "type": "CHOICE",
@@ -509,8 +513,12 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "expression"
+          "type": "FIELD",
+          "name": "val",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expression"
+          }
         }
       ]
     },
@@ -1179,7 +1187,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_quoted_template_start"
+            "name": "quoted_template_start"
           },
           {
             "type": "CHOICE",
@@ -1211,7 +1219,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_quoted_template_end"
+            "name": "quoted_template_end"
           }
         ]
       }
@@ -1294,7 +1302,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_template_interpolation_start"
+          "name": "template_interpolation_start"
         },
         {
           "type": "CHOICE",
@@ -1334,7 +1342,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_template_interpolation_end"
+          "name": "template_interpolation_end"
         }
       ]
     },
@@ -1416,11 +1424,11 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "_quoted_template_start"
+      "name": "quoted_template_start"
     },
     {
       "type": "SYMBOL",
-      "name": "_quoted_template_end"
+      "name": "quoted_template_end"
     },
     {
       "type": "SYMBOL",
@@ -1428,11 +1436,11 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_template_interpolation_start"
+      "name": "template_interpolation_start"
     },
     {
       "type": "SYMBOL",
-      "name": "_template_interpolation_end"
+      "name": "template_interpolation_end"
     },
     {
       "type": "SYMBOL",

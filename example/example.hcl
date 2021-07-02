@@ -8,7 +8,7 @@ resource_1 "strlit1" "strlit2" {
   attr1  = "val1"
   tupl1  = [ 1, 2, 3.4, "foo" ]
   tupl2  = []
-  obj1   = { foo = "baz" }
+  obj1   = { foo = "bar", baz = quoz }
   null1  = null
   bool1  = true
   bool2  = false
@@ -28,15 +28,18 @@ resource_1 "strlit1" "strlit2" {
   tpl1   = "prefix-${var.bar}"
   tpl2   = "prefix-${func("bar")}"
   tpl3   = "prefix-${func("nested-${var.bar}")}"
+
   tpl4   = <<EOF
     prefix
     ${func("foo${ var.bar }")}
     suffix
   EOF
+
   func_of_object = func({
-    "foo": 2,
-    bar: 1,
-    fizz: buzz,
+    "foo" : 2,
+    "bar" : baz
+    key   : val,
+    fizz  : buzz,
   })
 
   nested_resource_1 {

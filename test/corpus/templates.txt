@@ -13,12 +13,16 @@ foo = "${ var.bar }"
       (expression
         (template_expr
           (quoted_template
+            (quoted_template_start)
             (template_interpolation
+              (template_interpolation_start)
               (expression
                 (variable_expr
                   (identifier))
                 (get_attr
-                  (identifier))))))))))
+                  (identifier)))
+              (template_interpolation_end))
+            (quoted_template_end)))))))
 
 ================================================================================
 empty template interpolation
@@ -35,7 +39,11 @@ foo = "${}"
       (expression
         (template_expr
           (quoted_template
-            (template_interpolation)))))))
+            (quoted_template_start)
+            (template_interpolation
+              (template_interpolation_start)
+              (template_interpolation_end))
+            (quoted_template_end)))))))
 
 ================================================================================
 empty heredoc template
@@ -94,11 +102,17 @@ foo = "${ " ~ " }"
       (expression
         (template_expr
           (quoted_template
+            (quoted_template_start)
             (template_interpolation
+              (template_interpolation_start)
               (expression
                 (literal_value
                   (string_lit
-                    (template_literal)))))))))))
+                    (quoted_template_start)
+                    (template_literal)
+                    (quoted_template_end))))
+              (template_interpolation_end))
+            (quoted_template_end)))))))
 
 ================================================================================
 quoted template with nested quoted template
@@ -115,8 +129,10 @@ foo = "p-${ foo("v-${a.b}") }"
       (expression
         (template_expr
           (quoted_template
+            (quoted_template_start)
             (template_literal)
             (template_interpolation
+              (template_interpolation_start)
               (expression
                 (function_call
                   (identifier)
@@ -124,13 +140,19 @@ foo = "p-${ foo("v-${a.b}") }"
                     (expression
                       (template_expr
                         (quoted_template
+                          (quoted_template_start)
                           (template_literal)
                           (template_interpolation
+                            (template_interpolation_start)
                             (expression
                               (variable_expr
                                 (identifier))
                               (get_attr
-                                (identifier)))))))))))))))))
+                                (identifier)))
+                            (template_interpolation_end))
+                          (quoted_template_end)))))))
+              (template_interpolation_end))
+            (quoted_template_end)))))))
 
 ================================================================================
 quoted template interpolation with strip markers
@@ -147,15 +169,21 @@ foo = "hello ${~ "world" ~} hello"
       (expression
         (template_expr
           (quoted_template
+            (quoted_template_start)
             (template_literal)
             (template_interpolation
+              (template_interpolation_start)
               (strip_marker)
               (expression
                 (literal_value
                   (string_lit
-                    (template_literal))))
-              (strip_marker))
-            (template_literal)))))))
+                    (quoted_template_start)
+                    (template_literal)
+                    (quoted_template_end))))
+              (strip_marker)
+              (template_interpolation_end))
+            (template_literal)
+            (quoted_template_end)))))))
 
 ================================================================================
 quoted template object expression in template
@@ -172,7 +200,9 @@ foo = "${ {a=b}[a] }"
       (expression
         (template_expr
           (quoted_template
+            (quoted_template_start)
             (template_interpolation
+              (template_interpolation_start)
               (expression
                 (collection_value
                   (object
@@ -187,7 +217,9 @@ foo = "${ {a=b}[a] }"
                   (new_index
                     (expression
                       (variable_expr
-                        (identifier)))))))))))))
+                        (identifier))))))
+              (template_interpolation_end))
+            (quoted_template_end)))))))
 
 ================================================================================
 escaped template interpolation start
@@ -204,7 +236,9 @@ foo = "hello $${ world"
       (expression
         (literal_value
           (string_lit
-            (template_literal)))))))
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
 
 ================================================================================
 tricky heredoc

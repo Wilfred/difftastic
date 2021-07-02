@@ -20,11 +20,11 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $._quoted_template_start,
-    $._quoted_template_end,
+    $.quoted_template_start,
+    $.quoted_template_end,
     $._template_literal_chunk,
-    $._template_interpolation_start,
-    $._template_interpolation_end,
+    $.template_interpolation_start,
+    $.template_interpolation_end,
     $.heredoc_identifier,
   ],
 
@@ -105,9 +105,9 @@ module.exports = grammar({
     null_lit: $ => 'null',
 
     string_lit: $ => prec(PREC.string_lit, seq(
-      $._quoted_template_start,
+      $.quoted_template_start,
       $.template_literal,
-      $._quoted_template_end,
+      $.quoted_template_end,
     )),
 
 
@@ -155,9 +155,9 @@ module.exports = grammar({
     ),
 
     object_elem: $ => seq(
-      $.expression,
+      field("key", $.expression),
       choice('=', ':'),
-      $.expression,
+      field("val", $.expression),
     ),
 
     index: $ => choice($.new_index, $.legacy_index),
@@ -268,13 +268,13 @@ module.exports = grammar({
     ),
 
     quoted_template: $ => prec(PREC.quoted_template, seq(
-      $._quoted_template_start,
+      $.quoted_template_start,
       optional(repeat(choice(
         $.template_literal,
         $.template_interpolation,
         $.template_directive,
       ))),
-      $._quoted_template_end,
+      $.quoted_template_end,
     )),
 
     heredoc_template: $ => seq(
@@ -297,11 +297,11 @@ module.exports = grammar({
     )),
 
     template_interpolation: $ => seq(
-      $._template_interpolation_start,
+      $.template_interpolation_start,
       optional($.strip_marker),
       optional($.expression),
       optional($.strip_marker),
-      $._template_interpolation_end,
+      $.template_interpolation_end,
     ),
 
     // TODO
