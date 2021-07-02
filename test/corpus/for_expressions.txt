@@ -21,11 +21,15 @@ foo = [for v in ["a", "b"]: v]
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))))))
             (expression
               (variable_expr
                 (identifier)))))))))
@@ -54,11 +58,15 @@ foo = [for i, v in ["a", "b"]: i]
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))))))
             (expression
               (variable_expr
                 (identifier)))))))))
@@ -87,15 +95,21 @@ foo = [for i, v in ["a", "b", "c"]: v if pred(i)]
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))))))
             (expression
               (variable_expr
                 (identifier)))
@@ -132,11 +146,15 @@ foo = {for i, v in ["a", "b"]: v => i}
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))))))
             (expression
               (variable_expr
                 (identifier)))
@@ -168,11 +186,15 @@ foo = {for i, v in ["a", "b"]: v => i...}
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))
                     (expression
                       (literal_value
                         (string_lit
-                          (template_literal))))))))
+                          (quoted_template_start)
+                          (template_literal)
+                          (quoted_template_end))))))))
             (expression
               (variable_expr
                 (identifier)))
