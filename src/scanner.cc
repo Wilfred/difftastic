@@ -74,7 +74,7 @@ bool scan(void *payload, TSLexer *lexer, bool const *valid_symbols) {
 
 } // namespace
 extern "C" {
-void *tree_sitter_cmake_external_scanner_create() { return nullptr; }
+void *tree_sitter_cmake_external_scanner_create() { return NULL; }
 void tree_sitter_cmake_external_scanner_destroy(void *payload) {}
 unsigned tree_sitter_cmake_external_scanner_serialize(void *payload,
                                                       char *buffer) {
