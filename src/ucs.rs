@@ -70,8 +70,9 @@ struct EqualityGraphNode<'a> {
 
 impl<'a> PartialEq for EqualityGraphNode<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.gn.action == other.gn.action &&
-        self.gn.lhs_next == other.gn.lhs_next && self.gn.rhs_next == other.gn.rhs_next
+        self.gn.action == other.gn.action
+            && self.gn.lhs_next == other.gn.lhs_next
+            && self.gn.rhs_next == other.gn.rhs_next
     }
 }
 impl<'a> Eq for EqualityGraphNode<'a> {}
@@ -179,6 +180,36 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
                     rhs_next: rhs_next_node.get_next(),
                 });
             }
+
+            match (lhs_next_node, rhs_next_node) {
+                (
+                    Node::List {
+                        open_delimiter: lhs_open_delimiter,
+                        close_delimiter: lhs_close_delimiter,
+                        children: lhs_children,
+                        ..
+                    },
+                    Node::List {
+                        open_delimiter: rhs_open_delimiter,
+                        close_delimiter: rhs_close_delimiter,
+                        children: rhs_children,
+                        ..
+                    },
+                ) => {
+                    if lhs_open_delimiter == rhs_open_delimiter
+                        && lhs_close_delimiter == rhs_close_delimiter
+                    {
+                        let action = UnchangedDelimiter;
+                        res.push(GraphNode {
+                            action,
+                            distance: gn.distance + action.cost(),
+                            lhs_next: lhs_children.first().map(|n| *n),
+                            rhs_next: rhs_children.first().map(|n| *n),
+                        });
+                    }
+                }
+                _ => {}
+            }
         }
         _ => {}
     }
@@ -197,7 +228,6 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
             }
             // Step into this partially/fully novel list.
             Node::List { children, .. } => {
-                // TODO: handle unchanged delimiter.
                 let action = NovelDelimiterLHS;
                 if children.len() == 0 {
                     res.push(GraphNode {
@@ -275,8 +305,8 @@ impl<'a> Hash for GraphNode<'a> {
 mod tests {
     use super::*;
     use crate::positions::SingleLineSpan;
-    use crate::tree_diff::{AtomKind, set_next};
     use crate::tree_diff::Node::*;
+    use crate::tree_diff::{set_next, AtomKind};
 
     use std::cell::Cell;
     use typed_arena::Arena;
@@ -346,9 +376,8 @@ mod tests {
         let start = GraphNode::new(lhs, rhs);
         let route = find_route(start);
 
-        assert_eq!(route.len(), 4);
-        assert_eq!(route[1].action, NovelDelimiterLHS);
+        assert_eq!(route.len(), 3);
+        assert_eq!(route[1].action, UnchangedDelimiter);
         assert_eq!(route[2].action, NovelAtomLHS);
-        assert_eq!(route[3].action, NovelDelimiterRHS);
     }
 }
