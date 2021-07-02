@@ -6,12 +6,12 @@ use std::collections::{BinaryHeap, HashMap};
 use std::hash::{Hash, Hasher};
 
 use crate::tree_diff::Node;
-use Action::*;
+use Edge::*;
 
 #[derive(Debug, Eq, Clone)]
 struct GraphNode<'a> {
     distance: i64,
-    action: Action,
+    action: Edge,
     lhs_next: Option<&'a Node<'a>>,
     rhs_next: Option<&'a Node<'a>>,
 }
@@ -20,7 +20,7 @@ impl<'a> GraphNode<'a> {
     fn new(lhs: &'a Node<'a>, rhs: &'a Node<'a>) -> Self {
         Self {
             distance: 0,
-            action: Action::StartNode,
+            action: Edge::StartNode,
             lhs_next: Some(lhs),
             rhs_next: Some(rhs),
         }
@@ -86,7 +86,7 @@ impl<'a> Hash for EqualityGraphNode<'a> {
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-enum Action {
+enum Edge {
     StartNode,
     UnchangedNode,
     UnchangedDelimiter,
@@ -96,7 +96,7 @@ enum Action {
     NovelDelimiterRHS,
 }
 
-impl Action {
+impl Edge {
     fn cost(&self) -> i64 {
         match self {
             StartNode => 0,
