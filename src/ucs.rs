@@ -118,7 +118,7 @@ fn find_route<'a>(start: GraphNode<'a>) -> Vec<GraphNode<'a>> {
     heap.push(OrderedGraphNode { gn: start.clone() });
 
     let mut visited: HashSet<EqualityGraphNode> = HashSet::new();
-    let mut predecessors: HashMap<EqualityGraphNode, GraphNode> = HashMap::new();
+    let mut predecessors: HashMap<EqualityGraphNode, (Edge, GraphNode)> = HashMap::new();
 
     let end;
     loop {
@@ -135,8 +135,8 @@ fn find_route<'a>(start: GraphNode<'a>) -> Vec<GraphNode<'a>> {
                 }
 
                 let gn = egn.gn;
-                for new_gn in next_graph_nodes(&gn) {
-                    predecessors.insert(EqualityGraphNode { gn: new_gn.clone() }, gn.clone());
+                for (edge, new_gn) in next_graph_nodes(&gn) {
+                    predecessors.insert(EqualityGraphNode { gn: new_gn.clone() }, (edge, gn.clone()));
                     heap.push(OrderedGraphNode { gn: new_gn });
                 }
 
@@ -154,7 +154,7 @@ fn find_route<'a>(start: GraphNode<'a>) -> Vec<GraphNode<'a>> {
         match predecessors.remove(&EqualityGraphNode {
             gn: current.clone(),
         }) {
-            Some(node) => {
+            Some((_edge, node)) => {
                 current = node;
             }
             None => break,
@@ -165,7 +165,7 @@ fn find_route<'a>(start: GraphNode<'a>) -> Vec<GraphNode<'a>> {
     res
 }
 
-fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
+fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<(Edge, GraphNode<'a>)> {
     let mut res = vec![];
 
     match (&gn.lhs_next, &gn.rhs_next) {
@@ -173,12 +173,12 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
             if lhs_next_node == rhs_next_node {
                 // Both nodes are equal, the happy case.
                 let action = UnchangedNode;
-                res.push(GraphNode {
+                res.push((action, GraphNode {
                     action,
                     distance: gn.distance + action.cost(),
                     lhs_next: lhs_next_node.get_next(),
                     rhs_next: rhs_next_node.get_next(),
-                });
+                }));
             }
 
             match (lhs_next_node, rhs_next_node) {
@@ -200,12 +200,12 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
                         && lhs_close_delimiter == rhs_close_delimiter
                     {
                         let action = UnchangedDelimiter;
-                        res.push(GraphNode {
+                        res.push((action, GraphNode {
                             action,
                             distance: gn.distance + action.cost(),
                             lhs_next: lhs_children.first().map(|n| *n),
                             rhs_next: rhs_children.first().map(|n| *n),
-                        });
+                        }));
                     }
                 }
                 _ => {}
@@ -219,30 +219,30 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
             // Step over this novel atom.
             Node::Atom { .. } => {
                 let action = NovelAtomLHS;
-                res.push(GraphNode {
+                res.push((action, GraphNode {
                     action,
                     distance: gn.distance + action.cost(),
                     lhs_next: lhs_next_node.get_next(),
                     rhs_next: gn.rhs_next.clone(),
-                });
+                }));
             }
             // Step into this partially/fully novel list.
             Node::List { children, .. } => {
                 let action = NovelDelimiterLHS;
                 if children.len() == 0 {
-                    res.push(GraphNode {
+                    res.push((action, GraphNode {
                         action,
                         distance: gn.distance + action.cost(),
                         lhs_next: lhs_next_node.get_next(),
                         rhs_next: gn.rhs_next.clone(),
-                    });
+                    }));
                 } else {
-                    res.push(GraphNode {
+                    res.push((action, GraphNode {
                         action,
                         distance: gn.distance + action.cost(),
                         lhs_next: Some(children[0]),
                         rhs_next: gn.rhs_next.clone(),
-                    });
+                    }));
                 }
             }
         }
@@ -253,31 +253,31 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<GraphNode<'a>> {
             // Step over this novel atom.
             Node::Atom { .. } => {
                 let action = NovelAtomRHS;
-                res.push(GraphNode {
+                res.push((action, GraphNode {
                     action,
                     distance: gn.distance + action.cost(),
                     lhs_next: gn.lhs_next.clone(),
                     rhs_next: rhs_next_node.get_next(),
-                });
+                }));
             }
             // Step into this partially/fully novel list.
             Node::List { children, .. } => {
                 // TODO: handle unchanged delimiter.
                 let action = NovelDelimiterRHS;
                 if children.len() == 0 {
-                    res.push(GraphNode {
+                    res.push((action, GraphNode {
                         action,
                         distance: gn.distance + action.cost(),
                         lhs_next: gn.lhs_next.clone(),
                         rhs_next: rhs_next_node.get_next(),
-                    });
+                    }));
                 } else {
-                    res.push(GraphNode {
+                    res.push((action, GraphNode {
                         action,
                         distance: gn.distance + action.cost(),
                         lhs_next: gn.lhs_next.clone(),
                         rhs_next: Some(children[0]),
-                    });
+                    }));
                 }
             }
         }
