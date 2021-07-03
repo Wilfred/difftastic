@@ -152,9 +152,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         (Some(lhs_node), Some(rhs_node)) => {
             if lhs_node == rhs_node {
                 // Both nodes are equal, the happy case.
-                let edge = UnchangedNode;
                 res.push((
-                    edge,
+                    UnchangedNode,
                     Vertex {
                         lhs_node: lhs_node.get_next(),
                         rhs_node: rhs_node.get_next(),
@@ -180,9 +179,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     if lhs_open_delimiter == rhs_open_delimiter
                         && lhs_close_delimiter == rhs_close_delimiter
                     {
-                        let edge = UnchangedDelimiter;
                         res.push((
-                            edge,
+                            UnchangedDelimiter,
                             Vertex {
                                 lhs_node: lhs_children.first().map(|n| *n),
                                 rhs_node: rhs_children.first().map(|n| *n),
@@ -200,9 +198,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         match lhs_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
-                let edge = NovelAtomLHS;
                 res.push((
-                    edge,
+                    NovelAtomLHS,
                     Vertex {
                         lhs_node: lhs_node.get_next(),
                         rhs_node: v.rhs_node.clone(),
@@ -211,7 +208,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             }
             // Step into this partially/fully novel list.
             Node::List { children, .. } => {
-                let edge = NovelDelimiterLHS;
                 let lhs_next = if children.is_empty() {
                     lhs_node.get_next()
                 } else {
@@ -219,7 +215,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 };
 
                 res.push((
-                    edge,
+                    NovelDelimiterLHS,
                     Vertex {
                         lhs_node: lhs_next,
                         rhs_node: v.rhs_node.clone(),
@@ -233,9 +229,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         match rhs_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
-                let edge = NovelAtomRHS;
                 res.push((
-                    edge,
+                    NovelAtomRHS,
                     Vertex {
                         lhs_node: v.lhs_node.clone(),
                         rhs_node: rhs_node.get_next(),
@@ -244,7 +239,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             }
             // Step into this partially/fully novel list.
             Node::List { children, .. } => {
-                let edge = NovelDelimiterRHS;
                 let rhs_next = if children.is_empty() {
                     rhs_node.get_next()
                 } else {
@@ -252,7 +246,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 };
 
                 res.push((
-                    edge,
+                    NovelDelimiterRHS,
                     Vertex {
                         lhs_node: v.lhs_node.clone(),
                         rhs_node: rhs_next,
