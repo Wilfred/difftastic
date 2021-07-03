@@ -1,11 +1,8 @@
-
-
 use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::collections::{BinaryHeap, HashMap};
 use std::hash::{Hash, Hasher};
 
-use crate::positions::SingleLineSpan;
 use crate::tree_diff::{ChangeKind, Node};
 use typed_arena::Arena;
 use Edge::*;
@@ -16,33 +13,24 @@ struct Vertex<'a> {
     rhs_node: Option<&'a Node<'a>>,
 }
 
-fn node_pos<'a>(node: &'a Node<'a>) -> (Option<Vec<SingleLineSpan>>, Option<Vec<SingleLineSpan>>) {
-    // TODO: get first SingleLineSpan rather than cloning the whole vec.
-    match node {
-        Node::List {
-            open_position,
-            close_position,
-            ..
-        } => (Some(open_position.clone()), Some(close_position.clone())),
-        Node::Atom { position, .. } => (Some(position.clone()), None),
-    }
-}
-
-// Compare nodes by position. If we have multiple atoms with the same
-// content, we don't want to think that we've found a route to all of
-// them.
+// When walking the graph, we want to consider nodes distinct if they
+// have different content or if they have different positions. There
+// may be multiple nodes with same content at different positions.
 impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.lhs_node.map(node_pos) == other.lhs_node.map(node_pos)
-            && self.rhs_node.map(node_pos) == other.rhs_node.map(node_pos)
+        match (self.lhs_node, other.lhs_node) {
+            (Some(lhs_node), Some(rhs_node)) => lhs_node.equal_content_and_pos(rhs_node),
+            (None, None) => true,
+            _ => false,
+        }
     }
 }
 impl<'a> Eq for Vertex<'a> {}
 
 impl<'a> Hash for Vertex<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.lhs_node.map(node_pos).hash(state);
-        self.rhs_node.map(node_pos).hash(state);
+        self.lhs_node.hash(state);
+        self.rhs_node.hash(state);
     }
 }
 

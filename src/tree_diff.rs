@@ -250,6 +250,61 @@ impl<'a> Node<'a> {
             _ => false,
         }
     }
+
+    /// Does this `Node` have the same position in all its subnodes?
+    ///
+    /// Nodes with different numbers of children return false
+    /// regardless of top-level positions.
+    fn equal_pos(&self, other: &Self) -> bool {
+        match (&self, other) {
+            (
+                Atom {
+                    position: lhs_position,
+                    ..
+                },
+                Atom {
+                    position: rhs_position,
+                    ..
+                },
+            ) => lhs_position == rhs_position,
+            (
+                List {
+                    open_position: lhs_open_position,
+                    close_position: lhs_close_position,
+                    children: lhs_children,
+                    ..
+                },
+                List {
+                    open_position: rhs_open_position,
+                    close_position: rhs_close_position,
+                    children: rhs_children,
+                    ..
+                },
+            ) => {
+                if lhs_open_position != rhs_open_position
+                    || lhs_close_position != rhs_close_position
+                {
+                    return false;
+                }
+                if lhs_children.len() != rhs_children.len() {
+                    return false;
+                }
+
+                for (lhs_child, rhs_child) in lhs_children.iter().zip(rhs_children.iter()) {
+                    if !lhs_child.equal_pos(rhs_child) {
+                        return false;
+                    }
+                }
+
+                true
+            }
+            _ => false,
+        }
+    }
+
+    pub fn equal_content_and_pos(&self, other: &Self) -> bool {
+        self.equal_pos(other) && self.equal_content(other)
+    }
 }
 
 pub fn set_next<'a>(node: &'a Node<'a>) {
@@ -276,7 +331,7 @@ fn set_next_<'a>(node: &'a Node<'a>, new_next: Option<&'a Node<'a>>) {
 
 impl<'a> PartialEq for Node<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.equal_content(other)
+        self.equal_content_and_pos(other)
     }
 }
 impl<'a> Eq for Node<'a> {}
@@ -285,18 +340,23 @@ impl<'a> Hash for Node<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         match self {
             List {
+                open_position,
                 open_delimiter,
+                close_position,
                 close_delimiter,
                 children,
                 ..
             } => {
+                open_position.hash(state);
                 open_delimiter.hash(state);
                 close_delimiter.hash(state);
+                close_position.hash(state);
                 for child in children {
                     child.hash(state);
                 }
             }
-            Atom { content, .. } => {
+            Atom { position, content, .. } => {
+                position.hash(state);
                 content.hash(state);
             }
         }
@@ -475,7 +535,7 @@ mod tests {
     }
 
     #[test]
-    fn test_atom_equality_ignores_change_and_pos() {
+    fn test_atom_equality_ignores_change() {
         assert_eq!(
             Atom {
                 next: Cell::new(None),
@@ -492,9 +552,9 @@ mod tests {
                 next: Cell::new(None),
                 change: Cell::new(None),
                 position: vec![SingleLineSpan {
-                    line: 10.into(),
-                    start_col: 20,
-                    end_col: 30
+                    line: 1.into(),
+                    start_col: 2,
+                    end_col: 3
                 }],
                 content: "foo".into(),
                 kind: Other,
