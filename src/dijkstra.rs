@@ -1,17 +1,49 @@
-#![allow(dead_code)]
+
 
 use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::collections::{BinaryHeap, HashMap};
+use std::hash::{Hash, Hasher};
 
+use crate::positions::SingleLineSpan;
 use crate::tree_diff::{ChangeKind, Node};
 use typed_arena::Arena;
 use Edge::*;
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone)]
 struct Vertex<'a> {
     lhs_node: Option<&'a Node<'a>>,
     rhs_node: Option<&'a Node<'a>>,
+}
+
+fn node_pos<'a>(node: &'a Node<'a>) -> (Option<Vec<SingleLineSpan>>, Option<Vec<SingleLineSpan>>) {
+    // TODO: get first SingleLineSpan rather than cloning the whole vec.
+    match node {
+        Node::List {
+            open_position,
+            close_position,
+            ..
+        } => (Some(open_position.clone()), Some(close_position.clone())),
+        Node::Atom { position, .. } => (Some(position.clone()), None),
+    }
+}
+
+// Compare nodes by position. If we have multiple atoms with the same
+// content, we don't want to think that we've found a route to all of
+// them.
+impl<'a> PartialEq for Vertex<'a> {
+    fn eq(&self, other: &Self) -> bool {
+        self.lhs_node.map(node_pos) == other.lhs_node.map(node_pos)
+            && self.rhs_node.map(node_pos) == other.rhs_node.map(node_pos)
+    }
+}
+impl<'a> Eq for Vertex<'a> {}
+
+impl<'a> Hash for Vertex<'a> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.lhs_node.map(node_pos).hash(state);
+        self.rhs_node.map(node_pos).hash(state);
+    }
 }
 
 impl<'a> Vertex<'a> {
@@ -393,5 +425,42 @@ mod tests {
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(actions, vec![StartNode, UnchangedDelimiter, NovelAtomLHS]);
+    }
+
+    #[test]
+    fn repeated_atoms() {
+        let arena = Arena::new();
+
+        let lhs = Node::new_list(
+            &arena,
+            "[".into(),
+            pos_helper(0),
+            vec![],
+            "]".into(),
+            pos_helper(2),
+        );
+        set_next(lhs);
+
+        let rhs = Node::new_list(
+            &arena,
+            "[".into(),
+            pos_helper(0),
+            vec![
+                Node::new_atom(&arena, pos_helper(1), "foo", AtomKind::Other),
+                Node::new_atom(&arena, pos_helper(2), "foo", AtomKind::Other),
+            ],
+            "]".into(),
+            pos_helper(3),
+        );
+        set_next(rhs);
+
+        let start = Vertex::new(lhs, rhs);
+        let route = shortest_path(start);
+
+        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        assert_eq!(
+            actions,
+            vec![StartNode, UnchangedDelimiter, NovelAtomRHS, NovelAtomRHS]
+        );
     }
 }
