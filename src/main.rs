@@ -15,7 +15,7 @@ use crate::lines::{
 };
 use crate::parse::{find_lang, parse, parse_lines, read_or_die, ConfigDir};
 use crate::style::apply_colors;
-use crate::tree_diff::{change_positions, mark_nodes, set_next};
+use crate::tree_diff::{change_positions, set_next};
 use crate::ucs::{toplevel_list, mark_node};
 
 fn term_width() -> Option<usize> {
