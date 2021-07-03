@@ -14,13 +14,13 @@
 ] @constant.builtin
 
 [
+  "::"
   "<"
   "<="
   "<>"
   "="
   ">"
   ">="
-  "::"
 ] @operator
 
 [
@@ -45,6 +45,8 @@
   "INDEX"
   "UNIQUE"
   "SELECT"
+  "UPDATE"
+  "SET"
   "WHERE"
   "FROM"
   "AS"
