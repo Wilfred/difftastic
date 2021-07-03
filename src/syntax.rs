@@ -425,7 +425,11 @@ pub struct MatchedPos {
 }
 
 /// Walk `nodes` and return a vec of all the changed positions.
-pub fn change_positions<'a>(src: &str, opposite_src: &str, nodes: &[&Syntax<'a>]) -> Vec<MatchedPos> {
+pub fn change_positions<'a>(
+    src: &str,
+    opposite_src: &str,
+    nodes: &[&Syntax<'a>],
+) -> Vec<MatchedPos> {
     let nl_pos = NewlinePositions::from(src);
     let opposite_nl_pos = NewlinePositions::from(opposite_src);
 

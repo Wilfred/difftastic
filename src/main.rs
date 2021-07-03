@@ -1,14 +1,15 @@
+mod dijkstra;
 mod lines;
 mod parse;
 mod positions;
 mod style;
 mod syntax;
-mod dijkstra;
 use clap::{App, Arg};
 use std::ffi::OsStr;
 use std::path::Path;
 use typed_arena::Arena;
 
+use crate::dijkstra::{mark_syntax, toplevel_list};
 use crate::lines::{
     apply_groups, enforce_length, format_line_num, join_overlapping, lhs_printable_width,
     rhs_printable_width, visible_groups, MaxLine,
@@ -16,7 +17,6 @@ use crate::lines::{
 use crate::parse::{find_lang, parse, parse_lines, read_or_die, ConfigDir};
 use crate::style::apply_colors;
 use crate::syntax::{change_positions, set_next};
-use crate::dijkstra::{toplevel_list, mark_syntax};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
