@@ -8,7 +8,7 @@ use std::hash::{Hash, Hasher};
 use crate::tree_diff::Node;
 use Edge::*;
 
-#[derive(Debug, Eq, Clone)]
+#[derive(Debug, Clone)]
 struct Vertex<'a> {
     distance: i64,
     lhs_next: Option<&'a Node<'a>>,
@@ -36,7 +36,7 @@ impl<'a> Vertex<'a> {
 // equality should only consider LHS/RHS node when deciding if we've
 // visited a vertex. We define separate wrappers for these two use
 // cases.
-#[derive(Debug, Eq)]
+#[derive(Debug)]
 struct OrdVertex<'a> {
     v: Vertex<'a>,
 }
@@ -58,6 +58,7 @@ impl<'a> PartialEq for OrdVertex<'a> {
         self.v.distance == other.v.distance
     }
 }
+impl<'a> Eq for OrdVertex<'a> {}
 
 // A `Vertex` that only considers the underlying `Node`s for equality,
 // ignoring distance.
@@ -297,21 +298,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     }
 
     res
-}
-
-impl<'a> PartialEq for Vertex<'a> {
-    fn eq(&self, other: &Self) -> bool {
-        self.lhs_next == other.lhs_next && self.rhs_next == other.rhs_next
-    }
-}
-
-impl<'a> Hash for Vertex<'a> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        // Deliberately ignore distance: we want to find equal nodes
-        // regardless of the distance of different paths to them.
-        self.lhs_next.hash(state);
-        self.rhs_next.hash(state);
-    }
 }
 
 #[cfg(test)]
