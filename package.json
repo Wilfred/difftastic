@@ -8,6 +8,8 @@
     "gen": "tree-sitter generate",
     "hl": "tree-sitter highlight",
     "parse": "tree-sitter parse",
+    "build-wasm": "tree-sitter build-wasm",
+    "update-playground": "tree-sitter build-wasm && mv tree-sitter-sql.wasm docs/",
     "extract-error": "node ./scripts/extract_error.js"
   },
   "keywords": [
