@@ -10,20 +10,20 @@ use Edge::*;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 struct Vertex<'a> {
-    lhs_next: Option<&'a Node<'a>>,
-    rhs_next: Option<&'a Node<'a>>,
+    lhs_node: Option<&'a Node<'a>>,
+    rhs_node: Option<&'a Node<'a>>,
 }
 
 impl<'a> Vertex<'a> {
     fn new(lhs: &'a Node<'a>, rhs: &'a Node<'a>) -> Self {
         Self {
-            lhs_next: Some(lhs),
-            rhs_next: Some(rhs),
+            lhs_node: Some(lhs),
+            rhs_node: Some(rhs),
         }
     }
 
     fn is_end(&self) -> bool {
-        self.lhs_next.is_none() && self.rhs_next.is_none()
+        self.lhs_node.is_none() && self.rhs_node.is_none()
     }
 }
 
@@ -124,8 +124,8 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     }
 
     let mut current = Vertex {
-        lhs_next: None,
-        rhs_next: None,
+        lhs_node: None,
+        rhs_node: None,
     };
     let mut res: Vec<(Edge, Vertex)> = vec![];
     loop {
@@ -148,21 +148,21 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     let mut res = vec![];
 
-    match (&v.lhs_next, &v.rhs_next) {
-        (Some(lhs_next_node), Some(rhs_next_node)) => {
-            if lhs_next_node == rhs_next_node {
+    match (&v.lhs_node, &v.rhs_node) {
+        (Some(lhs_node), Some(rhs_node)) => {
+            if lhs_node == rhs_node {
                 // Both nodes are equal, the happy case.
                 let edge = UnchangedNode;
                 res.push((
                     edge,
                     Vertex {
-                        lhs_next: lhs_next_node.get_next(),
-                        rhs_next: rhs_next_node.get_next(),
+                        lhs_node: lhs_node.get_next(),
+                        rhs_node: rhs_node.get_next(),
                     },
                 ));
             }
 
-            match (lhs_next_node, rhs_next_node) {
+            match (lhs_node, rhs_node) {
                 (
                     Node::List {
                         open_delimiter: lhs_open_delimiter,
@@ -184,8 +184,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         res.push((
                             edge,
                             Vertex {
-                                lhs_next: lhs_children.first().map(|n| *n),
-                                rhs_next: rhs_children.first().map(|n| *n),
+                                lhs_node: lhs_children.first().map(|n| *n),
+                                rhs_node: rhs_children.first().map(|n| *n),
                             },
                         ));
                     }
@@ -196,16 +196,16 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         _ => {}
     }
 
-    if let Some(lhs_next_node) = &v.lhs_next {
-        match lhs_next_node {
+    if let Some(lhs_node) = &v.lhs_node {
+        match lhs_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
                 let edge = NovelAtomLHS;
                 res.push((
                     edge,
                     Vertex {
-                        lhs_next: lhs_next_node.get_next(),
-                        rhs_next: v.rhs_next.clone(),
+                        lhs_node: lhs_node.get_next(),
+                        rhs_node: v.rhs_node.clone(),
                     },
                 ));
             }
@@ -216,16 +216,16 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     res.push((
                         edge,
                         Vertex {
-                            lhs_next: lhs_next_node.get_next(),
-                            rhs_next: v.rhs_next.clone(),
+                            lhs_node: lhs_node.get_next(),
+                            rhs_node: v.rhs_node.clone(),
                         },
                     ));
                 } else {
                     res.push((
                         edge,
                         Vertex {
-                            lhs_next: Some(children[0]),
-                            rhs_next: v.rhs_next.clone(),
+                            lhs_node: Some(children[0]),
+                            rhs_node: v.rhs_node.clone(),
                         },
                     ));
                 }
@@ -233,16 +233,16 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         }
     }
 
-    if let Some(rhs_next_node) = &v.rhs_next {
-        match rhs_next_node {
+    if let Some(rhs_node) = &v.rhs_node {
+        match rhs_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
                 let edge = NovelAtomRHS;
                 res.push((
                     edge,
                     Vertex {
-                        lhs_next: v.lhs_next.clone(),
-                        rhs_next: rhs_next_node.get_next(),
+                        lhs_node: v.lhs_node.clone(),
+                        rhs_node: rhs_node.get_next(),
                     },
                 ));
             }
@@ -253,16 +253,16 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     res.push((
                         edge,
                         Vertex {
-                            lhs_next: v.lhs_next.clone(),
-                            rhs_next: rhs_next_node.get_next(),
+                            lhs_node: v.lhs_node.clone(),
+                            rhs_node: rhs_node.get_next(),
                         },
                     ));
                 } else {
                     res.push((
                         edge,
                         Vertex {
-                            lhs_next: v.lhs_next.clone(),
-                            rhs_next: Some(children[0]),
+                            lhs_node: v.lhs_node.clone(),
+                            rhs_node: Some(children[0]),
                         },
                     ));
                 }
@@ -294,32 +294,32 @@ fn mark_route<'a>(route: &[(Edge, Vertex<'a>)]) {
         match e {
             StartNode => {
                 // No change on the root node.
-                let lhs = v.lhs_next.unwrap();
-                let rhs = v.rhs_next.unwrap();
+                let lhs = v.lhs_node.unwrap();
+                let rhs = v.rhs_node.unwrap();
                 lhs.set_change(ChangeKind::Unchanged(rhs));
                 rhs.set_change(ChangeKind::Unchanged(lhs));
             }
             UnchangedNode => {
                 // No change on this node or its children.
-                let lhs = v.lhs_next.unwrap();
-                let rhs = v.rhs_next.unwrap();
+                let lhs = v.lhs_node.unwrap();
+                let rhs = v.rhs_node.unwrap();
                 lhs.set_change_deep(ChangeKind::Unchanged(rhs));
                 rhs.set_change_deep(ChangeKind::Unchanged(lhs));
             }
             UnchangedDelimiter => {
                 // No change on the outer delimiter, but children may
                 // have changed.
-                let lhs = v.lhs_next.unwrap();
-                let rhs = v.rhs_next.unwrap();
+                let lhs = v.lhs_node.unwrap();
+                let rhs = v.rhs_node.unwrap();
                 lhs.set_change(ChangeKind::Unchanged(rhs));
                 rhs.set_change(ChangeKind::Unchanged(lhs));
             }
             NovelAtomLHS | NovelDelimiterLHS => {
-                let lhs = v.lhs_next.unwrap();
+                let lhs = v.lhs_node.unwrap();
                 lhs.set_change(ChangeKind::Novel);
             }
             NovelAtomRHS | NovelDelimiterRHS => {
-                let rhs = v.rhs_next.unwrap();
+                let rhs = v.rhs_node.unwrap();
                 rhs.set_change(ChangeKind::Novel);
             }
         }
