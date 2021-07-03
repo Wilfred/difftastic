@@ -177,11 +177,21 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     if lhs_open_delimiter == rhs_open_delimiter
                         && lhs_close_delimiter == rhs_close_delimiter
                     {
+                        let lhs_next = if lhs_children.is_empty() {
+                            lhs_node.get_next()
+                        } else {
+                            Some(lhs_children[0])
+                        };
+                        let rhs_next = if rhs_children.is_empty() {
+                            rhs_node.get_next()
+                        } else {
+                            Some(rhs_children[0])
+                        };
                         res.push((
                             UnchangedDelimiter,
                             Vertex {
-                                lhs_node: lhs_children.first().map(|n| *n),
-                                rhs_node: rhs_children.first().map(|n| *n),
+                                lhs_node: lhs_next,
+                                rhs_node: rhs_next,
                             },
                         ));
                     }
@@ -427,6 +437,60 @@ mod tests {
         assert_eq!(
             actions,
             vec![StartNode, UnchangedDelimiter, NovelAtomRHS, NovelAtomRHS]
+        );
+    }
+
+    #[test]
+    fn atom_after_empty_list() {
+        let arena = Arena::new();
+
+        let lhs = Node::new_list(
+            &arena,
+            "[".into(),
+            pos_helper(0),
+            vec![
+                Node::new_list(
+                    &arena,
+                    "(".into(),
+                    pos_helper(1),
+                    vec![],
+                    ")".into(),
+                    pos_helper(2),
+                ),
+                Node::new_atom(&arena, pos_helper(3), "foo", AtomKind::Other),
+            ],
+            "]".into(),
+            pos_helper(4),
+        );
+        set_next(lhs);
+
+        let rhs = Node::new_list(
+            &arena,
+            "{".into(),
+            pos_helper(0),
+            vec![
+                Node::new_list(
+                    &arena,
+                    "(".into(),
+                    pos_helper(1),
+                    vec![],
+                    ")".into(),
+                    pos_helper(2),
+                ),
+                Node::new_atom(&arena, pos_helper(3), "foo", AtomKind::Other),
+            ],
+            "}".into(),
+            pos_helper(4),
+        );
+        set_next(rhs);
+
+        let start = Vertex::new(lhs, rhs);
+        let route = shortest_path(start);
+
+        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        assert_eq!(
+            actions,
+            vec![StartNode, NovelDelimiterLHS, NovelDelimiterRHS, UnchangedNode, UnchangedNode],
         );
     }
 }
