@@ -4,6 +4,10 @@
 
 This project initially focuses on PostgreSQL flavor of SQL
 
+## Try it out
+
+You can try out parser here: [Tree Sitter SQL Playground](https://m-novikov.github.io/tree-sitter-sql/)
+
 ## Development
 
 File describing grammar is [grammar.js](./grammar.js)
