@@ -11,7 +11,6 @@ use Edge::*;
 
 #[derive(Debug, Clone)]
 struct Vertex<'a> {
-    distance: i64,
     lhs_next: Option<&'a Node<'a>>,
     rhs_next: Option<&'a Node<'a>>,
 }
@@ -19,7 +18,6 @@ struct Vertex<'a> {
 impl<'a> Vertex<'a> {
     fn new(lhs: &'a Node<'a>, rhs: &'a Node<'a>) -> Self {
         Self {
-            distance: 0,
             lhs_next: Some(lhs),
             rhs_next: Some(rhs),
         }
@@ -39,6 +37,7 @@ impl<'a> Vertex<'a> {
 // cases.
 #[derive(Debug)]
 struct OrdVertex<'a> {
+    distance: i64,
     v: Vertex<'a>,
 }
 
@@ -50,13 +49,13 @@ impl<'a> PartialOrd for OrdVertex<'a> {
 
 impl<'a> Ord for OrdVertex<'a> {
     fn cmp(&self, other: &Self) -> Ordering {
-        self.v.distance.cmp(&other.v.distance)
+        self.distance.cmp(&other.distance)
     }
 }
 
 impl<'a> PartialEq for OrdVertex<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.v.distance == other.v.distance
+        self.distance == other.distance
     }
 }
 impl<'a> Eq for OrdVertex<'a> {}
@@ -112,14 +111,17 @@ impl Edge {
 
 fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     let mut heap = BinaryHeap::new();
-    heap.push(OrdVertex { v: start.clone() });
+    heap.push(OrdVertex {
+        distance: 0,
+        v: start.clone(),
+    });
 
     let mut visited: HashSet<EqVertex> = HashSet::new();
     let mut predecessors: HashMap<EqVertex, (Edge, Vertex)> = HashMap::new();
 
     loop {
         match heap.pop() {
-            Some(OrdVertex { v }) => {
+            Some(OrdVertex { distance, v }) => {
                 if v.is_end() {
                     break;
                 }
@@ -131,7 +133,10 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 for (edge, new_v) in neighbours(&v) {
                     if !predecessors.contains_key(&EqVertex { v: new_v.clone() }) {
                         predecessors.insert(EqVertex { v: new_v.clone() }, (edge, v.clone()));
-                        heap.push(OrdVertex { v: new_v });
+                        heap.push(OrdVertex {
+                            distance: distance + edge.cost(),
+                            v: new_v,
+                        });
                     }
                 }
 
@@ -142,7 +147,6 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     }
 
     let mut current = Vertex {
-        distance: 0, // arbitrary
         lhs_next: None,
         rhs_next: None,
     };
@@ -175,7 +179,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 res.push((
                     edge,
                     Vertex {
-                        distance: v.distance + edge.cost(),
                         lhs_next: lhs_next_node.get_next(),
                         rhs_next: rhs_next_node.get_next(),
                     },
@@ -204,7 +207,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         res.push((
                             edge,
                             Vertex {
-                                distance: v.distance + edge.cost(),
                                 lhs_next: lhs_children.first().map(|n| *n),
                                 rhs_next: rhs_children.first().map(|n| *n),
                             },
@@ -225,7 +227,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 res.push((
                     edge,
                     Vertex {
-                        distance: v.distance + edge.cost(),
                         lhs_next: lhs_next_node.get_next(),
                         rhs_next: v.rhs_next.clone(),
                     },
@@ -238,7 +239,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     res.push((
                         edge,
                         Vertex {
-                            distance: v.distance + edge.cost(),
                             lhs_next: lhs_next_node.get_next(),
                             rhs_next: v.rhs_next.clone(),
                         },
@@ -247,7 +247,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     res.push((
                         edge,
                         Vertex {
-                            distance: v.distance + edge.cost(),
                             lhs_next: Some(children[0]),
                             rhs_next: v.rhs_next.clone(),
                         },
@@ -265,7 +264,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 res.push((
                     edge,
                     Vertex {
-                        distance: v.distance + edge.cost(),
                         lhs_next: v.lhs_next.clone(),
                         rhs_next: rhs_next_node.get_next(),
                     },
@@ -278,7 +276,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     res.push((
                         edge,
                         Vertex {
-                            distance: v.distance + edge.cost(),
                             lhs_next: v.lhs_next.clone(),
                             rhs_next: rhs_next_node.get_next(),
                         },
@@ -287,7 +284,6 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     res.push((
                         edge,
                         Vertex {
-                            distance: v.distance + edge.cost(),
                             lhs_next: v.lhs_next.clone(),
                             rhs_next: Some(children[0]),
                         },
