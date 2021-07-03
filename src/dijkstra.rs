@@ -323,9 +323,9 @@ mod tests {
     use std::cell::Cell;
     use typed_arena::Arena;
 
-    fn pos_helper() -> Vec<SingleLineSpan> {
+    fn pos_helper(line: usize) -> Vec<SingleLineSpan> {
         vec![SingleLineSpan {
-            line: 0.into(),
+            line: line.into(),
             start_col: 0,
             end_col: 1,
         }]
@@ -337,7 +337,7 @@ mod tests {
 
         let lhs = arena.alloc(Atom {
             next: Cell::new(None),
-            position: pos_helper(),
+            position: pos_helper(0),
             change: Cell::new(None),
             content: "foo".into(),
             kind: AtomKind::Other,
@@ -346,7 +346,7 @@ mod tests {
         // Same as LHS.
         let rhs = arena.alloc(Atom {
             next: Cell::new(None),
-            position: pos_helper(),
+            position: pos_helper(1),
             change: Cell::new(None),
             content: "foo".into(),
             kind: AtomKind::Other,
@@ -366,20 +366,25 @@ mod tests {
         let lhs = Node::new_list(
             &arena,
             "[".into(),
-            pos_helper(),
-            vec![Node::new_atom(&arena, pos_helper(), "foo", AtomKind::Other)],
+            pos_helper(0),
+            vec![Node::new_atom(
+                &arena,
+                pos_helper(1),
+                "foo",
+                AtomKind::Other,
+            )],
             "]".into(),
-            pos_helper(),
+            pos_helper(2),
         );
         set_next(lhs);
 
         let rhs = Node::new_list(
             &arena,
             "[".into(),
-            pos_helper(),
+            pos_helper(0),
             vec![],
             "]".into(),
-            pos_helper(),
+            pos_helper(1),
         );
         set_next(rhs);
 
