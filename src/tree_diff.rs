@@ -276,39 +276,7 @@ fn set_next_<'a>(node: &'a Node<'a>, new_next: Option<&'a Node<'a>>) {
 
 impl<'a> PartialEq for Node<'a> {
     fn eq(&self, other: &Self) -> bool {
-        match (&self, other) {
-            (
-                Atom {
-                    content: lhs_content,
-                    kind: lhs_kind,
-                    ..
-                },
-                Atom {
-                    content: rhs_content,
-                    kind: rhs_kind,
-                    ..
-                },
-            ) => lhs_content == rhs_content && lhs_kind == rhs_kind,
-            (
-                List {
-                    open_delimiter: lhs_open_delimiter,
-                    close_delimiter: lhs_close_delimiter,
-                    children: lhs_children,
-                    ..
-                },
-                List {
-                    open_delimiter: rhs_open_delimiter,
-                    close_delimiter: rhs_close_delimiter,
-                    children: rhs_children,
-                    ..
-                },
-            ) => {
-                lhs_open_delimiter == rhs_open_delimiter
-                    && lhs_close_delimiter == rhs_close_delimiter
-                    && lhs_children == rhs_children
-            }
-            _ => false,
-        }
+        self.equal_content(other)
     }
 }
 impl<'a> Eq for Node<'a> {}
