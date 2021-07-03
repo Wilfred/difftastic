@@ -53,6 +53,7 @@ pub enum Node<'a> {
         num_descendants: usize,
     },
     Atom {
+        hash_cache: Cell<Option<u64>>,
         next: Cell<Option<&'a Node<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         position: Vec<SingleLineSpan>,
@@ -151,6 +152,7 @@ impl<'a> Node<'a> {
         kind: AtomKind,
     ) -> &'a mut Node<'a> {
         arena.alloc(Atom {
+            hash_cache: Cell::new(None),
             next: Cell::new(None),
             position,
             content: content.into(),
@@ -373,10 +375,26 @@ impl<'a> Hash for Node<'a> {
                 computed_hash.hash(state);
             }
             Atom {
-                position, content, ..
+                hash_cache,
+                position,
+                content,
+                ..
             } => {
-                position.hash(state);
-                content.hash(state);
+                let computed_hash = match hash_cache.get() {
+                    Some(hash_cache) => hash_cache,
+                    None => {
+                        let mut hasher = DefaultHasher::new();
+
+                        position.hash(&mut hasher);
+                        content.hash(&mut hasher);
+
+                        let result = hasher.finish();
+                        hash_cache.set(Some(result));
+                        result
+                    }
+                };
+
+                computed_hash.hash(state);
             }
         }
     }
@@ -532,6 +550,7 @@ mod tests {
     #[test]
     fn test_prev_opposite_pos_first_node() {
         let nodes = &[&Atom {
+            hash_cache: Cell::new(None),
             next: Cell::new(None),
             change: Cell::new(Some(Novel)),
             position: vec![SingleLineSpan {
@@ -557,6 +576,7 @@ mod tests {
     fn test_atom_equality_ignores_change() {
         assert_eq!(
             Atom {
+                hash_cache: Cell::new(None),
                 next: Cell::new(None),
                 change: Cell::new(Some(Novel)),
                 position: vec![SingleLineSpan {
@@ -568,6 +588,7 @@ mod tests {
                 kind: Other,
             },
             Atom {
+                hash_cache: Cell::new(None),
                 next: Cell::new(None),
                 change: Cell::new(None),
                 position: vec![SingleLineSpan {

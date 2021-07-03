@@ -344,6 +344,7 @@ mod tests {
         let arena = Arena::new();
 
         let lhs = arena.alloc(Atom {
+            hash_cache: Cell::new(None),
             next: Cell::new(None),
             position: pos_helper(0),
             change: Cell::new(None),
@@ -353,6 +354,7 @@ mod tests {
 
         // Same as LHS.
         let rhs = arena.alloc(Atom {
+            hash_cache: Cell::new(None),
             next: Cell::new(None),
             position: pos_helper(1),
             change: Cell::new(None),
@@ -490,7 +492,13 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![StartNode, NovelDelimiterLHS, NovelDelimiterRHS, UnchangedNode, UnchangedNode],
+            vec![
+                StartNode,
+                NovelDelimiterLHS,
+                NovelDelimiterRHS,
+                UnchangedNode,
+                UnchangedNode
+            ],
         );
     }
 }
