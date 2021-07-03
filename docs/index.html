@@ -50,7 +50,12 @@
         <label for="query-checkbox">Query</label>
       </div>
 
-      <textarea id="code-input"></textarea>
+      <textarea id="code-input">
+SELECT a, b
+FROM foo
+WHERE a &gt; b
+GROUP BY b;</textarea
+      >
 
       <div id="query-container" style="visibility: hidden; position: absolute">
         <h4>Query</h4>
