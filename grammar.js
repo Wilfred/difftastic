@@ -13,10 +13,12 @@ module.exports = grammar({
   extras: $ => [$.comment, /[\s\f\uFEFF\u2060\u200B]|\\\r?\n/],
   rules: {
     source_file: $ => repeat($._statement),
+
     _statement: $ =>
       seq(
         choice(
           $.select_statement,
+          $.update_statement,
           $.create_type_statement,
           $.create_domain_statement,
           $.create_index_statement,
@@ -25,6 +27,7 @@ module.exports = grammar({
         ),
         optional(";"),
       ),
+
     create_function_statement: $ =>
       seq(
         caseInsensitive("CREATE FUNCTION"),
@@ -170,6 +173,8 @@ module.exports = grammar({
       seq(caseInsensitive("USING"), field("type", $.identifier)),
     index_table_parameters: $ =>
       seq("(", commaSep1(choice($._expression, $.ordered_expression)), ")"),
+
+    // SELECT
     select_statement: $ =>
       seq(
         $.select_clause,
@@ -195,6 +200,20 @@ module.exports = grammar({
     from_clause: $ =>
       seq(caseInsensitive("FROM"), commaSep1($._aliasable_expression)),
     select_subexpression: $ => seq("(", $.select_statement, ")"),
+
+    // UPDATE
+    update_statement: $ =>
+      seq(
+        caseInsensitive("UPDATE"),
+        $.identifier,
+        $.set_clause,
+        optional($.where_clause),
+      ),
+
+    set_clause: $ => seq(caseInsensitive("SET"), $.set_clause_body),
+    set_clause_body: $ => seq(commaSep1($.assigment_expression)),
+    assigment_expression: $ => seq($.identifier, "=", $._expression),
+
     in_expression: $ =>
       prec.left(
         1,
