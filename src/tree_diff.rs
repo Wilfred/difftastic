@@ -1,5 +1,4 @@
 #![allow(clippy::mutable_key_type)] // Hash for Node doesn't use mutable fields.
-
 #![allow(dead_code)]
 
 use diff::{slice, Result::*};
@@ -45,7 +44,6 @@ pub enum AtomKind {
     Other,
 }
 
-#[derive(Debug)]
 pub enum Node<'a> {
     List {
         next: Cell<Option<&'a Node<'a>>>,
@@ -64,6 +62,33 @@ pub enum Node<'a> {
         content: String,
         kind: AtomKind,
     },
+}
+
+impl<'a> fmt::Debug for Node<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            List {
+                open_delimiter,
+                children,
+                close_delimiter,
+                change,
+                ..
+            } => f
+                .debug_struct("List")
+                .field("open_delimiter", &open_delimiter)
+                .field("children", &children)
+                .field("close_delimiter", &close_delimiter)
+                .field("change", &change)
+                .finish(),
+            Atom {
+                content, change, ..
+            } => f
+                .debug_struct("Atom")
+                .field("content", &content)
+                .field("change", &change)
+                .finish(),
+        }
+    }
 }
 
 impl<'a> Node<'a> {
