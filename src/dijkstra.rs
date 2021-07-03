@@ -85,7 +85,7 @@ impl Edge {
     }
 }
 
-fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
+fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     let mut heap = BinaryHeap::new();
     heap.push(OrdVertex {
         distance: 0,
@@ -146,60 +146,55 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     let mut res = vec![];
 
-    match (&v.lhs_syntax, &v.rhs_syntax) {
-        (Some(lhs_syntax), Some(rhs_syntax)) => {
-            if lhs_syntax.equal_content(rhs_syntax) {
-                // Both nodes are equal, the happy case.
+    if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
+        if lhs_syntax.equal_content(rhs_syntax) {
+            // Both nodes are equal, the happy case.
+            res.push((
+                UnchangedNode,
+                Vertex {
+                    lhs_syntax: lhs_syntax.get_next(),
+                    rhs_syntax: rhs_syntax.get_next(),
+                },
+            ));
+        }
+
+        if let (
+            Syntax::List {
+                open_delimiter: lhs_open_delimiter,
+                close_delimiter: lhs_close_delimiter,
+                children: lhs_children,
+                ..
+            },
+            Syntax::List {
+                open_delimiter: rhs_open_delimiter,
+                close_delimiter: rhs_close_delimiter,
+                children: rhs_children,
+                ..
+            },
+        ) = (lhs_syntax, rhs_syntax)
+        {
+            if lhs_open_delimiter == rhs_open_delimiter
+                && lhs_close_delimiter == rhs_close_delimiter
+            {
+                let lhs_next = if lhs_children.is_empty() {
+                    lhs_syntax.get_next()
+                } else {
+                    Some(lhs_children[0])
+                };
+                let rhs_next = if rhs_children.is_empty() {
+                    rhs_syntax.get_next()
+                } else {
+                    Some(rhs_children[0])
+                };
                 res.push((
-                    UnchangedNode,
+                    UnchangedDelimiter,
                     Vertex {
-                        lhs_syntax: lhs_syntax.get_next(),
-                        rhs_syntax: rhs_syntax.get_next(),
+                        lhs_syntax: lhs_next,
+                        rhs_syntax: rhs_next,
                     },
                 ));
             }
-
-            match (lhs_syntax, rhs_syntax) {
-                (
-                    Syntax::List {
-                        open_delimiter: lhs_open_delimiter,
-                        close_delimiter: lhs_close_delimiter,
-                        children: lhs_children,
-                        ..
-                    },
-                    Syntax::List {
-                        open_delimiter: rhs_open_delimiter,
-                        close_delimiter: rhs_close_delimiter,
-                        children: rhs_children,
-                        ..
-                    },
-                ) => {
-                    if lhs_open_delimiter == rhs_open_delimiter
-                        && lhs_close_delimiter == rhs_close_delimiter
-                    {
-                        let lhs_next = if lhs_children.is_empty() {
-                            lhs_syntax.get_next()
-                        } else {
-                            Some(lhs_children[0])
-                        };
-                        let rhs_next = if rhs_children.is_empty() {
-                            rhs_syntax.get_next()
-                        } else {
-                            Some(rhs_children[0])
-                        };
-                        res.push((
-                            UnchangedDelimiter,
-                            Vertex {
-                                lhs_syntax: lhs_next,
-                                rhs_syntax: rhs_next,
-                            },
-                        ));
-                    }
-                }
-                _ => {}
-            }
         }
-        _ => {}
     }
 
     if let Some(lhs_syntax) = &v.lhs_syntax {
@@ -210,7 +205,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     NovelAtomLHS,
                     Vertex {
                         lhs_syntax: lhs_syntax.get_next(),
-                        rhs_syntax: v.rhs_syntax.clone(),
+                        rhs_syntax: v.rhs_syntax,
                     },
                 ));
             }
@@ -226,7 +221,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     NovelDelimiterLHS,
                     Vertex {
                         lhs_syntax: lhs_next,
-                        rhs_syntax: v.rhs_syntax.clone(),
+                        rhs_syntax: v.rhs_syntax,
                     },
                 ));
             }
@@ -240,7 +235,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 res.push((
                     NovelAtomRHS,
                     Vertex {
-                        lhs_syntax: v.lhs_syntax.clone(),
+                        lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_syntax.get_next(),
                     },
                 ));
@@ -256,7 +251,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 res.push((
                     NovelDelimiterRHS,
                     Vertex {
-                        lhs_syntax: v.lhs_syntax.clone(),
+                        lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_next,
                     },
                 ));
@@ -272,8 +267,8 @@ pub fn toplevel_list<'a>(
     lhs_children: Vec<&'a Syntax<'a>>,
     rhs_children: Vec<&'a Syntax<'a>>,
 ) -> (&'a Syntax<'a>, &'a Syntax<'a>) {
-    let lhs = Syntax::new_list(arena, "".into(), vec![], lhs_children, "".into(), vec![]);
-    let rhs = Syntax::new_list(arena, "".into(), vec![], rhs_children, "".into(), vec![]);
+    let lhs = Syntax::new_list(arena, "", vec![], lhs_children, "", vec![]);
+    let rhs = Syntax::new_list(arena, "", vec![], rhs_children, "", vec![]);
     (lhs, rhs)
 }
 
@@ -283,7 +278,7 @@ pub fn mark_syntax<'a>(lhs: &'a Syntax<'a>, rhs: &'a Syntax<'a>) {
     mark_route(&route);
 }
 
-fn mark_route<'a>(route: &[(Edge, Vertex<'a>)]) {
+fn mark_route(route: &[(Edge, Vertex)]) {
     for (e, v) in route {
         match e {
             StartNode => {

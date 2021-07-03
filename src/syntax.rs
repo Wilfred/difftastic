@@ -112,7 +112,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
 }
 
 impl<'a> Syntax<'a> {
-    #[allow(clippy::clippy::mut_from_ref)] // Clippy doesn't understand arenas.
+    #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_list(
         arena: &'a Arena<Syntax<'a>>,
         open_delimiter: &str,
@@ -144,7 +144,7 @@ impl<'a> Syntax<'a> {
         })
     }
 
-    #[allow(clippy::clippy::mut_from_ref)] // Clippy doesn't understand arenas.
+    #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_atom(
         arena: &'a Arena<Syntax<'a>>,
         position: Vec<SingleLineSpan>,
@@ -465,10 +465,9 @@ fn change_positions_<'a>(
                 close_position,
                 ..
             } => {
-                let change = match change.get() {
-                    Some(change) => change,
-                    None => panic!("Should have changes set in all nodes: {:#?}", node),
-                };
+                let change = change
+                    .get()
+                    .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
 
                 if let Unchanged(opposite_node) = change {
                     match opposite_node {
@@ -516,10 +515,9 @@ fn change_positions_<'a>(
             Atom {
                 change, position, ..
             } => {
-                let change = change.get().expect(&format!(
-                    "Should have changes set in all nodes: {:#?}",
-                    node
-                ));
+                let change = change
+                    .get()
+                    .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
                 if let Unchanged(opposite_node) = change {
                     match opposite_node {
                         List { .. } => {
