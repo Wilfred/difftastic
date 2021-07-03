@@ -110,7 +110,7 @@ impl Edge {
     }
 }
 
-fn find_route<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
+fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     let mut heap = BinaryHeap::new();
     heap.push(OrdVertex { v: start.clone() });
 
@@ -312,7 +312,7 @@ pub fn toplevel_list<'a>(
 
 pub fn mark_node<'a>(lhs: &'a Node<'a>, rhs: &'a Node<'a>) {
     let start = Vertex::new(lhs, rhs);
-    let route = find_route(start);
+    let route = shortest_path(start);
     mark_route(&route);
 }
 
@@ -394,7 +394,7 @@ mod tests {
         });
 
         let start = Vertex::new(lhs, rhs);
-        let route = find_route(start);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(actions, vec![StartNode, UnchangedNode]);
@@ -425,7 +425,7 @@ mod tests {
         set_next(rhs);
 
         let start = Vertex::new(lhs, rhs);
-        let route = find_route(start);
+        let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(actions, vec![StartNode, UnchangedDelimiter, NovelAtomLHS]);
