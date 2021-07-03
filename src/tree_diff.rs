@@ -461,10 +461,10 @@ fn change_positions_<'a>(
                 close_position,
                 ..
             } => {
-                let change = change.get().expect(&format!(
-                    "Should have changes set in all nodes: {:#?}",
-                    node
-                ));
+                let change = match change.get() {
+                    Some(change) => change,
+                    None => panic!("Should have changes set in all nodes: {:#?}", node),
+                };
 
                 if let Unchanged(opposite_node) = change {
                     match opposite_node {
