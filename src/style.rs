@@ -1,6 +1,6 @@
 use crate::lines::LineNumber;
 use crate::positions::SingleLineSpan;
-use crate::tree_diff::{MatchKind, MatchedPos};
+use crate::syntax::{MatchKind, MatchedPos};
 use colored::*;
 use std::cmp::min;
 use std::collections::HashMap;
