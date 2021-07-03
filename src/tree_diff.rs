@@ -2,6 +2,7 @@
 #![allow(dead_code)]
 
 use std::cell::Cell;
+use std::collections::hash_map::DefaultHasher;
 use std::fmt;
 use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
@@ -41,6 +42,7 @@ pub enum AtomKind {
 
 pub enum Node<'a> {
     List {
+        hash_cache: Cell<Option<u64>>,
         next: Cell<Option<&'a Node<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         open_position: Vec<SingleLineSpan>,
@@ -129,6 +131,7 @@ impl<'a> Node<'a> {
         }
 
         arena.alloc(List {
+            hash_cache: Cell::new(None),
             next: Cell::new(None),
             change: Cell::new(None),
             open_position,
@@ -340,6 +343,7 @@ impl<'a> Hash for Node<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         match self {
             List {
+                hash_cache,
                 open_position,
                 open_delimiter,
                 close_position,
@@ -347,15 +351,30 @@ impl<'a> Hash for Node<'a> {
                 children,
                 ..
             } => {
-                open_position.hash(state);
-                open_delimiter.hash(state);
-                close_delimiter.hash(state);
-                close_position.hash(state);
-                for child in children {
-                    child.hash(state);
-                }
+                let computed_hash = match hash_cache.get() {
+                    Some(hash_cache) => hash_cache,
+                    None => {
+                        let mut hasher = DefaultHasher::new();
+
+                        open_position.hash(&mut hasher);
+                        open_delimiter.hash(&mut hasher);
+                        close_delimiter.hash(&mut hasher);
+                        close_position.hash(&mut hasher);
+                        for child in children {
+                            child.hash(&mut hasher);
+                        }
+
+                        let result = hasher.finish();
+                        hash_cache.set(Some(result));
+                        result
+                    }
+                };
+
+                computed_hash.hash(state);
             }
-            Atom { position, content, .. } => {
+            Atom {
+                position, content, ..
+            } => {
                 position.hash(state);
                 content.hash(state);
             }
