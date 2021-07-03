@@ -302,7 +302,7 @@ impl<'a> Node<'a> {
         }
     }
 
-    pub fn equal_content_and_pos(&self, other: &Self) -> bool {
+    fn equal_content_and_pos(&self, other: &Self) -> bool {
         self.equal_pos(other) && self.equal_content(other)
     }
 }
