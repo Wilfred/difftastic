@@ -80,7 +80,7 @@ impl<'a> fmt::Debug for Node<'a> {
                 ds.field("open_delimiter", &open_delimiter)
                     .field("children", &children)
                     .field("close_delimiter", &close_delimiter)
-                    .field("change", &change);
+                    .field("change", &change.get());
 
                 let next_s = match next.get() {
                     Some(List { .. }) => "Some(List)",
@@ -98,7 +98,7 @@ impl<'a> fmt::Debug for Node<'a> {
                 ..
             } => {
                 let mut ds = f.debug_struct("Atom");
-                ds.field("content", &content).field("change", &change);
+                ds.field("content", &content).field("change", &change.get());
 
                 let next_s = match next.get() {
                     Some(List { .. }) => "Some(List)",
