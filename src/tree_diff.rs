@@ -72,21 +72,43 @@ impl<'a> fmt::Debug for Node<'a> {
                 children,
                 close_delimiter,
                 change,
+                next,
                 ..
-            } => f
-                .debug_struct("List")
-                .field("open_delimiter", &open_delimiter)
-                .field("children", &children)
-                .field("close_delimiter", &close_delimiter)
-                .field("change", &change)
-                .finish(),
+            } => {
+                let mut ds = f.debug_struct("List");
+
+                ds.field("open_delimiter", &open_delimiter)
+                    .field("children", &children)
+                    .field("close_delimiter", &close_delimiter)
+                    .field("change", &change);
+
+                let next_s = match next.get() {
+                    Some(List { .. }) => "Some(List)",
+                    Some(Atom { .. }) => "Some(Atom)",
+                    None => "None",
+                };
+                ds.field("next", &next_s);
+
+                ds.finish()
+            }
             Atom {
-                content, change, ..
-            } => f
-                .debug_struct("Atom")
-                .field("content", &content)
-                .field("change", &change)
-                .finish(),
+                content,
+                change,
+                next,
+                ..
+            } => {
+                let mut ds = f.debug_struct("Atom");
+                ds.field("content", &content).field("change", &change);
+
+                let next_s = match next.get() {
+                    Some(List { .. }) => "Some(List)",
+                    Some(Atom { .. }) => "Some(Atom)",
+                    None => "None",
+                };
+                ds.field("next", &next_s);
+
+                ds.finish()
+            }
         }
     }
 }
