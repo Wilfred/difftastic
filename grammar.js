@@ -223,12 +223,8 @@ module.exports = grammar({
         $.identifier,
         $.values_clause,
       ),
-    values_clause: $ => seq(
-      caseInsensitive("VALUES"),
-      '(',
-      $.values_clause_body,
-      ')',
-    ),
+    values_clause: $ =>
+      seq(caseInsensitive("VALUES"), "(", $.values_clause_body, ")"),
     values_clause_body: $ => commaSep1($._expression),
     in_expression: $ =>
       prec.left(
