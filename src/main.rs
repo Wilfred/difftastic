@@ -3,7 +3,7 @@ mod parse;
 mod positions;
 mod style;
 mod tree_diff;
-mod ucs;
+mod dijkstra;
 use clap::{App, Arg};
 use std::ffi::OsStr;
 use std::path::Path;
@@ -16,7 +16,7 @@ use crate::lines::{
 use crate::parse::{find_lang, parse, parse_lines, read_or_die, ConfigDir};
 use crate::style::apply_colors;
 use crate::tree_diff::{change_positions, set_next};
-use crate::ucs::{toplevel_list, mark_node};
+use crate::dijkstra::{toplevel_list, mark_node};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
