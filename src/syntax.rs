@@ -1,4 +1,4 @@
-#![allow(clippy::mutable_key_type)] // Hash for Node doesn't use mutable fields.
+#![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 #![allow(dead_code)]
 
 use std::cell::Cell;
@@ -10,11 +10,11 @@ use typed_arena::Arena;
 use crate::lines::NewlinePositions;
 use crate::positions::SingleLineSpan;
 use ChangeKind::*;
-use Node::*;
+use Syntax::*;
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub enum ChangeKind<'a> {
-    Unchanged(&'a Node<'a>),
+    Unchanged(&'a Syntax<'a>),
     Moved,
     Novel,
 }
@@ -40,21 +40,21 @@ pub enum AtomKind {
     Other,
 }
 
-pub enum Node<'a> {
+pub enum Syntax<'a> {
     List {
         hash_cache: Cell<Option<u64>>,
-        next: Cell<Option<&'a Node<'a>>>,
+        next: Cell<Option<&'a Syntax<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         open_position: Vec<SingleLineSpan>,
         open_delimiter: String,
-        children: Vec<&'a Node<'a>>,
+        children: Vec<&'a Syntax<'a>>,
         close_position: Vec<SingleLineSpan>,
         close_delimiter: String,
         num_descendants: usize,
     },
     Atom {
         hash_cache: Cell<Option<u64>>,
-        next: Cell<Option<&'a Node<'a>>>,
+        next: Cell<Option<&'a Syntax<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         position: Vec<SingleLineSpan>,
         content: String,
@@ -62,7 +62,7 @@ pub enum Node<'a> {
     },
 }
 
-impl<'a> fmt::Debug for Node<'a> {
+impl<'a> fmt::Debug for Syntax<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             List {
@@ -111,16 +111,16 @@ impl<'a> fmt::Debug for Node<'a> {
     }
 }
 
-impl<'a> Node<'a> {
+impl<'a> Syntax<'a> {
     #[allow(clippy::clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_list(
-        arena: &'a Arena<Node<'a>>,
+        arena: &'a Arena<Syntax<'a>>,
         open_delimiter: &str,
         open_position: Vec<SingleLineSpan>,
-        children: Vec<&'a Node<'a>>,
+        children: Vec<&'a Syntax<'a>>,
         close_delimiter: &str,
         close_position: Vec<SingleLineSpan>,
-    ) -> &'a mut Node<'a> {
+    ) -> &'a mut Syntax<'a> {
         let mut num_descendants = 0;
         for child in &children {
             num_descendants += match child {
@@ -146,11 +146,11 @@ impl<'a> Node<'a> {
 
     #[allow(clippy::clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_atom(
-        arena: &'a Arena<Node<'a>>,
+        arena: &'a Arena<Syntax<'a>>,
         position: Vec<SingleLineSpan>,
         content: &str,
         kind: AtomKind,
-    ) -> &'a mut Node<'a> {
+    ) -> &'a mut Syntax<'a> {
         arena.alloc(Atom {
             hash_cache: Cell::new(None),
             next: Cell::new(None),
@@ -161,7 +161,7 @@ impl<'a> Node<'a> {
         })
     }
 
-    pub fn get_next(&self) -> Option<&'a Node<'a>> {
+    pub fn get_next(&self) -> Option<&'a Syntax<'a>> {
         match self {
             List { next, .. } => next.get(),
             Atom { next, .. } => next.get(),
@@ -312,11 +312,11 @@ impl<'a> Node<'a> {
     }
 }
 
-pub fn set_next<'a>(node: &'a Node<'a>) {
+pub fn set_next<'a>(node: &'a Syntax<'a>) {
     set_next_(node, None);
 }
 
-fn set_next_<'a>(node: &'a Node<'a>, new_next: Option<&'a Node<'a>>) {
+fn set_next_<'a>(node: &'a Syntax<'a>, new_next: Option<&'a Syntax<'a>>) {
     match node {
         List { next, children, .. } => {
             next.set(new_next);
@@ -334,14 +334,14 @@ fn set_next_<'a>(node: &'a Node<'a>, new_next: Option<&'a Node<'a>>) {
     }
 }
 
-impl<'a> PartialEq for Node<'a> {
+impl<'a> PartialEq for Syntax<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.equal_content_and_pos(other)
     }
 }
-impl<'a> Eq for Node<'a> {}
+impl<'a> Eq for Syntax<'a> {}
 
-impl<'a> Hash for Node<'a> {
+impl<'a> Hash for Syntax<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         match self {
             List {
@@ -425,7 +425,7 @@ pub struct MatchedPos {
 }
 
 /// Walk `nodes` and return a vec of all the changed positions.
-pub fn change_positions<'a>(src: &str, opposite_src: &str, nodes: &[&Node<'a>]) -> Vec<MatchedPos> {
+pub fn change_positions<'a>(src: &str, opposite_src: &str, nodes: &[&Syntax<'a>]) -> Vec<MatchedPos> {
     let nl_pos = NewlinePositions::from(src);
     let opposite_nl_pos = NewlinePositions::from(opposite_src);
 
@@ -448,7 +448,7 @@ pub fn change_positions<'a>(src: &str, opposite_src: &str, nodes: &[&Node<'a>]) 
 fn change_positions_<'a>(
     nl_pos: &NewlinePositions,
     opposite_nl_pos: &NewlinePositions,
-    nodes: &[&Node<'a>],
+    nodes: &[&Syntax<'a>],
     prev_opposite_pos: &mut Vec<SingleLineSpan>,
     positions: &mut Vec<MatchedPos>,
 ) {

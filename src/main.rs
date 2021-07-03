@@ -16,7 +16,7 @@ use crate::lines::{
 use crate::parse::{find_lang, parse, parse_lines, read_or_die, ConfigDir};
 use crate::style::apply_colors;
 use crate::syntax::{change_positions, set_next};
-use crate::dijkstra::{toplevel_list, mark_node};
+use crate::dijkstra::{toplevel_list, mark_syntax};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
@@ -87,7 +87,7 @@ fn main() {
     let (lhs, rhs) = toplevel_list(&arena, lhs, rhs);
     set_next(lhs);
     set_next(rhs);
-    mark_node(lhs, rhs);
+    mark_syntax(lhs, rhs);
 
     let lhs_positions = change_positions(&lhs_src, &rhs_src, &[lhs]);
     let rhs_positions = change_positions(&rhs_src, &lhs_src, &[rhs]);
