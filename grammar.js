@@ -19,6 +19,7 @@ module.exports = grammar({
         choice(
           $.select_statement,
           $.update_statement,
+          $.insert_statement,
           $.create_type_statement,
           $.create_domain_statement,
           $.create_index_statement,
@@ -214,6 +215,21 @@ module.exports = grammar({
     set_clause_body: $ => seq(commaSep1($.assigment_expression)),
     assigment_expression: $ => seq($.identifier, "=", $._expression),
 
+    // INSERT
+    insert_statement: $ =>
+      seq(
+        caseInsensitive("INSERT"),
+        caseInsensitive("INTO"),
+        $.identifier,
+        $.values_clause,
+      ),
+    values_clause: $ => seq(
+      caseInsensitive("VALUES"),
+      '(',
+      $.values_clause_body,
+      ')',
+    ),
+    values_clause_body: $ => commaSep1($._expression),
     in_expression: $ =>
       prec.left(
         1,
