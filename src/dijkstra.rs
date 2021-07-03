@@ -1,8 +1,8 @@
 use std::cmp::Ordering;
-use std::collections::HashSet;
-use std::collections::{BinaryHeap, HashMap};
+use std::collections::BinaryHeap;
 
 use crate::tree_diff::{ChangeKind, Node};
+use rustc_hash::{FxHashMap, FxHashSet};
 use typed_arena::Arena;
 use Edge::*;
 
@@ -92,8 +92,8 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         v: start.clone(),
     });
 
-    let mut visited = HashSet::new();
-    let mut predecessors: HashMap<Vertex, (Edge, Vertex)> = HashMap::new();
+    let mut visited = FxHashSet::default();
+    let mut predecessors: FxHashMap<Vertex, (Edge, Vertex)> = FxHashMap::default();
 
     loop {
         match heap.pop() {
