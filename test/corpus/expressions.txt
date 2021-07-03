@@ -13,11 +13,18 @@ line';
 ----
 
 (program
-  (expression_statement (string (escape_sequence) (escape_sequence)))
-  (expression_statement (string (escape_sequence) (escape_sequence)))
+  (expression_statement
+    (string
+      (string_fragment) (escape_sequence) (string_fragment)
+      (escape_sequence) (string_fragment)))
+  (expression_statement
+     (string
+      (string_fragment) (escape_sequence) (string_fragment)
+      (escape_sequence) (string_fragment)))
   (expression_statement (string (escape_sequence)))
   (expression_statement (string (escape_sequence)))
-  (expression_statement (string (escape_sequence))))
+  (expression_statement
+    (string (string_fragment) (escape_sequence) (string_fragment))))
 
 ============================================
 Template strings
@@ -67,14 +74,14 @@ Template strings
 	(expression_statement (template_string))
 	(expression_statement (template_string))
   (expression_statement (template_string
-    (template_substitution (string))
-    (template_substitution (string))))
+    (template_substitution (string (string_fragment)))
+    (template_substitution (string (string_fragment)))))
   (expression_statement (template_string (escape_sequence)))
   (expression_statement (template_string
     (escape_sequence)
     (template_substitution (call_expression
       (member_expression (identifier) (property_identifier))
-      (arguments (string))))
+      (arguments (string (string_fragment)))))
     (escape_sequence)
     (template_substitution (identifier))))
   (expression_statement (template_string (escape_sequence)))
@@ -223,10 +230,10 @@ Objects
   (statement_block)
   (empty_statement)
   (expression_statement (object
-    (pair (property_identifier) (string))))
+    (pair (property_identifier) (string (string_fragment)))))
   (expression_statement (object
-    (pair (property_identifier) (string))
-    (pair (string) (identifier))
+    (pair (property_identifier) (string (string_fragment)))
+    (pair (string (string_fragment)) (identifier))
     (pair (number) (number))))
   (expression_statement (object
     (pair (property_identifier) (identifier))))
@@ -389,7 +396,7 @@ class Foo extends require('another-class') {
 
   (class_declaration
     (identifier)
-    (class_heritage (call_expression (identifier) (arguments (string))))
+    (class_heritage (call_expression (identifier) (arguments (string (string_fragment)))))
     (class_body
       (method_definition
         (property_identifier)
@@ -497,7 +504,7 @@ class Foo {
         (decorator
           (identifier))
         (property_identifier)
-        (string)))))
+        (string (string_fragment))))))
 
 ============================================
 Arrays
@@ -514,9 +521,9 @@ Arrays
 
 (program
   (expression_statement (array))
-  (expression_statement (array (string)))
-  (expression_statement (array (string)))
-  (expression_statement (array (string) (identifier)))
+  (expression_statement (array (string (string_fragment))))
+  (expression_statement (array (string (string_fragment))))
+  (expression_statement (array (string (string_fragment)) (identifier)))
   (expression_statement (array (identifier)))
   (expression_statement (array (assignment_expression (identifier) (number)))))
 
@@ -671,7 +678,7 @@ x["some-string"];
 (program
   (expression_statement (member_expression (identifier) (property_identifier)))
   (expression_statement (subscript_expression (identifier) (identifier)))
-  (expression_statement (subscript_expression (identifier) (string))))
+  (expression_statement (subscript_expression (identifier) (string (string_fragment)))))
 
 ============================================
 Chained Property access
@@ -740,7 +747,7 @@ function(x, y) {
 (program
   (expression_statement (call_expression
     (member_expression (identifier) (property_identifier))
-    (arguments (identifier) (string))))
+    (arguments (identifier) (string (string_fragment)))))
   (expression_statement (call_expression
     (function
       (formal_parameters (identifier) (identifier))
@@ -811,7 +818,7 @@ new Thing;
 (program
   (expression_statement (new_expression
     (member_expression (identifier) (property_identifier))
-    (arguments (number) (string))))
+    (arguments (number) (string (string_fragment)))))
   (expression_statement (new_expression
     (identifier))))
 
@@ -1015,7 +1022,7 @@ x &&= 0;
     (member_expression (identifier) (property_identifier))
     (number)))
   (expression_statement (assignment_expression
-    (subscript_expression (identifier) (string))
+    (subscript_expression (identifier) (string (string_fragment)))
     (number)))
   (expression_statement (assignment_expression
     (identifier)
@@ -1098,7 +1105,7 @@ true ? delete thing.prop : null;
 
 (program
   (expression_statement
-    (unary_expression (subscript_expression (identifier) (string))))
+    (unary_expression (subscript_expression (identifier) (string (string_fragment)))))
   (expression_statement
     (ternary_expression (true)
       (unary_expression (member_expression (identifier) (property_identifier)))
@@ -1202,7 +1209,7 @@ b = <Foo.Bar.Baz.Baz></Foo.Bar.Baz.Baz>;
     (identifier)
     (jsx_self_closing_element
       (identifier)
-      (jsx_attribute (property_identifier) (string))
+      (jsx_attribute (property_identifier) (string (string_fragment)))
       (jsx_attribute (property_identifier) (jsx_expression (number))))))
   (expression_statement (assignment_expression
     (identifier)
@@ -1349,7 +1356,7 @@ yield db.users.where('[endpoint+email]')
         (member_expression
           (member_expression (identifier) (property_identifier))
           (property_identifier))
-        (arguments (string))))))
+        (arguments (string (string_fragment)))))))
 
 ============================================
 JSX
@@ -1388,9 +1395,9 @@ i = <Foo:Bar bar={}>{...children}</Foo:Bar>
   (expression_statement (assignment_expression (identifier)
     (jsx_self_closing_element
       (identifier)
-      (jsx_attribute (property_identifier) (string))
+      (jsx_attribute (property_identifier) (string (string_fragment)))
       (jsx_attribute (property_identifier) (jsx_expression (number)))
-      (jsx_attribute (property_identifier) (string))
+      (jsx_attribute (property_identifier) (string (string_fragment)))
       (jsx_attribute (property_identifier)))))
   (expression_statement (assignment_expression (identifier)
     (jsx_self_closing_element
@@ -1410,7 +1417,7 @@ i = <Foo:Bar bar={}>{...children}</Foo:Bar>
                 (member_expression
                   (member_expression (this) (property_identifier))
                   (property_identifier))
-                (string))
+                (string (string_fragment)))
               (unary_expression
                 (member_expression
                   (member_expression (this) (property_identifier))

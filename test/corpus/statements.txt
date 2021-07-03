@@ -53,33 +53,33 @@ import.meta.url;
 
 (program
   (import_statement
-    (import_clause (identifier)) (string))
+    (import_clause (identifier)) (string (string_fragment)))
   (import_statement
-    (import_clause (namespace_import (identifier))) (string))
+    (import_clause (namespace_import (identifier))) (string (string_fragment)))
   (import_statement
-    (import_clause (named_imports (import_specifier (identifier)))) (string))
+    (import_clause (named_imports (import_specifier (identifier)))) (string (string_fragment)))
   (import_statement
-    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string))
+    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
   (import_statement
-    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string))
+    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string (string_fragment)))
   (import_statement
-    (import_clause (identifier) (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string))
+    (import_clause (identifier) (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string (string_fragment)))
   (import_statement
-    (import_clause (identifier) (namespace_import (identifier))) (string))
+    (import_clause (identifier) (namespace_import (identifier))) (string (string_fragment)))
   (import_statement
-    (string))
+    (string (string_fragment)))
   (import_statement
-    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string))
+    (import_clause (named_imports (import_specifier (identifier)) (import_specifier (identifier) (identifier)))) (string (string_fragment)))
   (expression_statement
     (call_expression
       (import)
-      (arguments (string))))
+      (arguments (string (string_fragment)))))
   (expression_statement
     (call_expression
       (member_expression
         (call_expression
           (import)
-          (arguments (string)))
+          (arguments (string (string_fragment))))
         (property_identifier))
       (arguments (arrow_function (formal_parameters (identifier)) (statement_block)))))
   (expression_statement
@@ -147,22 +147,22 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
   (export_statement
     (export_clause (export_specifier name: (identifier) alias: (identifier))))
   (export_statement
-    source: (string))
+    source: (string (string_fragment)))
   (export_statement
     (namespace_import (identifier))
-    source: (string))
+    source: (string (string_fragment)))
   (export_statement
     (export_clause
       (export_specifier name: (identifier))
       (export_specifier name: (identifier))
       (export_specifier name: (identifier)))
-    source: (string))
+    source: (string (string_fragment)))
   (export_statement
     (export_clause
       (export_specifier name: (identifier) alias: (identifier))
       (export_specifier name: (identifier) alias: (identifier))
       (export_specifier name: (identifier)))
-    source: (string)))
+    source: (string (string_fragment))))
 
 ============================================
 Decorators before exports
@@ -644,7 +644,7 @@ switch (x) {
     (switch_case (number)
       (expression_statement (call_expression (identifier) (arguments)))
       (break_statement))
-    (switch_case (string)
+    (switch_case (string (string_fragment))
       (expression_statement (call_expression (identifier) (arguments)))
       (break_statement))
     (switch_default
@@ -660,7 +660,7 @@ throw new Error("uh oh");
 
 (program
   (throw_statement
-    (new_expression (identifier) (arguments (string)))))
+    (new_expression (identifier) (arguments (string (string_fragment))))))
 
 ============================================
 Throw statements with sequence expressions
@@ -827,4 +827,4 @@ console.log("HI")
         (identifier)
         (property_identifier))
       (arguments
-        (string)))))
+        (string (string_fragment))))))
