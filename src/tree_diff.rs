@@ -207,6 +207,54 @@ impl<'a> Node<'a> {
             };
         }
     }
+
+    pub fn equal_content(&self, other: &Self) -> bool {
+        match (&self, other) {
+            (
+                Atom {
+                    content: lhs_content,
+                    kind: lhs_kind,
+                    ..
+                },
+                Atom {
+                    content: rhs_content,
+                    kind: rhs_kind,
+                    ..
+                },
+            ) => lhs_content == rhs_content && lhs_kind == rhs_kind,
+            (
+                List {
+                    open_delimiter: lhs_open_delimiter,
+                    close_delimiter: lhs_close_delimiter,
+                    children: lhs_children,
+                    ..
+                },
+                List {
+                    open_delimiter: rhs_open_delimiter,
+                    close_delimiter: rhs_close_delimiter,
+                    children: rhs_children,
+                    ..
+                },
+            ) => {
+                if lhs_open_delimiter != rhs_open_delimiter
+                    || lhs_close_delimiter != rhs_close_delimiter
+                {
+                    return false;
+                }
+                if lhs_children.len() != rhs_children.len() {
+                    return false;
+                }
+                for (lhs_child, rhs_child) in lhs_children.iter().zip(rhs_children.iter()) {
+                    if !lhs_child.equal_content(rhs_child) {
+                        return false;
+                    }
+                }
+
+                true
+            }
+            _ => false,
+        }
+    }
 }
 
 pub fn set_next<'a>(node: &'a Node<'a>) {

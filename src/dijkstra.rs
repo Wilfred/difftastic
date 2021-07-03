@@ -182,7 +182,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 
     match (&v.lhs_node, &v.rhs_node) {
         (Some(lhs_node), Some(rhs_node)) => {
-            if lhs_node == rhs_node {
+            if lhs_node.equal_content(rhs_node) {
                 // Both nodes are equal, the happy case.
                 res.push((
                     UnchangedNode,
