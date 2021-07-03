@@ -5,7 +5,7 @@ use std::collections::HashSet;
 use std::collections::{BinaryHeap, HashMap};
 use std::hash::{Hash, Hasher};
 
-use crate::tree_diff::Node;
+use crate::tree_diff::{ChangeKind, Node};
 use Edge::*;
 
 #[derive(Debug, Clone)]
@@ -297,6 +297,49 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     }
 
     res
+}
+
+pub fn mark_nodes<'a>(lhs: &'a Node<'a>, rhs: &'a Node<'a>) {
+    let start = Vertex::new(lhs, rhs);
+    let route = find_route(start);
+    mark_route(&route);
+}
+
+fn mark_route<'a>(route: &[(Edge, Vertex<'a>)]) {
+    for (e, v) in route {
+        match e {
+            StartNode => {
+                // No change on the root node.
+                let lhs = v.lhs_next.unwrap();
+                let rhs = v.rhs_next.unwrap();
+                lhs.set_change(ChangeKind::Unchanged(rhs));
+                rhs.set_change(ChangeKind::Unchanged(lhs));
+            }
+            UnchangedNode => {
+                // No change on this node or its children.
+                let lhs = v.lhs_next.unwrap();
+                let rhs = v.rhs_next.unwrap();
+                lhs.set_change_deep(ChangeKind::Unchanged(rhs));
+                rhs.set_change_deep(ChangeKind::Unchanged(lhs));
+            }
+            UnchangedDelimiter => {
+                // No change on the outer delimiter, but children may
+                // have changed.
+                let lhs = v.lhs_next.unwrap();
+                let rhs = v.rhs_next.unwrap();
+                lhs.set_change(ChangeKind::Unchanged(rhs));
+                rhs.set_change(ChangeKind::Unchanged(lhs));
+            }
+            NovelAtomLHS | NovelDelimiterLHS => {
+                let lhs = v.lhs_next.unwrap();
+                lhs.set_change(ChangeKind::Novel);
+            }
+            NovelAtomRHS | NovelDelimiterRHS => {
+                let rhs = v.rhs_next.unwrap();
+                rhs.set_change(ChangeKind::Novel);
+            }
+        }
+    }
 }
 
 #[cfg(test)]
