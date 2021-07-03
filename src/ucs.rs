@@ -9,13 +9,13 @@ use crate::tree_diff::Node;
 use Edge::*;
 
 #[derive(Debug, Eq, Clone)]
-struct GraphNode<'a> {
+struct Vertex<'a> {
     distance: i64,
     lhs_next: Option<&'a Node<'a>>,
     rhs_next: Option<&'a Node<'a>>,
 }
 
-impl<'a> GraphNode<'a> {
+impl<'a> Vertex<'a> {
     fn new(lhs: &'a Node<'a>, rhs: &'a Node<'a>) -> Self {
         Self {
             distance: 0,
@@ -32,51 +32,51 @@ impl<'a> GraphNode<'a> {
 // Rust requires that PartialEq, PartialOrd and Ord agree.
 // https://doc.rust-lang.org/std/cmp/trait.Ord.html
 //
-// For GraphNode, we want to compare by distance in a priority queue,
-// but equality should only consider LHS/RHS node when deciding if
-// we've visited a node. We define separate wrappers for these two use
+// For `Vertex`, we want to compare by distance in a priority queue, but
+// equality should only consider LHS/RHS node when deciding if we've
+// visited a vertex. We define separate wrappers for these two use
 // cases.
 #[derive(Debug, Eq)]
-struct OrderedGraphNode<'a> {
-    gn: GraphNode<'a>,
+struct OrdVertex<'a> {
+    v: Vertex<'a>,
 }
 
-impl<'a> PartialOrd for OrderedGraphNode<'a> {
+impl<'a> PartialOrd for OrdVertex<'a> {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
-impl<'a> Ord for OrderedGraphNode<'a> {
+impl<'a> Ord for OrdVertex<'a> {
     fn cmp(&self, other: &Self) -> Ordering {
-        self.gn.distance.cmp(&other.gn.distance)
+        self.v.distance.cmp(&other.v.distance)
     }
 }
 
-impl<'a> PartialEq for OrderedGraphNode<'a> {
+impl<'a> PartialEq for OrdVertex<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.gn.distance == other.gn.distance
+        self.v.distance == other.v.distance
     }
 }
 
-// A GraphNode that only considers the underlying Nodes for equality,
+// A `Vertex` that only considers the underlying `Node`s for equality,
 // ignoring distance.
 #[derive(Debug)]
-struct EqualityGraphNode<'a> {
-    gn: GraphNode<'a>,
+struct EqVertex<'a> {
+    v: Vertex<'a>,
 }
 
-impl<'a> PartialEq for EqualityGraphNode<'a> {
+impl<'a> PartialEq for EqVertex<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.gn.lhs_next == other.gn.lhs_next && self.gn.rhs_next == other.gn.rhs_next
+        self.v.lhs_next == other.v.lhs_next && self.v.rhs_next == other.v.rhs_next
     }
 }
-impl<'a> Eq for EqualityGraphNode<'a> {}
+impl<'a> Eq for EqVertex<'a> {}
 
-impl<'a> Hash for EqualityGraphNode<'a> {
+impl<'a> Hash for EqVertex<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.gn.lhs_next.hash(state);
-        self.gn.rhs_next.hash(state);
+        self.v.lhs_next.hash(state);
+        self.v.rhs_next.hash(state);
     }
 }
 
@@ -108,50 +108,45 @@ impl Edge {
     }
 }
 
-fn find_route<'a>(start: GraphNode<'a>) -> Vec<(Edge, GraphNode<'a>)> {
+fn find_route<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     let mut heap = BinaryHeap::new();
-    heap.push(OrderedGraphNode { gn: start.clone() });
+    heap.push(OrdVertex { v: start.clone() });
 
-    let mut visited: HashSet<EqualityGraphNode> = HashSet::new();
-    let mut predecessors: HashMap<EqualityGraphNode, (Edge, GraphNode)> = HashMap::new();
+    let mut visited: HashSet<EqVertex> = HashSet::new();
+    let mut predecessors: HashMap<EqVertex, (Edge, Vertex)> = HashMap::new();
 
     loop {
         match heap.pop() {
-            Some(ogn) => {
-                if ogn.gn.is_end() {
+            Some(OrdVertex { v }) => {
+                if v.is_end() {
                     break;
                 }
 
-                let egn = EqualityGraphNode { gn: ogn.gn };
-                if visited.contains(&egn) {
+                let ev = EqVertex { v: v.clone() };
+                if visited.contains(&ev) {
                     continue;
                 }
-
-                let gn = egn.gn;
-                for (edge, new_gn) in next_graph_nodes(&gn) {
-                    if !predecessors.contains_key(&EqualityGraphNode { gn: new_gn.clone() }) {
-                        predecessors
-                            .insert(EqualityGraphNode { gn: new_gn.clone() }, (edge, gn.clone()));
-                        heap.push(OrderedGraphNode { gn: new_gn });
+                for (edge, new_v) in neighbours(&v) {
+                    if !predecessors.contains_key(&EqVertex { v: new_v.clone() }) {
+                        predecessors.insert(EqVertex { v: new_v.clone() }, (edge, v.clone()));
+                        heap.push(OrdVertex { v: new_v });
                     }
                 }
 
-                visited.insert(EqualityGraphNode { gn });
+                visited.insert(EqVertex { v });
             }
             None => panic!("Ran out of graph nodes before reaching end"),
         }
     }
 
-    let mut current = GraphNode {
+    let mut current = Vertex {
         distance: 0, // arbitrary
         lhs_next: None,
         rhs_next: None,
     };
-    let mut res: Vec<(Edge, GraphNode)> = vec![];
+    let mut res: Vec<(Edge, Vertex)> = vec![];
     loop {
-        match predecessors.remove(&EqualityGraphNode {
-            gn: current.clone(),
-        }) {
+        match predecessors.remove(&EqVertex { v: current.clone() }) {
             Some((edge, node)) => {
                 res.push((edge, node.clone()));
                 current = node;
@@ -167,18 +162,18 @@ fn find_route<'a>(start: GraphNode<'a>) -> Vec<(Edge, GraphNode<'a>)> {
     res
 }
 
-fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<(Edge, GraphNode<'a>)> {
+fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     let mut res = vec![];
 
-    match (&gn.lhs_next, &gn.rhs_next) {
+    match (&v.lhs_next, &v.rhs_next) {
         (Some(lhs_next_node), Some(rhs_next_node)) => {
             if lhs_next_node == rhs_next_node {
                 // Both nodes are equal, the happy case.
                 let action = UnchangedNode;
                 res.push((
                     action,
-                    GraphNode {
-                        distance: gn.distance + action.cost(),
+                    Vertex {
+                        distance: v.distance + action.cost(),
                         lhs_next: lhs_next_node.get_next(),
                         rhs_next: rhs_next_node.get_next(),
                     },
@@ -206,8 +201,8 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<(Edge, GraphNode<'a>)> {
                         let action = UnchangedDelimiter;
                         res.push((
                             action,
-                            GraphNode {
-                                distance: gn.distance + action.cost(),
+                            Vertex {
+                                distance: v.distance + action.cost(),
                                 lhs_next: lhs_children.first().map(|n| *n),
                                 rhs_next: rhs_children.first().map(|n| *n),
                             },
@@ -220,17 +215,17 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<(Edge, GraphNode<'a>)> {
         _ => {}
     }
 
-    if let Some(lhs_next_node) = &gn.lhs_next {
+    if let Some(lhs_next_node) = &v.lhs_next {
         match lhs_next_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
                 let action = NovelAtomLHS;
                 res.push((
                     action,
-                    GraphNode {
-                        distance: gn.distance + action.cost(),
+                    Vertex {
+                        distance: v.distance + action.cost(),
                         lhs_next: lhs_next_node.get_next(),
-                        rhs_next: gn.rhs_next.clone(),
+                        rhs_next: v.rhs_next.clone(),
                     },
                 ));
             }
@@ -240,19 +235,19 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<(Edge, GraphNode<'a>)> {
                 if children.len() == 0 {
                     res.push((
                         action,
-                        GraphNode {
-                            distance: gn.distance + action.cost(),
+                        Vertex {
+                            distance: v.distance + action.cost(),
                             lhs_next: lhs_next_node.get_next(),
-                            rhs_next: gn.rhs_next.clone(),
+                            rhs_next: v.rhs_next.clone(),
                         },
                     ));
                 } else {
                     res.push((
                         action,
-                        GraphNode {
-                            distance: gn.distance + action.cost(),
+                        Vertex {
+                            distance: v.distance + action.cost(),
                             lhs_next: Some(children[0]),
-                            rhs_next: gn.rhs_next.clone(),
+                            rhs_next: v.rhs_next.clone(),
                         },
                     ));
                 }
@@ -260,16 +255,16 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<(Edge, GraphNode<'a>)> {
         }
     }
 
-    if let Some(rhs_next_node) = &gn.rhs_next {
+    if let Some(rhs_next_node) = &v.rhs_next {
         match rhs_next_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
                 let action = NovelAtomRHS;
                 res.push((
                     action,
-                    GraphNode {
-                        distance: gn.distance + action.cost(),
-                        lhs_next: gn.lhs_next.clone(),
+                    Vertex {
+                        distance: v.distance + action.cost(),
+                        lhs_next: v.lhs_next.clone(),
                         rhs_next: rhs_next_node.get_next(),
                     },
                 ));
@@ -281,18 +276,18 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<(Edge, GraphNode<'a>)> {
                 if children.len() == 0 {
                     res.push((
                         action,
-                        GraphNode {
-                            distance: gn.distance + action.cost(),
-                            lhs_next: gn.lhs_next.clone(),
+                        Vertex {
+                            distance: v.distance + action.cost(),
+                            lhs_next: v.lhs_next.clone(),
                             rhs_next: rhs_next_node.get_next(),
                         },
                     ));
                 } else {
                     res.push((
                         action,
-                        GraphNode {
-                            distance: gn.distance + action.cost(),
-                            lhs_next: gn.lhs_next.clone(),
+                        Vertex {
+                            distance: v.distance + action.cost(),
+                            lhs_next: v.lhs_next.clone(),
                             rhs_next: Some(children[0]),
                         },
                     ));
@@ -304,13 +299,13 @@ fn next_graph_nodes<'a>(gn: &GraphNode<'a>) -> Vec<(Edge, GraphNode<'a>)> {
     res
 }
 
-impl<'a> PartialEq for GraphNode<'a> {
+impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.lhs_next == other.lhs_next && self.rhs_next == other.rhs_next
     }
 }
 
-impl<'a> Hash for GraphNode<'a> {
+impl<'a> Hash for Vertex<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         // Deliberately ignore distance: we want to find equal nodes
         // regardless of the distance of different paths to them.
@@ -359,7 +354,7 @@ mod tests {
             kind: AtomKind::Other,
         });
 
-        let start = GraphNode::new(lhs, rhs);
+        let start = Vertex::new(lhs, rhs);
         let route = find_route(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -390,7 +385,7 @@ mod tests {
         );
         set_next(rhs);
 
-        let start = GraphNode::new(lhs, rhs);
+        let start = Vertex::new(lhs, rhs);
         let route = find_route(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
