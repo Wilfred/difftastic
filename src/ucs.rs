@@ -170,11 +170,11 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         (Some(lhs_next_node), Some(rhs_next_node)) => {
             if lhs_next_node == rhs_next_node {
                 // Both nodes are equal, the happy case.
-                let action = UnchangedNode;
+                let edge = UnchangedNode;
                 res.push((
-                    action,
+                    edge,
                     Vertex {
-                        distance: v.distance + action.cost(),
+                        distance: v.distance + edge.cost(),
                         lhs_next: lhs_next_node.get_next(),
                         rhs_next: rhs_next_node.get_next(),
                     },
@@ -199,11 +199,11 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     if lhs_open_delimiter == rhs_open_delimiter
                         && lhs_close_delimiter == rhs_close_delimiter
                     {
-                        let action = UnchangedDelimiter;
+                        let edge = UnchangedDelimiter;
                         res.push((
-                            action,
+                            edge,
                             Vertex {
-                                distance: v.distance + action.cost(),
+                                distance: v.distance + edge.cost(),
                                 lhs_next: lhs_children.first().map(|n| *n),
                                 rhs_next: rhs_children.first().map(|n| *n),
                             },
@@ -220,11 +220,11 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         match lhs_next_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
-                let action = NovelAtomLHS;
+                let edge = NovelAtomLHS;
                 res.push((
-                    action,
+                    edge,
                     Vertex {
-                        distance: v.distance + action.cost(),
+                        distance: v.distance + edge.cost(),
                         lhs_next: lhs_next_node.get_next(),
                         rhs_next: v.rhs_next.clone(),
                     },
@@ -232,21 +232,21 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             }
             // Step into this partially/fully novel list.
             Node::List { children, .. } => {
-                let action = NovelDelimiterLHS;
+                let edge = NovelDelimiterLHS;
                 if children.len() == 0 {
                     res.push((
-                        action,
+                        edge,
                         Vertex {
-                            distance: v.distance + action.cost(),
+                            distance: v.distance + edge.cost(),
                             lhs_next: lhs_next_node.get_next(),
                             rhs_next: v.rhs_next.clone(),
                         },
                     ));
                 } else {
                     res.push((
-                        action,
+                        edge,
                         Vertex {
-                            distance: v.distance + action.cost(),
+                            distance: v.distance + edge.cost(),
                             lhs_next: Some(children[0]),
                             rhs_next: v.rhs_next.clone(),
                         },
@@ -260,11 +260,11 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         match rhs_next_node {
             // Step over this novel atom.
             Node::Atom { .. } => {
-                let action = NovelAtomRHS;
+                let edge = NovelAtomRHS;
                 res.push((
-                    action,
+                    edge,
                     Vertex {
-                        distance: v.distance + action.cost(),
+                        distance: v.distance + edge.cost(),
                         lhs_next: v.lhs_next.clone(),
                         rhs_next: rhs_next_node.get_next(),
                     },
@@ -272,22 +272,21 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             }
             // Step into this partially/fully novel list.
             Node::List { children, .. } => {
-                // TODO: handle unchanged delimiter.
-                let action = NovelDelimiterRHS;
+                let edge = NovelDelimiterRHS;
                 if children.len() == 0 {
                     res.push((
-                        action,
+                        edge,
                         Vertex {
-                            distance: v.distance + action.cost(),
+                            distance: v.distance + edge.cost(),
                             lhs_next: v.lhs_next.clone(),
                             rhs_next: rhs_next_node.get_next(),
                         },
                     ));
                 } else {
                     res.push((
-                        action,
+                        edge,
                         Vertex {
-                            distance: v.distance + action.cost(),
+                            distance: v.distance + edge.cost(),
                             lhs_next: v.lhs_next.clone(),
                             rhs_next: Some(children[0]),
                         },
