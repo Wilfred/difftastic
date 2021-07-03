@@ -126,7 +126,7 @@ impl<'a> Node<'a> {
         }
     }
 
-    fn set_change(&self, ck: ChangeKind<'a>) {
+    pub fn set_change(&self, ck: ChangeKind<'a>) {
         match self {
             List { change, .. } => {
                 change.set(Some(ck));
@@ -137,7 +137,7 @@ impl<'a> Node<'a> {
         }
     }
 
-    fn set_change_deep(&self, ck: ChangeKind<'a>) {
+    pub fn set_change_deep(&self, ck: ChangeKind<'a>) {
         self.set_change(ck);
 
         if let List { children, .. } = self {
