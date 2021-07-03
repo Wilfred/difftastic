@@ -96,6 +96,7 @@ dependencies = [
  "pretty_assertions",
  "regex",
  "rust-embed",
+ "rustc-hash",
  "serde",
  "term_size",
  "toml",
@@ -239,6 +240,12 @@ checksum = "2a512219132473ab0a77b52077059f1c47ce4af7fbdc94503e9862a34422876d"
 dependencies = [
  "walkdir",
 ]
+
+[[package]]
+name = "rustc-hash"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
 
 [[package]]
 name = "same-file"
