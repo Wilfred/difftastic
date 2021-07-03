@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 
-use crate::tree_diff::{ChangeKind, Node};
+use crate::syntax::{ChangeKind, Node};
 use rustc_hash::{FxHashMap, FxHashSet};
 use typed_arena::Arena;
 use Edge::*;
@@ -324,8 +324,8 @@ fn mark_route<'a>(route: &[(Edge, Vertex<'a>)]) {
 mod tests {
     use super::*;
     use crate::positions::SingleLineSpan;
-    use crate::tree_diff::Node::*;
-    use crate::tree_diff::{set_next, AtomKind};
+    use crate::syntax::Node::*;
+    use crate::syntax::{set_next, AtomKind};
 
     use itertools::Itertools;
     use std::cell::Cell;

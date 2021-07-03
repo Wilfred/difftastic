@@ -1,5 +1,5 @@
 use crate::positions::SingleLineSpan;
-use crate::tree_diff::{MatchKind, MatchedPos};
+use crate::syntax::{MatchKind, MatchedPos};
 use regex::Regex;
 use std::cmp::{max, min, Ordering};
 use std::fmt;

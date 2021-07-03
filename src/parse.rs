@@ -1,6 +1,6 @@
 use crate::lines::NewlinePositions;
 use crate::positions::SingleLineSpan;
-use crate::tree_diff::{AtomKind, Node};
+use crate::syntax::{AtomKind, Node};
 use regex::Regex;
 use rust_embed::RustEmbed;
 use std::fs;
@@ -275,7 +275,7 @@ impl ParseState {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::tree_diff::Node::*;
+    use crate::syntax::Node::*;
 
     fn lang() -> Language {
         let syntax_toml = ConfigDir::read_default_toml();
