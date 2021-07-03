@@ -94,7 +94,7 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         v: start.clone(),
     });
 
-    let mut visited: HashSet<Vertex> = HashSet::new();
+    let mut visited = HashSet::new();
     let mut predecessors: HashMap<Vertex, (Edge, Vertex)> = HashMap::new();
 
     loop {
