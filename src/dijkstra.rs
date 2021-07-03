@@ -1,37 +1,15 @@
 use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::collections::{BinaryHeap, HashMap};
-use std::hash::{Hash, Hasher};
 
 use crate::tree_diff::{ChangeKind, Node};
 use typed_arena::Arena;
 use Edge::*;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 struct Vertex<'a> {
     lhs_node: Option<&'a Node<'a>>,
     rhs_node: Option<&'a Node<'a>>,
-}
-
-// When walking the graph, we want to consider nodes distinct if they
-// have different content or if they have different positions. There
-// may be multiple nodes with same content at different positions.
-impl<'a> PartialEq for Vertex<'a> {
-    fn eq(&self, other: &Self) -> bool {
-        match (self.lhs_node, other.lhs_node) {
-            (Some(lhs_node), Some(rhs_node)) => lhs_node.equal_content_and_pos(rhs_node),
-            (None, None) => true,
-            _ => false,
-        }
-    }
-}
-impl<'a> Eq for Vertex<'a> {}
-
-impl<'a> Hash for Vertex<'a> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.lhs_node.hash(state);
-        self.rhs_node.hash(state);
-    }
 }
 
 impl<'a> Vertex<'a> {
