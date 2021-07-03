@@ -212,23 +212,19 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step into this partially/fully novel list.
             Node::List { children, .. } => {
                 let edge = NovelDelimiterLHS;
-                if children.len() == 0 {
-                    res.push((
-                        edge,
-                        Vertex {
-                            lhs_node: lhs_node.get_next(),
-                            rhs_node: v.rhs_node.clone(),
-                        },
-                    ));
+                let lhs_next = if children.is_empty() {
+                    lhs_node.get_next()
                 } else {
-                    res.push((
-                        edge,
-                        Vertex {
-                            lhs_node: Some(children[0]),
-                            rhs_node: v.rhs_node.clone(),
-                        },
-                    ));
-                }
+                    Some(children[0])
+                };
+
+                res.push((
+                    edge,
+                    Vertex {
+                        lhs_node: lhs_next,
+                        rhs_node: v.rhs_node.clone(),
+                    },
+                ));
             }
         }
     }
@@ -249,23 +245,19 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step into this partially/fully novel list.
             Node::List { children, .. } => {
                 let edge = NovelDelimiterRHS;
-                if children.len() == 0 {
-                    res.push((
-                        edge,
-                        Vertex {
-                            lhs_node: v.lhs_node.clone(),
-                            rhs_node: rhs_node.get_next(),
-                        },
-                    ));
+                let rhs_next = if children.is_empty() {
+                    rhs_node.get_next()
                 } else {
-                    res.push((
-                        edge,
-                        Vertex {
-                            lhs_node: v.lhs_node.clone(),
-                            rhs_node: Some(children[0]),
-                        },
-                    ));
-                }
+                    Some(children[0])
+                };
+
+                res.push((
+                    edge,
+                    Vertex {
+                        lhs_node: v.lhs_node.clone(),
+                        rhs_node: rhs_next,
+                    },
+                ));
             }
         }
     }
