@@ -1,6 +1,6 @@
 use crate::lines::NewlinePositions;
 use crate::positions::SingleLineSpan;
-use crate::syntax::{AtomKind, Node};
+use crate::syntax::{AtomKind, Syntax};
 use regex::Regex;
 use rust_embed::RustEmbed;
 use std::fs;
@@ -113,14 +113,14 @@ fn lang_from_value(v: &Value) -> Language {
 /// Split `s` by lines, and treat each line as an atom.
 ///
 /// This is a fallback for files that we don't know how to parse.
-pub fn parse_lines<'a>(arena: &'a Arena<Node<'a>>, s: &str) -> Vec<&'a Node<'a>> {
+pub fn parse_lines<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<'a>> {
     let mut line_start = 0;
-    let mut res: Vec<&'a Node<'a>> = vec![];
+    let mut res: Vec<&'a Syntax<'a>> = vec![];
 
     for (i, c) in s.chars().enumerate() {
         if c == '\n' {
             let line = &s[line_start..i];
-            let atom = Node::new_atom(
+            let atom = Syntax::new_atom(
                 arena,
                 vec![SingleLineSpan {
                     line: res.len().into(),
@@ -140,7 +140,7 @@ pub fn parse_lines<'a>(arena: &'a Arena<Node<'a>>, s: &str) -> Vec<&'a Node<'a>>
         if last != '\n' {
             let line = &s[line_start..];
 
-            let atom = Node::new_atom(
+            let atom = Syntax::new_atom(
                 arena,
                 vec![SingleLineSpan {
                     line: res.len().into(),
@@ -158,27 +158,25 @@ pub fn parse_lines<'a>(arena: &'a Arena<Node<'a>>, s: &str) -> Vec<&'a Node<'a>>
 }
 
 /// Parse `s` according to `lang`.
-pub fn parse<'a>(arena: &'a Arena<Node<'a>>, s: &str, lang: &Language) -> Vec<&'a Node<'a>> {
+pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, s: &str, lang: &Language) -> Vec<&'a Syntax<'a>> {
     let nl_pos = NewlinePositions::from(s);
-    let nodes = parse_from(arena, s, &nl_pos, lang, &mut ParseState::new());
-
-    nodes
+    parse_from(arena, s, &nl_pos, lang, &mut ParseState::new())
 }
 
 fn parse_from<'a>(
-    arena: &'a Arena<Node<'a>>,
+    arena: &'a Arena<Syntax<'a>>,
     s: &str,
     nl_pos: &NewlinePositions,
     lang: &Language,
     state: &mut ParseState,
-) -> Vec<&'a Node<'a>> {
-    let mut result: Vec<&'a Node<'a>> = vec![];
+) -> Vec<&'a Syntax<'a>> {
+    let mut result: Vec<&'a Syntax<'a>> = vec![];
 
     'outer: while state.str_i < s.len() {
         for pattern in &lang.comment_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 assert_eq!(m.start(), 0);
-                let atom = Node::new_atom(
+                let atom = Syntax::new_atom(
                     arena,
                     nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
@@ -193,7 +191,7 @@ fn parse_from<'a>(
         for pattern in &lang.atom_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 assert_eq!(m.start(), 0);
-                let atom = Node::new_atom(
+                let atom = Syntax::new_atom(
                     arena,
                     nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
@@ -208,7 +206,7 @@ fn parse_from<'a>(
         for pattern in &lang.string_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 assert_eq!(m.start(), 0);
-                let atom = Node::new_atom(
+                let atom = Syntax::new_atom(
                     arena,
                     nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
@@ -231,7 +229,7 @@ fn parse_from<'a>(
             ));
 
             let open_pos = nl_pos.from_offsets(start, start + m.end());
-            let items = Node::new_list(
+            let items = Syntax::new_list(
                 arena,
                 m.as_str(),
                 open_pos,
@@ -275,21 +273,21 @@ impl ParseState {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::syntax::Node::*;
+    use crate::syntax::Syntax::*;
 
     fn lang() -> Language {
         let syntax_toml = ConfigDir::read_default_toml();
         find_lang(syntax_toml, "js").unwrap()
     }
 
-    fn assert_syntaxes<'a>(actual: &[&'a Node<'a>], expected: &[&'a Node<'a>]) {
+    fn assert_syntaxes<'a>(actual: &[&'a Syntax<'a>], expected: &[&'a Syntax<'a>]) {
         if !syntaxes_match(actual, expected) {
             dbg!(expected, actual);
             assert!(false);
         }
     }
 
-    fn syntaxes_match<'a>(actual: &[&'a Node<'a>], expected: &[&'a Node<'a>]) -> bool {
+    fn syntaxes_match<'a>(actual: &[&'a Syntax<'a>], expected: &[&'a Syntax<'a>]) -> bool {
         if actual.len() != expected.len() {
             return false;
         } else {
@@ -304,7 +302,7 @@ mod tests {
 
     /// Compare all the fields in a Syntax value, not just
     /// those used in its Eq implementation.
-    fn syntax_matches<'a>(actual: &'a Node<'a>, expected: &'a Node<'a>) -> bool {
+    fn syntax_matches<'a>(actual: &'a Syntax<'a>, expected: &'a Syntax<'a>) -> bool {
         match (actual, expected) {
             (
                 List {
@@ -407,7 +405,7 @@ mod tests {
         assert_syntaxes(
             &parse_lines(&arena, "foo\nbar"),
             &[
-                Node::new_atom(
+                Syntax::new_atom(
                     &arena,
                     vec![SingleLineSpan {
                         line: 0.into(),
@@ -417,7 +415,7 @@ mod tests {
                     "foo",
                     AtomKind::Other,
                 ),
-                Node::new_atom(
+                Syntax::new_atom(
                     &arena,
                     vec![SingleLineSpan {
                         line: 1.into(),
@@ -437,7 +435,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, "123", &lang()),
-            &[Node::new_atom(
+            &[Syntax::new_atom(
                 &arena,
                 vec![SingleLineSpan {
                     line: 0.into(),
@@ -456,7 +454,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, "\"\"", &lang()),
-            &[Node::new_atom(
+            &[Syntax::new_atom(
                 &arena,
                 vec![SingleLineSpan {
                     line: 0.into(),
@@ -476,7 +474,7 @@ mod tests {
         assert_syntaxes(
             &parse(&arena, "123 456", &lang()),
             &[
-                Node::new_atom(
+                Syntax::new_atom(
                     &arena,
                     vec![SingleLineSpan {
                         line: 0.into(),
@@ -486,7 +484,7 @@ mod tests {
                     "123",
                     AtomKind::Other,
                 ),
-                Node::new_atom(
+                Syntax::new_atom(
                     &arena,
                     vec![SingleLineSpan {
                         line: 0.into(),
@@ -506,7 +504,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, ".foo", &lang()),
-            &[Node::new_atom(
+            &[Syntax::new_atom(
                 &arena,
                 vec![SingleLineSpan {
                     line: 0.into(),
@@ -525,7 +523,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, " 123 ", &lang()),
-            &[Node::new_atom(
+            &[Syntax::new_atom(
                 &arena,
                 vec![SingleLineSpan {
                     line: 0.into(),
@@ -544,7 +542,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, "\"abc\"", &lang()),
-            &[Node::new_atom(
+            &[Syntax::new_atom(
                 &arena,
                 vec![SingleLineSpan {
                     line: 0.into(),
@@ -564,7 +562,7 @@ mod tests {
         assert_syntaxes(
             &parse(&arena, "// foo\nx", &lang()),
             &[
-                Node::new_atom(
+                Syntax::new_atom(
                     &arena,
                     vec![SingleLineSpan {
                         line: 0.into(),
@@ -574,7 +572,7 @@ mod tests {
                     "// foo\n",
                     AtomKind::Comment,
                 ),
-                Node::new_atom(
+                Syntax::new_atom(
                     &arena,
                     vec![SingleLineSpan {
                         line: 1.into(),
@@ -594,7 +592,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, "/* foo\nbar */", &lang()),
-            &[Node::new_atom(
+            &[Syntax::new_atom(
                 &arena,
                 vec![
                     SingleLineSpan {
@@ -620,7 +618,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, "[ 123 ]", &lang()),
-            &[Node::new_list(
+            &[Syntax::new_list(
                 &arena,
                 "[",
                 vec![SingleLineSpan {
@@ -628,7 +626,7 @@ mod tests {
                     start_col: 0,
                     end_col: 1,
                 }],
-                vec![Node::new_atom(
+                vec![Syntax::new_atom(
                     &arena,
                     vec![SingleLineSpan {
                         line: 0.into(),
@@ -653,7 +651,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, "[]", &lang()),
-            &[Node::new_list(
+            &[Syntax::new_list(
                 &arena,
                 "[",
                 vec![SingleLineSpan {
@@ -678,7 +676,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, "()", &lang()),
-            &[Node::new_list(
+            &[Syntax::new_list(
                 &arena,
                 "(",
                 vec![SingleLineSpan {
@@ -703,7 +701,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, "[123, 456]", &lang()),
-            &[Node::new_list(
+            &[Syntax::new_list(
                 &arena,
                 "[",
                 vec![SingleLineSpan {
@@ -712,7 +710,7 @@ mod tests {
                     end_col: 1,
                 }],
                 vec![
-                    Node::new_atom(
+                    Syntax::new_atom(
                         &arena,
                         vec![SingleLineSpan {
                             line: 0.into(),
@@ -722,7 +720,7 @@ mod tests {
                         "123",
                         AtomKind::Other,
                     ),
-                    Node::new_atom(
+                    Syntax::new_atom(
                         &arena,
                         vec![SingleLineSpan {
                             line: 0.into(),
@@ -732,7 +730,7 @@ mod tests {
                         ",",
                         AtomKind::Other,
                     ),
-                    Node::new_atom(
+                    Syntax::new_atom(
                         &arena,
                         vec![SingleLineSpan {
                             line: 0.into(),
@@ -759,7 +757,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, "{x: 1}", &lang()),
-            &[Node::new_list(
+            &[Syntax::new_list(
                 &arena,
                 "{",
                 vec![SingleLineSpan {
@@ -768,7 +766,7 @@ mod tests {
                     end_col: 1,
                 }],
                 vec![
-                    Node::new_atom(
+                    Syntax::new_atom(
                         &arena,
                         vec![SingleLineSpan {
                             line: 0.into(),
@@ -778,7 +776,7 @@ mod tests {
                         "x",
                         AtomKind::Other,
                     ),
-                    Node::new_atom(
+                    Syntax::new_atom(
                         &arena,
                         vec![SingleLineSpan {
                             line: 0.into(),
@@ -788,7 +786,7 @@ mod tests {
                         ":",
                         AtomKind::Other,
                     ),
-                    Node::new_atom(
+                    Syntax::new_atom(
                         &arena,
                         vec![SingleLineSpan {
                             line: 0.into(),
