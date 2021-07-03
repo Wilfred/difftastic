@@ -6,6 +6,7 @@ use std::collections::{BinaryHeap, HashMap};
 use std::hash::{Hash, Hasher};
 
 use crate::tree_diff::{ChangeKind, Node};
+use typed_arena::Arena;
 use Edge::*;
 
 #[derive(Debug, Clone)]
@@ -299,7 +300,17 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     res
 }
 
-pub fn mark_nodes<'a>(lhs: &'a Node<'a>, rhs: &'a Node<'a>) {
+pub fn toplevel_list<'a>(
+    arena: &'a Arena<Node<'a>>,
+    lhs_children: Vec<&'a Node<'a>>,
+    rhs_children: Vec<&'a Node<'a>>,
+) -> (&'a Node<'a>, &'a Node<'a>) {
+    let lhs = Node::new_list(arena, "".into(), vec![], lhs_children, "".into(), vec![]);
+    let rhs = Node::new_list(arena, "".into(), vec![], rhs_children, "".into(), vec![]);
+    (lhs, rhs)
+}
+
+pub fn mark_node<'a>(lhs: &'a Node<'a>, rhs: &'a Node<'a>) {
     let start = Vertex::new(lhs, rhs);
     let route = find_route(start);
     mark_route(&route);
