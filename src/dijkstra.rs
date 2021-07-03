@@ -3,13 +3,12 @@
 use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::collections::{BinaryHeap, HashMap};
-use std::hash::{Hash, Hasher};
 
 use crate::tree_diff::{ChangeKind, Node};
 use typed_arena::Arena;
 use Edge::*;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 struct Vertex<'a> {
     lhs_next: Option<&'a Node<'a>>,
     rhs_next: Option<&'a Node<'a>>,
@@ -60,27 +59,6 @@ impl<'a> PartialEq for OrdVertex<'a> {
 }
 impl<'a> Eq for OrdVertex<'a> {}
 
-// A `Vertex` that only considers the underlying `Node`s for equality,
-// ignoring distance.
-#[derive(Debug)]
-struct EqVertex<'a> {
-    v: Vertex<'a>,
-}
-
-impl<'a> PartialEq for EqVertex<'a> {
-    fn eq(&self, other: &Self) -> bool {
-        self.v.lhs_next == other.v.lhs_next && self.v.rhs_next == other.v.rhs_next
-    }
-}
-impl<'a> Eq for EqVertex<'a> {}
-
-impl<'a> Hash for EqVertex<'a> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.v.lhs_next.hash(state);
-        self.v.rhs_next.hash(state);
-    }
-}
-
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 enum Edge {
     StartNode,
@@ -116,8 +94,8 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         v: start.clone(),
     });
 
-    let mut visited: HashSet<EqVertex> = HashSet::new();
-    let mut predecessors: HashMap<EqVertex, (Edge, Vertex)> = HashMap::new();
+    let mut visited: HashSet<Vertex> = HashSet::new();
+    let mut predecessors: HashMap<Vertex, (Edge, Vertex)> = HashMap::new();
 
     loop {
         match heap.pop() {
@@ -126,13 +104,12 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     break;
                 }
 
-                let ev = EqVertex { v: v.clone() };
-                if visited.contains(&ev) {
+                if visited.contains(&v) {
                     continue;
                 }
                 for (edge, new_v) in neighbours(&v) {
-                    if !predecessors.contains_key(&EqVertex { v: new_v.clone() }) {
-                        predecessors.insert(EqVertex { v: new_v.clone() }, (edge, v.clone()));
+                    if !predecessors.contains_key(&new_v) {
+                        predecessors.insert(new_v.clone(), (edge, v.clone()));
                         heap.push(OrdVertex {
                             distance: distance + edge.cost(),
                             v: new_v,
@@ -140,7 +117,7 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     }
                 }
 
-                visited.insert(EqVertex { v });
+                visited.insert(v);
             }
             None => panic!("Ran out of graph nodes before reaching end"),
         }
@@ -152,7 +129,7 @@ fn shortest_path<'a>(start: Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     };
     let mut res: Vec<(Edge, Vertex)> = vec![];
     loop {
-        match predecessors.remove(&EqVertex { v: current.clone() }) {
+        match predecessors.remove(&current) {
             Some((edge, node)) => {
                 res.push((edge, node.clone()));
                 current = node;
