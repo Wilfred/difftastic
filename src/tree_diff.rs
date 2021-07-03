@@ -343,7 +343,10 @@ fn change_positions_<'a>(
                 close_position,
                 ..
             } => {
-                let change = change.get().expect("Should have changes set in all nodes");
+                let change = change.get().expect(&format!(
+                    "Should have changes set in all nodes: {:#?}",
+                    node
+                ));
 
                 if let Unchanged(opposite_node) = change {
                     match opposite_node {
@@ -391,7 +394,10 @@ fn change_positions_<'a>(
             Atom {
                 change, position, ..
             } => {
-                let change = change.get().expect("Should have changes set in all nodes");
+                let change = change.get().expect(&format!(
+                    "Should have changes set in all nodes: {:#?}",
+                    node
+                ));
                 if let Unchanged(opposite_node) = change {
                     match opposite_node {
                         List { .. } => {
