@@ -15,7 +15,8 @@ use crate::lines::{
 };
 use crate::parse::{find_lang, parse, parse_lines, read_or_die, ConfigDir};
 use crate::style::apply_colors;
-use crate::tree_diff::{change_positions, mark_nodes};
+use crate::tree_diff::{change_positions, mark_nodes, set_next};
+use crate::ucs::{toplevel_list, mark_node};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
@@ -83,10 +84,13 @@ fn main() {
         None => (parse_lines(&arena, &lhs_src), parse_lines(&arena, &rhs_src)),
     };
 
-    mark_nodes(&lhs, &rhs);
+    let (lhs, rhs) = toplevel_list(&arena, lhs, rhs);
+    set_next(lhs);
+    set_next(rhs);
+    mark_node(lhs, rhs);
 
-    let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
-    let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
+    let lhs_positions = change_positions(&lhs_src, &rhs_src, &[lhs]);
+    let rhs_positions = change_positions(&rhs_src, &lhs_src, &[rhs]);
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     for group in &mut groups {
