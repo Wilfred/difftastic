@@ -347,7 +347,7 @@ mod tests {
         let arena = Arena::new();
 
         let lhs = arena.alloc(Atom {
-            hash_value: 0,
+            pos_content_hash: 0,
             next: Cell::new(None),
             position: pos_helper(0),
             change: Cell::new(None),
@@ -357,7 +357,7 @@ mod tests {
 
         // Same content as LHS.
         let rhs = arena.alloc(Atom {
-            hash_value: 1,
+            pos_content_hash: 1,
             next: Cell::new(None),
             position: pos_helper(1),
             change: Cell::new(None),
