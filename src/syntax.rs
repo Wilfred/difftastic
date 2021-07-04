@@ -42,7 +42,7 @@ pub enum AtomKind {
 
 pub enum Syntax<'a> {
     List {
-        hash_value: u64,
+        pos_content_hash: u64,
         next: Cell<Option<&'a Syntax<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         open_position: Vec<SingleLineSpan>,
@@ -53,7 +53,7 @@ pub enum Syntax<'a> {
         num_descendants: usize,
     },
     Atom {
-        hash_value: u64,
+        pos_content_hash: u64,
         next: Cell<Option<&'a Syntax<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         position: Vec<SingleLineSpan>,
@@ -141,10 +141,8 @@ impl<'a> Syntax<'a> {
             child.hash(&mut hasher);
         }
 
-        let hash_value = hasher.finish();
-
         arena.alloc(List {
-            hash_value,
+            pos_content_hash: hasher.finish(),
             next: Cell::new(None),
             change: Cell::new(None),
             open_position,
@@ -168,9 +166,8 @@ impl<'a> Syntax<'a> {
         position.hash(&mut hasher);
         content.hash(&mut hasher);
 
-        let hash_value = hasher.finish();
         arena.alloc(Atom {
-            hash_value,
+            pos_content_hash: hasher.finish(),
             next: Cell::new(None),
             position,
             content: content.into(),
@@ -254,9 +251,7 @@ impl<'a> Syntax<'a> {
                     ..
                 },
             ) => {
-                if lhs_open_content != rhs_open_content
-                    || lhs_close_content != rhs_close_content
-                {
+                if lhs_open_content != rhs_open_content || lhs_close_content != rhs_close_content {
                     return false;
                 }
                 if lhs_children.len() != rhs_children.len() {
@@ -362,11 +357,15 @@ impl<'a> Eq for Syntax<'a> {}
 impl<'a> Hash for Syntax<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         match self {
-            List { hash_value, .. } => {
-                hash_value.hash(state);
+            List {
+                pos_content_hash, ..
+            } => {
+                pos_content_hash.hash(state);
             }
-            Atom { hash_value, .. } => {
-                hash_value.hash(state);
+            Atom {
+                pos_content_hash, ..
+            } => {
+                pos_content_hash.hash(state);
             }
         }
     }
@@ -525,7 +524,7 @@ mod tests {
     fn test_prev_opposite_pos_first_node() {
         // TODO: use Node::new_atom
         let nodes = &[&Atom {
-            hash_value: 0,
+            pos_content_hash: 0,
             next: Cell::new(None),
             change: Cell::new(Some(Novel)),
             position: vec![SingleLineSpan {
@@ -551,7 +550,7 @@ mod tests {
     fn test_atom_equality_ignores_change() {
         assert_eq!(
             Atom {
-                hash_value: 0,
+                pos_content_hash: 0,
                 next: Cell::new(None),
                 change: Cell::new(Some(Novel)),
                 position: vec![SingleLineSpan {
@@ -563,7 +562,7 @@ mod tests {
                 kind: Other,
             },
             Atom {
-                hash_value: 1,
+                pos_content_hash: 1,
                 next: Cell::new(None),
                 change: Cell::new(None),
                 position: vec![SingleLineSpan {
