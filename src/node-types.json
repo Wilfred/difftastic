@@ -1404,6 +1404,44 @@
     }
   },
   {
+    "type": "grant_statement",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "DATABASE",
+            "named": false
+          },
+          {
+            "type": "SCHEMA",
+            "named": false
+          },
+          {
+            "type": "SEQUENCE",
+            "named": false
+          },
+          {
+            "type": "TABLE",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "group_by_clause",
     "named": true,
     "fields": {},
@@ -2412,6 +2450,10 @@
           "named": true
         },
         {
+          "type": "grant_statement",
+          "named": true
+        },
+        {
           "type": "insert_statement",
           "named": true
         },
@@ -2898,6 +2940,10 @@
     "named": false
   },
   {
+    "type": "ALL",
+    "named": false
+  },
+  {
     "type": "AND",
     "named": false
   },
@@ -2946,7 +2992,15 @@
     "named": false
   },
   {
+    "type": "DATABASE",
+    "named": false
+  },
+  {
     "type": "DEFAULT",
+    "named": false
+  },
+  {
+    "type": "DELETE",
     "named": false
   },
   {
@@ -2971,6 +3025,14 @@
   },
   {
     "type": "FULL",
+    "named": false
+  },
+  {
+    "type": "GRANT",
+    "named": false
+  },
+  {
+    "type": "GROUP",
     "named": false
   },
   {
@@ -3058,6 +3120,14 @@
     "named": false
   },
   {
+    "type": "PRIVILEGES",
+    "named": false
+  },
+  {
+    "type": "PUBLIC",
+    "named": false
+  },
+  {
     "type": "REFERENCES",
     "named": false
   },
@@ -3074,7 +3144,15 @@
     "named": false
   },
   {
+    "type": "SCHEMA",
+    "named": false
+  },
+  {
     "type": "SELECT",
+    "named": false
+  },
+  {
+    "type": "SEQUENCE",
     "named": false
   },
   {
@@ -3094,7 +3172,23 @@
     "named": false
   },
   {
+    "type": "TABLE",
+    "named": false
+  },
+  {
+    "type": "TO",
+    "named": false
+  },
+  {
+    "type": "TRIGGER",
+    "named": false
+  },
+  {
     "type": "TRUE",
+    "named": false
+  },
+  {
+    "type": "TRUNCATE",
     "named": false
   },
   {
@@ -3103,6 +3197,10 @@
   },
   {
     "type": "UPDATE",
+    "named": false
+  },
+  {
+    "type": "USAGE",
     "named": false
   },
   {
@@ -3119,6 +3217,10 @@
   },
   {
     "type": "WHERE",
+    "named": false
+  },
+  {
+    "type": "WITH_GRANT_OPTION",
     "named": false
   },
   {

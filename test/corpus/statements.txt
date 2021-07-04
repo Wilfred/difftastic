@@ -1375,3 +1375,15 @@ CREATE SCHEMA IF NOT EXISTS information_schema;
     (identifier))
   (create_schema_statement
     (identifier)))
+
+================================================================================
+GRANT
+================================================================================
+
+GRANT USAGE ON SCHEMA information_schema TO PUBLIC;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (grant_statement
+    (identifier)))
