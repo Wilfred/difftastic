@@ -10,7 +10,7 @@ function kw(keyword) {
   if (regExps.length == 1) {
     return alias(regExps[0], keyword);
   } else {
-    return alias(seq(...regExps), keyword.replaceAll(" ", "_"));
+    return alias(seq(...regExps), keyword.replace(/ /g, "_"));
   }
 }
 
