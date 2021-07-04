@@ -76,9 +76,15 @@ impl Edge {
             UnchangedNode => 0,
             // Matching an outer delimiter is good.
             UnchangedDelimiter => -1,
-            // Otherwise, we've added/removed a node.
-            NovelAtomLHS { .. } => -2,
-            NovelAtomRHS { .. } => -2,
+            // Otherwise, we've added/removed a node. Prefer novel
+            // nodes on the same line, to reduce the risk of sliders.
+            NovelAtomLHS { same_line } | NovelAtomRHS { same_line } => {
+                if *same_line {
+                    -2
+                } else {
+                    -3
+                }
+            }
             NovelDelimiterLHS => -2,
             NovelDelimiterRHS => -2,
         }
@@ -173,9 +179,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             },
         ) = (lhs_syntax, rhs_syntax)
         {
-            if lhs_open_content == rhs_open_content
-                && lhs_close_content == rhs_close_content
-            {
+            if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
                 let lhs_next = if lhs_children.is_empty() {
                     lhs_syntax.get_next()
                 } else {
