@@ -117,6 +117,7 @@ fn main() {
     let lhs_colored = apply_colors(&lhs_src, true, &lhs_positions);
     let rhs_colored = apply_colors(&rhs_src, false, &rhs_positions);
 
+    println!("{}", style::header(lhs_path));
     print!(
         "{}",
         apply_groups(
