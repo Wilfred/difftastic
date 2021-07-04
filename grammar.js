@@ -407,6 +407,8 @@ module.exports = grammar({
       token(
         choice(seq("--", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
       ),
+    array_element_access: $ =>
+      seq(choice($.identifier, $.argument_reference), "[", $._expression, "]"),
     binary_expression: $ =>
       prec.left(
         choice(
@@ -432,6 +434,7 @@ module.exports = grammar({
         $._parenthesized_expression,
         $.type_cast,
         $.binary_expression,
+        $.array_element_access,
         $.argument_reference,
         $.select_subexpression,
       ),

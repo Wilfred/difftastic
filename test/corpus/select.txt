@@ -72,3 +72,19 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
       (comparison_operator
         (identifier)
         (identifier)))))
+
+================================================================================
+SELECT element from array
+================================================================================
+
+SELECT a[0];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (array_element_access
+          (identifier)
+          (number))))))
