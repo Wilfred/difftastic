@@ -183,13 +183,6 @@ impl<'a> Syntax<'a> {
         }
     }
 
-    fn get_change(&self) -> Option<ChangeKind<'a>> {
-        match self {
-            List { change, .. } => change.get(),
-            Atom { change, .. } => change.get(),
-        }
-    }
-
     pub fn set_change(&self, ck: ChangeKind<'a>) {
         match self {
             List { change, .. } => {
