@@ -1,6 +1,6 @@
 [package]
 name = "difftastic"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 edition = "2018"
 
