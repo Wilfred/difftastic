@@ -114,6 +114,6 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
     apply(s, &styles)
 }
 
-pub fn header(file_name: &str) -> String {
-    format!("Changes to {}", file_name)
+pub fn header(file_name: &str, language_name: &str) -> String {
+    format!("Changes to {} ({})", file_name.white(), language_name)
 }
