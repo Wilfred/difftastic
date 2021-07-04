@@ -1190,6 +1190,24 @@ CREATE FUNCTION foo(int) RETURNS integer
 
 --------------------------------------------------------------------------------
 
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type)))
+    (type)
+    (function_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (number)))))
+    (language)
+    (null_hint)
+    (optimizer_hint)
+    (parallel_hint)
+    (parallel_hint)))
+
 ================================================================================
 CREATE FUNCTION argmode
 ================================================================================

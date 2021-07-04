@@ -3346,6 +3346,36 @@
         ]
       }
     },
+    "array_element_access": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "argument_reference"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
     "binary_expression": {
       "type": "PREC_LEFT",
       "value": 0,
@@ -3464,6 +3494,10 @@
         {
           "type": "SYMBOL",
           "name": "binary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_element_access"
         },
         {
           "type": "SYMBOL",
