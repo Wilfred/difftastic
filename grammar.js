@@ -10,7 +10,7 @@ function kw(keyword) {
   if (regExps.length == 1) {
     return alias(regExps[0], keyword);
   } else {
-    return alias(seq(...regExps), keyword.replace(" ", "_"));
+    return alias(seq(...regExps), keyword.replaceAll(" ", "_"));
   }
 }
 
@@ -54,6 +54,7 @@ module.exports = grammar({
           $.create_index_statement,
           $.create_table_statement,
           $.create_function_statement,
+          $.create_schema_statement,
         ),
         optional(";"),
       ),
@@ -97,6 +98,8 @@ module.exports = grammar({
           seq("'", $.select_statement, optional(";"), "'"),
         ),
       ),
+    create_schema_statement: $ =>
+      seq(kw("CREATE SCHEMA"), optional(kw("IF NOT EXISTS")), $.identifier),
     create_domain_statement: $ =>
       seq(
         kw("CREATE DOMAIN"),
