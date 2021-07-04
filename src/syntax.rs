@@ -319,10 +319,6 @@ impl<'a> Syntax<'a> {
             _ => false,
         }
     }
-
-    fn equal_content_and_pos(&self, other: &Self) -> bool {
-        self.equal_pos(other) && self.equal_content(other)
-    }
 }
 
 pub fn set_next<'a>(node: &'a Syntax<'a>) {
@@ -349,7 +345,7 @@ fn set_next_<'a>(node: &'a Syntax<'a>, new_next: Option<&'a Syntax<'a>>) {
 
 impl<'a> PartialEq for Syntax<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.equal_content_and_pos(other)
+        self.equal_pos(other) && self.equal_content(other)
     }
 }
 impl<'a> Eq for Syntax<'a> {}
