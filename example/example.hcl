@@ -37,7 +37,7 @@ resource_1 "strlit1" "strlit2" {
 
   func_of_object = func({
     "foo" : 2,
-    "bar" : baz
+    "bar" : baz,
     key   : val,
     fizz  : buzz,
   })
