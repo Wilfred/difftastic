@@ -197,7 +197,9 @@ var a = new A()
           (member_expression
             (new_expression (identifier) (arguments))
             (property_identifier))
-          (arguments (object (pair (property_identifier) (string)))))
+          (arguments
+            (object
+              (pair (property_identifier) (string (string_fragment))))))
         (property_identifier))
       (arguments)))))
 
