@@ -1,10 +1,10 @@
 CREATE FUNCTION add(integer, integer) RETURNS integer
 -- <- keyword
 --     ^ keyword
---                  ^ type
---                           ^ type
+--                  ^ type.builtin
+--                           ^ type.builtin
 --                                    ^ keyword
---                                            ^ type
+--                                            ^ type.builtin
 AS 'select $1 + $2;'
 -- <- keyword
 LANGUAGE SQL;
@@ -14,9 +14,9 @@ CREATE OR REPLACE FUNCTION add(integer, integer) RETURNS integer
 -- <- keyword
 --     ^ keyword
 --           ^ keyword
---                              ^ type
+--                              ^ type.builtin
 --                                                 ^ keyword
---                                                        ^ type
+--                                                        ^ type.builtin
 AS 'select $1 + $2;'
 -- <- keyword
 LANGUAGE SQL;
