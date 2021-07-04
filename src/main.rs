@@ -121,7 +121,7 @@ fn main() {
         Some(lang) => lang.name.clone(),
         None => "plain text".to_string(),
     };
-    println!("{}", style::header(lhs_path, &lang_name));
+    println!("{}", style::header(rhs_path, &lang_name));
     print!(
         "{}",
         apply_groups(
@@ -134,4 +134,5 @@ fn main() {
             terminal_width
         )
     );
+    println!();
 }
