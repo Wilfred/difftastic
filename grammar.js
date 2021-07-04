@@ -49,6 +49,7 @@ module.exports = grammar({
           $.select_statement,
           $.update_statement,
           $.insert_statement,
+          $.grant_statement,
           $.create_type_statement,
           $.create_domain_statement,
           $.create_index_statement,
@@ -100,6 +101,36 @@ module.exports = grammar({
       ),
     create_schema_statement: $ =>
       seq(kw("CREATE SCHEMA"), optional(kw("IF NOT EXISTS")), $.identifier),
+    grant_statement: $ =>
+      seq(
+        kw("GRANT"),
+        choice(
+          seq(kw("ALL"), optional(kw("PRIVILEGES"))),
+          repeat(
+            choice(
+              kw("SELECT"),
+              kw("INSERT"),
+              kw("UPDATE"),
+              kw("DELETE"),
+              kw("TRUNCATE"),
+              kw("REFERENCES"),
+              kw("TRIGGER"),
+              kw("USAGE"),
+            ),
+          ),
+        ),
+        kw("ON"),
+        field(
+          "type",
+          optional(
+            choice(kw("SCHEMA"), kw("DATABASE"), kw("SEQUENCE"), kw("TABLE")),
+          ),
+        ),
+        $.identifier,
+        kw("TO"),
+        choice(seq(optional(kw("GROUP")), $.identifier), kw("PUBLIC")),
+        optional(kw("WITH GRANT OPTION")),
+      ),
     create_domain_statement: $ =>
       seq(
         kw("CREATE DOMAIN"),
