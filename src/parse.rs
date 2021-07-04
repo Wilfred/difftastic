@@ -310,9 +310,9 @@ mod tests {
                 List {
                     change: lhs_change,
                     open_position: lhs_open_position,
-                    open_delimiter: lhs_start_content,
+                    open_content: lhs_start_content,
                     children: lhs_children,
-                    close_delimiter: lhs_end_content,
+                    close_content: lhs_end_content,
                     close_position: lhs_close_position,
                     num_descendants: lhs_num_descendants,
                     ..
@@ -320,9 +320,9 @@ mod tests {
                 List {
                     change: rhs_change,
                     open_position: rhs_open_position,
-                    open_delimiter: rhs_start_content,
+                    open_content: rhs_start_content,
                     children: rhs_children,
-                    close_delimiter: rhs_end_content,
+                    close_content: rhs_end_content,
                     close_position: rhs_close_position,
                     num_descendants: rhs_num_descendants,
                     ..

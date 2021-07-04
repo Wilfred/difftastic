@@ -160,21 +160,21 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 
         if let (
             Syntax::List {
-                open_delimiter: lhs_open_delimiter,
-                close_delimiter: lhs_close_delimiter,
+                open_content: lhs_open_content,
+                close_content: lhs_close_content,
                 children: lhs_children,
                 ..
             },
             Syntax::List {
-                open_delimiter: rhs_open_delimiter,
-                close_delimiter: rhs_close_delimiter,
+                open_content: rhs_open_content,
+                close_content: rhs_close_content,
                 children: rhs_children,
                 ..
             },
         ) = (lhs_syntax, rhs_syntax)
         {
-            if lhs_open_delimiter == rhs_open_delimiter
-                && lhs_close_delimiter == rhs_close_delimiter
+            if lhs_open_content == rhs_open_content
+                && lhs_close_content == rhs_close_content
             {
                 let lhs_next = if lhs_children.is_empty() {
                     lhs_syntax.get_next()

@@ -46,10 +46,10 @@ pub enum Syntax<'a> {
         next: Cell<Option<&'a Syntax<'a>>>,
         change: Cell<Option<ChangeKind<'a>>>,
         open_position: Vec<SingleLineSpan>,
-        open_delimiter: String,
+        open_content: String,
         children: Vec<&'a Syntax<'a>>,
         close_position: Vec<SingleLineSpan>,
-        close_delimiter: String,
+        close_content: String,
         num_descendants: usize,
     },
     Atom {
@@ -66,18 +66,18 @@ impl<'a> fmt::Debug for Syntax<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             List {
-                open_delimiter,
+                open_content,
                 children,
-                close_delimiter,
+                close_content,
                 change,
                 next,
                 ..
             } => {
                 let mut ds = f.debug_struct("List");
 
-                ds.field("open_delimiter", &open_delimiter)
+                ds.field("open_content", &open_content)
                     .field("children", &children)
-                    .field("close_delimiter", &close_delimiter)
+                    .field("close_content", &close_content)
                     .field("change", &change.get());
 
                 let next_s = match next.get() {
@@ -115,10 +115,10 @@ impl<'a> Syntax<'a> {
     #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_list(
         arena: &'a Arena<Syntax<'a>>,
-        open_delimiter: &str,
+        open_content: &str,
         open_position: Vec<SingleLineSpan>,
         children: Vec<&'a Syntax<'a>>,
-        close_delimiter: &str,
+        close_content: &str,
         close_position: Vec<SingleLineSpan>,
     ) -> &'a mut Syntax<'a> {
         let mut num_descendants = 0;
@@ -134,8 +134,8 @@ impl<'a> Syntax<'a> {
         let mut hasher = DefaultHasher::new();
 
         open_position.hash(&mut hasher);
-        open_delimiter.hash(&mut hasher);
-        close_delimiter.hash(&mut hasher);
+        open_content.hash(&mut hasher);
+        close_content.hash(&mut hasher);
         close_position.hash(&mut hasher);
         for child in &children {
             child.hash(&mut hasher);
@@ -148,8 +148,8 @@ impl<'a> Syntax<'a> {
             next: Cell::new(None),
             change: Cell::new(None),
             open_position,
-            open_delimiter: open_delimiter.into(),
-            close_delimiter: close_delimiter.into(),
+            open_content: open_content.into(),
+            close_content: close_content.into(),
             close_position,
             children,
             num_descendants,
@@ -242,20 +242,20 @@ impl<'a> Syntax<'a> {
             ) => lhs_content == rhs_content && lhs_kind == rhs_kind,
             (
                 List {
-                    open_delimiter: lhs_open_delimiter,
-                    close_delimiter: lhs_close_delimiter,
+                    open_content: lhs_open_content,
+                    close_content: lhs_close_content,
                     children: lhs_children,
                     ..
                 },
                 List {
-                    open_delimiter: rhs_open_delimiter,
-                    close_delimiter: rhs_close_delimiter,
+                    open_content: rhs_open_content,
+                    close_content: rhs_close_content,
                     children: rhs_children,
                     ..
                 },
             ) => {
-                if lhs_open_delimiter != rhs_open_delimiter
-                    || lhs_close_delimiter != rhs_close_delimiter
+                if lhs_open_content != rhs_open_content
+                    || lhs_close_content != rhs_close_content
                 {
                     return false;
                 }
