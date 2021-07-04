@@ -1,6 +1,6 @@
-## 0.3
+## 0.3 (unreleased)
 
-No changes yet.
+Improved Rust parsing to recognise lifetime syntax `'foo`.
 
 ## 0.2
 
