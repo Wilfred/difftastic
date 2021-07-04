@@ -1,4 +1,9 @@
-function caseInsensitive(keyword) {
+// Generate case insentitive match for SQL keyword
+// In case of multiple word keyword provide a seq matcher
+function kw(keyword) {
+  if (keyword.toUpperCase() != keyword) {
+    throw new Error(`Expected upper case keyword got ${keyword}`);
+  }
   const words = keyword.split(" ");
   const createCaseInsensitiveRegex = word =>
     new RegExp(
@@ -39,10 +44,10 @@ module.exports = grammar({
 
     create_function_statement: $ =>
       seq(
-        caseInsensitive("CREATE FUNCTION"),
+        kw("CREATE FUNCTION"),
         $.identifier,
         $.create_function_parameters,
-        caseInsensitive("RETURNS"),
+        kw("RETURNS"),
         $._create_function_return_type,
         repeat(
           choice(
@@ -53,17 +58,12 @@ module.exports = grammar({
         ),
       ),
     _function_optimizer_hint: $ =>
-      choice(
-        caseInsensitive("VOLATILE"),
-        caseInsensitive("IMMUTABLE"),
-        caseInsensitive("STABLE"),
-      ),
+      choice(kw("VOLATILE"), kw("IMMUTABLE"), kw("STABLE")),
     _function_language: $ =>
-      seq(caseInsensitive("LANGUAGE"), alias($.identifier, $.language)),
+      seq(kw("LANGUAGE"), alias($.identifier, $.language)),
     _create_function_return_type: $ =>
       choice($._type, $.setof, $.constrained_type),
-    setof: $ =>
-      seq(caseInsensitive("SETOF"), choice($._type, $.constrained_type)),
+    setof: $ => seq(kw("SETOF"), choice($._type, $.constrained_type)),
     constrained_type: $ => seq(seq($._type, $.null_constraint)),
     create_function_parameter: $ =>
       seq(
@@ -75,7 +75,7 @@ module.exports = grammar({
       seq("(", commaSep1($.create_function_parameter), ")"),
     function_body: $ =>
       seq(
-        caseInsensitive("AS"),
+        kw("AS"),
         choice(
           seq("$$", $.select_statement, optional(";"), "$$"),
           seq("'", $.select_statement, optional(";"), "'"),
@@ -83,30 +83,25 @@ module.exports = grammar({
       ),
     create_domain_statement: $ =>
       seq(
-        caseInsensitive("CREATE DOMAIN"),
+        kw("CREATE DOMAIN"),
         $.identifier,
         optional(
           seq(
-            caseInsensitive("AS"),
+            kw("AS"),
             $._type,
             repeat(choice($.null_constraint, $.check_constraint)),
           ),
         ),
       ),
     create_type_statement: $ =>
-      seq(
-        caseInsensitive("CREATE TYPE"),
-        $.identifier,
-        caseInsensitive("AS"),
-        $.parameters,
-      ),
+      seq(kw("CREATE TYPE"), $.identifier, kw("AS"), $.parameters),
     create_index_statement: $ =>
       seq(
-        caseInsensitive("CREATE"),
+        kw("CREATE"),
         optional($.unique_constraint),
-        caseInsensitive("INDEX"),
+        kw("INDEX"),
         field("name", $.identifier),
-        caseInsensitive("ON"),
+        kw("ON"),
         field("table", $.identifier),
         optional($.using_clause),
         $.index_table_parameters,
@@ -131,7 +126,7 @@ module.exports = grammar({
     named_constraint: $ => seq("CONSTRAINT", $.identifier),
     column_default: $ =>
       seq(
-        caseInsensitive("DEFAULT"),
+        kw("DEFAULT"),
         // TODO: this should be specific variable-free expression https://www.postgresql.org/docs/9.1/sql-createtable.html
         // TODO: simple expression to use for check and default
         choice(
@@ -157,28 +152,23 @@ module.exports = grammar({
         alias($.table_constraint_primary_key, $.primary_key),
         alias($.table_constraint_check, $.check),
       ),
-    table_constraint_check: $ => seq(caseInsensitive("CHECK"), $._expression),
+    table_constraint_check: $ => seq(kw("CHECK"), $._expression),
     table_constraint_foreign_key: $ =>
       seq(
-        caseInsensitive("FOREIGN KEY"),
+        kw("FOREIGN KEY"),
         "(",
         commaSep1($.identifier),
         ")",
         $.references_constraint,
       ),
     table_constraint_unique: $ =>
-      seq(caseInsensitive("UNIQUE"), "(", commaSep1($.identifier), ")"),
+      seq(kw("UNIQUE"), "(", commaSep1($.identifier), ")"),
     table_constraint_primary_key: $ =>
-      seq(caseInsensitive("PRIMARY KEY"), "(", commaSep1($.identifier), ")"),
-    primary_key_constraint: $ => caseInsensitive("PRIMARY KEY"),
+      seq(kw("PRIMARY KEY"), "(", commaSep1($.identifier), ")"),
+    primary_key_constraint: $ => kw("PRIMARY KEY"),
     create_table_statement: $ =>
-      seq(
-        caseInsensitive("CREATE TABLE"),
-        $.identifier,
-        $.create_table_parameters,
-      ),
-    using_clause: $ =>
-      seq(caseInsensitive("USING"), field("type", $.identifier)),
+      seq(kw("CREATE TABLE"), $.identifier, $.create_table_parameters),
+    using_clause: $ => seq(kw("USING"), field("type", $.identifier)),
     index_table_parameters: $ =>
       seq("(", commaSep1(choice($._expression, $.ordered_expression)), ")"),
 
@@ -192,57 +182,34 @@ module.exports = grammar({
         optional($.order_by_clause),
       ),
     group_by_clause_body: $ => commaSep1($._expression),
-    group_by_clause: $ =>
-      seq(caseInsensitive("GROUP BY"), $.group_by_clause_body),
+    group_by_clause: $ => seq(kw("GROUP BY"), $.group_by_clause_body),
     order_by_clause_body: $ => commaSep1($._expression),
-    order_by_clause: $ =>
-      seq(caseInsensitive("ORDER BY"), $.order_by_clause_body),
-    where_clause: $ => seq(caseInsensitive("WHERE"), $._expression),
-    _aliased_expression: $ =>
-      seq($._expression, caseInsensitive("AS"), $.identifier),
+    order_by_clause: $ => seq(kw("ORDER BY"), $.order_by_clause_body),
+    where_clause: $ => seq(kw("WHERE"), $._expression),
+    _aliased_expression: $ => seq($._expression, kw("AS"), $.identifier),
     _aliasable_expression: $ =>
       choice($._expression, alias($._aliased_expression, $.alias)),
     select_clause_body: $ => commaSep1($._aliasable_expression),
     select_clause: $ =>
-      prec.left(seq(caseInsensitive("SELECT"), optional($.select_clause_body))),
-    from_clause: $ =>
-      seq(caseInsensitive("FROM"), commaSep1($._aliasable_expression)),
+      prec.left(seq(kw("SELECT"), optional($.select_clause_body))),
+    from_clause: $ => seq(kw("FROM"), commaSep1($._aliasable_expression)),
     select_subexpression: $ => seq("(", $.select_statement, ")"),
 
     // UPDATE
     update_statement: $ =>
-      seq(
-        caseInsensitive("UPDATE"),
-        $.identifier,
-        $.set_clause,
-        optional($.where_clause),
-      ),
+      seq(kw("UPDATE"), $.identifier, $.set_clause, optional($.where_clause)),
 
-    set_clause: $ => seq(caseInsensitive("SET"), $.set_clause_body),
+    set_clause: $ => seq(kw("SET"), $.set_clause_body),
     set_clause_body: $ => seq(commaSep1($.assigment_expression)),
     assigment_expression: $ => seq($.identifier, "=", $._expression),
 
     // INSERT
     insert_statement: $ =>
-      seq(
-        caseInsensitive("INSERT"),
-        caseInsensitive("INTO"),
-        $.identifier,
-        $.values_clause,
-      ),
-    values_clause: $ =>
-      seq(caseInsensitive("VALUES"), "(", $.values_clause_body, ")"),
+      seq(kw("INSERT"), kw("INTO"), $.identifier, $.values_clause),
+    values_clause: $ => seq(kw("VALUES"), "(", $.values_clause_body, ")"),
     values_clause_body: $ => commaSep1($._expression),
     in_expression: $ =>
-      prec.left(
-        1,
-        seq(
-          $._expression,
-          optional(caseInsensitive("NOT")),
-          caseInsensitive("IN"),
-          $.tuple,
-        ),
-      ),
+      prec.left(1, seq($._expression, optional(kw("NOT")), kw("IN"), $.tuple)),
     tuple: $ =>
       seq(
         // TODO: maybe collapse with function arguments, but make sure to preserve clarity
@@ -253,7 +220,7 @@ module.exports = grammar({
     // TODO: named constraints
     references_constraint: $ =>
       seq(
-        caseInsensitive("REFERENCES"),
+        kw("REFERENCES"),
         $.identifier, // table_name
         optional(seq("(", commaSep1($.identifier), ")")),
         // seems like a case for https://github.com/tree-sitter/tree-sitter/issues/130
@@ -265,18 +232,14 @@ module.exports = grammar({
         ),
       ),
     on_update_action: $ =>
-      seq(caseInsensitive("ON UPDATE"), field("action", $._constraint_action)),
+      seq(kw("ON UPDATE"), field("action", $._constraint_action)),
     on_delete_action: $ =>
-      seq(caseInsensitive("ON DELETE"), field("action", $._constraint_action)),
+      seq(kw("ON DELETE"), field("action", $._constraint_action)),
     _constraint_action: $ =>
-      choice(
-        caseInsensitive("RESTRICT"),
-        caseInsensitive("CASCADE"),
-        caseInsensitive("SET NULL"),
-      ),
-    unique_constraint: $ => caseInsensitive("UNIQUE"),
-    null_constraint: $ => seq(optional(caseInsensitive("NOT")), $.NULL),
-    check_constraint: $ => seq(caseInsensitive("CHECK"), $._expression),
+      choice(kw("RESTRICT"), kw("CASCADE"), kw("SET NULL")),
+    unique_constraint: $ => kw("UNIQUE"),
+    null_constraint: $ => seq(optional(kw("NOT")), $.NULL),
+    check_constraint: $ => seq(kw("CHECK"), $._expression),
     _constraint: $ =>
       seq(
         choice($.null_constraint, $.check_constraint),
@@ -306,21 +269,20 @@ module.exports = grammar({
         1,
         seq(
           $._expression,
-          caseInsensitive("is"),
-          optional(caseInsensitive("not")),
+          kw("IS"),
+          optional(kw("NOT")),
           choice($.NULL, $.TRUE, $.FALSE, $.distinct_from),
         ),
       ),
-    distinct_from: $ =>
-      prec.left(seq(caseInsensitive("DISTINCT FROM"), $._expression)),
+    distinct_from: $ => prec.left(seq(kw("DISTINCT FROM"), $._expression)),
     boolean_expression: $ =>
       choice(
-        prec.left(4, seq($._expression, caseInsensitive("AND"), $._expression)),
-        prec.left(3, seq($._expression, caseInsensitive("OR"), $._expression)),
+        prec.left(4, seq($._expression, kw("AND"), $._expression)),
+        prec.left(3, seq($._expression, kw("OR"), $._expression)),
       ),
-    NULL: $ => caseInsensitive("NULL"),
-    TRUE: $ => caseInsensitive("TRUE"),
-    FALSE: $ => caseInsensitive("FALSE"),
+    NULL: $ => kw("NULL"),
+    TRUE: $ => kw("TRUE"),
+    FALSE: $ => kw("FALSE"),
     number: $ => /\d+/,
     identifier: $ => /[a-zA-Z0-9_]+[.a-zA-Z0-9_]*/,
     string: $ =>
@@ -330,10 +292,7 @@ module.exports = grammar({
       ),
     field_access: $ => seq($.identifier, "->>", $.string),
     ordered_expression: $ =>
-      seq(
-        $._expression,
-        field("order", choice(caseInsensitive("ASC"), caseInsensitive("DESC"))),
-      ),
+      seq($._expression, field("order", choice(kw("ASC"), kw("DESC")))),
     _type_alias: $ => alias($.identifier, $.type),
     array_type: $ => seq($._type, "[", "]"),
     _type: $ => choice($._type_alias, $.array_type),
@@ -347,7 +306,7 @@ module.exports = grammar({
           $.function_call,
         ),
         "::",
-        $._type,
+        field("type", $._type),
       ),
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ =>
