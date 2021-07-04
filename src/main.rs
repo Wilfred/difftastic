@@ -76,7 +76,7 @@ fn main() {
 
     let arena = Arena::new();
 
-    let (lhs, rhs) = match lang {
+    let (lhs, rhs) = match &lang {
         Some(lang) => (
             parse(&arena, &lhs_src, &lang),
             parse(&arena, &rhs_src, &lang),
@@ -117,7 +117,11 @@ fn main() {
     let lhs_colored = apply_colors(&lhs_src, true, &lhs_positions);
     let rhs_colored = apply_colors(&rhs_src, false, &rhs_positions);
 
-    println!("{}", style::header(lhs_path));
+    let lang_name = match &lang {
+        Some(lang) => lang.name.clone(),
+        None => "plain text".to_string(),
+    };
+    println!("{}", style::header(lhs_path, &lang_name));
     print!(
         "{}",
         apply_groups(

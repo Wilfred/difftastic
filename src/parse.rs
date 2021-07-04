@@ -40,6 +40,7 @@ impl ConfigDir {
 }
 
 pub struct Language {
+    pub name: String,
     extensions: Vec<String>,
     atom_patterns: Vec<Regex>,
     string_patterns: Vec<Regex>,
@@ -54,7 +55,7 @@ fn read_syntax_toml(src: &str) -> Vec<Language> {
 
     table
         .iter()
-        .map(|(_, value)| lang_from_value(value))
+        .map(|(name, value)| lang_from_value(name, value))
         .collect()
 }
 
@@ -86,9 +87,10 @@ fn as_regex(s: &str) -> Regex {
     Regex::new(&pattern).unwrap()
 }
 
-fn lang_from_value(v: &Value) -> Language {
+fn lang_from_value(name: &str, v: &Value) -> Language {
     let table = v.as_table().unwrap();
     Language {
+        name: name.into(),
         extensions: as_string_vec(v.get("extensions").unwrap()),
         atom_patterns: as_regex_vec(v.get("atom_patterns").unwrap()),
         string_patterns: as_regex_vec(v.get("string_patterns").unwrap()),
