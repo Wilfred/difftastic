@@ -2404,10 +2404,25 @@
   {
     "type": "type_cast",
     "named": true,
-    "fields": {},
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "FALSE",
@@ -2423,10 +2438,6 @@
         },
         {
           "type": "argument_reference",
-          "named": true
-        },
-        {
-          "type": "array_type",
           "named": true
         },
         {
@@ -2471,10 +2482,6 @@
         },
         {
           "type": "string",
-          "named": true
-        },
-        {
-          "type": "type",
           "named": true
         },
         {
@@ -2865,6 +2872,10 @@
     "named": false
   },
   {
+    "type": "IS",
+    "named": false
+  },
+  {
     "type": "LANGUAGE",
     "named": false
   },
@@ -2977,16 +2988,8 @@
     "named": true
   },
   {
-    "type": "is",
-    "named": false
-  },
-  {
     "type": "language",
     "named": true
-  },
-  {
-    "type": "not",
-    "named": false
   },
   {
     "type": "type",

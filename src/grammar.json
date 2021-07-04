@@ -2213,7 +2213,7 @@
               "value": "[iI][sS]"
             },
             "named": false,
-            "value": "is"
+            "value": "IS"
           },
           {
             "type": "CHOICE",
@@ -2225,7 +2225,7 @@
                   "value": "[nN][oO][tT]"
                 },
                 "named": false,
-                "value": "not"
+                "value": "NOT"
               },
               {
                 "type": "BLANK"
@@ -2547,8 +2547,12 @@
           "value": "::"
         },
         {
-          "type": "SYMBOL",
-          "name": "_type"
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_type"
+          }
         }
       ]
     },
