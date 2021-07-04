@@ -726,7 +726,30 @@
   {
     "type": "create_function_parameter",
     "named": true,
-    "fields": {},
+    "fields": {
+      "argmode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IN",
+            "named": false
+          },
+          {
+            "type": "INOUT",
+            "named": false
+          },
+          {
+            "type": "OUT",
+            "named": false
+          },
+          {
+            "type": "VARIADIC",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -813,7 +836,15 @@
           "named": true
         },
         {
+          "type": "null_hint",
+          "named": true
+        },
+        {
           "type": "optimizer_hint",
+          "named": true
+        },
+        {
+          "type": "parallel_hint",
           "named": true
         },
         {
@@ -1902,6 +1933,11 @@
     }
   },
   {
+    "type": "null_hint",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "number",
     "named": true,
     "fields": {}
@@ -2138,6 +2174,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "parallel_hint",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "parameter",
@@ -3050,6 +3091,10 @@
     "named": false
   },
   {
+    "type": "CALLED_ON_NULL_INPUT",
+    "named": false
+  },
+  {
     "type": "CASCADE",
     "named": false
   },
@@ -3154,6 +3199,10 @@
     "named": false
   },
   {
+    "type": "INOUT",
+    "named": false
+  },
+  {
     "type": "INSERT",
     "named": false
   },
@@ -3210,7 +3259,15 @@
     "named": false
   },
   {
+    "type": "OUT",
+    "named": false
+  },
+  {
     "type": "OUTER",
+    "named": false
+  },
+  {
+    "type": "PARALLEL",
     "named": false
   },
   {
@@ -3234,11 +3291,23 @@
     "named": false
   },
   {
+    "type": "RESTRICTED",
+    "named": false
+  },
+  {
     "type": "RETURNS",
     "named": false
   },
   {
+    "type": "RETURNS_NULL_ON_NULL_INPUT",
+    "named": false
+  },
+  {
     "type": "RIGHT",
+    "named": false
+  },
+  {
+    "type": "SAFE",
     "named": false
   },
   {
@@ -3274,6 +3343,10 @@
     "named": false
   },
   {
+    "type": "STRICT",
+    "named": false
+  },
+  {
     "type": "TABLE",
     "named": false
   },
@@ -3298,6 +3371,10 @@
     "named": false
   },
   {
+    "type": "UNSAFE",
+    "named": false
+  },
+  {
     "type": "UPDATE",
     "named": false
   },
@@ -3311,6 +3388,10 @@
   },
   {
     "type": "VALUES",
+    "named": false
+  },
+  {
+    "type": "VARIADIC",
     "named": false
   },
   {

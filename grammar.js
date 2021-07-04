@@ -72,12 +72,24 @@ module.exports = grammar({
           choice(
             $._function_language,
             $.function_body,
-            alias($._function_optimizer_hint, $.optimizer_hint),
+            $.optimizer_hint,
+            $.parallel_hint,
+            $.null_hint,
           ),
         ),
       ),
-    _function_optimizer_hint: $ =>
-      choice(kw("VOLATILE"), kw("IMMUTABLE"), kw("STABLE")),
+    optimizer_hint: $ => choice(kw("VOLATILE"), kw("IMMUTABLE"), kw("STABLE")),
+    parallel_hint: $ =>
+      choice(
+        kw("PARALLEL"),
+        choice(kw("SAFE"), kw("UNSAFE"), kw("RESTRICTED")),
+      ),
+    null_hint: $ =>
+      choice(
+        kw("CALLED ON NULL INPUT"),
+        kw("RETURNS NULL ON NULL INPUT"),
+        kw("STRICT"),
+      ),
     _function_language: $ =>
       seq(kw("LANGUAGE"), alias($.identifier, $.language)),
     _create_function_return_type: $ =>
@@ -86,6 +98,10 @@ module.exports = grammar({
     constrained_type: $ => seq(seq($._type, $.null_constraint)),
     create_function_parameter: $ =>
       seq(
+        field(
+          "argmode",
+          optional(choice(kw("IN"), kw("OUT"), kw("INOUT"), kw("VARIADIC"))),
+        ),
         optional($.identifier),
         choice($._type, $.constrained_type),
         optional(seq("=", alias($._expression, $.default))),
