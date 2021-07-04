@@ -89,6 +89,8 @@
   "SCHEMA"
   "SELECT"
   "SET"
+  "LOCAL"
+  "SESSION"
   "TABLE"
   "TO"
   "UNIQUE"

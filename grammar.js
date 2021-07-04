@@ -48,6 +48,7 @@ module.exports = grammar({
         choice(
           $.select_statement,
           $.update_statement,
+          $.set_statement,
           $.insert_statement,
           $.grant_statement,
           $.create_type_statement,
@@ -101,6 +102,14 @@ module.exports = grammar({
       ),
     create_schema_statement: $ =>
       seq(kw("CREATE SCHEMA"), optional(kw("IF NOT EXISTS")), $.identifier),
+    set_statement: $ =>
+      seq(
+        kw("SET"),
+        field("scope", optional(choice(kw("SESSION"), kw("LOCAL")))),
+        $.identifier,
+        choice("=", kw("TO")),
+        choice($._expression, kw("DEFAULT")),
+      ),
     grant_statement: $ =>
       seq(
         kw("GRANT"),
