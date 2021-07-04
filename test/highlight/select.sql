@@ -13,6 +13,10 @@ SELECT foo(a)
 --      ^ function
 FROM table1
 -- <- keyword
+LEFT JOIN table2 ON table1.a = table2.a
+-- <- keyword
+--    ^ keyword
+--               ^ keyword
 WHERE a = b
 -- <- keyword
 --      ^ operator

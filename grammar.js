@@ -193,6 +193,7 @@ module.exports = grammar({
       seq(
         $.select_clause,
         optional($.from_clause),
+        optional(repeat($.join_clause)),
         optional($.where_clause),
         optional($.group_by_clause),
         optional($.order_by_clause),
@@ -209,6 +210,24 @@ module.exports = grammar({
     select_clause: $ =>
       prec.left(seq(kw("SELECT"), optional($.select_clause_body))),
     from_clause: $ => seq(kw("FROM"), commaSep1($._aliasable_expression)),
+    join_type: $ =>
+      seq(
+        choice(
+          kw("INNER"),
+          seq(
+            choice(kw("LEFT"), kw("RIGHT"), kw("FULL")),
+            optional(kw("OUTER")),
+          ),
+        ),
+      ),
+    join_clause: $ =>
+      seq(
+        optional($.join_type),
+        kw("JOIN"),
+        $.identifier,
+        kw("ON"),
+        $._expression,
+      ),
     select_subexpression: $ => seq("(", $.select_statement, ")"),
 
     // UPDATE

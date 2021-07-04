@@ -1735,6 +1735,90 @@
     }
   },
   {
+    "type": "join_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "FALSE",
+          "named": true
+        },
+        {
+          "type": "NULL",
+          "named": true
+        },
+        {
+          "type": "TRUE",
+          "named": true
+        },
+        {
+          "type": "argument_reference",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "boolean_expression",
+          "named": true
+        },
+        {
+          "type": "comparison_operator",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "in_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "join_type",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "select_subexpression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_cast",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "join_type",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "named_constraint",
     "named": true,
     "fields": {},
@@ -2191,6 +2275,10 @@
         },
         {
           "type": "group_by_clause",
+          "named": true
+        },
+        {
+          "type": "join_clause",
           "named": true
         },
         {
@@ -2859,6 +2947,10 @@
     "named": false
   },
   {
+    "type": "FULL",
+    "named": false
+  },
+  {
     "type": "GROUP_BY",
     "named": false
   },
@@ -2875,6 +2967,10 @@
     "named": false
   },
   {
+    "type": "INNER",
+    "named": false
+  },
+  {
     "type": "INSERT",
     "named": false
   },
@@ -2887,7 +2983,15 @@
     "named": false
   },
   {
+    "type": "JOIN",
+    "named": false
+  },
+  {
     "type": "LANGUAGE",
+    "named": false
+  },
+  {
+    "type": "LEFT",
     "named": false
   },
   {
@@ -2919,6 +3023,10 @@
     "named": false
   },
   {
+    "type": "OUTER",
+    "named": false
+  },
+  {
     "type": "PRIMARY_KEY",
     "named": false
   },
@@ -2932,6 +3040,10 @@
   },
   {
     "type": "RETURNS",
+    "named": false
+  },
+  {
+    "type": "RIGHT",
     "named": false
   },
   {

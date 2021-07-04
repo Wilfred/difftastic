@@ -1,0 +1,74 @@
+================================================================================
+SELECT statement with joins
+================================================================================
+
+SELECT t.a, t.b
+FROM table1 AS t
+JOIN t1 ON (t.a = t1.a)
+INNER JOIN t2 ON (t.a = t2.a)
+FULL OUTER JOIN t2 ON t.a = t2.a
+FULL JOIN t3 ON t.a = t3.a
+RIGHT JOIN t4 ON t.a = t4.a
+RIGHT OUTER JOIN t5 ON t.a = t5.a
+LEFT JOIN t6 ON t.a = t6.a
+LEFT OUTER JOIN t7 ON t.a = t7.a;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (select_statement
+    (select_clause
+      (select_clause_body
+        (identifier)
+        (identifier)))
+    (from_clause
+      (alias
+        (identifier)
+        (identifier)))
+    (join_clause
+      (identifier)
+      (comparison_operator
+        (identifier)
+        (identifier)))
+    (join_clause
+      (join_type)
+      (identifier)
+      (comparison_operator
+        (identifier)
+        (identifier)))
+    (join_clause
+      (join_type)
+      (identifier)
+      (comparison_operator
+        (identifier)
+        (identifier)))
+    (join_clause
+      (join_type)
+      (identifier)
+      (comparison_operator
+        (identifier)
+        (identifier)))
+    (join_clause
+      (join_type)
+      (identifier)
+      (comparison_operator
+        (identifier)
+        (identifier)))
+    (join_clause
+      (join_type)
+      (identifier)
+      (comparison_operator
+        (identifier)
+        (identifier)))
+    (join_clause
+      (join_type)
+      (identifier)
+      (comparison_operator
+        (identifier)
+        (identifier)))
+    (join_clause
+      (join_type)
+      (identifier)
+      (comparison_operator
+        (identifier)
+        (identifier)))))
