@@ -1,7 +1,12 @@
 SELECT a, b::INT;
 -- <- keyword
 --         ^ operator
---            ^ type
+--            ^ type.builtin
+
+SELECT a, b  ::  INT;
+--           ^ operator
+--               ^ type.builtin
+--        ^ variable
 
 SELECT foo(a)
 -- <- keyword
@@ -20,6 +25,7 @@ ORDER BY lower(a), b
 --        ^ function
 select a, b::int;
 -- <- keyword
+--            ^ type.builtin
 from table1
 -- <- keyword
 where a = b
