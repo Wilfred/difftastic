@@ -62,8 +62,8 @@ enum Edge {
     StartNode,
     UnchangedNode,
     UnchangedDelimiter,
-    NovelAtomLHS,
-    NovelAtomRHS,
+    NovelAtomLHS { same_line: bool },
+    NovelAtomRHS { same_line: bool },
     NovelDelimiterLHS,
     NovelDelimiterRHS,
 }
@@ -77,8 +77,8 @@ impl Edge {
             // Matching an outer delimiter is good.
             UnchangedDelimiter => -1,
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS => -2,
-            NovelAtomRHS => -2,
+            NovelAtomLHS { .. } => -2,
+            NovelAtomRHS { .. } => -2,
             NovelDelimiterLHS => -2,
             NovelDelimiterRHS => -2,
         }
@@ -202,7 +202,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
                 res.push((
-                    NovelAtomLHS,
+                    NovelAtomLHS { same_line: false },
                     Vertex {
                         lhs_syntax: lhs_syntax.get_next(),
                         rhs_syntax: v.rhs_syntax,
@@ -233,7 +233,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
                 res.push((
-                    NovelAtomRHS,
+                    NovelAtomRHS { same_line: false },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_syntax.get_next(),
@@ -303,11 +303,11 @@ fn mark_route(route: &[(Edge, Vertex)]) {
                 lhs.set_change(ChangeKind::Unchanged(rhs));
                 rhs.set_change(ChangeKind::Unchanged(lhs));
             }
-            NovelAtomLHS | NovelDelimiterLHS => {
+            NovelAtomLHS { .. } | NovelDelimiterLHS => {
                 let lhs = v.lhs_syntax.unwrap();
                 lhs.set_change(ChangeKind::Novel);
             }
-            NovelAtomRHS | NovelDelimiterRHS => {
+            NovelAtomRHS { .. } | NovelDelimiterRHS => {
                 let rhs = v.rhs_syntax.unwrap();
                 rhs.set_change(ChangeKind::Novel);
             }
@@ -331,6 +331,14 @@ mod tests {
             line: line.into(),
             start_col: 0,
             end_col: 1,
+        }]
+    }
+
+    fn col_helper(line: usize, col: usize) -> Vec<SingleLineSpan> {
+        vec![SingleLineSpan {
+            line: line.into(),
+            start_col: col,
+            end_col: col + 1,
         }]
     }
 
@@ -397,7 +405,14 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![StartNode, UnchangedDelimiter, NovelAtomLHS]);
+        assert_eq!(
+            actions,
+            vec![
+                StartNode,
+                UnchangedDelimiter,
+                NovelAtomLHS { same_line: false }
+            ]
+        );
     }
 
     #[test]
@@ -433,7 +448,12 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![StartNode, UnchangedDelimiter, NovelAtomRHS, NovelAtomRHS]
+            vec![
+                StartNode,
+                UnchangedDelimiter,
+                NovelAtomRHS { same_line: false },
+                NovelAtomRHS { same_line: false }
+            ]
         );
     }
 
@@ -493,6 +513,54 @@ mod tests {
                 NovelDelimiterRHS,
                 UnchangedNode,
                 UnchangedNode
+            ],
+        );
+    }
+    #[test]
+    fn prefer_atoms_same_line() {
+        let arena = Arena::new();
+
+        let lhs = Syntax::new_list(
+            &arena,
+            "[".into(),
+            pos_helper(0),
+            vec![
+                Syntax::new_atom(&arena, col_helper(1, 0), "foo", AtomKind::Other),
+                Syntax::new_atom(&arena, col_helper(2, 0), "bar", AtomKind::Other),
+                Syntax::new_atom(&arena, col_helper(2, 1), "foo", AtomKind::Other),
+            ],
+            "]".into(),
+            pos_helper(4),
+        );
+        set_next(lhs);
+
+        let rhs = Syntax::new_list(
+            &arena,
+            "[".into(),
+            pos_helper(0),
+            vec![Syntax::new_atom(
+                &arena,
+                col_helper(1, 0),
+                "foo",
+                AtomKind::Other,
+            )],
+            "]".into(),
+            pos_helper(4),
+        );
+        set_next(rhs);
+
+        let start = Vertex::new(lhs, rhs);
+        let route = shortest_path(start);
+
+        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        assert_eq!(
+            actions,
+            vec![
+                StartNode,
+                UnchangedDelimiter,
+                NovelAtomLHS { same_line: false },
+                NovelAtomLHS { same_line: false },
+                UnchangedNode,
             ],
         );
     }
