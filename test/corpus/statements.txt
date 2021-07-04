@@ -1387,3 +1387,32 @@ GRANT USAGE ON SCHEMA information_schema TO PUBLIC;
 (source_file
   (grant_statement
     (identifier)))
+
+================================================================================
+SET
+================================================================================
+
+SET search_path TO information_schema;
+SET search_path TO 'test';
+SET LOCAL search_path TO 'test';
+SET SESSION search_path TO 'test';
+SET SESSION search_path = 'test';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (set_statement
+    (identifier)
+    (identifier))
+  (set_statement
+    (identifier)
+    (string))
+  (set_statement
+    (identifier)
+    (string))
+  (set_statement
+    (identifier)
+    (string))
+  (set_statement
+    (identifier)
+    (string)))
