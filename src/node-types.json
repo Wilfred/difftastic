@@ -772,7 +772,18 @@
   {
     "type": "create_function_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "replace": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "CREATE_OR_REPLACE_FUNCTION",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1775,7 +1786,7 @@
             "named": false
           },
           {
-            "type": "SET NULL",
+            "type": "SET_NULL",
             "named": false
           }
         ]
@@ -1799,7 +1810,7 @@
             "named": false
           },
           {
-            "type": "SET NULL",
+            "type": "SET_NULL",
             "named": false
           }
         ]
@@ -2808,19 +2819,19 @@
     "named": false
   },
   {
-    "type": "CREATE DOMAIN",
+    "type": "CREATE_DOMAIN",
     "named": false
   },
   {
-    "type": "CREATE FUNCTION",
+    "type": "CREATE_OR_REPLACE_FUNCTION",
     "named": false
   },
   {
-    "type": "CREATE TABLE",
+    "type": "CREATE_TABLE",
     "named": false
   },
   {
-    "type": "CREATE TYPE",
+    "type": "CREATE_TYPE",
     "named": false
   },
   {
@@ -2832,7 +2843,7 @@
     "named": false
   },
   {
-    "type": "DISTINCT FROM",
+    "type": "DISTINCT_FROM",
     "named": false
   },
   {
@@ -2840,7 +2851,7 @@
     "named": false
   },
   {
-    "type": "FOREIGN KEY",
+    "type": "FOREIGN_KEY",
     "named": false
   },
   {
@@ -2848,7 +2859,7 @@
     "named": false
   },
   {
-    "type": "GROUP BY",
+    "type": "GROUP_BY",
     "named": false
   },
   {
@@ -2892,11 +2903,11 @@
     "named": false
   },
   {
-    "type": "ON DELETE",
+    "type": "ON_DELETE",
     "named": false
   },
   {
-    "type": "ON UPDATE",
+    "type": "ON_UPDATE",
     "named": false
   },
   {
@@ -2904,11 +2915,11 @@
     "named": false
   },
   {
-    "type": "ORDER BY",
+    "type": "ORDER_BY",
     "named": false
   },
   {
-    "type": "PRIMARY KEY",
+    "type": "PRIMARY_KEY",
     "named": false
   },
   {
@@ -2932,11 +2943,11 @@
     "named": false
   },
   {
-    "type": "SET NULL",
+    "type": "SETOF",
     "named": false
   },
   {
-    "type": "SETOF",
+    "type": "SET_NULL",
     "named": false
   },
   {

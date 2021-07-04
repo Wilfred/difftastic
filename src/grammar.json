@@ -75,13 +75,29 @@
                 "value": "[cC][rR][eE][aA][tT][eE]"
               },
               {
+                "type": "FIELD",
+                "name": "replace",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "[oO][rR][  ][rR][eE][pP][lL][aA][cC][eE]"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              },
+              {
                 "type": "PATTERN",
                 "value": "[fF][uU][nN][cC][tT][iI][oO][nN]"
               }
             ]
           },
           "named": false,
-          "value": "CREATE FUNCTION"
+          "value": "CREATE_OR_REPLACE_FUNCTION"
         },
         {
           "type": "SYMBOL",
@@ -438,7 +454,7 @@
             ]
           },
           "named": false,
-          "value": "CREATE DOMAIN"
+          "value": "CREATE_DOMAIN"
         },
         {
           "type": "SYMBOL",
@@ -507,7 +523,7 @@
             ]
           },
           "named": false,
-          "value": "CREATE TYPE"
+          "value": "CREATE_TYPE"
         },
         {
           "type": "SYMBOL",
@@ -864,7 +880,7 @@
             ]
           },
           "named": false,
-          "value": "FOREIGN KEY"
+          "value": "FOREIGN_KEY"
         },
         {
           "type": "STRING",
@@ -971,7 +987,7 @@
             ]
           },
           "named": false,
-          "value": "PRIMARY KEY"
+          "value": "PRIMARY_KEY"
         },
         {
           "type": "STRING",
@@ -1024,7 +1040,7 @@
         ]
       },
       "named": false,
-      "value": "PRIMARY KEY"
+      "value": "PRIMARY_KEY"
     },
     "create_table_statement": {
       "type": "SEQ",
@@ -1045,7 +1061,7 @@
             ]
           },
           "named": false,
-          "value": "CREATE TABLE"
+          "value": "CREATE_TABLE"
         },
         {
           "type": "SYMBOL",
@@ -1236,7 +1252,7 @@
             ]
           },
           "named": false,
-          "value": "GROUP BY"
+          "value": "GROUP_BY"
         },
         {
           "type": "SYMBOL",
@@ -1288,7 +1304,7 @@
             ]
           },
           "named": false,
-          "value": "ORDER BY"
+          "value": "ORDER_BY"
         },
         {
           "type": "SYMBOL",
@@ -1853,7 +1869,7 @@
             ]
           },
           "named": false,
-          "value": "ON UPDATE"
+          "value": "ON_UPDATE"
         },
         {
           "type": "FIELD",
@@ -1884,7 +1900,7 @@
             ]
           },
           "named": false,
-          "value": "ON DELETE"
+          "value": "ON_DELETE"
         },
         {
           "type": "FIELD",
@@ -1933,7 +1949,7 @@
             ]
           },
           "named": false,
-          "value": "SET NULL"
+          "value": "SET_NULL"
         }
       ]
     },
@@ -2278,7 +2294,7 @@
               ]
             },
             "named": false,
-            "value": "DISTINCT FROM"
+            "value": "DISTINCT_FROM"
           },
           {
             "type": "SYMBOL",

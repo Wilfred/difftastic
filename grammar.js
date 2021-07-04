@@ -5,20 +5,36 @@ function kw(keyword) {
     throw new Error(`Expected upper case keyword got ${keyword}`);
   }
   const words = keyword.split(" ");
-  const createCaseInsensitiveRegex = word =>
-    new RegExp(
-      word
-        .split("")
-        .map(letter => `[${letter.toLowerCase()}${letter.toUpperCase()}]`)
-        .join(""),
-    );
-
   const regExps = words.map(createCaseInsensitiveRegex);
+
   if (regExps.length == 1) {
     return alias(regExps[0], keyword);
   } else {
-    return alias(seq(...regExps), keyword);
+    return alias(seq(...regExps), keyword.replace(" ", "_"));
   }
+}
+
+function createOrReplace(item) {
+  if (item.toUpperCase() != item) {
+    throw new Error(`Expected upper case item got ${item}`);
+  }
+  return alias(
+    seq(
+      createCaseInsensitiveRegex("CREATE"),
+      field("replace", optional(createCaseInsensitiveRegex("OR REPLACE"))),
+      createCaseInsensitiveRegex(item),
+    ),
+    `CREATE_OR_REPLACE_${item}`,
+  );
+}
+
+function createCaseInsensitiveRegex(word) {
+  return new RegExp(
+    word
+      .split("")
+      .map(letter => `[${letter.toLowerCase()}${letter.toUpperCase()}]`)
+      .join(""),
+  );
 }
 
 module.exports = grammar({
@@ -44,7 +60,7 @@ module.exports = grammar({
 
     create_function_statement: $ =>
       seq(
-        kw("CREATE FUNCTION"),
+        createOrReplace("FUNCTION"),
         $.identifier,
         $.create_function_parameters,
         kw("RETURNS"),
