@@ -40,3 +40,13 @@ FROM (SELECT a FROM table) AS b;
 --     ^ keyword
 --             ^ keyword  
 --                         ^ keyword  
+
+SELECT a, b
+FROM a
+ORDER    by a, b
+-- <- keyword
+--       ^ keyword
+GrOUP
+-- <- keyword
+By a, b
+-- <- keyword

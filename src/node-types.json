@@ -682,7 +682,7 @@
           "named": true
         },
         {
-          "type": "not_null",
+          "type": "null_constraint",
           "named": true
         },
         {
@@ -1763,7 +1763,7 @@
     "named": true,
     "fields": {
       "action": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1787,7 +1787,7 @@
     "named": true,
     "fields": {
       "action": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -2987,10 +2987,6 @@
   {
     "type": "not",
     "named": false
-  },
-  {
-    "type": "not_null",
-    "named": true
   },
   {
     "type": "type",

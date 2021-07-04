@@ -1,11 +1,19 @@
 function caseInsensitive(keyword) {
-  const result = new RegExp(
-    keyword
-      .split("")
-      .map(letter => `[${letter.toLowerCase()}${letter.toUpperCase()}]`)
-      .join(""),
-  );
-  return alias(result, keyword);
+  const words = keyword.split(" ");
+  const createCaseInsensitiveRegex = word =>
+    new RegExp(
+      word
+        .split("")
+        .map(letter => `[${letter.toLowerCase()}${letter.toUpperCase()}]`)
+        .join(""),
+    );
+
+  const regExps = words.map(createCaseInsensitiveRegex);
+  if (regExps.length == 1) {
+    return alias(regExps[0], keyword);
+  } else {
+    return alias(seq(...regExps), keyword);
+  }
 }
 
 module.exports = grammar({
@@ -56,8 +64,7 @@ module.exports = grammar({
       choice($._type, $.setof, $.constrained_type),
     setof: $ =>
       seq(caseInsensitive("SETOF"), choice($._type, $.constrained_type)),
-    constrained_type: $ =>
-      seq(seq($._type, alias(caseInsensitive("NOT NULL"), $.not_null))),
+    constrained_type: $ => seq(seq($._type, $.null_constraint)),
     create_function_parameter: $ =>
       seq(
         optional($.identifier),
