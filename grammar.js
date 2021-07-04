@@ -866,7 +866,7 @@ module.exports = grammar({
       seq(
         '"',
         repeat(choice(
-          token.immediate(prec(1, /[^"\\]+/)),
+          alias($.unescaped_double_string_fragment, $.string_fragment),
           $.escape_sequence
         )),
         '"'
@@ -874,12 +874,23 @@ module.exports = grammar({
       seq(
         "'",
         repeat(choice(
-          token.immediate(prec(1, /[^'\\]+/)),
+          alias($.unescaped_single_string_fragment, $.string_fragment),
           $.escape_sequence
         )),
         "'"
       )
     ),
+
+    // Workaround to https://github.com/tree-sitter/tree-sitter/issues/1156
+    // We give names to the token() constructs containing a regexp
+    // so as to obtain a node in the CST.
+    //
+    unescaped_double_string_fragment: $ =>
+      token.immediate(prec(1, /[^"\\]+/)),
+
+    // same here
+    unescaped_single_string_fragment: $ =>
+      token.immediate(prec(1, /[^'\\]+/)),
 
     escape_sequence: $ => token.immediate(seq(
       '\\',

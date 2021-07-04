@@ -46,7 +46,10 @@ const últimaVez = 1
 
 (program
   (lexical_declaration (variable_declarator (identifier) (number)))
-  (expression_statement (object (pair (property_identifier) (string)) (pair (string) (string)))))
+  (expression_statement
+    (object
+      (pair (property_identifier) (string (string_fragment)))
+      (pair (string) (string)))))
 
 ==========================================
 Strings containing comment-like content
@@ -57,7 +60,8 @@ Strings containing comment-like content
 ---
 
 (program
-  (expression_statement (string (escape_sequence))))
+  (expression_statement
+    (string (string_fragment) (escape_sequence) (string_fragment))))
 
 ==========================================
 Quote escaping
@@ -78,11 +82,13 @@ Quote escaping
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string (escape_sequence)))
+  (expression_statement
+    (string (string_fragment) (escape_sequence) (string_fragment)))
   (expression_statement (string (escape_sequence)))
-  (expression_statement (string (escape_sequence)))
-  (expression_statement (string (escape_sequence)))
-  (expression_statement (string))
-  (expression_statement (string)))
+  (expression_statement
+    (string (string_fragment) (escape_sequence) (string_fragment)))
+  (expression_statement (string (string_fragment)))
+  (expression_statement (string (string_fragment))))
 
 ==========================================
 Line continuations
@@ -97,8 +103,10 @@ world';
 ---
 
 (program
-  (expression_statement (string (escape_sequence)))
-  (expression_statement (string (escape_sequence))))
+  (expression_statement
+    (string (string_fragment) (escape_sequence) (string_fragment)))
+  (expression_statement
+    (string (string_fragment) (escape_sequence) (string_fragment))))
 
 ============================================================
 Non-standard unescaped newlines legal in TSX attributes
@@ -113,8 +121,8 @@ world';
 ---
 
 (program
-  (expression_statement (string))
-  (expression_statement (string)))
+  (expression_statement (string (string_fragment)))
+  (expression_statement (string (string_fragment))))
 
 =========================================================
 JSX strings with unescaped newlines for TSX attributes
@@ -133,13 +141,13 @@ JSX strings with unescaped newlines for TSX attributes
     (jsx_element
       (jsx_opening_element
         (identifier)
-        (jsx_attribute (property_identifier) (string)))
+        (jsx_attribute (property_identifier) (string (string_fragment))))
       (jsx_closing_element
         (identifier))))
  (expression_statement
    (jsx_element
      (jsx_opening_element
        (identifier)
-       (jsx_attribute (property_identifier) (string)))
+       (jsx_attribute (property_identifier) (string (string_fragment))))
      (jsx_closing_element
        (identifier)))))
