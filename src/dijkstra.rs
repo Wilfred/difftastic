@@ -74,7 +74,7 @@ impl Edge {
             StartNode => 0,
             // Matching nodes is always best.
             UnchangedNode => 0,
-            // Matcing an outer delimiter is good.
+            // Matching an outer delimiter is good.
             UnchangedDelimiter => -1,
             // Otherwise, we've added/removed a node.
             NovelAtomLHS => -2,
