@@ -13,12 +13,6 @@
   (FALSE)
 ] @constant.builtin
 
-[
-  (NULL)
-  (TRUE)
-  (FALSE)
-] @constant.builtin
-
 ([
   (type_cast
    (type) @type.builtin)
@@ -27,6 +21,12 @@
   (create_function_statement
    (create_function_parameters
      (create_function_parameter (type) @type.builtin)))
+  (create_type_statement
+   (parameters
+     (parameter (type) @type.builtin)))
+  (create_table_statement
+   (create_table_parameters
+     (create_table_column_parameter (type) @type.builtin)))
  ]
  (#match?
    @type.builtin
@@ -54,14 +54,19 @@
   (array_type)
 ] @type
 
+[
+ (primary_key_constraint)
+ (unique_constraint)
+ (null_constraint)
+] @keyword
 
 [
   "AS"
+  "CREATE"
   "CREATE_DOMAIN"
   "CREATE_OR_REPLACE_FUNCTION"
   "CREATE_TABLE"
   "CREATE_TYPE"
-  "CREATE"
   "FROM"
   "GROUP_BY"
   "INDEX"
@@ -69,6 +74,7 @@
   "INTO"
   "LANGUAGE"
   "ORDER_BY"
+  "PRIMARY_KEY"
   "RETURNS"
   "SELECT"
   "SET"
