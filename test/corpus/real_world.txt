@@ -18,6 +18,7 @@ provider "kubernetes" {
         (quoted_template_start)
         (template_literal)
         (quoted_template_end))
+      (block_start)
       (body
         (attribute
           (identifier)
@@ -59,7 +60,8 @@ provider "kubernetes" {
                   (index
                     (legacy_index))
                   (get_attr
-                    (identifier)))))))))))
+                    (identifier))))))))
+      (block_end))))
 
 ================================================================================
 example 2
@@ -111,6 +113,7 @@ resource "azurerm_storage_blob" "proxy_cert" {
   (body
     (block
       (identifier)
+      (block_start)
       (body
         (attribute
           (identifier)
@@ -175,7 +178,8 @@ resource "azurerm_storage_blob" "proxy_cert" {
                 (variable_expr
                   (identifier))
                 (get_attr
-                  (identifier))))))))
+                  (identifier)))))))
+      (block_end))
     (block
       (identifier)
       (string_lit
@@ -186,6 +190,7 @@ resource "azurerm_storage_blob" "proxy_cert" {
         (quoted_template_start)
         (template_literal)
         (quoted_template_end))
+      (block_start)
       (body
         (attribute
           (identifier)
@@ -229,7 +234,8 @@ resource "azurerm_storage_blob" "proxy_cert" {
               (string_lit
                 (quoted_template_start)
                 (template_literal)
-                (quoted_template_end)))))))
+                (quoted_template_end))))))
+      (block_end))
     (block
       (identifier)
       (string_lit
@@ -240,6 +246,7 @@ resource "azurerm_storage_blob" "proxy_cert" {
         (quoted_template_start)
         (template_literal)
         (quoted_template_end))
+      (block_start)
       (body
         (attribute
           (identifier)
@@ -283,7 +290,8 @@ resource "azurerm_storage_blob" "proxy_cert" {
               (string_lit
                 (quoted_template_start)
                 (template_literal)
-                (quoted_template_end)))))))
+                (quoted_template_end))))))
+      (block_end))
     (block
       (identifier)
       (string_lit
@@ -294,6 +302,7 @@ resource "azurerm_storage_blob" "proxy_cert" {
         (quoted_template_start)
         (template_literal)
         (quoted_template_end))
+      (block_start)
       (body
         (attribute
           (identifier)
@@ -358,7 +367,8 @@ resource "azurerm_storage_blob" "proxy_cert" {
               (string_lit
                 (quoted_template_start)
                 (template_literal)
-                (quoted_template_end)))))))
+                (quoted_template_end))))))
+      (block_end))
     (block
       (identifier)
       (string_lit
@@ -369,6 +379,7 @@ resource "azurerm_storage_blob" "proxy_cert" {
         (quoted_template_start)
         (template_literal)
         (quoted_template_end))
+      (block_start)
       (body
         (attribute
           (identifier)
@@ -445,7 +456,8 @@ resource "azurerm_storage_blob" "proxy_cert" {
               (string_lit
                 (quoted_template_start)
                 (template_literal)
-                (quoted_template_end)))))))))
+                (quoted_template_end))))))
+      (block_end))))
 
 ================================================================================
 example 3
@@ -494,6 +506,7 @@ locals {
   (body
     (block
       (identifier)
+      (block_start)
       (body
         (attribute
           (identifier)
@@ -530,4 +543,5 @@ locals {
                         (get_attr
                           (identifier)))))
                   (template_interpolation_end))
-                (quoted_template_end)))))))))
+                (quoted_template_end))))))
+      (block_end))))

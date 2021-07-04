@@ -13,11 +13,13 @@ foo = [for v in ["a", "b"]: v]
       (expression
         (for_expr
           (for_tuple_expr
+            (tuple_start)
             (for_intro
               (identifier)
               (expression
                 (collection_value
                   (tuple
+                    (tuple_start)
                     (expression
                       (literal_value
                         (string_lit
@@ -29,10 +31,12 @@ foo = [for v in ["a", "b"]: v]
                         (string_lit
                           (quoted_template_start)
                           (template_literal)
-                          (quoted_template_end))))))))
+                          (quoted_template_end))))
+                    (tuple_end)))))
             (expression
               (variable_expr
-                (identifier)))))))))
+                (identifier)))
+            (tuple_end)))))))
 
 ================================================================================
 for tuple expression with index
@@ -49,12 +53,14 @@ foo = [for i, v in ["a", "b"]: i]
       (expression
         (for_expr
           (for_tuple_expr
+            (tuple_start)
             (for_intro
               (identifier)
               (identifier)
               (expression
                 (collection_value
                   (tuple
+                    (tuple_start)
                     (expression
                       (literal_value
                         (string_lit
@@ -66,10 +72,12 @@ foo = [for i, v in ["a", "b"]: i]
                         (string_lit
                           (quoted_template_start)
                           (template_literal)
-                          (quoted_template_end))))))))
+                          (quoted_template_end))))
+                    (tuple_end)))))
             (expression
               (variable_expr
-                (identifier)))))))))
+                (identifier)))
+            (tuple_end)))))))
 
 ================================================================================
 for tuple expression with predicate
@@ -86,12 +94,14 @@ foo = [for i, v in ["a", "b", "c"]: v if pred(i)]
       (expression
         (for_expr
           (for_tuple_expr
+            (tuple_start)
             (for_intro
               (identifier)
               (identifier)
               (expression
                 (collection_value
                   (tuple
+                    (tuple_start)
                     (expression
                       (literal_value
                         (string_lit
@@ -109,7 +119,8 @@ foo = [for i, v in ["a", "b", "c"]: v if pred(i)]
                         (string_lit
                           (quoted_template_start)
                           (template_literal)
-                          (quoted_template_end))))))))
+                          (quoted_template_end))))
+                    (tuple_end)))))
             (expression
               (variable_expr
                 (identifier)))
@@ -120,7 +131,8 @@ foo = [for i, v in ["a", "b", "c"]: v if pred(i)]
                   (function_arguments
                     (expression
                       (variable_expr
-                        (identifier)))))))))))))
+                        (identifier)))))))
+            (tuple_end)))))))
 
 ================================================================================
 for object expression
@@ -137,12 +149,14 @@ foo = {for i, v in ["a", "b"]: v => i}
       (expression
         (for_expr
           (for_object_expr
+            (object_start)
             (for_intro
               (identifier)
               (identifier)
               (expression
                 (collection_value
                   (tuple
+                    (tuple_start)
                     (expression
                       (literal_value
                         (string_lit
@@ -154,13 +168,15 @@ foo = {for i, v in ["a", "b"]: v => i}
                         (string_lit
                           (quoted_template_start)
                           (template_literal)
-                          (quoted_template_end))))))))
+                          (quoted_template_end))))
+                    (tuple_end)))))
             (expression
               (variable_expr
                 (identifier)))
             (expression
               (variable_expr
-                (identifier)))))))))
+                (identifier)))
+            (object_end)))))))
 
 ================================================================================
 for object expression 2
@@ -177,12 +193,14 @@ foo = {for i, v in ["a", "b"]: v => i...}
       (expression
         (for_expr
           (for_object_expr
+            (object_start)
             (for_intro
               (identifier)
               (identifier)
               (expression
                 (collection_value
                   (tuple
+                    (tuple_start)
                     (expression
                       (literal_value
                         (string_lit
@@ -194,11 +212,13 @@ foo = {for i, v in ["a", "b"]: v => i...}
                         (string_lit
                           (quoted_template_start)
                           (template_literal)
-                          (quoted_template_end))))))))
+                          (quoted_template_end))))
+                    (tuple_end)))))
             (expression
               (variable_expr
                 (identifier)))
             (expression
               (variable_expr
                 (identifier)))
-            (ellipsis)))))))
+            (ellipsis)
+            (object_end)))))))

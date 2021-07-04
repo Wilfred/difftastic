@@ -101,6 +101,14 @@
       "required": true,
       "types": [
         {
+          "type": "block_end",
+          "named": true
+        },
+        {
+          "type": "block_start",
+          "named": true
+        },
+        {
           "type": "body",
           "named": true
         },
@@ -114,6 +122,16 @@
         }
       ]
     }
+  },
+  {
+    "type": "block_end",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "block_start",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "body",
@@ -327,6 +345,14 @@
         {
           "type": "for_intro",
           "named": true
+        },
+        {
+          "type": "object_end",
+          "named": true
+        },
+        {
+          "type": "object_start",
+          "named": true
         }
       ]
     }
@@ -349,6 +375,14 @@
         },
         {
           "type": "for_intro",
+          "named": true
+        },
+        {
+          "type": "tuple_end",
+          "named": true
+        },
+        {
+          "type": "tuple_start",
           "named": true
         }
       ]
@@ -539,10 +573,18 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "object_elem",
+          "named": true
+        },
+        {
+          "type": "object_end",
+          "named": true
+        },
+        {
+          "type": "object_start",
           "named": true
         }
       ]
@@ -573,6 +615,16 @@
         ]
       }
     }
+  },
+  {
+    "type": "object_end",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "object_start",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "operation",
@@ -728,14 +780,32 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "expression",
           "named": true
+        },
+        {
+          "type": "tuple_end",
+          "named": true
+        },
+        {
+          "type": "tuple_start",
+          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "tuple_end",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "tuple_start",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "unary_operation",

@@ -53,13 +53,13 @@ module.exports = grammar({
     block: $ => seq(
       $.identifier,
       repeat(choice($.string_lit, $.identifier)),
-      $._block_start,
+      $.block_start,
       optional($.body),
-      $._block_end,
+      $.block_end,
     ),
 
-    _block_start: $ => '{',
-    _block_end: $ => '}',
+    block_start: $ => '{',
+    block_end: $ => '}',
 
     identifier: $ => token(seq(
       choice(/\p{ID_Start}/, '_'),
@@ -119,13 +119,13 @@ module.exports = grammar({
     _comma: $ => ',',
 
     tuple: $ => seq(
-      $._tuple_start,
+      $.tuple_start,
       optional($._tuple_elems),
-      $._tuple_end,
+      $.tuple_end,
     ),
 
-    _tuple_start: $ => '[',
-    _tuple_end: $ => ']',
+    tuple_start: $ => '[',
+    tuple_end: $ => ']',
 
     _tuple_elems: $ => seq(
       $.expression,
@@ -137,13 +137,13 @@ module.exports = grammar({
     ),
 
     object: $ => seq(
-      $._object_start,
+      $.object_start,
       optional($._object_elems),
-      $._object_end,
+      $.object_end,
     ),
 
-    _object_start: $ => '{',
-    _object_end: $ => '}',
+    object_start: $ => '{',
+    object_end: $ => '}',
 
     _object_elems: $ => seq(
       $.object_elem,
@@ -182,22 +182,22 @@ module.exports = grammar({
     for_expr: $ => choice($.for_tuple_expr, $.for_object_expr),
 
     for_tuple_expr: $ => seq(
-      $._tuple_start,
+      $.tuple_start,
       $.for_intro,
       $.expression,
       optional($.for_cond),
-      $._tuple_end,
+      $.tuple_end,
     ),
 
     for_object_expr: $ => seq(
-      $._object_start,
+      $.object_start,
       $.for_intro,
       $.expression,
       '=>',
       $.expression,
       optional($.ellipsis),
       optional($.for_cond),
-      $._object_end,
+      $.object_end,
     ),
 
     for_intro: $ => seq(

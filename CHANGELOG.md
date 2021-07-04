@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0 - not yet released
+
+feature:
+* unhide `(block|object|tuple)_(start|end)` tokens
+
 ## 0.4.0 - 2021-07-02
 
 feature:

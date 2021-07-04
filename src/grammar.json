@@ -80,7 +80,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_block_start"
+          "name": "block_start"
         },
         {
           "type": "CHOICE",
@@ -96,15 +96,15 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_block_end"
+          "name": "block_end"
         }
       ]
     },
-    "_block_start": {
+    "block_start": {
       "type": "STRING",
       "value": "{"
     },
-    "_block_end": {
+    "block_end": {
       "type": "STRING",
       "value": "}"
     },
@@ -345,7 +345,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_tuple_start"
+          "name": "tuple_start"
         },
         {
           "type": "CHOICE",
@@ -361,15 +361,15 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_tuple_end"
+          "name": "tuple_end"
         }
       ]
     },
-    "_tuple_start": {
+    "tuple_start": {
       "type": "STRING",
       "value": "["
     },
-    "_tuple_end": {
+    "tuple_end": {
       "type": "STRING",
       "value": "]"
     },
@@ -415,7 +415,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_object_start"
+          "name": "object_start"
         },
         {
           "type": "CHOICE",
@@ -431,15 +431,15 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_object_end"
+          "name": "object_end"
         }
       ]
     },
-    "_object_start": {
+    "object_start": {
       "type": "STRING",
       "value": "{"
     },
-    "_object_end": {
+    "object_end": {
       "type": "STRING",
       "value": "}"
     },
@@ -667,7 +667,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_tuple_start"
+          "name": "tuple_start"
         },
         {
           "type": "SYMBOL",
@@ -691,7 +691,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_tuple_end"
+          "name": "tuple_end"
         }
       ]
     },
@@ -700,7 +700,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_object_start"
+          "name": "object_start"
         },
         {
           "type": "SYMBOL",
@@ -744,7 +744,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_object_end"
+          "name": "object_end"
         }
       ]
     },

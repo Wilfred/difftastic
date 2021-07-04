@@ -206,13 +206,15 @@ foo = "${ {a=b}[a] }"
               (expression
                 (collection_value
                   (object
+                    (object_start)
                     (object_elem
                       (expression
                         (variable_expr
                           (identifier)))
                       (expression
                         (variable_expr
-                          (identifier))))))
+                          (identifier))))
+                    (object_end)))
                 (index
                   (new_index
                     (expression
