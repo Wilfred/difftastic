@@ -6,7 +6,7 @@ This project initially focuses on PostgreSQL flavor of SQL
 
 ## Try it out
 
-You can try out parser here: [Tree Sitter SQL Playground](https://m-novikov.github.io/tree-sitter-sql/)
+You can try out the parser here: [Tree Sitter SQL Playground](https://m-novikov.github.io/tree-sitter-sql/)
 
 ## Development
 
@@ -31,3 +31,10 @@ npm test
 
 * `npm run parse <file.sql>` outputs a syntax tree
 * `npm run extract-error <file.sql>` shows first offending line
+
+### Goals
+
+This parser is supposed to be used in text editors. As a result:
+
+* it's very lax in what it considers valid SQL parse
+* adding extra nodes to have convenient selection anchors is okay
