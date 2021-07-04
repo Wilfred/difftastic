@@ -1360,3 +1360,18 @@ create function add(integer) returns integer language sql as 'select a, b';
           (select_clause_body
             (identifier)
             (identifier)))))))
+
+================================================================================
+CREATE SCHEMA schema
+================================================================================
+
+CREATE SCHEMA information_schema;
+CREATE SCHEMA IF NOT EXISTS information_schema;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_schema_statement
+    (identifier))
+  (create_schema_statement
+    (identifier)))
