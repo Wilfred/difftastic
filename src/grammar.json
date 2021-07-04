@@ -146,20 +146,23 @@
                 "name": "function_body"
               },
               {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_function_optimizer_hint"
-                },
-                "named": true,
-                "value": "optimizer_hint"
+                "type": "SYMBOL",
+                "name": "optimizer_hint"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "parallel_hint"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "null_hint"
               }
             ]
           }
         }
       ]
     },
-    "_function_optimizer_hint": {
+    "optimizer_hint": {
       "type": "CHOICE",
       "members": [
         {
@@ -188,6 +191,122 @@
           },
           "named": false,
           "value": "STABLE"
+        }
+      ]
+    },
+    "parallel_hint": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[pP][aA][rR][aA][lL][lL][eE][lL]"
+          },
+          "named": false,
+          "value": "PARALLEL"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[sS][aA][fF][eE]"
+              },
+              "named": false,
+              "value": "SAFE"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[uU][nN][sS][aA][fF][eE]"
+              },
+              "named": false,
+              "value": "UNSAFE"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[rR][eE][sS][tT][rR][iI][cC][tT][eE][dD]"
+              },
+              "named": false,
+              "value": "RESTRICTED"
+            }
+          ]
+        }
+      ]
+    },
+    "null_hint": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[cC][aA][lL][lL][eE][dD]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[oO][nN]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[nN][uU][lL][lL]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[iI][nN][pP][uU][tT]"
+              }
+            ]
+          },
+          "named": false,
+          "value": "CALLED_ON_NULL_INPUT"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[rR][eE][tT][uU][rR][nN][sS]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[nN][uU][lL][lL]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[oO][nN]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[nN][uU][lL][lL]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[iI][nN][pP][uU][tT]"
+              }
+            ]
+          },
+          "named": false,
+          "value": "RETURNS_NULL_ON_NULL_INPUT"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[sS][tT][rR][iI][cC][tT]"
+          },
+          "named": false,
+          "value": "STRICT"
         }
       ]
     },
@@ -279,6 +398,59 @@
     "create_function_parameter": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "FIELD",
+          "name": "argmode",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[iI][nN]"
+                    },
+                    "named": false,
+                    "value": "IN"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[oO][uU][tT]"
+                    },
+                    "named": false,
+                    "value": "OUT"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[iI][nN][oO][uU][tT]"
+                    },
+                    "named": false,
+                    "value": "INOUT"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[vV][aA][rR][iI][aA][dD][iI][cC]"
+                    },
+                    "named": false,
+                    "value": "VARIADIC"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
         {
           "type": "CHOICE",
           "members": [

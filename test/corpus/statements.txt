@@ -1181,6 +1181,52 @@ CREATE OR REPLACE FUNCTION add(integer, integer) RETURNS integer
     (language)))
 
 ================================================================================
+CREATE FUNCTION hints
+================================================================================
+
+CREATE FUNCTION foo(int) RETURNS integer
+    AS 'select 1'
+    LANGUAGE SQL STRICT IMMUTABLE PARALLEL SAFE;
+
+--------------------------------------------------------------------------------
+
+================================================================================
+CREATE FUNCTION argmode
+================================================================================
+
+CREATE FUNCTION add(IN int, OUT int, INOUT int, VARIADIC int) RETURNS int
+    AS 'select col2 from table where col1 = $1;'
+    LANGUAGE SQL;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_function_statement
+    (identifier)
+    (create_function_parameters
+      (create_function_parameter
+        (type))
+      (create_function_parameter
+        (type))
+      (create_function_parameter
+        (type))
+      (create_function_parameter
+        (type)))
+    (type)
+    (function_body
+      (select_statement
+        (select_clause
+          (select_clause_body
+            (identifier)))
+        (from_clause
+          (identifier))
+        (where_clause
+          (comparison_operator
+            (identifier)
+            (argument_reference)))))
+    (language)))
+
+================================================================================
 CREATE FUNCTION returns setof
 ================================================================================
 
