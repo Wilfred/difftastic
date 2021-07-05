@@ -93,10 +93,12 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 content,
                 change,
                 next,
+                position,
                 ..
             } => {
                 let mut ds = f.debug_struct("Atom");
                 ds.field("content", &content).field("change", &change.get());
+                ds.field("position", &position);
 
                 let next_s = match next.get() {
                     Some(List { .. }) => "Some(List)",
