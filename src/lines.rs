@@ -389,6 +389,40 @@ pub fn rhs_printable_width(
     max(MIN_WIDTH, min(longest_line, space_available))
 }
 
+fn apply_group(
+    lhs_lines: &[&str],
+    rhs_lines: &[&str],
+    group: &LineGroup,
+    lhs_content_width: usize,
+    lhs_column_width: usize,
+    rhs_column_width: usize,
+) -> String {
+    let mut lhs_result = String::new();
+    for lhs_line_num in group.iter_lhs_lines() {
+        lhs_result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
+
+        match lhs_lines.get(lhs_line_num) {
+            Some(line) => lhs_result.push_str(line),
+            None => lhs_result.push_str(&" ".repeat(lhs_content_width)),
+        }
+        lhs_result.push('\n');
+    }
+
+    let mut rhs_result = String::new();
+    for rhs_line_num in group.iter_rhs_lines() {
+        rhs_result.push_str(&format_line_num_padded(rhs_line_num, rhs_column_width));
+        rhs_result.push_str(rhs_lines.get(rhs_line_num).unwrap_or(&""));
+        rhs_result.push('\n');
+    }
+
+    horizontal_concat(
+        &lhs_result,
+        &rhs_result,
+        lhs_content_width,
+        lhs_column_width,
+    )
+}
+
 /// Display all the lines in `lhs` and `rhs` that are mentioned in
 /// `groups`. horizontally concatenating the matched lines.
 pub fn apply_groups(
@@ -409,29 +443,13 @@ pub fn apply_groups(
     let spacer = "-".repeat(terminal_width);
 
     for (i, group) in groups.iter().enumerate() {
-        let mut lhs_result = String::new();
-        for lhs_line_num in group.iter_lhs_lines() {
-            lhs_result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
-
-            match lhs_lines.get(lhs_line_num) {
-                Some(line) => lhs_result.push_str(line),
-                None => lhs_result.push_str(&" ".repeat(lhs_content_width)),
-            }
-            lhs_result.push('\n');
-        }
-
-        let mut rhs_result = String::new();
-        for rhs_line_num in group.iter_rhs_lines() {
-            rhs_result.push_str(&format_line_num_padded(rhs_line_num, rhs_column_width));
-            rhs_result.push_str(rhs_lines.get(rhs_line_num).unwrap_or(&""));
-            rhs_result.push('\n');
-        }
-
-        result.push_str(&horizontal_concat(
-            &lhs_result,
-            &rhs_result,
+        result.push_str(&apply_group(
+            &lhs_lines,
+            &rhs_lines,
+            group,
             lhs_content_width,
             lhs_column_width,
+            rhs_column_width,
         ));
         if i != groups.len() - 1 {
             result.push_str(&spacer);
