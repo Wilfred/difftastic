@@ -2,6 +2,7 @@ use std::cmp::{min, Ordering, Reverse};
 use std::collections::BinaryHeap;
 use std::hash::{Hash, Hasher};
 
+use crate::lines::LineNumber;
 use crate::syntax::{ChangeKind, Syntax};
 use rustc_hash::{FxHashMap, FxHashSet};
 use Edge::*;
@@ -9,7 +10,9 @@ use Edge::*;
 #[derive(Debug, Clone)]
 struct Vertex<'a> {
     lhs_syntax: Option<&'a Syntax<'a>>,
+    lhs_prev_novel: Option<LineNumber>,
     rhs_syntax: Option<&'a Syntax<'a>>,
+    rhs_prev_novel: Option<LineNumber>,
 }
 impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
@@ -66,8 +69,6 @@ impl<'a> Eq for OrdVertex<'a> {}
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 enum Edge {
-    // TODO: Prefer nodes at the same or at least close levels of
-    // nesting.
     UnchangedNode(u64),
     UnchangedDelimiter(u64),
     NovelAtomLHS,
@@ -106,10 +107,12 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     let mut visited = FxHashSet::default();
     let mut predecessors: FxHashMap<Vertex, (u64, Edge, Vertex)> = FxHashMap::default();
 
+    let end;
     loop {
         match heap.pop() {
             Some(Reverse(OrdVertex { distance, v })) => {
                 if v.is_end() {
+                    end = v;
                     break;
                 }
 
@@ -144,10 +147,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
         }
     }
 
-    let mut current = Vertex {
-        lhs_syntax: None,
-        rhs_syntax: None,
-    };
+    let mut current = end;
     let mut res: Vec<(Edge, Vertex)> = vec![];
     loop {
         match predecessors.remove(&current) {
@@ -180,6 +180,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 Vertex {
                     lhs_syntax: lhs_syntax.next(),
                     rhs_syntax: rhs_syntax.next(),
+                    lhs_prev_novel: None,
+                    rhs_prev_novel: None,
                 },
             ));
         }
@@ -220,7 +222,9 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     UnchangedDelimiter(depth_difference),
                     Vertex {
                         lhs_syntax: lhs_next,
+                        lhs_prev_novel: None,
                         rhs_syntax: rhs_next,
+                        rhs_prev_novel: None,
                     },
                 ));
             }
@@ -235,23 +239,28 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     NovelAtomLHS,
                     Vertex {
                         lhs_syntax: lhs_syntax.next(),
+                        lhs_prev_novel: lhs_syntax.last_line(),
                         rhs_syntax: v.rhs_syntax,
+                        rhs_prev_novel: v.rhs_prev_novel,
                     },
                 ));
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let lhs_next = if children.is_empty() {
-                    lhs_syntax.next()
+                let (lhs_next, lhs_prev_novel) = if children.is_empty() {
+                    (lhs_syntax.next(), v.lhs_prev_novel)
                 } else {
-                    Some(children[0])
+                    // `lhs_prev_novel` only tracks nodes at the same level.
+                    (Some(children[0]), None)
                 };
 
                 res.push((
                     NovelDelimiterLHS,
                     Vertex {
                         lhs_syntax: lhs_next,
+                        lhs_prev_novel,
                         rhs_syntax: v.rhs_syntax,
+                        rhs_prev_novel: v.rhs_prev_novel,
                     },
                 ));
             }
@@ -266,23 +275,28 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     NovelAtomRHS,
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
+                        lhs_prev_novel: v.lhs_prev_novel,
                         rhs_syntax: rhs_syntax.next(),
+                        rhs_prev_novel: rhs_syntax.last_line(),
                     },
                 ));
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let rhs_next = if children.is_empty() {
-                    rhs_syntax.next()
+                let (rhs_next, rhs_prev_novel) = if children.is_empty() {
+                    (rhs_syntax.next(), v.rhs_prev_novel)
                 } else {
-                    Some(children[0])
+                    // `rhs_prev_novel` only tracks nodes at the same level.
+                    (Some(children[0]), None)
                 };
 
                 res.push((
                     NovelDelimiterRHS,
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
+                        lhs_prev_novel: v.lhs_prev_novel,
                         rhs_syntax: rhs_next,
+                        rhs_prev_novel,
                     },
                 ));
             }
@@ -295,7 +309,9 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) {
     let start = Vertex {
         lhs_syntax,
+        lhs_prev_novel: None,
         rhs_syntax,
+        rhs_prev_novel: None,
     };
     let route = shortest_path(start);
     mark_route(&route);
@@ -351,6 +367,14 @@ mod tests {
         }]
     }
 
+    fn col_helper(line: usize, col: usize) -> Vec<SingleLineSpan> {
+        vec![SingleLineSpan {
+            line: line.into(),
+            start_col: col,
+            end_col: col + 1,
+        }]
+    }
+
     #[test]
     fn identical_atoms() {
         let arena = Arena::new();
@@ -384,7 +408,9 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: Some(lhs),
+            lhs_prev_novel: None,
             rhs_syntax: Some(rhs),
+            rhs_prev_novel: None,
         };
         let route = shortest_path(start);
 
@@ -418,7 +444,9 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_prev_novel: None,
         };
         let route = shortest_path(start);
 
@@ -455,7 +483,9 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_prev_novel: None,
         };
         let route = shortest_path(start);
 
@@ -512,7 +542,9 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_prev_novel: None,
         };
         let route = shortest_path(start);
 
@@ -526,5 +558,30 @@ mod tests {
                 UnchangedNode(0)
             ],
         );
+    }
+    #[test]
+    fn prefer_atoms_same_line() {
+        let arena = Arena::new();
+
+        let lhs: Vec<&Syntax> = vec![
+            Syntax::new_atom(&arena, col_helper(1, 0), "foo"),
+            Syntax::new_atom(&arena, col_helper(2, 0), "bar"),
+            Syntax::new_atom(&arena, col_helper(2, 1), "foo"),
+        ];
+        init_info(&lhs);
+
+        let rhs: Vec<&Syntax> = vec![Syntax::new_atom(&arena, col_helper(1, 0), "foo")];
+        init_info(&rhs);
+
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_prev_novel: None,
+            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_prev_novel: None,
+        };
+        let route = shortest_path(start);
+
+        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        assert_eq!(actions, vec![UnchangedNode(0), NovelAtomLHS, NovelAtomLHS]);
     }
 }
