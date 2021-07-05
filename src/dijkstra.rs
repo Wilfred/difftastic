@@ -10,6 +10,9 @@ use Edge::*;
 #[derive(Debug, Clone)]
 struct Vertex<'a> {
     lhs_syntax: Option<&'a Syntax<'a>>,
+    // TODO: rather than forking when we see prev novel (more nodes in
+    // memory, bigger nodes), just always consider nodes on the same
+    // line to be 'closer' (lower cost).
     lhs_prev_novel: Option<LineNumber>,
     rhs_syntax: Option<&'a Syntax<'a>>,
     rhs_prev_novel: Option<LineNumber>,
@@ -71,10 +74,10 @@ impl<'a> Eq for OrdVertex<'a> {}
 enum Edge {
     UnchangedNode(u64),
     UnchangedDelimiter(u64),
-    NovelAtomLHS,
-    NovelAtomRHS,
-    NovelDelimiterLHS,
-    NovelDelimiterRHS,
+    NovelAtomLHS { contiguous: bool },
+    NovelAtomRHS { contiguous: bool },
+    NovelDelimiterLHS { contiguous: bool },
+    NovelDelimiterRHS { contiguous: bool },
 }
 
 impl Edge {
@@ -85,8 +88,20 @@ impl Edge {
             // Matching an outer delimiter is good.
             UnchangedDelimiter(depth_difference) => 1000 + min(40, *depth_difference),
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS | NovelAtomRHS => 2000,
-            NovelDelimiterLHS | NovelDelimiterRHS => 2000,
+            NovelAtomLHS { contiguous } | NovelAtomRHS { contiguous } => {
+                if *contiguous {
+                    2000
+                } else {
+                    3000
+                }
+            }
+            NovelDelimiterLHS { contiguous } | NovelDelimiterRHS { contiguous } => {
+                if *contiguous {
+                    2000
+                } else {
+                    3000
+                }
+            }
         }
     }
 }
@@ -236,7 +251,9 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
                 res.push((
-                    NovelAtomLHS,
+                    NovelAtomLHS {
+                        contiguous: v.lhs_prev_novel == lhs_syntax.first_line(),
+                    },
                     Vertex {
                         lhs_syntax: lhs_syntax.next(),
                         lhs_prev_novel: lhs_syntax.last_line(),
@@ -247,18 +264,20 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let (lhs_next, lhs_prev_novel) = if children.is_empty() {
-                    (lhs_syntax.next(), v.lhs_prev_novel)
+                let lhs_next = if children.is_empty() {
+                    lhs_syntax.next()
                 } else {
                     // `lhs_prev_novel` only tracks nodes at the same level.
-                    (Some(children[0]), None)
+                    Some(children[0])
                 };
 
                 res.push((
-                    NovelDelimiterLHS,
+                    NovelDelimiterLHS {
+                        contiguous: v.lhs_prev_novel == lhs_syntax.first_line(),
+                    },
                     Vertex {
                         lhs_syntax: lhs_next,
-                        lhs_prev_novel,
+                        lhs_prev_novel: v.lhs_prev_novel,
                         rhs_syntax: v.rhs_syntax,
                         rhs_prev_novel: v.rhs_prev_novel,
                     },
@@ -272,7 +291,9 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
                 res.push((
-                    NovelAtomRHS,
+                    NovelAtomRHS {
+                        contiguous: v.rhs_prev_novel == rhs_syntax.first_line(),
+                    },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         lhs_prev_novel: v.lhs_prev_novel,
@@ -283,20 +304,21 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
-                let (rhs_next, rhs_prev_novel) = if children.is_empty() {
-                    (rhs_syntax.next(), v.rhs_prev_novel)
+                let rhs_next = if children.is_empty() {
+                    rhs_syntax.next()
                 } else {
-                    // `rhs_prev_novel` only tracks nodes at the same level.
-                    (Some(children[0]), None)
+                    Some(children[0])
                 };
 
                 res.push((
-                    NovelDelimiterRHS,
+                    NovelDelimiterRHS {
+                        contiguous: v.rhs_prev_novel == rhs_syntax.first_line(),
+                    },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         lhs_prev_novel: v.lhs_prev_novel,
                         rhs_syntax: rhs_next,
-                        rhs_prev_novel,
+                        rhs_prev_novel: v.rhs_prev_novel,
                     },
                 ));
             }
@@ -335,11 +357,11 @@ fn mark_route(route: &[(Edge, Vertex)]) {
                 lhs.set_change(ChangeKind::Unchanged(rhs));
                 rhs.set_change(ChangeKind::Unchanged(lhs));
             }
-            NovelAtomLHS { .. } | NovelDelimiterLHS => {
+            NovelAtomLHS { .. } | NovelDelimiterLHS { .. } => {
                 let lhs = v.lhs_syntax.unwrap();
                 lhs.set_change(ChangeKind::Novel);
             }
-            NovelAtomRHS { .. } | NovelDelimiterRHS => {
+            NovelAtomRHS { .. } | NovelDelimiterRHS { .. } => {
                 let rhs = v.rhs_syntax.unwrap();
                 rhs.set_change(ChangeKind::Novel);
             }
@@ -451,7 +473,10 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![UnchangedDelimiter(0), NovelAtomLHS]);
+        assert_eq!(
+            actions,
+            vec![UnchangedDelimiter(0), NovelAtomLHS { contiguous: false }]
+        );
     }
 
     #[test]
@@ -492,7 +517,11 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![UnchangedDelimiter(0), NovelAtomRHS, NovelAtomRHS]
+            vec![
+                UnchangedDelimiter(0),
+                NovelAtomRHS { contiguous: false },
+                NovelAtomRHS { contiguous: false }
+            ]
         );
     }
 
@@ -552,8 +581,8 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                NovelDelimiterLHS,
-                NovelDelimiterRHS,
+                NovelDelimiterLHS { contiguous: false },
+                NovelDelimiterRHS { contiguous: false },
                 UnchangedNode(0),
                 UnchangedNode(0)
             ],
@@ -582,6 +611,13 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![UnchangedNode(0), NovelAtomLHS, NovelAtomLHS]);
+        assert_eq!(
+            actions,
+            vec![
+                UnchangedNode(0),
+                NovelAtomLHS { contiguous: false },
+                NovelAtomLHS { contiguous: true },
+            ]
+        );
     }
 }
