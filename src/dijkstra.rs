@@ -91,7 +91,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     });
 
     let mut visited = FxHashSet::default();
-    let mut predecessors: FxHashMap<Vertex, (Edge, Vertex)> = FxHashMap::default();
+    let mut predecessors: FxHashMap<Vertex, (i64, Edge, Vertex)> = FxHashMap::default();
 
     loop {
         match heap.pop() {
@@ -104,10 +104,22 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                     continue;
                 }
                 for (edge, new_v) in neighbours(&v) {
-                    if !predecessors.contains_key(&new_v) {
-                        predecessors.insert(new_v.clone(), (edge, v.clone()));
+                    let new_v_distance = distance + edge.cost();
+
+                    // Predecessor tracks all the found routes. We
+                    // visit nodes starting with the shortest route,
+                    // but we may found a longer route to an unvisited
+                    // node. In that case, we want to update the known
+                    // shortest route.
+                    let found_shorter_route = match predecessors.get(&new_v) {
+                        Some((prev_shortest, _, _)) => new_v_distance > *prev_shortest,
+                        None => true,
+                    };
+
+                    if found_shorter_route {
+                        predecessors.insert(new_v.clone(), (new_v_distance, edge, v.clone()));
                         heap.push(OrdVertex {
-                            distance: distance + edge.cost(),
+                            distance: new_v_distance,
                             v: new_v,
                         });
                     }
@@ -126,7 +138,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     let mut res: Vec<(Edge, Vertex)> = vec![];
     loop {
         match predecessors.remove(&current) {
-            Some((edge, node)) => {
+            Some((_, edge, node)) => {
                 res.push((edge, node.clone()));
                 current = node;
             }
@@ -198,7 +210,9 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
                 res.push((
-                    NovelAtomLHS { same_line: false },
+                    NovelAtomLHS {
+                        same_line: lhs_syntax.next_on_same_line(),
+                    },
                     Vertex {
                         lhs_syntax: lhs_syntax.get_next(),
                         rhs_syntax: v.rhs_syntax,
@@ -229,7 +243,9 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
                 res.push((
-                    NovelAtomRHS { same_line: false },
+                    NovelAtomRHS {
+                        same_line: rhs_syntax.next_on_same_line(),
+                    },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_syntax.get_next(),
