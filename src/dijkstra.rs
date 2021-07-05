@@ -68,8 +68,7 @@ impl Edge {
             UnchangedDelimiter => -1,
             // Otherwise, we've added/removed a node.
             NovelAtomLHS | NovelAtomRHS => -2,
-            NovelDelimiterLHS => -2,
-            NovelDelimiterRHS => -2,
+            NovelDelimiterLHS | NovelDelimiterRHS => -2,
         }
     }
 }
