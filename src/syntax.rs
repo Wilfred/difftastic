@@ -314,24 +314,21 @@ impl<'a> Syntax<'a> {
     }
 }
 
-pub fn set_next<'a>(node: &'a Syntax<'a>) {
-    set_next_(node, None);
-}
+pub fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>>) {
+    for (i, node) in nodes.iter().enumerate() {
+        let node_next = match nodes.get(i + 1) {
+            Some(node_next) => Some(*node_next),
+            None => parent_next,
+        };
 
-fn set_next_<'a>(node: &'a Syntax<'a>, new_next: Option<&'a Syntax<'a>>) {
-    match node {
-        List { next, children, .. } => {
-            next.set(new_next);
-            for (i, child) in children.iter().enumerate() {
-                let child_next = match children.get(i + 1) {
-                    Some(child_next) => Some(*child_next),
-                    None => new_next,
-                };
-                set_next_(child, child_next);
+        match node {
+            List { next, children, .. } => {
+                next.set(node_next);
+                set_next(children, node_next);
             }
-        }
-        Atom { next, .. } => {
-            next.set(new_next);
+            Atom { next, .. } => {
+                next.set(node_next);
+            }
         }
     }
 }

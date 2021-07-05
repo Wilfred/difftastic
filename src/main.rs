@@ -9,7 +9,7 @@ use std::ffi::OsStr;
 use std::path::Path;
 use typed_arena::Arena;
 
-use crate::dijkstra::{mark_syntax, toplevel_list};
+use crate::dijkstra::mark_syntax;
 use crate::lines::{
     apply_groups, enforce_length, format_line_num, join_overlapping, lhs_printable_width,
     rhs_printable_width, visible_groups, MaxLine,
@@ -84,13 +84,12 @@ fn main() {
         None => (parse_lines(&arena, &lhs_src), parse_lines(&arena, &rhs_src)),
     };
 
-    let (lhs, rhs) = toplevel_list(&arena, lhs, rhs);
-    set_next(lhs);
-    set_next(rhs);
-    mark_syntax(lhs, rhs);
+    set_next(&lhs, None);
+    set_next(&rhs, None);
+    mark_syntax(lhs.get(0).map(|n| *n), rhs.get(0).map(|n| *n));
 
-    let lhs_positions = change_positions(&lhs_src, &rhs_src, &[lhs]);
-    let rhs_positions = change_positions(&rhs_src, &lhs_src, &[rhs]);
+    let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
+    let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     for group in &mut groups {
