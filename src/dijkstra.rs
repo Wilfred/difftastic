@@ -81,6 +81,8 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
         v: start.clone(),
     });
 
+    // TODO: these grow very big. Can we store the leading positon
+    // (which is unique) rather than the whole Vertex?
     let mut visited = FxHashSet::default();
     let mut predecessors: FxHashMap<Vertex, (i64, Edge, Vertex)> = FxHashMap::default();
 
