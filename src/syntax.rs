@@ -217,6 +217,31 @@ impl<'a> Syntax<'a> {
         self.info().id.get()
     }
 
+    pub fn last_line(&self) -> Option<LineNumber> {
+        let position = match self {
+            List { close_position, .. } => close_position,
+            Atom { position, .. } => position,
+        };
+        position.last().map(|lp| lp.line)
+    }
+
+    pub fn next_on_same_line(&self) -> bool {
+        match self.next() {
+            Some(next) => {
+                let self_last_line = match self {
+                    List { close_position, .. } => close_position.last().map(|lp| lp.line),
+                    Atom { position, .. } => position.last().map(|lp| lp.line),
+                };
+                let next_first_line = match next {
+                    List { open_position, .. } => open_position.first().map(|lp| lp.line),
+                    Atom { position, .. } => position.first().map(|lp| lp.line),
+                };
+                self_last_line == next_first_line
+            }
+            None => false,
+        }
+    }
+
     pub fn set_change(&self, ck: ChangeKind<'a>) {
         self.info().change.set(Some(ck));
     }
