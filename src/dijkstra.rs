@@ -51,7 +51,6 @@ impl<'a> Eq for OrdVertex<'a> {}
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 enum Edge {
-    StartNode,
     UnchangedNode,
     UnchangedDelimiter,
     NovelAtomLHS { same_line: bool },
@@ -63,7 +62,6 @@ enum Edge {
 impl Edge {
     fn cost(&self) -> i64 {
         match self {
-            StartNode => 0,
             // Matching nodes is always best.
             UnchangedNode => 0,
             // Matching an outer delimiter is good.
@@ -143,7 +141,6 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                 current = node;
             }
             None => {
-                res.push((StartNode, current.clone()));
                 break;
             }
         }
@@ -286,13 +283,6 @@ pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'
 fn mark_route(route: &[(Edge, Vertex)]) {
     for (e, v) in route {
         match e {
-            StartNode => {
-                // No change on the root node.
-                let lhs = v.lhs_syntax.unwrap();
-                let rhs = v.rhs_syntax.unwrap();
-                lhs.set_change(ChangeKind::Unchanged(rhs));
-                rhs.set_change(ChangeKind::Unchanged(lhs));
-            }
             UnchangedNode => {
                 // No change on this node or its children.
                 let lhs = v.lhs_syntax.unwrap();
@@ -377,7 +367,7 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![StartNode, UnchangedNode]);
+        assert_eq!(actions, vec![UnchangedNode]);
     }
 
     #[test]
@@ -418,11 +408,7 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![
-                StartNode,
-                UnchangedDelimiter,
-                NovelAtomLHS { same_line: false }
-            ]
+            vec![UnchangedDelimiter, NovelAtomLHS { same_line: false }]
         );
     }
 
@@ -463,7 +449,6 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                StartNode,
                 UnchangedDelimiter,
                 NovelAtomRHS { same_line: false },
                 NovelAtomRHS { same_line: false }
@@ -525,7 +510,6 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                StartNode,
                 NovelDelimiterLHS,
                 NovelDelimiterRHS,
                 UnchangedNode,
@@ -562,7 +546,6 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                StartNode,
                 NovelAtomLHS { same_line: true },
                 NovelAtomLHS { same_line: false },
                 UnchangedNode,
