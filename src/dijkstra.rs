@@ -53,8 +53,8 @@ impl<'a> Eq for OrdVertex<'a> {}
 enum Edge {
     UnchangedNode,
     UnchangedDelimiter,
-    NovelAtomLHS { same_line: bool },
-    NovelAtomRHS { same_line: bool },
+    NovelAtomLHS,
+    NovelAtomRHS,
     NovelDelimiterLHS,
     NovelDelimiterRHS,
 }
@@ -66,15 +66,8 @@ impl Edge {
             UnchangedNode => 0,
             // Matching an outer delimiter is good.
             UnchangedDelimiter => -1,
-            // Otherwise, we've added/removed a node. Prefer novel
-            // nodes on the same line, to reduce the risk of sliders.
-            NovelAtomLHS { same_line } | NovelAtomRHS { same_line } => {
-                if *same_line {
-                    -2
-                } else {
-                    -3
-                }
-            }
+            // Otherwise, we've added/removed a node.
+            NovelAtomLHS | NovelAtomRHS => -2,
             NovelDelimiterLHS => -2,
             NovelDelimiterRHS => -2,
         }
@@ -207,9 +200,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
                 res.push((
-                    NovelAtomLHS {
-                        same_line: lhs_syntax.next_on_same_line(),
-                    },
+                    NovelAtomLHS,
                     Vertex {
                         lhs_syntax: lhs_syntax.get_next(),
                         rhs_syntax: v.rhs_syntax,
@@ -240,9 +231,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
                 res.push((
-                    NovelAtomRHS {
-                        same_line: rhs_syntax.next_on_same_line(),
-                    },
+                    NovelAtomRHS,
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_syntax.get_next(),
@@ -406,10 +395,7 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![UnchangedDelimiter, NovelAtomLHS { same_line: false }]
-        );
+        assert_eq!(actions, vec![UnchangedDelimiter, NovelAtomLHS]);
     }
 
     #[test]
@@ -448,11 +434,7 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![
-                UnchangedDelimiter,
-                NovelAtomRHS { same_line: false },
-                NovelAtomRHS { same_line: false }
-            ]
+            vec![UnchangedDelimiter, NovelAtomRHS, NovelAtomRHS]
         );
     }
 
@@ -543,13 +525,6 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(
-            actions,
-            vec![
-                NovelAtomLHS { same_line: true },
-                NovelAtomLHS { same_line: false },
-                UnchangedNode,
-            ],
-        );
+        assert_eq!(actions, vec![NovelAtomLHS, NovelAtomLHS, UnchangedNode]);
     }
 }
