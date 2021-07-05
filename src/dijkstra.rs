@@ -3,7 +3,6 @@ use std::collections::BinaryHeap;
 
 use crate::syntax::{ChangeKind, Syntax};
 use rustc_hash::{FxHashMap, FxHashSet};
-use typed_arena::Arena;
 use Edge::*;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -13,13 +12,6 @@ struct Vertex<'a> {
 }
 
 impl<'a> Vertex<'a> {
-    fn new(lhs: &'a Syntax<'a>, rhs: &'a Syntax<'a>) -> Self {
-        Self {
-            lhs_syntax: Some(lhs),
-            rhs_syntax: Some(rhs),
-        }
-    }
-
     fn is_end(&self) -> bool {
         self.lhs_syntax.is_none() && self.rhs_syntax.is_none()
     }
@@ -266,18 +258,11 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     res
 }
 
-pub fn toplevel_list<'a>(
-    arena: &'a Arena<Syntax<'a>>,
-    lhs_children: Vec<&'a Syntax<'a>>,
-    rhs_children: Vec<&'a Syntax<'a>>,
-) -> (&'a Syntax<'a>, &'a Syntax<'a>) {
-    let lhs = Syntax::new_list(arena, "", vec![], lhs_children, "", vec![]);
-    let rhs = Syntax::new_list(arena, "", vec![], rhs_children, "", vec![]);
-    (lhs, rhs)
-}
-
-pub fn mark_syntax<'a>(lhs: &'a Syntax<'a>, rhs: &'a Syntax<'a>) {
-    let start = Vertex::new(lhs, rhs);
+pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) {
+    let start = Vertex {
+        lhs_syntax,
+        rhs_syntax,
+    };
     let route = shortest_path(start);
     mark_route(&route);
 }
@@ -369,7 +354,10 @@ mod tests {
             kind: AtomKind::Other,
         });
 
-        let start = Vertex::new(lhs, rhs);
+        let start = Vertex {
+            lhs_syntax: Some(lhs),
+            rhs_syntax: Some(rhs),
+        };
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -380,7 +368,7 @@ mod tests {
     fn extra_atom_lhs() {
         let arena = Arena::new();
 
-        let lhs = Syntax::new_list(
+        let lhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
             "[".into(),
             pos_helper(0),
@@ -392,20 +380,23 @@ mod tests {
             )],
             "]".into(),
             pos_helper(2),
-        );
-        set_next(lhs);
+        )];
+        set_next(&lhs, None);
 
-        let rhs = Syntax::new_list(
+        let rhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
             "[".into(),
             pos_helper(0),
             vec![],
             "]".into(),
-            pos_helper(1),
-        );
-        set_next(rhs);
+            pos_helper(2),
+        )];
+        set_next(&rhs, None);
 
-        let start = Vertex::new(lhs, rhs);
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).map(|n| *n),
+        };
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -423,17 +414,17 @@ mod tests {
     fn repeated_atoms() {
         let arena = Arena::new();
 
-        let lhs = Syntax::new_list(
+        let lhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
             "[".into(),
             pos_helper(0),
             vec![],
             "]".into(),
             pos_helper(2),
-        );
-        set_next(lhs);
+        )];
+        set_next(&lhs, None);
 
-        let rhs = Syntax::new_list(
+        let rhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
             "[".into(),
             pos_helper(0),
@@ -443,10 +434,13 @@ mod tests {
             ],
             "]".into(),
             pos_helper(3),
-        );
-        set_next(rhs);
+        )];
+        set_next(&rhs, None);
 
-        let start = Vertex::new(lhs, rhs);
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).map(|n| *n),
+        };
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -465,7 +459,7 @@ mod tests {
     fn atom_after_empty_list() {
         let arena = Arena::new();
 
-        let lhs = Syntax::new_list(
+        let lhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
             "[".into(),
             pos_helper(0),
@@ -482,10 +476,10 @@ mod tests {
             ],
             "]".into(),
             pos_helper(4),
-        );
-        set_next(lhs);
+        )];
+        set_next(&lhs, None);
 
-        let rhs = Syntax::new_list(
+        let rhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
             "{".into(),
             pos_helper(0),
@@ -502,10 +496,13 @@ mod tests {
             ],
             "}".into(),
             pos_helper(4),
-        );
-        set_next(rhs);
+        )];
+        set_next(&rhs, None);
 
-        let start = Vertex::new(lhs, rhs);
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).map(|n| *n),
+        };
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -524,36 +521,25 @@ mod tests {
     fn prefer_atoms_same_line() {
         let arena = Arena::new();
 
-        let lhs = Syntax::new_list(
-            &arena,
-            "[".into(),
-            pos_helper(0),
-            vec![
-                Syntax::new_atom(&arena, col_helper(1, 0), "foo", AtomKind::Other),
-                Syntax::new_atom(&arena, col_helper(2, 0), "bar", AtomKind::Other),
-                Syntax::new_atom(&arena, col_helper(2, 1), "foo", AtomKind::Other),
-            ],
-            "]".into(),
-            pos_helper(4),
-        );
-        set_next(lhs);
+        let lhs: Vec<&Syntax> = vec![
+            Syntax::new_atom(&arena, col_helper(1, 0), "foo", AtomKind::Other),
+            Syntax::new_atom(&arena, col_helper(2, 0), "bar", AtomKind::Other),
+            Syntax::new_atom(&arena, col_helper(2, 1), "foo", AtomKind::Other),
+        ];
+        set_next(&lhs, None);
 
-        let rhs = Syntax::new_list(
+        let rhs: Vec<&Syntax> = vec![Syntax::new_atom(
             &arena,
-            "[".into(),
-            pos_helper(0),
-            vec![Syntax::new_atom(
-                &arena,
-                col_helper(1, 0),
-                "foo",
-                AtomKind::Other,
-            )],
-            "]".into(),
-            pos_helper(4),
-        );
-        set_next(rhs);
+            col_helper(1, 0),
+            "foo",
+            AtomKind::Other,
+        )];
+        set_next(&rhs, None);
 
-        let start = Vertex::new(lhs, rhs);
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).map(|n| *n),
+        };
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
@@ -561,8 +547,7 @@ mod tests {
             actions,
             vec![
                 StartNode,
-                UnchangedDelimiter,
-                NovelAtomLHS { same_line: false },
+                NovelAtomLHS { same_line: true },
                 NovelAtomLHS { same_line: false },
                 UnchangedNode,
             ],
