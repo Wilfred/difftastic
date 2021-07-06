@@ -3,8 +3,9 @@
 
 use itertools::{EitherOrBoth, Itertools};
 use std::cell::Cell;
+use std::cmp::min;
 use std::collections::hash_map::DefaultHasher;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::fmt;
 use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
@@ -520,6 +521,22 @@ fn change_positions_<'a>(
     }
 }
 
+fn zip_pad_shorter<Tx: Copy, Ty: Copy>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Option<Tx>, Option<Ty>)> {
+    let mut res = vec![];
+
+    let mut i = 0;
+    loop {
+        match (lhs.get(i), rhs.get(i)) {
+            (None, None) => break,
+            (x, y) => res.push((x.map(|v| *v), y.map(|v| *v))),
+        }
+
+        i += 1;
+    }
+
+    res
+}
+
 /// Given two slices of line positions, return a list of line number
 /// pairs. If the slices have different lengths, reuse the last item
 /// from the shorter slice.
@@ -555,58 +572,52 @@ pub fn aligned_lines(
     lhs_lines: &[LineNumber],
     rhs_lines: &[LineNumber],
     lhs_line_matches: &HashMap<LineNumber, LineNumber>,
-    rhs_line_matches: &HashMap<LineNumber, LineNumber>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    // Find RHS lines that we can match up.
-    let mut lhs_opposite_lines = vec![];
+    let mut rhs_lines_available: HashSet<_> = rhs_lines.iter().collect();
+
+    // For every LHS line, if there is a RHS line that included in
+    // `rhs_lines` and hasn't yet been paired up, add it to matched_lines.
+    let mut matched_lines = vec![];
     for lhs_line in lhs_lines {
-        if let Some(lhs_opposite_line) = lhs_line_matches.get(lhs_line) {
-            lhs_opposite_lines.push(lhs_opposite_line);
+        if let Some(rhs_line) = lhs_line_matches.get(lhs_line) {
+            if rhs_lines_available.remove(&rhs_line) {
+                matched_lines.push((lhs_line, rhs_line));
+            }
         }
     }
-
-    // Find LHS lines that we can match up.
-    let mut rhs_opposite_lines = vec![];
-    for rhs_line in rhs_lines {
-        if let Some(rhs_opposite_line) = rhs_line_matches.get(rhs_line) {
-            rhs_opposite_lines.push(rhs_opposite_line);
-        }
-    }
-
-    // Sanity check: if LHS X matches RHS Y, then RHS Y should match
-    // LHS X and we should have the same number of opposite lines.
-    assert_eq!(lhs_opposite_lines.len(), rhs_opposite_lines.len());
 
     let mut res = vec![];
 
     let mut lhs_i = 0;
     let mut rhs_i = 0;
 
-    // Build a vec of matched lines, padding the unmatched sequences with None.
-    for (lhs_matched_line, rhs_matched_line) in rhs_opposite_lines
-        .into_iter()
-        .zip(lhs_opposite_lines.into_iter())
-    {
+    // Build a vec of matched line tuples. For lines without matches
+    // (novel lines, empty lines), just match lines up pairwise. Pad
+    // gaps if one side has more lines.
+    for (lhs_matched_line, rhs_matched_line) in matched_lines {
+        let mut lhs_prev_lines = vec![];
         while lhs_i < lhs_lines.len() && lhs_lines[lhs_i] < *lhs_matched_line {
-            res.push((Some(lhs_lines[lhs_i]), None));
+            lhs_prev_lines.push(lhs_lines[lhs_i]);
             lhs_i += 1;
         }
+        let mut rhs_prev_lines = vec![];
         while rhs_i < rhs_lines.len() && rhs_lines[rhs_i] < *rhs_matched_line {
-            res.push((None, Some(rhs_lines[rhs_i])));
+            rhs_prev_lines.push(rhs_lines[rhs_i]);
             rhs_i += 1;
         }
-        res.push((Some(*lhs_matched_line), Some(*rhs_matched_line)));
-    }
 
-    // If we have trailing unmatched lines on other side, add them now.
-    while lhs_i < lhs_lines.len() {
-        res.push((Some(lhs_lines[lhs_i]), None));
+        res.extend(zip_pad_shorter(&lhs_prev_lines, &rhs_prev_lines));
+
+        res.push((Some(*lhs_matched_line), Some(*rhs_matched_line)));
         lhs_i += 1;
-    }
-    while rhs_i < rhs_lines.len() {
-        res.push((None, Some(rhs_lines[rhs_i])));
         rhs_i += 1;
     }
+
+    // Handle unmatched lines after the last match.
+    res.extend(zip_pad_shorter(
+        &lhs_lines[min(lhs_i, lhs_lines.len())..],
+        &rhs_lines[min(rhs_i, rhs_lines.len())..],
+    ));
 
     res
 }
@@ -674,6 +685,70 @@ mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
     use AtomKind::Other;
+
+    #[test]
+    fn test_aligned_middle() {
+        let lhs_lines: Vec<LineNumber> = vec![1.into(), 2.into()];
+        let rhs_lines: Vec<LineNumber> = vec![12.into(), 13.into()];
+
+        let mut line_matches: HashMap<LineNumber, LineNumber> = HashMap::new();
+        line_matches.insert(2.into(), 12.into());
+
+        assert_eq!(
+            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            vec![
+                (Some(1.into()), None),
+                (Some(2.into()), Some(12.into())),
+                (None, Some(13.into()))
+            ]
+        );
+    }
+
+    #[test]
+    fn test_aligned_all() {
+        let lhs_lines: Vec<LineNumber> = vec![1.into(), 2.into()];
+        let rhs_lines: Vec<LineNumber> = vec![11.into(), 12.into()];
+
+        let mut line_matches: HashMap<LineNumber, LineNumber> = HashMap::new();
+        line_matches.insert(1.into(), 2.into());
+        line_matches.insert(2.into(), 12.into());
+
+        assert_eq!(
+            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            vec![
+                (Some(1.into()), Some(11.into())),
+                (Some(2.into()), Some(12.into())),
+            ]
+        );
+    }
+
+    #[test]
+    fn test_aligned_none() {
+        let lhs_lines: Vec<LineNumber> = vec![1.into()];
+        let rhs_lines: Vec<LineNumber> = vec![11.into()];
+
+        let line_matches: HashMap<LineNumber, LineNumber> = HashMap::new();
+
+        assert_eq!(
+            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            vec![(Some(1.into()), Some(11.into()))]
+        );
+    }
+
+    #[test]
+    fn test_aligned_line_overlap() {
+        let lhs_lines: Vec<LineNumber> = vec![1.into(), 2.into()];
+        let rhs_lines: Vec<LineNumber> = vec![11.into()];
+
+        let mut line_matches: HashMap<LineNumber, LineNumber> = HashMap::new();
+        line_matches.insert(1.into(), 11.into());
+        line_matches.insert(2.into(), 11.into());
+
+        assert_eq!(
+            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            vec![(Some(1.into()), Some(11.into())), (Some(2.into()), None)]
+        );
+    }
 
     /// Ensure that we assign prev_opposite_pos even if the change is on the first node.
     #[test]

@@ -16,7 +16,7 @@ use crate::lines::{
 };
 use crate::parse::{find_lang, parse, parse_lines, read_or_die, ConfigDir};
 use crate::style::apply_colors;
-use crate::syntax::{change_positions, set_next};
+use crate::syntax::{change_positions, matching_lines, set_next};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
@@ -91,6 +91,8 @@ fn main() {
     let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
     let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
 
+    let lhs_matched_lines = matching_lines(&lhs);
+
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     for group in &mut groups {
         group.pad(3, lhs_src.max_line(), rhs_src.max_line());
@@ -127,6 +129,7 @@ fn main() {
             &lhs_colored,
             &rhs_colored,
             &groups,
+            &lhs_matched_lines,
             lhs_content_width,
             lhs_column_width,
             rhs_column_width,
