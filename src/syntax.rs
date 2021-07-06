@@ -1,13 +1,15 @@
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 #![allow(dead_code)]
 
+use itertools::{EitherOrBoth, Itertools};
 use std::cell::Cell;
 use std::collections::hash_map::DefaultHasher;
+use std::collections::HashMap;
 use std::fmt;
 use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
 
-use crate::lines::NewlinePositions;
+use crate::lines::{LineNumber, NewlinePositions};
 use crate::positions::SingleLineSpan;
 use ChangeKind::*;
 use Syntax::*;
@@ -513,6 +515,95 @@ fn change_positions_<'a>(
                     pos: position.clone(),
                     prev_opposite_pos: prev_opposite_pos.clone(),
                 });
+            }
+        }
+    }
+}
+
+/// Given two slices of line positions, return a list of line number
+/// pairs. If the slices have different lengths, reuse the last item
+/// from the shorter slice.
+fn zip_lines(lhs: &[SingleLineSpan], rhs: &[SingleLineSpan]) -> Vec<(LineNumber, LineNumber)> {
+    let lhs_lines: Vec<_> = lhs.iter().map(|slp| slp.line).collect();
+    let rhs_lines: Vec<_> = rhs.iter().map(|slp| slp.line).collect();
+
+    let lhs_last = match lhs_lines.last() {
+        Some(last) => *last,
+        None => {
+            return vec![];
+        }
+    };
+    let rhs_last = match rhs_lines.last() {
+        Some(last) => *last,
+        None => {
+            return vec![];
+        }
+    };
+
+    lhs_lines
+        .into_iter()
+        .zip_longest(rhs_lines.into_iter())
+        .map(|l| match l {
+            EitherOrBoth::Both(lhs_line, rhs_line) => (lhs_line, rhs_line),
+            EitherOrBoth::Left(lhs_line) => (lhs_line, rhs_last),
+            EitherOrBoth::Right(rhs_line) => (lhs_last, rhs_line),
+        })
+        .collect()
+}
+
+fn matching_lines<'a>(nodes: &[Syntax<'a>]) -> HashMap<LineNumber, LineNumber> {
+    let mut res = HashMap::new();
+    for node in nodes {
+        matching_lines_(node, &mut res);
+    }
+    res
+}
+
+fn matching_lines_<'a>(node: &Syntax<'a>, matches: &mut HashMap<LineNumber, LineNumber>) {
+    match node {
+        List {
+            change,
+            open_position,
+            children,
+            close_position,
+            ..
+        } => {
+            if let Some(Unchanged(List {
+                open_position: other_open,
+                close_position: other_close,
+                ..
+            })) = change.get()
+            {
+                for (line, other_line) in zip_lines(open_position, other_open) {
+                    if !matches.contains_key(&line) {
+                        matches.insert(line, other_line);
+                    }
+                }
+
+                for (line, other_line) in zip_lines(close_position, other_close) {
+                    if !matches.contains_key(&line) {
+                        matches.insert(line, other_line);
+                    }
+                }
+            }
+
+            for child in children {
+                matching_lines_(child, matches);
+            }
+        }
+        Atom {
+            change, position, ..
+        } => {
+            if let Some(Unchanged(Atom {
+                position: other_pos,
+                ..
+            })) = change.get()
+            {
+                for (line, other_line) in zip_lines(position, other_pos) {
+                    if !matches.contains_key(&line) {
+                        matches.insert(line, other_line);
+                    }
+                }
             }
         }
     }
