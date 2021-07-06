@@ -1,7 +1,8 @@
 use crate::positions::SingleLineSpan;
-use crate::syntax::{MatchKind, MatchedPos};
+use crate::syntax::{aligned_lines, MatchKind, MatchedPos};
 use regex::Regex;
 use std::cmp::{max, min, Ordering};
+use std::collections::HashMap;
 use std::fmt;
 use std::ops::RangeInclusive;
 
@@ -43,22 +44,30 @@ impl LineGroup {
         }
     }
 
-    // We can't iterate over a RangeInclusive<LineNumber> in safe, stable Rust. See
-    // https://github.com/rust-lang/rust/issues/42168
-    pub fn iter_lhs_lines(&self) -> RangeInclusive<usize> {
-        let empty_iter = 1usize..=0;
+    fn lhs_lines(&self) -> Vec<LineNumber> {
+        let mut res = vec![];
         match &self.lhs_lines {
-            Some(lhs_lines) => lhs_lines.start().number..=lhs_lines.end().number,
-            None => empty_iter,
+            Some(lhs_lines) => {
+                for line in lhs_lines.start().number..=lhs_lines.end().number {
+                    res.push(line.into());
+                }
+            }
+            None => {}
         }
+        res
     }
 
-    pub fn iter_rhs_lines(&self) -> RangeInclusive<usize> {
-        let empty_iter = 1usize..=0;
+    fn rhs_lines(&self) -> Vec<LineNumber> {
+        let mut res = vec![];
         match &self.rhs_lines {
-            Some(rhs_lines) => rhs_lines.start().number..=rhs_lines.end().number,
-            None => empty_iter,
+            Some(rhs_lines) => {
+                for line in rhs_lines.start().number..=rhs_lines.end().number {
+                    res.push(line.into());
+                }
+            }
+            None => {}
         }
+        res
     }
 
     pub fn pad(&mut self, amount: usize, max_lhs_line: LineNumber, max_rhs_line: LineNumber) {
@@ -393,25 +402,45 @@ fn apply_group(
     lhs_lines: &[&str],
     rhs_lines: &[&str],
     group: &LineGroup,
+    lhs_line_matches: &HashMap<LineNumber, LineNumber>,
     lhs_content_width: usize,
     lhs_column_width: usize,
     rhs_column_width: usize,
 ) -> String {
     let mut lhs_result = String::new();
-    for lhs_line_num in group.iter_lhs_lines() {
-        lhs_result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
+    let mut rhs_result = String::new();
 
-        match lhs_lines.get(lhs_line_num) {
-            Some(line) => lhs_result.push_str(line),
-            None => lhs_result.push_str(&" ".repeat(lhs_content_width)),
+    for (lhs_line_num, rhs_line_num) in
+        aligned_lines(&group.lhs_lines(), &group.rhs_lines(), lhs_line_matches)
+    {
+        // TODO: we could build up a single string rather than
+        // horizontally concatenating afterwards.
+
+        match lhs_line_num {
+            Some(lhs_line_num) => {
+                lhs_result.push_str(&format_line_num_padded(
+                    lhs_line_num.number,
+                    lhs_column_width,
+                ));
+                lhs_result.push_str(lhs_lines[lhs_line_num.number]);
+            }
+            None => {
+                lhs_result.push_str(&" ".repeat(lhs_column_width));
+                lhs_result.push_str(&" ".repeat(lhs_content_width));
+            }
         }
         lhs_result.push('\n');
-    }
 
-    let mut rhs_result = String::new();
-    for rhs_line_num in group.iter_rhs_lines() {
-        rhs_result.push_str(&format_line_num_padded(rhs_line_num, rhs_column_width));
-        rhs_result.push_str(rhs_lines.get(rhs_line_num).unwrap_or(&""));
+        match rhs_line_num {
+            Some(rhs_line_num) => {
+                rhs_result.push_str(&format_line_num_padded(
+                    rhs_line_num.number,
+                    rhs_column_width,
+                ));
+                rhs_result.push_str(rhs_lines[rhs_line_num.number]);
+            }
+            None => {}
+        }
         rhs_result.push('\n');
     }
 
@@ -429,6 +458,7 @@ pub fn apply_groups(
     lhs: &str,
     rhs: &str,
     groups: &[LineGroup],
+    lhs_line_matches: &HashMap<LineNumber, LineNumber>,
     lhs_content_width: usize,
     lhs_column_width: usize,
     rhs_column_width: usize,
@@ -445,6 +475,7 @@ pub fn apply_groups(
             &lhs_lines,
             &rhs_lines,
             group,
+            lhs_line_matches,
             lhs_content_width,
             lhs_column_width,
             rhs_column_width,

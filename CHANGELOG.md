@@ -1,5 +1,7 @@
 ## 0.3 (unreleased)
 
+Diffs are now displayed with unchanged lines aligned to the other side.
+
 Improved Rust parsing to recognise lifetime syntax `'foo`, character
 literals `'x'` and sequences of punctuation.
 
