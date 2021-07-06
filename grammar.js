@@ -33,14 +33,18 @@ module.exports = grammar({
     env_var: ($) => seq("$", "ENV", "{", $.variable, "}"),
     cache_var: ($) => seq("$", "CACHE", "{", $.variable, "}"),
 
+    gen_exp: ($) => seq("$", "<", optional($._gen_exp_content), ">"),
+    _gen_exp_content: ($) => seq($.argument, optional($._gen_exp_arguments)),
+    _gen_exp_arguments: ($) => seq(":", repeat(seq($.argument, optional(/[,;]/)))),
+
     argument: ($) => choice($.bracket_argument, $.quoted_argument, $.unquoted_argument),
     _untrimmed_argument: ($) => choice(/\s/, $.bracket_comment, $.line_comment, $.argument, $._paren_argument),
     _paren_argument: ($) => seq("(", repeat($._untrimmed_argument), ")"),
 
     quoted_argument: ($) => seq('"', optional($.quoted_element), '"'),
-    quoted_element: ($) => repeat1(choice($.variable_ref, /[^\\"]/, $.escape_sequence)),
+    quoted_element: ($) => repeat1(choice($.variable_ref, $.gen_exp, /[^\\"]/, $.escape_sequence)),
 
-    unquoted_argument: ($) => prec.right(repeat1(choice($.variable_ref, /[^\s()#\"\\]/, $.escape_sequence))),
+    unquoted_argument: ($) => prec.right(repeat1(choice($.variable_ref, $.gen_exp, /[^\s()#\"\\]/, $.escape_sequence))),
 
     if_command: ($) => command($.if, repeat($._untrimmed_argument)),
     elseif_command: ($) => command($.elseif, repeat($._untrimmed_argument)),
