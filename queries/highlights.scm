@@ -77,7 +77,7 @@
 
 (unary_op
  operator: "@"
- (call (identifier) @attribute
+ (call (function_identifier) @attribute
        (heredoc
         [(heredoc_start)
          (heredoc_content)
