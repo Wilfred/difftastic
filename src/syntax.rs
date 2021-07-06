@@ -551,6 +551,66 @@ fn zip_lines(lhs: &[SingleLineSpan], rhs: &[SingleLineSpan]) -> Vec<(LineNumber,
         .collect()
 }
 
+fn aligned_lines(
+    lhs_lines: &[LineNumber],
+    rhs_lines: &[LineNumber],
+    lhs_line_matches: HashMap<LineNumber, LineNumber>,
+    rhs_line_matches: HashMap<LineNumber, LineNumber>,
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    // Find RHS lines that we can match up.
+    let mut lhs_opposite_lines = vec![];
+    for lhs_line in lhs_lines {
+        if let Some(lhs_opposite_line) = lhs_line_matches.get(lhs_line) {
+            lhs_opposite_lines.push(lhs_opposite_line);
+        }
+    }
+
+    // Find LHS lines that we can match up.
+    let mut rhs_opposite_lines = vec![];
+    for rhs_line in rhs_lines {
+        if let Some(rhs_opposite_line) = rhs_line_matches.get(rhs_line) {
+            rhs_opposite_lines.push(rhs_opposite_line);
+        }
+    }
+
+    // Sanity check: if LHS X matches RHS Y, then RHS Y should match
+    // LHS X and we should have the same number of opposite lines.
+    assert_eq!(lhs_opposite_lines.len(), rhs_opposite_lines.len());
+
+    let mut res = vec![];
+
+    let mut lhs_i = 0;
+    let mut rhs_i = 0;
+
+    // Build a vec of matched lines, padding the unmatched sequences with None.
+    for (lhs_matched_line, rhs_matched_line) in rhs_opposite_lines
+        .into_iter()
+        .zip(lhs_opposite_lines.into_iter())
+    {
+        while lhs_i < lhs_lines.len() && lhs_lines[lhs_i] < *lhs_matched_line {
+            res.push((Some(lhs_lines[lhs_i]), None));
+            lhs_i += 1;
+        }
+        while rhs_i < rhs_lines.len() && rhs_lines[rhs_i] < *rhs_matched_line {
+            res.push((None, Some(rhs_lines[rhs_i])));
+            rhs_i += 1;
+        }
+        res.push((Some(*lhs_matched_line), Some(*rhs_matched_line)));
+    }
+
+    // If we have trailing unmatched lines on other side, add them now.
+    while lhs_i < lhs_lines.len() {
+        res.push((Some(lhs_lines[lhs_i]), None));
+        lhs_i += 1;
+    }
+    while rhs_i < rhs_lines.len() {
+        res.push((None, Some(rhs_lines[rhs_i])));
+        rhs_i += 1;
+    }
+
+    res
+}
+
 fn matching_lines<'a>(nodes: &[Syntax<'a>]) -> HashMap<LineNumber, LineNumber> {
     let mut res = HashMap::new();
     for node in nodes {
