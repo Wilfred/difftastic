@@ -428,8 +428,6 @@ fn apply_group(
 pub fn apply_groups(
     lhs: &str,
     rhs: &str,
-    // TODO: define a helper function that operates on a single
-    // LineGroup.
     groups: &[LineGroup],
     lhs_content_width: usize,
     lhs_column_width: usize,
