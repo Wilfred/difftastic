@@ -551,11 +551,11 @@ fn zip_lines(lhs: &[SingleLineSpan], rhs: &[SingleLineSpan]) -> Vec<(LineNumber,
         .collect()
 }
 
-fn aligned_lines(
+pub fn aligned_lines(
     lhs_lines: &[LineNumber],
     rhs_lines: &[LineNumber],
-    lhs_line_matches: HashMap<LineNumber, LineNumber>,
-    rhs_line_matches: HashMap<LineNumber, LineNumber>,
+    lhs_line_matches: &HashMap<LineNumber, LineNumber>,
+    rhs_line_matches: &HashMap<LineNumber, LineNumber>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     // Find RHS lines that we can match up.
     let mut lhs_opposite_lines = vec![];
@@ -611,7 +611,7 @@ fn aligned_lines(
     res
 }
 
-fn matching_lines<'a>(nodes: &[Syntax<'a>]) -> HashMap<LineNumber, LineNumber> {
+pub fn matching_lines<'a>(nodes: &[&Syntax<'a>]) -> HashMap<LineNumber, LineNumber> {
     let mut res = HashMap::new();
     for node in nodes {
         matching_lines_(node, &mut res);
