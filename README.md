@@ -38,3 +38,8 @@ This parser is supposed to be used in text editors. As a result:
 
 * it's very lax in what it considers valid SQL parse
 * adding extra nodes to have convenient selection anchors is okay
+
+### Other projects
+
+* https://github.com/DerekStride/tree-sitter-sql
+* https://github.com/dhcmrlchtdj/tree-sitter-sqlite
