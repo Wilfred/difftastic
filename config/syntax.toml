@@ -152,10 +152,10 @@ atom_patterns = [
   # Lifetimes
   "'[a-z_]+",
   # Symbols (e.g. variable names)
-  '[.a-zA-Z0-9_]+!?',
+  '[a-zA-Z0-9_]+!?',
   # Operators
   # | is a delimiter for lambdas, but also used in pattern matching.
-  '[&=<>/*+:;,|#!-]+',
+  '[.&=<>/*+:;,|#!?-]+',
 ]
 string_patterns = [
   '"[^"]*"',
