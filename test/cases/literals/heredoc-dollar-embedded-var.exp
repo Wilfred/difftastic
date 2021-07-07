@@ -1,6 +1,5 @@
 (script
   (comment) 
-  (comment) 
   (expression_statement
-    (heredoc)
-      variable )))
+    (heredoc
+      (variable))))
