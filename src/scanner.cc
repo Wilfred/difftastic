@@ -213,7 +213,12 @@ struct Scanner {
 
     if (!is_nowdoc && prefix.empty()) {
       if (peek() == '{') next();
-      if (peek() == '$') return false;
+      if (peek() == '$') {
+        next();
+        if (is_identifier_start_char(peek())) {
+          return false;
+        }
+      }
     }
 
     for (;;) {
