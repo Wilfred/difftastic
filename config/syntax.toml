@@ -149,6 +149,9 @@ extensions = ["rs"]
 atom_patterns = [
   # Numbers
   '[0-9]+',
+  # Single quoted character 'a' or '\n', trying to avoid matching
+  # lifetimes.
+  "'..?'",
   # Lifetimes
   "'[a-z_]+",
   # Symbols (e.g. variable names)
