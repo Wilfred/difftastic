@@ -753,6 +753,23 @@ mod tests {
         );
     }
 
+    #[test]
+    fn test_aligned_out_of_range() {
+        let lhs_lines: Vec<LineNumber> = vec![1.into(), 2.into()];
+        let rhs_lines: Vec<LineNumber> = vec![11.into(), 12.into()];
+
+        let mut line_matches: HashMap<LineNumber, LineNumber> = HashMap::new();
+        line_matches.insert(1.into(), 10.into());
+
+        assert_eq!(
+            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            vec![
+                (Some(1.into()), Some(11.into())),
+                (Some(2.into()), Some(12.into())),
+            ]
+        );
+    }
+
     /// Ensure that we assign prev_opposite_pos even if the change is on the first node.
     #[test]
     fn test_prev_opposite_pos_first_node() {
