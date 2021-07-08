@@ -319,14 +319,6 @@ mod tests {
         }]
     }
 
-    fn col_helper(line: usize, col: usize) -> Vec<SingleLineSpan> {
-        vec![SingleLineSpan {
-            line: line.into(),
-            start_col: col,
-            end_col: col + 1,
-        }]
-    }
-
     #[test]
     fn identical_atoms() {
         let arena = Arena::new();
@@ -499,33 +491,5 @@ mod tests {
                 UnchangedNode
             ],
         );
-    }
-    #[test]
-    fn prefer_atoms_same_line() {
-        let arena = Arena::new();
-
-        let lhs: Vec<&Syntax> = vec![
-            Syntax::new_atom(&arena, col_helper(1, 0), "foo", AtomKind::Other),
-            Syntax::new_atom(&arena, col_helper(2, 0), "bar", AtomKind::Other),
-            Syntax::new_atom(&arena, col_helper(2, 1), "foo", AtomKind::Other),
-        ];
-        set_next(&lhs, None);
-
-        let rhs: Vec<&Syntax> = vec![Syntax::new_atom(
-            &arena,
-            col_helper(1, 0),
-            "foo",
-            AtomKind::Other,
-        )];
-        set_next(&rhs, None);
-
-        let start = Vertex {
-            lhs_syntax: lhs.get(0).map(|n| *n),
-            rhs_syntax: rhs.get(0).map(|n| *n),
-        };
-        let route = shortest_path(start);
-
-        let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![NovelAtomLHS, NovelAtomLHS, UnchangedNode]);
     }
 }
