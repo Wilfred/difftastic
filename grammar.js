@@ -725,7 +725,7 @@ const rules = {
   selection_expression: $ =>
     prec.select(
       seq(
-        $._variablish,
+        choice($._variablish, $.as_expression),
         field('selection_operator', choice('?->', '->')),
         choice($._variablish, $.braced_expression, alias($._keyword, $.identifier)),
       ),

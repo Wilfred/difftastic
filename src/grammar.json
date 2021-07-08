@@ -5404,8 +5404,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_variablish"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_variablish"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "as_expression"
+              }
+            ]
           },
           {
             "type": "FIELD",

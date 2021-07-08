@@ -1,0 +1,42 @@
+(script
+  (expression_statement
+    (selection_expression
+      (as_expression
+        left: (variable)
+        right: (type_specifier))
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (call_expression
+      function: (selection_expression
+        (as_expression
+          left: (variable)
+          right: (type_specifier))
+        (qualified_identifier
+          (identifier)))
+      (arguments)))
+  (expression_statement
+    (selection_expression
+      (parenthesized_expression
+        (as_expression
+          left: (variable)
+          right: (type_specifier)))
+      (qualified_identifier
+        (identifier))))
+  (expression_statement
+    (as_expression
+      left: (selection_expression
+        (variable)
+        (qualified_identifier
+          (identifier)))
+      right: (type_specifier)))
+  (expression_statement
+    (selection_expression
+      (as_expression
+        left: (selection_expression
+          (variable)
+          (qualified_identifier
+            (identifier)))
+        right: (type_specifier))
+      (qualified_identifier
+        (identifier)))))

@@ -2576,6 +2576,10 @@
       "required": true,
       "types": [
         {
+          "type": "as_expression",
+          "named": true
+        },
+        {
           "type": "braced_expression",
           "named": true
         },
