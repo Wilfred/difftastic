@@ -1027,7 +1027,7 @@ const rules = {
 
   xhp_comment: $ => token(seq('<!--', /(-?>)?([^>]|[^-]>|[^-]->)*/, '-->')),
 
-  xhp_string: $ => /[^<{]+/,
+  xhp_string: $ => token(prec(1, /[^<{]+/)),
 
   xhp_open: $ => seq('<', $.xhp_identifier, rep($.xhp_attribute), '>'),
 
