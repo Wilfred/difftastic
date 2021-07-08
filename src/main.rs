@@ -93,7 +93,18 @@ fn main() {
 
     let lhs_matched_lines = matching_lines(&lhs);
 
+    let lang_name = match &lang {
+        Some(lang) => lang.name.clone(),
+        None => "plain text".to_string(),
+    };
+    println!("{}", style::header(rhs_path, &lang_name));
+
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
+    if groups.is_empty() {
+        println!("No changes found.");
+        return;
+    }
+
     for group in &mut groups {
         group.pad(3, lhs_src.max_line(), rhs_src.max_line());
     }
@@ -118,11 +129,6 @@ fn main() {
     let lhs_colored = apply_colors(&lhs_src, true, &lhs_positions);
     let rhs_colored = apply_colors(&rhs_src, false, &rhs_positions);
 
-    let lang_name = match &lang {
-        Some(lang) => lang.name.clone(),
-        None => "plain text".to_string(),
-    };
-    println!("{}", style::header(rhs_path, &lang_name));
     print!(
         "{}",
         apply_groups(
