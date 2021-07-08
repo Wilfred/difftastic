@@ -3,6 +3,8 @@
 Improved Rust parsing to recognise lifetime syntax `'foo`, character
 literals `'x'` and sequences of punctuation.
 
+Improve punctuation parsing for OCaml and JS.
+
 Fixed an issue where the diff calculated may not be minimal.
 
 ## 0.2
