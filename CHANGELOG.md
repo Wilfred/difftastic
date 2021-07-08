@@ -1,4 +1,6 @@
-## 0.3 (unreleased)
+## 0.4 (unreleased)
+
+## 0.3
 
 Diffs are now displayed with unchanged lines aligned to the other side.
 
