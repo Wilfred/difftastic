@@ -3644,6 +3644,10 @@
       "required": true,
       "types": [
         {
+          "type": "xhp_class_identifier",
+          "named": true
+        },
+        {
           "type": "xhp_identifier",
           "named": true
         }
@@ -3721,6 +3725,10 @@
           "named": true
         },
         {
+          "type": "xhp_class_identifier",
+          "named": true
+        },
+        {
           "type": "xhp_identifier",
           "named": true
         }
@@ -3737,6 +3745,10 @@
       "types": [
         {
           "type": "xhp_attribute",
+          "named": true
+        },
+        {
+          "type": "xhp_class_identifier",
           "named": true
         },
         {
