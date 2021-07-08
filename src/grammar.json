@@ -7411,8 +7411,15 @@
       }
     },
     "xhp_string": {
-      "type": "PATTERN",
-      "value": "[^<{]+"
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^<{]+"
+        }
+      }
     },
     "xhp_open": {
       "type": "SEQ",
