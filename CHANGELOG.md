@@ -3,6 +3,8 @@
 Fixed an issue where complex diffs would not display some unchanged
 lines.
 
+Fixed a crash when diff context included the first line.
+
 ## 0.3
 
 Diffs are now displayed with unchanged lines aligned to the other side.
