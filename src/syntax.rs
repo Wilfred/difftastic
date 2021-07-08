@@ -556,16 +556,16 @@ pub fn aligned_lines(
     rhs_lines: &[LineNumber],
     lhs_line_matches: &HashMap<LineNumber, LineNumber>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut rhs_highest_matched = rhs_lines.first().unwrap().number - 1;
+    let mut rhs_highest_matched = rhs_lines.first().unwrap().number as isize - 1;
     // For every LHS line, if there is a RHS line that is included in
     // `rhs_lines` and hasn't yet been paired up, add it to
     // matched_lines.
     let mut matched_lines = vec![];
     for lhs_line in lhs_lines {
         if let Some(rhs_line) = lhs_line_matches.get(lhs_line) {
-            if rhs_line.number > rhs_highest_matched {
+            if rhs_line.number as isize > rhs_highest_matched {
                 matched_lines.push((lhs_line, rhs_line));
-                rhs_highest_matched = rhs_line.number;
+                rhs_highest_matched = rhs_line.number as isize;
             }
         }
     }
@@ -767,6 +767,20 @@ mod tests {
                 (Some(1.into()), Some(11.into())),
                 (Some(2.into()), Some(12.into())),
             ]
+        );
+    }
+
+    #[test]
+    fn test_aligned_first_line() {
+        let lhs_lines: Vec<LineNumber> = vec![0.into()];
+        let rhs_lines: Vec<LineNumber> = vec![0.into()];
+
+        let mut line_matches: HashMap<LineNumber, LineNumber> = HashMap::new();
+        line_matches.insert(0.into(), 0.into());
+
+        assert_eq!(
+            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            vec![(Some(0.into()), Some(0.into()))]
         );
     }
 
