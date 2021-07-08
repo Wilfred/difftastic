@@ -1,5 +1,8 @@
 ## 0.4 (unreleased)
 
+Fixed an issue where complex diffs would not display some unchanged
+lines.
+
 ## 0.3
 
 Diffs are now displayed with unchanged lines aligned to the other side.

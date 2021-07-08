@@ -5,7 +5,7 @@ use itertools::{EitherOrBoth, Itertools};
 use std::cell::Cell;
 use std::cmp::min;
 use std::collections::hash_map::DefaultHasher;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::fmt;
 use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
@@ -556,15 +556,16 @@ pub fn aligned_lines(
     rhs_lines: &[LineNumber],
     lhs_line_matches: &HashMap<LineNumber, LineNumber>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut rhs_lines_available: HashSet<_> = rhs_lines.iter().collect();
-
-    // For every LHS line, if there is a RHS line that included in
-    // `rhs_lines` and hasn't yet been paired up, add it to matched_lines.
+    let mut rhs_highest_matched = rhs_lines.first().unwrap().number - 1;
+    // For every LHS line, if there is a RHS line that is included in
+    // `rhs_lines` and hasn't yet been paired up, add it to
+    // matched_lines.
     let mut matched_lines = vec![];
     for lhs_line in lhs_lines {
         if let Some(rhs_line) = lhs_line_matches.get(lhs_line) {
-            if rhs_lines_available.remove(&rhs_line) {
+            if rhs_line.number > rhs_highest_matched {
                 matched_lines.push((lhs_line, rhs_line));
+                rhs_highest_matched = rhs_line.number;
             }
         }
     }
@@ -730,6 +731,25 @@ mod tests {
         assert_eq!(
             aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
             vec![(Some(1.into()), Some(11.into())), (Some(2.into()), None)]
+        );
+    }
+
+    #[test]
+    fn test_aligned_out_of_order() {
+        let lhs_lines: Vec<LineNumber> = vec![1.into(), 2.into()];
+        let rhs_lines: Vec<LineNumber> = vec![11.into(), 12.into()];
+
+        let mut line_matches: HashMap<LineNumber, LineNumber> = HashMap::new();
+        line_matches.insert(2.into(), 11.into());
+        line_matches.insert(1.into(), 12.into());
+
+        assert_eq!(
+            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            vec![
+                (None, Some(11.into())),
+                (Some(1.into()), Some(12.into())),
+                (Some(2.into()), None)
+            ]
         );
     }
 
