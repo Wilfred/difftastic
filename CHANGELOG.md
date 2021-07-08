@@ -9,6 +9,8 @@ Improved punctuation parsing for OCaml and JS.
 
 Fixed an issue where the diff calculated may not be minimal.
 
+Fixed a crash on files with no changes.
+
 ## 0.2
 
 First version using Dijkstra's algorithm for calculating diffs.
