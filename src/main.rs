@@ -101,7 +101,11 @@ fn main() {
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     if groups.is_empty() {
-        println!("No syntactic changes found.");
+        if lang.is_some() {
+            println!("No syntactic changes.");
+        } else {
+            println!("No changes.");
+        }
         return;
     }
 
