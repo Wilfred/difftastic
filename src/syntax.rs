@@ -36,11 +36,16 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
     }
 }
 
+/// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
+pub struct SyntaxInfo<'a> {
+    pub pos_content_hash: u64,
+    pub next: Cell<Option<&'a Syntax<'a>>>,
+    pub change: Cell<Option<ChangeKind<'a>>>,
+}
+
 pub enum Syntax<'a> {
     List {
-        pos_content_hash: u64,
-        next: Cell<Option<&'a Syntax<'a>>>,
-        change: Cell<Option<ChangeKind<'a>>>,
+        info: SyntaxInfo<'a>,
         open_position: Vec<SingleLineSpan>,
         open_content: String,
         children: Vec<&'a Syntax<'a>>,
@@ -49,9 +54,7 @@ pub enum Syntax<'a> {
         num_descendants: usize,
     },
     Atom {
-        pos_content_hash: u64,
-        next: Cell<Option<&'a Syntax<'a>>>,
-        change: Cell<Option<ChangeKind<'a>>>,
+        info: SyntaxInfo<'a>,
         position: Vec<SingleLineSpan>,
         content: String,
         is_comment: bool,
@@ -65,8 +68,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 open_content,
                 children,
                 close_content,
-                change,
-                next,
+                info,
                 ..
             } => {
                 let mut ds = f.debug_struct("List");
@@ -74,9 +76,9 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 ds.field("open_content", &open_content)
                     .field("children", &children)
                     .field("close_content", &close_content)
-                    .field("change", &change.get());
+                    .field("change", &info.change.get());
 
-                let next_s = match next.get() {
+                let next_s = match info.next.get() {
                     Some(List { .. }) => "Some(List)",
                     Some(Atom { .. }) => "Some(Atom)",
                     None => "None",
@@ -87,16 +89,16 @@ impl<'a> fmt::Debug for Syntax<'a> {
             }
             Atom {
                 content,
-                change,
-                next,
                 position,
+                info,
                 ..
             } => {
                 let mut ds = f.debug_struct("Atom");
-                ds.field("content", &content).field("change", &change.get());
+                ds.field("content", &content)
+                    .field("change", &info.change.get());
                 ds.field("position", &position);
 
-                let next_s = match next.get() {
+                let next_s = match info.next.get() {
                     Some(List { .. }) => "Some(List)",
                     Some(Atom { .. }) => "Some(Atom)",
                     None => "None",
@@ -140,9 +142,11 @@ impl<'a> Syntax<'a> {
         }
 
         arena.alloc(List {
-            pos_content_hash: hasher.finish(),
-            next: Cell::new(None),
-            change: Cell::new(None),
+            info: SyntaxInfo {
+                pos_content_hash: hasher.finish(),
+                next: Cell::new(None),
+                change: Cell::new(None),
+            },
             open_position,
             open_content: open_content.into(),
             close_content: close_content.into(),
@@ -181,31 +185,33 @@ impl<'a> Syntax<'a> {
         content.hash(&mut hasher);
 
         arena.alloc(Atom {
-            pos_content_hash: hasher.finish(),
-            next: Cell::new(None),
+            info: SyntaxInfo {
+                pos_content_hash: hasher.finish(),
+                next: Cell::new(None),
+                change: Cell::new(None),
+            },
             position,
             content: content.into(),
-            change: Cell::new(None),
             is_comment,
         })
     }
 
     pub fn next(&self) -> Option<&'a Syntax<'a>> {
-        match self {
-            List { next, .. } => next.get(),
-            Atom { next, .. } => next.get(),
-        }
+        (match self {
+            List { info, .. } => info,
+            Atom { info, .. } => info,
+        })
+        .next
+        .get()
     }
 
     pub fn set_change(&self, ck: ChangeKind<'a>) {
-        match self {
-            List { change, .. } => {
-                change.set(Some(ck));
-            }
-            Atom { change, .. } => {
-                change.set(Some(ck));
-            }
-        }
+        (match self {
+            List { info, .. } => info,
+            Atom { info, .. } => info,
+        })
+        .change
+        .set(Some(ck));
     }
 
     pub fn set_change_deep(&self, ck: ChangeKind<'a>) {
@@ -335,14 +341,14 @@ pub fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>
             None => parent_next,
         };
 
-        match node {
-            List { next, children, .. } => {
-                next.set(node_next);
-                set_next(children, node_next);
-            }
-            Atom { next, .. } => {
-                next.set(node_next);
-            }
+        let info = match node {
+            List { info, .. } => info,
+            Atom { info, .. } => info,
+        };
+        info.next.set(node_next);
+
+        if let List { children, .. } = node {
+            set_next(children, node_next);
         }
     }
 }
@@ -356,18 +362,11 @@ impl<'a> Eq for Syntax<'a> {}
 
 impl<'a> Hash for Syntax<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        match self {
-            List {
-                pos_content_hash, ..
-            } => {
-                pos_content_hash.hash(state);
-            }
-            Atom {
-                pos_content_hash, ..
-            } => {
-                pos_content_hash.hash(state);
-            }
-        }
+        let info = match self {
+            List { info, .. } => info,
+            Atom { info, .. } => info,
+        };
+        info.pos_content_hash.hash(state);
     }
 }
 
@@ -430,13 +429,14 @@ fn change_positions_<'a>(
     for node in nodes {
         match node {
             List {
-                change,
+                info,
                 open_position,
                 children,
                 close_position,
                 ..
             } => {
-                let change = change
+                let change = info
+                    .change
                     .get()
                     .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
 
@@ -483,10 +483,9 @@ fn change_positions_<'a>(
                     prev_opposite_pos: prev_opposite_pos.clone(),
                 });
             }
-            Atom {
-                change, position, ..
-            } => {
-                let change = change
+            Atom { info, position, .. } => {
+                let change = info
+                    .change
                     .get()
                     .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
                 if let Unchanged(opposite_node) = change {
@@ -626,7 +625,7 @@ pub fn matching_lines<'a>(nodes: &[&Syntax<'a>]) -> HashMap<LineNumber, LineNumb
 fn matching_lines_<'a>(node: &Syntax<'a>, matches: &mut HashMap<LineNumber, LineNumber>) {
     match node {
         List {
-            change,
+            info,
             open_position,
             children,
             close_position,
@@ -636,7 +635,7 @@ fn matching_lines_<'a>(node: &Syntax<'a>, matches: &mut HashMap<LineNumber, Line
                 open_position: other_open,
                 close_position: other_close,
                 ..
-            })) = change.get()
+            })) = info.change.get()
             {
                 for (line, other_line) in zip_lines(open_position, other_open) {
                     if !matches.contains_key(&line) {
@@ -655,13 +654,11 @@ fn matching_lines_<'a>(node: &Syntax<'a>, matches: &mut HashMap<LineNumber, Line
                 matching_lines_(child, matches);
             }
         }
-        Atom {
-            change, position, ..
-        } => {
+        Atom { info, position, .. } => {
             if let Some(Unchanged(Atom {
                 position: other_pos,
                 ..
-            })) = change.get()
+            })) = info.change.get()
             {
                 for (line, other_line) in zip_lines(position, other_pos) {
                     if !matches.contains_key(&line) {
@@ -824,9 +821,11 @@ mod tests {
     fn test_atom_equality_ignores_change() {
         assert_eq!(
             Atom {
-                pos_content_hash: 0,
-                next: Cell::new(None),
-                change: Cell::new(Some(Novel)),
+                info: SyntaxInfo {
+                    pos_content_hash: 0,
+                    next: Cell::new(None),
+                    change: Cell::new(Some(Novel)),
+                },
                 position: vec![SingleLineSpan {
                     line: 1.into(),
                     start_col: 2,
@@ -836,9 +835,11 @@ mod tests {
                 is_comment: false,
             },
             Atom {
-                pos_content_hash: 1,
-                next: Cell::new(None),
-                change: Cell::new(None),
+                info: SyntaxInfo {
+                    pos_content_hash: 1,
+                    next: Cell::new(None),
+                    change: Cell::new(None),
+                },
                 position: vec![SingleLineSpan {
                     line: 1.into(),
                     start_col: 2,

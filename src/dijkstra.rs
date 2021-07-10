@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 
-use crate::syntax::{ChangeKind, Syntax};
+use crate::syntax::{ChangeKind, Syntax, SyntaxInfo};
 use rustc_hash::{FxHashMap, FxHashSet};
 use Edge::*;
 
@@ -326,20 +326,24 @@ mod tests {
         let arena = Arena::new();
 
         let lhs = arena.alloc(Atom {
-            pos_content_hash: 0,
-            next: Cell::new(None),
+            info: SyntaxInfo {
+                pos_content_hash: 0,
+                next: Cell::new(None),
+                change: Cell::new(None),
+            },
             position: pos_helper(0),
-            change: Cell::new(None),
             content: "foo".into(),
             is_comment: false,
         });
 
         // Same content as LHS.
         let rhs = arena.alloc(Atom {
-            pos_content_hash: 1,
-            next: Cell::new(None),
+            info: SyntaxInfo {
+                pos_content_hash: 1,
+                next: Cell::new(None),
+                change: Cell::new(None),
+            },
             position: pos_helper(1),
-            change: Cell::new(None),
             content: "foo".into(),
             is_comment: false,
         });
