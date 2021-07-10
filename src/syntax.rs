@@ -157,6 +157,22 @@ impl<'a> Syntax<'a> {
         arena: &'a Arena<Syntax<'a>>,
         position: Vec<SingleLineSpan>,
         content: &str,
+    ) -> &'a mut Syntax<'a> {
+        Self::new_atom_(arena, position, content, true)
+    }
+
+    pub fn new_comment(
+        arena: &'a Arena<Syntax<'a>>,
+        position: Vec<SingleLineSpan>,
+        content: &str,
+    ) -> &'a mut Syntax<'a> {
+        Self::new_atom_(arena, position, content, true)
+    }
+
+    fn new_atom_(
+        arena: &'a Arena<Syntax<'a>>,
+        position: Vec<SingleLineSpan>,
+        content: &str,
         is_comment: bool,
     ) -> &'a mut Syntax<'a> {
         let mut hasher = DefaultHasher::new();

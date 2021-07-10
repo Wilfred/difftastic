@@ -126,7 +126,6 @@ pub fn parse_lines<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<
                 end_col: line.len(),
             }],
             line,
-            false,
         ));
     }
 
@@ -152,11 +151,10 @@ fn parse_from<'a>(
         for pattern in &lang.comment_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 assert_eq!(m.start(), 0);
-                let atom = Syntax::new_atom(
+                let atom = Syntax::new_comment(
                     arena,
                     nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
-                    true,
                 );
                 result.push(atom);
                 state.str_i += m.end();
@@ -171,7 +169,6 @@ fn parse_from<'a>(
                     arena,
                     nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
-                    false,
                 );
                 result.push(atom);
                 state.str_i += m.end();
@@ -186,7 +183,6 @@ fn parse_from<'a>(
                     arena,
                     nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
-                    false,
                 );
                 result.push(atom);
                 state.str_i += m.end();
@@ -389,7 +385,6 @@ mod tests {
                         end_col: 3,
                     }],
                     "foo",
-                    false,
                 ),
                 Syntax::new_atom(
                     &arena,
@@ -399,7 +394,6 @@ mod tests {
                         end_col: 3,
                     }],
                     "bar",
-                    false,
                 ),
             ],
         );
@@ -419,7 +413,6 @@ mod tests {
                     end_col: 3,
                 }],
                 "123",
-                false,
             )],
         );
     }
@@ -438,7 +431,6 @@ mod tests {
                     end_col: 2,
                 }],
                 "\"\"",
-                false,
             )],
         );
     }
@@ -458,7 +450,6 @@ mod tests {
                         end_col: 3,
                     }],
                     "123",
-                    false,
                 ),
                 Syntax::new_atom(
                     &arena,
@@ -468,7 +459,6 @@ mod tests {
                         end_col: 7,
                     }],
                     "456",
-                    false,
                 ),
             ],
         );
@@ -488,7 +478,6 @@ mod tests {
                     end_col: 4,
                 }],
                 ".foo",
-                false,
             )],
         );
     }
@@ -507,7 +496,6 @@ mod tests {
                     end_col: 4,
                 }],
                 "123",
-                false,
             )],
         );
     }
@@ -526,7 +514,6 @@ mod tests {
                     end_col: 5,
                 }],
                 "\"abc\"",
-                false,
             )],
         );
     }
@@ -538,7 +525,7 @@ mod tests {
         assert_syntaxes(
             &parse(&arena, "// foo\nx", &lang()),
             &[
-                Syntax::new_atom(
+                Syntax::new_comment(
                     &arena,
                     vec![SingleLineSpan {
                         line: 0.into(),
@@ -546,7 +533,6 @@ mod tests {
                         end_col: 6,
                     }],
                     "// foo\n",
-                    true,
                 ),
                 Syntax::new_atom(
                     &arena,
@@ -556,7 +542,6 @@ mod tests {
                         end_col: 1,
                     }],
                     "x",
-                    false,
                 ),
             ],
         );
@@ -568,7 +553,7 @@ mod tests {
 
         assert_syntaxes(
             &parse(&arena, "/* foo\nbar */", &lang()),
-            &[Syntax::new_atom(
+            &[Syntax::new_comment(
                 &arena,
                 vec![
                     SingleLineSpan {
@@ -583,7 +568,6 @@ mod tests {
                     },
                 ],
                 "/* foo\nbar */",
-                true,
             )],
         );
     }
@@ -610,7 +594,6 @@ mod tests {
                         end_col: 5,
                     }],
                     "123",
-                    false,
                 )],
                 "]",
                 vec![SingleLineSpan {
@@ -694,7 +677,6 @@ mod tests {
                             end_col: 4,
                         }],
                         "123",
-                        false,
                     ),
                     Syntax::new_atom(
                         &arena,
@@ -704,7 +686,6 @@ mod tests {
                             end_col: 5,
                         }],
                         ",",
-                        false,
                     ),
                     Syntax::new_atom(
                         &arena,
@@ -714,7 +695,6 @@ mod tests {
                             end_col: 9,
                         }],
                         "456",
-                        false,
                     ),
                 ],
                 "]",
@@ -750,7 +730,6 @@ mod tests {
                             end_col: 2,
                         }],
                         "x",
-                        false,
                     ),
                     Syntax::new_atom(
                         &arena,
@@ -760,7 +739,6 @@ mod tests {
                             end_col: 3,
                         }],
                         ":",
-                        false,
                     ),
                     Syntax::new_atom(
                         &arena,
@@ -770,7 +748,6 @@ mod tests {
                             end_col: 5,
                         }],
                         "1",
-                        false,
                     ),
                 ],
                 "}",
