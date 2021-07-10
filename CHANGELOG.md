@@ -5,6 +5,8 @@ lines.
 
 Fixed a crash when diff context included the first line.
 
+Improved parsing for Rust macro definitions.
+
 ## 0.3
 
 Diffs are now displayed with unchanged lines aligned to the other side.
