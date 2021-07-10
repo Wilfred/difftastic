@@ -306,8 +306,8 @@ fn mark_route(route: &[(Edge, Vertex)]) {
 mod tests {
     use super::*;
     use crate::positions::SingleLineSpan;
+    use crate::syntax::set_next;
     use crate::syntax::Syntax::*;
-    use crate::syntax::{set_next, AtomKind};
 
     use itertools::Itertools;
     use std::cell::Cell;
@@ -331,7 +331,7 @@ mod tests {
             position: pos_helper(0),
             change: Cell::new(None),
             content: "foo".into(),
-            kind: AtomKind::Other,
+            is_comment: false,
         });
 
         // Same content as LHS.
@@ -341,7 +341,7 @@ mod tests {
             position: pos_helper(1),
             change: Cell::new(None),
             content: "foo".into(),
-            kind: AtomKind::Other,
+            is_comment: false,
         });
 
         let start = Vertex {
@@ -362,12 +362,7 @@ mod tests {
             &arena,
             "[".into(),
             pos_helper(0),
-            vec![Syntax::new_atom(
-                &arena,
-                pos_helper(1),
-                "foo",
-                AtomKind::Other,
-            )],
+            vec![Syntax::new_atom(&arena, pos_helper(1), "foo", false)],
             "]".into(),
             pos_helper(2),
         )];
@@ -412,8 +407,8 @@ mod tests {
             "[".into(),
             pos_helper(0),
             vec![
-                Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Other),
-                Syntax::new_atom(&arena, pos_helper(2), "foo", AtomKind::Other),
+                Syntax::new_atom(&arena, pos_helper(1), "foo", false),
+                Syntax::new_atom(&arena, pos_helper(2), "foo", false),
             ],
             "]".into(),
             pos_helper(3),
@@ -450,7 +445,7 @@ mod tests {
                     ")".into(),
                     pos_helper(2),
                 ),
-                Syntax::new_atom(&arena, pos_helper(3), "foo", AtomKind::Other),
+                Syntax::new_atom(&arena, pos_helper(3), "foo", false),
             ],
             "]".into(),
             pos_helper(4),
@@ -470,7 +465,7 @@ mod tests {
                     ")".into(),
                     pos_helper(2),
                 ),
-                Syntax::new_atom(&arena, pos_helper(3), "foo", AtomKind::Other),
+                Syntax::new_atom(&arena, pos_helper(3), "foo", false),
             ],
             "}".into(),
             pos_helper(4),
