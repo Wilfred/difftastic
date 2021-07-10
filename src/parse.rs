@@ -116,44 +116,18 @@ fn lang_from_value(name: &str, v: &Value) -> Language {
 ///
 /// This is a fallback for files that we don't know how to parse.
 pub fn parse_lines<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<'a>> {
-    let mut line_start = 0;
     let mut res: Vec<&'a Syntax<'a>> = vec![];
-
-    for (i, c) in s.chars().enumerate() {
-        if c == '\n' {
-            let line = &s[line_start..i];
-            let atom = Syntax::new_atom(
-                arena,
-                vec![SingleLineSpan {
-                    line: res.len().into(),
-                    start_col: 0,
-                    end_col: i - line_start,
-                }],
-                line,
-                AtomKind::Other,
-            );
-            res.push(atom);
-
-            line_start = i + 1;
-        }
-    }
-
-    if let Some(last) = s.chars().last() {
-        if last != '\n' {
-            let line = &s[line_start..];
-
-            let atom = Syntax::new_atom(
-                arena,
-                vec![SingleLineSpan {
-                    line: res.len().into(),
-                    start_col: 0,
-                    end_col: s.len() - line_start,
-                }],
-                line,
-                AtomKind::Other,
-            );
-            res.push(atom);
-        }
+    for (i, line) in s.lines().enumerate() {
+        res.push(Syntax::new_atom(
+            arena,
+            vec![SingleLineSpan {
+                line: i.into(),
+                start_col: 0,
+                end_col: line.len(),
+            }],
+            line,
+            AtomKind::Other,
+        ));
     }
 
     res

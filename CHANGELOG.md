@@ -13,6 +13,9 @@ lines.
 
 Fixed a crash when diff context included the first line.
 
+Fixed a crash when plain text content contained certain non-ASCII
+characters.
+
 ## 0.3
 
 Diffs are now displayed with unchanged lines aligned to the other side.
