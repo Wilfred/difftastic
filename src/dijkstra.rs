@@ -51,6 +51,8 @@ impl<'a> Eq for OrdVertex<'a> {}
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 enum Edge {
+    // TODO: Prefer nodes at the same or at least close levels of
+    // nesting.
     UnchangedNode,
     UnchangedDelimiter,
     NovelAtomLHS,
