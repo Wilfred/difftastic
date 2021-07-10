@@ -155,8 +155,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             res.push((
                 UnchangedNode,
                 Vertex {
-                    lhs_syntax: lhs_syntax.get_next(),
-                    rhs_syntax: rhs_syntax.get_next(),
+                    lhs_syntax: lhs_syntax.next(),
+                    rhs_syntax: rhs_syntax.next(),
                 },
             ));
         }
@@ -178,12 +178,12 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         {
             if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
                 let lhs_next = if lhs_children.is_empty() {
-                    lhs_syntax.get_next()
+                    lhs_syntax.next()
                 } else {
                     Some(lhs_children[0])
                 };
                 let rhs_next = if rhs_children.is_empty() {
-                    rhs_syntax.get_next()
+                    rhs_syntax.next()
                 } else {
                     Some(rhs_children[0])
                 };
@@ -205,7 +205,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 res.push((
                     NovelAtomLHS,
                     Vertex {
-                        lhs_syntax: lhs_syntax.get_next(),
+                        lhs_syntax: lhs_syntax.next(),
                         rhs_syntax: v.rhs_syntax,
                     },
                 ));
@@ -213,7 +213,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
                 let lhs_next = if children.is_empty() {
-                    lhs_syntax.get_next()
+                    lhs_syntax.next()
                 } else {
                     Some(children[0])
                 };
@@ -237,14 +237,14 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     NovelAtomRHS,
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
-                        rhs_syntax: rhs_syntax.get_next(),
+                        rhs_syntax: rhs_syntax.next(),
                     },
                 ));
             }
             // Step into this partially/fully novel list.
             Syntax::List { children, .. } => {
                 let rhs_next = if children.is_empty() {
-                    rhs_syntax.get_next()
+                    rhs_syntax.next()
                 } else {
                     Some(children[0])
                 };

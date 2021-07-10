@@ -174,7 +174,7 @@ impl<'a> Syntax<'a> {
         })
     }
 
-    pub fn get_next(&self) -> Option<&'a Syntax<'a>> {
+    pub fn next(&self) -> Option<&'a Syntax<'a>> {
         match self {
             List { next, .. } => next.get(),
             Atom { next, .. } => next.get(),
