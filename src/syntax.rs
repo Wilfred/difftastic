@@ -795,20 +795,21 @@ mod tests {
     /// Ensure that we assign prev_opposite_pos even if the change is on the first node.
     #[test]
     fn test_prev_opposite_pos_first_node() {
-        // TODO: use Node::new_atom
-        let nodes = &[&Atom {
-            pos_content_hash: 0,
-            next: Cell::new(None),
-            change: Cell::new(Some(Novel)),
-            position: vec![SingleLineSpan {
+        let arena = Arena::new();
+
+        let atom = Syntax::new_atom(
+            &arena,
+            vec![SingleLineSpan {
                 line: 0.into(),
                 start_col: 2,
                 end_col: 3,
             }],
-            content: "foo".into(),
-            is_comment: false,
-        }];
-        let positions = change_positions("irrelevant", "also irrelevant", nodes);
+            "foo".into(),
+        );
+        atom.set_change(ChangeKind::Novel);
+        let nodes: Vec<&Syntax> = vec![atom];
+
+        let positions = change_positions("irrelevant", "also irrelevant", &nodes);
         assert_eq!(
             positions[0].prev_opposite_pos,
             vec![SingleLineSpan {
