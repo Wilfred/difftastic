@@ -130,6 +130,7 @@ module.exports = grammar({
       $.class_declaration,
       $.interface_declaration,
       $.trait_declaration,
+      $.enum_declaration,
       $.namespace_definition,
       $.namespace_use_declaration,
       $.global_declaration,
@@ -240,6 +241,35 @@ module.exports = grammar({
     base_clause: $ => seq(
       keyword('extends'),
       commaSep1(choice($.name, alias($._reserved_identifier, $.name), $.qualified_name))
+    ),
+
+    enum_declaration: $ => prec.right(seq(
+      optional(field('attributes', $.attribute_list)),
+      keyword('enum'),
+      field('name', $.name),
+      optional(seq(':', $._type)),
+      optional($.class_interface_clause),
+      field('body', $.enum_declaration_list)
+    )),
+
+    enum_declaration_list: $ => seq(
+      '{',
+      repeat($._enum_member_declartaion),
+      '}',
+    ),
+
+    _enum_member_declartaion: $ => choice(
+      $.enum_case,
+      $.method_declaration,
+      $.use_declaration,
+    ),
+
+    enum_case: $ => seq(
+      optional(field('attributes', $.attribute_list)),
+      'case',
+      field('name', $.name),
+      optional(field('value', seq('=', choice($.string, $.integer)))),
+      $._semicolon
     ),
 
     class_declaration: $ => prec.right(seq(
