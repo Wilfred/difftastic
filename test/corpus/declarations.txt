@@ -466,3 +466,99 @@ class Thing
     body: (declaration_list)
   )
 )
+
+
+=======================================
+Enums
+=======================================
+
+<?php
+
+enum A {}
+enum B implements Bar, Baz {
+}
+enum C: int implements Bar {}
+
+enum Suit: string
+{
+  case Hearts = 'H';
+  case Diamonds;
+  case Clubs = 'C';
+  case Spades = 'S';
+
+  // Fulfills the interface contract.
+  public function color(): string {
+    return match($this) {
+      Suit::Hearts, Suit::Diamonds => 'Red',
+      Suit::Clubs, Suit::Spades => 'Black',
+    };
+  }
+}
+
+---
+
+(program
+  (php_tag)
+  (enum_declaration
+    (name)
+    (enum_declaration_list)
+  )
+  (enum_declaration
+    (name)
+    (class_interface_clause
+      (name)
+      (name)
+    )
+    (enum_declaration_list)
+  )
+  (enum_declaration
+    (name)
+    (type_list (primitive_type))
+    (class_interface_clause (name))
+    (enum_declaration_list)
+  )
+  (enum_declaration
+    (name)
+    (type_list (primitive_type))
+    (enum_declaration_list 
+      (enum_case (name) (string))
+      (enum_case (name))
+      (enum_case (name) (string))
+      (enum_case (name) (string))
+      
+      (comment)
+      
+      (method_declaration
+        (visibility_modifier)
+        (name)
+        (formal_parameters)
+        (type_list (primitive_type))
+        (compound_statement
+          (return_statement
+            (match_expression
+              (parenthesized_expression
+                (variable_name (name))
+              )
+              (match_block
+                (match_conditional_expression
+                  (match_condition_list
+                    (class_constant_access_expression (name) (name))
+                    (class_constant_access_expression (name) (name))
+                  )
+                  (string)
+                )
+                (match_conditional_expression
+                  (match_condition_list
+                    (class_constant_access_expression (name) (name))
+                    (class_constant_access_expression (name) (name))
+                  )
+                  (string)
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)
