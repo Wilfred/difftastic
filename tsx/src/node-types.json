@@ -480,6 +480,10 @@
             "named": true
           },
           {
+            "type": "private_property_identifier",
+            "named": true
+          },
+          {
             "type": "property_identifier",
             "named": true
           },
@@ -839,6 +843,10 @@
           },
           {
             "type": "subscript_expression",
+            "named": true
+          },
+          {
+            "type": "undefined",
             "named": true
           }
         ]
@@ -1803,6 +1811,10 @@
           "named": true
         },
         {
+          "type": "private_property_identifier",
+          "named": true
+        },
+        {
           "type": "property_identifier",
           "named": true
         },
@@ -1831,6 +1843,10 @@
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "private_property_identifier",
           "named": true
         },
         {
@@ -1972,6 +1988,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "namespace_import",
+          "named": true
         }
       ]
     }
@@ -2097,6 +2117,10 @@
           },
           {
             "type": "subscript_expression",
+            "named": true
+          },
+          {
+            "type": "undefined",
             "named": true
           }
         ]
@@ -3455,6 +3479,10 @@
         "required": true,
         "types": [
           {
+            "type": "private_property_identifier",
+            "named": true
+          },
+          {
             "type": "property_identifier",
             "named": true
           }
@@ -3491,6 +3519,10 @@
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "private_property_identifier",
             "named": true
           },
           {
@@ -3567,6 +3599,10 @@
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "private_property_identifier",
             "named": true
           },
           {
@@ -4098,6 +4134,10 @@
             "named": true
           },
           {
+            "type": "private_property_identifier",
+            "named": true
+          },
+          {
             "type": "property_identifier",
             "named": true
           },
@@ -4133,6 +4173,10 @@
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "private_property_identifier",
             "named": true
           },
           {
@@ -4260,6 +4304,10 @@
             "named": true
           },
           {
+            "type": "private_property_identifier",
+            "named": true
+          },
+          {
             "type": "property_identifier",
             "named": true
           },
@@ -4305,6 +4353,10 @@
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "private_property_identifier",
             "named": true
           },
           {
@@ -5859,6 +5911,10 @@
   {
     "type": "private",
     "named": false
+  },
+  {
+    "type": "private_property_identifier",
+    "named": true
   },
   {
     "type": "property_identifier",
