@@ -1,6 +1,6 @@
 use crate::lines::NewlinePositions;
 use crate::positions::SingleLineSpan;
-use crate::syntax::{AtomKind, Syntax};
+use crate::syntax::Syntax;
 use regex::Regex;
 use rust_embed::RustEmbed;
 use std::fs;
@@ -126,7 +126,7 @@ pub fn parse_lines<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<
                 end_col: line.len(),
             }],
             line,
-            AtomKind::Other,
+            false,
         ));
     }
 
@@ -156,7 +156,7 @@ fn parse_from<'a>(
                     arena,
                     nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
-                    AtomKind::Comment,
+                    true,
                 );
                 result.push(atom);
                 state.str_i += m.end();
@@ -171,7 +171,7 @@ fn parse_from<'a>(
                     arena,
                     nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
-                    AtomKind::Other,
+                    false,
                 );
                 result.push(atom);
                 state.str_i += m.end();
@@ -186,7 +186,7 @@ fn parse_from<'a>(
                     arena,
                     nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
                     m.as_str(),
-                    AtomKind::String,
+                    false,
                 );
                 result.push(atom);
                 state.str_i += m.end();
@@ -338,14 +338,14 @@ mod tests {
                     change: lhs_change,
                     position: lhs_position,
                     content: lhs_content,
-                    kind: lhs_kind,
+                    is_comment: lhs_is_comment,
                     ..
                 },
                 Atom {
                     change: rhs_change,
                     position: rhs_position,
                     content: rhs_content,
-                    kind: rhs_kind,
+                    is_comment: rhs_is_comment,
                     ..
                 },
             ) => {
@@ -362,8 +362,8 @@ mod tests {
                     dbg!(lhs_content, rhs_content);
                     return false;
                 }
-                if lhs_kind != rhs_kind {
-                    dbg!(lhs_kind, rhs_kind);
+                if lhs_is_comment != rhs_is_comment {
+                    dbg!(lhs_is_comment, rhs_is_comment);
                     return false;
                 }
             }
@@ -389,7 +389,7 @@ mod tests {
                         end_col: 3,
                     }],
                     "foo",
-                    AtomKind::Other,
+                    false,
                 ),
                 Syntax::new_atom(
                     &arena,
@@ -399,7 +399,7 @@ mod tests {
                         end_col: 3,
                     }],
                     "bar",
-                    AtomKind::Other,
+                    false,
                 ),
             ],
         );
@@ -419,7 +419,7 @@ mod tests {
                     end_col: 3,
                 }],
                 "123",
-                AtomKind::Other,
+                false,
             )],
         );
     }
@@ -438,7 +438,7 @@ mod tests {
                     end_col: 2,
                 }],
                 "\"\"",
-                AtomKind::String,
+                false,
             )],
         );
     }
@@ -458,7 +458,7 @@ mod tests {
                         end_col: 3,
                     }],
                     "123",
-                    AtomKind::Other,
+                    false,
                 ),
                 Syntax::new_atom(
                     &arena,
@@ -468,7 +468,7 @@ mod tests {
                         end_col: 7,
                     }],
                     "456",
-                    AtomKind::Other,
+                    false,
                 ),
             ],
         );
@@ -488,7 +488,7 @@ mod tests {
                     end_col: 4,
                 }],
                 ".foo",
-                AtomKind::Other,
+                false,
             )],
         );
     }
@@ -507,7 +507,7 @@ mod tests {
                     end_col: 4,
                 }],
                 "123",
-                AtomKind::Other,
+                false,
             )],
         );
     }
@@ -526,7 +526,7 @@ mod tests {
                     end_col: 5,
                 }],
                 "\"abc\"",
-                AtomKind::String,
+                false,
             )],
         );
     }
@@ -546,7 +546,7 @@ mod tests {
                         end_col: 6,
                     }],
                     "// foo\n",
-                    AtomKind::Comment,
+                    true,
                 ),
                 Syntax::new_atom(
                     &arena,
@@ -556,7 +556,7 @@ mod tests {
                         end_col: 1,
                     }],
                     "x",
-                    AtomKind::Other,
+                    false,
                 ),
             ],
         );
@@ -583,7 +583,7 @@ mod tests {
                     },
                 ],
                 "/* foo\nbar */",
-                AtomKind::Comment,
+                true,
             )],
         );
     }
@@ -610,7 +610,7 @@ mod tests {
                         end_col: 5,
                     }],
                     "123",
-                    AtomKind::Other,
+                    false,
                 )],
                 "]",
                 vec![SingleLineSpan {
@@ -694,7 +694,7 @@ mod tests {
                             end_col: 4,
                         }],
                         "123",
-                        AtomKind::Other,
+                        false,
                     ),
                     Syntax::new_atom(
                         &arena,
@@ -704,7 +704,7 @@ mod tests {
                             end_col: 5,
                         }],
                         ",",
-                        AtomKind::Other,
+                        false,
                     ),
                     Syntax::new_atom(
                         &arena,
@@ -714,7 +714,7 @@ mod tests {
                             end_col: 9,
                         }],
                         "456",
-                        AtomKind::Other,
+                        false,
                     ),
                 ],
                 "]",
@@ -750,7 +750,7 @@ mod tests {
                             end_col: 2,
                         }],
                         "x",
-                        AtomKind::Other,
+                        false,
                     ),
                     Syntax::new_atom(
                         &arena,
@@ -760,7 +760,7 @@ mod tests {
                             end_col: 3,
                         }],
                         ":",
-                        AtomKind::Other,
+                        false,
                     ),
                     Syntax::new_atom(
                         &arena,
@@ -770,7 +770,7 @@ mod tests {
                             end_col: 5,
                         }],
                         "1",
-                        AtomKind::Other,
+                        false,
                     ),
                 ],
                 "}",

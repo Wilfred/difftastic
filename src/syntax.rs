@@ -36,13 +36,6 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
     }
 }
 
-#[derive(PartialEq, Eq, Copy, Clone, Debug, PartialOrd, Ord)]
-pub enum AtomKind {
-    String,
-    Comment,
-    Other,
-}
-
 pub enum Syntax<'a> {
     List {
         pos_content_hash: u64,
@@ -61,7 +54,7 @@ pub enum Syntax<'a> {
         change: Cell<Option<ChangeKind<'a>>>,
         position: Vec<SingleLineSpan>,
         content: String,
-        kind: AtomKind,
+        is_comment: bool,
     },
 }
 
@@ -164,7 +157,7 @@ impl<'a> Syntax<'a> {
         arena: &'a Arena<Syntax<'a>>,
         position: Vec<SingleLineSpan>,
         content: &str,
-        kind: AtomKind,
+        is_comment: bool,
     ) -> &'a mut Syntax<'a> {
         let mut hasher = DefaultHasher::new();
 
@@ -177,7 +170,7 @@ impl<'a> Syntax<'a> {
             position,
             content: content.into(),
             change: Cell::new(None),
-            kind,
+            is_comment,
         })
     }
 
@@ -226,15 +219,15 @@ impl<'a> Syntax<'a> {
             (
                 Atom {
                     content: lhs_content,
-                    kind: lhs_kind,
+                    is_comment: lhs_is_comment,
                     ..
                 },
                 Atom {
                     content: rhs_content,
-                    kind: rhs_kind,
+                    is_comment: rhs_is_comment,
                     ..
                 },
-            ) => lhs_content == rhs_content && lhs_kind == rhs_kind,
+            ) => lhs_content == rhs_content && lhs_is_comment == rhs_is_comment,
             (
                 List {
                     open_content: lhs_open_content,
@@ -668,7 +661,6 @@ fn matching_lines_<'a>(node: &Syntax<'a>, matches: &mut HashMap<LineNumber, Line
 mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
-    use AtomKind::Other;
 
     #[test]
     fn test_aligned_middle() {
@@ -798,7 +790,7 @@ mod tests {
                 end_col: 3,
             }],
             content: "foo".into(),
-            kind: Other,
+            is_comment: false,
         }];
         let positions = change_positions("irrelevant", "also irrelevant", nodes);
         assert_eq!(
@@ -824,7 +816,7 @@ mod tests {
                     end_col: 3
                 }],
                 content: "foo".into(),
-                kind: Other,
+                is_comment: false,
             },
             Atom {
                 pos_content_hash: 1,
@@ -836,7 +828,7 @@ mod tests {
                     end_col: 3
                 }],
                 content: "foo".into(),
-                kind: Other,
+                is_comment: false,
             }
         );
     }
