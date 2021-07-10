@@ -156,13 +156,15 @@ atom_patterns = [
   "'..?'",
   # Lifetimes
   "'[a-z_]+",
+  # Bindings in macros.
+  "\\$[a-z_]+",
   # Symbols (e.g. variable names)
   '[a-zA-Z0-9_]+!?',
   # Two character operators
   '(::|&&|\|\|)',
   # Single character operators
   # | is a delimiter for lambdas, but also used in pattern matching.
-  '[.&=<>/*+:;,|#!?-]',
+  '[.&=<>/*+:;,|#!?$-]',
 ]
 string_patterns = [
   '"[^"]*"',
