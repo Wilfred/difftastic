@@ -1,11 +1,17 @@
 ## 0.4 (unreleased)
 
+### Parsing
+
+Improved parsing for Rust macro definitions.
+
+### Diffing
+
 Fixed an issue where complex diffs would not display some unchanged
 lines.
 
-Fixed a crash when diff context included the first line.
+### Robustness
 
-Improved parsing for Rust macro definitions.
+Fixed a crash when diff context included the first line.
 
 ## 0.3
 
