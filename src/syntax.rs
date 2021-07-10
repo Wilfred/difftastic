@@ -41,6 +41,7 @@ pub struct SyntaxInfo<'a> {
     pub pos_content_hash: u64,
     pub next: Cell<Option<&'a Syntax<'a>>>,
     pub change: Cell<Option<ChangeKind<'a>>>,
+    pub num_ancestors: Cell<usize>,
 }
 
 pub enum Syntax<'a> {
@@ -146,6 +147,7 @@ impl<'a> Syntax<'a> {
                 pos_content_hash: hasher.finish(),
                 next: Cell::new(None),
                 change: Cell::new(None),
+                num_ancestors: Cell::new(0),
             },
             open_position,
             open_content: open_content.into(),
@@ -189,6 +191,7 @@ impl<'a> Syntax<'a> {
                 pos_content_hash: hasher.finish(),
                 next: Cell::new(None),
                 change: Cell::new(None),
+                num_ancestors: Cell::new(0),
             },
             position,
             content: content.into(),
@@ -825,6 +828,7 @@ mod tests {
                     pos_content_hash: 0,
                     next: Cell::new(None),
                     change: Cell::new(Some(Novel)),
+                    num_ancestors: Cell::new(0),
                 },
                 position: vec![SingleLineSpan {
                     line: 1.into(),
@@ -839,6 +843,7 @@ mod tests {
                     pos_content_hash: 1,
                     next: Cell::new(None),
                     change: Cell::new(None),
+                    num_ancestors: Cell::new(1),
                 },
                 position: vec![SingleLineSpan {
                     line: 1.into(),

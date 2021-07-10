@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 
-use crate::syntax::{ChangeKind, Syntax, SyntaxInfo};
+use crate::syntax::{ChangeKind, Syntax};
 use rustc_hash::{FxHashMap, FxHashSet};
 use Edge::*;
 
@@ -308,6 +308,7 @@ mod tests {
     use crate::positions::SingleLineSpan;
     use crate::syntax::set_next;
     use crate::syntax::Syntax::*;
+    use crate::syntax::SyntaxInfo;
 
     use itertools::Itertools;
     use std::cell::Cell;
@@ -330,6 +331,7 @@ mod tests {
                 pos_content_hash: 0,
                 next: Cell::new(None),
                 change: Cell::new(None),
+                num_ancestors: Cell::new(0),
             },
             position: pos_helper(0),
             content: "foo".into(),
@@ -342,6 +344,7 @@ mod tests {
                 pos_content_hash: 1,
                 next: Cell::new(None),
                 change: Cell::new(None),
+                num_ancestors: Cell::new(0),
             },
             position: pos_helper(1),
             content: "foo".into(),
