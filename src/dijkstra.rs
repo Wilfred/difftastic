@@ -54,7 +54,7 @@ enum Edge {
     // TODO: Prefer nodes at the same or at least close levels of
     // nesting.
     UnchangedNode(u64),
-    UnchangedDelimiter,
+    UnchangedDelimiter(u64),
     NovelAtomLHS,
     NovelAtomRHS,
     NovelDelimiterLHS,
@@ -67,7 +67,7 @@ impl Edge {
             // Matching nodes is always best.
             UnchangedNode(depth_difference) => -1 * min(40, *depth_difference) as i64,
             // Matching an outer delimiter is good.
-            UnchangedDelimiter => -1000,
+            UnchangedDelimiter(depth_difference) => -1000 - min(40, *depth_difference) as i64,
             // Otherwise, we've added/removed a node.
             NovelAtomLHS | NovelAtomRHS => -2000,
             NovelDelimiterLHS | NovelDelimiterRHS => -2000,
@@ -191,8 +191,13 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 } else {
                     Some(rhs_children[0])
                 };
+
+                let depth_difference = (lhs_syntax.info().num_ancestors.get() as i64
+                    - rhs_syntax.info().num_ancestors.get() as i64)
+                    .abs() as u64;
+
                 res.push((
-                    UnchangedDelimiter,
+                    UnchangedDelimiter(depth_difference),
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
@@ -286,7 +291,7 @@ fn mark_route(route: &[(Edge, Vertex)]) {
                 lhs.set_change_deep(ChangeKind::Unchanged(rhs));
                 rhs.set_change_deep(ChangeKind::Unchanged(lhs));
             }
-            UnchangedDelimiter => {
+            UnchangedDelimiter(_) => {
                 // No change on the outer delimiter, but children may
                 // have changed.
                 let lhs = v.lhs_syntax.unwrap();
@@ -396,7 +401,7 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![UnchangedDelimiter, NovelAtomLHS]);
+        assert_eq!(actions, vec![UnchangedDelimiter(0), NovelAtomLHS]);
     }
 
     #[test]
@@ -435,7 +440,7 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![UnchangedDelimiter, NovelAtomRHS, NovelAtomRHS]
+            vec![UnchangedDelimiter(0), NovelAtomRHS, NovelAtomRHS]
         );
     }
 
