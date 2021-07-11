@@ -184,6 +184,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             },
         ) = (lhs_syntax, rhs_syntax)
         {
+            // The list delimiters are equal, but children may not be.
             if lhs_open_content == rhs_open_content && lhs_close_content == rhs_close_content {
                 let lhs_next = if lhs_children.is_empty() {
                     lhs_syntax.next()
