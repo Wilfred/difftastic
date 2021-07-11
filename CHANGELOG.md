@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Improved parsing for Rust macro definitions.
+Improved parsing for Rust macro definitions and punctuation.
 
 ### Diffing
 
