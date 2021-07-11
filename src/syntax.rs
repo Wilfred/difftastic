@@ -41,7 +41,7 @@ pub struct SyntaxInfo<'a> {
     pub pos_content_hash: u64,
     pub next: Cell<Option<&'a Syntax<'a>>>,
     pub change: Cell<Option<ChangeKind<'a>>>,
-    pub num_ancestors: Cell<usize>,
+    pub num_ancestors: Cell<isize>,
 }
 
 pub enum Syntax<'a> {
@@ -334,7 +334,12 @@ impl<'a> Syntax<'a> {
     }
 }
 
-pub fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>>) {
+pub fn init_info<'a>(roots: &[&'a Syntax<'a>]) {
+    set_next(roots, None);
+    set_num_ancestors(roots, 0);
+}
+
+fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>>) {
     for (i, node) in nodes.iter().enumerate() {
         let node_next = match nodes.get(i + 1) {
             Some(node_next) => Some(*node_next),
@@ -344,6 +349,16 @@ pub fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>
         node.info().next.set(node_next);
         if let List { children, .. } = node {
             set_next(children, node_next);
+        }
+    }
+}
+
+fn set_num_ancestors<'a>(nodes: &[&Syntax<'a>], num_ancestors: isize) {
+    for node in nodes {
+        node.info().num_ancestors.set(num_ancestors);
+
+        if let List { children, .. } = node {
+            set_num_ancestors(children, num_ancestors + 1);
         }
     }
 }
