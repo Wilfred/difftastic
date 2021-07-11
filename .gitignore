@@ -10,3 +10,4 @@ src/*
 !src/unicode.h
 scripts/target
 build
+out
