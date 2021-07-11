@@ -37,13 +37,14 @@ Nested tags
   <span>a</span>
   b
   <b>c</b>
+  Multi-line
+  text
 </div>
 ---
 
 (fragment
   (element
     (start_tag (tag_name))
-    (text)
     (element
       (start_tag (tag_name))
       (text)
@@ -102,12 +103,10 @@ Custom tags
 (fragment
   (element
     (start_tag (tag_name))
-    (text)
     (element
       (start_tag (tag_name) (attribute (attribute_name)))
       (text)
       (end_tag (tag_name)))
-    (text)
     (end_tag (tag_name))))
 
 ==================================
@@ -123,11 +122,9 @@ Comments
 (fragment
   (comment)
   (comment)
-  (text)
   (element
     (start_tag (tag_name))
     (comment)
-    (text)
     (end_tag (tag_name))))
 
 ==================================
@@ -155,17 +152,14 @@ Raw text elements
     (start_tag (tag_name))
     (raw_text)
     (end_tag (tag_name)))
-  (text)
   (style_element
     (start_tag (tag_name))
     (raw_text)
     (end_tag (tag_name)))
-  (text)
   (script_element
     (start_tag (tag_name))
     (raw_text)
-    (end_tag (tag_name)))
-  (text))
+    (end_tag (tag_name))))
 
 ==================================
 All-caps doctype
@@ -199,7 +193,6 @@ LI elements without close tags
 (fragment
   (element
     (start_tag (tag_name))
-    (text)
     (element (start_tag (tag_name)) (text))
     (element (start_tag (tag_name)) (text))
     (end_tag (tag_name))))
@@ -219,7 +212,6 @@ DT and DL elements without close tags
 (fragment
   (element
     (start_tag (tag_name))
-    (text)
     (element (start_tag (tag_name)) (text))
     (element (start_tag (tag_name)) (text))
     (element (start_tag (tag_name)) (text))
@@ -240,7 +232,6 @@ P elements without close tags
 (fragment
   (element (start_tag (tag_name)) (text))
   (element (start_tag (tag_name)) (text) (end_tag (tag_name)))
-  (text)
   (element (start_tag (tag_name)) (text))
   (element (start_tag (tag_name)) (text))
   (element (start_tag (tag_name)) (text) (end_tag (tag_name))))
@@ -278,10 +269,8 @@ COLGROUP elements without end tags
 (fragment
   (element
     (start_tag (tag_name))
-    (text)
     (element
       (start_tag (tag_name))
-      (text)
       (element (start_tag
         (tag_name)
         (attribute (attribute_name) (quoted_attribute_value (attribute_value)))))
@@ -290,15 +279,10 @@ COLGROUP elements without end tags
         (attribute (attribute_name) (quoted_attribute_value (attribute_value))))))
     (element
       (start_tag (tag_name))
-      (text)
       (element (start_tag (tag_name)) (text) (end_tag (tag_name)))
-      (text)
       (element (start_tag (tag_name)) (text) (end_tag (tag_name)))
-      (text)
       (element (start_tag (tag_name)) (text) (end_tag (tag_name)))
-      (text)
       (end_tag (tag_name)))
-    (text)
     (end_tag (tag_name))))
 
 =========================================
@@ -317,15 +301,12 @@ TR, TD, and TH elements without end tags
 (fragment
   (element
     (start_tag (tag_name))
-    (text)
     (element
       (start_tag (tag_name))
-      (text)
       (element (start_tag (tag_name)) (text))
       (element (start_tag (tag_name)) (text)))
     (element
       (start_tag (tag_name))
-      (text)
       (element (start_tag (tag_name)) (text))
       (element (start_tag (tag_name)) (text)))
     (end_tag (tag_name))))
