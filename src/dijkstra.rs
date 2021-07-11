@@ -1,4 +1,4 @@
-use std::cmp::Ordering;
+use std::cmp::{min, Ordering};
 use std::collections::BinaryHeap;
 
 use crate::syntax::{ChangeKind, Syntax};
@@ -53,7 +53,7 @@ impl<'a> Eq for OrdVertex<'a> {}
 enum Edge {
     // TODO: Prefer nodes at the same or at least close levels of
     // nesting.
-    UnchangedNode,
+    UnchangedNode(u64),
     UnchangedDelimiter,
     NovelAtomLHS,
     NovelAtomRHS,
@@ -65,12 +65,12 @@ impl Edge {
     fn cost(&self) -> i64 {
         match self {
             // Matching nodes is always best.
-            UnchangedNode => 0,
+            UnchangedNode(depth_difference) => -1 * min(40, *depth_difference) as i64,
             // Matching an outer delimiter is good.
-            UnchangedDelimiter => -1,
+            UnchangedDelimiter => -1000,
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS | NovelAtomRHS => -2,
-            NovelDelimiterLHS | NovelDelimiterRHS => -2,
+            NovelAtomLHS | NovelAtomRHS => -2000,
+            NovelDelimiterLHS | NovelDelimiterRHS => -2000,
         }
     }
 }
@@ -151,9 +151,13 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax.equal_content(rhs_syntax) {
+            let depth_difference = (lhs_syntax.info().num_ancestors.get() as i64
+                - rhs_syntax.info().num_ancestors.get() as i64)
+                .abs() as u64;
+
             // Both nodes are equal, the happy case.
             res.push((
-                UnchangedNode,
+                UnchangedNode(depth_difference),
                 Vertex {
                     lhs_syntax: lhs_syntax.next(),
                     rhs_syntax: rhs_syntax.next(),
@@ -275,7 +279,7 @@ pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'
 fn mark_route(route: &[(Edge, Vertex)]) {
     for (e, v) in route {
         match e {
-            UnchangedNode => {
+            UnchangedNode(_) => {
                 // No change on this node or its children.
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
@@ -358,7 +362,7 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![UnchangedNode]);
+        assert_eq!(actions, vec![UnchangedNode(0)]);
     }
 
     #[test]
@@ -491,8 +495,8 @@ mod tests {
             vec![
                 NovelDelimiterLHS,
                 NovelDelimiterRHS,
-                UnchangedNode,
-                UnchangedNode
+                UnchangedNode(0),
+                UnchangedNode(0)
             ],
         );
     }

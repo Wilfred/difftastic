@@ -6,6 +6,9 @@ Improved parsing for Rust macro definitions and punctuation.
 
 ### Diffing
 
+Difftastic now considers nesting depth when comparing AST nodes, and
+tries to match nodes with similar nesting levels.
+
 Fixed an issue where complex diffs would not display some unchanged
 lines.
 
