@@ -199,22 +199,19 @@ impl<'a> Syntax<'a> {
         })
     }
 
-    pub fn next(&self) -> Option<&'a Syntax<'a>> {
-        (match self {
+    pub fn info(&self) -> &SyntaxInfo<'a> {
+        match self {
             List { info, .. } => info,
             Atom { info, .. } => info,
-        })
-        .next
-        .get()
+        }
+    }
+
+    pub fn next(&self) -> Option<&'a Syntax<'a>> {
+        self.info().next.get()
     }
 
     pub fn set_change(&self, ck: ChangeKind<'a>) {
-        (match self {
-            List { info, .. } => info,
-            Atom { info, .. } => info,
-        })
-        .change
-        .set(Some(ck));
+        self.info().change.set(Some(ck));
     }
 
     pub fn set_change_deep(&self, ck: ChangeKind<'a>) {
@@ -344,12 +341,7 @@ pub fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>
             None => parent_next,
         };
 
-        let info = match node {
-            List { info, .. } => info,
-            Atom { info, .. } => info,
-        };
-        info.next.set(node_next);
-
+        node.info().next.set(node_next);
         if let List { children, .. } = node {
             set_next(children, node_next);
         }
