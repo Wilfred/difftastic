@@ -121,9 +121,8 @@ module.exports = function defineGrammar(dialect) {
       public_field_definition: $ => seq(
         optional('declare'),
         optional($.accessibility_modifier),
-        optional($.override_modifier),
         choice(
-          seq(optional('static'), optional('readonly')),
+          seq(optional('static'), seq(optional($.override_modifier), optional('readonly'))), 
           seq(optional('abstract'), optional('readonly')),
           seq(optional('readonly'), optional('abstract')),
         ),
