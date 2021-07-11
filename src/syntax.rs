@@ -41,7 +41,7 @@ pub struct SyntaxInfo<'a> {
     pub pos_content_hash: u64,
     pub next: Cell<Option<&'a Syntax<'a>>>,
     pub change: Cell<Option<ChangeKind<'a>>>,
-    pub num_ancestors: Cell<isize>,
+    pub num_ancestors: Cell<u64>,
 }
 
 pub enum Syntax<'a> {
@@ -353,7 +353,7 @@ fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>>) {
     }
 }
 
-fn set_num_ancestors<'a>(nodes: &[&Syntax<'a>], num_ancestors: isize) {
+fn set_num_ancestors<'a>(nodes: &[&Syntax<'a>], num_ancestors: u64) {
     for node in nodes {
         node.info().num_ancestors.set(num_ancestors);
 
