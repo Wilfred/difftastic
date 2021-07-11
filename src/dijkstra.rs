@@ -102,9 +102,9 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
                     // Predecessor tracks all the found routes. We
                     // visit nodes starting with the shortest route,
-                    // but we may found a longer route to an unvisited
-                    // node. In that case, we want to update the known
-                    // shortest route.
+                    // but we may have found a longer route to an
+                    // unvisited node. In that case, we want to update
+                    // the known shortest route.
                     let found_shorter_route = match predecessors.get(&new_v) {
                         Some((prev_shortest, _, _)) => new_v_distance > *prev_shortest,
                         None => true,
