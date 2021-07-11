@@ -1,4 +1,4 @@
-use std::cmp::{min, Ordering};
+use std::cmp::{min, Ordering, Reverse};
 use std::collections::BinaryHeap;
 
 use crate::syntax::{ChangeKind, Syntax};
@@ -26,7 +26,7 @@ impl<'a> Vertex<'a> {
 // cases.
 #[derive(Debug)]
 struct OrdVertex<'a> {
-    distance: i64,
+    distance: u64,
     v: Vertex<'a>,
 }
 
@@ -62,34 +62,38 @@ enum Edge {
 }
 
 impl Edge {
-    fn cost(&self) -> i64 {
+    fn cost(&self) -> u64 {
         match self {
             // Matching nodes is always best.
-            UnchangedNode(depth_difference) => -1 * min(40, *depth_difference) as i64,
+            UnchangedNode(depth_difference) => min(40, *depth_difference),
             // Matching an outer delimiter is good.
-            UnchangedDelimiter(depth_difference) => -1000 - min(40, *depth_difference) as i64,
+            UnchangedDelimiter(depth_difference) => 1000 + min(40, *depth_difference),
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS | NovelAtomRHS => -2000,
-            NovelDelimiterLHS | NovelDelimiterRHS => -2000,
+            NovelAtomLHS | NovelAtomRHS => 2000,
+            NovelDelimiterLHS | NovelDelimiterRHS => 2000,
         }
     }
 }
 
 fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
-    let mut heap = BinaryHeap::new();
-    heap.push(OrdVertex {
+    // We want to visit nodes with the shortest distance first, but
+    // BinaryHeap is a max-heap. Ensure nodes are wrapped with Reverse
+    // to flip comparisons.
+    let mut heap: BinaryHeap<Reverse<_>> = BinaryHeap::new();
+
+    heap.push(Reverse(OrdVertex {
         distance: 0,
         v: start.clone(),
-    });
+    }));
 
     // TODO: these grow very big. Can we store the leading positon
     // (which is unique) rather than the whole Vertex?
     let mut visited = FxHashSet::default();
-    let mut predecessors: FxHashMap<Vertex, (i64, Edge, Vertex)> = FxHashMap::default();
+    let mut predecessors: FxHashMap<Vertex, (u64, Edge, Vertex)> = FxHashMap::default();
 
     loop {
         match heap.pop() {
-            Some(OrdVertex { distance, v }) => {
+            Some(Reverse(OrdVertex { distance, v })) => {
                 if v.is_end() {
                     break;
                 }
@@ -106,16 +110,16 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                     // unvisited node. In that case, we want to update
                     // the known shortest route.
                     let found_shorter_route = match predecessors.get(&new_v) {
-                        Some((prev_shortest, _, _)) => new_v_distance > *prev_shortest,
+                        Some((prev_shortest, _, _)) => new_v_distance < *prev_shortest,
                         None => true,
                     };
 
                     if found_shorter_route {
                         predecessors.insert(new_v.clone(), (new_v_distance, edge, v.clone()));
-                        heap.push(OrdVertex {
+                        heap.push(Reverse(OrdVertex {
                             distance: new_v_distance,
                             v: new_v,
-                        });
+                        }));
                     }
                 }
 
