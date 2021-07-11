@@ -306,7 +306,7 @@ fn mark_route(route: &[(Edge, Vertex)]) {
 mod tests {
     use super::*;
     use crate::positions::SingleLineSpan;
-    use crate::syntax::set_next;
+    use crate::syntax::init_info;
     use crate::syntax::Syntax::*;
     use crate::syntax::SyntaxInfo;
 
@@ -373,7 +373,7 @@ mod tests {
             "]".into(),
             pos_helper(2),
         )];
-        set_next(&lhs, None);
+        init_info(&lhs);
 
         let rhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
@@ -383,7 +383,7 @@ mod tests {
             "]".into(),
             pos_helper(2),
         )];
-        set_next(&rhs, None);
+        init_info(&rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).map(|n| *n),
@@ -407,7 +407,7 @@ mod tests {
             "]".into(),
             pos_helper(2),
         )];
-        set_next(&lhs, None);
+        init_info(&lhs);
 
         let rhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
@@ -420,7 +420,7 @@ mod tests {
             "]".into(),
             pos_helper(3),
         )];
-        set_next(&rhs, None);
+        init_info(&rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).map(|n| *n),
@@ -457,7 +457,7 @@ mod tests {
             "]".into(),
             pos_helper(4),
         )];
-        set_next(&lhs, None);
+        init_info(&lhs);
 
         let rhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
@@ -477,7 +477,7 @@ mod tests {
             "}".into(),
             pos_helper(4),
         )];
-        set_next(&rhs, None);
+        init_info(&rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).map(|n| *n),
