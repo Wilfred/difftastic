@@ -16,7 +16,7 @@ use crate::lines::{
 };
 use crate::parse::{find_lang, parse, parse_lines, read_or_die, ConfigDir};
 use crate::style::apply_colors;
-use crate::syntax::{change_positions, matching_lines, init_info};
+use crate::syntax::{change_positions, init_info, matching_lines};
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
