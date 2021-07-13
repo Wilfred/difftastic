@@ -2109,12 +2109,8 @@
           "value": "("
         },
         {
-          "type": "STRING",
-          "value": "function"
-        },
-        {
-          "type": "STRING",
-          "value": "("
+          "type": "PATTERN",
+          "value": "function\\s*\\("
         },
         {
           "type": "CHOICE",
