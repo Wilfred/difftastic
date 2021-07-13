@@ -153,8 +153,20 @@ $data = [
 // list() style
 list($id1, $name1) = $data[0];
 
+// Support trailing commma
+list($id1, $name1,) = $data[0];
+
+// Support skipping arguments
+list(, $name1) = $data[0];
+
 // [] style
 [$id1, $name1] = $data[0];
+
+// Support trailing commma
+[$id1, $name1,] = $data[0];
+
+// Support skipping arguments
+[, $name1] = $data[0];
 
 [$error, $canonicalized] = Json::canonicalize($actual);
 
@@ -207,6 +219,56 @@ list($id1, $name1) = $data[0];
       )
     )
   )
+  (comment)
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (variable_name (name))
+      )
+      (subscript_expression
+        (variable_name (name))
+        (integer)
+      )
+    )
+  )
+  (comment)
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (variable_name (name))
+        (variable_name (name))
+      )
+      (subscript_expression
+        (variable_name (name))
+        (integer)
+      )
+    )
+  )
+  (comment)
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (variable_name (name))
+        (variable_name (name))
+      )
+      (subscript_expression
+        (variable_name (name))
+        (integer)
+      )
+    )
+  )
+  (comment)
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (variable_name (name))
+      )
+      (subscript_expression
+        (variable_name (name))
+        (integer)
+      )
+    )
+  )
   (expression_statement
     (assignment_expression
       (list_literal
@@ -216,7 +278,11 @@ list($id1, $name1) = $data[0];
       (scoped_call_expression
         (name)
         (name)
-        (arguments (argument (variable_name (name))))
+        (arguments
+          (argument
+            (variable_name (name))
+          )
+        )
       )
     )
   )

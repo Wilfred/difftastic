@@ -146,7 +146,14 @@ struct Scanner {
 
     for (;;) {
       if (position_in_word == heredoc.word.size()) {
-        if (lexer->lookahead == ';' || lexer->lookahead == '\n' || lexer->lookahead == '\r') {
+        // While PHP requires the heredoc end tag to be the very first on a new line, there may be an
+        // arbitrary amount of whitespace before the closing token
+        while (lexer->lookahead == ' ') {
+          advance(lexer);
+        }
+
+        // , and ) is needed to support heredoc in function arguments
+        if (lexer->lookahead == ';' || lexer->lookahead == ',' || lexer->lookahead == ')' || lexer->lookahead == '\n' || lexer->lookahead == '\r') {
           open_heredocs.erase(open_heredocs.begin());
           return End;
         }
