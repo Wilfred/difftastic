@@ -60,9 +60,6 @@ module.exports = grammar({
     [$.union_type, $._return_type],
     [$.if_statement],
 
-    [$._simple_string_variable_name, $._simple_string_part],
-    [$._simple_string_dynamic_variable_name, $.variable_name],
-
     [$.namespace_name],
 
     [$.namespace_name_as_prefix],
@@ -81,10 +78,6 @@ module.exports = grammar({
     $._intrinsic,
     $._class_type_designator,
     $._variable_name,
-  ],
-
-  precedences: $ => [
-    ['member_access', 'subscript', 'variable'],
   ],
 
   extras: $ => [
@@ -1185,11 +1178,11 @@ module.exports = grammar({
       "}"
     )),
 
-    _simple_string_member_access_expression: $ => seq(
+    _simple_string_member_access_expression: $ => prec(PREC.MEMBER, seq(
       field('object', $._simple_string_variable_name),
       '->',
       field('name', $.name),
-    ),
+    )),
 
     _simple_string_subscript_unary_expression: $ => prec.left(seq('-', $.integer)),
 
@@ -1198,13 +1191,13 @@ module.exports = grammar({
       alias($._simple_string_subscript_unary_expression, $.unary_op_expression)
     ),
 
-    _simple_string_subscript_expression: $ => seq(
+    _simple_string_subscript_expression: $ => prec(PREC.DEREF, seq(
       $._simple_string_variable_name,
       choice(
         seq('[', $._simple_string_array_access_argument, ']'),
         seq('{', $._simple_string_array_access_argument, '}')
       )
-    ),
+    )),
 
     _simple_string_dynamic_variable_name: $ => seq('$', '{', '$', $.name, '}'),
 
@@ -1215,7 +1208,7 @@ module.exports = grammar({
 
     _simple_string_part: $ => prec.right(choice(
       alias($._simple_string_member_access_expression, $.member_access_expression),
-      $._variable_name,
+      $._simple_string_variable_name,
       alias($._simple_string_subscript_expression, $.subscript_expression),
     )),
 
