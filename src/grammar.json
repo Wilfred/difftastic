@@ -6597,29 +6597,33 @@
       }
     },
     "_simple_string_member_access_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "object",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_simple_string_variable_name"
+      "type": "PREC",
+      "value": 25,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "object",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_simple_string_variable_name"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "->"
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "name"
+            }
           }
-        },
-        {
-          "type": "STRING",
-          "value": "->"
-        },
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "name"
-          }
-        }
-      ]
+        ]
+      }
     },
     "_simple_string_subscript_unary_expression": {
       "type": "PREC_LEFT",
@@ -6657,52 +6661,56 @@
       ]
     },
     "_simple_string_subscript_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_simple_string_variable_name"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "["
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_simple_string_array_access_argument"
-                },
-                {
-                  "type": "STRING",
-                  "value": "]"
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "{"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_simple_string_array_access_argument"
-                },
-                {
-                  "type": "STRING",
-                  "value": "}"
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      "type": "PREC",
+      "value": 26,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_string_variable_name"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "["
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_simple_string_array_access_argument"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "]"
+                  }
+                ]
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "{"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_simple_string_array_access_argument"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     },
     "_simple_string_dynamic_variable_name": {
       "type": "SEQ",
@@ -6764,7 +6772,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_variable_name"
+            "name": "_simple_string_variable_name"
           },
           {
             "type": "ALIAS",
@@ -8277,14 +8285,6 @@
       "if_statement"
     ],
     [
-      "_simple_string_variable_name",
-      "_simple_string_part"
-    ],
-    [
-      "_simple_string_dynamic_variable_name",
-      "variable_name"
-    ],
-    [
       "namespace_name"
     ],
     [
@@ -8295,22 +8295,7 @@
       "namespace_name_as_prefix"
     ]
   ],
-  "precedences": [
-    [
-      {
-        "type": "STRING",
-        "value": "member_access"
-      },
-      {
-        "type": "STRING",
-        "value": "subscript"
-      },
-      {
-        "type": "STRING",
-        "value": "variable"
-      }
-    ]
-  ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
