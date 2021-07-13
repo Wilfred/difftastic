@@ -10,15 +10,15 @@
     {
       "label": "ts-parse",
       "type": "shell",
-      "command": "F=${file}; npx tree-sitter parse $F>\"${F%.*}.exp\"; code -r \"${F%.*}.exp\"",
-      "detail": "tree-sitter parse ${file}",
+      "command": "F=${file}; bin/generate-parser && { npx tree-sitter parse $F>\"${F%.*}.exp\"; code -r \"${F%.*}.exp\"; }",
+      "detail": "npx tree-sitter generate && tree-sitter parse ${file}",
       "problemMatcher": []
     },
     {
       "label": "ts-query",
       "type": "shell",
-      "command": "F=${file}; bin/ts-query $F>\"${F%.*}.exp\"; code -r \"${F%.*}.exp\"",
-      "detail": "bin/ts-query ${file}",
+      "command": "F=${file}; parsed=$(bin/ts-query $F) && echo \"$parsed\">\"${F%.*}.exp\" && code -r \"${F%.*}.exp\"",
+      "detail": "bin/ts-query ${file} (implictly runs `npx tree-sitter generate`)",
       "problemMatcher": []
     },
     {
