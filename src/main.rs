@@ -86,7 +86,7 @@ fn main() {
 
     init_info(&lhs);
     init_info(&rhs);
-    mark_syntax(lhs.get(0).map(|n| *n), rhs.get(0).map(|n| *n));
+    mark_syntax(lhs.get(0).copied(), rhs.get(0).copied());
 
     let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
     let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);

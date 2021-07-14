@@ -164,16 +164,9 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
     let mut current = end;
     let mut res: Vec<(Edge, Vertex)> = vec![];
-    loop {
-        match predecessors.remove(&current) {
-            Some((_, edge, node)) => {
-                res.push((edge, node.clone()));
-                current = node;
-            }
-            None => {
-                break;
-            }
-        }
+    while let Some((_, edge, node)) = predecessors.remove(&current) {
+        res.push((edge, node.clone()));
+        current = node;
     }
 
     res.reverse();
