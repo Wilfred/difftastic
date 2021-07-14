@@ -42,10 +42,9 @@ terminal. It will try to align unchanged nodes (see screenshot above).
 
 Crashes. The code is underdocumented, undertested, and unfinished.
 
-Performance. Difftastic scales poorly on files with a large number of
-changes. This might be solved by A* search.
-
-[Sliders](https://twitter.com/_wilfredh/status/1411949035871637509).
+Performance. Difftastic scales relatively poorly on files with a large
+number of changes, and can use a lot of memory. This might be solved
+by A* search.
 
 Replacing top-level expressions. If you delete a function and write a
 completely different new one, difftastic will show the small number of

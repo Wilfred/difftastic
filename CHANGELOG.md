@@ -11,6 +11,11 @@ Diff calculation is now significantly faster.
 Difftastic now considers nesting depth when comparing AST nodes, and
 tries to match nodes with similar nesting levels.
 
+Difftastic now prefers marking multiple items on the same line as
+novel, rather than adjacent items on different lines. This helps avoid
+[sliders](https://twitter.com/_wilfredh/status/1411949035871637509),
+where the diff chooses a keyword on the 'wrong' side.
+
 Fixed an issue where complex diffs would not display some unchanged
 lines.
 
