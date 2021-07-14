@@ -42,6 +42,7 @@ pub struct SyntaxInfo<'a> {
     pub next: Cell<Option<&'a Syntax<'a>>>,
     pub change: Cell<Option<ChangeKind<'a>>>,
     pub num_ancestors: Cell<u64>,
+    pub id: Cell<u64>,
 }
 
 pub enum Syntax<'a> {
@@ -72,7 +73,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 info,
                 ..
             } => {
-                let mut ds = f.debug_struct("List");
+                let mut ds = f.debug_struct(&format!("List:{}", self.id()));
 
                 ds.field("open_content", &open_content)
                     .field("children", &children)
@@ -94,7 +95,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 info,
                 ..
             } => {
-                let mut ds = f.debug_struct("Atom");
+                let mut ds = f.debug_struct(&format!("Atom:{}", self.id()));
                 ds.field("content", &content)
                     .field("change", &info.change.get());
                 ds.field("position", &position);
@@ -144,6 +145,7 @@ impl<'a> Syntax<'a> {
 
         arena.alloc(List {
             info: SyntaxInfo {
+                id: Cell::new(0),
                 pos_content_hash: hasher.finish(),
                 next: Cell::new(None),
                 change: Cell::new(None),
@@ -188,6 +190,7 @@ impl<'a> Syntax<'a> {
 
         arena.alloc(Atom {
             info: SyntaxInfo {
+                id: Cell::new(0),
                 pos_content_hash: hasher.finish(),
                 next: Cell::new(None),
                 change: Cell::new(None),
@@ -208,6 +211,10 @@ impl<'a> Syntax<'a> {
 
     pub fn next(&self) -> Option<&'a Syntax<'a>> {
         self.info().next.get()
+    }
+
+    pub fn id(&self) -> u64 {
+        self.info().id.get()
     }
 
     pub fn set_change(&self, ck: ChangeKind<'a>) {
@@ -335,8 +342,26 @@ impl<'a> Syntax<'a> {
 }
 
 pub fn init_info<'a>(roots: &[&'a Syntax<'a>]) {
+    set_id(roots, 0);
     set_next(roots, None);
     set_num_ancestors(roots, 0);
+}
+
+fn set_id<'a>(nodes: &[&'a Syntax<'a>], prev_id: u64) -> u64 {
+    let mut id = prev_id + 1;
+    for node in nodes {
+        match node {
+            List { info, children, .. } => {
+                info.id.set(id);
+                id = set_id(children, id);
+            }
+            Atom { info, .. } => {
+                info.id.set(id);
+            }
+        }
+        id += 1;
+    }
+    id
 }
 
 fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>>) {
@@ -832,6 +857,7 @@ mod tests {
         assert_eq!(
             Atom {
                 info: SyntaxInfo {
+                    id: Cell::new(0),
                     pos_content_hash: 0,
                     next: Cell::new(None),
                     change: Cell::new(Some(Novel)),
@@ -847,6 +873,7 @@ mod tests {
             },
             Atom {
                 info: SyntaxInfo {
+                    id: Cell::new(1),
                     pos_content_hash: 1,
                     next: Cell::new(None),
                     change: Cell::new(None),

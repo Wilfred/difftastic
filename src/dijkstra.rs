@@ -1,14 +1,29 @@
 use std::cmp::{min, Ordering, Reverse};
 use std::collections::BinaryHeap;
+use std::hash::{Hash, Hasher};
 
 use crate::syntax::{ChangeKind, Syntax};
 use rustc_hash::{FxHashMap, FxHashSet};
 use Edge::*;
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone)]
 struct Vertex<'a> {
     lhs_syntax: Option<&'a Syntax<'a>>,
     rhs_syntax: Option<&'a Syntax<'a>>,
+}
+impl<'a> PartialEq for Vertex<'a> {
+    fn eq(&self, other: &Self) -> bool {
+        self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
+            && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
+    }
+}
+impl<'a> Eq for Vertex<'a> {}
+
+impl<'a> Hash for Vertex<'a> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.lhs_syntax.map(|node| node.id()).hash(state);
+        self.rhs_syntax.map(|node| node.id()).hash(state);
+    }
 }
 
 impl<'a> Vertex<'a> {
@@ -342,6 +357,7 @@ mod tests {
 
         let lhs = arena.alloc(Atom {
             info: SyntaxInfo {
+                id: Cell::new(0),
                 pos_content_hash: 0,
                 next: Cell::new(None),
                 change: Cell::new(None),
@@ -355,6 +371,7 @@ mod tests {
         // Same content as LHS.
         let rhs = arena.alloc(Atom {
             info: SyntaxInfo {
+                id: Cell::new(1),
                 pos_content_hash: 1,
                 next: Cell::new(None),
                 change: Cell::new(None),
