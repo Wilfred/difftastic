@@ -4,6 +4,9 @@
 
 Improved parsing for Rust macro definitions and punctuation.
 
+Improved parsing for OCaml punctuation, and added `.mli` as an OCaml
+file extension.
+
 ### Diffing
 
 Diff calculation is now significantly faster.
