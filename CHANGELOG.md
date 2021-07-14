@@ -1,5 +1,9 @@
 ## 0.5 (unreleased)
 
+### Parsing
+
+Improved parsing for Rust punctuation.
+
 ## 0.4
 
 ### Parsing
