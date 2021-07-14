@@ -169,6 +169,7 @@ impl<'a> Syntax<'a> {
         Self::new_atom_(arena, position, content, true)
     }
 
+    #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_comment(
         arena: &'a Arena<Syntax<'a>>,
         position: Vec<SingleLineSpan>,
@@ -177,6 +178,7 @@ impl<'a> Syntax<'a> {
         Self::new_atom_(arena, position, content, true)
     }
 
+    #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     fn new_atom_(
         arena: &'a Arena<Syntax<'a>>,
         position: Vec<SingleLineSpan>,
@@ -570,7 +572,7 @@ fn zip_pad_shorter<Tx: Copy, Ty: Copy>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Option<Tx
     loop {
         match (lhs.get(i), rhs.get(i)) {
             (None, None) => break,
-            (x, y) => res.push((x.map(|v| *v), y.map(|v| *v))),
+            (x, y) => res.push((x.copied(), y.copied())),
         }
 
         i += 1;
@@ -689,15 +691,11 @@ fn matching_lines_<'a>(node: &Syntax<'a>, matches: &mut HashMap<LineNumber, Line
             })) = info.change.get()
             {
                 for (line, other_line) in zip_lines(open_position, other_open) {
-                    if !matches.contains_key(&line) {
-                        matches.insert(line, other_line);
-                    }
+                    matches.entry(line).or_insert(other_line);
                 }
 
                 for (line, other_line) in zip_lines(close_position, other_close) {
-                    if !matches.contains_key(&line) {
-                        matches.insert(line, other_line);
-                    }
+                    matches.entry(line).or_insert(other_line);
                 }
             }
 
@@ -712,9 +710,7 @@ fn matching_lines_<'a>(node: &Syntax<'a>, matches: &mut HashMap<LineNumber, Line
             })) = info.change.get()
             {
                 for (line, other_line) in zip_lines(position, other_pos) {
-                    if !matches.contains_key(&line) {
-                        matches.insert(line, other_line);
-                    }
+                    matches.entry(line).or_insert(other_line);
                 }
             }
         }
