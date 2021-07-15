@@ -6,6 +6,10 @@ Improved parsing for Rust punctuation.
 
 Improved parsing for OCaml punctuation.
 
+### Diffing
+
+Difftastic now highlights word-level changes between comments.
+
 ## 0.4
 
 ### Parsing

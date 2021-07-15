@@ -554,6 +554,32 @@ impl NewlinePositions {
         }
         res
     }
+
+    pub fn from_offsets_relative_to(
+        &self,
+        start: SingleLineSpan,
+        region_start: usize,
+        region_end: usize,
+    ) -> Vec<SingleLineSpan> {
+        let mut res = vec![];
+        for pos in self.from_offsets(region_start, region_end) {
+            if pos.line == start.line {
+                res.push(SingleLineSpan {
+                    line: start.line,
+                    start_col: start.start_col + pos.start_col,
+                    end_col: start.start_col + pos.end_col,
+                });
+            } else {
+                res.push(SingleLineSpan {
+                    line: (start.line.number + pos.line.number).into(),
+                    start_col: pos.start_col,
+                    end_col: pos.end_col,
+                });
+            }
+        }
+
+        res
+    }
 }
 
 #[test]

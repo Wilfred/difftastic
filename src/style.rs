@@ -91,7 +91,7 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
                 background: None,
                 bold: false,
             },
-            MatchKind::Novel => Style {
+            MatchKind::Novel | MatchKind::ChangedCommentPart => Style {
                 foreground: if is_lhs {
                     Color::BrightRed
                 } else {
@@ -99,6 +99,11 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
                 },
                 background: None,
                 bold: true,
+            },
+            MatchKind::UnchangedCommentPart => Style {
+                foreground: if is_lhs { Color::Red } else { Color::Green },
+                background: None,
+                bold: false,
             },
         };
         for line_pos in &pos.pos {
