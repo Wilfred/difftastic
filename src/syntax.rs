@@ -17,6 +17,7 @@ use Syntax::*;
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub enum ChangeKind<'a> {
     Unchanged(&'a Syntax<'a>),
+    ReplacedComment(&'a Syntax<'a>),
     Novel,
 }
 
@@ -27,6 +28,7 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
             Unchanged(_) => "Unchanged",
+            ReplacedComment(_) => "ReplacedComment",
             Novel => "Novel",
         };
         f.write_str(desc)
@@ -424,12 +426,15 @@ impl<'a> Hash for Syntax<'a> {
 pub enum MatchKind {
     Unchanged,
     Novel,
+    UnchangedCommentPart,
+    ChangedCommentPart,
 }
 
 impl MatchKind {
     fn from_change(ck: ChangeKind) -> Self {
         match ck {
             Unchanged(_) => MatchKind::Unchanged,
+            ReplacedComment(_) => MatchKind::UnchangedCommentPart,
             Novel => MatchKind::Novel,
         }
     }
