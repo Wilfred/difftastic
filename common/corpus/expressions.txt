@@ -51,11 +51,11 @@ typeof module === "object" && typeof module.exports === "object"
   (expression_statement
     (binary_expression
       (unary_expression (class (class_body)))
-      (string)))
+      (string (string_fragment))))
   (expression_statement
     (binary_expression
-      (binary_expression (unary_expression (identifier)) (string))
-      (binary_expression (unary_expression (member_expression (identifier) (property_identifier))) (string)))))
+      (binary_expression (unary_expression (identifier)) (string (string_fragment)))
+      (binary_expression (unary_expression (member_expression (identifier) (property_identifier))) (string (string_fragment))))))
 
 ==================================
 Array with empty elements
