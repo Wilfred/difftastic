@@ -163,7 +163,7 @@ impl<'a> Syntax<'a> {
         position: Vec<SingleLineSpan>,
         content: &str,
     ) -> &'a mut Syntax<'a> {
-        Self::new_atom_(arena, position, content, true)
+        Self::new_atom_(arena, position, content, false)
     }
 
     #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
@@ -857,6 +857,22 @@ mod tests {
                 end_col: 0
             }]
         );
+    }
+
+    #[test]
+    fn test_comment_and_atom_differ() {
+        let pos = vec![SingleLineSpan {
+            line: 0.into(),
+            start_col: 2,
+            end_col: 3,
+        }];
+
+        let arena = Arena::new();
+
+        let comment = Syntax::new_comment(&arena, pos.clone(), "foo".into());
+        let atom = Syntax::new_atom(&arena, pos, "foo".into());
+
+        assert_ne!(comment, atom);
     }
 
     #[test]
