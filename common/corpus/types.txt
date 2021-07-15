@@ -11,7 +11,7 @@ var y: number;
   (variable_declaration (variable_declarator
     (identifier)
     (type_annotation (predefined_type))
-    (string)))
+    (string (string_fragment))))
   (variable_declaration (variable_declarator
     (identifier)
     (type_annotation (predefined_type)))))
@@ -183,15 +183,15 @@ f
     (formal_parameters)
     (type_annotation (predefined_type))
     (statement_block
-      (expression_statement (string))
-      (expression_statement (string))))
+      (expression_statement (string (string_fragment)))
+      (expression_statement (string (string_fragment)))))
   (function_declaration
     (identifier)
     (formal_parameters)
     (type_annotation (predefined_type))
     (statement_block
-      (expression_statement (string))
-      (expression_statement (string)))))
+      (expression_statement (string (string_fragment)))
+      (expression_statement (string (string_fragment))))))
 
 =======================================
 Array types
@@ -322,16 +322,16 @@ import type UserID, {addUser, removeUser} from './User.js';
 (program
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string))
+      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string))
+      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment)))
   (import_statement
     (import_clause
-      (named_imports (import_specifier (identifier) (identifier)))) (string))
+      (named_imports (import_specifier (identifier) (identifier)))) (string (string_fragment)))
   (import_statement
     (import_clause (identifier)
-      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string)))
+      (named_imports (import_specifier (identifier)) (import_specifier (identifier)))) (string (string_fragment))))
 
 =======================================
 Type-only Export
@@ -418,9 +418,9 @@ enum Style {
 (program
   (enum_declaration (identifier) (enum_body
     (property_identifier)
-    (string)
+    (string (string_fragment))
     (enum_assignment
-      (string)
+      (string (string_fragment))
       (call_expression
         (member_expression (identifier) (property_identifier))
         (arguments (binary_expression (call_expression (member_expression (identifier) (property_identifier)) (arguments)) (number)))))
@@ -559,8 +559,8 @@ type Z = | "foo";
 
 (program
   (type_alias_declaration (type_identifier) (union_type (predefined_type) (predefined_type)))
-  (type_alias_declaration (type_identifier) (union_type (union_type (literal_type (string))) (literal_type (string))))
-  (type_alias_declaration (type_identifier) (union_type (literal_type (string)))))
+  (type_alias_declaration (type_identifier) (union_type (union_type (literal_type (string (string_fragment)))) (literal_type (string (string_fragment)))))
+  (type_alias_declaration (type_identifier) (union_type (literal_type (string (string_fragment))))))
 
 =======================================
 Flow Intersection types
@@ -610,7 +610,7 @@ let x: false
   (lexical_declaration
     (variable_declarator (identifier) (type_annotation (union_type (union_type (literal_type (number)) (literal_type (unary_expression (number)))) (literal_type (unary_expression (number)))))))
   (lexical_declaration
-    (variable_declarator (identifier) (type_annotation (literal_type (string))))) (lexical_declaration (variable_declarator (identifier) (type_annotation (literal_type (false))))))
+    (variable_declarator (identifier) (type_annotation (literal_type (string (string_fragment)))))) (lexical_declaration (variable_declarator (identifier) (type_annotation (literal_type (false))))))
 
 =======================================
 Flow type parameter constraint syntax
@@ -737,7 +737,7 @@ type T = keyof U & V;
   (type_alias_declaration (type_identifier)
     (type_query (generic_type (type_identifier) (type_arguments (type_identifier)))))
   (type_alias_declaration (type_identifier)
-    (type_query (call_expression (import) (arguments (string)))))
+    (type_query (call_expression (import) (arguments (string (string_fragment))))))
   (type_alias_declaration (type_identifier)
     (index_type_query (type_query (identifier))))
   (type_alias_declaration (type_identifier)
@@ -761,7 +761,7 @@ type A = typeof some_array[number]
     (lookup_type (type_identifier) (type_identifier)))
   (type_alias_declaration
     (type_identifier)
-    (lookup_type (type_identifier) (union_type (literal_type (string)) (literal_type (string)))))
+    (lookup_type (type_identifier) (union_type (literal_type (string (string_fragment))) (literal_type (string (string_fragment))))))
   (type_alias_declaration
     (type_identifier)
     (lookup_type (type_query (identifier)) (predefined_type))))
