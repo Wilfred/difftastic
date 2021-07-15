@@ -74,6 +74,7 @@ impl<'a> Eq for OrdVertex<'a> {}
 enum Edge {
     UnchangedNode(u64),
     UnchangedDelimiter(u64),
+    ReplacedComment,
     NovelAtomLHS { contiguous: bool },
     NovelAtomRHS { contiguous: bool },
     NovelDelimiterLHS { contiguous: bool },
@@ -87,6 +88,10 @@ impl Edge {
             UnchangedNode(depth_difference) => min(40, *depth_difference),
             // Matching an outer delimiter is good.
             UnchangedDelimiter(depth_difference) => 1000 + min(40, *depth_difference),
+
+            // Replacing a comment is better than treating it as novel.
+            ReplacedComment => 1500,
+
             // Otherwise, we've added/removed a node.
             NovelAtomLHS { contiguous } | NovelAtomRHS { contiguous } => {
                 if *contiguous {
@@ -237,6 +242,30 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 ));
             }
         }
+
+        if let (
+            Syntax::Atom {
+                is_comment: lhs_is_comment,
+                ..
+            },
+            Syntax::Atom {
+                is_comment: rhs_is_comment,
+                ..
+            },
+        ) = (lhs_syntax, rhs_syntax)
+        {
+            if *lhs_is_comment && *rhs_is_comment {
+                res.push((
+                    ReplacedComment,
+                    Vertex {
+                        lhs_syntax: lhs_syntax.next(),
+                        lhs_prev_novel: None,
+                        rhs_syntax: rhs_syntax.next(),
+                        rhs_prev_novel: None,
+                    },
+                ));
+            }
+        }
     }
 
     if let Some(lhs_syntax) = &v.lhs_syntax {
@@ -349,6 +378,12 @@ fn mark_route(route: &[(Edge, Vertex)]) {
                 let rhs = v.rhs_syntax.unwrap();
                 lhs.set_change(ChangeKind::Unchanged(rhs));
                 rhs.set_change(ChangeKind::Unchanged(lhs));
+            }
+            ReplacedComment => {
+                let lhs = v.lhs_syntax.unwrap();
+                let rhs = v.rhs_syntax.unwrap();
+                lhs.set_change(ChangeKind::ReplacedComment(lhs, rhs));
+                rhs.set_change(ChangeKind::ReplacedComment(rhs, lhs));
             }
             NovelAtomLHS { .. } | NovelDelimiterLHS { .. } => {
                 let lhs = v.lhs_syntax.unwrap();

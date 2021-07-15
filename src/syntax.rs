@@ -1,6 +1,7 @@
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
 use itertools::{EitherOrBoth, Itertools};
+use regex::Regex;
 use std::cell::Cell;
 use std::cmp::min;
 use std::collections::hash_map::DefaultHasher;
@@ -17,6 +18,7 @@ use Syntax::*;
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub enum ChangeKind<'a> {
     Unchanged(&'a Syntax<'a>),
+    ReplacedComment(&'a Syntax<'a>, &'a Syntax<'a>),
     Novel,
 }
 
@@ -27,6 +29,7 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
             Unchanged(_) => "Unchanged",
+            ReplacedComment(_, _) => "ReplacedComment",
             Novel => "Novel",
         };
         f.write_str(desc)
@@ -424,6 +427,8 @@ impl<'a> Hash for Syntax<'a> {
 pub enum MatchKind {
     Unchanged,
     Novel,
+    UnchangedCommentPart,
+    ChangedCommentPart,
 }
 
 #[derive(Debug)]
@@ -433,6 +438,59 @@ pub struct MatchedPos {
     pub prev_opposite_pos: Vec<SingleLineSpan>,
 }
 
+fn split_comment_words(
+    content: &str,
+    pos: &[SingleLineSpan],
+    opposite_content: &str,
+    prev_opposite_pos: &[SingleLineSpan],
+) -> Vec<MatchedPos> {
+    let word_boundary = Regex::new(r"\b").unwrap();
+
+    let content_parts: Vec<_> = word_boundary.split(content).collect();
+    let other_parts: Vec<_> = word_boundary.split(opposite_content).collect();
+
+    let content_newlines = NewlinePositions::from(content);
+
+    let mut offset = 0;
+
+    let mut res = vec![];
+    for diff_res in diff::slice(&content_parts, &other_parts) {
+        match diff_res {
+            diff::Result::Left(word) => {
+                // This word is novel to this side.
+                res.push(MatchedPos {
+                    kind: MatchKind::ChangedCommentPart,
+                    pos: content_newlines.from_offsets_relative_to(
+                        pos[0],
+                        offset,
+                        offset + word.len(),
+                    ),
+                    prev_opposite_pos: prev_opposite_pos.to_vec(),
+                });
+                offset += word.len();
+            }
+            diff::Result::Both(word, _) => {
+                // This word is present on both sides.
+                res.push(MatchedPos {
+                    kind: MatchKind::UnchangedCommentPart,
+                    pos: content_newlines.from_offsets_relative_to(
+                        pos[0],
+                        offset,
+                        offset + word.len(),
+                    ),
+                    prev_opposite_pos: prev_opposite_pos.to_vec(),
+                });
+                offset += word.len();
+            }
+            diff::Result::Right(_) => {
+                // Only exists on other side, nothing to do on this side.
+            }
+        }
+    }
+
+    res
+}
+
 impl MatchedPos {
     fn new(
         ck: ChangeKind,
@@ -440,6 +498,23 @@ impl MatchedPos {
         prev_opposite_pos: Vec<SingleLineSpan>,
     ) -> Vec<Self> {
         let kind = match ck {
+            ReplacedComment(this, opposite) => {
+                let this_content = match this {
+                    List { .. } => unreachable!(),
+                    Atom { content, .. } => content,
+                };
+                let opposite_content = match opposite {
+                    List { .. } => unreachable!(),
+                    Atom { content, .. } => content,
+                };
+
+                return split_comment_words(
+                    this_content,
+                    &pos,
+                    opposite_content,
+                    &prev_opposite_pos,
+                );
+            }
             Unchanged(_) => MatchKind::Unchanged,
             Novel => MatchKind::Novel,
         };
@@ -922,4 +997,9 @@ mod tests {
             }
         );
     }
+
+    // #[test]
+    // fn test_split_comment_words() {
+
+    // }
 }
