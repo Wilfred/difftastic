@@ -1,5 +1,4 @@
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
-#![allow(dead_code)]
 
 use itertools::{EitherOrBoth, Itertools};
 use std::cell::Cell;
@@ -18,7 +17,6 @@ use Syntax::*;
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub enum ChangeKind<'a> {
     Unchanged(&'a Syntax<'a>),
-    Moved,
     Novel,
 }
 
@@ -29,7 +27,6 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let desc = match self {
             Unchanged(_) => "Unchanged",
-            Moved => "Moved",
             Novel => "Novel",
         };
         f.write_str(desc)
@@ -426,7 +423,6 @@ impl<'a> Hash for Syntax<'a> {
 #[derive(PartialEq, Eq, Debug)]
 pub enum MatchKind {
     Unchanged,
-    Moved,
     Novel,
 }
 
@@ -434,7 +430,6 @@ impl MatchKind {
     fn from_change(ck: ChangeKind) -> Self {
         match ck {
             Unchanged(_) => MatchKind::Unchanged,
-            Moved => MatchKind::Moved,
             Novel => MatchKind::Novel,
         }
     }
