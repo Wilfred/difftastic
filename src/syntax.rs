@@ -426,20 +426,30 @@ pub enum MatchKind {
     Novel,
 }
 
-impl MatchKind {
-    fn from_change(ck: ChangeKind) -> Self {
-        match ck {
-            Unchanged(_) => MatchKind::Unchanged,
-            Novel => MatchKind::Novel,
-        }
-    }
-}
-
 #[derive(Debug)]
 pub struct MatchedPos {
     pub kind: MatchKind,
     pub pos: Vec<SingleLineSpan>,
     pub prev_opposite_pos: Vec<SingleLineSpan>,
+}
+
+impl MatchedPos {
+    fn new(
+        ck: ChangeKind,
+        pos: Vec<SingleLineSpan>,
+        prev_opposite_pos: Vec<SingleLineSpan>,
+    ) -> Self {
+        let kind = match ck {
+            Unchanged(_) => MatchKind::Unchanged,
+            Novel => MatchKind::Novel,
+        };
+
+        Self {
+            kind,
+            pos,
+            prev_opposite_pos,
+        }
+    }
 }
 
 /// Walk `nodes` and return a vec of all the changed positions.
@@ -500,11 +510,11 @@ fn change_positions_<'a>(
                     }
                 }
 
-                positions.push(MatchedPos {
-                    kind: MatchKind::from_change(change),
-                    pos: open_position.clone(),
-                    prev_opposite_pos: prev_opposite_pos.clone(),
-                });
+                positions.push(MatchedPos::new(
+                    change,
+                    open_position.clone(),
+                    prev_opposite_pos.clone(),
+                ));
 
                 change_positions_(
                     nl_pos,
@@ -525,11 +535,11 @@ fn change_positions_<'a>(
                         Atom { .. } => unreachable!(),
                     }
                 }
-                positions.push(MatchedPos {
-                    kind: MatchKind::from_change(change),
-                    pos: close_position.clone(),
-                    prev_opposite_pos: prev_opposite_pos.clone(),
-                });
+                positions.push(MatchedPos::new(
+                    change,
+                    close_position.clone(),
+                    prev_opposite_pos.clone(),
+                ));
             }
             Atom { info, position, .. } => {
                 let change = info
@@ -550,11 +560,11 @@ fn change_positions_<'a>(
                         }
                     }
                 }
-                positions.push(MatchedPos {
-                    kind: MatchKind::from_change(change),
-                    pos: position.clone(),
-                    prev_opposite_pos: prev_opposite_pos.clone(),
-                });
+                positions.push(MatchedPos::new(
+                    change,
+                    position.clone(),
+                    prev_opposite_pos.clone(),
+                ));
             }
         }
     }
