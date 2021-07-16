@@ -4,6 +4,8 @@
 
 Improved parsing for Rust punctuation.
 
+Improved parsing for OCaml punctuation.
+
 ## 0.4
 
 ### Parsing
