@@ -10,6 +10,10 @@ Improved parsing for OCaml punctuation.
 
 Difftastic now highlights word-level changes between comments.
 
+### Docs
+
+Improved `--help`.
+
 ## 0.4
 
 ### Parsing

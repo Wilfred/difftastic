@@ -22,10 +22,12 @@ fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
 }
 
+const VERSION: &'static str = env!("CARGO_PKG_VERSION");
+
 fn main() {
     let matches = App::new("Difftastic")
-        .version("0.1")
-        .about("A word level diff tool that understands syntax!")
+        .version(VERSION)
+        .about("A syntax aware diff.")
         .author("Wilfred Hughes")
         .arg(
             Arg::with_name("LANGUAGE")
