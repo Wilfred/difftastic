@@ -97,7 +97,6 @@ dependencies = [
  "regex",
  "rust-embed",
  "rustc-hash",
- "serde",
  "term_size",
  "toml",
  "typed-arena",
