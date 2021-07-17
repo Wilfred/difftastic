@@ -115,7 +115,7 @@ atom_patterns = [
   # Two character operators
   '(->|<-|&&|\|\|)',
   # Single character operators
-  "[?~=<>/*+,&|:'#-]",
+  "[?~=<>/*+,&|:;'#-]",
 ]
 string_patterns = [
   # Double-quoted strings
