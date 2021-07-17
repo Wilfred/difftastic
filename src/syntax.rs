@@ -438,17 +438,17 @@ impl MatchedPos {
         ck: ChangeKind,
         pos: Vec<SingleLineSpan>,
         prev_opposite_pos: Vec<SingleLineSpan>,
-    ) -> Self {
+    ) -> Vec<Self> {
         let kind = match ck {
             Unchanged(_) => MatchKind::Unchanged,
             Novel => MatchKind::Novel,
         };
 
-        Self {
+        vec![Self {
             kind,
             pos,
             prev_opposite_pos,
-        }
+        }]
     }
 }
 
@@ -510,7 +510,7 @@ fn change_positions_<'a>(
                     }
                 }
 
-                positions.push(MatchedPos::new(
+                positions.extend(MatchedPos::new(
                     change,
                     open_position.clone(),
                     prev_opposite_pos.clone(),
@@ -535,7 +535,7 @@ fn change_positions_<'a>(
                         Atom { .. } => unreachable!(),
                     }
                 }
-                positions.push(MatchedPos::new(
+                positions.extend(MatchedPos::new(
                     change,
                     close_position.clone(),
                     prev_opposite_pos.clone(),
@@ -560,7 +560,7 @@ fn change_positions_<'a>(
                         }
                     }
                 }
-                positions.push(MatchedPos::new(
+                positions.extend(MatchedPos::new(
                     change,
                     position.clone(),
                     prev_opposite_pos.clone(),
