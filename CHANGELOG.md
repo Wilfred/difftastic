@@ -16,6 +16,10 @@ Difftastic now highlights word-level changes between comments.
 
 Improved `--help`.
 
+### Integration
+
+It's now possible to use `difftastic` with `git diff` and `git show`!
+
 ## 0.4
 
 ### Parsing
