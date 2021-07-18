@@ -368,14 +368,9 @@ pub fn init_info<'a>(roots: &[&'a Syntax<'a>]) {
 fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], prev_id: u64) -> u64 {
     let mut id = prev_id + 1;
     for node in nodes {
-        match node {
-            List { info, children, .. } => {
-                info.unique_id.set(id);
-                id = set_unique_id(children, id);
-            }
-            Atom { info, .. } => {
-                info.unique_id.set(id);
-            }
+        node.info().unique_id.set(id);
+        if let List { children, .. } = node {
+            id = set_unique_id(children, id);
         }
         id += 1;
     }
@@ -415,11 +410,7 @@ impl<'a> Eq for Syntax<'a> {}
 
 impl<'a> Hash for Syntax<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        let info = match self {
-            List { info, .. } => info,
-            Atom { info, .. } => info,
-        };
-        info.pos_content_hash.hash(state);
+        self.info().pos_content_hash.hash(state);
     }
 }
 
