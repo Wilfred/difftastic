@@ -601,8 +601,8 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                NovelDelimiterLHS { contiguous: false },
                 NovelDelimiterRHS { contiguous: false },
+                NovelDelimiterLHS { contiguous: false },
                 UnchangedNode(0),
                 UnchangedNode(0)
             ],
