@@ -444,6 +444,7 @@ fn split_comment_words(
     opposite_content: &str,
     prev_opposite_pos: &[SingleLineSpan],
 ) -> Vec<MatchedPos> {
+    // TODO: also split on whitespace, so "// (foo)" splits before "(".
     let word_boundary = Regex::new(r"\b").unwrap();
 
     let content_parts: Vec<_> = word_boundary.split(content).collect();
