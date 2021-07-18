@@ -563,7 +563,7 @@ impl NewlinePositions {
     ) -> Vec<SingleLineSpan> {
         let mut res = vec![];
         for pos in self.from_offsets(region_start, region_end) {
-            if pos.line == start.line {
+            if pos.line.number == 0 {
                 res.push(SingleLineSpan {
                     line: start.line,
                     start_col: start.start_col + pos.start_col,
@@ -615,6 +615,27 @@ fn from_ranges_split_over_multiple_lines() {
                 end_col: 2
             })
         ]
+    );
+}
+
+#[test]
+fn from_offsets_relative_to() {
+    let newline_positions: NewlinePositions = "foo\nbar".into();
+
+    let pos = SingleLineSpan {
+        line: 1.into(),
+        start_col: 1,
+        end_col: 1,
+    };
+
+    let line_spans = newline_positions.from_offsets_relative_to(pos, 1, 2);
+    assert_eq!(
+        line_spans,
+        vec![SingleLineSpan {
+            line: 1.into(),
+            start_col: 2,
+            end_col: 3
+        }]
     );
 }
 
