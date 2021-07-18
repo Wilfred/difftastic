@@ -314,7 +314,7 @@
         "required": false,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -340,7 +340,7 @@
         "required": false,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -1318,7 +1318,7 @@
         "required": false,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -2715,7 +2715,7 @@
         "required": false,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -2761,7 +2761,7 @@
         "required": true,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -2771,7 +2771,7 @@
         "required": true,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -2807,7 +2807,7 @@
         "required": false,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -3513,7 +3513,7 @@
         "required": false,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -3543,7 +3543,7 @@
         "required": false,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -3847,7 +3847,7 @@
         "required": false,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -5125,7 +5125,7 @@
         "required": false,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -5246,7 +5246,7 @@
         "required": false,
         "types": [
           {
-            "type": "word",
+            "type": "path",
             "named": true
           }
         ]
@@ -6203,6 +6203,10 @@
   },
   {
     "type": "param",
+    "named": true
+  },
+  {
+    "type": "path",
     "named": true
   },
   {

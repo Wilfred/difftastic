@@ -270,6 +270,8 @@ module.exports = grammar({
 
     word: $ => /[^\s\\%\{\},\$\[\]\(\)=\#]+/,
 
+    path: $ => /[^\*\.\"\[\]:;\|\{\}]+/,
+
     param: $ => /#\d/,
 
     //--- Math ---//
@@ -344,7 +346,7 @@ module.exports = grammar({
         field('command', choice('\\usepackage', '\\RequirePackage')),
         field('option', optional($.key_val_options)),
         '{',
-        sepBy(field('path', $.word), ','),
+        sepBy(field('path', $.path), ','),
         '}'
       ),
 
@@ -353,7 +355,7 @@ module.exports = grammar({
         field('command', '\\documentclass'),
         field('option', optional($.key_val_options)),
         '{',
-        sepBy(field('path', $.word), ','),
+        sepBy(field('path', $.path), ','),
         '}'
       ),
 
@@ -361,7 +363,7 @@ module.exports = grammar({
       seq(
         field('command', choice('\\include', '\\subfileinclude')),
         '{',
-        sepBy(field('path', $.word), ','),
+        sepBy(field('path', $.path), ','),
         '}'
       ),
 
@@ -369,7 +371,7 @@ module.exports = grammar({
       seq(
         field('command', choice('\\input', '\\subfile')),
         '{',
-        sepBy(field('path', $.word), ','),
+        sepBy(field('path', $.path), ','),
         '}'
       ),
 
@@ -378,7 +380,7 @@ module.exports = grammar({
         field('command', '\\addbibresource'),
         field('option', optional($.key_val_options)),
         '{',
-        sepBy(field('path', $.word), ','),
+        sepBy(field('path', $.path), ','),
         '}'
       ),
 
@@ -386,7 +388,7 @@ module.exports = grammar({
       seq(
         field('command', '\\bibliography'),
         '{',
-        sepBy(field('path', $.word), ','),
+        sepBy(field('path', $.path), ','),
         '}'
       ),
 
@@ -395,7 +397,7 @@ module.exports = grammar({
         field('command', '\\includegraphics'),
         field('option', optional($.key_val_options)),
         '{',
-        sepBy(field('path', $.word), ','),
+        sepBy(field('path', $.path), ','),
         '}'
       ),
 
@@ -404,7 +406,7 @@ module.exports = grammar({
         field('command', '\\includesvg'),
         field('option', optional($.key_val_options)),
         '{',
-        sepBy(field('path', $.word), ','),
+        sepBy(field('path', $.path), ','),
         '}'
       ),
 
@@ -413,7 +415,7 @@ module.exports = grammar({
         field('command', '\\includeinkscape'),
         field('option', optional($.key_val_options)),
         '{',
-        sepBy(field('path', $.word), ','),
+        sepBy(field('path', $.path), ','),
         '}'
       ),
 
@@ -421,7 +423,7 @@ module.exports = grammar({
       seq(
         field('command', choice('\\verbatiminput', '\\VerbatimInput')),
         '{',
-        sepBy(field('path', $.word), ','),
+        sepBy(field('path', $.path), ','),
         '}'
       ),
 
@@ -439,10 +441,10 @@ module.exports = grammar({
           )
         ),
         '{',
-        field('directory', $.word),
+        field('directory', $.path),
         '}',
         '{',
-        field('file', $.word),
+        field('file', $.path),
         '}'
       ),
 

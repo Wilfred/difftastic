@@ -1028,6 +1028,10 @@
       "type": "PATTERN",
       "value": "[^\\s\\\\%\\{\\},\\$\\[\\]\\(\\)=\\#]+"
     },
+    "path": {
+      "type": "PATTERN",
+      "value": "[^\\*\\.\\\"\\[\\]:;\\|\\{\\}]+"
+    },
     "param": {
       "type": "PATTERN",
       "value": "#\\d"
@@ -1661,7 +1665,7 @@
                   "name": "path",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "word"
+                    "name": "path"
                   }
                 },
                 {
@@ -1678,7 +1682,7 @@
                         "name": "path",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "word"
+                          "name": "path"
                         }
                       }
                     ]
@@ -1739,7 +1743,7 @@
                   "name": "path",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "word"
+                    "name": "path"
                   }
                 },
                 {
@@ -1756,7 +1760,7 @@
                         "name": "path",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "word"
+                          "name": "path"
                         }
                       }
                     ]
@@ -1810,7 +1814,7 @@
                   "name": "path",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "word"
+                    "name": "path"
                   }
                 },
                 {
@@ -1827,7 +1831,7 @@
                         "name": "path",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "word"
+                          "name": "path"
                         }
                       }
                     ]
@@ -1881,7 +1885,7 @@
                   "name": "path",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "word"
+                    "name": "path"
                   }
                 },
                 {
@@ -1898,7 +1902,7 @@
                         "name": "path",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "word"
+                          "name": "path"
                         }
                       }
                     ]
@@ -1959,7 +1963,7 @@
                   "name": "path",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "word"
+                    "name": "path"
                   }
                 },
                 {
@@ -1976,7 +1980,7 @@
                         "name": "path",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "word"
+                          "name": "path"
                         }
                       }
                     ]
@@ -2021,7 +2025,7 @@
                   "name": "path",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "word"
+                    "name": "path"
                   }
                 },
                 {
@@ -2038,7 +2042,7 @@
                         "name": "path",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "word"
+                          "name": "path"
                         }
                       }
                     ]
@@ -2099,7 +2103,7 @@
                   "name": "path",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "word"
+                    "name": "path"
                   }
                 },
                 {
@@ -2116,7 +2120,7 @@
                         "name": "path",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "word"
+                          "name": "path"
                         }
                       }
                     ]
@@ -2177,7 +2181,7 @@
                   "name": "path",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "word"
+                    "name": "path"
                   }
                 },
                 {
@@ -2194,7 +2198,7 @@
                         "name": "path",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "word"
+                          "name": "path"
                         }
                       }
                     ]
@@ -2255,7 +2259,7 @@
                   "name": "path",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "word"
+                    "name": "path"
                   }
                 },
                 {
@@ -2272,7 +2276,7 @@
                         "name": "path",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "word"
+                          "name": "path"
                         }
                       }
                     ]
@@ -2326,7 +2330,7 @@
                   "name": "path",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "word"
+                    "name": "path"
                   }
                 },
                 {
@@ -2343,7 +2347,7 @@
                         "name": "path",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "word"
+                          "name": "path"
                         }
                       }
                     ]
@@ -2407,7 +2411,7 @@
           "name": "directory",
           "content": {
             "type": "SYMBOL",
-            "name": "word"
+            "name": "path"
           }
         },
         {
@@ -2423,7 +2427,7 @@
           "name": "file",
           "content": {
             "type": "SYMBOL",
-            "name": "word"
+            "name": "path"
           }
         },
         {
