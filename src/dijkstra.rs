@@ -423,7 +423,7 @@ mod tests {
 
         let lhs = arena.alloc(Atom {
             info: SyntaxInfo {
-                id: Cell::new(0),
+                unique_id: Cell::new(0),
                 pos_content_hash: 0,
                 next: Cell::new(None),
                 change: Cell::new(None),
@@ -437,7 +437,7 @@ mod tests {
         // Same content as LHS.
         let rhs = arena.alloc(Atom {
             info: SyntaxInfo {
-                id: Cell::new(1),
+                unique_id: Cell::new(1),
                 pos_content_hash: 1,
                 next: Cell::new(None),
                 change: Cell::new(None),
