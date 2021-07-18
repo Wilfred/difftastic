@@ -4,7 +4,7 @@ use std::hash::{Hash, Hasher};
 
 use crate::lines::LineNumber;
 use crate::syntax::{ChangeKind, Syntax};
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashMap;
 use Edge::*;
 
 #[derive(Debug, Clone)]
@@ -48,6 +48,7 @@ impl<'a> Vertex<'a> {
 #[derive(Debug)]
 struct OrdVertex<'a> {
     distance: u64,
+    prev: Option<(Vertex<'a>, Edge)>,
     v: Vertex<'a>,
 }
 
@@ -119,49 +120,40 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
     heap.push(Reverse(OrdVertex {
         distance: 0,
+        prev: None,
         v: start.clone(),
     }));
 
-    // TODO: these grow very big. Can we store the leading positon
-    // (which is unique) rather than the whole Vertex?
-    let mut visited = FxHashSet::default();
-    let mut predecessors: FxHashMap<Vertex, (u64, Edge, Vertex)> = FxHashMap::default();
+    // TODO: this grows very big. Consider using IDA* to reduce memory
+    // usage.
+    let mut predecessors: FxHashMap<Vertex, Option<(Vertex, Edge)>> = FxHashMap::default();
 
     let end;
     loop {
         match heap.pop() {
-            Some(Reverse(OrdVertex { distance, v })) => {
+            Some(Reverse(OrdVertex { distance, prev, v })) => {
+                if predecessors.contains_key(&v) {
+                    continue;
+                }
+                predecessors.insert(v.clone(), prev);
+
                 if v.is_end() {
                     end = v;
                     break;
                 }
 
-                if visited.contains(&v) {
-                    continue;
-                }
                 for (edge, new_v) in neighbours(&v) {
+                    if predecessors.contains_key(&new_v) {
+                        continue;
+                    }
                     let new_v_distance = distance + edge.cost();
 
-                    // Predecessor tracks all the found routes. We
-                    // visit nodes starting with the shortest route,
-                    // but we may have found a longer route to an
-                    // unvisited node. In that case, we want to update
-                    // the known shortest route.
-                    let found_shorter_route = match predecessors.get(&new_v) {
-                        Some((prev_shortest, _, _)) => new_v_distance < *prev_shortest,
-                        None => true,
-                    };
-
-                    if found_shorter_route {
-                        predecessors.insert(new_v.clone(), (new_v_distance, edge, v.clone()));
-                        heap.push(Reverse(OrdVertex {
-                            distance: new_v_distance,
-                            v: new_v,
-                        }));
-                    }
+                    heap.push(Reverse(OrdVertex {
+                        distance: new_v_distance,
+                        prev: Some((v.clone(), edge)),
+                        v: new_v,
+                    }));
                 }
-
-                visited.insert(v);
             }
             None => panic!("Ran out of graph nodes before reaching end"),
         }
@@ -169,7 +161,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
     let mut current = end;
     let mut res: Vec<(Edge, Vertex)> = vec![];
-    while let Some((_, edge, node)) = predecessors.remove(&current) {
+    while let Some(Some((node, edge))) = predecessors.remove(&current) {
         res.push((edge, node.clone()));
         current = node;
     }

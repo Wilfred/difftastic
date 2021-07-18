@@ -8,6 +8,8 @@ Improved parsing for OCaml punctuation.
 
 ### Diffing
 
+Reduced memory usage when diffing.
+
 Difftastic now highlights word-level changes between comments.
 
 ### Docs
