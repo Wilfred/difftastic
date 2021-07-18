@@ -75,6 +75,8 @@ impl<'a> Eq for OrdVertex<'a> {}
 enum Edge {
     UnchangedNode(u64),
     UnchangedDelimiter(u64),
+    // TODO: consider a replaced Atom edge if the levenshtein distance
+    // is reasonably close?
     ReplacedComment,
     NovelAtomLHS { contiguous: bool },
     NovelAtomRHS { contiguous: bool },
