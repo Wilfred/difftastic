@@ -58,7 +58,13 @@ Patch files. If you want to create a patch that you can later apply,
 use `diff`. Difftastic ignores whitespace, so its output is
 lossy. (AST patching is also a hard problem.)
 
-## Testing with Git
+## Dogfooding
+
+Once you've compiled `difftastic` and it's on `$PATH`, you can try
+dogfooding.
+
+To see the changes to the current git repo in difftastic, you can add
+the following to your `.gitconfig` and run `git difftool`.
 
 ```
 [diff]
@@ -68,11 +74,16 @@ lossy. (AST patching is also a hard problem.)
         prompt = false
 
 [difftool "difftastic"]
-        cmd = ~/projects/difftastic/target/debug/difftastic "$LOCAL" "$REMOTE"
+        cmd = difftastic "$LOCAL" "$REMOTE"
 ```
 
-You can then run `git difftool` to see the current repo changes in
-difftastic.
+Alternatively, to run difftastic as the default diff engine for a git
+invocation:
+
+```
+$ CLICOLOR_FORCE=1 GIT_EXTERNAL_DIFF=difftastic git diff
+$ CLICOLOR_FORCE=1 GIT_EXTERNAL_DIFF=difftastic git log -p --ext-diff
+```
 
 ## Further Reading
 
