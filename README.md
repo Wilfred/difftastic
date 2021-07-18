@@ -64,11 +64,14 @@ lossy. (AST patching is also a hard problem.)
 [diff]
         tool = difftastic
 
+[difftool]
+        prompt = false
+
 [difftool "difftastic"]
         cmd = ~/projects/difftastic/target/debug/difftastic "$LOCAL" "$REMOTE"
 ```
 
-You can then run `git difftool -y` to see the current repo changes in
+You can then run `git difftool` to see the current repo changes in
 difftastic.
 
 ## Further Reading
