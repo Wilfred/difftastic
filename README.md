@@ -55,7 +55,7 @@ Comments. Small changes can show big diffs.
 ## Non-goals
 
 Patch files. If you want to create a patch that you can later apply,
-use `diff`. Difftastic ignores whitespace, so it is output is
+use `diff`. Difftastic ignores whitespace, so its output is
 lossy. (AST patching is also a hard problem.)
 
 ## Testing with Git
