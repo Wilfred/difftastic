@@ -42,7 +42,7 @@ pub struct SyntaxInfo<'a> {
     pub next: Cell<Option<&'a Syntax<'a>>>,
     pub change: Cell<Option<ChangeKind<'a>>>,
     pub num_ancestors: Cell<u64>,
-    pub id: Cell<u64>,
+    pub unique_id: Cell<u64>,
 }
 
 pub enum Syntax<'a> {
@@ -145,7 +145,7 @@ impl<'a> Syntax<'a> {
 
         arena.alloc(List {
             info: SyntaxInfo {
-                id: Cell::new(0),
+                unique_id: Cell::new(0),
                 pos_content_hash: hasher.finish(),
                 next: Cell::new(None),
                 change: Cell::new(None),
@@ -192,7 +192,7 @@ impl<'a> Syntax<'a> {
 
         arena.alloc(Atom {
             info: SyntaxInfo {
-                id: Cell::new(0),
+                unique_id: Cell::new(0),
                 pos_content_hash: hasher.finish(),
                 next: Cell::new(None),
                 change: Cell::new(None),
@@ -216,7 +216,7 @@ impl<'a> Syntax<'a> {
     }
 
     pub fn id(&self) -> u64 {
-        self.info().id.get()
+        self.info().unique_id.get()
     }
 
     pub fn first_line(&self) -> Option<LineNumber> {
@@ -360,21 +360,21 @@ impl<'a> Syntax<'a> {
 }
 
 pub fn init_info<'a>(roots: &[&'a Syntax<'a>]) {
-    set_id(roots, 0);
+    set_unique_id(roots, 0);
     set_next(roots, None);
     set_num_ancestors(roots, 0);
 }
 
-fn set_id<'a>(nodes: &[&'a Syntax<'a>], prev_id: u64) -> u64 {
+fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], prev_id: u64) -> u64 {
     let mut id = prev_id + 1;
     for node in nodes {
         match node {
             List { info, children, .. } => {
-                info.id.set(id);
-                id = set_id(children, id);
+                info.unique_id.set(id);
+                id = set_unique_id(children, id);
             }
             Atom { info, .. } => {
-                info.id.set(id);
+                info.unique_id.set(id);
             }
         }
         id += 1;
@@ -972,7 +972,7 @@ mod tests {
         assert_eq!(
             Atom {
                 info: SyntaxInfo {
-                    id: Cell::new(0),
+                    unique_id: Cell::new(0),
                     pos_content_hash: 0,
                     next: Cell::new(None),
                     change: Cell::new(Some(Novel)),
@@ -988,7 +988,7 @@ mod tests {
             },
             Atom {
                 info: SyntaxInfo {
-                    id: Cell::new(1),
+                    unique_id: Cell::new(1),
                     pos_content_hash: 1,
                     next: Cell::new(None),
                     change: Cell::new(None),
