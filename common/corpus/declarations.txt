@@ -76,7 +76,7 @@ declare module Foo {
     (lexical_declaration
       (variable_declarator
         name: (identifier)
-        value: (string))))
+        value: (string (string_fragment)))))
   (ambient_declaration
     (function_signature
       name: (identifier)
@@ -161,7 +161,7 @@ declare module Foo {
           body: (switch_body
             (switch_case value: (number) (break_statement))
             (switch_default (break_statement))))
-        (throw_statement (string))
+        (throw_statement (string (string_fragment)))
         (try_statement
           body: (statement_block)
           handler: (catch_clause
@@ -430,8 +430,8 @@ declare module "example" { }
           (identifier)
           (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier))))))
       (type_annotation (generic_type (type_identifier) (type_arguments (type_identifier))))))))
-  (ambient_declaration (module (string)))
-  (ambient_declaration (module (string) (statement_block))))
+  (ambient_declaration (module (string (string_fragment))))
+  (ambient_declaration (module (string (string_fragment)) (statement_block))))
 
 =================================
 Accessibility modifiers as pair keywords
@@ -667,10 +667,10 @@ class Foo {
     (type_identifier)
     (class_body
       (public_field_definition (number) (type_annotation (predefined_type)))
-      (public_field_definition (accessibility_modifier) (number) (type_annotation (predefined_type)) (string))
-      (public_field_definition (accessibility_modifier) (string) (type_annotation (type_identifier)) (string))
-      (public_field_definition (string) (type_annotation (type_identifier)) (string))
-      (public_field_definition (string) (type_annotation (type_identifier)) (string)))))
+      (public_field_definition (accessibility_modifier) (number) (type_annotation (predefined_type)) (string (string_fragment)))
+      (public_field_definition (accessibility_modifier) (string (string_fragment)) (type_annotation (type_identifier)) (string (string_fragment)))
+      (public_field_definition (string (string_fragment)) (type_annotation (type_identifier)) (string (string_fragment)))
+      (public_field_definition (string (string_fragment)) (type_annotation (type_identifier)) (string (string_fragment))))))
 
 =======================================
 Classes with decorators
@@ -696,10 +696,10 @@ Classes with decorators
       (public_field_definition (number) (type_annotation (predefined_type)))
 
       (decorator (call_expression (member_expression (identifier) (property_identifier)) (arguments (identifier))))
-      (public_field_definition (accessibility_modifier) (number) (type_annotation (predefined_type)) (string))
+      (public_field_definition (accessibility_modifier) (number) (type_annotation (predefined_type)) (string (string_fragment)))
 
       (decorator (identifier))
-      (public_field_definition (string) (type_annotation (type_identifier)) (string))
+      (public_field_definition (string (string_fragment)) (type_annotation (type_identifier)) (string (string_fragment)))
 
       (decorator (identifier))
       (method_definition
@@ -812,7 +812,7 @@ abstract class Foo {
             function: (member_expression
               object: (identifier)
               property: (property_identifier))
-            arguments: (arguments (string))))))))
+            arguments: (arguments (string (string_fragment)))))))))
   (abstract_class_declaration
     decorator: (decorator (identifier))
     name: (type_identifier)
@@ -836,7 +836,7 @@ export type Extracted = keyof Pick<Base, "id">
           (type_arguments
             (type_identifier)
             (literal_type
-              (string))))))))
+              (string (string_fragment)))))))))
 
 ==================================
 Definite assignment assertions

@@ -26,7 +26,7 @@ function foo<T, U>(this: T[]): U[] {
     parameters: (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
     body: (statement_block
       (return_statement (binary_expression
-        left: (string)
+        left: (string (string_fragment))
         right: (identifier)))))
   (function_declaration
     name: (identifier)
@@ -212,7 +212,7 @@ class A extends B {
                     object: (super)
                     property: (property_identifier))
                   arguments: (arguments))
-                right: (string))
+                right: (string (string_fragment)))
               right: (member_expression
                 object: (this)
                 property: (property_identifier)))))))))
