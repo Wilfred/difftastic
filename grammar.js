@@ -239,9 +239,9 @@ module.exports = grammar({
 
     mixed_group: $ =>
       seq(
-        field('left', choice('(', '[')),
+        field('left', choice('(', '[', '\\{')),
         field('child', repeat($._content)),
-        field('right', choice(')', ']'))
+        field('right', choice(')', ']', '\\}'))
       ),
 
     key_val_options: $ =>
