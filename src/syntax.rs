@@ -63,21 +63,38 @@ pub enum Syntax<'a> {
     },
 }
 
+fn dbg_pos(pos: &[SingleLineSpan]) -> String {
+    if pos.is_empty() {
+        "-".into()
+    } else {
+        let start = pos.first().unwrap();
+        let end = pos.last().unwrap();
+        format!(
+            "{}:{}-{}:{}",
+            start.line.number, start.start_col, end.line.number, end.end_col
+        )
+    }
+}
+
 impl<'a> fmt::Debug for Syntax<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             List {
                 open_content,
+                open_position,
                 children,
                 close_content,
+                close_position,
                 info,
                 ..
             } => {
-                let mut ds = f.debug_struct(&format!("List:{}", self.id()));
+                let mut ds = f.debug_struct(&format!("List id:{}", self.id()));
 
                 ds.field("open_content", &open_content)
+                    .field("open_position", &dbg_pos(open_position))
                     .field("children", &children)
                     .field("close_content", &close_content)
+                    .field("close_position", &dbg_pos(close_position))
                     .field("change", &info.change.get());
 
                 let next_s = match info.next.get() {
@@ -95,10 +112,10 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 info,
                 ..
             } => {
-                let mut ds = f.debug_struct(&format!("Atom:{}", self.id()));
+                let mut ds = f.debug_struct(&format!("Atom id:{}", self.id()));
                 ds.field("content", &content)
                     .field("change", &info.change.get());
-                ds.field("position", &position);
+                ds.field("position", &dbg_pos(position));
 
                 let next_s = match info.next.get() {
                     Some(List { .. }) => "Some(List)",
