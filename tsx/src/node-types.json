@@ -4643,10 +4643,6 @@
         {
           "type": "escape_sequence",
           "named": true
-        },
-        {
-          "type": "string_fragment",
-          "named": true
         }
       ]
     }
@@ -5952,10 +5948,6 @@
   {
     "type": "string",
     "named": false
-  },
-  {
-    "type": "string_fragment",
-    "named": true
   },
   {
     "type": "super",
