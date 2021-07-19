@@ -5091,13 +5091,15 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "ALIAS",
+                    "type": "IMMEDIATE_TOKEN",
                     "content": {
-                      "type": "SYMBOL",
-                      "name": "unescaped_double_string_fragment"
-                    },
-                    "named": true,
-                    "value": "string_fragment"
+                      "type": "PREC",
+                      "value": 1,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[^\"\\\\]+"
+                      }
+                    }
                   },
                   {
                     "type": "SYMBOL",
@@ -5125,13 +5127,15 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "ALIAS",
+                    "type": "IMMEDIATE_TOKEN",
                     "content": {
-                      "type": "SYMBOL",
-                      "name": "unescaped_single_string_fragment"
-                    },
-                    "named": true,
-                    "value": "string_fragment"
+                      "type": "PREC",
+                      "value": 1,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[^'\\\\]+"
+                      }
+                    }
                   },
                   {
                     "type": "SYMBOL",
@@ -5147,28 +5151,6 @@
           ]
         }
       ]
-    },
-    "unescaped_double_string_fragment": {
-      "type": "IMMEDIATE_TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "PATTERN",
-          "value": "[^\"\\\\]+"
-        }
-      }
-    },
-    "unescaped_single_string_fragment": {
-      "type": "IMMEDIATE_TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "PATTERN",
-          "value": "[^'\\\\]+"
-        }
-      }
     },
     "escape_sequence": {
       "type": "IMMEDIATE_TOKEN",
