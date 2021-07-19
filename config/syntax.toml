@@ -72,7 +72,7 @@ atom_patterns = [
   # Symbols (e.g. variable names)
   '[a-zA-Z0-9_?:/*-]+',
   # Operators
-  "[`',#.]",
+  "[`',#.&]",
 ]
 string_patterns = [
   # String literals
