@@ -8,7 +8,9 @@ Improved parsing for Rust punctuation.
 
 Improved parsing for OCaml punctuation.
 
-Improved parsing for `#` and `.` in Scheme and Emacs Lisp.
+Improved parsing for Emacs Lisp punctuation of `#`, `.` and `&`.
+
+Improved parsing for Scheme punctuation of `#` and `.`.
 
 ### Diffing
 
