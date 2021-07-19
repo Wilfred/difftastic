@@ -12,9 +12,9 @@ atom_patterns = [
 ]
 string_patterns = [
   # Double-quoted strings
-  '"[^"]*"',
+  '"((\\")|[^"])*"',
   # Single quoted strings
-  "'[^']*'",
+  "'((\\\\')|[^'])*'",
 ]
 comment_patterns = [
   # Single line comments
@@ -33,9 +33,7 @@ atom_patterns = [
 ]
 string_patterns = [
   # Double-quoted strings
-  '"[^"]*"',
-  # Single quoted strings
-  "'[^']*'",
+  '"((\\")|[^"])*"',
 ]
 comment_patterns = []
 open_delimiter_pattern = '(\[|\{)'
@@ -53,9 +51,9 @@ atom_patterns = [
 ]
 string_patterns = [
   # Double-quoted strings
-  '"[^"]*"',
+  '"((\\")|[^"])*"',
   # Single quoted strings
-  "'[^']*'",
+  "'((\\\\')|[^'])*'",
 ]
 comment_patterns = [
   # Mult-line comments
@@ -75,8 +73,8 @@ atom_patterns = [
   "[`',#.&]",
 ]
 string_patterns = [
-  # String literals
-  '"[^"]*"',
+  # Double-quoted strings
+  '"((\\")|[^"])*"',
 ]
 comment_patterns = [
   ';.*',
@@ -95,8 +93,8 @@ atom_patterns = [
   "[`',#.]",
 ]
 string_patterns = [
-  # String literals
-  '"[^"]*"',
+  # Double-quoted strings
+  '"((\\")|[^"])*"',
 ]
 comment_patterns = [
   ';.*',
@@ -119,7 +117,7 @@ atom_patterns = [
 ]
 string_patterns = [
   # Double-quoted strings
-  '"[^"]*"',
+  '"((\\")|[^"])*"',
 ]
 comment_patterns = [
   # Mult-line comments
@@ -140,7 +138,7 @@ atom_patterns = [
 ]
 string_patterns = [
   # Double-quoted strings
-  '"[^"]*"',
+  '"((\\")|[^"])*"',
 ]
 comment_patterns = [
   ';.*',
@@ -169,7 +167,8 @@ atom_patterns = [
   '[.&=<>/*+:;,|#!?$-]',
 ]
 string_patterns = [
-  '"[^"]*"',
+  # Double-quoted strings
+  '"((\\")|[^"])*"',
 ]
 comment_patterns = [
   # Single line comments

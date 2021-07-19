@@ -13,6 +13,10 @@ punctuation of `#`, `.` and `&`.
 
 Improved parsing for Scheme punctuation of `#` and `.`.
 
+Improved parsing of string literals in all languages, supporting
+escaped delimiters such as `"\""` and removing incorrect support for
+single-quoted strings in JSON.
+
 ### Diffing
 
 Reduced memory usage when diffing.
