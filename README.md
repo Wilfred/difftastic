@@ -99,7 +99,7 @@ the following to your `.gitconfig` and run `git difftool`.
 ```
 
 Alternatively, to run difftastic as the default diff engine for a git
-invocation:
+command:
 
 ```
 $ CLICOLOR_FORCE=1 GIT_EXTERNAL_DIFF=difftastic git diff
