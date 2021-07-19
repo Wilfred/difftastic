@@ -239,9 +239,9 @@ module.exports = grammar({
 
     mixed_group: $ =>
       seq(
-        field('left', choice('(', '[')),
+        field('left', choice('(', '[', '\\{')),
         field('child', repeat($._content)),
-        field('right', choice(')', ']'))
+        field('right', choice(')', ']', '\\}'))
       ),
 
     key_val_options: $ =>
@@ -380,7 +380,7 @@ module.exports = grammar({
         field('command', '\\addbibresource'),
         field('option', optional($.key_val_options)),
         '{',
-        sepBy(field('path', $.path), ','),
+        field('path', $.path),
         '}'
       ),
 
