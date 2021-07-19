@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Fixed a crash on parsing non-ASCII source files.
+
 Improved parsing for Rust punctuation.
 
 Improved parsing for OCaml punctuation.
