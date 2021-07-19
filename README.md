@@ -14,8 +14,8 @@ Haskell grammar for [tree-sitter].
 # Building with nvim-treesitter
 
 Depending on what compilers are installed in your system, it may be necessary to force `nvim-treesitter` to use a
-specific one to satisfy the C++-14 requirement (see [this
-issue](https://github.com/tree-sitter/tree-sitter-haskell/issues/34) for more info):
+specific one to satisfy the C++-14 requirement (see
+[this issue](https://github.com/tree-sitter/tree-sitter-haskell/issues/34) for more info):
 
 ```vim
 lua require'nvim-treesitter.install'.compilers = { "clang" }
