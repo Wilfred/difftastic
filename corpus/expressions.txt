@@ -150,6 +150,7 @@ def main() {
     doThing()
   } catch {
     case e: SomeException => prinlnt(e.message)
+    case NonFatal(ex) => throw new SomeException(ex)
   } finally {
     tryAnotherThing()
   }
@@ -172,16 +173,28 @@ def main() {
         (finally_clause (infix_expression (identifier) (operator_identifier) (integer_literal))))
       (try_expression
         (block (call_expression (identifier) (arguments)))
-        (catch_clause (case_block (case_clause
-          (typed_pattern
-            (identifier)
-            (type_identifier))
-          (call_expression
-            (identifier)
-            (arguments (field_expression
-              (identifier)
-              (identifier)))))))
-        (finally_clause (block (call_expression (identifier) (arguments)))))
+        (catch_clause
+          (case_block
+            (case_clause
+              (typed_pattern
+                (identifier)
+                (type_identifier))
+              (call_expression
+                (identifier)
+                (arguments (field_expression
+                  (identifier)
+                  (identifier)))))
+            (case_clause
+              (case_class_pattern
+                (type_identifier)
+                (identifier))
+              (throw_expression (instance_expression (call_expression (identifier) (arguments (identifier))))
+              )
+            )
+          )
+        )
+        (finally_clause (block (call_expression (identifier) (arguments))))
+        )
       (try_expression (call_expression (identifier) (arguments))
         (catch_clause (case_block (case_clause
           (identifier) 
@@ -331,3 +344,43 @@ class C {
             (prefix_expression (identifier))
             (operator_identifier)
             (identifier)))))))
+
+===============================
+Unit expressions
+===============================
+
+val x = ()
+def f(): Unit = { (   
+); }
+
+---
+(compilation_unit
+  (val_definition (identifier) (unit))
+  (function_definition (identifier) (parameters) (type_identifier) (block (unit)))
+  )
+
+===============================
+Return expressions
+===============================
+
+def f: Unit = return
+def g(a: A): B = { f(); return null.asInstanceOf[B] }
+
+---
+
+(compilation_unit
+  (function_definition (identifier) (type_identifier) (return_expression))
+  (function_definition
+    (identifier)
+    (parameters (parameter (identifier) (type_identifier)))
+    (type_identifier)
+    (block
+      (call_expression
+        (identifier)
+        (arguments))
+      (return_expression
+        (generic_function (field_expression (null_literal) (identifier))
+        (type_arguments (type_identifier))))
+      )
+    )
+  )

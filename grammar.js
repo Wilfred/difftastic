@@ -518,7 +518,10 @@ module.exports = grammar({
       $.case_block,
       $.block,
       $.identifier,
-      $.literal
+      $.literal,
+      $.unit,
+      $.return_expression,
+      $.throw_expression
     ),
 
     if_expression: $ => prec.right(seq(
@@ -643,7 +646,8 @@ module.exports = grammar({
       $.boolean_literal,
       $.character_literal,
       $.symbol_literal,
-      $.string
+      $.string,
+      $.null_literal
     ),
 
     integer_literal: $ => token(
@@ -750,6 +754,14 @@ module.exports = grammar({
       ';',
       $._automatic_semicolon
     ),
+
+    null_literal: $ => 'null',
+
+    unit: $ => seq('(', ')'),
+
+    return_expression: $ => prec.left(seq('return', optional($._expression))),
+
+    throw_expression: $ => prec.left(seq('throw', $._expression)),
 
     comment: $ => token(choice(
       seq('//', /.*/),
