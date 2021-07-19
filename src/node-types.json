@@ -126,11 +126,19 @@
         "named": true
       },
       {
+        "type": "null_literal",
+        "named": true
+      },
+      {
         "type": "parenthesized_expression",
         "named": true
       },
       {
         "type": "prefix_expression",
+        "named": true
+      },
+      {
+        "type": "return_expression",
         "named": true
       },
       {
@@ -142,11 +150,19 @@
         "named": true
       },
       {
+        "type": "throw_expression",
+        "named": true
+      },
+      {
         "type": "try_expression",
         "named": true
       },
       {
         "type": "tuple_expression",
+        "named": true
+      },
+      {
+        "type": "unit",
         "named": true
       }
     ]
@@ -189,6 +205,10 @@
       },
       {
         "type": "integer_literal",
+        "named": true
+      },
+      {
+        "type": "null_literal",
         "named": true
       },
       {
@@ -2220,6 +2240,21 @@
     }
   },
   {
+    "type": "return_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "stable_identifier",
     "named": true,
     "fields": {},
@@ -2278,6 +2313,21 @@
           "type": "_definition",
           "named": true
         },
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "throw_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "_expression",
           "named": true
@@ -2694,6 +2744,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "unit",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "upper_bound",
@@ -3264,6 +3319,10 @@
     "named": false
   },
   {
+    "type": "null_literal",
+    "named": true
+  },
+  {
     "type": "object",
     "named": false
   },
@@ -3288,12 +3347,20 @@
     "named": false
   },
   {
+    "type": "return",
+    "named": false
+  },
+  {
     "type": "sealed",
     "named": false
   },
   {
     "type": "symbol_literal",
     "named": true
+  },
+  {
+    "type": "throw",
+    "named": false
   },
   {
     "type": "trait",
