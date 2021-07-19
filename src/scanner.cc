@@ -365,6 +365,29 @@ Condition varid = cond::peek_with(cond::varid_start_char);
 Condition peek(uint32_t c) { return fst<bool, uint32_t> * peeks(eq(c)); }
 
 /**
+ * Require that the next character matches a predicate, advancing the parser on success, treating the character as
+ * whitespace.
+ */
+PeekResult skip_if(Peek pred) {
+  return [=](State & state) {
+    auto res = peeks(pred)(state);
+    if (res.first) { state::skip(state); }
+    return res;
+  };
+}
+
+/**
+ * Like `skip_if`, but only return the bool result.
+ */
+Condition skips(Peek pred) { return fst<bool, uint32_t> * skip_if(pred); }
+
+/**
+ * Require that the next character equals a concrete `c`, advancing the parser on success, treating the character as
+ * whitespace.
+ */
+Condition skip(uint32_t c) { return skips(eq(c)); }
+
+/**
  * Require that the next character matches a predicate, advancing the parser on success.
  */
 PeekResult consume_if(Peek pred) {
@@ -376,7 +399,7 @@ PeekResult consume_if(Peek pred) {
 }
 
 /**
- * Like `consume_if`, but only return the boo result.
+ * Like `consume_if`, but only return the bool result.
  */
 Condition consumes(Peek pred) { return fst<bool, uint32_t> * consume_if(pred); }
 
@@ -1499,7 +1522,7 @@ Parser main =
   eof +
   mark("main") +
   either(
-    cond::consumes(cond::newline),
+    cond::skips(cond::newline),
     with(count_indent)(newline),
     with(state::column)(immediate)
   );
