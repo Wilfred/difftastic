@@ -40,7 +40,9 @@ terminal. It will try to align unchanged nodes (see screenshot above).
 
 ## Known Problems
 
-Crashes. The code is underdocumented, undertested, and unfinished.
+Crashes. The code is underdocumented, undertested, and
+unfinished. Empty files, text files that aren't UTF-8, and binary
+files will all make difftastic panic.
 
 Performance. Difftastic scales relatively poorly on files with a large
 number of changes, and can use a lot of memory. This might be solved
