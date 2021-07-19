@@ -58,6 +58,25 @@ Patch files. If you want to create a patch that you can later apply,
 use `diff`. Difftastic ignores whitespace, so its output is
 lossy. (AST patching is also a hard problem.)
 
+## Installation
+
+You can install the latest tag of difftastic with Cargo:
+
+```
+$ cargo install difftastic
+```
+
+Difftastic is still under heavy development, so there's usually major
+bugfixes since the latest release. I currently recommend you check out
+the repository and compile directly:
+
+```
+$ cargo build --release
+```
+
+This will give you a binary at `./target/release/difftastic` that you
+can put in a directory on your `$PATH`.
+
 ## Dogfooding
 
 Once you've compiled `difftastic` and it's on `$PATH`, you can try
