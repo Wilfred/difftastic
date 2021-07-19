@@ -80,11 +80,7 @@ fn as_regex_vec(v: &Value) -> Vec<Regex> {
 }
 
 fn as_regex(s: &str) -> Regex {
-    let mut pattern = String::with_capacity(1 + s.len());
-    pattern.push('^');
-    pattern.push_str(s);
-
-    Regex::new(&pattern).unwrap()
+    Regex::new(&s).unwrap()
 }
 
 fn lang_from_value(name: &str, v: &Value) -> Language {
@@ -138,6 +134,13 @@ pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, s: &str, lang: &Language) -> Vec<
     parse_from(arena, s, &nl_pos, lang, &mut ParseState::new())
 }
 
+enum LexKind {
+    Comment,
+    Atom,
+    OpenDelimiter,
+    CloseDelimiter,
+}
+
 fn parse_from<'a>(
     arena: &'a Arena<Syntax<'a>>,
     s: &str,
@@ -147,81 +150,113 @@ fn parse_from<'a>(
 ) -> Vec<&'a Syntax<'a>> {
     let mut result: Vec<&'a Syntax<'a>> = vec![];
 
-    'outer: while state.str_i < s.len() {
+    while state.str_i < s.len() {
+        let mut current_match: Option<(LexKind, regex::Match)> = None;
+
         for pattern in &lang.comment_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
-                assert_eq!(m.start(), 0);
-                let atom = Syntax::new_comment(
-                    arena,
-                    nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
-                    m.as_str(),
-                );
-                result.push(atom);
-                state.str_i += m.end();
-                continue 'outer;
+                match current_match {
+                    Some((_, prev_m)) if prev_m.start() <= m.start() => {}
+                    _ => {
+                        current_match = Some((LexKind::Comment, m));
+                    }
+                }
             }
         }
 
         for pattern in &lang.atom_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
-                assert_eq!(m.start(), 0);
-                let atom = Syntax::new_atom(
-                    arena,
-                    nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
-                    m.as_str(),
-                );
-                result.push(atom);
-                state.str_i += m.end();
-                continue 'outer;
+                match current_match {
+                    Some((_, prev_m)) if prev_m.start() <= m.start() => {}
+                    _ => {
+                        current_match = Some((LexKind::Atom, m));
+                    }
+                }
             }
         }
 
+        // TODO: fix duplication with previous loop
         for pattern in &lang.string_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
-                assert_eq!(m.start(), 0);
-                let atom = Syntax::new_atom(
-                    arena,
-                    nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
-                    m.as_str(),
-                );
-                result.push(atom);
-                state.str_i += m.end();
-                continue 'outer;
+                match current_match {
+                    Some((_, prev_m)) if prev_m.start() <= m.start() => {}
+                    _ => {
+                        current_match = Some((LexKind::Atom, m));
+                    }
+                }
             }
         }
 
         if let Some(m) = lang.open_delimiter_pattern.find(&s[state.str_i..]) {
-            let start = state.str_i;
-
-            state.str_i += m.end();
-            let children = parse_from(arena, s, nl_pos, lang, state);
-            let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
-                "UNCLOSED".into(),
-                nl_pos.from_offsets(state.str_i, state.str_i + 1),
-            ));
-
-            let open_pos = nl_pos.from_offsets(start, start + m.end());
-            let items = Syntax::new_list(
-                arena,
-                m.as_str(),
-                open_pos,
-                children,
-                &close_brace,
-                close_pos,
-            );
-            result.push(items);
-            continue;
+            match current_match {
+                Some((_, prev_m)) if prev_m.start() <= m.start() => {}
+                _ => {
+                    current_match = Some((LexKind::OpenDelimiter, m));
+                }
+            }
         };
 
         if let Some(m) = lang.close_delimiter_pattern.find(&s[state.str_i..]) {
-            state.close_brace = Some((
-                m.as_str().into(),
-                nl_pos.from_offsets(state.str_i, state.str_i + m.end()),
-            ));
-            state.str_i += m.end();
-            return result;
+            match current_match {
+                Some((_, prev_m)) if prev_m.start() <= m.start() => {}
+                _ => {
+                    current_match = Some((LexKind::CloseDelimiter, m));
+                }
+            }
         };
-        state.str_i += 1;
+
+        match current_match {
+            Some((match_kind, m)) => match match_kind {
+                LexKind::Comment => {
+                    let atom = Syntax::new_comment(
+                        arena,
+                        nl_pos.from_offsets(state.str_i + m.start(), state.str_i + m.end()),
+                        m.as_str(),
+                    );
+                    result.push(atom);
+                    state.str_i += m.end();
+                }
+                LexKind::Atom => {
+                    let atom = Syntax::new_atom(
+                        arena,
+                        nl_pos.from_offsets(state.str_i + m.start(), state.str_i + m.end()),
+                        m.as_str(),
+                    );
+                    result.push(atom);
+                    state.str_i += m.end();
+                }
+                LexKind::OpenDelimiter => {
+                    let start = state.str_i;
+
+                    state.str_i += m.end();
+                    let children = parse_from(arena, s, nl_pos, lang, state);
+                    let (close_brace, close_pos) = state.close_brace.take().unwrap_or((
+                        "UNCLOSED".into(),
+                        nl_pos.from_offsets(state.str_i, state.str_i + 1),
+                    ));
+
+                    let open_pos = nl_pos.from_offsets(start + m.start(), start + m.end());
+                    let items = Syntax::new_list(
+                        arena,
+                        m.as_str(),
+                        open_pos,
+                        children,
+                        &close_brace,
+                        close_pos,
+                    );
+                    result.push(items);
+                }
+                LexKind::CloseDelimiter => {
+                    state.close_brace = Some((
+                        m.as_str().into(),
+                        nl_pos.from_offsets(state.str_i + m.start(), state.str_i + m.end()),
+                    ));
+                    state.str_i += m.end();
+                    return result;
+                }
+            },
+            None => break,
+        };
     }
 
     result
