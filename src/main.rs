@@ -58,11 +58,11 @@ fn main() {
     let args: Vec<_> = matches.values_of_lossy("positional_args").unwrap();
 
     // TODO: document these different ways of calling difftastic.
-    let (lhs_path, rhs_path) = match &args[..] {
-        [lhs_path, rhs_path] => (lhs_path, rhs_path),
-        [_display_path, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode] => {
+    let (display_path, lhs_path, rhs_path) = match &args[..] {
+        [lhs_path, rhs_path] => (rhs_path, lhs_path, rhs_path),
+        [display_path, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode] => {
             // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
-            (lhs_tmp_file, rhs_tmp_file)
+            (display_path, lhs_tmp_file, rhs_tmp_file)
         }
         _ => panic!("Expected 2 arguments or 7 arguments"),
     };
@@ -72,12 +72,12 @@ fn main() {
 
     let syntax_toml = ConfigDir::read_default_toml();
 
-    let lhs_extension = Path::new(&lhs_path)
+    let extension = Path::new(&display_path)
         .extension()
         .and_then(OsStr::to_str)
         .unwrap();
 
-    let lang = find_lang(syntax_toml, lhs_extension);
+    let lang = find_lang(syntax_toml, extension);
 
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => width.parse::<usize>().unwrap(),
@@ -107,7 +107,7 @@ fn main() {
         Some(lang) => lang.name.clone(),
         None => "plain text".to_string(),
     };
-    println!("{}", style::header(&rhs_path, &lang_name));
+    println!("{}", style::header(&display_path, &lang_name));
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     if groups.is_empty() {
