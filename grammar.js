@@ -380,7 +380,7 @@ module.exports = grammar({
         field('command', '\\addbibresource'),
         field('option', optional($.key_val_options)),
         '{',
-        sepBy(field('path', $.path), ','),
+        field('path', $.path),
         '}'
       ),
 

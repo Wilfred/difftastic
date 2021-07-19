@@ -310,8 +310,8 @@
         ]
       },
       "path": {
-        "multiple": true,
-        "required": false,
+        "multiple": false,
+        "required": true,
         "types": [
           {
             "type": "path",
