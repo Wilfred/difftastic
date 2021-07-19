@@ -8,6 +8,8 @@ Improved parsing for Rust punctuation.
 
 Improved parsing for OCaml punctuation.
 
+Improved parsing for `#` and `.` in Scheme and Emacs Lisp.
+
 ### Diffing
 
 Reduced memory usage when diffing.
