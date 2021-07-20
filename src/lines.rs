@@ -460,15 +460,20 @@ pub fn apply_groups(
     groups: &[LineGroup],
     lhs_line_matches: &HashMap<LineNumber, LineNumber>,
     lhs_content_width: usize,
+    rhs_content_width: usize,
     lhs_column_width: usize,
     rhs_column_width: usize,
-    terminal_width: usize,
 ) -> String {
     let lhs_lines: Vec<_> = lhs.lines().collect();
     let rhs_lines: Vec<_> = rhs.lines().collect();
 
     let mut result = String::new();
-    let spacer = "-".repeat(terminal_width);
+
+    let mut spacer = String::new();
+    spacer.push_str(&" ".repeat(lhs_column_width));
+    spacer.push_str(&"-".repeat(lhs_content_width));
+    spacer.push_str(&" ".repeat(rhs_column_width + 2));
+    spacer.push_str(&"-".repeat(rhs_content_width));
 
     for (i, group) in groups.iter().enumerate() {
         result.push_str(&apply_group(
