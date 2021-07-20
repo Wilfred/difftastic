@@ -681,7 +681,7 @@ pub trait MaxLine {
 
 impl MaxLine for String {
     fn max_line(&self) -> LineNumber {
-        (self.lines().count() - 1).into()
+        (max(1, self.lines().count()) - 1).into()
     }
 }
 
@@ -689,4 +689,10 @@ impl MaxLine for String {
 fn str_max_line() {
     let line: String = "foo\nbar".into();
     assert_eq!(line.max_line().number, 1);
+}
+
+#[test]
+fn empty_str_max_line() {
+    let line: String = "".into();
+    assert_eq!(line.max_line().number, 0);
 }
