@@ -5,6 +5,9 @@
 Fixed a crash on parsing non-ASCII source files. Fixed a crash on
 files without an extension. Fixed crashes on empty files.
 
+Input files that aren't valid UTF-8 are now replaced with � rather
+than giving up.
+
 Improved parsing for Rust punctuation.
 
 Improved parsing for OCaml punctuation, including `:=` and `method!`.
