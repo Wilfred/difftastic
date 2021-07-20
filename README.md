@@ -1,11 +1,17 @@
 # tree-sitter-hack
 
-[Hack](https://hacklang.org/) grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter). Very much 🚧 work in progress 🚧.
+[Hack](https://hacklang.org/) grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
+
+## Installation
 
 ```
 $ git clone https://github.com/antoniodejesusochoasolano/tree-sitter-hack
 $ cd tree-sitter-hack
 $ npm install
+```
+## Usage
+
+```
 $ echo 'function main(): void { print "wyd, world\\n"; }' > script.hack
 $ npx tree-sitter generate
 $ npx tree-sitter parse script.hack
@@ -20,35 +26,11 @@ $ npx tree-sitter parse script.hack
           (string [1, 8] - [1, 22]))))))
 ```
 
-## Note
-
-npm doesn't allow packages with the word "hack" in their registry which is why the repo
-name does not match the package name.
-
-> Unfortunately, the word "hack" triggers our spam detection and can't be used in package names. We recommend choosing other keywords that highlight your package's functionality.
-
-## Questions
-
-### Inline vs hidden
-
-`$._rule` vs `inline: [$._rule]` vs `inline: [$.rule]`
-
-- What's the difference between hidden rules and inline rules?
-- If a rule is inline, does it really have to be hidden?
-
-### Inline vs helper function
-
-- What's the difference between an inline rule and using a helper function?
-- Is there performance benefits from naming rules even though they're removed from the grammar?
-- What does it mean for the rule to be removed from the grammar?
-
-For example, I see `$._variablish` is present in `src/grammar.json`. What does this mean?
-
-### Alias vs inline vs hidden
-
-- `alias($._rule, $.alias)` - Is `$.alias` hidden?
-- `alias($.rule, $._alias)` - I'm assuming `$._alias` is hidden?
-- `inline: [$._rule]` - Is alias inline?
+## Testing
+```
+$ npx tree-sitter generate
+$ bin/test-corpus
+```
 
 ## Scripts
 
@@ -79,6 +61,13 @@ examples/hhvm/hphp/hack/test/autocomplete/not_shape_key_string.php
 (4,10)-(6,1) "AUTO332\n}\n
 ...
 ```
+
+## Note
+
+npm doesn't allow packages with the word "hack" in their registry which is why the repo
+name does not match the package name.
+
+> Unfortunately, the word "hack" triggers our spam detection and can't be used in package names. We recommend choosing other keywords that highlight your package's functionality.
 
 ## References
 
