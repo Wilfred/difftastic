@@ -20,6 +20,8 @@ Improved parsing for Scheme symbols containing `=`, and punctuation of
 
 Improved parsing of `=` and `&` in Clojure.
 
+Improved parsing of `:`, `,`, and constants in JSON.
+
 Improved parsing of string literals in all languages, supporting
 escaped delimiters such as `"\""` and removing incorrect support for
 single-quoted strings in JSON.
