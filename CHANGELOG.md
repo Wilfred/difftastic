@@ -2,7 +2,8 @@
 
 ### Parsing
 
-Fixed a crash on parsing non-ASCII source files.
+Fixed a crash on parsing non-ASCII source files. Fixed a crash on
+files without an extension.
 
 Improved parsing for Rust punctuation.
 

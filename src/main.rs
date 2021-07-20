@@ -72,12 +72,10 @@ fn main() {
 
     let syntax_toml = ConfigDir::read_default_toml();
 
-    let extension = Path::new(&display_path)
-        .extension()
-        .and_then(OsStr::to_str)
-        .unwrap();
-
-    let lang = find_lang(syntax_toml, extension);
+    let lang = match Path::new(&display_path).extension() {
+        Some(extension) => find_lang(syntax_toml, &OsStr::to_string_lossy(extension)),
+        None => None,
+    };
 
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => width.parse::<usize>().unwrap(),
