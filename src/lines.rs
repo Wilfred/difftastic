@@ -48,6 +48,13 @@ impl LineGroup {
         let mut res = vec![];
         match &self.lhs_lines {
             Some(lhs_lines) => {
+                // TODO: it's not possible to represent an empty range
+                // with RangeInclusive and LineNumber. Define a
+                // separate interval type.
+                if lhs_lines.end().number == 0 {
+                    return vec![];
+                }
+
                 for line in lhs_lines.start().number..=lhs_lines.end().number {
                     res.push(line.into());
                 }
@@ -61,6 +68,13 @@ impl LineGroup {
         let mut res = vec![];
         match &self.rhs_lines {
             Some(rhs_lines) => {
+                // TODO: it's not possible to represent an empty range
+                // with RangeInclusive and LineNumber. Define a
+                // separate interval type.
+                if rhs_lines.end().number == 0 {
+                    return vec![];
+                }
+
                 for line in rhs_lines.start().number..=rhs_lines.end().number {
                     res.push(line.into());
                 }
