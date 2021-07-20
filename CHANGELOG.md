@@ -3,7 +3,7 @@
 ### Parsing
 
 Fixed a crash on parsing non-ASCII source files. Fixed a crash on
-files without an extension.
+files without an extension. Fixed crashes on empty files.
 
 Improved parsing for Rust punctuation.
 
