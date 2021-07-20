@@ -8,8 +8,8 @@ use toml::Value;
 use typed_arena::Arena;
 
 pub fn read_or_die(path: &str) -> String {
-    match fs::read_to_string(path) {
-        Ok(src) => src,
+    match fs::read(path) {
+        Ok(src) => String::from_utf8_lossy(&src).to_string(),
         Err(e) => {
             match e.kind() {
                 std::io::ErrorKind::NotFound => {
