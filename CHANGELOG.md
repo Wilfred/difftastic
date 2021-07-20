@@ -6,7 +6,7 @@ Fixed a crash on parsing non-ASCII source files.
 
 Improved parsing for Rust punctuation.
 
-Improved parsing for OCaml punctuation.
+Improved parsing for OCaml punctuation, including `:=` and `method!`.
 
 Improved parsing for Emacs Lisp symbols containing `+`, and
 punctuation of `#`, `.` and `&`.
