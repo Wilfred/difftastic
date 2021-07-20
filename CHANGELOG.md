@@ -12,10 +12,13 @@ Improved parsing for Rust punctuation.
 
 Improved parsing for OCaml punctuation, including `:=` and `method!`.
 
-Improved parsing for Emacs Lisp symbols containing `+`, and
+Improved parsing for Emacs Lisp symbols containing `+` and `=`, and
 punctuation of `#`, `.` and `&`.
 
-Improved parsing for Scheme punctuation of `#` and `.`.
+Improved parsing for Scheme symbols containing `=`, and punctuation of
+`#` and `.`.
+
+Improved parsing of `=` and `&` in Clojure.
 
 Improved parsing of string literals in all languages, supporting
 escaped delimiters such as `"\""` and removing incorrect support for
