@@ -509,6 +509,28 @@ mod tests {
     }
 
     #[test]
+    fn test_parse_multiline_string() {
+        let arena = Arena::new();
+
+        assert_syntaxes(
+            &parse(&arena, "\"\n\"", &lang()),
+            &[Syntax::new_atom(
+                &arena,
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }, SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 0,
+                    end_col: 1,
+                }],
+                "\"\n\"",
+            )],
+        );
+    }
+
+    #[test]
     fn test_parse_string_escaped_backlash_and_second_string() {
         let arena = Arena::new();
 
