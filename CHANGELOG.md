@@ -32,6 +32,12 @@ Reduced memory usage when diffing.
 
 Difftastic now highlights word-level changes between comments.
 
+Large AST trees with very few common nodes are now considered wholly
+novel, rather than trying to match up the few common nodes. This
+avoids nonsensical diffs when toplevel function A is completely
+replaced with function B and they only have something trivial in
+common (e.g. the `function` keyword).
+
 ### Docs
 
 Improved `--help`.

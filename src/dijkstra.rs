@@ -82,6 +82,8 @@ enum Edge {
     NovelAtomRHS { contiguous: bool },
     NovelDelimiterLHS { contiguous: bool },
     NovelDelimiterRHS { contiguous: bool },
+    NovelTreeLHS { num_descendants: u64 },
+    NovelTreeRHS { num_descendants: u64 },
 }
 
 impl Edge {
@@ -109,6 +111,13 @@ impl Edge {
                 } else {
                     201
                 }
+            }
+
+            // For large trees, it's better to mark the whole tree as
+            // novel rather than marking 90% of the children as
+            // novel. This stops us matching up completely unrelated trees.
+            NovelTreeLHS { num_descendants } | NovelTreeRHS { num_descendants } => {
+                200 + (*num_descendants - 10) * NovelDelimiterLHS { contiguous: false }.cost()
             }
         }
     }
@@ -171,6 +180,8 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     res.reverse();
     res
 }
+
+const NOVEL_TREE_THRESHOLD: usize = 20;
 
 fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     let mut res = vec![];
@@ -279,7 +290,11 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 ));
             }
             // Step into this partially/fully novel list.
-            Syntax::List { children, .. } => {
+            Syntax::List {
+                children,
+                num_descendants,
+                ..
+            } => {
                 let lhs_next = if children.is_empty() {
                     lhs_syntax.next()
                 } else {
@@ -298,6 +313,20 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         rhs_prev_novel: v.rhs_prev_novel,
                     },
                 ));
+
+                if *num_descendants > NOVEL_TREE_THRESHOLD {
+                    res.push((
+                        NovelTreeLHS {
+                            num_descendants: *num_descendants as u64,
+                        },
+                        Vertex {
+                            lhs_syntax: lhs_syntax.next(),
+                            lhs_prev_novel: v.lhs_prev_novel,
+                            rhs_syntax: v.rhs_syntax,
+                            rhs_prev_novel: v.rhs_prev_novel,
+                        },
+                    ));
+                }
             }
         }
     }
@@ -319,7 +348,11 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 ));
             }
             // Step into this partially/fully novel list.
-            Syntax::List { children, .. } => {
+            Syntax::List {
+                children,
+                num_descendants,
+                ..
+            } => {
                 let rhs_next = if children.is_empty() {
                     rhs_syntax.next()
                 } else {
@@ -337,6 +370,20 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         rhs_prev_novel: v.rhs_prev_novel,
                     },
                 ));
+
+                if *num_descendants > NOVEL_TREE_THRESHOLD {
+                    res.push((
+                        NovelTreeRHS {
+                            num_descendants: *num_descendants as u64,
+                        },
+                        Vertex {
+                            lhs_syntax: v.lhs_syntax,
+                            lhs_prev_novel: v.lhs_prev_novel,
+                            rhs_syntax: rhs_syntax.next(),
+                            rhs_prev_novel: v.rhs_prev_novel,
+                        },
+                    ));
+                }
             }
         }
     }
@@ -386,6 +433,14 @@ fn mark_route(route: &[(Edge, Vertex)]) {
             NovelAtomRHS { .. } | NovelDelimiterRHS { .. } => {
                 let rhs = v.rhs_syntax.unwrap();
                 rhs.set_change(ChangeKind::Novel);
+            }
+            NovelTreeLHS { .. } => {
+                let lhs = v.lhs_syntax.unwrap();
+                lhs.set_change_deep(ChangeKind::Novel);
+            }
+            NovelTreeRHS { .. } => {
+                let rhs = v.rhs_syntax.unwrap();
+                rhs.set_change_deep(ChangeKind::Novel);
             }
         }
     }
@@ -639,6 +694,97 @@ mod tests {
                 UnchangedNode(0),
                 NovelAtomLHS { contiguous: false },
                 NovelAtomLHS { contiguous: true },
+            ]
+        );
+    }
+
+    #[test]
+    fn test_novel_tree() {
+        let arena = Arena::new();
+
+        let lhs: Vec<&Syntax> = vec![Syntax::new_list(
+            &arena,
+            "[".into(),
+            pos_helper(0),
+            vec![
+                Syntax::new_atom(&arena, pos_helper(1), "1"),
+                Syntax::new_atom(&arena, pos_helper(2), "2"),
+                Syntax::new_atom(&arena, pos_helper(3), "3"),
+                Syntax::new_atom(&arena, pos_helper(4), "4"),
+                Syntax::new_atom(&arena, pos_helper(5), "5"),
+                Syntax::new_atom(&arena, pos_helper(6), "6"),
+                Syntax::new_atom(&arena, pos_helper(7), "7"),
+                Syntax::new_atom(&arena, pos_helper(8), "8"),
+                Syntax::new_atom(&arena, pos_helper(9), "9"),
+                Syntax::new_atom(&arena, pos_helper(10), "10"),
+                Syntax::new_atom(&arena, pos_helper(11), "11"),
+                Syntax::new_atom(&arena, pos_helper(12), "12"),
+                Syntax::new_atom(&arena, pos_helper(13), "13"),
+                Syntax::new_atom(&arena, pos_helper(14), "14"),
+                Syntax::new_atom(&arena, pos_helper(15), "15"),
+                Syntax::new_atom(&arena, pos_helper(16), "16"),
+                Syntax::new_atom(&arena, pos_helper(17), "17"),
+                Syntax::new_atom(&arena, pos_helper(18), "18"),
+                Syntax::new_atom(&arena, pos_helper(19), "19"),
+                Syntax::new_atom(&arena, pos_helper(20), "20"),
+                Syntax::new_atom(&arena, pos_helper(21), "21"),
+            ],
+            "]".into(),
+            pos_helper(100),
+        )];
+        init_info(&lhs);
+
+        let rhs: Vec<&Syntax> = vec![Syntax::new_list(
+            &arena,
+            "[".into(),
+            pos_helper(0),
+            vec![
+                Syntax::new_atom(&arena, pos_helper(1), "d1"),
+                Syntax::new_atom(&arena, pos_helper(2), "d2"),
+                Syntax::new_atom(&arena, pos_helper(3), "d3"),
+                Syntax::new_atom(&arena, pos_helper(4), "d4"),
+                Syntax::new_atom(&arena, pos_helper(5), "d5"),
+                Syntax::new_atom(&arena, pos_helper(6), "d6"),
+                Syntax::new_atom(&arena, pos_helper(7), "d7"),
+                Syntax::new_atom(&arena, pos_helper(8), "d8"),
+                Syntax::new_atom(&arena, pos_helper(9), "d9"),
+                // This is the only common atom:
+                Syntax::new_atom(&arena, pos_helper(10), "10"),
+                Syntax::new_atom(&arena, pos_helper(11), "d11"),
+                Syntax::new_atom(&arena, pos_helper(12), "d12"),
+                Syntax::new_atom(&arena, pos_helper(13), "d13"),
+                Syntax::new_atom(&arena, pos_helper(14), "d14"),
+                Syntax::new_atom(&arena, pos_helper(15), "d15"),
+                Syntax::new_atom(&arena, pos_helper(16), "d16"),
+                Syntax::new_atom(&arena, pos_helper(17), "d17"),
+                Syntax::new_atom(&arena, pos_helper(18), "d18"),
+                Syntax::new_atom(&arena, pos_helper(19), "d19"),
+                Syntax::new_atom(&arena, pos_helper(20), "d20"),
+                Syntax::new_atom(&arena, pos_helper(21), "d21"),
+            ],
+            "]".into(),
+            pos_helper(100),
+        )];
+        init_info(&rhs);
+
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_prev_novel: None,
+            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_prev_novel: None,
+        };
+        let route = shortest_path(start);
+
+        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        assert_eq!(
+            actions,
+            vec![
+                NovelTreeLHS {
+                    num_descendants: 21
+                },
+                NovelTreeRHS {
+                    num_descendants: 21
+                },
             ]
         );
     }
