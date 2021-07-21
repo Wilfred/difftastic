@@ -471,6 +471,71 @@ mod tests {
     }
 
     #[test]
+    fn test_parse_string_escaped_doublequote() {
+        let arena = Arena::new();
+
+        assert_syntaxes(
+            // "\""
+            &parse(&arena, "\"\\\"\"", &lang()),
+            &[Syntax::new_atom(
+                &arena,
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 4,
+                }],
+                "\"\\\"\"",
+            )],
+        );
+    }
+
+    #[test]
+    fn test_parse_string_escaped_backlash() {
+        let arena = Arena::new();
+
+        assert_syntaxes(
+            // "\\"
+            &parse(&arena, "\"\\\\\"", &lang()),
+            &[Syntax::new_atom(
+                &arena,
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 4,
+                }],
+                "\"\\\\\"",
+            )],
+        );
+    }
+
+    #[test]
+    fn test_parse_string_escaped_backlash_and_second_string() {
+        let arena = Arena::new();
+
+        assert_syntaxes(
+            // "\\" "a"
+            &parse(&arena, "\"\\\\\" \"a\"", &lang()),
+            &[Syntax::new_atom(
+                &arena,
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 4,
+                }],
+                "\"\\\\\"",
+            ), Syntax::new_atom(
+                &arena,
+                vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 5,
+                    end_col: 8,
+                }],
+                "\"a\"",
+            )],
+        );
+    }
+
+    #[test]
     fn test_parse_multiple() {
         let arena = Arena::new();
 
