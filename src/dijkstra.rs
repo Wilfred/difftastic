@@ -90,7 +90,7 @@ impl Edge {
             // Matching nodes is always best.
             UnchangedNode(depth_difference) => min(40, *depth_difference),
             // Matching an outer delimiter is good.
-            UnchangedDelimiter(depth_difference) => 1000 + min(40, *depth_difference),
+            UnchangedDelimiter(depth_difference) => 100 + min(40, *depth_difference),
 
             // Replacing a comment is better than treating it as novel.
             ReplacedComment => 1500,
@@ -98,16 +98,16 @@ impl Edge {
             // Otherwise, we've added/removed a node.
             NovelAtomLHS { contiguous } | NovelAtomRHS { contiguous } => {
                 if *contiguous {
-                    2000
+                    200
                 } else {
-                    2001
+                    201
                 }
             }
             NovelDelimiterLHS { contiguous } | NovelDelimiterRHS { contiguous } => {
                 if *contiguous {
-                    2000
+                    200
                 } else {
-                    2001
+                    201
                 }
             }
         }
