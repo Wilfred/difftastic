@@ -47,10 +47,6 @@ Performance. Difftastic scales relatively poorly on files with a large
 number of changes, and can use a lot of memory. This might be solved
 by A* search.
 
-Replacing top-level expressions. If you delete a function and write a
-completely different new one, difftastic will show the small number of
-common tokens between them.
-
 Comments. Small changes can show big diffs.
 
 ## Non-goals

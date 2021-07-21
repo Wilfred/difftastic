@@ -53,6 +53,8 @@ pub enum Syntax<'a> {
         children: Vec<&'a Syntax<'a>>,
         close_position: Vec<SingleLineSpan>,
         close_content: String,
+        // TODO: this probably makes more sense as a u64, since we
+        // don't use it for indexing.
         num_descendants: usize,
     },
     Atom {
