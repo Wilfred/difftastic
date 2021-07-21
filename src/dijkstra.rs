@@ -100,14 +100,14 @@ impl Edge {
                 if *contiguous {
                     2000
                 } else {
-                    3000
+                    2001
                 }
             }
             NovelDelimiterLHS { contiguous } | NovelDelimiterRHS { contiguous } => {
                 if *contiguous {
                     2000
                 } else {
-                    3000
+                    2001
                 }
             }
         }
