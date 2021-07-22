@@ -45,7 +45,10 @@ static bool scan_str(TSLexer *lexer) {
         lexer->mark_end(lexer);
         if (!has_content) {
           advance(lexer);
-          // accept anything following the '\\'
+          // accept anything (other than EOF) following the '\\'
+          if (lexer->eof(lexer)) {
+            return false;
+          }
           advance(lexer);
           lexer->result_symbol = ESCAPE_SEQUENCE;
           lexer->mark_end(lexer);
@@ -128,7 +131,10 @@ static bool scan_ind_str(TSLexer *lexer) {
           } else if (lexer->lookahead == '\\') {
             if (!has_content) {
               advance(lexer);
-              // accept anything following the '\\'
+              // accept anything (other than EOF) following the '\\'
+              if (lexer->eof(lexer)) {
+                return false;
+              }
               advance(lexer);
               lexer->result_symbol = IND_ESCAPE_SEQUENCE;
               lexer->mark_end(lexer);
