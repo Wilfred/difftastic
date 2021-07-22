@@ -18,7 +18,14 @@ static void skip(TSLexer *lexer) {
 }
 
 static bool scan_str(TSLexer *lexer) {
+  // We want to delegate the scanning of the start-of-string/end-of-string '"'
+  // character to the grammar defined in grammar.js.
+  // So the idea is we track if we've seen any string content,
+  // and if we see an unescaped '"' char _and_ we haven't consumed any string content,
+  // we return false to indicate to tree-sitter that our custom scanner has not found
+  // a token.
   bool has_content = false;
+  
   lexer->result_symbol = STR_CONTENT;
 
   while (true) {
@@ -49,6 +56,11 @@ static bool scan_str(TSLexer *lexer) {
           } else {
             return false;
           }
+        } else if (lexer->lookahead != '"' && lexer->lookahead != '\\' ) {
+          // any char following '$' other than '"', '\\' and '{' (which was handled above)
+          // should be consumed as additional string content.
+          advance(lexer);
+          lexer->mark_end(lexer);
         }
         has_content = true;
         break;
@@ -68,8 +80,11 @@ static bool scan_str(TSLexer *lexer) {
 }
 
 static bool scan_ind_str(TSLexer *lexer) {
+  // See the comment about has_content in scan_str().
   bool has_content = false;
+
   lexer->result_symbol = IND_STR_CONTENT;
+  
   while (true) {
     switch (lexer->lookahead) {
       case '$':
@@ -81,7 +96,13 @@ static bool scan_ind_str(TSLexer *lexer) {
           } else {
             return false;
           }
+        } else if (lexer->lookahead != '\'') {
+          // any char following '$' other than '\'' and '{' (which was handled above)
+          // should be consumed as additional string content.
+          advance(lexer);
+          lexer->mark_end(lexer);
         }
+        has_content = true;
         break;
       case '\'':
         lexer->mark_end(lexer);

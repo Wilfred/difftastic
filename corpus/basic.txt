@@ -103,6 +103,56 @@ This works, too:  ''$
         (escape_sequence)))
 
 ====================
+string ($)
+====================
+
+[
+    "$"
+    "$\n"
+    "${x}"
+    "$${x}"
+    "$$${x}"
+]
+
+---
+
+(source_expression
+    (list
+        (string)
+        (string
+            (escape_sequence))
+        (string
+            (interpolation (identifier)))
+        (string)
+        (string
+            (interpolation (identifier)))))
+
+====================
+indented string ($)
+====================
+
+[
+    ''$''
+    ''$''\n''
+    ''${x}''
+    ''$${x}''
+    ''$$${x}''
+]
+
+---
+
+(source_expression
+    (list
+        (indented_string)
+        (indented_string
+            (escape_sequence))
+        (indented_string
+            (interpolation (identifier)))
+        (indented_string)
+        (indented_string
+            (interpolation (identifier)))))
+
+====================
 uri
 ====================
 
