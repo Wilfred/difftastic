@@ -516,15 +516,18 @@ mod tests {
             &parse(&arena, "\"\n\"", &lang()),
             &[Syntax::new_atom(
                 &arena,
-                vec![SingleLineSpan {
-                    line: 0.into(),
-                    start_col: 0,
-                    end_col: 1,
-                }, SingleLineSpan {
-                    line: 1.into(),
-                    start_col: 0,
-                    end_col: 1,
-                }],
+                vec![
+                    SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    },
+                    SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    },
+                ],
                 "\"\n\"",
             )],
         );
@@ -537,23 +540,26 @@ mod tests {
         assert_syntaxes(
             // "\\" "a"
             &parse(&arena, "\"\\\\\" \"a\"", &lang()),
-            &[Syntax::new_atom(
-                &arena,
-                vec![SingleLineSpan {
-                    line: 0.into(),
-                    start_col: 0,
-                    end_col: 4,
-                }],
-                "\"\\\\\"",
-            ), Syntax::new_atom(
-                &arena,
-                vec![SingleLineSpan {
-                    line: 0.into(),
-                    start_col: 5,
-                    end_col: 8,
-                }],
-                "\"a\"",
-            )],
+            &[
+                Syntax::new_atom(
+                    &arena,
+                    vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 4,
+                    }],
+                    "\"\\\\\"",
+                ),
+                Syntax::new_atom(
+                    &arena,
+                    vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 5,
+                        end_col: 8,
+                    }],
+                    "\"a\"",
+                ),
+            ],
         );
     }
 
