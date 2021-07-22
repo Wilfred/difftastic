@@ -43,7 +43,6 @@ pub struct Language {
     pub name: String,
     extensions: Vec<String>,
     atom_patterns: Vec<Regex>,
-    string_patterns: Vec<Regex>,
     comment_patterns: Vec<Regex>,
     open_delimiter_pattern: Regex,
     close_delimiter_pattern: Regex,
@@ -89,7 +88,6 @@ fn lang_from_value(name: &str, v: &Value) -> Language {
         name: name.into(),
         extensions: as_string_vec(v.get("extensions").unwrap()),
         atom_patterns: as_regex_vec(v.get("atom_patterns").unwrap()),
-        string_patterns: as_regex_vec(v.get("string_patterns").unwrap()),
         comment_patterns: as_regex_vec(v.get("comment_patterns").unwrap()),
         open_delimiter_pattern: as_regex(
             table
@@ -165,18 +163,6 @@ fn parse_from<'a>(
         }
 
         for pattern in &lang.atom_patterns {
-            if let Some(m) = pattern.find(&s[state.str_i..]) {
-                match current_match {
-                    Some((_, prev_m)) if prev_m.start() <= m.start() => {}
-                    _ => {
-                        current_match = Some((LexKind::Atom, m));
-                    }
-                }
-            }
-        }
-
-        // TODO: fix duplication with previous loop
-        for pattern in &lang.string_patterns {
             if let Some(m) = pattern.find(&s[state.str_i..]) {
                 match current_match {
                     Some((_, prev_m)) if prev_m.start() <= m.start() => {}

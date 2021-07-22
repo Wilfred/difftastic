@@ -9,8 +9,6 @@ atom_patterns = [
   '(&&|\|\||\+\+|--|\*\*)',
   # Single character operators
   '[=<>/*+?:;,-]',
-]
-string_patterns = [
   # Double-quoted strings
   '"((\\.)|[^"])*"',
   # Single quoted strings
@@ -36,8 +34,6 @@ atom_patterns = [
   '(true)|(false)|(null)',
   # Punctuation
   "[:,]",
-]
-string_patterns = [
   # Double-quoted strings
   '"((\\")|[^"])*"',
 ]
@@ -54,8 +50,6 @@ atom_patterns = [
   '[.a-zA-Z0-9_]+',
   # Punctuation
   '[:;]',
-]
-string_patterns = [
   # Double-quoted strings
   '"((\\.)|[^"])*"',
   # Single quoted strings
@@ -77,8 +71,6 @@ atom_patterns = [
   '[a-zA-Z0-9_?:/*+=-]+',
   # Operators
   "[`',#.&]",
-]
-string_patterns = [
   # Double-quoted strings
   '"((\\.)|[^"])*"',
 ]
@@ -97,8 +89,6 @@ atom_patterns = [
   '#?[a-zA-Z0-9_?:/*=-]+',
   # Operators
   "[`',#.]",
-]
-string_patterns = [
   # Double-quoted strings
   '"((\\")|[^"])*"',
 ]
@@ -120,8 +110,6 @@ atom_patterns = [
   '(->|<-|:=|&&|\|\|)',
   # Single character operators
   "[?~=<>/*+,&|:;'#!-]",
-]
-string_patterns = [
   # Double-quoted strings
   '"((\\.)|[^"])*"',
 ]
@@ -143,8 +131,6 @@ atom_patterns = [
   '(==)',
   # Single character operators
   "[`'~@&]",
-]
-string_patterns = [
   # Double-quoted strings
   '"((\\.)|[^"])*"',
 ]
@@ -173,8 +159,6 @@ atom_patterns = [
   # Single character operators
   # | is a delimiter for lambdas, but also used in pattern matching.
   '[.&=<>/*+:;,|#!?$-]',
-]
-string_patterns = [
   # Double-quoted strings
   '"((\\.)|[^"])*"',
 ]
