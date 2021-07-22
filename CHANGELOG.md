@@ -32,6 +32,9 @@ Reduced memory usage when diffing.
 
 Difftastic now highlights word-level changes between comments.
 
+Diffing now prefers contiguous nodes even when entering a list, so
+`(foo` is considered contiguous.
+
 Large AST trees with very few common nodes are now considered wholly
 novel, rather than trying to match up the few common nodes. This
 avoids nonsensical diffs when toplevel function A is completely

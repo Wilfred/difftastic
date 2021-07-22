@@ -291,6 +291,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             }
             // Step into this partially/fully novel list.
             Syntax::List {
+                open_position,
                 children,
                 num_descendants,
                 ..
@@ -308,7 +309,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     },
                     Vertex {
                         lhs_syntax: lhs_next,
-                        lhs_prev_novel: v.lhs_prev_novel,
+                        lhs_prev_novel: open_position.last().map(|lp| lp.line),
                         rhs_syntax: v.rhs_syntax,
                         rhs_prev_novel: v.rhs_prev_novel,
                     },
@@ -349,6 +350,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             }
             // Step into this partially/fully novel list.
             Syntax::List {
+                open_position,
                 children,
                 num_descendants,
                 ..
@@ -367,7 +369,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         lhs_syntax: v.lhs_syntax,
                         lhs_prev_novel: v.lhs_prev_novel,
                         rhs_syntax: rhs_next,
-                        rhs_prev_novel: v.rhs_prev_novel,
+                        rhs_prev_novel: open_position.last().map(|lp| lp.line),
                     },
                 ));
 
@@ -665,6 +667,7 @@ mod tests {
             ],
         );
     }
+
     #[test]
     fn prefer_atoms_same_line() {
         let arena = Arena::new();
@@ -693,6 +696,40 @@ mod tests {
             vec![
                 UnchangedNode(0),
                 NovelAtomLHS { contiguous: false },
+                NovelAtomLHS { contiguous: true },
+            ]
+        );
+    }
+
+    #[test]
+    fn prefer_children_same_line() {
+        let arena = Arena::new();
+
+        let lhs: Vec<&Syntax> = vec![Syntax::new_list(
+            &arena,
+            "[".into(),
+            col_helper(1, 0),
+            vec![Syntax::new_atom(&arena, col_helper(1, 2), "1")],
+            "]".into(),
+            pos_helper(2),
+        )];
+        init_info(&lhs);
+
+        let rhs: Vec<&Syntax> = vec![];
+
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_prev_novel: None,
+            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_prev_novel: None,
+        };
+        let route = shortest_path(start);
+
+        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        assert_eq!(
+            actions,
+            vec![
+                NovelDelimiterLHS { contiguous: false },
                 NovelAtomLHS { contiguous: true },
             ]
         );
