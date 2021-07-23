@@ -20,3 +20,8 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+
+    - name: Run cargo check
+      uses: actions-rs/cargo@v1
+      with:
+        command: check
