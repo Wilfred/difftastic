@@ -181,7 +181,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     res
 }
 
-const NOVEL_TREE_THRESHOLD: usize = 20;
+const NOVEL_TREE_THRESHOLD: u64 = 20;
 
 fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
     let mut res = vec![];
