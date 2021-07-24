@@ -1,5 +1,9 @@
 ## 0.6 (unreleased)
 
+### Command Line Interface
+
+Removed unused `--inline` argument.
+
 ## 0.5
 
 ### Parsing
@@ -43,7 +47,7 @@ avoids nonsensical diffs when toplevel function A is completely
 replaced with function B and they only have something trivial in
 common (e.g. the `function` keyword).
 
-### Docs
+### Command Line Interface
 
 Improved `--help`.
 
