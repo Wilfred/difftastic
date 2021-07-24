@@ -47,11 +47,6 @@ fn main() {
                 .takes_value(true)
                 .help("Override terminal width"),
         )
-        .arg(
-            Arg::with_name("inline")
-                .long("inline")
-                .help("Prefer single column output"),
-        )
         .arg(Arg::with_name("positional_args").multiple(true))
         .get_matches();
 
