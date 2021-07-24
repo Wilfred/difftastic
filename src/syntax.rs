@@ -1013,9 +1013,4 @@ mod tests {
             }
         );
     }
-
-    // #[test]
-    // fn test_split_comment_words() {
-
-    // }
 }
