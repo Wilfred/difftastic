@@ -14,19 +14,17 @@ const MIN_WIDTH: usize = 35;
 use pretty_assertions::assert_eq;
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct LineNumber {
-    pub number: usize,
-}
+pub struct LineNumber(pub usize);
 
 impl fmt::Debug for LineNumber {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.write_fmt(format_args!("LineNumber: {}", self.number))
+        f.write_fmt(format_args!("LineNumber: {}", self.0))
     }
 }
 
 impl From<usize> for LineNumber {
     fn from(number: usize) -> Self {
-        LineNumber { number }
+        LineNumber(number)
     }
 }
 
@@ -51,11 +49,11 @@ impl LineGroup {
                 // TODO: it's not possible to represent an empty range
                 // with RangeInclusive and LineNumber. Define a
                 // separate interval type.
-                if lhs_lines.end().number == 0 {
+                if lhs_lines.end().0 == 0 {
                     return vec![];
                 }
 
-                for line in lhs_lines.start().number..=lhs_lines.end().number {
+                for line in lhs_lines.start().0..=lhs_lines.end().0 {
                     res.push(line.into());
                 }
             }
@@ -71,11 +69,11 @@ impl LineGroup {
                 // TODO: it's not possible to represent an empty range
                 // with RangeInclusive and LineNumber. Define a
                 // separate interval type.
-                if rhs_lines.end().number == 0 {
+                if rhs_lines.end().0 == 0 {
                     return vec![];
                 }
 
-                for line in rhs_lines.start().number..=rhs_lines.end().number {
+                for line in rhs_lines.start().0..=rhs_lines.end().0 {
                     res.push(line.into());
                 }
             }
@@ -88,8 +86,8 @@ impl LineGroup {
         if let Some(lhs_lines) = self.lhs_lines.take() {
             let (mut start, mut end) = lhs_lines.into_inner();
 
-            start = (max(0, start.number as isize - amount as isize) as usize).into();
-            end = min(max_lhs_line.number, end.number + amount).into();
+            start = (max(0, start.0 as isize - amount as isize) as usize).into();
+            end = min(max_lhs_line.0, end.0 + amount).into();
 
             self.lhs_lines = Some(start..=end);
         }
@@ -97,8 +95,8 @@ impl LineGroup {
         if let Some(rhs_lines) = self.rhs_lines.take() {
             let (mut start, mut end) = rhs_lines.into_inner();
 
-            start = (max(0, start.number as isize - amount as isize) as usize).into();
-            end = min(max_rhs_line.number, end.number + amount).into();
+            start = (max(0, start.0 as isize - amount as isize) as usize).into();
+            end = min(max_rhs_line.0, end.0 + amount).into();
 
             self.rhs_lines = Some(start..=end);
         }
@@ -111,7 +109,7 @@ impl LineGroup {
             let self_end = self_lines.end();
             let lg_start = lg_lines.start();
 
-            if lg_start.number <= self_end.number + 1 {
+            if lg_start.0 <= self_end.0 + 1 {
                 return true;
             }
         }
@@ -120,7 +118,7 @@ impl LineGroup {
             let self_end = self_lines.end();
             let lg_start = lg_lines.start();
 
-            if lg_start.number <= self_end.number + 1 {
+            if lg_start.0 <= self_end.0 + 1 {
                 return true;
             }
         }
@@ -169,16 +167,16 @@ impl LineGroup {
 
             let match_lines = &mp.pos;
             assert!(!match_lines.is_empty());
-            let first_match_line = match_lines[0].line.number;
+            let first_match_line = match_lines[0].line.0;
 
-            if first_match_line <= last_group_line.number + max_gap {
+            if first_match_line <= last_group_line.0 + max_gap {
                 return true;
             }
         }
         if let (Some(first_opposite), Some(opposite_group_lines)) =
             (mp.prev_opposite_pos.first(), opposite_group_lines)
         {
-            if first_opposite.line.number <= opposite_group_lines.end().number + max_gap {
+            if first_opposite.line.0 <= opposite_group_lines.end().0 + max_gap {
                 return true;
             }
         }
@@ -432,11 +430,8 @@ fn apply_group(
 
         match lhs_line_num {
             Some(lhs_line_num) => {
-                lhs_result.push_str(&format_line_num_padded(
-                    lhs_line_num.number,
-                    lhs_column_width,
-                ));
-                lhs_result.push_str(lhs_lines[lhs_line_num.number]);
+                lhs_result.push_str(&format_line_num_padded(lhs_line_num.0, lhs_column_width));
+                lhs_result.push_str(lhs_lines[lhs_line_num.0]);
             }
             None => {
                 lhs_result.push_str(&" ".repeat(lhs_column_width));
@@ -447,11 +442,8 @@ fn apply_group(
 
         match rhs_line_num {
             Some(rhs_line_num) => {
-                rhs_result.push_str(&format_line_num_padded(
-                    rhs_line_num.number,
-                    rhs_column_width,
-                ));
-                rhs_result.push_str(rhs_lines[rhs_line_num.number]);
+                rhs_result.push_str(&format_line_num_padded(rhs_line_num.0, rhs_column_width));
+                rhs_result.push_str(rhs_lines[rhs_line_num.0]);
             }
             None => {}
         }
@@ -582,7 +574,7 @@ impl NewlinePositions {
     ) -> Vec<SingleLineSpan> {
         let mut res = vec![];
         for pos in self.from_offsets(region_start, region_end) {
-            if pos.line.number == 0 {
+            if pos.line.0 == 0 {
                 res.push(SingleLineSpan {
                     line: start.line,
                     start_col: start.start_col + pos.start_col,
@@ -590,7 +582,7 @@ impl NewlinePositions {
                 });
             } else {
                 res.push(SingleLineSpan {
-                    line: (start.line.number + pos.line.number).into(),
+                    line: (start.line.0 + pos.line.0).into(),
                     start_col: pos.start_col,
                     end_col: pos.end_col,
                 });
@@ -702,11 +694,11 @@ impl MaxLine for String {
 #[test]
 fn str_max_line() {
     let line: String = "foo\nbar".into();
-    assert_eq!(line.max_line().number, 1);
+    assert_eq!(line.max_line().0, 1);
 }
 
 #[test]
 fn empty_str_max_line() {
     let line: String = "".into();
-    assert_eq!(line.max_line().number, 0);
+    assert_eq!(line.max_line().0, 0);
 }

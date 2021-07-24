@@ -73,7 +73,7 @@ fn dbg_pos(pos: &[SingleLineSpan]) -> String {
         let end = pos.last().unwrap();
         format!(
             "{}:{}-{}:{}",
-            start.line.number, start.start_col, end.line.number, end.end_col
+            start.line.0, start.start_col, end.line.0, end.end_col
         )
     }
 }
@@ -714,7 +714,7 @@ pub fn aligned_lines(
     rhs_lines: &[LineNumber],
     lhs_line_matches: &HashMap<LineNumber, LineNumber>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut rhs_highest_matched = rhs_lines.first().map(|l| l.number as isize).unwrap_or(0) - 1;
+    let mut rhs_highest_matched = rhs_lines.first().map(|l| l.0 as isize).unwrap_or(0) - 1;
 
     // For every LHS line, if there is a RHS line that is included in
     // `rhs_lines` and hasn't yet been paired up, add it to
@@ -722,9 +722,9 @@ pub fn aligned_lines(
     let mut matched_lines = vec![];
     for lhs_line in lhs_lines {
         if let Some(rhs_line) = lhs_line_matches.get(lhs_line) {
-            if rhs_line.number as isize > rhs_highest_matched {
+            if rhs_line.0 as isize > rhs_highest_matched {
                 matched_lines.push((lhs_line, rhs_line));
-                rhs_highest_matched = rhs_line.number as isize;
+                rhs_highest_matched = rhs_line.0 as isize;
             }
         }
     }
