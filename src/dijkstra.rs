@@ -95,7 +95,7 @@ impl Edge {
             UnchangedDelimiter(depth_difference) => 100 + min(40, *depth_difference),
 
             // Replacing a comment is better than treating it as novel.
-            ReplacedComment => 1500,
+            ReplacedComment => 150,
 
             // Otherwise, we've added/removed a node.
             NovelAtomLHS { contiguous } | NovelAtomRHS { contiguous } => {
@@ -824,5 +824,34 @@ mod tests {
                 },
             ]
         );
+    }
+    #[test]
+    fn replace_comment() {
+        let arena = Arena::new();
+
+        let lhs: Vec<&Syntax> = vec![Syntax::new_comment(
+            &arena,
+            pos_helper(1),
+            "the quick brown fox",
+        )];
+        init_info(&lhs);
+
+        let rhs: Vec<&Syntax> = vec![Syntax::new_comment(
+            &arena,
+            pos_helper(1),
+            "the quick brown cat",
+        )];
+        init_info(&rhs);
+
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_prev_novel: None,
+            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_prev_novel: None,
+        };
+        let route = shortest_path(start);
+
+        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        assert_eq!(actions, vec![ReplacedComment]);
     }
 }
