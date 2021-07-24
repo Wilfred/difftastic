@@ -1,5 +1,9 @@
 ## 0.6 (unreleased)
 
+### Parsing
+
+Fixed handling of `<` and `>` in elisp.
+
 ### Diffing
 
 Fixed an issue where comment replacements were not detected.
