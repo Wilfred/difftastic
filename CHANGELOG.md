@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Fixed handling of `<` and `>` in elisp.
+Fixed handling of `@`, `<` and `>` in elisp.
 
 ### Diffing
 
