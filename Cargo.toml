@@ -19,6 +19,7 @@ typed-arena = "2.0.1"
 toml = "0.5.8"
 rust-embed = "5.9.0"
 rustc-hash = "1.1.0"
+strsim = "0.10.0"
 
 [dev-dependencies]
 pretty_assertions = "0.6.1"

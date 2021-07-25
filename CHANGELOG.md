@@ -8,6 +8,9 @@ Fixed handling of `@`, `<` and `>` in elisp.
 
 Fixed an issue where comment replacements were not detected.
 
+Changed words in comments are now only highlighted when comments are
+relatively similar (according to their Levenshtein distance).
+
 ### Command Line Interface
 
 Removed unused `--inline` argument.

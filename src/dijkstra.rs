@@ -5,6 +5,7 @@ use std::hash::{Hash, Hasher};
 use crate::lines::LineNumber;
 use crate::syntax::{ChangeKind, Syntax};
 use rustc_hash::FxHashMap;
+use strsim::normalized_levenshtein;
 use Edge::*;
 
 #[derive(Debug, Clone)]
@@ -75,8 +76,6 @@ impl<'a> Eq for OrdVertex<'a> {}
 enum Edge {
     UnchangedNode(u64),
     UnchangedDelimiter(u64),
-    // TODO: consider a replaced Atom edge if the levenshtein distance
-    // is reasonably close?
     ReplacedComment,
     NovelAtomLHS { contiguous: bool },
     NovelAtomRHS { contiguous: bool },
@@ -250,16 +249,23 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 
         if let (
             Syntax::Atom {
+                content: lhs_content,
                 is_comment: lhs_is_comment,
                 ..
             },
             Syntax::Atom {
+                content: rhs_content,
                 is_comment: rhs_is_comment,
                 ..
             },
         ) = (lhs_syntax, rhs_syntax)
         {
-            if *lhs_is_comment && *rhs_is_comment {
+            // Both sides are comments and their content is reasonably
+            // similar.
+            if *lhs_is_comment
+                && *rhs_is_comment
+                && normalized_levenshtein(lhs_content, rhs_content) > 0.4
+            {
                 res.push((
                     ReplacedComment,
                     Vertex {
@@ -826,7 +832,7 @@ mod tests {
         );
     }
     #[test]
-    fn replace_comment() {
+    fn replace_similar_comment() {
         let arena = Arena::new();
 
         let lhs: Vec<&Syntax> = vec![Syntax::new_comment(
@@ -853,5 +859,37 @@ mod tests {
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(actions, vec![ReplacedComment]);
+    }
+
+    #[test]
+    fn replace_very_different_comment() {
+        let arena = Arena::new();
+
+        let lhs: Vec<&Syntax> = vec![Syntax::new_comment(
+            &arena,
+            pos_helper(1),
+            "the quick brown fox",
+        )];
+        init_info(&lhs);
+
+        let rhs: Vec<&Syntax> = vec![Syntax::new_comment(&arena, pos_helper(1), "foo bar")];
+        init_info(&rhs);
+
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_prev_novel: None,
+            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_prev_novel: None,
+        };
+        let route = shortest_path(start);
+
+        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        assert_eq!(
+            actions,
+            vec![
+                NovelAtomLHS { contiguous: false },
+                NovelAtomRHS { contiguous: false }
+            ]
+        );
     }
 }
