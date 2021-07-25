@@ -93,6 +93,7 @@ dependencies = [
  "colored",
  "diff",
  "itertools",
+ "lazy_static",
  "pretty_assertions",
  "regex",
  "rust-embed",

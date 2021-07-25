@@ -1,6 +1,7 @@
 use crate::intervals::Interval;
 use crate::positions::SingleLineSpan;
 use crate::syntax::{aligned_lines, MatchKind, MatchedPos};
+use lazy_static::lazy_static;
 use regex::Regex;
 use std::cmp::{max, min, Ordering};
 use std::collections::HashMap;
@@ -474,8 +475,10 @@ pub struct NewlinePositions {
 
 impl From<&str> for NewlinePositions {
     fn from(s: &str) -> Self {
-        let newline_re = Regex::new("\n").unwrap();
-        let mut positions: Vec<_> = newline_re.find_iter(s).map(|mat| mat.end()).collect();
+        lazy_static! {
+            static ref NEWLINE_RE: Regex = Regex::new("\n").unwrap();
+        }
+        let mut positions: Vec<_> = NEWLINE_RE.find_iter(s).map(|mat| mat.end()).collect();
         positions.insert(0, 0);
 
         NewlinePositions {
