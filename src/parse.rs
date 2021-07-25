@@ -265,6 +265,8 @@ impl ParseState {
 
 #[cfg(test)]
 mod tests {
+    use std::cell::Cell;
+
     use super::*;
     use crate::syntax::Syntax::*;
 
@@ -683,6 +685,40 @@ mod tests {
                 ],
                 "/* foo\nbar */",
             )],
+        );
+    }
+
+    #[test]
+    fn test_parse_indented_multiline_comment() {
+        let arena = Arena::new();
+
+        assert_syntaxes(
+            &parse(&arena, "  /* foo\n  bar */", &lang()),
+            // Deliberately construct an Atom directly, because
+            // Syntax::new_comment has the multiline logic.
+            &[&Atom {
+                info: crate::syntax::SyntaxInfo {
+                    unique_id: Cell::new(0),
+                    pos_content_hash: 0,
+                    next: Cell::new(None),
+                    change: Cell::new(None),
+                    num_ancestors: Cell::new(0),
+                },
+                content: "/* foo\nbar */".into(),
+                is_comment: true,
+                position: vec![
+                    SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 2,
+                        end_col: 8,
+                    },
+                    SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 2,
+                        end_col: 8,
+                    },
+                ],
+            }],
         );
     }
 

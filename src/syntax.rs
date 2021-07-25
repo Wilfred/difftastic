@@ -3,7 +3,7 @@
 use itertools::{EitherOrBoth, Itertools};
 use regex::Regex;
 use std::cell::Cell;
-use std::cmp::min;
+use std::cmp::{max, min};
 use std::collections::hash_map::DefaultHasher;
 use std::collections::HashMap;
 use std::fmt;
@@ -130,6 +130,21 @@ impl<'a> fmt::Debug for Syntax<'a> {
     }
 }
 
+fn trim_left(max_trim: usize, content: &str, pos: SingleLineSpan) -> (String, SingleLineSpan) {
+    let chars: Vec<_> = content.chars().collect();
+
+    match chars.iter().position(|c| *c != ' ' && *c != '\t') {
+        Some(first_non_whitespace) => {
+            let skip_num = max(max_trim, first_non_whitespace);
+
+            let mut new_pos = pos;
+            new_pos.start_col += skip_num;
+            (chars.iter().skip(skip_num).collect(), new_pos)
+        }
+        None => (content.to_string(), pos),
+    }
+}
+
 impl<'a> Syntax<'a> {
     #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_list(
@@ -192,7 +207,27 @@ impl<'a> Syntax<'a> {
         position: Vec<SingleLineSpan>,
         content: &str,
     ) -> &'a mut Syntax<'a> {
-        Self::new_atom_(arena, position, content, true)
+        // Ignore leading whitespace in multiline comments, so changes
+        // in comment indentation are ignored.
+        let first_line_indent = match position.first() {
+            Some(line_pos) => line_pos.start_col,
+            None => 0,
+        };
+
+        let mut new_lines: Vec<String> = vec![];
+        let mut new_position = vec![];
+        for (i, (line, span)) in content.lines().zip(position).enumerate() {
+            if i == 0 {
+                new_lines.push(line.to_string());
+                new_position.push(span);
+            } else {
+                let (new_line, new_span) = trim_left(first_line_indent, line, span);
+                new_lines.push(new_line);
+                new_position.push(new_span);
+            }
+        }
+
+        Self::new_atom_(arena, new_position, &new_lines.join("\n"), true)
     }
 
     #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
