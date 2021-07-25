@@ -230,41 +230,6 @@ impl LineGroup {
     }
 }
 
-fn horizontal_concat(
-    left: &str,
-    right: &str,
-    lhs_content_width: usize,
-    lhs_column_width: usize,
-) -> String {
-    let left_str_lines: Vec<&str> = left.lines().collect();
-    let right_str_lines: Vec<&str> = right.lines().collect();
-
-    let mut i = 0;
-    let mut res = String::new();
-    loop {
-        match (left_str_lines.get(i), right_str_lines.get(i)) {
-            (Some(left_line), Some(right_line)) => {
-                res.push_str(left_line);
-                res.push_str(SPACER);
-                res.push_str(right_line);
-            }
-            (Some(left_line), None) => {
-                res.push_str(left_line);
-            }
-            (None, Some(right_line)) => {
-                res.push_str(&" ".repeat(lhs_column_width + lhs_content_width));
-                res.push_str(SPACER);
-                res.push_str(right_line);
-            }
-            (None, None) => break,
-        }
-        res.push('\n');
-        i += 1;
-    }
-
-    res
-}
-
 /// Compare two MatchedPos to see which starts earlier (on either
 /// side).
 fn compare_matched_pos(lhs: &MatchedPos, rhs: &MatchedPos) -> Ordering {
@@ -419,43 +384,34 @@ fn apply_group(
     lhs_column_width: usize,
     rhs_column_width: usize,
 ) -> String {
-    let mut lhs_result = String::new();
-    let mut rhs_result = String::new();
+    let mut result = String::new();
 
     for (lhs_line_num, rhs_line_num) in
         aligned_lines(&group.lhs_lines(), &group.rhs_lines(), lhs_line_matches)
     {
-        // TODO: we could build up a single string rather than
-        // horizontally concatenating afterwards.
-
         match lhs_line_num {
             Some(lhs_line_num) => {
-                lhs_result.push_str(&format_line_num_padded(lhs_line_num.0, lhs_column_width));
-                lhs_result.push_str(lhs_lines[lhs_line_num.0]);
+                result.push_str(&format_line_num_padded(lhs_line_num.0, lhs_column_width));
+                result.push_str(lhs_lines[lhs_line_num.0]);
             }
             None => {
-                lhs_result.push_str(&" ".repeat(lhs_column_width));
-                lhs_result.push_str(&" ".repeat(lhs_content_width));
+                result.push_str(&" ".repeat(lhs_column_width));
+                result.push_str(&" ".repeat(lhs_content_width));
             }
         }
-        lhs_result.push('\n');
-
         match rhs_line_num {
             Some(rhs_line_num) => {
-                rhs_result.push_str(&format_line_num_padded(rhs_line_num.0, rhs_column_width));
-                rhs_result.push_str(rhs_lines[rhs_line_num.0]);
+                result.push_str(&format_line_num_padded(rhs_line_num.0, rhs_column_width));
+                result.push_str(rhs_lines[rhs_line_num.0]);
             }
             None => {}
         }
-        rhs_result.push('\n');
+
+        result.push('\n');
     }
 
-    horizontal_concat(
-        &lhs_result,
-        &rhs_result,
-        lhs_content_width,
-        lhs_column_width,
-    )
+    result
+
 }
 
 /// Display all the lines in `lhs` and `rhs` that are mentioned in
