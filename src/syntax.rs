@@ -1,6 +1,7 @@
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
 use itertools::{EitherOrBoth, Itertools};
+use lazy_static::lazy_static;
 use regex::Regex;
 use std::cell::Cell;
 use std::cmp::{max, min};
@@ -489,10 +490,11 @@ fn split_comment_words(
 
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
-    let word_boundary = Regex::new(r"\b").unwrap();
-
-    let content_parts: Vec<_> = word_boundary.split(content).collect();
-    let other_parts: Vec<_> = word_boundary.split(opposite_content).collect();
+    lazy_static! {
+        static ref WORD_BOUNDARY_RE: Regex = Regex::new(r"\b").unwrap();
+    }
+    let content_parts: Vec<_> = WORD_BOUNDARY_RE.split(content).collect();
+    let other_parts: Vec<_> = WORD_BOUNDARY_RE.split(opposite_content).collect();
 
     let content_newlines = NewlinePositions::from(content);
 
