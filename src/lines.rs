@@ -411,7 +411,6 @@ fn apply_group(
     }
 
     result
-
 }
 
 /// Display all the lines in `lhs` and `rhs` that are mentioned in
