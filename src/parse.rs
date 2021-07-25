@@ -7,9 +7,9 @@ use std::fs;
 use toml::Value;
 use typed_arena::Arena;
 
-pub fn read_or_die(path: &str) -> String {
+pub fn read_or_die(path: &str) -> Vec<u8> {
     match fs::read(path) {
-        Ok(src) => String::from_utf8_lossy(&src).to_string(),
+        Ok(src) => src,
         Err(e) => {
             match e.kind() {
                 std::io::ErrorKind::NotFound => {
