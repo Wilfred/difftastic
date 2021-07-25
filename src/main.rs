@@ -23,6 +23,20 @@ fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
 }
 
+/// Do these bytes look like a binary format that we can't do anything
+/// useful with?
+fn is_probably_binary(bytes: &[u8]) -> bool {
+    // If more than 20 of the first 1,000 characters are not valid
+    // UTF-8, we assume it's binary.
+    let num_replaced = String::from_utf8_lossy(&bytes)
+        .to_string()
+        .chars()
+        .take(1000)
+        .filter(|c| *c == std::char::REPLACEMENT_CHARACTER)
+        .count();
+    num_replaced > 20
+}
+
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 fn main() {
@@ -57,15 +71,30 @@ fn main() {
         _ => panic!("Expected 2 arguments or 7 arguments"),
     };
 
-    let lhs_src = read_or_die(&lhs_path);
-    let rhs_src = read_or_die(&rhs_path);
-
     let syntax_toml = ConfigDir::read_default_toml();
-
     let lang = match Path::new(&display_path).extension() {
         Some(extension) => find_lang(syntax_toml, &OsStr::to_string_lossy(extension)),
         None => None,
     };
+
+    let lhs_bytes = read_or_die(&lhs_path);
+    let rhs_bytes = read_or_die(&rhs_path);
+    let lhs_binary = is_probably_binary(&lhs_bytes);
+    let rhs_binary = is_probably_binary(&rhs_bytes);
+
+    let lang_name = match &lang {
+        _ if lhs_binary || rhs_binary => "binary".to_string(),
+        Some(lang) => lang.name.clone(),
+        None => "plain text".to_string(),
+    };
+    println!("{}", style::header(&display_path, &lang_name));
+
+    if lhs_binary || rhs_binary {
+        return;
+    }
+
+    let lhs_src = String::from_utf8_lossy(&lhs_bytes).to_string();
+    let rhs_src = String::from_utf8_lossy(&rhs_bytes).to_string();
 
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => width.parse::<usize>().unwrap(),
@@ -90,12 +119,6 @@ fn main() {
     let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
 
     let lhs_matched_lines = matching_lines(&lhs);
-
-    let lang_name = match &lang {
-        Some(lang) => lang.name.clone(),
-        None => "plain text".to_string(),
-    };
-    println!("{}", style::header(&display_path, &lang_name));
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     if groups.is_empty() {
