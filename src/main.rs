@@ -37,12 +37,6 @@ fn main() {
                 .help("Override the language parser"),
         )
         .arg(
-            Arg::with_name("LINES")
-                .long("context")
-                .takes_value(true)
-                .help("Number of lines of context (default 3)"),
-        )
-        .arg(
             Arg::with_name("COLUMNS")
                 .long("width")
                 .takes_value(true)

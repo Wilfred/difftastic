@@ -19,7 +19,7 @@ lines.
 
 ### Command Line Interface
 
-Removed unused `--inline` argument.
+Removed unused `--inline` and `--context` arguments.
 
 ## 0.5
 
