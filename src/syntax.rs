@@ -712,6 +712,34 @@ pub fn aligned_lines(
     rhs_lines: &[LineNumber],
     lhs_line_matches: &HashMap<LineNumber, LineNumber>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    // When adding padding to a LineGroup where each side has a
+    // different number of lines, we can end up with extra padding on
+    // the side with fewer lines.
+    //
+    // Work around that by discarding any lines at the beginning with
+    // aren't matched.
+    //
+    // TODO: fix padding to be smarter.
+    aligned_lines_(lhs_lines, rhs_lines, lhs_line_matches)
+        .iter()
+        .skip_while(|(lhs, rhs)| lhs.is_none() || rhs.is_none())
+        .copied()
+        .collect()
+}
+
+/// Given two slices of contiguous line numbers, return pairs of
+/// matched lines.
+///
+/// A LHS line is matched with a RHS line if it's present in
+/// `lhs_line_matches` and hasn't already been matched.
+///
+/// If a line has no match on the other side, the pair will contain
+/// None on the other side.
+fn aligned_lines_(
+    lhs_lines: &[LineNumber],
+    rhs_lines: &[LineNumber],
+    lhs_line_matches: &HashMap<LineNumber, LineNumber>,
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut rhs_highest_matched = rhs_lines.first().map(|l| l.0 as isize).unwrap_or(0) - 1;
 
     // For every LHS line, if there is a RHS line that is included in
@@ -827,12 +855,26 @@ mod tests {
         line_matches.insert(2.into(), 12.into());
 
         assert_eq!(
-            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            aligned_lines_(&lhs_lines, &rhs_lines, &line_matches),
             vec![
                 (Some(1.into()), None),
                 (Some(2.into()), Some(12.into())),
                 (None, Some(13.into()))
             ]
+        );
+    }
+
+    #[test]
+    fn test_aligned_middle_drop_none_at_start() {
+        let lhs_lines: Vec<LineNumber> = vec![1.into(), 2.into()];
+        let rhs_lines: Vec<LineNumber> = vec![12.into(), 13.into()];
+
+        let mut line_matches: HashMap<LineNumber, LineNumber> = HashMap::new();
+        line_matches.insert(2.into(), 12.into());
+
+        assert_eq!(
+            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            vec![(Some(2.into()), Some(12.into())), (None, Some(13.into()))]
         );
     }
 
@@ -846,7 +888,7 @@ mod tests {
         line_matches.insert(2.into(), 12.into());
 
         assert_eq!(
-            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            aligned_lines_(&lhs_lines, &rhs_lines, &line_matches),
             vec![
                 (Some(1.into()), Some(11.into())),
                 (Some(2.into()), Some(12.into())),
@@ -862,7 +904,7 @@ mod tests {
         let line_matches: HashMap<LineNumber, LineNumber> = HashMap::new();
 
         assert_eq!(
-            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            aligned_lines_(&lhs_lines, &rhs_lines, &line_matches),
             vec![(Some(1.into()), Some(11.into()))]
         );
     }
@@ -877,7 +919,7 @@ mod tests {
         line_matches.insert(2.into(), 11.into());
 
         assert_eq!(
-            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            aligned_lines_(&lhs_lines, &rhs_lines, &line_matches),
             vec![(Some(1.into()), Some(11.into())), (Some(2.into()), None)]
         );
     }
@@ -892,7 +934,7 @@ mod tests {
         line_matches.insert(1.into(), 12.into());
 
         assert_eq!(
-            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            aligned_lines_(&lhs_lines, &rhs_lines, &line_matches),
             vec![
                 (None, Some(11.into())),
                 (Some(1.into()), Some(12.into())),
@@ -910,7 +952,7 @@ mod tests {
         line_matches.insert(1.into(), 10.into());
 
         assert_eq!(
-            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            aligned_lines_(&lhs_lines, &rhs_lines, &line_matches),
             vec![
                 (Some(1.into()), Some(11.into())),
                 (Some(2.into()), Some(12.into())),
@@ -927,7 +969,7 @@ mod tests {
         line_matches.insert(0.into(), 0.into());
 
         assert_eq!(
-            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
+            aligned_lines_(&lhs_lines, &rhs_lines, &line_matches),
             vec![(Some(0.into()), Some(0.into()))]
         );
     }
