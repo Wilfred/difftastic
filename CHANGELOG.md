@@ -11,6 +11,9 @@ Fixed an issue where comment replacements were not detected.
 Changed words in comments are now only highlighted when comments are
 relatively similar (according to their Levenshtein distance).
 
+Improved alignment for lines at the beginning of a changed group of
+lines.
+
 ### Command Line Interface
 
 Removed unused `--inline` argument.
