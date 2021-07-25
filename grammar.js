@@ -7,6 +7,8 @@ const PREC = {
   FIELD_ACCESS_START: 1,
   PART: 1,
   FUNCTION_START: 1,
+  CASE_OF_BRANCH: 6,
+  FUNC: 10,
 };
 
 module.exports = grammar({
@@ -349,7 +351,7 @@ module.exports = grammar({
 
     function_call_expr: ($) =>
       prec.dynamic(
-        10,
+        PREC.FUNC,
         seq(
           field("target", $._function_call_target),
           field("arg", repeat1($._atom))
@@ -557,7 +559,7 @@ module.exports = grammar({
 
     _more_case_of_branches: ($) =>
       prec.dynamic(
-        6,
+        PREC.CASE_OF_BRANCH,
         repeat1(seq($._virtual_end_decl, field("branch", $.case_of_branch)))
       ),
 

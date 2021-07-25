@@ -40,7 +40,13 @@ namespace
             }
             i += runback_count;
 
-            buffer[i++] = indent_length;
+            size_t indent_length_length = sizeof(indent_length);
+            buffer[i++] = indent_length_length;
+            if (indent_length_length > 0)
+            {
+                memcpy(&buffer[i], &indent_length, indent_length_length);
+            }
+            i += indent_length_length;
 
             vector<uint32_t>::iterator
                 iter = indent_length_stack.begin() + 1,
@@ -68,11 +74,17 @@ namespace
                 runback.resize(runback_count);
                 if (runback_count > 0)
                 {
-
                     memcpy(runback.data(), &buffer[i], runback_count);
                 }
                 i += runback_count;
-                indent_length = buffer[i++];
+
+                size_t indent_length_length = buffer[i++];
+                if (indent_length_length > 0)
+                {
+                    memcpy(&indent_length, &buffer[i], indent_length_length);
+                }
+                i += indent_length_length;
+
                 for (; i < length; i++)
                 {
                     indent_length_stack.push_back(buffer[i]);
