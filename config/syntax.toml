@@ -19,7 +19,7 @@ atom_patterns = [
 comment_patterns = [
   # Single line comments
   '//.*(\n|$)',
-  # Mult-line comments
+  # Multi-line comments
   '/\*(?s:.)*?\*/',
 ]
 open_delimiter_pattern = '(\[|\{|\()'
@@ -56,7 +56,7 @@ atom_patterns = [
   "'((\\\\')|[^'])*'",
 ]
 comment_patterns = [
-  # Mult-line comments
+  # Multi-line comments
   '/\*(?s:.)*?\*/',
 ]
 open_delimiter_pattern = '(\[|\{|\()'
@@ -114,7 +114,7 @@ atom_patterns = [
   '"((\\.)|[^"])*"',
 ]
 comment_patterns = [
-  # Mult-line comments
+  # Multi-line comments
   '\(\*(?s:.)*?\*\)',
 ]
 open_delimiter_pattern = '(\[|\{|\()'
@@ -165,7 +165,7 @@ atom_patterns = [
 comment_patterns = [
   # Single line comments
   '//.*(\n|$)',
-  # Mult-line comments
+  # Multi-line comments
   '/\*(?s:.)*?\*/',
 ]
 open_delimiter_pattern = '(\[|\{|\()'
