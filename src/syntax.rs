@@ -454,9 +454,6 @@ fn split_comment_words(
 ) -> Vec<MatchedPos> {
     // TODO: also split on whitespace, so "// (foo)" splits before "(".
 
-    // TODO: don't highlight individual word changes if the lines are
-    // largely novel (e.g. compute levenshtein distance).
-
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
     let word_boundary = Regex::new(r"\b").unwrap();
