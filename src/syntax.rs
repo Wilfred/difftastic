@@ -753,6 +753,8 @@ pub fn aligned_lines(
     // aren't matched.
     //
     // TODO: fix padding to be smarter.
+    //
+    // TODO: do the same for the end of the hunk.
     aligned_lines_(lhs_lines, rhs_lines, lhs_line_matches)
         .iter()
         .skip_while(|(lhs, rhs)| lhs.is_none() || rhs.is_none())
