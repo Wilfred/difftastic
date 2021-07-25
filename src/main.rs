@@ -1,4 +1,5 @@
 mod dijkstra;
+mod intervals;
 mod lines;
 mod parse;
 mod positions;

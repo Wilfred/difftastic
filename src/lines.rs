@@ -1,10 +1,10 @@
+use crate::intervals::Interval;
 use crate::positions::SingleLineSpan;
 use crate::syntax::{aligned_lines, MatchKind, MatchedPos};
 use regex::Regex;
 use std::cmp::{max, min, Ordering};
 use std::collections::HashMap;
 use std::fmt;
-use std::ops::RangeInclusive;
 
 const SPACER: &str = "  ";
 const MAX_GAP: usize = 1;
@@ -30,8 +30,8 @@ impl From<usize> for LineNumber {
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct LineGroup {
-    lhs_lines: Option<RangeInclusive<LineNumber>>,
-    rhs_lines: Option<RangeInclusive<LineNumber>>,
+    lhs_lines: Option<Interval<LineNumber>>,
+    rhs_lines: Option<Interval<LineNumber>>,
 }
 
 impl LineGroup {
@@ -46,14 +46,11 @@ impl LineGroup {
         let mut res = vec![];
         match &self.lhs_lines {
             Some(lhs_lines) => {
-                // TODO: it's not possible to represent an empty range
-                // with RangeInclusive and LineNumber. Define a
-                // separate interval type.
-                if lhs_lines.end().0 == 0 {
+                if lhs_lines.is_empty() {
                     return vec![];
                 }
 
-                for line in lhs_lines.start().0..=lhs_lines.end().0 {
+                for line in lhs_lines.start.0..=lhs_lines.end.0 {
                     res.push(line.into());
                 }
             }
@@ -69,11 +66,11 @@ impl LineGroup {
                 // TODO: it's not possible to represent an empty range
                 // with RangeInclusive and LineNumber. Define a
                 // separate interval type.
-                if rhs_lines.end().0 == 0 {
+                if rhs_lines.end.0 == 0 {
                     return vec![];
                 }
 
-                for line in rhs_lines.start().0..=rhs_lines.end().0 {
+                for line in rhs_lines.start.0..=rhs_lines.end.0 {
                     res.push(line.into());
                 }
             }
@@ -83,22 +80,18 @@ impl LineGroup {
     }
 
     pub fn pad(&mut self, amount: usize, max_lhs_line: LineNumber, max_rhs_line: LineNumber) {
-        if let Some(lhs_lines) = self.lhs_lines.take() {
-            let (mut start, mut end) = lhs_lines.into_inner();
+        if let Some(Interval { start, end }) = self.lhs_lines.take() {
+            let start = (max(0, start.0 as isize - amount as isize) as usize).into();
+            let end = min(max_lhs_line.0, end.0 + amount).into();
 
-            start = (max(0, start.0 as isize - amount as isize) as usize).into();
-            end = min(max_lhs_line.0, end.0 + amount).into();
-
-            self.lhs_lines = Some(start..=end);
+            self.lhs_lines = Some(Interval { start, end });
         }
 
-        if let Some(rhs_lines) = self.rhs_lines.take() {
-            let (mut start, mut end) = rhs_lines.into_inner();
+        if let Some(Interval { start, end }) = self.rhs_lines.take() {
+            let start = (max(0, start.0 as isize - amount as isize) as usize).into();
+            let end = min(max_rhs_line.0, end.0 + amount).into();
 
-            start = (max(0, start.0 as isize - amount as isize) as usize).into();
-            end = min(max_rhs_line.0, end.0 + amount).into();
-
-            self.rhs_lines = Some(start..=end);
+            self.rhs_lines = Some(Interval { start, end });
         }
     }
 
@@ -106,8 +99,8 @@ impl LineGroup {
     /// line?
     fn next_lg_touches(&self, lg: &LineGroup) -> bool {
         if let (Some(self_lines), Some(lg_lines)) = (&self.lhs_lines, &lg.lhs_lines) {
-            let self_end = self_lines.end();
-            let lg_start = lg_lines.start();
+            let self_end = self_lines.end;
+            let lg_start = lg_lines.start;
 
             if lg_start.0 <= self_end.0 + 1 {
                 return true;
@@ -115,8 +108,8 @@ impl LineGroup {
         }
 
         if let (Some(self_lines), Some(lg_lines)) = (&self.rhs_lines, &lg.rhs_lines) {
-            let self_end = self_lines.end();
-            let lg_start = lg_lines.start();
+            let self_end = self_lines.end;
+            let lg_start = lg_lines.start;
 
             if lg_start.0 <= self_end.0 + 1 {
                 return true;
@@ -130,10 +123,11 @@ impl LineGroup {
     /// `lg`. If either side of `lg` does not overlap with self, fill in
     /// the gap.
     fn next_extend(&mut self, lg: &LineGroup) {
-        match &self.lhs_lines {
-            Some(self_lhs) => {
-                if let Some(lg_lines) = &lg.lhs_lines {
-                    self.lhs_lines = Some(*self_lhs.start()..=*lg_lines.end());
+        // TODO: rename to `lg` to `other`.
+        match &mut self.lhs_lines {
+            Some(Interval { end: self_end, .. }) => {
+                if let Some(Interval { end: lg_end, .. }) = &lg.lhs_lines {
+                    *self_end = *lg_end;
                 }
             }
             None => {
@@ -141,10 +135,10 @@ impl LineGroup {
             }
         }
 
-        match &self.rhs_lines {
-            Some(self_rhs) => {
-                if let Some(lg_lines) = &lg.rhs_lines {
-                    self.rhs_lines = Some(*self_rhs.start()..=*lg_lines.end());
+        match &mut self.rhs_lines {
+            Some(Interval { end: self_end, .. }) => {
+                if let Some(Interval { end: lg_end, .. }) = &lg.rhs_lines {
+                    *self_end = *lg_end;
                 }
             }
             None => {
@@ -163,7 +157,7 @@ impl LineGroup {
         };
 
         if let Some(group_lines) = group_lines {
-            let last_group_line = group_lines.end();
+            let last_group_line = group_lines.end;
 
             let match_lines = &mp.pos;
             assert!(!match_lines.is_empty());
@@ -176,7 +170,7 @@ impl LineGroup {
         if let (Some(first_opposite), Some(opposite_group_lines)) =
             (mp.prev_opposite_pos.first(), opposite_group_lines)
         {
-            if first_opposite.line.0 <= opposite_group_lines.end().0 + max_gap {
+            if first_opposite.line.0 <= opposite_group_lines.end.0 + max_gap {
                 return true;
             }
         }
@@ -187,22 +181,28 @@ impl LineGroup {
     fn add_lhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
         if let (Some(first), Some(last)) = (line_spans.first(), line_spans.last()) {
             if let Some(lhs_lines) = &self.lhs_lines {
-                let start = min(*lhs_lines.start(), first.line);
-                let end = max(*lhs_lines.end(), last.line);
-                self.lhs_lines = Some(start..=end);
+                let start = min(lhs_lines.start, first.line);
+                let end = max(lhs_lines.end, last.line);
+                self.lhs_lines = Some(Interval { start, end });
             } else {
-                self.lhs_lines = Some(first.line..=last.line);
+                self.lhs_lines = Some(Interval {
+                    start: first.line,
+                    end: last.line,
+                });
             }
         }
     }
     fn add_rhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
         if let (Some(first), Some(last)) = (line_spans.first(), line_spans.last()) {
             if let Some(rhs_lines) = &self.rhs_lines {
-                let start = min(*rhs_lines.start(), first.line);
-                let end = max(*rhs_lines.end(), last.line);
-                self.rhs_lines = Some(start..=end);
+                let start = min(rhs_lines.start, first.line);
+                let end = max(rhs_lines.end, last.line);
+                self.rhs_lines = Some(Interval { start, end });
             } else {
-                self.rhs_lines = Some(first.line..=last.line);
+                self.rhs_lines = Some(Interval {
+                    start: first.line,
+                    end: last.line,
+                });
             }
         }
     }
@@ -218,13 +218,13 @@ impl LineGroup {
 
     pub fn max_visible_lhs(&self) -> LineNumber {
         match &self.lhs_lines {
-            Some(lhs_lines) => *lhs_lines.end(),
+            Some(lhs_lines) => lhs_lines.end,
             None => 0.into(),
         }
     }
     pub fn max_visible_rhs(&self) -> LineNumber {
         match &self.rhs_lines {
-            Some(rhs_lines) => *rhs_lines.end(),
+            Some(rhs_lines) => rhs_lines.end,
             None => 0.into(),
         }
     }
