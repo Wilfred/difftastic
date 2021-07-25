@@ -486,10 +486,7 @@ mod tests {
         let lhs = arena.alloc(Atom {
             info: SyntaxInfo {
                 unique_id: Cell::new(0),
-                pos_content_hash: 0,
-                next: Cell::new(None),
-                change: Cell::new(None),
-                num_ancestors: Cell::new(0),
+                ..SyntaxInfo::new(0)
             },
             position: pos_helper(0),
             content: "foo".into(),
@@ -500,10 +497,7 @@ mod tests {
         let rhs = arena.alloc(Atom {
             info: SyntaxInfo {
                 unique_id: Cell::new(1),
-                pos_content_hash: 1,
-                next: Cell::new(None),
-                change: Cell::new(None),
-                num_ancestors: Cell::new(0),
+                ..SyntaxInfo::new(1)
             },
             position: pos_helper(1),
             content: "foo".into(),

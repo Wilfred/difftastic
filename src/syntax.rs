@@ -39,11 +39,24 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub struct SyntaxInfo<'a> {
+    // TODO: Make these fields private.
     pub pos_content_hash: u64,
     pub next: Cell<Option<&'a Syntax<'a>>>,
     pub change: Cell<Option<ChangeKind<'a>>>,
     pub num_ancestors: Cell<u64>,
     pub unique_id: Cell<u64>,
+}
+
+impl<'a> SyntaxInfo<'a> {
+    pub fn new(pos_content_hash: u64) -> Self {
+        Self {
+            pos_content_hash,
+            next: Cell::new(None),
+            change: Cell::new(None),
+            num_ancestors: Cell::new(0),
+            unique_id: Cell::new(0),
+        }
+    }
 }
 
 pub enum Syntax<'a> {
@@ -175,13 +188,7 @@ impl<'a> Syntax<'a> {
         }
 
         arena.alloc(List {
-            info: SyntaxInfo {
-                unique_id: Cell::new(0),
-                pos_content_hash: hasher.finish(),
-                next: Cell::new(None),
-                change: Cell::new(None),
-                num_ancestors: Cell::new(0),
-            },
+            info: SyntaxInfo::new(hasher.finish()),
             open_position,
             open_content: open_content.into(),
             close_content: close_content.into(),
@@ -242,13 +249,7 @@ impl<'a> Syntax<'a> {
         content.hash(&mut hasher);
 
         arena.alloc(Atom {
-            info: SyntaxInfo {
-                unique_id: Cell::new(0),
-                pos_content_hash: hasher.finish(),
-                next: Cell::new(None),
-                change: Cell::new(None),
-                num_ancestors: Cell::new(0),
-            },
+            info: SyntaxInfo::new(hasher.finish()),
             position,
             content: content.into(),
             is_comment,
@@ -1059,12 +1060,10 @@ mod tests {
         assert_eq!(
             Atom {
                 info: SyntaxInfo {
-                    unique_id: Cell::new(0),
-                    pos_content_hash: 0,
-                    next: Cell::new(None),
                     change: Cell::new(Some(Novel)),
-                    num_ancestors: Cell::new(0),
+                    ..SyntaxInfo::new(1)
                 },
+
                 position: vec![SingleLineSpan {
                     line: 1.into(),
                     start_col: 2,
@@ -1075,11 +1074,8 @@ mod tests {
             },
             Atom {
                 info: SyntaxInfo {
-                    unique_id: Cell::new(1),
-                    pos_content_hash: 1,
-                    next: Cell::new(None),
                     change: Cell::new(None),
-                    num_ancestors: Cell::new(1),
+                    ..SyntaxInfo::new(1)
                 },
                 position: vec![SingleLineSpan {
                     line: 1.into(),
