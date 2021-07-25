@@ -11,6 +11,9 @@ Fixed an issue where comment replacements were not detected.
 Changed words in comments are now only highlighted when comments are
 relatively similar (according to their Levenshtein distance).
 
+Multiline comments are now considered unchanged if only their
+indentation changes.
+
 Improved alignment for lines at the beginning of a changed group of
 lines.
 
