@@ -697,13 +697,7 @@ mod tests {
             // Deliberately construct an Atom directly, because
             // Syntax::new_comment has the multiline logic.
             &[&Atom {
-                info: crate::syntax::SyntaxInfo {
-                    unique_id: Cell::new(0),
-                    pos_content_hash: 0,
-                    next: Cell::new(None),
-                    change: Cell::new(None),
-                    num_ancestors: Cell::new(0),
-                },
+                info: crate::syntax::SyntaxInfo::new(0),
                 content: "/* foo\nbar */".into(),
                 is_comment: true,
                 position: vec![
