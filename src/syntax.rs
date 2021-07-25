@@ -64,15 +64,13 @@ pub enum Syntax<'a> {
 }
 
 fn dbg_pos(pos: &[SingleLineSpan]) -> String {
-    if pos.is_empty() {
-        "-".into()
-    } else {
-        let start = pos.first().unwrap();
-        let end = pos.last().unwrap();
-        format!(
+    match pos {
+        [] => "-".into(),
+        [pos] => format!("{}:{}-{}", pos.line.0, pos.start_col, pos.end_col),
+        [start, .., end] => format!(
             "{}:{}-{}:{}",
             start.line.0, start.start_col, end.line.0, end.end_col
-        )
+        ),
     }
 }
 
