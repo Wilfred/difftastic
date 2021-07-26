@@ -7,6 +7,8 @@ Fixed handling of `@`, `<` and `>` in elisp.
 Fixed crash on binary files. Difftastic now simply shows "binary" for
 files that don't look like text.
 
+Added a basic Go parser.
+
 ### Diffing
 
 Fixed an issue where comment replacements were not detected.
