@@ -22,7 +22,7 @@ include = [
 ]
 
 # Keep in sync with package.json
-version = "5.3.6"
+version = "5.3.7"
 
 
 [dependencies]
