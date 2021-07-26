@@ -5,7 +5,7 @@ mod parse;
 mod positions;
 mod style;
 mod syntax;
-use clap::{App, Arg};
+use clap::{App, AppSettings, Arg};
 use std::ffi::OsStr;
 use std::path::Path;
 use typed_arena::Arena;
@@ -57,6 +57,7 @@ fn main() {
                 .help("Override terminal width"),
         )
         .arg(Arg::with_name("positional_args").multiple(true))
+        .setting(AppSettings::ArgRequiredElseHelp)
         .get_matches();
 
     let args: Vec<_> = matches.values_of_lossy("positional_args").unwrap();
