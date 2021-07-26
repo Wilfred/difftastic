@@ -1,13 +1,19 @@
 # tree-sitter-hack
 
-![build](https://github.com/antoniodejesusochoasolano/tree-sitter-hack/actions/workflows/ci.yml/badge.svg)
+![build](https://github.com/slackhq/tree-sitter-hack/actions/workflows/ci.yml/badge.svg)
 
-[Hack](https://hacklang.org/) grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
+At Slack proactively securing our systems is a top priority. One way we achieve this is by automating the detection of vulnerabilities with static code analysis scanning. Although an abundance of tools exist for scanning the majority of programming languages, our codebase is overwhelmingly written in [Hack](https://hacklang.org/) - a language not widely used outside of Slack. Rather than building our own tool from scratch, we are extending the functionality of an open source static analysis tool, [Semgrep](https://github.com/returntocorp/semgrep), to be compatible with Hack. But how do we teach Semgrep the Hack programming language?
+
+Like all human languages, programming languages have a structure to them known as grammar. Grammar rules are used to create a parser which converts source code into a concrete syntax tree (CST) which is a structural representation of the code. [Tree-Sitter](https://github.com/tree-sitter/tree-sitter) is a fast and robust library that can generate a CST from our Hack grammar rules. This CST has many use cases such as robust syntax highlighting, code folding, linting, etc. Most importantly, Semgrep uses this CST to understand Hack on a semantic level. This semantic understanding in conjunction with Semgrep rules can detect vulnerabilities in source code. This process is demonstrated by the following diagram.
+
+![tree-sitter-hack use in Semgrep](diagram.png)
+
+In summary, we use tree-sitter-hack to teach Semgrep the Hack programming language.
 
 ## Installation
 
 ```
-$ git clone https://github.com/antoniodejesusochoasolano/tree-sitter-hack
+$ git clone https://github.com/slackhq/tree-sitter-hack
 $ cd tree-sitter-hack
 $ npm install
 ```
@@ -42,7 +48,7 @@ Wrapper around `tree-sitter generate` that skips parser generation if `grammar.j
 
 **`bin/generate-corpus`**
 
-Unlike most other Tree-sitter projects, we breakout test cases into separate files (see [`test/cases`](https://github.com/antoniodejesusochoasolano/tree-sitter-hack/tree/main/test/cases)). This is done so editors have an easier time syntax highlighting test cases. But also I find individual files easier to navigate than the `corpus.txt` files used by Tree-sitter.
+Unlike most other Tree-sitter projects, we breakout test cases into separate files (see [`test/cases`](https://github.com/slackhq/tree-sitter-hack/tree/main/test/cases)). This is done so editors have an easier time syntax highlighting test cases. But also I find individual files easier to navigate than the `corpus.txt` files used by Tree-sitter.
 
 We use `bin/generate-corpus` to generate the `test/corpus/case1.txt` from individual `test/cases` files so we can still use `tree-sitter test`.
 
@@ -78,7 +84,8 @@ There's no published official Hacklang language spec so we have to make do.
 - [HHVM Blog](https://hhvm.com/blog/) - Good source of language [deprecations](https://hhvm.com/blog/2019/10/01/deprecating-references.html) and [changes](https://hhvm.com/blog/2020/07/06/hhvm-4.65.html#breaking-changes).
 - [Hack Documentation](https://docs.hhvm.com/hack/) - Source at [hhvm/user-documentation](https://github.com/hhvm/user-documentation).
 - [Hack Parser Source](https://github.com/facebook/hhvm/tree/4da98da2f5ddc0989d3d150dddc1b06ee4087440/hphp/hack/src/parser)
-- [tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript) and [tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php) - Used to guide writing [`grammar.js`](https://github.com/antoniodejesusochoasolano/tree-sitter-hack/blob/main/grammar.js)
+- [tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript) and [tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php) - Used to guide writing [`grammar.js`](https://github.com/slackhq/tree-sitter-hack/blob/main/grammar.js)
 - Deprecated [Hack Language Specification](https://github.com/facebookarchive/hack-langspec)
 - [PHP Language Specification](https://github.com/php/php-langspec) -
   Does not apply 100% to Hacklang, but still a good reference.
+- Bug icon in diagram made by Freepik
