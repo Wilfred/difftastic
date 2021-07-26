@@ -4,6 +4,11 @@
 
 Subject to change, grammar still evolving.
 
+However:
+
+* Some neovim / nvim-treesitter folks have been using it
+* At the moment, I don't intend to support "higher level" things like `defn` in the grammar itself.  See [this comment](https://github.com/sogaiu/tree-sitter-clojure/issues/15#issuecomment-880729889) for some background.
+
 ## Prerequisites
 
 * [emsdk](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions) -- emscripten via homebrew seems to work for macos
