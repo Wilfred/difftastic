@@ -170,3 +170,26 @@ comment_patterns = [
 ]
 open_delimiter_pattern = '(\[|\{|\()'
 close_delimiter_pattern = '(\]|\}|\))'
+
+[Go]
+extensions = ["go"]
+atom_patterns = [
+  # Numbers
+  '[0-9]+',
+  # Symbols (e.g. variable names)
+  '[a-zA-Z0-9_]+!?',
+  # Two character operators
+  '(!=|:=|&&|\|\|)',
+  # Single character operators
+  '[.;:,=&!*+-]',
+  # Double-quoted strings
+  '"((\\.)|[^"])*"',
+]
+comment_patterns = [
+  # Single line comments
+  '//.*(\n|$)',
+  # Multi-line comments
+  '/\*(?s:.)*?\*/',
+]
+open_delimiter_pattern = '\[|\{|\('
+close_delimiter_pattern = '\]|\}|\)'
