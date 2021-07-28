@@ -26,6 +26,8 @@ lines.
 
 Removed unused `--inline` and `--context` arguments.
 
+Fixed crash when called with no arguments.
+
 ## 0.5
 
 ### Parsing
