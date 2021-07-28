@@ -24,6 +24,9 @@ lines.
 
 Improved horizontal spacing between before and after code shown.
 
+Fixed an issue where source code containing tab characters was not
+correctly aligned.
+
 ### Command Line Interface
 
 Removed unused `--inline` and `--context` arguments.
