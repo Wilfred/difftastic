@@ -101,6 +101,14 @@ $ CLICOLOR_FORCE=1 GIT_EXTERNAL_DIFF=difftastic git diff
 $ CLICOLOR_FORCE=1 GIT_EXTERNAL_DIFF=difftastic git log -p --ext-diff
 ```
 
+## License
+
+Difftastic is open source under the MIT license, see LICENSE for more
+details.
+
+Files in `sample_files/` are also under the MIT license unless stated
+otherwise in their header.
+
 ## Further Reading
 
 The [wiki](https://github.com/Wilfred/difftastic/wiki) includes a
