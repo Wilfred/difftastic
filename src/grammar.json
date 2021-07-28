@@ -1618,20 +1618,24 @@
           }
         },
         {
-          "type": "REPEAT1",
+          "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "catch_clause"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "finally_clause"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "catch_clause"
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "catch_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "finally_clause"
+            }
+          ]
         }
       ]
     },
