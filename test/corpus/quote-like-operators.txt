@@ -64,7 +64,7 @@ my @array = qw /
 
 (source_file
   (variable_declaration
-    (scope) (single_var_declaration (array_variable)) (word_list_qw (identifier_1) (identifier_1) (identifier_1)) (semi_colon)
+    (scope) (single_var_declaration (array_variable)) (word_list_qw (identifier_2) (identifier_2) (identifier_2)) (semi_colon)
   )
 )
 
@@ -107,7 +107,7 @@ my $subs =~ s/my.STRING/foo/is;
 (source_file
   (variable_declaration 
     (scope) (single_var_declaration (scalar_variable)) (unary_expression
-      (substitution_pattern_s (regex_pattern) (identifier_1) (regex_option_for_substitution))) (semi_colon)
+      (substitution_pattern_s (regex_pattern) (identifier_2) (regex_option_for_substitution))) (semi_colon)
   )
 )
 
@@ -122,6 +122,6 @@ my $subs =~ s/my.STRING/foo/is;
 (source_file
   (variable_declaration 
     (scope) (single_var_declaration (scalar_variable)) (unary_expression
-      (substitution_pattern_s (regex_pattern) (identifier_1) (regex_option_for_substitution))) (semi_colon)
+      (substitution_pattern_s (regex_pattern) (identifier_2) (regex_option_for_substitution))) (semi_colon)
   )
 )

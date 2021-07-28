@@ -36,11 +36,9 @@ my $result = GetSalesforceTemplateInfo($dbh)->{$args->{ALOHA}}->{'NAMASTE'};
 
 (source_file
   (variable_declaration (scope) (single_var_declaration (scalar_variable))
-  (call_expression (identifier) (argument
-    (arrow_notation
-      (arrow_notation (scalar_variable) (arrow_operator) (arrow_notation (scalar_variable) (arrow_operator) (identifier))) (arrow_operator) (string_single_quoted))))
-  (semi_colon))
-)
+    (hash_access_variable
+      (hash_access_variable (call_expression (identifier) (argument (scalar_variable)))
+        (hash_access_variable (scalar_variable) (bareword))) (string_single_quoted)) (semi_colon)))
 
 =================================================
 Subroutine calling another subroutine without params
