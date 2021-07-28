@@ -265,8 +265,6 @@ impl ParseState {
 
 #[cfg(test)]
 mod tests {
-    use std::cell::Cell;
-
     use super::*;
     use crate::syntax::Syntax::*;
 
