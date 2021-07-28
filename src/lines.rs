@@ -400,6 +400,8 @@ fn apply_group(
                 result.push_str(&" ".repeat(lhs_content_width));
             }
         }
+        result.push_str(SPACER);
+
         match rhs_line_num {
             Some(rhs_line_num) => {
                 result.push_str(&format_line_num_padded(rhs_line_num.0, rhs_column_width));

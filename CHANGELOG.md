@@ -22,6 +22,8 @@ indentation changes.
 Improved alignment for lines at the beginning of a changed group of
 lines.
 
+Improved horizontal spacing between before and after code shown.
+
 ### Command Line Interface
 
 Removed unused `--inline` and `--context` arguments.
