@@ -11,9 +11,9 @@
   ],
   "author": "Antonio de Jesus Ochoa Solano",
   "license": "MIT",
-  "homepage": "https://github.com/antoniodejesusochoasolano/tree-sitter-hack#readme",
+  "homepage": "https://github.com/slackhq/tree-sitter-hack#readme",
   "bugs": {
-    "url": "https://github.com/antoniodejesusochoasolano/tree-sitter-hack/issues"
+    "url": "https://github.com/slackhq/tree-sitter-hack/issues"
   },
   "engines": {
     "node": ">=14.7.0"
@@ -33,6 +33,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antoniodejesusochoasolano/tree-sitter-hack.git"
+    "url": "git+https://github.com/slackhq/tree-sitter-hack.git"
   }
 }
