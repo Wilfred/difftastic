@@ -1,4 +1,6 @@
-## 0.6 (unreleased)
+## 0.7 (unreleased)
+
+## 0.6
 
 ### Parsing
 
