@@ -95,8 +95,12 @@ fn main() {
     }
 
     // TODO: don't replace tab characters inside string literals.
-    let lhs_src = String::from_utf8_lossy(&lhs_bytes).to_string().replace("\t", "    ");
-    let rhs_src = String::from_utf8_lossy(&rhs_bytes).to_string().replace("\t", "    ");
+    let lhs_src = String::from_utf8_lossy(&lhs_bytes)
+        .to_string()
+        .replace("\t", "    ");
+    let rhs_src = String::from_utf8_lossy(&rhs_bytes)
+        .to_string()
+        .replace("\t", "    ");
 
     let terminal_width = match matches.value_of("COLUMNS") {
         Some(width) => width.parse::<usize>().unwrap(),
