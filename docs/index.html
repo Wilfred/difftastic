@@ -8,13 +8,16 @@
   - https://github.com/tree-sitter/tree-sitter.github.io/blob/30c344c/tree-sitter.js
   - https://github.com/tree-sitter/tree-sitter.github.io/blob/30c344c/tree-sitter.wasm
 -->
+
 <head>
   <meta charset="utf-8">
   <title>elm grammar for tree-sitter - tree-sitter-elm</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.css">
-  <link rel="icon" type="image/png" href="http://tree-sitter.github.io/tree-sitter/assets/images/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="http://tree-sitter.github.io/tree-sitter/assets/images/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="http://tree-sitter.github.io/tree-sitter/assets/images/favicon-32x32.png"
+    sizes="32x32" />
+  <link rel="icon" type="image/png" href="http://tree-sitter.github.io/tree-sitter/assets/images/favicon-16x16.png"
+    sizes="16x16" />
 </head>
 
 <body>
@@ -65,9 +68,7 @@
     </main>
   </div>
 
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous">
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.js"></script>
@@ -86,43 +87,68 @@
           clearInterval(handle);
         }
       }, 500);
-    })(`elm
-----------------
+    })(`
+module Main exposing (main)
 
-|elm| *suports* inline markup like:
-
-- **strong**
-- *emphasis*
-- \`\`literal text\`\`
-
-It also supports extending the markup using directives.
-
-.. note::
-
-   I'm a directive! There are a couple of builtin directives:
-
-   - image
-   - warning
-   - etc
-
-   Find all of them in the documentation_
-
-   .. _documentation: https://docutils.sourceforge.io/docs/ref/elm/directives.html
+import Browser
+import Html exposing (Html, button, div, text)
+import Html.Events exposing (onClick)
 
 
-This is a |elm| grammar for tree-sitter_, for contrubuiting or report any bugs
-check https://tree-sitter.github.io/tree-sitter/.
+type alias Model =
+    { count : Int }
 
-.. _tree-sitter: https://tree-sitter.github.io/tree-sitter/
 
-.. |elm| replace:: elm`);
+initialModel : Model
+initialModel =
+    { count = 0 }
+
+
+type Msg
+    = Increment
+    | Decrement
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        Increment ->
+            { model | count = model.count + 1 }
+
+        Decrement ->
+            { model | count = model.count - 1 }
+
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ button [ onClick Increment ] [ text "+1" ]
+        , div [] [ text <| String.fromInt model.count ]
+        , button [ onClick Decrement ] [ text "-1" ]
+        ]
+
+
+main : Program () Model Msg
+main =
+    Browser.sandbox
+        { init = initialModel
+        , view = view
+        , update = update
+        }
+
+
+-- This is a |elm| grammar for tree-sitter_, for contributing or report any bugs
+-- check https://tree-sitter.github.io/tree-sitter/.
+
+-- _tree-sitter: https://tree-sitter.github.io/tree-sitter/
+`);
   </script>
 
   <style>
-body {
-  margin: 0;
-  padding: 0;
-}
+    body {
+      margin: 0;
+      padding: 0;
+    }
 
     #playground-container {
       width: 100%;
@@ -154,7 +180,8 @@ body {
       flex-direction: column;
     }
 
-    #code-container, #query-container {
+    #code-container,
+    #query-container {
       flex: 1;
       position: relative;
       overflow: hidden;
