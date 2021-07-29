@@ -18,12 +18,12 @@ type Msg
 -- <- @keyword.type.elm
 --    ^ @storage.type.elm
     = Increment
-    -- ^ constant.type-constructor.elm
+    -- ^ union.elm
     | Decrement
-    -- ^ constant.type-constructor.elm
+    -- ^ union.elm
 
 update : Msg -> Model
--- <- entity.name.function.elm
+-- <- function.elm
 --     ^ keyword.other.elm
 --            ^ keyword.operator.arrow.elm
 
@@ -43,7 +43,7 @@ view model =
     --     ^ keyword.operator.assignment.elm
     div []
         [ button [ onClick Decrement ] [ text "-" ]
-        --                                    ^ punctuation.definition.string.begin.elm
+        --                                    ^ string.elm
         --                                     ^ string.elm
         , div [] [ text (String.fromInt model) ]
         , button [ onClick Increment ] [ text "+" ]
