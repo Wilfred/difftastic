@@ -1,3 +1,5 @@
+//! Lexes source code and parses delimiters according to `syntax.toml`.
+
 use crate::lines::NewlinePositions;
 use crate::positions::SingleLineSpan;
 use crate::syntax::Syntax;

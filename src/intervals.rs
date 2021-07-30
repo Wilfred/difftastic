@@ -1,3 +1,5 @@
+//! A range between ordered values.
+
 /// An interval that is inclusive of `from` but exclusive of `to`.
 ///
 /// This is a an alternative to `Range`, which has some API warts:

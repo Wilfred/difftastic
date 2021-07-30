@@ -1,3 +1,5 @@
+//! Manipulate lines of text and groups of lines.
+
 use crate::intervals::Interval;
 use crate::positions::SingleLineSpan;
 use crate::syntax::{aligned_lines, MatchKind, MatchedPos};
