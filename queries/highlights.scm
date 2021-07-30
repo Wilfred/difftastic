@@ -99,6 +99,7 @@
 "pub" @keyword
 "ref" @keyword
 "return" @keyword
+"yield" @keyword
 "static" @keyword
 "struct" @keyword
 "trait" @keyword
