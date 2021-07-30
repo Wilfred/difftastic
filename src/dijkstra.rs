@@ -1,3 +1,6 @@
+//! Implements Dijkstra's algorithm for shortest path, to find an
+//! optimal and readable diff between two ASTs.
+
 use std::cmp::{min, Ordering, Reverse};
 use std::collections::BinaryHeap;
 use std::hash::{Hash, Hasher};

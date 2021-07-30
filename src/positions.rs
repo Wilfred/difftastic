@@ -1,3 +1,5 @@
+//! Represents positions within a string.
+
 use crate::lines::LineNumber;
 
 /// A range within a single line of a string.

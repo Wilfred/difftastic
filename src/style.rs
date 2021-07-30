@@ -1,3 +1,5 @@
+//! Apply colours and styling to strings.
+
 use crate::lines::LineNumber;
 use crate::positions::SingleLineSpan;
 use crate::syntax::{MatchKind, MatchedPos};
