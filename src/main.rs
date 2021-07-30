@@ -86,7 +86,7 @@ fn main() {
     let lang_name = match &lang {
         _ if lhs_binary || rhs_binary => "binary".to_string(),
         Some(lang) => lang.name.clone(),
-        None => "plain text".to_string(),
+        None => "lines of text".to_string(),
     };
     println!("{}", style::header(&display_path, &lang_name));
 
