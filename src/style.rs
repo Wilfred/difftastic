@@ -6,7 +6,7 @@ use std::cmp::min;
 use std::collections::HashMap;
 
 #[derive(Clone, Copy)]
-pub struct Style {
+struct Style {
     foreground: Color,
     background: Option<Color>,
     bold: bool,
@@ -25,7 +25,7 @@ impl Style {
     }
 }
 
-pub fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
+fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     if styles.is_empty() {
         return line.dimmed().to_string();
     }
@@ -70,7 +70,7 @@ fn group_by_line(
 /// doesn't have any styles applied.
 ///
 /// Tolerant against lines in `s` being shorter than the spans.
-pub fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
+fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     let mut ranges_by_line = group_by_line(styles);
 
     let mut res = String::with_capacity(s.len());
