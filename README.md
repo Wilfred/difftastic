@@ -5,10 +5,24 @@ based on their syntax.
 
 ![screenshot](img/difftastic.png)
 
-It is very much unfinished. It works reasonably on very parenthesised
-data (lisps, JSON), it works sometimes on other languages with
-sufficient parentheses (Rust, JS), and falls back to a line-oriented
-diff otherwise.
+It currently supports the following languages:
+
+* Clojure
+* CSS
+* Emacs Lisp
+* Go
+* JavaScript
+* JSON
+* OCaml
+* Rust
+* Scheme
+
+The parsing logic is based on matched delimiters, so difftastic tends
+to give best results on heavily parenthesised code (e.g. Lisps or
+JSON).
+
+If a file has an unrecognised extension, difftastic uses a
+line-oriented diff.
 
 ## How It Works
 
