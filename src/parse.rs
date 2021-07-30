@@ -3,29 +3,8 @@ use crate::positions::SingleLineSpan;
 use crate::syntax::Syntax;
 use regex::Regex;
 use rust_embed::RustEmbed;
-use std::fs;
 use toml::Value;
 use typed_arena::Arena;
-
-pub fn read_or_die(path: &str) -> Vec<u8> {
-    match fs::read(path) {
-        Ok(src) => src,
-        Err(e) => {
-            match e.kind() {
-                std::io::ErrorKind::NotFound => {
-                    eprintln!("No such file: {}", path);
-                }
-                std::io::ErrorKind::PermissionDenied => {
-                    eprintln!("Permission denied when reading file: {}", path);
-                }
-                _ => {
-                    eprintln!("Could not read file: {} (error {:?})", path, e.kind());
-                }
-            };
-            std::process::exit(1);
-        }
-    }
-}
 
 #[derive(RustEmbed)]
 #[folder = "config/"]
