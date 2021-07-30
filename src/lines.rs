@@ -11,9 +11,6 @@ const SPACER: &str = "  ";
 const MAX_GAP: usize = 1;
 const MIN_WIDTH: usize = 35;
 
-#[cfg(test)]
-use pretty_assertions::assert_eq;
-
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LineNumber(pub usize);
 
@@ -321,31 +318,6 @@ pub fn visible_groups(
     groups
 }
 
-#[test]
-fn test_visible_groups_ignores_unchanged() {
-    let lhs_positions = vec![MatchedPos {
-        kind: MatchKind::Unchanged,
-        pos: vec![SingleLineSpan {
-            line: 1.into(),
-            start_col: 0,
-            end_col: 1,
-        }],
-        prev_opposite_pos: vec![],
-    }];
-    let rhs_positions = vec![MatchedPos {
-        kind: MatchKind::Unchanged,
-        pos: vec![SingleLineSpan {
-            line: 1.into(),
-            start_col: 0,
-            end_col: 1,
-        }],
-        prev_opposite_pos: vec![],
-    }];
-
-    let res = visible_groups(&lhs_positions, &rhs_positions);
-    assert_eq!(res, vec![]);
-}
-
 pub fn format_line_num(line_num: usize) -> String {
     format!("{:<2} ", line_num + 1)
 }
@@ -553,63 +525,6 @@ impl NewlinePositions {
     }
 }
 
-#[test]
-fn from_ranges_first_line() {
-    let newline_positions: NewlinePositions = "foo".into();
-    let line_spans = newline_positions.from_offsets(1, 3);
-    assert_eq!(
-        line_spans,
-        vec![SingleLineSpan {
-            line: 0.into(),
-            start_col: 1,
-            end_col: 3
-        }]
-    );
-}
-
-#[test]
-fn from_ranges_split_over_multiple_lines() {
-    let newline_positions: NewlinePositions = "foo\nbar\nbaz\naaaaaaaaaaa".into();
-    let line_spans = newline_positions.from_offsets(5, 10);
-
-    assert_eq!(
-        line_spans,
-        vec![
-            (SingleLineSpan {
-                line: 1.into(),
-                start_col: 1,
-                end_col: 3
-            }),
-            (SingleLineSpan {
-                line: 2.into(),
-                start_col: 0,
-                end_col: 2
-            })
-        ]
-    );
-}
-
-#[test]
-fn from_offsets_relative_to() {
-    let newline_positions: NewlinePositions = "foo\nbar".into();
-
-    let pos = SingleLineSpan {
-        line: 1.into(),
-        start_col: 1,
-        end_col: 1,
-    };
-
-    let line_spans = newline_positions.from_offsets_relative_to(pos, 1, 2);
-    assert_eq!(
-        line_spans,
-        vec![SingleLineSpan {
-            line: 1.into(),
-            start_col: 2,
-            end_col: 3
-        }]
-    );
-}
-
 /// Ensure that every line in `s` has this length. Pad short lines and
 /// truncate long lines.
 pub fn enforce_length(s: &str, line_length: usize) -> String {
@@ -629,18 +544,6 @@ pub fn enforce_length(s: &str, line_length: usize) -> String {
     result
 }
 
-#[test]
-fn enforce_length_short() {
-    let result = enforce_length("foo\nbar\n", 5);
-    assert_eq!(result, "foo  \nbar  \n");
-}
-
-#[test]
-fn enforce_length_long() {
-    let result = enforce_length("foobar\nbarbaz\n", 3);
-    assert_eq!(result, "foo\nbar\n");
-}
-
 pub trait MaxLine {
     fn max_line(&self) -> LineNumber;
 }
@@ -651,14 +554,114 @@ impl MaxLine for String {
     }
 }
 
-#[test]
-fn str_max_line() {
-    let line: String = "foo\nbar".into();
-    assert_eq!(line.max_line().0, 1);
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use pretty_assertions::assert_eq;
 
-#[test]
-fn empty_str_max_line() {
-    let line: String = "".into();
-    assert_eq!(line.max_line().0, 0);
+    #[test]
+    fn from_ranges_first_line() {
+        let newline_positions: NewlinePositions = "foo".into();
+        let line_spans = newline_positions.from_offsets(1, 3);
+        assert_eq!(
+            line_spans,
+            vec![SingleLineSpan {
+                line: 0.into(),
+                start_col: 1,
+                end_col: 3
+            }]
+        );
+    }
+
+    #[test]
+    fn test_visible_groups_ignores_unchanged() {
+        let lhs_positions = vec![MatchedPos {
+            kind: MatchKind::Unchanged,
+            pos: vec![SingleLineSpan {
+                line: 1.into(),
+                start_col: 0,
+                end_col: 1,
+            }],
+            prev_opposite_pos: vec![],
+        }];
+        let rhs_positions = vec![MatchedPos {
+            kind: MatchKind::Unchanged,
+            pos: vec![SingleLineSpan {
+                line: 1.into(),
+                start_col: 0,
+                end_col: 1,
+            }],
+            prev_opposite_pos: vec![],
+        }];
+
+        let res = visible_groups(&lhs_positions, &rhs_positions);
+        assert_eq!(res, vec![]);
+    }
+
+    #[test]
+    fn from_ranges_split_over_multiple_lines() {
+        let newline_positions: NewlinePositions = "foo\nbar\nbaz\naaaaaaaaaaa".into();
+        let line_spans = newline_positions.from_offsets(5, 10);
+
+        assert_eq!(
+            line_spans,
+            vec![
+                (SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 1,
+                    end_col: 3
+                }),
+                (SingleLineSpan {
+                    line: 2.into(),
+                    start_col: 0,
+                    end_col: 2
+                })
+            ]
+        );
+    }
+
+    #[test]
+    fn enforce_length_short() {
+        let result = enforce_length("foo\nbar\n", 5);
+        assert_eq!(result, "foo  \nbar  \n");
+    }
+
+    #[test]
+    fn enforce_length_long() {
+        let result = enforce_length("foobar\nbarbaz\n", 3);
+        assert_eq!(result, "foo\nbar\n");
+    }
+
+    #[test]
+    fn str_max_line() {
+        let line: String = "foo\nbar".into();
+        assert_eq!(line.max_line().0, 1);
+    }
+
+    #[test]
+    fn empty_str_max_line() {
+        let line: String = "".into();
+        assert_eq!(line.max_line().0, 0);
+    }
+
+    #[test]
+    fn from_offsets_relative_to() {
+        let newline_positions: NewlinePositions = "foo\nbar".into();
+
+        let pos = SingleLineSpan {
+            line: 1.into(),
+            start_col: 1,
+            end_col: 1,
+        };
+
+        let line_spans = newline_positions.from_offsets_relative_to(pos, 1, 2);
+        assert_eq!(
+            line_spans,
+            vec![SingleLineSpan {
+                line: 1.into(),
+                start_col: 2,
+                end_col: 3
+            }]
+        );
+    }
 }
