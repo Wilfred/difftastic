@@ -11,6 +11,8 @@ const SPACER: &str = "  ";
 const MAX_GAP: usize = 1;
 const MIN_WIDTH: usize = 35;
 
+/// A distinct number type for line numbers, to prevent confusion with
+/// other numerical data.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LineNumber(pub usize);
 
@@ -26,6 +28,9 @@ impl From<usize> for LineNumber {
     }
 }
 
+/// A group of lines that are displayed together.
+///
+/// This is called a 'hunk' in some diff tools.
 #[derive(Debug, PartialEq, Eq)]
 pub struct LineGroup {
     lhs_lines: Option<Interval<LineNumber>>,
