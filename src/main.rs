@@ -7,6 +7,7 @@ mod style;
 mod syntax;
 use clap::{App, AppSettings, Arg};
 use std::ffi::OsStr;
+use std::fs;
 use std::path::Path;
 use typed_arena::Arena;
 
@@ -15,9 +16,29 @@ use crate::lines::{
     apply_groups, enforce_length, format_line_num, join_overlapping, lhs_printable_width,
     rhs_printable_width, visible_groups, MaxLine,
 };
-use crate::parse::{find_lang, parse, parse_lines, read_or_die, ConfigDir};
+use crate::parse::{find_lang, parse, parse_lines, ConfigDir};
 use crate::style::apply_colors;
 use crate::syntax::{change_positions, init_info, matching_lines};
+
+fn read_or_die(path: &str) -> Vec<u8> {
+    match fs::read(path) {
+        Ok(src) => src,
+        Err(e) => {
+            match e.kind() {
+                std::io::ErrorKind::NotFound => {
+                    eprintln!("No such file: {}", path);
+                }
+                std::io::ErrorKind::PermissionDenied => {
+                    eprintln!("Permission denied when reading file: {}", path);
+                }
+                _ => {
+                    eprintln!("Could not read file: {} (error {:?})", path, e.kind());
+                }
+            };
+            std::process::exit(1);
+        }
+    }
+}
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
