@@ -44,8 +44,7 @@ fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
 }
 
-/// Do these bytes look like a binary format that we can't do anything
-/// useful with?
+/// Do these bytes look like a binary (non-textual) format?
 fn is_probably_binary(bytes: &[u8]) -> bool {
     // If more than 20 of the first 1,000 characters are not valid
     // UTF-8, we assume it's binary.
