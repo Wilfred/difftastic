@@ -127,8 +127,8 @@ impl<'a> Eq for OrdVertex<'a> {}
 /// See [`neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 enum Edge {
-    UnchangedNode(u64),
-    UnchangedDelimiter(u64),
+    UnchangedNode { depth_difference: u64 },
+    UnchangedDelimiter { depth_difference: u64 },
     ReplacedComment { levenshtein_pct: u8 },
     NovelAtomLHS { contiguous: bool },
     NovelAtomRHS { contiguous: bool },
@@ -142,9 +142,9 @@ impl Edge {
     fn cost(&self) -> u64 {
         match self {
             // Matching nodes is always best.
-            UnchangedNode(depth_difference) => min(40, *depth_difference),
+            UnchangedNode { depth_difference } => min(40, *depth_difference),
             // Matching an outer delimiter is good.
-            UnchangedDelimiter(depth_difference) => 100 + min(40, *depth_difference),
+            UnchangedDelimiter { depth_difference } => 100 + min(40, *depth_difference),
 
             // Replacing a comment is better than treating it as novel.
             ReplacedComment { levenshtein_pct } => 150 + ((100 - levenshtein_pct) as u64),
@@ -246,7 +246,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 
             // Both nodes are equal, the happy case.
             res.push((
-                UnchangedNode(depth_difference),
+                UnchangedNode { depth_difference },
                 Vertex {
                     lhs_syntax: lhs_syntax.next(),
                     rhs_syntax: rhs_syntax.next(),
@@ -289,7 +289,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     .abs() as u64;
 
                 res.push((
-                    UnchangedDelimiter(depth_difference),
+                    UnchangedDelimiter { depth_difference },
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
@@ -465,14 +465,14 @@ pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'
 fn mark_route(route: &[(Edge, Vertex)]) {
     for (e, v) in route {
         match e {
-            UnchangedNode(_) => {
+            UnchangedNode { .. } => {
                 // No change on this node or its children.
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
                 lhs.set_change_deep(ChangeKind::Unchanged(rhs));
                 rhs.set_change_deep(ChangeKind::Unchanged(lhs));
             }
-            UnchangedDelimiter(_) => {
+            UnchangedDelimiter { .. } => {
                 // No change on the outer delimiter, but children may
                 // have changed.
                 let lhs = v.lhs_syntax.unwrap();
@@ -574,7 +574,12 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![UnchangedNode(0)]);
+        assert_eq!(
+            actions,
+            vec![UnchangedNode {
+                depth_difference: 0
+            }]
+        );
     }
 
     #[test]
@@ -612,7 +617,12 @@ mod tests {
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
-            vec![UnchangedDelimiter(0), NovelAtomLHS { contiguous: false }]
+            vec![
+                UnchangedDelimiter {
+                    depth_difference: 0
+                },
+                NovelAtomLHS { contiguous: false }
+            ]
         );
     }
 
@@ -655,7 +665,9 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                UnchangedDelimiter(0),
+                UnchangedDelimiter {
+                    depth_difference: 0
+                },
                 NovelAtomRHS { contiguous: false },
                 NovelAtomRHS { contiguous: false }
             ]
@@ -706,8 +718,12 @@ mod tests {
             vec![
                 NovelDelimiterRHS { contiguous: false },
                 NovelDelimiterLHS { contiguous: false },
-                UnchangedNode(0),
-                UnchangedNode(0)
+                UnchangedNode {
+                    depth_difference: 0
+                },
+                UnchangedNode {
+                    depth_difference: 0
+                }
             ],
         );
     }
@@ -738,7 +754,9 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                UnchangedNode(0),
+                UnchangedNode {
+                    depth_difference: 0
+                },
                 NovelAtomLHS { contiguous: false },
                 NovelAtomLHS { contiguous: true },
             ]
