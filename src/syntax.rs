@@ -275,6 +275,10 @@ impl<'a> Syntax<'a> {
         self.info().unique_id.get()
     }
 
+    pub fn num_ancestors(&self) -> u64 {
+        self.info().num_ancestors.get()
+    }
+
     pub fn first_line(&self) -> Option<LineNumber> {
         let position = match self {
             List { open_position, .. } => open_position,
