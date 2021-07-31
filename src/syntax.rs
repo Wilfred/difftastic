@@ -1027,7 +1027,7 @@ mod tests {
                 start_col: 2,
                 end_col: 3,
             }],
-            "foo".into(),
+            "foo",
         );
         atom.set_change(ChangeKind::Novel);
         let nodes: Vec<&Syntax> = vec![atom];
@@ -1053,8 +1053,8 @@ mod tests {
 
         let arena = Arena::new();
 
-        let comment = Syntax::new_comment(&arena, pos.clone(), "foo".into());
-        let atom = Syntax::new_atom(&arena, pos, "foo".into());
+        let comment = Syntax::new_comment(&arena, pos.clone(), "foo");
+        let atom = Syntax::new_atom(&arena, pos, "foo");
 
         assert_ne!(comment, atom);
     }

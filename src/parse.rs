@@ -56,11 +56,11 @@ fn as_string_vec(v: &Value) -> Vec<String> {
 
 fn as_regex_vec(v: &Value) -> Vec<Regex> {
     // TODO: properly handle malformed user-supplied regexes.
-    as_string_vec(v).iter().map(|s| as_regex(&s)).collect()
+    as_string_vec(v).iter().map(|s| as_regex(s)).collect()
 }
 
 fn as_regex(s: &str) -> Regex {
-    Regex::new(&s).unwrap()
+    Regex::new(s).unwrap()
 }
 
 fn lang_from_value(name: &str, v: &Value) -> Language {

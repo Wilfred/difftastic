@@ -48,7 +48,7 @@ fn term_width() -> Option<usize> {
 fn is_probably_binary(bytes: &[u8]) -> bool {
     // If more than 20 of the first 1,000 characters are not valid
     // UTF-8, we assume it's binary.
-    let num_replaced = String::from_utf8_lossy(&bytes)
+    let num_replaced = String::from_utf8_lossy(bytes)
         .to_string()
         .chars()
         .take(1000)
@@ -98,8 +98,8 @@ fn main() {
         None => None,
     };
 
-    let lhs_bytes = read_or_die(&lhs_path);
-    let rhs_bytes = read_or_die(&rhs_path);
+    let lhs_bytes = read_or_die(lhs_path);
+    let rhs_bytes = read_or_die(rhs_path);
     let lhs_binary = is_probably_binary(&lhs_bytes);
     let rhs_binary = is_probably_binary(&rhs_bytes);
 
@@ -108,7 +108,7 @@ fn main() {
         Some(lang) => lang.name.clone(),
         None => "lines of text".to_string(),
     };
-    println!("{}", style::header(&display_path, &lang_name));
+    println!("{}", style::header(display_path, &lang_name));
 
     if lhs_binary || rhs_binary {
         return;
@@ -131,8 +131,8 @@ fn main() {
 
     let (lhs, rhs) = match &lang {
         Some(lang) => (
-            parse(&arena, &lhs_src, &lang),
-            parse(&arena, &rhs_src, &lang),
+            parse(&arena, &lhs_src, lang),
+            parse(&arena, &rhs_src, lang),
         ),
         None => (parse_lines(&arena, &lhs_src), parse_lines(&arena, &rhs_src)),
     };

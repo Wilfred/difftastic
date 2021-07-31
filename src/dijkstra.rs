@@ -571,28 +571,28 @@ mod tests {
 
         let lhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
-            "[".into(),
+            "[",
             pos_helper(0),
             vec![Syntax::new_atom(&arena, pos_helper(1), "foo")],
-            "]".into(),
+            "]",
             pos_helper(2),
         )];
         init_info(&lhs);
 
         let rhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
-            "[".into(),
+            "[",
             pos_helper(0),
             vec![],
-            "]".into(),
+            "]",
             pos_helper(2),
         )];
         init_info(&rhs);
 
         let start = Vertex {
-            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_syntax: lhs.get(0).copied(),
             lhs_prev_novel: None,
-            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).copied(),
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -610,31 +610,31 @@ mod tests {
 
         let lhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
-            "[".into(),
+            "[",
             pos_helper(0),
             vec![],
-            "]".into(),
+            "]",
             pos_helper(2),
         )];
         init_info(&lhs);
 
         let rhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
-            "[".into(),
+            "[",
             pos_helper(0),
             vec![
                 Syntax::new_atom(&arena, pos_helper(1), "foo"),
                 Syntax::new_atom(&arena, pos_helper(2), "foo"),
             ],
-            "]".into(),
+            "]",
             pos_helper(3),
         )];
         init_info(&rhs);
 
         let start = Vertex {
-            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_syntax: lhs.get(0).copied(),
             lhs_prev_novel: None,
-            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).copied(),
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -656,48 +656,48 @@ mod tests {
 
         let lhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
-            "[".into(),
+            "[",
             pos_helper(0),
             vec![
                 Syntax::new_list(
                     &arena,
-                    "(".into(),
+                    "(",
                     pos_helper(1),
                     vec![],
-                    ")".into(),
+                    ")",
                     pos_helper(2),
                 ),
                 Syntax::new_atom(&arena, pos_helper(3), "foo"),
             ],
-            "]".into(),
+            "]",
             pos_helper(4),
         )];
         init_info(&lhs);
 
         let rhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
-            "{".into(),
+            "{",
             pos_helper(0),
             vec![
                 Syntax::new_list(
                     &arena,
-                    "(".into(),
+                    "(",
                     pos_helper(1),
                     vec![],
-                    ")".into(),
+                    ")",
                     pos_helper(2),
                 ),
                 Syntax::new_atom(&arena, pos_helper(3), "foo"),
             ],
-            "}".into(),
+            "}",
             pos_helper(4),
         )];
         init_info(&rhs);
 
         let start = Vertex {
-            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_syntax: lhs.get(0).copied(),
             lhs_prev_novel: None,
-            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).copied(),
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -729,9 +729,9 @@ mod tests {
         init_info(&rhs);
 
         let start = Vertex {
-            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_syntax: lhs.get(0).copied(),
             lhs_prev_novel: None,
-            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).copied(),
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -753,10 +753,10 @@ mod tests {
 
         let lhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
-            "[".into(),
+            "[",
             col_helper(1, 0),
             vec![Syntax::new_atom(&arena, col_helper(1, 2), "1")],
-            "]".into(),
+            "]",
             pos_helper(2),
         )];
         init_info(&lhs);
@@ -764,9 +764,9 @@ mod tests {
         let rhs: Vec<&Syntax> = vec![];
 
         let start = Vertex {
-            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_syntax: lhs.get(0).copied(),
             lhs_prev_novel: None,
-            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).copied(),
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -787,7 +787,7 @@ mod tests {
 
         let lhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
-            "[".into(),
+            "[",
             pos_helper(0),
             vec![
                 Syntax::new_atom(&arena, pos_helper(1), "1"),
@@ -812,14 +812,14 @@ mod tests {
                 Syntax::new_atom(&arena, pos_helper(20), "20"),
                 Syntax::new_atom(&arena, pos_helper(21), "21"),
             ],
-            "]".into(),
+            "]",
             pos_helper(100),
         )];
         init_info(&lhs);
 
         let rhs: Vec<&Syntax> = vec![Syntax::new_list(
             &arena,
-            "[".into(),
+            "[",
             pos_helper(0),
             vec![
                 Syntax::new_atom(&arena, pos_helper(1), "d1"),
@@ -845,15 +845,15 @@ mod tests {
                 Syntax::new_atom(&arena, pos_helper(20), "d20"),
                 Syntax::new_atom(&arena, pos_helper(21), "d21"),
             ],
-            "]".into(),
+            "]",
             pos_helper(100),
         )];
         init_info(&rhs);
 
         let start = Vertex {
-            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_syntax: lhs.get(0).copied(),
             lhs_prev_novel: None,
-            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).copied(),
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -891,9 +891,9 @@ mod tests {
         init_info(&rhs);
 
         let start = Vertex {
-            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_syntax: lhs.get(0).copied(),
             lhs_prev_novel: None,
-            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).copied(),
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -917,9 +917,9 @@ mod tests {
         init_info(&rhs);
 
         let start = Vertex {
-            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_syntax: lhs.get(0).copied(),
             lhs_prev_novel: None,
-            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).copied(),
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -946,9 +946,9 @@ mod tests {
         init_info(&rhs);
 
         let start = Vertex {
-            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_syntax: lhs.get(0).copied(),
             lhs_prev_novel: None,
-            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_syntax: rhs.get(0).copied(),
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
