@@ -44,6 +44,7 @@ pub struct SyntaxInfo<'a> {
     // TODO: Make these fields private.
     pub pos_content_hash: u64,
     pub next: Cell<Option<&'a Syntax<'a>>>,
+    pub prev: Cell<Option<&'a Syntax<'a>>>,
     pub change: Cell<Option<ChangeKind<'a>>>,
     pub num_ancestors: Cell<u64>,
     pub unique_id: Cell<u64>,
@@ -54,6 +55,7 @@ impl<'a> SyntaxInfo<'a> {
         Self {
             pos_content_hash,
             next: Cell::new(None),
+            prev: Cell::new(None),
             change: Cell::new(None),
             num_ancestors: Cell::new(0),
             unique_id: Cell::new(0),
@@ -416,6 +418,7 @@ impl<'a> Syntax<'a> {
 pub fn init_info<'a>(roots: &[&'a Syntax<'a>]) {
     set_unique_id(roots, 0);
     set_next(roots, None);
+    set_prev(roots, None);
     set_num_ancestors(roots, 0);
 }
 
@@ -431,6 +434,8 @@ fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], prev_id: u64) -> u64 {
     id
 }
 
+/// For every syntax node in the tree, mark the next node according to
+/// a preorder traversal.
 fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>>) {
     for (i, node) in nodes.iter().enumerate() {
         let node_next = match nodes.get(i + 1) {
@@ -441,6 +446,23 @@ fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>>) {
         node.info().next.set(node_next);
         if let List { children, .. } = node {
             set_next(children, node_next);
+        }
+    }
+}
+
+/// For every syntax node in the tree, mark the previous node
+/// according to a preorder traversal.
+fn set_prev<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
+    for (i, node) in nodes.iter().enumerate() {
+        let node_prev = if i == 0 {
+            parent
+        } else {
+            Some(nodes[i - 1])
+        };
+
+        node.info().prev.set(node_prev);
+        if let List { children, .. } = node {
+            set_prev(children, Some(node));
         }
     }
 }
