@@ -334,7 +334,7 @@ pub fn format_line_num_padded(line_num: usize, column_width: usize) -> String {
 }
 
 pub fn lhs_printable_width(lhs: &str, lhs_column_width: usize, terminal_width: usize) -> usize {
-    let longest_line_length = lhs.lines().map(|line| line.len()).max().unwrap_or(1);
+    let longest_line_length = lhs.lines().map(str::len).max().unwrap_or(1);
     let longest_line = longest_line_length + lhs_column_width;
 
     let space_available = terminal_width / 2 - SPACER.len();
@@ -347,7 +347,7 @@ pub fn rhs_printable_width(
     rhs_column_width: usize,
     terminal_width: usize,
 ) -> usize {
-    let longest_line_length = rhs.lines().map(|line| line.len()).max().unwrap_or(1);
+    let longest_line_length = rhs.lines().map(str::len).max().unwrap_or(1);
     let longest_line = longest_line_length + rhs_column_width;
 
     let space_available = (terminal_width - SPACER.len()) - lhs_width;

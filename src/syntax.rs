@@ -675,7 +675,7 @@ fn change_positions_<'a>(
                     match opposite_node {
                         List { .. } => {
                             dbg!(node, opposite_node);
-                            unreachable!()
+                            unreachable!();
                         }
                         Atom {
                             position: opposite_position,
@@ -777,7 +777,7 @@ fn aligned_lines_(
     rhs_lines: &[LineNumber],
     lhs_line_matches: &HashMap<LineNumber, LineNumber>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut rhs_highest_matched = rhs_lines.first().map(|l| l.0 as isize).unwrap_or(0) - 1;
+    let mut rhs_highest_matched = rhs_lines.first().map_or(0, |l| l.0 as isize) - 1;
 
     // For every LHS line, if there is a RHS line that is included in
     // `rhs_lines` and hasn't yet been paired up, add it to
