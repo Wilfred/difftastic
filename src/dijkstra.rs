@@ -11,6 +11,34 @@ use rustc_hash::FxHashMap;
 use strsim::normalized_levenshtein;
 use Edge::*;
 
+/// A vertex in a directed acyclic graph that represents a diff.
+///
+/// Each vertex represents two pointers: one to the next unmatched LHS
+/// syntax, and one to the next unmatched RHS syntax.
+///
+/// For example, suppose we have `X A` on the LHS and `A` on the
+/// RHS. Our start vertex looks like this.
+///
+/// ```
+/// LHS: X A     RHS: A
+///      ^            ^
+/// ```
+///
+/// From this vertex, we could take the `NovelAtomLHS` edge, bringing
+/// us to this vertex.
+///
+/// ```
+/// LHS: X A     RHS: A
+///        ^          ^
+/// ```
+///
+/// Alternatively, we could take the `NovelAtomRHS` edge, bringing us
+/// to this vertex.
+///
+/// ```
+/// LHS: X A     RHS: A
+///      ^              ^
+/// ```
 #[derive(Debug, Clone)]
 struct Vertex<'a> {
     lhs_syntax: Option<&'a Syntax<'a>>,
@@ -39,13 +67,18 @@ impl<'a> Vertex<'a> {
     }
 }
 
-// Rust requires that PartialEq, PartialOrd and Ord agree.
-// https://doc.rust-lang.org/std/cmp/trait.Ord.html
-//
-// For `Vertex`, we want to compare by distance in a priority queue, but
-// equality should only consider LHS/RHS node when deciding if we've
-// visited a vertex. We define separate wrappers for these two use
-// cases.
+/// A vertex with a distance.
+///
+/// Rust requires that PartialEq, PartialOrd and Ord agree.
+/// <https://doc.rust-lang.org/std/cmp/trait.Ord.html>
+///
+/// We want two nodes of the same distance to be the same as far as
+/// the priority queue is concerned. This differs from the equality
+/// semantics on [`Vertex`] (which should only consider LHS/RHS
+/// syntax).
+///
+/// Defining OrdVertex as a separate type allows us different Eq and
+/// Ord behaviour.
 #[derive(Debug)]
 struct OrdVertex<'a> {
     distance: u64,
@@ -72,6 +105,13 @@ impl<'a> PartialEq for OrdVertex<'a> {
 }
 impl<'a> Eq for OrdVertex<'a> {}
 
+/// An edge in our graph, with an associated [`cost`](Edge::cost).
+///
+/// A syntax node can always be marked as novel, so a vertex will have
+/// at least a NovelFoo edge. Depending on the syntax nodes of the
+/// current [`Vertex`], other edges may also be available.
+///
+/// See [`neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 enum Edge {
     UnchangedNode(u64),
