@@ -1,5 +1,10 @@
 ## 0.7 (unreleased)
 
+### Diffing
+
+Difftastic will now prefer matching up comments that are similar
+(according to levenshtein distance).
+
 ## 0.6
 
 ### Parsing
