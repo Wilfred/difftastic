@@ -396,7 +396,7 @@ fn apply_group(
 }
 
 /// Display all the lines in `lhs` and `rhs` that are mentioned in
-/// `groups`. horizontally concatenating the matched lines.
+/// `groups`, horizontally concatenating the matched lines.
 pub fn apply_groups(
     lhs: &str,
     rhs: &str,
