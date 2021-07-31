@@ -9,6 +9,9 @@ Fixed handling of `->` in Rust.
 Difftastic will now prefer matching up comments that are similar
 (according to levenshtein distance).
 
+Contiguous syntax logic now considers close delimiter positions, so
+`[ \n ];` now treats the `;` atom as contiguous.
+
 ## 0.6
 
 ### Parsing

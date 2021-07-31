@@ -5,7 +5,6 @@ use std::cmp::{min, Ordering, Reverse};
 use std::collections::BinaryHeap;
 use std::hash::{Hash, Hasher};
 
-use crate::lines::LineNumber;
 use crate::syntax::{ChangeKind, Syntax};
 use rustc_hash::FxHashMap;
 use strsim::normalized_levenshtein;
@@ -56,8 +55,8 @@ struct Vertex<'a> {
     /// We solve this by distinguishing vertices based on the novel
     /// state of the previous edge. This increases the search space
     /// but allows us to keep using a graph traversal.
-    lhs_prev_novel: Option<LineNumber>,
-    rhs_prev_novel: Option<LineNumber>,
+    lhs_prev_is_novel: bool,
+    rhs_prev_is_novel: bool,
 }
 impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
@@ -257,8 +256,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 Vertex {
                     lhs_syntax: lhs_syntax.next(),
                     rhs_syntax: rhs_syntax.next(),
-                    lhs_prev_novel: None,
-                    rhs_prev_novel: None,
+                    lhs_prev_is_novel: false,
+                    rhs_prev_is_novel: false,
                 },
             ));
         }
@@ -300,8 +299,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
-                        lhs_prev_novel: None,
-                        rhs_prev_novel: None,
+                        lhs_prev_is_novel: false,
+                        rhs_prev_is_novel: false,
                     },
                 ));
             }
@@ -330,8 +329,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     Vertex {
                         lhs_syntax: lhs_syntax.next(),
                         rhs_syntax: rhs_syntax.next(),
-                        lhs_prev_novel: None,
-                        rhs_prev_novel: None,
+                        lhs_prev_is_novel: false,
+                        rhs_prev_is_novel: false,
                     },
                 ));
             }
@@ -344,43 +343,37 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             Syntax::Atom { .. } => {
                 res.push((
                     NovelAtomLHS {
-                        contiguous: v.lhs_prev_novel == lhs_syntax.first_line(),
+                        contiguous: v.lhs_prev_is_novel && lhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
                         lhs_syntax: lhs_syntax.next(),
                         rhs_syntax: v.rhs_syntax,
-                        lhs_prev_novel: lhs_syntax.last_line(),
-                        rhs_prev_novel: v.rhs_prev_novel,
+                        lhs_prev_is_novel: true,
+                        rhs_prev_is_novel: v.rhs_prev_is_novel,
                     },
                 ));
             }
             // Step into this partially/fully novel list.
             Syntax::List {
-                open_position,
                 children,
                 num_descendants,
                 ..
             } => {
-                // TODO: lhs_prev_novel when stepping out of the
-                // list. Is the previous syntax node at the same
-                // level?
-
                 let lhs_next = if children.is_empty() {
                     lhs_syntax.next()
                 } else {
-                    // `lhs_prev_novel` only tracks nodes at the same level.
                     Some(children[0])
                 };
 
                 res.push((
                     NovelDelimiterLHS {
-                        contiguous: v.lhs_prev_novel == lhs_syntax.first_line(),
+                        contiguous: v.lhs_prev_is_novel && lhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: v.rhs_syntax,
-                        lhs_prev_novel: open_position.last().map(|lp| lp.line),
-                        rhs_prev_novel: v.rhs_prev_novel,
+                        lhs_prev_is_novel: true,
+                        rhs_prev_is_novel: v.rhs_prev_is_novel,
                     },
                 ));
 
@@ -392,8 +385,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         Vertex {
                             lhs_syntax: lhs_syntax.next(),
                             rhs_syntax: v.rhs_syntax,
-                            lhs_prev_novel: v.lhs_prev_novel,
-                            rhs_prev_novel: v.rhs_prev_novel,
+                            lhs_prev_is_novel: v.lhs_prev_is_novel,
+                            rhs_prev_is_novel: v.rhs_prev_is_novel,
                         },
                     ));
                 }
@@ -407,19 +400,18 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             Syntax::Atom { .. } => {
                 res.push((
                     NovelAtomRHS {
-                        contiguous: v.rhs_prev_novel == rhs_syntax.first_line(),
+                        contiguous: v.rhs_prev_is_novel && rhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_syntax.next(),
-                        lhs_prev_novel: v.lhs_prev_novel,
-                        rhs_prev_novel: rhs_syntax.last_line(),
+                        lhs_prev_is_novel: v.lhs_prev_is_novel,
+                        rhs_prev_is_novel: true,
                     },
                 ));
             }
             // Step into this partially/fully novel list.
             Syntax::List {
-                open_position,
                 children,
                 num_descendants,
                 ..
@@ -432,13 +424,13 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 
                 res.push((
                     NovelDelimiterRHS {
-                        contiguous: v.rhs_prev_novel == rhs_syntax.first_line(),
+                        contiguous: v.rhs_prev_is_novel && rhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_next,
-                        lhs_prev_novel: v.lhs_prev_novel,
-                        rhs_prev_novel: open_position.last().map(|lp| lp.line),
+                        lhs_prev_is_novel: v.lhs_prev_is_novel,
+                        rhs_prev_is_novel: true,
                     },
                 ));
 
@@ -450,8 +442,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         Vertex {
                             lhs_syntax: v.lhs_syntax,
                             rhs_syntax: rhs_syntax.next(),
-                            lhs_prev_novel: v.lhs_prev_novel,
-                            rhs_prev_novel: v.rhs_prev_novel,
+                            lhs_prev_is_novel: v.lhs_prev_is_novel,
+                            rhs_prev_is_novel: v.rhs_prev_is_novel,
                         },
                     ));
                 }
@@ -466,8 +458,8 @@ pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'
     let start = Vertex {
         lhs_syntax,
         rhs_syntax,
-        lhs_prev_novel: None,
-        rhs_prev_novel: None,
+        lhs_prev_is_novel: false,
+        rhs_prev_is_novel: false,
     };
     let route = shortest_path(start);
     mark_route(&route);
@@ -579,8 +571,8 @@ mod tests {
         let start = Vertex {
             lhs_syntax: Some(lhs),
             rhs_syntax: Some(rhs),
-            lhs_prev_novel: None,
-            rhs_prev_novel: None,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -620,8 +612,8 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_novel: None,
-            rhs_prev_novel: None,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -667,8 +659,8 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_novel: None,
-            rhs_prev_novel: None,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -718,8 +710,8 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_novel: None,
-            rhs_prev_novel: None,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -756,8 +748,8 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_novel: None,
-            rhs_prev_novel: None,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -793,8 +785,8 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_novel: None,
-            rhs_prev_novel: None,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -804,6 +796,44 @@ mod tests {
             vec![
                 NovelDelimiterLHS { contiguous: false },
                 NovelAtomLHS { contiguous: true },
+            ]
+        );
+    }
+
+    #[test]
+    fn atom_after_novel_list_contiguous() {
+        let arena = Arena::new();
+
+        let lhs: Vec<&Syntax> = vec![
+            Syntax::new_list(
+                &arena,
+                "[",
+                col_helper(1, 0),
+                vec![Syntax::new_atom(&arena, col_helper(1, 2), "1")],
+                "]",
+                col_helper(2, 1),
+            ),
+            Syntax::new_atom(&arena, col_helper(2, 2), ";"),
+        ];
+        init_info(&lhs);
+
+        let rhs: Vec<&Syntax> = vec![];
+
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).copied(),
+            rhs_syntax: rhs.get(0).copied(),
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
+        };
+        let route = shortest_path(start);
+
+        let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        assert_eq!(
+            actions,
+            vec![
+                NovelDelimiterLHS { contiguous: false },
+                NovelAtomLHS { contiguous: true },
+                NovelAtomLHS { contiguous: true }
             ]
         );
     }
@@ -880,8 +910,8 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_novel: None,
-            rhs_prev_novel: None,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -920,8 +950,8 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_novel: None,
-            rhs_prev_novel: None,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -951,8 +981,8 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_novel: None,
-            rhs_prev_novel: None,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -985,8 +1015,8 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_novel: None,
-            rhs_prev_novel: None,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 

@@ -271,6 +271,29 @@ impl<'a> Syntax<'a> {
         self.info().next.get()
     }
 
+    pub fn prev_is_contiguous(&self) -> bool {
+        if let Some(prev) = self.info().prev.get() {
+            match prev {
+                List {
+                    open_position,
+                    close_position,
+                    ..
+                } => {
+                    let prev_is_parent = prev.num_ancestors() < self.num_ancestors();
+                    if prev_is_parent {
+                        open_position.last().map(|p| p.line) == self.first_line()
+                    } else {
+                        // predecessor node at the same level.
+                        close_position.last().map(|p| p.line) == self.first_line()
+                    }
+                }
+                Atom { .. } => prev.last_line() == self.first_line(),
+            }
+        } else {
+            false
+        }
+    }
+
     pub fn id(&self) -> u64 {
         self.info().unique_id.get()
     }
