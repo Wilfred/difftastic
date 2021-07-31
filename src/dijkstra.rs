@@ -171,7 +171,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     heap.push(Reverse(OrdVertex {
         distance: 0,
         prev: None,
-        v: start.clone(),
+        v: start,
     }));
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
