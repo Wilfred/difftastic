@@ -247,8 +247,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax.equal_content(rhs_syntax) {
-            let depth_difference = (lhs_syntax.info().num_ancestors.get() as i64
-                - rhs_syntax.info().num_ancestors.get() as i64)
+            let depth_difference = (lhs_syntax.num_ancestors() as i64
+                - rhs_syntax.num_ancestors() as i64)
                 .abs() as u64;
 
             // Both nodes are equal, the happy case.
@@ -291,8 +291,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     Some(rhs_children[0])
                 };
 
-                let depth_difference = (lhs_syntax.info().num_ancestors.get() as i64
-                    - rhs_syntax.info().num_ancestors.get() as i64)
+                let depth_difference = (lhs_syntax.num_ancestors() as i64
+                    - rhs_syntax.num_ancestors() as i64)
                     .abs() as u64;
 
                 res.push((
