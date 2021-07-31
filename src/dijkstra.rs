@@ -76,7 +76,7 @@ impl<'a> Eq for OrdVertex<'a> {}
 enum Edge {
     UnchangedNode(u64),
     UnchangedDelimiter(u64),
-    ReplacedComment,
+    ReplacedComment { levenshtein_pct: u8 },
     NovelAtomLHS { contiguous: bool },
     NovelAtomRHS { contiguous: bool },
     NovelDelimiterLHS { contiguous: bool },
@@ -94,21 +94,21 @@ impl Edge {
             UnchangedDelimiter(depth_difference) => 100 + min(40, *depth_difference),
 
             // Replacing a comment is better than treating it as novel.
-            ReplacedComment => 150,
+            ReplacedComment { levenshtein_pct } => 150 + ((100 - levenshtein_pct) as u64),
 
             // Otherwise, we've added/removed a node.
             NovelAtomLHS { contiguous } | NovelAtomRHS { contiguous } => {
                 if *contiguous {
-                    200
+                    300
                 } else {
-                    201
+                    301
                 }
             }
             NovelDelimiterLHS { contiguous } | NovelDelimiterRHS { contiguous } => {
                 if *contiguous {
-                    200
+                    300
                 } else {
-                    201
+                    301
                 }
             }
 
@@ -262,12 +262,11 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         {
             // Both sides are comments and their content is reasonably
             // similar.
-            if *lhs_is_comment
-                && *rhs_is_comment
-                && normalized_levenshtein(lhs_content, rhs_content) > 0.4
-            {
+            if *lhs_is_comment && *rhs_is_comment {
+                let levenshtein_pct =
+                    (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
                 res.push((
-                    ReplacedComment,
+                    ReplacedComment { levenshtein_pct },
                     Vertex {
                         lhs_syntax: lhs_syntax.next(),
                         lhs_prev_novel: None,
@@ -428,11 +427,18 @@ fn mark_route(route: &[(Edge, Vertex)]) {
                 lhs.set_change(ChangeKind::Unchanged(rhs));
                 rhs.set_change(ChangeKind::Unchanged(lhs));
             }
-            ReplacedComment => {
+            ReplacedComment { levenshtein_pct } => {
                 let lhs = v.lhs_syntax.unwrap();
                 let rhs = v.rhs_syntax.unwrap();
-                lhs.set_change(ChangeKind::ReplacedComment(lhs, rhs));
-                rhs.set_change(ChangeKind::ReplacedComment(rhs, lhs));
+
+                if *levenshtein_pct > 40 {
+                    lhs.set_change(ChangeKind::ReplacedComment(lhs, rhs));
+                    rhs.set_change(ChangeKind::ReplacedComment(rhs, lhs));
+                } else {
+                    lhs.set_change(ChangeKind::Novel);
+                    rhs.set_change(ChangeKind::Novel);
+
+                }
             }
             NovelAtomLHS { .. } | NovelDelimiterLHS { .. } => {
                 let lhs = v.lhs_syntax.unwrap();
@@ -825,6 +831,7 @@ mod tests {
             ]
         );
     }
+
     #[test]
     fn replace_similar_comment() {
         let arena = Arena::new();
@@ -852,7 +859,7 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![ReplacedComment]);
+        assert_eq!(actions, vec![ReplacedComment { levenshtein_pct: 84 }]);
     }
 
     #[test]
@@ -878,11 +885,42 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
+        assert_eq!(actions, vec![ReplacedComment { levenshtein_pct: 11 }]);
+    }
+
+    #[test]
+    fn replace_comment_prefer_most_similar() {
+        let arena = Arena::new();
+
+        let lhs: Vec<&Syntax> = vec![
+            Syntax::new_comment(&arena, pos_helper(1), "the quick brown fox"),
+            Syntax::new_comment(&arena, pos_helper(2), "the quick brown thing"),
+        ];
+        init_info(&lhs);
+
+        let rhs: Vec<&Syntax> = vec![Syntax::new_comment(
+            &arena,
+            pos_helper(1),
+            "the quick brown fox.",
+        )];
+        init_info(&rhs);
+
+        let start = Vertex {
+            lhs_syntax: lhs.get(0).map(|n| *n),
+            lhs_prev_novel: None,
+            rhs_syntax: rhs.get(0).map(|n| *n),
+            rhs_prev_novel: None,
+        };
+        let route = shortest_path(start);
+
+        let actions = route.iter().map(|(action, _)| *action).collect_vec();
         assert_eq!(
             actions,
             vec![
-                NovelAtomLHS { contiguous: false },
-                NovelAtomRHS { contiguous: false }
+                ReplacedComment {
+                    levenshtein_pct: 95
+                },
+                NovelAtomLHS { contiguous: false }
             ]
         );
     }
