@@ -24,7 +24,7 @@ use Edge::*;
 ///      ^            ^
 /// ```
 ///
-/// From this vertex, we could take the `NovelAtomLHS` edge, bringing
+/// From this vertex, we could take [`Edge::NovelAtomLHS`], bringing
 /// us to this vertex.
 ///
 /// ```
@@ -32,7 +32,7 @@ use Edge::*;
 ///        ^          ^
 /// ```
 ///
-/// Alternatively, we could take the `NovelAtomRHS` edge, bringing us
+/// Alternatively, we could take the [`Edge::NovelAtomRHS`], bringing us
 /// to this vertex.
 ///
 /// ```
