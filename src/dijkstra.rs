@@ -361,6 +361,10 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 num_descendants,
                 ..
             } => {
+                // TODO: lhs_prev_novel when stepping out of the
+                // list. Is the previous syntax node at the same
+                // level?
+
                 let lhs_next = if children.is_empty() {
                     lhs_syntax.next()
                 } else {
