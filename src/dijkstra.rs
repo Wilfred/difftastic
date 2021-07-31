@@ -94,9 +94,12 @@ impl<'a> Vertex<'a> {
 /// Ord behaviour.
 #[derive(Debug)]
 struct OrdVertex<'a> {
+    /// The distance from the start vertex to this vertex.
     distance: u64,
+    /// The vertex we have just reached.
+    current: Vertex<'a>,
+    /// The previous vertex and edge we took to reach this vertex.
     prev: Option<(Vertex<'a>, Edge)>,
-    v: Vertex<'a>,
 }
 
 impl<'a> PartialOrd for OrdVertex<'a> {
@@ -183,8 +186,8 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
     heap.push(Reverse(OrdVertex {
         distance: 0,
+        current: start,
         prev: None,
-        v: start,
     }));
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
@@ -194,27 +197,31 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     let end;
     loop {
         match heap.pop() {
-            Some(Reverse(OrdVertex { distance, prev, v })) => {
-                if predecessors.contains_key(&v) {
+            Some(Reverse(OrdVertex {
+                distance,
+                current,
+                prev,
+            })) => {
+                if predecessors.contains_key(&current) {
                     continue;
                 }
-                predecessors.insert(v.clone(), prev);
+                predecessors.insert(current.clone(), prev);
 
-                if v.is_end() {
-                    end = v;
+                if current.is_end() {
+                    end = current;
                     break;
                 }
 
-                for (edge, new_v) in neighbours(&v) {
-                    if predecessors.contains_key(&new_v) {
+                for (edge, next) in neighbours(&current) {
+                    if predecessors.contains_key(&next) {
                         continue;
                     }
-                    let new_v_distance = distance + edge.cost();
+                    let distance_to_next = distance + edge.cost();
 
                     heap.push(Reverse(OrdVertex {
-                        distance: new_v_distance,
-                        prev: Some((v.clone(), edge)),
-                        v: new_v,
+                        distance: distance_to_next,
+                        current: next,
+                        prev: Some((current.clone(), edge)),
                     }));
                 }
             }
