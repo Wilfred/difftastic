@@ -454,11 +454,7 @@ fn set_next<'a>(nodes: &[&'a Syntax<'a>], parent_next: Option<&'a Syntax<'a>>) {
 /// according to a preorder traversal.
 fn set_prev<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
     for (i, node) in nodes.iter().enumerate() {
-        let node_prev = if i == 0 {
-            parent
-        } else {
-            Some(nodes[i - 1])
-        };
+        let node_prev = if i == 0 { parent } else { Some(nodes[i - 1]) };
 
         node.info().prev.set(node_prev);
         if let List { children, .. } = node {
