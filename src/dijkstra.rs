@@ -43,6 +43,19 @@ use Edge::*;
 struct Vertex<'a> {
     lhs_syntax: Option<&'a Syntax<'a>>,
     rhs_syntax: Option<&'a Syntax<'a>>,
+    /// If the previous edge was marking syntax as novel, what line
+    /// was it on?
+    ///
+    /// We want to prefer marking syntax nodes as novel if we've
+    /// already marked other nodes as novel on the current line. See
+    /// `sample_files/contiguous_after.js`.
+    ///
+    /// Unfortunately this is path dependent: the vertex doesn't care
+    /// how we got here.
+    ///
+    /// We solve this by distinguishing vertices based on the novel
+    /// state of the previous edge. This increases the search space
+    /// but allows us to keep using a graph traversal.
     lhs_prev_novel: Option<LineNumber>,
     rhs_prev_novel: Option<LineNumber>,
 }
