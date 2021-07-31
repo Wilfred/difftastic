@@ -1,5 +1,9 @@
 ## 0.7 (unreleased)
 
+### Parsing
+
+Fixed handling of `->` in Rust.
+
 ### Diffing
 
 Difftastic will now prefer matching up comments that are similar
