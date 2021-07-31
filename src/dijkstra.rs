@@ -42,8 +42,8 @@ use Edge::*;
 #[derive(Debug, Clone)]
 struct Vertex<'a> {
     lhs_syntax: Option<&'a Syntax<'a>>,
-    lhs_prev_novel: Option<LineNumber>,
     rhs_syntax: Option<&'a Syntax<'a>>,
+    lhs_prev_novel: Option<LineNumber>,
     rhs_prev_novel: Option<LineNumber>,
 }
 impl<'a> PartialEq for Vertex<'a> {
@@ -279,8 +279,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     UnchangedDelimiter(depth_difference),
                     Vertex {
                         lhs_syntax: lhs_next,
-                        lhs_prev_novel: None,
                         rhs_syntax: rhs_next,
+                        lhs_prev_novel: None,
                         rhs_prev_novel: None,
                     },
                 ));
@@ -309,8 +309,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     ReplacedComment { levenshtein_pct },
                     Vertex {
                         lhs_syntax: lhs_syntax.next(),
-                        lhs_prev_novel: None,
                         rhs_syntax: rhs_syntax.next(),
+                        lhs_prev_novel: None,
                         rhs_prev_novel: None,
                     },
                 ));
@@ -328,8 +328,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     },
                     Vertex {
                         lhs_syntax: lhs_syntax.next(),
-                        lhs_prev_novel: lhs_syntax.last_line(),
                         rhs_syntax: v.rhs_syntax,
+                        lhs_prev_novel: lhs_syntax.last_line(),
                         rhs_prev_novel: v.rhs_prev_novel,
                     },
                 ));
@@ -354,8 +354,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     },
                     Vertex {
                         lhs_syntax: lhs_next,
-                        lhs_prev_novel: open_position.last().map(|lp| lp.line),
                         rhs_syntax: v.rhs_syntax,
+                        lhs_prev_novel: open_position.last().map(|lp| lp.line),
                         rhs_prev_novel: v.rhs_prev_novel,
                     },
                 ));
@@ -367,8 +367,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         },
                         Vertex {
                             lhs_syntax: lhs_syntax.next(),
-                            lhs_prev_novel: v.lhs_prev_novel,
                             rhs_syntax: v.rhs_syntax,
+                            lhs_prev_novel: v.lhs_prev_novel,
                             rhs_prev_novel: v.rhs_prev_novel,
                         },
                     ));
@@ -387,8 +387,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
-                        lhs_prev_novel: v.lhs_prev_novel,
                         rhs_syntax: rhs_syntax.next(),
+                        lhs_prev_novel: v.lhs_prev_novel,
                         rhs_prev_novel: rhs_syntax.last_line(),
                     },
                 ));
@@ -412,8 +412,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
-                        lhs_prev_novel: v.lhs_prev_novel,
                         rhs_syntax: rhs_next,
+                        lhs_prev_novel: v.lhs_prev_novel,
                         rhs_prev_novel: open_position.last().map(|lp| lp.line),
                     },
                 ));
@@ -425,8 +425,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         },
                         Vertex {
                             lhs_syntax: v.lhs_syntax,
-                            lhs_prev_novel: v.lhs_prev_novel,
                             rhs_syntax: rhs_syntax.next(),
+                            lhs_prev_novel: v.lhs_prev_novel,
                             rhs_prev_novel: v.rhs_prev_novel,
                         },
                     ));
@@ -441,8 +441,8 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'a Syntax<'a>>) {
     let start = Vertex {
         lhs_syntax,
-        lhs_prev_novel: None,
         rhs_syntax,
+        lhs_prev_novel: None,
         rhs_prev_novel: None,
     };
     let route = shortest_path(start);
@@ -554,8 +554,8 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: Some(lhs),
-            lhs_prev_novel: None,
             rhs_syntax: Some(rhs),
+            lhs_prev_novel: None,
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -590,8 +590,8 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
-            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).copied(),
+            lhs_prev_novel: None,
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -632,8 +632,8 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
-            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).copied(),
+            lhs_prev_novel: None,
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -681,8 +681,8 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
-            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).copied(),
+            lhs_prev_novel: None,
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -715,8 +715,8 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
-            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).copied(),
+            lhs_prev_novel: None,
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -750,8 +750,8 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
-            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).copied(),
+            lhs_prev_novel: None,
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -837,8 +837,8 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
-            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).copied(),
+            lhs_prev_novel: None,
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -877,8 +877,8 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
-            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).copied(),
+            lhs_prev_novel: None,
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -908,8 +908,8 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
-            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).copied(),
+            lhs_prev_novel: None,
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
@@ -942,8 +942,8 @@ mod tests {
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
-            lhs_prev_novel: None,
             rhs_syntax: rhs.get(0).copied(),
+            lhs_prev_novel: None,
             rhs_prev_novel: None,
         };
         let route = shortest_path(start);
