@@ -155,7 +155,7 @@ atom_patterns = [
   # Symbols (e.g. variable names)
   '[a-zA-Z0-9_]+!?',
   # Two character operators
-  '(::|&&|\|\||\.\.|=>|<=|>=|==|!=)',
+  '(::|&&|\|\||\.\.|=>|<=|>=|==|!=|->)',
   # Single character operators
   # | is a delimiter for lambdas, but also used in pattern matching.
   '[.&=<>/*+:;,|#!?$-]',
