@@ -150,7 +150,7 @@ impl Edge {
             UnchangedDelimiter { depth_difference } => 100 + min(40, *depth_difference),
 
             // Replacing a comment is better than treating it as novel.
-            ReplacedComment { levenshtein_pct } => 150 + ((100 - levenshtein_pct) as u64),
+            ReplacedComment { levenshtein_pct } => 150 + u64::from(100 - levenshtein_pct),
 
             // Otherwise, we've added/removed a node.
             NovelAtomLHS { contiguous } | NovelAtomRHS { contiguous } => {
