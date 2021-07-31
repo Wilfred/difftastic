@@ -130,10 +130,7 @@ fn main() {
     let arena = Arena::new();
 
     let (lhs, rhs) = match &lang {
-        Some(lang) => (
-            parse(&arena, &lhs_src, lang),
-            parse(&arena, &rhs_src, lang),
-        ),
+        Some(lang) => (parse(&arena, &lhs_src, lang), parse(&arena, &rhs_src, lang)),
         None => (parse_lines(&arena, &lhs_src), parse_lines(&arena, &rhs_src)),
     };
 

@@ -477,7 +477,6 @@ fn mark_route(route: &[(Edge, Vertex)]) {
                 } else {
                     lhs.set_change(ChangeKind::Novel);
                     rhs.set_change(ChangeKind::Novel);
-
                 }
             }
             NovelAtomLHS { .. } | NovelDelimiterLHS { .. } => {
@@ -659,14 +658,7 @@ mod tests {
             "[",
             pos_helper(0),
             vec![
-                Syntax::new_list(
-                    &arena,
-                    "(",
-                    pos_helper(1),
-                    vec![],
-                    ")",
-                    pos_helper(2),
-                ),
+                Syntax::new_list(&arena, "(", pos_helper(1), vec![], ")", pos_helper(2)),
                 Syntax::new_atom(&arena, pos_helper(3), "foo"),
             ],
             "]",
@@ -679,14 +671,7 @@ mod tests {
             "{",
             pos_helper(0),
             vec![
-                Syntax::new_list(
-                    &arena,
-                    "(",
-                    pos_helper(1),
-                    vec![],
-                    ")",
-                    pos_helper(2),
-                ),
+                Syntax::new_list(&arena, "(", pos_helper(1), vec![], ")", pos_helper(2)),
                 Syntax::new_atom(&arena, pos_helper(3), "foo"),
             ],
             "}",
@@ -899,7 +884,12 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![ReplacedComment { levenshtein_pct: 84 }]);
+        assert_eq!(
+            actions,
+            vec![ReplacedComment {
+                levenshtein_pct: 84
+            }]
+        );
     }
 
     #[test]
@@ -925,7 +915,12 @@ mod tests {
         let route = shortest_path(start);
 
         let actions = route.iter().map(|(action, _)| *action).collect_vec();
-        assert_eq!(actions, vec![ReplacedComment { levenshtein_pct: 11 }]);
+        assert_eq!(
+            actions,
+            vec![ReplacedComment {
+                levenshtein_pct: 11
+            }]
+        );
     }
 
     #[test]
