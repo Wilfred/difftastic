@@ -12,6 +12,11 @@ Difftastic will now prefer matching up comments that are similar
 Contiguous syntax logic now considers close delimiter positions, so
 `[ \n ];` now treats the `;` atom as contiguous.
 
+### Display
+
+Display width calculations are now based on the longest line visible
+in the diff, not the longest line in the file.
+
 ## 0.6
 
 ### Parsing
