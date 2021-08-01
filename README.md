@@ -17,4 +17,4 @@ require('tree-sitter-typescript').tsx; // TSX grammar
 
 References
 
-* [TypeScript Language Spec](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
+* [TypeScript Language Spec](https://github.com/microsoft/TypeScript/blob/main/doc/spec-ARCHIVED.md)
