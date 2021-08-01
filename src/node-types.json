@@ -1,0 +1,2361 @@
+[
+  {
+    "type": "AdditionExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AdditionOp",
+          "named": true
+        },
+        {
+          "type": "MultiplyExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AdditionOp",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ArrayTypeStart",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AsmClobbers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "StringList",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AsmExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AsmOutput",
+          "named": true
+        },
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AsmInput",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AsmClobbers",
+          "named": true
+        },
+        {
+          "type": "AsmInputList",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AsmInputItem",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        },
+        {
+          "type": "STRINGLITERAL",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AsmInputList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AsmInputItem",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AsmOutput",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AsmInput",
+          "named": true
+        },
+        {
+          "type": "AsmOutputList",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AsmOutputItem",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        },
+        {
+          "type": "STRINGLITERAL",
+          "named": true
+        },
+        {
+          "type": "TypeExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AsmOutputList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AsmOutputItem",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AssignExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AssignOp",
+          "named": true
+        },
+        {
+          "type": "Expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "AssignOp",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "BUILTINIDENTIFIER",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "BitShiftExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AdditionExpr",
+          "named": true
+        },
+        {
+          "type": "BitShiftOp",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "BitShiftOp",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "BitwiseExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "BitShiftExpr",
+          "named": true
+        },
+        {
+          "type": "BitwiseOp",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "BitwiseOp",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "Block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "Statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "BlockExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Block",
+          "named": true
+        },
+        {
+          "type": "BlockLabel",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "BlockExprStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "AssignExpr",
+          "named": true
+        },
+        {
+          "type": "BlockExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "BlockLabel",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "BoolAndExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "CompareExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "BoolOrExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "BoolAndExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "BreakLabel",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ByteAlign",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "CHAR_LITERAL",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "CallConv",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "CompareExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "BitwiseExpr",
+          "named": true
+        },
+        {
+          "type": "CompareOp",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "CompareOp",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ContainerDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ContainerDeclAuto",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ContainerDeclAuto",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ContainerDeclType",
+          "named": true
+        },
+        {
+          "type": "ContainerMembers",
+          "named": true
+        },
+        {
+          "type": "container_doc_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ContainerDeclType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ContainerDeclarations",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ContainerDeclarations",
+          "named": true
+        },
+        {
+          "type": "TestDecl",
+          "named": true
+        },
+        {
+          "type": "TopLevelComptime",
+          "named": true
+        },
+        {
+          "type": "TopLevelDecl",
+          "named": true
+        },
+        {
+          "type": "doc_comment",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ContainerField",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ByteAlign",
+          "named": true
+        },
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        },
+        {
+          "type": "TypeExpr",
+          "named": true
+        },
+        {
+          "type": "doc_comment",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ContainerMembers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ContainerDeclarations",
+          "named": true
+        },
+        {
+          "type": "ContainerField",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "CurlySuffixExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "InitList",
+          "named": true
+        },
+        {
+          "type": "TypeExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ErrorSetDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "IdentifierList",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ErrorUnionExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "SuffixExpr",
+          "named": true
+        },
+        {
+          "type": "TypeExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "Expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "BoolOrExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ExprList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "FLOAT",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "FieldInit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "FnCallArguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ExprList",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "FnProto",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ByteAlign",
+          "named": true
+        },
+        {
+          "type": "CallConv",
+          "named": true
+        },
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        },
+        {
+          "type": "LinkSection",
+          "named": true
+        },
+        {
+          "type": "ParamDeclList",
+          "named": true
+        },
+        {
+          "type": "TypeExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ForExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "ForPrefix",
+          "named": true
+        },
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ForPrefix",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "PtrIndexPayload",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ForStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AssignExpr",
+          "named": true
+        },
+        {
+          "type": "BlockExpr",
+          "named": true
+        },
+        {
+          "type": "ForPrefix",
+          "named": true
+        },
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "Statement",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ForTypeExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ForPrefix",
+          "named": true
+        },
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "TypeExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "GroupedExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "IDENTIFIER",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "INTEGER",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "IdentifierList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        },
+        {
+          "type": "doc_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "IfExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "IfPrefix",
+          "named": true
+        },
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "IfPrefix",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "PtrPayload",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "IfStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AssignExpr",
+          "named": true
+        },
+        {
+          "type": "BlockExpr",
+          "named": true
+        },
+        {
+          "type": "IfPrefix",
+          "named": true
+        },
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "Statement",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "IfTypeExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "IfPrefix",
+          "named": true
+        },
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "TypeExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "InitList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "FieldInit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "LabeledStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Block",
+          "named": true
+        },
+        {
+          "type": "BlockLabel",
+          "named": true
+        },
+        {
+          "type": "LoopStatement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "LabeledTypeExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Block",
+          "named": true
+        },
+        {
+          "type": "BlockLabel",
+          "named": true
+        },
+        {
+          "type": "LoopTypeExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "LinkSection",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "LoopExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ForExpr",
+          "named": true
+        },
+        {
+          "type": "WhileExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "LoopStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ForStatement",
+          "named": true
+        },
+        {
+          "type": "WhileStatement",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "LoopTypeExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ForTypeExpr",
+          "named": true
+        },
+        {
+          "type": "WhileTypeExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "MultiplyExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "MultiplyOp",
+          "named": true
+        },
+        {
+          "type": "PrefixExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "MultiplyOp",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ParamDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        },
+        {
+          "type": "ParamType",
+          "named": true
+        },
+        {
+          "type": "doc_comment",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ParamDeclList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ParamDecl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ParamType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "TypeExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "Payload",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PrefixExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "PrefixOp",
+          "named": true
+        },
+        {
+          "type": "PrimaryExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PrefixOp",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PrefixTypeOp",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ArrayTypeStart",
+          "named": true
+        },
+        {
+          "type": "ByteAlign",
+          "named": true
+        },
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "INTEGER",
+          "named": true
+        },
+        {
+          "type": "PtrTypeStart",
+          "named": true
+        },
+        {
+          "type": "SliceTypeStart",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PrimaryExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AsmExpr",
+          "named": true
+        },
+        {
+          "type": "Block",
+          "named": true
+        },
+        {
+          "type": "BlockLabel",
+          "named": true
+        },
+        {
+          "type": "BreakLabel",
+          "named": true
+        },
+        {
+          "type": "CurlySuffixExpr",
+          "named": true
+        },
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "IfExpr",
+          "named": true
+        },
+        {
+          "type": "LoopExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PrimaryTypeExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "BUILTINIDENTIFIER",
+          "named": true
+        },
+        {
+          "type": "CHAR_LITERAL",
+          "named": true
+        },
+        {
+          "type": "ContainerDecl",
+          "named": true
+        },
+        {
+          "type": "ErrorSetDecl",
+          "named": true
+        },
+        {
+          "type": "FLOAT",
+          "named": true
+        },
+        {
+          "type": "FnCallArguments",
+          "named": true
+        },
+        {
+          "type": "FnProto",
+          "named": true
+        },
+        {
+          "type": "GroupedExpr",
+          "named": true
+        },
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        },
+        {
+          "type": "INTEGER",
+          "named": true
+        },
+        {
+          "type": "IfTypeExpr",
+          "named": true
+        },
+        {
+          "type": "InitList",
+          "named": true
+        },
+        {
+          "type": "LabeledTypeExpr",
+          "named": true
+        },
+        {
+          "type": "STRINGLITERAL",
+          "named": true
+        },
+        {
+          "type": "SwitchExpr",
+          "named": true
+        },
+        {
+          "type": "TypeExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PtrIndexPayload",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PtrPayload",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PtrTypeStart",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "STRINGLITERAL",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "STRINGLITERALSINGLE",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SliceTypeStart",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "Statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AssignExpr",
+          "named": true
+        },
+        {
+          "type": "BlockExprStatement",
+          "named": true
+        },
+        {
+          "type": "IfStatement",
+          "named": true
+        },
+        {
+          "type": "LabeledStatement",
+          "named": true
+        },
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "SwitchExpr",
+          "named": true
+        },
+        {
+          "type": "VarDecl",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "StringList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "STRINGLITERAL",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SuffixExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "FnCallArguments",
+          "named": true
+        },
+        {
+          "type": "PrimaryTypeExpr",
+          "named": true
+        },
+        {
+          "type": "SuffixOp",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SuffixOp",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SwitchCase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "SwitchItem",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SwitchExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "SwitchProngList",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SwitchItem",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SwitchProng",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AssignExpr",
+          "named": true
+        },
+        {
+          "type": "PtrPayload",
+          "named": true
+        },
+        {
+          "type": "SwitchCase",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SwitchProngList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "SwitchProng",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "TestDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Block",
+          "named": true
+        },
+        {
+          "type": "STRINGLITERALSINGLE",
+          "named": true
+        },
+        {
+          "type": "doc_comment",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "TopLevelComptime",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "BlockExpr",
+          "named": true
+        },
+        {
+          "type": "doc_comment",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "TopLevelDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Block",
+          "named": true
+        },
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "FnProto",
+          "named": true
+        },
+        {
+          "type": "STRINGLITERALSINGLE",
+          "named": true
+        },
+        {
+          "type": "VarDecl",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "TypeExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ErrorUnionExpr",
+          "named": true
+        },
+        {
+          "type": "PrefixTypeOp",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "VarDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ByteAlign",
+          "named": true
+        },
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        },
+        {
+          "type": "LinkSection",
+          "named": true
+        },
+        {
+          "type": "TypeExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "WhileContinueExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "AssignExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "WhileExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "WhilePrefix",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "WhilePrefix",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "PtrPayload",
+          "named": true
+        },
+        {
+          "type": "WhileContinueExpr",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "WhileStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AssignExpr",
+          "named": true
+        },
+        {
+          "type": "BlockExpr",
+          "named": true
+        },
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "Statement",
+          "named": true
+        },
+        {
+          "type": "WhilePrefix",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "WhileTypeExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Payload",
+          "named": true
+        },
+        {
+          "type": "TypeExpr",
+          "named": true
+        },
+        {
+          "type": "WhilePrefix",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "container_doc_comment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "doc_comment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "line_comment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ContainerMembers",
+          "named": true
+        },
+        {
+          "type": "container_doc_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "!=",
+    "named": false
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "%=",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "&=",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "*%",
+    "named": false
+  },
+  {
+    "type": "*%=",
+    "named": false
+  },
+  {
+    "type": "**",
+    "named": false
+  },
+  {
+    "type": "*=",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "+%",
+    "named": false
+  },
+  {
+    "type": "+%=",
+    "named": false
+  },
+  {
+    "type": "++",
+    "named": false
+  },
+  {
+    "type": "+=",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "-%",
+    "named": false
+  },
+  {
+    "type": "-%=",
+    "named": false
+  },
+  {
+    "type": "-=",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": ".*",
+    "named": false
+  },
+  {
+    "type": "..",
+    "named": false
+  },
+  {
+    "type": "...",
+    "named": false
+  },
+  {
+    "type": ".?",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": "//",
+    "named": false
+  },
+  {
+    "type": "//!",
+    "named": false
+  },
+  {
+    "type": "///",
+    "named": false
+  },
+  {
+    "type": "////",
+    "named": false
+  },
+  {
+    "type": "/=",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<<=",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": "=>",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": ">>",
+    "named": false
+  },
+  {
+    "type": ">>=",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "@\"",
+    "named": false
+  },
+  {
+    "type": "STRINGLITERALSINGLE",
+    "named": true
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\",
+    "named": false
+  },
+  {
+    "type": "\\u{",
+    "named": false
+  },
+  {
+    "type": "\\x",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "^=",
+    "named": false
+  },
+  {
+    "type": "c",
+    "named": false
+  },
+  {
+    "type": "keyword",
+    "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "|=",
+    "named": false
+  },
+  {
+    "type": "||",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
+  }
+]

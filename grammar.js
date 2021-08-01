@@ -96,12 +96,13 @@ const AMPERSAND = "&",
     seq("\\u{", hex_one_or_more, "}"),
     seq("\\", /[nr\\t'"]/)
   ),
-  // char_char = choice(
-  //   mb_utf8_literal,
-  //   char_escape,
-  //   ascii_char_not_nl_slash_squote
-  // ),
-  char_char = char_escape,
+  char_char = choice(
+    //   mb_utf8_literal,
+    char_escape,
+    /./
+    // ascii_char_not_nl_slash_squote
+  ),
+  // char_char = char_escape,
   string_char = choice(char_escape, /[^\\"\n]/),
   line_string = repeat1(seq("\\\\", /[^\n]*/, /[ \n]*/));
 
@@ -130,7 +131,8 @@ module.exports = grammar({
   ],
 
   rules: {
-    root: ($) => seq(optional($.container_doc_comment), $.ContainerMembers),
+    source_file: ($) =>
+      seq(optional($.container_doc_comment), $.ContainerMembers),
 
     // *** Top level ***
     ContainerMembers: ($) =>
@@ -193,9 +195,7 @@ module.exports = grammar({
       seq(
         keyword("fn", $),
         optional($.IDENTIFIER),
-        LPAREN,
         $.ParamDeclList,
-        RPAREN,
         optional($.ByteAlign),
         optional($.LinkSection),
         optional($.CallConv),
@@ -712,7 +712,7 @@ module.exports = grammar({
 
     StringList: ($) => sepBy1(COMMA, $.STRINGLITERAL),
 
-    ParamDeclList: ($) => sepBy1(COMMA, $.ParamDecl),
+    ParamDeclList: ($) => seq(LPAREN, sepBy(COMMA, $.ParamDecl), RPAREN),
 
     ExprList: ($) => sepBy1(COMMA, $.Expr),
 
