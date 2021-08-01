@@ -117,5 +117,5 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
 }
 
 pub fn header(file_name: &str, language_name: &str) -> String {
-    format!("{} ({})", file_name.yellow().bold(), language_name)
+    format!("{} -- {}", file_name.yellow().bold(), language_name)
 }
