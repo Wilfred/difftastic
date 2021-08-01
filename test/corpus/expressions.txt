@@ -1100,3 +1100,24 @@ array_fill(start_index: 0, num: 100, value: $val);
     )
   )
 )
+
+==========================================
+Precedence between concatenation and shift
+==========================================
+
+<?php
+$a . $c << $b ;
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (binary_expression
+      (variable_name
+        (name))
+        (binary_expression
+          (variable_name
+            (name))
+          (variable_name
+            (name))))))
