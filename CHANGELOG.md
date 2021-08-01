@@ -12,6 +12,9 @@ Difftastic will now prefer matching up comments that are similar
 Contiguous syntax logic now considers close delimiter positions, so
 `[ \n ];` now treats the `;` atom as contiguous.
 
+Fixed an issue where diffs would prefer prefer a low depth change on a
+delimiter over a delimiter that gave contiguous changes.
+
 ### Display
 
 Display width calculations are now based on the longest line visible

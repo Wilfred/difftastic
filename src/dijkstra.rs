@@ -156,14 +156,20 @@ impl Edge {
                 if *contiguous {
                     300
                 } else {
-                    301
+                    // This needs to be more than 40 greater than the
+                    // contiguous case. Otherwise, we end up choosing
+                    // a badly positioned unchanged elimiter just
+                    // because it has a better depth difference.
+                    //
+                    // TODO: write a test for this case.
+                    350
                 }
             }
             NovelDelimiterLHS { contiguous } | NovelDelimiterRHS { contiguous } => {
                 if *contiguous {
                     300
                 } else {
-                    301
+                    350
                 }
             }
 
