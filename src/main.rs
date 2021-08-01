@@ -136,14 +136,14 @@ fn main() {
         return;
     }
 
-    if env::var("INLINE").is_ok() {
-        println!("{}", inline::display(&groups));
-    } else {
-        for group in &mut groups {
-            group.pad(3, lhs_src.max_line(), rhs_src.max_line());
-        }
-        groups = join_overlapping(groups);
+    for group in &mut groups {
+        group.pad(3, lhs_src.max_line(), rhs_src.max_line());
+    }
+    groups = join_overlapping(groups);
 
+    if env::var("INLINE").is_ok() {
+        println!("{}", inline::display(&lhs_src, &rhs_src, &groups));
+    } else {
         print!(
             "{}",
             side_by_side::display(
