@@ -70,12 +70,6 @@ fn main() {
                 .takes_value(true)
                 .help("Override the language parser"),
         )
-        .arg(
-            Arg::with_name("COLUMNS")
-                .long("width")
-                .takes_value(true)
-                .help("Override terminal width"),
-        )
         .arg(Arg::with_name("positional_args").multiple(true))
         .setting(AppSettings::ArgRequiredElseHelp)
         .get_matches();
@@ -122,10 +116,7 @@ fn main() {
         .to_string()
         .replace("\t", "    ");
 
-    let terminal_width = match matches.value_of("COLUMNS") {
-        Some(width) => width.parse::<usize>().unwrap(),
-        None => term_width().unwrap_or(80),
-    };
+    let terminal_width = term_width().unwrap_or(80);
 
     let arena = Arena::new();
 
