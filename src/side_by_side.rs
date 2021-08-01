@@ -19,8 +19,8 @@ pub fn display(
     lhs_matched_lines: &HashMap<LineNumber, LineNumber>,
     groups: &[LineGroup],
 ) -> String {
-    let lhs_column_width = format_line_num(groups.last().unwrap().max_visible_lhs().0).len();
-    let rhs_column_width = format_line_num(groups.last().unwrap().max_visible_rhs().0).len();
+    let lhs_column_width = format_line_num(groups.last().unwrap().max_visible_lhs()).len();
+    let rhs_column_width = format_line_num(groups.last().unwrap().max_visible_rhs()).len();
 
     let terminal_width = term_width().unwrap_or(80);
 

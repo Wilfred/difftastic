@@ -325,12 +325,12 @@ pub fn visible_groups(
     groups
 }
 
-pub fn format_line_num(line_num: usize) -> String {
-    format!("{:<2} ", line_num + 1)
+pub fn format_line_num(line_num: LineNumber) -> String {
+    format!("{:<2} ", line_num.0 + 1)
 }
 
-pub fn format_line_num_padded(line_num: usize, column_width: usize) -> String {
-    format!("{:width$} ", line_num + 1, width = column_width - 1)
+pub fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
+    format!("{:width$} ", line_num.0 + 1, width = column_width - 1)
 }
 
 fn longest_visible_line_lhs(s: &str, groups: &[LineGroup]) -> usize {
@@ -409,7 +409,7 @@ fn apply_group(
     {
         match lhs_line_num {
             Some(lhs_line_num) => {
-                result.push_str(&format_line_num_padded(lhs_line_num.0, lhs_column_width));
+                result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
                 result.push_str(lhs_lines[lhs_line_num.0]);
             }
             None => {
@@ -421,7 +421,7 @@ fn apply_group(
 
         match rhs_line_num {
             Some(rhs_line_num) => {
-                result.push_str(&format_line_num_padded(rhs_line_num.0, rhs_column_width));
+                result.push_str(&format_line_num_padded(rhs_line_num, rhs_column_width));
                 result.push_str(rhs_lines[rhs_line_num.0]);
             }
             None => {}
