@@ -20,6 +20,10 @@ delimiter over a delimiter that gave contiguous changes.
 Display width calculations are now based on the longest line visible
 in the diff, not the longest line in the file.
 
+### Command Line Interface
+
+Removed the `--width` argument.
+
 ## 0.6
 
 ### Parsing
