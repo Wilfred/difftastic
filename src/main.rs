@@ -161,9 +161,11 @@ fn main() {
     let lhs_column_width = format_line_num(groups.last().unwrap().max_visible_lhs().0).len();
     let rhs_column_width = format_line_num(groups.last().unwrap().max_visible_rhs().0).len();
 
-    let lhs_formatted_length = lhs_printable_width(&lhs_src, lhs_column_width, terminal_width);
+    let lhs_formatted_length =
+        lhs_printable_width(&lhs_src, &groups, lhs_column_width, terminal_width);
     let rhs_formatted_length = rhs_printable_width(
         &rhs_src,
+        &groups,
         lhs_formatted_length,
         rhs_column_width,
         terminal_width,

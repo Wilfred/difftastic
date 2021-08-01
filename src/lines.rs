@@ -333,8 +333,45 @@ pub fn format_line_num_padded(line_num: usize, column_width: usize) -> String {
     format!("{:width$} ", line_num + 1, width = column_width - 1)
 }
 
-pub fn lhs_printable_width(lhs: &str, lhs_column_width: usize, terminal_width: usize) -> usize {
-    let longest_line_length = lhs.lines().map(str::len).max().unwrap_or(1);
+fn longest_visible_line_lhs(s: &str, groups: &[LineGroup]) -> usize {
+    let lines: Vec<_> = s.lines().collect();
+    let mut longest = 0;
+
+    for group in groups {
+        if let Some(lhs_lines) = &group.lhs_lines {
+            for line_num in lhs_lines.start.0..lhs_lines.end.0 {
+                let current_len = lines[line_num].len();
+                longest = max(longest, current_len);
+            }
+        }
+    }
+
+    longest
+}
+
+fn longest_visible_line_rhs(s: &str, groups: &[LineGroup]) -> usize {
+    let lines: Vec<_> = s.lines().collect();
+    let mut longest = 1;
+
+    for group in groups {
+        if let Some(rhs_lines) = &group.rhs_lines {
+            for line_num in rhs_lines.start.0..rhs_lines.end.0 {
+                let current_len = lines[line_num].len();
+                longest = max(longest, current_len);
+            }
+        }
+    }
+
+    longest
+}
+
+pub fn lhs_printable_width(
+    lhs: &str,
+    groups: &[LineGroup],
+    lhs_column_width: usize,
+    terminal_width: usize,
+) -> usize {
+    let longest_line_length = longest_visible_line_lhs(lhs, groups);
     let longest_line = longest_line_length + lhs_column_width;
 
     let space_available = terminal_width / 2 - SPACER.len();
@@ -343,11 +380,12 @@ pub fn lhs_printable_width(lhs: &str, lhs_column_width: usize, terminal_width: u
 
 pub fn rhs_printable_width(
     rhs: &str,
+    groups: &[LineGroup],
     lhs_width: usize,
     rhs_column_width: usize,
     terminal_width: usize,
 ) -> usize {
-    let longest_line_length = rhs.lines().map(str::len).max().unwrap_or(1);
+    let longest_line_length = longest_visible_line_rhs(rhs, groups);
     let longest_line = longest_line_length + rhs_column_width;
 
     let space_available = (terminal_width - SPACER.len()) - lhs_width;
