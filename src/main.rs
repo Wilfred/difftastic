@@ -8,7 +8,7 @@ mod style;
 mod syntax;
 use clap::{App, AppSettings, Arg};
 use std::ffi::OsStr;
-use std::fs;
+use std::{env, fs};
 use std::path::Path;
 use typed_arena::Arena;
 
@@ -135,21 +135,26 @@ fn main() {
         return;
     }
 
-    for group in &mut groups {
-        group.pad(3, lhs_src.max_line(), rhs_src.max_line());
-    }
-    groups = join_overlapping(groups);
+    if env::var("INLINE").is_ok() {
+        println!("TODO");
+    } else {
 
-    print!(
-        "{}",
-        side_by_side::display(
-            &lhs_src,
-            &rhs_src,
-            &lhs_positions,
-            &rhs_positions,
-            &lhs_matched_lines,
-            &groups
-        )
-    );
+        for group in &mut groups {
+            group.pad(3, lhs_src.max_line(), rhs_src.max_line());
+        }
+        groups = join_overlapping(groups);
+
+        print!(
+            "{}",
+            side_by_side::display(
+                &lhs_src,
+                &rhs_src,
+                &lhs_positions,
+                &rhs_positions,
+                &lhs_matched_lines,
+                &groups
+            )
+        );
+    }
     println!();
 }
