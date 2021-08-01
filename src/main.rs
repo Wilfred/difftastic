@@ -3,6 +3,7 @@ mod intervals;
 mod lines;
 mod parse;
 mod positions;
+mod side_by_side;
 mod style;
 mod syntax;
 use clap::{App, AppSettings, Arg};
@@ -12,12 +13,8 @@ use std::path::Path;
 use typed_arena::Arena;
 
 use crate::dijkstra::mark_syntax;
-use crate::lines::{
-    apply_groups, enforce_length, format_line_num, join_overlapping, lhs_printable_width,
-    rhs_printable_width, visible_groups, MaxLine,
-};
+use crate::lines::{join_overlapping, visible_groups, MaxLine};
 use crate::parse::{find_lang, parse, parse_lines, ConfigDir};
-use crate::style::apply_colors;
 use crate::syntax::{change_positions, init_info, matching_lines};
 
 fn read_or_die(path: &str) -> Vec<u8> {
@@ -38,10 +35,6 @@ fn read_or_die(path: &str) -> Vec<u8> {
             std::process::exit(1);
         }
     }
-}
-
-fn term_width() -> Option<usize> {
-    term_size::dimensions().map(|(w, _)| w)
 }
 
 /// Do these bytes look like a binary (non-textual) format?
@@ -116,8 +109,6 @@ fn main() {
         .to_string()
         .replace("\t", "    ");
 
-    let terminal_width = term_width().unwrap_or(80);
-
     let arena = Arena::new();
 
     let (lhs, rhs) = match &lang {
@@ -149,38 +140,15 @@ fn main() {
     }
     groups = join_overlapping(groups);
 
-    let lhs_column_width = format_line_num(groups.last().unwrap().max_visible_lhs().0).len();
-    let rhs_column_width = format_line_num(groups.last().unwrap().max_visible_rhs().0).len();
-
-    let lhs_formatted_length =
-        lhs_printable_width(&lhs_src, &groups, lhs_column_width, terminal_width);
-    let rhs_formatted_length = rhs_printable_width(
-        &rhs_src,
-        &groups,
-        lhs_formatted_length,
-        rhs_column_width,
-        terminal_width,
-    );
-
-    let lhs_content_width = lhs_formatted_length - lhs_column_width;
-    let rhs_content_width = rhs_formatted_length - rhs_column_width;
-
-    let lhs_src = enforce_length(&lhs_src, lhs_content_width);
-    let rhs_src = enforce_length(&rhs_src, rhs_content_width);
-    let lhs_colored = apply_colors(&lhs_src, true, &lhs_positions);
-    let rhs_colored = apply_colors(&rhs_src, false, &rhs_positions);
-
     print!(
         "{}",
-        apply_groups(
-            &lhs_colored,
-            &rhs_colored,
-            &groups,
+        side_by_side::display(
+            &lhs_src,
+            &rhs_src,
+            &lhs_positions,
+            &rhs_positions,
             &lhs_matched_lines,
-            lhs_content_width,
-            rhs_content_width,
-            lhs_column_width,
-            rhs_column_width,
+            &groups
         )
     );
     println!();
