@@ -152,7 +152,10 @@ impl Edge {
             ReplacedComment { levenshtein_pct } => 150 + u64::from(100 - levenshtein_pct),
 
             // Otherwise, we've added/removed a node.
-            NovelAtomLHS { contiguous } | NovelAtomRHS { contiguous } => {
+            NovelAtomLHS { contiguous }
+            | NovelAtomRHS { contiguous }
+            | NovelDelimiterLHS { contiguous }
+            | NovelDelimiterRHS { contiguous } => {
                 if *contiguous {
                     300
                 } else {
@@ -162,13 +165,6 @@ impl Edge {
                     // because it has a better depth difference.
                     //
                     // TODO: write a test for this case.
-                    350
-                }
-            }
-            NovelDelimiterLHS { contiguous } | NovelDelimiterRHS { contiguous } => {
-                if *contiguous {
-                    300
-                } else {
                     350
                 }
             }
