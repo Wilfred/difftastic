@@ -384,6 +384,23 @@
           "name": "_heredoc_start"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_heredoc_start_newline"
+              },
+              "named": false,
+              "value": "\n"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "REPEAT",
           "content": {
             "type": "CHOICE",
@@ -402,6 +419,23 @@
               }
             ]
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_heredoc_end_newline"
+              },
+              "named": false,
+              "value": "\n"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -8203,7 +8237,15 @@
     },
     {
       "type": "SYMBOL",
+      "name": "_heredoc_start_newline"
+    },
+    {
+      "type": "SYMBOL",
       "name": "_heredoc_body"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_heredoc_end_newline"
     },
     {
       "type": "SYMBOL",

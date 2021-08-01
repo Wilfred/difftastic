@@ -145,7 +145,9 @@ const rules = {
     seq(
       '<<<',
       $._heredoc_start,
+      opt(alias($._heredoc_start_newline, '\n')),
       choice.rep($._heredoc_body, $.variable, $.embedded_brace_expression),
+      opt(alias($._heredoc_end_newline, '\n')),
       $._heredoc_end,
     ),
 
@@ -1140,7 +1142,13 @@ module.exports = grammar({
 
   extras: $ => [/\s/, $.comment],
 
-  externals: $ => [$._heredoc_start, $._heredoc_body, $._heredoc_end],
+  externals: $ => [
+    $._heredoc_start,
+    $._heredoc_start_newline,
+    $._heredoc_body,
+    $._heredoc_end_newline,
+    $._heredoc_end,
+  ],
 
   supertypes: $ => [
     $._statement,
