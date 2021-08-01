@@ -1,4 +1,5 @@
 mod dijkstra;
+mod inline;
 mod intervals;
 mod lines;
 mod parse;
@@ -8,8 +9,8 @@ mod style;
 mod syntax;
 use clap::{App, AppSettings, Arg};
 use std::ffi::OsStr;
-use std::{env, fs};
 use std::path::Path;
+use std::{env, fs};
 use typed_arena::Arena;
 
 use crate::dijkstra::mark_syntax;
@@ -136,9 +137,8 @@ fn main() {
     }
 
     if env::var("INLINE").is_ok() {
-        println!("TODO");
+        println!("{}", inline::display());
     } else {
-
         for group in &mut groups {
             group.pad(3, lhs_src.max_line(), rhs_src.max_line());
         }
