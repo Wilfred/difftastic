@@ -47,7 +47,7 @@ impl LineGroup {
         }
     }
 
-    fn lhs_lines(&self) -> Vec<LineNumber> {
+    pub fn lhs_lines(&self) -> Vec<LineNumber> {
         let mut res = vec![];
         match &self.lhs_lines {
             Some(lhs_lines) => {
@@ -64,7 +64,7 @@ impl LineGroup {
         res
     }
 
-    fn rhs_lines(&self) -> Vec<LineNumber> {
+    pub fn rhs_lines(&self) -> Vec<LineNumber> {
         let mut res = vec![];
         match &self.rhs_lines {
             Some(rhs_lines) => {
