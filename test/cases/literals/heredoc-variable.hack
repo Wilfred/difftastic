@@ -6,5 +6,27 @@ r$var
 EOF;
 
 <<<EOT
-	$ÿ
+ $ÿ
 EOT;
+
+<<<EOF
+E$var
+EOF;
+
+<<<EOF
+$var
+EOF;
+
+<<<EOF
+$var
+
+EOF;
+
+<<<EOF
+$var
+abc
+EOF;
+
+<<<EOF
+$var x $var
+EOF;

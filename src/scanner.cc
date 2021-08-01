@@ -39,11 +39,19 @@ using std::string;
 
 enum TokenType {
   HEREDOC_START,
+  HEREDOC_START_NEWLINE,
   HEREDOC_BODY,
+  HEREDOC_END_NEWLINE,
   HEREDOC_END,
 };
 
-const char *TokenTypes[] = {"HEREDOC_START", "HEREDOC_BODY", "HEREDOC_END"};
+const char *TokenTypes[] = {
+    "HEREDOC_START",          //
+    "HEREDOC_START_NEWLINE",  //
+    "HEREDOC_BODY",           //
+    "HEREDOC_END_NEWLINE",    //
+    "HEREDOC_END",            //
+};
 
 static const char *str(int32_t chr) {
   switch (chr) {
@@ -70,61 +78,47 @@ static const char *str(int32_t chr) {
 
 struct Scanner {
   unsigned serialize(char *buffer) {
-    if (delimiter.length() + 1 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
+    if (delimiter.length() + 2 >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
     buffer[0] = is_nowdoc;
     buffer[1] = did_start;
-    delimiter.copy(&buffer[2], delimiter.length());
-    return delimiter.length() + 2;
+    buffer[2] = did_end;
+    delimiter.copy(&buffer[3], delimiter.length());
+    return delimiter.length() + 3;
   }
 
   void deserialize(const char *buffer, unsigned length) {
     if (length == 0) {
       is_nowdoc = false;
+      did_start = false;
+      did_end = false;
       delimiter.clear();
     } else {
       is_nowdoc = buffer[0];
       did_start = buffer[1];
-      delimiter.assign(&buffer[2], &buffer[length]);
+      did_end = buffer[2];
+      delimiter.assign(&buffer[3], &buffer[length]);
     }
   }
 
+  /**
+   * Note: if we return false for a scan, variable value changes are overwritten with the values of
+   * the last successful scan. https://tree-sitter.github.io/tree-sitter/creating-parsers#serialize
+   */
   bool scan(TSLexer *lexer, const bool *expected) {
     print("\n> ");
-    if (expected[HEREDOC_END]) print("%s ", TokenTypes[HEREDOC_END]);
-    if (expected[HEREDOC_BODY]) print("%s ", TokenTypes[HEREDOC_BODY]);
     if (expected[HEREDOC_START]) print("%s ", TokenTypes[HEREDOC_START]);
+    if (expected[HEREDOC_START_NEWLINE]) print("%s ", TokenTypes[HEREDOC_START_NEWLINE]);
+    if (expected[HEREDOC_BODY]) print("%s ", TokenTypes[HEREDOC_BODY]);
+    if (expected[HEREDOC_END_NEWLINE]) print("%s ", TokenTypes[HEREDOC_END_NEWLINE]);
+    if (expected[HEREDOC_END]) print("%s ", TokenTypes[HEREDOC_END]);
     print("\n");
 
-    print("peek %s\n", str(peek()));
-
-    if ((expected[HEREDOC_BODY] || expected[HEREDOC_END]) && !delimiter.empty()) {
-      if (!did_start) {
-        //<<<HEREDOC   \n
-        //          ^^^ consume this whitespace
-        while (iswspace(peek()) && peek() != '\n') skip();
-      }
-
-      if (expected[HEREDOC_END] && scan_end(lexer)) {
-        delimiter.clear();
-        did_start = false;
-        is_nowdoc = false;
-
-        set(HEREDOC_END);
-        return true;
-      }
-
-      if (expected[HEREDOC_BODY] && scan_body(lexer)) {
-        set(HEREDOC_BODY);
-        return true;
-      }
+    if (expected[HEREDOC_BODY] || expected[HEREDOC_END]) {
+      return scan_body(lexer);
     }
 
     if (expected[HEREDOC_START]) {
-      if (scan_start(lexer)) {
-        did_start = false;
-        set(HEREDOC_START);
-        return true;
-      }
+      return scan_start(lexer);
     }
 
     return false;
@@ -163,120 +157,146 @@ struct Scanner {
       return false;
     }
 
-    return !delimiter.empty();
-  }
-
-  bool scan_end(TSLexer *lexer) {
-    print("scan end\n");
-
-    prefix.clear();
-
-    if (peek() == '\n') {
-      skip();
-      did_start = true;
-    } else {
+    // A valid delimiter must end with a newline with no whitespace in between.
+    if (peek() != '\n' || delimiter.empty()) {
       return false;
     }
 
-    while (
-        // Let `prefix` grow one character beyond `delimiter`.
-        prefix.length() <= delimiter.length() &&
+    set(HEREDOC_START);
+    stop();
+    next();
 
-        // clang-format off
-        peek() != ';' &&
-        peek() != '\n' &&
-        peek() != ',' &&
-        peek() != '$'
-        // clang-format on
-    ) {
-      prefix += peek();
-      next();
+    if (scan_delimiter(lexer)) {
+      if (peek() == ';') next();
+      if (peek() == '\n') {
+        // <<<EOF\n
+        // EOF;  ^^ able to detect did_end
+        did_end = true;
+      }
     }
 
-    print("pre %s ?= %s\n", prefix.c_str(), delimiter.c_str());
+    return true;
+  }
 
-    return prefix == delimiter;
+  bool scan_delimiter(TSLexer *lexer) {
+    for (unsigned long index = 0; index < delimiter.length(); index++) {
+      if (delimiter[index] == peek()) {
+        next();
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 
   bool scan_body(TSLexer *lexer) {
     print("scan body\n");
 
-    if (!did_start) {
-      if (peek() == '\n') {
-        skip();
-      } else {
+    bool did_advance = false;
+
+    for (;;) {
+      if (peek() == '\0') {
         return false;
       }
 
-      did_start = true;
-    }
-
-    if (!is_nowdoc && prefix.empty()) {
-      if (peek() == '{') next();
-      if (peek() == '$') {
+      if (peek() == '\\') {
         next();
-        if (is_identifier_start_char(peek())) {
-          return false;
-        }
+        next();
+        did_advance = true;
+        continue;
       }
-    }
 
-    for (;;) {
-      switch (peek()) {
-        case '\0': {
-          return false;
-        }
-
-        case '\\': {
+      if ((peek() == '{' || peek() == '$') && !is_nowdoc) {
+        stop();
+        if (peek() == '{') next();
+        if (peek() == '$') {
           next();
-          next();
-          break;
-        }
 
-        case '{': {
-          if (is_nowdoc) {
-            next();
-          } else {
-            stop();
-            next();
-
-            if (peek() == '$') {
-              return true;
+          if (is_identifier_start_char(peek())) {
+            if (did_advance) {
+              set(HEREDOC_BODY);
             }
+            return did_advance;
           }
-
-          break;
         }
 
-        case '$': {
-          if (is_nowdoc) {
-            next();
-          } else {
-            stop();
-            next();
+        did_advance = true;
+        continue;
+      }
 
-            if (is_identifier_start_char(peek())) {
-              return true;
-            }
-          }
-          break;
-        }
-
-        case '\n': {
+      if (did_end || peek() == '\n') {
+        if (did_advance) {
+          // <<<EOF
+          // x     \n
+          // EOF;  ^^ able to detect did_end
           stop();
+          next();
+        } else if (peek() == '\n') {
+          if (did_end) {
+            // Detected did_end in a previous HEREDOC_BODY or HEREDOC_START scan. Can skip newline.
+            //
+            // <<<EOF\n
+            // EOF;  ^^ detected did_end during HEREDOC_START scan
+            ///
+            // <<<EOF
+            // x     \n
+            // EOF;  ^^ detected did_end during HEREDOC_BODY scan
+            skip();
+          } else {
+            // Did not detect did_end in a previous scan. Newline could be HEREDOC_START_NEWLINE,
+            // HEREDOC_BODY, HEREDOC_END_NEWLINE.
+            //
+            // <<<EOF\n
+            // x     ^^ HEREDOC_START_NEWLINE
+            // EOF;
+            //
+            // <<<EOF
+            // $variable\n
+            // x        ^^ HEREDOC_BODY
+            // EOF;
+            //
+            // <<<EOF
+            // $variable\n
+            // EOF;     ^^ HEREDOC_END_NEWLINE
+            next();
+            stop();
+          }
+        }
 
-          if (scan_end(lexer)) {
+        if (scan_delimiter(lexer)) {
+          if (!did_advance && did_end) stop();
+
+          if (peek() == ';') next();
+          if (peek() == '\n') {
+            if (did_advance) {
+              set(HEREDOC_BODY);
+              did_start = true;
+              did_end = true;
+            } else if (did_end) {
+              set(HEREDOC_END);
+              delimiter.clear();
+              is_nowdoc = false;
+              did_start = false;
+              did_end = false;
+            } else {
+              set(HEREDOC_END_NEWLINE);
+              did_start = true;
+              did_end = true;
+            }
             return true;
           }
-
-          break;
+        } else if (!did_start && !did_advance) {
+          set(HEREDOC_START_NEWLINE);
+          did_start = true;
+          return true;
         }
 
-        default: {
-          next();
-          break;
-        }
+        did_advance = true;
+        continue;
       }
+
+      next();
+      did_advance = true;
     }
   }
 
@@ -286,9 +306,9 @@ struct Scanner {
   }
 
   string delimiter;
-  string prefix;
   bool is_nowdoc;
   bool did_start;
+  bool did_end;
 };
 
 }  // namespace
