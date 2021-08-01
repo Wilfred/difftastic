@@ -137,7 +137,7 @@ fn main() {
     }
 
     if env::var("INLINE").is_ok() {
-        println!("{}", inline::display());
+        println!("{}", inline::display(&groups));
     } else {
         for group in &mut groups {
             group.pad(3, lhs_src.max_line(), rhs_src.max_line());
