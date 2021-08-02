@@ -46,7 +46,7 @@ pub fn display(
             res.push_str("   ");
 
             if lhs_changed_lines.contains(&lhs_line_num) {
-                res.push_str(&lhs_lines[lhs_line_num.0].bright_red().to_string());
+                res.push_str(&lhs_lines[lhs_line_num.0].bright_red().bold().to_string());
             } else {
                 res.push_str(&lhs_lines[lhs_line_num.0].white().to_string());
             }
@@ -67,7 +67,7 @@ pub fn display(
             res.push_str(&format_line_num(rhs_line_num));
 
             if rhs_changed_lines.contains(&rhs_line_num) {
-                res.push_str(&rhs_lines[rhs_line_num.0].bright_green().to_string());
+                res.push_str(&rhs_lines[rhs_line_num.0].bright_green().bold().to_string());
             } else {
                 res.push_str(&rhs_lines[rhs_line_num.0].white().to_string());
             }
