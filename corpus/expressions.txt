@@ -753,6 +753,29 @@ a.map(|b: usize| b.push(c));
       (call_expression (field_expression (identifier) (field_identifier)) (arguments (identifier)))))))
 
 ===========================================
+Generators
+===========================================
+
+move || {
+    while i <= n {
+        yield i;
+        i += 1;
+    }
+    return;
+};
+
+---
+
+(source_file
+  (closure_expression
+    (closure_parameters)
+    (block
+      (while_expression (binary_expression (identifier) (identifier))
+        (block (yield_expression (identifier))
+          (compound_assignment_expr (identifier) (integer_literal))))
+      (return_expression))))
+
+===========================================
 Unsafe blocks
 ===========================================
 
