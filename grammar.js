@@ -132,25 +132,22 @@ module.exports = grammar({
 
   rules: {
     source_file: ($) =>
-      seq(optional($.container_doc_comment), $.ContainerMembers),
+      seq(optional($.container_doc_comment), repeat($.ContainerMembers)),
 
     // *** Top level ***
     ContainerMembers: ($) =>
-      seq(
-        $.ContainerDeclarations,
-        repeat(seq($.ContainerField, COMMA)),
-        choice($.ContainerField, $.ContainerDeclarations)
+      prec.left(
+        choice($.ContainerDeclarations, sepBy1(COMMA, $.ContainerField))
       ),
 
     ContainerDeclarations: ($) =>
       choice(
-        seq($.TestDecl, $.ContainerDeclarations),
-        seq($.TopLevelComptime, $.ContainerDeclarations),
+        $.TestDecl,
+        $.TopLevelComptime,
         seq(
           optional($.doc_comment),
-          keyword("pub", $),
-          $.TopLevelDecl,
-          $.ContainerDeclarations
+          optional(keyword("pub", $)),
+          $.TopLevelDecl
         )
       ),
 
@@ -166,29 +163,27 @@ module.exports = grammar({
       seq(optional($.doc_comment), keyword("comptime", $), $.BlockExpr),
 
     TopLevelDecl: ($) =>
-      choice(
-        seq(
-          optional(
-            choice(
-              keyword("export", $),
-              seq(keyword("extern", $), optional($.STRINGLITERALSINGLE)),
-              keyword(choice("inline", "no_inline"), $)
-            )
+      prec.left(
+        choice(
+          keyword("export", $),
+          seq(keyword("extern", $), optional($.STRINGLITERALSINGLE)),
+          seq(
+            optional(keyword(choice("inline", "no_inline"), $)),
+            $.FnProto,
+            choice(SEMICOLON, $.Block)
           ),
-          $.FnProto,
-          choice(SEMICOLON, $.Block)
-        ),
-        seq(
-          optional(
-            choice(
-              keyword("export", $),
-              seq(keyword("extern", $), optional($.STRINGLITERALSINGLE))
-            )
+          seq(
+            optional(
+              choice(
+                keyword("export", $),
+                seq(keyword("extern", $), optional($.STRINGLITERALSINGLE))
+              )
+            ),
+            optional(keyword("threadlocal", $)),
+            $.VarDecl
           ),
-          optional(keyword("threadlocal", $)),
-          $.VarDecl
-        ),
-        seq(keyword("usingnamespace", $), $.Expr, SEMICOLON)
+          seq(keyword("usingnamespace", $), $.Expr, SEMICOLON)
+        )
       ),
 
     FnProto: ($) =>
@@ -233,7 +228,7 @@ module.exports = grammar({
 
     Statement: ($) =>
       choice(
-        seq(keyword("comptime", $), $.VarDecl),
+        seq(optional(keyword("comptime", $)), $.VarDecl),
         seq(
           choice(
             keyword(choice("comptime", "nosuspend", "defer"), $),
@@ -289,24 +284,44 @@ module.exports = grammar({
 
     AssignExpr: ($) => seq($.Expr, optional(seq($.AssignOp, $.Expr))),
 
-    Expr: ($) => $.BoolOrExpr,
+    Expr: ($) => choice($.BinaryExpr, $.UnaryExpr, $.PrimaryExpr),
 
-    BoolOrExpr: ($) => prec.left(sepBy1(keyword("or", $), $.BoolAndExpr)),
+    BinaryExpr: ($) => {
+      const PREC = {
+        or: 1,
+        and: 2,
+        comparative: 3,
+        bitwise: 4,
+        bitshift: 5,
+        addition: 6,
+        multiply: 7,
+        prefix: 8,
+      };
+      const table = [
+        [PREC.or, "or"],
+        [PREC.and, "and"],
+        [PREC.comparative, $.CompareOp],
+        [PREC.bitwise, $.BitwiseOp],
+        [PREC.bitshift, $.BitShiftOp],
+        [PREC.addition, $.AdditionOp],
+        [PREC.multiply, $.MultiplyOp],
+      ];
 
-    BoolAndExpr: ($) => prec.left(sepBy1(keyword("and", $), $.CompareExpr)),
-
-    CompareExpr: ($) =>
-      prec.left(seq($.BitwiseExpr, optional(seq($.CompareOp, $.BitwiseExpr)))),
-
-    BitwiseExpr: ($) => prec.left(sepBy1($.BitwiseOp, $.BitShiftExpr)),
-
-    BitShiftExpr: ($) => prec.left(sepBy1($.BitShiftOp, $.AdditionExpr)),
-
-    AdditionExpr: ($) => prec.left(sepBy1($.AdditionOp, $.MultiplyExpr)),
-
-    MultiplyExpr: ($) => prec.left(sepBy1($.MultiplyOp, $.PrefixExpr)),
-
-    PrefixExpr: ($) => seq(repeat($.PrefixOp), $.PrimaryExpr),
+      return choice(
+        ...table.map(([precedence, operator]) =>
+          prec.left(
+            precedence,
+            seq(
+              field("left", $.Expr),
+              field("operator", operator),
+              field("right", $.Expr)
+            )
+          )
+        )
+      );
+    },
+    UnaryExpr: ($) =>
+      prec.left(8, seq(field("operator", $.PrefixOp), field("left", $.Expr))),
 
     PrimaryExpr: ($) =>
       prec.left(
@@ -573,14 +588,12 @@ module.exports = grammar({
         RARROWEQUAL
       ),
     BitwiseOp: ($) =>
-      prec.left(
-        choice(
-          AMPERSAND,
-          CARET,
-          PIPE,
-          keyword("orelse", $),
-          seq(keyword("catch", $), optional($.Payload))
-        )
+      choice(
+        AMPERSAND,
+        CARET,
+        PIPE,
+        keyword("orelse", $),
+        seq(keyword("catch", $), optional($.Payload))
       ),
 
     BitShiftOp: (_) => choice(LARROW2, RARROW2),
@@ -673,7 +686,7 @@ module.exports = grammar({
         $.ContainerDeclType,
         LBRACE,
         optional($.container_doc_comment),
-        $.ContainerMembers,
+        repeat($.ContainerMembers),
         RBRACE
       ),
 
