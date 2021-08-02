@@ -203,7 +203,7 @@ module.exports = grammar({
           keyword("export", $),
           seq(keyword("extern", $), optional($.STRINGLITERALSINGLE)),
           seq(
-            optional(keyword(choice("inline", "no_inline"), $)),
+            optional(keyword(choice("inline", "noinline"), $)),
             $.FnProto,
             choice(SEMICOLON, $.Block)
           ),
@@ -266,7 +266,7 @@ module.exports = grammar({
         seq(optional(keyword("comptime", $)), $.VarDecl),
         seq(
           choice(
-            keyword(choice("comptime", "nosuspend", "defer"), $),
+            keyword(choice("comptime", "nosuspend", "defer", "suspend"), $),
             seq(keyword("errdefer", $), optional($.Payload))
           ),
           $.BlockExprStatement
@@ -808,8 +808,9 @@ module.exports = grammar({
 function sepBy1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)), optional(sep));
 }
-function keyword(rule, $) {
-  return alias(rule, $.keyword);
+function keyword(rule, _) {
+  return rule;
+  // return alias(rule, $.keyword);
 }
 function sepBy(sep, rule) {
   return optional(sepBy1(sep, rule));
