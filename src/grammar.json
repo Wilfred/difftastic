@@ -1122,7 +1122,7 @@
       "name": "BoolOrExpr"
     },
     "BoolOrExpr": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -1173,7 +1173,7 @@
       }
     },
     "BoolAndExpr": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -1224,7 +1224,7 @@
       }
     },
     "CompareExpr": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -1258,7 +1258,7 @@
       }
     },
     "BitwiseExpr": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -1299,7 +1299,7 @@
       }
     },
     "BitShiftExpr": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -1340,7 +1340,7 @@
       }
     },
     "AdditionExpr": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -1381,7 +1381,7 @@
       }
     },
     "MultiplyExpr": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
