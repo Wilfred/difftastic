@@ -14,6 +14,44 @@
   (line_comment)
 ] @comment
 
+(VarDecl
+  (IDENTIFIER) @type
+    (SuffixExpr
+      (ContainerDecl
+        (FnProto
+          (IDENTIFIER) @method
+        )
+      )
+    )
+)
+
+return_type: (SuffixExpr (IDENTIFIER) @type)
+
+field: (SuffixOp (IDENTIFIER) @field)
+
+function: (SuffixOp (IDENTIFIER) @function)
+
+(BUILTINIDENTIFIER) @function.builtin
+
+((BUILTINIDENTIFIER) @include
+  (#any-of? @include "@import" "@cImport"))
+
+(BuildinTypeExpr) @type.builtin
+
+(INTEGER) @number
+
+(FLOAT) @float
+
+[
+  "true"
+  "false"
+] @boolean
+
+[
+  "null" 
+  "undefined"
+] @constant.builtin
+
 [
   "continue"
   "else"
@@ -76,53 +114,21 @@
 ] @keyword
 
 [
-  "&"
-  "&="
-  "*"
-  "*="
-  ;"*%"
-  "*%="
-  ;"^"
-  "^="
-  ":"
-  ","
-  "."
-  ".."
-  "..."
-  ".*"
-  ".?"
-  "="
-  ;"=="
-  "=>"
-  "!"
-  ;"!="
-  ;"<"
-  ;"<<"
-  "<<="
-  ; "<="
-  "-"
-  "-="
-  "-%"
-  "-%="
-  ;"->"
-  ;"%"
-  "%="
-  "|"
-  ;"||"
-  "|="
-  ;"+"
-  ;"++"
-  "+="
-  ;"+%"
-  "+%="
-  "?"
-  ;">"
-  ;">>"
-  ">>="
-  ;">="
-  ;"/"
-  "/="
-  "~"
+  "or"
+  "and"
+] @keyword.operator
+
+((BitwiseOp) @keyword.operator
+  (#any-of? @keyword.operator "orelse" "catch")
+)
+
+[
+  (CompareOp)
+  (BitwiseOp)
+  (BitShiftOp)
+  (AdditionOp)
+  (MultiplyOp)
+  (PrefixOp)
 ] @operator
 
 [

@@ -150,8 +150,8 @@ module.exports = grammar({
   extras: ($) => [/\s/, $.line_comment],
   conflicts: ($) => [
     [$._PrimaryExpr, $.LabeledStatement],
-    [$._Statement, $.PrimaryTypeExpr],
-    [$._CurlySuffixExpr, $.PrimaryTypeExpr],
+    [$._Statement, $._PrimaryTypeExpr],
+    [$._CurlySuffixExpr, $._PrimaryTypeExpr],
     [$._CurlySuffixExpr, $.IfTypeExpr],
     [$._CurlySuffixExpr, $.WhileTypeExpr],
     [$._CurlySuffixExpr, $.ForTypeExpr],
@@ -161,7 +161,7 @@ module.exports = grammar({
     [$.AssignExpr, $.IfExpr],
     [$.AssignExpr, $.WhileExpr],
     [$.AssignExpr, $.ForExpr],
-    [$.ParamType, $.PrimaryTypeExpr],
+    [$.ParamType, $._PrimaryTypeExpr],
     [$.BlockExpr, $.LabeledTypeExpr],
   ],
 
@@ -230,7 +230,7 @@ module.exports = grammar({
         optional($.LinkSection),
         optional($.CallConv),
         optional(EXCLAMATIONMARK),
-        $._TypeExpr
+        field("return_type", $._TypeExpr)
       ),
 
     VarDecl: ($) =>
@@ -398,27 +398,33 @@ module.exports = grammar({
         seq(LBRACE, RBRACE)
       ),
 
-    _TypeExpr: ($) => seq(repeat($.PrefixTypeOp), $.ErrorUnionExpr),
+    _TypeExpr: ($) => seq(repeat($.PrefixTypeOp), $._ErrorUnionExpr),
 
-    ErrorUnionExpr: ($) =>
-      prec.left(
-        seq($._SuffixExpr, optional(seq(EXCLAMATIONMARK, $._TypeExpr)))
-      ),
+    _ErrorUnionExpr: ($) =>
+      prec.left(seq($.SuffixExpr, optional(seq(EXCLAMATIONMARK, $._TypeExpr)))),
 
-    _SuffixExpr: ($) =>
+    SuffixExpr: ($) =>
       prec.left(
-        choice(
-          seq(
-            keyword("async", $),
-            $.PrimaryTypeExpr,
-            repeat($.SuffixOp),
-            $.FnCallArguments
-          ),
-          seq($.PrimaryTypeExpr, repeat(choice($.SuffixOp, $.FnCallArguments)))
+        seq(
+          optional(keyword("async", $)),
+          choice(
+            seq(field("function", $._PrimaryTypeExpr), $.FnCallArguments),
+            seq(
+              $._PrimaryTypeExpr,
+              repeat(
+                choice(
+                  field("field", $.SuffixOp),
+                  seq(field("function", $.SuffixOp), $.FnCallArguments)
+                )
+              )
+            )
+          )
         )
       ),
 
-    PrimaryTypeExpr: ($) =>
+    // _Literal: ($) => choice($.CHAR_LITERAL, $.FLOAT, $.INTEGER, $.STRINGLITERAL),
+
+    _PrimaryTypeExpr: ($) =>
       prec.left(
         choice(
           seq($.BUILTINIDENTIFIER, $.FnCallArguments),
@@ -697,7 +703,7 @@ module.exports = grammar({
         DOTQUESTIONMARK
       ),
 
-    FnCallArguments: ($) => seq(LPAREN, $._ExprList, RPAREN),
+    FnCallArguments: ($) => seq(LPAREN, optional($._ExprList), RPAREN),
 
     // Ptr specific
     SliceTypeStart: ($) =>
