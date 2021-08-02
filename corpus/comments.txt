@@ -6,20 +6,28 @@ Comments
 -- single-line comment, below an empty single-line comment
 
 --[[
-a level 0 multi-line comment
+"block comment"
 --]]
 
---  [[
-a level 0 multi-line comment
+--[[
+"block comment"
+]]
+
+-- [[
+"not block comment"
 --]]
 
 --[==[
-a level 2 multi-line comment
+"level 2 block comment"
+-- ]==]
+
+--[==[
+"level 2 block comment"
 ]==]
 
---  [==[
-a level 2 multi-line comment
-  ]==]
+-- [==[
+"not level 2 block comment"
+--]==]
 
 ---
 
@@ -32,5 +40,13 @@ a level 2 multi-line comment
   (comment)
 
   (comment)
+  (expression (string))
+  (comment)
 
+  (comment)
+
+  (comment)
+  
+  (comment)
+  (expression (string))
   (comment))
