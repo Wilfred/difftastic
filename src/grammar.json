@@ -4667,6 +4667,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "yield_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_literal"
         },
         {
@@ -5738,6 +5742,36 @@
           "content": {
             "type": "STRING",
             "value": "return"
+          }
+        }
+      ]
+    },
+    "yield_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PREC_LEFT",
+          "value": 0,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "yield"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PREC",
+          "value": -1,
+          "content": {
+            "type": "STRING",
+            "value": "yield"
           }
         }
       ]
