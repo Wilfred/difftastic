@@ -57,10 +57,8 @@ pub fn display(
         for rhs_line_num in group.rhs_lines() {
             if rhs_changed_lines.contains(&rhs_line_num) {
                 seen_rhs_change = true;
-            } else {
-                if !seen_rhs_change {
-                    continue;
-                }
+            } else if !seen_rhs_change {
+                continue;
             }
 
             res.push_str("   ");
