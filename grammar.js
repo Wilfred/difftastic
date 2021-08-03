@@ -768,8 +768,7 @@ module.exports = grammar({
     container_doc_comment: (_) =>
       token(repeat1(seq("//!", /[^\n]*/, /[ \n]*/))),
     doc_comment: (_) => token(repeat1(seq("///", /[^\n]*/, /[ \n]*/))),
-    line_comment: (_) =>
-      token(choice(seq("//", /![!/][^\n]*/), seq("////", /[^\n]*/))),
+    line_comment: (_) => token(seq("//", /.*/)),
 
     CHAR_LITERAL: (_) => token(seq("'", char_char, "'")),
 
