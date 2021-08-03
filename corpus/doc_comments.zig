@@ -1,4 +1,8 @@
-//! This is a container doc comment
+================================================================================
+doc_comments
+================================================================================
+
+    //! This is a container doc comment
 //! That spans multiple lines
 
 const MyStruct = struct {
@@ -25,7 +29,7 @@ const MyEnum = enum {
 };
 
 /// This is a doc comment for the error block
-const Errors = error{
+const Errors = error {
     /// This documents MyError1
     MyError1,
     /// This documents MyError2
@@ -34,9 +38,11 @@ const Errors = error{
 
 /// This is an add function
 /// It adds two numbers
-pub fn add(/// a is the first number
-a: u32, /// b is the second number
-b: u32) u64 {
+pub fn add(
+    /// a is the first number
+    a: u32,
+    /// b is the second number
+    b: u32) u64 {
     const mystruct = struct {
         /// c is a float
         c: f64,
@@ -50,7 +56,115 @@ comptime {
 }
 
 /// This is a doc comment for a test
-test "This is my test" {}
+test "This is my test" {
+}
 
 /// foo is a a number
 const foo = 5;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (container_doc_comment)
+  (VarDecl
+    (IDENTIFIER)
+    (SuffixExpr
+      (ContainerDecl
+        (ContainerDeclType)
+        (container_doc_comment)
+        (ContainerField
+          (doc_comment)
+          (IDENTIFIER)
+          (SuffixExpr
+            (BuildinTypeExpr)))
+        (ContainerField
+          (doc_comment)
+          (IDENTIFIER)
+          (SuffixExpr
+            (BuildinTypeExpr)))
+        (ContainerField
+          (doc_comment)
+          (IDENTIFIER)
+          (SuffixExpr
+            (BuildinTypeExpr))))))
+  (doc_comment)
+  (VarDecl
+    (IDENTIFIER)
+    (SuffixExpr
+      (ContainerDecl
+        (ContainerDeclType)
+        (container_doc_comment)
+        (ContainerField
+          (doc_comment)
+          (IDENTIFIER))
+        (ContainerField
+          (doc_comment)
+          (IDENTIFIER)))))
+  (doc_comment)
+  (VarDecl
+    (IDENTIFIER)
+    (SuffixExpr
+      (ErrorSetDecl
+        (IdentifierList
+          (doc_comment)
+          (IDENTIFIER)
+          (doc_comment)
+          (IDENTIFIER)))))
+  (doc_comment)
+  (FnProto
+    (IDENTIFIER)
+    (ParamDeclList
+      (ParamDecl
+        (doc_comment)
+        (IDENTIFIER)
+        (ParamType
+          (SuffixExpr
+            (BuildinTypeExpr))))
+      (ParamDecl
+        (doc_comment)
+        (IDENTIFIER)
+        (ParamType
+          (SuffixExpr
+            (BuildinTypeExpr)))))
+    (SuffixExpr
+      (BuildinTypeExpr)))
+  (Block
+    (VarDecl
+      (IDENTIFIER)
+      (SuffixExpr
+        (ContainerDecl
+          (ContainerDeclType)
+          (ContainerField
+            (doc_comment)
+            (IDENTIFIER)
+            (SuffixExpr
+              (BuildinTypeExpr))))))
+    (AssignExpr
+      (BinaryExpr
+        (SuffixExpr
+          (IDENTIFIER))
+        (AdditionOp)
+        (SuffixExpr
+          (IDENTIFIER)))))
+  (TopLevelComptime
+    (doc_comment)
+    (BlockExpr
+      (Block
+        (VarDecl
+          (IDENTIFIER)
+          (SuffixExpr
+            (IDENTIFIER)
+            (FnCallArguments
+              (SuffixExpr
+                (INTEGER))
+              (SuffixExpr
+                (INTEGER))))))))
+  (TestDecl
+    (doc_comment)
+    (STRINGLITERALSINGLE)
+    (Block))
+  (doc_comment)
+  (VarDecl
+    (IDENTIFIER)
+    (SuffixExpr
+      (INTEGER))))
