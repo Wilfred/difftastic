@@ -12,7 +12,7 @@ However:
 ## Prerequisites
 
 * [emsdk](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions) -- emscripten via homebrew seems to work for macos
-* node >= 12 (nvm recommended) -- recently tested 12.9.1, 12,16,1
+* node >= 12 (nvm recommended) -- recently tested 12.9.1, 12.14.0, 12.18.0
 
 ## Fine Print
 
@@ -30,13 +30,16 @@ cd ~/src
 git clone https://github.com/sogaiu/tree-sitter-clojure
 cd tree-sitter-clojure
 
-# create `node_modules` and populate with dependencies
-npm install
+# ensure tree-sitter-cli is avaliable as a dev dependency
+npm install --save-dev tree-sitter-cli
 
 # create `src` and populate with tree-sitter .c goodness
 npx tree-sitter generate
 
-# create `build` and populate with 
+# create `node_modules` and populate with dependencies
+npm install
+
+# create `build` and populate appropriately
 npx node-gyp configure
 
 # create `build/Release` and build `tree_sitter_clojure_binding.node`
