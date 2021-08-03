@@ -55,16 +55,6 @@ const AMPERSAND = "&",
   SLASHEQUAL = "/=",
   TILDE = "~",
   buildin_type = [
-    "i8",
-    "u8",
-    "i16",
-    "u16",
-    "i32",
-    "u32",
-    "i64",
-    "u64",
-    "i128",
-    "u128",
     "isize",
     "usize",
     "c_short",
@@ -389,7 +379,8 @@ module.exports = grammar({
     WhileExpr: ($) =>
       prec.left(seq($.WhilePrefix, $._Expr, optional($._ElseExprTail))),
 
-    _CurlySuffixExpr: ($) => seq($._TypeExpr, optional($.InitList)),
+    _CurlySuffixExpr: ($) =>
+      choice(seq(field("constructor", $._TypeExpr), $.InitList), $._TypeExpr),
 
     InitList: ($) =>
       choice(

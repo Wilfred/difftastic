@@ -18,12 +18,12 @@
   (IDENTIFIER) @type
     (SuffixExpr
       (ContainerDecl
-        (FnProto
-          (IDENTIFIER) @method
-        )
       )
     )
 )
+constructor: (SuffixExpr (IDENTIFIER) @constructor)
+
+(FieldInit (IDENTIFIER) @field)
 
 return_type: (SuffixExpr (IDENTIFIER) @type)
 
