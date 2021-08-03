@@ -3,7 +3,34 @@
 #include <cwctype>
 #include <string>
 
+/**
+ * Debugging helper macros. Example output:
+ *
+ * > HEREDOC_START
+ * scan_start() <-
+ * next E
+ * next O
+ * next F
+ * del EOF
+ * set HEREDOC_START
+ * stop \n
+ * next \n
+ * scan_delimiter() <-
+ * scan_delimiter() -> false
+ * scan_start() -> true
+ *
+ * > HEREDOC_START_NEWLINE HEREDOC_BODY HEREDOC_END_NEWLINE HEREDOC_END
+ * scan_body() <-
+ * next \n
+ * stop $
+ * scan_delimiter() <-
+ * scan_delimiter() -> false
+ * set HEREDOC_START_NEWLINE
+ * scan_body() -> true
+ */
+
 #define debug 0
+
 #define print(...) \
   if (debug) printf(__VA_ARGS__)
 
@@ -32,6 +59,10 @@
     print("set %s\n", TokenTypes[symbol]); \
     lexer->result_symbol = symbol;         \
   }
+
+#define ret(function, result)                                 \
+  print("%s() -> %s\n", function, result ? "true" : "false"); \
+  return result;
 
 namespace {
 
@@ -125,7 +156,7 @@ struct Scanner {
   }
 
   bool scan_start(TSLexer *lexer) {
-    print("scan start\n");
+    print("scan_start() <-\n");
 
     while (iswspace(peek())) skip();
 
@@ -154,7 +185,7 @@ struct Scanner {
       next();
     } else if (quote != 0) {
       // Opening quote exists, but we found no matching closing quote.
-      return false;
+      ret("scan_start", false);
     }
 
     // A valid delimiter must end with a newline with no whitespace in between.
@@ -175,22 +206,23 @@ struct Scanner {
       }
     }
 
-    return true;
+    ret("scan_start", true);
   }
 
   bool scan_delimiter(TSLexer *lexer) {
+    print("scan_delimiter() <-\n");
     for (unsigned long index = 0; index < delimiter.length(); index++) {
       if (delimiter[index] == peek()) {
         next();
       } else {
-        return false;
+        ret("scan_delimiter", false);
       }
     }
-    return true;
+    ret("scan_delimiter", true);
   }
 
   bool scan_body(TSLexer *lexer) {
-    print("scan body\n");
+    print("scan_body() <-\n");
 
     bool did_advance = false;
 
@@ -213,10 +245,8 @@ struct Scanner {
           next();
 
           if (is_identifier_start_char(peek())) {
-            if (did_advance) {
-              set(HEREDOC_BODY);
-            }
-            return did_advance;
+            set(HEREDOC_BODY);
+            ret("scan_body", did_advance);
           }
         }
 
@@ -283,12 +313,12 @@ struct Scanner {
               did_start = true;
               did_end = true;
             }
-            return true;
+            ret("scan_body", true);
           }
         } else if (!did_start && !did_advance) {
-          set(HEREDOC_START_NEWLINE);
           did_start = true;
-          return true;
+          set(HEREDOC_START_NEWLINE);
+          ret("scan_body", true);
         }
 
         did_advance = true;
