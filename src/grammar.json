@@ -8823,31 +8823,12 @@
       "type": "SYMBOL",
       "name": "_exp_infix"
     },
-    "quasiquote_body": {
-      "type": "TOKEN",
-      "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[^|]"
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\|[^\\]]"
-            }
-          ]
-        }
-      }
-    },
     "quasiquote": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_qq_start"
+          "name": "quasiquote_start"
         },
         {
           "type": "CHOICE",
@@ -8867,20 +8848,12 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "|"
+          "type": "SYMBOL",
+          "name": "quasiquote_bar"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "quasiquote_body"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "quasiquote_body"
         },
         {
           "type": "TOKEN",
@@ -9085,7 +9058,15 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_qq_start"
+      "name": "quasiquote_start"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "quasiquote_bar"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "quasiquote_body"
     },
     {
       "type": "SYMBOL",

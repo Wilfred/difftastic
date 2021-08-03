@@ -11682,10 +11682,18 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
+          "type": "quasiquote_bar",
+          "named": true
+        },
+        {
           "type": "quasiquote_body",
+          "named": true
+        },
+        {
+          "type": "quasiquote_start",
           "named": true
         },
         {
@@ -13802,7 +13810,15 @@
     "named": false
   },
   {
+    "type": "quasiquote_bar",
+    "named": true
+  },
+  {
     "type": "quasiquote_body",
+    "named": true
+  },
+  {
+    "type": "quasiquote_start",
     "named": true
   },
   {

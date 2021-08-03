@@ -120,6 +120,9 @@ namespace syms {
  *   - cpp: A preprocessor directive. Needs to push and pop indent stacks
  *   - comma: Needed to terminate inline layouts like `of`, `do`
  *   - qq_start: Disambiguate the opening oxford bracket from list comprehension
+ *   - qq_bar: Disambiguate the vertical bar `|` after the quasiquoter from symbolic operators, which may be a problem
+ *     when the quasiquote body starts with an operator character.
+ *   - qq_body: Prevent extras, like comments, from breaking quasiquotes
  *   - strict: Disambiguate strictness annotation `!` from symbolic operators
  *   - unboxed_tuple_close: Disambiguate the closing parens for unboxed tuples `#)` from symbolic operators
  *   - bar: The vertical bar `|`, used for guards and list comprehension
@@ -143,6 +146,8 @@ enum Sym: uint16_t {
   cpp,
   comma,
   qq_start,
+  qq_bar,
+  qq_body,
   strict,
   unboxed_tuple_close,
   bar,
@@ -166,6 +171,8 @@ vector<string> names = {
   "cpp",
   "comma",
   "qq_start",
+  "qq_bar",
+  "qq_body",
   "strict",
   "unboxed_tuple_close",
   "bar",
@@ -1242,6 +1249,19 @@ Parser qq_start =
   peek('|')(finish(Sym::qq_start, "qq_start"))
   ;
 
+Parser qq_body =
+  [](State & state) {
+    auto p =
+      mark("qq_body") +
+      either(
+          cond::consume('\\'),
+          parser::advance,
+          iff(cond::seq("|]"))(finish(Sym::qq_body, "qq_body")) + parser::advance
+      ) +
+      qq_body;
+    return p(state);
+  };
+
 /**
  * When a dollar is followed by a varid or opening paren, parse a splice.
  */
@@ -1391,6 +1411,7 @@ Parser close_layout_in_list =
  *   - symbolic operators are complicated to implement with regex
  *   - `$` can be a splice if not followed by whitespace
  *   - '[' can be a list or a quasiquote
+ *   - '|' in a quasiquote, since it can be followed by symbolic operator characters, which would be consumed
  */
 Parser inline_tokens =
   peek('w')(where + fail) +
@@ -1398,6 +1419,7 @@ Parser inline_tokens =
   peek('e')(else_ + fail) +
   peek(')')(layout_end(")") + fail) +
   sym(Sym::qq_start)(peek('[')(qq_start + fail)) +
+  sym(Sym::qq_bar)(consume('|')(mark("qq_bar") + finish(Sym::qq_bar, "qq_bar"))) +
   peeks(cond::symbolic)(with(read_symop)(symop)) +
   comment +
   close_layout_in_list
@@ -1511,8 +1533,16 @@ Parser immediate(uint32_t column) {
  *   - Indent stack initialization
  *   - Qualified module dot (leading whitespace would mean it would be `(.)`)
  *   - cpp
+ *   - quasiquote body, which overrides everything
  */
-Parser init = eof + iff(cond::after_error)(fail) + initialize_init + dot + cpp_init;
+Parser init =
+  eof +
+  iff(cond::after_error)(fail) +
+  initialize_init +
+  dot +
+  cpp_init +
+  sym(Sym::qq_body)(qq_body)
+;
 
 /**
  * The main parser checks whether the first non-space character is a newline and delegates accordingly.

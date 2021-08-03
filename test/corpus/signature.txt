@@ -181,5 +181,5 @@ a :: a -> [a|a|] -> a
   (fun
    (type_name (type_variable))
    (fun
-    (quasiquote (quoter) (quasiquote_body))
+    (quasiquote (quasiquote_start) (quoter) (quasiquote_bar) (quasiquote_body))
     (type_name (type_variable))))))
