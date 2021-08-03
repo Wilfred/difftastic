@@ -5,9 +5,11 @@
 "fn" @keyword.function
 
 (STRINGLITERAL) @string
+
 (ContainerField
   (IDENTIFIER) @field
 )
+
 [
   (container_doc_comment)
   (doc_comment)
@@ -21,6 +23,7 @@
       )
     )
 )
+
 constructor: (SuffixExpr (IDENTIFIER) @constructor)
 
 (FieldInit (IDENTIFIER) @field)
@@ -30,6 +33,13 @@ return_type: (SuffixExpr (IDENTIFIER) @type)
 field: (SuffixOp (IDENTIFIER) @field)
 
 function: (SuffixOp (IDENTIFIER) @function)
+
+(ParamDecl (IDENTIFIER) @variable)
+
+(ParamType
+  (SuffixExpr
+    (IDENTIFIER) @type))
+
 
 (BUILTINIDENTIFIER) @function.builtin
 
