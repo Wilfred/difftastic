@@ -6,7 +6,7 @@
   <p>
     <a href="https://github.com/maxxnino/tree-sitter-zig">Zig's Tree Sitter</a>
     based on
-    <a href="https://github.com/neovim/neovim/">Zig Spec</a> Official.
+    <a href="https://github.com/ziglang/zig-spec">Zig Spec</a> Official.
   </p>
   <p>
     <i>
