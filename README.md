@@ -27,6 +27,31 @@ or
 lua require'nvim-treesitter.install'.compilers = { "gcc" }
 ```
 
+## Building on MacOS
+
+If you get loads of C++ errors when building the parser, a workaround might be to install GCC with `homebrew`, in
+addition to selecting `gcc` as the compiler used by tree-sitter, as described for Neovim in the previous section.
+
+First, run this command in a terminal:
+
+```shell
+$ brew install gcc
+```
+
+This may not be enough, since `clang` might still be used by default.
+You can find out whether the `gcc` executable is linked to something else with:
+
+```shell
+$ ls -l $(which gcc)
+```
+
+If this doesn't point to something like `gcc-11`, you can remove it (if it is a symlink) and/or link the real `gcc-N`
+binary to a `bin` directory that's at the head of your `$PATH`, something like:
+
+```shell
+ln -sf /usr/local/bin/gcc-11 /usr/local/bin/gcc
+```
+
 # Supported Language Extensions
 
 These extensions are supported ✅, unsupported ❌ or not applicable because they don't involve parsing ➖️:
