@@ -8,9 +8,12 @@
     based on
     <a href="https://github.com/neovim/neovim/">Zig Spec</a> Official.
   </p>
+  <p>
+    <i>
+      Made by Zig's enthusiasts
+    </i>
+  </p>
 </div>
-
-The goal of `Zig's Tree Sitter` is to support the latest [Zig](https://ziglang.org/) with good syntax highlighting and more functionality.
 
 
 ![Demo](assets/demo.png)
