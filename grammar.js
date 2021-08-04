@@ -227,7 +227,7 @@ module.exports = grammar({
       seq(
         keyword(choice("const", "var"), $),
         $.IDENTIFIER,
-        optional(seq(COLON, $._TypeExpr)),
+        field("type", optional(seq(COLON, $._TypeExpr))),
         optional($.ByteAlign),
         optional($.LinkSection),
         optional(seq(EQUAL, $._Expr)),
