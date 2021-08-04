@@ -144,13 +144,7 @@ fn main() {
     if env::var("INLINE").is_ok() {
         println!(
             "{}",
-            inline::display(
-                &lhs_src,
-                &rhs_src,
-                &lhs_positions,
-                &rhs_positions,
-                &groups
-            )
+            inline::display(&lhs_src, &rhs_src, &lhs_positions, &rhs_positions, &groups)
         );
     } else {
         print!(
