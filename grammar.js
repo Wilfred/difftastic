@@ -220,7 +220,7 @@ module.exports = grammar({
         optional($.LinkSection),
         optional($.CallConv),
         optional(EXCLAMATIONMARK),
-        field("return_type", $._TypeExpr)
+        $._TypeExpr
       ),
 
     VarDecl: ($) =>

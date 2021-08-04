@@ -4,10 +4,16 @@
 
 "fn" @keyword.function
 
-(STRINGLITERAL) @string
 
+;field in top level decl, and in struct, union...
 (ContainerField
   (IDENTIFIER) @field
+)
+
+;enum field is constant
+((ContainerDeclType "enum")
+  (ContainerField
+    (IDENTIFIER) @constant)
 )
 
 [
@@ -16,6 +22,7 @@
   (line_comment)
 ] @comment
 
+; const IDENTIFIER = struct/enum/union...
 (VarDecl
   (IDENTIFIER) @type
     (SuffixExpr
@@ -24,22 +31,33 @@
     )
 )
 
+; IDENTIFIER{}
 constructor: (SuffixExpr (IDENTIFIER) @constructor)
 
+;{.IDENTIFIER = 1}
 (FieldInit (IDENTIFIER) @field)
 
-return_type: (SuffixExpr (IDENTIFIER) @type)
 
+; variable.IDENTIFIER
 field: (SuffixOp (IDENTIFIER) @field)
 
+; variable.IDENTIFIER()
 function: (SuffixOp (IDENTIFIER) @function)
 
-(ParamDecl (IDENTIFIER) @variable)
+; function call
+function: (IDENTIFIER) @function
 
-(ParamType
-  (SuffixExpr
-    (IDENTIFIER) @type))
-
+; functionn decl
+(FnProto
+  (IDENTIFIER) @function
+  (ParamDeclList
+    (ParamDecl 
+      (IDENTIFIER) @parameter
+      (ParamType (SuffixExpr (IDENTIFIER) @type))
+    )
+  ) 
+  (SuffixExpr (IDENTIFIER) @type) 
+)
 
 (BUILTINIDENTIFIER) @function.builtin
 
@@ -51,6 +69,10 @@ function: (SuffixOp (IDENTIFIER) @function)
 (INTEGER) @number
 
 (FLOAT) @float
+
+(STRINGLITERAL) @string
+
+(CHAR_LITERAL) @character
 
 [
   "true"
@@ -146,3 +168,12 @@ function: (SuffixOp (IDENTIFIER) @function)
   "."
   ","
 ] @punctuation.delimiter
+
+[
+"["
+"]"
+"("
+")"
+"{"
+"}"
+] @punctuation.bracket
