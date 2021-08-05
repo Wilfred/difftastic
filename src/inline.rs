@@ -213,8 +213,6 @@ pub fn display(
 
                 res.push_str(&rhs_lines[rhs_line_num.0].white().to_string());
                 res.push('\n');
-            } else {
-                break;
             }
         }
     }
