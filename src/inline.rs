@@ -215,6 +215,8 @@ pub fn display(
                 res.push('\n');
             }
         }
+
+        res.push('\n');
     }
 
     res

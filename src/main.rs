@@ -142,7 +142,7 @@ fn main() {
     groups = join_overlapping(groups);
 
     if env::var("INLINE").is_ok() {
-        println!(
+        print!(
             "{}",
             inline::display(&lhs_src, &rhs_src, &lhs_positions, &rhs_positions, &groups)
         );
