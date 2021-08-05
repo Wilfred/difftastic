@@ -2,6 +2,7 @@ use std::collections::HashSet;
 
 use crate::{
     lines::{format_line_num, LineGroup, LineNumber},
+    style::apply_colors,
     syntax::{MatchKind, MatchedPos},
 };
 use colored::*;
@@ -142,8 +143,11 @@ pub fn display(
     rhs_positions: &[MatchedPos],
     groups: &[LineGroup],
 ) -> String {
-    let lhs_lines: Vec<_> = lhs_src.lines().collect();
-    let rhs_lines: Vec<_> = rhs_src.lines().collect();
+    let lhs_colored = apply_colors(lhs_src, true, lhs_positions);
+    let rhs_colored = apply_colors(rhs_src, false, rhs_positions);
+
+    let lhs_lines: Vec<_> = lhs_colored.lines().collect();
+    let rhs_lines: Vec<_> = rhs_colored.lines().collect();
 
     let mut res = String::new();
 
@@ -160,7 +164,7 @@ pub fn display(
                 res.push_str(&format_line_num(lhs_line_num));
                 res.push_str("   ");
 
-                res.push_str(&lhs_lines[lhs_line_num.0].white().to_string());
+                res.push_str(lhs_lines[lhs_line_num.0]);
                 res.push('\n');
             } else {
                 break;
@@ -179,7 +183,7 @@ pub fn display(
             );
             res.push_str("   ");
 
-            res.push_str(&lhs_lines[lhs_line_num.0].white().to_string());
+            res.push_str(lhs_lines[lhs_line_num.0]);
             res.push('\n');
         }
 
@@ -196,7 +200,7 @@ pub fn display(
                     .to_string(),
             );
 
-            res.push_str(&rhs_lines[rhs_line_num.0].white().to_string());
+            res.push_str(rhs_lines[rhs_line_num.0]);
             res.push('\n');
         }
 
@@ -211,7 +215,7 @@ pub fn display(
                 res.push_str("   ");
                 res.push_str(&format_line_num(rhs_line_num));
 
-                res.push_str(&rhs_lines[rhs_line_num.0].white().to_string());
+                res.push_str(rhs_lines[rhs_line_num.0]);
                 res.push('\n');
             }
         }
