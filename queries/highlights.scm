@@ -6,10 +6,6 @@
 
 (IDENTIFIER) @variable
 
-"return" @keyword.return
-
-"fn" @keyword.function
-
 ;field in top level decl, and in struct, union...
 (ContainerField
   (IDENTIFIER) @field
@@ -135,13 +131,14 @@ function: [
   "false"
 ] @boolean
 
+"null" @keyword.null
+
 [
-  "null" 
   "undefined"
+  "unreachable"
 ] @constant.builtin
 
 [
-  "continue"
   "else"
   "if"
   "switch"
@@ -151,64 +148,71 @@ function: [
   "for"
   "while"
 ] @repeat
+
 [
-  "align"
-  "allowzero"
-  "and"
-  "anyframe"
-  "anytype"
-  "asm"
-  "await"
-  "break"
-  "callconv"
-  "catch"
-  "comptime"
-  "const"
-  "continue"
-  "defer"
-  "else"
-  "enum"
-  "errdefer"
-  "error"
-  "export"
-  "extern"
-  "for"
-  "if"
-  "inline"
-  "noalias"
-  "nosuspend"
-  "noinline"
-  "null"
-  "opaque"
   "or"
-  "orelse"
-  "packed"
-  "pub"
-  "resume"
-  "linksection"
+  "and"
+  (BitwiseOp "orelse")
+] @keyword.operator
+
+[
   "struct"
-  "suspend"
-  "switch"
-  "test"
-  "threadlocal"
-  "try"
-  "undefined"
+  "enum"
   "union"
-  "unreachable"
-  "usingnamespace"
+  "error"
+  "packed"
+  "opaque"
+] @keyword.structure
+
+"error" @keyword.exception
+
+; VarDecl
+[
+  "const"
   "var"
-  "volatile"
-  "while"
+  "comptime"
+  "threadlocal"
+] @keyword.vardecl
+
+"fn" @keyword.function
+
+[
+  "try"
+  "test"
+  "pub"
+  "usingnamespace"
 ] @keyword
 
 [
-  "or"
-  "and"
-] @keyword.operator
+  "return"
+  "break"
+  "continue"
+] @keyword.return
 
-((BitwiseOp) @keyword.operator
-  (#any-of? @keyword.operator "orelse" "catch")
-)
+; Macro
+[
+  "defer"
+  "errdefer"
+  "async"
+  "nosuspend"
+  "await"
+  "suspend"
+  "resume"
+  "export"
+  "extern"
+] @keyword.macro
+
+; PrecProc
+[
+  (BitwiseOp "orelse")
+  "inline"
+  "noinline"
+  "asm"
+  "callconv"
+  "noalias"
+] @keyword.preproc
+
+"align" @function.builtin
 
 [
   (CompareOp)
@@ -226,10 +230,10 @@ function: [
 ] @punctuation.delimiter
 
 [
-"["
-"]"
-"("
-")"
-"{"
-"}"
+  "["
+  "]"
+  "("
+  ")"
+  "{"
+  "}"
 ] @punctuation.bracket
