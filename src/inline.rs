@@ -83,7 +83,7 @@ fn first_rhs_context_line(
     }
 
     if let Some(last_change_line) = last_change_line {
-        return last_change_line;
+        return (last_change_line.0 + 1).into();
     }
 
     // If we don't have changes on the RHS, find the line opposite the
@@ -104,7 +104,11 @@ fn first_rhs_context_line(
         }
     }
 
-    last_change_line.expect("Should have found an opposite LHS line")
+    (last_change_line
+        .expect("Should have found an opposite LHS line")
+        .0
+        + 1)
+    .into()
 }
 
 fn changed_lines(
