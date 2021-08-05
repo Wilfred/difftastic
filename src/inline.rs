@@ -29,13 +29,13 @@ fn last_lhs_context_line(
             }
 
             if pos.line.0 > lhs_hunk_start.0 {
-                return pos.line;
+                return (pos.line.0 - 1).into();
             }
         }
     }
 
     // If we don't have changes on the LHS, find the line opposite the
-    // first RHS change in this hunk and take the preceding line.
+    // last RHS unchanged node in this hunk.
     for rhs_position in rhs_positions {
         if rhs_position.kind == MatchKind::Unchanged {
             continue;
@@ -87,28 +87,20 @@ fn first_rhs_context_line(
     }
 
     // If we don't have changes on the RHS, find the line opposite the
-    // last LHS change in this hunk and take the following line.
+    // first unchanged LHS syntax node after the changed nodes.
+    let mut lhs_rev_positions: Vec<_> = lhs_positions.into();
+    lhs_rev_positions.reverse();
     for lhs_position in lhs_positions {
-        if lhs_position.kind == MatchKind::Unchanged {
-            continue;
+        if lhs_position.kind != MatchKind::Unchanged {
+            break;
         }
 
         if let Some(pos) = lhs_position.prev_opposite_pos.first() {
-            if pos.line.0 > rhs_hunk_end.0 {
-                break;
-            }
-
-            if pos.line.0 > rhs_hunk_start.0 {
-                last_change_line = Some(pos.line);
-            }
+            last_change_line = Some(pos.line);
         }
     }
 
-    (last_change_line
-        .expect("Should have found an opposite LHS line")
-        .0
-        + 1)
-    .into()
+    last_change_line.expect("Should have found an opposite LHS line")
 }
 
 fn changed_lines(
