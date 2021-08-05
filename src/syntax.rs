@@ -525,6 +525,8 @@ pub enum MatchKind {
 pub struct MatchedPos {
     pub kind: MatchKind,
     pub pos: Vec<SingleLineSpan>,
+    // TODO: this is confusing: the previous syntax node with a match
+    // may be on the current line or a previous one.
     pub prev_opposite_pos: Vec<SingleLineSpan>,
 }
 
