@@ -127,16 +127,21 @@ function: [
 (CHAR_LITERAL) @character
 
 [
+  (BreakLabel)
+  (BlockLabel)
+] @label
+
+[
   "true"
   "false"
 ] @boolean
-
-"null" @keyword.null
 
 [
   "undefined"
   "unreachable"
 ] @constant.builtin
+
+"null" @constant.macro
 
 [
   "else"
@@ -164,7 +169,7 @@ function: [
   "opaque"
 ] @keyword.structure
 
-"error" @keyword.exception
+"error" @exception
 
 ; VarDecl
 [
@@ -172,9 +177,8 @@ function: [
   "var"
   "comptime"
   "threadlocal"
-] @keyword.vardecl
-
-"fn" @keyword.function
+  "fn"
+] @keyword.function
 
 [
   "try"
@@ -200,7 +204,7 @@ function: [
   "resume"
   "export"
   "extern"
-] @keyword.macro
+] @function.macro
 
 ; PrecProc
 [
@@ -210,7 +214,7 @@ function: [
   "asm"
   "callconv"
   "noalias"
-] @keyword.preproc
+] @annotation
 
 "align" @function.builtin
 

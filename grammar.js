@@ -418,8 +418,6 @@ module.exports = grammar({
         )
       ),
 
-    // _Literal: ($) => choice($.CHAR_LITERAL, $.FLOAT, $.INTEGER, $.STRINGLITERAL),
-
     _PrimaryTypeExpr: ($) =>
       prec.left(
         choice(
@@ -492,7 +490,7 @@ module.exports = grammar({
         $._Expr,
         RPAREN,
         LBRACE,
-        $.SwitchProngList,
+        optional($.SwitchProngList),
         RBRACE
       ),
 
