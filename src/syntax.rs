@@ -513,7 +513,7 @@ impl<'a> Hash for Syntax<'a> {
     }
 }
 
-#[derive(PartialEq, Eq, Debug)]
+#[derive(PartialEq, Eq, Debug, Clone, Copy)]
 pub enum MatchKind {
     Unchanged,
     Novel,
@@ -521,7 +521,7 @@ pub enum MatchKind {
     ChangedCommentPart,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct MatchedPos {
     pub kind: MatchKind,
     pub pos: Vec<SingleLineSpan>,
