@@ -134,7 +134,7 @@ const AMPERSAND = "&",
     // ascii_char_not_nl_slash_squote
   ),
   string_char = choice(char_escape, /[^\\"\n]/),
-  line_string = repeat1(seq("\\\\", /[^\n]*/, /[ \n]*/));
+  line_string = token(seq("\\\\", /[^\n]*/));
 
 module.exports = grammar({
   name: "zig",
@@ -793,7 +793,7 @@ module.exports = grammar({
     STRINGLITERALSINGLE: (_) => token(seq('"', repeat(string_char), '"')),
 
     STRINGLITERAL: ($) =>
-      choice($.STRINGLITERALSINGLE, token(repeat1(seq(line_string)))),
+      choice($.STRINGLITERALSINGLE, repeat1(line_string)),
 
     IDENTIFIER: (_) =>
       choice(/[A-Za-z_][A-Za-z0-9_]*/, seq('@"', repeat(string_char), '"')),
