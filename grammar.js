@@ -405,14 +405,12 @@ module.exports = grammar({
           optional(keyword("async", $)),
           choice(
             seq(field("function", $._PrimaryTypeExpr), $.FnCallArguments),
-            seq(
-              $._PrimaryTypeExpr,
-              repeat(
-                choice(
-                  field("field", $.SuffixOp),
-                  seq(field("function", $.SuffixOp), $.FnCallArguments)
-                )
-              )
+            $._PrimaryTypeExpr,
+          ),
+          repeat(
+            choice(
+              field("field", $.SuffixOp),
+              seq(field("function", $.SuffixOp), $.FnCallArguments)
             )
           )
         )
@@ -455,7 +453,10 @@ module.exports = grammar({
       ),
 
     ErrorSetDecl: ($) =>
-      seq(keyword("error", $), LBRACE, $.IdentifierList, RBRACE),
+      seq(keyword("error", $), LBRACE,
+        sepBy(COMMA, seq(optional($.doc_comment), $.IDENTIFIER)),
+        RBRACE
+      ),
 
     GroupedExpr: ($) => seq(LPAREN, $._Expr, RPAREN),
 
@@ -490,7 +491,7 @@ module.exports = grammar({
         $._Expr,
         RPAREN,
         LBRACE,
-        optional($.SwitchProngList),
+        sepBy(COMMA, $.SwitchProng),
         RBRACE
       ),
 
@@ -506,7 +507,9 @@ module.exports = grammar({
         RPAREN
       ),
 
-    AsmOutput: ($) => seq(COLON, $.AsmOutputList, optional($.AsmInput)),
+    AsmOutput: ($) => seq(COLON,
+      sepBy(COMMA, $.AsmOutputItem),
+      optional($.AsmInput)),
 
     AsmOutputItem: ($) =>
       seq(
@@ -519,7 +522,8 @@ module.exports = grammar({
         RPAREN
       ),
 
-    AsmInput: ($) => seq(COLON, $.AsmInputList, optional($.AsmClobbers)),
+    AsmInput: ($) => seq(COLON,
+      sepBy(COMMA, $.AsmInputItem), optional($.AsmClobbers)),
 
     AsmInputItem: ($) =>
       seq(
@@ -532,7 +536,8 @@ module.exports = grammar({
         RPAREN
       ),
 
-    AsmClobbers: ($) => seq(COLON, $.StringList),
+    AsmClobbers: ($) => seq(COLON, sepBy(COMMA, $.STRINGLITERAL)),
+
 
     // *** Helper grammar ***
     BreakLabel: ($) => seq(COLON, $.IDENTIFIER),
@@ -651,6 +656,7 @@ module.exports = grammar({
         keyword("try", $),
         keyword("await", $)
       ),
+
     PrefixTypeOp: ($) =>
       choice(
         QUESTIONMARK,
@@ -664,6 +670,8 @@ module.exports = grammar({
             )
           )
         ),
+        // PtrTypeStart (KEYWORD_align LPAREN Expr (COLON INTEGER COLON INTEGER)? RPAREN 
+        // / KEYWORD_const / KEYWORD_volatile / KEYWORD_allowzero)*
         seq(
           $.PtrTypeStart,
           repeat(
@@ -673,10 +681,9 @@ module.exports = grammar({
                 LPAREN,
                 $._Expr,
                 optional(seq(COLON, $.INTEGER, COLON, $.INTEGER)),
-                RPAREN
+                RPAREN,
               ),
-              keyword(choice("const", "volatile", "allowzero"), $)
-            )
+              keyword(choice("const", "volatile", "allowzero"), $))
           )
         ),
         $.ArrayTypeStart
@@ -697,7 +704,10 @@ module.exports = grammar({
         DOTQUESTIONMARK
       ),
 
-    FnCallArguments: ($) => seq(LPAREN, optional($._ExprList), RPAREN),
+    FnCallArguments: ($) => seq(LPAREN,
+      sepBy(COMMA, $._Expr),
+      RPAREN
+    ),
 
     // Ptr specific
     SliceTypeStart: ($) =>
@@ -752,20 +762,7 @@ module.exports = grammar({
     ByteAlign: ($) => seq(keyword("align", $), LPAREN, $._Expr, RPAREN),
 
     // Lists
-    IdentifierList: ($) =>
-      sepBy1(COMMA, seq(optional($.doc_comment), $.IDENTIFIER)),
-
-    SwitchProngList: ($) => sepBy1(COMMA, $.SwitchProng),
-
-    AsmOutputList: ($) => sepBy1(COMMA, $.AsmOutputItem),
-
-    AsmInputList: ($) => sepBy1(COMMA, $.AsmInputItem),
-
-    StringList: ($) => sepBy1(COMMA, $.STRINGLITERAL),
-
     ParamDeclList: ($) => seq(LPAREN, sepBy(COMMA, $.ParamDecl), RPAREN),
-
-    _ExprList: ($) => sepBy1(COMMA, $._Expr),
 
     // *** Tokens ***
     container_doc_comment: (_) =>
