@@ -695,7 +695,7 @@ module.exports = grammar({
           LBRACKET,
           $._Expr,
           optional(
-            seq(DOT2, optional(seq($._Expr, optional(seq(COLON, $._Expr)))))
+            seq(DOT2, optional($._Expr), optional(seq(COLON, $._Expr)))
           ),
           RBRACKET
         ),
