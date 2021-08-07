@@ -14,6 +14,7 @@ namespace {
     STRING_CONTENT,
     STRING_SINGLE_QUOTED_CONTENT,
     STRING_QQ_QUOTED_CONTENT,
+    STRING_DOUBLE_QUOTED_CONTENT,
     POD_CONTENT,
   };
 
@@ -83,6 +84,7 @@ namespace {
         && valid_symbols[STRING_CONTENT]
         && valid_symbols[STRING_SINGLE_QUOTED_CONTENT]
         && valid_symbols[STRING_QQ_QUOTED_CONTENT]
+        && valid_symbols[STRING_DOUBLE_QUOTED_CONTENT]
         && valid_symbols[POD_CONTENT]
       ) {
         return false;
@@ -217,6 +219,79 @@ namespace {
         return false;
       }
       
+      if (valid_symbols[STRING_DOUBLE_QUOTED_CONTENT]) {
+        if (lexer->lookahead == '"') {
+          lexer->mark_end(lexer);
+          advance(lexer);
+          return false;
+        }
+
+        // oh boy! the interpolation
+        if (lexer->lookahead == '$') {
+          advance(lexer);
+          if (lexer->lookahead != ' ') {
+            advance(lexer);
+            while(lexer->lookahead) {
+              // hash ref access: $hashref->{key}
+              if (lexer->lookahead == '-') {
+                advance(lexer);
+                if (lexer->lookahead == '>') {
+                  advance(lexer);
+                  if (lexer->lookahead == '{') {
+                    while(lexer->lookahead) {
+                      if (lexer->lookahead == '}') {
+                        advance(lexer);
+                        lexer->mark_end(lexer);
+                        return false;
+                      }
+                      advance(lexer);
+                    }
+                  }
+                }
+              }
+              // hash access: $hash{someKey}
+              else if (lexer->lookahead == '{') {
+                while(lexer->lookahead) {
+                  if (lexer->lookahead == '}') {
+                    advance(lexer);
+                    lexer->mark_end(lexer);
+                    return false;
+                  }
+                  advance(lexer);
+                }
+              }
+              // scalar variable: $i_am_groot
+              else if (lexer->lookahead == ' ') {
+                advance(lexer);
+                lexer->mark_end(lexer);
+                return false;
+              }
+              advance(lexer);
+            }
+          }
+        }
+        // escape sequences, only basic support as of now
+        if (lexer->lookahead == '\\') {
+          advance(lexer);
+          if (
+            lexer->lookahead == 't' || lexer->lookahead == 'n' || lexer->lookahead == 'r' || lexer->lookahead == 'f' || lexer->lookahead == 'b' || lexer->lookahead == 'a' || lexer->lookahead == 'e'
+            || lexer->lookahead == '"'
+          ) {
+            advance(lexer);
+            lexer->mark_end(lexer);
+            return false;
+          }
+          else {
+            // dont return, below logic will take care
+          }
+        }
+
+        lexer->result_symbol = STRING_DOUBLE_QUOTED_CONTENT;
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return true;
+      }
+
       if (valid_symbols[POD_CONTENT]) {
 
         while (lexer->lookahead) {

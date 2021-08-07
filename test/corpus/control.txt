@@ -57,7 +57,7 @@ while ($i < 10) {
   (variable_declaration (scope) (single_var_declaration (scalar_variable)) (integer) (semi_colon))
   (while_statement (empty_parenthesized_expression (binary_expression (scalar_variable) (integer)))
     (block
-      (call_expression (identifier) (argument (string_double_quoted))) (semi_colon)
+      (call_expression (identifier) (argument (string_double_quoted (interpolation (scalar_variable))))) (semi_colon)
       (unary_expression (scalar_variable)) (semi_colon)
     )
   )
@@ -82,7 +82,7 @@ MEOW: while ($i < 10) {
   (variable_declaration (scope) (single_var_declaration (scalar_variable)) (integer) (semi_colon))
   (while_statement (identifier) (empty_parenthesized_expression (binary_expression (scalar_variable) (integer)))
     (block
-      (call_expression (identifier) (argument (string_double_quoted))) (semi_colon) (loop_control_statement (loop_control_keyword) (identifier) (semi_colon)) (unary_expression (scalar_variable)) (semi_colon))
+      (call_expression (identifier) (argument (string_double_quoted (interpolation (scalar_variable))))) (semi_colon) (loop_control_statement (loop_control_keyword) (identifier) (semi_colon)) (unary_expression (scalar_variable)) (semi_colon))
   )
 )
 
