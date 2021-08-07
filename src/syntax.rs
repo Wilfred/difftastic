@@ -513,12 +513,21 @@ impl<'a> Hash for Syntax<'a> {
     }
 }
 
-#[derive(PartialEq, Eq, Debug, Clone, Copy)]
+#[derive(PartialEq, Eq, Debug, Clone)]
 pub enum MatchKind {
-    Unchanged,
+    Unchanged { opposite_pos: Vec<SingleLineSpan> },
     Novel,
     UnchangedCommentPart,
     ChangedCommentPart,
+}
+
+impl MatchKind {
+    pub fn is_unchanged(&self) -> bool {
+        match self {
+            MatchKind::Unchanged { .. } => true,
+            _ => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -612,7 +621,16 @@ impl MatchedPos {
                     &prev_opposite_pos,
                 );
             }
-            Unchanged(_) => MatchKind::Unchanged,
+            Unchanged(opposite) => {
+                // TODO: is close_position the best position for
+                // unchanged lists?
+                let opposite_pos = match opposite {
+                    List { close_position, .. } => close_position.clone(),
+                    Atom { position, .. } => position.clone(),
+                };
+
+                MatchKind::Unchanged { opposite_pos }
+            }
             Novel => MatchKind::Novel,
         };
 

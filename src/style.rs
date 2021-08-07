@@ -88,7 +88,7 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
     let mut styles = vec![];
     for pos in positions {
         let style = match pos.kind {
-            MatchKind::Unchanged => Style {
+            MatchKind::Unchanged { .. } => Style {
                 foreground: Color::White,
                 background: None,
                 bold: false,

@@ -18,7 +18,7 @@ fn last_lhs_context_line(
     // If we have changes on the LHS, our before context stops on the
     // line before the first change in this hunk.
     for lhs_position in lhs_positions {
-        if lhs_position.kind == MatchKind::Unchanged {
+        if lhs_position.kind.is_unchanged() {
             continue;
         }
 
@@ -37,7 +37,7 @@ fn last_lhs_context_line(
     // If we don't have changes on the LHS, find the line opposite the
     // last RHS unchanged node in this hunk.
     for rhs_position in rhs_positions {
-        if rhs_position.kind == MatchKind::Unchanged {
+        if rhs_position.kind.is_unchanged() {
             continue;
         }
 
@@ -67,7 +67,7 @@ fn first_rhs_context_line(
     // after the last change in this hunk.
     let mut last_change_line = None;
     for rhs_position in rhs_positions {
-        if rhs_position.kind == MatchKind::Unchanged {
+        if rhs_position.kind.is_unchanged() {
             continue;
         }
 
@@ -91,8 +91,9 @@ fn first_rhs_context_line(
     let mut lhs_rev_positions: Vec<_> = lhs_positions.into();
     lhs_rev_positions.reverse();
     for lhs_position in lhs_positions {
-        if lhs_position.kind != MatchKind::Unchanged {
-            break;
+        match lhs_position.kind {
+            MatchKind::Unchanged { .. } => {}
+            _ => break,
         }
 
         if let Some(pos) = lhs_position.prev_opposite_pos.first() {
@@ -112,7 +113,7 @@ fn changed_lines(
     let mut res = vec![];
 
     for position in positions {
-        if position.kind == MatchKind::Unchanged {
+        if position.kind.is_unchanged() {
             continue;
         }
 

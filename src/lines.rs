@@ -2,7 +2,7 @@
 
 use crate::intervals::Interval;
 use crate::positions::SingleLineSpan;
-use crate::syntax::{MatchKind, MatchedPos};
+use crate::syntax::MatchedPos;
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::cmp::{max, min, Ordering};
@@ -275,12 +275,8 @@ pub fn visible_groups(
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
 ) -> Vec<LineGroup> {
-    let lhs_positions = lhs_positions
-        .iter()
-        .filter(|mp| mp.kind != MatchKind::Unchanged);
-    let rhs_positions = rhs_positions
-        .iter()
-        .filter(|mp| mp.kind != MatchKind::Unchanged);
+    let lhs_positions = lhs_positions.iter().filter(|mp| !mp.kind.is_unchanged());
+    let rhs_positions = rhs_positions.iter().filter(|mp| !mp.kind.is_unchanged());
 
     let mut positions = vec![];
     positions.extend(lhs_positions.map(|p| (true, p)));
@@ -454,6 +450,7 @@ impl MaxLine for String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::syntax::MatchKind;
     use pretty_assertions::assert_eq;
 
     #[test]
@@ -473,7 +470,9 @@ mod tests {
     #[test]
     fn test_visible_groups_ignores_unchanged() {
         let lhs_positions = vec![MatchedPos {
-            kind: MatchKind::Unchanged,
+            kind: MatchKind::Unchanged {
+                opposite_pos: vec![],
+            },
             pos: vec![SingleLineSpan {
                 line: 1.into(),
                 start_col: 0,
@@ -482,7 +481,9 @@ mod tests {
             prev_opposite_pos: vec![],
         }];
         let rhs_positions = vec![MatchedPos {
-            kind: MatchKind::Unchanged,
+            kind: MatchKind::Unchanged {
+                opposite_pos: vec![],
+            },
             pos: vec![SingleLineSpan {
                 line: 1.into(),
                 start_col: 0,
