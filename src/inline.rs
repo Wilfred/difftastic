@@ -90,7 +90,7 @@ fn first_rhs_context_line(
     // first unchanged LHS syntax node after the changed nodes.
     let mut lhs_rev_positions: Vec<_> = lhs_positions.into();
     lhs_rev_positions.reverse();
-    for lhs_position in lhs_positions {
+    for lhs_position in lhs_rev_positions {
         match lhs_position.kind {
             MatchKind::Unchanged { .. } => {}
             _ => break,
