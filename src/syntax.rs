@@ -830,7 +830,7 @@ fn aligned_lines_(
     // `rhs_lines` and hasn't yet been paired up, add it to
     // matched_lines.
     //
-    // TODO: prefer the lie with the most similarity, not just the
+    // TODO: prefer the line with the most similarity, not just the
     // first line.  See spurious `let` alignment in 9c71298f8294ce8f,
     // LHS line 96 in lines.rs.
     let mut matched_lines = vec![];
