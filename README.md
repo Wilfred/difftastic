@@ -157,7 +157,7 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * TemplateHaskell ✅
 * TemplateHaskellQuotes ✅
 * TraditionalRecordSyntax ➖️
-* TransformListComp ❌
+* TransformListComp ✅
 * Trustworthy ➖️
 * TupleSections ✅
 * TypeApplications ✅

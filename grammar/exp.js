@@ -49,9 +49,22 @@ module.exports = {
     optional(field('to', $._exp)),
   ),
 
+  /**
+   * TransformListComp.
+   *
+   * These have to be spelled out because the keywords are valid varids when the extension is disabled and it causes
+   * errors if they are used individually.
+   */
+  transform: $ => choice(
+    seq('then group by', $._exp, 'using', $._exp),
+    seq('then group using', $._exp),
+    seq('then', $._exp),
+  ),
+
   qual: $ => choice(
     $.bind_pattern,
     $.let,
+    $.transform,
     $._exp,
   ),
 

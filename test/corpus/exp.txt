@@ -1155,3 +1155,66 @@ a = a #a a
 ---
 
 (haskell (function (variable) (exp_apply (exp_name (variable)) (exp_name (label)) (exp_name (variable)))))
+
+================================================================================
+exp: TransformListComp
+================================================================================
+
+a = [
+  a | a <- a,
+  then group by a :: A using a,
+  then group using a a,
+  then a a by a a,
+  then a a
+  ]
+
+a = [group using a, group by a using a, by, a by, a by a, using, a using, a using a]
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_list_comprehension
+   (exp_name (variable))
+   (qual (bind_pattern (pat_name (variable)) (exp_name (variable))))
+   (comma)
+   (qual (transform (exp_name (variable)) (type_name (type)) (exp_name (variable))))
+   (comma)
+   (qual
+    (transform (exp_apply (exp_name (variable)) (exp_name (variable)))))
+   (comma)
+   (qual
+    (transform
+     (exp_apply
+      (exp_name (variable))
+      (exp_name (variable))
+      (exp_name (variable))
+      (exp_name (variable))
+      (exp_name (variable)))))
+   (comma)
+   (qual (transform (exp_apply (exp_name (variable)) (exp_name (variable)))))))
+  (function
+   (variable)
+   (exp_list
+    (exp_apply (exp_name (variable)) (exp_name (variable)) (exp_name (variable)))
+    (comma)
+    (exp_apply
+     (exp_name (variable))
+     (exp_name (variable))
+     (exp_name (variable))
+     (exp_name (variable))
+     (exp_name (variable)))
+    (comma)
+    (exp_name (variable))
+    (comma)
+    (exp_apply (exp_name (variable)) (exp_name (variable)))
+    (comma)
+    (exp_apply (exp_name (variable)) (exp_name (variable)) (exp_name (variable)))
+    (comma)
+    (exp_name (variable))
+    (comma)
+    (exp_apply (exp_name (variable)) (exp_name (variable)))
+    (comma)
+    (exp_apply (exp_name (variable)) (exp_name (variable)) (exp_name (variable)))))
+  )
