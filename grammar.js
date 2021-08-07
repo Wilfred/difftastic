@@ -104,6 +104,7 @@ module.exports = grammar({
     $._string_content,
     $._string_single_quoted_content,
     $._string_qq_quoted_content,
+    $._string_double_quoted_content,
     //  TODO: handle <<EOF
     $._pod_content,
   ],
@@ -1372,7 +1373,7 @@ module.exports = grammar({
 
     string_double_quoted: $ => prec(PRECEDENCE.STRING, seq(
       '"',
-      repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.STRING, choice(/[^"]/, /\\"/))))),
+      repeat(choice($.interpolation, $.escape_sequence, $._string_double_quoted_content)),
       '"',
     )),
     string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(

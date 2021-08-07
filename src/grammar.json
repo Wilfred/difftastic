@@ -6908,24 +6908,8 @@
                   "name": "escape_sequence"
                 },
                 {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": 4,
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "PATTERN",
-                          "value": "[^\"]"
-                        },
-                        {
-                          "type": "PATTERN",
-                          "value": "\\\\\""
-                        }
-                      ]
-                    }
-                  }
+                  "type": "SYMBOL",
+                  "name": "_string_double_quoted_content"
                 }
               ]
             }
@@ -9357,6 +9341,10 @@
     {
       "type": "SYMBOL",
       "name": "_string_qq_quoted_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_string_double_quoted_content"
     },
     {
       "type": "SYMBOL",
