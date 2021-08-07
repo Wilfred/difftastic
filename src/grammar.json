@@ -8852,8 +8852,16 @@
           "name": "quasiquote_bar"
         },
         {
-          "type": "SYMBOL",
-          "name": "quasiquote_body"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "quasiquote_body"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "TOKEN",

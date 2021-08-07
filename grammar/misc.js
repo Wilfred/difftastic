@@ -31,7 +31,7 @@ module.exports = {
     $.quasiquote_start,
     optional(alias($._varid, $.quoter)),
     $.quasiquote_bar,
-    $.quasiquote_body,
+    optional($.quasiquote_body),
     token('|]'),
   ),
 }
