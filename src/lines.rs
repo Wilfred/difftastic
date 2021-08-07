@@ -2,16 +2,13 @@
 
 use crate::intervals::Interval;
 use crate::positions::SingleLineSpan;
-use crate::syntax::{aligned_lines, MatchKind, MatchedPos};
+use crate::syntax::{MatchKind, MatchedPos};
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::cmp::{max, min, Ordering};
-use std::collections::HashMap;
 use std::fmt;
 
-const SPACER: &str = "  ";
 const MAX_GAP: usize = 1;
-const MIN_WIDTH: usize = 35;
 
 /// A distinct number type for line numbers, to prevent confusion with
 /// other numerical data.
@@ -35,8 +32,8 @@ impl From<usize> for LineNumber {
 /// This is called a 'hunk' in some diff tools.
 #[derive(Debug, PartialEq, Eq)]
 pub struct LineGroup {
-    lhs_lines: Option<Interval<LineNumber>>,
-    rhs_lines: Option<Interval<LineNumber>>,
+    pub lhs_lines: Option<Interval<LineNumber>>,
+    pub rhs_lines: Option<Interval<LineNumber>>,
 }
 
 impl LineGroup {
@@ -328,149 +325,6 @@ pub fn format_line_num(line_num: LineNumber) -> String {
 
 pub fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
     format!("{:width$} ", line_num.0 + 1, width = column_width - 1)
-}
-
-fn longest_visible_line_lhs(s: &str, groups: &[LineGroup]) -> usize {
-    let lines: Vec<_> = s.lines().collect();
-    let mut longest = 0;
-
-    for group in groups {
-        if let Some(lhs_lines) = &group.lhs_lines {
-            for line_num in lhs_lines.start.0..lhs_lines.end.0 {
-                let current_len = lines[line_num].len();
-                longest = max(longest, current_len);
-            }
-        }
-    }
-
-    longest
-}
-
-fn longest_visible_line_rhs(s: &str, groups: &[LineGroup]) -> usize {
-    let lines: Vec<_> = s.lines().collect();
-    let mut longest = 1;
-
-    for group in groups {
-        if let Some(rhs_lines) = &group.rhs_lines {
-            for line_num in rhs_lines.start.0..rhs_lines.end.0 {
-                let current_len = lines[line_num].len();
-                longest = max(longest, current_len);
-            }
-        }
-    }
-
-    longest
-}
-
-pub fn lhs_printable_width(
-    lhs: &str,
-    groups: &[LineGroup],
-    lhs_column_width: usize,
-    terminal_width: usize,
-) -> usize {
-    let longest_line_length = longest_visible_line_lhs(lhs, groups);
-    let longest_line = longest_line_length + lhs_column_width;
-
-    let space_available = terminal_width / 2 - SPACER.len();
-    max(MIN_WIDTH, min(longest_line, space_available))
-}
-
-pub fn rhs_printable_width(
-    rhs: &str,
-    groups: &[LineGroup],
-    lhs_width: usize,
-    rhs_column_width: usize,
-    terminal_width: usize,
-) -> usize {
-    let longest_line_length = longest_visible_line_rhs(rhs, groups);
-    let longest_line = longest_line_length + rhs_column_width;
-
-    let space_available = (terminal_width - SPACER.len()) - lhs_width;
-
-    max(MIN_WIDTH, min(longest_line, space_available))
-}
-
-fn apply_group(
-    lhs_lines: &[&str],
-    rhs_lines: &[&str],
-    group: &LineGroup,
-    lhs_line_matches: &HashMap<LineNumber, LineNumber>,
-    lhs_content_width: usize,
-    lhs_column_width: usize,
-    rhs_column_width: usize,
-) -> String {
-    let mut result = String::new();
-
-    for (lhs_line_num, rhs_line_num) in
-        aligned_lines(&group.lhs_lines(), &group.rhs_lines(), lhs_line_matches)
-    {
-        match lhs_line_num {
-            Some(lhs_line_num) => {
-                result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
-                result.push_str(lhs_lines[lhs_line_num.0]);
-            }
-            None => {
-                result.push_str(&" ".repeat(lhs_column_width));
-                result.push_str(&" ".repeat(lhs_content_width));
-            }
-        }
-        result.push_str(SPACER);
-
-        match rhs_line_num {
-            Some(rhs_line_num) => {
-                result.push_str(&format_line_num_padded(rhs_line_num, rhs_column_width));
-                result.push_str(rhs_lines[rhs_line_num.0]);
-            }
-            None => {}
-        }
-
-        result.push('\n');
-    }
-
-    result
-}
-
-// TODO: Move to side_by_side.rs.
-/// Display all the lines in `lhs` and `rhs` that are mentioned in
-/// `groups`, horizontally concatenating the matched lines.
-pub fn apply_groups(
-    lhs: &str,
-    rhs: &str,
-    groups: &[LineGroup],
-    lhs_line_matches: &HashMap<LineNumber, LineNumber>,
-    lhs_content_width: usize,
-    rhs_content_width: usize,
-    lhs_column_width: usize,
-    rhs_column_width: usize,
-) -> String {
-    let lhs_lines: Vec<_> = lhs.lines().collect();
-    let rhs_lines: Vec<_> = rhs.lines().collect();
-
-    let mut result = String::new();
-
-    let mut spacer = String::new();
-    spacer.push_str(&" ".repeat(lhs_column_width));
-    spacer.push_str(&"-".repeat(lhs_content_width));
-    spacer.push_str(&" ".repeat(rhs_column_width + 2));
-    spacer.push_str(&"-".repeat(rhs_content_width));
-
-    for (i, group) in groups.iter().enumerate() {
-        result.push_str(&apply_group(
-            &lhs_lines,
-            &rhs_lines,
-            group,
-            lhs_line_matches,
-            lhs_content_width,
-            lhs_column_width,
-            rhs_column_width,
-        ));
-        if i != groups.len() - 1 {
-            result.push_str(&spacer);
-            result.push('\n');
-        }
-    }
-
-    result
 }
 
 /// A position in a single line of a string.
