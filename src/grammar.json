@@ -3091,6 +3091,58 @@
         }
       ]
     },
+    "transform": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "then group by"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_exp"
+            },
+            {
+              "type": "STRING",
+              "value": "using"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_exp"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "then group using"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_exp"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "then"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_exp"
+            }
+          ]
+        }
+      ]
+    },
     "qual": {
       "type": "CHOICE",
       "members": [
@@ -3101,6 +3153,10 @@
         {
           "type": "SYMBOL",
           "name": "let"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "transform"
         },
         {
           "type": "SYMBOL",
