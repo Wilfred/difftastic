@@ -89,6 +89,7 @@ function: [
 (FnProto
   (IDENTIFIER) @function
   (SuffixExpr (IDENTIFIER) @type)?
+  ("!")? @exception
 )
 
 
@@ -110,7 +111,6 @@ function: [
 ((BUILTINIDENTIFIER) @include
   (#any-of? @include "@import" "@cImport"))
 
-(BuildinTypeExpr) @type.builtin
 
 (INTEGER) @number
 
@@ -118,13 +118,18 @@ function: [
 
 [
   (STRINGLITERAL)
-  
-  ;BUG: don't know why STRINGLITERAL incluce STRINGLITERALSINGLE,
-  ;BUG: STRINGLITERALSINGLE not show in extern "c" var b: c_int;
   (STRINGLITERALSINGLE)
 ] @string
 
 (CHAR_LITERAL) @character
+
+[
+  "allowzero"
+  "volatile"
+  "anytype"
+  "anyframe"
+  (BuildinTypeExpr)
+] @type.builtin
 
 [
   (BreakLabel)
@@ -167,7 +172,7 @@ function: [
   "error"
   "packed"
   "opaque"
-] @keyword.structure
+] @keyword
 
 "error" @exception
 
@@ -216,7 +221,10 @@ function: [
   "noalias"
 ] @annotation
 
-"align" @function.builtin
+[
+  "linksection"
+  "align" 
+] @function.builtin
 
 [
   (CompareOp)
@@ -231,6 +239,7 @@ function: [
   ";"
   "."
   ","
+  ":"
 ] @punctuation.delimiter
 
 [
