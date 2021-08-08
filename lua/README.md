@@ -10,7 +10,7 @@ Lua grammar for tree-sitter.
 
 ## Acknowledgement
 
-The [external scanner](./src/scanner.c) was based on these repositories:
+The [external scanner](/lua/src/scanner.c) was based on these repositories:
 
 - [Azganoth/tree-sitter-lua](https://github.com/Azganoth/tree-sitter-lua)
 - [euclidianAce/tree-sitter-teal](https://github.com/euclidianAce/tree-sitter-teal)
