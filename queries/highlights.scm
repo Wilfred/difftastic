@@ -70,20 +70,25 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
 ;{.IDENTIFIER = 1}
 (FieldInit (IDENTIFIER) @field)
 
-; variable.IDENTIFIER
-field: (SuffixOp (IDENTIFIER) @field)
+; var.field
+(SuffixOp (IDENTIFIER) @field)
 
-; function call
-function: [
-  ; variable.function() 
-  (SuffixOp (IDENTIFIER) @function)
-
-  ; function()
-  (IDENTIFIER) @function
-
-  ; comptime doTest();
-  (SuffixExpr (IDENTIFIER) @function)
-]
+; var.func().func().field
+( 
+  (SuffixOp
+    (IDENTIFIER) @function
+  )
+  .
+  (FnCallArguments)
+)
+; func()
+( 
+  (
+    (IDENTIFIER) @function
+  )
+  .
+  (FnCallArguments)
+)
 
 ; functionn decl
 (FnProto
