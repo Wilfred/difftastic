@@ -484,7 +484,7 @@ mod tests {
     fn test_visible_groups_ignores_unchanged() {
         let lhs_positions = vec![MatchedPos {
             kind: MatchKind::Unchanged {
-                opposite_pos: vec![],
+                opposite_pos: (vec![], vec![]),
             },
             pos: vec![SingleLineSpan {
                 line: 1.into(),
@@ -495,7 +495,7 @@ mod tests {
         }];
         let rhs_positions = vec![MatchedPos {
             kind: MatchKind::Unchanged {
-                opposite_pos: vec![],
+                opposite_pos: (vec![], vec![]),
             },
             pos: vec![SingleLineSpan {
                 line: 1.into(),
