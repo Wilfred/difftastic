@@ -1,5 +1,11 @@
 ## 0.7 (unreleased)
 
+### Display
+
+Side-by-side display now uses "..." for column numbers when aligning
+lines. This makes hunks more obvious, but hunks now also have two
+blank lines between them to make it clearer.
+
 ### Parsing
 
 Fixed handling of `->` in Rust.

@@ -76,6 +76,15 @@ fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
     format!("{:width$} ", line_num.0 + 1, width = column_width - 1)
 }
 
+fn format_missing_line_num(prev_num: LineNumber, column_width: usize) -> String {
+    let num_digits = format!("{}", prev_num.0).len();
+    format!(
+        "{:>width$} ",
+        ".".repeat(num_digits),
+        width = column_width - 1
+    )
+}
+
 fn apply_group(
     lhs_lines: &[&str],
     rhs_lines: &[&str],
@@ -86,6 +95,8 @@ fn apply_group(
     rhs_column_width: usize,
 ) -> String {
     let mut result = String::new();
+    let mut lhs_prev_line_num = LineNumber(0);
+    let mut rhs_prev_line_num = LineNumber(0);
 
     for (lhs_line_num, rhs_line_num) in
         aligned_lines(&group.lhs_lines(), &group.rhs_lines(), lhs_line_matches)
@@ -94,9 +105,14 @@ fn apply_group(
             Some(lhs_line_num) => {
                 result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
                 result.push_str(lhs_lines[lhs_line_num.0]);
+
+                lhs_prev_line_num = lhs_line_num;
             }
             None => {
-                result.push_str(&" ".repeat(lhs_column_width));
+                result.push_str(&format_missing_line_num(
+                    lhs_prev_line_num,
+                    lhs_column_width,
+                ));
                 result.push_str(&" ".repeat(lhs_content_width));
             }
         }
@@ -106,8 +122,15 @@ fn apply_group(
             Some(rhs_line_num) => {
                 result.push_str(&format_line_num_padded(rhs_line_num, rhs_column_width));
                 result.push_str(rhs_lines[rhs_line_num.0]);
+
+                rhs_prev_line_num = rhs_line_num;
             }
-            None => {}
+            None => {
+                result.push_str(&format_missing_line_num(
+                    rhs_prev_line_num,
+                    rhs_column_width,
+                ));
+            }
         }
 
         result.push('\n');
@@ -124,7 +147,6 @@ fn apply_groups(
     groups: &[LineGroup],
     lhs_line_matches: &HashMap<LineNumber, LineNumber>,
     lhs_content_width: usize,
-    rhs_content_width: usize,
     lhs_column_width: usize,
     rhs_column_width: usize,
 ) -> String {
@@ -132,12 +154,6 @@ fn apply_groups(
     let rhs_lines: Vec<_> = rhs.lines().collect();
 
     let mut result = String::new();
-
-    let mut spacer = String::new();
-    spacer.push_str(&" ".repeat(lhs_column_width));
-    spacer.push_str(&"-".repeat(lhs_content_width));
-    spacer.push_str(&" ".repeat(rhs_column_width + 2));
-    spacer.push_str(&"-".repeat(rhs_content_width));
 
     for (i, group) in groups.iter().enumerate() {
         result.push_str(&apply_group(
@@ -150,8 +166,7 @@ fn apply_groups(
             rhs_column_width,
         ));
         if i != groups.len() - 1 {
-            result.push_str(&spacer);
-            result.push('\n');
+            result.push_str("\n\n");
         }
     }
 
@@ -195,7 +210,6 @@ pub fn display(
         groups,
         lhs_matched_lines,
         lhs_content_width,
-        rhs_content_width,
         lhs_column_width,
         rhs_column_width,
     )
