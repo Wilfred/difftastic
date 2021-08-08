@@ -384,3 +384,93 @@ def g(a: A): B = { f(); return null.asInstanceOf[B] }
       )
     )
   )
+
+===============================
+While loops
+===============================
+
+def f = {
+  while(a) g()
+  while(b < c) {
+    d
+  }
+}
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (block
+      (while_expression
+        (parenthesized_expression (identifier))
+        (call_expression (identifier) (arguments)))
+      (while_expression
+        (parenthesized_expression (infix_expression (identifier) (operator_identifier) (identifier)))
+        (block (identifier))))))
+
+===============================
+Do-while loops
+===============================
+
+def f() = {
+  do g(a, b) while(c && d)
+  do {
+    g(a, b)
+    h(a, b)
+  } while (c < d)
+}
+
+---
+
+(compilation_unit
+  (function_definition
+    (identifier)
+    (parameters)
+    (block
+      (do_while_expression
+        (call_expression (identifier) (arguments (identifier) (identifier)))
+        (parenthesized_expression (infix_expression (identifier) (operator_identifier) (identifier))))
+      (do_while_expression
+        (block
+          (call_expression (identifier) (arguments (identifier) (identifier)))
+          (call_expression (identifier) (arguments (identifier) (identifier))))
+        (parenthesized_expression (infix_expression (identifier) (operator_identifier) (identifier)))))))
+
+===============================
+For comprehensions
+===============================
+
+def f() = {
+  for (n <- nums) yield n + 1
+  for (x <- xs; y <- ys) g(x, y)
+  for {
+    x <- xs
+    a = b + c
+    y <- g() if d
+  } yield {
+    h(x, y)
+  }
+}
+
+---
+
+(compilation_unit
+ (function_definition
+   (identifier)
+   (parameters)
+   (block
+     (for_expression
+       (enumerators (enumerator (identifier) (identifier)))
+       (infix_expression (identifier) (operator_identifier) (integer_literal)))
+     (for_expression
+       (enumerators
+         (enumerator (identifier) (identifier))
+         (enumerator (identifier) (identifier)))
+       (call_expression (identifier) (arguments (identifier) (identifier))))
+     (for_expression
+       (enumerators
+         (enumerator (identifier) (identifier))
+         (assignment_expression (identifier) (infix_expression (identifier) (operator_identifier) (identifier)))
+         (enumerator (identifier) (call_expression (identifier) (arguments)) (guard (identifier))))
+       (block (call_expression (identifier) (arguments (identifier) (identifier))))))))

@@ -953,7 +953,7 @@
           "name": "value",
           "content": {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "expression"
           }
         }
       ]
@@ -1172,7 +1172,7 @@
           "name": "value",
           "content": {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "expression"
           }
         }
       ]
@@ -1342,7 +1342,7 @@
                   "name": "body",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "expression"
                   }
                 }
               ]
@@ -1711,7 +1711,7 @@
                   "name": "default_value",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "expression"
                   }
                 }
               ]
@@ -1781,7 +1781,7 @@
                   "name": "default_value",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "expression"
                   }
                 }
               ]
@@ -1807,7 +1807,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_expression"
+                    "name": "expression"
                   },
                   {
                     "type": "SYMBOL",
@@ -1829,7 +1829,7 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "_expression"
+                          "name": "expression"
                         },
                         {
                           "type": "SYMBOL",
@@ -2611,7 +2611,7 @@
         }
       ]
     },
-    "_expression": {
+    "expression": {
       "type": "CHOICE",
       "members": [
         {
@@ -2693,6 +2693,18 @@
         {
           "type": "SYMBOL",
           "name": "throw_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "while_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "do_while_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "for_expression"
         }
       ]
     },
@@ -2719,7 +2731,7 @@
             "name": "consequence",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "expression"
             }
           },
           {
@@ -2737,7 +2749,7 @@
                     "name": "alternative",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "_expression"
+                      "name": "expression"
                     }
                   }
                 ]
@@ -2758,7 +2770,7 @@
           "name": "value",
           "content": {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "expression"
           }
         },
         {
@@ -2790,7 +2802,7 @@
             "name": "body",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "expression"
             }
           },
           {
@@ -2849,7 +2861,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "expression"
           }
         ]
       }
@@ -2961,7 +2973,7 @@
           "name": "condition",
           "content": {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "expression"
           }
         }
       ]
@@ -2977,7 +2989,7 @@
             "name": "left",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "expression"
             }
           },
           {
@@ -2989,7 +3001,7 @@
             "name": "right",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "expression"
             }
           }
         ]
@@ -3006,7 +3018,7 @@
             "name": "function",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "expression"
             }
           },
           {
@@ -3031,7 +3043,7 @@
             "name": "function",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "expression"
             }
           },
           {
@@ -3081,7 +3093,7 @@
             "name": "value",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "expression"
             }
           },
           {
@@ -3111,7 +3123,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "expression"
           }
         ]
       }
@@ -3127,7 +3139,7 @@
             "name": "left",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "expression"
             }
           },
           {
@@ -3152,7 +3164,7 @@
             "name": "right",
             "content": {
               "type": "SYMBOL",
-              "name": "_expression"
+              "name": "expression"
             }
           }
         ]
@@ -3187,7 +3199,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "expression"
           }
         ]
       }
@@ -3201,7 +3213,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "expression"
         },
         {
           "type": "REPEAT1",
@@ -3214,7 +3226,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "expression"
               }
             ]
           }
@@ -3234,7 +3246,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression"
+          "name": "expression"
         },
         {
           "type": "STRING",
@@ -3295,7 +3307,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_expression"
+                  "name": "expression"
                 },
                 {
                   "type": "REPEAT",
@@ -3308,7 +3320,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_expression"
+                        "name": "expression"
                       }
                     ]
                   }
@@ -3816,7 +3828,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_expression"
+                "name": "expression"
               },
               {
                 "type": "BLANK"
@@ -3838,10 +3850,237 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_expression"
+            "name": "expression"
           }
         ]
       }
+    },
+    "while_expression": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "while"
+          },
+          {
+            "type": "FIELD",
+            "name": "condition",
+            "content": {
+              "type": "SYMBOL",
+              "name": "parenthesized_expression"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          }
+        ]
+      }
+    },
+    "do_while_expression": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "do"
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "while"
+          },
+          {
+            "type": "FIELD",
+            "name": "condition",
+            "content": {
+              "type": "SYMBOL",
+              "name": "parenthesized_expression"
+            }
+          }
+        ]
+      }
+    },
+    "for_expression": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "for"
+          },
+          {
+            "type": "FIELD",
+            "name": "enumerators",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "("
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "enumerators"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ")"
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "{"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "enumerators"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "}"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "yield"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          }
+        ]
+      }
+    },
+    "enumerators": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "enumerator"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "assignment_expression"
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_semicolon"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "enumerator"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "assignment_expression"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_automatic_semicolon"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "enumerator": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "<-"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "guard"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "comment": {
       "type": "TOKEN",
@@ -3950,7 +4189,7 @@
     "literal"
   ],
   "supertypes": [
-    "_expression",
+    "expression",
     "_definition",
     "_pattern"
   ]
