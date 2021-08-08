@@ -1,9 +1,7 @@
 use std::cmp::{max, min};
 use std::collections::HashMap;
 
-use crate::lines::{
-    enforce_length, format_line_num, format_line_num_padded, LineGroup, LineNumber,
-};
+use crate::lines::{enforce_length, format_line_num, LineGroup, LineNumber};
 use crate::style::apply_colors;
 use crate::syntax::{aligned_lines, MatchedPos};
 
@@ -72,6 +70,10 @@ fn rhs_printable_width(
     let space_available = (terminal_width - SPACER.len()) - lhs_width;
 
     max(MIN_WIDTH, min(longest_line, space_available))
+}
+
+fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
+    format!("{:width$} ", line_num.0 + 1, width = column_width - 1)
 }
 
 fn apply_group(

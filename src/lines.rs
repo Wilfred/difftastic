@@ -319,10 +319,6 @@ pub fn format_line_num(line_num: LineNumber) -> String {
     format!("{:>2} ", line_num.0 + 1)
 }
 
-pub fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
-    format!("{:width$} ", line_num.0 + 1, width = column_width - 1)
-}
-
 /// A position in a single line of a string.
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct LinePosition {
