@@ -397,18 +397,14 @@ module.exports = grammar({
 
     SuffixExpr: ($) =>
       prec.left(
-        seq(
-          optional(keyword("async", $)),
-          choice(
-            seq(field("function", $._PrimaryTypeExpr), $.FnCallArguments),
+        choice(
+          seq(
+            keyword("async", $),
             $._PrimaryTypeExpr,
+            repeat($.SuffixOp),
+            $.FnCallArguments
           ),
-          repeat(
-            choice(
-              field("field", $.SuffixOp),
-              seq(field("function", $.SuffixOp), $.FnCallArguments)
-            )
-          )
+          seq($._PrimaryTypeExpr, repeat(choice($.SuffixOp, $.FnCallArguments)))
         )
       ),
 
@@ -449,7 +445,9 @@ module.exports = grammar({
       ),
 
     ErrorSetDecl: ($) =>
-      seq(keyword("error", $), LBRACE,
+      seq(
+        keyword("error", $),
+        LBRACE,
         sepBy(COMMA, seq(optional($.doc_comment), $.IDENTIFIER)),
         RBRACE
       ),
@@ -503,9 +501,8 @@ module.exports = grammar({
         RPAREN
       ),
 
-    AsmOutput: ($) => seq(COLON,
-      sepBy(COMMA, $.AsmOutputItem),
-      optional($.AsmInput)),
+    AsmOutput: ($) =>
+      seq(COLON, sepBy(COMMA, $.AsmOutputItem), optional($.AsmInput)),
 
     AsmOutputItem: ($) =>
       seq(
@@ -518,8 +515,8 @@ module.exports = grammar({
         RPAREN
       ),
 
-    AsmInput: ($) => seq(COLON,
-      sepBy(COMMA, $.AsmInputItem), optional($.AsmClobbers)),
+    AsmInput: ($) =>
+      seq(COLON, sepBy(COMMA, $.AsmInputItem), optional($.AsmClobbers)),
 
     AsmInputItem: ($) =>
       seq(
@@ -533,7 +530,6 @@ module.exports = grammar({
       ),
 
     AsmClobbers: ($) => seq(COLON, sepBy(COMMA, $.STRINGLITERAL)),
-
 
     // *** Helper grammar ***
     BreakLabel: ($) => seq(COLON, $.IDENTIFIER),
@@ -666,7 +662,7 @@ module.exports = grammar({
             )
           )
         ),
-        // PtrTypeStart (KEYWORD_align LPAREN Expr (COLON INTEGER COLON INTEGER)? RPAREN 
+        // PtrTypeStart (KEYWORD_align LPAREN Expr (COLON INTEGER COLON INTEGER)? RPAREN
         // / KEYWORD_const / KEYWORD_volatile / KEYWORD_allowzero)*
         seq(
           $.PtrTypeStart,
@@ -677,9 +673,10 @@ module.exports = grammar({
                 LPAREN,
                 $._Expr,
                 optional(seq(COLON, $.INTEGER, COLON, $.INTEGER)),
-                RPAREN,
+                RPAREN
               ),
-              keyword(choice("const", "volatile", "allowzero"), $))
+              keyword(choice("const", "volatile", "allowzero"), $)
+            )
           )
         ),
         $.ArrayTypeStart
@@ -690,9 +687,7 @@ module.exports = grammar({
         seq(
           LBRACKET,
           $._Expr,
-          optional(
-            seq(DOT2, optional($._Expr), optional(seq(COLON, $._Expr)))
-          ),
+          optional(seq(DOT2, optional($._Expr), optional(seq(COLON, $._Expr)))),
           RBRACKET
         ),
         seq(DOT, $.IDENTIFIER),
@@ -700,10 +695,7 @@ module.exports = grammar({
         DOTQUESTIONMARK
       ),
 
-    FnCallArguments: ($) => seq(LPAREN,
-      sepBy(COMMA, $._Expr),
-      RPAREN
-    ),
+    FnCallArguments: ($) => seq(LPAREN, sepBy(COMMA, $._Expr), RPAREN),
 
     // Ptr specific
     SliceTypeStart: ($) =>
@@ -788,8 +780,7 @@ module.exports = grammar({
 
     STRINGLITERALSINGLE: (_) => token(seq('"', repeat(string_char), '"')),
 
-    STRINGLITERAL: ($) =>
-      choice($.STRINGLITERALSINGLE, repeat1(line_string)),
+    STRINGLITERAL: ($) => choice($.STRINGLITERALSINGLE, repeat1(line_string)),
 
     IDENTIFIER: (_) =>
       choice(/[A-Za-z_][A-Za-z0-9_]*/, seq('@"', repeat(string_char), '"')),
