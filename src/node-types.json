@@ -7,10 +7,29 @@
   {
     "type": "ArrayTypeStart",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -33,10 +52,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfExpr",
           "named": true
         },
@@ -53,11 +68,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -68,11 +83,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
+      "multiple": true,
+      "required": false,
       "types": [
         {
-          "type": "StringList",
+          "type": "STRINGLITERAL",
           "named": true
         }
       ]
@@ -81,10 +96,29 @@
   {
     "type": "AsmExpr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -111,10 +145,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfExpr",
           "named": true
         },
@@ -131,11 +161,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -147,14 +177,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmClobbers",
           "named": true
         },
         {
-          "type": "AsmInputList",
+          "type": "AsmInputItem",
           "named": true
         }
       ]
@@ -163,7 +193,26 @@
   {
     "type": "AsmInputItem",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -189,10 +238,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IDENTIFIER",
           "named": true
         },
@@ -217,26 +262,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "AsmInputList",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "AsmInputItem",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -248,14 +278,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmInput",
           "named": true
         },
         {
-          "type": "AsmOutputList",
+          "type": "AsmOutputItem",
           "named": true
         }
       ]
@@ -270,10 +300,6 @@
       "required": true,
       "types": [
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IDENTIFIER",
           "named": true
         },
@@ -284,20 +310,9 @@
         {
           "type": "STRINGLITERAL",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "AsmOutputList",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
+        },
         {
-          "type": "AsmOutputItem",
+          "type": "SuffixExpr",
           "named": true
         }
       ]
@@ -306,10 +321,29 @@
   {
     "type": "AssignExpr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -336,10 +370,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfExpr",
           "named": true
         },
@@ -356,11 +386,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -380,10 +410,32 @@
     "type": "BinaryExpr",
     "named": true,
     "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      },
       "left": {
         "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "!",
+            "named": false
+          },
           {
             "type": "AsmExpr",
             "named": true
@@ -405,10 +457,6 @@
             "named": true
           },
           {
-            "type": "ErrorUnionExpr",
-            "named": true
-          },
-          {
             "type": "IfExpr",
             "named": true
           },
@@ -425,12 +473,36 @@
             "named": true
           },
           {
+            "type": "SuffixExpr",
+            "named": true
+          },
+          {
             "type": "UnaryExpr",
             "named": true
           },
           {
-            "type": "keyword",
-            "named": true
+            "type": "break",
+            "named": false
+          },
+          {
+            "type": "comptime",
+            "named": false
+          },
+          {
+            "type": "continue",
+            "named": false
+          },
+          {
+            "type": "nosespend",
+            "named": false
+          },
+          {
+            "type": "resume",
+            "named": false
+          },
+          {
+            "type": "return",
+            "named": false
           }
         ]
       },
@@ -473,6 +545,10 @@
         "required": true,
         "types": [
           {
+            "type": "!",
+            "named": false
+          },
+          {
             "type": "AsmExpr",
             "named": true
           },
@@ -493,10 +569,6 @@
             "named": true
           },
           {
-            "type": "ErrorUnionExpr",
-            "named": true
-          },
-          {
             "type": "IfExpr",
             "named": true
           },
@@ -513,12 +585,36 @@
             "named": true
           },
           {
+            "type": "SuffixExpr",
+            "named": true
+          },
+          {
             "type": "UnaryExpr",
             "named": true
           },
           {
-            "type": "keyword",
-            "named": true
+            "type": "break",
+            "named": false
+          },
+          {
+            "type": "comptime",
+            "named": false
+          },
+          {
+            "type": "continue",
+            "named": false
+          },
+          {
+            "type": "nosespend",
+            "named": false
+          },
+          {
+            "type": "resume",
+            "named": false
+          },
+          {
+            "type": "return",
+            "named": false
           }
         ]
       }
@@ -534,15 +630,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
           "type": "Payload",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -582,10 +674,6 @@
         },
         {
           "type": "VarDecl",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -662,10 +750,29 @@
   {
     "type": "ByteAlign",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -688,10 +795,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfExpr",
           "named": true
         },
@@ -708,11 +811,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -721,10 +824,29 @@
   {
     "type": "CallConv",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -747,10 +869,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfExpr",
           "named": true
         },
@@ -767,11 +885,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -791,6 +909,48 @@
       "required": true,
       "types": [
         {
+          "type": "ContainerDeclType",
+          "named": true
+        },
+        {
+          "type": "ContainerMembers",
+          "named": true
+        },
+        {
+          "type": "container_doc_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ContainerDeclType",
+    "named": true,
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
           "type": "AsmExpr",
           "named": true
         },
@@ -811,15 +971,167 @@
           "named": true
         },
         {
-          "type": "ContainerDeclType",
+          "type": "IfExpr",
+          "named": true
+        },
+        {
+          "type": "InitList",
+          "named": true
+        },
+        {
+          "type": "LoopExpr",
+          "named": true
+        },
+        {
+          "type": "PrefixTypeOp",
+          "named": true
+        },
+        {
+          "type": "SuffixExpr",
+          "named": true
+        },
+        {
+          "type": "UnaryExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ContainerField",
+    "named": true,
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "AsmExpr",
+          "named": true
+        },
+        {
+          "type": "BinaryExpr",
+          "named": true
+        },
+        {
+          "type": "Block",
+          "named": true
+        },
+        {
+          "type": "BlockLabel",
+          "named": true
+        },
+        {
+          "type": "BreakLabel",
+          "named": true
+        },
+        {
+          "type": "ByteAlign",
+          "named": true
+        },
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        },
+        {
+          "type": "IfExpr",
+          "named": true
+        },
+        {
+          "type": "InitList",
+          "named": true
+        },
+        {
+          "type": "LoopExpr",
+          "named": true
+        },
+        {
+          "type": "PrefixTypeOp",
+          "named": true
+        },
+        {
+          "type": "SuffixExpr",
+          "named": true
+        },
+        {
+          "type": "UnaryExpr",
+          "named": true
+        },
+        {
+          "type": "doc_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ContainerMembers",
+    "named": true,
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "AsmExpr",
+          "named": true
+        },
+        {
+          "type": "BinaryExpr",
+          "named": true
+        },
+        {
+          "type": "Block",
+          "named": true
+        },
+        {
+          "type": "BlockLabel",
+          "named": true
+        },
+        {
+          "type": "BreakLabel",
           "named": true
         },
         {
           "type": "ContainerField",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
           "named": true
         },
         {
@@ -847,6 +1159,10 @@
           "named": true
         },
         {
+          "type": "SuffixExpr",
+          "named": true
+        },
+        {
           "type": "TestDecl",
           "named": true
         },
@@ -863,145 +1179,7 @@
           "named": true
         },
         {
-          "type": "container_doc_comment",
-          "named": true
-        },
-        {
           "type": "doc_comment",
-          "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "ContainerDeclType",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "AsmExpr",
-          "named": true
-        },
-        {
-          "type": "BinaryExpr",
-          "named": true
-        },
-        {
-          "type": "Block",
-          "named": true
-        },
-        {
-          "type": "BlockLabel",
-          "named": true
-        },
-        {
-          "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
-          "type": "IfExpr",
-          "named": true
-        },
-        {
-          "type": "InitList",
-          "named": true
-        },
-        {
-          "type": "LoopExpr",
-          "named": true
-        },
-        {
-          "type": "PrefixTypeOp",
-          "named": true
-        },
-        {
-          "type": "UnaryExpr",
-          "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "ContainerField",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "AsmExpr",
-          "named": true
-        },
-        {
-          "type": "BinaryExpr",
-          "named": true
-        },
-        {
-          "type": "Block",
-          "named": true
-        },
-        {
-          "type": "BlockLabel",
-          "named": true
-        },
-        {
-          "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ByteAlign",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
-          "type": "IDENTIFIER",
-          "named": true
-        },
-        {
-          "type": "IfExpr",
-          "named": true
-        },
-        {
-          "type": "InitList",
-          "named": true
-        },
-        {
-          "type": "LoopExpr",
-          "named": true
-        },
-        {
-          "type": "PrefixTypeOp",
-          "named": true
-        },
-        {
-          "type": "UnaryExpr",
-          "named": true
-        },
-        {
-          "type": "doc_comment",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -1013,49 +1191,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "IdentifierList",
+          "type": "IDENTIFIER",
           "named": true
         },
         {
-          "type": "keyword",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "ErrorUnionExpr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
-          "type": "FnCallArguments",
-          "named": true
-        },
-        {
-          "type": "PrefixTypeOp",
-          "named": true
-        },
-        {
-          "type": "PrimaryTypeExpr",
-          "named": true
-        },
-        {
-          "type": "SuffixOp",
-          "named": true
-        },
-        {
-          "type": "keyword",
+          "type": "doc_comment",
           "named": true
         }
       ]
@@ -1069,7 +1212,26 @@
   {
     "type": "FieldInit",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1092,10 +1254,6 @@
         },
         {
           "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
           "named": true
         },
         {
@@ -1119,11 +1277,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -1132,10 +1290,29 @@
   {
     "type": "FnCallArguments",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -1158,10 +1335,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfExpr",
           "named": true
         },
@@ -1178,11 +1351,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -1205,10 +1378,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IDENTIFIER",
           "named": true
         },
@@ -1225,7 +1394,7 @@
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "SuffixExpr",
           "named": true
         }
       ]
@@ -1234,7 +1403,26 @@
   {
     "type": "ForExpr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1257,10 +1445,6 @@
         },
         {
           "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
           "named": true
         },
         {
@@ -1288,11 +1472,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -1301,7 +1485,26 @@
   {
     "type": "ForPrefix",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1327,10 +1530,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfExpr",
           "named": true
         },
@@ -1351,11 +1550,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -1404,10 +1603,6 @@
         {
           "type": "VarDecl",
           "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
         }
       ]
     }
@@ -1421,10 +1616,6 @@
       "required": true,
       "types": [
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "ForPrefix",
           "named": true
         },
@@ -1437,7 +1628,7 @@
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "SuffixExpr",
           "named": true
         }
       ]
@@ -1446,10 +1637,29 @@
   {
     "type": "GroupedExpr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -1469,10 +1679,6 @@
         },
         {
           "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
           "named": true
         },
         {
@@ -1492,11 +1698,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -1513,28 +1719,28 @@
     "fields": {}
   },
   {
-    "type": "IdentifierList",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "IDENTIFIER",
-          "named": true
-        },
-        {
-          "type": "doc_comment",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "IfExpr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1557,10 +1763,6 @@
         },
         {
           "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
           "named": true
         },
         {
@@ -1588,11 +1790,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -1601,10 +1803,29 @@
   {
     "type": "IfPrefix",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -1624,10 +1845,6 @@
         },
         {
           "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
           "named": true
         },
         {
@@ -1651,11 +1868,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -1704,10 +1921,6 @@
         {
           "type": "VarDecl",
           "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
         }
       ]
     }
@@ -1721,10 +1934,6 @@
       "required": true,
       "types": [
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfPrefix",
           "named": true
         },
@@ -1737,7 +1946,7 @@
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "SuffixExpr",
           "named": true
         }
       ]
@@ -1746,7 +1955,26 @@
   {
     "type": "InitList",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -1772,10 +2000,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "FieldInit",
           "named": true
         },
@@ -1796,11 +2020,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -1855,10 +2079,29 @@
   {
     "type": "LinkSection",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -1881,10 +2124,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfExpr",
           "named": true
         },
@@ -1901,11 +2140,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -1916,7 +2155,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -1925,10 +2164,6 @@
         },
         {
           "type": "WhileExpr",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -1939,7 +2174,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -1948,10 +2183,6 @@
         },
         {
           "type": "WhileStatement",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -1962,7 +2193,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -1971,10 +2202,6 @@
         },
         {
           "type": "WhileTypeExpr",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -2004,10 +2231,6 @@
         {
           "type": "doc_comment",
           "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
         }
       ]
     }
@@ -2033,18 +2256,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
         {
           "type": "PrefixTypeOp",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "SuffixExpr",
           "named": true
         }
       ]
@@ -2068,22 +2287,31 @@
   {
     "type": "PrefixOp",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "keyword",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "PrefixTypeOp",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -2117,10 +2345,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "INTEGER",
           "named": true
         },
@@ -2149,23 +2373,216 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "PrimaryTypeExpr",
+    "type": "PtrIndexPayload",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
+      "types": [
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PtrPayload",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "IDENTIFIER",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PtrTypeStart",
+    "named": true,
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "AsmExpr",
+          "named": true
+        },
+        {
+          "type": "BinaryExpr",
+          "named": true
+        },
+        {
+          "type": "Block",
+          "named": true
+        },
+        {
+          "type": "BlockLabel",
+          "named": true
+        },
+        {
+          "type": "BreakLabel",
+          "named": true
+        },
+        {
+          "type": "IfExpr",
+          "named": true
+        },
+        {
+          "type": "InitList",
+          "named": true
+        },
+        {
+          "type": "LoopExpr",
+          "named": true
+        },
+        {
+          "type": "PrefixTypeOp",
+          "named": true
+        },
+        {
+          "type": "SuffixExpr",
+          "named": true
+        },
+        {
+          "type": "UnaryExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "STRINGLITERAL",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "STRINGLITERALSINGLE",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SliceTypeStart",
+    "named": true,
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "AsmExpr",
+          "named": true
+        },
+        {
+          "type": "BinaryExpr",
+          "named": true
+        },
+        {
+          "type": "Block",
+          "named": true
+        },
+        {
+          "type": "BlockLabel",
+          "named": true
+        },
+        {
+          "type": "BreakLabel",
+          "named": true
+        },
+        {
+          "type": "IfExpr",
+          "named": true
+        },
+        {
+          "type": "InitList",
+          "named": true
+        },
+        {
+          "type": "LoopExpr",
+          "named": true
+        },
+        {
+          "type": "PrefixTypeOp",
+          "named": true
+        },
+        {
+          "type": "SuffixExpr",
+          "named": true
+        },
+        {
+          "type": "UnaryExpr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SuffixExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
       "types": [
         {
           "type": "BUILTINIDENTIFIER",
@@ -2185,10 +2602,6 @@
         },
         {
           "type": "ErrorSetDecl",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
           "named": true
         },
         {
@@ -2236,189 +2649,15 @@
           "named": true
         },
         {
+          "type": "SuffixExpr",
+          "named": true
+        },
+        {
+          "type": "SuffixOp",
+          "named": true
+        },
+        {
           "type": "SwitchExpr",
-          "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "PtrIndexPayload",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "IDENTIFIER",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "PtrPayload",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "IDENTIFIER",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "PtrTypeStart",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "AsmExpr",
-          "named": true
-        },
-        {
-          "type": "BinaryExpr",
-          "named": true
-        },
-        {
-          "type": "Block",
-          "named": true
-        },
-        {
-          "type": "BlockLabel",
-          "named": true
-        },
-        {
-          "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
-          "type": "IfExpr",
-          "named": true
-        },
-        {
-          "type": "InitList",
-          "named": true
-        },
-        {
-          "type": "LoopExpr",
-          "named": true
-        },
-        {
-          "type": "PrefixTypeOp",
-          "named": true
-        },
-        {
-          "type": "UnaryExpr",
-          "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "STRINGLITERAL",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "STRINGLITERALSINGLE",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "SliceTypeStart",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "AsmExpr",
-          "named": true
-        },
-        {
-          "type": "BinaryExpr",
-          "named": true
-        },
-        {
-          "type": "Block",
-          "named": true
-        },
-        {
-          "type": "BlockLabel",
-          "named": true
-        },
-        {
-          "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
-          "type": "IfExpr",
-          "named": true
-        },
-        {
-          "type": "InitList",
-          "named": true
-        },
-        {
-          "type": "LoopExpr",
-          "named": true
-        },
-        {
-          "type": "PrefixTypeOp",
-          "named": true
-        },
-        {
-          "type": "UnaryExpr",
-          "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "StringList",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "STRINGLITERAL",
           "named": true
         }
       ]
@@ -2427,7 +2666,26 @@
   {
     "type": "SuffixOp",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -2453,10 +2711,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IDENTIFIER",
           "named": true
         },
@@ -2477,11 +2731,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -2493,14 +2747,10 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "SwitchItem",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -2509,10 +2759,29 @@
   {
     "type": "SwitchExpr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -2535,10 +2804,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfExpr",
           "named": true
         },
@@ -2555,15 +2820,15 @@
           "named": true
         },
         {
-          "type": "SwitchProngList",
+          "type": "SuffixExpr",
+          "named": true
+        },
+        {
+          "type": "SwitchProng",
           "named": true
         },
         {
           "type": "UnaryExpr",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -2572,10 +2837,29 @@
   {
     "type": "SwitchItem",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -2598,10 +2882,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IfExpr",
           "named": true
         },
@@ -2618,11 +2898,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -2652,21 +2932,6 @@
     }
   },
   {
-    "type": "SwitchProngList",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "SwitchProng",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "TestDecl",
     "named": true,
     "fields": {},
@@ -2684,10 +2949,6 @@
         },
         {
           "type": "doc_comment",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -2708,10 +2969,6 @@
         {
           "type": "doc_comment",
           "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
         }
       ]
     }
@@ -2720,10 +2977,32 @@
     "type": "UnaryExpr",
     "named": true,
     "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      },
       "left": {
         "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "!",
+            "named": false
+          },
           {
             "type": "AsmExpr",
             "named": true
@@ -2745,10 +3024,6 @@
             "named": true
           },
           {
-            "type": "ErrorUnionExpr",
-            "named": true
-          },
-          {
             "type": "IfExpr",
             "named": true
           },
@@ -2765,12 +3040,36 @@
             "named": true
           },
           {
+            "type": "SuffixExpr",
+            "named": true
+          },
+          {
             "type": "UnaryExpr",
             "named": true
           },
           {
-            "type": "keyword",
-            "named": true
+            "type": "break",
+            "named": false
+          },
+          {
+            "type": "comptime",
+            "named": false
+          },
+          {
+            "type": "continue",
+            "named": false
+          },
+          {
+            "type": "nosespend",
+            "named": false
+          },
+          {
+            "type": "resume",
+            "named": false
+          },
+          {
+            "type": "return",
+            "named": false
           }
         ]
       },
@@ -2789,7 +3088,48 @@
   {
     "type": "VarDecl",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -2819,10 +3159,6 @@
           "named": true
         },
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "IDENTIFIER",
           "named": true
         },
@@ -2847,11 +3183,11 @@
           "named": true
         },
         {
-          "type": "UnaryExpr",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "UnaryExpr",
           "named": true
         }
       ]
@@ -2875,7 +3211,26 @@
   {
     "type": "WhileExpr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -2898,10 +3253,6 @@
         },
         {
           "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
           "named": true
         },
         {
@@ -2925,15 +3276,15 @@
           "named": true
         },
         {
+          "type": "SuffixExpr",
+          "named": true
+        },
+        {
           "type": "UnaryExpr",
           "named": true
         },
         {
           "type": "WhilePrefix",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -2942,10 +3293,29 @@
   {
     "type": "WhilePrefix",
     "named": true,
-    "fields": {},
+    "fields": {
+      "constructor": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "PrefixTypeOp",
+            "named": true
+          },
+          {
+            "type": "SuffixExpr",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "AsmExpr",
@@ -2965,10 +3335,6 @@
         },
         {
           "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
           "named": true
         },
         {
@@ -2992,15 +3358,15 @@
           "named": true
         },
         {
+          "type": "SuffixExpr",
+          "named": true
+        },
+        {
           "type": "UnaryExpr",
           "named": true
         },
         {
           "type": "WhileContinueExpr",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -3049,10 +3415,6 @@
         {
           "type": "WhilePrefix",
           "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
         }
       ]
     }
@@ -3066,10 +3428,6 @@
       "required": true,
       "types": [
         {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
           "type": "Payload",
           "named": true
         },
@@ -3078,11 +3436,11 @@
           "named": true
         },
         {
-          "type": "WhilePrefix",
+          "type": "SuffixExpr",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "WhilePrefix",
           "named": true
         }
       ]
@@ -3097,83 +3455,11 @@
       "required": false,
       "types": [
         {
-          "type": "AsmExpr",
-          "named": true
-        },
-        {
-          "type": "BinaryExpr",
-          "named": true
-        },
-        {
-          "type": "Block",
-          "named": true
-        },
-        {
-          "type": "BlockLabel",
-          "named": true
-        },
-        {
-          "type": "BreakLabel",
-          "named": true
-        },
-        {
-          "type": "ContainerField",
-          "named": true
-        },
-        {
-          "type": "ErrorUnionExpr",
-          "named": true
-        },
-        {
-          "type": "FnProto",
-          "named": true
-        },
-        {
-          "type": "IfExpr",
-          "named": true
-        },
-        {
-          "type": "InitList",
-          "named": true
-        },
-        {
-          "type": "LoopExpr",
-          "named": true
-        },
-        {
-          "type": "PrefixTypeOp",
-          "named": true
-        },
-        {
-          "type": "STRINGLITERALSINGLE",
-          "named": true
-        },
-        {
-          "type": "TestDecl",
-          "named": true
-        },
-        {
-          "type": "TopLevelComptime",
-          "named": true
-        },
-        {
-          "type": "UnaryExpr",
-          "named": true
-        },
-        {
-          "type": "VarDecl",
+          "type": "ContainerMembers",
           "named": true
         },
         {
           "type": "container_doc_comment",
-          "named": true
-        },
-        {
-          "type": "doc_comment",
-          "named": true
-        },
-        {
-          "type": "keyword",
           "named": true
         }
       ]
@@ -3412,7 +3698,39 @@
     "named": false
   },
   {
+    "type": "align",
+    "named": false
+  },
+  {
+    "type": "allowzero",
+    "named": false
+  },
+  {
     "type": "and",
+    "named": false
+  },
+  {
+    "type": "anyframe",
+    "named": false
+  },
+  {
+    "type": "anytype",
+    "named": false
+  },
+  {
+    "type": "asm",
+    "named": false
+  },
+  {
+    "type": "async",
+    "named": false
+  },
+  {
+    "type": "await",
+    "named": false
+  },
+  {
+    "type": "break",
     "named": false
   },
   {
@@ -3420,23 +3738,191 @@
     "named": false
   },
   {
+    "type": "callconv",
+    "named": false
+  },
+  {
+    "type": "catch",
+    "named": false
+  },
+  {
+    "type": "comptime",
+    "named": false
+  },
+  {
+    "type": "const",
+    "named": false
+  },
+  {
     "type": "container_doc_comment",
     "named": true
+  },
+  {
+    "type": "continue",
+    "named": false
+  },
+  {
+    "type": "defer",
+    "named": false
   },
   {
     "type": "doc_comment",
     "named": true
   },
   {
-    "type": "keyword",
-    "named": true
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "enum",
+    "named": false
+  },
+  {
+    "type": "errdefer",
+    "named": false
+  },
+  {
+    "type": "error",
+    "named": false
+  },
+  {
+    "type": "export",
+    "named": false
+  },
+  {
+    "type": "extern",
+    "named": false
+  },
+  {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "fn",
+    "named": false
+  },
+  {
+    "type": "for",
+    "named": false
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "inline",
+    "named": false
   },
   {
     "type": "line_comment",
     "named": true
   },
   {
+    "type": "linksection",
+    "named": false
+  },
+  {
+    "type": "noalias",
+    "named": false
+  },
+  {
+    "type": "noinline",
+    "named": false
+  },
+  {
+    "type": "nosespend",
+    "named": false
+  },
+  {
+    "type": "nosuspend",
+    "named": false
+  },
+  {
+    "type": "null",
+    "named": false
+  },
+  {
+    "type": "opaque",
+    "named": false
+  },
+  {
     "type": "or",
+    "named": false
+  },
+  {
+    "type": "orelse",
+    "named": false
+  },
+  {
+    "type": "packed",
+    "named": false
+  },
+  {
+    "type": "pub",
+    "named": false
+  },
+  {
+    "type": "resume",
+    "named": false
+  },
+  {
+    "type": "return",
+    "named": false
+  },
+  {
+    "type": "struct",
+    "named": false
+  },
+  {
+    "type": "suspend",
+    "named": false
+  },
+  {
+    "type": "switch",
+    "named": false
+  },
+  {
+    "type": "test",
+    "named": false
+  },
+  {
+    "type": "threadlocal",
+    "named": false
+  },
+  {
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "try",
+    "named": false
+  },
+  {
+    "type": "undefined",
+    "named": false
+  },
+  {
+    "type": "union",
+    "named": false
+  },
+  {
+    "type": "unreachable",
+    "named": false
+  },
+  {
+    "type": "usingnamespace",
+    "named": false
+  },
+  {
+    "type": "var",
+    "named": false
+  },
+  {
+    "type": "volatile",
+    "named": false
+  },
+  {
+    "type": "while",
     "named": false
   },
   {
