@@ -1,0 +1,8 @@
+*.log
+*.tgz
+.DS_Store
+Cargo.lock
+build
+node_modules
+package-lock.json
+target

@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "repository": "https://github.com/MunifTanjim/tree-sitter-lua",
+  "author": "Munif Tanjim (https://munitanjim.dev)",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces"
+  },
+  "workspaces": [
+    "lua"
+  ],
+  "version": "0.0.0"
+}
