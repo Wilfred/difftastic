@@ -158,12 +158,12 @@ module.exports = grammar({
 
   rules: {
     source_file: ($) =>
-      seq(optional($.container_doc_comment), repeat($._ContainerMembers)),
+      seq(optional($.container_doc_comment), optional($.ContainerMembers)),
 
     // *** Top level ***
-    _ContainerMembers: ($) =>
-      prec.left(
-        choice($._ContainerDeclarations, sepBy1(COMMA, $.ContainerField))
+    ContainerMembers: ($) =>
+      repeat1(
+        choice($._ContainerDeclarations, seq($.ContainerField, optional(COMMA)))
       ),
 
     _ContainerDeclarations: ($) =>
@@ -722,7 +722,7 @@ module.exports = grammar({
         $.ContainerDeclType,
         LBRACE,
         optional($.container_doc_comment),
-        repeat($._ContainerMembers),
+        optional($.ContainerMembers),
         RBRACE
       ),
 
