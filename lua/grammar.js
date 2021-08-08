@@ -25,7 +25,12 @@ module.exports = grammar({
 
   extras: ($) => [$.comment, /\s/],
 
-  externals: ($) => [$.comment, $.string],
+  externals: ($) => [
+    $.comment,
+    $._string_start,
+    $._string_content,
+    $._string_end,
+  ],
 
   supertypes: ($) => [$.statement, $.expression, $.declaration, $.variable],
 
@@ -315,6 +320,14 @@ module.exports = grammar({
 
       return token(choice(decimal_literal, hex_literal));
     },
+
+    // LiteralString
+    string: ($) =>
+      seq(
+        field('start', alias($._string_start, 'string_start')),
+        field('content', optional(alias($._string_content, 'string_content'))),
+        field('end', alias($._string_end, 'string_end'))
+      ),
 
     // '...'
     vararg_expression: (_) => '...',

@@ -805,6 +805,42 @@
     }
   },
   {
+    "type": "string",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string_content",
+            "named": false
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_end",
+            "named": false
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_start",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "table_constructor",
     "named": true,
     "fields": {},
@@ -1093,8 +1129,16 @@
     "named": false
   },
   {
-    "type": "string",
-    "named": true
+    "type": "string_content",
+    "named": false
+  },
+  {
+    "type": "string_end",
+    "named": false
+  },
+  {
+    "type": "string_start",
+    "named": false
   },
   {
     "type": "then",
