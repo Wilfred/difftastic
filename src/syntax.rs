@@ -517,7 +517,7 @@ impl<'a> Hash for Syntax<'a> {
 pub enum MatchKind {
     Unchanged { opposite_pos: Vec<SingleLineSpan> },
     Novel,
-    UnchangedCommentPart,
+    UnchangedCommentPart { opposite_pos: Vec<SingleLineSpan> },
     ChangedCommentPart,
 }
 
@@ -543,6 +543,7 @@ fn split_comment_words(
     content: &str,
     pos: &[SingleLineSpan],
     opposite_content: &str,
+    opposite_pos: &[SingleLineSpan],
     prev_opposite_pos: &[SingleLineSpan],
 ) -> Vec<MatchedPos> {
     // TODO: also split on whitespace, so "// (foo)" splits before "(".
@@ -556,8 +557,10 @@ fn split_comment_words(
     let other_parts: Vec<_> = WORD_BOUNDARY_RE.split(opposite_content).collect();
 
     let content_newlines = NewlinePositions::from(content);
+    let opposite_content_newlines = NewlinePositions::from(opposite_content);
 
     let mut offset = 0;
+    let mut opposite_offset = 0;
 
     let mut res = vec![];
     for diff_res in diff::slice(&content_parts, &other_parts) {
@@ -575,21 +578,29 @@ fn split_comment_words(
                 });
                 offset += word.len();
             }
-            diff::Result::Both(word, _) => {
+            diff::Result::Both(word, opposite_word) => {
                 // This word is present on both sides.
+                let word_pos =
+                    content_newlines.from_offsets_relative_to(pos[0], offset, offset + word.len());
+                let opposite_word_pos = opposite_content_newlines.from_offsets_relative_to(
+                    opposite_pos[0],
+                    opposite_offset,
+                    opposite_offset + opposite_word.len(),
+                );
+
                 res.push(MatchedPos {
-                    kind: MatchKind::UnchangedCommentPart,
-                    pos: content_newlines.from_offsets_relative_to(
-                        pos[0],
-                        offset,
-                        offset + word.len(),
-                    ),
+                    kind: MatchKind::UnchangedCommentPart {
+                        opposite_pos: opposite_word_pos,
+                    },
+                    pos: word_pos,
                     prev_opposite_pos: prev_opposite_pos.to_vec(),
                 });
                 offset += word.len();
+                opposite_offset += opposite_word.len();
             }
-            diff::Result::Right(_) => {
+            diff::Result::Right(opposite_word) => {
                 // Only exists on other side, nothing to do on this side.
+                opposite_offset += opposite_word.len();
             }
         }
     }
@@ -609,15 +620,18 @@ impl MatchedPos {
                     List { .. } => unreachable!(),
                     Atom { content, .. } => content,
                 };
-                let opposite_content = match opposite {
+                let (opposite_content, opposite_pos) = match opposite {
                     List { .. } => unreachable!(),
-                    Atom { content, .. } => content,
+                    Atom {
+                        content, position, ..
+                    } => (content, position),
                 };
 
                 return split_comment_words(
                     this_content,
                     &pos,
                     opposite_content,
+                    opposite_pos,
                     &prev_opposite_pos,
                 );
             }

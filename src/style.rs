@@ -102,7 +102,7 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
                 background: None,
                 bold: true,
             },
-            MatchKind::UnchangedCommentPart => Style {
+            MatchKind::UnchangedCommentPart { .. } => Style {
                 foreground: if is_lhs { Color::Red } else { Color::Green },
                 background: None,
                 bold: false,
