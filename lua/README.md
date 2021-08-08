@@ -1,3 +1,5 @@
+![GitHub Workflow Status: CI](https://img.shields.io/github/workflow/status/MunifTanjim/tree-sitter-lua/CI/main?label=CI&style=for-the-badge)
+
 # tree-sitter-lua
 
 Lua grammar for tree-sitter.
