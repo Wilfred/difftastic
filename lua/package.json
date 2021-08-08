@@ -27,7 +27,8 @@
   "scripts": {
     "build": "tree-sitter generate",
     "postbuild": "node-gyp build",
-    "test": "tree-sitter test"
+    "test": "tree-sitter test",
+    "posttest": "../script/parse-examples lua"
   },
   "dependencies": {
     "nan": "^2.14.2"
