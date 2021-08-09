@@ -2,7 +2,7 @@
 
 ### Diffing
 
-Fixed issues when creating/removing a whole file meant that difftastic
+Fixed issues when adding/removing a whole file meant that difftastic
 didn't display anything.
 
 ### Display
@@ -16,6 +16,9 @@ RHS.
 
 Side-by-side display will now use the full width of the screen when
 using a pager (i.e. if stdout is a not a TTY).
+
+Side-by-side display now handles whole file additions better,
+preferring a single column display.
 
 ### Parsing
 

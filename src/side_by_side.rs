@@ -99,23 +99,28 @@ fn apply_group(
     let mut lhs_prev_line_num = LineNumber(0);
     let mut rhs_prev_line_num = LineNumber(0);
 
-    for (lhs_line_num, rhs_line_num) in aligned_lines(group, lhs_line_matches) {
-        match lhs_line_num {
-            Some(lhs_line_num) => {
-                result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
-                result.push_str(lhs_lines[lhs_line_num.0]);
+    let aligned = aligned_lines(group, lhs_line_matches);
+    let lhs_empty = aligned.iter().all(|(lhs, _)| lhs.is_none());
 
-                lhs_prev_line_num = lhs_line_num;
+    for (lhs_line_num, rhs_line_num) in aligned {
+        if !lhs_empty {
+            match lhs_line_num {
+                Some(lhs_line_num) => {
+                    result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
+                    result.push_str(lhs_lines[lhs_line_num.0]);
+
+                    lhs_prev_line_num = lhs_line_num;
+                }
+                None => {
+                    result.push_str(&format_missing_line_num(
+                        lhs_prev_line_num,
+                        lhs_column_width,
+                    ));
+                    result.push_str(&" ".repeat(lhs_content_width));
+                }
             }
-            None => {
-                result.push_str(&format_missing_line_num(
-                    lhs_prev_line_num,
-                    lhs_column_width,
-                ));
-                result.push_str(&" ".repeat(lhs_content_width));
-            }
+            result.push_str(SPACER);
         }
-        result.push_str(SPACER);
 
         match rhs_line_num {
             Some(rhs_line_num) => {
