@@ -3772,6 +3772,18 @@
         {
           "type": "STRING",
           "value": "$0"
+        },
+        {
+          "type": "STRING",
+          "value": "$`"
+        },
+        {
+          "type": "STRING",
+          "value": "$'"
+        },
+        {
+          "type": "STRING",
+          "value": "$&"
         }
       ]
     },
@@ -6634,7 +6646,7 @@
     },
     "identifier_1": {
       "type": "PATTERN",
-      "value": "[a-zA-Z0-9_$:\\./@%\\^]+"
+      "value": "[a-zA-Z0-9_$:\\.\\/@%\\^]+"
     },
     "identifier_2": {
       "type": "PATTERN",
@@ -6821,7 +6833,7 @@
                       "value": 4,
                       "content": {
                         "type": "PATTERN",
-                        "value": "[^/]+"
+                        "value": "[^\\/]+"
                       }
                     }
                   },
@@ -7314,7 +7326,7 @@
                             "value": 1,
                             "content": {
                               "type": "PATTERN",
-                              "value": "[^/]+"
+                              "value": "[^\\/]+"
                             }
                           }
                         }
@@ -8081,7 +8093,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "[^/\\\\\\[\\n]"
+              "value": "[^\\/\\\\\\[\\n]"
             }
           ]
         }
@@ -8147,6 +8159,10 @@
           },
           "named": true,
           "value": "scalar_variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "special_variable"
         }
       ]
     },

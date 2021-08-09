@@ -266,6 +266,12 @@ namespace {
                 lexer->mark_end(lexer);
                 return false;
               }
+              // if we have come across a end of string
+              else if (lexer->lookahead == '"') {
+                advance(lexer);
+                lexer->mark_end(lexer);
+                return false;
+              }
               advance(lexer);
             }
           }
@@ -284,6 +290,12 @@ namespace {
           else {
             // dont return, below logic will take care
           }
+        }
+
+        // some exit conditions
+        if (!lexer->lookahead) {
+          lexer->mark_end(lexer);
+          return false;
         }
 
         lexer->result_symbol = STRING_DOUBLE_QUOTED_CONTENT;
