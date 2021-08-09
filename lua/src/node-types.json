@@ -280,6 +280,42 @@
     }
   },
   {
+    "type": "comment",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "comment_content",
+            "named": false
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "comment_end",
+            "named": false
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "comment_start",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "do_statement",
     "named": true,
     "fields": {
@@ -1049,8 +1085,16 @@
     "named": true
   },
   {
-    "type": "comment",
-    "named": true
+    "type": "comment_content",
+    "named": false
+  },
+  {
+    "type": "comment_end",
+    "named": false
+  },
+  {
+    "type": "comment_start",
+    "named": false
   },
   {
     "type": "do",

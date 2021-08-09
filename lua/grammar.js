@@ -26,7 +26,12 @@ module.exports = grammar({
   extras: ($) => [$.comment, /\s/],
 
   externals: ($) => [
-    $.comment,
+    $._line_comment_start,
+    $._line_comment_start_only,
+    $._block_comment_start,
+    $._block_comment_end,
+    $._comment_content,
+
     $._string_start,
     $._string_content,
     $._string_end,
@@ -477,5 +482,23 @@ module.exports = grammar({
 
     // Name
     identifier: (_) => /[a-zA-Z_][a-zA-Z0-9_]*/,
+
+    // comment
+    comment: ($) =>
+      choice(
+        field('start', alias($._line_comment_start_only, 'comment_start')),
+        seq(
+          field('start', alias($._line_comment_start, 'comment_start')),
+          field('content', alias($._comment_content, 'comment_content'))
+        ),
+        seq(
+          field('start', alias($._block_comment_start, 'comment_start')),
+          field(
+            'content',
+            optional(alias($._comment_content, 'comment_content'))
+          ),
+          field('end', alias($._block_comment_end, 'comment_end'))
+        )
+      ),
   },
 });

@@ -1,8 +1,14 @@
 #include <tree_sitter/parser.h>
 #include <wctype.h>
+#include <stdio.h>
 
 enum TokenType {
-  COMMENT,
+  LINE_COMMENT_START,
+  LINE_COMMENT_START_ONLY,
+  BLOCK_COMMENT_START,
+  BLOCK_COMMENT_END,
+  COMMENT_CONTENT,
+
   STRING_START,
   STRING_CONTENT,
   STRING_END,
@@ -41,18 +47,18 @@ void tree_sitter_lua_external_scanner_destroy(void *payload) {}
 enum InsideNode { INSIDE_NONE, INSIDE_COMMENT, INSIDE_STRING };
 
 uint8_t inside_node = INSIDE_NONE;
-char opening_char = 0;
+char ending_char = 0;
 uint8_t level_count = 0;
 
 static inline void reset_state() {
   inside_node = INSIDE_NONE;
-  opening_char = 0;
+  ending_char = 0;
   level_count = 0;
 }
 
 unsigned tree_sitter_lua_external_scanner_serialize(void *payload, char *buffer) {
   buffer[0] = inside_node;
-  buffer[1] = opening_char;
+  buffer[1] = ending_char;
   buffer[2] = level_count;
   return 3;
 }
@@ -61,15 +67,105 @@ void tree_sitter_lua_external_scanner_deserialize(void *payload, const char *buf
   if (length == 0) return;
   inside_node = buffer[0];
   if (length == 1) return;
-  opening_char = buffer[1];
+  ending_char = buffer[1];
   if (length == 2) return;
   level_count = buffer[2];
+}
+
+static bool scan_block_start(TSLexer *lexer) {
+  if (consume_char('[', lexer)) {
+    uint8_t level = consume_and_count_char('=', lexer);
+
+    if (consume_char('[', lexer)) {
+      level_count = level;
+      return true;
+    }
+  }
+
+  return false;
+}
+
+static bool scan_block_end(TSLexer *lexer) {
+  if (consume_char(']', lexer)) {
+    uint8_t level = consume_and_count_char('=', lexer);
+
+    if (level_count == level && consume_char(']', lexer)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+static bool scan_block_content(TSLexer *lexer) {
+  while (lexer->lookahead != 0) {
+    if (lexer->lookahead == ']') {
+      lexer->mark_end(lexer);
+
+      if (scan_block_end(lexer)) {
+        return true;
+      }
+    }
+
+    consume(lexer);
+  }
+
+  return false;
+}
+
+static bool scan_comment_start(TSLexer *lexer) {
+  if (consume_char('-', lexer) && consume_char('-', lexer)) {
+    lexer->mark_end(lexer);
+
+    if (scan_block_start(lexer)) {
+      lexer->mark_end(lexer);
+      inside_node = INSIDE_COMMENT;
+      lexer->result_symbol = BLOCK_COMMENT_START;
+      return true;
+    }
+
+
+    if (lexer->lookahead == '\n' || lexer->lookahead == 0) {
+      lexer->result_symbol = LINE_COMMENT_START_ONLY;
+      return true;
+    }
+
+    inside_node = INSIDE_COMMENT;
+    ending_char = '\n';
+    lexer->result_symbol = LINE_COMMENT_START;
+    return true;
+  }
+
+  return false;
+}
+
+static bool scan_comment_content(TSLexer *lexer) {
+  if (ending_char == 0) { // block comment
+    if (scan_block_content(lexer)) {
+      lexer->result_symbol = COMMENT_CONTENT;
+      return true;
+    }
+
+    return false;
+  }
+
+  while (lexer->lookahead != 0) {
+    if (lexer->lookahead == ending_char) {
+      reset_state();
+      lexer->result_symbol = COMMENT_CONTENT;
+      return true;
+    }
+
+    consume(lexer);
+  }
+
+  return false;
 }
 
 static bool scan_string_start(TSLexer *lexer) {
   if (lexer->lookahead == '"' || lexer->lookahead == '\'') {
     inside_node = INSIDE_STRING;
-    opening_char = lexer->lookahead;
+    ending_char = lexer->lookahead;
     consume(lexer);
     return true;
   }
@@ -88,19 +184,11 @@ static bool scan_string_start(TSLexer *lexer) {
 }
 
 static bool scan_string_end(TSLexer *lexer) {
-  if (opening_char == 0) { // block string
-    if (consume_char(']', lexer)) {
-      uint8_t level = consume_and_count_char('=', lexer);
-
-      if (level_count == level && consume_char(']', lexer)) {
-        return true;
-      }
-    }
-
-    return false;
+  if (ending_char == 0) { // block string
+    return scan_block_end(lexer);
   }
 
-  if (consume_char(opening_char, lexer)) {
+  if (consume_char(ending_char, lexer)) {
     return true;
   }
 
@@ -108,24 +196,12 @@ static bool scan_string_end(TSLexer *lexer) {
 }
 
 static bool scan_string_content(TSLexer *lexer) {
-  if (opening_char == 0) { // block string
-    while (lexer->lookahead != 0) {
-      if (lexer->lookahead == ']') {
-        lexer->mark_end(lexer);
-
-        if (scan_string_end(lexer)) {
-          return true;
-        }
-      }
-
-      consume(lexer);
-    }
-
-    return false;
+  if (ending_char == 0) { // block string
+    return scan_block_content(lexer);
   }
 
   while (lexer->lookahead != '\n' && lexer->lookahead != 0) {
-    if (lexer->lookahead == opening_char) {
+    if (lexer->lookahead == ending_char) {
       return true;
     }
 
@@ -136,47 +212,6 @@ static bool scan_string_content(TSLexer *lexer) {
     }
 
     consume(lexer);
-  }
-
-  return false;
-}
-
-static bool scan_block_content(TSLexer *lexer) {
-  // Initialize lua multiline content level count
-  uint8_t start_level = 0;
-  uint8_t end_level = 0;
-
-  // first appearance of '['
-  if (consume_char('[', lexer)) {
-    if (lexer->lookahead == '[' || lexer->lookahead == '=') {
-      start_level = consume_and_count_char('=', lexer);
-
-      // last appearance of '['
-      if (consume_char('[', lexer)) {
-        // Loop while not end of file (eof)
-        while (lexer->lookahead != 0) {
-          // Gives the end level count the same as start level count
-          end_level = start_level;
-
-          // first appearance of ']'
-          if (consume_char(']', lexer)) {
-            if (lexer->lookahead == ']' || lexer->lookahead == '=') {
-              end_level = consume_and_count_char('=', lexer);
-
-              // last appearance of ']'
-              if (end_level == start_level && consume_char(']', lexer)) {
-                return true;
-              }
-            }
-          }
-
-          if (lexer->lookahead != 0) {
-            // all but end of file (eof)
-            consume(lexer);
-          }
-        }
-      }
-    }
   }
 
   return false;
@@ -198,32 +233,31 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
     return false;
   }
 
-  skip_whitespaces(lexer);
-
-  if (valid_symbols[COMMENT]) {
-    if (consume_char('-', lexer) && consume_char('-', lexer)) {
-      if (scan_block_content(lexer)) {
-        lexer->result_symbol = COMMENT;
-        return true;
-      }
-
-      while (iswspace(lexer->lookahead) && lexer->lookahead != '\n' && lexer->lookahead != 0) {
-        consume(lexer);
-      }
-
-      lexer->result_symbol = COMMENT;
-
-      while (lexer->lookahead != '\n' && lexer->lookahead != 0) {
-        consume(lexer);
-      }
-
+  if (inside_node == INSIDE_COMMENT) {
+    if (valid_symbols[BLOCK_COMMENT_END] && ending_char == 0 && scan_block_end(lexer)) {
+      reset_state();
+      lexer->result_symbol = BLOCK_COMMENT_END;
       return true;
     }
+
+    if (valid_symbols[COMMENT_CONTENT] && scan_comment_content(lexer)) {
+      return true;
+    }
+
+    return false;
   }
+
+  skip_whitespaces(lexer);
 
   if (valid_symbols[STRING_START] && scan_string_start(lexer)) {
     lexer->result_symbol = STRING_START;
     return true;
+  }
+
+  if (valid_symbols[LINE_COMMENT_START_ONLY] || valid_symbols[LINE_COMMENT_START] || valid_symbols[BLOCK_COMMENT_START]) {
+    if (scan_comment_start(lexer)) {
+      return true;
+    }
   }
 
   return false;
