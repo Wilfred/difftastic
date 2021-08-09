@@ -18,14 +18,15 @@ const PREC = {
   SHIFT: 15,
   PLUS: 16,
   TIMES: 17,
-  NEG: 18,
-  INSTANCEOF: 19,
-  INC: 20,
-  SCOPE: 21,
-  NEW: 22,
-  CALL: 23,
-  MEMBER: 24,
-  DEREF: 25
+  EXPONENTIAL: 18,
+  NEG: 19,
+  INSTANCEOF: 20,
+  INC: 21,
+  SCOPE: 22,
+  NEW: 23,
+  CALL: 24,
+  MEMBER: 25,
+  DEREF: 26
 };
 
 module.exports = grammar({
@@ -835,10 +836,10 @@ module.exports = grammar({
       prec.left(PREC.NEG, seq(choice('+', '-', '~', '!'), $._expression))
     ),
 
-    exponentiation_expression: $ => prec.right(PREC.TIMES, seq(
+    exponentiation_expression: $ => prec.right(PREC.EXPONENTIAL, seq(
       choice($.clone_expression, $._primary_expression),
       '**',
-      choice($.exponentiation_expression, $.clone_expression, $._primary_expression)
+      choice($.exponentiation_expression, $.clone_expression, $.unary_op_expression, $._primary_expression)
     )),
 
     clone_expression: $ => seq(
