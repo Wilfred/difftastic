@@ -1,5 +1,10 @@
 ## 0.7 (unreleased)
 
+### Diffing
+
+Fixed issues when creating/removing a whole file meant that difftastic
+didn't display anything.
+
 ### Display
 
 Side-by-side display now uses "..." for column numbers when aligning
