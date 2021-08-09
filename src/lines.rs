@@ -52,7 +52,7 @@ impl LineGroup {
                     return vec![];
                 }
 
-                for line in lhs_lines.start.0..=lhs_lines.end.0 {
+                for line in lhs_lines.start.0..lhs_lines.end.0 {
                     res.push(line.into());
                 }
             }
@@ -69,7 +69,7 @@ impl LineGroup {
                     return vec![];
                 }
 
-                for line in rhs_lines.start.0..=rhs_lines.end.0 {
+                for line in rhs_lines.start.0..rhs_lines.end.0 {
                     res.push(line.into());
                 }
             }
@@ -574,5 +574,19 @@ mod tests {
                 end_col: 3
             }]
         );
+    }
+
+    #[test]
+    fn line_group_uses_interval_correctly() {
+        let group = LineGroup {
+            lhs_lines: Some(Interval {
+                start: 1.into(),
+                end: 3.into(),
+            }),
+            rhs_lines: None,
+        };
+
+        // Intervals are inclusive of `start` but exclusive of `end`.
+        assert_eq!(group.lhs_lines(), vec![1.into(), 2.into()])
     }
 }
