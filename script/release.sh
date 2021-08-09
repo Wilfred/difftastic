@@ -25,7 +25,7 @@ if [[ "${curr_version}" = "${next_version}" ]]; then
   exit 1
 fi
 
-git add package.json package-lock.json
+git add package.json
 
 for workspace in "${workspaces[@]}"; do
   pushd "${workspace}" >/dev/null
