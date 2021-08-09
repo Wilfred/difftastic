@@ -9,6 +9,9 @@ blank lines between them to make it clearer.
 Fixed an issue where screen width was not shared evenly by LHS and
 RHS.
 
+Side-by-side display will now use the full width of the screen when
+using a pager (i.e. if stdout is a not a TTY).
+
 ### Parsing
 
 Fixed handling of `->` in Rust.

@@ -433,6 +433,23 @@ pub fn enforce_length(s: &str, line_length: usize) -> String {
     result
 }
 
+/// Truncate any lines in `s` that are longer than `line_length`.
+pub fn enforce_max_length(s: &str, line_length: usize) -> String {
+    let mut result = String::with_capacity(s.len());
+    for line in s.lines() {
+        // TODO: use length in chars not bytes.
+        if line.len() > line_length {
+            // Truncate.
+            result.push_str(&line[0..line_length]);
+            result.push('\n');
+        } else {
+            result.push_str(&format!("{}\n", line));
+        }
+    }
+
+    result
+}
+
 pub trait MaxLine {
     fn max_line(&self) -> LineNumber;
 }
