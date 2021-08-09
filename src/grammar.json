@@ -4284,7 +4284,7 @@
         },
         {
           "type": "PREC_LEFT",
-          "value": 18,
+          "value": 19,
           "content": {
             "type": "SEQ",
             "members": [
@@ -4320,7 +4320,7 @@
     },
     "exponentiation_expression": {
       "type": "PREC_RIGHT",
-      "value": 17,
+      "value": 18,
       "content": {
         "type": "SEQ",
         "members": [
@@ -4351,6 +4351,10 @@
               {
                 "type": "SYMBOL",
                 "name": "clone_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "unary_op_expression"
               },
               {
                 "type": "SYMBOL",
@@ -4678,7 +4682,7 @@
     },
     "object_creation_expression": {
       "type": "PREC_RIGHT",
-      "value": 22,
+      "value": 23,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -4812,7 +4816,7 @@
     },
     "update_expression": {
       "type": "PREC_LEFT",
-      "value": 20,
+      "value": 21,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -5273,7 +5277,7 @@
     },
     "member_access_expression": {
       "type": "PREC",
-      "value": 24,
+      "value": 25,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5298,7 +5302,7 @@
     },
     "nullsafe_member_access_expression": {
       "type": "PREC",
-      "value": 24,
+      "value": 25,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5323,7 +5327,7 @@
     },
     "scoped_property_access_expression": {
       "type": "PREC",
-      "value": 24,
+      "value": 25,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5706,7 +5710,7 @@
     },
     "function_call_expression": {
       "type": "PREC",
-      "value": 23,
+      "value": 24,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5774,7 +5778,7 @@
     },
     "scoped_call_expression": {
       "type": "PREC",
-      "value": 23,
+      "value": 24,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5837,7 +5841,7 @@
     },
     "relative_scope": {
       "type": "PREC",
-      "value": 21,
+      "value": 22,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -5964,7 +5968,7 @@
     },
     "member_call_expression": {
       "type": "PREC",
-      "value": 23,
+      "value": 24,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5997,7 +6001,7 @@
     },
     "nullsafe_member_call_expression": {
       "type": "PREC",
-      "value": 23,
+      "value": 24,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6151,7 +6155,7 @@
     },
     "_dereferencable_expression": {
       "type": "PREC",
-      "value": 25,
+      "value": 26,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -6769,7 +6773,7 @@
       "members": [
         {
           "type": "PREC",
-          "value": 19,
+          "value": 20,
           "content": {
             "type": "SEQ",
             "members": [
