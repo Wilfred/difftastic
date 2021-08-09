@@ -13,7 +13,7 @@ use std::fmt;
 use std::hash::{Hash, Hasher};
 use typed_arena::Arena;
 
-use crate::lines::{LineNumber, NewlinePositions};
+use crate::lines::{LineGroup, LineNumber, NewlinePositions};
 use crate::positions::SingleLineSpan;
 use ChangeKind::*;
 use Syntax::*;
@@ -822,10 +822,12 @@ fn zip_lines(lhs: &[SingleLineSpan], rhs: &[SingleLineSpan]) -> Vec<(LineNumber,
 }
 
 pub fn aligned_lines(
-    lhs_lines: &[LineNumber],
-    rhs_lines: &[LineNumber],
+    group: &LineGroup,
     lhs_line_matches: &HashMap<LineNumber, LineNumber>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let lhs_lines = group.lhs_lines();
+    let rhs_lines = group.rhs_lines();
+
     // When adding padding to a LineGroup where each side has a
     // different number of lines, we can end up with extra padding on
     // the side with fewer lines.
@@ -836,7 +838,7 @@ pub fn aligned_lines(
     // TODO: fix padding to be smarter.
     //
     // TODO: do the same for the end of the hunk.
-    aligned_lines_(lhs_lines, rhs_lines, lhs_line_matches)
+    aligned_lines_(&lhs_lines, &rhs_lines, lhs_line_matches)
         .iter()
         .skip_while(|(lhs, rhs)| lhs.is_none() || rhs.is_none())
         .copied()
@@ -981,20 +983,6 @@ mod tests {
                 (Some(2.into()), Some(12.into())),
                 (None, Some(13.into()))
             ]
-        );
-    }
-
-    #[test]
-    fn test_aligned_middle_drop_none_at_start() {
-        let lhs_lines: Vec<LineNumber> = vec![1.into(), 2.into()];
-        let rhs_lines: Vec<LineNumber> = vec![12.into(), 13.into()];
-
-        let mut line_matches: HashMap<LineNumber, LineNumber> = HashMap::new();
-        line_matches.insert(2.into(), 12.into());
-
-        assert_eq!(
-            aligned_lines(&lhs_lines, &rhs_lines, &line_matches),
-            vec![(Some(2.into()), Some(12.into())), (None, Some(13.into()))]
         );
     }
 
