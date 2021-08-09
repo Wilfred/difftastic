@@ -53,7 +53,7 @@ fn lhs_printable_width(
     let longest_line_length = longest_visible_line_lhs(lhs, groups);
     let longest_line = longest_line_length + lhs_column_width;
 
-    let space_available = terminal_width / 2 - SPACER.len();
+    let space_available = (terminal_width - SPACER.len()) / 2;
     max(MIN_WIDTH, min(longest_line, space_available))
 }
 
