@@ -99,9 +99,7 @@ fn apply_group(
     let mut lhs_prev_line_num = LineNumber(0);
     let mut rhs_prev_line_num = LineNumber(0);
 
-    for (lhs_line_num, rhs_line_num) in
-        aligned_lines(&group.lhs_lines(), &group.rhs_lines(), lhs_line_matches)
-    {
+    for (lhs_line_num, rhs_line_num) in aligned_lines(&group, lhs_line_matches) {
         match lhs_line_num {
             Some(lhs_line_num) => {
                 result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
