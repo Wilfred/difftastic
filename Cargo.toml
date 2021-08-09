@@ -21,6 +21,7 @@ rust-embed = "5.9.0"
 rustc-hash = "1.1.0"
 strsim = "0.10.0"
 lazy_static = "1.4.0"
+atty = "0.2.14"
 
 [dev-dependencies]
 pretty_assertions = "0.6.1"

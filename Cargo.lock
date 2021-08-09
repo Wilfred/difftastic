@@ -89,6 +89,7 @@ checksum = "524cbf6897b527295dff137cec09ecf3a05f4fddffd7dfcd1585403449e74198"
 name = "difftastic"
 version = "0.7.0"
 dependencies = [
+ "atty",
  "clap",
  "colored",
  "diff",
