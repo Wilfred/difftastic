@@ -809,6 +809,9 @@ module.exports = grammar({
       /\$]/,
       '$$',
       '$0',
+      '$`',
+      '$\'',
+      '$&',
     ),
 
     bless: $ => prec.right(seq(
@@ -1497,6 +1500,7 @@ module.exports = grammar({
       alias($.hash_ref_in_interpolation, $.arrow_notation),
       // $.hash_access_variable,
       alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable),
+      $.special_variable,
     ),
 
     hash_ref_in_interpolation: $ => seq(

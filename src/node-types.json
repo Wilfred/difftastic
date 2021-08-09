@@ -7956,6 +7956,10 @@
         {
           "type": "scalar_variable",
           "named": true
+        },
+        {
+          "type": "special_variable",
+          "named": true
         }
       ]
     }
@@ -15758,7 +15762,19 @@
     "named": false
   },
   {
+    "type": "$&",
+    "named": false
+  },
+  {
+    "type": "$'",
+    "named": false
+  },
+  {
     "type": "$0",
+    "named": false
+  },
+  {
+    "type": "$`",
     "named": false
   },
   {
