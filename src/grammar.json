@@ -4325,42 +4325,70 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "clone_expression"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_primary_expression"
-              }
-            ]
+            "type": "FIELD",
+            "name": "left",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "clone_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_primary_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "unary_op_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "match_expression"
+                }
+              ]
+            }
           },
           {
             "type": "STRING",
             "value": "**"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "exponentiation_expression"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "clone_expression"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "unary_op_expression"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_primary_expression"
-              }
-            ]
+            "type": "FIELD",
+            "name": "right",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "exponentiation_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "clone_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "unary_op_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_primary_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "augmented_assignment_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "match_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "cast_expression"
+                }
+              ]
+            }
           }
         ]
       }

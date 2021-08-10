@@ -21,14 +21,20 @@ Exponentiation
 $foo = 2 ** 2;
 $a = 3;
 echo $a ** -$a;
+$a ** $c += $b;
 
 ---
 
 (program
   (php_tag)
-  (expression_statement (assignment_expression
-    left: (variable_name (name))
-    right: (exponentiation_expression (integer) (integer)))
+  (expression_statement
+    (assignment_expression
+      left: (variable_name (name))
+      right: (exponentiation_expression
+        left: (integer)
+        right: (integer)
+      )
+    )
   )
   (expression_statement
     (assignment_expression
@@ -36,9 +42,18 @@ echo $a ** -$a;
       right: (integer)))
   (echo_statement
     (exponentiation_expression
-      (variable_name (name))
-      (unary_op_expression
+      left: (variable_name (name))
+      right: (unary_op_expression
         (variable_name (name))
+      )
+    )
+  )
+  (expression_statement
+    (exponentiation_expression
+      left: (variable_name (name))
+      right: (augmented_assignment_expression
+        left: (variable_name (name))
+        right: (variable_name (name))
       )
     )
   )
@@ -104,7 +119,7 @@ Cast expressions in assignments
 
 <?php
 
-(int) $foo = (integer)$bar;
+(int) $foo = (integer) $bar;
 (int) $foo += 5;
 
 ---
