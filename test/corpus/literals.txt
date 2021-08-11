@@ -1,0 +1,491 @@
+==========================
+Double quoted strings
+==========================
+
+"";
+" ";
+"\"";
+"\\";
+"\?";
+"'";
+" \'\\\?'";
+b" \'\\\?'";
+re" \'\\\?'";
+
+---
+
+(script
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (prefixed_string
+      prefix: (identifier)
+      (string)))
+  (expression_statement
+    (prefixed_string
+      prefix: (identifier)
+      (string))))
+
+==========================
+Floats
+==========================
+
+12.01;
+.01;
+12.;
+12.01e12;
+12.01E12;
+12.e12;
+12.E12;
+12.01e-12;
+12.01E-12;
+12.e-12;
+12.E-12;
+.01E-12;
+12.01e+12;
+12.01E+12;
+12.e+12;
+12.E+12;
+.01E+12;
+1E12;
+1e12;
+1E-12;
+1e+12;
+
+---
+
+(script
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float))
+  (expression_statement
+    (float)))
+
+==========================
+Heredoc almost
+==========================
+
+<<<EOF
+EOFEOF
+EOF;
+
+<<<EOF
+EOFE
+EOF;
+
+<<<EOF
+OFE
+EOF;
+
+
+
+
+---
+
+(script
+  (expression_statement
+    (heredoc))
+  (expression_statement
+    (heredoc))
+  (expression_statement
+    (heredoc)))
+
+==========================
+Heredoc almost concat
+==========================
+
+<<<EOF
+EOFEOF
+EOF.
+<<<EOF
+EOFEOF
+EOF;
+
+<<<EOF
+EOFEOF
+EOF.<<<EOF
+EOFEOF
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc))
+  (expression_statement
+    (heredoc)))
+
+==========================
+Heredoc brace
+==========================
+
+<<<EOF
+1{$var}2{$var}3{$var}4{$var}
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc
+      (embedded_brace_expression
+        (variable))
+      (embedded_brace_expression
+        (variable))
+      (embedded_brace_expression
+        (variable))
+      (embedded_brace_expression
+        (variable)))))
+
+==========================
+Heredoc concat
+==========================
+
+<<<EOF
+EOFEOF
+EOF
+.
+<<<EOF
+EOFEOF
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (binary_expression
+      left: (heredoc)
+      right: (heredoc))))
+
+==========================
+Heredoc consecutive
+==========================
+
+<<<EOF
+Heredoc
+EOF;
+
+<<<EOF
+Heredoc
+EOF;
+
+
+---
+
+(script
+  (expression_statement
+    (heredoc))
+  (expression_statement
+    (heredoc)))
+
+==========================
+Heredoc dollar
+==========================
+
+<<<EOT
+	$('a') abc $(function{return;})
+EOT;
+
+---
+
+(script
+  (expression_statement
+    (heredoc)))
+
+==========================
+Heredoc dollar embedded var
+==========================
+
+// This tests that the parser is correctly interprets when a variable is embedded between two string literals
+
+<<<EOT
+	$()abc$()$realvar$()
+EOT;
+
+---
+
+(script
+  (comment) 
+  (expression_statement
+    (heredoc
+      (variable))))
+
+==========================
+Heredoc dollar no lead space
+==========================
+
+<<<EOT
+$()
+EOT;
+
+---
+
+(script
+  (expression_statement
+    (heredoc)))
+
+==========================
+Heredoc double quote
+==========================
+
+<<<"EOF"
+Heredoc
+EOF;
+
+<<<"EOF"
+Heredoc $var
+EOF;
+
+
+---
+
+(script
+  (expression_statement
+    (heredoc))
+  (expression_statement
+    (heredoc
+      (variable))))
+
+==========================
+Heredoc empty
+==========================
+
+<<<EOF
+EOF;
+
+<<<EOF
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc))
+  (expression_statement
+    (heredoc)))
+
+==========================
+Heredoc simple
+==========================
+
+<<<EOF
+Heredoc
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc)))
+
+==========================
+Heredoc variable
+==========================
+
+// This test ensures that variables within heredocs are interpreted as such.
+// ÿ is 255 in unicode which is a valid variable identifier.
+
+<<<EOF
+r$var
+EOF;
+
+<<<EOT
+ $ÿ
+EOT;
+
+<<<EOF
+E$var
+EOF;
+
+<<<EOF
+$var
+EOF;
+
+<<<EOF
+$var
+
+EOF;
+
+<<<EOF
+$var
+abc
+EOF;
+
+<<<EOF
+$var x $var
+EOF;
+
+---
+
+(script
+  (comment)
+  (comment)
+  (expression_statement
+    (heredoc
+      (variable)))
+  (expression_statement
+    (heredoc
+      (variable)))
+  (expression_statement
+    (heredoc
+      (variable)))
+  (expression_statement
+    (heredoc
+      (variable)))
+  (expression_statement
+    (heredoc
+      (variable)))
+  (expression_statement
+    (heredoc
+      (variable)))
+  (expression_statement
+    (heredoc
+      (variable)
+      (variable))))
+
+==========================
+Integers
+==========================
+
+1;
+17;
+07;
+0x1A;
+0X1A;
+0b01;
+0B01;
+
+---
+
+(script
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer))
+  (expression_statement
+    (integer)))
+
+==========================
+Nowdoc no interpolation
+==========================
+
+<<<'EOF'
+Nowdoc $var Nodoc {$var}
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc)))
+
+==========================
+Nowdoc simple
+==========================
+
+<<<'EOF'
+Nowdoc
+EOF;
+
+---
+
+(script
+  (expression_statement
+    (heredoc)))
+
+==========================
+Single quoted strings
+==========================
+
+'';
+' ';
+'\'';
+'\\';
+'\?';
+'"';
+' \'\\\?"';
+b' \'\\\?"';
+re' \'\\\?"';
+
+---
+
+(script
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string))
+  (expression_statement
+    (prefixed_string
+      prefix: (identifier)
+      (string)))
+  (expression_statement
+    (prefixed_string
+      prefix: (identifier)
+      (string))))
