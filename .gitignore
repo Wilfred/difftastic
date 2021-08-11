@@ -7,8 +7,4 @@ examples
 package-lock.json
 tmp
 
-# Source test files in test/cases. We can ignore test/corpus.
-test/corpus/*
-!test/corpus/.empty
-
 test/cases/**/*.json
