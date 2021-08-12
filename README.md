@@ -16,4 +16,8 @@
 </div>
 
 
-![Demo](assets/demo.png)
+![Highlight](assets/highlight.png)
+
+---
+
+![Fold](assets/fold.png)
