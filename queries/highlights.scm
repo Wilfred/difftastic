@@ -97,7 +97,6 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
   ("!")? @exception
 )
 
-
 (ParamDecl 
   (ParamType (SuffixExpr (IDENTIFIER) @parameter))
 )
@@ -111,11 +110,18 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
   ]
 )
 
+(SwitchItem 
+  (SuffixExpr
+    "."
+    .
+    (IDENTIFIER) @constant
+  )
+)
+
 (BUILTINIDENTIFIER) @function.builtin
 
 ((BUILTINIDENTIFIER) @include
   (#any-of? @include "@import" "@cImport"))
-
 
 (INTEGER) @number
 
@@ -136,10 +142,8 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
   (BuildinTypeExpr)
 ] @type.builtin
 
-[
-  (BreakLabel)
-  (BlockLabel)
-] @label
+(BreakLabel (IDENTIFIER) @label)
+(BlockLabel (IDENTIFIER) @label)
 
 [
   "true"
@@ -149,9 +153,8 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
 [
   "undefined"
   "unreachable"
+  "null"
 ] @constant.builtin
-
-"null" @constant.macro
 
 [
   "else"
@@ -167,7 +170,7 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
 [
   "or"
   "and"
-  (BitwiseOp "orelse")
+  "orelse"
 ] @keyword.operator
 
 [
@@ -179,7 +182,11 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
   "opaque"
 ] @keyword
 
-"error" @exception
+[
+  "try"
+  "error"
+  "catch"
+] @exception
 
 ; VarDecl
 [
@@ -191,7 +198,6 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
 ] @keyword.function
 
 [
-  "try"
   "test"
   "pub"
   "usingnamespace"
@@ -218,13 +224,12 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
 
 ; PrecProc
 [
-  (BitwiseOp "orelse")
   "inline"
   "noinline"
   "asm"
   "callconv"
   "noalias"
-] @annotation
+] @attribute
 
 [
   "linksection"
@@ -238,6 +243,13 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
   (AdditionOp)
   (MultiplyOp)
   (PrefixOp)
+  "*"
+  "**"
+  "->"
+  "=>"
+  ".?"
+  ".*"
+  "="
 ] @operator
 
 [
@@ -248,10 +260,18 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
 ] @punctuation.delimiter
 
 [
+  ".."
+  "..."
+] @punctuation.special
+
+[
   "["
   "]"
   "("
   ")"
   "{"
   "}"
+  (Payload "|")
+  (PtrPayload "|")
+  (PtrIndexPayload "|")
 ] @punctuation.bracket
