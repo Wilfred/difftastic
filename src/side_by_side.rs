@@ -96,11 +96,28 @@ fn apply_group(
     rhs_column_width: usize,
 ) -> String {
     let mut result = String::new();
-    let mut lhs_prev_line_num = LineNumber(0);
-    let mut rhs_prev_line_num = LineNumber(0);
 
     let aligned = aligned_lines(group, lhs_line_matches);
     let lhs_empty = aligned.iter().all(|(lhs, _)| lhs.is_none());
+
+    // Find the first line number shown, so we print an accurate
+    // number of dots for the first unmatched line even if it's the
+    // first line.
+    let mut lhs_prev_line_num = LineNumber(0);
+    for (lhs_line_num, _) in &aligned {
+        if let Some(lhs_line_num) = lhs_line_num {
+            lhs_prev_line_num = *lhs_line_num;
+            break;
+        }
+    }
+
+    let mut rhs_prev_line_num = LineNumber(0);
+    for (_, rhs_line_num) in &aligned {
+        if let Some(rhs_line_num) = rhs_line_num {
+            rhs_prev_line_num = *rhs_line_num;
+            break;
+        }
+    }
 
     for (lhs_line_num, rhs_line_num) in aligned {
         if !lhs_empty {
