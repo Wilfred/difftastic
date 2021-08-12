@@ -178,10 +178,10 @@ module.exports = grammar({
 
         _class_heritage: $ => seq(
             "is", 
-            commaSep1($.inheritance_specifier)
+            commaSep1($._inheritance_specifier)
         ),
 
-        inheritance_specifier: $ => seq(
+        _inheritance_specifier: $ => seq(
             field("ancestor", $._user_defined_type),
             optional(field("ancestor_arguments", $._call_arguments)),
         ),
@@ -994,7 +994,7 @@ module.exports = grammar({
                     seq('//', /.*/),
                     seq(
                         '/*',
-                        /.*/,
+                        /(.|(\r?\n))*/,
                         '*/'
                     )       
                 )
