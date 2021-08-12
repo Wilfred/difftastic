@@ -81,14 +81,14 @@ impl LineGroup {
     pub fn pad(&mut self, amount: usize, max_lhs_line: LineNumber, max_rhs_line: LineNumber) {
         if let Some(Interval { start, end }) = self.lhs_lines.take() {
             let start = (max(0, start.0 as isize - amount as isize) as usize).into();
-            let end = min(max_lhs_line.0, end.0 + amount).into();
+            let end = min(max_lhs_line.0 + 1, end.0 + amount).into();
 
             self.lhs_lines = Some(Interval { start, end });
         }
 
         if let Some(Interval { start, end }) = self.rhs_lines.take() {
             let start = (max(0, start.0 as isize - amount as isize) as usize).into();
-            let end = min(max_rhs_line.0, end.0 + amount).into();
+            let end = min(max_rhs_line.0 + 1, end.0 + amount).into();
 
             self.rhs_lines = Some(Interval { start, end });
         }
