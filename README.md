@@ -2,17 +2,23 @@
 
 ## Status
 
-Subject to change, grammar still evolving.
+tree-sitter-clojure has been:
 
-However:
-
-* Some neovim / nvim-treesitter folks have been using it
-* At the moment, I don't intend to support "higher level" things like `defn` in the grammar itself.  See [this comment](https://github.com/sogaiu/tree-sitter-clojure/issues/15#issuecomment-880729889) for some background.
+* [Tested in various ways](doc/testing.md)
+* [Used in some ways](doc/use.md)
+* [Scoped for better behavior](doc/scope.md)
 
 ## Prerequisites
 
-* [emsdk](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions) -- emscripten via homebrew seems to work for macos
-* node >= 12 (nvm recommended) -- recently tested 12.9.1, 12.14.0, 12.18.0
+Unfortunately, the short of it is that it may be a bit complicated depending on what you want to do.
+
+* If you don't use any of the wasm-related functionality (e.g. previewing parse results in your web browser or you want to build a `.wasm` file for use in a plugin or extension), you probably just need:
+    * an appropriate version of node (I've tested with various versions >= 12, 14) and
+    * other typical development-related bits (e.g. git, appropriate c compiler, etc.)
+
+* If you want wasm-related functionality, you get to have fun figuring out which version of [emsdk](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions) currently works with tree-sitter.  At the time of this writing, [this file](https://github.com/tree-sitter/tree-sitter/blob/master/emscripten-version) indicates a version that might be appropriate.  That may depend on precisely what the versions of other bits (e.g. tree-sitter-cli, web-tree-sitter, etc.) might be though, so if something doesn't work right away, you might consider trying [different versions that have been recorded](https://github.com/tree-sitter/tree-sitter/commits/master/emscripten-version).
+
+Note that there may be an upside to using emsdk though -- it may figure out and arrange for an appropriate version of node, making a separate installation of node unnecessary.  I don't use such a setup on a day-to-day basis, but it did work for me at least once.
 
 ## Fine Print
 
@@ -33,10 +39,10 @@ cd tree-sitter-clojure
 # ensure tree-sitter-cli is avaliable as a dev dependency
 npm install --save-dev tree-sitter-cli
 
-# create `src` and populate with tree-sitter .c goodness
+# create `src` and populate with tree-sitter `.c` goodness
 npx tree-sitter generate
 
-# create `node_modules` and populate with dependencies
+# populate `node_modules` with dependencies
 npm install
 
 # create `build` and populate appropriately
@@ -48,25 +54,14 @@ npx node-gyp rebuild
 
 ## Grammar Development
 
-Hack on grammar and interactively test.
+Hack on grammar.
 
 ```
-# prepare emsdk (specifically emcc) for building .wasm
-source ~/src/emsdk/emsdk_env.sh
-
 # edit grammar.js using some editor
 
-# rebuild tree-sitter stuff and invoke web-ui for interactive testing
+# rebuild tree-sitter stuff
 npx tree-sitter generate && \
-npx node-gyp rebuild && \
-npx tree-sitter build-wasm && \
-npx tree-sitter web-ui
-
-# in appropriate browser window, paste code in left pane
-
-# examine results in right pane -- can even click on nodes
-
-# find errors and loop back to edit step above...
+npx node-gyp rebuild
 ```
 
 Parse individual files.
@@ -77,7 +72,24 @@ Parse individual files.
 # parse sample file
 npx tree-sitter parse sample.clj
 
-# examine output similar to web-ui, but less convenient
+# if output has errors, figure out what's wrong
+```
+
+Interactively test in the browser (requires emsdk).
+
+```
+# prepare emsdk (specifically emcc) for building .wasm
+source ~/src/emsdk/emsdk_env.sh
+
+# build .wasm bits and invoke web-ui for interactive testing
+npx tree-sitter build-wasm && \
+npx tree-sitter web-ui
+
+# in appropriate browser window, paste code in left pane
+
+# examine results in right pane -- can even click on nodes
+
+# if output has errors, figure out what's wrong
 ```
 
 ## Measure Performance
@@ -117,6 +129,7 @@ npx tree-sitter build-wasm
 ## Acknowledgments
 
 * Aerijo - Guide to your first Tree-sitter grammar
+* ahlinc - tree-sitter work
 * alehatsman - nvim-treesitter and related discussion
 * alexmiller - clojure-related inquiries and docs
 * andrewchambers - discussion
@@ -132,6 +145,7 @@ npx tree-sitter build-wasm
 * hitode909 - vscode-perl-outline
 * iarenaza - discussions
 * jafingerhut - clojure-related inquiries and haironfire research
+* jeff-hykin - tree-sitter and VSCode related
 * kolja - nrepl-alliance and tree-sitter question concerning Clojure on StackOverflow
 * lread - rewrite-cljc and discussions
 * mauricioszabo - clover and repl-tooling
@@ -139,6 +153,7 @@ npx tree-sitter build-wasm
 * monnier - emacs-tree-sitter related
 * nwjsmith - tree-sitter upgrade
 * oakmac - tree-sitter-clojure.oakmac, conj 2018 unsession, advice, etc.
+* p00f - nvim-ts-rainbow
 * pedrorgirardi - discussions, vscode and tree-sitter-clojure bits
 * PEZ - calva, vscode tips, and general discussion
 * pyrmont - review, error-spotting, fix, and discussions
@@ -152,6 +167,9 @@ npx tree-sitter build-wasm
 * snoe - discussions
 * Tavistock - tree-sitter-clojure.Tavistock
 * th0rex - emacs-tree-sitter related
+* theHamsta - neovim, nvim-treesitter, tree-sitter-commonlisp
 * tobias - clojars work
 * tonsky - sublime-clojure work with test data, clojure north talk, alabaster theme
 * ubolonton - emacs-tree-sitter
+* vigoux - nvim-treesitter and related
+
