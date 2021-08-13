@@ -2650,9 +2650,32 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "namespace_definition_name",
+            "named": true
           }
         ]
       }
+    }
+  },
+  {
+    "type": "namespace_definition_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "namespace_definition_name",
+          "named": true
+        }
+      ]
     }
   },
   {
