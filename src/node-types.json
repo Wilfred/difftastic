@@ -11424,6 +11424,11 @@
     }
   },
   {
+    "type": "special_array_variable",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "special_block",
     "named": true,
     "fields": {
@@ -11440,14 +11445,42 @@
     }
   },
   {
+    "type": "special_hash_variable",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "special_literal",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "special_scalar_variable",
     "named": true,
     "fields": {}
   },
   {
     "type": "special_variable",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "standalone_block",
@@ -15758,7 +15791,23 @@
     "named": false
   },
   {
+    "type": "$!",
+    "named": false
+  },
+  {
+    "type": "$\"",
+    "named": false
+  },
+  {
+    "type": "$#",
+    "named": false
+  },
+  {
     "type": "$$",
+    "named": false
+  },
+  {
+    "type": "$%",
     "named": false
   },
   {
@@ -15770,7 +15819,447 @@
     "named": false
   },
   {
+    "type": "$(",
+    "named": false
+  },
+  {
+    "type": "$)",
+    "named": false
+  },
+  {
+    "type": "$*",
+    "named": false
+  },
+  {
+    "type": "$+",
+    "named": false
+  },
+  {
+    "type": "$,",
+    "named": false
+  },
+  {
+    "type": "$-",
+    "named": false
+  },
+  {
+    "type": "$.",
+    "named": false
+  },
+  {
+    "type": "$/",
+    "named": false
+  },
+  {
     "type": "$0",
+    "named": false
+  },
+  {
+    "type": "$1",
+    "named": false
+  },
+  {
+    "type": "$2",
+    "named": false
+  },
+  {
+    "type": "$3",
+    "named": false
+  },
+  {
+    "type": "$4",
+    "named": false
+  },
+  {
+    "type": "$5",
+    "named": false
+  },
+  {
+    "type": "$6",
+    "named": false
+  },
+  {
+    "type": "$7",
+    "named": false
+  },
+  {
+    "type": "$8",
+    "named": false
+  },
+  {
+    "type": "$9",
+    "named": false
+  },
+  {
+    "type": "$:",
+    "named": false
+  },
+  {
+    "type": "$;",
+    "named": false
+  },
+  {
+    "type": "$<",
+    "named": false
+  },
+  {
+    "type": "$=",
+    "named": false
+  },
+  {
+    "type": "$>",
+    "named": false
+  },
+  {
+    "type": "$?",
+    "named": false
+  },
+  {
+    "type": "$@",
+    "named": false
+  },
+  {
+    "type": "$ACCUMULATOR",
+    "named": false
+  },
+  {
+    "type": "$ARG",
+    "named": false
+  },
+  {
+    "type": "$ARGV",
+    "named": false
+  },
+  {
+    "type": "$BASETIME",
+    "named": false
+  },
+  {
+    "type": "$CHILD_ERROR",
+    "named": false
+  },
+  {
+    "type": "$COMPILING",
+    "named": false
+  },
+  {
+    "type": "$DEBUGGING",
+    "named": false
+  },
+  {
+    "type": "$EFFECTIVE_GROUP_ID",
+    "named": false
+  },
+  {
+    "type": "$EFFECTIVE_USER_ID",
+    "named": false
+  },
+  {
+    "type": "$EGID",
+    "named": false
+  },
+  {
+    "type": "$ENV",
+    "named": false
+  },
+  {
+    "type": "$ERRNO",
+    "named": false
+  },
+  {
+    "type": "$EUID",
+    "named": false
+  },
+  {
+    "type": "$EVAL_ERROR",
+    "named": false
+  },
+  {
+    "type": "$EXCEPTIONS_BEING_CAUGHT",
+    "named": false
+  },
+  {
+    "type": "$EXECUTABLE_NAME",
+    "named": false
+  },
+  {
+    "type": "$EXTENDED_OS_ERROR",
+    "named": false
+  },
+  {
+    "type": "$F",
+    "named": false
+  },
+  {
+    "type": "$FORMAT_FORMFEED",
+    "named": false
+  },
+  {
+    "type": "$FORMAT_LINES_LEFT",
+    "named": false
+  },
+  {
+    "type": "$FORMAT_LINES_PER_PAGE",
+    "named": false
+  },
+  {
+    "type": "$FORMAT_LINE_BREAK_CHARACTERS",
+    "named": false
+  },
+  {
+    "type": "$FORMAT_NAME",
+    "named": false
+  },
+  {
+    "type": "$FORMAT_PAGE_NUMBER",
+    "named": false
+  },
+  {
+    "type": "$FORMAT_TOP_NAME",
+    "named": false
+  },
+  {
+    "type": "$GID",
+    "named": false
+  },
+  {
+    "type": "$INC",
+    "named": false
+  },
+  {
+    "type": "$INPLACE_EDIT",
+    "named": false
+  },
+  {
+    "type": "$INPUT_LINE_NUMBER",
+    "named": false
+  },
+  {
+    "type": "$INPUT_RECORD_SEPARATOR",
+    "named": false
+  },
+  {
+    "type": "$ISA",
+    "named": false
+  },
+  {
+    "type": "$LAST_MATCH_END",
+    "named": false
+  },
+  {
+    "type": "$LAST_MATCH_START",
+    "named": false
+  },
+  {
+    "type": "$LAST_PAREN_MATCH",
+    "named": false
+  },
+  {
+    "type": "$LAST_REGEXP_CODE_RESULT",
+    "named": false
+  },
+  {
+    "type": "$LAST_SUBMATCH_RESULT",
+    "named": false
+  },
+  {
+    "type": "$LIST_SEPARATOR",
+    "named": false
+  },
+  {
+    "type": "$MATCH",
+    "named": false
+  },
+  {
+    "type": "$NR",
+    "named": false
+  },
+  {
+    "type": "$OFS",
+    "named": false
+  },
+  {
+    "type": "$OLD_PERL_VERSION",
+    "named": false
+  },
+  {
+    "type": "$ORS",
+    "named": false
+  },
+  {
+    "type": "$OSNAME",
+    "named": false
+  },
+  {
+    "type": "$OS_ERROR",
+    "named": false
+  },
+  {
+    "type": "$OUTPUT_AUTOFLUSH",
+    "named": false
+  },
+  {
+    "type": "$OUTPUT_FIELD_SEPARATOR",
+    "named": false
+  },
+  {
+    "type": "$OUTPUT_RECORD_SEPARATOR",
+    "named": false
+  },
+  {
+    "type": "$PERLDB",
+    "named": false
+  },
+  {
+    "type": "$PERL_VERSION",
+    "named": false
+  },
+  {
+    "type": "$PID",
+    "named": false
+  },
+  {
+    "type": "$POSTMATCH",
+    "named": false
+  },
+  {
+    "type": "$PREMATCH",
+    "named": false
+  },
+  {
+    "type": "$PROCESS_ID",
+    "named": false
+  },
+  {
+    "type": "$PROGRAM_NAME",
+    "named": false
+  },
+  {
+    "type": "$REAL_GROUP_ID",
+    "named": false
+  },
+  {
+    "type": "$REAL_USER_ID",
+    "named": false
+  },
+  {
+    "type": "$RS",
+    "named": false
+  },
+  {
+    "type": "$SIG",
+    "named": false
+  },
+  {
+    "type": "$SUBSCRIPT_SEPARATOR",
+    "named": false
+  },
+  {
+    "type": "$SUBSEP",
+    "named": false
+  },
+  {
+    "type": "$SYSTEM_FD_MAX",
+    "named": false
+  },
+  {
+    "type": "$UID",
+    "named": false
+  },
+  {
+    "type": "$WARNING",
+    "named": false
+  },
+  {
+    "type": "$[",
+    "named": false
+  },
+  {
+    "type": "$\\",
+    "named": false
+  },
+  {
+    "type": "$]",
+    "named": false
+  },
+  {
+    "type": "$^",
+    "named": false
+  },
+  {
+    "type": "$^A",
+    "named": false
+  },
+  {
+    "type": "$^C",
+    "named": false
+  },
+  {
+    "type": "$^D",
+    "named": false
+  },
+  {
+    "type": "$^E",
+    "named": false
+  },
+  {
+    "type": "$^F",
+    "named": false
+  },
+  {
+    "type": "$^H",
+    "named": false
+  },
+  {
+    "type": "$^I",
+    "named": false
+  },
+  {
+    "type": "$^L",
+    "named": false
+  },
+  {
+    "type": "$^M",
+    "named": false
+  },
+  {
+    "type": "$^N",
+    "named": false
+  },
+  {
+    "type": "$^O",
+    "named": false
+  },
+  {
+    "type": "$^P",
+    "named": false
+  },
+  {
+    "type": "$^R",
+    "named": false
+  },
+  {
+    "type": "$^S",
+    "named": false
+  },
+  {
+    "type": "$^T",
+    "named": false
+  },
+  {
+    "type": "$^V",
+    "named": false
+  },
+  {
+    "type": "$^W",
+    "named": false
+  },
+  {
+    "type": "$^X",
+    "named": false
+  },
+  {
+    "type": "$_",
     "named": false
   },
   {
@@ -15778,11 +16267,155 @@
     "named": false
   },
   {
+    "type": "$a",
+    "named": false
+  },
+  {
+    "type": "$b",
+    "named": false
+  },
+  {
+    "type": "${^CAPTURE_ALL}",
+    "named": false
+  },
+  {
+    "type": "${^CAPTURE}",
+    "named": false
+  },
+  {
+    "type": "${^CHILD_ERROR_NATIVE}",
+    "named": false
+  },
+  {
+    "type": "${^ENCODING}",
+    "named": false
+  },
+  {
+    "type": "${^GLOBAL_PHASE}",
+    "named": false
+  },
+  {
+    "type": "${^LAST_FH}",
+    "named": false
+  },
+  {
+    "type": "${^MATCH}",
+    "named": false
+  },
+  {
+    "type": "${^OPEN}",
+    "named": false
+  },
+  {
+    "type": "${^POSTMATCH}",
+    "named": false
+  },
+  {
+    "type": "${^PREMATCH}",
+    "named": false
+  },
+  {
+    "type": "${^RE_COMPILE_RECURSION_LIMIT}",
+    "named": false
+  },
+  {
+    "type": "${^RE_DEBUG_FLAGS}",
+    "named": false
+  },
+  {
+    "type": "${^RE_TRIE_MAXBUF}",
+    "named": false
+  },
+  {
+    "type": "${^SAFE_LOCALES}",
+    "named": false
+  },
+  {
+    "type": "${^TAINT}",
+    "named": false
+  },
+  {
+    "type": "${^UNICODE}",
+    "named": false
+  },
+  {
+    "type": "${^UTF8CACHE}",
+    "named": false
+  },
+  {
+    "type": "${^UTF8LOCALE}",
+    "named": false
+  },
+  {
+    "type": "${^WARNING_BITS}",
+    "named": false
+  },
+  {
+    "type": "${^WIN32_SLOPPY_STAT}",
+    "named": false
+  },
+  {
+    "type": "$|",
+    "named": false
+  },
+  {
+    "type": "$~",
+    "named": false
+  },
+  {
     "type": "%",
     "named": false
   },
   {
+    "type": "%!",
+    "named": false
+  },
+  {
+    "type": "%+",
+    "named": false
+  },
+  {
+    "type": "%-",
+    "named": false
+  },
+  {
     "type": "%=",
+    "named": false
+  },
+  {
+    "type": "%ENV",
+    "named": false
+  },
+  {
+    "type": "%ERRNO",
+    "named": false
+  },
+  {
+    "type": "%INC",
+    "named": false
+  },
+  {
+    "type": "%LAST_PAREN_MATCH",
+    "named": false
+  },
+  {
+    "type": "%OS_ERROR",
+    "named": false
+  },
+  {
+    "type": "%SIG",
+    "named": false
+  },
+  {
+    "type": "%^H",
+    "named": false
+  },
+  {
+    "type": "%{^CAPTURE_ALL}",
+    "named": false
+  },
+  {
+    "type": "%{^CAPTURE}",
     "named": false
   },
   {
@@ -15979,6 +16612,82 @@
   },
   {
     "type": "@",
+    "named": false
+  },
+  {
+    "type": "@!",
+    "named": false
+  },
+  {
+    "type": "@+",
+    "named": false
+  },
+  {
+    "type": "@-",
+    "named": false
+  },
+  {
+    "type": "@ARG",
+    "named": false
+  },
+  {
+    "type": "@ARGV",
+    "named": false
+  },
+  {
+    "type": "@ENV",
+    "named": false
+  },
+  {
+    "type": "@ERRNO",
+    "named": false
+  },
+  {
+    "type": "@F",
+    "named": false
+  },
+  {
+    "type": "@INC",
+    "named": false
+  },
+  {
+    "type": "@ISA",
+    "named": false
+  },
+  {
+    "type": "@LAST_MATCH_END",
+    "named": false
+  },
+  {
+    "type": "@LAST_MATCH_START",
+    "named": false
+  },
+  {
+    "type": "@LAST_PAREN_MATCH",
+    "named": false
+  },
+  {
+    "type": "@OS_ERROR",
+    "named": false
+  },
+  {
+    "type": "@SIG",
+    "named": false
+  },
+  {
+    "type": "@^H",
+    "named": false
+  },
+  {
+    "type": "@_",
+    "named": false
+  },
+  {
+    "type": "@{^CAPTURE_ALL}",
+    "named": false
+  },
+  {
+    "type": "@{^CAPTURE}",
     "named": false
   },
   {
@@ -16267,11 +16976,11 @@
   },
   {
     "type": "prototype",
-    "named": true
+    "named": false
   },
   {
     "type": "prototype",
-    "named": false
+    "named": true
   },
   {
     "type": "push",
