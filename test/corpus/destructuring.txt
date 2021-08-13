@@ -77,12 +77,25 @@ Array destructuring assignments
 Object destructuring patterns w/ default values
 ================================================
 
+let {a: b = c} = object;
+for await (var {a: {b} = object} of asyncIter) {}
 function a({b = true}, [c, d = false]) {}
 function b({c} = {}) {}
 
 ---
 
 (program
+  (lexical_declaration (variable_declarator
+    (object_pattern (pair_pattern
+      (property_identifier)
+      (assignment_pattern (identifier) (identifier))))
+    (identifier)))
+  (for_in_statement
+    (object_pattern (pair_pattern
+      (property_identifier)
+      (assignment_pattern (object_pattern (shorthand_property_identifier_pattern)) (identifier))))
+    (identifier)
+    (statement_block))
   (function_declaration (identifier)
     (formal_parameters
       (object_pattern (object_assignment_pattern (shorthand_property_identifier_pattern) (true)))

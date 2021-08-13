@@ -1119,7 +1119,7 @@ module.exports = grammar({
     pair_pattern: $ => seq(
       field('key', $._property_name),
       ':',
-      field('value', $.pattern)
+      field('value', choice($.pattern, $.assignment_pattern))
     ),
 
     _property_name: $ => choice(
