@@ -591,7 +591,7 @@ mod tests {
     fn extra_atom_lhs() {
         let arena = Arena::new();
 
-        let lhs: Vec<&Syntax> = vec![Syntax::new_list(
+        let lhs = vec![Syntax::new_list(
             &arena,
             "[",
             pos_helper(0),
@@ -601,7 +601,7 @@ mod tests {
         )];
         init_info(&lhs);
 
-        let rhs: Vec<&Syntax> = vec![Syntax::new_list(
+        let rhs = vec![Syntax::new_list(
             &arena,
             "[",
             pos_helper(0),
@@ -635,7 +635,7 @@ mod tests {
     fn repeated_atoms() {
         let arena = Arena::new();
 
-        let lhs: Vec<&Syntax> = vec![Syntax::new_list(
+        let lhs = vec![Syntax::new_list(
             &arena,
             "[",
             pos_helper(0),
@@ -645,7 +645,7 @@ mod tests {
         )];
         init_info(&lhs);
 
-        let rhs: Vec<&Syntax> = vec![Syntax::new_list(
+        let rhs = vec![Syntax::new_list(
             &arena,
             "[",
             pos_helper(0),
@@ -683,7 +683,7 @@ mod tests {
     fn atom_after_empty_list() {
         let arena = Arena::new();
 
-        let lhs: Vec<&Syntax> = vec![Syntax::new_list(
+        let lhs = vec![Syntax::new_list(
             &arena,
             "[",
             pos_helper(0),
@@ -696,7 +696,7 @@ mod tests {
         )];
         init_info(&lhs);
 
-        let rhs: Vec<&Syntax> = vec![Syntax::new_list(
+        let rhs = vec![Syntax::new_list(
             &arena,
             "{",
             pos_helper(0),
@@ -737,14 +737,14 @@ mod tests {
     fn prefer_atoms_same_line() {
         let arena = Arena::new();
 
-        let lhs: Vec<&Syntax> = vec![
+        let lhs = vec![
             Syntax::new_atom(&arena, col_helper(1, 0), "foo"),
             Syntax::new_atom(&arena, col_helper(2, 0), "bar"),
             Syntax::new_atom(&arena, col_helper(2, 1), "foo"),
         ];
         init_info(&lhs);
 
-        let rhs: Vec<&Syntax> = vec![Syntax::new_atom(&arena, col_helper(1, 0), "foo")];
+        let rhs = vec![Syntax::new_atom(&arena, col_helper(1, 0), "foo")];
         init_info(&rhs);
 
         let start = Vertex {
@@ -772,7 +772,7 @@ mod tests {
     fn prefer_children_same_line() {
         let arena = Arena::new();
 
-        let lhs: Vec<&Syntax> = vec![Syntax::new_list(
+        let lhs = vec![Syntax::new_list(
             &arena,
             "[",
             col_helper(1, 0),
@@ -782,7 +782,7 @@ mod tests {
         )];
         init_info(&lhs);
 
-        let rhs: Vec<&Syntax> = vec![];
+        let rhs = vec![];
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -806,7 +806,7 @@ mod tests {
     fn atom_after_novel_list_contiguous() {
         let arena = Arena::new();
 
-        let lhs: Vec<&Syntax> = vec![
+        let lhs = vec![
             Syntax::new_list(
                 &arena,
                 "[",
@@ -819,7 +819,7 @@ mod tests {
         ];
         init_info(&lhs);
 
-        let rhs: Vec<&Syntax> = vec![];
+        let rhs = vec![];
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -844,7 +844,7 @@ mod tests {
     fn test_novel_tree() {
         let arena = Arena::new();
 
-        let lhs: Vec<&Syntax> = vec![Syntax::new_list(
+        let lhs = vec![Syntax::new_list(
             &arena,
             "[",
             pos_helper(0),
@@ -876,7 +876,7 @@ mod tests {
         )];
         init_info(&lhs);
 
-        let rhs: Vec<&Syntax> = vec![Syntax::new_list(
+        let rhs = vec![Syntax::new_list(
             &arena,
             "[",
             pos_helper(0),
@@ -935,14 +935,14 @@ mod tests {
     fn replace_similar_comment() {
         let arena = Arena::new();
 
-        let lhs: Vec<&Syntax> = vec![Syntax::new_comment(
+        let lhs = vec![Syntax::new_comment(
             &arena,
             pos_helper(1),
             "the quick brown fox",
         )];
         init_info(&lhs);
 
-        let rhs: Vec<&Syntax> = vec![Syntax::new_comment(
+        let rhs = vec![Syntax::new_comment(
             &arena,
             pos_helper(1),
             "the quick brown cat",
@@ -970,14 +970,14 @@ mod tests {
     fn replace_very_different_comment() {
         let arena = Arena::new();
 
-        let lhs: Vec<&Syntax> = vec![Syntax::new_comment(
+        let lhs = vec![Syntax::new_comment(
             &arena,
             pos_helper(1),
             "the quick brown fox",
         )];
         init_info(&lhs);
 
-        let rhs: Vec<&Syntax> = vec![Syntax::new_comment(&arena, pos_helper(1), "foo bar")];
+        let rhs = vec![Syntax::new_comment(&arena, pos_helper(1), "foo bar")];
         init_info(&rhs);
 
         let start = Vertex {
@@ -1001,13 +1001,13 @@ mod tests {
     fn replace_comment_prefer_most_similar() {
         let arena = Arena::new();
 
-        let lhs: Vec<&Syntax> = vec![
+        let lhs = vec![
             Syntax::new_comment(&arena, pos_helper(1), "the quick brown fox"),
             Syntax::new_comment(&arena, pos_helper(2), "the quick brown thing"),
         ];
         init_info(&lhs);
 
-        let rhs: Vec<&Syntax> = vec![Syntax::new_comment(
+        let rhs = vec![Syntax::new_comment(
             &arena,
             pos_helper(1),
             "the quick brown fox.",
