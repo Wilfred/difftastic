@@ -162,7 +162,6 @@ fn trim_left(max_trim: usize, content: &str, pos: SingleLineSpan) -> (String, Si
 }
 
 impl<'a> Syntax<'a> {
-    #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_list(
         arena: &'a Arena<Syntax<'a>>,
         open_content: &str,
@@ -170,7 +169,7 @@ impl<'a> Syntax<'a> {
         children: Vec<&'a Syntax<'a>>,
         close_content: &str,
         close_position: Vec<SingleLineSpan>,
-    ) -> &'a mut Syntax<'a> {
+    ) -> &'a Syntax<'a> {
         let mut num_descendants = 0;
         for child in &children {
             num_descendants += match child {
@@ -202,21 +201,19 @@ impl<'a> Syntax<'a> {
         })
     }
 
-    #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_atom(
         arena: &'a Arena<Syntax<'a>>,
         position: Vec<SingleLineSpan>,
         content: &str,
-    ) -> &'a mut Syntax<'a> {
+    ) -> &'a Syntax<'a> {
         Self::new_atom_(arena, position, content, false)
     }
 
-    #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
     pub fn new_comment(
         arena: &'a Arena<Syntax<'a>>,
         position: Vec<SingleLineSpan>,
         content: &str,
-    ) -> &'a mut Syntax<'a> {
+    ) -> &'a Syntax<'a> {
         // Ignore leading whitespace in multiline comments, so changes
         // in comment indentation are ignored.
         let first_line_indent = match position.first() {
