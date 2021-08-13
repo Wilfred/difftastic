@@ -178,10 +178,10 @@ module.exports = grammar({
 
         _class_heritage: $ => seq(
             "is", 
-            commaSep1($._inheritance_specifier)
+            commaSep1($.inheritance_specifier)
         ),
 
-        _inheritance_specifier: $ => seq(
+        inheritance_specifier: $ => seq(
             field("ancestor", $._user_defined_type),
             optional(field("ancestor_arguments", $._call_arguments)),
         ),
@@ -988,15 +988,16 @@ module.exports = grammar({
         ),
         
 
+        // Based on: https://github.com/tree-sitter/tree-sitter-c/blob/master/grammar.js#L965
         comment: $ => token(
-            prec(PREC.COMMENT, 
+            prec(PREC.COMMENT,
                 choice(
-                    seq('//', /.*/),
+                    seq('//', /(\\(.|\r?\n)|[^\\\n])*/),
                     seq(
                         '/*',
-                        /(.|(\r?\n))*/,
-                        '*/'
-                    )       
+                        /[^*]*\*+([^/*][^*]*\*+)*/,
+                        '/'
+                    )
                 )
             )
         ),
