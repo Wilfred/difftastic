@@ -988,7 +988,7 @@ module.exports = grammar({
         ),
         
 
-        // https://github.com/tree-sitter/tree-sitter-c/blob/master/grammar.js#L965
+        // Based on: https://github.com/tree-sitter/tree-sitter-c/blob/master/grammar.js#L965
         comment: $ => token(
             prec(PREC.COMMENT,
                 choice(
