@@ -1,0 +1,72 @@
+use std::ffi::OsStr;
+
+use tree_sitter::{Parser, TreeCursor};
+use typed_arena::Arena;
+
+use crate::{lines::NewlinePositions, syntax::Syntax};
+
+pub fn supported(extension: &OsStr) -> bool {
+    extension == "rs"
+}
+
+pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, src: &str) -> Vec<&'a Syntax<'a>> {
+    let mut parser = Parser::new();
+    parser
+        .set_language(tree_sitter_rust::language())
+        .expect("Error loading Rust grammar");
+    let tree = parser.parse(src, None).unwrap();
+
+    let nl_pos = NewlinePositions::from(src);
+    let mut cursor = tree.walk();
+
+    // The tree always has a single root, whereas we want nodes for
+    // each top level syntax item.
+    cursor.goto_first_child();
+
+    syntax_from_cursor(arena, src, &nl_pos, &mut cursor)
+}
+
+fn syntax_from_cursor<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    src: &str,
+    nl_pos: &NewlinePositions,
+    cursor: &mut TreeCursor,
+) -> Vec<&'a Syntax<'a>> {
+    let mut result: Vec<&Syntax> = vec![];
+
+    loop {
+        let node = cursor.node();
+
+        if cursor.goto_first_child() {
+            // This node has children, so treat it as a list.
+            let children = syntax_from_cursor(arena, src, nl_pos, cursor);
+            cursor.goto_parent();
+
+            let open_position = nl_pos.from_offsets(node.start_byte(), node.start_byte());
+            let close_position = nl_pos.from_offsets(node.end_byte(), node.end_byte());
+            result.push(Syntax::new_list(
+                arena,
+                "",
+                open_position,
+                children,
+                "",
+                close_position,
+            ))
+        } else {
+            let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
+            let content = &src[node.start_byte()..node.end_byte()];
+
+            if node.is_extra() {
+                result.push(Syntax::new_comment(arena, position, content));
+            } else {
+                result.push(Syntax::new_atom(arena, position, content));
+            }
+        }
+
+        if !cursor.goto_next_sibling() {
+            break;
+        }
+    }
+
+    result
+}
