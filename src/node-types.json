@@ -2194,6 +2194,10 @@
         "required": true,
         "types": [
           {
+            "type": "assignment_pattern",
+            "named": true
+          },
+          {
             "type": "pattern",
             "named": true
           }
