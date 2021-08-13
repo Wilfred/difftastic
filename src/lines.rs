@@ -366,7 +366,7 @@ impl NewlinePositions {
             if region_start > line_end {
                 continue;
             }
-            if *line_start >= region_end {
+            if *line_start > region_end {
                 break;
             }
 
@@ -476,6 +476,20 @@ mod tests {
                 line: 0.into(),
                 start_col: 1,
                 end_col: 3
+            }]
+        );
+    }
+
+    #[test]
+    fn from_ranges_first_char() {
+        let newline_positions: NewlinePositions = "foo".into();
+        let line_spans = newline_positions.from_offsets(0, 0);
+        assert_eq!(
+            line_spans,
+            vec![SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 0
             }]
         );
     }
