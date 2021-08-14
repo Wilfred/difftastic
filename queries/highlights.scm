@@ -21,41 +21,45 @@
 
 ;enum and tag union field is constant
 (
-  [
-    ; union(Tag){}
-    (ContainerDeclType (SuffixExpr (IDENTIFIER) @type))
-
-    ; enum{}
-    (ContainerDeclType "enum")
-  ]
+  (ContainerDeclType
+    [
+      (SuffixExpr (IDENTIFIER) @type)
+      "enum"
+    ]
+  )
   (ContainerField (IDENTIFIER) @constant)?
 )
 
-; INFO: .IDENTIFIER is a field?
-(SuffixExpr 
-  "."
-  (IDENTIFIER) @field
-)
+;error field is a constant
+(ErrorSetDecl (IDENTIFIER) @constant)
 
-; error.OutOfMemory;
-(SuffixExpr 
-  "error"
+; INFO: .IDENTIFIER and error.IDENTIFIER is a constant?
+(SuffixExpr
+  "error"?
   "."
+  .
   (IDENTIFIER) @constant
 )
 
+;const IDENTIFIER = 1;
 (VarDecl
-  (IDENTIFIER) @type
-  [
-    ; const IDENTIFIER = struct/enum/union...
-    (SuffixExpr (ContainerDecl))
-
-    ; const A = u8;
-    (SuffixExpr (BuildinTypeExpr))
-  ]
+  "const"
+  (IDENTIFIER) @constant
 )
 
-; const fn_no_comma = fn (i32, i32) void;
+; const IDENTIFIER = struct/enum/union...
+(VarDecl
+  (IDENTIFIER) @type
+  (SuffixExpr (ContainerDecl))
+)
+
+(VarDecl
+  (IDENTIFIER) @exception
+  (SuffixExpr (ErrorSetDecl))
+)
+
+; INFO: const/var fn_no_comma = fn (i32, i32) void;
+; INFO: should this be a function, type, constant or variable?
 (VarDecl
   (IDENTIFIER) @function
   (SuffixExpr (FnProto))
@@ -74,18 +78,15 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
 (SuffixOp (IDENTIFIER) @field)
 
 ; var.func().func().field
-( 
-  (SuffixOp
-    (IDENTIFIER) @function
-  )
+(
+  (SuffixOp (IDENTIFIER) @function)
   .
   (FnCallArguments)
 )
+
 ; func()
-( 
-  (
-    (IDENTIFIER) @function
-  )
+(
+  ((IDENTIFIER) @function)
   .
   (FnCallArguments)
 )
@@ -97,25 +98,14 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
   ("!")? @exception
 )
 
-(ParamDecl 
-  (ParamType (SuffixExpr (IDENTIFIER) @parameter))
+; fn decl inside struct,enum...
+(ContainerDecl
+  (FnProto (IDENTIFIER) @method)
 )
 
-(ParamDecl 
-  (IDENTIFIER) @parameter
-  ":"
-  [
-    (ParamType (SuffixExpr (IDENTIFIER) @type))
-    (ParamType)
-  ]
-)
-
-(SwitchItem 
-  (SuffixExpr
-    "."
-    .
-    (IDENTIFIER) @constant
-  )
+(ParamDecl
+  (IDENTIFIER)? @parameter
+  (ParamType (SuffixExpr (IDENTIFIER) @type))?
 )
 
 (BUILTINIDENTIFIER) @function.builtin
@@ -275,3 +265,5 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
   (PtrPayload "|")
   (PtrIndexPayload "|")
 ] @punctuation.bracket
+; Error
+(ERROR) @error
