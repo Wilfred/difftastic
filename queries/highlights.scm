@@ -6,17 +6,37 @@
 
 (IDENTIFIER) @variable
 
-;field in top level decl, and in struct, union...
-(ContainerField
-  (IDENTIFIER) @field
+; functionn decl
+(FnProto
+  (IDENTIFIER) @function
   (SuffixExpr (IDENTIFIER) @type)?
+  ("!")? @exception
 )
 
-; INFO: field become a function if type is a function?
-; const u = union { this_is_function: fn () void };
-(ContainerField
-  (IDENTIFIER) @function
-  (SuffixExpr (FnProto))
+(ParamDecl
+  (IDENTIFIER)? @parameter
+  (ParamType (SuffixExpr (IDENTIFIER) @type))?
+)
+
+;struct, enum, union
+(ContainerDecl
+  [
+    ;method decl
+    (FnProto (IDENTIFIER) @method)
+
+    ;field decl
+    (ContainerField
+      (IDENTIFIER) @field
+      (SuffixExpr (IDENTIFIER) @type)?
+    )
+
+    ; const u = union { this_is_function: fn () void };
+    ; INFO: field become a function if type is a function?
+    (ContainerField
+      (IDENTIFIER) @function
+      (SuffixExpr (FnProto))
+    )
+  ]
 )
 
 ;enum and tag union field is constant
@@ -89,23 +109,6 @@ constructor: (SuffixExpr (IDENTIFIER) @constructor)
   ((IDENTIFIER) @function)
   .
   (FnCallArguments)
-)
-
-; functionn decl
-(FnProto
-  (IDENTIFIER) @function
-  (SuffixExpr (IDENTIFIER) @type)?
-  ("!")? @exception
-)
-
-; fn decl inside struct,enum...
-(ContainerDecl
-  (FnProto (IDENTIFIER) @method)
-)
-
-(ParamDecl
-  (IDENTIFIER)? @parameter
-  (ParamType (SuffixExpr (IDENTIFIER) @type))?
 )
 
 (BUILTINIDENTIFIER) @function.builtin
