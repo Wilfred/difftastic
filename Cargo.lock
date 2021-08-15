@@ -96,6 +96,7 @@ name = "difftastic"
 version = "0.7.0"
 dependencies = [
  "atty",
+ "cc",
  "clap",
  "colored",
  "diff",
@@ -109,7 +110,6 @@ dependencies = [
  "term_size",
  "toml",
  "tree-sitter",
- "tree-sitter-rust",
  "typed-arena",
 ]
 
@@ -324,16 +324,6 @@ checksum = "ad726ec26496bf4c083fff0f43d4eb3a2ad1bba305323af5ff91383c0b6ecac0"
 dependencies = [
  "cc",
  "regex",
-]
-
-[[package]]
-name = "tree-sitter-rust"
-version = "0.19.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "784f7ef9cdbd4c895dc2d4bb785e95b4a5364a602eec803681db83d1927ddf15"
-dependencies = [
- "cc",
- "tree-sitter",
 ]
 
 [[package]]
