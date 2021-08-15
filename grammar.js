@@ -12,6 +12,8 @@ const INTEGER_WITH_BASE = token(/#([box]|[0-9][0-9]?r)[0-9a-zA-Z]/);
 const FLOAT_WITH_DEC_POINT = token(/[+-]?[0-9]*\.[0-9]+/);
 const FLOAT_WITH_EXPONENT = token(/[+-]?[0-9]+[eE][0-9]+/);
 const FLOAT_WITH_BOTH = token(/[+-]?[0-9]*\.[0-9]+[eE][0-9]+/);
+const FLOAT_INF = token(/-?1.0[eE]+INF/);
+const FLOAT_NAN = token(/-?0.0[eE]+NaN/);
 
 module.exports = grammar({
   name: "elisp",
@@ -26,7 +28,13 @@ module.exports = grammar({
     _atom: ($) => choice($.integer, $.float, $.symbol, $.string),
     integer: ($) => choice(INTEGER_BASE10, INTEGER_WITH_BASE),
     float: ($) =>
-      choice(FLOAT_WITH_DEC_POINT, FLOAT_WITH_EXPONENT, FLOAT_WITH_BOTH),
+      choice(
+        FLOAT_WITH_DEC_POINT,
+        FLOAT_WITH_EXPONENT,
+        FLOAT_WITH_BOTH,
+        FLOAT_INF,
+        FLOAT_NAN
+      ),
     symbol: ($) => SYMBOL,
     string: ($) => STRING,
 
