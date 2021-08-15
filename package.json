@@ -6,7 +6,8 @@
   "scripts": {
     "test": "tree-sitter test"
   },
-  "author": "",
+  "author": "Wilfred Hughes <me@wilfred.me.uk>",
+  "repository": "https://github.com/Wilfred/tree-sitter-elisp",
   "license": "MIT",
   "dependencies": {
     "nan": "^2.15.0"
