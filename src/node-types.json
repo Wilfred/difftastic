@@ -60,6 +60,10 @@
         {
           "type": "unquote",
           "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
         }
       ]
     }
@@ -99,6 +103,25 @@
     }
   },
   {
+    "type": "vector",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "sexp",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "#'",
     "named": false
   },
@@ -116,6 +139,18 @@
   },
   {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {

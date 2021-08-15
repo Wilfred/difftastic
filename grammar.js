@@ -16,7 +16,7 @@ module.exports = grammar({
   rules: {
     source_file: ($) => repeat(choice($.sexp, $._gap)),
 
-    sexp: ($) => choice($.list, $._atom, $.quote, $.unquote),
+    sexp: ($) => choice($.list, $.vector, $._atom, $.quote, $.unquote),
     quote: ($) => seq(choice("#'", "'", "`"), $.sexp),
     unquote: ($) => seq(",", $.sexp),
 
@@ -24,7 +24,19 @@ module.exports = grammar({
     symbol: ($) => SYMBOL,
     string: ($) => STRING,
 
+    // dotted_list: ($) =>
+    //   seq(
+    //     "(",
+    //     repeat(choice($._gap)),
+    //     $.sexp,
+    //     ".",
+    //     repeat(choice($._gap)),
+    //     $.sexp,
+    //     repeat(choice($._gap)),
+    //     ")"
+    //   ),
     list: ($) => seq("(", repeat(choice($.sexp, $._gap)), ")"),
+    vector: ($) => seq("[", repeat(choice($.sexp, $._gap)), "]"),
 
     _gap: ($) => choice($._ws, $.comment),
     _ws: ($) => WHITESPACE,
