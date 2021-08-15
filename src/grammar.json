@@ -27,6 +27,53 @@
         {
           "type": "SYMBOL",
           "name": "_atom"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quote"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unquote"
+        }
+      ]
+    },
+    "quote": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "#'"
+            },
+            {
+              "type": "STRING",
+              "value": "'"
+            },
+            {
+              "type": "STRING",
+              "value": "`"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sexp"
+        }
+      ]
+    },
+    "unquote": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sexp"
         }
       ]
     },
@@ -47,7 +94,7 @@
       "type": "TOKEN",
       "content": {
         "type": "PATTERN",
-        "value": "[_a-zA-Z0-9-]+"
+        "value": "[a-zA-Z0-9_?:/*+=<>-]+"
       }
     },
     "string": {

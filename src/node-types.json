@@ -19,6 +19,21 @@
     }
   },
   {
+    "type": "quote",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "sexp",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "sexp",
     "named": true,
     "fields": {},
@@ -31,11 +46,19 @@
           "named": true
         },
         {
+          "type": "quote",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "unquote",
           "named": true
         }
       ]
@@ -61,11 +84,42 @@
     }
   },
   {
+    "type": "unquote",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "sexp",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "#'",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
   {
     "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "`",
     "named": false
   },
   {

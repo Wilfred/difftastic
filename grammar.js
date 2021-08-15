@@ -8,7 +8,7 @@ const STRING = token(
   seq('"', repeat(/[^"\\]/), repeat(seq("\\", /./, repeat(/[^"\\]/))), '"')
 );
 
-const SYMBOL = token(/[_a-zA-Z0-9-]+/);
+const SYMBOL = token(/[a-zA-Z0-9_?:/*+=<>-]+/);
 
 module.exports = grammar({
   name: "elisp",
@@ -16,9 +16,11 @@ module.exports = grammar({
   rules: {
     source_file: ($) => repeat(choice($.sexp, $._gap)),
 
-    sexp: ($) => choice($.list, $._atom),
-    _atom: ($) => choice($.symbol, $.string),
+    sexp: ($) => choice($.list, $._atom, $.quote, $.unquote),
+    quote: ($) => seq(choice("#'", "'", "`"), $.sexp),
+    unquote: ($) => seq(",", $.sexp),
 
+    _atom: ($) => choice($.symbol, $.string),
     symbol: ($) => SYMBOL,
     string: ($) => STRING,
 
