@@ -3,6 +3,10 @@
   "version": "1.1.0",
   "description": "tree-sitter grammar for Emacs Lisp",
   "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
   "scripts": {
     "generate": "tree-sitter generate",
     "parse": "tree-sitter parse",
