@@ -25,7 +25,7 @@ module.exports = grammar({
 
     _sexp: ($) => choice($.list, $.vector, $._atom, $.quote, $.unquote),
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
-    unquote: ($) => seq(",", $._sexp),
+    unquote: ($) => seq(choice(",@", ","), $._sexp),
 
     _atom: ($) => choice($.integer, $.float, $.char, $.string, $.symbol),
     integer: ($) => choice(INTEGER_BASE10, INTEGER_WITH_BASE),
