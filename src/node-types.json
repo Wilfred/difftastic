@@ -22,10 +22,6 @@
           "named": true
         },
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "float",
           "named": true
         },
@@ -120,10 +116,6 @@
           "named": true
         },
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "float",
           "named": true
         },
@@ -215,10 +207,6 @@
       "types": [
         {
           "type": "char",
-          "named": true
-        },
-        {
-          "type": "comment",
           "named": true
         },
         {

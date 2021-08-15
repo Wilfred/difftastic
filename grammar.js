@@ -20,8 +20,10 @@ const CHAR = token(/\?(\\.|.)/);
 module.exports = grammar({
   name: "elisp",
 
+  extras: ($) => [/\s/, $.comment],
+
   rules: {
-    source_file: ($) => repeat(choice($._sexp, $.comment)),
+    source_file: ($) => repeat($._sexp),
 
     _sexp: ($) => choice($.list, $.vector, $._atom, $.quote, $.unquote),
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
@@ -44,16 +46,13 @@ module.exports = grammar({
     // dotted_list: ($) =>
     //   seq(
     //     "(",
-    //     repeat(choice($.comment)),
     //     $._sexp,
     //     ".",
-    //     repeat(choice($.comment)),
     //     $._sexp,
-    //     repeat(choice($.comment)),
     //     ")"
     //   ),
-    list: ($) => seq("(", repeat(choice($._sexp, $.comment)), ")"),
-    vector: ($) => seq("[", repeat(choice($._sexp, $.comment)), "]"),
+    list: ($) => seq("(", repeat($._sexp), ")"),
+    vector: ($) => seq("[", repeat($._sexp), "]"),
 
     comment: ($) => COMMENT,
   },
