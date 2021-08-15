@@ -4,6 +4,8 @@
   "description": "tree-sitter grammar for Emacs Lisp",
   "main": "bindings/node",
   "scripts": {
+    "generate": "tree-sitter generate",
+    "parse": "tree-sitter parse",
     "test": "tree-sitter test"
   },
   "author": "Wilfred Hughes <me@wilfred.me.uk>",
