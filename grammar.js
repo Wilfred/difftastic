@@ -14,11 +14,11 @@ module.exports = grammar({
   name: "elisp",
 
   rules: {
-    source_file: ($) => repeat(choice($.sexp, $._gap)),
+    source_file: ($) => repeat(choice($._sexp, $._gap)),
 
-    sexp: ($) => choice($.list, $.vector, $._atom, $.quote, $.unquote),
-    quote: ($) => seq(choice("#'", "'", "`"), $.sexp),
-    unquote: ($) => seq(",", $.sexp),
+    _sexp: ($) => choice($.list, $.vector, $._atom, $.quote, $.unquote),
+    quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
+    unquote: ($) => seq(",", $._sexp),
 
     _atom: ($) => choice($.symbol, $.string),
     symbol: ($) => SYMBOL,
@@ -28,15 +28,15 @@ module.exports = grammar({
     //   seq(
     //     "(",
     //     repeat(choice($._gap)),
-    //     $.sexp,
+    //     $._sexp,
     //     ".",
     //     repeat(choice($._gap)),
-    //     $.sexp,
+    //     $._sexp,
     //     repeat(choice($._gap)),
     //     ")"
     //   ),
-    list: ($) => seq("(", repeat(choice($.sexp, $._gap)), ")"),
-    vector: ($) => seq("[", repeat(choice($.sexp, $._gap)), "]"),
+    list: ($) => seq("(", repeat(choice($._sexp, $._gap)), ")"),
+    vector: ($) => seq("[", repeat(choice($._sexp, $._gap)), "]"),
 
     _gap: ($) => choice($._ws, $.comment),
     _ws: ($) => WHITESPACE,
