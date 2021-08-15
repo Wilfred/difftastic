@@ -13,5 +13,13 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.20.0"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.elisp",
+      "file-types": [
+        "el"
+      ]
+    }
+  ]
 }
