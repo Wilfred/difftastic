@@ -2,7 +2,7 @@
   "name": "tree-sitter-elisp",
   "version": "1.0.0",
   "description": "tree-sitter grammar for Emacs Lisp",
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
