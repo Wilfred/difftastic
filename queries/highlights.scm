@@ -19,7 +19,7 @@
 )
 
 ;struct, enum, union
-(ContainerDecl
+(ContainerMembers
   [
     ;method decl
     (FnProto (IDENTIFIER) @method)
@@ -32,10 +32,10 @@
 
     ; const u = union { this_is_function: fn () void };
     ; INFO: field become a function if type is a function?
-    (ContainerField
-      (IDENTIFIER) @function
-      (SuffixExpr (FnProto))
-    )
+    ; (ContainerField
+    ;   (IDENTIFIER) @function
+    ;   (SuffixExpr (FnProto))
+    ; )
   ]
 )
 
@@ -47,7 +47,9 @@
       "enum"
     ]
   )
-  (ContainerField (IDENTIFIER) @constant)?
+  (ContainerMembers
+    (ContainerField (IDENTIFIER) @constant)?
+  )
 )
 
 ;error field is a constant
@@ -62,10 +64,10 @@
 )
 
 ;const IDENTIFIER = 1;
-(VarDecl
-  "const"
-  (IDENTIFIER) @constant
-)
+; (VarDecl
+;   "const"
+;   (IDENTIFIER) @constant
+; )
 
 ; const IDENTIFIER = struct/enum/union...
 (VarDecl
@@ -79,34 +81,39 @@
 )
 
 ; INFO: const/var fn_no_comma = fn (i32, i32) void;
-; INFO: should this be a function, type, constant or variable?
+; INFO: should this be a function, type or variable?
 (VarDecl
-  (IDENTIFIER) @function
+  (IDENTIFIER) @type
   (SuffixExpr (FnProto))
 )
 
 ; var x: IDENTIFIER
 type: (SuffixExpr (IDENTIFIER) @type)
 
-; IDENTIFIER{}
-constructor: (SuffixExpr (IDENTIFIER) @constructor)
 
 ;{.IDENTIFIER = 1}
 (FieldInit (IDENTIFIER) @field)
+
+; INFO: IDENTIFIER{} constructor or type
+(
+  (SuffixExpr (IDENTIFIER) @constructor)
+  .
+  (InitList)
+)
 
 ; var.field
 (SuffixOp (IDENTIFIER) @field)
 
 ; var.func().func().field
-(
+(SuffixExpr
   (SuffixOp (IDENTIFIER) @function)
   .
   (FnCallArguments)
 )
 
 ; func()
-(
-  ((IDENTIFIER) @function)
+(SuffixExpr
+  (IDENTIFIER) @function
   .
   (FnCallArguments)
 )
