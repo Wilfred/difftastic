@@ -1,9 +1,13 @@
 use std::ffi::OsStr;
 
-use tree_sitter::{Parser, TreeCursor};
+use tree_sitter::{Language, Parser, TreeCursor};
 use typed_arena::Arena;
 
 use crate::{lines::NewlinePositions, syntax::Syntax};
+
+extern "C" {
+    fn tree_sitter_rust() -> Language;
+}
 
 pub fn supported(extension: &OsStr) -> bool {
     extension == "rs"
@@ -11,9 +15,11 @@ pub fn supported(extension: &OsStr) -> bool {
 
 pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, src: &str) -> Vec<&'a Syntax<'a>> {
     let mut parser = Parser::new();
+    let language = unsafe { tree_sitter_rust() };
     parser
-        .set_language(tree_sitter_rust::language())
-        .expect("Error loading Rust grammar");
+        .set_language(language)
+        .expect("Incompatible tree-sitter version in tree-sitter-rust");
+
     let tree = parser.parse(src, None).unwrap();
 
     let nl_pos = NewlinePositions::from(src);
