@@ -16,6 +16,10 @@
           "named": true
         },
         {
+          "type": "number",
+          "named": true
+        },
+        {
           "type": "quote",
           "named": true
         },
@@ -39,6 +43,11 @@
     }
   },
   {
+    "type": "number",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "quote",
     "named": true,
     "fields": {},
@@ -48,6 +57,10 @@
       "types": [
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
           "named": true
         },
         {
@@ -90,6 +103,10 @@
           "named": true
         },
         {
+          "type": "number",
+          "named": true
+        },
+        {
           "type": "quote",
           "named": true
         },
@@ -122,6 +139,10 @@
       "types": [
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
           "named": true
         },
         {
@@ -161,6 +182,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "number",
           "named": true
         },
         {

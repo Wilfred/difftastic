@@ -6,6 +6,9 @@ const STRING = token(
 
 const SYMBOL = token(/[a-zA-Z0-9_?:/*+=<>-]+/);
 
+const INTEGER_BASE10 = token(/[+-]?[0-9]+\.?/);
+const INTEGER_WITH_BASE = token(/#([box]|[0-9][0-9]?r)[0-9a-zA-Z]/);
+
 module.exports = grammar({
   name: "elisp",
 
@@ -16,7 +19,8 @@ module.exports = grammar({
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
     unquote: ($) => seq(",", $._sexp),
 
-    _atom: ($) => choice($.symbol, $.string),
+    _atom: ($) => choice($.number, $.symbol, $.string),
+    number: ($) => choice(INTEGER_BASE10, INTEGER_WITH_BASE),
     symbol: ($) => SYMBOL,
     string: ($) => STRING,
 

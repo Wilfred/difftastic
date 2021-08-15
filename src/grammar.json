@@ -86,11 +86,34 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "number"
+        },
+        {
+          "type": "SYMBOL",
           "name": "symbol"
         },
         {
           "type": "SYMBOL",
           "name": "string"
+        }
+      ]
+    },
+    "number": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "[+-]?[0-9]+\\.?"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "#([box]|[0-9][0-9]?r)[0-9a-zA-Z]"
+          }
         }
       ]
     },
