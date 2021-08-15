@@ -1,0 +1,66 @@
+===================
+Arrays
+===================
+
+[
+  345,
+  10.1,
+  10,
+  -10,
+  null,
+  true,
+  false,
+  { "stuff": "good" }
+]
+
+---
+
+(document (array
+  (number)
+  (number)
+  (number)
+  (number)
+  (null)
+  (true)
+  (false)
+  (object (pair (string (string_content)) (string (string_content))))))
+
+=====================
+String content
+=====================
+
+[
+  "",
+  "abc",
+  "def\n",
+  "ghi\t"
+]
+
+----
+
+(document
+  (array
+    (string)
+    (string (string_content))
+    (string (string_content (escape_sequence)))
+    (string (string_content (escape_sequence)))))
+
+================================
+Top-level numbers
+================================
+
+-1
+
+---
+
+(document (number))
+
+================================
+Top-level null
+================================
+
+null
+
+---
+
+(document (null))
