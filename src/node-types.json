@@ -18,6 +18,10 @@
       "required": false,
       "types": [
         {
+          "type": "char",
+          "named": true
+        },
+        {
           "type": "comment",
           "named": true
         },
@@ -65,6 +69,10 @@
       "required": true,
       "types": [
         {
+          "type": "char",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -107,6 +115,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "char",
+          "named": true
+        },
         {
           "type": "comment",
           "named": true
@@ -155,6 +167,10 @@
       "required": true,
       "types": [
         {
+          "type": "char",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -197,6 +213,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "char",
+          "named": true
+        },
         {
           "type": "comment",
           "named": true
@@ -267,6 +287,10 @@
   {
     "type": "`",
     "named": false
+  },
+  {
+    "type": "char",
+    "named": true
   },
   {
     "type": "comment",

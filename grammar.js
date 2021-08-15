@@ -15,6 +15,8 @@ const FLOAT_WITH_BOTH = token(/[+-]?[0-9]*\.[0-9]+[eE][0-9]+/);
 const FLOAT_INF = token(/-?1.0[eE]+INF/);
 const FLOAT_NAN = token(/-?0.0[eE]+NaN/);
 
+const CHAR = token(/\?(\\.|.)/);
+
 module.exports = grammar({
   name: "elisp",
 
@@ -25,7 +27,7 @@ module.exports = grammar({
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
     unquote: ($) => seq(",", $._sexp),
 
-    _atom: ($) => choice($.integer, $.float, $.symbol, $.string),
+    _atom: ($) => choice($.integer, $.float, $.char, $.string, $.symbol),
     integer: ($) => choice(INTEGER_BASE10, INTEGER_WITH_BASE),
     float: ($) =>
       choice(
@@ -35,8 +37,9 @@ module.exports = grammar({
         FLOAT_INF,
         FLOAT_NAN
       ),
-    symbol: ($) => SYMBOL,
+    char: ($) => CHAR,
     string: ($) => STRING,
+    symbol: ($) => SYMBOL,
 
     // dotted_list: ($) =>
     //   seq(
