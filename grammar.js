@@ -54,6 +54,22 @@ const AMPERSAND = "&",
   SLASH = "/",
   SLASHEQUAL = "/=",
   TILDE = "~",
+  PREC = {
+    label: -1,
+    curly: 1,
+    assign: 2,
+    primary: 3,
+    statement: 4,
+    paramType: 5,
+    or: 6,
+    and: 7,
+    comparative: 8,
+    bitwise: 9,
+    bitshift: 10,
+    addition: 11,
+    multiply: 12,
+    prefix: 13,
+  },
   buildin_type = [
     "bool",
     "f16",
@@ -139,22 +155,22 @@ module.exports = grammar({
   // word: ($) => $._identifier_text,
 
   extras: ($) => [/\s/, $.line_comment],
-  conflicts: ($) => [
-    [$._PrimaryExpr, $.LabeledStatement],
-    [$._Statement, $._PrimaryTypeExpr],
-    [$._CurlySuffixExpr, $._PrimaryTypeExpr],
-    [$._CurlySuffixExpr, $.IfTypeExpr],
-    [$._CurlySuffixExpr, $.WhileTypeExpr],
-    [$._CurlySuffixExpr, $.ForTypeExpr],
-    [$.AssignExpr, $._PrimaryExpr],
-    [$.BlockExpr, $._PrimaryExpr],
-    [$.LabeledStatement, $.LabeledTypeExpr],
-    [$.AssignExpr, $.IfExpr],
-    [$.AssignExpr, $.WhileExpr],
-    [$.AssignExpr, $.ForExpr],
-    [$.ParamType, $._PrimaryTypeExpr],
-    [$.BlockExpr, $.LabeledTypeExpr],
-  ],
+  // conflicts: ($) => [
+  // [$._PrimaryExpr, $.LabeledStatement],
+  // [$._Statement, $._PrimaryTypeExpr],
+  // [$._CurlySuffixExpr, $._PrimaryTypeExpr],
+  // [$._CurlySuffixExpr, $.IfTypeExpr],
+  // [$._CurlySuffixExpr, $.WhileTypeExpr],
+  // [$._CurlySuffixExpr, $.ForTypeExpr],
+  // [$.AssignExpr, $._PrimaryExpr],
+  // [$.BlockExpr, $._PrimaryExpr],
+  // [$.LabeledStatement, $.LabeledTypeExpr],
+  // [$.AssignExpr, $.IfExpr],
+  // [$.AssignExpr, $.WhileExpr],
+  // [$.AssignExpr, $.ForExpr],
+  // [$.ParamType, $._PrimaryTypeExpr],
+  // [$.BlockExpr, $.LabeledTypeExpr],
+  // ],
 
   rules: {
     source_file: ($) =>
@@ -189,6 +205,7 @@ module.exports = grammar({
       seq(optional($.doc_comment), keyword("comptime", $), $.BlockExpr),
 
     _TopLevelDecl: ($) =>
+      // INFO: left and right doesn't matter?
       prec.left(
         choice(
           keyword("export", $),
@@ -253,19 +270,22 @@ module.exports = grammar({
     // *** Block Level ***
 
     _Statement: ($) =>
-      choice(
-        seq(optional(keyword("comptime", $)), $.VarDecl),
-        seq(
-          choice(
-            keyword(choice("comptime", "nosuspend", "defer", "suspend"), $),
-            seq(keyword("errdefer", $), optional($.Payload))
+      prec(
+        PREC.statement,
+        choice(
+          seq(optional(keyword("comptime", $)), $.VarDecl),
+          seq(
+            choice(
+              keyword(choice("comptime", "nosuspend", "defer", "suspend"), $),
+              seq(keyword("errdefer", $), optional($.Payload))
+            ),
+            $.BlockExprStatement
           ),
-          $.BlockExprStatement
-        ),
-        $.IfStatement,
-        $.LabeledStatement,
-        $.SwitchExpr,
-        seq($.AssignExpr, SEMICOLON)
+          $.IfStatement,
+          $.LabeledStatement,
+          $.SwitchExpr,
+          seq($.AssignExpr, SEMICOLON)
+        )
       ),
 
     IfStatement: ($) =>
@@ -277,7 +297,10 @@ module.exports = grammar({
       seq(keyword("else", $), optional($.Payload), $._Statement),
 
     LabeledStatement: ($) =>
-      seq(optional($.BlockLabel), choice($.Block, $.LoopStatement)),
+      prec(
+        PREC.statement,
+        seq(optional($.BlockLabel), choice($.Block, $.LoopStatement))
+      ),
 
     LoopStatement: ($) =>
       seq(
@@ -304,25 +327,16 @@ module.exports = grammar({
     BlockExprStatement: ($) =>
       choice($.BlockExpr, seq($.AssignExpr, SEMICOLON)),
 
-    BlockExpr: ($) => seq(optional($.BlockLabel), $.Block),
+    BlockExpr: ($) => prec(PREC.curly, seq(optional($.BlockLabel), $.Block)),
 
     // *** Expression Level ***
 
-    AssignExpr: ($) => seq($._Expr, optional(seq($.AssignOp, $._Expr))),
+    AssignExpr: ($) =>
+      prec(PREC.assign, seq($._Expr, optional(seq($.AssignOp, $._Expr)))),
 
     _Expr: ($) => choice($.BinaryExpr, $.UnaryExpr, $._PrimaryExpr),
 
     BinaryExpr: ($) => {
-      const PREC = {
-        or: 1,
-        and: 2,
-        comparative: 3,
-        bitwise: 4,
-        bitshift: 5,
-        addition: 6,
-        multiply: 7,
-        prefix: 8,
-      };
       const table = [
         [PREC.or, "or"],
         [PREC.and, "and"],
@@ -347,16 +361,21 @@ module.exports = grammar({
       );
     },
     UnaryExpr: ($) =>
-      prec.left(8, seq(field("operator", $.PrefixOp), field("left", $._Expr))),
+      prec.left(
+        PREC.prefix,
+        seq(field("operator", $.PrefixOp), field("left", $._Expr))
+      ),
 
     _PrimaryExpr: ($) =>
-      prec.left(
+      // INFO: left/right doesn't matter?
+      prec.right(
+        PREC.primary,
         choice(
           $.AsmExpr,
           $.IfExpr,
           seq(keyword("break", $), optional($.BreakLabel), optional($._Expr)),
           seq(keyword("continue", $), optional($.BreakLabel)),
-          seq(keyword(choice("comptime", "nosespend", "resume"), $), $._Expr),
+          seq(keyword(choice("comptime", "nosuspend", "resume"), $), $._Expr),
           seq(keyword("return", $), optional($._Expr)),
           seq(optional($.BlockLabel), $.LoopExpr),
           $.Block,
@@ -381,7 +400,8 @@ module.exports = grammar({
       prec.left(seq($.WhilePrefix, $._Expr, optional($._ElseExprTail))),
 
     _CurlySuffixExpr: ($) =>
-      choice(seq(field("constructor", $._TypeExpr), $.InitList), $._TypeExpr),
+      // INFO: solve #1 issue
+      prec(PREC.curly, seq($._TypeExpr, optional($.InitList))),
 
     InitList: ($) =>
       choice(
@@ -393,10 +413,16 @@ module.exports = grammar({
     _TypeExpr: ($) => seq(repeat($.PrefixTypeOp), $._ErrorUnionExpr),
 
     _ErrorUnionExpr: ($) =>
-      prec.left(seq($.SuffixExpr, optional(seq(EXCLAMATIONMARK, $._TypeExpr)))),
+      // INFO: left and right doesn't matter?
+      // INFO: right: give 100kb smaller generated c file, and show error on the left
+      // INFO: left: show error the line below
+      prec.right(
+        seq($.SuffixExpr, optional(seq(EXCLAMATIONMARK, $._TypeExpr)))
+      ),
 
     SuffixExpr: ($) =>
-      prec.left(
+      // INFO: solve #1 issue
+      prec.right(
         choice(
           seq(
             keyword("async", $),
@@ -409,33 +435,31 @@ module.exports = grammar({
       ),
 
     _PrimaryTypeExpr: ($) =>
-      prec.left(
-        choice(
-          seq($.BUILTINIDENTIFIER, $.FnCallArguments),
-          $.CHAR_LITERAL,
-          $.ContainerDecl,
-          seq(DOT, $.IDENTIFIER),
-          seq(DOT, $.InitList),
-          $.ErrorSetDecl,
-          $.FLOAT,
-          $.FnProto,
-          $.GroupedExpr,
-          $.LabeledTypeExpr,
-          $.IDENTIFIER,
-          $.IfTypeExpr,
-          $.INTEGER,
-          seq(keyword("comptime", $), $._TypeExpr),
-          seq(keyword("error", $), DOT, $.IDENTIFIER),
-          keyword("false", $),
-          keyword("null", $),
-          keyword("anyframe", $),
-          keyword("true", $),
-          keyword("undefined", $),
-          keyword("unreachable", $),
-          $.STRINGLITERAL,
-          $.SwitchExpr,
-          $.BuildinTypeExpr
-        )
+      choice(
+        seq($.BUILTINIDENTIFIER, $.FnCallArguments),
+        $.CHAR_LITERAL,
+        $.ContainerDecl,
+        seq(DOT, $.IDENTIFIER),
+        seq(DOT, $.InitList),
+        $.ErrorSetDecl,
+        $.FLOAT,
+        $.FnProto,
+        $.GroupedExpr,
+        $.LabeledTypeExpr,
+        $.IDENTIFIER,
+        $.IfTypeExpr,
+        $.INTEGER,
+        seq(keyword("comptime", $), $._TypeExpr),
+        seq(keyword("error", $), DOT, $.IDENTIFIER),
+        keyword("false", $),
+        keyword("null", $),
+        keyword("anyframe", $),
+        keyword("true", $),
+        keyword("undefined", $),
+        keyword("unreachable", $),
+        $.STRINGLITERAL,
+        $.SwitchExpr,
+        $.BuildinTypeExpr
       ),
     BuildinTypeExpr: (_) => token(choice(...buildin_type)),
     ContainerDecl: ($) =>
@@ -534,7 +558,7 @@ module.exports = grammar({
     // *** Helper grammar ***
     BreakLabel: ($) => seq(COLON, $.IDENTIFIER),
 
-    BlockLabel: ($) => prec.left(seq($.IDENTIFIER, COLON)),
+    BlockLabel: ($) => prec(PREC.label, seq($.IDENTIFIER, COLON)),
 
     FieldInit: ($) => seq(DOT, $.IDENTIFIER, EQUAL, $._Expr),
 
@@ -556,7 +580,8 @@ module.exports = grammar({
         DOT3
       ),
 
-    ParamType: ($) => choice(keyword("anytype", $), $._TypeExpr),
+    ParamType: ($) =>
+      prec(PREC.paramType, choice(keyword("anytype", $), $._TypeExpr)),
 
     // Control flow prefixes
     IfPrefix: ($) =>
