@@ -6851,31 +6851,26 @@
                   ]
                 },
                 {
-                  "type": "SEQ",
+                  "type": "CHOICE",
                   "members": [
                     {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "override_modifier"
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
+                      "type": "SYMBOL",
+                      "name": "override_modifier"
                     },
                     {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": "readonly"
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "readonly"
+                    },
+                    {
+                      "type": "BLANK"
                     }
                   ]
                 }
