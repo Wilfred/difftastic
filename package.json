@@ -4,7 +4,7 @@
   "description": "tree-sitter grammar for Emacs Lisp",
   "main": "bindings/node",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tree-sitter test"
   },
   "author": "",
   "license": "MIT",
