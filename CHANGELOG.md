@@ -1,4 +1,8 @@
-# v1.1 (unreleased)
+# v1.2 (unreleased)
+
+No changes yet.
+
+# v1.1
 
 Added support for more special read syntax.
 
