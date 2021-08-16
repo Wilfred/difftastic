@@ -37,54 +37,6 @@
         }
       ]
     },
-    "quote": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "#'"
-            },
-            {
-              "type": "STRING",
-              "value": "'"
-            },
-            {
-              "type": "STRING",
-              "value": "`"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_sexp"
-        }
-      ]
-    },
-    "unquote": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ",@"
-            },
-            {
-              "type": "STRING",
-              "value": ","
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_sexp"
-        }
-      ]
-    },
     "_atom": {
       "type": "CHOICE",
       "members": [
@@ -234,11 +186,71 @@
       }
     },
     "symbol": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "&?[a-zA-Z0-9_?:/*+=<>%\\\\!|.~$λ-]+"
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\\\(`|')"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "&?[a-zA-Z0-9_?:/*+=<>%!|.~$λ\\\\-]+"
+          }
+        }
+      ]
+    },
+    "quote": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "#'"
+            },
+            {
+              "type": "STRING",
+              "value": "'"
+            },
+            {
+              "type": "STRING",
+              "value": "`"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_sexp"
+        }
+      ]
+    },
+    "unquote": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ",@"
+            },
+            {
+              "type": "STRING",
+              "value": ","
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_sexp"
+        }
+      ]
     },
     "dot": {
       "type": "TOKEN",

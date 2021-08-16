@@ -1,38 +1,22 @@
 ================================================================================
-Symbols
+Quotes
 ================================================================================
 
-foo-bar
-foo/bar
-foo?
-=
-~
-$
->
-λ
-:foo
-foo!
-foo|bar
-foo.bar
-%
-&optional
-_
+'foo
+#'bar
+'(x ,y ,@z)
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol))
+  (quote
+    (symbol))
+  (quote
+    (symbol))
+  (quote
+    (list
+      (symbol)
+      (unquote
+        (symbol))
+      (unquote
+        (symbol)))))

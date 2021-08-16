@@ -234,6 +234,11 @@
     }
   },
   {
+    "type": "symbol",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "unquote",
     "named": true,
     "fields": {},
@@ -401,10 +406,6 @@
   },
   {
     "type": "string",
-    "named": true
-  },
-  {
-    "type": "symbol",
     "named": true
   }
 ]

@@ -1,38 +1,14 @@
 ================================================================================
-Symbols
+Escaped symbols
 ================================================================================
 
-foo-bar
-foo/bar
-foo?
-=
-~
-$
->
-λ
-:foo
-foo!
-foo|bar
-foo.bar
-%
-&optional
-_
+\x\y
+\'
+\`
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
-  (symbol)
   (symbol)
   (symbol)
   (symbol))

@@ -4,8 +4,8 @@ const STRING = token(
   seq('"', repeat(/[^"\\]/), repeat(seq("\\", /(.|\n)/, repeat(/[^"\\]/))), '"')
 );
 
-const SYMBOL = token(/&?[a-zA-Z0-9_?:/*+=<>%\\!|.~$λ-]+/);
-const BACKTICK_SYMBOL = token("\\`");
+const SYMBOL = token(/&?[a-zA-Z0-9_?:/*+=<>%!|.~$λ\\-]+/);
+const BACKTICK_SYMBOL = token(/\\(`|')/);
 
 const INTEGER_BASE10 = token(/[+-]?[0-9]+\.?/);
 const INTEGER_WITH_BASE = token(/#([box]|[0-9][0-9]?r)[0-9a-zA-Z]/);
@@ -31,8 +31,6 @@ module.exports = grammar({
 
     _sexp: ($) =>
       choice($.list, $.vector, $.bytecode, $._atom, $.quote, $.unquote),
-    quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
-    unquote: ($) => seq(choice(",@", ","), $._sexp),
 
     _atom: ($) =>
       choice(
@@ -55,7 +53,10 @@ module.exports = grammar({
     char: ($) => CHAR,
     string: ($) => STRING,
     byte_compiled_file_name: ($) => BYTE_COMPILED_FILE_NAME,
-    symbol: ($) => SYMBOL,
+    symbol: ($) => choice(BACKTICK_SYMBOL, SYMBOL),
+
+    quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
+    unquote: ($) => seq(choice(",@", ","), $._sexp),
 
     dot: ($) => token("."),
     list: ($) =>
