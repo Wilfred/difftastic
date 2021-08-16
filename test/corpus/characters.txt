@@ -12,6 +12,7 @@ Characters
 ?\M-\C-i
 ?\^i
 ?\C-\M-\S-\H-\s-\A-i
+?\C-\;
 
 ?\N{SNOWMAN}
 ?\N{U+61}
@@ -23,6 +24,7 @@ Characters
 --------------------------------------------------------------------------------
 
 (source_file
+  (char)
   (char)
   (char)
   (char)

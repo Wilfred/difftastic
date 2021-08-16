@@ -943,6 +943,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 92:
       ACCEPT_TOKEN(aux_sym_char_token7);
+      if (lookahead == ';') ADVANCE(91);
       if (lookahead == '^') ADVANCE(18);
       if (lookahead == 'A' ||
           lookahead == 'C' ||
@@ -953,6 +954,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 93:
       ACCEPT_TOKEN(aux_sym_char_token7);
+      if (lookahead == ';') ADVANCE(91);
       if (lookahead == '^') ADVANCE(18);
       if (lookahead == 'A' ||
           lookahead == 'C' ||

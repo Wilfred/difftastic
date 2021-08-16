@@ -34,7 +34,7 @@ const HEX_CHAR = token(/\?\\x[0-9a-fA-F]+/);
 const OCTAL_CHAR = token(/\?\\[0-7]{1,3}/);
 
 // E.g. ?\C-o or ?\^o or ?\C-\S-o
-const KEY_CHAR = token(/\?(\\(([CMSHsA]-)|\^))+./);
+const KEY_CHAR = token(/\?(\\(([CMSHsA]-)|\^))+(\\;|.)/);
 // E.g. ?\M-\123
 const META_OCTAL_CHAR = token(/\?\\M-\\[0-9]{1,3}/);
 
