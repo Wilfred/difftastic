@@ -22,10 +22,16 @@ foo{bar}
 _
 ##
 .foo
+foo-★
+1+
+\1
 
 --------------------------------------------------------------------------------
 
 (source_file
+  (symbol)
+  (symbol)
+  (symbol)
   (symbol)
   (symbol)
   (symbol)

@@ -4,10 +4,16 @@ const STRING = token(
   seq('"', repeat(/[^"\\]/), repeat(seq("\\", /(.|\n)/, repeat(/[^"\\]/))), '"')
 );
 
-// Symbols may not start with a ?.
+// Symbols can contain any character when escaped:
+// https://www.gnu.org/software/emacs/manual/html_node/elisp/Symbol-Type.html
+// Most characters do not need escaping, but space and parentheses
+// certainly do.
+//
+// Symbols also cannot start with ?.
 const SYMBOL = token(
-  /[&a-zA-Z0-9_:/*+=<>%!|.~$λ\\@{}.-][?&a-zA-Z0-9_:/*+=<>%!|.~$λ\\@{}.-]*/
+  /([^?# \n\s\f()\[\]'`,\\]|\\.)([^# \n\s\f()\[\]'`,\\]|\\.)*/
 );
+
 const ESCAPED_READER_SYMBOL = token(/\\(`|'|,)/);
 const INTERNED_EMPTY_STRING = token("##");
 

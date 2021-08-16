@@ -16,7 +16,7 @@ Fixed handling of string literals with newline escaping:
 bar"
 ```
 
-Fixed `%`, `!`, `|`, `.`, `~`, `$`, `@`, `{`, `}`, `λ` and `\` in symbols.
+Fixed handling escaped characters and non-ASCII character in symbols.
 
 # v1.0
 
