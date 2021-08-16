@@ -17,6 +17,9 @@ const FLOAT_NAN = token(/-?0.0[eE]\+NaN/);
 
 const CHAR = token(/\?(\\.|.)/);
 
+// https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Read-Syntax.html
+const BYTE_COMPILED_FILE_NAME = token("#$");
+
 module.exports = grammar({
   name: "elisp",
 
@@ -29,7 +32,15 @@ module.exports = grammar({
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
     unquote: ($) => seq(choice(",@", ","), $._sexp),
 
-    _atom: ($) => choice($.float, $.integer, $.char, $.string, $.symbol),
+    _atom: ($) =>
+      choice(
+        $.float,
+        $.integer,
+        $.char,
+        $.string,
+        $.byte_compiled_file_name,
+        $.symbol
+      ),
     float: ($) =>
       choice(
         FLOAT_WITH_DEC_POINT,
@@ -41,6 +52,7 @@ module.exports = grammar({
     integer: ($) => choice(INTEGER_BASE10, INTEGER_WITH_BASE),
     char: ($) => CHAR,
     string: ($) => STRING,
+    byte_compiled_file_name: ($) => BYTE_COMPILED_FILE_NAME,
     symbol: ($) => SYMBOL,
 
     dot: ($) => token("."),

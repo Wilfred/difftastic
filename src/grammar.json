@@ -102,6 +102,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "byte_compiled_file_name"
+        },
+        {
+          "type": "SYMBOL",
           "name": "symbol"
         }
       ]
@@ -216,6 +220,13 @@
             "value": "\""
           }
         ]
+      }
+    },
+    "byte_compiled_file_name": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "#$"
       }
     },
     "symbol": {

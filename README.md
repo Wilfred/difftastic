@@ -8,6 +8,7 @@ Syntax supported:
 * Lists (normal syntax `(a b)` and dotted `(a . b)`)
 * Vectors
 * Quoting and unquoting (`'`, `#'`, `` ` ``, `,`, `,@`)
+* Some special read syntax (`$#`)
 * Comments
 
 Currently unsupported:

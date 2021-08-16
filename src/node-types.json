@@ -18,6 +18,10 @@
       "required": false,
       "types": [
         {
+          "type": "byte_compiled_file_name",
+          "named": true
+        },
+        {
           "type": "char",
           "named": true
         },
@@ -69,6 +73,10 @@
       "required": true,
       "types": [
         {
+          "type": "byte_compiled_file_name",
+          "named": true
+        },
+        {
           "type": "char",
           "named": true
         },
@@ -115,6 +123,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "byte_compiled_file_name",
+          "named": true
+        },
         {
           "type": "char",
           "named": true
@@ -163,6 +175,10 @@
       "required": true,
       "types": [
         {
+          "type": "byte_compiled_file_name",
+          "named": true
+        },
+        {
           "type": "char",
           "named": true
         },
@@ -209,6 +225,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "byte_compiled_file_name",
+          "named": true
+        },
         {
           "type": "char",
           "named": true
@@ -283,6 +303,10 @@
   {
     "type": "`",
     "named": false
+  },
+  {
+    "type": "byte_compiled_file_name",
+    "named": true
   },
   {
     "type": "char",
