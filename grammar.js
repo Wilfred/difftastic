@@ -28,7 +28,8 @@ module.exports = grammar({
   rules: {
     source_file: ($) => repeat($._sexp),
 
-    _sexp: ($) => choice($.list, $.vector, $._atom, $.quote, $.unquote),
+    _sexp: ($) =>
+      choice($.list, $.vector, $.bytecode, $._atom, $.quote, $.unquote),
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
     unquote: ($) => seq(choice(",@", ","), $._sexp),
 
@@ -63,6 +64,7 @@ module.exports = grammar({
         ")"
       ),
     vector: ($) => seq("[", repeat($._sexp), "]"),
+    bytecode: ($) => seq("#[", repeat($._sexp), "]"),
 
     comment: ($) => COMMENT,
   },

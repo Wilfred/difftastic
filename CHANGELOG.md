@@ -4,6 +4,8 @@ Added support for dotted lists.
 
 Added support for more special read syntax.
 
+Added support for bytecode literals.
+
 Linefeed characters (commonly used as section delimiters) are now treated
 as whitespace rather than parse errors.
 

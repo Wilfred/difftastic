@@ -1,5 +1,60 @@
 [
   {
+    "type": "bytecode",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "byte_compiled_file_name",
+          "named": true
+        },
+        {
+          "type": "bytecode",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "float",
     "named": true,
     "fields": {}
@@ -19,6 +74,10 @@
       "types": [
         {
           "type": "byte_compiled_file_name",
+          "named": true
+        },
+        {
+          "type": "bytecode",
           "named": true
         },
         {
@@ -77,6 +136,10 @@
           "named": true
         },
         {
+          "type": "bytecode",
+          "named": true
+        },
+        {
           "type": "char",
           "named": true
         },
@@ -125,6 +188,10 @@
       "types": [
         {
           "type": "byte_compiled_file_name",
+          "named": true
+        },
+        {
+          "type": "bytecode",
           "named": true
         },
         {
@@ -179,6 +246,10 @@
           "named": true
         },
         {
+          "type": "bytecode",
+          "named": true
+        },
+        {
           "type": "char",
           "named": true
         },
@@ -230,6 +301,10 @@
           "named": true
         },
         {
+          "type": "bytecode",
+          "named": true
+        },
+        {
           "type": "char",
           "named": true
         },
@@ -270,6 +345,10 @@
   },
   {
     "type": "#'",
+    "named": false
+  },
+  {
+    "type": "#[",
     "named": false
   },
   {

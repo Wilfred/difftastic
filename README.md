@@ -9,6 +9,7 @@ Syntax supported:
 * Vectors
 * Quoting and unquoting (`'`, `#'`, `` ` ``, `,`, `,@`)
 * Some special read syntax (`$#`)
+* Bytecode literals (`#[1 2 3 4]`)
 * Comments
 
 Currently unsupported:
