@@ -21,6 +21,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "hash_table"
+        },
+        {
+          "type": "SYMBOL",
           "name": "bytecode"
         },
         {
@@ -373,6 +377,26 @@
         {
           "type": "SYMBOL",
           "name": "string"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_sexp"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "hash_table": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#s(hash-table"
         },
         {
           "type": "REPEAT",

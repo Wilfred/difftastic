@@ -24,6 +24,10 @@
           "named": true
         },
         {
+          "type": "hash_table",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -68,6 +72,73 @@
     "fields": {}
   },
   {
+    "type": "hash_table",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "byte_compiled_file_name",
+          "named": true
+        },
+        {
+          "type": "bytecode",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash_table",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "string_text_properties",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splice",
+          "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "integer",
     "named": true,
     "fields": {}
@@ -98,6 +169,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash_table",
           "named": true
         },
         {
@@ -164,6 +239,10 @@
           "named": true
         },
         {
+          "type": "hash_table",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -227,6 +306,10 @@
           "named": true
         },
         {
+          "type": "hash_table",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -287,6 +370,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash_table",
           "named": true
         },
         {
@@ -358,6 +445,10 @@
           "named": true
         },
         {
+          "type": "hash_table",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -418,6 +509,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash_table",
           "named": true
         },
         {
@@ -484,6 +579,10 @@
           "named": true
         },
         {
+          "type": "hash_table",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -536,6 +635,10 @@
   },
   {
     "type": "#[",
+    "named": false
+  },
+  {
+    "type": "#s(hash-table",
     "named": false
   },
   {

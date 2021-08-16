@@ -34,6 +34,7 @@ module.exports = grammar({
       choice(
         $.list,
         $.vector,
+        $.hash_table,
         $.bytecode,
         $.string_text_properties,
         $._atom,
@@ -80,6 +81,8 @@ module.exports = grammar({
     bytecode: ($) => seq("#[", repeat($._sexp), "]"),
 
     string_text_properties: ($) => seq("#(", $.string, repeat($._sexp), ")"),
+
+    hash_table: ($) => seq("#s(hash-table", repeat($._sexp), ")"),
 
     comment: ($) => COMMENT,
   },

@@ -14,7 +14,6 @@ Syntax supported:
 
 Currently unsupported:
 
-* Hash table literals
 * Autoload cookies
 * Special forms (e.g. `let`, currently treated as symbols)
 * Definitions (e.g. `defun`, `defvar`, `defmacro`)
