@@ -18,5 +18,5 @@ Quotes
       (symbol)
       (unquote
         (symbol))
-      (unquote
+      (unquote_splice
         (symbol)))))

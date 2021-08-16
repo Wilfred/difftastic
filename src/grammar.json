@@ -33,6 +33,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "unquote_splice"
+        },
+        {
+          "type": "SYMBOL",
           "name": "unquote"
         }
       ]
@@ -230,21 +234,25 @@
         }
       ]
     },
+    "unquote_splice": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ",@"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_sexp"
+        }
+      ]
+    },
     "unquote": {
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ",@"
-            },
-            {
-              "type": "STRING",
-              "value": ","
-            }
-          ]
+          "type": "STRING",
+          "value": ","
         },
         {
           "type": "SYMBOL",

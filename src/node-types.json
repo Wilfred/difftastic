@@ -48,6 +48,10 @@
           "named": true
         },
         {
+          "type": "unquote_splice",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -117,6 +121,10 @@
           "named": true
         },
         {
+          "type": "unquote_splice",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -172,6 +180,10 @@
           "named": true
         },
         {
+          "type": "unquote_splice",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -224,6 +236,10 @@
         },
         {
           "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splice",
           "named": true
         },
         {
@@ -287,6 +303,69 @@
           "named": true
         },
         {
+          "type": "unquote_splice",
+          "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unquote_splice",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "byte_compiled_file_name",
+          "named": true
+        },
+        {
+          "type": "bytecode",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splice",
+          "named": true
+        },
+        {
           "type": "vector",
           "named": true
         }
@@ -339,6 +418,10 @@
         },
         {
           "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splice",
           "named": true
         },
         {

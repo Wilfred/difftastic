@@ -30,7 +30,15 @@ module.exports = grammar({
     source_file: ($) => repeat($._sexp),
 
     _sexp: ($) =>
-      choice($.list, $.vector, $.bytecode, $._atom, $.quote, $.unquote),
+      choice(
+        $.list,
+        $.vector,
+        $.bytecode,
+        $._atom,
+        $.quote,
+        $.unquote_splice,
+        $.unquote
+      ),
 
     _atom: ($) =>
       choice(
@@ -56,7 +64,8 @@ module.exports = grammar({
     symbol: ($) => choice(BACKTICK_SYMBOL, SYMBOL),
 
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
-    unquote: ($) => seq(choice(",@", ","), $._sexp),
+    unquote_splice: ($) => seq(",@", $._sexp),
+    unquote: ($) => seq(",", $._sexp),
 
     dot: ($) => token("."),
     list: ($) =>
