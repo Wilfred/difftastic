@@ -9,6 +9,7 @@ extern "C" {
     fn tree_sitter_css() -> Language;
     fn tree_sitter_elisp() -> Language;
     fn tree_sitter_go() -> Language;
+    fn tree_sitter_javascript() -> Language;
     fn tree_sitter_json() -> Language;
     fn tree_sitter_rust() -> Language;
 }
@@ -18,6 +19,8 @@ pub fn supported(extension: &OsStr) -> bool {
         || extension == "go"
         || extension == "css"
         || extension == "el"
+        || extension == "js"
+        || extension == "jsx"
         || extension == "json"
 }
 
@@ -38,6 +41,8 @@ pub fn parse<'a>(
         unsafe { tree_sitter_elisp() }
     } else if extension == "json" {
         unsafe { tree_sitter_json() }
+    } else if extension == "js" || extension == "jsx" {
+        unsafe { tree_sitter_javascript() }
     } else {
         panic!("Unknown extension for tree-sitter parsers.")
     };
