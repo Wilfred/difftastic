@@ -281,17 +281,19 @@ static const uint16_t ts_non_terminal_alias_map[] = {
 };
 
 static inline bool sym_char_character_set_1(int32_t c) {
-  return (c < '<'
+  return (c < 'A'
     ? (c < '*'
       ? (c < '%'
         ? c == '!'
         : c <= '%')
-      : (c <= '+' || (c >= '-' && c <= ':')))
-    : (c <= '?' || (c < 'a'
-      ? (c < '_'
-        ? (c >= 'A' && c <= 'Z')
-        : c <= '_')
-      : (c <= 'z' || c == '|'))));
+      : (c <= '+' || (c < '<'
+        ? (c >= '-' && c <= ':')
+        : c <= '?')))
+    : (c <= 'Z' || (c < '|'
+      ? (c < 'a'
+        ? c == '_'
+        : c <= 'z')
+      : (c <= '|' || c == '~'))));
 }
 
 static inline bool sym_symbol_character_set_1(int32_t c) {
@@ -307,7 +309,9 @@ static inline bool sym_symbol_character_set_1(int32_t c) {
       ? (c < '_'
         ? c == '\\'
         : c <= '_')
-      : (c <= 'z' || c == '|'))));
+      : (c <= 'z' || (c < '~'
+        ? c == '|'
+        : c <= '~')))));
 }
 
 static inline bool sym_symbol_character_set_2(int32_t c) {
@@ -323,7 +327,9 @@ static inline bool sym_symbol_character_set_2(int32_t c) {
       ? (c < '_'
         ? c == '\\'
         : c <= '_')
-      : (c <= 'z' || c == '|'))));
+      : (c <= 'z' || (c < '~'
+        ? c == '|'
+        : c <= '~')))));
 }
 
 static inline bool sym_symbol_character_set_3(int32_t c) {
@@ -339,7 +345,9 @@ static inline bool sym_symbol_character_set_3(int32_t c) {
       ? (c < '_'
         ? c == '\\'
         : c <= '_')
-      : (c <= 'z' || c == '|'))));
+      : (c <= 'z' || (c < '~'
+        ? c == '|'
+        : c <= '~')))));
 }
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
@@ -375,7 +383,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('%' <= lookahead && lookahead <= '>') ||
           ('A' <= lookahead && lookahead <= '\\') ||
           ('_' <= lookahead && lookahead <= 'z') ||
-          lookahead == '|') ADVANCE(78);
+          lookahead == '|' ||
+          lookahead == '~') ADVANCE(78);
       END_STATE();
     case 1:
       if (lookahead == '"') ADVANCE(52);
@@ -476,7 +485,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('%' <= lookahead && lookahead <= '>') ||
           ('A' <= lookahead && lookahead <= '\\') ||
           ('_' <= lookahead && lookahead <= 'z') ||
-          lookahead == '|') ADVANCE(78);
+          lookahead == '|' ||
+          lookahead == '~') ADVANCE(78);
       END_STATE();
     case 21:
       ACCEPT_TOKEN(ts_builtin_sym_end);

@@ -6,6 +6,7 @@ foo-bar
 foo/bar
 foo?
 =
+~
 >
 :foo
 foo!
@@ -19,6 +20,7 @@ _
 --------------------------------------------------------------------------------
 
 (source_file
+  (symbol)
   (symbol)
   (symbol)
   (symbol)
