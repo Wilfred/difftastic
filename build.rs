@@ -19,5 +19,6 @@ fn main() {
     build("tree-sitter-css", true);
     build("tree-sitter-elisp", false);
     build("tree-sitter-go", false);
+    build("tree-sitter-json", false);
     build("tree-sitter-rust", true);
 }
