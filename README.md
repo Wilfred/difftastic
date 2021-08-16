@@ -55,6 +55,13 @@ This project also contains a few tests.
 $ npm test
 ```
 
+You can also run this parser against your `.emacs.d` to confirm it can
+parse everything.
+
+```
+$ npm run parse -- '/home/wilfred/.emacs.d/**/*.el' --quiet --stat
+```
+
 ## Why?
 
 The best place to read and write elisp is of course Emacs.
