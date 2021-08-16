@@ -203,7 +203,7 @@
                 },
                 {
                   "type": "PATTERN",
-                  "value": "."
+                  "value": "(.|\\n)"
                 },
                 {
                   "type": "REPEAT",

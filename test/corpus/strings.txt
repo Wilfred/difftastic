@@ -7,13 +7,18 @@ String literals
 "\""
 "\\"
 "\\ foo \\"
+
 "
 multiline
 "
 
+"\
+foo"
+
 --------------------------------------------------------------------------------
 
 (source_file
+  (string)
   (string)
   (string)
   (string)

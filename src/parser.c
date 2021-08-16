@@ -387,8 +387,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(77);
       END_STATE();
     case 23:
-      if (lookahead != 0 &&
-          lookahead != '\n') ADVANCE(1);
+      if (lookahead != 0) ADVANCE(1);
       END_STATE();
     case 24:
       ACCEPT_TOKEN(ts_builtin_sym_end);
