@@ -8,9 +8,9 @@
 #define LANGUAGE_VERSION 13
 #define STATE_COUNT 88
 #define LARGE_STATE_COUNT 81
-#define SYMBOL_COUNT 38
+#define SYMBOL_COUNT 39
 #define ALIAS_COUNT 0
-#define TOKEN_COUNT 25
+#define TOKEN_COUNT 26
 #define EXTERNAL_TOKEN_COUNT 0
 #define FIELD_COUNT 0
 #define MAX_ALIAS_SEQUENCE_LENGTH 5
@@ -29,31 +29,32 @@ enum {
   sym_byte_compiled_file_name = 10,
   aux_sym_symbol_token1 = 11,
   aux_sym_symbol_token2 = 12,
-  anon_sym_POUND_SQUOTE = 13,
-  anon_sym_SQUOTE = 14,
-  anon_sym_BQUOTE = 15,
-  anon_sym_COMMA_AT = 16,
-  anon_sym_COMMA = 17,
-  sym_dot = 18,
-  anon_sym_LPAREN = 19,
-  anon_sym_RPAREN = 20,
-  anon_sym_LBRACK = 21,
-  anon_sym_RBRACK = 22,
-  anon_sym_POUND_LBRACK = 23,
-  sym_comment = 24,
-  sym_source_file = 25,
-  sym__sexp = 26,
-  sym__atom = 27,
-  sym_float = 28,
-  sym_integer = 29,
-  sym_symbol = 30,
-  sym_quote = 31,
-  sym_unquote_splice = 32,
-  sym_unquote = 33,
-  sym_list = 34,
-  sym_vector = 35,
-  sym_bytecode = 36,
-  aux_sym_source_file_repeat1 = 37,
+  anon_sym_POUND_POUND = 13,
+  anon_sym_POUND_SQUOTE = 14,
+  anon_sym_SQUOTE = 15,
+  anon_sym_BQUOTE = 16,
+  anon_sym_COMMA_AT = 17,
+  anon_sym_COMMA = 18,
+  sym_dot = 19,
+  anon_sym_LPAREN = 20,
+  anon_sym_RPAREN = 21,
+  anon_sym_LBRACK = 22,
+  anon_sym_RBRACK = 23,
+  anon_sym_POUND_LBRACK = 24,
+  sym_comment = 25,
+  sym_source_file = 26,
+  sym__sexp = 27,
+  sym__atom = 28,
+  sym_float = 29,
+  sym_integer = 30,
+  sym_symbol = 31,
+  sym_quote = 32,
+  sym_unquote_splice = 33,
+  sym_unquote = 34,
+  sym_list = 35,
+  sym_vector = 36,
+  sym_bytecode = 37,
+  aux_sym_source_file_repeat1 = 38,
 };
 
 static const char * const ts_symbol_names[] = {
@@ -70,6 +71,7 @@ static const char * const ts_symbol_names[] = {
   [sym_byte_compiled_file_name] = "byte_compiled_file_name",
   [aux_sym_symbol_token1] = "symbol_token1",
   [aux_sym_symbol_token2] = "symbol_token2",
+  [anon_sym_POUND_POUND] = "##",
   [anon_sym_POUND_SQUOTE] = "#'",
   [anon_sym_SQUOTE] = "'",
   [anon_sym_BQUOTE] = "`",
@@ -111,6 +113,7 @@ static const TSSymbol ts_symbol_map[] = {
   [sym_byte_compiled_file_name] = sym_byte_compiled_file_name,
   [aux_sym_symbol_token1] = aux_sym_symbol_token1,
   [aux_sym_symbol_token2] = aux_sym_symbol_token2,
+  [anon_sym_POUND_POUND] = anon_sym_POUND_POUND,
   [anon_sym_POUND_SQUOTE] = anon_sym_POUND_SQUOTE,
   [anon_sym_SQUOTE] = anon_sym_SQUOTE,
   [anon_sym_BQUOTE] = anon_sym_BQUOTE,
@@ -189,6 +192,10 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   },
   [aux_sym_symbol_token2] = {
     .visible = false,
+    .named = false,
+  },
+  [anon_sym_POUND_POUND] = {
+    .visible = true,
     .named = false,
   },
   [anon_sym_POUND_SQUOTE] = {
@@ -357,21 +364,21 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == '"') ADVANCE(1);
       if (lookahead == '#') ADVANCE(2);
       if (lookahead == '&') ADVANCE(18);
-      if (lookahead == '\'') ADVANCE(77);
-      if (lookahead == '(') ADVANCE(82);
-      if (lookahead == ')') ADVANCE(83);
+      if (lookahead == '\'') ADVANCE(78);
+      if (lookahead == '(') ADVANCE(83);
+      if (lookahead == ')') ADVANCE(84);
       if (lookahead == '+') ADVANCE(57);
-      if (lookahead == ',') ADVANCE(80);
+      if (lookahead == ',') ADVANCE(81);
       if (lookahead == '-') ADVANCE(56);
-      if (lookahead == '.') ADVANCE(81);
+      if (lookahead == '.') ADVANCE(82);
       if (lookahead == '0') ADVANCE(33);
       if (lookahead == '1') ADVANCE(39);
-      if (lookahead == ';') ADVANCE(88);
+      if (lookahead == ';') ADVANCE(89);
       if (lookahead == '?') ADVANCE(67);
-      if (lookahead == '[') ADVANCE(84);
+      if (lookahead == '[') ADVANCE(85);
       if (lookahead == '\\') ADVANCE(71);
-      if (lookahead == ']') ADVANCE(85);
-      if (lookahead == '`') ADVANCE(78);
+      if (lookahead == ']') ADVANCE(86);
+      if (lookahead == '`') ADVANCE(79);
       if (('2' <= lookahead && lookahead <= '9')) ADVANCE(36);
       if (('!' <= lookahead && lookahead <= 'Z') ||
           ('_' <= lookahead && lookahead <= '~') ||
@@ -383,9 +390,10 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead != 0) ADVANCE(1);
       END_STATE();
     case 2:
+      if (lookahead == '#') ADVANCE(76);
       if (lookahead == '$') ADVANCE(48);
-      if (lookahead == '\'') ADVANCE(76);
-      if (lookahead == '[') ADVANCE(86);
+      if (lookahead == '\'') ADVANCE(77);
+      if (lookahead == '[') ADVANCE(87);
       if (lookahead == 'b' ||
           lookahead == 'o' ||
           lookahead == 'x') ADVANCE(17);
@@ -457,21 +465,21 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == '"') ADVANCE(1);
       if (lookahead == '#') ADVANCE(2);
       if (lookahead == '&') ADVANCE(18);
-      if (lookahead == '\'') ADVANCE(77);
-      if (lookahead == '(') ADVANCE(82);
-      if (lookahead == ')') ADVANCE(83);
+      if (lookahead == '\'') ADVANCE(78);
+      if (lookahead == '(') ADVANCE(83);
+      if (lookahead == ')') ADVANCE(84);
       if (lookahead == '+') ADVANCE(57);
-      if (lookahead == ',') ADVANCE(80);
+      if (lookahead == ',') ADVANCE(81);
       if (lookahead == '-') ADVANCE(56);
       if (lookahead == '.') ADVANCE(72);
       if (lookahead == '0') ADVANCE(33);
       if (lookahead == '1') ADVANCE(39);
-      if (lookahead == ';') ADVANCE(88);
+      if (lookahead == ';') ADVANCE(89);
       if (lookahead == '?') ADVANCE(67);
-      if (lookahead == '[') ADVANCE(84);
+      if (lookahead == '[') ADVANCE(85);
       if (lookahead == '\\') ADVANCE(71);
-      if (lookahead == ']') ADVANCE(85);
-      if (lookahead == '`') ADVANCE(78);
+      if (lookahead == ']') ADVANCE(86);
+      if (lookahead == '`') ADVANCE(79);
       if (('2' <= lookahead && lookahead <= '9')) ADVANCE(36);
       if (('!' <= lookahead && lookahead <= 'Z') ||
           ('_' <= lookahead && lookahead <= '~') ||
@@ -805,48 +813,51 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (aux_sym_symbol_token2_character_set_1(lookahead)) ADVANCE(75);
       END_STATE();
     case 76:
-      ACCEPT_TOKEN(anon_sym_POUND_SQUOTE);
+      ACCEPT_TOKEN(anon_sym_POUND_POUND);
       END_STATE();
     case 77:
-      ACCEPT_TOKEN(anon_sym_SQUOTE);
+      ACCEPT_TOKEN(anon_sym_POUND_SQUOTE);
       END_STATE();
     case 78:
-      ACCEPT_TOKEN(anon_sym_BQUOTE);
+      ACCEPT_TOKEN(anon_sym_SQUOTE);
       END_STATE();
     case 79:
-      ACCEPT_TOKEN(anon_sym_COMMA_AT);
+      ACCEPT_TOKEN(anon_sym_BQUOTE);
       END_STATE();
     case 80:
-      ACCEPT_TOKEN(anon_sym_COMMA);
-      if (lookahead == '@') ADVANCE(79);
+      ACCEPT_TOKEN(anon_sym_COMMA_AT);
       END_STATE();
     case 81:
+      ACCEPT_TOKEN(anon_sym_COMMA);
+      if (lookahead == '@') ADVANCE(80);
+      END_STATE();
+    case 82:
       ACCEPT_TOKEN(sym_dot);
       if (('0' <= lookahead && lookahead <= '9')) ADVANCE(23);
       if (aux_sym_symbol_token2_character_set_1(lookahead)) ADVANCE(75);
       END_STATE();
-    case 82:
+    case 83:
       ACCEPT_TOKEN(anon_sym_LPAREN);
       END_STATE();
-    case 83:
+    case 84:
       ACCEPT_TOKEN(anon_sym_RPAREN);
       END_STATE();
-    case 84:
+    case 85:
       ACCEPT_TOKEN(anon_sym_LBRACK);
       END_STATE();
-    case 85:
+    case 86:
       ACCEPT_TOKEN(anon_sym_RBRACK);
       END_STATE();
-    case 86:
-      ACCEPT_TOKEN(anon_sym_POUND_LBRACK);
-      END_STATE();
     case 87:
-      ACCEPT_TOKEN(sym_comment);
+      ACCEPT_TOKEN(anon_sym_POUND_LBRACK);
       END_STATE();
     case 88:
       ACCEPT_TOKEN(sym_comment);
-      if (lookahead == '\n') ADVANCE(87);
-      if (lookahead != 0) ADVANCE(88);
+      END_STATE();
+    case 89:
+      ACCEPT_TOKEN(sym_comment);
+      if (lookahead == '\n') ADVANCE(88);
+      if (lookahead != 0) ADVANCE(89);
       END_STATE();
     default:
       return false;
@@ -959,6 +970,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(1),
     [aux_sym_symbol_token1] = ACTIONS(1),
     [aux_sym_symbol_token2] = ACTIONS(1),
+    [anon_sym_POUND_POUND] = ACTIONS(1),
     [anon_sym_POUND_SQUOTE] = ACTIONS(1),
     [anon_sym_SQUOTE] = ACTIONS(1),
     [anon_sym_BQUOTE] = ACTIONS(1),
@@ -999,6 +1011,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(15),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -1034,6 +1047,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(41),
     [aux_sym_symbol_token1] = ACTIONS(43),
     [aux_sym_symbol_token2] = ACTIONS(45),
+    [anon_sym_POUND_POUND] = ACTIONS(43),
     [anon_sym_POUND_SQUOTE] = ACTIONS(47),
     [anon_sym_SQUOTE] = ACTIONS(47),
     [anon_sym_BQUOTE] = ACTIONS(47),
@@ -1071,6 +1085,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(65),
     [aux_sym_symbol_token1] = ACTIONS(43),
     [aux_sym_symbol_token2] = ACTIONS(45),
+    [anon_sym_POUND_POUND] = ACTIONS(43),
     [anon_sym_POUND_SQUOTE] = ACTIONS(47),
     [anon_sym_SQUOTE] = ACTIONS(47),
     [anon_sym_BQUOTE] = ACTIONS(47),
@@ -1108,6 +1123,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(83),
     [aux_sym_symbol_token1] = ACTIONS(86),
     [aux_sym_symbol_token2] = ACTIONS(89),
+    [anon_sym_POUND_POUND] = ACTIONS(86),
     [anon_sym_POUND_SQUOTE] = ACTIONS(92),
     [anon_sym_SQUOTE] = ACTIONS(92),
     [anon_sym_BQUOTE] = ACTIONS(92),
@@ -1145,6 +1161,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(41),
     [aux_sym_symbol_token1] = ACTIONS(43),
     [aux_sym_symbol_token2] = ACTIONS(45),
+    [anon_sym_POUND_POUND] = ACTIONS(43),
     [anon_sym_POUND_SQUOTE] = ACTIONS(47),
     [anon_sym_SQUOTE] = ACTIONS(47),
     [anon_sym_BQUOTE] = ACTIONS(47),
@@ -1182,6 +1199,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(41),
     [aux_sym_symbol_token1] = ACTIONS(43),
     [aux_sym_symbol_token2] = ACTIONS(45),
+    [anon_sym_POUND_POUND] = ACTIONS(43),
     [anon_sym_POUND_SQUOTE] = ACTIONS(47),
     [anon_sym_SQUOTE] = ACTIONS(47),
     [anon_sym_BQUOTE] = ACTIONS(47),
@@ -1219,6 +1237,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(124),
     [aux_sym_symbol_token1] = ACTIONS(43),
     [aux_sym_symbol_token2] = ACTIONS(45),
+    [anon_sym_POUND_POUND] = ACTIONS(43),
     [anon_sym_POUND_SQUOTE] = ACTIONS(47),
     [anon_sym_SQUOTE] = ACTIONS(47),
     [anon_sym_BQUOTE] = ACTIONS(47),
@@ -1256,6 +1275,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(132),
     [aux_sym_symbol_token1] = ACTIONS(43),
     [aux_sym_symbol_token2] = ACTIONS(45),
+    [anon_sym_POUND_POUND] = ACTIONS(43),
     [anon_sym_POUND_SQUOTE] = ACTIONS(47),
     [anon_sym_SQUOTE] = ACTIONS(47),
     [anon_sym_BQUOTE] = ACTIONS(47),
@@ -1293,6 +1313,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(146),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1329,6 +1350,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(168),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1365,6 +1387,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(174),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1402,6 +1425,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(182),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -1437,6 +1461,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(146),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1473,6 +1498,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(146),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1509,6 +1535,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(146),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1545,6 +1572,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(192),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1581,6 +1609,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(198),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1617,6 +1646,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(214),
     [aux_sym_symbol_token1] = ACTIONS(217),
     [aux_sym_symbol_token2] = ACTIONS(220),
+    [anon_sym_POUND_POUND] = ACTIONS(217),
     [anon_sym_POUND_SQUOTE] = ACTIONS(223),
     [anon_sym_SQUOTE] = ACTIONS(223),
     [anon_sym_BQUOTE] = ACTIONS(223),
@@ -1654,6 +1684,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(253),
     [aux_sym_symbol_token1] = ACTIONS(256),
     [aux_sym_symbol_token2] = ACTIONS(259),
+    [anon_sym_POUND_POUND] = ACTIONS(256),
     [anon_sym_POUND_SQUOTE] = ACTIONS(262),
     [anon_sym_SQUOTE] = ACTIONS(262),
     [anon_sym_BQUOTE] = ACTIONS(262),
@@ -1689,6 +1720,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(146),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1725,6 +1757,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(146),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1761,6 +1794,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(286),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1797,6 +1831,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(292),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -1832,6 +1867,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(298),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -1866,6 +1902,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(302),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -1900,6 +1937,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(306),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -1934,6 +1972,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(310),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -1968,6 +2007,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(314),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -2002,6 +2042,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(318),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -2036,6 +2077,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(322),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -2070,6 +2112,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(326),
     [aux_sym_symbol_token1] = ACTIONS(43),
     [aux_sym_symbol_token2] = ACTIONS(45),
+    [anon_sym_POUND_POUND] = ACTIONS(43),
     [anon_sym_POUND_SQUOTE] = ACTIONS(47),
     [anon_sym_SQUOTE] = ACTIONS(47),
     [anon_sym_BQUOTE] = ACTIONS(47),
@@ -2104,6 +2147,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(330),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -2138,6 +2182,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(334),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -2172,6 +2217,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(338),
     [aux_sym_symbol_token1] = ACTIONS(148),
     [aux_sym_symbol_token2] = ACTIONS(150),
+    [anon_sym_POUND_POUND] = ACTIONS(148),
     [anon_sym_POUND_SQUOTE] = ACTIONS(152),
     [anon_sym_SQUOTE] = ACTIONS(152),
     [anon_sym_BQUOTE] = ACTIONS(152),
@@ -2206,6 +2252,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(342),
     [aux_sym_symbol_token1] = ACTIONS(43),
     [aux_sym_symbol_token2] = ACTIONS(45),
+    [anon_sym_POUND_POUND] = ACTIONS(43),
     [anon_sym_POUND_SQUOTE] = ACTIONS(47),
     [anon_sym_SQUOTE] = ACTIONS(47),
     [anon_sym_BQUOTE] = ACTIONS(47),
@@ -2240,6 +2287,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(346),
     [aux_sym_symbol_token1] = ACTIONS(43),
     [aux_sym_symbol_token2] = ACTIONS(45),
+    [anon_sym_POUND_POUND] = ACTIONS(43),
     [anon_sym_POUND_SQUOTE] = ACTIONS(47),
     [anon_sym_SQUOTE] = ACTIONS(47),
     [anon_sym_BQUOTE] = ACTIONS(47),
@@ -2274,6 +2322,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(350),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -2308,6 +2357,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(354),
     [aux_sym_symbol_token1] = ACTIONS(17),
     [aux_sym_symbol_token2] = ACTIONS(19),
+    [anon_sym_POUND_POUND] = ACTIONS(17),
     [anon_sym_POUND_SQUOTE] = ACTIONS(21),
     [anon_sym_SQUOTE] = ACTIONS(21),
     [anon_sym_BQUOTE] = ACTIONS(21),
@@ -2331,6 +2381,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(358),
     [aux_sym_symbol_token1] = ACTIONS(358),
     [aux_sym_symbol_token2] = ACTIONS(356),
+    [anon_sym_POUND_POUND] = ACTIONS(358),
     [anon_sym_POUND_SQUOTE] = ACTIONS(358),
     [anon_sym_SQUOTE] = ACTIONS(358),
     [anon_sym_BQUOTE] = ACTIONS(358),
@@ -2357,6 +2408,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(360),
     [aux_sym_symbol_token1] = ACTIONS(360),
     [aux_sym_symbol_token2] = ACTIONS(362),
+    [anon_sym_POUND_POUND] = ACTIONS(360),
     [anon_sym_POUND_SQUOTE] = ACTIONS(360),
     [anon_sym_SQUOTE] = ACTIONS(360),
     [anon_sym_BQUOTE] = ACTIONS(360),
@@ -2381,6 +2433,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(366),
     [aux_sym_symbol_token1] = ACTIONS(366),
     [aux_sym_symbol_token2] = ACTIONS(364),
+    [anon_sym_POUND_POUND] = ACTIONS(366),
     [anon_sym_POUND_SQUOTE] = ACTIONS(366),
     [anon_sym_SQUOTE] = ACTIONS(366),
     [anon_sym_BQUOTE] = ACTIONS(366),
@@ -2406,6 +2459,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(370),
     [aux_sym_symbol_token1] = ACTIONS(370),
     [aux_sym_symbol_token2] = ACTIONS(368),
+    [anon_sym_POUND_POUND] = ACTIONS(370),
     [anon_sym_POUND_SQUOTE] = ACTIONS(370),
     [anon_sym_SQUOTE] = ACTIONS(370),
     [anon_sym_BQUOTE] = ACTIONS(370),
@@ -2431,6 +2485,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(374),
     [aux_sym_symbol_token1] = ACTIONS(374),
     [aux_sym_symbol_token2] = ACTIONS(372),
+    [anon_sym_POUND_POUND] = ACTIONS(374),
     [anon_sym_POUND_SQUOTE] = ACTIONS(374),
     [anon_sym_SQUOTE] = ACTIONS(374),
     [anon_sym_BQUOTE] = ACTIONS(374),
@@ -2456,6 +2511,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(378),
     [aux_sym_symbol_token1] = ACTIONS(378),
     [aux_sym_symbol_token2] = ACTIONS(376),
+    [anon_sym_POUND_POUND] = ACTIONS(378),
     [anon_sym_POUND_SQUOTE] = ACTIONS(378),
     [anon_sym_SQUOTE] = ACTIONS(378),
     [anon_sym_BQUOTE] = ACTIONS(378),
@@ -2481,6 +2537,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(382),
     [aux_sym_symbol_token1] = ACTIONS(382),
     [aux_sym_symbol_token2] = ACTIONS(380),
+    [anon_sym_POUND_POUND] = ACTIONS(382),
     [anon_sym_POUND_SQUOTE] = ACTIONS(382),
     [anon_sym_SQUOTE] = ACTIONS(382),
     [anon_sym_BQUOTE] = ACTIONS(382),
@@ -2506,6 +2563,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(386),
     [aux_sym_symbol_token1] = ACTIONS(386),
     [aux_sym_symbol_token2] = ACTIONS(384),
+    [anon_sym_POUND_POUND] = ACTIONS(386),
     [anon_sym_POUND_SQUOTE] = ACTIONS(386),
     [anon_sym_SQUOTE] = ACTIONS(386),
     [anon_sym_BQUOTE] = ACTIONS(386),
@@ -2531,6 +2589,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(390),
     [aux_sym_symbol_token1] = ACTIONS(390),
     [aux_sym_symbol_token2] = ACTIONS(388),
+    [anon_sym_POUND_POUND] = ACTIONS(390),
     [anon_sym_POUND_SQUOTE] = ACTIONS(390),
     [anon_sym_SQUOTE] = ACTIONS(390),
     [anon_sym_BQUOTE] = ACTIONS(390),
@@ -2556,6 +2615,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(394),
     [aux_sym_symbol_token1] = ACTIONS(394),
     [aux_sym_symbol_token2] = ACTIONS(392),
+    [anon_sym_POUND_POUND] = ACTIONS(394),
     [anon_sym_POUND_SQUOTE] = ACTIONS(394),
     [anon_sym_SQUOTE] = ACTIONS(394),
     [anon_sym_BQUOTE] = ACTIONS(394),
@@ -2581,6 +2641,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(398),
     [aux_sym_symbol_token1] = ACTIONS(398),
     [aux_sym_symbol_token2] = ACTIONS(396),
+    [anon_sym_POUND_POUND] = ACTIONS(398),
     [anon_sym_POUND_SQUOTE] = ACTIONS(398),
     [anon_sym_SQUOTE] = ACTIONS(398),
     [anon_sym_BQUOTE] = ACTIONS(398),
@@ -2607,6 +2668,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(400),
     [aux_sym_symbol_token1] = ACTIONS(400),
     [aux_sym_symbol_token2] = ACTIONS(402),
+    [anon_sym_POUND_POUND] = ACTIONS(400),
     [anon_sym_POUND_SQUOTE] = ACTIONS(400),
     [anon_sym_SQUOTE] = ACTIONS(400),
     [anon_sym_BQUOTE] = ACTIONS(400),
@@ -2632,6 +2694,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(404),
     [aux_sym_symbol_token1] = ACTIONS(404),
     [aux_sym_symbol_token2] = ACTIONS(406),
+    [anon_sym_POUND_POUND] = ACTIONS(404),
     [anon_sym_POUND_SQUOTE] = ACTIONS(404),
     [anon_sym_SQUOTE] = ACTIONS(404),
     [anon_sym_BQUOTE] = ACTIONS(404),
@@ -2657,6 +2720,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(398),
     [aux_sym_symbol_token1] = ACTIONS(398),
     [aux_sym_symbol_token2] = ACTIONS(396),
+    [anon_sym_POUND_POUND] = ACTIONS(398),
     [anon_sym_POUND_SQUOTE] = ACTIONS(398),
     [anon_sym_SQUOTE] = ACTIONS(398),
     [anon_sym_BQUOTE] = ACTIONS(398),
@@ -2682,6 +2746,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(408),
     [aux_sym_symbol_token1] = ACTIONS(408),
     [aux_sym_symbol_token2] = ACTIONS(410),
+    [anon_sym_POUND_POUND] = ACTIONS(408),
     [anon_sym_POUND_SQUOTE] = ACTIONS(408),
     [anon_sym_SQUOTE] = ACTIONS(408),
     [anon_sym_BQUOTE] = ACTIONS(408),
@@ -2706,6 +2771,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(404),
     [aux_sym_symbol_token1] = ACTIONS(404),
     [aux_sym_symbol_token2] = ACTIONS(406),
+    [anon_sym_POUND_POUND] = ACTIONS(404),
     [anon_sym_POUND_SQUOTE] = ACTIONS(404),
     [anon_sym_SQUOTE] = ACTIONS(404),
     [anon_sym_BQUOTE] = ACTIONS(404),
@@ -2731,6 +2797,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(400),
     [aux_sym_symbol_token1] = ACTIONS(400),
     [aux_sym_symbol_token2] = ACTIONS(402),
+    [anon_sym_POUND_POUND] = ACTIONS(400),
     [anon_sym_POUND_SQUOTE] = ACTIONS(400),
     [anon_sym_SQUOTE] = ACTIONS(400),
     [anon_sym_BQUOTE] = ACTIONS(400),
@@ -2757,6 +2824,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(366),
     [aux_sym_symbol_token1] = ACTIONS(366),
     [aux_sym_symbol_token2] = ACTIONS(364),
+    [anon_sym_POUND_POUND] = ACTIONS(366),
     [anon_sym_POUND_SQUOTE] = ACTIONS(366),
     [anon_sym_SQUOTE] = ACTIONS(366),
     [anon_sym_BQUOTE] = ACTIONS(366),
@@ -2782,6 +2850,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(370),
     [aux_sym_symbol_token1] = ACTIONS(370),
     [aux_sym_symbol_token2] = ACTIONS(368),
+    [anon_sym_POUND_POUND] = ACTIONS(370),
     [anon_sym_POUND_SQUOTE] = ACTIONS(370),
     [anon_sym_SQUOTE] = ACTIONS(370),
     [anon_sym_BQUOTE] = ACTIONS(370),
@@ -2807,6 +2876,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(374),
     [aux_sym_symbol_token1] = ACTIONS(374),
     [aux_sym_symbol_token2] = ACTIONS(372),
+    [anon_sym_POUND_POUND] = ACTIONS(374),
     [anon_sym_POUND_SQUOTE] = ACTIONS(374),
     [anon_sym_SQUOTE] = ACTIONS(374),
     [anon_sym_BQUOTE] = ACTIONS(374),
@@ -2832,6 +2902,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(378),
     [aux_sym_symbol_token1] = ACTIONS(378),
     [aux_sym_symbol_token2] = ACTIONS(376),
+    [anon_sym_POUND_POUND] = ACTIONS(378),
     [anon_sym_POUND_SQUOTE] = ACTIONS(378),
     [anon_sym_SQUOTE] = ACTIONS(378),
     [anon_sym_BQUOTE] = ACTIONS(378),
@@ -2857,6 +2928,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(358),
     [aux_sym_symbol_token1] = ACTIONS(358),
     [aux_sym_symbol_token2] = ACTIONS(356),
+    [anon_sym_POUND_POUND] = ACTIONS(358),
     [anon_sym_POUND_SQUOTE] = ACTIONS(358),
     [anon_sym_SQUOTE] = ACTIONS(358),
     [anon_sym_BQUOTE] = ACTIONS(358),
@@ -2882,6 +2954,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(382),
     [aux_sym_symbol_token1] = ACTIONS(382),
     [aux_sym_symbol_token2] = ACTIONS(380),
+    [anon_sym_POUND_POUND] = ACTIONS(382),
     [anon_sym_POUND_SQUOTE] = ACTIONS(382),
     [anon_sym_SQUOTE] = ACTIONS(382),
     [anon_sym_BQUOTE] = ACTIONS(382),
@@ -2906,6 +2979,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(408),
     [aux_sym_symbol_token1] = ACTIONS(408),
     [aux_sym_symbol_token2] = ACTIONS(410),
+    [anon_sym_POUND_POUND] = ACTIONS(408),
     [anon_sym_POUND_SQUOTE] = ACTIONS(408),
     [anon_sym_SQUOTE] = ACTIONS(408),
     [anon_sym_BQUOTE] = ACTIONS(408),
@@ -2932,6 +3006,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(386),
     [aux_sym_symbol_token1] = ACTIONS(386),
     [aux_sym_symbol_token2] = ACTIONS(384),
+    [anon_sym_POUND_POUND] = ACTIONS(386),
     [anon_sym_POUND_SQUOTE] = ACTIONS(386),
     [anon_sym_SQUOTE] = ACTIONS(386),
     [anon_sym_BQUOTE] = ACTIONS(386),
@@ -2956,6 +3031,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(360),
     [aux_sym_symbol_token1] = ACTIONS(360),
     [aux_sym_symbol_token2] = ACTIONS(362),
+    [anon_sym_POUND_POUND] = ACTIONS(360),
     [anon_sym_POUND_SQUOTE] = ACTIONS(360),
     [anon_sym_SQUOTE] = ACTIONS(360),
     [anon_sym_BQUOTE] = ACTIONS(360),
@@ -2982,6 +3058,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(390),
     [aux_sym_symbol_token1] = ACTIONS(390),
     [aux_sym_symbol_token2] = ACTIONS(388),
+    [anon_sym_POUND_POUND] = ACTIONS(390),
     [anon_sym_POUND_SQUOTE] = ACTIONS(390),
     [anon_sym_SQUOTE] = ACTIONS(390),
     [anon_sym_BQUOTE] = ACTIONS(390),
@@ -3007,6 +3084,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(394),
     [aux_sym_symbol_token1] = ACTIONS(394),
     [aux_sym_symbol_token2] = ACTIONS(392),
+    [anon_sym_POUND_POUND] = ACTIONS(394),
     [anon_sym_POUND_SQUOTE] = ACTIONS(394),
     [anon_sym_SQUOTE] = ACTIONS(394),
     [anon_sym_BQUOTE] = ACTIONS(394),
@@ -3031,6 +3109,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(386),
     [aux_sym_symbol_token1] = ACTIONS(386),
     [aux_sym_symbol_token2] = ACTIONS(384),
+    [anon_sym_POUND_POUND] = ACTIONS(386),
     [anon_sym_POUND_SQUOTE] = ACTIONS(386),
     [anon_sym_SQUOTE] = ACTIONS(386),
     [anon_sym_BQUOTE] = ACTIONS(386),
@@ -3055,6 +3134,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(398),
     [aux_sym_symbol_token1] = ACTIONS(398),
     [aux_sym_symbol_token2] = ACTIONS(396),
+    [anon_sym_POUND_POUND] = ACTIONS(398),
     [anon_sym_POUND_SQUOTE] = ACTIONS(398),
     [anon_sym_SQUOTE] = ACTIONS(398),
     [anon_sym_BQUOTE] = ACTIONS(398),
@@ -3079,6 +3159,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(408),
     [aux_sym_symbol_token1] = ACTIONS(408),
     [aux_sym_symbol_token2] = ACTIONS(410),
+    [anon_sym_POUND_POUND] = ACTIONS(408),
     [anon_sym_POUND_SQUOTE] = ACTIONS(408),
     [anon_sym_SQUOTE] = ACTIONS(408),
     [anon_sym_BQUOTE] = ACTIONS(408),
@@ -3103,6 +3184,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(394),
     [aux_sym_symbol_token1] = ACTIONS(394),
     [aux_sym_symbol_token2] = ACTIONS(392),
+    [anon_sym_POUND_POUND] = ACTIONS(394),
     [anon_sym_POUND_SQUOTE] = ACTIONS(394),
     [anon_sym_SQUOTE] = ACTIONS(394),
     [anon_sym_BQUOTE] = ACTIONS(394),
@@ -3127,6 +3209,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(390),
     [aux_sym_symbol_token1] = ACTIONS(390),
     [aux_sym_symbol_token2] = ACTIONS(388),
+    [anon_sym_POUND_POUND] = ACTIONS(390),
     [anon_sym_POUND_SQUOTE] = ACTIONS(390),
     [anon_sym_SQUOTE] = ACTIONS(390),
     [anon_sym_BQUOTE] = ACTIONS(390),
@@ -3151,6 +3234,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(382),
     [aux_sym_symbol_token1] = ACTIONS(382),
     [aux_sym_symbol_token2] = ACTIONS(380),
+    [anon_sym_POUND_POUND] = ACTIONS(382),
     [anon_sym_POUND_SQUOTE] = ACTIONS(382),
     [anon_sym_SQUOTE] = ACTIONS(382),
     [anon_sym_BQUOTE] = ACTIONS(382),
@@ -3175,6 +3259,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(358),
     [aux_sym_symbol_token1] = ACTIONS(358),
     [aux_sym_symbol_token2] = ACTIONS(356),
+    [anon_sym_POUND_POUND] = ACTIONS(358),
     [anon_sym_POUND_SQUOTE] = ACTIONS(358),
     [anon_sym_SQUOTE] = ACTIONS(358),
     [anon_sym_BQUOTE] = ACTIONS(358),
@@ -3199,6 +3284,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(378),
     [aux_sym_symbol_token1] = ACTIONS(378),
     [aux_sym_symbol_token2] = ACTIONS(376),
+    [anon_sym_POUND_POUND] = ACTIONS(378),
     [anon_sym_POUND_SQUOTE] = ACTIONS(378),
     [anon_sym_SQUOTE] = ACTIONS(378),
     [anon_sym_BQUOTE] = ACTIONS(378),
@@ -3223,6 +3309,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(374),
     [aux_sym_symbol_token1] = ACTIONS(374),
     [aux_sym_symbol_token2] = ACTIONS(372),
+    [anon_sym_POUND_POUND] = ACTIONS(374),
     [anon_sym_POUND_SQUOTE] = ACTIONS(374),
     [anon_sym_SQUOTE] = ACTIONS(374),
     [anon_sym_BQUOTE] = ACTIONS(374),
@@ -3247,6 +3334,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(370),
     [aux_sym_symbol_token1] = ACTIONS(370),
     [aux_sym_symbol_token2] = ACTIONS(368),
+    [anon_sym_POUND_POUND] = ACTIONS(370),
     [anon_sym_POUND_SQUOTE] = ACTIONS(370),
     [anon_sym_SQUOTE] = ACTIONS(370),
     [anon_sym_BQUOTE] = ACTIONS(370),
@@ -3271,6 +3359,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(366),
     [aux_sym_symbol_token1] = ACTIONS(366),
     [aux_sym_symbol_token2] = ACTIONS(364),
+    [anon_sym_POUND_POUND] = ACTIONS(366),
     [anon_sym_POUND_SQUOTE] = ACTIONS(366),
     [anon_sym_SQUOTE] = ACTIONS(366),
     [anon_sym_BQUOTE] = ACTIONS(366),
@@ -3295,6 +3384,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(360),
     [aux_sym_symbol_token1] = ACTIONS(360),
     [aux_sym_symbol_token2] = ACTIONS(362),
+    [anon_sym_POUND_POUND] = ACTIONS(360),
     [anon_sym_POUND_SQUOTE] = ACTIONS(360),
     [anon_sym_SQUOTE] = ACTIONS(360),
     [anon_sym_BQUOTE] = ACTIONS(360),
@@ -3319,6 +3409,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(404),
     [aux_sym_symbol_token1] = ACTIONS(404),
     [aux_sym_symbol_token2] = ACTIONS(406),
+    [anon_sym_POUND_POUND] = ACTIONS(404),
     [anon_sym_POUND_SQUOTE] = ACTIONS(404),
     [anon_sym_SQUOTE] = ACTIONS(404),
     [anon_sym_BQUOTE] = ACTIONS(404),
@@ -3343,6 +3434,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_byte_compiled_file_name] = ACTIONS(400),
     [aux_sym_symbol_token1] = ACTIONS(400),
     [aux_sym_symbol_token2] = ACTIONS(402),
+    [anon_sym_POUND_POUND] = ACTIONS(400),
     [anon_sym_POUND_SQUOTE] = ACTIONS(400),
     [anon_sym_SQUOTE] = ACTIONS(400),
     [anon_sym_BQUOTE] = ACTIONS(400),

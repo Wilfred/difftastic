@@ -8,7 +8,7 @@ Syntax supported:
 * Lists (normal syntax `(a b)` and dotted `(a . b)`)
 * Vectors
 * Quoting and unquoting (`'`, `#'`, `` ` ``, `,`, `,@`)
-* Some special read syntax (`$#`)
+* Some special read syntax (`$#`, `##`)
 * Bytecode literals (`#[1 2 3 4]`)
 * Comments
 
