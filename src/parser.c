@@ -283,7 +283,7 @@ static const uint16_t ts_non_terminal_alias_map[] = {
 static inline bool sym_char_character_set_1(int32_t c) {
   return (c < 'A'
     ? (c < '*'
-      ? (c < '%'
+      ? (c < '$'
         ? c == '!'
         : c <= '%')
       : (c <= '+' || (c < '<'
@@ -299,7 +299,7 @@ static inline bool sym_char_character_set_1(int32_t c) {
 static inline bool sym_symbol_character_set_1(int32_t c) {
   return (c < 'A'
     ? (c < '*'
-      ? (c < '%'
+      ? (c < '$'
         ? c == '!'
         : c <= '%')
       : (c <= '+' || (c < '<'
@@ -317,7 +317,7 @@ static inline bool sym_symbol_character_set_1(int32_t c) {
 static inline bool sym_symbol_character_set_2(int32_t c) {
   return (c < 'A'
     ? (c < '*'
-      ? (c < '%'
+      ? (c < '$'
         ? c == '!'
         : c <= '%')
       : (c <= '*' || (c < '<'
@@ -335,7 +335,7 @@ static inline bool sym_symbol_character_set_2(int32_t c) {
 static inline bool sym_symbol_character_set_3(int32_t c) {
   return (c < 'A'
     ? (c < '*'
-      ? (c < '%'
+      ? (c < '$'
         ? c == '!'
         : c <= '%')
       : (c <= '+' || (c < '<'
@@ -379,8 +379,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == ']') ADVANCE(83);
       if (lookahead == '`') ADVANCE(24);
       if (('2' <= lookahead && lookahead <= '9')) ADVANCE(41);
-      if (lookahead == '!' ||
-          ('%' <= lookahead && lookahead <= '>') ||
+      if (('!' <= lookahead && lookahead <= '>') ||
           ('A' <= lookahead && lookahead <= '\\') ||
           ('_' <= lookahead && lookahead <= 'z') ||
           lookahead == '|' ||
@@ -481,8 +480,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == ']') ADVANCE(83);
       if (lookahead == '`') ADVANCE(24);
       if (('2' <= lookahead && lookahead <= '9')) ADVANCE(41);
-      if (lookahead == '!' ||
-          ('%' <= lookahead && lookahead <= '>') ||
+      if (('!' <= lookahead && lookahead <= '>') ||
           ('A' <= lookahead && lookahead <= '\\') ||
           ('_' <= lookahead && lookahead <= 'z') ||
           lookahead == '|' ||
