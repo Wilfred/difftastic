@@ -23,7 +23,7 @@ const BYTE_COMPILED_FILE_NAME = token("#$");
 module.exports = grammar({
   name: "elisp",
 
-  extras: ($) => [/\s/, $.comment],
+  extras: ($) => [/(\s|\f)/, $.comment],
 
   rules: {
     source_file: ($) => repeat($._sexp),
