@@ -7,12 +7,13 @@ use crate::{lines::NewlinePositions, syntax::Syntax};
 
 extern "C" {
     fn tree_sitter_css() -> Language;
+    fn tree_sitter_elisp() -> Language;
     fn tree_sitter_go() -> Language;
     fn tree_sitter_rust() -> Language;
 }
 
 pub fn supported(extension: &OsStr) -> bool {
-    extension == "rs" || extension == "go" || extension == "css"
+    extension == "rs" || extension == "go" || extension == "css" || extension == "el"
 }
 
 pub fn parse<'a>(
@@ -28,6 +29,8 @@ pub fn parse<'a>(
         unsafe { tree_sitter_go() }
     } else if extension == "css" {
         unsafe { tree_sitter_css() }
+    } else if extension == "el" {
+        unsafe { tree_sitter_elisp() }
     } else {
         panic!("Unknown extension for tree-sitter parsers.")
     };
