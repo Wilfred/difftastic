@@ -4,7 +4,8 @@ const STRING = token(
   seq('"', repeat(/[^"\\]/), repeat(seq("\\", /(.|\n)/, repeat(/[^"\\]/))), '"')
 );
 
-const SYMBOL = token(/&?[a-zA-Z0-9_?:/*+=<>%\\!|.~$-]+/);
+const SYMBOL = token(/&?[a-zA-Z0-9_?:/*+=<>%\\!|.~$λ-]+/);
+const BACKTICK_SYMBOL = token("\\`");
 
 const INTEGER_BASE10 = token(/[+-]?[0-9]+\.?/);
 const INTEGER_WITH_BASE = token(/#([box]|[0-9][0-9]?r)[0-9a-zA-Z]/);

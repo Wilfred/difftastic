@@ -293,61 +293,63 @@ static inline bool sym_char_character_set_1(int32_t c) {
       ? (c < 'a'
         ? c == '_'
         : c <= 'z')
-      : (c <= '|' || c == '~'))));
+      : (c <= '|' || (c < 955
+        ? c == '~'
+        : c <= 955)))));
 }
 
 static inline bool sym_symbol_character_set_1(int32_t c) {
-  return (c < 'A'
-    ? (c < '*'
+  return (c < '\\'
+    ? (c < '-'
       ? (c < '$'
         ? c == '!'
-        : c <= '%')
-      : (c <= '+' || (c < '<'
-        ? (c >= '-' && c <= ':')
-        : c <= '?')))
-    : (c <= 'Z' || (c < 'a'
-      ? (c < '_'
-        ? c == '\\'
-        : c <= '_')
-      : (c <= 'z' || (c < '~'
-        ? c == '|'
-        : c <= '~')))));
+        : (c <= '%' || (c >= '*' && c <= '+')))
+      : (c <= ':' || (c < 'A'
+        ? (c >= '<' && c <= '?')
+        : c <= 'Z')))
+    : (c <= '\\' || (c < '|'
+      ? (c < 'a'
+        ? c == '_'
+        : c <= 'z')
+      : (c <= '|' || (c < 955
+        ? c == '~'
+        : c <= 955)))));
 }
 
 static inline bool sym_symbol_character_set_2(int32_t c) {
-  return (c < 'A'
-    ? (c < '*'
+  return (c < '\\'
+    ? (c < '-'
       ? (c < '$'
         ? c == '!'
-        : c <= '%')
-      : (c <= '*' || (c < '<'
-        ? (c >= '-' && c <= ':')
-        : c <= '?')))
-    : (c <= 'Z' || (c < 'a'
-      ? (c < '_'
-        ? c == '\\'
-        : c <= '_')
-      : (c <= 'z' || (c < '~'
-        ? c == '|'
-        : c <= '~')))));
+        : (c <= '%' || c == '*'))
+      : (c <= ':' || (c < 'A'
+        ? (c >= '<' && c <= '?')
+        : c <= 'Z')))
+    : (c <= '\\' || (c < '|'
+      ? (c < 'a'
+        ? c == '_'
+        : c <= 'z')
+      : (c <= '|' || (c < 955
+        ? c == '~'
+        : c <= 955)))));
 }
 
 static inline bool sym_symbol_character_set_3(int32_t c) {
-  return (c < 'A'
-    ? (c < '*'
+  return (c < '\\'
+    ? (c < '-'
       ? (c < '$'
         ? c == '!'
-        : c <= '%')
-      : (c <= '+' || (c < '<'
-        ? (c >= '-' && c <= ':')
-        : c <= '?')))
-    : (c <= 'Z' || (c < 'b'
-      ? (c < '_'
-        ? c == '\\'
-        : c <= '_')
-      : (c <= 'z' || (c < '~'
-        ? c == '|'
-        : c <= '~')))));
+        : (c <= '%' || (c >= '*' && c <= '+')))
+      : (c <= ':' || (c < 'A'
+        ? (c >= '<' && c <= '?')
+        : c <= 'Z')))
+    : (c <= '\\' || (c < '|'
+      ? (c < 'b'
+        ? c == '_'
+        : c <= 'z')
+      : (c <= '|' || (c < 955
+        ? c == '~'
+        : c <= 955)))));
 }
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
@@ -383,7 +385,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('A' <= lookahead && lookahead <= '\\') ||
           ('_' <= lookahead && lookahead <= 'z') ||
           lookahead == '|' ||
-          lookahead == '~') ADVANCE(78);
+          lookahead == '~' ||
+          lookahead == 955) ADVANCE(78);
       END_STATE();
     case 1:
       if (lookahead == '"') ADVANCE(52);
@@ -484,7 +487,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('A' <= lookahead && lookahead <= '\\') ||
           ('_' <= lookahead && lookahead <= 'z') ||
           lookahead == '|' ||
-          lookahead == '~') ADVANCE(78);
+          lookahead == '~' ||
+          lookahead == 955) ADVANCE(78);
       END_STATE();
     case 21:
       ACCEPT_TOKEN(ts_builtin_sym_end);
