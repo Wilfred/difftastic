@@ -7,18 +7,30 @@ use crate::{lines::NewlinePositions, syntax::Syntax};
 
 extern "C" {
     fn tree_sitter_rust() -> Language;
+    fn tree_sitter_go() -> Language;
 }
 
 pub fn supported(extension: &OsStr) -> bool {
-    extension == "rs"
+    extension == "rs" || extension == "go"
 }
 
-pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, src: &str) -> Vec<&'a Syntax<'a>> {
+pub fn parse<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    src: &str,
+    extension: &OsStr,
+) -> Vec<&'a Syntax<'a>> {
     let mut parser = Parser::new();
-    let language = unsafe { tree_sitter_rust() };
+
+    let language = if extension == "rs" {
+        unsafe { tree_sitter_rust() }
+    } else if extension == "go" {
+        unsafe { tree_sitter_go() }
+    } else {
+        panic!("Unknown extension for tree-sitter parsers.")
+    };
     parser
         .set_language(language)
-        .expect("Incompatible tree-sitter version in tree-sitter-rust");
+        .expect("Incompatible tree-sitter version");
 
     let tree = parser.parse(src, None).unwrap();
 

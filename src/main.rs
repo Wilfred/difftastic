@@ -115,10 +115,11 @@ fn main() {
     let arena = Arena::new();
 
     let prefer_legacy_parser = env::var("DFT_LEGACY").is_ok();
-    let (lhs, rhs) = if sitter::supported(extension.unwrap_or_else(|| OsStr::new(""))) && !prefer_legacy_parser {
+    let extension = extension.unwrap_or_else(|| OsStr::new(""));
+    let (lhs, rhs) = if sitter::supported(extension) && !prefer_legacy_parser {
         (
-            sitter::parse(&arena, &lhs_src),
-            sitter::parse(&arena, &rhs_src),
+            sitter::parse(&arena, &lhs_src, extension),
+            sitter::parse(&arena, &rhs_src, extension),
         )
     } else {
         match &lang {
