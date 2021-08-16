@@ -281,17 +281,19 @@ static const uint16_t ts_non_terminal_alias_map[] = {
 };
 
 static inline bool sym_char_character_set_1(int32_t c) {
-  return (c < '/'
+  return (c < '<'
     ? (c < '*'
       ? (c < '%'
         ? c == '!'
         : c <= '%')
-      : (c <= '+' || c == '-'))
-    : (c <= ':' || (c < '_'
-      ? (c < 'A'
-        ? (c >= '<' && c <= '?')
-        : c <= 'Z')
-      : (c <= '_' || (c >= 'a' && c <= 'z')))));
+      : (c <= '+' || (c < '/'
+        ? c == '-'
+        : c <= ':')))
+    : (c <= '?' || (c < 'a'
+      ? (c < '_'
+        ? (c >= 'A' && c <= 'Z')
+        : c <= '_')
+      : (c <= 'z' || c == '|'))));
 }
 
 static inline bool sym_symbol_character_set_1(int32_t c) {
@@ -307,21 +309,25 @@ static inline bool sym_symbol_character_set_1(int32_t c) {
       ? (c < '\\'
         ? (c >= 'A' && c <= 'Z')
         : c <= '\\')
-      : (c <= '_' || (c >= 'a' && c <= 'z')))));
+      : (c <= '_' || (c < '|'
+        ? (c >= 'a' && c <= 'z')
+        : c <= '|')))));
 }
 
 static inline bool sym_symbol_character_set_2(int32_t c) {
-  return (c < '<'
+  return (c < 'A'
     ? (c < '*'
       ? (c < '%'
         ? c == '!'
         : c <= '%')
-      : (c <= '+' || (c >= '-' && c <= ':')))
-    : (c <= '?' || (c < '_'
-      ? (c < '\\'
-        ? (c >= 'A' && c <= 'Z')
-        : c <= '\\')
-      : (c <= '_' || (c >= 'a' && c <= 'z')))));
+      : (c <= '+' || (c < '<'
+        ? (c >= '-' && c <= ':')
+        : c <= '?')))
+    : (c <= 'Z' || (c < 'a'
+      ? (c < '_'
+        ? c == '\\'
+        : c <= '_')
+      : (c <= 'z' || c == '|'))));
 }
 
 static inline bool sym_symbol_character_set_3(int32_t c) {
@@ -337,7 +343,9 @@ static inline bool sym_symbol_character_set_3(int32_t c) {
       ? (c < '\\'
         ? (c >= 'A' && c <= 'Z')
         : c <= '\\')
-      : (c <= '_' || (c >= 'a' && c <= 'z')))));
+      : (c <= '_' || (c < '|'
+        ? (c >= 'a' && c <= 'z')
+        : c <= '|')))));
 }
 
 static inline bool sym_symbol_character_set_4(int32_t c) {
@@ -353,7 +361,9 @@ static inline bool sym_symbol_character_set_4(int32_t c) {
       ? (c < '\\'
         ? (c >= 'A' && c <= 'Z')
         : c <= '\\')
-      : (c <= '_' || (c >= 'b' && c <= 'z')))));
+      : (c <= '_' || (c < '|'
+        ? (c >= 'b' && c <= 'z')
+        : c <= '|')))));
 }
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
@@ -388,7 +398,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == '!' ||
           ('%' <= lookahead && lookahead <= '>') ||
           ('A' <= lookahead && lookahead <= '\\') ||
-          ('_' <= lookahead && lookahead <= 'z')) ADVANCE(77);
+          ('_' <= lookahead && lookahead <= 'z') ||
+          lookahead == '|') ADVANCE(77);
       END_STATE();
     case 1:
       if (lookahead == '"') ADVANCE(55);
