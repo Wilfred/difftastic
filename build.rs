@@ -1,16 +1,21 @@
 use std::path::PathBuf;
 
-fn build(package_name: &str) {
+fn build(package_name: &str, has_scanner: bool) {
     let dir: PathBuf = ["vendor", package_name, "src"].iter().collect();
 
-    cc::Build::new()
-        .include(&dir)
-        .file(dir.join("parser.c"))
-        .file(dir.join("scanner.c"))
-        .warnings(false) // ignore unused parameter warnings
-        .compile(package_name);
+    let mut build = cc::Build::new();
+
+    build.include(&dir).warnings(false); // ignore unused parameter warnings
+
+    build.file(dir.join("parser.c"));
+    if has_scanner {
+        build.file(dir.join("scanner.c"));
+    }
+
+    build.compile(package_name);
 }
 
 fn main() {
-    build("tree-sitter-rust");
+    build("tree-sitter-rust", true);
+    build("tree-sitter-go", false);
 }
