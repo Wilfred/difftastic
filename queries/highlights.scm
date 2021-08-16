@@ -9,11 +9,12 @@
 ; var.field
 (SuffixOp (IDENTIFIER) @field)
 
-; var.func().func().field
-(SuffixExpr
-  (SuffixOp (IDENTIFIER) @function)
-  .
-  (FnCallArguments)
+(ParamDecl
+  (IDENTIFIER)? @parameter
+  [
+    (ParamType (SuffixExpr (IDENTIFIER) @type))
+    (ParamType (SuffixExpr (IDENTIFIER) @variable (SuffixOp)))
+  ]
 )
 
 ;; assume TitleCase is a type
@@ -26,6 +27,13 @@
  (#match? @function "^[a-z]+([A-Z][a-z0-9]+)+$")
 )
 
+; var.func().func().field
+(SuffixExpr
+  (SuffixOp (IDENTIFIER) @function)
+  .
+  (FnCallArguments)
+)
+
 ; functionn decl
 (FnProto
   (IDENTIFIER) @function
@@ -33,30 +41,27 @@
   ("!")? @exception
 )
 
-(ParamDecl
-  (IDENTIFIER)? @parameter
-  (ParamType (SuffixExpr (IDENTIFIER) @type))?
-)
-
 ;struct, enum, union
-(ContainerMembers
-  [
-    ;method decl
-    (FnProto (IDENTIFIER) @method)
+(ContainerDecl
+  (ContainerMembers
+    [
+      ;method decl
+      (FnProto (IDENTIFIER) @method)
 
-    ;field decl
-    (ContainerField
-      (IDENTIFIER) @field
-      (SuffixExpr (IDENTIFIER) @type)?
-    )
+      ;field decl
+      (ContainerField
+        (IDENTIFIER) @field
+        (SuffixExpr (IDENTIFIER) @type)?
+      )
 
-    ; const u = union { this_is_function: fn () void };
-    ; INFO: field become a function if type is a function?
-    ; (ContainerField
-    ;   (IDENTIFIER) @function
-    ;   (SuffixExpr (FnProto))
-    ; )
-  ]
+      ; const u = union { this_is_function: fn () void };
+      ; INFO: field become a function if type is a function?
+      ; (ContainerField
+      ;   (IDENTIFIER) @function
+      ;   (SuffixExpr (FnProto))
+      ; )
+    ]
+  )
 )
 
 ;enum and tag union field is constant
