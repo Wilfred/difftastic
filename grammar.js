@@ -11,7 +11,7 @@ const STRING = token(
 //
 // Symbols also cannot start with ?.
 const SYMBOL = token(
-  /([^?# \n\s\f()\[\]'`,\\]|\\.)([^# \n\s\f()\[\]'`,\\]|\\.)*/
+  /([^?# \n\s\f()\[\]'`,\\"]|\\.)([^# \n\s\f()\[\]'`,\\"]|\\.)*/
 );
 
 const ESCAPED_READER_SYMBOL = token(/\\(`|'|,)/);
