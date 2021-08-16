@@ -5,7 +5,7 @@ const STRING = token(
 );
 
 const SYMBOL = token(/&?[a-zA-Z0-9_?:/*+=<>%!|.~$λ\\@{}-]+/);
-const BACKTICK_SYMBOL = token(/\\(`|')/);
+const ESCAPED_READER_SYMBOL = token(/\\(`|'|,)/);
 
 const INTEGER_BASE10 = token(/[+-]?[0-9]+\.?/);
 const INTEGER_WITH_BASE = token(/#([box]|[0-9][0-9]?r)[0-9a-zA-Z]/);
@@ -61,7 +61,7 @@ module.exports = grammar({
     char: ($) => CHAR,
     string: ($) => STRING,
     byte_compiled_file_name: ($) => BYTE_COMPILED_FILE_NAME,
-    symbol: ($) => choice(BACKTICK_SYMBOL, SYMBOL),
+    symbol: ($) => choice(ESCAPED_READER_SYMBOL, SYMBOL),
 
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
     unquote_splice: ($) => seq(",@", $._sexp),

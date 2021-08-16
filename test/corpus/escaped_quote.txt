@@ -5,10 +5,12 @@ Escaped symbols
 \x\y
 \'
 \`
+\,
 
 --------------------------------------------------------------------------------
 
 (source_file
+  (symbol)
   (symbol)
   (symbol)
   (symbol))
