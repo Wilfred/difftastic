@@ -16,6 +16,7 @@ fn build(package_name: &str, has_scanner: bool) {
 }
 
 fn main() {
-    build("tree-sitter-rust", true);
+    build("tree-sitter-css", true);
     build("tree-sitter-go", false);
+    build("tree-sitter-rust", true);
 }

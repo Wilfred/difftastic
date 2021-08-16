@@ -6,12 +6,13 @@ use typed_arena::Arena;
 use crate::{lines::NewlinePositions, syntax::Syntax};
 
 extern "C" {
-    fn tree_sitter_rust() -> Language;
+    fn tree_sitter_css() -> Language;
     fn tree_sitter_go() -> Language;
+    fn tree_sitter_rust() -> Language;
 }
 
 pub fn supported(extension: &OsStr) -> bool {
-    extension == "rs" || extension == "go"
+    extension == "rs" || extension == "go" || extension == "css"
 }
 
 pub fn parse<'a>(
@@ -25,6 +26,8 @@ pub fn parse<'a>(
         unsafe { tree_sitter_rust() }
     } else if extension == "go" {
         unsafe { tree_sitter_go() }
+    } else if extension == "css" {
+        unsafe { tree_sitter_css() }
     } else {
         panic!("Unknown extension for tree-sitter parsers.")
     };
