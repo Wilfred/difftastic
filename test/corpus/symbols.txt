@@ -18,12 +18,14 @@ foo@bar
 foo{bar}
 %
 &optional
+&&
 _
 ##
 
 --------------------------------------------------------------------------------
 
 (source_file
+  (symbol)
   (symbol)
   (symbol)
   (symbol)

@@ -4,7 +4,7 @@ const STRING = token(
   seq('"', repeat(/[^"\\]/), repeat(seq("\\", /(.|\n)/, repeat(/[^"\\]/))), '"')
 );
 
-const SYMBOL = token(/&?[a-zA-Z0-9_?:/*+=<>%!|.~$λ\\@{}-]+/);
+const SYMBOL = token(/[&a-zA-Z0-9_?:/*+=<>%!|.~$λ\\@{}-]+/);
 const ESCAPED_READER_SYMBOL = token(/\\(`|'|,)/);
 const INTERNED_EMPTY_STRING = token("##");
 
