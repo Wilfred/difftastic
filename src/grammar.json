@@ -210,29 +210,24 @@
           {
             "type": "REPEAT",
             "content": {
-              "type": "PATTERN",
-              "value": "[^\"\\\\]"
-            }
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "SEQ",
+              "type": "CHOICE",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "\\"
-                },
-                {
                   "type": "PATTERN",
-                  "value": "(.|\\n)"
+                  "value": "[^\"\\\\]"
                 },
                 {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[^\"\\\\]"
-                  }
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "\\"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "(.|\\n)"
+                    }
+                  ]
                 }
               ]
             }

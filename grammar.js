@@ -1,7 +1,7 @@
 const COMMENT = token(/;.*\n?/);
 
 const STRING = token(
-  seq('"', repeat(/[^"\\]/), repeat(seq("\\", /(.|\n)/, repeat(/[^"\\]/))), '"')
+  seq('"', repeat(choice(/[^"\\]/, seq("\\", /(.|\n)/))), '"')
 );
 
 // Symbols can contain any character when escaped:
