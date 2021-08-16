@@ -347,26 +347,6 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_sexp"
-                  }
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "dot"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_sexp"
-                }
-              ]
-            },
-            {
               "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",

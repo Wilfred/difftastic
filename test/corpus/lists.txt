@@ -5,6 +5,7 @@ Lists
 ()
 (foo (bar))
 (1 2 . nil)
+(foo .)
 
 --------------------------------------------------------------------------------
 
@@ -17,5 +18,8 @@ Lists
   (list
     (integer)
     (integer)
-    (dot)
+    (symbol)
+    (symbol))
+  (list
+    (symbol)
     (symbol)))

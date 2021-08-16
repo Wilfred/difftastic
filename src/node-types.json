@@ -169,10 +169,6 @@
           "named": true
         },
         {
-          "type": "dot",
-          "named": true
-        },
-        {
           "type": "float",
           "named": true
         },
@@ -684,10 +680,6 @@
   },
   {
     "type": "comment",
-    "named": true
-  },
-  {
-    "type": "dot",
     "named": true
   },
   {
