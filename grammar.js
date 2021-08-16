@@ -18,6 +18,10 @@ const FLOAT_INF = token(/-?1.0[eE]\+INF/);
 const FLOAT_NAN = token(/-?0.0[eE]\+NaN/);
 
 const CHAR = token(/\?(\\.|.)/);
+// E.g. ?\C-o or ?\^o or ?\C-\S-o
+const KEY_CHAR = token(/\?(\\(([CMSHsA]-)|\^))+./);
+// E.g. ?\M-\123
+const META_OCTAL_CHAR = token(/\?\\M-\\[0-9]{1,3}/);
 
 // https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Read-Syntax.html
 const BYTE_COMPILED_FILE_NAME = token("#$");
@@ -61,7 +65,7 @@ module.exports = grammar({
         FLOAT_NAN
       ),
     integer: ($) => choice(INTEGER_BASE10, INTEGER_WITH_BASE),
-    char: ($) => CHAR,
+    char: ($) => choice(CHAR, KEY_CHAR, META_OCTAL_CHAR),
     string: ($) => STRING,
     byte_compiled_file_name: ($) => BYTE_COMPILED_FILE_NAME,
     symbol: ($) => choice(ESCAPED_READER_SYMBOL, SYMBOL, INTERNED_EMPTY_STRING),

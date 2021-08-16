@@ -138,11 +138,30 @@
       ]
     },
     "char": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "\\?(\\\\.|.)"
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\?(\\\\.|.)"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\?(\\\\(([CMSHsA]-)|\\^))+."
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\?\\\\M-\\\\[0-9]{1,3}"
+          }
+        }
+      ]
     },
     "string": {
       "type": "TOKEN",

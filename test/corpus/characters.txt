@@ -5,10 +5,22 @@ Characters
 ?x
 ?\\
 ?\(
+?\C-i
+?\M-i
+?\M-\151
+?\M-\C-i
+?\^i
+?\C-\M-\S-\H-\s-\A-i
 
 --------------------------------------------------------------------------------
 
 (source_file
+  (char)
+  (char)
+  (char)
+  (char)
+  (char)
+  (char)
   (char)
   (char)
   (char))

@@ -67,6 +67,11 @@
     }
   },
   {
+    "type": "char",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "float",
     "named": true,
     "fields": {}
@@ -675,10 +680,6 @@
   },
   {
     "type": "byte_compiled_file_name",
-    "named": true
-  },
-  {
-    "type": "char",
     "named": true
   },
   {
