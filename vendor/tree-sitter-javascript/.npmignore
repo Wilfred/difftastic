@@ -1,0 +1,7 @@
+test
+build
+script
+examples
+*.log
+test.js
+target
