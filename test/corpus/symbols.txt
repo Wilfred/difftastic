@@ -10,6 +10,8 @@ foo?
 :foo
 %
 &optional
+_
+\x\y ; silly way to write the symbol xy
 
 --------------------------------------------------------------------------------
 
@@ -21,4 +23,7 @@ foo?
   (symbol)
   (symbol)
   (symbol)
-  (symbol))
+  (symbol)
+  (symbol)
+  (symbol)
+  (comment))
