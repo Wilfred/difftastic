@@ -74,7 +74,7 @@ emacs lisp too.
 ## References
 
 [tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure)
-is another tree-sitter package for a lisp family. It's a useful
+is another tree-sitter package for the lisp family. It's a useful
 project to compare with, and [has notes discussing lisp-specific
 challenges](https://github.com/sogaiu/tree-sitter-clojure/blob/master/doc/scope.md).
 
