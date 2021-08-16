@@ -10,6 +10,7 @@ foo?
 :foo
 foo!
 foo|bar
+foo.bar
 %
 &optional
 _
@@ -18,6 +19,7 @@ _
 --------------------------------------------------------------------------------
 
 (source_file
+  (symbol)
   (symbol)
   (symbol)
   (symbol)
