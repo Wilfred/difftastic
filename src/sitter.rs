@@ -68,7 +68,13 @@ fn syntax_from_cursor<'a>(
     loop {
         let node = cursor.node();
 
-        if cursor.goto_first_child() {
+        if node.kind() == "interpreted_string_literal" {
+            // Treat golang string literals as atoms.
+            // TODO: why are string literals grey without this? (see old/new.go).
+            let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
+            let content = &src[node.start_byte()..node.end_byte()];
+            result.push(Syntax::new_atom(arena, position, content));
+        } else if cursor.goto_first_child() {
             // This node has children, so treat it as a list.
             let children = syntax_from_cursor(arena, src, nl_pos, cursor);
             cursor.goto_parent();
