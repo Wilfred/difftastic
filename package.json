@@ -23,7 +23,7 @@
   },
   "tree-sitter": [
     {
-      "scope": "source.elisp",
+      "scope": "source.emacs.lisp",
       "file-types": [
         "el"
       ]
