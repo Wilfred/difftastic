@@ -6,7 +6,7 @@ const STRING = token(
 
 // Symbols may not start with a ?.
 const SYMBOL = token(
-  /[&a-zA-Z0-9_:/*+=<>%!|.~$λ\\@{}-][?&a-zA-Z0-9_:/*+=<>%!|.~$λ\\@{}-]*/
+  /[&a-zA-Z0-9_:/*+=<>%!|.~$λ\\@{}.-][?&a-zA-Z0-9_:/*+=<>%!|.~$λ\\@{}.-]*/
 );
 const ESCAPED_READER_SYMBOL = token(/\\(`|'|,)/);
 const INTERNED_EMPTY_STRING = token("##");
