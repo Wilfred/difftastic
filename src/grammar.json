@@ -151,6 +151,41 @@
           "type": "TOKEN",
           "content": {
             "type": "PATTERN",
+            "value": "\\?\\\\N\\{[^}]+\\}"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\?\\\\u[0-9a-fA-F]{4}"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\?\\\\U[0-9a-fA-F]{8}"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\?\\\\x[0-9a-fA-F]+"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\?\\\\[0-7]{1,3}"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PATTERN",
             "value": "\\?(\\\\(([CMSHsA]-)|\\^))+."
           }
         },

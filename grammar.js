@@ -18,6 +18,12 @@ const FLOAT_INF = token(/-?1.0[eE]\+INF/);
 const FLOAT_NAN = token(/-?0.0[eE]\+NaN/);
 
 const CHAR = token(/\?(\\.|.)/);
+const UNICODE_NAME_CHAR = token(/\?\\N\{[^}]+\}/);
+const LOWER_CODE_POINT_CHAR = token(/\?\\u[0-9a-fA-F]{4}/);
+const UPPER_CODE_POINT_CHAR = token(/\?\\U[0-9a-fA-F]{8}/);
+const HEX_CHAR = token(/\?\\x[0-9a-fA-F]+/);
+const OCTAL_CHAR = token(/\?\\[0-7]{1,3}/);
+
 // E.g. ?\C-o or ?\^o or ?\C-\S-o
 const KEY_CHAR = token(/\?(\\(([CMSHsA]-)|\^))+./);
 // E.g. ?\M-\123
@@ -65,7 +71,17 @@ module.exports = grammar({
         FLOAT_NAN
       ),
     integer: ($) => choice(INTEGER_BASE10, INTEGER_WITH_BASE),
-    char: ($) => choice(CHAR, KEY_CHAR, META_OCTAL_CHAR),
+    char: ($) =>
+      choice(
+        CHAR,
+        UNICODE_NAME_CHAR,
+        LOWER_CODE_POINT_CHAR,
+        UPPER_CODE_POINT_CHAR,
+        HEX_CHAR,
+        OCTAL_CHAR,
+        KEY_CHAR,
+        META_OCTAL_CHAR
+      ),
     string: ($) => STRING,
     byte_compiled_file_name: ($) => BYTE_COMPILED_FILE_NAME,
     symbol: ($) => choice(ESCAPED_READER_SYMBOL, SYMBOL, INTERNED_EMPTY_STRING),
