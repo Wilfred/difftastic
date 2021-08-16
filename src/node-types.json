@@ -40,6 +40,10 @@
           "named": true
         },
         {
+          "type": "string_text_properties",
+          "named": true
+        },
+        {
           "type": "symbol",
           "named": true
         },
@@ -113,6 +117,10 @@
           "named": true
         },
         {
+          "type": "string_text_properties",
+          "named": true
+        },
+        {
           "type": "symbol",
           "named": true
         },
@@ -172,6 +180,10 @@
           "named": true
         },
         {
+          "type": "string_text_properties",
+          "named": true
+        },
+        {
           "type": "symbol",
           "named": true
         },
@@ -228,6 +240,73 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "string_text_properties",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splice",
+          "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_text_properties",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "byte_compiled_file_name",
+          "named": true
+        },
+        {
+          "type": "bytecode",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "string_text_properties",
           "named": true
         },
         {
@@ -295,6 +374,10 @@
           "named": true
         },
         {
+          "type": "string_text_properties",
+          "named": true
+        },
+        {
           "type": "symbol",
           "named": true
         },
@@ -351,6 +434,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "string_text_properties",
           "named": true
         },
         {
@@ -413,6 +500,10 @@
           "named": true
         },
         {
+          "type": "string_text_properties",
+          "named": true
+        },
+        {
           "type": "symbol",
           "named": true
         },
@@ -437,6 +528,10 @@
   },
   {
     "type": "#'",
+    "named": false
+  },
+  {
+    "type": "#(",
     "named": false
   },
   {

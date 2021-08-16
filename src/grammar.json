@@ -25,6 +25,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "string_text_properties"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_atom"
         },
         {
@@ -356,6 +360,30 @@
         {
           "type": "STRING",
           "value": "]"
+        }
+      ]
+    },
+    "string_text_properties": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_sexp"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },

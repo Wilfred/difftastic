@@ -35,6 +35,7 @@ module.exports = grammar({
         $.list,
         $.vector,
         $.bytecode,
+        $.string_text_properties,
         $._atom,
         $.quote,
         $.unquote_splice,
@@ -77,6 +78,8 @@ module.exports = grammar({
       ),
     vector: ($) => seq("[", repeat($._sexp), "]"),
     bytecode: ($) => seq("#[", repeat($._sexp), "]"),
+
+    string_text_properties: ($) => seq("#(", $.string, repeat($._sexp), ")"),
 
     comment: ($) => COMMENT,
   },
