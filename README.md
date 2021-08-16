@@ -77,3 +77,6 @@ emacs lisp too.
 is another tree-sitter package for a lisp family. It's a useful
 project to compare with, and [has notes discussing lisp-specific
 challenges](https://github.com/sogaiu/tree-sitter-clojure/blob/master/doc/scope.md).
+
+[language-emacs-lisp](https://github.com/Alhadis/language-emacs-lisp)
+is a textmate grammar for elisp that's used for Atom and GitHub.
