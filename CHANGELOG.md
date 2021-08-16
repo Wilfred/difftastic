@@ -16,6 +16,8 @@ Fixed handling of string literals with newline escaping:
 bar"
 ```
 
+Fixed `%` in symbols.
+
 # v1.0
 
 Initial release.
