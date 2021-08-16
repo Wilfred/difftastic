@@ -5,7 +5,7 @@ A simple tree-sitter grammar for elisp.
 Syntax supported:
 
 * Atoms (integers, floats, strings, characters, symbols)
-* Lists
+* Lists (normal syntax `(a b)` and dotted `(a . b)`)
 * Vectors
 * Quoting and unquoting (`'`, `#'`, `` ` ``, `,`, `,@`)
 * Comments

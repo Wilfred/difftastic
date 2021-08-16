@@ -225,6 +225,13 @@
         "value": "&?[a-zA-Z0-9_?:/*+=<>-]+"
       }
     },
+    "dot": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "."
+      }
+    },
     "list": {
       "type": "SEQ",
       "members": [
@@ -233,11 +240,33 @@
           "value": "("
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_sexp"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_sexp"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "dot"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_sexp"
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_sexp"
+              }
+            }
+          ]
         },
         {
           "type": "STRING",

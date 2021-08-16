@@ -43,15 +43,9 @@ module.exports = grammar({
     string: ($) => STRING,
     symbol: ($) => SYMBOL,
 
-    // dotted_list: ($) =>
-    //   seq(
-    //     "(",
-    //     $._sexp,
-    //     ".",
-    //     $._sexp,
-    //     ")"
-    //   ),
-    list: ($) => seq("(", repeat($._sexp), ")"),
+    dot: ($) => token("."),
+    list: ($) =>
+      seq("(", choice(seq($._sexp, $.dot, $._sexp), repeat($._sexp)), ")"),
     vector: ($) => seq("[", repeat($._sexp), "]"),
 
     comment: ($) => COMMENT,
