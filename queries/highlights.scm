@@ -6,6 +6,26 @@
 
 (IDENTIFIER) @variable
 
+; var.field
+(SuffixOp (IDENTIFIER) @field)
+
+; var.func().func().field
+(SuffixExpr
+  (SuffixOp (IDENTIFIER) @function)
+  .
+  (FnCallArguments)
+)
+
+;; assume TitleCase is a type
+((IDENTIFIER) @type
+ (#match? @type "^[A-Z][A-Z_a-z-0-9]*$")
+)
+
+;; assume camelCase is a function
+((IDENTIFIER) @function
+ (#match? @function "^[a-z]+([A-Z][a-z0-9]+)+$")
+)
+
 ; functionn decl
 (FnProto
   (IDENTIFIER) @function
@@ -99,16 +119,6 @@ type: (SuffixExpr (IDENTIFIER) @type)
   (SuffixExpr (IDENTIFIER) @constructor)
   .
   (InitList)
-)
-
-; var.field
-(SuffixOp (IDENTIFIER) @field)
-
-; var.func().func().field
-(SuffixExpr
-  (SuffixOp (IDENTIFIER) @function)
-  .
-  (FnCallArguments)
 )
 
 ; func()
