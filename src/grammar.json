@@ -246,8 +246,11 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_sexp"
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_sexp"
+                  }
                 },
                 {
                   "type": "SYMBOL",

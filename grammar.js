@@ -45,7 +45,11 @@ module.exports = grammar({
 
     dot: ($) => token("."),
     list: ($) =>
-      seq("(", choice(seq($._sexp, $.dot, $._sexp), repeat($._sexp)), ")"),
+      seq(
+        "(",
+        choice(seq(repeat($._sexp), $.dot, $._sexp), repeat($._sexp)),
+        ")"
+      ),
     vector: ($) => seq("[", repeat($._sexp), "]"),
 
     comment: ($) => COMMENT,
