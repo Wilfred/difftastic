@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "generate": "tree-sitter generate",
+    "highlight": "tree-sitter highlight",
     "parse": "tree-sitter parse",
     "test": "tree-sitter test"
   },

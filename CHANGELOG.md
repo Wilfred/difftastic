@@ -1,6 +1,7 @@
 # v1.2 (unreleased)
 
-No changes yet.
+Added some basic syntax highlighting support ("queries" in tree-sitter
+terms).
 
 # v1.1
 
