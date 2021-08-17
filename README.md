@@ -71,7 +71,7 @@ However, there is a growing ecosystem of tools built on top of
 tree-sitter, such as GitHub. This project should allow them to support
 emacs lisp too.
 
-## References
+## Related Projects
 
 [tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure)
 is another tree-sitter package for the lisp family. It's a useful
