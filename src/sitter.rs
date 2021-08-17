@@ -12,6 +12,7 @@ extern "C" {
     fn tree_sitter_javascript() -> Language;
     fn tree_sitter_json() -> Language;
     fn tree_sitter_ocaml() -> Language;
+    fn tree_sitter_ocaml_interface() -> Language;
     fn tree_sitter_rust() -> Language;
 }
 
@@ -47,6 +48,8 @@ pub fn parse<'a>(
         unsafe { tree_sitter_javascript() }
     } else if extension == "ml" {
         unsafe { tree_sitter_ocaml() }
+    } else if extension == "mli" {
+        unsafe { tree_sitter_ocaml_interface() }
     } else {
         panic!("Unknown extension for tree-sitter parsers.")
     };
