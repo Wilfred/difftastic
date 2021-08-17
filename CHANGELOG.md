@@ -22,6 +22,9 @@ preferring a single column display.
 
 ### Parsing
 
+Added tree-sitter parsers. These have known bugs, but you can try
+them by setting the environment variable `DFT_TS=y`.
+
 Fixed handling of `->` in Rust.
 
 ### Diffing
