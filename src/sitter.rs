@@ -6,6 +6,7 @@ use typed_arena::Arena;
 use crate::{lines::NewlinePositions, syntax::Syntax};
 
 extern "C" {
+    fn tree_sitter_clojure() -> Language;
     fn tree_sitter_css() -> Language;
     fn tree_sitter_elisp() -> Language;
     fn tree_sitter_go() -> Language;
@@ -19,6 +20,7 @@ extern "C" {
 pub fn supported(extension: &OsStr) -> bool {
     extension == "rs"
         || extension == "go"
+        || extension == "clj"
         || extension == "css"
         || extension == "el"
         || extension == "js"
@@ -38,6 +40,8 @@ pub fn parse<'a>(
         unsafe { tree_sitter_rust() }
     } else if extension == "go" {
         unsafe { tree_sitter_go() }
+    } else if extension == "clj" {
+        unsafe { tree_sitter_clojure() }
     } else if extension == "css" {
         unsafe { tree_sitter_css() }
     } else if extension == "el" {

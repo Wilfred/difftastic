@@ -33,6 +33,11 @@ fn build(package_name: &str, package_dir: &str, extra_files: &[&str]) {
 
 fn main() {
     build(
+        "tree-sitter-clojure",
+        "vendor/tree-sitter-clojure/src",
+        &[]
+    );
+    build(
         "tree-sitter-css",
         "vendor/tree-sitter-css/src",
         &["scanner.c"],
