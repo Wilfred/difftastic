@@ -51,6 +51,11 @@ fn main() {
         &["scanner.cc"],
     );
     build(
+        "tree-sitter-ocaml-interface",
+        "vendor/tree-sitter-ocaml/interface/src",
+        &["scanner.cc"],
+    );
+    build(
         "tree-sitter-rust",
         "vendor/tree-sitter-rust/src",
         &["scanner.c"],
