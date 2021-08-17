@@ -14,16 +14,13 @@ fn build(package_name: &str, package_dir: &str, extra_files: &[&str]) {
         }
     }
 
-    dbg!(&c_files);
-    dbg!(&cpp_files);
-
     if !cpp_files.is_empty() {
         let mut cpp_build = cc::Build::new();
-        cpp_build.include(&dir).cpp(true);
+        cpp_build.include(&dir).cpp(true).flag_if_supported("-std=c++14");
         for file in cpp_files {
             cpp_build.file(dir.join(file));
         }
-        cpp_build.compile(package_name);
+        cpp_build.compile(&format!("{}-cpp", package_name));
     }
 
     let mut build = cc::Build::new();
@@ -48,6 +45,11 @@ fn main() {
         &["scanner.c"],
     );
     build("tree-sitter-json", "vendor/tree-sitter-json/src", &[]);
+    build(
+        "tree-sitter-ocaml",
+        "vendor/tree-sitter-ocaml/ocaml/src",
+        &["scanner.cc"],
+    );
     build(
         "tree-sitter-rust",
         "vendor/tree-sitter-rust/src",
