@@ -7,6 +7,10 @@
     "tree-sitter",
     "typescript"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tree-sitter/tree-sitter-typescript.git"
+  },
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
