@@ -16,7 +16,7 @@ fn build(package_name: &str, package_dir: &str, extra_files: &[&str]) {
 
     if !cpp_files.is_empty() {
         let mut cpp_build = cc::Build::new();
-        cpp_build.include(&dir).cpp(true).flag_if_supported("-std=c++14");
+        cpp_build.include(&dir).cpp(true);
         for file in cpp_files {
             cpp_build.file(dir.join(file));
         }
