@@ -1,0 +1,31 @@
+{
+  "name": "tree-sitter-rust",
+  "version": "0.19.1",
+  "description": "Rust grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "rust"
+  ],
+  "author": "Maxim Sokolov <maxim0xff@gmail.com> (https://github.com/MaximSokolov)",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.19.1"
+  },
+  "scripts": {
+    "test": "tree-sitter test && script/parse-examples",
+    "test-windows": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.rust",
+      "injection-regex": "rust",
+      "file-types": [
+        "rs"
+      ]
+    }
+  ]
+}

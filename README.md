@@ -88,6 +88,18 @@ $ cargo build --release
 This will give you a binary at `./target/release/difftastic` that you
 can put in a directory on your `$PATH`.
 
+### Adding a parser
+
+Add the tree-sitter-FOO git repository as a subtree. 
+
+```
+$ git subtree add --prefix=vendor/tree-sitter-elisp git@github.com:Wilfred/tree-sitter-elisp.git main
+
+```
+
+Update `build.rs` and `sitter.rs` to include the definitions for the
+new parser.
+
 ## Dogfooding
 
 Once you've compiled `difftastic` and it's on `$PATH`, you can try
