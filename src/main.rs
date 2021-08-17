@@ -114,9 +114,9 @@ fn main() {
 
     let arena = Arena::new();
 
-    let prefer_legacy_parser = env::var("DFT_LEGACY").is_ok();
+    let prefer_tree_sitter = env::var("DFT_TS").is_ok();
     let extension = extension.unwrap_or_else(|| OsStr::new(""));
-    let (lhs, rhs) = if sitter::supported(extension) && !prefer_legacy_parser {
+    let (lhs, rhs) = if sitter::supported(extension) && prefer_tree_sitter {
         (
             sitter::parse(&arena, &lhs_src, extension),
             sitter::parse(&arena, &rhs_src, extension),
