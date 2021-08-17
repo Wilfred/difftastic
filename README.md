@@ -39,6 +39,10 @@ This is heavily inspired by
 [Comby](https://github.com/comby-tools/comby), which handles a large
 number of languages by using a similar approach.
 
+(A [tree-sitter](https://tree-sitter.github.io/tree-sitter/) parsing
+backend is also available by setting `DFT_TS=y`. It is not yet
+recommended.)
+
 (2) Diffing.
 
 Difftastic treats diff calculations as a graph search problem. It
