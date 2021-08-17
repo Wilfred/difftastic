@@ -11,6 +11,7 @@ extern "C" {
     fn tree_sitter_go() -> Language;
     fn tree_sitter_javascript() -> Language;
     fn tree_sitter_json() -> Language;
+    fn tree_sitter_ocaml() -> Language;
     fn tree_sitter_rust() -> Language;
 }
 
@@ -22,6 +23,7 @@ pub fn supported(extension: &OsStr) -> bool {
         || extension == "js"
         || extension == "jsx"
         || extension == "json"
+        || extension == "ml"
 }
 
 pub fn parse<'a>(
@@ -43,6 +45,8 @@ pub fn parse<'a>(
         unsafe { tree_sitter_json() }
     } else if extension == "js" || extension == "jsx" {
         unsafe { tree_sitter_javascript() }
+    } else if extension == "ml" {
+        unsafe { tree_sitter_ocaml() }
     } else {
         panic!("Unknown extension for tree-sitter parsers.")
     };
