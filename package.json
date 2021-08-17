@@ -7,6 +7,10 @@
     "parser",
     "c++"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tree-sitter/tree-sitter-cpp.git"
+  },
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
