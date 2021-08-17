@@ -1,0 +1,69 @@
+============================================
+Block comments
+============================================
+
+/*
+ * Block comments
+ */
+
+/* Comment with asterisks **/
+
+----
+
+(source_file
+  (block_comment)
+  (block_comment))
+
+============================================
+Nested block comments
+============================================
+
+/* /* double nested */ */
+
+// ---
+
+/*/*/* triple nested */*/*/
+
+// ---
+
+/****
+  /****
+    nested with extra stars
+  ****/
+****/
+
+// ---
+
+----
+
+(source_file
+  (block_comment)
+  (line_comment)
+  (block_comment)
+  (line_comment)
+  (block_comment)
+  (line_comment))
+
+============================================
+Line comments
+============================================
+
+// Comment
+
+----
+
+(source_file
+  (line_comment))
+
+=====================================
+Greek letters in identifiers
+=====================================
+
+const σ1 : Σ = 0;
+const ψ_2 : Ψ = 1;
+
+---
+
+(source_file
+  (const_item (identifier) (type_identifier) (integer_literal))
+  (const_item (identifier) (type_identifier) (integer_literal)))

@@ -5,6 +5,7 @@ mod lines;
 mod parse;
 mod positions;
 mod side_by_side;
+mod sitter;
 mod style;
 mod syntax;
 use clap::{App, AppSettings, Arg};
@@ -81,7 +82,8 @@ fn main() {
     };
 
     let syntax_toml = ConfigDir::read_default_toml();
-    let lang = match Path::new(&display_path).extension() {
+    let extension = Path::new(&display_path).extension();
+    let lang = match extension {
         Some(extension) => find_lang(syntax_toml, &OsStr::to_string_lossy(extension)),
         None => None,
     };
@@ -112,9 +114,18 @@ fn main() {
 
     let arena = Arena::new();
 
-    let (lhs, rhs) = match &lang {
-        Some(lang) => (parse(&arena, &lhs_src, lang), parse(&arena, &rhs_src, lang)),
-        None => (parse_lines(&arena, &lhs_src), parse_lines(&arena, &rhs_src)),
+    let prefer_tree_sitter = env::var("DFT_TS").is_ok();
+    let extension = extension.unwrap_or_else(|| OsStr::new(""));
+    let (lhs, rhs) = if sitter::supported(extension) && prefer_tree_sitter {
+        (
+            sitter::parse(&arena, &lhs_src, extension),
+            sitter::parse(&arena, &rhs_src, extension),
+        )
+    } else {
+        match &lang {
+            Some(lang) => (parse(&arena, &lhs_src, lang), parse(&arena, &rhs_src, lang)),
+            None => (parse_lines(&arena, &lhs_src), parse_lines(&arena, &rhs_src)),
+        }
     };
 
     init_info(&lhs);

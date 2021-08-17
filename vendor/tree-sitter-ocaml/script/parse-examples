@@ -1,0 +1,57 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+function clone_repo {
+  owner=$1
+  name=$2
+  sha=$3
+
+  path=examples/$name
+  if [ ! -d "$path" ]; then
+    echo "Cloning $owner/$name"
+    git clone "https://github.com/$owner/$name" "$path"
+  fi
+
+  pushd "$path" > /dev/null
+  if [ "$(git rev-parse HEAD)" != "$sha"  ]; then
+    echo "Updating $owner/$name to $sha"
+    git fetch
+    git reset --hard $sha
+  fi
+  popd > /dev/null
+}
+
+clone_repo 0install 0install 5555f2e456c59a1e640cc096781a832956045d28
+clone_repo BinaryAnalysisPlatform bap 40efc122b6fc3bb9de45aa482372437cd70d731d
+clone_repo dbuenzli cmdliner db4d02a9eb47b5c43127a67cb121004b03ea3719
+clone_repo facebook flow 824fc9779b90e1ec4cdb1b540917968119a561f6
+clone_repo facebook pyre-check 71baba79031d6a6b5447174faebd625029d72792
+clone_repo garrigue lablgtk 034d4fbb1f09431048dd4231bf2ba9c69db59e6a
+clone_repo janestreet base 7bc01b2b9895dd6638702437605c53cd255096c4
+clone_repo mirage ocaml-cohttp c3a59cd11fae2ccf084fbfc3eb02b75773511d25
+clone_repo ocaml dune a8c6ed8bb27af690955e51eabbef0382b7e2d41e
+clone_repo ocaml merlin 2a0dd5c16178efcc4b8132e3c3b3c2a6cc7b13ea
+clone_repo ocaml ocaml 2ea972b151ae16261a701b63177c5592df45425a
+clone_repo ocaml opam 5b5be7b96ac4150ba1471c130d697e2e992763e6
+clone_repo ocsigen js_of_ocaml c97f2543ff7bfa6c8fe683cca7beec884b38f918
+clone_repo ocsigen lwt c5f895e35a38df2d06f19fd23bf553129b9e95b3
+clone_repo owlbarn owl b8110574cb9d9b9e9d4a9bdf2743b86ab39549e3
+
+known_failures="$(cat script/known_failures.txt)"
+
+tree-sitter parse -q \
+  'examples/**/*.ml' \
+  'examples/**/*.mli' \
+  $(for failure in $known_failures; do echo "!${failure}"; done)
+
+example_count=$(find examples -name '*.ml' -o -name '*.mli' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
+
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent
