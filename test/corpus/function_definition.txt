@@ -11,6 +11,9 @@ Function definition
 
 `(defun ,x () ,@body)
 
+'(defun 1)
+'(defun)
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -31,9 +34,17 @@ Function definition
     (symbol)
     (integer))
   (quote
-    (function_definition
+    (list
+      (symbol)
       (unquote
         (symbol))
       (list)
       (unquote_splice
-        (symbol)))))
+        (symbol))))
+  (quote
+    (list
+      (symbol)
+      (integer)))
+  (quote
+    (list
+      (symbol))))

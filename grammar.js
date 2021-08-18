@@ -98,13 +98,15 @@ module.exports = grammar({
       ),
 
     function_definition: ($) =>
-      seq(
-        "(",
-        choice("defun", "defsubst"),
-        field("name", $._sexp),
-        $._sexp,
-        repeat($._sexp),
-        ")"
+      prec(
+        1,
+        seq(
+          "(",
+          choice("defun", "defsubst"),
+          field("name", $.symbol),
+          repeat($._sexp),
+          ")"
+        )
       ),
 
     _atom: ($) =>
@@ -139,8 +141,19 @@ module.exports = grammar({
     string: ($) => STRING,
     byte_compiled_file_name: ($) => BYTE_COMPILED_FILE_NAME,
     symbol: ($) =>
-      // Match nil and t separately so we can highlight them.
-      choice("nil", "t", ESCAPED_READER_SYMBOL, SYMBOL, INTERNED_EMPTY_STRING),
+      choice(
+        // Match nil and t separately so we can highlight them.
+        "nil",
+        "t",
+        // We need to define these as separate tokens so we can handle
+        // e.g '(defun) as a sexp. Without these, we just try
+        // function_definition and produce a parse failure.
+        "defun",
+        "defsubst",
+        ESCAPED_READER_SYMBOL,
+        SYMBOL,
+        INTERNED_EMPTY_STRING
+      ),
 
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
     unquote_splice: ($) => seq(",@", $._sexp),
