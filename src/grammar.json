@@ -437,7 +437,7 @@
         },
         {
           "type": "STRING",
-          "value": "defsust"
+          "value": "defsubst"
         },
         {
           "type": "TOKEN",

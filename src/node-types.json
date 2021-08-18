@@ -940,10 +940,6 @@
     "named": false
   },
   {
-    "type": "defsust",
-    "named": false
-  },
-  {
     "type": "defun",
     "named": false
   },
