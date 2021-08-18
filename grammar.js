@@ -36,6 +36,7 @@ module.exports = grammar({
     $._automatic_semicolon,
     $.heredoc,
     $.encapsed_string_chars,
+    $.encapsed_string_chars_after_variable,
     $._eof,
   ],
 
@@ -953,7 +954,7 @@ module.exports = grammar({
       field('right', $._expression)
     )),
 
-    conditional_expression: $ => prec.left(PREC.TERNARY, seq(
+    conditional_expression: $ => prec.left(PREC.TERNARY, seq( // TODO: Ternay is non-assossiative after PHP 8
       field('condition', $._expression),
       '?',
       field('body', optional($._expression)),
@@ -1148,35 +1149,11 @@ module.exports = grammar({
       optional(field('parameters', $.arguments))
     ),
 
-    _string_member_access_expression: $ => prec(PREC.MEMBER, seq(
-      field('object', $._string_dereferencable_expression),
-      '->',
-      $._member_name
-    )),
-
-    _string_dereferencable_expression: $ => prec(PREC.DEREF, choice(
-      $._variable_name,
-      alias($._string_subscript_expression, $.subscript_expression),
-      alias($._string_member_access_expression, $.member_access_expression)
-    )),
-
-    _string_subscript_expression: $ => seq(
-      $._string_dereferencable_expression,
-      choice(
-        seq('[', optional($._expression), ']'),
-        seq('{', $._expression, '}')
-      )
-    ),
-
-    _complex_string_part: $ => prec.right(seq(
+    _complex_string_part: $ => seq(
       "{",
-      choice(
-        alias($._string_member_access_expression, $.member_access_expression),
-        $._variable_name,
-        alias($._string_subscript_expression, $.subscript_expression),
-      ),
+      $._expression,
       "}"
-    )),
+    ),
 
     _simple_string_member_access_expression: $ => prec(PREC.MEMBER, seq(
       field('object', $._simple_string_variable_name),
@@ -1188,15 +1165,14 @@ module.exports = grammar({
 
     _simple_string_array_access_argument: $ => choice(
       $.integer,
-      alias($._simple_string_subscript_unary_expression, $.unary_op_expression)
+      alias($._simple_string_subscript_unary_expression, $.unary_op_expression),
+      $.name,
+      $._simple_string_variable_name,
     ),
 
     _simple_string_subscript_expression: $ => prec(PREC.DEREF, seq(
       $._simple_string_variable_name,
-      choice(
-        seq('[', $._simple_string_array_access_argument, ']'),
-        seq('{', $._simple_string_array_access_argument, '}')
-      )
+      seq('[', $._simple_string_array_access_argument, ']'),
     )),
 
     _simple_string_dynamic_variable_name: $ => seq('$', '{', '$', $.name, '}'),
@@ -1206,11 +1182,11 @@ module.exports = grammar({
       $.variable_name
     ),
 
-    _simple_string_part: $ => prec.right(choice(
+    _simple_string_part: $ => choice(
       alias($._simple_string_member_access_expression, $.member_access_expression),
       $._simple_string_variable_name,
       alias($._simple_string_subscript_expression, $.subscript_expression),
-    )),
+    ),
 
     escape_sequence: $ => token.immediate(seq(
       '\\',
@@ -1236,19 +1212,25 @@ module.exports = grammar({
         '"',
       ),
       repeat(
-        choice($.escape_sequence, $._simple_string_part, alias($.encapsed_string_chars, $.string), $._complex_string_part),
+        choice(
+          $.escape_sequence,
+          seq($._simple_string_variable_name, alias($.encapsed_string_chars_after_variable, $.string)),
+          alias($.encapsed_string_chars, $.string),
+          $._simple_string_part,
+          $._complex_string_part
+        ),
       ),
       '"',
     ),
 
-    string: $ => seq(
+    string: $ => token(seq(
       choice(
         /[bB]'/,
         "'"
       ),
       repeat(/\\'|\\\\|\\?[^'\\]/),
       "'",
-    ),
+    )),
 
     boolean: $ => /[Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]/,
 
