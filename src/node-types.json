@@ -24,6 +24,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "hash_table",
           "named": true
         },
@@ -77,6 +81,77 @@
     "fields": {}
   },
   {
+    "type": "function_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "byte_compiled_file_name",
+          "named": true
+        },
+        {
+          "type": "bytecode",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "hash_table",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "quote",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "string_text_properties",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "unquote",
+          "named": true
+        },
+        {
+          "type": "unquote_splice",
+          "named": true
+        },
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "hash_table",
     "named": true,
     "fields": {},
@@ -98,6 +173,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -173,6 +252,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "hash_table",
           "named": true
         },
@@ -237,6 +320,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -307,6 +394,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "hash_table",
           "named": true
         },
@@ -371,6 +462,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -446,6 +541,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "hash_table",
           "named": true
         },
@@ -513,6 +612,10 @@
           "named": true
         },
         {
+          "type": "function_definition",
+          "named": true
+        },
+        {
           "type": "hash_table",
           "named": true
         },
@@ -577,6 +680,10 @@
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -681,6 +788,14 @@
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "defsubst",
+    "named": false
+  },
+  {
+    "type": "defun",
+    "named": false
   },
   {
     "type": "string",

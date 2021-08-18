@@ -51,6 +51,7 @@ module.exports = grammar({
 
     _sexp: ($) =>
       choice(
+        $.function_definition,
         $.list,
         $.vector,
         $.hash_table,
@@ -60,6 +61,16 @@ module.exports = grammar({
         $.quote,
         $.unquote_splice,
         $.unquote
+      ),
+
+    function_definition: ($) =>
+      seq(
+        "(",
+        choice("defun", "defsubst"),
+        $.symbol,
+        $.list,
+        repeat($._sexp),
+        ")"
       ),
 
     _atom: ($) =>

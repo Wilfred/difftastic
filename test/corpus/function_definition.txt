@@ -1,0 +1,24 @@
+================================================================================
+Function definition
+================================================================================
+
+(defun foo (x &optional y)
+  "stuff"
+  x)
+(defsubst bar () nil)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (symbol)
+    (list
+      (symbol)
+      (symbol)
+      (symbol))
+    (string)
+    (symbol))
+  (function_definition
+    (symbol)
+    (list)
+    (symbol)))

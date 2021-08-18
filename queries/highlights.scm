@@ -1,3 +1,10 @@
+
+
+[
+ "defun"
+ "defsubst"
+ ] @keyword
+
 (comment) @comment
 
 (integer) @number
