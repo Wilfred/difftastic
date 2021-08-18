@@ -7,6 +7,8 @@ Function definition
   x)
 (defsubst bar () nil)
 
+(defun no-args nil 123)
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -21,4 +23,8 @@ Function definition
   (function_definition
     (symbol)
     (list)
-    (symbol)))
+    (symbol))
+  (function_definition
+    (symbol)
+    (symbol)
+    (integer)))

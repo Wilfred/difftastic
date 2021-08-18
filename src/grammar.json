@@ -208,7 +208,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "list"
+          "name": "_sexp"
         },
         {
           "type": "REPEAT",
