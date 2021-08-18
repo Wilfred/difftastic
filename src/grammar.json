@@ -210,6 +210,30 @@
             }
           },
           {
+            "type": "FIELD",
+            "name": "parameters",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "docstring",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "string"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
             "type": "REPEAT",
             "content": {
               "type": "SYMBOL",

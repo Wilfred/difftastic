@@ -32,6 +32,7 @@
  "defsubst"
  ] @keyword
 (function_definition name: (symbol) @function)
+(function_definition docstring: (string) @comment)
 
 (comment) @comment
 

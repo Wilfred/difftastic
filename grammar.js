@@ -104,6 +104,8 @@ module.exports = grammar({
           "(",
           choice("defun", "defsubst"),
           field("name", $.symbol),
+          field("parameters", $._sexp),
+          optional(field("docstring", $.string)),
           repeat($._sexp),
           ")"
         )
