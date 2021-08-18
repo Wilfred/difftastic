@@ -4,7 +4,8 @@ Added some basic syntax highlighting support ("queries" in tree-sitter
 terms).
 
 Function definitions are now handled separately from other
-s-expressions, so they can be highlighted differently.
+s-expressions. Added highlighting and tags table queries for function
+definitions.
 
 Special forms are now parsed and highlighted separately from
 s-expressions.
