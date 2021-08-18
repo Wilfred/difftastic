@@ -12,6 +12,7 @@ enum TokenType {
   AUTOMATIC_SEMICOLON,
   HEREDOC,
   ENCAPSED_STRING_CHARS,
+  ENCAPSED_STRING_CHARS_AFTER_VARIABLE,
   EOF_TOKEN,
 };
 
@@ -109,7 +110,38 @@ struct Scanner {
     }
   }
 
-  bool scan_encapsed_part_string(TSLexer *lexer) {
+  bool is_escapable_sequence(TSLexer *lexer) {
+    auto letter = lexer->lookahead;
+
+    if (letter == 'n' ||
+        letter == 'r' ||
+        letter == 't' ||
+        letter == 'v' ||
+        letter == 'e' ||
+        letter == 'f' ||
+        letter == '\\' ||
+        letter == '$' ||
+        letter == '"') {
+      return true;
+    }
+
+    // Hex
+    if (letter == 'x') {
+      advance(lexer);
+      return isxdigit(lexer->lookahead);
+    }
+
+    // Unicode
+    if (letter == 'u') {
+      advance(lexer);
+      return lexer->lookahead == '{';
+    }
+
+    // Octal
+    return isdigit(lexer->lookahead) && lexer->lookahead >= 0 && lexer->lookahead <= 7;
+  }
+
+  bool scan_encapsed_part_string(TSLexer *lexer, bool is_after_variable) {
     lexer->result_symbol = ENCAPSED_STRING_CHARS;
 
     for (bool has_content = false;; has_content = true) {
@@ -121,19 +153,46 @@ struct Scanner {
         case '\0':
           return false;
         case '\\':
-          return has_content;
+          advance(lexer);
+          if (is_escapable_sequence(lexer)) {
+            return has_content;
+          }
+          break;
         case '$':
-          return has_content;
+          advance(lexer);
+          if (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
+            return has_content;
+          }
+          break;
+        case '-':
+          if (is_after_variable) {
+            advance(lexer);
+            if (lexer->lookahead == '>') {
+              advance(lexer);
+              if (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
+                return has_content;
+              }
+              break;
+            }
+            break;
+          }
+        case '[':
+          if (is_after_variable) {
+            return has_content;
+          }
+          advance(lexer);
+          break;
         case '{':
           advance(lexer);
           if (lexer->lookahead == '$') {
             return has_content;
-          } else {
-            break;
           }
+          break;
         default:
           advance(lexer);
       }
+
+      is_after_variable = false;
     }
   }
 
@@ -209,8 +268,12 @@ struct Scanner {
 
     lexer->mark_end(lexer);
 
+    if (valid_symbols[ENCAPSED_STRING_CHARS_AFTER_VARIABLE]) {
+      return scan_encapsed_part_string(lexer, true);
+    }
+
     if (valid_symbols[ENCAPSED_STRING_CHARS]) {
-      return scan_encapsed_part_string(lexer);
+      return scan_encapsed_part_string(lexer, false);
     }
 
     if (!scan_whitespace(lexer)) return false;

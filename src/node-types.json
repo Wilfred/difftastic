@@ -1621,6 +1621,10 @@
       "required": false,
       "types": [
         {
+          "type": "_expression",
+          "named": true
+        },
+        {
           "type": "dynamic_variable_name",
           "named": true
         },
@@ -3815,11 +3819,6 @@
     }
   },
   {
-    "type": "string",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "subscript_expression",
     "named": true,
     "fields": {},
@@ -4451,10 +4450,6 @@
     "named": false
   },
   {
-    "type": "'",
-    "named": false
-  },
-  {
     "type": "(",
     "named": false
   },
@@ -4668,11 +4663,11 @@
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "break",
@@ -4969,6 +4964,10 @@
   {
     "type": "string",
     "named": false
+  },
+  {
+    "type": "string",
+    "named": true
   },
   {
     "type": "switch",
