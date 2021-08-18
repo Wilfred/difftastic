@@ -8180,6 +8180,10 @@
     {
       "type": "SYMBOL",
       "name": "_eof"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "sentinel_error"
     }
   ],
   "inline": [
