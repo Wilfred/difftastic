@@ -26,10 +26,12 @@
   "while"
 ] @keyword
 
+;; Function definitions
 [
-  "defun"
-  "defsubst"
-] @keyword
+ "defun"
+ "defsubst"
+ ] @keyword
+(function_definition name: (symbol) @function)
 
 (comment) @comment
 

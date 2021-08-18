@@ -101,7 +101,7 @@ module.exports = grammar({
       seq(
         "(",
         choice("defun", "defsubst"),
-        $.symbol,
+        field("name", $.symbol),
         $.list,
         repeat($._sexp),
         ")"

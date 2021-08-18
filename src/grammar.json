@@ -199,8 +199,12 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "symbol"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "symbol"
+          }
         },
         {
           "type": "SYMBOL",
