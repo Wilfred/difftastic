@@ -9,6 +9,8 @@ Function definition
 
 (defun no-args nil 123)
 
+`(defun ,x () ,@body)
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -27,4 +29,11 @@ Function definition
   (function_definition
     (symbol)
     (symbol)
-    (integer)))
+    (integer))
+  (quote
+    (function_definition
+      (unquote
+        (symbol))
+      (list)
+      (unquote_splice
+        (symbol)))))

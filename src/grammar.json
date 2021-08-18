@@ -203,7 +203,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "symbol"
+            "name": "_sexp"
           }
         },
         {
