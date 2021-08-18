@@ -28,6 +28,12 @@ Currently tree-sitter-elisp treats everything as an s-expression. This
 is accurate, but makes this package less useful for generating a
 summary of file contents, or for syntax highlighting.
 
+Emacs itself has more information that it can use. Emacs will
+highlight macro calls based on which macros are defined in the current
+instance. Some elisp packages also offer custom highlighting logic,
+such as `dash-fontify-mode` in
+[dash.el](https://github.com/magnars/dash.el).
+
 ## Developing
 
 Check out the repo, then use `npm` to install dependencies.
