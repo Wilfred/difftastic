@@ -10,12 +10,12 @@ Syntax supported:
 * Quoting and unquoting (`'`, `#'`, `` ` ``, `,`, `,@`)
 * Some special read syntax (`$#`, `##`, `#("foo" 1 2 x)`)
 * Bytecode literals (`#[1 2 3 4]`)
+* Special forms (`let` etc)
 * Comments
 
 Currently unsupported:
 
 * Autoload cookies
-* Special forms (e.g. `let`, currently treated as symbols)
 * Definitions (e.g. `defun`, `defvar`, `defmacro`)
 
 ## Limitations
