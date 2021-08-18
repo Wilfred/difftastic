@@ -6,6 +6,9 @@ terms).
 Function definitions are now handled separately from other
 s-expressions, so they can be highlighted differently.
 
+Special forms are now parsed and highlighted separately from
+s-expressions.
+
 # v1.1
 
 Added support for more special read syntax.

@@ -51,6 +51,7 @@ module.exports = grammar({
 
     _sexp: ($) =>
       choice(
+        $.special_form,
         $.function_definition,
         $.list,
         $.vector,
@@ -61,6 +62,39 @@ module.exports = grammar({
         $.quote,
         $.unquote_splice,
         $.unquote
+      ),
+
+    special_form: ($) =>
+      seq(
+        "(",
+        choice(
+          "and",
+          "catch",
+          "cond",
+          "condition-case",
+          "defconst",
+          "defvar",
+          "function",
+          "if",
+          "interactive",
+          "lambda",
+          "let",
+          "let*",
+          "or",
+          "prog1",
+          "prog2",
+          "progn",
+          "quote",
+          "save-current-buffer",
+          "save-excursion",
+          "save-restriction",
+          "setq",
+          "setq-default",
+          "unwind-protect",
+          "while"
+        ),
+        repeat($._sexp),
+        ")"
       ),
 
     function_definition: ($) =>
