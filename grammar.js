@@ -234,7 +234,7 @@ module.exports = grammar({
     ),
 
     lexical_declaration: $ => seq(
-      choice('let', 'const'),
+      field('kind', choice('let', 'const')),
       commaSep1($.variable_declarator),
       $._semicolon
     ),
@@ -299,14 +299,14 @@ module.exports = grammar({
           $.parenthesized_expression,
         )),
         seq(
-          choice('var', 'let', 'const'),
+          field('kind', choice('var', 'let', 'const')),
           field('left', choice(
             $.identifier,
             $._destructuring_pattern
           ))
         )
       ),
-      choice('in', 'of'),
+      field('operator', choice('in', 'of')),
       field('right', $._expressions),
       ')',
     ),
@@ -372,7 +372,7 @@ module.exports = grammar({
     labeled_statement: $ => prec.dynamic(-1, seq(
       field('label', alias(choice($.identifier, $._reserved_identifier), $.statement_identifier)),
       ':',
-      $.statement
+      field('body', $.statement)
     )),
 
     //
@@ -389,13 +389,13 @@ module.exports = grammar({
       'case',
       field('value', $._expressions),
       ':',
-      repeat($.statement)
+      field('body', repeat($.statement))
     ),
 
     switch_default: $ => seq(
       'default',
       ':',
-      repeat($.statement)
+      field('body', repeat($.statement))
     ),
 
     catch_clause: $ => seq(
@@ -759,8 +759,8 @@ module.exports = grammar({
 
     augmented_assignment_expression: $ => prec.right('assign', seq(
       field('left', $._augmented_assignment_lhs),
-      choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=',
-             '<<=', '**=', '&&=', '||=', '??='),
+      field('operator', choice('+=', '-=', '*=', '/=', '%=', '^=', '&=', '|=', '>>=', '>>>=',
+                               '<<=', '**=', '&&=', '||=', '??=')),
       field('right', $.expression)
     )),
 

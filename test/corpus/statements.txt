@@ -758,7 +758,7 @@ while (true) {
 (program
   (labeled_statement
     label: (statement_identifier)
-    (for_statement
+    body: (for_statement
       initializer: (empty_statement)
       condition: (empty_statement)
       body: (statement_block
@@ -771,11 +771,11 @@ while (true) {
               (continue_statement label: (statement_identifier))))))))
   (labeled_statement
     label: (statement_identifier)
-    (statement_block
+    body: (statement_block
       (break_statement label: (statement_identifier))))
   (labeled_statement
     label: (statement_identifier)
-    (while_statement
+    body: (while_statement
       condition: (parenthesized_expression (true))
       body: (statement_block
         (continue_statement label: (statement_identifier))))))
