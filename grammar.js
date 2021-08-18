@@ -138,7 +138,9 @@ module.exports = grammar({
       ),
     string: ($) => STRING,
     byte_compiled_file_name: ($) => BYTE_COMPILED_FILE_NAME,
-    symbol: ($) => choice(ESCAPED_READER_SYMBOL, SYMBOL, INTERNED_EMPTY_STRING),
+    symbol: ($) =>
+      // Match nil and t separately so we can highlight them.
+      choice("nil", "t", ESCAPED_READER_SYMBOL, SYMBOL, INTERNED_EMPTY_STRING),
 
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
     unquote_splice: ($) => seq(",@", $._sexp),

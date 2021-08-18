@@ -420,6 +420,14 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "STRING",
+          "value": "nil"
+        },
+        {
+          "type": "STRING",
+          "value": "t"
+        },
+        {
           "type": "TOKEN",
           "content": {
             "type": "PATTERN",

@@ -47,3 +47,8 @@
   "]"
 ] @punctuation.bracket
 
+;; Highlight nil and t as constants, unlike other symbols
+[
+  "nil"
+  "t"
+] @constant

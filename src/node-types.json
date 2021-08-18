@@ -961,6 +961,10 @@
     "named": false
   },
   {
+    "type": "nil",
+    "named": false
+  },
+  {
     "type": "or",
     "named": false
   },
@@ -1003,6 +1007,10 @@
   {
     "type": "string",
     "named": true
+  },
+  {
+    "type": "t",
+    "named": false
   },
   {
     "type": "unwind-protect",
