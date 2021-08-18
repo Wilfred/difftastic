@@ -38,6 +38,7 @@ module.exports = grammar({
     $.encapsed_string_chars,
     $.encapsed_string_chars_after_variable,
     $._eof,
+    $.sentinel_error, // Unused token used to indicate error recovery mode
   ],
 
   supertypes: $ => [
@@ -1188,6 +1189,8 @@ module.exports = grammar({
       alias($._simple_string_subscript_expression, $.subscript_expression),
     ),
 
+    // Note: remember to also update the is_escapable_sequence method in the
+    // external scanner whenever changing these rules
     escape_sequence: $ => token.immediate(seq(
       '\\',
       choice(
