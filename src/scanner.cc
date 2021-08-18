@@ -8,6 +8,7 @@ namespace {
 using std::vector;
 using std::string;
 
+// NOTE: Every new symbol added here, must also be added to the error recovery detection at the start of scan
 enum TokenType {
   AUTOMATIC_SEMICOLON,
   HEREDOC,
@@ -264,6 +265,17 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    // NOTE: Every new symbol added to TokenType must also be added here
+    const bool is_error_recovery = valid_symbols[AUTOMATIC_SEMICOLON] &&
+                                  valid_symbols[HEREDOC] &&
+                                  valid_symbols[ENCAPSED_STRING_CHARS] &&
+                                  valid_symbols[ENCAPSED_STRING_CHARS_AFTER_VARIABLE] &&
+                                  valid_symbols[EOF_TOKEN];
+
+    if (is_error_recovery) {
+      return false;
+    }
+
     has_leading_whitespace = false;
 
     lexer->mark_end(lexer);
