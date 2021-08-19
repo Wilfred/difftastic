@@ -42,18 +42,20 @@ module.exports = grammar({
       'member',
       'call',
       $.update_expression,
-      'unary_not',
       'unary_void',
       'binary_exp',
       'binary_times',
       'binary_plus',
+      'binary_shift',
       'binary_compare',
       'binary_relation',
-      'binary_in',
-      'binary_and',
-      'binary_or',
+      'binary_equality',
+      'bitwise_and',
+      'bitwise_xor',
+      'bitwise_or',
+      'logical_and',
+      'logical_or',
       'ternary',
-      $.await_expression,
       $.sequence_expression,
       $.arrow_function
     ],
@@ -716,10 +718,10 @@ module.exports = grammar({
       field('arguments', optional(prec.dynamic(1, $.arguments)))
     )),
 
-    await_expression: $ => seq(
+    await_expression: $ => prec('unary_void', seq(
       'await',
       $.expression
-    ),
+    )),
 
     member_expression: $ => prec('member', seq(
       field('object', choice($.expression, $.primary_expression)),
@@ -786,14 +788,14 @@ module.exports = grammar({
 
     binary_expression: $ => choice(
       ...[
-        ['&&', 'binary_and'],
-        ['||', 'binary_or'],
-        ['>>', 'binary_times'],
-        ['>>>', 'binary_times'],
-        ['<<', 'binary_times'],
-        ['&', 'binary_and'],
-        ['^', 'binary_or'],
-        ['|', 'binary_or'],
+        ['&&', 'logical_and'],
+        ['||', 'logical_or'],
+        ['>>', 'binary_shift'],
+        ['>>>', 'binary_shift'],
+        ['<<', 'binary_shift'],
+        ['&', 'bitwise_and'],
+        ['^', 'bitwise_xor'],
+        ['|', 'bitwise_or'],
         ['+', 'binary_plus'],
         ['-', 'binary_plus'],
         ['*', 'binary_times'],
@@ -802,15 +804,15 @@ module.exports = grammar({
         ['**', 'binary_exp'],
         ['<', 'binary_relation'],
         ['<=', 'binary_relation'],
-        ['==', 'binary_relation'],
-        ['===', 'binary_relation'],
-        ['!=', 'binary_relation'],
-        ['!==', 'binary_relation'],
+        ['==', 'binary_equality'],
+        ['===', 'binary_equality'],
+        ['!=', 'binary_equality'],
+        ['!==', 'binary_equality'],
         ['>=', 'binary_relation'],
         ['>', 'binary_relation'],
         ['??', 'ternary'],
         ['instanceof', 'binary_relation'],
-        ['in', 'binary_in'],
+        ['in', 'binary_relation'],
       ].map(([operator, precedence]) =>
         prec.left(precedence, seq(
           field('left', $.expression),
@@ -820,19 +822,9 @@ module.exports = grammar({
       )
     ),
 
-    unary_expression: $ => choice(...[
-      ['!', 'unary_not'],
-      ['~', 'unary_not'],
-      ['-', 'unary_not'],
-      ['+', 'unary_not'],
-      ['typeof', 'unary_void'],
-      ['void', 'unary_void'],
-      ['delete', 'unary_void'],
-    ].map(([operator, precedence]) =>
-      prec.left(precedence, seq(
-        field('operator', operator),
-        field('argument', $.expression)
-      ))
+    unary_expression: $ => prec.left('unary_void', seq(
+      field('operator', choice('!', '~', '-', '+', 'typeof', 'void', 'delete')),
+      field('argument', $.expression)
     )),
 
     update_expression: $ => prec.left(choice(

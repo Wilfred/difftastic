@@ -1168,6 +1168,10 @@ a.b = c ? d : e;
 a && b(c) && d;
 a && new b(c) && d;
 typeof a == b && c instanceof d
+a && b | c;
+a - b << c;
+a in b != c in d;
+await a || b;
 
 ---
 
@@ -1192,7 +1196,19 @@ typeof a == b && c instanceof d
     (binary_expression
       (unary_expression (identifier))
       (identifier))
-    (binary_expression (identifier) (identifier)))))
+    (binary_expression (identifier) (identifier))))
+  (expression_statement (binary_expression
+    (identifier)
+    (binary_expression (identifier) (identifier))))
+  (expression_statement (binary_expression
+    (binary_expression (identifier) (identifier))
+    (identifier)))
+  (expression_statement (binary_expression
+    (binary_expression (identifier) (identifier))
+    (binary_expression (identifier) (identifier))))
+  (expression_statement (binary_expression
+    (await_expression (identifier))
+    (identifier))))
 
 ==============================================
 Simple JSX elements
