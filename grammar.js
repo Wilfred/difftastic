@@ -238,7 +238,7 @@ module.exports = grammar({
         optional($.LinkSection),
         optional($.CallConv),
         optional(EXCLAMATIONMARK),
-        $._TypeExpr
+        field("type", $._TypeExpr)
       ),
 
     VarDecl: ($) =>
@@ -260,7 +260,7 @@ module.exports = grammar({
         optional(
           seq(
             COLON,
-            choice(keyword("anytype", $), $._TypeExpr),
+            choice(keyword("anytype", $), field("type", $._TypeExpr)),
             optional($.ByteAlign)
           )
         ),
@@ -368,7 +368,7 @@ module.exports = grammar({
 
     _PrimaryExpr: ($) =>
       // INFO: left/right doesn't matter?
-      prec.right(
+      prec.left(
         PREC.primary,
         choice(
           $.AsmExpr,
@@ -414,25 +414,22 @@ module.exports = grammar({
 
     _ErrorUnionExpr: ($) =>
       // INFO: left and right doesn't matter?
-      // INFO: right: give 100kb smaller generated c file, and show error on the left
-      // INFO: left: show error the line below
-      prec.right(
-        seq($.SuffixExpr, optional(seq(EXCLAMATIONMARK, $._TypeExpr)))
-      ),
+      prec.left(seq($.SuffixExpr, optional(seq(EXCLAMATIONMARK, $._TypeExpr)))),
 
     SuffixExpr: ($) =>
       // INFO: solve #1 issue
       prec.right(
-        choice(
-          seq(
-            keyword("async", $),
-            $._PrimaryTypeExpr,
-            repeat($.SuffixOp),
-            $.FnCallArguments
-          ),
-          seq($._PrimaryTypeExpr, repeat(choice($.SuffixOp, $.FnCallArguments)))
+        seq(
+          optional(keyword("async", $)),
+          choice($._PrimaryTypeExpr, $.PrimaryFunctionCall),
+          repeat(choice($.SuffixOp, $.SuffixOpFunctionCall))
         )
       ),
+
+    PrimaryFunctionCall: ($) => seq($._PrimaryTypeExpr, $.FnCallArguments),
+
+    SuffixOpFunctionCall: ($) =>
+      prec(PREC.assign, seq($.SuffixOp, $.FnCallArguments)),
 
     _PrimaryTypeExpr: ($) =>
       choice(
