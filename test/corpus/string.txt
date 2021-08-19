@@ -253,6 +253,7 @@ Simple: Variable access
 <?php
 
 "Hello $people, you're awesome!";
+"hello ${a} world";
 
 ---
 
@@ -262,6 +263,13 @@ Simple: Variable access
     (encapsed_string
       (string)
       (variable_name (name))
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (dynamic_variable_name (name))
       (string)
     )
   )
@@ -370,6 +378,11 @@ Corner cases
 "{$var::get()}";
 "Test $var->tester- Hello";
 " # x {$var->prop["key:"."key: {$var->func("arg")}"]}# x";
+"hello \0 world";
+"hello ${"a"."b"} world";
+"$$$$$$$$$$$$$a";
+"{$$$$$$$$b}";
+"\{$";
 
 ---
 
@@ -440,6 +453,7 @@ Corner cases
       (escape_sequence)
       (string)
       (variable_name (name))
+      (string)
     )
   )
   (expression_statement
@@ -504,6 +518,78 @@ Corner cases
           )
         )
       )
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (escape_sequence)
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (dynamic_variable_name
+        (binary_expression
+          (encapsed_string (string))
+          (encapsed_string (string))
+        )
+      )
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (dynamic_variable_name
+        (dynamic_variable_name
+          (dynamic_variable_name
+            (dynamic_variable_name
+              (dynamic_variable_name
+                (dynamic_variable_name
+                  (dynamic_variable_name
+                    (dynamic_variable_name
+                      (dynamic_variable_name
+                        (dynamic_variable_name
+                          (dynamic_variable_name
+                            (dynamic_variable_name
+                              (variable_name (name))
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (dynamic_variable_name
+        (dynamic_variable_name
+          (dynamic_variable_name
+            (dynamic_variable_name
+              (dynamic_variable_name
+                (dynamic_variable_name
+                  (dynamic_variable_name
+                    (variable_name (name))
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+  (expression_statement
+    (encapsed_string
       (string)
     )
   )

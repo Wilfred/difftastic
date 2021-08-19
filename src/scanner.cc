@@ -84,7 +84,7 @@ struct Scanner {
     lexer->advance(lexer, true);
   }
 
-  void advance(TSLexer *lexer) {
+  static void advance(TSLexer *lexer) {
     lexer->advance(lexer, false);
   }
 
@@ -111,7 +111,11 @@ struct Scanner {
     }
   }
 
-  bool is_escapable_sequence(TSLexer *lexer) {
+  static bool is_valid_name_char(TSLexer *lexer) {
+    return iswalpha(lexer->lookahead) || lexer->lookahead == '_';
+  }
+
+  static bool is_escapable_sequence(TSLexer *lexer) {
     // Note: remember to also update the escape_sequence rule in the
     // main grammar whenever changing this method
     auto letter = lexer->lookahead;
@@ -141,7 +145,7 @@ struct Scanner {
     }
 
     // Octal
-    return isdigit(lexer->lookahead) && lexer->lookahead >= 0 && lexer->lookahead <= 7;
+    return iswdigit(lexer->lookahead) && lexer->lookahead >= '0' && lexer->lookahead <= '7';
   }
 
   bool scan_encapsed_part_string(TSLexer *lexer, bool is_after_variable) {
@@ -157,13 +161,34 @@ struct Scanner {
           return false;
         case '\\':
           advance(lexer);
+
+          // \{ should not be interprented as an escape sequence, but both
+          // should be consumed as normal characters
+          if (lexer->lookahead == '{') {
+            advance(lexer);
+            break;
+          }
+
           if (is_escapable_sequence(lexer)) {
             return has_content;
           }
           break;
         case '$':
+          // Check for variables of the following forms
+          // $+<name> e.g. $$$$$$$$$$a
+          // $+{<name>} e.g. $$$$$$$$$${a}
+
           advance(lexer);
-          if (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
+
+          // PHP supports arbitrarily nested dynamic variables
+          // Therefore, we need to iterate over all $ and check if a valid name character is following the last one
+          while (lexer->lookahead == '$') {
+            if (is_valid_name_char(lexer) || lexer->lookahead == '{') {
+              return has_content;
+            }
+            advance(lexer);
+          }
+          if (is_valid_name_char(lexer) || lexer->lookahead  == '{') {
             return has_content;
           }
           break;
@@ -172,7 +197,7 @@ struct Scanner {
             advance(lexer);
             if (lexer->lookahead == '>') {
               advance(lexer);
-              if (isalpha(lexer->lookahead) || lexer->lookahead == '_') {
+              if (is_valid_name_char(lexer)) {
                 return has_content;
               }
               break;

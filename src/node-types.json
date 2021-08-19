@@ -1528,10 +1528,6 @@
           "named": true
         },
         {
-          "type": "name",
-          "named": true
-        },
-        {
           "type": "variable_name",
           "named": true
         }
