@@ -117,7 +117,7 @@ namespace
                 if (lexer->lookahead == 'n')
                 {
                     skip(lexer);
-                    if (isElmSpace(lexer) || lexer->lookahead == 0)
+                    if (isElmSpace(lexer) || lexer->eof(lexer))
                     {
                         return 2; // Success
                     }
@@ -211,7 +211,7 @@ namespace
                 {
                     skip(lexer);
                 }
-                else if (lexer->lookahead == 0)
+                else if (lexer->eof(lexer))
                 {
                     if (valid_symbols[VIRTUAL_END_SECTION])
                     {
