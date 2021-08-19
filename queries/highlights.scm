@@ -27,6 +27,7 @@
  (#match? @function "^[a-z]+([A-Z][a-z0-9]+)+$")
 )
 
+;; INFO: Should this be a method
 ; var.func().func().field
 (SuffixExpr
   (SuffixOp (IDENTIFIER) @function)
@@ -34,9 +35,17 @@
   (FnCallArguments)
 )
 
-; functionn decl
+; Top level decl is a functionn
+(source_file
+  (ContainerMembers
+    (FnProto
+      (IDENTIFIER) @function
+    )
+  )
+)
+
+;; Return type in method/function decl
 (FnProto
-  (IDENTIFIER) @function
   (SuffixExpr (IDENTIFIER) @type)?
   ("!")? @exception
 )
@@ -45,7 +54,7 @@
 (ContainerDecl
   (ContainerMembers
     [
-      ;method decl
+      ;function decl inside container is a method
       (FnProto (IDENTIFIER) @method)
 
       ;field decl
@@ -53,13 +62,6 @@
         (IDENTIFIER) @field
         (SuffixExpr (IDENTIFIER) @type)?
       )
-
-      ; const u = union { this_is_function: fn () void };
-      ; INFO: field become a function if type is a function?
-      ; (ContainerField
-      ;   (IDENTIFIER) @function
-      ;   (SuffixExpr (FnProto))
-      ; )
     ]
   )
 )
@@ -89,10 +91,10 @@
 )
 
 ;const IDENTIFIER = 1;
-; (VarDecl
-;   "const"
-;   (IDENTIFIER) @constant
-; )
+(VarDecl
+  "const"
+  (IDENTIFIER) @constant
+)
 
 ; const IDENTIFIER = struct/enum/union...
 (VarDecl
@@ -100,6 +102,7 @@
   (SuffixExpr (ContainerDecl))
 )
 
+;const IDENTIFIER = error{}
 (VarDecl
   (IDENTIFIER) @exception
   (SuffixExpr (ErrorSetDecl))

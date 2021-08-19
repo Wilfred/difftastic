@@ -1,5 +1,4 @@
 [
-  ; BUG: why function block not indent
   (Block)
   (ContainerDecl)
   (SwitchExpr)
