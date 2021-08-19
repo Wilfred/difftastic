@@ -6,14 +6,12 @@
 
 (IDENTIFIER) @variable
 
-; var.field
-(SuffixOp (IDENTIFIER) @field)
+(ParamDecl (IDENTIFIER) @parameter)
 
-(ParamDecl
-  (IDENTIFIER)? @parameter
+(ParamType 
   [
-    (ParamType (SuffixExpr (IDENTIFIER) @type))
-    (ParamType (SuffixExpr (IDENTIFIER) @variable (SuffixOp)))
+    (SuffixExpr (IDENTIFIER) @type)
+    (SuffixExpr (IDENTIFIER) @variable (SuffixOp))
   ]
 )
 
@@ -27,50 +25,35 @@
  (#match? @function "^[a-z]+([A-Z][a-z0-9]+)+$")
 )
 
-;; INFO: Should this be a method
-; var.func().func().field
-(SuffixExpr
-  (SuffixOp (IDENTIFIER) @function)
-  .
-  (FnCallArguments)
+(PrimaryFunctionCall
+  (IDENTIFIER) @function
 )
 
-; Top level decl is a functionn
-(source_file
-  (ContainerMembers
+;; INFO: Should this be a method
+(SuffixOpFunctionCall
+  (SuffixOp
+    (IDENTIFIER) @function
+  )
+)
+
+; Struct, enum, union and Top level decl
+(ContainerMembers
+  [
     (FnProto
       (IDENTIFIER) @function
+      ("!")? @exception
     )
-  )
-)
-
-;; Return type in method/function decl
-(FnProto
-  (SuffixExpr (IDENTIFIER) @type)?
-  ("!")? @exception
-)
-
-;struct, enum, union
-(ContainerDecl
-  (ContainerMembers
-    [
-      ;function decl inside container is a method
-      (FnProto (IDENTIFIER) @method)
-
-      ;field decl
-      (ContainerField
-        (IDENTIFIER) @field
-        (SuffixExpr (IDENTIFIER) @type)?
-      )
-    ]
-  )
+    (ContainerField
+      (IDENTIFIER) @field
+    )
+  ]
 )
 
 ;enum and tag union field is constant
 (
   (ContainerDeclType
     [
-      (SuffixExpr (IDENTIFIER) @type)
+      (SuffixExpr)
       "enum"
     ]
   )
@@ -90,51 +73,22 @@
   (IDENTIFIER) @constant
 )
 
-;const IDENTIFIER = 1;
-(VarDecl
-  "const"
-  (IDENTIFIER) @constant
-)
-
-; const IDENTIFIER = struct/enum/union...
+; const IDENTIFIER = struct/enum/union/fn/error
 (VarDecl
   (IDENTIFIER) @type
-  (SuffixExpr (ContainerDecl))
+  (SuffixExpr 
+    [
+      (ContainerDecl)
+      (FnProto)
+      (ErrorSetDecl)
+    ]
+  )
 )
 
-;const IDENTIFIER = error{}
-(VarDecl
-  (IDENTIFIER) @exception
-  (SuffixExpr (ErrorSetDecl))
-)
-
-; INFO: const/var fn_no_comma = fn (i32, i32) void;
-; INFO: should this be a function, type or variable?
-(VarDecl
-  (IDENTIFIER) @type
-  (SuffixExpr (FnProto))
-)
-
-; var x: IDENTIFIER
 type: (SuffixExpr (IDENTIFIER) @type)
-
 
 ;{.IDENTIFIER = 1}
 (FieldInit (IDENTIFIER) @field)
-
-; INFO: IDENTIFIER{} constructor or type
-(
-  (SuffixExpr (IDENTIFIER) @constructor)
-  .
-  (InitList)
-)
-
-; func()
-(SuffixExpr
-  (IDENTIFIER) @function
-  .
-  (FnCallArguments)
-)
 
 (BUILTINIDENTIFIER) @function.builtin
 
