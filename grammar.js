@@ -309,7 +309,7 @@ module.exports = grammar({
 
     _formal_parameter_list: $ => commaSep1(choice(
       $.parameter,
-      $.parameter_array
+      $._parameter_array
     )),
 
     parameter: $ => seq(
@@ -322,7 +322,7 @@ module.exports = grammar({
 
     parameter_modifier: $ => prec.right(choice('ref', 'out', 'this', 'in')),
 
-    parameter_array: $ => seq(
+    _parameter_array: $ => seq(
       repeat($.attribute_list),
       'params',
       choice($.array_type, $.nullable_type),
@@ -477,7 +477,7 @@ module.exports = grammar({
       )
     ),
 
-    bracketed_parameter_list: $ => seq('[', commaSep1($.parameter), ']'),
+    bracketed_parameter_list: $ => seq('[', $._formal_parameter_list, ']'),
 
     property_declaration: $ => seq(
       repeat($.attribute_list),

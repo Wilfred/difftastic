@@ -487,6 +487,33 @@ class Foo {
                   (bracketed_argument_list (argument (identifier))))
                   (assignment_operator) (identifier)))))))))
 
+
+=====================================
+Class with varargs indexer
+=====================================
+
+class A {
+    public int this[params string[] arguments] {
+        get { return 1; }
+    }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (indexer_declaration
+        (modifier)
+        (predefined_type)
+          (bracketed_parameter_list
+            (array_type (predefined_type) (array_rank_specifier)) (identifier))
+            (accessor_list
+              (accessor_declaration
+                (block
+                  (return_statement (integer_literal)))))))))
+
 =================================
 Method with qualified return type
 =================================
