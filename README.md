@@ -31,9 +31,9 @@ line-oriented diff.
 Difftastic treats source code as a sequence of atoms or (possibly
 nested) lists.
 
-Language syntax is defined in `config/syntax.toml`: you provide
-regular expressions for atoms (including comments), open delimiters,
-and close delimiters.
+Language syntax is defined in `parse.rs`: you provide regular
+expressions for atoms (including comments), open delimiters, and close
+delimiters.
 
 This is heavily inspired by
 [Comby](https://github.com/comby-tools/comby), which handles a large
