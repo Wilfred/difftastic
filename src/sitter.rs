@@ -27,6 +27,7 @@ pub fn supported(extension: &OsStr) -> bool {
         || extension == "jsx"
         || extension == "json"
         || extension == "ml"
+        || extension == "mli"
 }
 
 pub fn parse<'a>(
