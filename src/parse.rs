@@ -1,89 +1,212 @@
-//! Lexes source code and parses delimiters according to `syntax.toml`.
+//! Lexes source code and parses delimiters according to a simple
+//! regex-based parser.
+
+use std::borrow::Borrow;
+use std::ffi::OsStr;
 
 use crate::lines::NewlinePositions;
 use crate::positions::SingleLineSpan;
 use crate::syntax::Syntax;
 use regex::Regex;
-use rust_embed::RustEmbed;
-use toml::Value;
 use typed_arena::Arena;
-
-#[derive(RustEmbed)]
-#[folder = "config/"]
-pub struct ConfigDir;
-
-impl ConfigDir {
-    pub fn read_default_toml() -> Vec<Language> {
-        let syntax_toml_bytes = ConfigDir::get("syntax.toml").unwrap();
-        let syntax_toml = std::str::from_utf8(syntax_toml_bytes.as_ref()).unwrap();
-        read_syntax_toml(syntax_toml)
-    }
-}
 
 pub struct Language {
     pub name: String,
-    extensions: Vec<String>,
     atom_patterns: Vec<Regex>,
     comment_patterns: Vec<Regex>,
     open_delimiter_pattern: Regex,
     close_delimiter_pattern: Regex,
 }
 
-fn read_syntax_toml(src: &str) -> Vec<Language> {
-    let v = src.parse::<Value>().unwrap();
-    let table = v.as_table().unwrap();
-
-    table
-        .iter()
-        .map(|(name, value)| lang_from_value(name, value))
-        .collect()
-}
-
-pub fn find_lang(languages: Vec<Language>, extension: &str) -> Option<Language> {
-    for language in languages {
-        if language.extensions.iter().any(|e| e == extension) {
-            return Some(language);
-        }
-    }
-    None
-}
-
-fn as_string_vec(v: &Value) -> Vec<String> {
-    // TODO: Make this robust against invalid toml
-    let arr = v.as_array().unwrap();
-    arr.iter().map(|v| v.as_str().unwrap().into()).collect()
-}
-
-fn as_regex_vec(v: &Value) -> Vec<Regex> {
-    // TODO: properly handle malformed user-supplied regexes.
-    as_string_vec(v).iter().map(|s| as_regex(s)).collect()
-}
-
-fn as_regex(s: &str) -> Regex {
-    Regex::new(s).unwrap()
-}
-
-fn lang_from_value(name: &str, v: &Value) -> Language {
-    let table = v.as_table().unwrap();
-    Language {
-        name: name.into(),
-        extensions: as_string_vec(v.get("extensions").unwrap()),
-        atom_patterns: as_regex_vec(v.get("atom_patterns").unwrap()),
-        comment_patterns: as_regex_vec(v.get("comment_patterns").unwrap()),
-        open_delimiter_pattern: as_regex(
-            table
-                .get("open_delimiter_pattern")
-                .unwrap()
-                .as_str()
-                .unwrap(),
-        ),
-        close_delimiter_pattern: as_regex(
-            table
-                .get("close_delimiter_pattern")
-                .unwrap()
-                .as_str()
-                .unwrap(),
-        ),
+pub fn from_extension(extension: &OsStr) -> Option<Language> {
+    match extension.to_string_lossy().borrow() {
+        "clj" => Some(Language {
+            name: "Clojure".into(),
+            atom_patterns: vec![
+                // Numbers
+                Regex::new(r"[0-9]+").unwrap(),
+                // Symbols (e.g. variable names)
+                Regex::new(r":?[a-zA-Z0-9_>+=-]+").unwrap(),
+                // Operators
+                Regex::new(r"[`'~@&]").unwrap(),
+                // Double-quoted strings
+                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+            ],
+            comment_patterns: vec![Regex::new(r";.*").unwrap()],
+            open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
+            close_delimiter_pattern: Regex::new(r"(\]|\}|\))").unwrap(),
+        }),
+        "css" => Some(Language {
+            name: "CSS".into(),
+            atom_patterns: vec![
+                // Numbers
+                Regex::new(r"[0-9]+").unwrap(),
+                // Symbols
+                Regex::new(r"[.a-zA-Z0-9_]+").unwrap(),
+                // Punctuation
+                Regex::new(r"[:;]").unwrap(),
+                // Double-quoted strings
+                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+                // Single quoted strings
+                Regex::new(r"'((\\')|[^'])*'").unwrap(),
+            ],
+            comment_patterns: vec![
+                // Multi-line comments
+                Regex::new(r"/\*(?s:.)*?\*/").unwrap(),
+            ],
+            open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
+            close_delimiter_pattern: Regex::new(r"(\]|\}|\))").unwrap(),
+        }),
+        "el" => Some(Language {
+            name: "Emacs Lisp".into(),
+            atom_patterns: vec![
+                // Numbers
+                Regex::new(r"[0-9]+").unwrap(),
+                // Symbols (e.g. variable names)
+                Regex::new(r"[a-zA-Z0-9_?:/*+=<>-]+").unwrap(),
+                // Operators
+                Regex::new(r"[`',#.&@]").unwrap(),
+                // Double-quoted strings
+                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+            ],
+            comment_patterns: vec![Regex::new(r";.*").unwrap()],
+            open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
+            close_delimiter_pattern: Regex::new(r"(\]|\}|\))").unwrap(),
+        }),
+        "go" => Some(Language {
+            name: "Go".into(),
+            atom_patterns: vec![
+                // Numbers
+                Regex::new(r"[0-9]+").unwrap(),
+                // Symbols (e.g. variable names)
+                Regex::new(r"[.a-zA-Z0-9_]+").unwrap(),
+                // Two character operators
+                Regex::new(r"(!=|:=|&&|\|\|)").unwrap(),
+                // Single character operators
+                Regex::new(r"[.;:,=&!*+-]").unwrap(),
+                // Double-quoted strings
+                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+            ],
+            comment_patterns: vec![
+                // Single line comments
+                Regex::new("//.*(\n|$)").unwrap(),
+                // Multi-line comments
+                Regex::new(r"/\*(?s:.)*?\*/").unwrap(),
+            ],
+            open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
+            close_delimiter_pattern: Regex::new(r"(\]|\}|\))").unwrap(),
+        }),
+        "js" => Some(Language {
+            name: "JavaScript".into(),
+            atom_patterns: vec![
+                // Numbers
+                Regex::new(r"[0-9]+").unwrap(),
+                // Symbols (e.g. variable names)
+                Regex::new(r"[.a-zA-Z0-9_]+").unwrap(),
+                // Two character operators
+                Regex::new(r"(&&|\|\||\+\+|--|\*\*)").unwrap(),
+                // Single character operators
+                Regex::new(r"[=<>/*+?:;,-]").unwrap(),
+                // Double-quoted strings
+                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+                // Single quoted strings
+                Regex::new(r"'((\\')|[^'])*'").unwrap(),
+                // Backtick strings
+                Regex::new(r"`((\\`)|[^`])*1`").unwrap(),
+            ],
+            comment_patterns: vec![
+                // Single line comments
+                Regex::new("//.*(\n|$)").unwrap(),
+                // Multi-line comments
+                Regex::new(r"/\*(?s:.)*?\*/").unwrap(),
+            ],
+            open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
+            close_delimiter_pattern: Regex::new(r"(\]|\}|\))").unwrap(),
+        }),
+        "json" => Some(Language {
+            name: "JSON".into(),
+            atom_patterns: vec![
+                // Numbers
+                Regex::new(r"[0-9]+").unwrap(),
+                // Booleans
+                Regex::new(r"(true)|(false)|(null)").unwrap(),
+                // Punctuation
+                Regex::new(r"[:,]").unwrap(),
+                // Double-quoted strings
+            ],
+            comment_patterns: vec![],
+            open_delimiter_pattern: Regex::new(r"(\[|\{)").unwrap(),
+            close_delimiter_pattern: Regex::new(r"(\]|\})").unwrap(),
+        }),
+        "ml" | "mli" => Some(Language {
+            name: "OCaml".into(),
+            atom_patterns: vec![
+                // Numbers
+                Regex::new(r"[0-9]+").unwrap(),
+                // Symbols (e.g. variable names)
+                Regex::new(r"[.a-zA-Z0-9_]+").unwrap(),
+                // Two character operators
+                Regex::new(r"(->|<-|:=|&&|\|\|)").unwrap(),
+                // Single character operators
+                Regex::new(r"[?~=<>/*+,&|:;'#!-]").unwrap(),
+                // Double-quoted strings
+                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+            ],
+            comment_patterns: vec![
+                // Multi-line comments
+                Regex::new(r"\(\*(?s:.)*?\*\)").unwrap(),
+            ],
+            open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
+            close_delimiter_pattern: Regex::new(r"(\]|\}|\))").unwrap(),
+        }),
+        "rs" => Some(Language {
+            name: "Rust".into(),
+            atom_patterns: vec![
+                // Numbers
+                Regex::new(r"[0-9]+").unwrap(),
+                // Single quoted character 'a' or '\n', trying to avoid matching
+                // lifetimes.
+                Regex::new(r"'..?'").unwrap(),
+                // Lifetimes
+                Regex::new(r"'[a-z_]+").unwrap(),
+                // Bindings in macros.
+                Regex::new(r"\$[a-z_]+").unwrap(),
+                // Symbols (e.g. variable names)
+                Regex::new(r"[a-zA-Z0-9_]+!?").unwrap(),
+                // Two character operators
+                Regex::new(r"(::|&&|\|\||\.\.|=>|<=|>=|==|!=|->)").unwrap(),
+                // Single character operators
+                // | is a delimiter for lambdas, but also used in pattern matching.
+                Regex::new(r"[.&=<>/*+:;,|#!?$-]").unwrap(),
+                // Double-quoted strings
+                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+            ],
+            comment_patterns: vec![
+                // Single line comments
+                Regex::new("//.*(\n|$)").unwrap(),
+                // Multi-line comments
+                Regex::new(r"/\*(?s:.)*?\*/").unwrap(),
+            ],
+            open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
+            close_delimiter_pattern: Regex::new(r"(\]|\}|\))").unwrap(),
+        }),
+        "scm" => Some(Language {
+            name: "Scheme".into(),
+            atom_patterns: vec![
+                // Numbers
+                Regex::new(r"[0-9]+").unwrap(),
+                // Symbols (e.g. variable names)
+                Regex::new(r"#?[a-zA-Z0-9_?:/*=-]+").unwrap(),
+                // Operators
+                Regex::new(r"[`',#.]").unwrap(),
+                // Double-quoted strings
+                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+            ],
+            comment_patterns: vec![Regex::new(r";.*").unwrap()],
+            open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
+            close_delimiter_pattern: Regex::new(r"(\]|\}|\))").unwrap(),
+        }),
+        _ => None,
     }
 }
 
@@ -250,8 +373,7 @@ mod tests {
     use crate::syntax::Syntax::*;
 
     fn lang() -> Language {
-        let syntax_toml = ConfigDir::read_default_toml();
-        find_lang(syntax_toml, "js").unwrap()
+        from_extension("js")
     }
 
     fn assert_syntaxes<'a>(actual: &[&'a Syntax<'a>], expected: &[&'a Syntax<'a>]) {

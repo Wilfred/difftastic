@@ -16,7 +16,7 @@ use typed_arena::Arena;
 
 use crate::dijkstra::mark_syntax;
 use crate::lines::{join_overlapping, visible_groups, MaxLine};
-use crate::parse::{find_lang, parse, parse_lines, ConfigDir};
+use crate::parse::{from_extension, parse, parse_lines};
 use crate::syntax::{change_positions, init_info, matching_lines};
 
 fn read_or_die(path: &str) -> Vec<u8> {
@@ -81,26 +81,13 @@ fn main() {
         _ => panic!("Expected 2 arguments or 7 arguments"),
     };
 
-    let syntax_toml = ConfigDir::read_default_toml();
-    let extension = Path::new(&display_path).extension();
-    let lang = match extension {
-        Some(extension) => find_lang(syntax_toml, &OsStr::to_string_lossy(extension)),
-        None => None,
-    };
-
     let lhs_bytes = read_or_die(lhs_path);
     let rhs_bytes = read_or_die(rhs_path);
+
     let lhs_binary = is_probably_binary(&lhs_bytes);
     let rhs_binary = is_probably_binary(&rhs_bytes);
-
-    let lang_name = match &lang {
-        _ if lhs_binary || rhs_binary => "binary".to_string(),
-        Some(lang) => lang.name.clone(),
-        None => "text".to_string(),
-    };
-    println!("{}", style::header(display_path, &lang_name));
-
     if lhs_binary || rhs_binary {
+        println!("{}", style::header(display_path, "binary"));
         return;
     }
 
@@ -115,18 +102,32 @@ fn main() {
     let arena = Arena::new();
 
     let prefer_tree_sitter = env::var("DFT_TS").is_ok();
+
+    let extension = Path::new(&display_path).extension();
     let extension = extension.unwrap_or_else(|| OsStr::new(""));
-    let (lhs, rhs) = if sitter::supported(extension) && prefer_tree_sitter {
-        (
-            sitter::parse(&arena, &lhs_src, extension),
-            sitter::parse(&arena, &rhs_src, extension),
-        )
-    } else {
-        match &lang {
-            Some(lang) => (parse(&arena, &lhs_src, lang), parse(&arena, &rhs_src, lang)),
-            None => (parse_lines(&arena, &lhs_src), parse_lines(&arena, &rhs_src)),
-        }
-    };
+    let (lang_name, lhs, rhs): (String, Vec<&syntax::Syntax>, Vec<&syntax::Syntax>) =
+        if sitter::supported(extension) && prefer_tree_sitter {
+            (
+                format!("tree-sitter: {}", extension.to_string_lossy()),
+                sitter::parse(&arena, &lhs_src, extension),
+                sitter::parse(&arena, &rhs_src, extension),
+            )
+        } else {
+            match from_extension(extension) {
+                Some(lang) => (
+                    lang.name.clone(),
+                    parse(&arena, &lhs_src, &lang),
+                    parse(&arena, &rhs_src, &lang),
+                ),
+                None => (
+                    "text".into(),
+                    parse_lines(&arena, &lhs_src),
+                    parse_lines(&arena, &rhs_src),
+                ),
+            }
+        };
+
+    println!("{}", style::header(display_path, &lang_name));
 
     init_info(&lhs);
     init_info(&rhs);
@@ -139,10 +140,10 @@ fn main() {
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     if groups.is_empty() {
-        if lang.is_some() {
-            println!("No syntactic changes.");
-        } else {
+        if lang_name == "text" {
             println!("No changes.");
+        } else {
+            println!("No syntactic changes.");
         }
         return;
     }
