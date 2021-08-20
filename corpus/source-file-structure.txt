@@ -153,7 +153,7 @@ class Z {
     (parameter_list)
     (type_parameter_constraints_clause (identifier) (type_parameter_constraint)))
   (delegate_declaration (void_keyword) (identifier)
-    (parameter_list (parameter_array (array_type (predefined_type) (array_rank_specifier)) (identifier))))
+    (parameter_list (array_type (predefined_type) (array_rank_specifier)) (identifier)))
   (class_declaration (identifier) (declaration_list
     (delegate_declaration (void_keyword) (identifier) (parameter_list)))))
 
