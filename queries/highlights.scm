@@ -55,6 +55,14 @@
   "]"
 ] @punctuation.bracket
 
+[
+  "`"
+  "#'"
+  "'"
+  ","
+  ",@"
+] @operator
+
 ;; Highlight nil and t as constants, unlike other symbols
 [
   "nil"
