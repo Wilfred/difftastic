@@ -34,6 +34,11 @@
 (function_definition name: (symbol) @function)
 (function_definition docstring: (string) @comment)
 
+;; Highlight macro definitions the same way as function definitions.
+"defmacro" @keyword
+(macro_definition name: (symbol) @function)
+(macro_definition docstring: (string) @comment)
+
 (comment) @comment
 
 (integer) @number

@@ -53,6 +53,7 @@ module.exports = grammar({
       choice(
         $.special_form,
         $.function_definition,
+        $.macro_definition,
         $.list,
         $.vector,
         $.hash_table,
@@ -111,6 +112,20 @@ module.exports = grammar({
         )
       ),
 
+    macro_definition: ($) =>
+      prec(
+        1,
+        seq(
+          "(",
+          "defmacro",
+          field("name", $.symbol),
+          field("parameters", $._sexp),
+          optional(field("docstring", $.string)),
+          repeat($._sexp),
+          ")"
+        )
+      ),
+
     _atom: ($) =>
       choice(
         $.float,
@@ -152,6 +167,7 @@ module.exports = grammar({
         // function_definition and produce a parse failure.
         "defun",
         "defsubst",
+        "defmacro",
         ESCAPED_READER_SYMBOL,
         SYMBOL,
         INTERNED_EMPTY_STRING

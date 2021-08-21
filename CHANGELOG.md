@@ -7,6 +7,9 @@ Function definitions are now handled separately from other
 s-expressions. Added highlighting and tags table queries for function
 definitions.
 
+Macros are also handled separately to other s-expressions. They are
+treated the same as functions for highlighting and tags tables.
+
 Special forms are now parsed and highlighted separately from
 s-expressions.
 
