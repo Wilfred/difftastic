@@ -4,52 +4,46 @@
   (line_comment)
 ] @comment
 
-(IDENTIFIER) @variable
+variable: (IDENTIFIER) @variable
 
-(ParamDecl (IDENTIFIER) @parameter)
+variable_type_function: (IDENTIFIER) @variable
 
-(ParamType 
-  [
-    (SuffixExpr (IDENTIFIER) @type)
-    (SuffixExpr (IDENTIFIER) @variable (SuffixOp))
-  ]
+;; assume camelCase is a function
+variable_type_function: (
+  (IDENTIFIER) @function
+  (#match? @function "^[a-z]+([A-Z][a-z0-9]+)+$")
 )
 
 ;; assume TitleCase is a type
-((IDENTIFIER) @type
- (#match? @type "^[A-Z][A-Z_a-z-0-9]*$")
+variable_type_function: (
+  (IDENTIFIER) @type
+  (#match? @type "^[A-Z]")
 )
 
-;; assume camelCase is a function
-((IDENTIFIER) @function
- (#match? @function "^[a-z]+([A-Z][a-z0-9]+)+$")
+parameter: (IDENTIFIER) @parameter
+
+field_member: (IDENTIFIER) @field
+
+field_access: (IDENTIFIER) @field
+
+;; assume TitleCase is a type
+field_access: (
+  (IDENTIFIER) @type
+  (#match? @type "^[A-Z]")
 )
 
-(PrimaryFunctionCall
+field_access: (
   (IDENTIFIER) @function
+  (#match? @function "^[a-z]+([A-Z][a-z0-9]+)+$")
 )
 
-;; INFO: Should this be a method
-(SuffixOpFunctionCall
-  (SuffixOp
-    (IDENTIFIER) @function
-  )
-)
+function_call: (IDENTIFIER) @function
+function: (IDENTIFIER) @function
 
-; Struct, enum, union and Top level decl
-(ContainerMembers
-  [
-    (FnProto
-      (IDENTIFIER) @function
-      ("!")? @exception
-    )
-    (ContainerField
-      (IDENTIFIER) @field
-    )
-  ]
-)
+; INFO: add this field improve 10ms and increase file size 400ks
+exception: "!" @exception
 
-;enum and tag union field is constant
+;enum and tag union field is constant. const ~ 8ms
 (
   (ContainerDeclType
     [
@@ -62,33 +56,7 @@
   )
 )
 
-;error field is a constant
-(ErrorSetDecl (IDENTIFIER) @constant)
-
-; INFO: .IDENTIFIER and error.IDENTIFIER is a constant?
-(SuffixExpr
-  "error"?
-  "."
-  .
-  (IDENTIFIER) @constant
-)
-
-; const IDENTIFIER = struct/enum/union/fn/error
-(VarDecl
-  (IDENTIFIER) @type
-  (SuffixExpr 
-    [
-      (ContainerDecl)
-      (FnProto)
-      (ErrorSetDecl)
-    ]
-  )
-)
-
-type: (SuffixExpr (IDENTIFIER) @type)
-
-;{.IDENTIFIER = 1}
-(FieldInit (IDENTIFIER) @field)
+field_constant: (IDENTIFIER) @constant
 
 (BUILTINIDENTIFIER) @function.builtin
 
@@ -248,4 +216,4 @@ type: (SuffixExpr (IDENTIFIER) @type)
   (PtrIndexPayload "|")
 ] @punctuation.bracket
 ; Error
-(ERROR) @error
+(ERROR) @none

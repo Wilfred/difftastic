@@ -153,6 +153,7 @@ module.exports = grammar({
 
   externals: (_) => [],
   // word: ($) => $._identifier_text,
+  inline: ($) => [$.Variable],
 
   extras: ($) => [/\s/, $.line_comment],
   // conflicts: ($) => [
@@ -232,20 +233,20 @@ module.exports = grammar({
     FnProto: ($) =>
       seq(
         keyword("fn", $),
-        optional($.IDENTIFIER),
+        optional(field("function", $.IDENTIFIER)),
         $.ParamDeclList,
         optional($.ByteAlign),
         optional($.LinkSection),
         optional($.CallConv),
-        optional(EXCLAMATIONMARK),
-        field("type", $._TypeExpr)
+        optional(field("exception", EXCLAMATIONMARK)),
+        $._TypeExpr
       ),
 
     VarDecl: ($) =>
       seq(
         keyword(choice("const", "var"), $),
-        $.IDENTIFIER,
-        field("type", optional(seq(COLON, $._TypeExpr))),
+        field("variable_type_function", $.IDENTIFIER),
+        optional(seq(COLON, $._TypeExpr)),
         optional($.ByteAlign),
         optional($.LinkSection),
         optional(seq(EQUAL, $._Expr)),
@@ -256,11 +257,11 @@ module.exports = grammar({
       seq(
         optional($.doc_comment),
         optional(keyword("comptime", $)),
-        $.IDENTIFIER,
+        field("field_member", $.IDENTIFIER),
         optional(
           seq(
             COLON,
-            choice(keyword("anytype", $), field("type", $._TypeExpr)),
+            choice(keyword("anytype", $), $._TypeExpr),
             optional($.ByteAlign)
           )
         ),
@@ -414,40 +415,57 @@ module.exports = grammar({
 
     _ErrorUnionExpr: ($) =>
       // INFO: left and right doesn't matter?
-      prec.left(seq($.SuffixExpr, optional(seq(EXCLAMATIONMARK, $._TypeExpr)))),
+      prec.left(
+        seq(
+          $.SuffixExpr,
+          optional(seq(field("exception", EXCLAMATIONMARK), $._TypeExpr))
+        )
+      ),
 
     SuffixExpr: ($) =>
       // INFO: solve #1 issue
       prec.right(
         seq(
           optional(keyword("async", $)),
-          choice($._PrimaryTypeExpr, $.PrimaryFunctionCall),
-          repeat(choice($.SuffixOp, $.SuffixOpFunctionCall))
+          choice($._PrimaryTypeExpr, $._PrimaryFunctionCall),
+          repeat(
+            choice(
+              $.SuffixOp,
+              seq($.SuffixOp, $.FnCallArguments),
+              $.FieldOrFnCall
+            )
+          )
         )
       ),
 
-    PrimaryFunctionCall: ($) => seq($._PrimaryTypeExpr, $.FnCallArguments),
+    FieldOrFnCall: ($) =>
+      prec.right(
+        choice(
+          seq(DOT, field("field_access", $.IDENTIFIER)),
+          seq(DOT, field("function_call", $.IDENTIFIER), $.FnCallArguments)
+        )
+      ),
 
-    SuffixOpFunctionCall: ($) =>
-      prec(PREC.assign, seq($.SuffixOp, $.FnCallArguments)),
+    _PrimaryFunctionCall: ($) =>
+      seq(field("function_call", $._PrimaryTypeExpr), $.FnCallArguments),
 
     _PrimaryTypeExpr: ($) =>
       choice(
         seq($.BUILTINIDENTIFIER, $.FnCallArguments),
         $.CHAR_LITERAL,
         $.ContainerDecl,
-        seq(DOT, $.IDENTIFIER),
+        seq(DOT, field("field_constant", $.IDENTIFIER)),
         seq(DOT, $.InitList),
         $.ErrorSetDecl,
         $.FLOAT,
         $.FnProto,
         $.GroupedExpr,
         $.LabeledTypeExpr,
-        $.IDENTIFIER,
+        field("variable_type_function", $.IDENTIFIER),
         $.IfTypeExpr,
         $.INTEGER,
         seq(keyword("comptime", $), $._TypeExpr),
-        seq(keyword("error", $), DOT, $.IDENTIFIER),
+        seq(keyword("error", $), DOT, field("field_constant", $.IDENTIFIER)),
         keyword("false", $),
         keyword("null", $),
         keyword("anyframe", $),
@@ -458,6 +476,7 @@ module.exports = grammar({
         $.SwitchExpr,
         $.BuildinTypeExpr
       ),
+
     BuildinTypeExpr: (_) => token(choice(...buildin_type)),
     ContainerDecl: ($) =>
       seq(
@@ -469,7 +488,10 @@ module.exports = grammar({
       seq(
         keyword("error", $),
         LBRACE,
-        sepBy(COMMA, seq(optional($.doc_comment), $.IDENTIFIER)),
+        sepBy(
+          COMMA,
+          seq(optional($.doc_comment), field("field_constant", $.IDENTIFIER))
+        ),
         RBRACE
       ),
 
@@ -528,11 +550,11 @@ module.exports = grammar({
     AsmOutputItem: ($) =>
       seq(
         LBRACKET,
-        $.IDENTIFIER,
+        $.Variable,
         RBRACKET,
         $.STRINGLITERAL,
         LPAREN,
-        choice(seq("->", $._TypeExpr), $.IDENTIFIER),
+        choice(seq("->", $._TypeExpr), $.Variable),
         RPAREN
       ),
 
@@ -542,7 +564,7 @@ module.exports = grammar({
     AsmInputItem: ($) =>
       seq(
         LBRACKET,
-        $.IDENTIFIER,
+        $.Variable,
         RBRACKET,
         $.STRINGLITERAL,
         LPAREN,
@@ -557,7 +579,8 @@ module.exports = grammar({
 
     BlockLabel: ($) => prec(PREC.label, seq($.IDENTIFIER, COLON)),
 
-    FieldInit: ($) => seq(DOT, $.IDENTIFIER, EQUAL, $._Expr),
+    FieldInit: ($) =>
+      seq(DOT, field("field_member", $.IDENTIFIER), EQUAL, $._Expr),
 
     WhileContinueExpr: ($) => seq(COLON, LPAREN, $.AssignExpr, RPAREN),
 
@@ -571,7 +594,7 @@ module.exports = grammar({
         seq(
           optional($.doc_comment),
           optional(keyword(choice("noalias", "comptime"), $)),
-          optional(seq($.IDENTIFIER, COLON)),
+          optional(seq(field("parameter", $.IDENTIFIER), COLON)),
           $.ParamType
         ),
         DOT3
@@ -598,16 +621,16 @@ module.exports = grammar({
       seq(keyword("for", $), LPAREN, $._Expr, RPAREN, $.PtrIndexPayload),
 
     // Payloads
-    Payload: ($) => seq(PIPE, $.IDENTIFIER, PIPE),
+    Payload: ($) => seq(PIPE, $.Variable, PIPE),
 
-    PtrPayload: ($) => seq(PIPE, optional(ASTERISK), $.IDENTIFIER, PIPE),
+    PtrPayload: ($) => seq(PIPE, optional(ASTERISK), $.Variable, PIPE),
 
     PtrIndexPayload: ($) =>
       seq(
         PIPE,
         optional(ASTERISK),
-        $.IDENTIFIER,
-        optional(seq(COMMA, $.IDENTIFIER)),
+        $.Variable,
+        optional(seq(COMMA, $.Variable)),
         PIPE
       ),
 
@@ -712,7 +735,6 @@ module.exports = grammar({
           optional(seq(DOT2, optional($._Expr), optional(seq(COLON, $._Expr)))),
           RBRACKET
         ),
-        seq(DOT, $.IDENTIFIER),
         DOTASTERISK,
         DOTQUESTIONMARK
       ),
@@ -803,6 +825,8 @@ module.exports = grammar({
     STRINGLITERALSINGLE: (_) => token(seq('"', repeat(string_char), '"')),
 
     STRINGLITERAL: ($) => choice($.STRINGLITERALSINGLE, repeat1(line_string)),
+
+    Variable: ($) => field("variable", $.IDENTIFIER),
 
     IDENTIFIER: (_) =>
       choice(/[A-Za-z_][A-Za-z0-9_]*/, seq('@"', repeat(string_char), '"')),
