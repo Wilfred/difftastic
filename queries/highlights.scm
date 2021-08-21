@@ -67,4 +67,4 @@
 [
   "nil"
   "t"
-] @constant
+] @constant.builtin
