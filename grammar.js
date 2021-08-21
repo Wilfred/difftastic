@@ -110,41 +110,25 @@ const AMPERSAND = "&",
   oct_int = seq(oct, repeat(oct_)),
   dec_int = seq(dec, repeat(dec_)),
   hex_int = seq(hex, repeat(hex_)),
-  // ox80_oxBF = /[\200-\277]/,
-  // oxF4 = "\364",
-  // ox80_ox8F = /[\200-\217]/,
-  // oxF1_oxF3 = /[\361-\363]/,
-  // oxF0 = "\360",
-  // ox90_0xBF = /[\220-\277]/,
-  // oxEE_oxEF = /[\356-\357]/,
-  // oxED = "\355",
-  // oxE1_oxEC = /[\341-\354]/,
-  // ox80_ox9F = /[\200-\237]/,
-  // oxE0 = "\340",
-  // oxA0_oxBF = /[\240-\277]/,
-  // oxC2_oxDF = /[\302-\337]/,
-  // mb_utf8_literal = choice(
-  //   seq(oxF4, ox80_ox8F, ox80_oxBF, ox80_oxBF),
-  //   seq(oxF1_oxF3, ox80_oxBF, ox80_oxBF, ox80_oxBF),
-  //   seq(oxF0, ox90_0xBF, ox80_oxBF, ox80_oxBF),
-  //   seq(oxEE_oxEF, ox80_oxBF, ox80_oxBF),
-  //   seq(oxED, ox80_ox9F, ox80_oxBF),
-  //   seq(oxE1_oxEC, ox80_oxBF, ox80_oxBF),
-  //   seq(oxE0, oxA0_oxBF, ox80_oxBF),
-  //   seq(oxC2_oxDF, ox80_oxBF)
-  // ),
-  // ascii_char_not_nl_slash_squote = /[\000-\011\013-\046-\050-\133\135-\177]/,
+  mb_utf8_literal = token(
+    choice(
+      /\xF4[\x80-\x8F][\x80-\xBF][\x80-\xBF]/,
+      /[\xF1-\xF3][\x80-\xBF][\x80-\xBF][\x80-\xBF]/,
+      /\xF0[\x90-\xBF][\x80-\xBF][\x80-\xBF]/,
+      /[\xEE-\xEF][\x80-\xBF][\x80-\xBF]/,
+      /\xED[\x80-\x9F][\x80-\xBF]/,
+      /[\xE1-\xEC][\x80-\xBF][\x80-\xBF]/,
+      /\xE0[\xA0-\xBF][\x80-\xBF]/,
+      /[\xC2-\xDF][\x80-\xBF]/
+    )
+  ),
+  ascii_char_not_nl_slash_squote = /[\x00-\x09\x0b-\x26\x28-\x5b\x5d-\x7f]/,
   char_escape = choice(
     seq("\\x", hex, hex),
     seq("\\u{", hex_one_or_more, "}"),
     seq("\\", /[nr\\t'"]/)
   ),
-  char_char = choice(
-    //   mb_utf8_literal,
-    char_escape,
-    /./
-    // ascii_char_not_nl_slash_squote
-  ),
+  char_char = choice(mb_utf8_literal, ascii_char_not_nl_slash_squote),
   string_char = choice(char_escape, /[^\\"\n]/),
   line_string = token(seq("\\\\", /[^\n]*/));
 
@@ -361,6 +345,7 @@ module.exports = grammar({
         )
       );
     },
+
     UnaryExpr: ($) =>
       prec.left(
         PREC.prefix,
@@ -411,9 +396,9 @@ module.exports = grammar({
         seq(LBRACE, RBRACE)
       ),
 
-    _TypeExpr: ($) => seq(repeat($.PrefixTypeOp), $._ErrorUnionExpr),
+    _TypeExpr: ($) => seq(repeat($.PrefixTypeOp), $.ErrorUnionExpr),
 
-    _ErrorUnionExpr: ($) =>
+    ErrorUnionExpr: ($) =>
       // INFO: left and right doesn't matter?
       prec.left(
         seq(
@@ -427,7 +412,12 @@ module.exports = grammar({
       prec.right(
         seq(
           optional(keyword("async", $)),
-          choice($._PrimaryTypeExpr, $._PrimaryFunctionCall),
+          choice(
+            $._PrimaryTypeExpr,
+            seq($._PrimaryTypeExpr, $.FnCallArguments),
+            field("variable_type_function", $.IDENTIFIER),
+            seq(field("function_call", $.IDENTIFIER), $.FnCallArguments)
+          ),
           repeat(
             choice(
               $.SuffixOp,
@@ -446,9 +436,6 @@ module.exports = grammar({
         )
       ),
 
-    _PrimaryFunctionCall: ($) =>
-      seq(field("function_call", $._PrimaryTypeExpr), $.FnCallArguments),
-
     _PrimaryTypeExpr: ($) =>
       choice(
         seq($.BUILTINIDENTIFIER, $.FnCallArguments),
@@ -461,7 +448,6 @@ module.exports = grammar({
         $.FnProto,
         $.GroupedExpr,
         $.LabeledTypeExpr,
-        field("variable_type_function", $.IDENTIFIER),
         $.IfTypeExpr,
         $.INTEGER,
         seq(keyword("comptime", $), $._TypeExpr),
@@ -472,7 +458,7 @@ module.exports = grammar({
         keyword("true", $),
         keyword("undefined", $),
         keyword("unreachable", $),
-        $.STRINGLITERAL,
+        $._STRINGLITERAL,
         $.SwitchExpr,
         $.BuildinTypeExpr
       ),
@@ -552,7 +538,7 @@ module.exports = grammar({
         LBRACKET,
         $.Variable,
         RBRACKET,
-        $.STRINGLITERAL,
+        $._STRINGLITERAL,
         LPAREN,
         choice(seq("->", $._TypeExpr), $.Variable),
         RPAREN
@@ -566,13 +552,13 @@ module.exports = grammar({
         LBRACKET,
         $.Variable,
         RBRACKET,
-        $.STRINGLITERAL,
+        $._STRINGLITERAL,
         LPAREN,
         $._Expr,
         RPAREN
       ),
 
-    AsmClobbers: ($) => seq(COLON, sepBy(COMMA, $.STRINGLITERAL)),
+    AsmClobbers: ($) => seq(COLON, sepBy(COMMA, $._STRINGLITERAL)),
 
     // *** Helper grammar ***
     BreakLabel: ($) => seq(COLON, $.IDENTIFIER),
@@ -707,8 +693,7 @@ module.exports = grammar({
             )
           )
         ),
-        // PtrTypeStart (KEYWORD_align LPAREN Expr (COLON INTEGER COLON INTEGER)? RPAREN
-        // / KEYWORD_const / KEYWORD_volatile / KEYWORD_allowzero)*
+
         seq(
           $.PtrTypeStart,
           repeat(
@@ -802,7 +787,7 @@ module.exports = grammar({
     doc_comment: (_) => token(repeat1(seq("///", /[^\n]*/, /[ \n]*/))),
     line_comment: (_) => token(seq("//", /.*/)),
 
-    CHAR_LITERAL: (_) => token(seq("'", char_char, "'")),
+    CHAR_LITERAL: ($) => seq("'", choice(char_char, $.CharEscape), "'"),
 
     FLOAT: (_) =>
       choice(
@@ -822,9 +807,25 @@ module.exports = grammar({
         token(dec_int)
       ),
 
-    STRINGLITERALSINGLE: (_) => token(seq('"', repeat(string_char), '"')),
+    CharEscape: (_) =>
+      token.immediate(
+        prec(
+          1,
+          seq(
+            "\\",
+            choice(
+              seq("x", hex, hex),
+              seq("u{", hex_one_or_more, "}"),
+              /[nr\\t'"]/
+            )
+          )
+        )
+      ),
 
-    STRINGLITERAL: ($) => choice($.STRINGLITERALSINGLE, repeat1(line_string)),
+    STRINGLITERALSINGLE: (_) => token(seq('"', repeat(string_char), '"')),
+    LINESTRING: (_) => repeat1(line_string),
+
+    _STRINGLITERAL: ($) => choice($.STRINGLITERALSINGLE, $.LINESTRING),
 
     Variable: ($) => field("variable", $.IDENTIFIER),
 

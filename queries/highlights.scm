@@ -47,12 +47,12 @@ exception: "!" @exception
 (
   (ContainerDeclType
     [
-      (SuffixExpr)
+      (ErrorUnionExpr)
       "enum"
     ]
   )
   (ContainerMembers
-    (ContainerField (IDENTIFIER) @constant)?
+    (ContainerField (IDENTIFIER) @constant)
   )
 )
 
@@ -68,11 +68,12 @@ field_constant: (IDENTIFIER) @constant
 (FLOAT) @float
 
 [
-  (STRINGLITERAL)
+  (LINESTRING)
   (STRINGLITERALSINGLE)
 ] @string
 
 (CHAR_LITERAL) @character
+(CharEscape) @string.escape
 
 [
   "allowzero"
