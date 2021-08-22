@@ -30,7 +30,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
                 // Operators
                 Regex::new(r"[`'~@&]").unwrap(),
                 // Double-quoted strings
-                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+                Regex::new(r#""((\\.)|[^"])*""#).unwrap(),
             ],
             comment_patterns: vec![Regex::new(r";.*").unwrap()],
             open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
@@ -46,7 +46,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
                 // Punctuation
                 Regex::new(r"[:;]").unwrap(),
                 // Double-quoted strings
-                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+                Regex::new(r#""((\\.)|[^"])*""#).unwrap(),
                 // Single quoted strings
                 Regex::new(r"'((\\')|[^'])*'").unwrap(),
             ],
@@ -67,7 +67,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
                 // Operators
                 Regex::new(r"[`',#.&@]").unwrap(),
                 // Double-quoted strings
-                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+                Regex::new(r#""((\\.)|[^"])*""#).unwrap(),
             ],
             comment_patterns: vec![Regex::new(r";.*").unwrap()],
             open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
@@ -85,7 +85,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
                 // Single character operators
                 Regex::new(r"[.;:,=&!*+-]").unwrap(),
                 // Double-quoted strings
-                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+                Regex::new(r#""((\\.)|[^"])*""#).unwrap(),
             ],
             comment_patterns: vec![
                 // Single line comments
@@ -108,7 +108,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
                 // Single character operators
                 Regex::new(r"[=<>/*+?:;,-]").unwrap(),
                 // Double-quoted strings
-                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+                Regex::new(r#""((\\.)|[^"])*""#).unwrap(),
                 // Single quoted strings
                 Regex::new(r"'((\\')|[^'])*'").unwrap(),
                 // Backtick strings
@@ -150,7 +150,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
                 // Single character operators
                 Regex::new(r"[?~=<>/*+,&|:;'#!-]").unwrap(),
                 // Double-quoted strings
-                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+                Regex::new(r#""((\\.)|[^"])*""#).unwrap(),
             ],
             comment_patterns: vec![
                 // Multi-line comments
@@ -179,7 +179,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
                 // | is a delimiter for lambdas, but also used in pattern matching.
                 Regex::new(r"[.&=<>/*+:;,|#!?$-]").unwrap(),
                 // Double-quoted strings
-                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+                Regex::new(r#""((\\.)|[^"])*""#).unwrap(),
             ],
             comment_patterns: vec![
                 // Single line comments
@@ -200,7 +200,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
                 // Operators
                 Regex::new(r"[`',#.]").unwrap(),
                 // Double-quoted strings
-                Regex::new(r#""((\\.)|[^"])*"#).unwrap(),
+                Regex::new(r#""((\\.)|[^"])*""#).unwrap(),
             ],
             comment_patterns: vec![Regex::new(r";.*").unwrap()],
             open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
