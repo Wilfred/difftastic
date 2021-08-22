@@ -141,7 +141,10 @@ struct Scanner {
     // Unicode
     if (letter == 'u') {
       advance(lexer);
-      return lexer->lookahead == '{';
+      if (lexer->lookahead == '{') {
+        advance(lexer);
+        return lexer->lookahead != '$';
+      }
     }
 
     // Octal
@@ -174,20 +177,8 @@ struct Scanner {
           }
           break;
         case '$':
-          // Check for variables of the following forms
-          // $+<name> e.g. $$$$$$$$$$a
-          // $+{<name>} e.g. $$$$$$$$$${a}
-
           advance(lexer);
 
-          // PHP supports arbitrarily nested dynamic variables
-          // Therefore, we need to iterate over all $ and check if a valid name character is following the last one
-          while (lexer->lookahead == '$') {
-            if (is_valid_name_char(lexer) || lexer->lookahead == '{') {
-              return has_content;
-            }
-            advance(lexer);
-          }
           if (is_valid_name_char(lexer) || lexer->lookahead  == '{') {
             return has_content;
           }
