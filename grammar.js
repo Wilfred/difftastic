@@ -102,7 +102,6 @@ const AMPERSAND = "&",
   oct = /[0-7]/,
   oct_ = seq(optional("_"), oct),
   hex = /[0-9a-fA-F]/,
-  hex_one_or_more = /[0-9a-fA-F]+/,
   hex_ = seq(optional("_"), hex),
   dec = /[0-9]/,
   dec_ = seq(optional("_"), dec),
@@ -110,8 +109,14 @@ const AMPERSAND = "&",
   oct_int = seq(oct, repeat(oct_)),
   dec_int = seq(dec, repeat(dec_)),
   hex_int = seq(hex, repeat(hex_)),
-  unescaped_string_fragment = token.immediate(prec(1, /[^"\\]+/)),
+  unescaped_string_fragment = token.immediate(prec(1, /[^"\\\{\}]+/)),
   unescaped_char_fragment = token.immediate(prec(1, /[^'\\]/)),
+  char_escape = choice(
+    seq("\\", choice(/x[0-9a-fA-f]{2}/, /u\{[0-9a-fA-F]+\}/, /[nr\\t'"]/)),
+    "{{",
+    "}}",
+    /\{[0-9<^>:.xXsedbocuany*\[\]]*\}/
+  ),
   line_string = token(seq("\\\\", /[^\n]*/));
 
 module.exports = grammar({
@@ -771,17 +776,7 @@ module.exports = grammar({
         token(dec_int)
       ),
 
-    CharEscape: (_) =>
-      token.immediate(
-        seq(
-          "\\",
-          choice(
-            seq("x", hex, hex),
-            seq("u{", hex_one_or_more, "}"),
-            /[nr\\t'"]/
-          )
-        )
-      ),
+    CharEscape: (_) => token.immediate(char_escape),
 
     STRINGLITERALSINGLE: ($) =>
       seq('"', repeat(choice(unescaped_string_fragment, $.CharEscape)), '"'),
