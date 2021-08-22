@@ -115,7 +115,20 @@ const AMPERSAND = "&",
     seq("\\", choice(/x[0-9a-fA-f]{2}/, /u\{[0-9a-fA-F]+\}/, /[nr\\t'"]/)),
     "{{",
     "}}",
-    /\{[0-9<^>:.xXsedbocuany*\[\]]*\}/
+    seq(
+      "{",
+      /[0-9]*/,
+      optional(choice(/[xXsedbocu*]{1}/, "any")),
+      optional(
+        seq(
+          ":",
+          optional(seq(/[^"\\\{\}]{1}/, /[<^>]{1}/, /[0-9]+/)),
+          /.{0,1}/,
+          /[0-9]*/
+        )
+      ),
+      "}"
+    )
   ),
   line_string = token(seq("\\\\", /[^\n]*/));
 
