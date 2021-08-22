@@ -71,8 +71,8 @@ fn syntax_from_cursor<'a>(
     loop {
         let node = cursor.node();
 
-        if node.kind() == "interpreted_string_literal" {
-            // Treat golang string literals as atoms.
+        if node.kind() == "interpreted_string_literal" || node.kind() == "string_literal" {
+            // Treat golang interpolated strings and rust string as atoms.
             // TODO: why are string literals grey without this? (see old/new.go).
             let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
             let content = &src[node.start_byte()..node.end_byte()];
