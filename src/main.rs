@@ -1,9 +1,10 @@
 mod dijkstra;
 mod inline;
 mod intervals;
+mod line_parser;
 mod lines;
-mod parse;
 mod positions;
+mod regex_parser;
 mod side_by_side;
 mod sitter;
 mod style;
@@ -16,7 +17,6 @@ use typed_arena::Arena;
 
 use crate::dijkstra::mark_syntax;
 use crate::lines::{join_overlapping, visible_groups, MaxLine};
-use crate::parse::{from_extension, parse, parse_lines};
 use crate::syntax::{change_positions, init_info, matching_lines};
 
 fn read_or_die(path: &str) -> Vec<u8> {
@@ -113,16 +113,16 @@ fn main() {
                 sitter::parse(&arena, &rhs_src, extension),
             )
         } else {
-            match from_extension(extension) {
+            match regex_parser::from_extension(extension) {
                 Some(lang) => (
                     lang.name.clone(),
-                    parse(&arena, &lhs_src, &lang),
-                    parse(&arena, &rhs_src, &lang),
+                    regex_parser::parse(&arena, &lhs_src, &lang),
+                    regex_parser::parse(&arena, &rhs_src, &lang),
                 ),
                 None => (
                     "text".into(),
-                    parse_lines(&arena, &lhs_src),
-                    parse_lines(&arena, &rhs_src),
+                    line_parser::parse(&arena, &lhs_src),
+                    line_parser::parse(&arena, &rhs_src),
                 ),
             }
         };
