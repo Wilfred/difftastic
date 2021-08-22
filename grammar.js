@@ -110,53 +110,16 @@ const AMPERSAND = "&",
   oct_int = seq(oct, repeat(oct_)),
   dec_int = seq(dec, repeat(dec_)),
   hex_int = seq(hex, repeat(hex_)),
-  mb_utf8_literal = token(
-    choice(
-      /\xF4[\x80-\x8F][\x80-\xBF][\x80-\xBF]/,
-      /[\xF1-\xF3][\x80-\xBF][\x80-\xBF][\x80-\xBF]/,
-      /\xF0[\x90-\xBF][\x80-\xBF][\x80-\xBF]/,
-      /[\xEE-\xEF][\x80-\xBF][\x80-\xBF]/,
-      /\xED[\x80-\x9F][\x80-\xBF]/,
-      /[\xE1-\xEC][\x80-\xBF][\x80-\xBF]/,
-      /\xE0[\xA0-\xBF][\x80-\xBF]/,
-      /[\xC2-\xDF][\x80-\xBF]/
-    )
-  ),
-  ascii_char_not_nl_slash_squote = /[\x00-\x09\x0b-\x26\x28-\x5b\x5d-\x7f]/,
-  char_escape = choice(
-    seq("\\x", hex, hex),
-    seq("\\u{", hex_one_or_more, "}"),
-    seq("\\", /[nr\\t'"]/)
-  ),
-  char_char = choice(mb_utf8_literal, ascii_char_not_nl_slash_squote),
-  string_char = choice(char_escape, /[^\\"\n]/),
+  unescaped_string_fragment = token.immediate(prec(1, /[^"\\]+/)),
+  unescaped_char_fragment = token.immediate(prec(1, /[^'\\]/)),
   line_string = token(seq("\\\\", /[^\n]*/));
 
 module.exports = grammar({
   name: "zig",
 
   externals: (_) => [],
-  // word: ($) => $._identifier_text,
   inline: ($) => [$.Variable],
-
   extras: ($) => [/\s/, $.line_comment],
-  // conflicts: ($) => [
-  // [$._PrimaryExpr, $.LabeledStatement],
-  // [$._Statement, $._PrimaryTypeExpr],
-  // [$._CurlySuffixExpr, $._PrimaryTypeExpr],
-  // [$._CurlySuffixExpr, $.IfTypeExpr],
-  // [$._CurlySuffixExpr, $.WhileTypeExpr],
-  // [$._CurlySuffixExpr, $.ForTypeExpr],
-  // [$.AssignExpr, $._PrimaryExpr],
-  // [$.BlockExpr, $._PrimaryExpr],
-  // [$.LabeledStatement, $.LabeledTypeExpr],
-  // [$.AssignExpr, $.IfExpr],
-  // [$.AssignExpr, $.WhileExpr],
-  // [$.AssignExpr, $.ForExpr],
-  // [$.ParamType, $._PrimaryTypeExpr],
-  // [$.BlockExpr, $.LabeledTypeExpr],
-  // ],
-
   rules: {
     source_file: ($) =>
       seq(optional($.container_doc_comment), optional($.ContainerMembers)),
@@ -787,7 +750,8 @@ module.exports = grammar({
     doc_comment: (_) => token(repeat1(seq("///", /[^\n]*/, /[ \n]*/))),
     line_comment: (_) => token(seq("//", /.*/)),
 
-    CHAR_LITERAL: ($) => seq("'", choice(char_char, $.CharEscape), "'"),
+    CHAR_LITERAL: ($) =>
+      seq("'", choice(unescaped_char_fragment, $.CharEscape), "'"),
 
     FLOAT: (_) =>
       choice(
@@ -809,28 +773,31 @@ module.exports = grammar({
 
     CharEscape: (_) =>
       token.immediate(
-        prec(
-          1,
-          seq(
-            "\\",
-            choice(
-              seq("x", hex, hex),
-              seq("u{", hex_one_or_more, "}"),
-              /[nr\\t'"]/
-            )
+        seq(
+          "\\",
+          choice(
+            seq("x", hex, hex),
+            seq("u{", hex_one_or_more, "}"),
+            /[nr\\t'"]/
           )
         )
       ),
 
-    STRINGLITERALSINGLE: (_) => token(seq('"', repeat(string_char), '"')),
+    STRINGLITERALSINGLE: ($) =>
+      seq('"', repeat(choice(unescaped_string_fragment, $.CharEscape)), '"'),
+
     LINESTRING: (_) => repeat1(line_string),
 
     _STRINGLITERAL: ($) => choice($.STRINGLITERALSINGLE, $.LINESTRING),
 
     Variable: ($) => field("variable", $.IDENTIFIER),
 
-    IDENTIFIER: (_) =>
-      choice(/[A-Za-z_][A-Za-z0-9_]*/, seq('@"', repeat(string_char), '"')),
+    IDENTIFIER: ($) =>
+      choice(
+        /[A-Za-z_][A-Za-z0-9_]*/,
+        seq('@"', repeat(choice(unescaped_string_fragment, $.CharEscape)), '"')
+      ),
+
     BUILTINIDENTIFIER: (_) => seq("@", /[A-Za-z_][A-Za-z0-9_]*/),
   },
 });
