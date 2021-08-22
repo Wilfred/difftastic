@@ -210,26 +210,6 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
     }
 }
 
-/// Split `s` by lines, and treat each line as an atom.
-///
-/// This is a fallback for files that we don't know how to parse.
-pub fn parse_lines<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<'a>> {
-    let mut res: Vec<&'a Syntax<'a>> = vec![];
-    for (i, line) in s.lines().enumerate() {
-        res.push(Syntax::new_atom(
-            arena,
-            vec![SingleLineSpan {
-                line: i.into(),
-                start_col: 0,
-                end_col: line.len(),
-            }],
-            line,
-        ));
-    }
-
-    res
-}
-
 /// Parse `s` according to `lang`.
 pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, s: &str, lang: &Language) -> Vec<&'a Syntax<'a>> {
     let nl_pos = NewlinePositions::from(s);
@@ -368,7 +348,7 @@ impl ParseState {
 }
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use super::*;
     use crate::syntax::Syntax::*;
 
@@ -376,7 +356,7 @@ mod tests {
         from_extension(&OsStr::new("js")).unwrap()
     }
 
-    fn assert_syntaxes<'a>(actual: &[&'a Syntax<'a>], expected: &[&'a Syntax<'a>]) {
+    pub fn assert_syntaxes<'a>(actual: &[&'a Syntax<'a>], expected: &[&'a Syntax<'a>]) {
         if !syntaxes_match(actual, expected) {
             dbg!(expected, actual);
             assert!(false);
@@ -492,35 +472,6 @@ mod tests {
             }
         }
         true
-    }
-
-    #[test]
-    fn test_parse_lines() {
-        let arena = Arena::new();
-
-        assert_syntaxes(
-            &parse_lines(&arena, "foo\nbar"),
-            &[
-                Syntax::new_atom(
-                    &arena,
-                    vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 3,
-                    }],
-                    "foo",
-                ),
-                Syntax::new_atom(
-                    &arena,
-                    vec![SingleLineSpan {
-                        line: 1.into(),
-                        start_col: 0,
-                        end_col: 3,
-                    }],
-                    "bar",
-                ),
-            ],
-        );
     }
 
     #[test]

@@ -31,7 +31,7 @@ line-oriented diff.
 Difftastic treats source code as a sequence of atoms or (possibly
 nested) lists.
 
-Language syntax is defined in `parse.rs`: you provide regular
+Language syntax is defined in `src/regex_parser.rs`: you provide regular
 expressions for atoms (including comments), open delimiters, and close
 delimiters.
 
