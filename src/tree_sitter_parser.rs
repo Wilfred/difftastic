@@ -1,4 +1,4 @@
-use std::ffi::OsStr;
+use std::{borrow::Borrow, ffi::OsStr};
 
 use tree_sitter::{Language, Parser, TreeCursor};
 use typed_arena::Arena;
@@ -17,47 +17,29 @@ extern "C" {
     fn tree_sitter_rust() -> Language;
 }
 
-pub fn supported(extension: &OsStr) -> bool {
-    extension == "rs"
-        || extension == "go"
-        || extension == "clj"
-        || extension == "css"
-        || extension == "el"
-        || extension == "js"
-        || extension == "jsx"
-        || extension == "json"
-        || extension == "ml"
-        || extension == "mli"
+pub fn from_extension(extension: &OsStr) -> Option<(String, Language)> {
+    // TODO: find a nice way to extract this data from the
+    // package.json in these parsers.
+    match extension.to_string_lossy().borrow() {
+        "clj" => Some(("Clojure".into(), unsafe { tree_sitter_clojure() })),
+        "css" => Some(("CSS".into(), unsafe { tree_sitter_css() })),
+        "el" => Some(("Emacs Lisp".into(), unsafe { tree_sitter_elisp() })),
+        "go" => Some(("Go".into(), unsafe { tree_sitter_go() })),
+        "js" | "jsx" => Some(("JavaScript".into(), unsafe { tree_sitter_javascript() })),
+        "json" => Some(("JSON".into(), unsafe { tree_sitter_json() })),
+        "ml" => Some(("OCaml".into(), unsafe { tree_sitter_ocaml() })),
+        "mli" => Some(("OCaml Interface".into(), unsafe { tree_sitter_ocaml_interface() })),
+        "rs" => Some(("Rust".into(), unsafe { tree_sitter_rust() })),
+        _ => None,
+    }
 }
 
 pub fn parse<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
-    extension: &OsStr,
+    language: Language,
 ) -> Vec<&'a Syntax<'a>> {
     let mut parser = Parser::new();
-
-    let language = if extension == "rs" {
-        unsafe { tree_sitter_rust() }
-    } else if extension == "go" {
-        unsafe { tree_sitter_go() }
-    } else if extension == "clj" {
-        unsafe { tree_sitter_clojure() }
-    } else if extension == "css" {
-        unsafe { tree_sitter_css() }
-    } else if extension == "el" {
-        unsafe { tree_sitter_elisp() }
-    } else if extension == "json" {
-        unsafe { tree_sitter_json() }
-    } else if extension == "js" || extension == "jsx" {
-        unsafe { tree_sitter_javascript() }
-    } else if extension == "ml" {
-        unsafe { tree_sitter_ocaml() }
-    } else if extension == "mli" {
-        unsafe { tree_sitter_ocaml_interface() }
-    } else {
-        panic!("Unknown extension for tree-sitter parsers.")
-    };
     parser
         .set_language(language)
         .expect("Incompatible tree-sitter version");
