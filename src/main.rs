@@ -102,31 +102,33 @@ fn main() {
 
     let arena = Arena::new();
 
-    let prefer_tree_sitter = env::var("DFT_TS").is_ok();
-
     let extension = Path::new(&display_path).extension();
     let extension = extension.unwrap_or_else(|| OsStr::new(""));
-    let (lang_name, lhs, rhs): (String, Vec<&syntax::Syntax>, Vec<&syntax::Syntax>) =
-        if tsp::supported(extension) && prefer_tree_sitter {
-            (
-                format!("tree-sitter: {}", extension.to_string_lossy()),
-                tsp::parse(&arena, &lhs_src, extension),
-                tsp::parse(&arena, &rhs_src, extension),
-            )
-        } else {
-            match regex_parser::from_extension(extension) {
-                Some(lang) => (
-                    lang.name.clone(),
-                    regex_parser::parse(&arena, &lhs_src, &lang),
-                    regex_parser::parse(&arena, &rhs_src, &lang),
-                ),
-                None => (
-                    "text".into(),
-                    line_parser::parse(&arena, &lhs_src),
-                    line_parser::parse(&arena, &rhs_src),
-                ),
-            }
-        };
+    let ts_lang = if env::var("DFT_TS").is_ok() {
+        tsp::from_extension(extension)
+    } else {
+        None
+    };
+
+    let (lang_name, lhs, rhs) = match ts_lang {
+        Some((lang_name, ts_lang)) => (
+            lang_name,
+            tsp::parse(&arena, &lhs_src, ts_lang),
+            tsp::parse(&arena, &rhs_src, ts_lang),
+        ),
+        None => match regex_parser::from_extension(extension) {
+            Some(lang) => (
+                format!("{} (regex parser)", lang.name),
+                regex_parser::parse(&arena, &lhs_src, &lang),
+                regex_parser::parse(&arena, &rhs_src, &lang),
+            ),
+            None => (
+                "text".into(),
+                line_parser::parse(&arena, &lhs_src),
+                line_parser::parse(&arena, &rhs_src),
+            ),
+        },
+    };
 
     println!("{}", style::header(display_path, &lang_name));
 
