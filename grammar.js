@@ -1157,7 +1157,7 @@ module.exports = grammar({
     ),
 
     _simple_string_member_access_expression: $ => prec(PREC.MEMBER, seq(
-      field('object', $._variable_name),
+      field('object', $.variable_name),
       '->',
       field('name', $.name),
     )),
@@ -1168,11 +1168,11 @@ module.exports = grammar({
       $.integer,
       alias($._simple_string_subscript_unary_expression, $.unary_op_expression),
       $.name,
-      $._variable_name,
+      $.variable_name,
     ),
 
     _simple_string_subscript_expression: $ => prec(PREC.DEREF, seq(
-      $._variable_name,
+      $.variable_name,
       seq('[', $._simple_string_array_access_argument, ']'),
     )),
 
@@ -1210,7 +1210,7 @@ module.exports = grammar({
       repeat(
         choice(
           $.escape_sequence,
-          seq($._variable_name, alias($.encapsed_string_chars_after_variable, $.string)),
+          seq($.variable_name, alias($.encapsed_string_chars_after_variable, $.string)),
           alias($.encapsed_string_chars, $.string),
           $._simple_string_part,
           $._complex_string_part

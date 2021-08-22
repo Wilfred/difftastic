@@ -6468,7 +6468,7 @@
             "name": "object",
             "content": {
               "type": "SYMBOL",
-              "name": "_variable_name"
+              "name": "variable_name"
             }
           },
           {
@@ -6525,7 +6525,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_variable_name"
+          "name": "variable_name"
         }
       ]
     },
@@ -6537,7 +6537,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_variable_name"
+            "name": "variable_name"
           },
           {
             "type": "SEQ",
@@ -6684,7 +6684,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "_variable_name"
+                      "name": "variable_name"
                     },
                     {
                       "type": "ALIAS",

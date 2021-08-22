@@ -383,6 +383,8 @@ Corner cases
 "$$$$$$$$$$$$$a";
 "{$$$$$$$$b}";
 "\{$";
+"${a}[";
+"\u{$a}";
 
 ---
 
@@ -542,31 +544,8 @@ Corner cases
   )
   (expression_statement
     (encapsed_string
-      (dynamic_variable_name
-        (dynamic_variable_name
-          (dynamic_variable_name
-            (dynamic_variable_name
-              (dynamic_variable_name
-                (dynamic_variable_name
-                  (dynamic_variable_name
-                    (dynamic_variable_name
-                      (dynamic_variable_name
-                        (dynamic_variable_name
-                          (dynamic_variable_name
-                            (dynamic_variable_name
-                              (variable_name (name))
-                            )
-                          )
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
+      (string)
+      (variable_name (name))
     )
   )
   (expression_statement
@@ -591,6 +570,18 @@ Corner cases
   (expression_statement
     (encapsed_string
       (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (dynamic_variable_name (name))
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+      (variable_name (name))
     )
   )
 )
