@@ -6,9 +6,9 @@ mod lines;
 mod positions;
 mod regex_parser;
 mod side_by_side;
-mod sitter;
 mod style;
 mod syntax;
+mod tree_sitter_parser;
 use clap::{App, AppSettings, Arg};
 use std::ffi::OsStr;
 use std::path::Path;
@@ -18,6 +18,7 @@ use typed_arena::Arena;
 use crate::dijkstra::mark_syntax;
 use crate::lines::{join_overlapping, visible_groups, MaxLine};
 use crate::syntax::{change_positions, init_info, matching_lines};
+use crate::tree_sitter_parser as tsp;
 
 fn read_or_die(path: &str) -> Vec<u8> {
     match fs::read(path) {
@@ -106,11 +107,11 @@ fn main() {
     let extension = Path::new(&display_path).extension();
     let extension = extension.unwrap_or_else(|| OsStr::new(""));
     let (lang_name, lhs, rhs): (String, Vec<&syntax::Syntax>, Vec<&syntax::Syntax>) =
-        if sitter::supported(extension) && prefer_tree_sitter {
+        if tsp::supported(extension) && prefer_tree_sitter {
             (
                 format!("tree-sitter: {}", extension.to_string_lossy()),
-                sitter::parse(&arena, &lhs_src, extension),
-                sitter::parse(&arena, &rhs_src, extension),
+                tsp::parse(&arena, &lhs_src, extension),
+                tsp::parse(&arena, &rhs_src, extension),
             )
         } else {
             match regex_parser::from_extension(extension) {
