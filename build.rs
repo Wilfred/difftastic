@@ -32,6 +32,9 @@ fn build(package_name: &str, package_dir: &str, extra_files: &[&str]) {
 }
 
 fn main() {
+    // Only rerun if files in the vendor/ directory change.
+    println!("cargo:rerun-if-changed=vendor");
+
     build("tree-sitter-clojure", "vendor/tree-sitter-clojure/src", &[]);
     build(
         "tree-sitter-css",
