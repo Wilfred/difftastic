@@ -28,7 +28,9 @@ pub fn from_extension(extension: &OsStr) -> Option<(String, Language)> {
         "js" | "jsx" => Some(("JavaScript".into(), unsafe { tree_sitter_javascript() })),
         "json" => Some(("JSON".into(), unsafe { tree_sitter_json() })),
         "ml" => Some(("OCaml".into(), unsafe { tree_sitter_ocaml() })),
-        "mli" => Some(("OCaml Interface".into(), unsafe { tree_sitter_ocaml_interface() })),
+        "mli" => Some(("OCaml Interface".into(), unsafe {
+            tree_sitter_ocaml_interface()
+        })),
         "rs" => Some(("Rust".into(), unsafe { tree_sitter_rust() })),
         _ => None,
     }
