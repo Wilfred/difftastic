@@ -55,7 +55,7 @@ pub fn parse<'a>(
     // each top level syntax item.
     cursor.goto_first_child();
 
-    syntax_from_cursor(arena, src, &nl_pos, &mut cursor)
+    syntax_from_cursor(arena, src, &nl_pos, &mut cursor, false)
 }
 
 fn syntax_from_cursor<'a>(
@@ -63,9 +63,11 @@ fn syntax_from_cursor<'a>(
     src: &str,
     nl_pos: &NewlinePositions,
     cursor: &mut TreeCursor,
+    skip_ends: bool,
 ) -> Vec<&'a Syntax<'a>> {
     let mut result: Vec<&Syntax> = vec![];
 
+    let mut is_first = true;
     loop {
         let node = cursor.node();
 
@@ -76,30 +78,57 @@ fn syntax_from_cursor<'a>(
             let content = &src[node.start_byte()..node.end_byte()];
             result.push(Syntax::new_atom(arena, position, content));
         } else if cursor.goto_first_child() {
+            let has_delimiters = cursor.field_name() == Some("open");
+
             // This node has children, so treat it as a list.
-            let children = syntax_from_cursor(arena, src, nl_pos, cursor);
+            let children = syntax_from_cursor(arena, src, nl_pos, cursor, has_delimiters);
             cursor.goto_parent();
 
-            let open_position = nl_pos.from_offsets(node.start_byte(), node.start_byte());
-            let close_position = nl_pos.from_offsets(node.end_byte(), node.end_byte());
+            let mut open_content = "";
+            let mut open_position = nl_pos.from_offsets(node.start_byte(), node.start_byte());
+            let mut close_content = "";
+            let mut close_position = nl_pos.from_offsets(node.end_byte(), node.end_byte());
+
+            if has_delimiters {
+                cursor.goto_first_child();
+                let first_child_node = cursor.node();
+                while cursor.goto_next_sibling() {}
+                let last_child_node = cursor.node();
+
+                open_content = &src[first_child_node.start_byte()..first_child_node.end_byte()];
+                open_position =
+                    nl_pos.from_offsets(first_child_node.start_byte(), first_child_node.end_byte());
+
+                close_content = &src[last_child_node.start_byte()..last_child_node.end_byte()];
+                close_position =
+                    nl_pos.from_offsets(last_child_node.start_byte(), last_child_node.end_byte());
+
+                cursor.goto_parent();
+            }
+
             result.push(Syntax::new_list(
                 arena,
-                "",
+                open_content,
                 open_position,
                 children,
-                "",
+                close_content,
                 close_position,
             ))
         } else {
-            let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
-            let content = &src[node.start_byte()..node.end_byte()];
+            let skip_this = skip_ends && (is_first || is_last_sibling(cursor));
 
-            if node.is_extra() {
-                result.push(Syntax::new_comment(arena, position, content));
-            } else {
-                result.push(Syntax::new_atom(arena, position, content));
+            if !skip_this {
+                let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
+                let content = &src[node.start_byte()..node.end_byte()];
+
+                if node.is_extra() {
+                    result.push(Syntax::new_comment(arena, position, content));
+                } else {
+                    result.push(Syntax::new_atom(arena, position, content));
+                }
             }
         }
+        is_first = false;
 
         if !cursor.goto_next_sibling() {
             break;
@@ -107,4 +136,9 @@ fn syntax_from_cursor<'a>(
     }
 
     result
+}
+
+fn is_last_sibling(cursor: &mut TreeCursor) -> bool {
+    let node = cursor.node();
+    node.next_sibling().is_none()
 }
