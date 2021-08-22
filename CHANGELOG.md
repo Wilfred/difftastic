@@ -1,4 +1,6 @@
-# v1.2 (unreleased)
+# v1.3 (unreleased)
+
+# v1.2
 
 Added some basic syntax highlighting support ("queries" in tree-sitter
 terms).
