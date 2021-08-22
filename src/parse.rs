@@ -373,7 +373,7 @@ mod tests {
     use crate::syntax::Syntax::*;
 
     fn lang() -> Language {
-        from_extension("js")
+        from_extension(&OsStr::new("js")).unwrap()
     }
 
     fn assert_syntaxes<'a>(actual: &[&'a Syntax<'a>], expected: &[&'a Syntax<'a>]) {
