@@ -111,25 +111,6 @@ const AMPERSAND = "&",
   hex_int = seq(hex, repeat(hex_)),
   unescaped_string_fragment = token.immediate(prec(1, /[^"\\\{\}]+/)),
   unescaped_char_fragment = token.immediate(prec(1, /[^'\\]/)),
-  char_escape = choice(
-    seq("\\", choice(/x[0-9a-fA-f]{2}/, /u\{[0-9a-fA-F]+\}/, /[nr\\t'"]/)),
-    "{{",
-    "}}",
-    seq(
-      "{",
-      /[0-9]*/,
-      optional(choice(/[xXsedbocu*]{1}/, "any")),
-      optional(
-        seq(
-          ":",
-          optional(seq(/[^"\\\{\}]{1}/, /[<^>]{1}/, /[0-9]+/)),
-          /.{0,1}/,
-          /[0-9]*/
-        )
-      ),
-      "}"
-    )
-  ),
   line_string = token(seq("\\\\", /[^\n]*/));
 
 module.exports = grammar({
@@ -769,7 +750,7 @@ module.exports = grammar({
     line_comment: (_) => token(seq("//", /.*/)),
 
     CHAR_LITERAL: ($) =>
-      seq("'", choice(unescaped_char_fragment, $.CharEscape), "'"),
+      seq("'", choice(unescaped_char_fragment, $.EscapeSequence), "'"),
 
     FLOAT: (_) =>
       choice(
@@ -789,10 +770,48 @@ module.exports = grammar({
         token(dec_int)
       ),
 
-    CharEscape: (_) => token.immediate(char_escape),
+    EscapeSequence: (_) =>
+      token.immediate(
+        choice(
+          seq(
+            "\\",
+            choice(/x[0-9a-fA-f]{2}/, /u\{[0-9a-fA-F]+\}/, /[nr\\t'"]/)
+          ),
+          "{{",
+          "}}"
+        )
+      ),
+
+    FormatSequence: (_) =>
+      token.immediate(
+        choice(
+          seq(
+            "{",
+            /[0-9]*/,
+            optional(choice(/[xXsedbocu*]{1}/, "any")),
+            optional(
+              seq(
+                ":",
+                optional(seq(/[^"\\\{\}]{1}/, /[<^>]{1}/, /[0-9]+/)),
+                /.{0,1}/,
+                /[0-9]*/
+              )
+            ),
+            "}"
+          ),
+          "{",
+          "}"
+        )
+      ),
 
     STRINGLITERALSINGLE: ($) =>
-      seq('"', repeat(choice(unescaped_string_fragment, $.CharEscape)), '"'),
+      seq(
+        '"',
+        repeat(
+          choice(unescaped_string_fragment, $.EscapeSequence, $.FormatSequence)
+        ),
+        '"'
+      ),
 
     LINESTRING: (_) => repeat1(line_string),
 
@@ -803,7 +822,7 @@ module.exports = grammar({
     IDENTIFIER: ($) =>
       choice(
         /[A-Za-z_][A-Za-z0-9_]*/,
-        seq('@"', repeat(choice(unescaped_string_fragment, $.CharEscape)), '"')
+        seq('@', $.STRINGLITERALSINGLE),
       ),
 
     BUILTINIDENTIFIER: (_) => seq("@", /[A-Za-z_][A-Za-z0-9_]*/),
