@@ -4,41 +4,41 @@
   (line_comment)
 ] @comment
 
-variable: (IDENTIFIER) @variable
-
-variable_type_function: (IDENTIFIER) @variable
-
-;; assume camelCase is a function
-variable_type_function: (
-  (IDENTIFIER) @function
-  (#match? @function "^[a-z]+([A-Z][a-z0-9]+)+$")
-)
-
-;; assume TitleCase is a type
-variable_type_function: (
-  (IDENTIFIER) @type
-  (#match? @type "^[A-Z]")
-)
+[
+  variable: (IDENTIFIER)
+  variable_type_function: (IDENTIFIER)
+] @variable
 
 parameter: (IDENTIFIER) @parameter
 
-field_member: (IDENTIFIER) @field
+[
+  field_member: (IDENTIFIER)
+  field_access: (IDENTIFIER)
+] @field
 
-field_access: (IDENTIFIER) @field
-
-;; assume TitleCase is a type
-field_access: (
-  (IDENTIFIER) @type
+(
+  [
+    variable_type_function: (IDENTIFIER)
+    field_access: (IDENTIFIER)
+    parameter: (IDENTIFIER)
+  ] @type
   (#match? @type "^[A-Z]")
 )
-
-field_access: (
-  (IDENTIFIER) @function
-  (#match? @function "^[a-z]+([A-Z][a-z0-9]+)+$")
+;; assume camelCase is a function
+(
+  [
+    variable_type_function: (IDENTIFIER)
+    field_access: (IDENTIFIER)
+    parameter: (IDENTIFIER)
+  ] @function
+  (#match? @function "^[a-z]+([A-Z][a-z0-9]*)+$")
 )
 
-function_call: (IDENTIFIER) @function
-function: (IDENTIFIER) @function
+
+[
+  function_call: (IDENTIFIER)
+  function: (IDENTIFIER)
+] @function
 
 ; INFO: add this field improve 10ms and increase file size 400ks
 exception: "!" @exception
