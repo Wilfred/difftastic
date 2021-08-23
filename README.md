@@ -15,9 +15,6 @@
   </p>
 </div>
 
-
-![Highlight](assets/highlight.png)
-
----
-
-![Fold](assets/fold.png)
+>Check [Gallery](https://github.com/maxxnino/tree-sitter-zig/wiki/Gallery) for more images
+>
+![Highlight](https://github.com/maxxnino/good-stuff/blob/main/img/darkplus.png)
