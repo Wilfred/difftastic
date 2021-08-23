@@ -3,6 +3,7 @@
   (ContainerDecl)
   (SwitchExpr)
   (InitList)
+  (ContainerDecl)
 ] @indent
 
 [
@@ -18,5 +19,5 @@
   (line_comment)
   (container_doc_comment)
   (doc_comment)
-  (STRINGLITERAL)
+  (LINESTRING)
 ] @ignore
