@@ -73,7 +73,8 @@ field_constant: (IDENTIFIER) @constant
 ] @string
 
 (CHAR_LITERAL) @character
-(CharEscape) @string.escape
+(EscapeSequence) @string.escape
+(FormatSequence) @string.special
 
 [
   "allowzero"
