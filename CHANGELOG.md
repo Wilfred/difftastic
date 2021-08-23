@@ -1,9 +1,11 @@
 ## 0.7 (unreleased)
 
-### Diffing
+### Git integration
 
 Fixed issues when adding/removing a whole file meant that difftastic
 didn't display anything.
+
+Fixed a crash on renaming a file.
 
 ### Display
 
