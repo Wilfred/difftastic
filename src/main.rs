@@ -79,7 +79,7 @@ fn main() {
             // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
             (display_path, lhs_tmp_file, rhs_tmp_file)
         }
-        _ => panic!("Expected 2 arguments or 7 arguments"),
+        _ => panic!("Expected 2 arguments or 7 arguments, got {}: {:?}", args.len(), args),
     };
 
     let lhs_bytes = read_or_die(lhs_path);
