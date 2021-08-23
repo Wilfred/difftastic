@@ -5111,99 +5111,86 @@
     "FormatSequence": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
-        "type": "CHOICE",
+        "type": "SEQ",
         "members": [
           {
-            "type": "SEQ",
+            "type": "STRING",
+            "value": "{"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[0-9]*"
+          },
+          {
+            "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "{"
-              },
-              {
-                "type": "PATTERN",
-                "value": "[0-9]*"
-              },
-              {
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "[xXsedbocu*]{1}"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "any"
-                      }
-                    ]
+                    "type": "PATTERN",
+                    "value": "[xXsedbocu*]{1}"
                   },
                   {
-                    "type": "BLANK"
+                    "type": "STRING",
+                    "value": "any"
                   }
                 ]
               },
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ":"
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SEQ",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\"\\\\\\{\\}]{1}"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[<^>]{1}"
-                              },
-                              {
-                                "type": "PATTERN",
-                                "value": "[0-9]+"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": ".{0,1}"
-                      },
-                      {
-                        "type": "PATTERN",
-                        "value": "[0-9]*"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
-              {
-                "type": "STRING",
-                "value": "}"
+                "type": "BLANK"
               }
             ]
           },
           {
-            "type": "STRING",
-            "value": "{"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ":"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "[^\"\\\\\\{\\}]{1}"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[<^>]{1}"
+                          },
+                          {
+                            "type": "PATTERN",
+                            "value": "[0-9]+"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": ".{0,1}"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[0-9]*"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -5242,6 +5229,22 @@
               {
                 "type": "SYMBOL",
                 "name": "FormatSequence"
+              },
+              {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "{"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "}"
+                    }
+                  ]
+                }
               }
             ]
           }
