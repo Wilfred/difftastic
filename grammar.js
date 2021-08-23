@@ -784,22 +784,18 @@ module.exports = grammar({
 
     FormatSequence: (_) =>
       token.immediate(
-        choice(
-          seq(
-            "{",
-            /[0-9]*/,
-            optional(choice(/[xXsedbocu*]{1}/, "any")),
-            optional(
-              seq(
-                ":",
-                optional(seq(/[^"\\\{\}]{1}/, /[<^>]{1}/, /[0-9]+/)),
-                /.{0,1}/,
-                /[0-9]*/
-              )
-            ),
-            "}"
-          ),
+        seq(
           "{",
+          /[0-9]*/,
+          optional(choice(/[xXsedbocu*]{1}/, "any")),
+          optional(
+            seq(
+              ":",
+              optional(seq(/[^"\\\{\}]{1}/, /[<^>]{1}/, /[0-9]+/)),
+              /.{0,1}/,
+              /[0-9]*/
+            )
+          ),
           "}"
         )
       ),
@@ -808,7 +804,12 @@ module.exports = grammar({
       seq(
         '"',
         repeat(
-          choice(unescaped_string_fragment, $.EscapeSequence, $.FormatSequence)
+          choice(
+            unescaped_string_fragment,
+            $.EscapeSequence,
+            $.FormatSequence,
+            token.immediate(choice("{", "}"))
+          )
         ),
         '"'
       ),
@@ -820,10 +821,7 @@ module.exports = grammar({
     Variable: ($) => field("variable", $.IDENTIFIER),
 
     IDENTIFIER: ($) =>
-      choice(
-        /[A-Za-z_][A-Za-z0-9_]*/,
-        seq('@', $.STRINGLITERALSINGLE),
-      ),
+      choice(/[A-Za-z_][A-Za-z0-9_]*/, seq("@", $.STRINGLITERALSINGLE)),
 
     BUILTINIDENTIFIER: (_) => seq("@", /[A-Za-z_][A-Za-z0-9_]*/),
   },
