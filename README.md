@@ -104,13 +104,12 @@ $ git subtree add --prefix=vendor/tree-sitter-elisp git@github.com:Wilfred/tree-
 Update `build.rs` and `tree_sitter_parser.rs` to include the
 definitions for the new parser.
 
-## Dogfooding
+## Git Usage
 
-Once you've compiled `difftastic` and it's on `$PATH`, you can try
-dogfooding.
-
-To see the changes to the current git repo in difftastic, you can add
-the following to your `.gitconfig` and run `git difftool`.
+Once you've compiled `difftastic` and it's on `$PATH`, you can use it
+with git commands. To see the changes to the current git repo in
+difftastic, add the following to your `.gitconfig` and run
+`git difftool`.
 
 ```
 [diff]
