@@ -9,6 +9,7 @@ mod side_by_side;
 mod style;
 mod syntax;
 mod tree_sitter_parser;
+use atty::Stream;
 use clap::{App, AppSettings, Arg};
 use std::ffi::OsStr;
 use std::path::Path;
@@ -55,7 +56,19 @@ fn is_probably_binary(bytes: &[u8]) -> bool {
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
+fn configure_color() {
+    if atty::is(Stream::Stdout) || env::var("GIT_PAGER_IN_USE").is_ok() {
+        // Always enable colour if stdout is a TTY or if the git pager is active.
+        // TODO: provide a way to disable this.
+        // TODO: consider following the env parsing logic in git_config_bool
+        // in config.c.
+        colored::control::set_override(true);
+    }
+}
+
 fn main() {
+    configure_color();
+
     let matches = App::new("Difftastic")
         .version(VERSION)
         .about("A syntax aware diff.")
