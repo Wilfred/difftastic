@@ -66,7 +66,7 @@ const rules = {
 
   qualified_identifier: $ =>
     choice(
-      seq(opt($.identifier), seq.rep1($._backslash, $.identifier)),
+      seq(opt($.identifier), rep1(seq($._backslash, $.identifier))),
       $.identifier,
     ),
 
@@ -146,7 +146,7 @@ const rules = {
       '<<<',
       $._heredoc_start,
       opt(alias($._heredoc_start_newline, '\n')),
-      choice.rep($._heredoc_body, $.variable, $.embedded_brace_expression),
+      rep(choice($._heredoc_body, $.variable, $.embedded_brace_expression)),
       opt(alias($._heredoc_end_newline, '\n')),
       $._heredoc_end,
     ),
@@ -227,7 +227,7 @@ const rules = {
 
   echo_statement: $ => seq('echo', com($._expression), ';'),
 
-  unset_statement: $ => seq('unset', '(', com.opt($._variablish), ')', ';'),
+  unset_statement: $ => seq('unset', '(', opt(com($._variablish)), ')', ';'),
 
   concurrent_statement: $ => seq('concurrent', $.compound_statement),
 
@@ -253,7 +253,7 @@ const rules = {
     seq(
       opt($.use_type),
       $._namespace_identifier,
-      field('alias', seq.opt('as', $.identifier)),
+      field('alias', opt(seq('as', $.identifier))),
     ),
 
   _namespace_identifier: $ =>
@@ -275,7 +275,7 @@ const rules = {
             field('body', $._statement),
           ),
         ),
-        field('else', seq.opt('else', $._statement)),
+        field('else', opt(seq('else', $._statement))),
       ),
     ),
 
@@ -283,7 +283,7 @@ const rules = {
     seq(
       'switch',
       field('value', $.parenthesized_expression),
-      seq('{', choice.rep($.switch_case, $.switch_default), '}'),
+      seq('{', rep(choice($.switch_case, $.switch_default)), '}'),
     ),
 
   switch_case: $ =>
@@ -298,7 +298,7 @@ const rules = {
       field('collection', $._expression),
       opt($.await_modifier),
       token(prec.dynamic(1, 'as')),
-      field('key', seq.opt($._variablish, '=>')),
+      field('key', opt(seq($._variablish, '=>'))),
       field('value', $._variablish),
       ')',
       field('body', $._statement),
@@ -324,11 +324,11 @@ const rules = {
     seq(
       'for',
       '(',
-      com.opt($._expression),
+      opt(com($._expression)),
       ';',
-      com.opt($._expression),
+      opt(com($._expression)),
       ';',
-      com.opt($._expression),
+      opt(com($._expression)),
       ')',
       field('body', $._statement),
     ),
@@ -453,7 +453,7 @@ const rules = {
       rep($._type_modifier),
       '(',
       /function\s*\(/,
-      com.opt(opt($.inout_modifier), $._type, opt($.variadic_modifier), ','),
+      opt(com(opt($.inout_modifier), $._type, opt($.variadic_modifier), ',')),
       ')',
       ':',
       field('return_type', $._type),
@@ -465,12 +465,12 @@ const rules = {
       rep($._type_modifier),
       'shape',
       '(',
-      com.opt(choice($.field_specifier, alias('...', $.open_modifier)), ','),
+      opt(com(choice($.field_specifier, alias('...', $.open_modifier)), ',')),
       ')',
     ),
 
   field_specifier: $ =>
-    seq(alias.opt('?', $.optional_modifier), $._expression, '=>', $._type),
+    seq(opt(alias('?', $.optional_modifier)), $._expression, '=>', $._type),
 
   type_constant: $ =>
     seq(rep($._type_modifier), alias($._type_constant, $.type_constant)),
@@ -500,26 +500,30 @@ const rules = {
       'noreturn',
     ),
 
-  type_arguments: $ => seq('<', com.opt($._type, ','), '>'),
+  type_arguments: $ => seq('<', opt(com($._type, ',')), '>'),
 
   type_parameters: $ => seq('<', com($.type_parameter, ','), '>'),
 
   type_parameter: $ =>
     seq(
       opt($.attribute_modifier),
-      choice.opt(
-        alias('+', $.covariant_modifier),
-        alias('-', $.contravariant_modifier),
-        alias('reify', $.reify_modifier),
+      opt(
+        choice(
+          alias('+', $.covariant_modifier),
+          alias('-', $.contravariant_modifier),
+          alias('reify', $.reify_modifier),
+        ),
       ),
       field('name', $.identifier),
-      seq.rep(
-        field('constraint_operator', choice('as', 'super')),
-        field('constraint_type', $._type),
+      rep(
+        seq(
+          field('constraint_operator', choice('as', 'super')),
+          field('constraint_type', $._type),
+        ),
       ),
     ),
 
-  where_clause: $ => seq('where', seq.rep1($.where_constraint, opt(','))),
+  where_clause: $ => seq('where', rep1(seq($.where_constraint, opt(',')))),
 
   where_constraint: $ =>
     seq(
@@ -536,15 +540,15 @@ const rules = {
       alias($._collection_type, $.array_type),
       opt($.type_arguments),
       '[',
-      com.opt(choice($._expression, $.element_initializer), ','),
+      opt(com(choice($._expression, $.element_initializer), ',')),
       ']',
     ),
 
   element_initializer: $ => prec.right(seq($._expression, '=>', $._expression)),
 
-  tuple: $ => seq('tuple', '(', com.opt($._expression, ','), ')'),
+  tuple: $ => seq('tuple', '(', opt(com($._expression, ',')), ')'),
 
-  shape: $ => seq('shape', '(', com.opt($.field_initializer, ','), ')'),
+  shape: $ => seq('shape', '(', opt(com($.field_initializer, ',')), ')'),
 
   field_initializer: $ =>
     seq(choice($.string, $.scoped_identifier), '=>', $._expression),
@@ -553,7 +557,7 @@ const rules = {
     seq(
       $.qualified_identifier,
       '{',
-      com.opt(choice($._expression, $.element_initializer), ','),
+      opt(com(choice($._expression, $.element_initializer), ',')),
       '}',
     ),
 
@@ -694,7 +698,7 @@ const rules = {
       choice(
         // Make a single-parameter lambda node look like any other lambda node.
         alias($._single_parameter_parameters, $.parameters),
-        seq($.parameters, seq.opt(':', field('return_type', $._type))),
+        seq($.parameters, opt(seq(':', field('return_type', $._type)))),
       ),
       '==>',
       field('body', choice($._expression, $.compound_statement)),
@@ -716,10 +720,10 @@ const rules = {
   new_expression: $ =>
     prec.new(seq('new', $._variablish, opt($.type_arguments), $.arguments)),
 
-  arguments: $ => seq('(', com.opt($.argument, ','), ')'),
+  arguments: $ => seq('(', opt(com($.argument, ',')), ')'),
 
   argument: $ =>
-    seq(choice.opt($.inout_modifier, $.variadic_modifier), $._expression),
+    seq(opt(choice($.inout_modifier, $.variadic_modifier)), $._expression),
 
   selection_expression: $ =>
     prec.select(
@@ -742,7 +746,7 @@ const rules = {
       choice('type', 'newtype'),
       $.identifier,
       opt($.type_parameters),
-      field('as', seq.opt('as', $._type)),
+      field('as', opt(seq('as', $._type))),
       '=',
       $._type,
       ';',
@@ -762,13 +766,13 @@ const rules = {
       field('name', $.identifier),
       opt($.type_parameters),
       $.parameters,
-      seq.opt(':', opt($.attribute_modifier), field('return_type', $._type)),
+      opt(seq(':', opt($.attribute_modifier), field('return_type', $._type))),
       opt($.where_clause),
     ),
 
   parameters: $ =>
     prec.paren(
-      seq('(', choice.opt($.variadic_modifier, com($.parameter, ',')), ')'),
+      seq('(', opt(choice($.variadic_modifier, com($.parameter, ','))), ')'),
     ),
 
   parameter: $ =>
@@ -779,7 +783,7 @@ const rules = {
       field('type', opt($._type)),
       opt($.variadic_modifier),
       field('name', $.variable),
-      seq.opt('=', field('default_value', $._expression)),
+      opt(seq('=', field('default_value', $._expression))),
     ),
 
   trait_declaration: $ =>
@@ -822,17 +826,19 @@ const rules = {
   member_declarations: $ =>
     seq(
       '{',
-      choice.rep(
-        alias($._class_const_declaration, $.const_declaration),
-        $.method_declaration,
-        $.property_declaration,
-        $.type_const_declaration,
-        $.trait_use_clause,
-        $.require_implements_clause,
-        $.require_extends_clause,
-        $.xhp_attribute_declaration,
-        $.xhp_children_declaration,
-        $.xhp_category_declaration,
+      rep(
+        choice(
+          alias($._class_const_declaration, $.const_declaration),
+          $.method_declaration,
+          $.property_declaration,
+          $.type_const_declaration,
+          $.trait_use_clause,
+          $.require_implements_clause,
+          $.require_extends_clause,
+          $.xhp_attribute_declaration,
+          $.xhp_children_declaration,
+          $.xhp_category_declaration,
+        ),
       ),
       '}',
     ),
@@ -844,7 +850,7 @@ const rules = {
       choice(
         seq(
           '{',
-          seq.rep(choice($.trait_select_clause, $.trait_alias_clause), ';'),
+          rep(seq(choice($.trait_select_clause, $.trait_alias_clause), ';')),
           '}',
         ),
         ';',
@@ -903,7 +909,7 @@ const rules = {
         'value',
         // The only reason we need a separate const declarator for classes is that
         // the assignment expression is optional.
-        seq.opt('=', $._expression),
+        opt(seq('=', $._expression)),
       ),
     ),
 
@@ -915,8 +921,8 @@ const rules = {
       'type',
       field('name', $.identifier),
       opt($.type_parameters),
-      field('as', seq.opt('as', $._type)),
-      field('type', seq.opt('=', $._type)),
+      field('as', opt(seq('as', $._type))),
+      field('type', opt(seq('=', $._type))),
       ';',
     ),
 
@@ -939,7 +945,10 @@ const rules = {
     ),
 
   property_declarator: $ =>
-    seq(field('name', $.variable), field('value', seq.opt('=', $._expression))),
+    seq(
+      field('name', $.variable),
+      field('value', opt(seq('=', $._expression))),
+    ),
 
   enum_declaration: $ =>
     seq(
@@ -948,7 +957,7 @@ const rules = {
       field('name', $.identifier),
       ':',
       field('type', $._type),
-      field('as', seq.opt('as', $._type)),
+      field('as', opt(seq('as', $._type))),
       '{',
       rep($.enumerator),
       '}',
@@ -960,11 +969,13 @@ const rules = {
     prec.right(
       seq(
         'namespace',
-        choice.opt(
-          seq(field('name', $.qualified_identifier), ';'),
-          seq(
-            opt(field('name', $.qualified_identifier)),
-            field('body', $.compound_statement),
+        opt(
+          choice(
+            seq(field('name', $.qualified_identifier), ';'),
+            seq(
+              opt(field('name', $.qualified_identifier)),
+              field('body', $.compound_statement),
+            ),
           ),
         ),
       ),
@@ -1055,8 +1066,8 @@ const rules = {
     seq(
       field('type', choice($._type, $.xhp_enum_type)),
       field('name', opt($.xhp_identifier)),
-      seq.opt('=', field('default', $._expression)),
-      choice.opt('@required', '@lateinit'),
+      opt(seq('=', field('default', $._expression))),
+      opt(choice('@required', '@lateinit')),
     ),
 
   xhp_enum_type: $ =>
@@ -1090,8 +1101,8 @@ const rules = {
       opt($.async_modifier),
       'function',
       $.parameters,
-      seq.opt(':', field('return_type', $._type)),
-      alias.opt($._anonymous_function_use_clause, $.use_clause),
+      opt(seq(':', field('return_type', $._type))),
+      opt(alias($._anonymous_function_use_clause, $.use_clause)),
       field('body', $.compound_statement),
     ),
 
@@ -1129,14 +1140,9 @@ function com(...rules) {
   }
 }
 
-[seq, choice, alias, com].forEach(func => {
-  func.opt = (...args) => optional(func(...args));
-  func.rep = (...args) => repeat(func(...args));
-  func.rep1 = (...args) => repeat1(func(...args));
-});
-
 const opt = optional;
 const rep = repeat;
+const rep1 = repeat1;
 
 module.exports = grammar({
   rules,
