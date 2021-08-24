@@ -35,33 +35,33 @@ fn main() {
     // Only rerun if files in the vendor/ directory change.
     println!("cargo:rerun-if-changed=vendor");
 
-    build("tree-sitter-clojure", "vendor/tree-sitter-clojure/src", &[]);
+    build("tree-sitter-clojure", "vendor/tree-sitter-clojure-src", &[]);
     build(
         "tree-sitter-css",
-        "vendor/tree-sitter-css/src",
+        "vendor/tree-sitter-css-src",
         &["scanner.c"],
     );
-    build("tree-sitter-elisp", "vendor/tree-sitter-elisp/src", &[]);
-    build("tree-sitter-go", "vendor/tree-sitter-go/src", &[]);
+    build("tree-sitter-elisp", "vendor/tree-sitter-elisp-src", &[]);
+    build("tree-sitter-go", "vendor/tree-sitter-go-src", &[]);
     build(
         "tree-sitter-javascript",
-        "vendor/tree-sitter-javascript/src",
+        "vendor/tree-sitter-javascript-src",
         &["scanner.c"],
     );
-    build("tree-sitter-json", "vendor/tree-sitter-json/src", &[]);
+    build("tree-sitter-json", "vendor/tree-sitter-json-src", &[]);
     build(
         "tree-sitter-ocaml",
-        "vendor/tree-sitter-ocaml/ocaml/src",
+        "vendor/tree-sitter-ocaml-src/ocaml/src",
         &["scanner.cc"],
     );
     build(
         "tree-sitter-ocaml-interface",
-        "vendor/tree-sitter-ocaml/interface/src",
+        "vendor/tree-sitter-ocaml-src/interface/src",
         &["scanner.cc"],
     );
     build(
         "tree-sitter-rust",
-        "vendor/tree-sitter-rust/src",
+        "vendor/tree-sitter-rust-src",
         &["scanner.c"],
     );
 }

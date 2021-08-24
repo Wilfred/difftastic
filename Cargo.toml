@@ -7,6 +7,14 @@ license = "MIT"
 version = "0.7.0"
 authors = ["Wilfred Hughes <me@wilfred.me.uk>"]
 edition = "2018"
+include = [
+        "build.rs",
+        "src/",
+        "vendor/**/*.c",
+        "vendor/**/*.h",
+        "vendor/**/*.cc",
+        "README.md",
+]
 
 [dependencies]
 regex = "1"
