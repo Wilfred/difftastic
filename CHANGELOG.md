@@ -24,6 +24,9 @@ using a pager (i.e. if stdout is a not a TTY).
 Side-by-side display now handles whole file additions better,
 preferring a single column display.
 
+Display width calculations are now based on the longest line visible
+in the diff, not the longest line in the file.
+
 ### Parsing
 
 Added tree-sitter parsers. These have known bugs, but you can try
@@ -41,11 +44,6 @@ Contiguous syntax logic now considers close delimiter positions, so
 
 Fixed an issue where diffs would prefer prefer a low depth change on a
 delimiter over a delimiter that gave contiguous changes.
-
-### Display
-
-Display width calculations are now based on the longest line visible
-in the diff, not the longest line in the file.
 
 ### Command Line Interface
 
