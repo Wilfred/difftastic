@@ -79,13 +79,18 @@ fn main() {
             // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
             (display_path, lhs_tmp_file, rhs_tmp_file)
         }
-        [_old_name, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode, new_name, _similarity] => {
+        [_old_name, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode, new_name, _similarity] =>
+        {
             // Rename file.
             // TODO: mention old name as well as diffing.
             // TODO: where does git document these 9 arguments?
             (new_name, lhs_tmp_file, rhs_tmp_file)
         }
-        _ => panic!("Unexpected number of arguments, got {}: {:?}", args.len(), args),
+        _ => panic!(
+            "Unexpected number of arguments, got {}: {:?}",
+            args.len(),
+            args
+        ),
     };
 
     let lhs_bytes = read_or_die(lhs_path);
