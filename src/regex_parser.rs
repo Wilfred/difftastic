@@ -133,6 +133,7 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
                 // Punctuation
                 Regex::new(r"[:,]").unwrap(),
                 // Double-quoted strings
+                Regex::new(r#""((\\.)|[^"])*""#).unwrap(),
             ],
             comment_patterns: vec![],
             open_delimiter_pattern: Regex::new(r"(\[|\{)").unwrap(),
