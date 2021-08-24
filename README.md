@@ -101,8 +101,8 @@ $ git subtree add --prefix=vendor/tree-sitter-elisp git@github.com:Wilfred/tree-
 
 ```
 
-Update `build.rs` and `sitter.rs` to include the definitions for the
-new parser.
+Update `build.rs` and `tree_sitter_parser.rs` to include the
+definitions for the new parser.
 
 ## Dogfooding
 
