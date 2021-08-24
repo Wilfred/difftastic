@@ -34,4 +34,4 @@ tree-sitter = "0.19.5"
 pretty_assertions = "0.6.1"
 
 [build-dependencies]
-cc="*"
+cc="1.0"
