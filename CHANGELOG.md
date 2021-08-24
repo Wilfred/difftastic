@@ -7,6 +7,8 @@ didn't display anything.
 
 Fixed a crash on renaming a file.
 
+Colour is now enabled when using git with a pager.
+
 ### Display
 
 Side-by-side display now uses "..." for column numbers when aligning

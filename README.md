@@ -127,8 +127,8 @@ Alternatively, to run difftastic as the default diff engine for a git
 command:
 
 ```
-$ CLICOLOR_FORCE=1 GIT_EXTERNAL_DIFF=difftastic git diff
-$ CLICOLOR_FORCE=1 GIT_EXTERNAL_DIFF=difftastic git log -p --ext-diff
+$ GIT_EXTERNAL_DIFF=difftastic git diff
+$ GIT_EXTERNAL_DIFF=difftastic git log -p --ext-diff
 ```
 
 ## License
