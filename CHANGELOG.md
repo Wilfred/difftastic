@@ -1,4 +1,10 @@
-## 0.7 (unreleased)
+## 0.8 (unreleased)
+
+### Parsing
+
+JSON (legacy parser): fixed parsing string literals (broken in 0.7).
+
+## 0.7
 
 ### Git integration
 
