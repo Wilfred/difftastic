@@ -98,9 +98,15 @@ Add the tree-sitter-FOO git repository as a subtree.
 
 ```
 $ git subtree add --prefix=vendor/tree-sitter-elisp git@github.com:Wilfred/tree-sitter-elisp.git main
-
 ```
 
+Add a symlink to the C source directory (Cargo will not include the
+parent directory when packaging, because the parent has a `Cargo.toml`).
+
+```
+$ cd vendor
+$ ln -s tree-sitter-elisp/src tree-sitter-elisp-src
+```
 Update `build.rs` and `tree_sitter_parser.rs` to include the
 definitions for the new parser.
 
