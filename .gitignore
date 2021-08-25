@@ -6,5 +6,7 @@ build/
 examples
 package-lock.json
 tmp
+Cargo.lock
+/target/
 
 test/cases/**/*.json

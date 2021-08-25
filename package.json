@@ -2,7 +2,7 @@
   "name": "tree-sitter-hacklang",
   "version": "0.0.4",
   "description": "Hack grammar for tree-sitter",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "parser",
     "lexer",
@@ -22,7 +22,7 @@
     "nan": "^2.14.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.17.1"
+    "tree-sitter-cli": "^0.19.5"
   },
   "scripts": {
     "build": "bin/generate-parser --force && node-gyp build",

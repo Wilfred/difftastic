@@ -8230,6 +8230,7 @@
       "list_expression"
     ]
   ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
