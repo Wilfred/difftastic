@@ -13,6 +13,20 @@ Haskell grammar for [tree-sitter].
 
 # Building with nvim-treesitter
 
+When installing the grammar from source, be sure to include the scanner in the source files:
+
+```vim
+lua <<EOF
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.haskell = {
+  install_info = {
+    url = "~/path/to/tree-sitter-haskell",
+    files = {"src/parser.c", "src/scanner.cc"}
+  }
+}
+EOF
+```
+
 Depending on what compilers are installed in your system, it may be necessary to force `nvim-treesitter` to use a
 specific one to satisfy the C++-14 requirement (see
 [this issue](https://github.com/tree-sitter/tree-sitter-haskell/issues/34) for more info):
