@@ -33,6 +33,8 @@ specific one to satisfy the C++-14 requirement (see
 
 ```vim
 lua require'nvim-treesitter.install'.compilers = { "clang" }
+" or
+lua require'nvim-treesitter.install'.compilers = { "clang++" }
 ```
 
 or
