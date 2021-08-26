@@ -350,6 +350,8 @@ bool varid_start_char(const uint32_t c) { return eq('_')(c) || iswlower(c); }
 
 bool varid_char(const uint32_t c) { return eq('_')(c) || eq('\'')(c) || iswalnum(c); };
 
+bool quoter_char(const uint32_t c) { return varid_char(c) || eq('.')(c); };
+
 /**
  * Require that the next character matches a predicate, without advancing the parser.
  * Returns the next uint32_t as well.
@@ -1244,8 +1246,7 @@ Parser else_ = token("else")(end_or_semicolon("else"));
 Parser qq_start =
   parser::advance +
   mark("qq_start") +
-  consume_while(cond::varid_start_char) +
-  consume_while(cond::varid_char) +
+  consume_while(cond::quoter_char) +
   peek('|')(finish(Sym::qq_start, "qq_start"))
   ;
 
