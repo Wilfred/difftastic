@@ -29,7 +29,7 @@ module.exports = {
    */
   quasiquote: $ => seq(
     $.quasiquote_start,
-    optional(alias($._varid, $.quoter)),
+    optional(alias($._qvarid, $.quoter)),
     $.quasiquote_bar,
     optional($.quasiquote_body),
     token('|]'),

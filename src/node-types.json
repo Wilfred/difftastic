@@ -14016,10 +14016,6 @@
     "named": true
   },
   {
-    "type": "quoter",
-    "named": true
-  },
-  {
     "type": "rec",
     "named": false
   },
