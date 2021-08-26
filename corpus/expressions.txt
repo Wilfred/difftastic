@@ -1,0 +1,426 @@
+==================
+Multiplication expression
+==================
+
+45 * 3
+
+---
+
+(source_file (multiplicative_expression (integer_literal) (integer_literal)))
+
+==================
+Subtraction expression
+==================
+
+45 - 3
+
+---
+
+(source_file (additive_expression (integer_literal) (integer_literal)))
+
+==================
+Nil-coalescing expression
+==================
+
+a ?? 0
+
+---
+
+(source_file (nil_coalescing_expression (simple_identifier) (integer_literal)))
+
+==================
+Comparison
+==================
+
+a < b
+
+---
+
+(source_file (comparison_expression (simple_identifier) (simple_identifier)))
+
+==================
+Conjunction
+==================
+
+a && b
+
+a
+    && b
+
+---
+
+(source_file
+    (conjunction_expression (simple_identifier) (simple_identifier))
+    (conjunction_expression (simple_identifier) (simple_identifier)))
+
+==================
+Bitwise operations
+==================
+
+a & b
+a | b
+a << b
+a >> b
+
+---
+
+(source_file
+    (bitwise_operation (simple_identifier) (simple_identifier))
+    (bitwise_operation (simple_identifier) (simple_identifier))
+    (bitwise_operation (simple_identifier) (simple_identifier))
+    (bitwise_operation (simple_identifier) (simple_identifier))) 
+
+==================
+Tuple access operator
+==================
+
+event.0
+possibleEvent?.0
+
+---
+
+(source_file
+    (navigation_expression (simple_identifier) (navigation_suffix (integer_literal)))
+    (navigation_expression (simple_identifier) (navigation_suffix (integer_literal))))
+
+==================
+Ternary expression
+==================
+
+a ? b : c
+
+---
+
+(source_file (ternary_expression (simple_identifier) (simple_identifier) (simple_identifier))) 
+
+==================
+Multiple expressions on one line using semicolons
+==================
+
+print(a); return b
+
+---
+
+(source_file
+    (call_expression
+        (simple_identifier)
+        (call_suffix (value_arguments (value_argument (simple_identifier)))))
+    (control_transfer_statement (simple_identifier)))
+
+==================
+Indexing
+==================
+
+let b = maybeNil?[2]
+a[2] = b
+let c = array[safe: index]
+let d = weirdType[indexesByField, and: anotherField]
+let e = array[...]
+
+---
+
+ (source_file
+    (property_declaration
+        (value_binding_pattern
+            (non_binding_pattern (simple_identifier)))
+        (call_expression (simple_identifier) (call_suffix (value_arguments (value_argument (integer_literal))))))
+    (assignment
+        (directly_assignable_expression
+            (call_expression (simple_identifier) (call_suffix (value_arguments (value_argument (integer_literal))))))
+        (simple_identifier))
+    (property_declaration
+        (value_binding_pattern
+            (non_binding_pattern (simple_identifier)))
+        (call_expression
+            (simple_identifier)
+                (call_suffix (value_arguments (value_argument (simple_identifier) (simple_identifier))))))
+    (property_declaration
+        (value_binding_pattern
+            (non_binding_pattern (simple_identifier)))
+        (call_expression
+            (simple_identifier)
+            (call_suffix
+                (value_arguments
+                    (value_argument (simple_identifier))
+                    (value_argument (simple_identifier) (simple_identifier))))))
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (call_expression
+            (simple_identifier)
+            (call_suffix
+                (value_arguments
+                    (value_argument (fully_open_range)))))))
+
+==================
+Assigning to self
+==================
+
+self = .enumCase
+
+---
+
+(source_file
+    (assignment
+        (directly_assignable_expression (self_expression))
+        (prefix_expression (simple_identifier))))
+
+==================
+Assignment
+==================
+
+let one = 1
+var two: Int = 2
+_ = someCall()
+
+---
+
+(source_file
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (integer_literal))
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (type_annotation (user_type (type_identifier)))
+        (integer_literal))
+    (assignment
+        (directly_assignable_expression (simple_identifier))
+        (call_expression (simple_identifier) (call_suffix (value_arguments)))))
+
+==================
+Destructuring assignment
+==================
+
+(lhs, rhs) = someOperation
+
+---
+
+(source_file
+    (assignment
+        (directly_assignable_expression (tuple_expression (simple_identifier) (simple_identifier)))
+        (simple_identifier)))
+
+==================
+Implicit member expression
+==================
+
+let a: SomeClass = .someInstance
+
+---
+
+(source_file
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (type_annotation (user_type (type_identifier)))
+        (prefix_expression (simple_identifier))))
+
+==================
+Tuple expressions
+==================
+
+let a: (Int, Int) = (1, 2)
+return (lhs: 3, rhs: 4)
+
+---
+
+(source_file
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (type_annotation (tuple_type (user_type (type_identifier)) (user_type (type_identifier))))
+        (tuple_expression (integer_literal) (integer_literal)))
+    (control_transfer_statement
+        (tuple_expression
+            (simple_identifier) (integer_literal)
+            (simple_identifier) (integer_literal))))
+
+==================
+Function calls
+==================
+
+print("Hello World!")
+sum(1, 2)
+something.hello?("world")
+
+---
+
+(source_file
+    (call_expression (simple_identifier)
+        (call_suffix (value_arguments
+            (value_argument (line_string_literal)))))
+    (call_expression (simple_identifier)
+        (call_suffix (value_arguments
+            (value_argument (integer_literal))
+            (value_argument (integer_literal)))))
+    (call_expression
+        (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
+        (call_suffix (value_arguments (value_argument (line_string_literal))))))
+
+==================
+Constructor calls
+==================
+
+var result = Set<String>()
+var result2 = [String: [Complex<[String: Any]>]]()
+
+---
+
+(source_file
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (constructor_expression
+            (user_type (type_identifier) (type_arguments (user_type (type_identifier))))
+            (constructor_suffix)))
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (constructor_expression
+            (dictionary_type
+                (user_type (type_identifier))
+                (array_type
+                    (user_type
+                        (type_identifier)
+                        (type_arguments
+                            (dictionary_type
+                                (user_type (type_identifier))
+                                (user_type (type_identifier)))))))
+            (constructor_suffix))))
+
+==================
+Inout functions
+==================
+
+func modifyThis(_ toModify: inout [String: String]) {
+}
+
+var this = [:]
+modifyThis(&this)
+
+---
+(source_file
+    (function_declaration
+        (simple_identifier)
+        (external_parameter_name)
+        (parameter (simple_identifier)
+            (parameter_modifiers (parameter_modifier))
+            (dictionary_type (user_type (type_identifier)) (user_type (type_identifier))))
+        (function_body))
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (dictionary_literal))
+    (call_expression
+        (simple_identifier)
+        (call_suffix (value_arguments (value_argument (prefix_expression (simple_identifier)))))))
+
+
+==================
+Selectors
+==================
+
+let selector = #selector(self.foo(parameter:))
+let getterSelector = #selector(getter: self.bar)
+let setterSelector = #selector(setter: self.bar)
+
+---
+(source_file
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (selector_expression
+            (call_expression
+                (navigation_expression
+                (self_expression)
+                (navigation_suffix (simple_identifier)))
+                (call_suffix (value_arguments (value_argument (simple_identifier)))))))
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (selector_expression (navigation_expression (self_expression) (navigation_suffix (simple_identifier)))))
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (selector_expression (navigation_expression (self_expression) (navigation_suffix (simple_identifier))))))
+
+==================
+Function references
+==================
+
+self.foo(parameter:)
+
+---
+
+(source_file
+    (call_expression
+        (navigation_expression
+            (self_expression)
+            (navigation_suffix (simple_identifier)))
+        (call_suffix (value_arguments (value_argument (simple_identifier))))))
+
+======
+Complex ternary expression
+======
+
+let availableRules = (context == nil) ? [.noContextRule] : []
+let result: MyEnumType = condition ? .someEnumCase : .someOtherEnum
+
+---
+
+(source_file
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (ternary_expression
+            (tuple_expression (equality_expression (simple_identifier)))
+            (array_literal (prefix_expression (simple_identifier)))
+            (array_literal)))
+    (property_declaration
+        (value_binding_pattern (non_binding_pattern (simple_identifier)))
+        (type_annotation (user_type (type_identifier)))
+        (ternary_expression
+            (simple_identifier)
+            (prefix_expression (simple_identifier))
+            (prefix_expression (simple_identifier)))))
+
+======
+Range expression
+======
+
+string[..<string.index(before: string.endIndex)]
+
+for i in 0 ..< something.count {
+    // Do something
+}
+
+---
+
+(source_file
+    (call_expression
+        (simple_identifier)
+        (call_suffix
+            (value_arguments
+                (value_argument
+                    (call_expression
+                        (open_start_range_expression (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier))))
+                        (call_suffix
+                            (value_arguments
+                                (value_argument
+                                    (simple_identifier)
+                                    (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))))))))))
+    (for_statement
+        (simple_identifier)
+        (range_expression
+            (integer_literal)
+            (navigation_expression (simple_identifier)
+                (navigation_suffix (simple_identifier))))
+            (comment)))
+
+============
+Split nullable navigation expression
+============
+
+foo.doSomething(a)?
+    .andThen(b)
+
+---
+
+(source_file
+    (call_expression
+        (navigation_expression
+            (call_expression
+                (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
+                (call_suffix (value_arguments (value_argument (simple_identifier)))))
+            (navigation_suffix (simple_identifier)))
+        (call_suffix (value_arguments (value_argument (simple_identifier))))))
