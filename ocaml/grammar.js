@@ -211,7 +211,7 @@ module.exports = grammar({
       'external',
       optional($._attribute),
       $._value_name,
-      $._typed,
+      $._polymorphic_typed,
       '=',
       repeat1($.string),
       repeat($.item_attribute)
@@ -281,8 +281,12 @@ module.exports = grammar({
       ),
       optional(choice(
         seq('of', $._constructor_argument),
-        $._simple_typed,
-        seq(':', $._constructor_argument, '->', field('type', $._simple_type_ext)),
+        seq(
+          ':',
+          optional(seq(repeat1($.type_variable), '.')),
+          optional(seq($._constructor_argument, '->')),
+          $._simple_type_ext
+        ),
         seq('=', $.constructor_path)
       ))
     ),
@@ -328,7 +332,7 @@ module.exports = grammar({
       field('name', choice($._module_name, alias('_', $.module_name))),
       repeat($.module_parameter),
       optional($._module_typed),
-      optional(seq('=', field('body', $._module_expression_ext))),
+      optional(seq(choice('=', ':='), field('body', $._module_expression_ext))),
       repeat($.item_attribute)
     ),
 
@@ -422,7 +426,7 @@ module.exports = grammar({
       'val',
       optional($._attribute),
       $._value_name,
-      $._typed,
+      $._polymorphic_typed,
       repeat($.item_attribute)
     ),
 
@@ -964,6 +968,7 @@ module.exports = grammar({
       $.new_expression,
       $.object_copy_expression,
       $.method_invocation,
+      $.object_expression,
       $.parenthesized_expression,
       $.ocamlyacc_value
     ),
@@ -993,8 +998,7 @@ module.exports = grammar({
       $.lazy_expression,
       $.let_module_expression,
       $.let_open_expression,
-      $.let_exception_expression,
-      $.object_expression
+      $.let_exception_expression
     ),
 
     _expression_ext: $ => choice(
@@ -1077,7 +1081,14 @@ module.exports = grammar({
         $._label,
         token.immediate(':'),
         $._simple_expression_ext
-      )
+      ),
+      seq(
+        choice('~', '?'),
+        '(',
+        $._label_name,
+        $._typed,
+        ')'
+      ),
     ),
 
     prefix_expression: $ => prec(PREC.prefix, seq(

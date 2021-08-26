@@ -3,6 +3,7 @@ External
 ==============================
 
 external x : int = "x"
+external x : 'a . 'a = "x"
 
 ---
 
@@ -10,6 +11,10 @@ external x : int = "x"
   (external
     (value_name)
     (type_constructor_path (type_constructor))
+    (string (string_content)))
+  (external
+    (value_name)
+    (polymorphic_type (type_variable) (type_variable))
     (string (string_content))))
 
 ==============================
@@ -21,7 +26,8 @@ type nonrec 'a t = t and ('a, 'b) t = t
 type t = private t
 type t = A | B of t | C of t * t | D of {x : t}
 type _ t =
-  | A : 'a -> 'a t
+  | A : t -> t
+  | B : 'a . 'a -> 'a t
 type t = {
   mutable x : t;
 }
@@ -67,6 +73,11 @@ type t = |
       (variant_declaration
         (constructor_declaration
           (constructor_name)
+          (type_constructor_path (type_constructor))
+          (type_constructor_path (type_constructor)))
+        (constructor_declaration
+          (constructor_name)
+          (type_variable)
           (type_variable)
           (constructed_type (type_variable) (type_constructor_path (type_constructor)))))))
   (type_definition
@@ -110,6 +121,7 @@ module M (M : T) : E
 module rec M : T and M : T
 
 module M = M
+module M := M
 module M : T = M
 module M (M : T) = M
 module rec M = N and N = M
@@ -139,6 +151,10 @@ module _ (_ : T) = M
       (module_name)
       (module_type_path (module_type_name))))
 
+  (module_definition
+    (module_binding
+      (module_name)
+      (module_path (module_name))))
   (module_definition
     (module_binding
       (module_name)
