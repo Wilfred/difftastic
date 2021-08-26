@@ -6713,6 +6713,15 @@
                 {
                   "type": "SYMBOL",
                   "name": "_complex_string_part"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": "\\u"
+                  },
+                  "named": true,
+                  "value": "string"
                 }
               ]
             }

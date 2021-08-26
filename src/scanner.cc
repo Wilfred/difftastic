@@ -140,11 +140,7 @@ struct Scanner {
 
     // Unicode
     if (letter == 'u') {
-      advance(lexer);
-      if (lexer->lookahead == '{') {
-        advance(lexer);
-        return lexer->lookahead != '$';
-      }
+      return true; // We handle the case where this is not really an escape sequence in grammar.js - this is needed to support the edge case "\u{$a}" in which case "\u" is to be interprented as characters and {$a} as a variable
     }
 
     // Octal
