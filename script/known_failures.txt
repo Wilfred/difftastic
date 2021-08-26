@@ -8,6 +8,8 @@ examples/lwt/src/unix/lwt_unix.cppo.mli
 examples/lwt/test/unix/test_lwt_unix.cppo.ml
 examples/merlin/tests/test-dirs/completion/infix.t/infix.ml
 examples/merlin/tests/test-dirs/completion/parenthesize.t/parenthesize.ml
+examples/merlin/tests/test-dirs/construct/c-modules.t/functor_app.ml
+examples/merlin/tests/test-dirs/construct/c-modules.t/module.ml
 examples/merlin/tests/test-dirs/errors/typing-after-parsing.t/test.ml
 examples/merlin/tests/test-dirs/locate/context-detection/cd-label.t/label.ml
 examples/ocaml/stdlib/templates/float.template.mli
