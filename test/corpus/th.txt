@@ -129,3 +129,12 @@ template haskell: qualified quoter
 a = [A.a|a|]
 
 ---
+
+(haskell
+ (function
+  (variable)
+  (quasiquote
+   (quasiquote_start)
+   (quoter (module) (variable))
+   (quasiquote_bar)
+   (quasiquote_body))))
