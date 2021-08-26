@@ -1,0 +1,175 @@
+==================
+Simple identifiers
+==================
+
+helloWorld
+
+---
+
+(source_file (simple_identifier))
+
+==================
+Boolean literals
+==================
+
+true
+false
+
+---
+
+(source_file
+    (boolean_literal)
+    (boolean_literal))
+
+==================
+String literals
+==================
+
+"Hello World!"
+"""
+This is a "multiline"
+string.
+"""
+
+---
+
+(source_file
+    (line_string_literal)
+    (multi_line_string_literal))
+
+==================
+String interpolation
+==================
+
+"Sample \("string.interpolation") literal"
+"""
+Multiline
+\("""string interpolation""") literal
+"""
+"This is a string with // a comment in it"
+"""
+   And so is this! /*
+   #if qwertyuiop
+   And yet neither of those comments should register
+""" // This comment is valid
+
+---
+
+(source_file
+    (line_string_literal (interpolated_expression (line_string_literal)))
+    (multi_line_string_literal
+        (interpolated_expression (multi_line_string_literal)))
+    (line_string_literal) (multi_line_string_literal) (comment))
+
+==================
+Strings with newline escaping
+==================
+
+"""
+This is a string that acts as though it \
+    is all on one line
+"""
+
+---
+
+(source_file (multi_line_string_literal))
+
+==================
+Integer literals
+==================
+
+0
+8
+23
+9847
+0xf00
+0o774
+0b01
+
+---
+
+(source_file
+    (integer_literal)
+    (integer_literal)
+    (integer_literal)
+    (integer_literal)
+    (hex_literal)
+    (oct_literal)
+    (bin_literal))
+
+==================
+Real literals
+==================
+
+0.0
+-23.434
+1e-10
+4.3
++53.9e-3
+
+---
+
+(source_file
+    (real_literal)
+    (prefix_expression (real_literal))
+    (real_literal)
+    (real_literal)
+    (prefix_expression (real_literal)))
+
+==================
+Collections
+==================
+
+let numbers = [1, 2, 3]
+let numerals = [1: "I", 4: "IV", 5: "V", 10: "X"]
+
+---
+(source_file
+    (property_declaration
+        (value_binding_pattern
+            (non_binding_pattern (simple_identifier)))
+        (array_literal (integer_literal) (integer_literal) (integer_literal)))
+    (property_declaration
+        (value_binding_pattern
+            (non_binding_pattern (simple_identifier)))
+        (dictionary_literal
+            (integer_literal) (line_string_literal)
+            (integer_literal) (line_string_literal)
+            (integer_literal) (line_string_literal)
+            (integer_literal) (line_string_literal))))
+=====
+Trailing commas
+=====
+
+[
+    "Time": Date.now(),
+    "Success": true,
+]
+
+[1, 2, 3, 4, 5,]
+
+---
+
+(source_file
+    (dictionary_literal
+        (line_string_literal)
+        (call_expression
+            (navigation_expression
+                (simple_identifier)
+                (navigation_suffix (simple_identifier)))
+            (call_suffix (value_arguments)))
+        (line_string_literal)
+        (boolean_literal))
+    (array_literal
+        (integer_literal) (integer_literal) (integer_literal) (integer_literal) (integer_literal)))
+
+==================
+Nil
+==================
+
+let _ = nil
+
+---
+
+(source_file
+    (property_declaration (value_binding_pattern (non_binding_pattern (wildcard_pattern)))))
