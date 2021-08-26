@@ -1213,7 +1213,8 @@ module.exports = grammar({
           seq($.variable_name, alias($.encapsed_string_chars_after_variable, $.string)),
           alias($.encapsed_string_chars, $.string),
           $._simple_string_part,
-          $._complex_string_part
+          $._complex_string_part,
+          alias('\\u', $.string),
         ),
       ),
       '"',
