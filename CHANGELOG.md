@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Tree-sitter parser: Improved handling of string literals.
+
 JSON (legacy parser): fixed parsing string literals (broken in 0.7).
 
 ## 0.7
