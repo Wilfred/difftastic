@@ -140,7 +140,7 @@ class foo {
 				(simple_parameter
 					name: (variable_name (name))))
 	    body: (compound_statement
-				(expression_statement (assignment_expression
+				(expression_statement (reference_assignment_expression
 	        left: (subscript_expression (variable_name (name)) (string))
 	        right: (variable_name (name))))
 				(expression_statement (assignment_expression
