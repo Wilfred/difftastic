@@ -19,6 +19,7 @@ pub struct TreeSitterConfig {
     // tree-sitter, and occurs more often for complex string syntax.
     // https://github.com/tree-sitter/tree-sitter/issues/1156
     atom_nodes: HashSet<&'static str>,
+    open_delimiter_tokens: HashSet<&'static str>,
 }
 
 extern "C" {
@@ -41,16 +42,19 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             name: "Clojure".into(),
             language: unsafe { tree_sitter_clojure() },
             atom_nodes: (vec![]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["{", "(", "["]).into_iter().collect(),
         }),
         "css" => Some(TreeSitterConfig {
             name: "CSS".into(),
             language: unsafe { tree_sitter_css() },
             atom_nodes: (vec![]).into_iter().collect(),
+            open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         "el" => Some(TreeSitterConfig {
             name: "Emacs Lisp".into(),
             language: unsafe { tree_sitter_elisp() },
             atom_nodes: (vec![]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["{", "(", "["]).into_iter().collect(),
         }),
         "go" => Some(TreeSitterConfig {
             name: "Go".into(),
@@ -58,26 +62,33 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["interpreted_string_literal", "raw_string_literal"])
                 .into_iter()
                 .collect(),
+            open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         "js" | "jsx" => Some(TreeSitterConfig {
             name: "JavaScript".into(),
             language: unsafe { tree_sitter_javascript() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
+            // This is only correct because < cannot occur as the
+            // first token in tree-sitter node unless we're in JSX.
+            open_delimiter_tokens: (vec!["<"]).into_iter().collect(),
         }),
         "json" => Some(TreeSitterConfig {
             name: "JSON".into(),
             language: unsafe { tree_sitter_json() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
+            open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         "ml" => Some(TreeSitterConfig {
             name: "OCaml".into(),
             language: unsafe { tree_sitter_ocaml() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
+            open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         "mli" => Some(TreeSitterConfig {
             name: "OCaml Interface".into(),
             language: unsafe { tree_sitter_ocaml_interface() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
+            open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         "rs" => Some(TreeSitterConfig {
             name: "Rust".into(),
@@ -85,6 +96,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["char_literal", "string_literal"])
                 .into_iter()
                 .collect(),
+            open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         _ => None,
     }
@@ -133,7 +145,11 @@ fn syntax_from_cursor<'a>(
             let content = &src[node.start_byte()..node.end_byte()];
             result.push(Syntax::new_atom(arena, position, content));
         } else if cursor.goto_first_child() {
-            let has_delimiters = cursor.field_name() == Some("open");
+            let child_node = cursor.node();
+            let child_content = &src[child_node.start_byte()..child_node.end_byte()];
+            // TODO: consider open delimiters that aren't the first child.
+            // TODO: find the close delimiter rather than assuming it's last.
+            let has_delimiters = config.open_delimiter_tokens.contains(child_content);
 
             // This node has children, so treat it as a list.
             let children = syntax_from_cursor(arena, src, nl_pos, cursor, config, has_delimiters);

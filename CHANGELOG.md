@@ -2,7 +2,8 @@
 
 ### Parsing
 
-Tree-sitter parser: Improved handling of string literals.
+Tree-sitter parser: Improved handling of string literals. Improved
+matching of delimiters in Clojure, Elisp and JSX.
 
 JSON (legacy parser): fixed parsing string literals (broken in 0.7).
 
