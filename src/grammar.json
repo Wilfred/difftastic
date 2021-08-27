@@ -4381,6 +4381,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "assignment_expression"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "match_expression"
                 },
                 {

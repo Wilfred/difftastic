@@ -1748,6 +1748,10 @@
             "named": true
           },
           {
+            "type": "assignment_expression",
+            "named": true
+          },
+          {
             "type": "augmented_assignment_expression",
             "named": true
           },
