@@ -8,11 +8,16 @@ use crate::{lines::NewlinePositions, syntax::Syntax};
 pub struct TreeSitterConfig {
     pub name: String,
     pub language: Language,
-    // Tree sitter nodes that we treat as indivisible atoms. This is
+    // Tree-sitter nodes that we treat as indivisible atoms. This is
     // particularly useful for strings, as some grammars use several
     // nodes for a single string literal. We don't want to say
     // e.g. the closing string delimiter moved, as it's confusing and
     // not well-balanced syntax.
+    //
+    // This is also useful for when tree-sitter nodes don't include
+    // all the children in the source. This is known limitation of
+    // tree-sitter, and occurs more often for complex string syntax.
+    // https://github.com/tree-sitter/tree-sitter/issues/1156
     atom_nodes: HashSet<&'static str>,
 }
 
@@ -50,12 +55,14 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
         "go" => Some(TreeSitterConfig {
             name: "Go".into(),
             language: unsafe { tree_sitter_go() },
-            atom_nodes: (vec!["interpreted_string_literal"]).into_iter().collect(),
+            atom_nodes: (vec!["interpreted_string_literal", "raw_string_literal"])
+                .into_iter()
+                .collect(),
         }),
         "js" | "jsx" => Some(TreeSitterConfig {
             name: "JavaScript".into(),
             language: unsafe { tree_sitter_javascript() },
-            atom_nodes: (vec![]).into_iter().collect(),
+            atom_nodes: (vec!["string"]).into_iter().collect(),
         }),
         "json" => Some(TreeSitterConfig {
             name: "JSON".into(),
@@ -65,17 +72,19 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
         "ml" => Some(TreeSitterConfig {
             name: "OCaml".into(),
             language: unsafe { tree_sitter_ocaml() },
-            atom_nodes: (vec![]).into_iter().collect(),
+            atom_nodes: (vec!["character", "string"]).into_iter().collect(),
         }),
         "mli" => Some(TreeSitterConfig {
             name: "OCaml Interface".into(),
             language: unsafe { tree_sitter_ocaml_interface() },
-            atom_nodes: (vec![]).into_iter().collect(),
+            atom_nodes: (vec!["character", "string"]).into_iter().collect(),
         }),
         "rs" => Some(TreeSitterConfig {
             name: "Rust".into(),
             language: unsafe { tree_sitter_rust() },
-            atom_nodes: (vec!["string_literal"]).into_iter().collect(),
+            atom_nodes: (vec!["char_literal", "string_literal"])
+                .into_iter()
+                .collect(),
         }),
         _ => None,
     }
