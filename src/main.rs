@@ -135,10 +135,10 @@ fn main() {
     };
 
     let (lang_name, lhs, rhs) = match ts_lang {
-        Some((lang_name, ts_lang)) => (
-            lang_name,
-            tsp::parse(&arena, &lhs_src, ts_lang),
-            tsp::parse(&arena, &rhs_src, ts_lang),
+        Some(ts_lang) => (
+            ts_lang.name.clone(),
+            tsp::parse(&arena, &lhs_src, &ts_lang),
+            tsp::parse(&arena, &rhs_src, &ts_lang),
         ),
         None => match regex_parser::from_extension(extension) {
             Some(lang) => (
