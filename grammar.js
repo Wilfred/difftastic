@@ -56,8 +56,9 @@ module.exports = grammar({
     [$.variadic_parameter, $.name],
     [$.static_modifier, $._reserved_identifier],
 
-    [$._primary_expression, $._array_destructing],
     [$._array_destructing, $.array_creation_expression],
+    [$._array_destructing_element, $.array_element_initializer],
+    [$._primary_expression, $._array_destructing_element],
 
     [$.union_type, $._return_type],
     [$.if_statement],
@@ -142,6 +143,8 @@ module.exports = grammar({
     ),
 
     empty_statement: $ => prec(-1, ';'),
+
+    reference_modifier: $ => '&',
 
     function_static_declaration: $ => seq(
       keyword('static'),
@@ -413,7 +416,7 @@ module.exports = grammar({
 
     _function_definition_header: $ => seq(
       keyword('function'),
-      optional('&'),
+      optional(field('reference_modifier', $.reference_modifier)),
       field('name', choice($.name, alias($._reserved_identifier, $.name))),
       field('parameters', $.formal_parameters),
       optional($._return_type)
@@ -422,7 +425,7 @@ module.exports = grammar({
     arrow_function: $ => seq(
       optional($.static_modifier),
       keyword('fn'),
-      optional('&'),
+      optional(field('reference_modifier', $.reference_modifier)),
       field('parameters', $.formal_parameters),
       optional($._return_type),
       '=>',
@@ -449,7 +452,7 @@ module.exports = grammar({
     simple_parameter: $ => seq(
       optional(field('attributes', $.attribute_list)),
       field('type', optional($._type)),
-      optional('&'),
+      optional(field('reference_modifier', $.reference_modifier)),
       field('name', $.variable_name),
       optional(seq(
         '=',
@@ -460,7 +463,7 @@ module.exports = grammar({
     variadic_parameter: $ => seq(
       optional(field('attributes', $.attribute_list)),
       field('type', optional($._type)),
-      optional('&'),
+      optional(field('reference_modifier', $.reference_modifier)),
       '...',
       field('name', $.variable_name)
     ),
@@ -501,7 +504,7 @@ module.exports = grammar({
     ),
 
     cast_type: $ => choice(
-      'array',
+      keyword('array'),
       'binary',
       'bool',
       'boolean',
@@ -512,7 +515,7 @@ module.exports = grammar({
       'object',
       'real',
       'string',
-      'unset'
+      keyword('unset')
     ),
 
     _return_type: $ => seq(':', field('return_type', $._type)),
@@ -551,7 +554,7 @@ module.exports = grammar({
       $.null
     ),
 
-    float: $ => /\d*(_\d+)*((\.\d*(_\d+)*)?([eE][\+-]?\d+(_\d+)*)|(\.\d\d*(_\d+)*)([eE][\+-]?\d+(_\d+)*)?)/,
+    float: $ => /\d*(_\d+)*((\.\d*(_\d+)*)?([eE][\+-]?\d+(_\d+)*)|(\.\d*(_\d+)*)([eE][\+-]?\d+(_\d+)*)?)/,
 
     try_statement: $ => seq(
       keyword('try'),
@@ -679,7 +682,8 @@ module.exports = grammar({
     foreach_pair: $ => seq($._expression, '=>', $._foreach_value),
 
     _foreach_value: $ => choice(
-      seq(optional('&'), $._expression),
+      $.by_ref,
+      $._expression,
       $.list_literal
     ),
 
@@ -817,6 +821,7 @@ module.exports = grammar({
       $.match_expression,
       $.augmented_assignment_expression,
       $.assignment_expression,
+      $.reference_assignment_expression,
       $.yield_expression,
       $._unary_expression,
       $.binary_expression,
@@ -882,7 +887,7 @@ module.exports = grammar({
     anonymous_function_creation_expression: $ => seq(
       optional(keyword('static')),
       keyword('function'),
-      optional('&'),
+      optional(field('reference_modifier', $.reference_modifier)),
       field('parameters', $.formal_parameters),
       optional($.anonymous_function_use_clause),
       optional($._return_type),
@@ -892,7 +897,7 @@ module.exports = grammar({
     anonymous_function_use_clause: $ => seq(
       keyword('use'),
       '(',
-      commaSep1(seq(optional('&'), $.variable_name)),
+      commaSep1(choice(alias($.variable_reference, $.by_ref), $.variable_name)),
       optional(','),
       ')'
     ),
@@ -951,7 +956,16 @@ module.exports = grammar({
         $.list_literal,
       )),
       '=',
-      optional('&'),
+      field('right', $._expression)
+    )),
+
+    reference_assignment_expression: $ => prec.right(PREC.ASSIGNMENT, seq(
+      field('left', choice(
+        $._variable,
+        $.list_literal,
+      )),
+      '=',
+      '&',
       field('right', $._expression)
     )),
 
@@ -1015,19 +1029,21 @@ module.exports = grammar({
       'list',
       '(',
       commaSep1(optional(choice(
-        choice(alias($._list_destructing, $.list_literal), $._variable),
-        seq($._expression, '=>', choice(alias($._list_destructing, $.list_literal), $._variable))
+        choice(alias($._list_destructing, $.list_literal), $._variable, $.by_ref),
+        seq($._expression, '=>', choice(alias($._list_destructing, $.list_literal), $._variable, $.by_ref))
       ))),
       ')'
     ),
 
     _array_destructing: $ => seq(
       '[',
-      commaSep1(optional(choice(
-        choice(alias($._array_destructing, $.list_literal), $._variable),
-        seq($._expression, '=>', choice(alias($._array_destructing, $.list_literal), $._variable))
-      ))),
+      commaSep1(optional($._array_destructing_element)),
       ']'
+    ),
+
+    _array_destructing_element: $ => choice(
+      choice(alias($._array_destructing, $.list_literal), $._variable, $.by_ref),
+      seq($._expression, '=>', choice(alias($._array_destructing, $.list_literal), $._variable, $.by_ref))
     ),
 
     _callable_variable: $ => choice(
@@ -1083,6 +1099,7 @@ module.exports = grammar({
 
     argument: $ => seq(
       optional(seq(field('name', $.name), ':')),
+      optional(field('reference_modifier', $.reference_modifier)),
       choice($.variadic_unpacking, $._expression)
     ),
 
@@ -1244,6 +1261,12 @@ module.exports = grammar({
 
     variable_name: $ => seq('$', $.name),
 
+    variable_reference: $ => seq('&', $.variable_name),
+    by_ref: $ => seq(
+      '&',
+      $._callable_variable
+    ),
+
     yield_expression: $ => prec.right(seq(
       'yield',
       optional(choice(
@@ -1253,8 +1276,8 @@ module.exports = grammar({
     )),
 
     array_element_initializer: $ => prec.right(choice(
-      seq(optional('&'), $._expression),
-      seq($._expression, '=>', optional('&'), $._expression),
+      choice($.by_ref, $._expression),
+      seq($._expression, '=>', choice($.by_ref, $._expression)),
       $.variadic_unpacking
     )),
 

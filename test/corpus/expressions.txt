@@ -696,7 +696,7 @@ ob_start(function($buffer) use (&$storage,) { $storage .= $buffer; }, 20);
         (argument
           (anonymous_function_creation_expression
             parameters: (formal_parameters (simple_parameter name: (variable_name (name))))
-            (anonymous_function_use_clause (variable_name (name)))
+            (anonymous_function_use_clause (by_ref (variable_name (name))))
             body: (compound_statement (expression_statement (augmented_assignment_expression
               left: (variable_name (name))
               right: (variable_name (name)))))))
@@ -708,7 +708,7 @@ ob_start(function($buffer) use (&$storage,) { $storage .= $buffer; }, 20);
         (argument
           (anonymous_function_creation_expression
             parameters: (formal_parameters (simple_parameter name: (variable_name (name))))
-            (anonymous_function_use_clause (variable_name (name)))
+            (anonymous_function_use_clause (by_ref (variable_name (name))))
             body: (compound_statement (expression_statement (augmented_assignment_expression
               left: (variable_name (name))
               right: (variable_name (name)))))))
@@ -1072,6 +1072,7 @@ $fn1 = fn($x) => $x + $y;
       (static_modifier)
       parameters: (formal_parameters
         (simple_parameter
+          reference_modifier: (reference_modifier)
           name: (variable_name (name))
         )
       )
@@ -1080,6 +1081,7 @@ $fn1 = fn($x) => $x + $y;
   )
   (expression_statement
     (arrow_function
+      reference_modifier: (reference_modifier)
       parameters: (formal_parameters
         (simple_parameter
           name: (variable_name (name))
@@ -1162,3 +1164,246 @@ $a . $c << $b ;
             (name))
           (variable_name
             (name))))))
+
+
+====================================
+References
+====================================
+
+<?php
+
+$a =& new B;
+$a = &$x;
+
+function test($a, &... $b) {}
+function test($a, Type &... $b) {}
+
+static fn(&$x) => $x;
+fn&($x) => $x;
+
+function() use($a, &$b) {};
+function &($a) {};
+
+foreach ($a as &$b) {}
+foreach ($a as $b => &$c) {}
+
+f(&$a);
+
+function a(&$b) {}
+function &a($b) {}
+
+$target = &$GLOBALS['_' . \strtoupper($array)];
+
+array('a', &$b, 'c' => 'd', 'e' => &$f);
+
+[&$x];
+
+list(&$v) = $x;
+
+list('k' => &$v) = $x;
+
+[&$v] = $x;
+
+['k' => &$v] = $x;
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (reference_assignment_expression
+      (variable_name (name))
+      (object_creation_expression (name))
+    )
+  )
+  (expression_statement
+    (reference_assignment_expression
+      (variable_name (name))
+      (variable_name (name))
+    )
+  )
+  (function_definition
+    (name)
+    (formal_parameters
+      (simple_parameter
+        (variable_name (name))
+      )
+      (variadic_parameter
+        (reference_modifier)
+        (variable_name (name))
+      )
+    )
+    (compound_statement)
+  )
+  (function_definition
+    (name)
+    (formal_parameters
+      (simple_parameter
+        (variable_name (name))
+      )
+      (variadic_parameter
+        (type_list (named_type (name)))
+        (reference_modifier)
+        (variable_name (name))
+      )
+    )
+    (compound_statement)
+  )
+  (expression_statement
+    (arrow_function
+      (static_modifier)
+      (formal_parameters
+        (simple_parameter
+          (reference_modifier)
+          (variable_name (name))
+        )
+      )
+      (variable_name (name))
+    )
+  )
+  (expression_statement
+    (arrow_function
+      (reference_modifier)
+      (formal_parameters
+        (simple_parameter
+          (variable_name (name))
+        )
+      )
+      (variable_name (name))
+    )
+  )
+  (expression_statement
+    (anonymous_function_creation_expression
+      (formal_parameters)
+      (anonymous_function_use_clause
+        (variable_name (name))
+        (by_ref (variable_name (name)))
+      )
+      (compound_statement)
+    )
+  )
+  (expression_statement
+    (anonymous_function_creation_expression
+      (reference_modifier)
+      (formal_parameters
+        (simple_parameter
+          (variable_name (name))
+        )
+      )
+      (compound_statement)
+    )
+  )
+  (foreach_statement
+    (variable_name (name))
+    (by_ref (variable_name (name)))
+    (compound_statement)
+  )
+  (foreach_statement
+    (variable_name (name))
+    (pair
+      (variable_name (name))
+      (by_ref (variable_name (name)))
+    )
+    (compound_statement)
+  )
+  (expression_statement
+    (function_call_expression
+      (name)
+      (arguments
+        (argument
+          (reference_modifier)
+          (variable_name (name))
+        )
+      )
+    )
+  )
+  (function_definition
+    (name)
+    (formal_parameters
+      (simple_parameter
+        (reference_modifier)
+        (variable_name (name))
+      )
+    )
+    (compound_statement)
+  )
+  (function_definition
+    (reference_modifier)
+    (name)
+    (formal_parameters
+      (simple_parameter
+        (variable_name (name))
+      )
+    )
+    (compound_statement)
+  )
+  (expression_statement
+    (reference_assignment_expression
+      (variable_name (name))
+      (subscript_expression
+        (variable_name (name))
+        (binary_expression
+          (string)
+          (function_call_expression
+            (qualified_name
+              (namespace_name_as_prefix)
+              (name)
+            )
+            (arguments
+              (argument (variable_name (name)))
+            )
+          )
+        )
+      )
+    )
+  )
+  (expression_statement
+    (array_creation_expression
+      (array_element_initializer (string))
+      (array_element_initializer (by_ref (variable_name (name))))
+      (array_element_initializer (string) (string))
+      (array_element_initializer (string) (by_ref (variable_name (name))))
+    )
+  )
+  (expression_statement
+    (array_creation_expression
+      (array_element_initializer (by_ref (variable_name (name))))
+    )
+  )
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (by_ref
+          (variable_name (name))
+        )
+      )
+      (variable_name (name))
+    )
+  )
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (string)
+        (by_ref (variable_name (name)))
+      )
+      (variable_name (name))
+    )
+  )
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (by_ref (variable_name (name)))
+      )
+      (variable_name (name))
+    )
+  )
+  (expression_statement
+    (assignment_expression
+      (list_literal
+        (string)
+        (by_ref (variable_name (name)))
+      )
+      (variable_name (name))
+    )
+  )
+)
