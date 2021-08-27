@@ -5,6 +5,11 @@ use typed_arena::Arena;
 
 use crate::{lines::NewlinePositions, syntax::Syntax};
 
+pub struct TreeSitterConfig {
+    pub name: String,
+    pub language: Language,
+}
+
 extern "C" {
     fn tree_sitter_clojure() -> Language;
     fn tree_sitter_css() -> Language;
@@ -17,21 +22,46 @@ extern "C" {
     fn tree_sitter_rust() -> Language;
 }
 
-pub fn from_extension(extension: &OsStr) -> Option<(String, Language)> {
+pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
     // TODO: find a nice way to extract this data from the
     // package.json in these parsers.
     match extension.to_string_lossy().borrow() {
-        "clj" => Some(("Clojure".into(), unsafe { tree_sitter_clojure() })),
-        "css" => Some(("CSS".into(), unsafe { tree_sitter_css() })),
-        "el" => Some(("Emacs Lisp".into(), unsafe { tree_sitter_elisp() })),
-        "go" => Some(("Go".into(), unsafe { tree_sitter_go() })),
-        "js" | "jsx" => Some(("JavaScript".into(), unsafe { tree_sitter_javascript() })),
-        "json" => Some(("JSON".into(), unsafe { tree_sitter_json() })),
-        "ml" => Some(("OCaml".into(), unsafe { tree_sitter_ocaml() })),
-        "mli" => Some(("OCaml Interface".into(), unsafe {
-            tree_sitter_ocaml_interface()
-        })),
-        "rs" => Some(("Rust".into(), unsafe { tree_sitter_rust() })),
+        "clj" => Some(TreeSitterConfig {
+            name: "Clojure".into(),
+            language: unsafe { tree_sitter_clojure() },
+        }),
+        "css" => Some(TreeSitterConfig {
+            name: "CSS".into(),
+            language: unsafe { tree_sitter_css() },
+        }),
+        "el" => Some(TreeSitterConfig {
+            name: "Emacs Lisp".into(),
+            language: unsafe { tree_sitter_elisp() },
+        }),
+        "go" => Some(TreeSitterConfig {
+            name: "Go".into(),
+            language: unsafe { tree_sitter_go() },
+        }),
+        "js" | "jsx" => Some(TreeSitterConfig {
+            name: "JavaScript".into(),
+            language: unsafe { tree_sitter_javascript() },
+        }),
+        "json" => Some(TreeSitterConfig {
+            name: "JSON".into(),
+            language: unsafe { tree_sitter_json() },
+        }),
+        "ml" => Some(TreeSitterConfig {
+            name: "OCaml".into(),
+            language: unsafe { tree_sitter_ocaml() },
+        }),
+        "mli" => Some(TreeSitterConfig {
+            name: "OCaml Interface".into(),
+            language: unsafe { tree_sitter_ocaml_interface() },
+        }),
+        "rs" => Some(TreeSitterConfig {
+            name: "Rust".into(),
+            language: unsafe { tree_sitter_rust() },
+        }),
         _ => None,
     }
 }
@@ -39,11 +69,11 @@ pub fn from_extension(extension: &OsStr) -> Option<(String, Language)> {
 pub fn parse<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
-    language: Language,
+    config: &TreeSitterConfig,
 ) -> Vec<&'a Syntax<'a>> {
     let mut parser = Parser::new();
     parser
-        .set_language(language)
+        .set_language(config.language)
         .expect("Incompatible tree-sitter version");
 
     let tree = parser.parse(src, None).unwrap();
