@@ -1,4 +1,4 @@
-use std::{borrow::Borrow, ffi::OsStr};
+use std::{borrow::Borrow, collections::HashSet, ffi::OsStr};
 
 use tree_sitter::{Language, Parser, TreeCursor};
 use typed_arena::Arena;
@@ -8,6 +8,12 @@ use crate::{lines::NewlinePositions, syntax::Syntax};
 pub struct TreeSitterConfig {
     pub name: String,
     pub language: Language,
+    // Tree sitter nodes that we treat as indivisible atoms. This is
+    // particularly useful for strings, as some grammars use several
+    // nodes for a single string literal. We don't want to say
+    // e.g. the closing string delimiter moved, as it's confusing and
+    // not well-balanced syntax.
+    atom_nodes: HashSet<&'static str>,
 }
 
 extern "C" {
@@ -29,38 +35,47 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
         "clj" => Some(TreeSitterConfig {
             name: "Clojure".into(),
             language: unsafe { tree_sitter_clojure() },
+            atom_nodes: (vec![]).into_iter().collect(),
         }),
         "css" => Some(TreeSitterConfig {
             name: "CSS".into(),
             language: unsafe { tree_sitter_css() },
+            atom_nodes: (vec![]).into_iter().collect(),
         }),
         "el" => Some(TreeSitterConfig {
             name: "Emacs Lisp".into(),
             language: unsafe { tree_sitter_elisp() },
+            atom_nodes: (vec![]).into_iter().collect(),
         }),
         "go" => Some(TreeSitterConfig {
             name: "Go".into(),
             language: unsafe { tree_sitter_go() },
+            atom_nodes: (vec!["interpreted_string_literal"]).into_iter().collect(),
         }),
         "js" | "jsx" => Some(TreeSitterConfig {
             name: "JavaScript".into(),
             language: unsafe { tree_sitter_javascript() },
+            atom_nodes: (vec![]).into_iter().collect(),
         }),
         "json" => Some(TreeSitterConfig {
             name: "JSON".into(),
             language: unsafe { tree_sitter_json() },
+            atom_nodes: (vec!["string"]).into_iter().collect(),
         }),
         "ml" => Some(TreeSitterConfig {
             name: "OCaml".into(),
             language: unsafe { tree_sitter_ocaml() },
+            atom_nodes: (vec![]).into_iter().collect(),
         }),
         "mli" => Some(TreeSitterConfig {
             name: "OCaml Interface".into(),
             language: unsafe { tree_sitter_ocaml_interface() },
+            atom_nodes: (vec![]).into_iter().collect(),
         }),
         "rs" => Some(TreeSitterConfig {
             name: "Rust".into(),
             language: unsafe { tree_sitter_rust() },
+            atom_nodes: (vec!["string_literal"]).into_iter().collect(),
         }),
         _ => None,
     }
@@ -85,7 +100,7 @@ pub fn parse<'a>(
     // each top level syntax item.
     cursor.goto_first_child();
 
-    syntax_from_cursor(arena, src, &nl_pos, &mut cursor, false)
+    syntax_from_cursor(arena, src, &nl_pos, &mut cursor, config, false)
 }
 
 fn syntax_from_cursor<'a>(
@@ -93,6 +108,7 @@ fn syntax_from_cursor<'a>(
     src: &str,
     nl_pos: &NewlinePositions,
     cursor: &mut TreeCursor,
+    config: &TreeSitterConfig,
     skip_ends: bool,
 ) -> Vec<&'a Syntax<'a>> {
     let mut result: Vec<&Syntax> = vec![];
@@ -101,12 +117,9 @@ fn syntax_from_cursor<'a>(
     loop {
         let node = cursor.node();
 
-        if node.kind() == "interpreted_string_literal"
-            || node.kind() == "string_literal"
-            || node.kind() == "string"
-        {
-            // Treat golang interpolated strings and rust string as atoms.
-            // TODO: why are string literals grey without this? (see old/new.go).
+        if config.atom_nodes.contains(node.kind()) {
+            // Treat nodes like string literals as atoms, regardless
+            // of whether they have children.
             let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
             let content = &src[node.start_byte()..node.end_byte()];
             result.push(Syntax::new_atom(arena, position, content));
@@ -114,7 +127,7 @@ fn syntax_from_cursor<'a>(
             let has_delimiters = cursor.field_name() == Some("open");
 
             // This node has children, so treat it as a list.
-            let children = syntax_from_cursor(arena, src, nl_pos, cursor, has_delimiters);
+            let children = syntax_from_cursor(arena, src, nl_pos, cursor, config, has_delimiters);
             cursor.goto_parent();
 
             let mut open_content = "";
