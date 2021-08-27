@@ -22,6 +22,7 @@ $foo = 2 ** 2;
 $a = 3;
 echo $a ** -$a;
 $a ** $c += $b;
+$a ** $c = $b;
 
 ---
 
@@ -52,6 +53,15 @@ $a ** $c += $b;
     (exponentiation_expression
       left: (variable_name (name))
       right: (augmented_assignment_expression
+        left: (variable_name (name))
+        right: (variable_name (name))
+      )
+    )
+  )
+  (expression_statement
+    (exponentiation_expression
+      left: (variable_name (name))
+      right: (assignment_expression
         left: (variable_name (name))
         right: (variable_name (name))
       )

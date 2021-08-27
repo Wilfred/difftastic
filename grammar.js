@@ -839,7 +839,7 @@ module.exports = grammar({
     exponentiation_expression: $ => prec.right(PREC.EXPONENTIAL, seq(
       field('left', choice($.clone_expression, $._primary_expression, $.unary_op_expression, $.match_expression)),
       '**',
-      field('right', choice($.exponentiation_expression, $.clone_expression, $.unary_op_expression, $._primary_expression, $.augmented_assignment_expression, $.match_expression, $.cast_expression))
+      field('right', choice($.exponentiation_expression, $.clone_expression, $.unary_op_expression, $._primary_expression, $.augmented_assignment_expression, $.assignment_expression, $.match_expression, $.cast_expression))
     )),
 
     clone_expression: $ => seq(
