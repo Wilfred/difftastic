@@ -138,3 +138,13 @@ a = [A.a|a|]
    (quoter (module) (variable))
    (quasiquote_bar)
    (quasiquote_body))))
+
+================================================================================
+template haskell: error: incomplete quote
+================================================================================
+
+a = [a|
+
+---
+
+(haskell (function (variable) (quasiquote (quasiquote_start) (quoter) (quasiquote_bar) (MISSING "|]"))))

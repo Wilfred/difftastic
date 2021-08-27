@@ -1106,7 +1106,7 @@ uint32_t count_indent(State & state) {
 /**
  * End-of-file check.
  *
- * If EOF has been reched, two scenarios are valid:
+ * If EOF has been reached, two scenarios are valid:
  *  - The file is empty, in which case the parser is still at the root rule, where `Sym::empty` is valid.
  *  - The current layout can be ended. This may happen multiple times, since the parser will restart until the last
  *    layout end rule has been parsed.
@@ -1253,6 +1253,7 @@ Parser qq_start =
 Parser qq_body =
   [](State & state) {
     auto p =
+      eof +
       mark("qq_body") +
       either(
           cond::consume('\\'),
