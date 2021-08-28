@@ -9,8 +9,8 @@ use std::cell::Cell;
 use std::cmp::{max, min};
 use std::collections::hash_map::DefaultHasher;
 use std::collections::HashMap;
-use std::fmt;
 use std::hash::{Hash, Hasher};
+use std::{env, fmt};
 use typed_arena::Arena;
 
 use crate::lines::{LineGroup, LineNumber, NewlinePositions};
@@ -110,15 +110,18 @@ impl<'a> fmt::Debug for Syntax<'a> {
                     .field("open_position", &dbg_pos(open_position))
                     .field("children", &children)
                     .field("close_content", &close_content)
-                    .field("close_position", &dbg_pos(close_position))
-                    .field("change", &info.change.get());
+                    .field("close_position", &dbg_pos(close_position));
 
-                let next_s = match info.next.get() {
-                    Some(List { .. }) => "Some(List)",
-                    Some(Atom { .. }) => "Some(Atom)",
-                    None => "None",
-                };
-                ds.field("next", &next_s);
+                if env::var("DFT_VERBOSE").is_ok() {
+                    ds.field("change", &info.change.get());
+
+                    let next_s = match info.next.get() {
+                        Some(List { .. }) => "Some(List)",
+                        Some(Atom { .. }) => "Some(Atom)",
+                        None => "None",
+                    };
+                    ds.field("next", &next_s);
+                }
 
                 ds.finish()
             }
@@ -129,16 +132,18 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 ..
             } => {
                 let mut ds = f.debug_struct(&format!("Atom id:{}", self.id()));
-                ds.field("content", &content)
-                    .field("change", &info.change.get());
+                ds.field("content", &content);
                 ds.field("position", &dbg_pos(position));
 
-                let next_s = match info.next.get() {
-                    Some(List { .. }) => "Some(List)",
-                    Some(Atom { .. }) => "Some(Atom)",
-                    None => "None",
-                };
-                ds.field("next", &next_s);
+                if env::var("DFT_VERBOSE").is_ok() {
+                    ds.field("change", &info.change.get());
+                    let next_s = match info.next.get() {
+                        Some(List { .. }) => "Some(List)",
+                        Some(Atom { .. }) => "Some(Atom)",
+                        None => "None",
+                    };
+                    ds.field("next", &next_s);
+                }
 
                 ds.finish()
             }
