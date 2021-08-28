@@ -11,7 +11,7 @@ mod style;
 mod syntax;
 mod tree_sitter_parser;
 use atty::Stream;
-use clap::{App, AppSettings, Arg};
+use clap::{crate_version, App, AppSettings, Arg};
 use std::env;
 use std::ffi::OsStr;
 use std::path::Path;
@@ -22,8 +22,6 @@ use crate::files::{is_probably_binary, read_or_die};
 use crate::lines::{join_overlapping, visible_groups, MaxLine};
 use crate::syntax::{change_positions, init_info, matching_lines};
 use crate::tree_sitter_parser as tsp;
-
-const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 fn configure_color() {
     if atty::is(Stream::Stdout) || env::var("GIT_PAGER_IN_USE").is_ok() {
@@ -49,7 +47,7 @@ enum Mode {
 fn parse_args() -> Mode {
     let matches =
         App::new("Difftastic")
-            .version(VERSION)
+            .version(crate_version!())
             .about("A syntax aware diff.")
             .author("Wilfred Hughes")
             .arg(Arg::with_name("dump-syntax").long("dump-syntax").help(
