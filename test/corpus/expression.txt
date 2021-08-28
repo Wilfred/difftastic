@@ -38,7 +38,7 @@ my ($self, $args) = @_;
   (variable_declaration (scope)
     (multi_var_declaration
       (variable_declarator (scalar_variable)) (variable_declarator (scalar_variable))
-    ) (special_variable) (semi_colon)
+    ) (special_array_variable) (semi_colon)
   )
 )
 
