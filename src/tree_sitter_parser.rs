@@ -35,8 +35,8 @@ extern "C" {
 }
 
 pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
-    // TODO: find a nice way to extract this data from the
-    // package.json in these parsers.
+    // TODO: find a nice way to extract name and extension information
+    // from the package.json in these parsers.
     match extension.to_string_lossy().borrow() {
         "clj" => Some(TreeSitterConfig {
             name: "Clojure".into(),
