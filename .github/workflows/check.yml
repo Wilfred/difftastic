@@ -29,3 +29,8 @@ jobs:
     - run: npm install
     - run: npm run ci
     - run: npm test
+    - name: Publish parser source
+      uses: actions/upload-artifact@v2
+      with:
+        name: generated-parser-src
+        path: src
