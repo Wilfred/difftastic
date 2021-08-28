@@ -136,7 +136,7 @@ fn main() {
 
     let (lang_name, lhs, rhs) = match ts_lang {
         Some(ts_lang) => (
-            ts_lang.name.clone(),
+            ts_lang.name.into(),
             tsp::parse(&arena, &lhs_src, &ts_lang),
             tsp::parse(&arena, &rhs_src, &ts_lang),
         ),
