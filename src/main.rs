@@ -35,7 +35,15 @@ fn configure_color() {
     }
 }
 
-fn parse_args() -> (String, String, String) {
+enum Mode {
+    Diff {
+        display_path: String,
+        lhs_path: String,
+        rhs_path: String,
+    },
+}
+
+fn parse_args() -> Mode {
     let matches = App::new("Difftastic")
         .version(VERSION)
         .about("A syntax aware diff.")
@@ -47,7 +55,7 @@ fn parse_args() -> (String, String, String) {
     let args: Vec<_> = matches.values_of_lossy("positional_args").unwrap();
 
     // TODO: document these different ways of calling difftastic.
-    match &args[..] {
+    let (display_path, lhs_path, rhs_path) = match &args[..] {
         [lhs_path, rhs_path] => (
             rhs_path.to_string(),
             lhs_path.to_string(),
@@ -77,13 +85,22 @@ fn parse_args() -> (String, String, String) {
             args.len(),
             args
         ),
+    };
+
+    Mode::Diff {
+        display_path,
+        lhs_path,
+        rhs_path,
     }
 }
 
 fn main() {
     configure_color();
 
-    let (display_path, lhs_path, rhs_path) = parse_args();
+    let mode = parse_args();
+    let (display_path, lhs_path, rhs_path) = match mode {
+        Mode::Diff { display_path, lhs_path, rhs_path} => (display_path, lhs_path, rhs_path)
+    };
 
     let lhs_bytes = read_or_die(&lhs_path);
     let rhs_bytes = read_or_die(&rhs_path);
