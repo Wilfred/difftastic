@@ -6,7 +6,7 @@ use typed_arena::Arena;
 use crate::{lines::NewlinePositions, syntax::Syntax};
 
 pub struct TreeSitterConfig {
-    pub name: String,
+    pub name: &'static str,
     pub language: Language,
     // Tree-sitter nodes that we treat as indivisible atoms. This is
     // particularly useful for strings, as some grammars use several
@@ -39,25 +39,25 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
     // from the package.json in these parsers.
     match extension.to_string_lossy().borrow() {
         "clj" => Some(TreeSitterConfig {
-            name: "Clojure".into(),
+            name: "Clojure",
             language: unsafe { tree_sitter_clojure() },
             atom_nodes: (vec![]).into_iter().collect(),
             open_delimiter_tokens: (vec!["{", "(", "["]).into_iter().collect(),
         }),
         "css" => Some(TreeSitterConfig {
-            name: "CSS".into(),
+            name: "CSS",
             language: unsafe { tree_sitter_css() },
             atom_nodes: (vec![]).into_iter().collect(),
             open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         "el" => Some(TreeSitterConfig {
-            name: "Emacs Lisp".into(),
+            name: "Emacs Lisp",
             language: unsafe { tree_sitter_elisp() },
             atom_nodes: (vec![]).into_iter().collect(),
             open_delimiter_tokens: (vec!["{", "(", "["]).into_iter().collect(),
         }),
         "go" => Some(TreeSitterConfig {
-            name: "Go".into(),
+            name: "Go",
             language: unsafe { tree_sitter_go() },
             atom_nodes: (vec!["interpreted_string_literal", "raw_string_literal"])
                 .into_iter()
@@ -65,7 +65,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         "js" | "jsx" => Some(TreeSitterConfig {
-            name: "JavaScript".into(),
+            name: "JavaScript",
             language: unsafe { tree_sitter_javascript() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
             // This is only correct because < cannot occur as the
@@ -73,25 +73,25 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             open_delimiter_tokens: (vec!["<"]).into_iter().collect(),
         }),
         "json" => Some(TreeSitterConfig {
-            name: "JSON".into(),
+            name: "JSON",
             language: unsafe { tree_sitter_json() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
             open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         "ml" => Some(TreeSitterConfig {
-            name: "OCaml".into(),
+            name: "OCaml",
             language: unsafe { tree_sitter_ocaml() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
             open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         "mli" => Some(TreeSitterConfig {
-            name: "OCaml Interface".into(),
+            name: "OCaml Interface",
             language: unsafe { tree_sitter_ocaml_interface() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
             open_delimiter_tokens: (vec![]).into_iter().collect(),
         }),
         "rs" => Some(TreeSitterConfig {
-            name: "Rust".into(),
+            name: "Rust",
             language: unsafe { tree_sitter_rust() },
             atom_nodes: (vec!["char_literal", "string_literal"])
                 .into_iter()
