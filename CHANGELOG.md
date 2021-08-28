@@ -62,7 +62,8 @@ delimiter over a delimiter that gave contiguous changes.
 
 Removed the `--width` argument.
 
-Added a debug option `--dump-syntax`.
+Added debug options `--dump-syntax` and `--dump-ts` for viewing parse
+trees. The output of these files may change without notice.
 
 ## 0.6
 

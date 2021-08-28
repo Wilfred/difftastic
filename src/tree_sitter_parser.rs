@@ -102,17 +102,23 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
     }
 }
 
-pub fn parse<'a>(
-    arena: &'a Arena<Syntax<'a>>,
-    src: &str,
-    config: &TreeSitterConfig,
-) -> Vec<&'a Syntax<'a>> {
+/// Parse `src` with tree-sitter.
+pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> tree_sitter::Tree {
     let mut parser = Parser::new();
     parser
         .set_language(config.language)
         .expect("Incompatible tree-sitter version");
 
-    let tree = parser.parse(src, None).unwrap();
+    parser.parse(src, None).unwrap()
+}
+
+/// Parse `src` with tree-sitter and convert to difftastic Syntax.
+pub fn parse<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    src: &str,
+    config: &TreeSitterConfig,
+) -> Vec<&'a Syntax<'a>> {
+    let tree = parse_to_tree(src, config);
 
     let nl_pos = NewlinePositions::from(src);
     let mut cursor = tree.walk();

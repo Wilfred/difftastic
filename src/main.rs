@@ -39,6 +39,9 @@ enum Mode {
         lhs_path: String,
         rhs_path: String,
     },
+    DumpTreeSitter {
+        path: String,
+    },
     DumpSyntax {
         path: String,
     },
@@ -53,15 +56,32 @@ fn parse_args() -> Mode {
             .arg(Arg::with_name("dump-syntax").long("dump-syntax").help(
                 "Parse a single file with tree-sitter and display the difftastic syntax tree.",
             ))
+            .arg(Arg::with_name("dump-ts").long("dump-ts").help(
+                "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
+            ))
             .arg(Arg::with_name("positional_args").multiple(true))
             .setting(AppSettings::ArgRequiredElseHelp)
             .get_matches();
 
     let args: Vec<_> = matches.values_of_lossy("positional_args").unwrap();
 
-    if matches.is_present("dump-tree-sitter") {
+    if matches.is_present("dump-syntax") {
         if args.len() == 1 {
             return Mode::DumpSyntax {
+                path: args[0].clone(),
+            };
+        } else {
+            // TODO: delegate this parsing to clap.
+            panic!(
+                "Error: --dump-syntax takes one argument, but got: {}",
+                args.len()
+            );
+        }
+    }
+
+    if matches.is_present("dump-ts") {
+        if args.len() == 1 {
+            return Mode::DumpTreeSitter {
                 path: args[0].clone(),
             };
         } else {
@@ -119,6 +139,22 @@ fn main() {
 
     let mode = parse_args();
     let (display_path, lhs_path, rhs_path) = match mode {
+        Mode::DumpTreeSitter { path } => {
+            let extension = Path::new(&path).extension();
+            let extension = extension.unwrap_or_else(|| OsStr::new(""));
+            match tsp::from_extension(extension) {
+                Some(ts_lang) => {
+                    let bytes = read_or_die(&path);
+                    let src = String::from_utf8_lossy(&bytes).to_string();
+                    let tree = tsp::parse_to_tree(&src, &ts_lang);
+                    println!("{:#?}", tree.root_node());
+                }
+                None => {
+                    println!("No tree-sitter parser for extension: {:?}", extension);
+                }
+            }
+            return;
+        }
         Mode::DumpSyntax { path } => {
             let extension = Path::new(&path).extension();
             let extension = extension.unwrap_or_else(|| OsStr::new(""));
@@ -127,7 +163,7 @@ fn main() {
                     let bytes = read_or_die(&path);
                     let src = String::from_utf8_lossy(&bytes).to_string();
                     let ast = tsp::parse(&arena, &src, &ts_lang);
-                    dbg!(ast);
+                    println!("{:#?}", ast);
                 }
                 None => {
                     println!("No tree-sitter parser for extension: {:?}", extension);
