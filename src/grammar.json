@@ -2915,7 +2915,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "special_variable"
+                "name": "_special_variable"
               },
               {
                 "type": "SYMBOL",
@@ -3051,7 +3051,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "special_variable"
+                    "name": "_special_variable"
                   },
                   {
                     "type": "SYMBOL",
@@ -3750,7 +3750,7 @@
         }
       ]
     },
-    "special_variable": {
+    "_special_variable": {
       "type": "CHOICE",
       "members": [
         {
@@ -8861,7 +8861,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "special_variable"
+          "name": "_special_variable"
         }
       ]
     },

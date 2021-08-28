@@ -723,7 +723,7 @@ module.exports = grammar({
       // object oriented stuffs
       $.bless,
       
-      $.special_variable,
+      $._special_variable,
 
       $.grep_or_map_function,
       $.join_function,
@@ -803,7 +803,7 @@ module.exports = grammar({
       '}'
     ),
 
-    special_variable: $ => choice(
+    _special_variable: $ => choice(
       $.special_scalar_variable,
       $.special_array_variable,
       $.special_hash_variable,
@@ -1683,7 +1683,7 @@ module.exports = grammar({
       alias($.hash_ref_in_interpolation, $.arrow_notation),
       // $.hash_access_variable,
       alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable),
-      $.special_variable,
+      $._special_variable,
     ),
 
     hash_ref_in_interpolation: $ => seq(

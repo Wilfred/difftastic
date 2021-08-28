@@ -167,7 +167,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -390,7 +398,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -621,7 +637,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -847,7 +871,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -1071,7 +1103,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -1302,7 +1342,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -1525,7 +1573,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -1833,7 +1889,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -2249,7 +2313,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -2475,7 +2547,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -2694,7 +2774,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -2925,7 +3013,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -3227,7 +3323,15 @@
           "named": true
         },
         {
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
           "type": "special_block",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
           "named": true
         },
         {
@@ -3235,7 +3339,7 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -3611,7 +3715,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -3847,7 +3959,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -4099,7 +4219,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -4325,7 +4453,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -4551,7 +4687,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -4820,7 +4964,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -5051,7 +5203,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -5310,7 +5470,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -5674,7 +5842,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -5930,7 +6106,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -6165,7 +6349,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -6391,7 +6583,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -6641,7 +6841,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -6871,7 +7079,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -7095,7 +7311,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -7330,7 +7554,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -7556,7 +7788,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -7810,7 +8050,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -7958,7 +8206,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         }
       ]
@@ -8121,7 +8377,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -8356,7 +8620,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -8582,7 +8854,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -8857,7 +9137,15 @@
           "named": true
         },
         {
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
           "type": "special_block",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
           "named": true
         },
         {
@@ -8865,7 +9153,7 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -9245,7 +9533,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -9596,7 +9892,15 @@
           "named": true
         },
         {
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
           "type": "special_block",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
           "named": true
         },
         {
@@ -9604,7 +9908,7 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -9943,7 +10247,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -10217,7 +10529,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -10483,7 +10803,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -10751,7 +11079,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -11022,7 +11358,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -11297,7 +11641,15 @@
           "named": true
         },
         {
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
           "type": "special_block",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
           "named": true
         },
         {
@@ -11305,7 +11657,7 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -11458,29 +11810,6 @@
     "type": "special_scalar_variable",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "special_variable",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "special_array_variable",
-          "named": true
-        },
-        {
-          "type": "special_hash_variable",
-          "named": true
-        },
-        {
-          "type": "special_scalar_variable",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "standalone_block",
@@ -11716,7 +12045,15 @@
           "named": true
         },
         {
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
           "type": "special_block",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
           "named": true
         },
         {
@@ -11724,7 +12061,7 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -12134,7 +12471,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -12360,7 +12705,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -12600,7 +12953,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -12832,7 +13193,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -13233,7 +13602,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -13469,7 +13846,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -13753,7 +14138,15 @@
           "named": true
         },
         {
-          "type": "special_variable",
+          "type": "special_array_variable",
+          "named": true
+        },
+        {
+          "type": "special_hash_variable",
+          "named": true
+        },
+        {
+          "type": "special_scalar_variable",
           "named": true
         },
         {
@@ -13988,7 +14381,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -14292,7 +14693,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -14574,7 +14983,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -15085,7 +15502,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -15380,7 +15805,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
@@ -15626,7 +16059,15 @@
             "named": true
           },
           {
-            "type": "special_variable",
+            "type": "special_array_variable",
+            "named": true
+          },
+          {
+            "type": "special_hash_variable",
+            "named": true
+          },
+          {
+            "type": "special_scalar_variable",
             "named": true
           },
           {
