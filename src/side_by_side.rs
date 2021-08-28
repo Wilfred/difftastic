@@ -2,7 +2,7 @@ use atty::Stream;
 use std::cmp::{max, min};
 use std::collections::HashMap;
 
-use crate::lines::{enforce_length, enforce_max_length, format_line_num, LineGroup, LineNumber};
+use crate::lines::{enforce_exact_length, enforce_max_length, format_line_num, LineGroup, LineNumber};
 use crate::style::apply_colors;
 use crate::syntax::{aligned_lines, MatchedPos};
 
@@ -236,7 +236,7 @@ pub fn display(
     let lhs_content_width = lhs_formatted_length - lhs_column_width;
     let rhs_content_width = rhs_formatted_length - rhs_column_width;
 
-    let lhs_src = enforce_length(lhs_src, lhs_content_width);
+    let lhs_src = enforce_exact_length(lhs_src, lhs_content_width);
     let rhs_src = enforce_max_length(rhs_src, rhs_content_width);
     let lhs_colored = apply_colors(&lhs_src, true, lhs_positions);
     let rhs_colored = apply_colors(&rhs_src, false, rhs_positions);
