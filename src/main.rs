@@ -66,9 +66,7 @@ fn configure_color() {
     }
 }
 
-fn main() {
-    configure_color();
-
+fn parse_args() -> (String, String, String) {
     let matches = App::new("Difftastic")
         .version(VERSION)
         .about("A syntax aware diff.")
@@ -86,33 +84,51 @@ fn main() {
     let args: Vec<_> = matches.values_of_lossy("positional_args").unwrap();
 
     // TODO: document these different ways of calling difftastic.
-    let (display_path, lhs_path, rhs_path) = match &args[..] {
-        [lhs_path, rhs_path] => (rhs_path, lhs_path, rhs_path),
+    match &args[..] {
+        [lhs_path, rhs_path] => (
+            rhs_path.to_string(),
+            lhs_path.to_string(),
+            rhs_path.to_string(),
+        ),
         [display_path, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode] => {
             // https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode
-            (display_path, lhs_tmp_file, rhs_tmp_file)
+            (
+                display_path.to_string(),
+                lhs_tmp_file.to_string(),
+                rhs_tmp_file.to_string(),
+            )
         }
         [_old_name, lhs_tmp_file, _lhs_hash, _lhs_mode, rhs_tmp_file, _rhs_hash, _rhs_mode, new_name, _similarity] =>
         {
             // Rename file.
             // TODO: mention old name as well as diffing.
             // TODO: where does git document these 9 arguments?
-            (new_name, lhs_tmp_file, rhs_tmp_file)
+            (
+                new_name.to_string(),
+                lhs_tmp_file.to_string(),
+                rhs_tmp_file.to_string(),
+            )
         }
         _ => panic!(
             "Unexpected number of arguments, got {}: {:?}",
             args.len(),
             args
         ),
-    };
+    }
+}
 
-    let lhs_bytes = read_or_die(lhs_path);
-    let rhs_bytes = read_or_die(rhs_path);
+fn main() {
+    configure_color();
+
+    let (display_path, lhs_path, rhs_path) = parse_args();
+
+    let lhs_bytes = read_or_die(&lhs_path);
+    let rhs_bytes = read_or_die(&rhs_path);
 
     let lhs_binary = is_probably_binary(&lhs_bytes);
     let rhs_binary = is_probably_binary(&rhs_bytes);
     if lhs_binary || rhs_binary {
-        println!("{}", style::header(display_path, "binary"));
+        println!("{}", style::header(&display_path, "binary"));
         return;
     }
 
@@ -154,7 +170,7 @@ fn main() {
         },
     };
 
-    println!("{}", style::header(display_path, &lang_name));
+    println!("{}", style::header(&display_path, &lang_name));
 
     init_info(&lhs);
     init_info(&rhs);
