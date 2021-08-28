@@ -112,6 +112,27 @@ pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> tree_sitter::Tree 
     parser.parse(src, None).unwrap()
 }
 
+pub fn print_tree(tree: tree_sitter::Tree) {
+    let mut cursor = tree.walk();
+    print_cursor(&mut cursor, 0);
+}
+
+fn print_cursor(cursor: &mut TreeCursor, depth: usize) {
+    loop {
+        let node = cursor.node();
+        println!("{}{:#?}", "  ".repeat(depth), node);
+
+        if cursor.goto_first_child() {
+            print_cursor(cursor, depth + 1);
+            cursor.goto_parent();
+        }
+
+        if !cursor.goto_next_sibling() {
+            break;
+        }
+    }
+}
+
 /// Parse `src` with tree-sitter and convert to difftastic Syntax.
 pub fn parse<'a>(
     arena: &'a Arena<Syntax<'a>>,
