@@ -7,6 +7,10 @@ matching of delimiters in Clojure, Elisp and JSX.
 
 JSON (legacy parser): fixed parsing string literals (broken in 0.7).
 
+### Command Line Interface
+
+Removed the unused `--lang` argument.
+
 ## 0.7
 
 ### Git integration

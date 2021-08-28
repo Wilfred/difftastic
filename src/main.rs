@@ -40,12 +40,6 @@ fn parse_args() -> (String, String, String) {
         .version(VERSION)
         .about("A syntax aware diff.")
         .author("Wilfred Hughes")
-        .arg(
-            Arg::with_name("LANGUAGE")
-                .long("lang")
-                .takes_value(true)
-                .help("Override the language parser"),
-        )
         .arg(Arg::with_name("positional_args").multiple(true))
         .setting(AppSettings::ArgRequiredElseHelp)
         .get_matches();
