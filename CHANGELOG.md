@@ -1,5 +1,9 @@
 ## 0.8 (unreleased)
 
+### Git integration
+
+Fixed a crash on removing whole files.
+
 ### Parsing
 
 Tree-sitter parser: Improved handling of string literals. Improved

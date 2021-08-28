@@ -13,8 +13,22 @@ fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
 }
 
+/// Split `s` by newlines, but guarantees that the output is nonempty.
+/// An empty string is consider a single line of length zero.
+fn split_lines_nonempty(s: &str) -> Vec<String> {
+    if s == "" {
+        return vec!["".into()];
+    }
+
+    let mut lines = vec![];
+    for line in s.lines() {
+        lines.push(line.into());
+    }
+    lines
+}
+
 fn longest_visible_line_lhs(s: &str, groups: &[LineGroup]) -> usize {
-    let lines: Vec<_> = s.lines().collect();
+    let lines = split_lines_nonempty(s);
     let mut longest = 0;
 
     for group in groups {
@@ -30,7 +44,7 @@ fn longest_visible_line_lhs(s: &str, groups: &[LineGroup]) -> usize {
 }
 
 fn longest_visible_line_rhs(s: &str, groups: &[LineGroup]) -> usize {
-    let lines: Vec<_> = s.lines().collect();
+    let lines = split_lines_nonempty(s);
     let mut longest = 1;
 
     for group in groups {
@@ -86,9 +100,9 @@ fn format_missing_line_num(prev_num: LineNumber, column_width: usize) -> String 
     )
 }
 
-fn apply_group(
-    lhs_lines: &[&str],
-    rhs_lines: &[&str],
+fn apply_group<S: AsRef<str>>(
+    lhs_lines: &[S],
+    rhs_lines: &[S],
     group: &LineGroup,
     lhs_line_matches: &HashMap<LineNumber, LineNumber>,
     lhs_content_width: usize,
@@ -124,7 +138,7 @@ fn apply_group(
             match lhs_line_num {
                 Some(lhs_line_num) => {
                     result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
-                    result.push_str(lhs_lines[lhs_line_num.0]);
+                    result.push_str(lhs_lines[lhs_line_num.0].as_ref());
 
                     lhs_prev_line_num = lhs_line_num;
                 }
@@ -142,7 +156,7 @@ fn apply_group(
         match rhs_line_num {
             Some(rhs_line_num) => {
                 result.push_str(&format_line_num_padded(rhs_line_num, rhs_column_width));
-                result.push_str(rhs_lines[rhs_line_num.0]);
+                result.push_str(rhs_lines[rhs_line_num.0].as_ref());
 
                 rhs_prev_line_num = rhs_line_num;
             }
@@ -171,15 +185,12 @@ fn apply_groups(
     lhs_column_width: usize,
     rhs_column_width: usize,
 ) -> String {
-    let lhs_lines: Vec<_> = lhs.lines().collect();
-    let rhs_lines: Vec<_> = rhs.lines().collect();
-
     let mut result = String::new();
 
     for (i, group) in groups.iter().enumerate() {
         result.push_str(&apply_group(
-            &lhs_lines,
-            &rhs_lines,
+            &split_lines_nonempty(lhs),
+            &split_lines_nonempty(rhs),
             group,
             lhs_line_matches,
             lhs_content_width,
