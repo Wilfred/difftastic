@@ -416,7 +416,7 @@ impl NewlinePositions {
 
 /// Ensure that every line in `s` has this length. Pad short lines and
 /// truncate long lines.
-pub fn enforce_length(s: &str, line_length: usize) -> String {
+pub fn enforce_exact_length(s: &str, line_length: usize) -> String {
     let mut result = String::with_capacity(s.len());
     for line in s.lines() {
         // TODO: use length in chars not bytes.
@@ -547,13 +547,13 @@ mod tests {
 
     #[test]
     fn enforce_length_short() {
-        let result = enforce_length("foo\nbar\n", 5);
+        let result = enforce_exact_length("foo\nbar\n", 5);
         assert_eq!(result, "foo  \nbar  \n");
     }
 
     #[test]
     fn enforce_length_long() {
-        let result = enforce_length("foobar\nbarbaz\n", 3);
+        let result = enforce_exact_length("foobar\nbarbaz\n", 3);
         assert_eq!(result, "foo\nbar\n");
     }
 
