@@ -48,7 +48,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             name: "CSS",
             language: unsafe { tree_sitter_css() },
             atom_nodes: (vec![]).into_iter().collect(),
-            open_delimiter_tokens: (vec![]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["{", "("]).into_iter().collect(),
         }),
         "el" => Some(TreeSitterConfig {
             name: "Emacs Lisp",
@@ -62,33 +62,38 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["interpreted_string_literal", "raw_string_literal"])
                 .into_iter()
                 .collect(),
-            open_delimiter_tokens: (vec![]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["{", "[", "("]).into_iter().collect(),
         }),
         "js" | "jsx" => Some(TreeSitterConfig {
             name: "JavaScript",
             language: unsafe { tree_sitter_javascript() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
-            // This is only correct because < cannot occur as the
-            // first token in tree-sitter node unless we're in JSX.
-            open_delimiter_tokens: (vec!["<"]).into_iter().collect(),
+            open_delimiter_tokens: (vec![
+                "[", "(", "{",
+                // This is only correct because < cannot occur as the
+                // first token in tree-sitter node unless we're in JSX.
+                "<",
+            ])
+            .into_iter()
+            .collect(),
         }),
         "json" => Some(TreeSitterConfig {
             name: "JSON",
             language: unsafe { tree_sitter_json() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
-            open_delimiter_tokens: (vec![]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["{", "["]).into_iter().collect(),
         }),
         "ml" => Some(TreeSitterConfig {
             name: "OCaml",
             language: unsafe { tree_sitter_ocaml() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
-            open_delimiter_tokens: (vec![]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["(", "[", "{"]).into_iter().collect(),
         }),
         "mli" => Some(TreeSitterConfig {
             name: "OCaml Interface",
             language: unsafe { tree_sitter_ocaml_interface() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
-            open_delimiter_tokens: (vec![]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["(", "[", "{"]).into_iter().collect(),
         }),
         "rs" => Some(TreeSitterConfig {
             name: "Rust",
@@ -96,7 +101,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["char_literal", "string_literal"])
                 .into_iter()
                 .collect(),
-            open_delimiter_tokens: (vec![]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["{", "("]).into_iter().collect(),
         }),
         _ => None,
     }
