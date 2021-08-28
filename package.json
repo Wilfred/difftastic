@@ -4,6 +4,8 @@
   "description": "An experimental tree-sitter grammar for the Swift programming language.",
   "main": "grammar.js",
   "scripts": {
+    "install": "tree-sitter generate",
+    "ci": "prettier --check grammar.js",
     "test": "tree-sitter test"
   },
   "repository": {
