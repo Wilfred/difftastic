@@ -1,4 +1,6 @@
-/package-lock.json
 /node_modules
 /src/*
 !/src/scanner.c
+*.swp
+/build
+/test
