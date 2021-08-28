@@ -41,18 +41,39 @@ enum Mode {
         lhs_path: String,
         rhs_path: String,
     },
+    DumpSyntax {
+        path: String,
+    },
 }
 
 fn parse_args() -> Mode {
-    let matches = App::new("Difftastic")
-        .version(VERSION)
-        .about("A syntax aware diff.")
-        .author("Wilfred Hughes")
-        .arg(Arg::with_name("positional_args").multiple(true))
-        .setting(AppSettings::ArgRequiredElseHelp)
-        .get_matches();
+    let matches =
+        App::new("Difftastic")
+            .version(VERSION)
+            .about("A syntax aware diff.")
+            .author("Wilfred Hughes")
+            .arg(Arg::with_name("dump-syntax").long("dump-syntax").help(
+                "Parse a single file with tree-sitter and display the difftastic syntax tree.",
+            ))
+            .arg(Arg::with_name("positional_args").multiple(true))
+            .setting(AppSettings::ArgRequiredElseHelp)
+            .get_matches();
 
     let args: Vec<_> = matches.values_of_lossy("positional_args").unwrap();
+
+    if matches.is_present("dump-tree-sitter") {
+        if args.len() == 1 {
+            return Mode::DumpSyntax {
+                path: args[0].clone(),
+            };
+        } else {
+            // TODO: delegate this parsing to clap.
+            panic!(
+                "Error: --dump-ts takes one argument, but got: {}",
+                args.len()
+            );
+        }
+    }
 
     // TODO: document these different ways of calling difftastic.
     let (display_path, lhs_path, rhs_path) = match &args[..] {
@@ -96,10 +117,31 @@ fn parse_args() -> Mode {
 
 fn main() {
     configure_color();
+    let arena = Arena::new();
 
     let mode = parse_args();
     let (display_path, lhs_path, rhs_path) = match mode {
-        Mode::Diff { display_path, lhs_path, rhs_path} => (display_path, lhs_path, rhs_path)
+        Mode::DumpSyntax { path } => {
+            let extension = Path::new(&path).extension();
+            let extension = extension.unwrap_or_else(|| OsStr::new(""));
+            match tsp::from_extension(extension) {
+                Some(ts_lang) => {
+                    let bytes = read_or_die(&path);
+                    let src = String::from_utf8_lossy(&bytes).to_string();
+                    let ast = tsp::parse(&arena, &src, &ts_lang);
+                    dbg!(ast);
+                }
+                None => {
+                    println!("No tree-sitter parser for extension: {:?}", extension);
+                }
+            }
+            return;
+        }
+        Mode::Diff {
+            display_path,
+            lhs_path,
+            rhs_path,
+        } => (display_path, lhs_path, rhs_path),
     };
 
     let lhs_bytes = read_or_die(&lhs_path);
@@ -119,8 +161,6 @@ fn main() {
     let rhs_src = String::from_utf8_lossy(&rhs_bytes)
         .to_string()
         .replace("\t", "    ");
-
-    let arena = Arena::new();
 
     let extension = Path::new(&display_path).extension();
     let extension = extension.unwrap_or_else(|| OsStr::new(""));
