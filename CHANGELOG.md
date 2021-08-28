@@ -62,6 +62,8 @@ delimiter over a delimiter that gave contiguous changes.
 
 Removed the `--width` argument.
 
+Added a debug option `--dump-syntax`.
+
 ## 0.6
 
 ### Parsing
