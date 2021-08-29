@@ -198,10 +198,12 @@ fn main() {
 
     let extension = Path::new(&display_path).extension();
     let extension = extension.unwrap_or_else(|| OsStr::new(""));
-    let ts_lang = if env::var("DFT_TS").is_ok() {
-        tsp::from_extension(extension)
-    } else {
+    // Try tree-sitter parser first unless DFT_RX (difftastic regex)
+    // environment variable is set.
+    let ts_lang = if env::var("DFT_RX").is_ok() {
         None
+    } else {
+        tsp::from_extension(extension)
     };
 
     let (lang_name, lhs, rhs) = match ts_lang {

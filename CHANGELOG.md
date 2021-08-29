@@ -6,6 +6,9 @@ Fixed a crash on removing whole files.
 
 ### Parsing
 
+Tree-sitter parsing is now the default, unless the environment
+variable DFT_RX is set.
+
 Tree-sitter parser: Improved handling of string literals. Improved
 matching of delimiters.
 
