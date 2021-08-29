@@ -4178,6 +4178,10 @@
     {
       "type": "STRING",
       "value": "finally"
+    },
+    {
+      "type": "STRING",
+      "value": "extends"
     }
   ],
   "inline": [

@@ -32,7 +32,8 @@ module.exports = grammar({
     $._interpolated_multiline_string_end,
     'else',
     'catch',
-    'finally'
+    'finally',
+    'extends',
   ],
 
   inline: $ => [
