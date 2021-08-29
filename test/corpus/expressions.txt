@@ -812,6 +812,8 @@ Constructor calls
 
 new module.Klass(1, "two");
 new Thing;
+new new module.Klass(1)("two");
+new new Thing;
 
 ---
 
@@ -820,7 +822,14 @@ new Thing;
     (member_expression (identifier) (property_identifier))
     (arguments (number) (string (string_fragment)))))
   (expression_statement (new_expression
-    (identifier))))
+    (identifier)))
+  (expression_statement (new_expression
+    (new_expression
+      (member_expression (identifier) (property_identifier))
+      (arguments (number)))
+    (arguments (string (string_fragment)))))
+  (expression_statement (new_expression
+    (new_expression (identifier)))))
 
 ============================================
 Await Expressions

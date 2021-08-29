@@ -2135,6 +2135,10 @@
         "required": true,
         "types": [
           {
+            "type": "new_expression",
+            "named": true
+          },
+          {
             "type": "primary_expression",
             "named": true
           }
