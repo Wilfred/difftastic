@@ -125,6 +125,11 @@ class A extends B.C[D, E] {
 class A(b: B) extends C(b || ok) {
 }
 
+object C {
+    class A
+        extends B
+}
+
 ---
 
 (compilation_unit
@@ -145,7 +150,11 @@ class A(b: B) extends C(b || ok) {
       (type_identifier)
       (arguments
         (infix_expression (identifier) (operator_identifier) (identifier))))
-    (template_body)))
+    (template_body))
+  (object_definition
+    (identifier)
+    (template_body
+        (class_definition (identifier) (extends_clause (type_identifier))))))
 
 =======================================
 Class definitions with parameters
