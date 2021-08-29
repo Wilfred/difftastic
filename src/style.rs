@@ -1,6 +1,6 @@
 //! Apply colours and styling to strings.
 
-use crate::lines::LineNumber;
+use crate::lines::{codepoint_len, substring_by_codepoint, LineNumber};
 use crate::positions::SingleLineSpan;
 use crate::syntax::{MatchKind, MatchedPos};
 use colored::*;
@@ -27,6 +27,8 @@ impl Style {
     }
 }
 
+/// Return a copy of `line` with styles applied to all the spans specified.
+/// Dim any parts of the line that have no spans.
 fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     if styles.is_empty() {
         return line.dimmed().to_string();
@@ -35,20 +37,28 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     let mut res = String::with_capacity(line.len());
     let mut i = 0;
     for (span, style) in styles {
-        if span.start_col >= line.len() {
+        // The remaining spans are beyond the end of this line. This
+        // occurs when we truncate the line to fit on the display.
+        if span.start_col >= codepoint_len(line) {
             break;
         }
 
+        // Dim text before the next span.
         if i < span.start_col {
-            res.push_str(&line[i..span.start_col].dimmed());
+            res.push_str(&substring_by_codepoint(line, i, span.start_col).dimmed());
         }
 
-        res.push_str(&style.apply(&line[span.start_col..min(line.len(), span.end_col)]));
+        // Apply style to the substring in this span.
+        let span_s =
+            substring_by_codepoint(line, span.start_col, min(codepoint_len(line), span.end_col));
+        res.push_str(&style.apply(span_s));
         i = span.end_col;
     }
 
-    if i < line.len() {
-        res.push_str(&line[i..line.len()].dimmed());
+    // Dim text after the last span.
+    if i < codepoint_len(line) {
+        let span_s = substring_by_codepoint(line, i, codepoint_len(line));
+        res.push_str(&span_s.dimmed());
     }
     res
 }

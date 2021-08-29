@@ -414,15 +414,29 @@ impl NewlinePositions {
     }
 }
 
+/// Return the length of `s` in codepoints. This ensures that it's
+/// safe to slice `s` at this boundary.
+pub fn codepoint_len(s: &str) -> usize {
+    s.chars().count()
+}
+
+/// The first `len` codepoints of `s`. This is safer than slicing by
+/// bytes, which panics if the byte isn't on a codepoint boundary.
+pub fn substring_by_codepoint(s: &str, start: usize, end: usize) -> &str {
+    let byte_start = s.char_indices().nth(start).unwrap().0;
+    match s.char_indices().nth(end) {
+        Some(byte_end) => &s[byte_start..byte_end.0],
+        None => &s[byte_start..],
+    }
+}
+
 /// Ensure that every line in `s` has this length. Pad short lines and
 /// truncate long lines.
 pub fn enforce_exact_length(s: &str, line_length: usize) -> String {
     let mut result = String::with_capacity(s.len());
     for line in s.lines() {
-        // TODO: use length in chars not bytes.
-        if line.len() > line_length {
-            // Truncate.
-            result.push_str(&line[0..line_length]);
+        if codepoint_len(line) > line_length {
+            result.push_str(substring_by_codepoint(line, 0, line_length));
             result.push('\n');
         } else {
             // Pad with spaces.
@@ -439,8 +453,7 @@ pub fn enforce_max_length(s: &str, line_length: usize) -> String {
     for line in s.lines() {
         // TODO: use length in chars not bytes.
         if line.len() > line_length {
-            // Truncate.
-            result.push_str(&line[0..line_length]);
+            result.push_str(substring_by_codepoint(line, 0, line_length));
             result.push('\n');
         } else {
             result.push_str(&format!("{}\n", line));
@@ -602,5 +615,10 @@ mod tests {
 
         // Intervals are inclusive of `start` but exclusive of `end`.
         assert_eq!(group.lhs_lines(), vec![1.into(), 2.into()])
+    }
+
+    #[test]
+    fn codepoint_len_non_ascii() {
+        assert_eq!(codepoint_len("ƒoo"), 3);
     }
 }

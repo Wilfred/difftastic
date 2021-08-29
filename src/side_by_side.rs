@@ -2,7 +2,9 @@ use atty::Stream;
 use std::cmp::{max, min};
 use std::collections::HashMap;
 
-use crate::lines::{enforce_exact_length, enforce_max_length, format_line_num, LineGroup, LineNumber};
+use crate::lines::{
+    codepoint_len, enforce_exact_length, enforce_max_length, format_line_num, LineGroup, LineNumber,
+};
 use crate::style::apply_colors;
 use crate::syntax::{aligned_lines, MatchedPos};
 
@@ -34,7 +36,7 @@ fn longest_visible_line_lhs(s: &str, groups: &[LineGroup]) -> usize {
     for group in groups {
         if let Some(lhs_lines) = &group.lhs_lines {
             for line_num in lhs_lines.start.0..lhs_lines.end.0 {
-                let current_len = lines[line_num].len();
+                let current_len = codepoint_len(&lines[line_num]);
                 longest = max(longest, current_len);
             }
         }
@@ -50,7 +52,7 @@ fn longest_visible_line_rhs(s: &str, groups: &[LineGroup]) -> usize {
     for group in groups {
         if let Some(rhs_lines) = &group.rhs_lines {
             for line_num in rhs_lines.start.0..rhs_lines.end.0 {
-                let current_len = lines[line_num].len();
+                let current_len = codepoint_len(&lines[line_num]);
                 longest = max(longest, current_len);
             }
         }
