@@ -11,6 +11,10 @@ matching of delimiters.
 
 JSON (legacy parser): fixed parsing string literals (broken in 0.7).
 
+### Display
+
+Fixed crashes on files with non-ASCII characters on long lines.
+
 ### Command Line Interface
 
 Removed the unused `--lang` argument.
