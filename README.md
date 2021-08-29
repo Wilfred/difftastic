@@ -11,15 +11,11 @@ It currently supports the following languages:
 * CSS
 * Emacs Lisp
 * Go
-* JavaScript
+* JavaScript (including JSX)
 * JSON
 * OCaml
 * Rust
 * Scheme
-
-The parsing logic is based on matched delimiters, so difftastic tends
-to give best results on heavily parenthesised code (e.g. Lisps or
-JSON).
 
 If a file has an unrecognised extension, difftastic uses a
 line-oriented diff.
@@ -28,20 +24,14 @@ line-oriented diff.
 
 (1) Parsing.
 
-Difftastic treats source code as a sequence of atoms or (possibly
-nested) lists.
+Difftastic uses
+[tree-sitter](https://tree-sitter.github.io/tree-sitter/) for
+parsing. The concrete syntax tree is then converted to a sequence of
+atoms or (possibly nested) lists.
 
-Language syntax is defined in `src/regex_parser.rs`: you provide regular
-expressions for atoms (including comments), open delimiters, and close
-delimiters.
-
-This is heavily inspired by
-[Comby](https://github.com/comby-tools/comby), which handles a large
-number of languages by using a similar approach.
-
-(A [tree-sitter](https://tree-sitter.github.io/tree-sitter/) parsing
-backend is also available by setting `DFT_TS=y`. It is not yet
-recommended.)
+The command line flags `--dump-ts` and `--dump-syntax` will display
+the syntax trees for a given file. Difftastic also has a simple regex-based
+parser which can be enabled with `DFT_RX=1`.
 
 (2) Diffing.
 
