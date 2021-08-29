@@ -714,7 +714,7 @@ module.exports = grammar({
 
     new_expression: $ => prec.right('new', seq(
       'new',
-      field('constructor', $.primary_expression),
+      field('constructor', choice($.primary_expression, $.new_expression)),
       field('arguments', optional(prec.dynamic(1, $.arguments)))
     )),
 
