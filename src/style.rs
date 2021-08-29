@@ -7,7 +7,7 @@ use colored::*;
 use std::cmp::min;
 use std::collections::HashMap;
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 struct Style {
     foreground: Color,
     background: Option<Color>,
