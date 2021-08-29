@@ -136,6 +136,13 @@ $ GIT_EXTERNAL_DIFF=difftastic git diff
 $ GIT_EXTERNAL_DIFF=difftastic git log -p --ext-diff
 ```
 
+`GIT_EXTERNAL_DIFF` also supports paths to binaries, so you can use
+debug builds too. For example, using `git show` on a specific commit.
+
+```
+$ GIT_EXTERNAL_DIFF=/path/to/difftastic/target/debug/difftastic git show abcdef123456
+```
+
 ## License
 
 Difftastic is open source under the MIT license, see LICENSE for more
