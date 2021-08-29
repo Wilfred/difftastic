@@ -31,7 +31,7 @@ atoms or (possibly nested) lists.
 
 The command line flags `--dump-ts` and `--dump-syntax` will display
 the syntax trees for a given file. Difftastic also has a simple regex-based
-parser which can be enabled with `DFT_RX=1`.
+parser which can be enabled with the environment `DFT_RX=1`.
 
 (2) Diffing.
 
@@ -46,16 +46,26 @@ This is based on the excellent
 Difftastic prints a side-by-side diff that fits the current
 terminal. It will try to align unchanged nodes (see screenshot above).
 
-## Known Problems
+An experimental inline diff mode is available by setting the
+environment variable `INLINE=1`.
 
-Crashes. The code is underdocumented, undertested, and
-unfinished.
+## Known Issues
+
+Robustness. Difftastic is young and each release has fixed several
+crashes.
+
+Comprehensible display. Minimal diffs can be confusing: replacing
+one function with another may have a small amount of common
+punctuation even though they're completely unrelated. Alignment of
+slightly modified lines is a major challenge too.
+
+Changes to long lines. Difftastic uses a side-by-side display by
+default, which is unhelpful if the only changes are near the end of a
+line.
 
 Performance. Difftastic scales relatively poorly on files with a large
 number of changes, and can use a lot of memory. This might be solved
 by A* search.
-
-Comments. Small changes can show big diffs.
 
 ## Non-goals
 
