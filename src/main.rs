@@ -133,7 +133,21 @@ fn parse_args() -> Mode {
     }
 }
 
+/// Terminate the process if we get SIGPIPE.
+#[cfg(unix)]
+fn reset_sigpipe() {
+    unsafe {
+        libc::signal(libc::SIGPIPE, libc::SIG_DFL);
+    }
+}
+
+#[cfg(not(unix))]
+fn reset_sigpipe() {
+    // Do nothing.
+}
+
 fn main() {
+    reset_sigpipe();
     configure_color();
     let arena = Arena::new();
 

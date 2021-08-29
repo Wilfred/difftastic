@@ -22,6 +22,9 @@ Fixed crashes on files with non-ASCII characters on long lines.
 
 Removed the unused `--lang` argument.
 
+Difftastic now handles writing to a closed pipe (SIGPIPE) gracefully
+rather than crashing.
+
 ## 0.7
 
 ### Git integration
