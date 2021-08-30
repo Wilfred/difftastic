@@ -452,33 +452,29 @@
           "value": "feature"
         },
         {
-          "type": "SYMBOL",
-          "name": "_experimental_feature"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_list"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_string"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
           "name": "semi_colon"
-        }
-      ]
-    },
-    "_experimental_feature": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "\"signatures\""
-        },
-        {
-          "type": "STRING",
-          "value": "'signatures'"
-        },
-        {
-          "type": "STRING",
-          "value": "\"switch\""
-        },
-        {
-          "type": "STRING",
-          "value": "'switch'"
         }
       ]
     },
@@ -7345,7 +7341,7 @@
     },
     "identifier_1": {
       "type": "PATTERN",
-      "value": "[a-zA-Z0-9_$:\\.\\/@%\\^]+"
+      "value": "[a-zA-Z0-9_$:\\./@%\\^]+"
     },
     "identifier_2": {
       "type": "PATTERN",
@@ -7532,7 +7528,7 @@
                       "value": 4,
                       "content": {
                         "type": "PATTERN",
-                        "value": "[^\\/]+"
+                        "value": "[^/]+"
                       }
                     }
                   },
@@ -8025,7 +8021,7 @@
                             "value": 1,
                             "content": {
                               "type": "PATTERN",
-                              "value": "[^\\/]+"
+                              "value": "[^/]+"
                             }
                           }
                         }
@@ -8792,7 +8788,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "[^\\/\\\\\\[\\n]"
+              "value": "[^/\\\\\\[\\n]"
             }
           ]
         }
