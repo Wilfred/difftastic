@@ -1,4 +1,5 @@
 use atty::Stream;
+use colored::{Color, Colorize};
 use std::cmp::{max, min};
 use std::collections::HashMap;
 
@@ -207,6 +208,36 @@ fn apply_groups(
     result
 }
 
+fn display_width() -> usize {
+    if atty::is(Stream::Stdout) {
+        // If we're displaying directly to a user's terminal,
+        // honour the terminal width.
+        term_width().unwrap_or(80)
+    } else {
+        // Don't truncate the source when output is being
+        // piped elsewhere. E.g. the user is using `less`.
+        1000
+    }
+}
+
+/// Display `src` in a single column (e.g. a file removal or addition).
+fn display_single_column(src: &str, color: Color) -> String {
+    let column_width = format_line_num(src.lines().count().into()).len();
+    let rhs_src = enforce_max_length(src, display_width());
+
+    let mut result = String::with_capacity(rhs_src.len());
+    for (i, line) in src.lines().enumerate() {
+        result.push_str(&format_line_num_padded(i.into(), column_width));
+        // TODO: factor out the common styling from style::apply_colors.
+        result.push_str(&line.color(color).bold().to_string());
+        result.push('\n');
+    }
+
+    result
+}
+
+/// Display `lhs_src` and `rhs_src` in a side-by-side view with
+/// changed lines shown and highlighted.
 pub fn display(
     lhs_src: &str,
     rhs_src: &str,
@@ -215,6 +246,13 @@ pub fn display(
     lhs_matched_lines: &HashMap<LineNumber, LineNumber>,
     groups: &[LineGroup],
 ) -> String {
+    if lhs_src == "" {
+        return display_single_column(rhs_src, Color::BrightGreen);
+    }
+    if rhs_src == "" {
+        return display_single_column(lhs_src, Color::BrightRed);
+    }
+
     let lhs_column_width = format_line_num(groups.last().unwrap().max_visible_lhs()).len();
     let rhs_column_width = format_line_num(groups.last().unwrap().max_visible_rhs()).len();
 
@@ -227,15 +265,7 @@ pub fn display(
         groups,
         lhs_formatted_length,
         rhs_column_width,
-        if atty::is(Stream::Stdout) {
-            // If we're displaying directly to a user's terminal,
-            // honour the terminal width.
-            terminal_width
-        } else {
-            // Don't truncate the RHS source when output is being
-            // piped elsewhere. E.g. the user is using `less`.
-            1000
-        },
+        display_width(),
     );
 
     let lhs_content_width = lhs_formatted_length - lhs_column_width;
