@@ -60,6 +60,11 @@ fn main() {
         &["scanner.cc"],
     );
     build(
+        "tree-sitter-python",
+        "vendor/tree-sitter-python-src",
+        &["scanner.cc"],
+    );
+    build(
         "tree-sitter-rust",
         "vendor/tree-sitter-rust-src",
         &["scanner.c"],
