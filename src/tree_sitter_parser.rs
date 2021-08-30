@@ -31,6 +31,7 @@ extern "C" {
     fn tree_sitter_json() -> Language;
     fn tree_sitter_ocaml() -> Language;
     fn tree_sitter_ocaml_interface() -> Language;
+    fn tree_sitter_python() -> Language;
     fn tree_sitter_rust() -> Language;
 }
 
@@ -93,6 +94,12 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             name: "OCaml Interface",
             language: unsafe { tree_sitter_ocaml_interface() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["(", "[", "{"]).into_iter().collect(),
+        }),
+        "py" => Some(TreeSitterConfig {
+            name: "Python",
+            language: unsafe { tree_sitter_python() },
+            atom_nodes: (vec!["string"]).into_iter().collect(),
             open_delimiter_tokens: (vec!["(", "[", "{"]).into_iter().collect(),
         }),
         "rs" => Some(TreeSitterConfig {
