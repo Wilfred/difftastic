@@ -14808,11 +14808,39 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_variable",
+          "named": true
+        },
+        {
           "type": "semi_colon",
+          "named": true
+        },
+        {
+          "type": "string_double_quoted",
+          "named": true
+        },
+        {
+          "type": "string_q_quoted",
+          "named": true
+        },
+        {
+          "type": "string_qq_quoted",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
+          "named": true
+        },
+        {
+          "type": "word_list_qw",
           "named": true
         }
       ]
@@ -16220,14 +16248,6 @@
     "named": false
   },
   {
-    "type": "\"signatures\"",
-    "named": false
-  },
-  {
-    "type": "\"switch\"",
-    "named": false
-  },
-  {
     "type": "$",
     "named": false
   },
@@ -16884,14 +16904,6 @@
     "named": false
   },
   {
-    "type": "'signatures'",
-    "named": false
-  },
-  {
-    "type": "'switch'",
-    "named": false
-  },
-  {
     "type": "(",
     "named": false
   },
@@ -17417,11 +17429,11 @@
   },
   {
     "type": "prototype",
-    "named": false
+    "named": true
   },
   {
     "type": "prototype",
-    "named": true
+    "named": false
   },
   {
     "type": "push",
