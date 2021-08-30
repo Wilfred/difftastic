@@ -228,9 +228,12 @@ pub fn display(
         lhs_formatted_length,
         rhs_column_width,
         if atty::is(Stream::Stdout) {
+            // If we're displaying directly to a user's terminal,
+            // honour the terminal width.
             terminal_width
         } else {
-            // Assume a pager like less.
+            // Don't truncate the RHS source when output is being
+            // piped elsewhere. E.g. the user is using `less`.
             1000
         },
     );
