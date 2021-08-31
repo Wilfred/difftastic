@@ -76,6 +76,10 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
   }
 
   if (valid_symbols[AUTOMATIC_SEMICOLON] && newline_count > 0) {
+    // NOTE: When there's a dot after a new line it could be a multi-line field
+    // expression, in which case we don't recognize it as an automatic semicolon.
+    if (lexer->lookahead == '.') return false;
+
     lexer->mark_end(lexer);
     lexer->result_symbol = AUTOMATIC_SEMICOLON;
 
