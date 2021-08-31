@@ -346,6 +346,64 @@ class C {
             (identifier)))))))
 
 ===============================
+Postfix expressions
+===============================
+
+object O {
+  val v = "value" toUpperCase
+  val c = 1 + 2 toString
+}
+
+---
+
+(compilation_unit
+  (object_definition
+    (identifier)
+    (template_body
+      (val_definition
+        (identifier)
+        (postfix_expression (string) (identifier)))
+      (val_definition
+        (identifier)
+        (postfix_expression
+          (infix_expression (integer_literal) (operator_identifier) (integer_literal))
+          (identifier)
+          )
+        )
+      )
+    )
+  )
+
+===============================
+Ascription Expression
+===============================
+
+object O {
+  val l = a: List
+  val x = 2: Byte
+  Nil: List[String]
+  3: _*
+}
+
+---
+
+(compilation_unit
+  (object_definition
+    (identifier)
+    (template_body
+      (val_definition (identifier)
+        (ascription_expression (identifier)
+          (type_identifier)))
+      (val_definition (identifier)
+        (ascription_expression (integer_literal)
+          (type_identifier)))
+      (ascription_expression (identifier)
+        (generic_type (type_identifier)
+          (type_arguments (type_identifier))))
+      (ascription_expression (integer_literal)
+        (repeated_parameter_type (type_identifier))))))
+
+===============================
 Unit expressions
 ===============================
 
