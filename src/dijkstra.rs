@@ -253,6 +253,7 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                 .abs() as u64;
 
             // Both nodes are equal, the happy case.
+            // TODO: this is only OK if we've not changed depth.
             res.push((
                 UnchangedNode { depth_difference },
                 Vertex {
