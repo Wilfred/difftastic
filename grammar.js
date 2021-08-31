@@ -1,11 +1,15 @@
 const PREC = {
   assign: 1,
-  infix: 2,
-  new: 3,
-  prefix: 3,
-  compound: 3,
-  call: 4,
-  field: 4,
+  stable_type_id: 1,
+  stable_id: 2,
+  ascription: 2,
+  postfix: 2,
+  infix: 3,
+  new: 4,
+  prefix: 4,
+  compound: 4,
+  call: 5,
+  field: 5,
 }
 
 module.exports = grammar({
@@ -388,17 +392,17 @@ module.exports = grammar({
       ')',
     ),
 
-    stable_type_identifier: $ => seq(
+    stable_type_identifier: $ => prec.left(PREC.stable_type_id, seq(
       choice($.identifier, $.stable_identifier),
       '.',
       $._type_identifier
-    ),
+    )),
 
-    stable_identifier: $ => seq(
+    stable_identifier: $ => prec.left(PREC.stable_id, seq(
       choice($.identifier, $.stable_identifier),
       '.',
       $.identifier
-    ),
+    )),
 
     generic_type: $ => seq(
       field('type', $._simple_type),
@@ -512,7 +516,8 @@ module.exports = grammar({
       $.interpolated_string_expression,
       $.field_expression,
       $.instance_expression,
-      // TODO: postfix and ascription
+      $.postfix_expression,
+      $.ascription_expression,
       $.infix_expression,
       $.prefix_expression,
       $.tuple_expression,
@@ -601,10 +606,21 @@ module.exports = grammar({
       $.expression
     )),
 
+    ascription_expression: $ => prec.right(PREC.ascription, seq(
+        $.expression,
+        ':',
+        $._param_type,
+    )),
+
     infix_expression: $ => prec.left(PREC.infix, seq(
       field('left', $.expression),
       field('operator', choice($.identifier, $.operator_identifier)),
       field('right', $.expression)
+    )),
+
+    postfix_expression: $ => prec.left(PREC.postfix, seq(
+      $.expression,
+      choice($.identifier, $.operator_identifier),
     )),
 
     prefix_expression: $ => prec(PREC.prefix, seq(
