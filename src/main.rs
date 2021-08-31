@@ -177,6 +177,7 @@ fn main() {
                     let bytes = read_or_die(&path);
                     let src = String::from_utf8_lossy(&bytes).to_string();
                     let ast = tsp::parse(&arena, &src, &ts_lang);
+                    init_info(&ast);
                     println!("{:#?}", ast);
                 }
                 None => {
