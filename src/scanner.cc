@@ -11,7 +11,10 @@ using std::string;
 enum TokenType {
   AUTOMATIC_SEMICOLON,
   HEREDOC,
+  ENCAPSED_STRING_CHARS,
+  ENCAPSED_STRING_CHARS_AFTER_VARIABLE,
   EOF_TOKEN,
+  SENTINEL_ERROR, // Unused token used to indicate error recovery mode
 };
 
 struct Heredoc {
@@ -81,7 +84,7 @@ struct Scanner {
     lexer->advance(lexer, true);
   }
 
-  void advance(TSLexer *lexer) {
+  static void advance(TSLexer *lexer) {
     lexer->advance(lexer, false);
   }
 
@@ -105,6 +108,106 @@ struct Scanner {
       } else {
         return true;
       }
+    }
+  }
+
+  static bool is_valid_name_char(TSLexer *lexer) {
+    return iswalpha(lexer->lookahead) || lexer->lookahead == '_';
+  }
+
+  static bool is_escapable_sequence(TSLexer *lexer) {
+    // Note: remember to also update the escape_sequence rule in the
+    // main grammar whenever changing this method
+    auto letter = lexer->lookahead;
+
+    if (letter == 'n' ||
+        letter == 'r' ||
+        letter == 't' ||
+        letter == 'v' ||
+        letter == 'e' ||
+        letter == 'f' ||
+        letter == '\\' ||
+        letter == '$' ||
+        letter == '"') {
+      return true;
+    }
+
+    // Hex
+    if (letter == 'x') {
+      advance(lexer);
+      return isxdigit(lexer->lookahead);
+    }
+
+    // Unicode
+    if (letter == 'u') {
+      return true; // We handle the case where this is not really an escape sequence in grammar.js - this is needed to support the edge case "\u{$a}" in which case "\u" is to be interprented as characters and {$a} as a variable
+    }
+
+    // Octal
+    return iswdigit(lexer->lookahead) && lexer->lookahead >= '0' && lexer->lookahead <= '7';
+  }
+
+  bool scan_encapsed_part_string(TSLexer *lexer, bool is_after_variable) {
+    lexer->result_symbol = ENCAPSED_STRING_CHARS;
+
+    for (bool has_content = false;; has_content = true) {
+      lexer->mark_end(lexer);
+
+      switch (lexer->lookahead) {
+        case '"':
+          return has_content;
+        case '\0':
+          return false;
+        case '\\':
+          advance(lexer);
+
+          // \{ should not be interprented as an escape sequence, but both
+          // should be consumed as normal characters
+          if (lexer->lookahead == '{') {
+            advance(lexer);
+            break;
+          }
+
+          if (is_escapable_sequence(lexer)) {
+            return has_content;
+          }
+          break;
+        case '$':
+          advance(lexer);
+
+          if (is_valid_name_char(lexer) || lexer->lookahead  == '{') {
+            return has_content;
+          }
+          break;
+        case '-':
+          if (is_after_variable) {
+            advance(lexer);
+            if (lexer->lookahead == '>') {
+              advance(lexer);
+              if (is_valid_name_char(lexer)) {
+                return has_content;
+              }
+              break;
+            }
+            break;
+          }
+        case '[':
+          if (is_after_variable) {
+            return has_content;
+          }
+          advance(lexer);
+          break;
+        case '{':
+          advance(lexer);
+          if (lexer->lookahead == '$') {
+            return has_content;
+          }
+          break;
+        default:
+          advance(lexer);
+      }
+
+      is_after_variable = false;
     }
   }
 
@@ -176,9 +279,23 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    const bool is_error_recovery = valid_symbols[SENTINEL_ERROR];
+
+    if (is_error_recovery) {
+      return false;
+    }
+
     has_leading_whitespace = false;
 
     lexer->mark_end(lexer);
+
+    if (valid_symbols[ENCAPSED_STRING_CHARS_AFTER_VARIABLE]) {
+      return scan_encapsed_part_string(lexer, true);
+    }
+
+    if (valid_symbols[ENCAPSED_STRING_CHARS]) {
+      return scan_encapsed_part_string(lexer, false);
+    }
 
     if (!scan_whitespace(lexer)) return false;
 
@@ -186,6 +303,7 @@ struct Scanner {
       lexer->result_symbol = EOF_TOKEN;
       return true;
     }
+
 
     if (valid_symbols[HEREDOC]) {
       if (lexer->lookahead == '<') {
