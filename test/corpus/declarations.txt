@@ -33,7 +33,7 @@ class Exception_foo implements ThrowableInterface {
     body: (declaration_list
       (property_declaration
         (visibility_modifier)
-        (property_element (variable_name (name)) (property_initializer (string))))
+        (property_element (variable_name (name)) (property_initializer (encapsed_string (string)))))
       (method_declaration
         (visibility_modifier)
         name: (name)
@@ -271,8 +271,8 @@ define('ANIMALS', array(
     (function_call_expression
       (name)
       (arguments
-        (argument (string))
-        (argument (string))
+        (argument (encapsed_string (string)))
+        (argument (encapsed_string (string)))
       )
     )
   )
@@ -390,10 +390,10 @@ class Thing
           (attribute
             (name)
             parameters: (arguments
-              (argument (string))
+              (argument (encapsed_string (string)))
               (argument
                 (array_creation_expression
-                  (array_element_initializer (string))
+                  (array_element_initializer (encapsed_string (string)))
                 )
               )
             )
@@ -443,8 +443,8 @@ class Thing
           (argument
             (array_creation_expression
               (array_element_initializer
-                (string)
-                (string)
+                (encapsed_string (string))
+                (encapsed_string (string))
               )
             )
           )

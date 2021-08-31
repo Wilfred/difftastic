@@ -35,7 +35,10 @@ module.exports = grammar({
   externals: $ => [
     $._automatic_semicolon,
     $.heredoc,
+    $.encapsed_string_chars,
+    $.encapsed_string_chars_after_variable,
     $._eof,
+    $.sentinel_error, // Unused token used to indicate error recovery mode
   ],
 
   supertypes: $ => [
@@ -952,7 +955,7 @@ module.exports = grammar({
       field('right', $._expression)
     )),
 
-    conditional_expression: $ => prec.left(PREC.TERNARY, seq(
+    conditional_expression: $ => prec.left(PREC.TERNARY, seq( // TODO: Ternay is non-assossiative after PHP 8
       field('condition', $._expression),
       '?',
       field('body', optional($._expression)),
@@ -1147,29 +1150,90 @@ module.exports = grammar({
       optional(field('parameters', $.arguments))
     ),
 
-    string: $ => {
-      const b_prefix = /[bB]/
-      const single_quote_chars = repeat(/\\'|\\\\|\\?[^'\\]/)
-      const single_quote_string = seq(
-        optional(b_prefix), "'", single_quote_chars, "'"
-      )
+    _complex_string_part: $ => seq(
+      "{",
+      $._expression,
+      "}"
+    ),
 
-      const double_quote_string = seq(
-        optional(b_prefix), '"', double_quote_chars(), '"'
-      )
+    _simple_string_member_access_expression: $ => prec(PREC.MEMBER, seq(
+      field('object', $.variable_name),
+      '->',
+      field('name', $.name),
+    )),
 
-      return token(choice(
-        single_quote_string,
-        double_quote_string
-        // nowdoc_string,
-      ))
-    },
+    _simple_string_subscript_unary_expression: $ => prec.left(seq('-', $.integer)),
+
+    _simple_string_array_access_argument: $ => choice(
+      $.integer,
+      alias($._simple_string_subscript_unary_expression, $.unary_op_expression),
+      $.name,
+      $.variable_name,
+    ),
+
+    _simple_string_subscript_expression: $ => prec(PREC.DEREF, seq(
+      $.variable_name,
+      seq('[', $._simple_string_array_access_argument, ']'),
+    )),
+
+    _simple_string_part: $ => choice(
+      alias($._simple_string_member_access_expression, $.member_access_expression),
+      $._variable_name,
+      alias($._simple_string_subscript_expression, $.subscript_expression),
+    ),
+
+    // Note: remember to also update the is_escapable_sequence method in the
+    // external scanner whenever changing these rules
+    escape_sequence: $ => token.immediate(seq(
+      '\\',
+      choice(
+        "n",
+        "r",
+        "t",
+        "v",
+        "e",
+        "f",
+        "\\",
+        /\$/,
+        '"',
+        /[0-7]{1,3}/,
+        /x[0-9A-Fa-f]{1,2}/,
+        /u{[0-9A-Fa-f]+}/,
+      )
+    )),
+
+    encapsed_string: $ => prec.right(seq(
+      choice(
+        /[bB]"/,
+        '"',
+      ),
+      repeat(
+        choice(
+          $.escape_sequence,
+          seq($.variable_name, alias($.encapsed_string_chars_after_variable, $.string)),
+          alias($.encapsed_string_chars, $.string),
+          $._simple_string_part,
+          $._complex_string_part,
+          alias('\\u', $.string),
+        ),
+      ),
+      '"',
+    )),
+
+    string: $ => token(seq(
+      choice(
+        /[bB]'/,
+        "'"
+      ),
+      repeat(/\\'|\\\\|\\?[^'\\]/),
+      "'",
+    )),
 
     boolean: $ => /[Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]/,
 
     null: $ => keyword('null', false),
 
-    _string: $ => choice($.string, $.heredoc),
+    _string: $ => choice($.encapsed_string, $.string, $.heredoc),
 
     dynamic_variable_name: $ => choice(
       seq('$', $._variable_name),
@@ -1305,22 +1369,6 @@ function pipeSep1(rule) {
 
 function pipeSep(rule) {
   return optional(commaSep1(rule));
-}
-
-function double_quote_chars() {
-  const dq_simple_escapes = /\\"|\\\\|\\\$|\\e|\\f|\\n|\\r|\\t|\\v/
-  const octal_digit = /[0-7]/
-  const dq_octal_escapes = seq('\\', octal_digit, optional(octal_digit), optional(octal_digit))
-  const hex_digit = /\d|a-f|A-F/
-  const dq_hex_escapes = seq(
-    /\\[xX]/,
-    hex_digit,
-    optional(hex_digit)
-  )
-
-  const dq_unicode_escapes = seq('\\u{', repeat1(hex_digit), '}')
-  const dq_escapes = choice(dq_simple_escapes, dq_octal_escapes, dq_hex_escapes, dq_unicode_escapes)
-  return repeat(choice(dq_escapes, /[^"\\]|\\[^"\\$efnrtv0-7]/))
 }
 
 function backtick_chars() {

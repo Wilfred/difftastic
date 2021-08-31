@@ -74,6 +74,10 @@
         "named": true
       },
       {
+        "type": "encapsed_string",
+        "named": true
+      },
+      {
         "type": "float",
         "named": true
       },
@@ -1101,6 +1105,10 @@
           "named": true
         },
         {
+          "type": "encapsed_string",
+          "named": true
+        },
+        {
           "type": "function_call_expression",
           "named": true
         },
@@ -1601,6 +1609,45 @@
     "fields": {}
   },
   {
+    "type": "encapsed_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "dynamic_variable_name",
+          "named": true
+        },
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "member_access_expression",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subscript_expression",
+          "named": true
+        },
+        {
+          "type": "variable_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "enum_case",
     "named": true,
     "fields": {
@@ -1919,6 +1966,10 @@
           },
           {
             "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
+            "type": "encapsed_string",
             "named": true
           },
           {
@@ -2392,6 +2443,10 @@
             "named": true
           },
           {
+            "type": "encapsed_string",
+            "named": true
+          },
+          {
             "type": "function_call_expression",
             "named": true
           },
@@ -2505,6 +2560,10 @@
           },
           {
             "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
+            "type": "encapsed_string",
             "named": true
           },
           {
@@ -2886,6 +2945,10 @@
             "named": true
           },
           {
+            "type": "encapsed_string",
+            "named": true
+          },
+          {
             "type": "function_call_expression",
             "named": true
           },
@@ -2999,6 +3062,10 @@
           },
           {
             "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
+            "type": "encapsed_string",
             "named": true
           },
           {
@@ -3478,6 +3545,10 @@
             "named": true
           },
           {
+            "type": "encapsed_string",
+            "named": true
+          },
+          {
             "type": "function_call_expression",
             "named": true
           },
@@ -3577,6 +3648,10 @@
           },
           {
             "type": "dynamic_variable_name",
+            "named": true
+          },
+          {
+            "type": "encapsed_string",
             "named": true
           },
           {
@@ -3764,11 +3839,19 @@
           "named": true
         },
         {
+          "type": "encapsed_string",
+          "named": true
+        },
+        {
           "type": "function_call_expression",
           "named": true
         },
         {
           "type": "heredoc",
+          "named": true
+        },
+        {
+          "type": "integer",
           "named": true
         },
         {
@@ -3995,6 +4078,10 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "integer",
           "named": true
         }
       ]
@@ -4327,6 +4414,10 @@
     "named": false
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#[",
     "named": false
   },
@@ -4568,11 +4659,11 @@
   },
   {
     "type": "boolean",
-    "named": true
+    "named": false
   },
   {
     "type": "boolean",
-    "named": false
+    "named": true
   },
   {
     "type": "break",
@@ -4671,6 +4762,10 @@
     "named": false
   },
   {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
     "type": "extends",
     "named": false
   },
@@ -4688,11 +4783,11 @@
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "float",
-    "named": false
+    "named": true
   },
   {
     "type": "fn",
@@ -4756,11 +4851,11 @@
   },
   {
     "type": "integer",
-    "named": true
+    "named": false
   },
   {
     "type": "integer",
-    "named": false
+    "named": true
   },
   {
     "type": "interface",

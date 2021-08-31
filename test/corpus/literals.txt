@@ -91,7 +91,7 @@ Testing string scanner confirmance
 
 (program
   (php_tag)
-  (echo_statement (binary_expression (string) (string)))
+  (echo_statement (binary_expression (encapsed_string (escape_sequence) (escape_sequence) (escape_sequence) (string)) (string)))
   (text_interpolation))
 
 ==========================
@@ -209,9 +209,9 @@ Unicode escape sequences
 
 (program
   (php_tag)
-  (expression_statement (string)) (comment)
-  (expression_statement (string)) (comment)
-  (expression_statement (string)) (comment)
-  (expression_statement (string)) (comment)
-  (expression_statement (string)) (comment)
-  (expression_statement (string)) (comment))
+  (expression_statement (encapsed_string (escape_sequence))) (comment)
+  (expression_statement (encapsed_string (escape_sequence))) (comment)
+  (expression_statement (encapsed_string (escape_sequence))) (comment)
+  (expression_statement (encapsed_string (escape_sequence))) (comment)
+  (expression_statement (encapsed_string (escape_sequence))) (comment)
+  (expression_statement (encapsed_string (escape_sequence))) (comment))
