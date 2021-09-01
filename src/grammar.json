@@ -1,0 +1,21 @@
+{
+  "name": "elixir",
+  "rules": {
+    "source": {
+      "type": "STRING",
+      "value": "TODO"
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": []
+}
+
