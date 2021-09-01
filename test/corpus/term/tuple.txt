@@ -1,0 +1,82 @@
+=====================================
+simple literal
+=====================================
+
+{}
+{1}
+{1, 2}
+{1,2}
+{ 1 , 2 }
+
+---
+
+(source
+  (tuple)
+  (tuple
+    (integer))
+  (tuple
+    (integer)
+    (integer))
+  (tuple
+    (integer)
+    (integer))
+  (tuple
+    (integer)
+    (integer)))
+
+=====================================
+nested
+=====================================
+
+{{1}, 1}
+
+---
+
+(source
+  (tuple
+    (tuple
+      (integer))
+    (integer)))
+
+=====================================
+trailing separator
+=====================================
+
+{1,}
+{1,2,}
+
+---
+
+(source
+  (tuple
+    (integer))
+  (tuple
+    (integer)
+    (integer)))
+
+=====================================
+[error] missing element
+=====================================
+
+{, 1}
+
+---
+
+(source
+  (tuple
+    (ERROR
+      (integer))))
+
+=====================================
+[error] missing separator
+=====================================
+
+{1 2}
+
+---
+
+(source
+  (tuple
+    (integer)
+    (ERROR
+      (integer))))

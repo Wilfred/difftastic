@@ -1,0 +1,140 @@
+=====================================
+empty module definition
+=====================================
+
+defmodule Mod do
+end
+
+defmodule Mod.Child do
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (alias))
+    (do_block))
+  (call
+    (identifier)
+    (arguments
+      (alias))
+    (do_block)))
+
+=====================================
+module definition with atom literal
+=====================================
+
+defmodule :mod do
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (atom
+        (atom_literal)))
+    (do_block)))
+
+=====================================
+full module definition
+=====================================
+
+defmodule Mod do
+  @moduledoc """
+  Example module
+  """
+
+  use UseMod
+
+  @attribute 1
+
+  @doc """
+  Example function
+  """
+  @spec func(integer) :: integer
+  def func(x) when is_integer(x) do
+    priv(x) + priv(x)
+  end
+
+  defp priv(x), do: x * x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (alias))
+    (do_block
+      (unary_operator
+        (call
+          (identifier)
+          (arguments
+            (string
+              (string_content)))))
+      (call
+        (identifier)
+        (arguments
+          (alias)))
+      (unary_operator
+        (call
+          (identifier)
+          (arguments
+            (integer))))
+      (unary_operator
+        (call
+          (identifier)
+          (arguments
+            (string
+              (string_content)))))
+      (unary_operator
+        (call
+          (identifier)
+          (arguments
+            (binary_operator
+              (call
+                (identifier)
+                (arguments
+                  (identifier)))
+              (identifier)))))
+      (call
+        (identifier)
+        (arguments
+          (binary_operator
+            (call
+              (identifier)
+              (arguments
+                (identifier)))
+            (call
+              (identifier)
+              (arguments
+                (identifier)))))
+        (do_block
+          (binary_operator
+            (call
+              (identifier)
+              (arguments
+                (identifier)))
+            (call
+              (identifier)
+              (arguments
+                (identifier))))))
+      (call
+        (identifier)
+        (arguments
+          (call
+            (identifier)
+            (arguments
+              (identifier)))
+          (keywords
+            (pair
+              (keyword
+                (atom_literal))
+              (binary_operator
+                (identifier)
+                (identifier)))))))))

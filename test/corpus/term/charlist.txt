@@ -1,0 +1,208 @@
+=====================================
+single line
+=====================================
+
+'Hello, 123!'
+
+---
+
+(source
+  (charlist
+    (string_content)))
+
+=====================================
+multiple lines
+=====================================
+
+'line 1
+line 2'
+
+---
+
+(source
+  (charlist
+    (string_content)))
+
+=====================================
+interpolation
+=====================================
+
+'hey #{name}!'
+'hey #{
+  name
+}!'
+'##{name}#'
+
+---
+
+(source
+  (charlist
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content))
+  (charlist
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content))
+  (charlist
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content)))
+
+=====================================
+nested interpolation
+=====================================
+
+'this is #{'number #{1}'}!'
+
+---
+
+(source
+  (charlist
+    (string_content)
+    (interpolation
+      (charlist
+        (string_content)
+        (interpolation
+          (identifier))))
+    (string_content)))
+
+=====================================
+escape sequence
+=====================================
+
+'_\'_\n_\t_\r_\e_\\_\1_\x3f_\u0065\u0301_'
+
+---
+
+(source
+  (charlist
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (escape_sequence)
+    (string_content)))
+
+=====================================
+escaped interpolation
+=====================================
+
+'\#{1}'
+
+---
+
+(source
+  (charlist
+    (escape_sequence)
+    (string_content)))
+
+=====================================
+heredoc / charlist
+=====================================
+
+'''
+text
+with 'quotes'
+'''
+
+---
+
+(source
+  (charlist
+    (string_content)))
+
+=====================================
+heredoc / interpolation
+=====================================
+
+'''
+hey #{name}!
+'''
+
+---
+
+(source
+  (charlist
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content)))
+
+=====================================
+heredoc / nested interpolation
+=====================================
+
+'''
+this is #{
+  '''
+  number #{1}
+  '''
+}!
+'''
+
+---
+
+(source
+  (charlist
+    (string_content)
+    (interpolation
+      (charlist
+        (string_content)
+        (interpolation
+          (identifier))))
+    (string_content)))
+
+=====================================
+heredoc / escaped delimiter
+=====================================
+
+'''
+\'''
+'''
+
+'''
+\'\'\'
+'''
+
+---
+
+(source
+  (charlist
+    (escape_sequence)
+    (string_content)
+  (charlist
+    (escape_sequence)
+    (string_content)))
+
+=====================================
+heredoc / escaped interpolation
+=====================================
+
+'''
+\#{1}
+'''
+
+---
+
+(source
+  (charlist
+    (escape_sequence)
+    (string_content)))

@@ -1,0 +1,95 @@
+=====================================
+simple literal
+=====================================
+
+:atom
+:_az_AZ_19_
+:nonode@nohost
+:bang!
+:question?
+
+---
+
+(source
+  (atom
+    (atom_literal))
+  (atom
+    (atom_literal))
+  (atom
+    (atom_literal))
+  (atom
+    (atom_literal))
+  (atom
+    (atom_literal)))
+
+=====================================
+operators
+=====================================
+
+[:~~~, :~>>, :~>, :|||, :||, :|>, :|, :>>>, :>=, :>, :=~, :===, :==, :=, :<~>, :<~, :<|>, :<>, :<=, :<<~, :<<<, :<-, :<, :+++, :++, :+, :^^^, :^, :&&&, :&&, :&, :\\, :/, :*, :@, :.., :., :!==, :!=, :!, :::, :->, :---, :--, :-]
+
+---
+
+(source
+  (list (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal))))
+
+=====================================
+special operator-like atoms
+=====================================
+
+[:..., :%{}, :{}, :%, :<<>>, :..//]
+
+---
+
+(source
+  (list
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))))
+
+=====================================
+quoted atom
+=====================================
+
+:"atom ?? !! ' \n"
+:'atom ?? !! " \n'
+
+---
+
+(source
+  (atom
+    (string_content)
+    (escape_sequence))
+  (atom
+    (string_content)
+    (escape_sequence)))
+
+=====================================
+interpolation
+=====================================
+
+:"hey #{name}!"
+:'hey #{name}!'
+
+---
+
+(source
+  (atom
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content))
+  (atom
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content)))

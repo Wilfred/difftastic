@@ -1,0 +1,323 @@
+=====================================
+no arguments
+=====================================
+
+fn() -> 1 end
+fn () -> 1 end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (arguments)
+      (body
+        (integer))))
+  (anonymous_function
+    (stab_clause
+      (body
+        (integer)))))
+
+=====================================
+no arguments without parentheses
+=====================================
+
+fn -> 1 end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (body
+        (integer)))))
+
+=====================================
+one argument
+=====================================
+
+fn(x) -> x end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (arguments
+        (identifier))
+      (body
+        (identifier)))))
+
+=====================================
+one argument without parentheses
+=====================================
+
+fn x -> x end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (arguments
+        (identifier))
+      (body
+        (identifier)))))
+
+=====================================
+many arguments
+=====================================
+
+fn(x, y) -> x + y end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (arguments
+        (identifier)
+        (identifier))
+      (body
+        (binary_operator
+          (identifier)
+          (identifier))))))
+
+=====================================
+many arguments without parentheses
+=====================================
+
+fn x, y -> x + y end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (arguments
+        (identifier)
+        (identifier))
+      (body
+        (binary_operator
+          (identifier)
+          (identifier))))))
+
+=====================================
+multiline body
+=====================================
+
+fn x, y ->
+  y
+  x
+end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (arguments
+        (identifier)
+        (identifier))
+      (body
+        (identifier)
+        (identifier)))))
+
+=====================================
+many clauses
+=====================================
+
+fn
+  1 -> :yes
+  2 -> :no
+  other -> :maybe
+end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (arguments
+        (integer))
+      (body
+        (atom
+          (atom_literal))))
+    (stab_clause
+      (arguments
+        (integer))
+      (body
+        (atom
+          (atom_literal))))
+    (stab_clause
+      (arguments
+        (identifier))
+      (body
+        (atom
+          (atom_literal))))))
+
+=====================================
+with guard / no arguments
+=====================================
+
+fn
+  () when node() == :nonode@nohost -> true
+end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (binary_operator
+        (arguments)
+        (binary_operator
+          (call
+            (identifier)
+            (arguments))
+          (atom
+            (atom_literal))))
+      (body
+        (atom
+          (atom_literal))))))
+
+=====================================
+with guard / one argument
+=====================================
+
+fn
+  x when x == [] -> x
+end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (binary_operator
+        (arguments
+          (identifier))
+        (binary_operator
+          (identifier)
+          (list)))
+      (body
+        (atom
+          (atom_literal))))))
+
+=====================================
+with guard / multiple arguments
+=====================================
+
+fn
+  x, y when x == [] -> x
+end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (binary_operator
+        (arguments
+          (identifier)
+          (identifier))
+        (binary_operator
+          (identifier)
+          (list)))
+      (body
+        (atom
+          (atom_literal))))))
+
+=====================================
+with guard / arguments in parentheses
+=====================================
+
+fn
+  (x, y) when y == [] -> y
+end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (binary_operator
+        (arguments
+          (identifier)
+          (identifier))
+        (binary_operator
+          (identifier)
+          (list)))
+      (body
+        (atom
+          (atom_literal))))))
+
+=====================================
+with guard / multiple guards
+=====================================
+
+fn
+  x when x > 10 when x < 5 -> x
+end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (binary_operator
+        (arguments
+          (identifier))
+        (binary_operator
+          (binary_operator
+            (identifier)
+            (identifier))
+          (binary_operator
+            (identifier)
+            (identifier))))
+      (body
+        (atom
+          (atom_literal))))))
+
+=====================================
+pattern matching
+=====================================
+
+fn
+  [h | tail] -> {h, tail}
+  %{x: x} when x == 1 -> 1
+end
+
+---
+
+(source
+  (anonymous_function
+    (stab_clause
+      (arguments
+        (list
+          (binary_operator
+            (identifier)
+            (identifier))))
+      (body
+        (atom
+          (atom_literal))))
+    (stab_clause
+      (binary_operator
+        (arguments
+          (map
+            (map_content
+              (keywords
+                (pair
+                  (keyword
+                    (atom_literal))
+                  (identifier))))))
+        (binary_operator
+          (binary_operator
+            (identifier)
+            (identifier))
+          (binary_operator
+            (identifier)
+            (identifier))))
+      (body
+        (atom
+          (atom_literal))))))

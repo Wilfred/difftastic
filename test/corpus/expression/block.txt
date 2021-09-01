@@ -1,0 +1,96 @@
+=====================================
+empty
+=====================================
+
+()
+
+---
+
+(source
+  (block))
+
+=====================================
+single expression
+=====================================
+
+(1)
+
+---
+
+(source
+  (block
+    (integer)))
+
+=====================================
+multiple expressions separated by newline
+=====================================
+
+(
+  1
+  2
+)
+
+---
+
+(source
+  (block
+    (integer)
+    (integer)))
+
+=====================================
+multiple expressions separated by semicolon
+=====================================
+
+(1;2)
+
+---
+
+(source
+  (block
+    (integer)
+    (integer)))
+
+=====================================
+multiple expressions separated by mixed separators
+=====================================
+
+(
+  1
+
+  ;
+
+  2
+)
+
+---
+
+(source
+  (block
+    (integer)
+    (integer)))
+
+=====================================
+leading semicolon
+=====================================
+
+(;1;2)
+
+---
+
+(source
+  (block
+    (integer)
+    (integer)))
+
+=====================================
+trailing semicolon
+=====================================
+
+(1;2;)
+
+---
+
+(source
+  (block
+    (integer)
+    (integer)))

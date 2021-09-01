@@ -1,0 +1,580 @@
+=====================================
+call without arguments
+=====================================
+
+fun do
+  a
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (identifier))))
+
+=====================================
+call with arguments in parentheses
+=====================================
+
+fun(a, b) do
+  c
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (identifier)
+      (identifier))
+    (do_block
+      (identifier))))
+
+=====================================
+call with arguments without parentheses
+=====================================
+
+fun a, b do
+  c
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (identifier)
+      (identifier))
+    (do_block
+      (identifier))))
+
+=====================================
+remote call
+=====================================
+
+Mod.fun do
+  a
+end
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (do_block
+      (identifier))))
+
+=====================================
+sticks to the outermost call
+=====================================
+
+outer_fun inner_fun arg do
+  a
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier)
+        (arguments
+          (identifier)))
+    (do_block
+      (identifier))))
+
+=====================================
+newline before do
+=====================================
+
+fun x
+do
+  x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (identifier))
+    (do_block
+      (identifier))))
+
+=====================================
+stab clause / no arguments
+=====================================
+
+fun do
+ () -> x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments)
+        (body
+          (identifier))))))
+
+=====================================
+stab clause / no arguments without parentheses
+=====================================
+
+fun do
+  -> x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (body
+          (identifier))))))
+
+=====================================
+stab clause / one argument
+=====================================
+
+fun do
+  x -> x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (identifier))
+        (body
+          (identifier))))))
+
+=====================================
+stab clause / many arguments
+=====================================
+
+fun do
+  x, y, 1 -> :ok
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (identifier)
+          (identifier)
+          (integer))
+        (body
+          (atom
+            (atom_literal)))))))
+
+=====================================
+stab clause / arguments in parentheses
+=====================================
+
+fun do
+  (x, y) -> :ok
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (identifier)
+          (identifier))
+        (body
+          (atom
+            (atom_literal)))))))
+
+=====================================
+stab clause / many clauses
+=====================================
+
+fun do
+  1 -> :yes
+  2 -> :no
+  other -> :maybe
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (integer))
+        (body
+          (atom
+            (atom_literal))))
+      (stab_clause
+        (arguments
+          (integer))
+        (body
+          (atom
+            (atom_literal))))
+      (stab_clause
+        (arguments
+          (identifier))
+        (body
+          (atom
+            (atom_literal)))))))
+
+=====================================
+stab clause / multiline expression
+=====================================
+
+fun do
+  x ->
+    y
+    x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (integer))
+        (body
+          (identifier)
+          (identifier))))))
+
+=====================================
+stab clause / with guard / no arguments
+=====================================
+
+fun do
+  () when node() == :nonode@nohost -> true
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (binary_operator
+          (arguments)
+          (binary_operator
+            (call
+              (identifier)
+              (arguments))
+            (atom
+              (atom_literal))))
+        (body
+          (boolean))))))
+
+=====================================
+stab clause / with guard / one argument
+=====================================
+
+fun do
+  x when x == [] -> x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (binary_operator
+          (arguments
+            (identifier))
+          (binary_operator
+            (identifier)
+            (list)))
+        (body
+          (atom
+            (atom_literal)))))))
+
+=====================================
+stab clause / with guard / multiple arguments
+=====================================
+
+fun do
+  x, y when x == [] -> x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (binary_operator
+          (arguments
+            (identifier)
+            (identifier))
+          (binary_operator
+            (identifier)
+            (list)))
+        (body
+          (atom
+            (atom_literal)))))))
+
+=====================================
+stab clause / with guard / arguments in parentheses
+=====================================
+
+fun do
+  (x, y) when y == [] -> y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (binary_operator
+          (arguments
+            (identifier)
+            (identifier))
+          (binary_operator
+            (identifier)
+            (list)))
+        (body
+          (atom
+            (atom_literal)))))))
+
+=====================================
+stab clause / with guard / multiple guards
+=====================================
+
+fun do
+  x when x > 10 when x < 5 -> x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (binary_operator
+          (arguments
+            (identifier))
+          (binary_operator
+            (binary_operator
+              (identifier)
+              (identifier))
+            (binary_operator
+              (identifier)
+              (identifier))))
+        (body
+          (atom
+            (atom_literal)))))))
+
+
+=====================================
+pattern matching
+=====================================
+
+fun do
+  [h | tail] -> {h, tail}
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (list
+            (binary_operator
+              (identifier)
+              (identifier))))
+        (body
+          (atom
+            (atom_literal)))))))
+
+=====================================
+child blocks / after
+=====================================
+
+fun do
+  x
+after
+  y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (identifier)
+      (after_block
+        (identifier)))))
+
+=====================================
+child blocks / catch
+=====================================
+
+fun do
+  x
+catch
+  y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (identifier)
+      (catch_block
+        (identifier)))))
+
+=====================================
+child blocks / else
+=====================================
+
+fun do
+  x
+else
+  y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (identifier)
+      (else_block
+        (identifier)))))
+
+=====================================
+child blocks / rescue
+=====================================
+
+fun do
+  x
+rescue
+  y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (identifier)
+      (rescue_block
+        (identifier)))))
+
+=====================================
+child blocks / duplicated
+=====================================
+
+fun do
+  x
+after
+  y
+after
+  z
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (identifier)
+      (after_block
+        (identifier))
+      (after_block
+        (identifier)))))
+
+=====================================
+child blocks / mixed
+=====================================
+
+fun do
+  x
+else
+  y
+after
+  z
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (identifier)
+      (else_block
+        (identifier))
+      (after_block
+        (identifier)))))
+
+=====================================
+child blocks / stab clause
+=====================================
+
+fun do
+  x
+rescue
+  y -> y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (identifier)
+      (rescue_block
+        (stab_clause
+          (arguments
+            (identifier))
+          (body
+            (identifier)))))))

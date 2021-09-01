@@ -1,0 +1,220 @@
+=====================================
+single line
+=====================================
+
+"Hello, 123!"
+
+---
+
+(source
+  (string
+    (string_content)))
+
+=====================================
+multiple lines
+=====================================
+
+"line 1
+line 2"
+
+---
+
+(source
+  (string
+    (string_content)))
+
+=====================================
+interpolation
+=====================================
+
+"hey #{name}!"
+"hey #{
+  name
+}!"
+"##{name}#"
+
+---
+
+(source
+  (string
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content))
+  (string
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content))
+  (string
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content)))
+
+=====================================
+nested interpolation
+=====================================
+
+"this is #{"number #{1}"}!"
+
+---
+
+(source
+  (string
+    (string_content)
+    (interpolation
+      (string
+        (string_content)
+        (interpolation
+          (identifier))))
+    (string_content)))
+
+=====================================
+escape sequence
+=====================================
+
+"_\"_\n_\t_\r_\e_\\_\1_\x3f_\u0065\u0301_"
+
+---
+
+(source
+  (string
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (escape_sequence)
+    (string_content)))
+
+=====================================
+escaped interpolation
+=====================================
+
+"\#{1}"
+
+---
+
+(source
+  (string
+    (escape_sequence)
+    (string_content)))
+
+=====================================
+heredoc / string
+=====================================
+
+"""
+text
+with "quotes"
+"""
+
+---
+
+(source
+  (string
+    (string_content)))
+
+=====================================
+heredoc / interpolation
+=====================================
+
+"""
+hey #{name}!
+"""
+
+---
+
+(source
+  (string
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content)))
+
+=====================================
+heredoc / nested interpolation
+=====================================
+
+"""
+this is #{
+  """
+  number #{1}
+  """
+}!
+"""
+
+---
+
+(source
+  (string
+    (string_content)
+    (interpolation
+      (string
+        (string_content)
+        (interpolation
+          (identifier))))
+    (string_content)))
+
+=====================================
+heredoc / escaped delimiter
+=====================================
+
+"""
+\"""
+"""
+
+"""
+\"\"\"
+"""
+
+---
+
+(source
+  (string
+    (escape_sequence)
+    (string_content)
+  (string
+    (escape_sequence)
+    (string_content)))
+
+=====================================
+heredoc / escaped interpolation
+=====================================
+
+"""
+\#{1}
+"""
+
+---
+
+(source
+  (string
+    (escape_sequence)
+    (string_content)))
+
+=====================================
+[error] heredoc / no whitespace
+=====================================
+
+"""s"""
+
+---
+
+(source
+  (ERROR
+    (identifier)))

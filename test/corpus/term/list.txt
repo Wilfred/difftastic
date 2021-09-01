@@ -1,0 +1,82 @@
+=====================================
+simple literal
+=====================================
+
+[]
+[1]
+[1, 2]
+[1,2]
+[ 1 , 2 ]
+
+---
+
+(source
+  (list)
+  (list
+    (integer))
+  (list
+    (integer)
+    (integer))
+  (list
+    (integer)
+    (integer))
+  (list
+    (integer)
+    (integer)))
+
+=====================================
+nested
+=====================================
+
+[[1], 1]
+
+---
+
+(source
+  (list
+    (list
+      (integer))
+    (integer)))
+
+=====================================
+trailing separator
+=====================================
+
+[1,]
+[1,2,]
+
+---
+
+(source
+  (list
+    (integer))
+  (list
+    (integer)
+    (integer)))
+
+=====================================
+[error] missing element
+=====================================
+
+[, 1]
+
+---
+
+(source
+  (list
+    (ERROR
+      (integer))))
+
+=====================================
+[error] missing separator
+=====================================
+
+[1 2]
+
+---
+
+(source
+  (list
+    (integer)
+    (ERROR
+      (integer))))

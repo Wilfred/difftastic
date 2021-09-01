@@ -1,0 +1,242 @@
+=====================================
+without type parentheses
+=====================================
+
+@spec fun(atom, integer, keyword) :: string
+
+---
+
+(source
+  (unary_operator
+    (call
+      (identifier)
+      (arguments
+        (binary_operator
+          (call
+            (identifier)
+            (arguments
+              (identifier)
+              (identifier)
+              (identifier)))
+          (identifier))))))
+
+=====================================
+with type parentheses
+=====================================
+
+@spec fun(atom(), integer(), keyword()) :: string()
+
+---
+
+(source
+  (unary_operator
+    (call
+      (identifier)
+      (arguments
+        (binary_operator
+          (call
+            (identifier)
+            (arguments
+              (call
+                (identifier))
+              (call
+                (identifier))
+              (call
+                (identifier))))
+          (call
+            (identifier)))))))
+
+=====================================
+with literals
+=====================================
+
+@spec fun(%{key: atom}) :: {:ok, atom} | {:error, binary}
+
+---
+
+(source
+  (unary_operator
+    (call
+      (identifier)
+      (arguments
+        (binary_operator
+          (call
+            (identifier)
+            (arguments
+              (map
+                (map_content
+                  (keywords
+                    (pair
+                      (keyword
+                        (atom_literal)
+                      (identifier))))))))
+          (binary_operator
+            (tuple
+              (atom
+                (atom_literal))
+              (identifier))
+            (tuple
+              (atom
+                (atom_literal))
+              (identifier))))))))
+
+=====================================
+with function reference
+=====================================
+
+@spec fun((-> atom), (atom -> integer)) :: integer
+
+---
+
+(source
+  (unary_operator
+    (call
+      (identifier)
+      (arguments
+        (binary_operator
+          (call
+            (identifier)
+            (arguments
+              (stab_clause
+                (body
+                  (identifier)))
+              (stab_clause
+                (arguments
+                  (identifier))
+                (body
+                  (identifier)))))
+          (identifier))))))
+
+=====================================
+with remote type
+=====================================
+
+@spec fun(Keyword.t()) :: String.t()
+
+---
+
+(source
+  (unary_operator
+    (call
+      (identifier)
+      (arguments
+        (binary_operator
+          (call
+            (identifier)
+            (arguments
+              (call
+                (dot
+                  (alias)
+                  (identifier)))))
+          (call
+            (dot
+              (alias)
+              (identifier))))))))
+
+=====================================
+with type guard
+=====================================
+
+@spec fun(arg1, arg2) :: {arg1, arg2} when arg1: atom, arg2: integer
+
+---
+
+(source
+  (unary_operator
+    (call
+      (identifier)
+      (arguments
+        (binary_operator
+          (binary_operator
+            (call
+              (identifier)
+              (arguments
+                (identifier)
+                (identifier)))
+            (tuple
+              (identifier)
+              (identifier)))
+          (keywords
+            (pair
+              (keyword
+                (atom_literal))
+              (identifier))
+            (pair
+              (keyword
+                (atom_literal))
+              (identifier))))))))
+
+=====================================
+with named arguments
+=====================================
+
+@spec days_since_epoch(year :: integer, month :: integer, day :: integer) :: integer
+
+---
+
+(source
+  (unary_operator
+    (call
+      (identifier)
+      (arguments
+        (binary_operator
+          (call
+            (identifier)
+            (arguments
+              (binary_operator
+                (identifier)
+                (identifier))
+              (binary_operator
+                (identifier)
+                (identifier))
+              (binary_operator
+                (identifier)
+                (identifier))))
+          (identifier))))))
+
+=====================================
+nonempty list
+=====================================
+
+@spec fun() :: [integer, ...]
+
+---
+
+(source
+  (unary_operator
+    (call
+      (identifier)
+      (arguments
+        (binary_operator
+          (identifier)
+          (list
+            (call
+              (identifier))
+            (identifier)))))))
+
+=====================================
+[error] type guard cannot end with keyword separator
+=====================================
+
+@spec fun(arg) :: arg when arg: atom,
+
+---
+
+(source
+  (unary_operator
+    (call
+      (identifier)
+      (arguments
+        (binary_operator
+          (binary_operator
+            (call
+              (identifier)
+              (arguments
+                (identifier)))
+            (identifier))
+          (keywords
+            (pair
+              (keyword
+                (atom_literal))
+              (identifier)))))))
+  (ERROR))

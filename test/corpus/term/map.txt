@@ -1,0 +1,201 @@
+=====================================
+empty
+=====================================
+
+%{}
+
+---
+
+(source
+  (map))
+
+=====================================
+from keywords
+=====================================
+
+%{a: 1, b: 2}
+
+---
+
+(source
+  (map
+    (map_content
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+from arrow entries
+=====================================
+
+%{:a => 1, "b" => 2, c => 3}
+
+---
+
+(source
+  (map
+    (map_content
+      (binary_operator
+        (atom
+          (atom_literal))
+        (integer))
+      (binary_operator
+        (string
+          (string_content))
+        (integer))
+      (binary_operator
+        (identifier)
+        (integer)))))
+
+=====================================
+from both arrow entries and keywords
+=====================================
+
+%{"a" => 1, b: 2, c: 3}
+
+---
+
+(source
+  (map
+    (map_content
+      (binary_operator
+        (string
+          (string_content))
+        (integer))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+trailing separator
+=====================================
+
+%{"a" => 1,}
+
+---
+
+(source
+  (map
+    (map_content
+      (binary_operator
+        (string
+          (string_content))
+        (integer)))))
+
+=====================================
+update syntax
+=====================================
+
+%{user | name: "Jane", email: "jane@example.com"}
+%{user | "name" => "Jane"}
+
+---
+
+(source
+  (map
+    (map_content
+      (binary_operator
+        (identifier)
+        (keywords
+          (pair
+            (keyword
+              (atom_literal))
+            (string
+              (string_content)))
+          (pair
+            (keyword
+              (atom_literal))
+            (string
+              (string_content)))))))
+  (map
+    (map_content
+      (binary_operator
+        (identifier)
+        (binary_operator
+          (string
+            (string_content))
+          (integer))))))
+
+=====================================
+[error] ordering
+=====================================
+
+%{b: 2, c: 3, "a" => 1}
+
+---
+
+(source
+  (map
+    (map_content)
+      (ERROR
+        (keywords
+          (pair
+            (keyword
+              (atom_literal)))
+          (pair
+            (keyword
+              (atom_literal)))))
+      (binary_operator
+        (string
+          (string_content))
+        (integer))))
+
+=====================================
+[error] missing separator
+=====================================
+
+%{"a" => 1 "b" => 2}
+
+---
+
+(source
+  (map
+    (map_content)
+      (ERROR
+        (binary_operator
+          (string
+            (string_content))
+          (integer)))
+      (binary_operator
+        (string
+          (string_content))
+        (integer))))
+
+=====================================
+[error] invalid content
+=====================================
+
+%{1}
+%{1, 1}
+%{a, [], {}}
+
+---
+
+(source
+  (map
+    (map_content
+      (ERROR
+        (integer))))
+  (map
+    (map_content
+      (ERROR
+        (integer)
+        (integer))))
+  (map
+    (map_content
+      (ERROR
+        (identifier)
+        (list)
+        (tuple)))))

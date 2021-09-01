@@ -1,0 +1,356 @@
+=====================================
+unary
+=====================================
+
+@arg
+
++arg
+-arg
+!arg
+^arg
+not arg
+~~~arg
+
+&arg
+
+---
+
+(source
+  (unary_operator
+    (identifier))
+  (unary_operator
+    (identifier))
+  (unary_operator
+    (identifier))
+  (unary_operator
+    (identifier))
+  (unary_operator
+    (identifier))
+  (unary_operator
+    (identifier))
+  (unary_operator
+    (identifier))
+  (unary_operator
+    (identifier)))
+
+=====================================
+binary left associative
+=====================================
+
+a * b * c
+a / b / c
+
+a + b + c
+a - b - c
+
+a ^^^ b ^^^ c
+
+a in b in c
+a not in b not in c
+
+a |> b |> c
+a <<< b <<< c
+a >>> b >>> c
+a <<~ b <<~ c
+a ~>> b ~>> c
+a <~ b <~ c
+a ~> b ~> c
+a <~> b <~> c
+a <|> b <|> c
+
+a < b < c
+a > b > c
+a <= b <= c
+a >= b >= c
+
+a == b == c
+a != b != c
+a =~ b =~ c
+a === b === c
+a !== b !== c
+
+a && b && c
+a &&& b &&& c
+a and b and c
+
+a || b || c
+a ||| b ||| c
+a or b or c
+
+a <- b <- c
+a \\ b \\ c
+
+---
+
+(source
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier)))
+
+=====================================
+binary right associative
+=====================================
+
+a ++ b ++ c
+a -- b -- c
+a +++ b +++ c
+a --- b --- c
+a .. b .. c
+a <> b <> c
+
+a = b = c
+
+a | b | c
+
+a :: b :: c
+
+a when b when c
+
+---
+
+(source
+  (binary_operator (identifier) (binary_operator (identifier) (identifier)))
+  (binary_operator (identifier) (binary_operator (identifier) (identifier)))
+  (binary_operator (identifier) (binary_operator (identifier) (identifier)))
+  (binary_operator (identifier) (binary_operator (identifier) (identifier)))
+  (binary_operator (identifier) (binary_operator (identifier) (identifier)))
+  (binary_operator (identifier) (binary_operator (identifier) (identifier)))
+  (binary_operator (identifier) (binary_operator (identifier) (identifier)))
+  (binary_operator (identifier) (binary_operator (identifier) (identifier)))
+  (binary_operator (identifier) (binary_operator (identifier) (identifier)))
+  (binary_operator (identifier) (binary_operator (identifier) (identifier))))
+
+=====================================
+precedence on the same level falls back to associativity
+=====================================
+
+a * b / c
+a + b - c
+a in b not in c
+a <<< b >>> c
+a < b > c
+a == b != c
+a &&& b && c
+a ||| b || c
+a <- b \\ c
+
+a ++ b -- c
+
+---
+
+(source
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
+  (binary_operator (identifier) (binary_operator (identifier) (identifier))))
+
+=====================================
+precedence on different levels
+=====================================
+
+& @ a - b
+a -- b + c
+a - b ++ c
+a = b <<< c
+
+a + b * c - d
+
+---
+
+(source
+  (unary_operator
+    (binary_operator
+      (unary_operator
+        (identifier))
+      (identifier)))
+  (binary_operator
+    (identifier)
+    (binary_operator
+      (identifier)
+      (identifier)))
+  (binary_operator
+    (binary_operator
+      (identifier)
+      (identifier))
+    (identifier))
+  (binary_operator
+    (identifier)
+    (binary_operator
+      (identifier)
+      (identifier)))
+  (binary_operator
+    (binary_operator
+      (identifier)
+      (binary_operator
+        (identifier)
+        (identifier)))
+    (identifier)))
+
+=====================================
+precedence determined by parentheses
+=====================================
+
+(& a) - b
+
+(a + b) * (c - d)
+
+---
+
+(source
+  (binary_operator
+    (unary_operator
+      (identifier))
+    (identifier))
+  (binary_operator
+    (block
+      (binary_operator
+        (identifier)
+        (identifier)))
+    (block
+      (binary_operator
+        (identifier)
+        (identifier)))))
+
+=====================================
+multiline
+=====================================
+
+-
+x
+
+x
+not in
+[y]
+
+---
+
+(source
+  (unary_operator
+    (identifier))
+  (binary_operator
+    (identifier)
+    (list
+      (identifier))))
+
+=====================================
+stepped range
+=====================================
+
+1 .. 2 // 3
+1..2//3
+0..1//-1
+
+---
+
+(source
+  (binary_operator
+    (binary_operator
+      (integer)
+      (integer))
+    (integer))
+  (binary_operator
+    (binary_operator
+      (integer)
+      (integer))
+    (integer))
+  (binary_operator
+    (binary_operator
+      (integer)
+      (integer))
+    (unary_operator
+      (integer))))
+
+=====================================
+stepped range / multiline
+=====================================
+
+1..2
+// 4
+
+---
+
+(source
+  (binary_operator
+    (binary_operator
+      (integer)
+      (integer))
+    (integer)))
+
+=====================================
+stepped ranges / blocks
+=====================================
+
+foo do end..bar do end//baz do end
+1..(2//3)
+(1..2)//3
+(1..2)//(3)
+
+---
+
+(source
+  (binary_operator
+    (binary_operator
+      (call
+        (identifier)
+        (do_block))
+      (call
+        (identifier)
+        (do_block)))
+    (call
+      (identifier)
+      (do_block)))
+  (binary_operator
+    (integer)
+    (block
+      (binary_operator
+        (integer)
+        (integer))))
+  (binary_operator
+    (block
+      (binary_operator
+        (integer)
+        (integer)))
+    (integer))
+  (binary_operator
+    (block
+      (binary_operator
+        (integer)
+        (integer)))
+    (block
+      (integer))))

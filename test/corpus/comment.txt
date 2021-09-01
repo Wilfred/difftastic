@@ -1,0 +1,101 @@
+=====================================
+empty
+=====================================
+
+#
+
+---
+
+(source
+  (comment))
+
+=====================================
+single line
+=====================================
+
+# single comment
+
+---
+
+(source
+  (comment))
+
+=====================================
+multiple start symbols
+=====================================
+
+### multiple "#"
+
+---
+
+(source
+  (comment))
+
+=====================================
+many consecutive lines
+=====================================
+
+# many
+# consecutive
+1
+# lines
+
+---
+
+(source
+  (comment)
+  (comment)
+  (integer)
+  (comment))
+
+=====================================
+in the same line as regular code
+=====================================
+
+1 # comment
+
+---
+
+(source
+  (integer)
+  (comment))
+
+=====================================
+matches inside a nested structure
+=====================================
+
+[ 1 ## inside a list
+, { 2 # and a tuple, too!
+  , 3 }
+]
+
+---
+
+(source
+  (list
+    (integer)
+    (comment)
+    (tuple
+      (integer)
+      (comment)
+      (integer))))
+
+=====================================
+does not match inside a string
+=====================================
+
+"# string"
+"this is #{interpolation}"
+
+---
+
+(source
+  (string
+    (string_start)
+    (string_content)
+    (string_end))
+  (string
+    (string_start)
+    (string_content)
+    (interpolation (identifier))
+    (string_end)))

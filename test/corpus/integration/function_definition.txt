@@ -1,0 +1,364 @@
+=====================================
+def / no arguments
+=====================================
+
+def fun() do
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier)
+        (arguments)))
+    (do_block)))
+
+=====================================
+def / no arguments without parentheses
+=====================================
+
+def fun do
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier)))
+    (do_block)))
+
+=====================================
+def / one argument
+=====================================
+
+def fun(x) do
+  x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier
+          (arguments
+            (identifier)))))
+    (do_block
+      (identifier))))
+
+=====================================
+def / one argument without parentheses
+=====================================
+
+def fun x do
+  x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier
+          (arguments
+            (identifier)))))
+    (do_block
+      (identifier))))
+
+=====================================
+def / many arguments
+=====================================
+
+def fun(x, y) do
+  x + y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier
+          (arguments
+            (identifier)
+            (identifier)))))
+    (do_block
+      (binary_operator
+        (identifier)
+        (identifier)))))
+
+=====================================
+def / many arguments without parentheses
+=====================================
+
+def fun x, y do
+  x + y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier
+          (arguments
+            (identifier)
+            (identifier)))))
+    (do_block
+      (binary_operator
+        (identifier)
+        (identifier)))))
+
+=====================================
+def / default arguments
+=====================================
+
+def fun x, y \\ 1 do
+  x + y
+end
+
+def fun(x, y \\ 1) do
+  x + y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier
+          (arguments
+            (identifier)
+            (binary_operator
+              (identifier)
+              (integer))))))
+    (do_block
+      (binary_operator
+        (identifier)
+        (identifier))))
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier
+          (arguments
+            (identifier)
+            (binary_operator
+              (identifier)
+              (integer))))))
+    (do_block
+      (binary_operator
+        (identifier)
+        (identifier)))))
+
+=====================================
+def / keyword do block
+=====================================
+
+def fun(), do: 1
+def fun(x), do: x
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier)))
+    (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))))
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier
+          (arguments
+            (identifier)))))
+    (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (identifier)))))
+
+=====================================
+def / pattern matching
+=====================================
+
+def fun([{x, y} | tail]) do
+  x + y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier)
+        (arguments
+          (list
+            (binary_operator
+              (tuple
+                (identifier)
+                (identifier))
+              (identifier))))))
+    (do_block
+      (binary_operator
+        (identifier)
+        (identifier)))))
+
+=====================================
+def / with guard
+=====================================
+
+def fun(x) when x == 1 do
+  x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (binary_operator
+        (call
+          (identifier
+            (arguments
+              (identifier))))
+        (binary_operator
+          (identifier)
+          (integer))))
+    (do_block
+      (identifier))))
+
+=====================================
+def / with guard / multiple guards
+=====================================
+
+def fun(x) when x > 10 when x < 5 do
+  x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (binary_operator
+        (call
+          (identifier
+            (arguments
+              (identifier))))
+        (binary_operator
+          (binary_operator
+            (identifier)
+            (integer))
+          (binary_operator
+            (identifier)
+            (integer)))))
+    (do_block
+      (identifier))))
+
+=====================================
+defp
+=====================================
+
+defp fun(x) do
+  x
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier
+          (arguments
+            (identifier)))))
+    (do_block
+      (identifier))))
+
+=====================================
+defmacro
+=====================================
+
+defmacro fun(x) do
+  quote do
+    [unquote(x)]
+  end
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier
+          (arguments
+            (identifier)))))
+    (do_block
+      (call
+        (identifier)
+        (do_block
+          (list
+            (call
+              (identifier)
+              (arguments
+                (identifier)))))))))
+
+=====================================
+defguard
+=====================================
+
+defguard is_even(term) when is_integer(term) and rem(term, 2) == 0
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (binary_operator
+        (call
+          (identifier
+            (arguments
+              (identifier))))
+        (binary_operator
+          (call
+            (identifier)
+            (arguments
+              (identifier)))
+          (binary_operator
+            (call
+              (identifier)
+              (arguments
+                (identifier)
+                (integer)))
+            (integer)))))))

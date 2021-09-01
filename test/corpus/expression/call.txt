@@ -1,0 +1,806 @@
+=====================================
+local call / no arguments
+=====================================
+
+fun()
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments)))
+
+=====================================
+local call / arguments in parentheses
+=====================================
+
+fun(a)
+fun([1, 2], option: true, other: 5)
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (identifier)))
+  (call
+    (identifier)
+    (arguments
+      (list
+        (integer)
+        (integer))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (boolean))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+local call / arguments without parentheses
+=====================================
+
+fun a
+fun [1, 2], option: true, other: 5
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (identifier)))
+  (call
+    (identifier)
+    (arguments
+      (list
+        (integer)
+        (integer))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (boolean))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+local call / nested with parentheses
+=====================================
+
+outer_fun(inner_fun(a))
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier)
+        (arguments
+          (identifier))))))
+
+=====================================
+local call / nested without parentheses (right associativity)
+=====================================
+
+outer_fun inner_fun a
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier)
+        (arguments
+          (identifier))))))
+
+=====================================
+local call / precedence with operator
+=====================================
+
+fun +1
+outer_fun 1 + 1
+1 + inner_fun 1
+outer_fun 1 + inner_fun 1
+fun 1, 2 |> other_fun
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (unary_operator
+        (integer))))
+  (call
+    (identifier)
+    (arguments
+      (binary_operator
+        (integer)
+        (integer))))
+  (binary_operator
+    (integer)
+    (call
+      (identifier)
+        (arguments
+          (integer))))
+  (call
+    (identifier)
+    (arguments
+      (binary_operator
+        (integer)
+        (call
+          (identifier)
+          (arguments
+            (integer))))))
+  (call
+    (identifier)
+    (arguments
+      (integer)
+      (binary_operator
+        (integer)
+        (identifier)))))
+
+=====================================
+local call / treats nonimmediate parentheses as a block argument
+=====================================
+
+fun (x)
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (block
+        (identifier)))))
+
+=====================================
+remote call / no arguments
+=====================================
+
+Mod.fun()
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments)))
+
+=====================================
+remote call / no arguments without parentheses
+=====================================
+
+Mod.fun
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))))
+
+=====================================
+remote call / arguments in parentheses
+=====================================
+
+Mod.fun(a)
+Mod.fun([1, 2], option: true, other: 5)
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (identifier)))
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (list
+        (integer)
+        (integer))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (boolean))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+remote call / arguments without parentheses
+=====================================
+
+Mod.fun a
+Mod.fun [1, 2], option: true, other: 5
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (identifier)))
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (list
+        (integer)
+        (integer))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (boolean))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+remote call / nested with parentheses
+=====================================
+
+Mod.outer_fun(Mod.inner_fun(a))
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (call
+        (dot
+          (alias)
+          (identifier))
+        (arguments
+          (identifier))))))
+
+=====================================
+remote call / nested without parentheses (right associativity)
+=====================================
+
+Mod.outer_fun Mod.inner_fun a
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (call
+        (dot
+          (alias)
+          (identifier))
+        (arguments
+          (identifier))))))
+
+=====================================
+remote call / precedence with operator
+=====================================
+
+Mod.outer_fun 1 + 1
+1 + Mod.inner_fun 1
+Mod.outer_fun 1 + Mod.inner_fun 1
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (binary_operator
+        (integer)
+        (integer))))
+  (binary_operator
+    (integer)
+    (call
+      (dot
+        (alias)
+        (identifier))
+        (arguments
+          (integer))))
+    (call
+      (dot
+        (alias)
+        (identifier))
+    (arguments
+      (binary_operator
+        (integer)
+        (call
+          (dot
+            (alias)
+            (identifier))
+          (arguments
+            (integer)))))))
+
+=====================================
+remote call / treats nonimmediate parentheses as a block argument
+=====================================
+
+Mod.fun (x)
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (block
+        (identifier)))))
+
+=====================================
+remote call / multi-level alias
+=====================================
+
+Mod1.Mod2.Mod3.fun(a)
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (identifier))))
+
+=====================================
+remote call / operator
+=====================================
+
+Kernel.+(a, b)
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (operator_identifier))
+    (arguments
+      (identifier)
+      (identifier))))
+
+=====================================
+remote call / quoted function name
+=====================================
+
+Mod."fun"(a)
+Mod.'fun'(a)
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (identifier))))
+
+=====================================
+remote call / atom literal module
+=====================================
+
+:mod.fun(a)
+:"Elixir.Mod".fun(a)
+
+---
+
+(source
+  (call
+    (dot
+      (atom
+        (atom_literal))
+      (identifier))
+    (arguments
+      (identifier)))
+  (call
+    (dot
+      (atom
+        (string_content))
+      (identifier))
+    (arguments
+      (identifier))))
+
+=====================================
+anonymous call / no arguments
+=====================================
+
+fun.()
+
+---
+
+(source
+  (call
+    (dot
+      (identifier))
+    (arguments)))
+
+=====================================
+anonymous call / arguments in parentheses
+=====================================
+
+fun.(a)
+fun.([1, 2], option: true, other: 5)
+
+---
+
+(source
+  (call
+    (dot
+      (identifier))
+    (arguments
+      (identifier)))
+  (call
+    (dot
+      (identifier))
+    (arguments
+      (list
+        (integer)
+        (integer))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (boolean))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+anonymous call / nested with parentheses
+=====================================
+
+outer_fun.(inner_fun.(a))
+
+---
+
+(source
+  (call
+    (dot
+      (identifier))
+    (arguments
+      (call
+        (dot
+          (identifier))
+        (arguments
+          (identifier))))))
+
+=====================================
+mixed call types
+=====================================
+
+Mod.outer_fun mid_fun inner_fun.(a)
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (call
+        (identifier)
+        (call
+          (dot
+            (identifier))
+          (arguments
+            (identifier)))))))
+
+=====================================
+identifier call
+=====================================
+
+mod.fun(a)
+
+---
+
+(source
+  (call
+    (dot
+      (identifier)
+      (identifier))
+    (arguments
+      (identifier))))
+
+=====================================
+nested identifier call
+=====================================
+
+map.mod.fun(a)
+
+---
+
+(source
+  (call
+    (dot
+      (call
+        (dot
+          (identifier)
+          (identifier)))
+      (identifier))
+    (arguments
+      (identifier))))
+
+=====================================
+reserved word call
+=====================================
+
+a.and
+
+---
+
+(source
+  (call
+    (dot
+      (identifier)
+      (identifier))))
+
+=====================================
+range call
+=====================================
+
+(1..2).step
+(1..2//3).step
+
+---
+
+(source
+  (call
+    (dot
+      (block
+        (binary_operator
+          (integer)
+          (integer)))
+      (identifier)))
+  (call
+    (dot
+      (block
+        (binary_operator
+          (binary_operator
+            (integer)
+            (integer))
+          (integer))))
+    (identifier)))
+
+=====================================
+multi-expression block call
+=====================================
+
+(
+  x
+  1..2
+).step
+
+---
+
+(source
+  (call
+    (dot
+      (block
+        (identifier)
+        (binary_operator
+          (integer)
+          (integer)))
+      (identifier))))
+
+=====================================
+map call
+=====================================
+
+%{}.field
+
+---
+
+(source
+  (call
+    (dot
+      (map)
+      (identifier))))
+
+=====================================
+struct call
+=====================================
+
+%Mod{}.field
+
+---
+
+(source
+  (call
+    (dot
+      (map
+        (struct
+          (alias)))
+      (identifier))))
+
+=====================================
+arbitrary term call
+=====================================
+
+1.(1, 2)
+
+---
+
+(source
+  (call
+    (dot
+      (integer))
+    (arguments
+      (integer)
+      (integer))))
+
+=====================================
+escaped newline call
+=====================================
+
+fun \
+a
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (identifier))))
+
+=====================================
+keyword list trailing separator
+=====================================
+
+fun(option: true, other: 5,)
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (boolean))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+newline before dot
+=====================================
+
+Mod
+  .fun(a)
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (identifier))))
+
+=====================================
+newline after dot
+=====================================
+
+Mod.
+  fun(a)
+
+---
+
+(source
+  (call
+    (dot
+      (alias)
+      (identifier))
+    (arguments
+      (identifier))))
+
+=====================================
+access syntax
+=====================================
+
+map[key]
+map[:key]
+
+---
+
+(source
+  (access_call
+    (identifier)
+    (identifier))
+  (access_call
+    (identifier)
+    (atom
+      (atom_literal))))
+
+=====================================
+access syntax / does not allow whitespace
+=====================================
+
+map [key]
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (list
+        (identifier)))))
+
+=====================================
+access syntax / precedence over dot call
+=====================================
+
+map[:mod].fun
+
+---
+
+(source
+  (call
+    (dot
+      (access_call
+        (identifier)
+        (atom
+          (atom_literal)))
+      (identifier))))
+
+=====================================
+[error] leading argument separator
+=====================================
+
+fun(, a)
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (ERROR)
+      (identifier))))

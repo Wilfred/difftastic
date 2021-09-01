@@ -1,0 +1,158 @@
+=====================================
+simple literal
+=====================================
+
+[a_b@12?: 1, A_B@12!: 2]
+
+---
+
+(source
+  (list
+    (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer)))))
+
+=====================================
+trailing separator
+=====================================
+
+[a: 1,]
+
+---
+
+(source
+  (list
+    (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (integer)))))
+
+=====================================
+with leading items
+=====================================
+
+[1, {:c, 1}, a: 1, b: 2]
+
+---
+
+(source
+  (list
+    (integer)
+    (tuple
+      (atom
+        (atom_literal))
+      (integer))
+    (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer)))))
+
+=====================================
+operator key
+=====================================
+
+[~~~: 1, ==: 2, >: 3]
+
+---
+
+(source
+  (list
+    (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer)))))
+
+=====================================
+quoted key
+=====================================
+
+[
+  "key1 ?? !! ' \n": 1,
+  'key2 ?? !! " \n': 2
+]
+
+---
+
+(source
+  (list
+    (keywords
+      (pair
+        (keyword
+          (string_content)
+          (escape_sequence))
+        (integer))
+      (pair
+        (keyword
+          (string_content)
+          (escape_sequence))
+        (integer)))))
+
+=====================================
+key interpolation
+=====================================
+
+[
+  "hey #{name}!": 1,
+  'hey #{name}!': 2
+]
+
+---
+
+(source
+  (list
+    (keywords
+      (pair
+        (keyword
+          (string_content)
+          (interpolation
+            (identifier))
+          (string_content))
+        (integer))
+      (pair
+        (keyword
+          (string_content)
+          (interpolation
+            (identifier))
+          (string_content))
+        (integer)))))
+
+=====================================
+[error] with trailing items
+=====================================
+
+[a: 1, b: 2, 1]
+
+---
+
+(source
+  (list
+    (ERROR
+      (keywords
+        (pair
+          (keyword
+            (atom_literal)))
+        (pair
+          (keyword
+            (atom_literal)))))
+    (integer)))

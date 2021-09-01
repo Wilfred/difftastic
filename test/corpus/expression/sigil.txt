@@ -1,0 +1,246 @@
+=====================================
+simple literal
+=====================================
+
+~s(content)
+~r{content}
+~w[content]
+~a<content>
+~b"content"
+~c'content'
+~d|content|
+~e/content/
+
+---
+
+(source
+  (sigil (sigil_name) (string_content))
+  (sigil (sigil_name) (string_content))
+  (sigil (sigil_name) (string_content))
+  (sigil (sigil_name) (string_content))
+  (sigil (sigil_name) (string_content))
+  (sigil (sigil_name) (string_content))
+  (sigil (sigil_name) (string_content))
+  (sigil (sigil_name) (string_content)))
+
+
+=====================================
+multiple lines
+=====================================
+
+~s"line 1
+line 2"
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (string_content)))
+
+=====================================
+interpolation
+=====================================
+
+~s"hey #{name}!"
+~r/hey #{
+  name
+}!/
+~w{##{name}#}
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content))
+  (sigil
+    (sigil_name)
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content))
+  (sigil
+    (sigil_name)
+    (string_content)
+    (interpolation
+      (identifier))
+    (string_content)))
+
+=====================================
+nested interpolation
+=====================================
+
+~s{this is #{~s{number #{1}}}!}
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (string_content)
+    (interpolation
+      (sigil
+        (sigil_name)
+        (string_content)
+        (interpolation
+          (identifier))))
+    (string_content)))
+
+=====================================
+escape sequence
+=====================================
+
+~s{_\}_\n_\t_\r_\e_\\_\1_\x3f_\u0065\u0301_}
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (string_content)
+    (escape_sequence)
+    (escape_sequence)
+    (string_content)))
+
+=====================================
+escaped interpolation
+=====================================
+
+~s{\#{1}}
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (escape_sequence)
+    (string_content)))
+
+=====================================
+upper sigil / no interpolation
+=====================================
+
+~S"hey #{name}!"
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (string_content)))
+
+=====================================
+upper sigil / no escape sequence
+=====================================
+
+~S"\n"
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (string_content)))
+
+=====================================
+upper sigil / escape terminator
+=====================================
+
+~S"content \" content"
+~S{content \} content}
+~S/content \/ content/
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (string_content)
+    (escape_sequence)
+    (string_content))
+  (sigil
+    (sigil_name)
+    (string_content)
+    (escape_sequence)
+    (string_content))
+  (sigil
+    (sigil_name)
+    (string_content)
+    (escape_sequence)
+    (string_content)))
+
+=====================================
+heredoc delimiter
+=====================================
+
+~s"""
+text
+with "quotes"
+"""
+
+~s'''
+text
+with 'quotes'
+'''
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (string_content))
+  (sigil
+    (sigil_name)
+    (string_content)))
+
+=====================================
+modifiers
+=====================================
+
+~r/left|right/i
+~r/left|right/iUx
+
+---
+
+(source
+  (sigil
+    (sigil_name)
+    (string_content)
+    (sigil_modifiers))
+  (sigil
+    (sigil_name)
+    (sigil_modifiers)))
+
+=====================================
+[error] accepts only a single character
+=====================================
+
+~mysigil"content"
+
+---
+
+(source
+  (ERROR)
+  (call
+    (string
+      (string_content))))

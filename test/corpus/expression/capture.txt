@@ -1,0 +1,130 @@
+=====================================
+anonymous function
+=====================================
+
+& &1 + &2
+&(&1 + &2)
+&foo(&1, a, &2)
+
+---
+
+(source
+  (unary_operator
+    (binary_operator
+      (unary_operator
+        (integer))
+      (unary_operator
+        (integer))))
+  (unary_operator
+    (binary_operator
+      (unary_operator
+        (integer))
+      (unary_operator
+        (integer))))
+  (unary_operator
+    (call
+      (arguments
+        (unary_operator
+          (integer))
+        (identifier)
+        (unary_operator
+          (integer))))))
+
+=====================================
+argument call
+=====================================
+
+& &1.some_fun
+&(&1.some_fun)
+& &1.(&2)
+
+---
+
+(source
+  (unary_operator
+    (call
+      (dot
+        (unary_operator
+          (integer)
+        (identifier)))))
+  (unary_operator
+    (call
+      (dot
+        (unary_operator
+          (integer)
+        (identifier)))))
+  (unary_operator
+    (call
+      (dot
+        (unary_operator
+          (integer)
+        (arguments
+          (unary_operator
+            (integer))))))))
+
+=====================================
+remote MFA
+=====================================
+
+&Mod.fun/1
+
+---
+
+(source
+  (unary_operator
+    (binary_operator
+      (call
+        (dot
+          (alias)
+          (identifier)))
+      (integer))))
+
+=====================================
+remote operator MFA
+=====================================
+
+&Kernel.>=/2
+
+---
+
+(source
+  (unary_operator
+    (binary_operator
+      (call
+        (dot
+          (alias)
+          (operator_identifier)))
+      (integer))))
+
+=====================================
+local MFA
+=====================================
+
+&fun/1
+
+---
+
+(source
+  (unary_operator
+    (binary_operator
+      (identifier)
+      (integer))))
+
+=====================================
+local operator MFA
+=====================================
+
+&>=/2
+&//2
+
+---
+
+(source
+  (unary_operator
+    (binary_operator
+      (operator_identifier)
+      (integer)))
+  (unary_operator
+    (binary_operator
+      (operator_identifier)
+      (integer))))

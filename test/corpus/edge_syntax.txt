@@ -1,0 +1,69 @@
+=====================================
+operator with arity (valid and supported by IEx.Helpers.h)
+=====================================
+
+::/2
+@ / 1
+& / 1
+
+---
+
+(source
+  (binary_operator
+    (operator_identifier)
+    (integer)))
+
+=====================================
+map with identifiers
+=====================================
+
+%{a}
+%{a, b}
+
+---
+
+(source
+  (map
+    (map_content
+      (identifier)))
+  (map
+    (map_content
+      (identifier)
+      (identifier))))
+
+=====================================
+def with remote call
+=====================================
+
+def Mod.fun(x), do: 1
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (dot
+          (alias)
+          (identifier))
+        (arguments
+          (identifier)))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+[error] arrow outside of map
+=====================================
+
+a => b
+
+---
+
+(source
+  (identifier)
+  (ERROR
+    (identifier)))

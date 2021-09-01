@@ -1,0 +1,201 @@
+=====================================
+empty
+=====================================
+
+%User{}
+
+---
+
+(source
+  (map
+    (struct
+      (alias))))
+
+=====================================
+from keywords
+=====================================
+
+%User{a: 1, b: 2}
+
+---
+
+(source
+  (map
+    (struct
+      (alias))
+    (map_content
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+from arrow entries
+=====================================
+
+%User{:a => 1, "b" => 2, c => 3}
+
+---
+
+(source
+  (map
+    (struct
+      (alias))
+    (map_content
+      (binary_operator
+        (atom
+          (atom_literal))
+        (integer))
+      (binary_operator
+        (string
+          (string_content))
+        (integer))
+      (binary_operator
+        (identifier)
+        (integer)))))
+
+=====================================
+from both arrow entries and keywords
+=====================================
+
+%User{"a" => 1, b: 2, c: 3}
+
+---
+
+(source
+  (map
+    (struct
+      (alias))
+    (map_content
+      (binary_operator
+        (string
+          (string_content))
+        (integer))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))))
+
+=====================================
+trailing separator
+=====================================
+
+%User{"a" => 1,}
+
+---
+
+(source
+  (map
+    (struct
+      (alias))
+    (map_content
+      (binary_operator
+        (string
+          (string_content))
+        (integer)))))
+
+=====================================
+update syntax
+=====================================
+
+%User{user | name: "Jane", email: "jane@example.com"}
+%User{user | "name" => "Jane"}
+
+---
+
+(source
+  (map
+    (struct (alias))
+    (map_content
+      (binary_operator
+        (identifier)
+        (keywords
+          (pair
+            (keyword
+              (atom_literal))
+            (string
+              (string_content)))
+          (pair
+            (keyword
+              (atom_literal))
+            (string
+              (string_content)))))))
+  (map
+    (struct
+      (alias))
+    (map_content
+      (binary_operator
+        (identifier)
+        (binary_operator
+          (string
+            (string_content))
+          (integer))))))
+
+=====================================
+unused struct identifier
+=====================================
+
+%_{}
+
+---
+
+(source
+  (map
+    (struct
+      (unused_identifier))))
+
+=====================================
+matching struct identifier
+=====================================
+
+%name{}
+
+---
+
+(source
+  (map
+    (struct
+      (identifier))))
+
+=====================================
+pinned struct identifier
+=====================================
+
+%^name{}
+
+---
+
+(source
+  (map
+    (struct
+      (unary_operator
+        (identifier)))))
+
+=====================================
+with special identifier
+=====================================
+
+%__MODULE__{}
+%__MODULE__.Child{}
+
+---
+
+(source
+  (map
+    (struct
+      (special_identifier)))
+  (map
+    (struct
+      (dot
+        (special_identifier)
+        (alias)))))

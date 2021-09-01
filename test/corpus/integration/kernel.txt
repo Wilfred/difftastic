@@ -1,0 +1,136 @@
+=====================================
+for / enumerable
+=====================================
+
+for n <- [1, 2], do: n * 2
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (binary_operator
+        (identifier)
+        (list
+          (integer)
+          (integer))))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (binary_operator
+            (identifier)
+            (integer))))))
+
+=====================================
+for / enumerable / with options and block
+=====================================
+
+for line <- IO.stream(), into: IO.stream() do
+  String.upcase(line)
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (binary_operator
+        (identifier)
+        (call
+          (dot
+            (alias)
+            (identifier))))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (call
+            (dot
+              (alias)
+              (identifier))))))
+    (do_block
+      (call
+        (dot
+          (alias)
+          (identifier))
+        (arguments
+          (identifier))))))
+
+=====================================
+for / binary
+=====================================
+
+for <<c <- " hello world ">>, c != ?\s, into: "", do: <<c>>
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (binary
+        (binary_operator
+          (identifier)
+          (string
+            (string_content))))
+      (binary_operator
+        (identifier)
+        (char))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (string
+            (string_content)))
+        (pair
+          (keyword
+            (atom_literal))
+          (binary
+            (identifier)))))))
+
+=====================================
+for / reduce
+=====================================
+
+for x <- [1, 2, 1], reduce: %{} do
+  acc -> Map.update(acc, x, 1, & &1 + 1)
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (binary_operator
+        (identifier)
+        (list
+          (integer)
+          (integer)
+          (integer)))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (map))))
+    (do_block
+      (stab_clause
+        (arguments
+          (identifier))
+        (body
+          (call
+            (dot
+              (alias)
+              (identifier))
+            (arguments
+              (identifier)
+              (identifier)
+              (integer)
+              (unary_operator
+                (binary_operator
+                  (unary_operator
+                    (integer))
+                  (integer))))))))))

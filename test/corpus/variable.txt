@@ -1,0 +1,63 @@
+=====================================
+regular
+=====================================
+
+snake_case
+camelCase
+az_AZ_19
+bang!
+question?
+__TEST__
+doctest
+not1
+notfalse
+
+---
+
+(source
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier))
+
+=====================================
+unused
+=====================================
+
+_
+_number
+
+---
+
+(source
+  (unused_identifier)
+  (unused_identifier))
+
+=====================================
+three dots identifier
+=====================================
+
+...
+
+---
+
+(source
+  (identifier))
+
+=====================================
+special identifier
+=====================================
+
+__MODULE__
+__DIR__
+
+---
+
+(source
+  (special_identifier)
+  (special_identifier))

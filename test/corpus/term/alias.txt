@@ -1,0 +1,88 @@
+=====================================
+single part
+=====================================
+
+Mod
+AZ_az_19_
+
+---
+
+(source
+  (alias)
+  (alias)
+  (alias))
+
+=====================================
+multiple parts
+=====================================
+
+Mod.Child
+Mod.Child.Child
+
+---
+
+(source
+  (alias)
+  (alias))
+
+=====================================
+qualified tuples
+=====================================
+
+Mod.{Child1, Child2}
+
+---
+
+(source
+  (dot
+    (alias)
+    (tuple
+      (alias)
+      (alias))))
+
+=====================================
+dot on identifier
+=====================================
+
+name.Mod
+name.Mod.Child
+
+---
+
+(source
+  (dot
+    (identifier)
+    (alias))
+  (dot
+    (identifier)
+    (alias)))
+
+=====================================
+dot on special identifier
+=====================================
+
+__MODULE__.Child
+
+(source
+  (dot
+    (special_identifier)
+    (alias)))
+
+=====================================
+[error] does not support characters outside ASCII
+=====================================
+
+Modこ
+Ólá
+Olá
+
+---
+
+(source
+  (alias)
+  (ERROR
+    (identifier))
+  (ERROR
+    (identifier))
+  (ERROR
+    (identifier)))

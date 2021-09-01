@@ -1,0 +1,185 @@
+=====================================
+single item
+=====================================
+
+<<>>
+<<10>>
+<<10.0>>
+<<"string">>
+
+---
+
+(source
+  (bitstring)
+  (bitstring
+    (integer))
+  (bitstring
+    (float))
+  (bitstring
+    (string
+      (string_content))))
+
+=====================================
+multiple items
+=====================================
+
+<<
+  10,
+  10.0,
+  "string"
+>>
+
+---
+
+(source
+  (bitstring
+    (integer)
+    (float)
+    (string
+      (string_content))))
+
+=====================================
+size modifiers
+=====================================
+
+<<10::4>>
+<<10::size(4)>>
+
+---
+
+(source
+  (bitstring
+    (binary_operator
+      (integer)
+      (integer)))
+  (bitstring
+    (binary_operator
+      (integer)
+      (call
+        (identifier)
+        (arguments
+          (integer))))))
+
+=====================================
+multiple modifiers
+=====================================
+
+<<"string"::utf8-big>>
+<<"string"::utf16-big>>
+<<"string"::utf32-big>>
+<<10::32-little-unsigned>>
+<<10::integer-signed-big>>
+<<10.10::float-signed-native>>
+
+---
+
+(source
+  (bitstring
+    (binary_operator
+      (string
+        (string_content))
+      (binary_operator
+        (identifier)
+        (identifier)))
+    (binary_operator
+      (string
+        (string_content))
+      (binary_operator
+        (identifier)
+        (identifier)))
+    (binary_operator
+      (string
+        (string_content))
+      (binary_operator
+        (identifier)
+        (identifier)))
+    (binary_operator
+      (integer)
+      (binary_operator
+        (binary_operator
+          (integer)
+          (identifier))
+        (identifier)))
+    (binary_operator
+      (integer)
+      (binary_operator
+        (binary_operator
+          (identifier)
+          (identifier))
+        (identifier)))
+    (binary_operator
+      (float)
+      (binary_operator
+        (binary_operator
+          (identifier)
+          (identifier))
+        (identifier)))))
+
+=====================================
+multiple components with modifiers
+=====================================
+
+<<10::8-native, "string", 3.14::float, a::8, b::binary-size(known_size)>>
+
+---
+
+(source
+  (bitstring
+    (binary_operator
+      (integer)
+      (binary_operator
+        (integer)
+        (identifier)))
+    (string
+      (string_content))
+    (binary_operator
+      (float)
+      (identifier))
+    (binary_operator
+      (identifier)
+      (integer))
+    (binary_operator
+      (identifier)
+      (binary_operator
+        (identifier)
+        (call
+          (arguments
+            (identifier)))))))
+
+=====================================
+spacing
+=====================================
+
+<<
+  10 :: 8-native,
+  b :: binary - size(known_size)
+>>
+
+---
+
+(source
+  (bitstring
+    (binary_operator
+      (integer)
+      (binary_operator
+        (integer)
+        (identifier)))
+    (binary_operator
+      (identifier)
+      (binary_operator
+        (identifier)
+        (call
+          (arguments
+            (identifier)))))))
+
+=====================================
+trailing separator
+=====================================
+
+<<1,>>
+
+---
+
+(source
+  (bitstring
+    (integer)))
