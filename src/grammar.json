@@ -5071,8 +5071,21 @@
             "type": "FIELD",
             "name": "value",
             "content": {
-              "type": "SYMBOL",
-              "name": "_unary_expression"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_unary_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "include_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "include_once_expression"
+                }
+              ]
             }
           }
         ]

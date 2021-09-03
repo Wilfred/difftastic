@@ -942,7 +942,7 @@ module.exports = grammar({
 
     cast_expression: $ => prec(PREC.CAST, seq(
       '(', field('type', $.cast_type), ')',
-      field('value', $._unary_expression)
+      field('value', choice($._unary_expression, $.include_expression, $.include_once_expression))
     )),
 
     cast_variable: $ => prec(PREC.CAST, seq(
