@@ -1264,7 +1264,11 @@ module.exports = grammar({
     variable_reference: $ => seq('&', $.variable_name),
     by_ref: $ => seq(
       '&',
-      $._callable_variable
+      choice(
+        $._callable_variable,
+        $.member_access_expression,
+        $.nullsafe_member_access_expression,
+      )
     ),
 
     yield_expression: $ => prec.right(seq(
