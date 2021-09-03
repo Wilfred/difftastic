@@ -1206,6 +1206,13 @@ list('k' => &$v) = $x;
 
 ['k' => &$v] = $x;
 
+class A {
+    function foo() {
+        $this->a = 3;
+        return [&$this->a];
+    }
+}
+
 ---
 
 (program
@@ -1404,6 +1411,38 @@ list('k' => &$v) = $x;
         (by_ref (variable_name (name)))
       )
       (variable_name (name))
+    )
+  )
+  (class_declaration
+    (name)
+    (declaration_list
+      (method_declaration
+        (name)
+        (formal_parameters)
+        (compound_statement
+          (expression_statement
+            (assignment_expression
+              (member_access_expression
+                (variable_name (name))
+                (name)
+              )
+              (integer)
+            )
+          )
+          (return_statement
+            (array_creation_expression
+              (array_element_initializer
+                (by_ref
+                  (member_access_expression
+                    (variable_name (name))
+                    (name)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
     )
   )
 )

@@ -6919,8 +6919,21 @@
           "value": "&"
         },
         {
-          "type": "SYMBOL",
-          "name": "_callable_variable"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_callable_variable"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "member_access_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "nullsafe_member_access_expression"
+            }
+          ]
         }
       ]
     },
