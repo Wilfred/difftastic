@@ -273,7 +273,7 @@ module.exports = grammar({
 
     enum_case: $ => seq(
       optional(field('attributes', $.attribute_list)),
-      'case',
+      keyword('case'),
       field('name', $.name),
       optional(seq('=', field('value', choice($.string, $.integer)))),
       $._semicolon
@@ -490,7 +490,7 @@ module.exports = grammar({
 
     primitive_type: $ => choice(
       'array',
-      'callable', // not legal in property types
+      keyword('callable'), // not legal in property types
       'iterable',
       'bool',
       'float',
@@ -504,18 +504,18 @@ module.exports = grammar({
     ),
 
     cast_type: $ => choice(
-      keyword('array'),
-      'binary',
-      'bool',
-      'boolean',
-      'double',
-      'int',
-      'integer',
-      'float',
-      'object',
-      'real',
-      'string',
-      keyword('unset')
+      keyword('array', false),
+      keyword('binary', false),
+      keyword('bool', false),
+      keyword('boolean', false),
+      keyword('double', false),
+      keyword('int', false),
+      keyword('integer', false),
+      keyword('float', false),
+      keyword('object', false),
+      keyword('real', false),
+      keyword('string', false),
+      keyword('unset', false)
     ),
 
     _return_type: $ => seq(':', field('return_type', $._type)),
@@ -533,7 +533,7 @@ module.exports = grammar({
     ),
 
     declare_statement: $ => seq(
-      'declare', '(', $.declare_directive, ')',
+      keyword('declare'), '(', $.declare_directive, ')',
       choice(
         $._statement,
         seq(':', repeat($._statement), keyword('enddeclare'), $._semicolon),
@@ -851,7 +851,7 @@ module.exports = grammar({
     )),
 
     clone_expression: $ => seq(
-      'clone', $._primary_expression
+      keyword('clone'), $._primary_expression
     ),
 
     _primary_expression: $ => choice(
@@ -881,7 +881,7 @@ module.exports = grammar({
     ),
 
     print_intrinsic: $ => seq(
-      'print', $._expression
+      keyword('print'), $._expression
     ),
 
     anonymous_function_creation_expression: $ => seq(
@@ -904,12 +904,12 @@ module.exports = grammar({
 
     object_creation_expression: $ => prec.right(PREC.NEW, choice(
       seq(
-        'new',
+        keyword('new'),
         $._class_type_designator,
         optional($.arguments)
       ),
       seq(
-        'new',
+        keyword('new'),
         keyword('class'),
         optional($.arguments),
         optional($.base_clause),
@@ -1026,7 +1026,7 @@ module.exports = grammar({
     list_literal: $ => choice($._list_destructing, $._array_destructing),
 
     _list_destructing: $ => seq(
-      'list',
+      keyword('list'),
       '(',
       commaSep1(optional(choice(
         choice(alias($._list_destructing, $.list_literal), $._variable, $.by_ref),
@@ -1152,7 +1152,7 @@ module.exports = grammar({
     )),
 
     array_creation_expression: $ => choice(
-      seq('array', '(', commaSep($.array_element_initializer), optional(','), ')'),
+      seq(keyword('array'), '(', commaSep($.array_element_initializer), optional(','), ')'),
       seq('[', commaSep($.array_element_initializer), optional(','), ']')
     ),
 
@@ -1272,10 +1272,10 @@ module.exports = grammar({
     ),
 
     yield_expression: $ => prec.right(seq(
-      'yield',
+      keyword('yield'),
       optional(choice(
         $.array_element_initializer,
-        seq('from', $._expression)
+        seq(keyword('from'), $._expression)
       ))
     )),
 
@@ -1293,9 +1293,9 @@ module.exports = grammar({
       )),
       prec.right(PREC.NULL_COALESCE, seq($._expression, '??', $._expression)),
       ...[
-        [alias(/and|AND/, 'and'), PREC.LOGICAL_AND_2],
-        [alias(/or|OR/, 'or'), PREC.LOGICAL_OR_2],
-        [alias(/xor|XOR/, 'xor'), PREC.LOGICAL_XOR],
+        [keyword('and'), PREC.LOGICAL_AND_2],
+        [keyword('or'), PREC.LOGICAL_OR_2],
+        [keyword('xor'), PREC.LOGICAL_XOR],
         ['||', PREC.LOGICAL_OR_1],
         ['&&', PREC.LOGICAL_AND_1],
         ['|', PREC.BITWISE_OR],
