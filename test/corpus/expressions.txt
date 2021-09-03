@@ -145,6 +145,28 @@ Cast expressions in assignments
       (cast_expression (cast_type) (variable_name (name)))
       (integer))))
 
+=================================
+Cast include
+=================================
+
+<?php
+$a = (array) include 'some.php';
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (assignment_expression
+      left: (variable_name (name))
+      right: (cast_expression
+        type: (cast_type)
+        value: (include_expression (string))
+      )
+    )
+  )
+)
+
 ==========================
 Reserved words as function calls
 ==========================

@@ -1121,6 +1121,14 @@
             "named": true
           },
           {
+            "type": "include_expression",
+            "named": true
+          },
+          {
+            "type": "include_once_expression",
+            "named": true
+          },
+          {
             "type": "unary_op_expression",
             "named": true
           }
