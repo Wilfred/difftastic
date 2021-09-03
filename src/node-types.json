@@ -4874,15 +4874,7 @@
     "named": false
   },
   {
-    "type": "binary",
-    "named": false
-  },
-  {
     "type": "bool",
-    "named": false
-  },
-  {
-    "type": "boolean",
     "named": false
   },
   {
@@ -4935,10 +4927,6 @@
   },
   {
     "type": "do",
-    "named": false
-  },
-  {
-    "type": "double",
     "named": false
   },
   {
@@ -5007,11 +4995,11 @@
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "float",
-    "named": false
+    "named": true
   },
   {
     "type": "fn",
@@ -5075,10 +5063,6 @@
   },
   {
     "type": "integer",
-    "named": false
-  },
-  {
-    "type": "integer",
     "named": true
   },
   {
@@ -5118,10 +5102,6 @@
     "named": true
   },
   {
-    "type": "object",
-    "named": false
-  },
-  {
     "type": "or",
     "named": false
   },
@@ -5147,10 +5127,6 @@
   },
   {
     "type": "public",
-    "named": false
-  },
-  {
-    "type": "real",
     "named": false
   },
   {
@@ -5183,11 +5159,11 @@
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "switch",
