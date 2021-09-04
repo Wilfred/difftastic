@@ -1,6 +1,6 @@
 <p align="center">
   <img src="img/logo.png" alt="it's difftastic!"/>
-  <a href="https://codecov.io/gh/Wilfred/difftastic"><img src="https://codecov.io/gh/Wilfred/difftastic/branch/master/graph/badge.svg?token=dZzAZtQT2S"/></a>
+  <br><a href="https://codecov.io/gh/Wilfred/difftastic"><img src="https://codecov.io/gh/Wilfred/difftastic/branch/master/graph/badge.svg?token=dZzAZtQT2S"/></a>
 </p>
 
 
