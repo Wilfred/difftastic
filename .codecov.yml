@@ -1,0 +1,3 @@
+ignore:
+  - "vendor/"
+  - "sample_files/"
