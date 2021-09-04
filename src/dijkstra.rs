@@ -609,7 +609,6 @@ mod tests {
             "]",
             pos_helper(2),
         )];
-        init_info(&lhs);
 
         let rhs = vec![Syntax::new_list(
             &arena,
@@ -619,7 +618,7 @@ mod tests {
             "]",
             pos_helper(2),
         )];
-        init_info(&rhs);
+        init_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -653,7 +652,6 @@ mod tests {
             "]",
             pos_helper(2),
         )];
-        init_info(&lhs);
 
         let rhs = vec![Syntax::new_list(
             &arena,
@@ -666,7 +664,7 @@ mod tests {
             "]",
             pos_helper(3),
         )];
-        init_info(&rhs);
+        init_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -704,7 +702,6 @@ mod tests {
             "]",
             pos_helper(4),
         )];
-        init_info(&lhs);
 
         let rhs = vec![Syntax::new_list(
             &arena,
@@ -717,7 +714,7 @@ mod tests {
             "}",
             pos_helper(4),
         )];
-        init_info(&rhs);
+        init_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -752,10 +749,9 @@ mod tests {
             Syntax::new_atom(&arena, col_helper(2, 0), "bar"),
             Syntax::new_atom(&arena, col_helper(2, 1), "foo"),
         ];
-        init_info(&lhs);
 
         let rhs = vec![Syntax::new_atom(&arena, col_helper(1, 0), "foo")];
-        init_info(&rhs);
+        init_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -790,9 +786,9 @@ mod tests {
             "]",
             pos_helper(2),
         )];
-        init_info(&lhs);
 
         let rhs = vec![];
+        init_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -827,9 +823,9 @@ mod tests {
             ),
             Syntax::new_atom(&arena, col_helper(2, 2), ";"),
         ];
-        init_info(&lhs);
 
         let rhs = vec![];
+        init_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -884,7 +880,6 @@ mod tests {
             "]",
             pos_helper(100),
         )];
-        init_info(&lhs);
 
         let rhs = vec![Syntax::new_list(
             &arena,
@@ -917,7 +912,7 @@ mod tests {
             "]",
             pos_helper(100),
         )];
-        init_info(&rhs);
+        init_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -950,14 +945,13 @@ mod tests {
             pos_helper(1),
             "the quick brown fox",
         )];
-        init_info(&lhs);
 
         let rhs = vec![Syntax::new_comment(
             &arena,
             pos_helper(1),
             "the quick brown cat",
         )];
-        init_info(&rhs);
+        init_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -985,10 +979,9 @@ mod tests {
             pos_helper(1),
             "the quick brown fox",
         )];
-        init_info(&lhs);
 
         let rhs = vec![Syntax::new_comment(&arena, pos_helper(1), "foo bar")];
-        init_info(&rhs);
+        init_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -1015,14 +1008,13 @@ mod tests {
             Syntax::new_comment(&arena, pos_helper(1), "the quick brown fox"),
             Syntax::new_comment(&arena, pos_helper(2), "the quick brown thing"),
         ];
-        init_info(&lhs);
 
         let rhs = vec![Syntax::new_comment(
             &arena,
             pos_helper(1),
             "the quick brown fox.",
         )];
-        init_info(&rhs);
+        init_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),

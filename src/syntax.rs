@@ -444,11 +444,20 @@ impl<'a> Syntax<'a> {
     }
 }
 
-pub fn init_info<'a>(roots: &[&'a Syntax<'a>]) {
-    set_unique_id(roots, 0);
+pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
+    let next_id = init_info_single(lhs_roots, 0);
+    init_info_single(rhs_roots, next_id);
+}
+
+/// Initialise all the fields in SyntaxInfo.
+///
+/// Return the next unique ID available, so we can ensure LHS and RHS
+/// have different IDs.
+pub fn init_info_single<'a>(roots: &[&'a Syntax<'a>], first_id: u64) -> u64 {
     set_next(roots, None);
     set_prev(roots, None);
     set_num_ancestors(roots, 0);
+    set_unique_id(roots, first_id)
 }
 
 fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], prev_id: u64) -> u64 {
