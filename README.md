@@ -1,4 +1,4 @@
-# It's Difftastic!
+# It's Difftastic! [![codecov](https://codecov.io/gh/Wilfred/difftastic/branch/master/graph/badge.svg?token=dZzAZtQT2S)](https://codecov.io/gh/Wilfred/difftastic)
 
 Difftastic is an experimental structured diff tool that compares files
 based on their syntax.
