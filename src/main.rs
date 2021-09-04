@@ -20,7 +20,7 @@ use typed_arena::Arena;
 use crate::dijkstra::mark_syntax;
 use crate::files::{is_probably_binary, read_or_die};
 use crate::lines::{join_overlapping, visible_groups, MaxLine};
-use crate::syntax::{change_positions, init_info, matching_lines};
+use crate::syntax::{change_positions, init_info, init_info_single, matching_lines};
 use crate::tree_sitter_parser as tsp;
 
 extern crate pretty_env_logger;
@@ -183,7 +183,7 @@ fn main() {
                     let bytes = read_or_die(&path);
                     let src = String::from_utf8_lossy(&bytes).to_string();
                     let ast = tsp::parse(&arena, &src, &ts_lang);
-                    init_info(&ast);
+                    init_info_single(&ast, 0);
                     println!("{:#?}", ast);
                 }
                 None => {
@@ -249,8 +249,7 @@ fn main() {
 
     println!("{}", style::header(&display_path, &lang_name));
 
-    init_info(&lhs);
-    init_info(&rhs);
+    init_info(&lhs, &rhs);
     mark_syntax(lhs.get(0).copied(), rhs.get(0).copied());
 
     let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
