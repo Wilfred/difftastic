@@ -28,6 +28,9 @@ Removed the unused `--lang` argument.
 Difftastic now handles writing to a closed pipe (SIGPIPE) gracefully
 rather than crashing.
 
+Difftastic now has some debugging logs available. `RUST_LOG=trace`
+will show information on the route found during graph solving.
+
 ## 0.7
 
 ### Git integration
