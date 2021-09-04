@@ -134,11 +134,7 @@ PrimaryTypeExpr
      / INTEGER
      / KEYWORD_comptime TypeExpr
      / KEYWORD_error DOT IDENTIFIER
-     / KEYWORD_false
-     / KEYWORD_null
      / KEYWORD_anyframe
-     / KEYWORD_true
-     / KEYWORD_undefined
      / KEYWORD_unreachable
      / STRINGLITERAL
      / SwitchExpr
@@ -507,7 +503,6 @@ KEYWORD_errdefer    <- 'errdefer'    end_of_word
 KEYWORD_error       <- 'error'       end_of_word
 KEYWORD_export      <- 'export'      end_of_word
 KEYWORD_extern      <- 'extern'      end_of_word
-KEYWORD_false       <- 'false'       end_of_word
 KEYWORD_fn          <- 'fn'          end_of_word
 KEYWORD_for         <- 'for'         end_of_word
 KEYWORD_if          <- 'if'          end_of_word
@@ -515,7 +510,6 @@ KEYWORD_inline      <- 'inline'      end_of_word
 KEYWORD_noalias     <- 'noalias'     end_of_word
 KEYWORD_nosuspend   <- 'nosuspend'   end_of_word
 KEYWORD_noinline    <- 'noinline'    end_of_word
-KEYWORD_null        <- 'null'        end_of_word
 KEYWORD_opaque      <- 'opaque'      end_of_word
 KEYWORD_or          <- 'or'          end_of_word
 KEYWORD_orelse      <- 'orelse'      end_of_word
@@ -529,9 +523,7 @@ KEYWORD_suspend     <- 'suspend'     end_of_word
 KEYWORD_switch      <- 'switch'      end_of_word
 KEYWORD_test        <- 'test'        end_of_word
 KEYWORD_threadlocal <- 'threadlocal' end_of_word
-KEYWORD_true        <- 'true'        end_of_word
 KEYWORD_try         <- 'try'         end_of_word
-KEYWORD_undefined   <- 'undefined'   end_of_word
 KEYWORD_union       <- 'union'       end_of_word
 KEYWORD_unreachable <- 'unreachable' end_of_word
 KEYWORD_usingnamespace <- 'usingnamespace' end_of_word
@@ -544,11 +536,10 @@ keyword <- KEYWORD_align / KEYWORD_allowzero / KEYWORD_and / KEYWORD_anyframe
          / KEYWORD_break / KEYWORD_callconv / KEYWORD_catch / KEYWORD_comptime
          / KEYWORD_const / KEYWORD_continue / KEYWORD_defer / KEYWORD_else
          / KEYWORD_enum / KEYWORD_errdefer / KEYWORD_error / KEYWORD_export
-         / KEYWORD_extern / KEYWORD_false / KEYWORD_fn / KEYWORD_for / KEYWORD_if
+         / KEYWORD_extern / KEYWORD_fn / KEYWORD_for / KEYWORD_if
          / KEYWORD_inline / KEYWORD_noalias / KEYWORD_nosuspend / KEYWORD_noinline
-         / KEYWORD_null / KEYWORD_opaque / KEYWORD_or / KEYWORD_orelse / KEYWORD_packed
+         / KEYWORD_opaque / KEYWORD_or / KEYWORD_orelse / KEYWORD_packed
          / KEYWORD_pub / KEYWORD_resume / KEYWORD_return / KEYWORD_linksection
-         / KEYWORD_struct / KEYWORD_suspend / KEYWORD_switch
-         / KEYWORD_test / KEYWORD_threadlocal / KEYWORD_true / KEYWORD_try
-         / KEYWORD_undefined / KEYWORD_union / KEYWORD_unreachable
+         / KEYWORD_struct / KEYWORD_suspend / KEYWORD_switch / KEYWORD_test
+         / KEYWORD_threadlocal / KEYWORD_try / KEYWORD_union / KEYWORD_unreachable
          / KEYWORD_usingnamespace / KEYWORD_var / KEYWORD_volatile / KEYWORD_while
