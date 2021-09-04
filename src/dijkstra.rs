@@ -230,15 +230,24 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
         }
     }
 
+    info!(
+        "Found predecessors for {} syntax nodes.",
+        predecessors.len()
+    );
     let mut current = end;
-    let mut res: Vec<(Edge, Vertex)> = vec![];
+
+    let mut route: Vec<(Edge, Vertex)> = vec![];
+    let mut cost = 0;
     while let Some(Some((node, edge))) = predecessors.remove(&current) {
-        res.push((edge, node.clone()));
+        route.push((edge, node.clone()));
+        cost += edge.cost();
+
         current = node;
     }
+    info!("Found found a path of {} with cost {}.", route.len(), cost);
 
-    res.reverse();
-    res
+    route.reverse();
+    route
 }
 
 const NOVEL_TREE_THRESHOLD: u64 = 20;

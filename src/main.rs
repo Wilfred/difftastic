@@ -23,6 +23,10 @@ use crate::lines::{join_overlapping, visible_groups, MaxLine};
 use crate::syntax::{change_positions, init_info, matching_lines};
 use crate::tree_sitter_parser as tsp;
 
+extern crate pretty_env_logger;
+#[macro_use]
+extern crate log;
+
 fn configure_color() {
     if atty::is(Stream::Stdout) || env::var("GIT_PAGER_IN_USE").is_ok() {
         // Always enable colour if stdout is a TTY or if the git pager is active.
@@ -147,6 +151,8 @@ fn reset_sigpipe() {
 }
 
 fn main() {
+    pretty_env_logger::init();
+
     reset_sigpipe();
     configure_color();
     let arena = Arena::new();
