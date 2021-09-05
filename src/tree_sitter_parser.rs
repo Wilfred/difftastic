@@ -269,7 +269,8 @@ mod tests {
     /// <https://github.com/mozilla/grcov/issues/617>
     #[test]
     fn test_parse() {
+        let arena = Arena::new();
         let css_config = from_extension(OsStr::new("css")).unwrap();
-        parse_to_tree(".foo {}", &css_config);
+        parse(&arena, ".foo {}", &css_config);
     }
 }
