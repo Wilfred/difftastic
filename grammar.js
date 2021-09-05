@@ -121,10 +121,10 @@ module.exports = grammar({
   extras: ($) => [/\s/, $.line_comment],
   rules: {
     source_file: ($) =>
-      seq(optional($.container_doc_comment), optional($.ContainerMembers)),
+      seq(optional($.container_doc_comment), optional($._ContainerMembers)),
 
     // *** Top level ***
-    ContainerMembers: ($) =>
+    _ContainerMembers: ($) =>
       repeat1(
         choice($._ContainerDeclarations, seq($.ContainerField, optional(COMMA)))
       ),
@@ -136,7 +136,7 @@ module.exports = grammar({
         seq(
           optional($.doc_comment),
           optional(keyword("pub", $)),
-          $._TopLevelDecl
+          $.TopLevelDecl
         )
       ),
 
@@ -151,7 +151,7 @@ module.exports = grammar({
     TopLevelComptime: ($) =>
       seq(optional($.doc_comment), keyword("comptime", $), $.BlockExpr),
 
-    _TopLevelDecl: ($) =>
+    TopLevelDecl: ($) =>
       // INFO: left and right doesn't matter?
       prec.left(
         choice(
@@ -216,7 +216,7 @@ module.exports = grammar({
 
     // *** Block Level ***
 
-    _Statement: ($) =>
+    Statement: ($) =>
       prec(
         PREC.statement,
         choice(
@@ -241,7 +241,7 @@ module.exports = grammar({
         seq($.IfPrefix, $.AssignExpr, choice(SEMICOLON, $._ElseStatementTail))
       ),
     _ElseStatementTail: ($) =>
-      seq(keyword("else", $), optional($.Payload), $._Statement),
+      seq(keyword("else", $), optional($.Payload), $.Statement),
 
     LabeledStatement: ($) =>
       prec(
@@ -336,7 +336,7 @@ module.exports = grammar({
 
     _ElseExprTail: ($) => seq(keyword("else", $), optional($.Payload), $._Expr),
 
-    Block: ($) => seq(LBRACE, repeat($._Statement), RBRACE),
+    Block: ($) => seq(LBRACE, repeat($.Statement), RBRACE),
 
     LoopExpr: ($) =>
       seq(optional(keyword("inline", $)), choice($.ForExpr, $.WhileExpr)),
@@ -713,7 +713,7 @@ module.exports = grammar({
         $.ContainerDeclType,
         LBRACE,
         optional($.container_doc_comment),
-        optional($.ContainerMembers),
+        optional($._ContainerMembers),
         RBRACE
       ),
 
