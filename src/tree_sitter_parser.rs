@@ -259,3 +259,17 @@ fn is_last_sibling(cursor: &mut TreeCursor) -> bool {
     let node = cursor.node();
     node.next_sibling().is_none()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Simple smoke test for tree-sitter parsing. Having a test also
+    /// ensures that this file has its coverage measured.
+    /// <https://github.com/mozilla/grcov/issues/617>
+    #[test]
+    fn test_parse() {
+        let css_config = from_extension(OsStr::new("css")).unwrap();
+        parse_to_tree(".foo {}", &css_config);
+    }
+}
