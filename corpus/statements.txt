@@ -297,6 +297,36 @@ Declared tuple type with default
             (default_expression)))))))
 
 =====================================
+Assignment and declaration in same deconstruction
+=====================================
+
+int x = 0;
+(x, int y) = point;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause (integer_literal))))))
+  (global_statement
+    (expression_statement
+      (assignment_expression
+        (tuple_expression
+          (argument 
+            (identifier))
+          (argument
+            (declaration_expression
+              (predefined_type)
+              (identifier))))
+        (assignment_operator)
+        (identifier))))) 
+
+=====================================
 Invocation with inline tuple_type declaration
 =====================================
 

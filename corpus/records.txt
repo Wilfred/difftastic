@@ -172,6 +172,32 @@ record Teacher(string FirstName, string LastName, string Subject) : Person(First
       (identifier))))
 
 =====================================
+Record types can seal ToString()
+=====================================
+
+record A{
+  public sealed override string ToString(){
+      return "";
+  }
+}
+
+---
+
+(compilation_unit
+  (record_declaration
+    (identifier)
+    (declaration_list
+      (method_declaration
+        (modifier)
+        (modifier)
+        (modifier)
+        (predefined_type)
+        (identifier)
+        (parameter_list)
+        (block
+          (return_statement (string_literal))))))) 
+
+=====================================
 With expression typical basic form
 =====================================
 
