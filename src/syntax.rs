@@ -1185,17 +1185,15 @@ mod tests {
         let res = split_comment_words(content, &pos, opposite_content, &opposite_pos, &[]);
         assert_eq!(
             res,
-            vec![
-                MatchedPos {
-                    kind: MatchKind::ChangedCommentPart,
-                    pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 3
-                    }],
-                    prev_opposite_pos: vec![]
-                },
-            ]
+            vec![MatchedPos {
+                kind: MatchKind::ChangedCommentPart,
+                pos: vec![SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 3
+                }],
+                prev_opposite_pos: vec![]
+            },]
         );
     }
 }
