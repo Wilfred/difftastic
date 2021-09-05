@@ -321,19 +321,19 @@ fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         if let (
             Syntax::Atom {
                 content: lhs_content,
-                is_comment: lhs_is_comment,
+                is_comment: true,
                 ..
             },
             Syntax::Atom {
                 content: rhs_content,
-                is_comment: rhs_is_comment,
+                is_comment: true,
                 ..
             },
         ) = (lhs_syntax, rhs_syntax)
         {
             // Both sides are comments and their content is reasonably
             // similar.
-            if *lhs_is_comment && *rhs_is_comment && lhs_content != rhs_content {
+            if lhs_content != rhs_content {
                 let levenshtein_pct =
                     (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
                 res.push((
