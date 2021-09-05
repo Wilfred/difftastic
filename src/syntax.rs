@@ -516,10 +516,7 @@ pub enum MatchKind {
 
 impl MatchKind {
     pub fn is_unchanged(&self) -> bool {
-        match self {
-            MatchKind::Unchanged { .. } => true,
-            _ => false,
-        }
+        matches!(self, MatchKind::Unchanged { .. })
     }
 }
 
