@@ -4635,12 +4635,8 @@
       ]
     },
     "type_pattern": {
-      "type": "PREC",
-      "value": -2,
-      "content": {
-        "type": "SYMBOL",
-        "name": "_type"
-      }
+      "type": "SYMBOL",
+      "name": "_type"
     },
     "parenthesized_pattern": {
       "type": "SEQ",
@@ -9752,6 +9748,19 @@
     [
       "array_creation_expression",
       "element_access_expression"
+    ],
+    [
+      "type_pattern",
+      "declaration_pattern"
+    ],
+    [
+      "type_pattern",
+      "declaration_pattern",
+      "recursive_pattern"
+    ],
+    [
+      "type_pattern",
+      "tuple_element"
     ]
   ],
   "precedences": [],

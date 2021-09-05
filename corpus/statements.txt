@@ -469,6 +469,41 @@ switch (A)
               (prefix_unary_expression (identifier))))
           (break_statement))))))
 
+
+=====================================
+switch on type pattern with when clause
+=====================================
+
+int i = 123;
+switch (i)
+{
+    case int when i < 5:
+        break;
+}
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause (integer_literal))))))
+  (global_statement
+    (switch_statement
+      (identifier)
+      (switch_body
+        (switch_section
+          (case_pattern_switch_label
+            (type_pattern (predefined_type))
+            (when_clause
+              (binary_expression
+                (identifier)
+                (integer_literal))))
+          (break_statement))))))
+
 =====================================
 Try finally statement
 =====================================
