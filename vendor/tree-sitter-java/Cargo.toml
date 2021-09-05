@@ -1,0 +1,31 @@
+[package]
+name = "tree-sitter-java"
+description = "Java grammar for the tree-sitter parsing library"
+version = "0.19.0"
+authors = [
+    "Douglas Creager <dcreager@dcreager.net>",
+    "Ayman Nadeem <aymannadeem@github.com>",
+]
+license = "MIT"
+readme = "bindings/rust/README.md"
+keywords = ["incremental", "parsing", "java"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/tree-sitter/tree-sitter-java"
+edition = "2018"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.19"
+
+[build-dependencies]
+cc = "1.0"

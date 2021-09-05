@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+# clone_repo OWNER NAME SHA
+function clone_repo {
+  owner=$1
+  name=$2
+  sha=$3
+
+  path=examples/$name
+  if [ ! -d "$path" ]; then
+    echo "Cloning $owner/$name"
+    git clone "https://github.com/$owner/$name" "$path"
+  fi
+
+  pushd "$path" > /dev/null
+  if [ "$(git rev-parse HEAD)" != "$sha"  ]; then
+    echo "Updating $owner/$name to $sha"
+    git fetch
+    git reset --hard $sha
+  fi
+  popd > /dev/null
+}
+
+clone_repo elastic elasticsearch 4d62640bf116af7e825d89c7319a39c3f2f325b4
+clone_repo google guava e24fddc5fff7fd36d33ea38737b6606a7e476845
+clone_repo ReactiveX RxJava 8a6bf14fc9a61f7c1c0016ca217be02ca86211d2
+
+known_failures="$(cat script/known-failures.txt)"
+
+tree-sitter parse -q   \
+  'examples/**/*.java' \
+  $(for file in $known_failures; do echo "!${file}"; done)
+
+example_count=$(find examples -name '*.java' | wc -l)
+failure_count=$(wc -w <<< "$known_failures")
+success_count=$(( $example_count - $failure_count ))
+success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
+
+printf \
+  "Successfully parsed %d of %d example files (%.1f%%)\n" \
+  $success_count $example_count $success_percent
