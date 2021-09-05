@@ -20,6 +20,7 @@ It currently supports the following languages:
 * JavaScript (including JSX)
 * JSON
 * OCaml
+* Python
 * Rust
 * Scheme
 

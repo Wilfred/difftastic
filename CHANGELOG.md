@@ -12,6 +12,8 @@ variable DFT_RX is set.
 Tree-sitter parser: Improved handling of string literals. Improved
 matching of delimiters.
 
+Added Python parser.
+
 JSON (legacy parser): fixed parsing string literals (broken in 0.7).
 
 ### Display
