@@ -43,11 +43,7 @@ fn main() {
     );
     build("tree-sitter-elisp", "vendor/tree-sitter-elisp-src", &[]);
     build("tree-sitter-go", "vendor/tree-sitter-go-src", &[]);
-    build(
-        "tree-sitter-java",
-        "vendor/tree-sitter-java-src",
-        &[],
-    );
+    build("tree-sitter-java", "vendor/tree-sitter-java-src", &[]);
     build(
         "tree-sitter-javascript",
         "vendor/tree-sitter-javascript-src",
