@@ -545,7 +545,7 @@ impl MatchKind {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct MatchedPos {
     pub kind: MatchKind,
     pub pos: Vec<SingleLineSpan>,
@@ -1164,6 +1164,69 @@ mod tests {
                 content: "foo".into(),
                 is_comment: false,
             }
+        );
+    }
+
+    #[test]
+    fn test_split_comment_words_basic() {
+        let content = "abc";
+        let pos = vec![SingleLineSpan {
+            line: 0.into(),
+            start_col: 0,
+            end_col: 3,
+        }];
+
+        let opposite_content = "def";
+        let opposite_pos = vec![SingleLineSpan {
+            line: 0.into(),
+            start_col: 0,
+            end_col: 3,
+        }];
+
+        let res = split_comment_words(content, &pos, opposite_content, &opposite_pos, &[]);
+        assert_eq!(
+            res,
+            vec![
+                MatchedPos {
+                    kind: MatchKind::UnchangedCommentPart {
+                        opposite_pos: vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 0
+                        }]
+                    },
+                    pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 0
+                    }],
+                    prev_opposite_pos: vec![]
+                },
+                MatchedPos {
+                    kind: MatchKind::ChangedCommentPart,
+                    pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 3
+                    }],
+                    prev_opposite_pos: vec![]
+                },
+                MatchedPos {
+                    kind: MatchKind::UnchangedCommentPart {
+                        opposite_pos: vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 3,
+                            end_col: 3
+                        }]
+                    },
+                    pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 3,
+                        end_col: 3
+                    }],
+                    prev_opposite_pos: vec![]
+                },
+            ]
         );
     }
 }
