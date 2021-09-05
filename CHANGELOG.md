@@ -22,6 +22,9 @@ Removed Scheme support, as there's no tree-sitter parser available.
 
 Fixed crashes on files with non-ASCII characters on long lines.
 
+Fixed an issue where multiline comments were not highlighted
+correctly.
+
 Improved display to better use the whole width when whole files are
 added or removed.
 
