@@ -1,4 +1,8 @@
-## 0.8 (unreleased)
+## 0.9 (unreleased)
+
+No changes.
+
+## 0.8
 
 ### Git integration
 
