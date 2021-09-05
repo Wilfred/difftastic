@@ -4,7 +4,7 @@
 
 use itertools::{EitherOrBoth, Itertools};
 use std::cell::Cell;
-use std::cmp::{max, min};
+use std::cmp::min;
 use std::collections::hash_map::DefaultHasher;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
@@ -149,21 +149,6 @@ impl<'a> fmt::Debug for Syntax<'a> {
     }
 }
 
-fn trim_left(max_trim: usize, content: &str, pos: SingleLineSpan) -> (String, SingleLineSpan) {
-    let chars: Vec<_> = content.chars().collect();
-
-    match chars.iter().position(|c| *c != ' ' && *c != '\t') {
-        Some(first_non_whitespace) => {
-            let skip_num = max(max_trim, first_non_whitespace);
-
-            let mut new_pos = pos;
-            new_pos.start_col += skip_num;
-            (chars.iter().skip(skip_num).collect(), new_pos)
-        }
-        None => (content.to_string(), pos),
-    }
-}
-
 impl<'a> Syntax<'a> {
     pub fn new_list(
         arena: &'a Arena<Syntax<'a>>,
@@ -217,27 +202,7 @@ impl<'a> Syntax<'a> {
         position: Vec<SingleLineSpan>,
         content: &str,
     ) -> &'a Syntax<'a> {
-        // Ignore leading whitespace in multiline comments, so changes
-        // in comment indentation are ignored.
-        let first_line_indent = match position.first() {
-            Some(line_pos) => line_pos.start_col,
-            None => 0,
-        };
-
-        let mut new_lines: Vec<String> = vec![];
-        let mut new_position = vec![];
-        for (i, (line, span)) in content.lines().zip(position).enumerate() {
-            if i == 0 {
-                new_lines.push(line.to_string());
-                new_position.push(span);
-            } else {
-                let (new_line, new_span) = trim_left(first_line_indent, line, span);
-                new_lines.push(new_line);
-                new_position.push(new_span);
-            }
-        }
-
-        Self::new_atom_(arena, new_position, &new_lines.join("\n"), true)
+        Self::new_atom_(arena, position, content, true)
     }
 
     #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
@@ -357,7 +322,22 @@ impl<'a> Syntax<'a> {
                     is_comment: rhs_is_comment,
                     ..
                 },
-            ) => lhs_content == rhs_content && lhs_is_comment == rhs_is_comment,
+            ) => {
+                if lhs_is_comment != rhs_is_comment {
+                    return false;
+                }
+
+                if *lhs_is_comment {
+                    let is_multiline = lhs_content.lines().count() > 1;
+
+                    if is_multiline {
+                        let lhs_lines = lhs_content.lines().map(|l| l.trim_start()).collect_vec();
+                        let rhs_lines = rhs_content.lines().map(|l| l.trim_start()).collect_vec();
+                        return lhs_lines == rhs_lines;
+                    }
+                }
+                lhs_content == rhs_content
+            }
             (
                 List {
                     open_content: lhs_open_content,
@@ -1131,6 +1111,22 @@ mod tests {
         let atom = Syntax::new_atom(&arena, pos, "foo");
 
         assert_ne!(comment, atom);
+    }
+
+    #[test]
+    fn test_multiline_comment_ignores_leading_whitespace() {
+        let pos = vec![SingleLineSpan {
+            line: 0.into(),
+            start_col: 2,
+            end_col: 3,
+        }];
+
+        let arena = Arena::new();
+
+        let x = Syntax::new_comment(&arena, pos.clone(), "foo\nbar");
+        let y = Syntax::new_comment(&arena, pos, "foo\n    bar");
+
+        assert_eq!(x, y);
     }
 
     #[test]
