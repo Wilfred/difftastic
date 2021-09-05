@@ -11,7 +11,7 @@ based on their syntax.
 
 ![screenshot](img/difftastic.png)
 
-It currently supports the following languages:
+Difftastic supports the following languages:
 
 * Clojure
 * CSS
