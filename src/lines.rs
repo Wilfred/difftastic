@@ -480,7 +480,7 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     #[test]
-    fn from_ranges_first_line() {
+    fn from_offsets_first_line() {
         let newline_positions: NewlinePositions = "foo".into();
         let line_spans = newline_positions.from_offsets(1, 3);
         assert_eq!(
@@ -494,7 +494,7 @@ mod tests {
     }
 
     #[test]
-    fn from_ranges_first_char() {
+    fn from_offsets_first_char() {
         let newline_positions: NewlinePositions = "foo".into();
         let line_spans = newline_positions.from_offsets(0, 0);
         assert_eq!(
@@ -537,7 +537,7 @@ mod tests {
     }
 
     #[test]
-    fn from_ranges_split_over_multiple_lines() {
+    fn from_offsets_split_over_multiple_lines() {
         let newline_positions: NewlinePositions = "foo\nbar\nbaz\naaaaaaaaaaa".into();
         let line_spans = newline_positions.from_offsets(5, 10);
 
