@@ -1,6 +1,9 @@
 ## 0.9 (unreleased)
 
-No changes.
+### Parsing
+
+Fixed an issue with parsing integer values in CSS with units,
+e.g. `123px`.
 
 ## 0.8
 

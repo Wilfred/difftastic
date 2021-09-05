@@ -49,7 +49,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
         "css" => Some(TreeSitterConfig {
             name: "CSS",
             language: unsafe { tree_sitter_css() },
-            atom_nodes: (vec![]).into_iter().collect(),
+            atom_nodes: (vec!["integer_value"]).into_iter().collect(),
             open_delimiter_tokens: (vec!["{", "("]).into_iter().collect(),
         }),
         "el" => Some(TreeSitterConfig {
