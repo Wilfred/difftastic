@@ -1035,4 +1035,28 @@ mod tests {
             ]
         );
     }
+
+    #[test]
+    fn mark_syntax_equal_atoms() {
+        let arena = Arena::new();
+        let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo");
+        let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo");
+        init_info(&[lhs], &[rhs]);
+
+        mark_syntax(Some(lhs), Some(rhs));
+        assert_eq!(lhs.info().change.get(), Some(ChangeKind::Unchanged(rhs)));
+        assert_eq!(rhs.info().change.get(), Some(ChangeKind::Unchanged(lhs)));
+    }
+
+    #[test]
+    fn mark_syntax_different_atoms() {
+        let arena = Arena::new();
+        let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo");
+        let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar");
+        init_info(&[lhs], &[rhs]);
+
+        mark_syntax(Some(lhs), Some(rhs));
+        assert_eq!(lhs.info().change.get(), Some(ChangeKind::Novel));
+        assert_eq!(rhs.info().change.get(), Some(ChangeKind::Novel));
+    }
 }
