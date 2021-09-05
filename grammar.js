@@ -22,7 +22,6 @@ const PREC = {
   COND: 2,
   ASSIGN: 1,
   SELECT: 0,
-  TYPE_PATTERN: -2,
 };
 
 const decimalDigitSequence = /([0-9][0-9_]*[0-9]|[0-9])/;
@@ -55,6 +54,10 @@ module.exports = grammar({
     [$.nullable_type, $.as_expression],
     [$.nullable_type, $.is_expression, $.type_pattern],
     [$.nullable_type, $.as_expression, $.type_pattern],
+
+    [$.type_pattern, $.declaration_pattern],
+    [$.type_pattern, $.declaration_pattern, $.recursive_pattern],
+    [$.type_pattern, $.tuple_element],
 
     [$._name, $._expression],
     [$._simple_name, $.type_parameter],
@@ -889,7 +892,7 @@ module.exports = grammar({
       $.type_pattern
     ),
 
-    type_pattern: $ => prec(PREC.TYPE_PATTERN, $._type),
+    type_pattern: $ => $._type,
 
     parenthesized_pattern: $ => seq('(', $._pattern, ')'),
 
