@@ -1,0 +1,7 @@
+[book]
+authors = ["Wilfred Hughes"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Difftastic Manual"
+description = "The official manual for difftastic, the syntactic differ"
