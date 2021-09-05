@@ -18,6 +18,8 @@ matching of delimiters.
 
 Added Python parser.
 
+Added Java parser.
+
 JSON (legacy parser): fixed parsing string literals (broken in 0.7).
 
 Removed Scheme support, as there's no tree-sitter parser available.
