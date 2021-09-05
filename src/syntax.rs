@@ -3,8 +3,6 @@
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
 use itertools::{EitherOrBoth, Itertools};
-use lazy_static::lazy_static;
-use regex::Regex;
 use std::cell::Cell;
 use std::cmp::{max, min};
 use std::collections::hash_map::DefaultHasher;
@@ -565,11 +563,12 @@ fn split_comment_words(
 
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
-    lazy_static! {
-        static ref WORD_BOUNDARY_RE: Regex = Regex::new(r"\b").unwrap();
-    }
-    let content_parts: Vec<_> = WORD_BOUNDARY_RE.split(content).collect();
-    let other_parts: Vec<_> = WORD_BOUNDARY_RE.split(opposite_content).collect();
+    let content_parts: Vec<_> = content
+        .split_inclusive(&[' ', '\n', '\t'] as &[char])
+        .collect();
+    let other_parts: Vec<_> = opposite_content
+        .split_inclusive(&[' ', '\n', '\t'] as &[char])
+        .collect();
 
     let content_newlines = NewlinePositions::from(content);
     let opposite_content_newlines = NewlinePositions::from(opposite_content);
@@ -1188,40 +1187,10 @@ mod tests {
             res,
             vec![
                 MatchedPos {
-                    kind: MatchKind::UnchangedCommentPart {
-                        opposite_pos: vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 0,
-                            end_col: 0
-                        }]
-                    },
-                    pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 0
-                    }],
-                    prev_opposite_pos: vec![]
-                },
-                MatchedPos {
                     kind: MatchKind::ChangedCommentPart,
                     pos: vec![SingleLineSpan {
                         line: 0.into(),
                         start_col: 0,
-                        end_col: 3
-                    }],
-                    prev_opposite_pos: vec![]
-                },
-                MatchedPos {
-                    kind: MatchKind::UnchangedCommentPart {
-                        opposite_pos: vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 3,
-                            end_col: 3
-                        }]
-                    },
-                    pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 3,
                         end_col: 3
                     }],
                     prev_opposite_pos: vec![]
