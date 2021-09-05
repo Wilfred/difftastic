@@ -89,6 +89,16 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Target-typed new
 - [x] Top-level statements
 
+#### C# 10.0
+
+- [ ] global using directives
+- [ ] File-scoped namespace declaration
+- [ ] Extended property patterns
+- [x] Allow const interpolated strings
+- [x] Record types can seal ToString()
+- [x] Allow both assignment and declaration in the same deconstruction
+- [x] Allow AsyncMethodBuilder attribute on methods
+
 ### References
 
 * [Official C# 6 Language Spec](https://github.com/dotnet/csharplang/blob/master/spec/) provides chapters that formally define the language grammar.

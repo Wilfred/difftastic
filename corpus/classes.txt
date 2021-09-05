@@ -378,7 +378,7 @@ Class with constants
 
 class Foo {
   private const int a = 1;
-  const string b = "hello";
+  const string b = $"hello";
 }
 
 ---
@@ -402,7 +402,8 @@ class Foo {
           (variable_declarator
             (identifier)
             (equals_value_clause
-              (string_literal))))))))
+              (interpolated_string_expression
+                (interpolated_string_text)))))))))
 
 =====================================
 Class with indexer
