@@ -260,9 +260,9 @@ fn main() {
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     if groups.is_empty() {
         if lang_name == "text" {
-            println!("No changes.");
+            println!("No changes.\n");
         } else {
-            println!("No syntactic changes.");
+            println!("No syntactic changes.\n");
         }
         return;
     }
