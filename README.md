@@ -17,6 +17,7 @@ Difftastic supports the following languages:
 * CSS
 * Emacs Lisp
 * Go
+* Java
 * JavaScript (including JSX)
 * JSON
 * OCaml
