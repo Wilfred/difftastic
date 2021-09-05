@@ -16,6 +16,8 @@ Added Python parser.
 
 JSON (legacy parser): fixed parsing string literals (broken in 0.7).
 
+Removed Scheme support, as there's no tree-sitter parser available.
+
 ### Display
 
 Fixed crashes on files with non-ASCII characters on long lines.

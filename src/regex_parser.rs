@@ -191,22 +191,6 @@ pub fn from_extension(extension: &OsStr) -> Option<Language> {
             open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
             close_delimiter_pattern: Regex::new(r"(\]|\}|\))").unwrap(),
         }),
-        "scm" => Some(Language {
-            name: "Scheme".into(),
-            atom_patterns: vec![
-                // Numbers
-                Regex::new(r"[0-9]+").unwrap(),
-                // Symbols (e.g. variable names)
-                Regex::new(r"#?[a-zA-Z0-9_?:/*=-]+").unwrap(),
-                // Operators
-                Regex::new(r"[`',#.]").unwrap(),
-                // Double-quoted strings
-                Regex::new(r#""((\\.)|[^"])*""#).unwrap(),
-            ],
-            comment_patterns: vec![Regex::new(r";.*").unwrap()],
-            open_delimiter_pattern: Regex::new(r"(\[|\{|\()").unwrap(),
-            close_delimiter_pattern: Regex::new(r"(\]|\}|\))").unwrap(),
-        }),
         _ => None,
     }
 }
