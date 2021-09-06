@@ -10,7 +10,6 @@ use crate::style::apply_colors;
 use crate::syntax::{aligned_lines, MatchedPos};
 
 const SPACER: &str = "  ";
-const MIN_WIDTH: usize = 35;
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
@@ -62,7 +61,7 @@ fn rhs_printable_width(
 
     let space_available = (terminal_width - SPACER.len()) - lhs_width;
 
-    max(MIN_WIDTH, min(longest_line, space_available))
+    min(longest_line, space_available)
 }
 
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
@@ -233,8 +232,7 @@ pub fn display(
 
     let terminal_width = term_width().unwrap_or(80);
 
-    let lhs_formatted_length =
-        lhs_printable_width(lhs_src, groups, lhs_column_width, terminal_width);
+    let lhs_formatted_length = lhs_printable_width(terminal_width);
     let rhs_formatted_length = rhs_printable_width(
         rhs_src,
         groups,
