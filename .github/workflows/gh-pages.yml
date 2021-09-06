@@ -1,0 +1,31 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - master
+      - docs
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: '0.4.12'
+
+      - run: mdbook build
+        working-directory: docs
+
+      - name: Deploy docs
+        uses: dswistowski/surge-sh-action@v1
+        with:
+          domain: 'difftastic.wilfred.me.uk'
+          project: 'docs/book'
+          login: wilfred
+          token: ${{ secrets.SURGE_TOKEN }}
