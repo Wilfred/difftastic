@@ -17,7 +17,7 @@ fn term_width() -> Option<usize> {
 }
 
 /// Split `s` by newlines, but guarantees that the output is nonempty.
-/// An empty string is consider a single line of length zero.
+/// An empty string is considered as a single line of length zero.
 fn split_lines_nonempty(s: &str) -> Vec<String> {
     if s == "" {
         return vec!["".into()];
@@ -28,22 +28,6 @@ fn split_lines_nonempty(s: &str) -> Vec<String> {
         lines.push(line.into());
     }
     lines
-}
-
-fn longest_visible_line_lhs(s: &str, groups: &[LineGroup]) -> usize {
-    let lines = split_lines_nonempty(s);
-    let mut longest = 0;
-
-    for group in groups {
-        if let Some(lhs_lines) = &group.lhs_lines {
-            for line_num in lhs_lines.start.0..lhs_lines.end.0 {
-                let current_len = codepoint_len(&lines[line_num]);
-                longest = max(longest, current_len);
-            }
-        }
-    }
-
-    longest
 }
 
 fn longest_visible_line_rhs(s: &str, groups: &[LineGroup]) -> usize {
@@ -62,17 +46,8 @@ fn longest_visible_line_rhs(s: &str, groups: &[LineGroup]) -> usize {
     longest
 }
 
-fn lhs_printable_width(
-    lhs: &str,
-    groups: &[LineGroup],
-    lhs_column_width: usize,
-    terminal_width: usize,
-) -> usize {
-    let longest_line_length = longest_visible_line_lhs(lhs, groups);
-    let longest_line = longest_line_length + lhs_column_width;
-
-    let space_available = (terminal_width - SPACER.len()) / 2;
-    max(MIN_WIDTH, min(longest_line, space_available))
+fn lhs_printable_width(terminal_width: usize) -> usize {
+    (terminal_width - SPACER.len()) / 2
 }
 
 fn rhs_printable_width(
