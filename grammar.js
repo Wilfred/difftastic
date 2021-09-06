@@ -1,4 +1,4 @@
-const COMMENT = token(/;.*\n?/);
+const COMMENT = token(/;.*/);
 
 const STRING = token(
   seq('"', repeat(choice(/[^"\\]/, seq("\\", /(.|\n)/))), '"')
