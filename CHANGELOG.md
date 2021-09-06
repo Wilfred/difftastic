@@ -13,6 +13,11 @@ e.g. `123px`.
 
 The line-based parser for text files now uses word-level diffs.
 
+### Display
+
+Side-by-side displays now uses the same width for the left and right
+columns, regardless of the content.
+
 ## 0.8
 
 ### Git integration
