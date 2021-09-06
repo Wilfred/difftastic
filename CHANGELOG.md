@@ -11,6 +11,8 @@ and `.joker`.
 Fixed an issue with parsing integer values in CSS with units,
 e.g. `123px`.
 
+The line-based parser for text files now uses word-level diffs.
+
 ## 0.8
 
 ### Git integration

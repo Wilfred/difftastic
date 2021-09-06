@@ -8,7 +8,8 @@ use crate::{positions::SingleLineSpan, syntax::Syntax};
 pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<'a>> {
     let mut res = vec![];
     for (i, line) in s.lines().enumerate() {
-        res.push(Syntax::new_atom(
+        // Mark each line as a comment atom, so we get word-level diffs.
+        res.push(Syntax::new_comment(
             arena,
             vec![SingleLineSpan {
                 line: i.into(),
