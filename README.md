@@ -15,6 +15,7 @@ Difftastic supports the following languages:
 
 * Clojure
 * CSS
+* Elixir
 * Emacs Lisp
 * Go
 * Java
