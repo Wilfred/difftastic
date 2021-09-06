@@ -1,0 +1,1 @@
+type a = readonly b[][];
