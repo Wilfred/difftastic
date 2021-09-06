@@ -6,4 +6,11 @@
   (AsmExpr)
   (ErrorSetDecl)
   (LINESTRING)
+  (
+    [
+      (IfPrefix)
+      (WhilePrefix)
+      (ForPrefix)
+    ]
+  )
 ] @fold
