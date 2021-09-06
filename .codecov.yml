@@ -1,3 +1,10 @@
 ignore:
   - "vendor/"
   - "sample_files/"
+
+coverage:
+  status:
+    project:
+      default:
+        informational: true
+
