@@ -3,7 +3,6 @@
   (ContainerDecl)
   (SwitchExpr)
   (InitList)
-  (ContainerDecl)
 ] @indent
 
 [
