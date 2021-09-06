@@ -482,10 +482,8 @@ struct Scanner {
       StackItem stack_item;
       stack_item.single_quote = false;
 
-      int32_t quote = '"';
       if (lexer->lookahead == '\'') {
         stack_item.single_quote = true;
-        quote = '\'';
       }
 
       advance(lexer);
