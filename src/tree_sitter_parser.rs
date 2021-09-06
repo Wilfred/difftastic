@@ -34,6 +34,7 @@ extern "C" {
     fn tree_sitter_ocaml_interface() -> Language;
     fn tree_sitter_python() -> Language;
     fn tree_sitter_rust() -> Language;
+    fn tree_sitter_tsx() -> Language;
     fn tree_sitter_typescript() -> Language;
 }
 
@@ -121,6 +122,12 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
         "ts" => Some(TreeSitterConfig {
             name: "TypeScript",
             language: unsafe { tree_sitter_typescript() },
+            atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["{", "(", "[", "<"]).into_iter().collect(),
+        }),
+        "tsx" => Some(TreeSitterConfig {
+            name: "TypeScript TSX",
+            language: unsafe { tree_sitter_tsx() },
             atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
             open_delimiter_tokens: (vec!["{", "(", "[", "<"]).into_iter().collect(),
         }),
