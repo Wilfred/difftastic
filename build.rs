@@ -71,6 +71,11 @@ fn main() {
         &["scanner.c"],
     );
     build(
+        "tree-sitter-tsx",
+        "vendor/tree-sitter-typescript-src/tsx",
+        &["scanner.c"],
+    );
+    build(
         "tree-sitter-typescript",
         "vendor/tree-sitter-typescript-src/typescript",
         &["scanner.c"],
