@@ -18,12 +18,12 @@ Difftastic supports the following languages:
 * Emacs Lisp
 * Go
 * Java
-* JavaScript (including JSX)
+* JavaScript (and JSX)
 * JSON
 * OCaml
 * Python
 * Rust
-* TypeScript
+* TypeScript (and TSX)
 
 If a file has an unrecognised extension, difftastic uses a
 line-oriented diff.
