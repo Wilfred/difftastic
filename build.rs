@@ -42,6 +42,11 @@ fn main() {
         &["scanner.c"],
     );
     build("tree-sitter-elisp", "vendor/tree-sitter-elisp-src", &[]);
+    build(
+        "tree-sitter-elixir",
+        "vendor/tree-sitter-elixir-src",
+        &["scanner.cc"],
+    );
     build("tree-sitter-go", "vendor/tree-sitter-go-src", &[]);
     build("tree-sitter-java", "vendor/tree-sitter-java-src", &[]);
     build(

@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Added TypeScript parser and TSX parser.
+Added TypeScript parser and TSX parser. Added Elixir parser.
 
 The following extensions are now associated with Clojure: `.bb`,
 `.boot`, `.clj`, `.cljc`, `.clje`, `.cljs`, `.cljx`, `.edn`, `.joke`

@@ -26,6 +26,7 @@ extern "C" {
     fn tree_sitter_clojure() -> Language;
     fn tree_sitter_css() -> Language;
     fn tree_sitter_elisp() -> Language;
+    fn tree_sitter_elixir() -> Language;
     fn tree_sitter_go() -> Language;
     fn tree_sitter_java() -> Language;
     fn tree_sitter_javascript() -> Language;
@@ -61,6 +62,12 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             language: unsafe { tree_sitter_elisp() },
             atom_nodes: (vec![]).into_iter().collect(),
             open_delimiter_tokens: (vec!["{", "(", "["]).into_iter().collect(),
+        }),
+        "ex" | "exs" => Some(TreeSitterConfig {
+            name: "Elixir",
+            language: unsafe { tree_sitter_elixir() },
+            atom_nodes: (vec!["string", "heredoc"]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["(", "{", "do"]).into_iter().collect(),
         }),
         "go" => Some(TreeSitterConfig {
             name: "Go",
