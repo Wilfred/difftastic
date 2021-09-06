@@ -23,6 +23,7 @@ Difftastic supports the following languages:
 * OCaml
 * Python
 * Rust
+* TypeScript
 
 If a file has an unrecognised extension, difftastic uses a
 line-oriented diff.

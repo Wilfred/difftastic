@@ -2,6 +2,8 @@
 
 ### Parsing
 
+Added TypeScript parser.
+
 Fixed an issue with parsing integer values in CSS with units,
 e.g. `123px`.
 
