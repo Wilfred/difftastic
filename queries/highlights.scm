@@ -16,13 +16,14 @@ parameter: (IDENTIFIER) @parameter
   field_access: (IDENTIFIER)
 ] @field
 
+;; assume TitleCase is a type
 (
   [
     variable_type_function: (IDENTIFIER)
     field_access: (IDENTIFIER)
     parameter: (IDENTIFIER)
   ] @type
-  (#match? @type "^[A-Z]")
+  (#match? @type "^[A-Z]([a-z]+[A-Za-z0-9]*)*$")
 )
 ;; assume camelCase is a function
 (
@@ -34,16 +35,29 @@ parameter: (IDENTIFIER) @parameter
   (#match? @function "^[a-z]+([A-Z][a-z0-9]*)+$")
 )
 
+;; assume all CAPS_1 is a constant
+(
+  [
+    variable_type_function: (IDENTIFIER)
+    field_access: (IDENTIFIER)
+  ] @constant
+  (#match? @constant "^[A-Z][A-Z_0-9]+$")
+)
 
 [
   function_call: (IDENTIFIER)
   function: (IDENTIFIER)
 ] @function
 
-; INFO: add this field improve 10ms and increase file size 400ks
 exception: "!" @exception
 
-;enum and tag union field is constant. const ~ 8ms
+(
+  (IDENTIFIER) @variable.builtin
+  (#eq? @variable.builtin "_")
+)
+
+(PtrTypeStart "c" @variable.builtin)
+
 (
   (ContainerDeclType
     [
@@ -51,9 +65,7 @@ exception: "!" @exception
       "enum"
     ]
   )
-  (ContainerMembers
-    (ContainerField (IDENTIFIER) @constant)
-  )
+  (ContainerField (IDENTIFIER) @constant)
 )
 
 field_constant: (IDENTIFIER) @constant
@@ -192,6 +204,7 @@ field_constant: (IDENTIFIER) @constant
   ".?"
   ".*"
   "="
+  "?"
 ] @operator
 
 [
@@ -217,5 +230,6 @@ field_constant: (IDENTIFIER) @constant
   (PtrPayload "|")
   (PtrIndexPayload "|")
 ] @punctuation.bracket
+
 ; Error
-(ERROR) @none
+(ERROR) @error
