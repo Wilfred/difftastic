@@ -70,4 +70,9 @@ fn main() {
         "vendor/tree-sitter-rust-src",
         &["scanner.c"],
     );
+    build(
+        "tree-sitter-typescript",
+        "vendor/tree-sitter-typescript-src/typescript",
+        &["scanner.c"],
+    );
 }
