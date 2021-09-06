@@ -4,6 +4,10 @@
 
 Added TypeScript parser and TSX parser.
 
+The following extensions are now associated with Clojure: `.bb`,
+`.boot`, `.clj`, `.cljc`, `.clje`, `.cljs`, `.cljx`, `.edn`, `.joke`
+and `.joker`.
+
 Fixed an issue with parsing integer values in CSS with units,
 e.g. `123px`.
 

@@ -42,12 +42,14 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
     // TODO: find a nice way to extract name and extension information
     // from the package.json in these parsers.
     match extension.to_string_lossy().borrow() {
-        "clj" => Some(TreeSitterConfig {
-            name: "Clojure",
-            language: unsafe { tree_sitter_clojure() },
-            atom_nodes: (vec![]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["{", "(", "["]).into_iter().collect(),
-        }),
+        "bb" | "boot" | "clj" | "cljc" | "clje" | "cljs" | "cljx" | "edn" | "joke" | "joker" => {
+            Some(TreeSitterConfig {
+                name: "Clojure",
+                language: unsafe { tree_sitter_clojure() },
+                atom_nodes: (vec![]).into_iter().collect(),
+                open_delimiter_tokens: (vec!["{", "(", "["]).into_iter().collect(),
+            })
+        }
         "css" => Some(TreeSitterConfig {
             name: "CSS",
             language: unsafe { tree_sitter_css() },
