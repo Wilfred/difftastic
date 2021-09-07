@@ -91,7 +91,7 @@ Comprehensive support for C# exists with the following exceptions:
 
 #### C# 10.0
 
-- [ ] global using directives
+- [x] global using directives
 - [ ] File-scoped namespace declaration
 - [ ] Extended property patterns
 - [x] Allow const interpolated strings

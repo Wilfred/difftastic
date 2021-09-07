@@ -43,6 +43,23 @@ namespace Foo {
         (identifier)))))
 
 =====================================
+Global using directives
+=====================================
+
+global using A;
+global using static A.B;
+
+---
+
+(compilation_unit
+  (using_directive
+    (identifier))
+  (using_directive
+    (qualified_name
+      (identifier)
+      (identifier))))
+
+=====================================
 Comments
 =====================================
 
