@@ -144,6 +144,7 @@ module.exports = grammar({
     extern_alias_directive: $ => seq('extern', 'alias', $.identifier, ';'),
 
     using_directive: $ => seq(
+      optional('global'),
       'using',
       optional(choice(
         'static',

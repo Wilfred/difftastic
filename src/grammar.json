@@ -190,6 +190,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "global"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "using"
         },
@@ -9662,6 +9674,19 @@
       "type_pattern"
     ],
     [
+      "type_pattern",
+      "declaration_pattern"
+    ],
+    [
+      "type_pattern",
+      "declaration_pattern",
+      "recursive_pattern"
+    ],
+    [
+      "type_pattern",
+      "tuple_element"
+    ],
+    [
       "_name",
       "_expression"
     ],
@@ -9748,19 +9773,6 @@
     [
       "array_creation_expression",
       "element_access_expression"
-    ],
-    [
-      "type_pattern",
-      "declaration_pattern"
-    ],
-    [
-      "type_pattern",
-      "declaration_pattern",
-      "recursive_pattern"
-    ],
-    [
-      "type_pattern",
-      "tuple_element"
     ]
   ],
   "precedences": [],
