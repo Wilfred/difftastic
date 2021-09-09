@@ -1,4 +1,4 @@
-name: Docs Deploy
+name: Deploy Manual
 
 on:
   push:
@@ -18,14 +18,14 @@ jobs:
         with:
           mdbook-version: '0.4.12'
 
-      - name: Build docs
+      - name: Build manual
         run: mdbook build
-        working-directory: docs
+        working-directory: manual
 
       - name: Deploy to Surge
         uses: dswistowski/surge-sh-action@v1
         with:
           domain: 'difftastic.wilfred.me.uk'
-          project: 'docs/book'
+          project: 'manual/book'
           login: wilfred
           token: ${{ secrets.SURGE_TOKEN }}
