@@ -18,7 +18,8 @@ jobs:
         with:
           mdbook-version: '0.4.12'
 
-      - run: Build docs
+      - name: Build docs
+        run: mdbook build
         working-directory: docs
 
       - name: Deploy to Surge
