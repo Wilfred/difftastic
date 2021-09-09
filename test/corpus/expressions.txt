@@ -1078,17 +1078,39 @@ condition ? case1 : case2;
 x.y = some.condition ?
   some.case :
   some.other.case;
+
+a?.1:.2
+
 ---
 
 (program
-  (expression_statement (ternary_expression
-    (identifier) (identifier) (identifier)))
-  (expression_statement (assignment_expression
-    (member_expression (identifier) (property_identifier))
+  (expression_statement
     (ternary_expression
-      (member_expression (identifier) (property_identifier))
-      (member_expression (identifier) (property_identifier))
-      (member_expression (member_expression (identifier) (property_identifier)) (property_identifier))))))
+      (identifier)
+      (identifier)
+      (identifier)))
+  (expression_statement
+    (assignment_expression
+      (member_expression
+        (identifier)
+        (property_identifier))
+      (ternary_expression
+        (member_expression
+          (identifier)
+          (property_identifier))
+        (member_expression
+          (identifier)
+          (property_identifier))
+        (member_expression
+          (member_expression
+            (identifier)
+            (property_identifier))
+          (property_identifier)))))
+  (expression_statement
+    (ternary_expression
+      (identifier)
+      (number)
+      (number))))
 
 ==============================================
 Type operators

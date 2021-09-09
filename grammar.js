@@ -3,7 +3,8 @@ module.exports = grammar({
 
   externals: $ => [
     $._automatic_semicolon,
-    $._template_chars
+    $._template_chars,
+    $._ternary_qmark,
   ],
 
   extras: $ => [
@@ -780,7 +781,7 @@ module.exports = grammar({
 
     ternary_expression: $ => prec.right('ternary', seq(
       field('condition', $.expression),
-      '?',
+      alias($._ternary_qmark, '?'),
       field('consequence', $.expression),
       ':',
       field('alternative', $.expression)
