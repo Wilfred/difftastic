@@ -123,6 +123,7 @@ module.exports = grammar({
       $.operator_declaration,
       $.property_declaration,
       $.record_declaration,
+      $.record_struct_declaration,
       $.struct_declaration,
       $.using_directive,
     ),
@@ -138,7 +139,8 @@ module.exports = grammar({
       $.interface_declaration,
       $.enum_declaration,
       $.delegate_declaration,
-      $.record_declaration
+      $.record_declaration,
+      $.record_struct_declaration
     ),
 
     extern_alias_directive: $ => seq('extern', 'alias', $.identifier, ';'),
@@ -584,6 +586,19 @@ module.exports = grammar({
       repeat($.attribute_list),
       repeat($.modifier),
       'record',
+      field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter_list)),
+      field('parameters', optional($.parameter_list)),
+      field('bases', optional(alias($.record_base, $.base_list))),
+      repeat($.type_parameter_constraints_clause),
+      field('body', $._record_body),
+    ),
+
+    record_struct_declaration: $ => seq(
+      repeat($.attribute_list),
+      repeat($.modifier),
+      'record',
+      'struct',
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameter_list)),
       field('parameters', optional($.parameter_list)),

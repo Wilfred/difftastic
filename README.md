@@ -98,6 +98,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Record types can seal ToString()
 - [x] Allow both assignment and declaration in the same deconstruction
 - [x] Allow AsyncMethodBuilder attribute on methods
+- [x] Record structs
 
 ### References
 
