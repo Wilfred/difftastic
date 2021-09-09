@@ -3,6 +3,7 @@ ignore:
   - "sample_files/"
 
 coverage:
+  range: 40...60
   status:
     project:
       default:
