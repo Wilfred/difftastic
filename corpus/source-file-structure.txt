@@ -111,6 +111,24 @@ namespace A {
         (declaration_list)))))
 
 =====================================
+File scoped namespaces
+=====================================
+
+namespace A;
+
+class B {
+}
+
+---
+
+(compilation_unit
+  (file_scoped_namespace_declaration
+    (identifier)
+    (class_declaration
+      (identifier)
+      (declaration_list))))
+
+=====================================
 Interfaces
 =====================================
 
