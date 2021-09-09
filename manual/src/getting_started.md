@@ -27,7 +27,7 @@ Git [supports external diff
 tools](https://git-scm.com/docs/diff-config#Documentation/diff-config.txt-diffexternal). You
 can use `GIT_EXTERNAL_DIFF` for a one-off git command.
 
-```shell
+```
 $ GIT_EXTERNAL_DIFF=difftastic git diff
 $ GIT_EXTERNAL_DIFF=difftastic git log -p --ext-diff
 $ GIT_EXTERNAL_DIFF=difftastic git show e96a7241760319 --ext-diff
@@ -35,7 +35,7 @@ $ GIT_EXTERNAL_DIFF=difftastic git show e96a7241760319 --ext-diff
 
 If you want to use difftastic by default, use `git config`.
 
-```shell
+```
 # Set git configuration for the current repository.
 $ git config diff.external difftastic
 
@@ -58,7 +58,8 @@ $ git show e96a7241760319 --ext-diff
 [git difftool](https://git-scm.com/docs/git-difftool) is a git command
 for viewing the current changes with a different diff tool.  Add the
 following to your `.gitconfig` to use difftastic as your difftool.
-```
+
+```ini
 [diff]
         tool = difftastic
 
