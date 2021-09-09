@@ -65,6 +65,10 @@ If this doesn't point to something like `gcc-11`, you can remove it (if it is a 
 binary to a `bin` directory that's at the head of your `$PATH`, something like:
 
 ```shell
+ln -sf /opt/homebrew/bin/gcc-11 /usr/local/bin/gcc
+```
+or this for earlier versions of homebrew.
+```shell
 ln -sf /usr/local/bin/gcc-11 /usr/local/bin/gcc
 ```
 
