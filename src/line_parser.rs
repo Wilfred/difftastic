@@ -36,7 +36,7 @@ mod tests {
         assert_syntaxes(
             &parse(&arena, "foo\nbar"),
             &[
-                Syntax::new_atom(
+                Syntax::new_comment(
                     &arena,
                     vec![SingleLineSpan {
                         line: 0.into(),
@@ -45,7 +45,7 @@ mod tests {
                     }],
                     "foo",
                 ),
-                Syntax::new_atom(
+                Syntax::new_comment(
                     &arena,
                     vec![SingleLineSpan {
                         line: 1.into(),
