@@ -1,10 +1,9 @@
-name: github pages
+name: Docs Deploy
 
 on:
   push:
     branches:
       - master
-      - docs
 
 jobs:
   deploy:
@@ -19,10 +18,10 @@ jobs:
         with:
           mdbook-version: '0.4.12'
 
-      - run: mdbook build
+      - run: Build docs
         working-directory: docs
 
-      - name: Deploy docs
+      - name: Deploy to Surge
         uses: dswistowski/surge-sh-action@v1
         with:
           domain: 'difftastic.wilfred.me.uk'
