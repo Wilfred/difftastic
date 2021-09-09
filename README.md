@@ -1,5 +1,4 @@
-tree-sitter-c-sharp
-===========================
+# tree-sitter-c-sharp
 
 [![Build Status](https://github.com/tree-sitter/tree-sitter-c-sharp/workflows/build/badge.svg)](https://github.com/tree-sitter/tree-sitter-c-sharp/actions?query=workflow%3Abuild)
 
@@ -92,7 +91,7 @@ Comprehensive support for C# exists with the following exceptions:
 #### C# 10.0
 
 - [x] global using directives
-- [ ] File-scoped namespace declaration
+- [x] File-scoped namespace declaration
 - [ ] Extended property patterns
 - [x] Allow const interpolated strings
 - [x] Record types can seal ToString()
@@ -102,6 +101,6 @@ Comprehensive support for C# exists with the following exceptions:
 
 ### References
 
-* [Official C# 6 Language Spec](https://github.com/dotnet/csharplang/blob/master/spec/) provides chapters that formally define the language grammar.
-* [Roslyn C# language grammar export](https://github.com/dotnet/roslyn/blob/master/src/Compilers/CSharp/Portable/Generated/CSharp.Generated.g4)
-* [SharpLab](https://sharplab.io) (web-based syntax tree playground based on Roslyn)
+- [Official C# 6 Language Spec](https://github.com/dotnet/csharplang/blob/master/spec/) provides chapters that formally define the language grammar.
+- [Roslyn C# language grammar export](https://github.com/dotnet/roslyn/blob/master/src/Compilers/CSharp/Portable/Generated/CSharp.Generated.g4)
+- [SharpLab](https://sharplab.io) (web-based syntax tree playground based on Roslyn)

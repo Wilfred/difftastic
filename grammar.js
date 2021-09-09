@@ -100,8 +100,10 @@ module.exports = grammar({
       repeat($.extern_alias_directive),
       repeat($.using_directive),
       repeat($.global_attribute_list),
-      repeat($.global_statement),
-      repeat($._namespace_member_declaration)
+      choice(
+        seq(repeat($.global_statement), repeat($._namespace_member_declaration)),
+        $.file_scoped_namespace_declaration
+      )
     ),
 
     global_statement: $ => $._statement,
@@ -627,6 +629,15 @@ module.exports = grammar({
       field('name', $._name),
       field('body', $.declaration_list),
       optional(';')
+    ),
+
+    file_scoped_namespace_declaration: $ => seq(
+      'namespace',
+      field('name', $._name),
+      ';',
+      repeat($.extern_alias_directive),
+      repeat($.using_directive),
+      repeat($._type_declaration)
     ),
 
     _type: $ => choice(
