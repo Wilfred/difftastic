@@ -2,6 +2,7 @@
 
 Checklist:
 - [ ] All tests pass in CI.
+- [ ] The script/parse-examples passes without issues.
 - [ ] There are sufficient tests for the new fix/feature.
 - [ ] Grammar rules have not been renamed unless absolutely necessary.
 - [ ] The conflicts section hasn't grown too much.

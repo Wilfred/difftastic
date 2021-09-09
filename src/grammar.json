@@ -3607,7 +3607,12 @@
             }
           },
           {
-            "type": "STRING",
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_ternary_qmark"
+            },
+            "named": false,
             "value": "?"
           },
           {
@@ -6449,6 +6454,10 @@
     {
       "type": "SYMBOL",
       "name": "_template_chars"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_ternary_qmark"
     }
   ],
   "inline": [
