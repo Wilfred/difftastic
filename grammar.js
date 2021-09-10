@@ -423,6 +423,7 @@ module.exports = grammar({
     ),
 
     arrow_function: $ => seq(
+      optional(field('attributes', $.attribute_list)),
       optional($.static_modifier),
       keyword('fn'),
       optional(field('reference_modifier', $.reference_modifier)),
@@ -885,6 +886,7 @@ module.exports = grammar({
     ),
 
     anonymous_function_creation_expression: $ => seq(
+      optional(field('attributes', $.attribute_list)),
       optional(keyword('static')),
       keyword('function'),
       optional(field('reference_modifier', $.reference_modifier)),
@@ -910,6 +912,7 @@ module.exports = grammar({
       ),
       seq(
         keyword('new'),
+        optional(field('attributes', $.attribute_list)),
         keyword('class'),
         optional($.arguments),
         optional($.base_clause),

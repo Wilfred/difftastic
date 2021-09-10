@@ -351,6 +351,9 @@ class Thing
 {
 }
 
+new #[ExampleAttribute] class() {};
+#[ExampleAttribute] fn($x) => $x;
+$baz = #[ExampleAttribute] function($x) {return $x;};
 
 ---
 
@@ -464,6 +467,42 @@ class Thing
     )
     name: (name)
     body: (declaration_list)
+  )
+  (expression_statement
+    (object_creation_expression
+      attributes: (attribute_list (attribute (name)))
+      (arguments)
+      (declaration_list)
+    )
+  )
+  (expression_statement
+    (arrow_function
+      attributes: (attribute_list (attribute (name)))
+      parameters: (formal_parameters
+        (simple_parameter
+          name: (variable_name (name))
+        )
+      )
+      body: (variable_name (name))
+    )
+  )
+  (expression_statement
+    (assignment_expression
+      left: (variable_name (name))
+      right: (anonymous_function_creation_expression
+        attributes: (attribute_list (attribute (name)))
+        parameters: (formal_parameters
+          (simple_parameter
+            name: (variable_name (name))
+          )
+        )
+        body: (compound_statement
+          (return_statement
+            (variable_name (name))
+          )
+        )
+      )
+    )
   )
 )
 
