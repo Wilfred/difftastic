@@ -1,11 +1,15 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::cmp::{Ordering, Reverse};
-use std::collections::BinaryHeap;
+use std::{
+    cmp::{Ordering, Reverse},
+    collections::BinaryHeap,
+};
 
-use crate::graph::{mark_route, neighbours, Edge, Vertex};
-use crate::syntax::Syntax;
+use crate::{
+    graph::{mark_route, neighbours, Edge, Vertex},
+    syntax::Syntax,
+};
 use rustc_hash::FxHashMap;
 
 /// A vertex with a distance.
@@ -134,10 +138,11 @@ pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::graph::Edge::*;
-    use crate::positions::SingleLineSpan;
-    use crate::syntax::Syntax::*;
-    use crate::syntax::{init_info, ChangeKind, SyntaxInfo};
+    use crate::{
+        graph::Edge::*,
+        positions::SingleLineSpan,
+        syntax::{init_info, ChangeKind, Syntax::*, SyntaxInfo},
+    };
 
     use itertools::Itertools;
     use std::cell::Cell;

@@ -1,12 +1,12 @@
 //! Manipulate lines of text and groups of lines.
 
-use crate::intervals::Interval;
-use crate::positions::SingleLineSpan;
-use crate::syntax::MatchedPos;
+use crate::{intervals::Interval, positions::SingleLineSpan, syntax::MatchedPos};
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::cmp::{max, min, Ordering};
-use std::fmt;
+use std::{
+    cmp::{max, min, Ordering},
+    fmt,
+};
 
 const MAX_GAP: usize = 1;
 

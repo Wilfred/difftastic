@@ -1,11 +1,12 @@
 //! Apply colours and styling to strings.
 
-use crate::lines::{codepoint_len, substring_by_codepoint, LineNumber};
-use crate::positions::SingleLineSpan;
-use crate::syntax::{MatchKind, MatchedPos};
+use crate::{
+    lines::{codepoint_len, substring_by_codepoint, LineNumber},
+    positions::SingleLineSpan,
+    syntax::{MatchKind, MatchedPos},
+};
 use colored::*;
-use std::cmp::min;
-use std::collections::HashMap;
+use std::{cmp::min, collections::HashMap};
 
 #[derive(Clone, Copy, Debug)]
 struct Style {
