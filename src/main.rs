@@ -1,5 +1,6 @@
 mod dijkstra;
 mod files;
+mod graph;
 mod inline;
 mod intervals;
 mod line_parser;
