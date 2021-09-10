@@ -67,7 +67,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
-    let mut predecessors: FxHashMap<Vertex, Option<(Vertex, Edge)>> = FxHashMap::default();
+    let mut predecessors: FxHashMap<Vertex, (Vertex, Edge)> = FxHashMap::default();
 
     let end;
     loop {
@@ -80,7 +80,9 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                 if predecessors.contains_key(&current) {
                     continue;
                 }
-                predecessors.insert(current.clone(), prev);
+                if let Some(prev) = prev {
+                    predecessors.insert(current.clone(), prev);
+                }
 
                 if current.is_end() {
                     end = current;
@@ -112,7 +114,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
     let mut route: Vec<(Edge, Vertex)> = vec![];
     let mut cost = 0;
-    while let Some(Some((node, edge))) = predecessors.remove(&current) {
+    while let Some((node, edge)) = predecessors.remove(&current) {
         route.push((edge, node.clone()));
         cost += edge.cost();
 
