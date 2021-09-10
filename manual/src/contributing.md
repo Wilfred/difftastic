@@ -58,9 +58,9 @@ lead to huge memory consumption.
 $ /usr/bin/time -v ./target/release/difftastic before.rs after.rs
 ```
 
-## Documentation
+## Manual
 
-This site is generated with
+This website is generated with
 [mdbook](https://github.com/rust-lang/mdBook/). mdbook can be
 installed with Cargo.
 
@@ -68,10 +68,10 @@ installed with Cargo.
 $ cargo install mdbook
 ```
 
-You can then use the `mdbook` binary to build and serve this site
+You can then use the `mdbook` binary to build and serve the site
 locally.
 
 ```
-$ cd docs
+$ cd manual
 $ mdbook serve
 ```
