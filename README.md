@@ -3,7 +3,7 @@
   <br>
   <a href="https://crates.io/crates/difftastic"><img src="https://img.shields.io/crates/v/difftastic.svg" alt="crates.io"></a>
   <a href="https://codecov.io/gh/Wilfred/difftastic"><img src="https://codecov.io/gh/Wilfred/difftastic/branch/master/graph/badge.svg?token=dZzAZtQT2S" alt="codecov.io"></a>
-  <a href="http://difftastic.wilfred.me.uk/"><img src="https://img.shields.io/badge/manual-mdbook-brightgreen" alt="manual"></a>
+  <a href="http://difftastic.wilfred.me.uk/"><img src="https://img.shields.io/badge/manual-mdBook-brightgreen" alt="manual"></a>
 </p>
 
 
