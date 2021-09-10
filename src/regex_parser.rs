@@ -1,12 +1,9 @@
 //! Lexes source code and parses delimiters according to a simple
 //! regex-based parser.
 
-use std::borrow::Borrow;
-use std::ffi::OsStr;
+use std::{borrow::Borrow, ffi::OsStr};
 
-use crate::lines::NewlinePositions;
-use crate::positions::SingleLineSpan;
-use crate::syntax::Syntax;
+use crate::{lines::NewlinePositions, positions::SingleLineSpan, syntax::Syntax};
 use regex::Regex;
 use typed_arena::Arena;
 

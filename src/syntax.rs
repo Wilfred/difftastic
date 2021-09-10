@@ -3,16 +3,19 @@
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
 use itertools::{EitherOrBoth, Itertools};
-use std::cell::Cell;
-use std::cmp::min;
-use std::collections::hash_map::DefaultHasher;
-use std::collections::HashMap;
-use std::hash::{Hash, Hasher};
-use std::{env, fmt};
+use std::{
+    cell::Cell,
+    cmp::min,
+    collections::{hash_map::DefaultHasher, HashMap},
+    env, fmt,
+    hash::{Hash, Hasher},
+};
 use typed_arena::Arena;
 
-use crate::lines::{LineGroup, LineNumber, NewlinePositions};
-use crate::positions::SingleLineSpan;
+use crate::{
+    lines::{LineGroup, LineNumber, NewlinePositions},
+    positions::SingleLineSpan,
+};
 use ChangeKind::*;
 use Syntax::*;
 

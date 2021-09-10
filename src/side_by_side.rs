@@ -1,13 +1,18 @@
 use atty::Stream;
 use colored::{Color, Colorize};
-use std::cmp::{max, min};
-use std::collections::HashMap;
-
-use crate::lines::{
-    codepoint_len, enforce_exact_length, enforce_max_length, format_line_num, LineGroup, LineNumber,
+use std::{
+    cmp::{max, min},
+    collections::HashMap,
 };
-use crate::style::apply_colors;
-use crate::syntax::{aligned_lines, MatchedPos};
+
+use crate::{
+    lines::{
+        codepoint_len, enforce_exact_length, enforce_max_length, format_line_num, LineGroup,
+        LineNumber,
+    },
+    style::apply_colors,
+    syntax::{aligned_lines, MatchedPos},
+};
 
 const SPACER: &str = "  ";
 

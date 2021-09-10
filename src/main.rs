@@ -13,16 +13,16 @@ mod syntax;
 mod tree_sitter_parser;
 use atty::Stream;
 use clap::{crate_version, App, AppSettings, Arg};
-use std::env;
-use std::ffi::OsStr;
-use std::path::Path;
+use std::{env, ffi::OsStr, path::Path};
 use typed_arena::Arena;
 
-use crate::dijkstra::mark_syntax;
-use crate::files::{is_probably_binary, read_or_die};
-use crate::lines::{join_overlapping, visible_groups, MaxLine};
-use crate::syntax::{change_positions, init_info, init_info_single, matching_lines};
-use crate::tree_sitter_parser as tsp;
+use crate::{
+    dijkstra::mark_syntax,
+    files::{is_probably_binary, read_or_die},
+    lines::{join_overlapping, visible_groups, MaxLine},
+    syntax::{change_positions, init_info, init_info_single, matching_lines},
+    tree_sitter_parser as tsp,
+};
 
 extern crate pretty_env_logger;
 #[macro_use]
