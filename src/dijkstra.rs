@@ -1,8 +1,9 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::cmp::Reverse;
+use std::{cmp::Reverse, env};
 
+use crate::a_star;
 use crate::{
     graph::{mark_route, neighbours, Edge, Vertex},
     syntax::Syntax,
@@ -87,7 +88,13 @@ pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'
         lhs_prev_is_novel: false,
         rhs_prev_is_novel: false,
     };
-    let route = shortest_path(start);
+
+    let route = if env::var("DFT_ASTAR").is_ok() {
+        a_star::shortest_path(start)
+    } else {
+        shortest_path(start)
+    };
+
     mark_route(&route);
 }
 

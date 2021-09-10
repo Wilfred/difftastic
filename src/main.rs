@@ -4,6 +4,7 @@
 //! manual](http://difftastic.wilfred.me.uk/).
 //!
 
+mod a_star;
 mod context;
 mod dijkstra;
 mod files;
