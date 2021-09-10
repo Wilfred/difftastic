@@ -3,6 +3,7 @@ use mimalloc::MiMalloc;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
+mod a_star;
 mod dijkstra;
 mod files;
 mod graph;
