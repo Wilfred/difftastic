@@ -1,7 +1,7 @@
 use crate::graph::{neighbours, Edge, Edge::*, Vertex};
 use rustc_hash::FxHashMap;
 use std::{
-    cmp::{Ordering, Reverse},
+    cmp::{min, Ordering, Reverse},
     collections::BinaryHeap,
 };
 
@@ -39,18 +39,26 @@ impl<'a> Eq for OrdVertex<'a> {}
 fn estimated_distance_remaining(v: &Vertex) -> u64 {
     let lhs_left = match v.lhs_syntax {
         Some(lhs_syntax) => {
-            lhs_syntax.num_after() as u64 * NovelAtomLHS { contiguous: true }.cost()
+            lhs_syntax.num_after() as u64
+                * UnchangedNode {
+                    depth_difference: 0,
+                }
+                .cost()
         }
         None => 0,
     };
     let rhs_left = match v.rhs_syntax {
         Some(rhs_syntax) => {
-            rhs_syntax.num_after() as u64 * NovelAtomRHS { contiguous: true }.cost()
+            rhs_syntax.num_after() as u64
+                * UnchangedNode {
+                    depth_difference: 0,
+                }
+                .cost()
         }
         None => 0,
     };
 
-    lhs_left + rhs_left
+    min(lhs_left, rhs_left)
 }
 
 pub fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
@@ -81,37 +89,38 @@ pub fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                 remaining_estimate: _,
             })) => {
                 if current.is_end() {
+                    if let Some((prev_node, prev_edge)) = prev {
+                        predecessors.insert(current.clone(), (distance, prev_edge, prev_node));
+                    }
+
                     // TODO: Is this correct? Can we terminate if we reach for the first time?
                     end = current;
                     break;
                 }
 
-                // Predecessor tracks all the found routes. We visit
-                // nodes starting with the shortest route, but we may
-                // have found a longer route to an unvisited node. In
-                // that case, we want to update the known shortest
-                // route.
-                match (prev, predecessors.get(&current)) {
-                    (Some((prev_node, prev_edge)), Some((prev_shortest, _, _))) => {
-                        if distance < *prev_shortest {
-                            predecessors.insert(current.clone(), (distance, prev_edge, prev_node));
-                        }
-                    }
-                    (_, _) => {
-                        // todo
-                    }
+                // We've found a route to `current`. Is it an
+                // improvement over previously seen routes?
+                let found_shorter_route = match predecessors.get(&current) {
+                    Some((prev_shortest, _, _)) => distance < *prev_shortest,
+                    _ => true,
                 };
 
-                for (edge, next) in neighbours(&current) {
-                    let new_remaining_estimate = estimated_distance_remaining(&next);
-                    let distance_to_next = distance + edge.cost();
+                if found_shorter_route {
+                    if let Some((prev_node, prev_edge)) = prev {
+                        predecessors.insert(current.clone(), (distance, prev_edge, prev_node));
+                    }
 
-                    heap.push(Reverse(OrdVertex {
-                        distance: distance_to_next,
-                        remaining_estimate: new_remaining_estimate,
-                        current: next,
-                        prev: Some((current.clone(), edge)),
-                    }));
+                    for (edge, next) in neighbours(&current) {
+                        let new_remaining_estimate = estimated_distance_remaining(&next);
+                        let distance_to_next = distance + edge.cost();
+
+                        heap.push(Reverse(OrdVertex {
+                            distance: distance_to_next,
+                            remaining_estimate: new_remaining_estimate,
+                            current: next,
+                            prev: Some((current.clone(), edge)),
+                        }));
+                    }
                 }
             }
             None => panic!("Ran out of graph nodes before reaching end"),
