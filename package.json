@@ -20,6 +20,7 @@
     "tree-sitter-cli": "^0.19.1"
   },
   "scripts": {
+    "generate": "tree-sitter generate",
     "test": "tree-sitter test && script/parse-examples",
     "test-windows": "tree-sitter test"
   },
