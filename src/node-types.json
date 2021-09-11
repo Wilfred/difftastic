@@ -3505,6 +3505,10 @@
           "named": true
         },
         {
+          "type": "non_special_punctuation",
+          "named": true
+        },
+        {
           "type": "primitive_type",
           "named": true
         },
@@ -3553,6 +3557,10 @@
         },
         {
           "type": "mutable_specifier",
+          "named": true
+        },
+        {
+          "type": "non_special_punctuation",
           "named": true
         },
         {
@@ -3611,6 +3619,10 @@
           "named": true
         },
         {
+          "type": "non_special_punctuation",
+          "named": true
+        },
+        {
           "type": "primitive_type",
           "named": true
         },
@@ -3659,6 +3671,10 @@
         },
         {
           "type": "mutable_specifier",
+          "named": true
+        },
+        {
+          "type": "non_special_punctuation",
           "named": true
         },
         {
@@ -4866,6 +4882,10 @@
   },
   {
     "type": "mutable_specifier",
+    "named": true
+  },
+  {
+    "type": "non_special_punctuation",
     "named": true
   },
   {

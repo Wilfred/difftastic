@@ -190,10 +190,12 @@ module.exports = grammar({
       '$', '(', repeat($._tokens), ')', optional(/[^+*?]+/), choice('+', '*', '?')
     ),
 
+    non_special_punctuation: $ => /[/_\-=->,;:::!=?.@*&#%^+<>|~]+/,
+
     _non_special_token: $ => choice(
       $._literal, $.identifier, $.metavariable, $.mutable_specifier, $.self, $.super, $.crate,
       alias(choice(...primitive_types), $.primitive_type),
-      /[/_\-=->,;:::!=?.@*&#%^+<>|~]+/,
+      $.non_special_punctuation,
       '\'',
       'as', 'async', 'await', 'break', 'const', 'continue', 'default', 'enum', 'fn', 'for', 'if', 'impl',
       'let', 'loop', 'match', 'mod', 'pub', 'return', 'static', 'struct', 'trait', 'type',
