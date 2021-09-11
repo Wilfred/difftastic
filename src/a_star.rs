@@ -1,7 +1,7 @@
 use crate::graph::{neighbours, Edge, Edge::*, Vertex};
 use rustc_hash::FxHashMap;
 use std::{
-    cmp::{min, Ordering, Reverse},
+    cmp::{max, min, Ordering, Reverse},
     collections::BinaryHeap,
 };
 
@@ -36,28 +36,25 @@ impl<'a> PartialEq for OrdVertex<'a> {
 impl<'a> Eq for OrdVertex<'a> {}
 
 fn estimated_distance_remaining(v: &Vertex) -> u64 {
-    let lhs_left = match v.lhs_syntax {
-        Some(lhs_syntax) => {
-            lhs_syntax.num_after() as u64
-                * UnchangedNode {
-                    depth_difference: 0,
-                }
-                .cost()
-        }
+    let lhs_num_after = match v.lhs_syntax {
+        Some(lhs_syntax) => lhs_syntax.num_after() as u64,
         None => 0,
     };
-    let rhs_left = match v.rhs_syntax {
-        Some(rhs_syntax) => {
-            rhs_syntax.num_after() as u64
-                * UnchangedNode {
-                    depth_difference: 0,
-                }
-                .cost()
-        }
+    let rhs_num_after = match v.rhs_syntax {
+        Some(rhs_syntax) => rhs_syntax.num_after() as u64,
         None => 0,
     };
+    // Best case scenario: we match up all of these.
+    let max_common = min(lhs_num_after, rhs_num_after);
+    // For the remaining, they must be novel in some form.
+    let min_novel = max(lhs_num_after, rhs_num_after) - max_common;
 
-    min(lhs_left, rhs_left)
+    max_common
+        * UnchangedNode {
+            depth_difference: 0,
+        }
+        .cost()
+        + min_novel * NovelAtomLHS { contiguous: true }.cost()
 }
 
 pub fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
