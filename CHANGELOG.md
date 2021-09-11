@@ -13,6 +13,10 @@ e.g. `123px`.
 
 The line-based parser for text files now uses word-level diffs.
 
+### Diffing
+
+Optimised Dijkstra implementation, improving runtime performance.
+
 ### Display
 
 Side-by-side displays now uses the same width for the left and right

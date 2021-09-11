@@ -30,8 +30,6 @@ struct OrdVertex<'a> {
     distance: u64,
     /// The vertex we have just reached.
     current: Vertex<'a>,
-    /// The previous vertex and edge we took to reach this vertex.
-    prev: Option<(Vertex<'a>, Edge)>,
 }
 
 impl<'a> PartialOrd for OrdVertex<'a> {
@@ -62,44 +60,37 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     heap.push(Reverse(OrdVertex {
         distance: 0,
         current: start,
-        prev: None,
     }));
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
-    let mut predecessors: FxHashMap<Vertex, (Vertex, Edge)> = FxHashMap::default();
+    let mut predecessors: FxHashMap<Vertex, (u64, Vertex, Edge)> = FxHashMap::default();
 
     let end;
     loop {
         match heap.pop() {
-            Some(Reverse(OrdVertex {
-                distance,
-                current,
-                prev,
-            })) => {
-                if predecessors.contains_key(&current) {
-                    continue;
-                }
-                if let Some(prev) = prev {
-                    predecessors.insert(current.clone(), prev);
-                }
-
+            Some(Reverse(OrdVertex { distance, current })) => {
                 if current.is_end() {
                     end = current;
                     break;
                 }
 
                 for (edge, next) in neighbours(&current) {
-                    if predecessors.contains_key(&next) {
-                        continue;
-                    }
                     let distance_to_next = distance + edge.cost();
+                    let found_shorter_route = match predecessors.get(&next) {
+                        Some((prev_shortest, _, _)) => distance_to_next < *prev_shortest,
+                        _ => true,
+                    };
 
-                    heap.push(Reverse(OrdVertex {
-                        distance: distance_to_next,
-                        current: next,
-                        prev: Some((current.clone(), edge)),
-                    }));
+                    if found_shorter_route {
+                        predecessors
+                            .insert(next.clone(), (distance_to_next, current.clone(), edge));
+
+                        heap.push(Reverse(OrdVertex {
+                            distance: distance_to_next,
+                            current: next,
+                        }));
+                    }
                 }
             }
             None => panic!("Ran out of graph nodes before reaching end"),
@@ -114,7 +105,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
     let mut route: Vec<(Edge, Vertex)> = vec![];
     let mut cost = 0;
-    while let Some((node, edge)) = predecessors.remove(&current) {
+    while let Some((_, node, edge)) = predecessors.remove(&current) {
         route.push((edge, node.clone()));
         cost += edge.cost();
 
@@ -339,8 +330,8 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                NovelDelimiterRHS { contiguous: false },
                 NovelDelimiterLHS { contiguous: false },
+                NovelDelimiterRHS { contiguous: false },
                 UnchangedNode {
                     depth_difference: 0
                 },
