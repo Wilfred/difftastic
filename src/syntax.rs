@@ -49,6 +49,7 @@ pub struct SyntaxInfo<'a> {
     pub prev_is_contiguous: Cell<bool>,
     pub change: Cell<Option<ChangeKind<'a>>>,
     pub num_ancestors: Cell<u64>,
+    pub num_after: Cell<usize>,
     pub unique_id: Cell<u64>,
 }
 
@@ -61,6 +62,7 @@ impl<'a> SyntaxInfo<'a> {
             prev_is_contiguous: Cell::new(false),
             change: Cell::new(None),
             num_ancestors: Cell::new(0),
+            num_after: Cell::new(0),
             unique_id: Cell::new(0),
         }
     }
@@ -117,6 +119,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
 
                 if env::var("DFT_VERBOSE").is_ok() {
                     ds.field("change", &info.change.get());
+                    ds.field("num_after", &info.num_after.get());
 
                     let next_s = match info.next.get() {
                         Some(List { .. }) => "Some(List)",
@@ -140,6 +143,8 @@ impl<'a> fmt::Debug for Syntax<'a> {
 
                 if env::var("DFT_VERBOSE").is_ok() {
                     ds.field("change", &info.change.get());
+                    ds.field("num_after", &info.num_after.get());
+
                     let next_s = match info.next.get() {
                         Some(List { .. }) => "Some(List)",
                         Some(Atom { .. }) => "Some(Atom)",
@@ -238,6 +243,10 @@ impl<'a> Syntax<'a> {
 
     pub fn next(&self) -> Option<&'a Syntax<'a>> {
         self.info().next.get()
+    }
+
+    pub fn num_after(&self) -> usize {
+        self.info().num_after.get()
     }
 
     pub fn prev_is_contiguous(&self) -> bool {
@@ -421,7 +430,19 @@ pub fn init_info_single<'a>(roots: &[&'a Syntax<'a>], first_id: u64) -> u64 {
     set_prev(roots, None);
     set_num_ancestors(roots, 0);
     set_prev_is_contiguous(roots);
+    set_num_after(roots, 0);
     set_unique_id(roots, first_id)
+}
+
+fn set_num_after<'a>(nodes: &[&Syntax<'a>], parent_num_after: usize) {
+    for (i, node) in nodes.iter().enumerate() {
+        let num_after = parent_num_after + nodes.len() - 1 - i;
+        node.info().num_after.set(num_after);
+
+        if let List { children, .. } = node {
+            set_num_after(children, num_after);
+        }
+    }
 }
 
 fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], prev_id: u64) -> u64 {
