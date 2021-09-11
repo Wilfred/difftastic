@@ -31,7 +31,7 @@ impl<'a> Ord for OrdVertex<'a> {
 
 impl<'a> PartialEq for OrdVertex<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.distance == other.distance
+        (self.distance + self.remaining_estimate) == (other.distance + other.remaining_estimate)
     }
 }
 impl<'a> Eq for OrdVertex<'a> {}
