@@ -114,20 +114,22 @@ pub fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
         }
     }
 
+    info!(
+        "Found predecessors for {} syntax nodes.",
+        predecessors.len()
+    );
     let mut current = end;
-    let mut res: Vec<(Edge, Vertex)> = vec![];
-    loop {
-        match predecessors.remove(&current) {
-            Some((_, node, edge)) => {
-                res.push((edge, node.clone()));
-                current = node;
-            }
-            None => {
-                break;
-            }
-        }
-    }
 
-    res.reverse();
-    res
+    let mut route: Vec<(Edge, Vertex)> = vec![];
+    let mut cost = 0;
+    while let Some((_, node, edge)) = predecessors.remove(&current) {
+        route.push((edge, node.clone()));
+        cost += edge.cost();
+
+        current = node;
+    }
+    info!("Found found a path of {} with cost {}.", route.len(), cost);
+
+    route.reverse();
+    route
 }
