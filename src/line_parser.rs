@@ -12,6 +12,9 @@ pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<'a>> {
     // encounter blank lines.
     for (i, line) in s.lines().enumerate() {
         // Mark each line as a comment atom, so we get word-level diffs.
+        // TODO: this is very hot on large files, such as parser.c,
+        // because we spend ~65% of execution time computing
+        // levenshtein distance.
         res.push(Syntax::new_comment(
             arena,
             vec![SingleLineSpan {
