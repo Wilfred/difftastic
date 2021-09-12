@@ -12,7 +12,8 @@ Fixed an issue with parsing integer values in CSS with units,
 e.g. `123px`.
 
 Improved parsing of Rust punctuation like `&` and `::` inside macro
-invocations.
+invocations. Improved handling of `|closure_param|` and `[` `]`
+delimiters in Rust.
 
 The line-based parser for text files now uses word-level diffs.
 
