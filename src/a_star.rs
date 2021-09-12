@@ -35,7 +35,7 @@ impl<'a> PartialEq for OrdVertex<'a> {
 }
 impl<'a> Eq for OrdVertex<'a> {}
 
-fn estimated_distance_remaining(v: &Vertex) -> u64 {
+pub fn estimated_distance_remaining(v: &Vertex) -> u64 {
     let lhs_num_after = match v.lhs_syntax {
         Some(lhs_syntax) => lhs_syntax.num_after() as u64,
         None => 0,

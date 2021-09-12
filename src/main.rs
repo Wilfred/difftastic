@@ -4,6 +4,7 @@ use mimalloc::MiMalloc;
 static GLOBAL: MiMalloc = MiMalloc;
 
 mod a_star;
+mod a_star_iterative;
 mod dijkstra;
 mod files;
 mod graph;

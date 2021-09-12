@@ -7,7 +7,7 @@ use std::{
     env,
 };
 
-use crate::a_star;
+use crate::{a_star, a_star_iterative};
 use crate::{
     graph::{mark_route, neighbours, Edge, Vertex},
     syntax::Syntax,
@@ -131,6 +131,8 @@ pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'
         a_star::shortest_path(start)
     } else if env::var("DFT_GREEDY").is_ok() {
         a_star::shortest_path_greedy(start)
+    } else if env::var("DFT_IDA").is_ok() {
+        a_star_iterative::shortest_path(start)
     } else {
         shortest_path(start)
     };
