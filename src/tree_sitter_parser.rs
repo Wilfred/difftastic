@@ -126,7 +126,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["char_literal", "string_literal"])
                 .into_iter()
                 .collect(),
-            open_delimiter_tokens: (vec!["{", "("]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["{", "(", "[", "|"]).into_iter().collect(),
         }),
         "ts" => Some(TreeSitterConfig {
             name: "TypeScript",
