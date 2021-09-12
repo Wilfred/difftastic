@@ -7,6 +7,9 @@ use crate::{positions::SingleLineSpan, syntax::Syntax};
 /// This is a fallback for files that we don't know how to parse.
 pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<'a>> {
     let mut res = vec![];
+    // TODO: This scales poorly to large files (e.g. parser.c
+    // changes). Consider grouping Syntax items into lists when we
+    // encounter blank lines.
     for (i, line) in s.lines().enumerate() {
         // Mark each line as a comment atom, so we get word-level diffs.
         res.push(Syntax::new_comment(
