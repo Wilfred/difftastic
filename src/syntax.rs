@@ -46,6 +46,7 @@ pub struct SyntaxInfo<'a> {
     pub pos_content_hash: u64,
     pub next: Cell<Option<&'a Syntax<'a>>>,
     pub prev: Cell<Option<&'a Syntax<'a>>>,
+    pub prev_is_contiguous: Cell<bool>,
     pub change: Cell<Option<ChangeKind<'a>>>,
     pub num_ancestors: Cell<u64>,
     pub unique_id: Cell<u64>,
@@ -57,6 +58,7 @@ impl<'a> SyntaxInfo<'a> {
             pos_content_hash,
             next: Cell::new(None),
             prev: Cell::new(None),
+            prev_is_contiguous: Cell::new(false),
             change: Cell::new(None),
             num_ancestors: Cell::new(0),
             unique_id: Cell::new(0),
@@ -239,26 +241,7 @@ impl<'a> Syntax<'a> {
     }
 
     pub fn prev_is_contiguous(&self) -> bool {
-        if let Some(prev) = self.info().prev.get() {
-            match prev {
-                List {
-                    open_position,
-                    close_position,
-                    ..
-                } => {
-                    let prev_is_parent = prev.num_ancestors() < self.num_ancestors();
-                    if prev_is_parent {
-                        open_position.last().map(|p| p.line) == self.first_line()
-                    } else {
-                        // predecessor node at the same level.
-                        close_position.last().map(|p| p.line) == self.first_line()
-                    }
-                }
-                Atom { .. } => prev.last_line() == self.first_line(),
-            }
-        } else {
-            false
-        }
+        self.info().prev_is_contiguous.get()
     }
 
     pub fn id(&self) -> u64 {
@@ -437,6 +420,7 @@ pub fn init_info_single<'a>(roots: &[&'a Syntax<'a>], first_id: u64) -> u64 {
     set_next(roots, None);
     set_prev(roots, None);
     set_num_ancestors(roots, 0);
+    set_prev_is_contiguous(roots);
     set_unique_id(roots, first_id)
 }
 
@@ -487,6 +471,35 @@ fn set_num_ancestors<'a>(nodes: &[&Syntax<'a>], num_ancestors: u64) {
 
         if let List { children, .. } = node {
             set_num_ancestors(children, num_ancestors + 1);
+        }
+    }
+}
+
+fn set_prev_is_contiguous<'a>(roots: &[&Syntax<'a>]) {
+    for node in roots {
+        let is_contiguous = if let Some(prev) = node.info().prev.get() {
+            match prev {
+                List {
+                    open_position,
+                    close_position,
+                    ..
+                } => {
+                    let prev_is_parent = prev.num_ancestors() < node.num_ancestors();
+                    if prev_is_parent {
+                        open_position.last().map(|p| p.line) == node.first_line()
+                    } else {
+                        // predecessor node at the same level.
+                        close_position.last().map(|p| p.line) == node.first_line()
+                    }
+                }
+                Atom { .. } => prev.last_line() == node.first_line(),
+            }
+        } else {
+            false
+        };
+        node.info().prev_is_contiguous.set(is_contiguous);
+        if let List { children, .. } = node {
+            set_prev_is_contiguous(children);
         }
     }
 }
