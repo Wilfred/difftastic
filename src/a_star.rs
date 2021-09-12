@@ -130,3 +130,72 @@ pub fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     route.reverse();
     route
 }
+
+pub fn shortest_path_greedy(start: Vertex) -> Vec<(Edge, Vertex)> {
+    // We want to visit nodes with the shortest distance first, but
+    // BinaryHeap is a max-heap. Ensure nodes are wrapped with Reverse
+    // to flip comparisons.
+    let mut heap: BinaryHeap<Reverse<_>> = BinaryHeap::new();
+
+    let total_estimate = estimated_distance_remaining(&start);
+    heap.push(Reverse(OrdVertex {
+        distance: 0,
+        current: start,
+        total_estimate,
+    }));
+
+    // TODO: this grows very big. Consider using IDA* to reduce memory
+    // usage.
+    let mut predecessors: FxHashMap<Vertex, (u64, Vertex, Edge)> = FxHashMap::default();
+
+    let end;
+    loop {
+        match heap.pop() {
+            Some(Reverse(OrdVertex {
+                distance,
+                current,
+                total_estimate: _,
+            })) => {
+                if current.is_end() {
+                    end = current;
+                    break;
+                }
+
+                for (edge, next) in neighbours(&current) {
+                    if predecessors.get(&next).is_none() {
+                        let distance_to_next = distance + edge.cost();
+                        predecessors
+                            .insert(next.clone(), (distance_to_next, current.clone(), edge));
+
+                        let total_estimate = distance_to_next + estimated_distance_remaining(&next);
+                        heap.push(Reverse(OrdVertex {
+                            distance: distance_to_next,
+                            current: next,
+                            total_estimate,
+                        }));
+                    }
+                }
+            }
+            None => panic!("Ran out of graph nodes before reaching end"),
+        }
+    }
+
+    info!(
+        "Found predecessors for {} syntax nodes.",
+        predecessors.len()
+    );
+    let mut current = end;
+
+    let mut route: Vec<(Edge, Vertex)> = vec![];
+    let mut cost = 0;
+    while let Some((_, node, edge)) = predecessors.remove(&current) {
+        route.push((edge, node.clone()));
+        cost += edge.cost();
+
+        current = node;
+    }
+    info!("Found found a path of {} with cost {}.", route.len(), cost);
+
+    route.reverse();
+    route
+}
