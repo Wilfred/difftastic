@@ -230,8 +230,7 @@ impl<'a> Syntax<'a> {
 
     pub fn info(&self) -> &SyntaxInfo<'a> {
         match self {
-            List { info, .. } => info,
-            Atom { info, .. } => info,
+            List { info, .. } | Atom { info, .. } => info,
         }
     }
 
@@ -430,7 +429,7 @@ pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>])
     init_info_single(rhs_roots, next_id);
 }
 
-/// Initialise all the fields in SyntaxInfo.
+/// Initialise all the fields in `SyntaxInfo`.
 ///
 /// Return the next unique ID available, so we can ensure LHS and RHS
 /// have different IDs.

@@ -22,7 +22,7 @@ use rustc_hash::FxHashMap;
 /// semantics on [`Vertex`] (which should only consider LHS/RHS
 /// syntax).
 ///
-/// Defining OrdVertex as a separate type allows us different Eq and
+/// Defining `OrdVertex` as a separate type allows us different Eq and
 /// Ord behaviour.
 #[derive(Debug)]
 struct OrdVertex<'a> {

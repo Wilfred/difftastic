@@ -23,7 +23,7 @@ impl fmt::Debug for LineNumber {
 
 impl From<usize> for LineNumber {
     fn from(number: usize) -> Self {
-        LineNumber(number)
+        Self(number)
     }
 }
 
