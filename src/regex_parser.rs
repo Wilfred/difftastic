@@ -322,7 +322,7 @@ struct ParseState {
 
 impl ParseState {
     fn new() -> Self {
-        ParseState {
+        Self {
             str_i: 0,
             close_brace: None,
         }
