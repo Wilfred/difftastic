@@ -11,6 +11,9 @@ and `.joker`.
 Fixed an issue with parsing integer values in CSS with units,
 e.g. `123px`.
 
+Improved parsing of Rust punctuation like `&` and `::` inside macro
+invocations.
+
 The line-based parser for text files now uses word-level diffs.
 
 ### Diffing
