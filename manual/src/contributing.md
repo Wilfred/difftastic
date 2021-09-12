@@ -35,10 +35,10 @@ There are also several files in `sample_files/` that you can use.
 The best way to test difftastic is to look at history from a real
 project. Set `GIT_EXTERNAL_DIFF` to point to your current build.
 
-For example, you can run difftastic on its own git repository.
+For example, you can run difftastic on its own source code.
 
 ```
-$ GIT_EXTERNAL_DIFF=./target/release/difftastic git log -p --ext-diff
+$ GIT_EXTERNAL_DIFF=./target/release/difftastic git log -p --ext-diff -- src
 ```
 
 ## Profiling
