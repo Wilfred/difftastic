@@ -323,8 +323,8 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                NovelDelimiterLHS { contiguous: false },
                 NovelDelimiterRHS { contiguous: false },
+                NovelDelimiterLHS { contiguous: false },
                 UnchangedNode {
                     depth_difference: 0
                 },
@@ -521,10 +521,10 @@ mod tests {
         assert_eq!(
             actions,
             vec![
-                NovelTreeLHS {
+                NovelTreeRHS {
                     num_descendants: 21
                 },
-                NovelTreeRHS {
+                NovelTreeLHS {
                     num_descendants: 21
                 },
             ]
