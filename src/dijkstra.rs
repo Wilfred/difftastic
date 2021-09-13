@@ -98,8 +98,9 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     }
 
     info!(
-        "Found predecessors for {} syntax nodes.",
-        predecessors.len()
+        "Found predecessors for {} syntax nodes, with {} left on heap.",
+        predecessors.len(),
+        heap.len(),
     );
     let mut current = end;
 
@@ -111,7 +112,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
         current = node;
     }
-    info!("Found found a path of {} with cost {}.", route.len(), cost);
+    info!("Found a path of {} with cost {}.", route.len(), cost);
 
     route.reverse();
     route
