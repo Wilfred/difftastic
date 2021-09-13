@@ -1006,12 +1006,50 @@
                   "type": "FIELD",
                   "name": "kind",
                   "content": {
+                    "type": "STRING",
+                    "value": "var"
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "left",
+                  "content": {
                     "type": "CHOICE",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": "var"
+                        "type": "SYMBOL",
+                        "name": "identifier"
                       },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_destructuring_pattern"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_initializer"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "kind",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
                       {
                         "type": "STRING",
                         "value": "let"
@@ -6282,6 +6320,10 @@
     [
       "computed_property_name",
       "array"
+    ],
+    [
+      "binary_expression",
+      "_initializer"
     ]
   ],
   "precedences": [
