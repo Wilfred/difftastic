@@ -39,6 +39,11 @@ radix-heap = "0.3.8"
 
 [dev-dependencies]
 pretty_assertions = "0.6.1"
+criterion = "0.3"
 
 [build-dependencies]
 cc="1.0"
+
+[[bench]]
+name = "parsing"
+harness = false
