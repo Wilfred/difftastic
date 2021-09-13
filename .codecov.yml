@@ -5,6 +5,7 @@ ignore:
 coverage:
   range: 40...60
   status:
+    patch: off
     project:
       default:
         informational: true
