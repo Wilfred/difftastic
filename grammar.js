@@ -83,6 +83,7 @@ module.exports = grammar({
     [$.assignment_expression, $.object_assignment_pattern],
     [$.labeled_statement, $._property_name],
     [$.computed_property_name, $.array],
+    [$.binary_expression, $._initializer],
   ],
 
   word: $ => $.identifier,
@@ -302,7 +303,15 @@ module.exports = grammar({
           $.parenthesized_expression,
         )),
         seq(
-          field('kind', choice('var', 'let', 'const')),
+          field('kind', 'var'),
+          field('left', choice(
+            $.identifier,
+            $._destructuring_pattern
+          )),
+          optional($._initializer)
+        ),
+        seq(
+          field('kind', choice('let', 'const')),
           field('left', choice(
             $.identifier,
             $._destructuring_pattern
