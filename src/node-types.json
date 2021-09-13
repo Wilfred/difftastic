@@ -1120,7 +1120,7 @@
           "named": true
         },
         {
-          "type": "namespace_import",
+          "type": "namespace_export",
           "named": true
         }
       ]
@@ -2087,6 +2087,21 @@
       "types": [
         {
           "type": "import_specifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "namespace_export",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
