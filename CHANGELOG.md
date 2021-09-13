@@ -26,6 +26,12 @@ Optimised Dijkstra implementation, improving runtime performance.
 Side-by-side displays now uses the same width for the left and right
 columns, regardless of the content.
 
+### Internals
+
+Difftastic is now a library with a main binary. No APIs are considered
+stable for external usage. This is intended to make benchmarking
+easier.
+
 ## 0.8
 
 ### Git integration
