@@ -41,6 +41,9 @@
 
 "catch" @keyword
 "class" @keyword
+"co_await" @keyword
+"co_return" @keyword
+"co_yield" @keyword
 "constexpr" @keyword
 "delete" @keyword
 "explicit" @keyword

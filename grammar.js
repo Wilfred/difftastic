@@ -632,6 +632,8 @@ module.exports = grammar(C, {
 
     _statement: ($, original) => choice(
       original,
+      $.co_return_statement,
+      $.co_yield_statement,
       $.for_range_loop,
       $.try_statement,
       $.throw_statement,
@@ -709,6 +711,18 @@ module.exports = grammar(C, {
       seq('return', $.initializer_list, ';')
     ),
 
+    co_return_statement: $ => seq(
+      'co_return',
+      optional($._expression),
+      ';'
+    ),
+
+    co_yield_statement: $ => seq(
+      'co_yield',
+      $._expression,
+      ';'
+    ),
+
     throw_statement: $ => seq(
       'throw',
       optional($._expression),
@@ -737,6 +751,7 @@ module.exports = grammar(C, {
 
     _expression: ($, original) => choice(
       original,
+      $.co_await_expression,
       $.template_function,
       $.scoped_identifier,
       $.new_expression,
@@ -751,6 +766,11 @@ module.exports = grammar(C, {
     call_expression: ($, original) => choice(original, seq(
       field('function', $.primitive_type),
       field('arguments', $.argument_list)
+    )),
+
+    co_await_expression: $ => prec.left(PREC.UNARY, seq(
+      field('operator', 'co_await'),
+      field('argument', $._expression)
     )),
 
     new_expression: $ => prec.right(PREC.NEW, seq(
@@ -911,6 +931,7 @@ module.exports = grammar(C, {
       'operator',
       /\s*/,
       choice(
+        'co_await',
         '+', '-', '*', '/', '%',
         '^', '&', '|', '~',
         '!', '=', '<', '>',
