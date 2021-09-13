@@ -1,15 +1,13 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::{
-    cmp::{Ordering, Reverse},
-    collections::BinaryHeap,
-};
+use std::cmp::{Ordering, Reverse};
 
 use crate::{
     graph::{mark_route, neighbours, Edge, Vertex},
     syntax::Syntax,
 };
+use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
 
 /// A vertex with a distance.
@@ -55,12 +53,9 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     // We want to visit nodes with the shortest distance first, but
     // BinaryHeap is a max-heap. Ensure nodes are wrapped with Reverse
     // to flip comparisons.
-    let mut heap: BinaryHeap<Reverse<_>> = BinaryHeap::new();
+    let mut heap: RadixHeapMap<Reverse<_>, Vertex> = RadixHeapMap::new();
 
-    heap.push(Reverse(OrdVertex {
-        distance: 0,
-        current: start,
-    }));
+    heap.push(Reverse(0), start);
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
@@ -69,7 +64,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     let end;
     loop {
         match heap.pop() {
-            Some(Reverse(OrdVertex { distance, current })) => {
+            Some((Reverse(distance), current)) => {
                 if current.is_end() {
                     end = current;
                     break;
@@ -86,10 +81,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                         predecessors
                             .insert(next.clone(), (distance_to_next, current.clone(), edge));
 
-                        heap.push(Reverse(OrdVertex {
-                            distance: distance_to_next,
-                            current: next,
-                        }));
+                        heap.push(Reverse(distance_to_next), next);
                     }
                 }
             }
