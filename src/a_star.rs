@@ -1,4 +1,5 @@
 use crate::graph::{neighbours, Edge, Edge::*, Vertex};
+use min_max_heap::MinMaxHeap;
 use rustc_hash::FxHashMap;
 use std::{
     cmp::{max, min, Ordering, Reverse},
@@ -58,17 +59,14 @@ fn estimated_distance_remaining(v: &Vertex) -> u64 {
 }
 
 pub fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
-    // We want to visit nodes with the shortest distance first, but
-    // BinaryHeap is a max-heap. Ensure nodes are wrapped with Reverse
-    // to flip comparisons.
-    let mut heap: BinaryHeap<Reverse<_>> = BinaryHeap::new();
+    let mut heap = MinMaxHeap::new();
 
     let total_estimate = estimated_distance_remaining(&start);
-    heap.push(Reverse(OrdVertex {
+    heap.push(OrdVertex {
         distance: 0,
         current: start,
         total_estimate,
-    }));
+    });
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
@@ -77,12 +75,12 @@ pub fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     let mut neighbour_buf = [None, None, None, None, None, None, None, None, None, None];
     let end;
     loop {
-        match heap.pop() {
-            Some(Reverse(OrdVertex {
+        match heap.pop_min() {
+            Some(OrdVertex {
                 distance,
                 current,
                 total_estimate: _,
-            })) => {
+            }) => {
                 if current.is_end() {
                     end = current;
                     break;
@@ -97,15 +95,28 @@ pub fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                     };
 
                     if found_shorter_route {
-                        predecessors
-                            .insert(next.clone(), (distance_to_next, current.clone(), edge));
-
                         let total_estimate = distance_to_next + estimated_distance_remaining(&next);
-                        heap.push(Reverse(OrdVertex {
-                            distance: distance_to_next,
-                            current: next,
-                            total_estimate,
-                        }));
+
+                        let heap_full = heap.len() >= 10_000;
+                        let cost_too_high = match heap.peek_max() {
+                            Some(v_max) => total_estimate > v_max.total_estimate,
+                            None => false,
+                        };
+
+                        if heap_full && !cost_too_high {
+                            heap.pop_max();
+                        }
+
+                        if !heap_full || !cost_too_high {
+                            predecessors
+                                .insert(next.clone(), (distance_to_next, current.clone(), edge));
+
+                            heap.push(OrdVertex {
+                                distance: distance_to_next,
+                                current: next,
+                                total_estimate,
+                            });
+                        }
                     }
                 }
             }
@@ -114,8 +125,9 @@ pub fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     }
 
     info!(
-        "Found predecessors for {} syntax nodes.",
-        predecessors.len()
+        "Found predecessors for {} syntax nodes, with {} left on heap.",
+        predecessors.len(),
+        heap.len(),
     );
     let mut current = end;
 
@@ -170,6 +182,7 @@ pub fn shortest_path_greedy(start: Vertex) -> Vec<(Edge, Vertex)> {
                             .insert(next.clone(), (distance_to_next, current.clone(), edge));
 
                         let total_estimate = distance_to_next + estimated_distance_remaining(&next);
+
                         heap.push(Reverse(OrdVertex {
                             distance: distance_to_next,
                             current: next,
