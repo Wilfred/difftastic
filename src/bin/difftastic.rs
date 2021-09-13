@@ -3,25 +3,13 @@ use mimalloc::MiMalloc;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-mod dijkstra;
-mod files;
-mod graph;
-mod inline;
-mod intervals;
-mod line_parser;
-mod lines;
-mod positions;
-mod regex_parser;
-mod side_by_side;
-mod style;
-mod syntax;
-mod tree_sitter_parser;
 use atty::Stream;
 use clap::{crate_version, App, AppSettings, Arg};
 use std::{env, ffi::OsStr, path::Path};
 use typed_arena::Arena;
 
-use crate::{
+use difftastic::*;
+use difftastic::{
     dijkstra::mark_syntax,
     files::{is_probably_binary, read_or_die},
     lines::{join_overlapping, visible_groups, MaxLine},
@@ -30,8 +18,6 @@ use crate::{
 };
 
 extern crate pretty_env_logger;
-#[macro_use]
-extern crate log;
 
 fn configure_color() {
     if atty::is(Stream::Stdout) || env::var("GIT_PAGER_IN_USE").is_ok() {
