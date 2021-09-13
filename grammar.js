@@ -105,7 +105,7 @@ module.exports = grammar({
         'export',
         choice(
           seq('*', $._from_clause, $._semicolon),
-          seq($.namespace_import, $._from_clause, $._semicolon),
+          seq(alias($.namespace_import_export, $.namespace_export), $._from_clause, $._semicolon),
           seq($.export_clause, $._from_clause, $._semicolon),
           seq($.export_clause, $._semicolon)
         )
@@ -168,14 +168,14 @@ module.exports = grammar({
     ),
 
     import_clause: $ => choice(
-      $.namespace_import,
+      alias($.namespace_import_export, $.namespace_import),
       $.named_imports,
       seq(
         $.identifier,
         optional(seq(
           ',',
           choice(
-            $.namespace_import,
+            alias($.namespace_import_export, $.namespace_import),
             $.named_imports
           )
         ))
@@ -186,7 +186,7 @@ module.exports = grammar({
       "from", field('source', $.string)
     ),
 
-    namespace_import: $ => seq(
+    namespace_import_export: $ => seq(
       "*", "as", $.identifier
     ),
 

@@ -64,8 +64,13 @@
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "namespace_import"
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "namespace_import_export"
+                      },
+                      "named": true,
+                      "value": "namespace_export"
                     },
                     {
                       "type": "SYMBOL",
@@ -366,8 +371,13 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "namespace_import"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "namespace_import_export"
+          },
+          "named": true,
+          "value": "namespace_import"
         },
         {
           "type": "SYMBOL",
@@ -394,8 +404,13 @@
                       "type": "CHOICE",
                       "members": [
                         {
-                          "type": "SYMBOL",
-                          "name": "namespace_import"
+                          "type": "ALIAS",
+                          "content": {
+                            "type": "SYMBOL",
+                            "name": "namespace_import_export"
+                          },
+                          "named": true,
+                          "value": "namespace_import"
                         },
                         {
                           "type": "SYMBOL",
@@ -431,7 +446,7 @@
         }
       ]
     },
-    "namespace_import": {
+    "namespace_import_export": {
       "type": "SEQ",
       "members": [
         {

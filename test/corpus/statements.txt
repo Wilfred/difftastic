@@ -149,7 +149,7 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
   (export_statement
     source: (string (string_fragment)))
   (export_statement
-    (namespace_import (identifier))
+    (namespace_export (identifier))
     source: (string (string_fragment)))
   (export_statement
     (export_clause
