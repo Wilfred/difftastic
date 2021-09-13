@@ -36,7 +36,7 @@ module.exports = function defineGrammar(dialect) {
       [$.mapped_type_clause, $.primary_expression],
       [$.accessibility_modifier, $.primary_expression],
       ['unary_void', $.expression],
-      ['extends_type', $.primary_expression],
+      [$._extends_type, $.extends_clause, $.primary_expression],
       ['unary', 'assign'],
       ['declaration', $.expression],
       [$.predefined_type, $.unary_expression],
@@ -255,7 +255,7 @@ module.exports = function defineGrammar(dialect) {
         previous,
         seq('export', 'type', $.export_clause),
         seq('export', '=', $.identifier, $._semicolon),
-        seq('export', 'as', 'namespace', $.identifier, $._semicolon)
+        seq('export', 'as', 'namespace', $.identifier, $._semicolon),
       ),
 
       non_null_expression: $ => prec.left('unary', seq(
@@ -458,17 +458,20 @@ module.exports = function defineGrammar(dialect) {
         field('body', $.object_type)
       ),
 
-      extends_clause: $ => prec('extends_type', seq(
+      _extends_type: $ => choice(
+        $._type_identifier,
+        $.nested_type_identifier,
+        $.generic_type,
+      ),
+      functional_extension: $ => seq($._extends_type, $.arguments, optional($.type_arguments)),
+
+      extends_clause: $ => seq(
         'extends',
         commaSep1(choice(
-          prec('extends_type', choice(
-            $._type_identifier,
-            $.nested_type_identifier,
-            $.generic_type
-          )),
+          choice($._extends_type, $.functional_extension),
           $.expression
         ))
-      )),
+      ),
 
       enum_declaration: $ => seq(
         optional('const'),
