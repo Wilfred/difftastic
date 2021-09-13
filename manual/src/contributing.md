@@ -58,6 +58,9 @@ lead to huge memory consumption.
 $ /usr/bin/time -v ./target/release/difftastic before.rs after.rs
 ```
 
+Many more profiling techniques are discussed in the [The Rust
+Performance Book](https://nnethercote.github.io/perf-book/).
+
 ## Manual
 
 This website is generated with
