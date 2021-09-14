@@ -1129,7 +1129,7 @@ type A<B, C> = B extends C
     (template_literal_type
       (template_type
         (literal_type
-          (string)))
+          (string (string_fragment))))
       (template_type
         (literal_type
           (number)))))
@@ -1157,7 +1157,7 @@ type A<B, C> = B extends C
               (literal_type
                 (string))
               (literal_type
-                (string))))
+                (string (string_fragment)))))
           (template_type
             (type_identifier)))
         (type_identifier))
