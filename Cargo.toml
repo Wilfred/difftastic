@@ -10,12 +10,12 @@ keywords = ["diff", "syntax"]
 categories = ["development-tools", "command-line-utilities", "parser-implementations"]
 edition = "2018"
 include = [
-        "build.rs",
-        "src/",
-        "vendor/**/*.c",
-        "vendor/**/*.h",
-        "vendor/**/*.cc",
-        "README.md",
+        "/build.rs",
+        "/src/",
+        "/vendor/**/*.c",
+        "/vendor/**/*.h",
+        "/vendor/**/*.cc",
+        "/README.md",
 ]
 
 [dependencies]
