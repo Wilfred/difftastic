@@ -1,3 +1,5 @@
+//! Parse code with tree-sitter language implementations.
+
 use std::{borrow::Borrow, collections::HashSet, ffi::OsStr};
 
 use tree_sitter::{Language, Parser, TreeCursor};

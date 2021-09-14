@@ -1,3 +1,5 @@
+//! A fallback "parser" for plain text.
+
 use typed_arena::Arena;
 
 use crate::{positions::SingleLineSpan, syntax::Syntax};

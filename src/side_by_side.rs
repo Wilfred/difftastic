@@ -1,3 +1,5 @@
+//! Side-by-side (two column) display of diffs.
+
 use atty::Stream;
 use colored::{Color, Colorize};
 use std::{
