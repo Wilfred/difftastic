@@ -23,8 +23,8 @@
   },
   "scripts": {
     "build": "npm run build-typescript && npm run build-tsx",
-    "build-typescript": "cd typescript && tree-sitter generate",
-    "build-tsx": "cd tsx && tree-sitter generate",
+    "build-typescript": "cd typescript && tree-sitter generate --no-bindings",
+    "build-tsx": "cd tsx && tree-sitter generate --no-bindings",
     "test-load": "node -e \"console.log(require('./typescript').name, require('./tsx').name)\"",
     "test": "npm run test-typescript && npm run test-tsx && npm run test-load && script/parse-examples",
     "test-typescript": "cd typescript && tree-sitter test",
