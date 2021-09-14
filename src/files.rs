@@ -1,3 +1,5 @@
+//! File reading utilities.
+
 use std::fs;
 
 pub fn read_or_die(path: &str) -> Vec<u8> {

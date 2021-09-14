@@ -1,3 +1,5 @@
+//! Inline, or "unified" diff display.
+
 use std::collections::HashSet;
 
 use crate::{
