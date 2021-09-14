@@ -909,6 +909,7 @@ module.exports = grammar(C, {
 
     operator_name: $ => token(seq(
       'operator',
+      /\s*/,
       choice(
         '+', '-', '*', '/', '%',
         '^', '&', '|', '~',
@@ -921,7 +922,8 @@ module.exports = grammar(C, {
         ',',
         '->*',
         '->',
-        '()', '[]'
+        '()', '[]',
+        seq(choice('new', 'delete'),  /\s*/, optional('[]')),
       )
     )),
 
