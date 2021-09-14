@@ -17,7 +17,7 @@ use Edge::*;
 /// For example, suppose we have `X A` on the LHS and `A` on the
 /// RHS. Our start vertex looks like this.
 ///
-/// ```
+/// ```text
 /// LHS: X A     RHS: A
 ///      ^            ^
 /// ```
@@ -25,7 +25,7 @@ use Edge::*;
 /// From this vertex, we could take [`Edge::NovelAtomLHS`], bringing
 /// us to this vertex.
 ///
-/// ```
+/// ```text
 /// LHS: X A     RHS: A
 ///        ^          ^
 /// ```
@@ -33,7 +33,7 @@ use Edge::*;
 /// Alternatively, we could take the [`Edge::NovelAtomRHS`], bringing us
 /// to this vertex.
 ///
-/// ```
+/// ```text
 /// LHS: X A     RHS: A
 ///      ^              ^
 /// ```
