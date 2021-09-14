@@ -78,12 +78,12 @@ fn main() {
     );
     build(
         "tree-sitter-tsx",
-        "vendor/tree-sitter-typescript-src/tsx",
+        "vendor/tree-sitter-typescript-src/tsx/src",
         &["scanner.c"],
     );
     build(
         "tree-sitter-typescript",
-        "vendor/tree-sitter-typescript-src/typescript",
+        "vendor/tree-sitter-typescript-src/typescript/src",
         &["scanner.c"],
     );
 }
