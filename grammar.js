@@ -46,6 +46,7 @@ module.exports = grammar({
     [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
+    [$._declaration_specifiers, $.attributed_statement],
   ],
 
   word: $ => $.identifier,
@@ -58,6 +59,7 @@ module.exports = grammar({
       $.linkage_specification,
       $.declaration,
       $._statement,
+      $.attributed_statement,
       $.type_definition,
       $._empty_declaration,
       $.preproc_if,
@@ -212,6 +214,7 @@ module.exports = grammar({
         $.storage_class_specifier,
         $.type_qualifier,
         $.attribute_specifier,
+        $.attribute_definition,
         $.ms_declspec_modifier
       )),
       field('type', $._type_specifier),
@@ -219,6 +222,7 @@ module.exports = grammar({
         $.storage_class_specifier,
         $.type_qualifier,
         $.attribute_specifier,
+        $.attribute_definition,
         $.ms_declspec_modifier
       ))
     ),
@@ -238,6 +242,18 @@ module.exports = grammar({
       '(',
       $.argument_list,
       ')'
+    ),
+
+    attribute: $ => seq(
+      optional(seq(field('prefix', $.identifier), '::')),
+      field('name', $.identifier),
+      optional($.argument_list)
+    ),
+
+    attribute_definition: $ => seq(
+      '[[',
+      commaSep1($.attribute),
+      ']]'
     ),
 
     ms_declspec_modifier: $ => seq(
@@ -283,6 +299,7 @@ module.exports = grammar({
     ),
 
     _declarator: $ => choice(
+      $.attributed_declarator,
       $.pointer_declarator,
       $.function_declarator,
       $.array_declarator,
@@ -291,6 +308,7 @@ module.exports = grammar({
     ),
 
     _field_declarator: $ => choice(
+      alias($.attributed_field_declarator, $.attributed_declarator),
       alias($.pointer_field_declarator, $.pointer_declarator),
       alias($.function_field_declarator, $.function_declarator),
       alias($.array_field_declarator, $.array_declarator),
@@ -299,6 +317,7 @@ module.exports = grammar({
     ),
 
     _type_declarator: $ => choice(
+      alias($.attributed_type_declarator, $.attributed_declarator),
       alias($.pointer_type_declarator, $.pointer_declarator),
       alias($.function_type_declarator, $.function_declarator),
       alias($.array_type_declarator, $.array_declarator),
@@ -335,6 +354,18 @@ module.exports = grammar({
     )),
 
 
+    attributed_declarator: $ => prec.right(seq(
+      $._declarator,
+      repeat1($.attribute_definition),
+    )),
+    attributed_field_declarator: $ => prec.right(seq(
+      $._field_declarator,
+      repeat1($.attribute_definition),
+    )),
+    attributed_type_declarator: $ => prec.right(seq(
+      $._type_declarator,
+      repeat1($.attribute_definition),
+    )),
 
     pointer_declarator: $ => prec.dynamic(1, prec.right(seq(
       optional($.ms_based_modifier),
@@ -563,6 +594,11 @@ module.exports = grammar({
     ),
 
     // Statements
+
+    attributed_statement: $ => seq(
+      repeat1($.attribute_definition),
+      $._statement
+    ),
 
     _statement: $ => choice(
       $.case_statement,
