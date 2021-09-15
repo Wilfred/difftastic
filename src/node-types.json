@@ -30,6 +30,10 @@
         "named": true
       },
       {
+        "type": "attributed_declarator",
+        "named": true
+      },
+      {
         "type": "function_declarator",
         "named": true
       },
@@ -146,6 +150,10 @@
         "named": true
       },
       {
+        "type": "attributed_declarator",
+        "named": true
+      },
+      {
         "type": "field_identifier",
         "named": true
       },
@@ -227,6 +235,10 @@
     "subtypes": [
       {
         "type": "array_declarator",
+        "named": true
+      },
+      {
+        "type": "attributed_declarator",
         "named": true
       },
       {
@@ -552,6 +564,57 @@
     }
   },
   {
+    "type": "attribute",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "prefix": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attribute_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attribute_specifier",
     "named": true,
     "fields": {},
@@ -561,6 +624,52 @@
       "types": [
         {
           "type": "argument_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attributed_declarator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_declarator",
+          "named": true
+        },
+        {
+          "type": "_field_declarator",
+          "named": true
+        },
+        {
+          "type": "_type_declarator",
+          "named": true
+        },
+        {
+          "type": "attribute_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attributed_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_statement",
+          "named": true
+        },
+        {
+          "type": "attribute_definition",
           "named": true
         }
       ]
@@ -916,6 +1025,10 @@
           "named": true
         },
         {
+          "type": "attributed_statement",
+          "named": true
+        },
+        {
           "type": "declaration",
           "named": true
         },
@@ -1048,6 +1161,10 @@
       "required": false,
       "types": [
         {
+          "type": "attribute_definition",
+          "named": true
+        },
+        {
           "type": "attribute_specifier",
           "named": true
         },
@@ -1080,6 +1197,10 @@
         },
         {
           "type": "_type_specifier",
+          "named": true
+        },
+        {
+          "type": "attributed_statement",
           "named": true
         },
         {
@@ -1266,6 +1387,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_definition",
+          "named": true
+        },
         {
           "type": "attribute_specifier",
           "named": true
@@ -1520,6 +1645,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_definition",
+          "named": true
+        },
         {
           "type": "attribute_specifier",
           "named": true
@@ -1869,6 +1998,10 @@
       "required": false,
       "types": [
         {
+          "type": "attribute_definition",
+          "named": true
+        },
+        {
           "type": "attribute_specifier",
           "named": true
         },
@@ -2157,6 +2290,10 @@
           "named": true
         },
         {
+          "type": "attributed_statement",
+          "named": true
+        },
+        {
           "type": "declaration",
           "named": true
         },
@@ -2217,6 +2354,10 @@
         },
         {
           "type": "_type_specifier",
+          "named": true
+        },
+        {
+          "type": "attributed_statement",
           "named": true
         },
         {
@@ -2372,6 +2513,10 @@
           "named": true
         },
         {
+          "type": "attributed_statement",
+          "named": true
+        },
+        {
           "type": "declaration",
           "named": true
         },
@@ -2457,6 +2602,10 @@
         },
         {
           "type": "_type_specifier",
+          "named": true
+        },
+        {
+          "type": "attributed_statement",
           "named": true
         },
         {
@@ -2751,6 +2900,10 @@
         },
         {
           "type": "_type_specifier",
+          "named": true
+        },
+        {
+          "type": "attributed_statement",
           "named": true
         },
         {
@@ -3148,6 +3301,10 @@
     "named": false
   },
   {
+    "type": "::",
+    "named": false
+  },
+  {
     "type": ";",
     "named": false
   },
@@ -3216,7 +3373,15 @@
     "named": false
   },
   {
+    "type": "[[",
+    "named": false
+  },
+  {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "]]",
     "named": false
   },
   {
