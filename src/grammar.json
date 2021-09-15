@@ -1204,10 +1204,6 @@
                     {
                       "type": "SYMBOL",
                       "name": "template_interpolation"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "template_directive"
                     }
                   ]
                 }
@@ -1250,10 +1246,6 @@
                   {
                     "type": "SYMBOL",
                     "name": "template_interpolation"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "template_directive"
                   }
                 ]
               }
@@ -1345,10 +1337,6 @@
           "name": "template_interpolation_end"
         }
       ]
-    },
-    "template_directive": {
-      "type": "CHOICE",
-      "members": []
     },
     "comment": {
       "type": "TOKEN",

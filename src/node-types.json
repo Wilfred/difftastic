@@ -482,10 +482,6 @@
           "named": true
         },
         {
-          "type": "template_directive",
-          "named": true
-        },
-        {
           "type": "template_interpolation",
           "named": true
         },
@@ -662,10 +658,6 @@
           "named": true
         },
         {
-          "type": "template_directive",
-          "named": true
-        },
-        {
           "type": "template_interpolation",
           "named": true
         },
@@ -717,11 +709,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "template_directive",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "template_expr",
