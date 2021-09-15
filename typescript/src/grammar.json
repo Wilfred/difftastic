@@ -7322,7 +7322,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "template_string"
+                "name": "template_literal_type"
               }
             ]
           }
@@ -8463,6 +8463,56 @@
         {
           "type": "SYMBOL",
           "name": "conditional_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "template_literal_type"
+        }
+      ]
+    },
+    "template_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "${"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_primary_type"
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "template_literal_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "`"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_template_chars"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "template_type"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "`"
         }
       ]
     },
@@ -8676,6 +8726,27 @@
         {
           "type": "SYMBOL",
           "name": "_type"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "as"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_type"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -9831,6 +9902,10 @@
     [
       "array_pattern",
       "tuple_type"
+    ],
+    [
+      "template_literal_type",
+      "template_string"
     ]
   ],
   "precedences": [
@@ -10198,6 +10273,16 @@
       {
         "type": "SYMBOL",
         "name": "_type"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "as_expression"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "_primary_type"
       }
     ]
   ],
