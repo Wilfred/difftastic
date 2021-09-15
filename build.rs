@@ -36,6 +36,7 @@ fn main() {
     println!("cargo:rerun-if-changed=vendor");
 
     // TODO: build these in parallel.
+    build("tree-sitter-c", "vendor/tree-sitter-c-src", &[]);
     build("tree-sitter-clojure", "vendor/tree-sitter-clojure-src", &[]);
     build(
         "tree-sitter-css",

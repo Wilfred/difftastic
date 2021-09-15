@@ -1,6 +1,8 @@
 ## 0.10 (unreleased)
 
-No changes.
+### Parsing
+
+Added a C parser.
 
 ## 0.9
 
