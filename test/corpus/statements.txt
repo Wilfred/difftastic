@@ -322,3 +322,20 @@ void f() {
       (expression_statement (attribute (identifier)))
       (labeled_statement (attribute (identifier)) (statement_identifier) (compound_statement))
       (goto_statement (attribute (identifier)) (statement_identifier)))))
+
+===========================================
+Coroutines
+===========================================
+
+co_return 1;
+co_return;
+co_yield 1;
+
+---
+
+(translation_unit
+  (co_return_statement
+    (number_literal))
+  (co_return_statement)
+  (co_yield_statement
+    (number_literal)))
