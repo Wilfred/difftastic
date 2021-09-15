@@ -1818,7 +1818,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "attribute_definition"
+                "name": "attribute_declaration"
               },
               {
                 "type": "SYMBOL",
@@ -1854,7 +1854,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "attribute_definition"
+                "name": "attribute_declaration"
               },
               {
                 "type": "SYMBOL",
@@ -1974,7 +1974,7 @@
         }
       ]
     },
-    "attribute_definition": {
+    "attribute_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -2397,7 +2397,7 @@
             "type": "REPEAT1",
             "content": {
               "type": "SYMBOL",
-              "name": "attribute_definition"
+              "name": "attribute_declaration"
             }
           }
         ]
@@ -2417,7 +2417,7 @@
             "type": "REPEAT1",
             "content": {
               "type": "SYMBOL",
-              "name": "attribute_definition"
+              "name": "attribute_declaration"
             }
           }
         ]
@@ -2437,7 +2437,7 @@
             "type": "REPEAT1",
             "content": {
               "type": "SYMBOL",
-              "name": "attribute_definition"
+              "name": "attribute_declaration"
             }
           }
         ]
@@ -3794,7 +3794,7 @@
           "type": "REPEAT1",
           "content": {
             "type": "SYMBOL",
-            "name": "attribute_definition"
+            "name": "attribute_declaration"
           }
         },
         {

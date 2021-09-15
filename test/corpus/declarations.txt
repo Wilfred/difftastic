@@ -481,19 +481,19 @@ typedef int MyInt [[deprecated]];
     (primitive_type) (function_declarator (identifier) (parameter_list)))
   (function_definition (primitive_type)
     (function_declarator (identifier) (parameter_list (parameter_declaration
-      (attribute_definition
+      (attribute_declaration
         (attribute (identifier) (identifier) (argument_list (identifier)))
         (attribute (identifier)))
       (primitive_type) (identifier)))) (compound_statement))
   (declaration
-    (attribute_definition (attribute (identifier) (identifier)))
-    (attribute_definition (attribute (identifier) (identifier)))
-    (attribute_definition (attribute (identifier) (identifier)))
-    (attribute_definition (attribute (identifier)))
+    (attribute_declaration (attribute (identifier) (identifier)))
+    (attribute_declaration (attribute (identifier) (identifier)))
+    (attribute_declaration (attribute (identifier) (identifier)))
+    (attribute_declaration (attribute (identifier)))
     (primitive_type)
     (function_declarator (identifier) (parameter_list (parameter_declaration (primitive_type)))))
   (declaration
-    (attribute_definition
+    (attribute_declaration
       (attribute (identifier) (identifier))
       (attribute (identifier) (identifier))
       (attribute (identifier) (identifier))
@@ -504,27 +504,27 @@ typedef int MyInt [[deprecated]];
     (primitive_type)
     (attributed_declarator
       (identifier)
-      (attribute_definition (attribute (identifier)))))
+      (attribute_declaration (attribute (identifier)))))
   (declaration
     (primitive_type)
     (function_declarator
       (attributed_declarator
         (identifier)
-        (attribute_definition (attribute (identifier) (identifier))))
+        (attribute_declaration (attribute (identifier) (identifier))))
       (parameter_list)))
   (declaration
-    (attribute_definition (attribute (identifier) (argument_list (string_literal))))
+    (attribute_declaration (attribute (identifier) (argument_list (string_literal))))
     (primitive_type) (identifier))
   (attributed_statement
-    (attribute_definition (attribute (identifier)))
+    (attribute_declaration (attribute (identifier)))
     (expression_statement))
   (struct_specifier
     (type_identifier)
     (field_declaration_list (field_declaration (primitive_type)
       (attributed_declarator
         (field_identifier)
-        (attribute_definition (attribute (identifier)))))))
+        (attribute_declaration (attribute (identifier)))))))
   (type_definition (primitive_type)
     (attributed_declarator
       (type_identifier)
-      (attribute_definition (attribute (identifier))))))
+      (attribute_declaration (attribute (identifier))))))

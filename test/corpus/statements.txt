@@ -284,17 +284,17 @@ void f() {
   (function_definition (primitive_type)
     (function_declarator (identifier) (parameter_list))
       (compound_statement
-      (attributed_statement (attribute_definition (attribute (identifier)))
+      (attributed_statement (attribute_declaration (attribute (identifier)))
         (switch_statement
           (parenthesized_expression (identifier))
           (compound_statement
-            (attributed_statement (attribute_definition (attribute (identifier))) (case_statement (number_literal) (compound_statement))))))
-      (attributed_statement (attribute_definition (attribute (identifier))) (while_statement (parenthesized_expression (true)) (compound_statement)))
-      (attributed_statement (attribute_definition (attribute (identifier))) (if_statement (parenthesized_expression (true)) (compound_statement)))
-      (attributed_statement (attribute_definition (attribute (identifier))) (for_statement (compound_statement)))
-      (attributed_statement (attribute_definition (attribute (identifier))) (return_statement))
-      (attributed_statement (attribute_definition (attribute (identifier))) (expression_statement (identifier)))
-      (attributed_statement (attribute_definition (attribute (identifier))) (expression_statement))
-      (attributed_statement (attribute_definition (attribute (identifier))) (labeled_statement (statement_identifier) (compound_statement)))
-      (attributed_statement (attribute_definition (attribute (identifier))) (goto_statement (statement_identifier))))))
+            (attributed_statement (attribute_declaration (attribute (identifier))) (case_statement (number_literal) (compound_statement))))))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (while_statement (parenthesized_expression (true)) (compound_statement)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (if_statement (parenthesized_expression (true)) (compound_statement)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (for_statement (compound_statement)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (return_statement))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement (identifier)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (labeled_statement (statement_identifier) (compound_statement)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (goto_statement (statement_identifier))))))
 
