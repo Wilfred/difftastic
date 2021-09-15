@@ -283,3 +283,42 @@ a::b::c = 1;
         (scoped_namespace_identifier (namespace_identifier) (namespace_identifier))
         (namespace_identifier))
       (number_literal))))
+
+=========================================
+Attributes
+=========================================
+
+void f() {
+  [[a]] switch (b) {
+   [[c]] case 1: {}
+  }
+  [[a]] while (true) {}
+  [[a]] if (true) {}
+  [[a]] for (auto x : y) {}
+  [[a]] for (;;) {}
+  [[a]] return;
+  [[a]] a;
+  [[a]];
+  [[a]] label: {}
+  [[a]] goto label;
+}
+
+---
+
+(translation_unit
+  (function_definition (primitive_type)
+    (function_declarator (identifier) (parameter_list))
+      (compound_statement
+      (switch_statement (attribute (identifier))
+        (condition_clause (identifier))
+        (compound_statement
+          (case_statement (attribute (identifier)) (number_literal) (compound_statement))))
+      (while_statement (attribute (identifier)) (condition_clause (true)) (compound_statement))
+      (if_statement (attribute (identifier)) (condition_clause (true)) (compound_statement))
+      (for_range_loop (attribute (identifier)) (auto) (identifier) (identifier) (compound_statement))
+      (for_statement (attribute (identifier)) (compound_statement))
+      (return_statement (attribute (identifier)))
+      (expression_statement (attribute (identifier)) (identifier))
+      (expression_statement (attribute (identifier)))
+      (labeled_statement (attribute (identifier)) (statement_identifier) (compound_statement))
+      (goto_statement (attribute (identifier)) (statement_identifier)))))

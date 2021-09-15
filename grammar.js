@@ -192,12 +192,12 @@ module.exports = grammar(C, {
     // Declarations
 
     function_definition: ($, original) => seq(
-      repeat($.attribute),
+      field('attributes', repeat($.attribute)),
       original
     ),
 
     declaration: ($, original) => seq(
-      repeat($.attribute),
+      field('attributes', repeat($.attribute)),
       original
     ),
 
@@ -239,7 +239,7 @@ module.exports = grammar(C, {
     ),
 
     parameter_declaration: ($, original) => seq(
-      repeat($.attribute),
+      field('attributes', repeat($.attribute)),
       original
     ),
 
@@ -364,7 +364,7 @@ module.exports = grammar(C, {
     ),
 
     field_declaration: $ => seq(
-      repeat($.attribute),
+      field('attributes', repeat($.attribute)),
       optional($.virtual_function_specifier),
       $._declaration_specifiers,
       commaSep(field('declarator', $._field_declarator)),
@@ -377,7 +377,7 @@ module.exports = grammar(C, {
     ),
 
     inline_method_definition: $ => seq(
-      repeat($.attribute),
+      field('attributes', repeat($.attribute)),
       optional($.virtual_function_specifier),
       $._declaration_specifiers,
       field('declarator', $._field_declarator),
@@ -640,18 +640,21 @@ module.exports = grammar(C, {
     ),
 
     switch_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       'switch',
       field('condition', $.condition_clause),
       field('body', $.compound_statement)
     ),
 
     while_statement: $ => seq(
+      field('attributes', repeat($.attribute)),
       'while',
       field('condition', $.condition_clause),
       field('body', $._statement)
     ),
 
     if_statement: $ => prec.right(seq(
+      field('attributes', repeat($.attribute)),
       'if',
       optional('constexpr'),
       field('condition', $.condition_clause),
@@ -693,6 +696,7 @@ module.exports = grammar(C, {
     ),
 
     for_range_loop: $ => seq(
+      field('attributes', repeat($.attribute)),
       'for',
       '(',
       $._declaration_specifiers,
@@ -706,9 +710,12 @@ module.exports = grammar(C, {
       field('body', $._statement)
     ),
 
-    return_statement: ($, original) => choice(
-      original,
-      seq('return', $.initializer_list, ';')
+    return_statement: ($, original) => seq(
+      field('attributes', repeat($.attribute)),
+      choice(
+        original,
+        seq('return', $.initializer_list, ';')
+      )
     ),
 
     co_return_statement: $ => seq(
@@ -739,6 +746,46 @@ module.exports = grammar(C, {
       'catch',
       field('parameters', $.parameter_list),
       field('body', $.compound_statement)
+    ),
+
+    expression_statement: ($, original) => seq(
+      field('attributes', repeat($.attribute)),
+      original,
+    ),
+
+    labeled_statement: ($, original) => seq(
+      field('attributes', repeat($.attribute)),
+      original,
+    ),
+
+    case_statement: ($, original) => seq(
+      field('attributes', repeat($.attribute)),
+      original,
+    ),
+
+    do_statement: ($, original) => seq(
+      field('attributes', repeat($.attribute)),
+      original,
+    ),
+
+    for_statement: ($, original) => seq(
+      field('attributes', repeat($.attribute)),
+      original,
+    ),
+
+    break_statement: ($, original) => seq(
+      field('attributes', repeat($.attribute)),
+      original,
+    ),
+
+    continue_statement: ($, original) => seq(
+      field('attributes', repeat($.attribute)),
+      original,
+    ),
+
+    goto_statement: ($, original) => seq(
+      field('attributes', repeat($.attribute)),
+      original,
     ),
 
     attribute: $ => seq(
