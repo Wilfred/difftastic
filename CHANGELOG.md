@@ -1,9 +1,12 @@
 # Changelog
 
-## 0.5.0 - not yet released
+## 0.5.0 - 2021-09-15
 
 feature:
 * unhide `(block|object|tuple)_(start|end)` tokens
+
+fix:
+* remove empty `template_directive` block because it causes issues for semgrep
 
 ## 0.4.0 - 2021-07-02
 
