@@ -16,6 +16,7 @@ See [the manual](http://difftastic.wilfred.me.uk/) to get started.
 
 Difftastic supports the following languages:
 
+* C
 * Clojure
 * CSS
 * Elixir

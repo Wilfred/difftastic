@@ -25,6 +25,7 @@ pub struct TreeSitterConfig {
 }
 
 extern "C" {
+    fn tree_sitter_c() -> Language;
     fn tree_sitter_clojure() -> Language;
     fn tree_sitter_css() -> Language;
     fn tree_sitter_elisp() -> Language;
@@ -45,6 +46,15 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
     // TODO: find a nice way to extract name and extension information
     // from the package.json in these parsers.
     match extension.to_string_lossy().borrow() {
+        "c" | "h" => Some(TreeSitterConfig {
+            name: "C",
+            language: unsafe { tree_sitter_c() },
+            atom_nodes: (vec!["string_literal", "char_literal"])
+                .into_iter()
+                .collect(),
+            // TODO: Handle array_declarator where [ is the second token.
+            open_delimiter_tokens: (vec!["(", "{"]).into_iter().collect(),
+        }),
         "bb" | "boot" | "clj" | "cljc" | "clje" | "cljs" | "cljx" | "edn" | "joke" | "joker" => {
             Some(TreeSitterConfig {
                 name: "Clojure",
