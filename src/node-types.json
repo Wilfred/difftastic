@@ -600,7 +600,7 @@
     }
   },
   {
-    "type": "attribute_definition",
+    "type": "attribute_declaration",
     "named": true,
     "fields": {},
     "children": {
@@ -650,7 +650,7 @@
           "named": true
         },
         {
-          "type": "attribute_definition",
+          "type": "attribute_declaration",
           "named": true
         }
       ]
@@ -669,7 +669,7 @@
           "named": true
         },
         {
-          "type": "attribute_definition",
+          "type": "attribute_declaration",
           "named": true
         }
       ]
@@ -1161,7 +1161,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute_definition",
+          "type": "attribute_declaration",
           "named": true
         },
         {
@@ -1388,7 +1388,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute_definition",
+          "type": "attribute_declaration",
           "named": true
         },
         {
@@ -1646,7 +1646,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute_definition",
+          "type": "attribute_declaration",
           "named": true
         },
         {
@@ -1998,7 +1998,7 @@
       "required": false,
       "types": [
         {
-          "type": "attribute_definition",
+          "type": "attribute_declaration",
           "named": true
         },
         {

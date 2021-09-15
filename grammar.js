@@ -214,7 +214,7 @@ module.exports = grammar({
         $.storage_class_specifier,
         $.type_qualifier,
         $.attribute_specifier,
-        $.attribute_definition,
+        $.attribute_declaration,
         $.ms_declspec_modifier
       )),
       field('type', $._type_specifier),
@@ -222,7 +222,7 @@ module.exports = grammar({
         $.storage_class_specifier,
         $.type_qualifier,
         $.attribute_specifier,
-        $.attribute_definition,
+        $.attribute_declaration,
         $.ms_declspec_modifier
       ))
     ),
@@ -250,7 +250,7 @@ module.exports = grammar({
       optional($.argument_list)
     ),
 
-    attribute_definition: $ => seq(
+    attribute_declaration: $ => seq(
       '[[',
       commaSep1($.attribute),
       ']]'
@@ -356,15 +356,15 @@ module.exports = grammar({
 
     attributed_declarator: $ => prec.right(seq(
       $._declarator,
-      repeat1($.attribute_definition),
+      repeat1($.attribute_declaration),
     )),
     attributed_field_declarator: $ => prec.right(seq(
       $._field_declarator,
-      repeat1($.attribute_definition),
+      repeat1($.attribute_declaration),
     )),
     attributed_type_declarator: $ => prec.right(seq(
       $._type_declarator,
-      repeat1($.attribute_definition),
+      repeat1($.attribute_declaration),
     )),
 
     pointer_declarator: $ => prec.dynamic(1, prec.right(seq(
@@ -596,7 +596,7 @@ module.exports = grammar({
     // Statements
 
     attributed_statement: $ => seq(
-      repeat1($.attribute_definition),
+      repeat1($.attribute_declaration),
       $._statement
     ),
 
