@@ -272,7 +272,6 @@ module.exports = grammar({
       optional(repeat(choice(
         $.template_literal,
         $.template_interpolation,
-        $.template_directive,
       ))),
       $.quoted_template_end,
     )),
@@ -283,7 +282,6 @@ module.exports = grammar({
       optional(repeat(choice(
         $.template_literal,
         $.template_interpolation,
-        $.template_directive,
       ))),
       $.heredoc_identifier,
     ),
@@ -304,11 +302,7 @@ module.exports = grammar({
       $.template_interpolation_end,
     ),
 
-    // TODO
-    template_directive: $ => choice(
-      //$.template_for,
-      //$.template_if,
-    ),
+    
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(
