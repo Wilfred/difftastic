@@ -498,7 +498,7 @@ interface Enum extends Bar, Baz, funThatEvalsToInterface() {
     (extends_clause
       (type_identifier)
       (type_identifier)
-      (call_expression (identifier) (arguments)))
+      (functional_extension (type_identifier) (arguments)))
       (object_type
         (method_signature
           (accessibility_modifier)
