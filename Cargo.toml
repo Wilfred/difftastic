@@ -45,5 +45,5 @@ criterion = { version = "0.3", features = ["html_reports"] }
 cc="1.0"
 
 [[bench]]
-name = "parsing"
+name = "parse_and_diff"
 harness = false
