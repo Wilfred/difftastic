@@ -46,6 +46,7 @@ module.exports = function defineGrammar(dialect) {
       [$.readonly_type, $.primary_expression],
       [$.type_query, $.subscript_expression, $.expression],
       [$.nested_type_identifier, $.generic_type, $._primary_type, $.lookup_type, $.index_type_query, $._type],
+      [$.as_expression, $._primary_type],
     ]),
 
     conflicts: ($, previous) => previous.concat([
@@ -103,6 +104,8 @@ module.exports = function defineGrammar(dialect) {
       [$.array, $.tuple_type],
       [$.array, $.array_pattern, $.tuple_type],
       [$.array_pattern, $.tuple_type],
+
+      [$.template_literal_type, $.template_string]
     ]),
 
     inline: ($, previous) => previous
@@ -368,7 +371,7 @@ module.exports = function defineGrammar(dialect) {
       as_expression: $ => prec.left('binary_as', seq(
         $.expression,
         'as',
-        choice($._type, $.template_string)
+        choice($._type, $.template_literal_type)
       )),
 
       class_heritage: $ => choice(
@@ -599,6 +602,18 @@ module.exports = function defineGrammar(dialect) {
         $.literal_type,
         $.lookup_type,
         $.conditional_type,
+        $.template_literal_type
+      ),
+
+      template_type: $ => seq('${',$._primary_type,'}'),
+
+      template_literal_type: $ =>     seq(
+        '`',
+        repeat(choice(
+          $._template_chars,
+          $.template_type
+        )),
+        '`'
       ),
 
       infer_type: $ => seq("infer", $._type_identifier),
@@ -652,6 +667,7 @@ module.exports = function defineGrammar(dialect) {
         $._type_identifier,
         'in',
         $._type,
+        optional(seq('as', $._type))
       ),
 
       literal_type: $ => choice(
