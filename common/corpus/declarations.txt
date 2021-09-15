@@ -996,3 +996,25 @@ export class A extends B<C, D> implements C {}
         (implements_clause
           (type_identifier)))
       (class_body))))
+
+==========================================================================
+Semicolon is not automatically inserted for method definitions with a body
+==========================================================================
+
+class Foo {
+  public bar()
+  {
+  }
+}
+
+---
+
+(program
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (method_definition
+        (accessibility_modifier)
+        (property_identifier)
+        (formal_parameters)
+        (statement_block))))) 

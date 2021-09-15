@@ -6263,6 +6263,28 @@
                 "type": "SEQ",
                 "members": [
                   {
+                    "type": "SYMBOL",
+                    "name": "method_signature"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_function_signature_automatic_semicolon"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
                     "type": "CHOICE",
                     "members": [
                       {
