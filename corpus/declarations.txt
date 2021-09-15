@@ -244,3 +244,26 @@ a-property: calc(5px + var(--a-variable));
 (stylesheet
   (declaration (property_name) (integer_value (unit)))
   (declaration (property_name) (call_expression (function_name) (arguments (binary_expression (integer_value (unit)) (call_expression (function_name) (arguments (plain_value))))))))
+
+=============================================
+Spaces after colons in property declarations
+=============================================
+
+div {
+  margin      : 0;
+  padding     : 0;
+}
+
+---
+
+(stylesheet
+  (rule_set
+    (selectors
+      (tag_name))
+    (block
+      (declaration
+        (property_name)
+        (integer_value))
+      (declaration
+        (property_name)
+        (integer_value)))))
