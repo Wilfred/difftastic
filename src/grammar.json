@@ -2801,6 +2801,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "ref_qualifier"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "virtual_specifier"
                 },
                 {
@@ -2860,6 +2864,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "type_qualifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "ref_qualifier"
                 },
                 {
                   "type": "SYMBOL",
@@ -2955,6 +2963,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "type_qualifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "ref_qualifier"
                 },
                 {
                   "type": "SYMBOL",
@@ -8934,6 +8946,19 @@
           }
         ]
       }
+    },
+    "ref_qualifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "&"
+        },
+        {
+          "type": "STRING",
+          "value": "&&"
+        }
+      ]
     },
     "trailing_return_type": {
       "type": "PREC_RIGHT",
