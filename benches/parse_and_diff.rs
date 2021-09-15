@@ -5,7 +5,7 @@ use difftastic::tree_sitter_parser::{from_extension, parse};
 use difftastic::regex_parser as rp;
 use typed_arena::Arena;
 
-pub fn criterion_benchmark(c: &mut Criterion) {
+pub fn parsing_benchmark(c: &mut Criterion) {
     let css_config = from_extension(OsStr::new("css")).unwrap();
     c.bench_function("Tiny CSS file", |b| {
         b.iter(|| {
@@ -31,5 +31,5 @@ pub fn criterion_benchmark(c: &mut Criterion) {
     });
 }
 
-criterion_group!(benches, criterion_benchmark);
+criterion_group!(benches, parsing_benchmark);
 criterion_main!(benches);
