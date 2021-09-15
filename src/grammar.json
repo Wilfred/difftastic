@@ -4212,6 +4212,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "co_return_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "co_yield_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "for_range_loop"
         },
         {
@@ -4843,6 +4851,10 @@
               "name": "parenthesized_expression"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "co_await_expression"
         },
         {
           "type": "SYMBOL",
@@ -9496,6 +9508,48 @@
         }
       ]
     },
+    "co_return_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "co_return"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "co_yield_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "co_yield"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
     "throw_statement": {
       "type": "SEQ",
       "members": [
@@ -9607,6 +9661,31 @@
           "value": "]]"
         }
       ]
+    },
+    "co_await_expression": {
+      "type": "PREC_LEFT",
+      "value": 13,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "STRING",
+              "value": "co_await"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "argument",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          }
+        ]
+      }
     },
     "new_expression": {
       "type": "PREC_RIGHT",
@@ -10225,6 +10304,10 @@
           {
             "type": "CHOICE",
             "members": [
+              {
+                "type": "STRING",
+                "value": "co_await"
+              },
               {
                 "type": "STRING",
                 "value": "+"
