@@ -670,3 +670,21 @@ array_[i] = s[i];
       (subscript_expression
         (identifier)
         (identifier)))))
+
+============================================
+Coroutines
+============================================
+
+co_await fn() || co_await var;
+
+---
+
+(translation_unit
+  (expression_statement
+    (binary_expression
+      (co_await_expression
+        (call_expression
+          (identifier)
+            (argument_list)))
+      (co_await_expression
+        (identifier)))))
