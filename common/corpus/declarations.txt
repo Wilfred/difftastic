@@ -188,7 +188,7 @@ finally {}
     body: (statement_block)
     handler: (catch_clause
       parameter: (identifier)
-      type: (type_annotation (type_identifier))
+      type: (type_annotation (predefined_type))
       body: (statement_block)
     )
     finalizer: (finally_clause body: (statement_block))
@@ -620,7 +620,14 @@ class Foo {
             (identifier)
             (type_annotation (function_type
               (formal_parameters)
-              (union_type (type_identifier) (generic_type (type_identifier) (type_arguments (union_type (type_identifier) (type_identifier))))))))
+              (union_type
+                (type_identifier)
+                (generic_type
+                  (type_identifier)
+                  (type_arguments
+                  (union_type
+                    (type_identifier)
+                    (literal_type (undefined)))))))))
           (optional_parameter
             (identifier)
             (type_annotation (function_type
@@ -877,3 +884,144 @@ export interface I { }
   (export_statement (class_declaration (type_identifier) (class_body)))
   (export_statement (interface_declaration (type_identifier) (object_type)))
   (export_statement (interface_declaration (type_identifier) (object_type))))
+
+=======================================
+Classes with generic parameters
+=======================================
+
+class A<
+  B,
+  C,
+> {}
+
+class D extends A<
+  X,
+  Y,
+> {}
+
+---
+
+(program
+  (class_declaration
+    (type_identifier)
+    (type_parameters (type_parameter (type_identifier)) (type_parameter (type_identifier)))
+    (class_body))
+  (class_declaration
+    (type_identifier)
+    (class_heritage (extends_clause (generic_type
+      (type_identifier)
+      (type_arguments (type_identifier) (type_identifier)))))
+    (class_body)))
+
+=======================================
+Classes with extensions
+=======================================
+
+class A extends B<C>(D) implements C {}
+export class A extends B<C>(D) implements C {}
+
+class A extends B<C>(D)<E> implements C {}
+export class A extends B<C>(D)<E> implements C {}
+
+export class A extends B<C, D> implements C {}
+
+---
+
+(program
+  (class_declaration
+    (type_identifier)
+    (class_heritage
+      (extends_clause
+        (functional_extension
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (arguments
+            (identifier))))
+      (implements_clause
+        (type_identifier)))
+    (class_body))
+  (export_statement
+    (class_declaration
+      (type_identifier)
+      (class_heritage
+        (extends_clause
+          (functional_extension
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))
+            (arguments
+              (identifier))))
+        (implements_clause
+          (type_identifier)))
+      (class_body)))
+  (class_declaration
+    (type_identifier)
+    (class_heritage
+      (extends_clause
+        (functional_extension
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))
+          (arguments
+            (identifier))
+          (type_arguments
+            (type_identifier))))
+      (implements_clause
+        (type_identifier)))
+    (class_body))
+  (export_statement
+    (class_declaration
+      (type_identifier)
+      (class_heritage
+        (extends_clause
+          (functional_extension
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier)))
+            (arguments
+              (identifier))
+            (type_arguments
+              (type_identifier))))
+        (implements_clause
+          (type_identifier)))
+      (class_body)))
+  (export_statement
+    (class_declaration
+      (type_identifier)
+      (class_heritage
+        (extends_clause
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)
+              (type_identifier))))
+        (implements_clause
+          (type_identifier)))
+      (class_body))))
+
+==========================================================================
+Semicolon is not automatically inserted for method definitions with a body
+==========================================================================
+
+class Foo {
+  public bar()
+  {
+  }
+}
+
+---
+
+(program
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (method_definition
+        (accessibility_modifier)
+        (property_identifier)
+        (formal_parameters)
+        (statement_block))))) 

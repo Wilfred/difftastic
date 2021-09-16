@@ -52,6 +52,10 @@
         "named": true
       },
       {
+        "type": "template_literal_type",
+        "named": true
+      },
+      {
         "type": "this",
         "named": true
       },
@@ -773,10 +777,6 @@
         },
         {
           "type": "readonly_type",
-          "named": true
-        },
-        {
-          "type": "template_string",
           "named": true
         },
         {
@@ -2028,6 +2028,10 @@
           "named": true
         },
         {
+          "type": "functional_extension",
+          "named": true
+        },
+        {
           "type": "generic_type",
           "named": true
         },
@@ -2454,6 +2458,37 @@
         },
         {
           "type": "union_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "functional_extension",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arguments",
+          "named": true
+        },
+        {
+          "type": "generic_type",
+          "named": true
+        },
+        {
+          "type": "nested_type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
@@ -3364,6 +3399,10 @@
           "named": true
         },
         {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "number",
           "named": true
         },
@@ -3377,6 +3416,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "undefined",
           "named": true
         }
       ]
@@ -4716,7 +4759,19 @@
             "named": true
           },
           {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "predefined_type",
+            "named": true
+          },
+          {
             "type": "sequence_expression",
+            "named": true
+          },
+          {
+            "type": "string",
             "named": true
           }
         ]
@@ -4824,6 +4879,21 @@
     }
   },
   {
+    "type": "template_literal_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "template_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "template_string",
     "named": true,
     "fields": {},
@@ -4856,6 +4926,21 @@
         },
         {
           "type": "sequence_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_primary_type",
           "named": true
         }
       ]
@@ -5250,11 +5335,19 @@
       "required": true,
       "types": [
         {
-          "type": "generic_type",
+          "type": "call_expression",
           "named": true
         },
         {
-          "type": "primary_expression",
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "member_expression",
+          "named": true
+        },
+        {
+          "type": "subscript_expression",
           "named": true
         }
       ]
@@ -5922,6 +6015,10 @@
     "named": false
   },
   {
+    "type": "never",
+    "named": false
+  },
+  {
     "type": "new",
     "named": false
   },
@@ -5931,11 +6028,15 @@
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "number",
-    "named": true
+    "named": false
+  },
+  {
+    "type": "object",
+    "named": false
   },
   {
     "type": "of",
@@ -6060,6 +6161,10 @@
   {
     "type": "undefined",
     "named": true
+  },
+  {
+    "type": "unknown",
+    "named": false
   },
   {
     "type": "var",
