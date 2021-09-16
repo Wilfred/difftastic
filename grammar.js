@@ -142,6 +142,11 @@ module.exports = grammar(C, {
       'virtual'
     ),
 
+    _declaration_modifiers: ($, original) => choice(
+      original,
+      $.virtual_function_specifier,
+    ),
+
     explicit_function_specifier: $ => choice(
       'explicit',
       prec(PREC.CALL, seq(
@@ -352,7 +357,6 @@ module.exports = grammar(C, {
     ),
 
     field_declaration: $ => seq(
-      optional($.virtual_function_specifier),
       $._declaration_specifiers,
       commaSep(field('declarator', $._field_declarator)),
       optional(choice(
@@ -364,7 +368,6 @@ module.exports = grammar(C, {
     ),
 
     inline_method_definition: $ => seq(
-      optional($.virtual_function_specifier),
       $._declaration_specifiers,
       field('declarator', $._field_declarator),
       choice(
@@ -374,19 +377,13 @@ module.exports = grammar(C, {
       )
     ),
 
-    _constructor_specifiers: $ => repeat1(
-      prec.right(choice(
-        $.storage_class_specifier,
-        $.type_qualifier,
-        $.attribute_specifier,
-        $.attribute_declaration,
-        $.virtual_function_specifier,
-        $.explicit_function_specifier
-      ))
+    _constructor_specifiers: $ => choice(
+      $._declaration_modifiers,
+      $.explicit_function_specifier
     ),
 
     operator_cast_definition: $ => seq(
-      optional($._constructor_specifiers),
+      repeat($._constructor_specifiers),
       field('declarator', $.operator_cast),
       choice(
         field('body', $.compound_statement),
@@ -396,14 +393,14 @@ module.exports = grammar(C, {
     ),
 
     operator_cast_declaration: $ => prec(1, seq(
-      optional($._constructor_specifiers),
+      repeat($._constructor_specifiers),
       field('declarator', $.operator_cast),
       optional(seq('=', field('default_value', $._expression))),
       ';'
     )),
 
     constructor_or_destructor_definition: $ => seq(
-      optional($._constructor_specifiers),
+      repeat($._constructor_specifiers),
       field('declarator', $.function_declarator),
       optional($.field_initializer_list),
       choice(
@@ -414,7 +411,7 @@ module.exports = grammar(C, {
     ),
 
     constructor_or_destructor_declaration: $ => seq(
-      optional($._constructor_specifiers),
+      repeat($._constructor_specifiers),
       field('declarator', $.function_declarator),
       ';'
     ),

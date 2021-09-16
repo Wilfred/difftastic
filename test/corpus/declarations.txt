@@ -207,6 +207,8 @@ class A {
   void b();
   virtual void foo() {}
   virtual void bar();
+  inline virtual void foo() override;
+  virtual inline void foo() final;
 };
 
 ---
@@ -233,7 +235,17 @@ class A {
         (primitive_type)
         (function_declarator
           (field_identifier)
-          (parameter_list))))))
+          (parameter_list)))
+      (field_declaration
+        (storage_class_specifier)
+        (virtual_function_specifier)
+        (primitive_type)
+        (function_declarator (field_identifier) (parameter_list) (virtual_specifier)))
+      (field_declaration
+        (virtual_function_specifier)
+        (storage_class_specifier)
+        (primitive_type)
+        (function_declarator (field_identifier) (parameter_list) (virtual_specifier))))))
 
 =========================================
 Constructor and destructor declarations
