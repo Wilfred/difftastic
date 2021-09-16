@@ -711,13 +711,14 @@ type T = keyof (Person);
 
 type T = typeof Person;
 type T = typeof Person.P;
-type T = typeof Person<P>;
 type T = typeof import('person');
 
 type T = keyof typeof Person;
 
 type T = keyof U[number];
 type T = keyof U & V;
+
+type T = typeof array[number];
 
 ---
 
@@ -735,15 +736,15 @@ type T = keyof U & V;
   (type_alias_declaration (type_identifier)
     (type_query (member_expression (identifier) (property_identifier))))
   (type_alias_declaration (type_identifier)
-    (type_query (generic_type (type_identifier) (type_arguments (type_identifier)))))
-  (type_alias_declaration (type_identifier)
     (type_query (call_expression (import) (arguments (string (string_fragment))))))
   (type_alias_declaration (type_identifier)
     (index_type_query (type_query (identifier))))
   (type_alias_declaration (type_identifier)
     (index_type_query (lookup_type (type_identifier) (predefined_type))))
   (type_alias_declaration (type_identifier)
-    (intersection_type (index_type_query (type_identifier)) (type_identifier))))
+    (intersection_type (index_type_query (type_identifier)) (type_identifier)))
+  (type_alias_declaration (type_identifier)
+    (type_query (subscript_expression (identifier) (predefined_type)))))
 
 =======================================
 Lookup types
@@ -751,7 +752,6 @@ Lookup types
 
 type K1 = Foo[bar]
 type K1 = Foo['bar' | 'baz']
-type A = typeof some_array[number]
 
 ---
 
@@ -761,10 +761,7 @@ type A = typeof some_array[number]
     (lookup_type (type_identifier) (type_identifier)))
   (type_alias_declaration
     (type_identifier)
-    (lookup_type (type_identifier) (union_type (literal_type (string (string_fragment))) (literal_type (string (string_fragment))))))
-  (type_alias_declaration
-    (type_identifier)
-    (lookup_type (type_query (identifier)) (predefined_type))))
+    (lookup_type (type_identifier) (union_type (literal_type (string (string_fragment))) (literal_type (string (string_fragment)))))))
 
 
 =======================================
@@ -1222,3 +1219,50 @@ type A<B> = { [B in keyof C & string as `${P}1` | `${P}2`]: A[B] }
           (lookup_type
             (type_identifier)
             (type_identifier)))))))
+
+============================
+typeof in generic arguments
+============================
+
+type T = Foo<Bar<typeof bar>>
+type T = Foo<Bar<typeof bar.baz>>
+type T = Foo<Bar<typeof bar["baz"]>>
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_query
+              (identifier)))))))
+  (type_alias_declaration
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_query
+              (member_expression
+                (identifier)
+                (property_identifier))))))))
+  (type_alias_declaration
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (type_query
+              (subscript_expression
+                (identifier)
+                (string
+                  (string_fragment))))))))))
