@@ -2318,6 +2318,10 @@
         {
           "type": "type_qualifier",
           "named": true
+        },
+        {
+          "type": "virtual_function_specifier",
+          "named": true
         }
       ]
     }
@@ -3109,6 +3113,10 @@
         {
           "type": "type_qualifier",
           "named": true
+        },
+        {
+          "type": "virtual_function_specifier",
+          "named": true
         }
       ]
     }
@@ -3170,6 +3178,10 @@
         },
         {
           "type": "type_qualifier",
+          "named": true
+        },
+        {
+          "type": "virtual_function_specifier",
           "named": true
         }
       ]
@@ -3252,6 +3264,10 @@
         },
         {
           "type": "type_qualifier",
+          "named": true
+        },
+        {
+          "type": "virtual_function_specifier",
           "named": true
         }
       ]
@@ -4671,6 +4687,10 @@
         {
           "type": "type_qualifier",
           "named": true
+        },
+        {
+          "type": "virtual_function_specifier",
+          "named": true
         }
       ]
     }
@@ -5275,6 +5295,10 @@
         },
         {
           "type": "type_qualifier",
+          "named": true
+        },
+        {
+          "type": "virtual_function_specifier",
           "named": true
         }
       ]
