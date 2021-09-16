@@ -1130,3 +1130,22 @@ inline int h() { }
       declarator: (identifier)
       parameters: (parameter_list))
     body: (compound_statement)))
+
+============================================
+Variable storage classes
+============================================
+
+int a;
+extern int b, c;
+register int e;
+static int f;
+thread_local int c;
+
+---
+
+(translation_unit
+  (declaration (primitive_type) (identifier))
+  (declaration (storage_class_specifier) (primitive_type) (identifier) (identifier))
+  (declaration (storage_class_specifier) (primitive_type) (identifier))
+  (declaration (storage_class_specifier) (primitive_type) (identifier))
+  (declaration (storage_class_specifier) (primitive_type) (identifier)))

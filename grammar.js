@@ -181,7 +181,8 @@ module.exports = grammar(C, {
 
     // The `auto` storage class is removed in C++0x in order to allow for the `auto` type.
     storage_class_specifier: ($, original) => choice(
-      ...original.members.filter(member => member.value !== 'auto')
+      ...original.members.filter(member => member.value !== 'auto'),
+      'thread_local',
     ),
 
     auto: $ => 'auto',
