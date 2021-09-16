@@ -46,7 +46,7 @@ module.exports = grammar({
     [$._type_specifier, $._expression, $.macro_type_specifier],
     [$._type_specifier, $.macro_type_specifier],
     [$.sized_type_specifier],
-    [$._declaration_specifiers, $.attributed_statement],
+    [$._declaration_modifiers, $.attributed_statement],
   ],
 
   word: $ => $.identifier,
@@ -209,22 +209,18 @@ module.exports = grammar({
       ';'
     ),
 
+    _declaration_modifiers: $ => choice(
+        $.storage_class_specifier,
+        $.type_qualifier,
+        $.attribute_specifier,
+        $.attribute_declaration,
+        $.ms_declspec_modifier
+    ),
+
     _declaration_specifiers: $ => seq(
-      repeat(choice(
-        $.storage_class_specifier,
-        $.type_qualifier,
-        $.attribute_specifier,
-        $.attribute_declaration,
-        $.ms_declspec_modifier
-      )),
+      repeat($._declaration_modifiers),
       field('type', $._type_specifier),
-      repeat(choice(
-        $.storage_class_specifier,
-        $.type_qualifier,
-        $.attribute_specifier,
-        $.attribute_declaration,
-        $.ms_declspec_modifier
-      ))
+      repeat($._declaration_modifiers),
     ),
 
     linkage_specification: $ => seq(
