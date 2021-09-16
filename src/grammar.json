@@ -1796,35 +1796,39 @@
         }
       ]
     },
+    "_declaration_modifiers": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "storage_class_specifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_qualifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attribute_specifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attribute_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ms_declspec_modifier"
+        }
+      ]
+    },
     "_declaration_specifiers": {
       "type": "SEQ",
       "members": [
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "storage_class_specifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type_qualifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attribute_specifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attribute_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "ms_declspec_modifier"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_declaration_modifiers"
           }
         },
         {
@@ -1838,29 +1842,8 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "storage_class_specifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type_qualifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attribute_specifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attribute_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "ms_declspec_modifier"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_declaration_modifiers"
           }
         }
       ]
@@ -6567,7 +6550,7 @@
       "sized_type_specifier"
     ],
     [
-      "_declaration_specifiers",
+      "_declaration_modifiers",
       "attributed_statement"
     ]
   ],
