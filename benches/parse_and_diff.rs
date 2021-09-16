@@ -1,8 +1,8 @@
 use std::ffi::OsStr;
 
 use criterion::{criterion_group, criterion_main, Criterion};
-use difftastic::tree_sitter_parser::{from_extension, parse};
 use difftastic::regex_parser as rp;
+use difftastic::tree_sitter_parser::{from_extension, parse};
 use typed_arena::Arena;
 
 pub fn parsing_benchmark(c: &mut Criterion) {
