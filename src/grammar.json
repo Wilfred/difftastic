@@ -3329,6 +3329,10 @@
         {
           "type": "STRING",
           "value": "inline"
+        },
+        {
+          "type": "STRING",
+          "value": "thread_local"
         }
       ]
     },

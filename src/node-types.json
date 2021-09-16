@@ -5835,6 +5835,10 @@
     "named": true
   },
   {
+    "type": "thread_local",
+    "named": false
+  },
+  {
     "type": "throw",
     "named": false
   },
