@@ -247,6 +247,7 @@ class C {
   C(int, float);
   inline C();
   explicit inline C();
+  [[deprecated]] C();
   template <typename T>
   C(T t);
   ~C();
@@ -264,6 +265,8 @@ class C {
       (parameter_declaration (primitive_type)))))
     (declaration (storage_class_specifier) (function_declarator (identifier) (parameter_list)))
     (declaration (explicit_function_specifier) (storage_class_specifier) (function_declarator (identifier) (parameter_list)))
+    (declaration (attribute_declaration (attribute (identifier)))
+      (function_declarator (identifier) (parameter_list)))
     (template_declaration (template_parameter_list (type_parameter_declaration (type_identifier)))
       (declaration (function_declarator (identifier) (parameter_list (parameter_declaration (type_identifier) (identifier))))))
     (declaration (function_declarator (destructor_name (identifier)) (parameter_list))))))
@@ -407,7 +410,7 @@ int foo(bool x = 5) {}
     (compound_statement)))
 
 =========================================
-Functions with attributes
+Attributes
 =========================================
 
 int f([[a::b(c), d]] int x) {}
@@ -427,22 +430,22 @@ int f() { }
       (identifier)
       (parameter_list
         (parameter_declaration
-          (attribute
-            (call_expression (scoped_identifier (namespace_identifier) (identifier)) (argument_list (identifier)))
-            (identifier))
+          (attribute_declaration
+            (attribute (identifier) (identifier) (argument_list (identifier)))
+            (attribute (identifier)))
           (primitive_type)
           (identifier))))
     (compound_statement))
   (declaration
-    (attribute (scoped_identifier (namespace_identifier) (identifier)))
-    (attribute (scoped_identifier (namespace_identifier) (identifier)))
-    (attribute (scoped_identifier (namespace_identifier) (identifier)))
-    (attribute (identifier))
+    (attribute_declaration (attribute (identifier) (identifier)))
+    (attribute_declaration (attribute (identifier) (identifier)))
+    (attribute_declaration (attribute (identifier) (identifier)))
+    (attribute_declaration (attribute (identifier)))
     (storage_class_specifier)
     (primitive_type)
     (function_declarator (identifier) (parameter_list)))
   (function_definition
-    (attribute (identifier))
+    (attribute_declaration (attribute (identifier)))
     (primitive_type) (function_declarator (identifier) (parameter_list)) (compound_statement)))
 
 =========================================
@@ -1063,6 +1066,8 @@ virtual operator A() = 0;
 A::B::operator C();
 template <typename T>
 operator T*();
+[[nodiscard]] operator char *();
+
 ---
 
 (translation_unit
@@ -1097,7 +1102,10 @@ operator T*();
     (template_parameter_list (type_parameter_declaration (type_identifier)))
     (declaration (operator_cast
       (type_identifier)
-      (abstract_pointer_declarator (abstract_function_declarator (parameter_list)))))))
+      (abstract_pointer_declarator (abstract_function_declarator (parameter_list))))))
+  (declaration
+    (attribute_declaration (attribute (identifier)))
+    (operator_cast (primitive_type) (abstract_pointer_declarator (abstract_function_declarator (parameter_list))))))
 
 =========================
 Function declarations

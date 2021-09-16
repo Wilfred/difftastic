@@ -309,19 +309,21 @@ void f() {
   (function_definition (primitive_type)
     (function_declarator (identifier) (parameter_list))
       (compound_statement
-      (switch_statement (attribute (identifier))
-        (condition_clause (identifier))
-        (compound_statement
-          (case_statement (attribute (identifier)) (number_literal) (compound_statement))))
-      (while_statement (attribute (identifier)) (condition_clause (true)) (compound_statement))
-      (if_statement (attribute (identifier)) (condition_clause (true)) (compound_statement))
-      (for_range_loop (attribute (identifier)) (auto) (identifier) (identifier) (compound_statement))
-      (for_statement (attribute (identifier)) (compound_statement))
-      (return_statement (attribute (identifier)))
-      (expression_statement (attribute (identifier)) (identifier))
-      (expression_statement (attribute (identifier)))
-      (labeled_statement (attribute (identifier)) (statement_identifier) (compound_statement))
-      (goto_statement (attribute (identifier)) (statement_identifier)))))
+      (attributed_statement (attribute_declaration (attribute (identifier)))
+        (switch_statement
+          (condition_clause (identifier))
+          (compound_statement
+            (attributed_statement (attribute_declaration (attribute (identifier)))
+              (case_statement (number_literal) (compound_statement))))))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (while_statement (condition_clause (true)) (compound_statement)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (if_statement (condition_clause (true)) (compound_statement)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (for_range_loop (auto) (identifier) (identifier) (compound_statement)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (for_statement (compound_statement)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (return_statement))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement (identifier)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (labeled_statement (statement_identifier) (compound_statement)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (goto_statement (statement_identifier))))))
 
 ===========================================
 Coroutines
