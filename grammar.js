@@ -210,11 +210,11 @@ module.exports = grammar({
     ),
 
     _declaration_modifiers: $ => choice(
-        $.storage_class_specifier,
-        $.type_qualifier,
-        $.attribute_specifier,
-        $.attribute_declaration,
-        $.ms_declspec_modifier
+      $.storage_class_specifier,
+      $.type_qualifier,
+      $.attribute_specifier,
+      $.attribute_declaration,
+      $.ms_declspec_modifier
     ),
 
     _declaration_specifiers: $ => seq(
