@@ -53,6 +53,7 @@ module.exports = function defineGrammar(dialect) {
       [$._type_query_subscript_expression, $.primary_expression],
       [$._type_query_call_expression, $.primary_expression],
       [$.type_query, $.primary_expression],
+      [$.override_modifier, $.primary_expression],
     ]),
 
     conflicts: ($, previous) => previous.concat([
@@ -78,7 +79,6 @@ module.exports = function defineGrammar(dialect) {
       [$.jsx_namespace_name, $._primary_type],
 
       [$.primary_expression, $._parameter_name],
-      [$.primary_expression, $.override_modifier],
       [$.primary_expression, $._parameter_name, $.predefined_type],
       [$.primary_expression, $._parameter_name, $._primary_type],
       [$.primary_expression, $._parameter_name, $.array_type, $.tuple_type],

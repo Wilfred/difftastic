@@ -10133,10 +10133,6 @@
     ],
     [
       "primary_expression",
-      "override_modifier"
-    ],
-    [
-      "primary_expression",
       "_parameter_name",
       "predefined_type"
     ],
@@ -10698,6 +10694,16 @@
       {
         "type": "SYMBOL",
         "name": "type_query"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "primary_expression"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "override_modifier"
       },
       {
         "type": "SYMBOL",
