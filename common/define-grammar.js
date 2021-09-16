@@ -47,6 +47,12 @@ module.exports = function defineGrammar(dialect) {
       [$.type_query, $.subscript_expression, $.expression],
       [$.nested_type_identifier, $.generic_type, $._primary_type, $.lookup_type, $.index_type_query, $._type],
       [$.as_expression, $._primary_type],
+      [$._type_query_member_expression, $.member_expression],
+      [$._type_query_member_expression, $.primary_expression],
+      [$._type_query_subscript_expression, $.subscript_expression],
+      [$._type_query_subscript_expression, $.primary_expression],
+      [$._type_query_call_expression, $.primary_expression],
+      [$.type_query, $.primary_expression],
     ]),
 
     conflicts: ($, previous) => previous.concat([
@@ -655,9 +661,47 @@ module.exports = function defineGrammar(dialect) {
         seq(':', $.type_predicate)
       ),
 
+      // Type query expressions are more restrictive than regular expressions
+      _type_query_member_expression: $ => seq(
+        field('object', choice(
+          $.identifier,
+          alias($._type_query_subscript_expression, $.subscript_expression),
+          alias($._type_query_member_expression, $.member_expression),
+          alias($._type_query_call_expression, $.call_expression)
+        )),
+        choice('.', '?.'),
+        field('property', choice(
+          $.private_property_identifier,
+          alias($.identifier, $.property_identifier)
+        ))
+      ),
+      _type_query_subscript_expression: $ => seq(
+        field('object', choice(
+          $.identifier,
+          alias($._type_query_subscript_expression, $.subscript_expression),
+          alias($._type_query_member_expression, $.member_expression),
+          alias($._type_query_call_expression, $.call_expression)
+        )),
+        optional('?.'),
+        '[', field('index', choice($.predefined_type, $.string, $.number)), ']'
+      ),
+      _type_query_call_expression: $ => seq(
+        field('function', choice(
+          $.import,
+          $.identifier,
+          alias($._type_query_member_expression, $.member_expression),
+          alias($._type_query_subscript_expression, $.subscript_expression)
+        )),
+        field('arguments', $.arguments)
+      ),
       type_query: $ => prec.right(seq(
         'typeof',
-        choice($.primary_expression, $.generic_type),
+        choice(
+          alias($._type_query_subscript_expression, $.subscript_expression),
+          alias($._type_query_member_expression, $.member_expression),
+          alias($._type_query_call_expression, $.call_expression),
+          $.identifier
+        ),
       )),
 
       index_type_query: $ => seq(
