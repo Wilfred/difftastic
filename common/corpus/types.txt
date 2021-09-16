@@ -1063,7 +1063,7 @@ type T<X> = T extends { x: infer X } ? X : never;
         (array_type
           (parenthesized_type (infer_type (type_identifier))))
         (type_identifier)
-        (type_identifier)))
+        (predefined_type)))
   (type_alias_declaration
     (type_identifier)
     (type_parameters
@@ -1075,7 +1075,7 @@ type T<X> = T extends { x: infer X } ? X : never;
             (property_identifier)
             (type_annotation (infer_type (type_identifier)))))
       (type_identifier)
-      (type_identifier))))
+      (predefined_type))))
 
 ==================================
 Template literal types
@@ -1157,8 +1157,8 @@ type A<B, C> = B extends C
                 (string (string_fragment)))))
           (template_type
             (type_identifier)))
-        (type_identifier))
-      (type_identifier))))
+        (predefined_type))
+      (predefined_type))))
 
 ==================================
 Mapped type 'as' clauses
@@ -1266,3 +1266,36 @@ type T = Foo<Bar<typeof bar["baz"]>>
                 (identifier)
                 (string
                   (string_fragment))))))))))
+
+==================================
+Literal types and pre-defined types
+==================================
+
+type T = Foo<any, unknown, number, string, void, true, false, null, undefined, 0, "foo">
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (type_arguments
+        (predefined_type)
+        (predefined_type)
+        (predefined_type)
+        (predefined_type)
+        (predefined_type)
+        (literal_type
+          (true))
+        (literal_type
+          (false))
+        (literal_type
+          (null))
+        (literal_type
+          (undefined))
+        (literal_type
+          (number))
+        (literal_type
+          (string
+            (string_fragment)))))))
