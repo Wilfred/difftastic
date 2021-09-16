@@ -3399,6 +3399,10 @@
           "named": true
         },
         {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "number",
           "named": true
         },
@@ -3412,6 +3416,10 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "undefined",
           "named": true
         }
       ]
@@ -5978,6 +5986,10 @@
     "named": false
   },
   {
+    "type": "never",
+    "named": false
+  },
+  {
     "type": "new",
     "named": false
   },
@@ -5992,6 +6004,10 @@
   {
     "type": "number",
     "named": true
+  },
+  {
+    "type": "object",
+    "named": false
   },
   {
     "type": "of",
@@ -6112,6 +6128,10 @@
   {
     "type": "undefined",
     "named": true
+  },
+  {
+    "type": "unknown",
+    "named": false
   },
   {
     "type": "var",

@@ -728,7 +728,9 @@ module.exports = function defineGrammar(dialect) {
         $.number,
         $.string,
         $.true,
-        $.false
+        $.false,
+        $.null,
+        $.undefined,
       ),
 
       _number: $ => prec.left(1, seq(
@@ -750,7 +752,11 @@ module.exports = function defineGrammar(dialect) {
         'boolean',
         'string',
         'symbol',
-        'void'
+        'void',
+        'unknown',
+        'string',
+        'never',
+        'object'
       ),
 
       type_arguments: $ => seq(

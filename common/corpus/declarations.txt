@@ -188,7 +188,7 @@ finally {}
     body: (statement_block)
     handler: (catch_clause
       parameter: (identifier)
-      type: (type_annotation (type_identifier))
+      type: (type_annotation (predefined_type))
       body: (statement_block)
     )
     finalizer: (finally_clause body: (statement_block))
@@ -620,7 +620,14 @@ class Foo {
             (identifier)
             (type_annotation (function_type
               (formal_parameters)
-              (union_type (type_identifier) (generic_type (type_identifier) (type_arguments (union_type (type_identifier) (type_identifier))))))))
+              (union_type
+                (type_identifier)
+                (generic_type
+                  (type_identifier)
+                  (type_arguments
+                  (union_type
+                    (type_identifier)
+                    (literal_type (undefined)))))))))
           (optional_parameter
             (identifier)
             (type_annotation (function_type
