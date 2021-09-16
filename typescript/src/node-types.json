@@ -4714,7 +4714,19 @@
             "named": true
           },
           {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "predefined_type",
+            "named": true
+          },
+          {
             "type": "sequence_expression",
+            "named": true
+          },
+          {
+            "type": "string",
             "named": true
           }
         ]
@@ -5297,11 +5309,19 @@
       "required": true,
       "types": [
         {
-          "type": "generic_type",
+          "type": "call_expression",
           "named": true
         },
         {
-          "type": "primary_expression",
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "member_expression",
+          "named": true
+        },
+        {
+          "type": "subscript_expression",
           "named": true
         }
       ]
