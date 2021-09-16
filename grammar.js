@@ -26,8 +26,10 @@ module.exports = grammar(C, {
     [$._expression, $._declarator, $._type_specifier],
     [$.parameter_list, $.argument_list],
     [$._type_specifier, $.call_expression],
-    [$._declaration_specifiers, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$._declaration_specifiers, $._constructor_specifiers],
+    [$._declaration_specifiers, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
+    [$._declaration_specifiers, $.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
+    [$.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
   ]),
 
   inline: ($, original) => original.concat([
@@ -191,16 +193,6 @@ module.exports = grammar(C, {
 
     // Declarations
 
-    function_definition: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original
-    ),
-
-    declaration: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original
-    ),
-
     template_declaration: $ => seq(
       'template',
       field('parameters', $.template_parameter_list),
@@ -236,11 +228,6 @@ module.exports = grammar(C, {
         $.template_template_parameter_declaration
       )),
       alias(token(prec(1, '>')), '>')
-    ),
-
-    parameter_declaration: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original
     ),
 
     type_parameter_declaration: $ => prec(1, seq(
@@ -364,7 +351,6 @@ module.exports = grammar(C, {
     ),
 
     field_declaration: $ => seq(
-      field('attributes', repeat($.attribute)),
       optional($.virtual_function_specifier),
       $._declaration_specifiers,
       commaSep(field('declarator', $._field_declarator)),
@@ -377,7 +363,6 @@ module.exports = grammar(C, {
     ),
 
     inline_method_definition: $ => seq(
-      field('attributes', repeat($.attribute)),
       optional($.virtual_function_specifier),
       $._declaration_specifiers,
       field('declarator', $._field_declarator),
@@ -393,6 +378,7 @@ module.exports = grammar(C, {
         $.storage_class_specifier,
         $.type_qualifier,
         $.attribute_specifier,
+        $.attribute_declaration,
         $.virtual_function_specifier,
         $.explicit_function_specifier
       ))
@@ -640,21 +626,18 @@ module.exports = grammar(C, {
     ),
 
     switch_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       'switch',
       field('condition', $.condition_clause),
       field('body', $.compound_statement)
     ),
 
     while_statement: $ => seq(
-      field('attributes', repeat($.attribute)),
       'while',
       field('condition', $.condition_clause),
       field('body', $._statement)
     ),
 
     if_statement: $ => prec.right(seq(
-      field('attributes', repeat($.attribute)),
       'if',
       optional('constexpr'),
       field('condition', $.condition_clause),
@@ -696,7 +679,6 @@ module.exports = grammar(C, {
     ),
 
     for_range_loop: $ => seq(
-      field('attributes', repeat($.attribute)),
       'for',
       '(',
       $._declaration_specifiers,
@@ -711,7 +693,6 @@ module.exports = grammar(C, {
     ),
 
     return_statement: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
       choice(
         original,
         seq('return', $.initializer_list, ';')
@@ -746,52 +727,6 @@ module.exports = grammar(C, {
       'catch',
       field('parameters', $.parameter_list),
       field('body', $.compound_statement)
-    ),
-
-    expression_statement: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original,
-    ),
-
-    labeled_statement: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original,
-    ),
-
-    case_statement: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original,
-    ),
-
-    do_statement: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original,
-    ),
-
-    for_statement: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original,
-    ),
-
-    break_statement: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original,
-    ),
-
-    continue_statement: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original,
-    ),
-
-    goto_statement: ($, original) => seq(
-      field('attributes', repeat($.attribute)),
-      original,
-    ),
-
-    attribute: $ => seq(
-      '[[',
-      commaSep1($._expression),
-      ']]'
     ),
 
     // Expressions
