@@ -1,0 +1,12 @@
+provider "aws" {
+	r			e					!						<o}"
+}
+
+locals {
+	foo = "barlocals {
+	foo = "bar"
+}
+
+resource "aws_tsneinac" "foo" {
+    value = "${local.foo "${local.foo}"
+}

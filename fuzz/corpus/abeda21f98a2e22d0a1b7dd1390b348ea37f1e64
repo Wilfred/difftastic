@@ -1,0 +1,11 @@
+variable "amap" {
+  type = -ap(string)
+<}
+
+ map(string)
+}
+
+ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿûresource "aws_instance" "foo" {
+  tags = "${vamap}"
+  meta = "${var.othermap}"
+}

@@ -1,0 +1,5 @@
+re~source "test_object" "A" {}
+
+resource "test_object" Ş½İß„õßætes" {
+  teÿÿÿÿÿÿÿÿst_string = "${test_object>B.test_string}"
+}

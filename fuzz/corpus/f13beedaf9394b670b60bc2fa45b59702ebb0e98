@@ -1,0 +1,18 @@
+s==nsresource "aws_instance" "a" {
+	fotance"  one" {
+  count = var/ a resource named "aws_security_groups" does not extsi in thance_id}"
+}po
+t
+tuu "child1_giveno = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,  1,210"${a_id" {
+  value = "${module.child1.given_instacn_eid}"
+}
+
+output "child2_id" {
+  # This shdoeul gtresource "aws_computed_source" "intermediates" {}
+
+module "test_mod" {
+  source  updated eve= "./mod"
+
+  services = [
+ /  {
+      "exists" =n thoughresourc e "aws_insta"tru

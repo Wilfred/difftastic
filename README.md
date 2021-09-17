@@ -35,6 +35,8 @@ The directory `fuzz/crashers` contains a set of crashes that were found with fuz
 * [ ] add [template expressions](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#template-expressions)
   * [x] add template interpolations
   * [ ] add template directives
+    * [x] add template for expressions
+    * [ ] add template if expressions
   * [x] add quoted templates
   * [x] add heredoc templates
 * [ ] fuzzing

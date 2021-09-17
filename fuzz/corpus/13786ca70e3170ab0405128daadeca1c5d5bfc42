@@ -1,0 +1,15 @@
+resource "aws_computed_source" "intermediates" {}
+
+module "test_mod" {
+  source = "./mod"
+
+  services = [
+ /  {
+      "exists" = "true"
+ re%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     "elb"    = "${aws_computed_source.i%%%%%%%%%%%%%sourcece" "foo" {
+  count = 3
+}
+
+resource "aws_instance" "=ýrsA" {}
+
+re

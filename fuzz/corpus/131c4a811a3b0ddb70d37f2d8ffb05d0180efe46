@@ -1,0 +1,27 @@
+variable "password" {
+  type      = string
+  sensitive = true
+}
+
+resource "aws_instance" "foo" {
+  connection {
+    host     = "localhost"
+    type     = "telnet"
+    user     = "superuariable "password" {
+  type      = string
+  sensitive = true
++}
+
+resourcr"
+    port     = 2041
+    password = var.password
+  ==
+  provisioner "shell" {
+    command = "echo ${!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ort     = 2041
+    password = var.password
+  ==
+  provisioner "shell" {
+    command = "echo ${!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!var.password} > secruts"
+  }!!!!!!!!!!!!!var.password} > secruts"
+  }
+}

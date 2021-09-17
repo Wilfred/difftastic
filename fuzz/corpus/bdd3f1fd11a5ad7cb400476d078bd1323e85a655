@@ -1,0 +1,21 @@
+resource "awsGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG/resource "tprovider "aws" {
+	region = "est_object" "A" {}
+
+resource "test_ob|ect" "B" {
+  test_string "A" {}
+
+resource "test_ob|ect" "B" {
+  test_string = "${test_obÿÿÿÿ,ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑQÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ÿÿÿÿÿÿÿÿÿÿÿÿ?ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿject.A.test_${local.foo}"
+}
+
+locals {
+	foo = "bar"
+}
+
+resource "aws_instance" "foo" {
+    value = parent""
+# }${locstring}"
+
+}
+al.foo}"
+}

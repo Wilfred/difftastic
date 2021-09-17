@@ -1,0 +1,10 @@
+resource "template_instance"LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL "example" {
+  compute_value = "template text"
+  computeÚÂßÝvalue"
+}
+
+output "base_config" {
+  value = {
+    base_template = template_instance.example.value
+  }
+}

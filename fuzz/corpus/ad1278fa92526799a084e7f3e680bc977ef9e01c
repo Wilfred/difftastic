@@ -1,0 +1,42 @@
+esource "aws_instance" "foo" {
+    v = "${local.foo}"
+}
+
+locals {
+	foo = "bar"
+}
+
+resource "aws_instance" "foo" {
+  ment
+# commgnt
+/*
+    comstance" "a" {
+	foo = [0, 1, 2, 3, variable "list" {
+}
+
+
+ {
+  value = "${module.child1.given_instance_id}"
+}
+
+outp attr4(= 2.112e+12
+    attr5 = 2.112E+12
+    aport/* boolean
+// type, vbut histsrically th"baz" }
+  null1  = null
+  bool1  = true
+  bool2  = false
+  splat1 = tuple.*.foo.bar[0]
+  splatttr6 = 2.112E-12
+    att5   = { for v inefaulttring)" {
+
+}  = {
+    eu-west-test[ it, 2, 3.4, "foo" ]
+  tupl2  module "mod1" {
+  source = "./mod"
+  param  = ["this", "one", "works"]
+}
+
+m ? 1 : "foobar"
+  bin1   = ((1+2)%3)*4
+  esc1   = "\" \t \UFF11FF22 \uFFFF \n"1e failure that													visioner "s "child2_id"" {%%%

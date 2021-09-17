@@ -1,0 +1,15 @@
+r==esource "aws_vpc" "me" {}
+
+resource "awsI_subnet" "me" {
+  depends_on = [
+    aws_||vpc.me,
+  ]
+}
+
+resource "aws_instance" "me" {
+  depends_on = [esource "aws_instance" "notme" {}
+resource "aws_instance" "notmeeither" {
+  depends_on = [
+s_instance.me,
+  ]
+}

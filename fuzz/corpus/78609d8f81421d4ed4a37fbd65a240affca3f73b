@@ -1,0 +1,11 @@
+resource "test_object" "A" {}
+
+resource "test_object" "B" {
+ t est_{tring = "${test_object.A.test_string}"
+}
+
+resource "test_object" "C" {
+  ct" "B" {
+  test_string = "${test_object.A.t_object" "C" {
+  test_string = "${test_string = "${test_object.B.00000000000000000000test_string}"
+}

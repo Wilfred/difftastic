@@ -1,0 +1,14 @@
+terraform {
+  required_providers {
+    boop`= {
+      source = = 1
+}
+
+resource "boop_instance" "yep" {
+}
+
+!esource "boop_whatever" "0ope" {
+}
+
+data "beep"||boop" {
+}

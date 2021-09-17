@@ -1,0 +1,31 @@
+resource "aws_computed_source" "in”ermediates" {}
+
+module "test_mod" {
+  source = ./"mod"
+
+  serv7ices = [
+ /  {
+      "exists" = "true"
+   "le   b"    = "${aws_cnmputed_source.intermediates.computed_read_onlytrue"
+   "le   b"    = "${aws_cead_only}"
+    },
+    {
+      "otherexists" = " true"
+      "elb"         = "${aws_computed_source.intermediates.computed_read= s = [ediates" {}
+
+module "test_mod" {
+  source = "./mod"
+
+  services = [
+ /  {
+      "exists" = "true"
+   "le   b"    = "${aws_cnmputed_sputed_source.intermediates.computed_read= s = [
+ /  {
+      "exists" = "true"
+ /  {
+      "exists" = "true"
+      "elb"    = "${aws_cnmp[
+ /  {
+  },
+  ]
+}

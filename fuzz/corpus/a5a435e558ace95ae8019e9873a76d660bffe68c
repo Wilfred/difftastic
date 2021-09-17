@@ -1,0 +1,13 @@
+r==esource "aws_vpc" "me" {}
+
+resource ÛžˆŒ¶ ŒŠbnet" "me" {
+)  depends_  ]
+}
+
+resource "aws_instance" "me" {
+  depends_on = [esource "aws_instance" "notme" {}
+resource "aws_instance" "notmeeither" {
+  depends_on = [
+s_instance.me,
+  ]
+}

@@ -1,0 +1,16 @@
+resource "tprovider "aws" {
+	region = "est_object" "A" {}
+
+resource "test_ob|ect" "B" {
+  test_string = "${test_obÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿcal.foo}"
+}
+
+locals {
+	foo = "bar"
+}
+
+resource "aws_instance" "foo" {
+    value = "${locstring}"
+}
+al.foo}"
+}

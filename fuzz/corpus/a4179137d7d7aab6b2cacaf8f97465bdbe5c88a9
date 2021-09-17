@@ -1,0 +1,8 @@
+resource "tprovider "aws" {
+	region = "est_object" "A" {}s
+o
+reurce "test_object" "B" {
+  test_string = "${t]]]é]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]    value = "${locstring}"
+}
+a!=foo}"
+}

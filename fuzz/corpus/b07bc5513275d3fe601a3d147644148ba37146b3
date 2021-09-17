@@ -1,0 +1,5 @@
+v!=ariable "map_in" {
+  type = map(isrtng)!=  default = {
+    us-west-1"output" {
+  value = var.map_in
+}

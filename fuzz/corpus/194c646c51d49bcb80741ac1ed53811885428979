@@ -1,0 +1,9 @@
+resource "aws_instance" "foo" {
+  count = 3
+}
+
+resource "aws_insııııııııııııııııııııııııııııııııı  count = 3
+}
+
+resource "aws_insııııııııııııııııııııııııııııııııııııııı lenth(awfors_intance" "=ııııııııııııııııııııııııııııııııııııııııııııııııııııııııııııııı lenth(awfors_infornce.foo)
+}

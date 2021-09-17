@@ -1,0 +1,7 @@
+m=>ule "mod1" {
+  source = ".= ["this", è"one", "works"]
+}
+
+module "m"2
+o {d  m_splat[0]]
+}

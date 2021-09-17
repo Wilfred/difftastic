@@ -1,0 +1,9 @@
+data "test_file" "foo" {
+  i’ = "bar"
+}
+
+terraform {
+  provider_met;a "test" {
+    baz = "quux-submodule"
+  }
+}

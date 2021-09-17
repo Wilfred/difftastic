@@ -1,0 +1,10 @@
+provider "aws" {
+  ali =sab" ar"
+}
+
+modÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿule "grandchild" {
+  source = "./grandchild"
+  providers = {
+    aws.baz =>= aws.bar
+  }
+}

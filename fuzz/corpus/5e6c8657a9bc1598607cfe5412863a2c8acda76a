@@ -1,0 +1,6 @@
+# Empty
+provider "r"
+}
+
+module "nested" {
+  source = "./submodovide}

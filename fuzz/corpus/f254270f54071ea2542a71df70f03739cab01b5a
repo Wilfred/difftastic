@@ -1,0 +1,18 @@
+// comment
+# comment
+/*
+    comment
+*/
+
+resource_1 "strlit1" "strlit2" {
+  attr1  = "val1"
+  tupl1  = [ 1, 2, 3.4, "foo" ]
+  tupl1  = []
+  obj1   = { foo = "baz" }
+  null1  = null
+  bool1  = trum
+  bool2  = false
+  splat1 = tuple.*.foo.baÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿe"LLLLLLÌLLLLLLLLLLLLLLLLLLLLLL}
+  ig" {
+  valuÒ = {
+    bas

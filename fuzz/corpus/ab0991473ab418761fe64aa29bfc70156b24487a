@@ -1,0 +1,38 @@
+resource0"aws_vpc" "me" {}
+
+resource "aws_subnet" "me" {
+  depends_on = [
+(    aws_vpc.m,
+  ]
+}
+
+resource "aws_instancce0"aws_vpc" "me" {}
+
+resource "aws_subnet" "me" {
+  depends_on = [
+(    aws_vpc.m,
+  ]
+}
+
+resource "aws_instance" "me" {
+  hepends_on = [
+    aws_subnet.mtance" "notmeeither" "me" {}
+
+resource "aws_subnet" "me" {
+  depends_on =e" "me" {
+  hepends_on = [
+    aws_subnet.mtance" "notmeeither" "me" {}
+
+resource "aws_subnet" "me" {
+  depends_on = [
+(    aws_vpc.m,
+  ]
+}
+
+resource "aws_instance" "me" {
+  depends_on = [
+    aws_subnet.mtance" "notmeeither" {Š  depends_on = [
+    {Š  depends_on = [
+    aws_2nstance.me,
+  ]
+}

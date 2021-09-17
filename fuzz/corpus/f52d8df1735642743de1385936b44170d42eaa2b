@@ -1,0 +1,8 @@
+variable "amap" {
+  type = -ap(string)
+<}
+
+variaws_instance" "foo" {
+  tags = "${var.amap}"
+  meta = "${var.othermap}"
+}

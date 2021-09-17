@@ -482,6 +482,10 @@
           "named": true
         },
         {
+          "type": "template_directive",
+          "named": true
+        },
+        {
           "type": "template_interpolation",
           "named": true
         },
@@ -658,6 +662,10 @@
           "named": true
         },
         {
+          "type": "template_directive",
+          "named": true
+        },
+        {
           "type": "template_interpolation",
           "named": true
         },
@@ -711,6 +719,21 @@
     }
   },
   {
+    "type": "template_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "template_for",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "template_expr",
     "named": true,
     "fields": {},
@@ -724,6 +747,91 @@
         },
         {
           "type": "quoted_template",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_for",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "template_directive",
+          "named": true
+        },
+        {
+          "type": "template_for_end",
+          "named": true
+        },
+        {
+          "type": "template_for_start",
+          "named": true
+        },
+        {
+          "type": "template_interpolation",
+          "named": true
+        },
+        {
+          "type": "template_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_for_end",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "strip_marker",
+          "named": true
+        },
+        {
+          "type": "template_directive_end",
+          "named": true
+        },
+        {
+          "type": "template_directive_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_for_start",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "strip_marker",
+          "named": true
+        },
+        {
+          "type": "template_directive_end",
+          "named": true
+        },
+        {
+          "type": "template_directive_start",
           "named": true
         }
       ]
@@ -981,6 +1089,10 @@
     "named": true
   },
   {
+    "type": "endfor",
+    "named": false
+  },
+  {
     "type": "false",
     "named": false
   },
@@ -1018,6 +1130,14 @@
   },
   {
     "type": "strip_marker",
+    "named": true
+  },
+  {
+    "type": "template_directive_end",
+    "named": true
+  },
+  {
+    "type": "template_directive_start",
     "named": true
   },
   {

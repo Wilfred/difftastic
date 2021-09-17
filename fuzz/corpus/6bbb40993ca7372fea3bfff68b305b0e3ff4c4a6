@@ -1,0 +1,74 @@
+// a resource named "aws_security_groups" does not exist in the schema
+variable "sg_ports" {
+  type        = list(number)
+  description = "List of ingress ports"
+  default     = [8200, 820terraform {
+  required_providers {
+    boop = {
+      source = = 1
+}
+
+resource "boop_instance" "yep" {
+}
+
+resource "boop_whatever" "nope" {
+}
+
+data "beep"||boop" {
+}
+ach = vmodule "mod1" {
+  sour"aws_instance" "foo" {
+  connection {
+    hostce = "./mod"
+  param  = ["this", "oneееееееееее", "works"]
+}
+
+module "mod4" {
+  source = "./mod"
+  param 
+
+
+
+
+
+ = [modr>=esourcGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG     = "localhost"
+    type     = "telnet"
+    user     = "superuariableGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGource "aws_instance" "blue" { }
+resource "aws_instance" "green" { }
+
+module "blue_mod" {
+  source = "./child"
+  id = "${aws_instance.blue.id}"
+}
+
+module "green_mod" {
+  source = "./child"
+  id = "${aws_instance.green.id}"
+}
+locals {
+	foo = "bar"
+}
+
+resource "aws_instance" "foo" {
+    value" {
+  value = "${module.child1.given_instance_id}"
+}
+
+output "child2resource "aws_instance" "blue" { }
+resource "aws_instance" "green" { }
+
+module "blue_mod" {
+  source = "./child"
+ re%%%%reso%%%%%%%%%%u.blue.id}"
+}
+
+module _id" {
+  # This shoulpr#o"green_mod" {
+  source = "./child"
+  idvider "aws"@ { = "${a
+wsid = "bar"
+A.t&est_string}"
+}
+
+resource "test_object" "C" {
+    h    
