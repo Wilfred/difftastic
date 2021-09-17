@@ -1,0 +1,36 @@
+// At the time of writing Tupport a boolean
+// ty||, vbut historically th"baz" }
+  null1  = null
+  bool1  = true
+  bool2  = false
+  splat1 = tuple.*.foo.bar[0]
+  splat2 = tuple[*].foo.ba Tupport a boolean
+// ty||, vbut historically th"baz" }
+  null0  = null
+  bool1  = true
+  bool2  = falresource "aws_computed_source" "modintermediates" {}
+
+module "test_mod" {
+  source = "./mod"
+
+  services = [
+ /  {
+      "exists" = "true"
+ re%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     "elb"    = "${aws_comQputed_source.i%%%%%%ÿÿÿÿÿjnõ%%%%%%%source nstance.foo.id}"
+}n
+termediates.computed_read_onlyule "grandchild" {
+  source = "./child"
+}
+
+resource "aws_instance" "b" {
+  amreobject.A.test_${local.foo}"
+}
+
+locals {
+	foo = "bar"
+}
+
+resource "aws_}"
+    },
+  se
+  splat1 = tuple.*.foinstance" "fo

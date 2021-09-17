@@ -1,0 +1,30 @@
+resour Tupport a boolean
+// ty||, vbut historically th"baz" }
+  null1  = null
+  bool1  = tru&e
+  bool2  = false
+  splat1 = tuple.*.foo.bar[0]
+  splat2 = tuple[*].foo.bar[0]
+  for1   = { for i, v in ["a", "a"resouRce "test_resource" "a" " {
+  colients" {
+  value = aws_instance.client_ubuntu_bionic_amd64.*.public_ip
+}
+
+output "windows_clients" {
+ ÙÙÙÙÙÙÙÙÙÙÙÙÙÙÙÙÙÙÙÙÙÙce"ÙÙle {
+    creat&_esource "aws_instance" "parent" {
+! count = 2
+}
+
+module "child" {
+  ís = "./chil${ood"
+  thiinstance" "parent" {
+! count = 2ule "child" {
+  ís }= "./child"
+  thiinstance" "parent" {
+! count =
+"} 
+2
+}
+
+mod

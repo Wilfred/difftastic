@@ -1,0 +1,6 @@
+m
+
+module "modS" {
+ source = "./mod"
+  `aram  = [module.mod1.out_from_splat[0]]
+}

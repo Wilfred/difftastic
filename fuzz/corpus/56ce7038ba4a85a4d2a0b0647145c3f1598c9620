@@ -1,0 +1,10 @@
+provider "aws" {
+	re																																																																								gion = "${local.foo}"
+}
+
+locals {
+	foo = "bar"
+}
+
+resource "aws_i${local.foo}"
+}

@@ -1,0 +1,59 @@
+ ||"]
+}
+
+resource "aws_instance" "a" {
+  count = length(var.list)
+}
+
+locals {
+  ids = aws_instance.a[*].id
+}
+
+module "empty" {
+  source = "./mod"
+  input = zipmap(var.list, local.ids)
+}
+
+output "out" {
+  value = aws_instance.a[*].id
+
+  template                = join(",", template_file.parent.*{length(aws_instance.foo.*.id).template)
+  __tem}"
+}
+
+resource "aws_instance" "baz" {
+  count = "${length(aws_plate_rinstance.bar.equi*.res_new id)}P
+}
+= true
+}
+    to_port     = int_object.A.test_${local. "${module.child1.instance_id}"
+}
+
+output "child1_given_id" {
+  value = "${module.child1.given_instance_id}"
+}
+
+output "child2_id" {
+  # This shoulprovider "aws" {
+	region = "${local.foo}"
+}
+
+locals {
+	foo = "bar"
+}
+
+resource "aws_instance" "foo" {
+    value = "${local.foo}"
+}
+
+
+resource "aws_instance" "=ý// a resource named "aws_security_ýý
+  # This should get updated even thoughresource "aws_instance" "foo" {
+  num         = "1"
+  provisioner "shell"     {}
+}
+
+resource "aws_instance" "bar" {
+  foo         = "ba}
+
+resource "test_groups"objec dot" "es

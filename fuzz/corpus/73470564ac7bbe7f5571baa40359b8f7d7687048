@@ -1,0 +1,48 @@
+s_instance" "b" {
+  amresource "aws_instance" "ersour0e "aws_computed_souÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊÊrce" "in”ermediates" {}
+
+module a" {
+	foo = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "test_mod" {
+  source10, 11, 20"${aws_ii        = "child"
+  depends_on       = list(number)
+  description = "List of ingress ports"
+  default     = [8200, 8201, 8300, 9200, 9500]
+}
+
+
+resource "aws_security_groupmods" "dynamicsg" {m
+  ane        = "dynamicsg"
+  description = "Ingress resource "test_object" "A" {
+  ule "mod1" {
+  source = "./mod"
+  Šaram  = ["this", "one¥¥¥¥¥¥¥¥¥¥", "works"]
+}
+
+module "mod4" {
+  scouount =rurce "aws_instance" "bar" { var.p	assword
+  ==
+  provisioner "shell" {
+    command = "echo ${!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Ú!!!!!!!!!!!!!!!!!!!!!!!!!!!!ort     = 2041
+    password = var.password
+  ==
+  provisioner "shell" {
+    c ommand = ".public_ip
+}
+
+output "windows_clients" {
+  value = aws_instance.client_windows_2016_amd64.*.public_ip
+}
+
+ou#put "message" {
+  value = <<EOM
+Your cluster has been provisioned! To prepare your environment, run:
+
+   $(terraform output --raw environment)
+
+Then youcae2e directory with:
+
+   go test -v .
+
+ssh into servers with:
+
+%{forn ip in aws_instance.server.*.pub  to_p%%un

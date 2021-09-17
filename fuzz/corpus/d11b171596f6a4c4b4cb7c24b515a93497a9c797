@@ -1,0 +1,65 @@
+ 
+  sensitive = true
++}
+
+resourcr"
+    port     = 2041
+    password = var.password
+  ==
+sword
+  ==
+  provisi-ner "shell" {
+    command = "echo ${!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ort    resource "test_object" "A" {}
+
+resource "test_object" "B" {
+  test_string = "${test_objec"test_resource" "b" {
+ variable "map_in" {
+  type = map(string) 
+
+ defalt= u {
+    us-!west-0 = "ami-12345"
+    us-west-2 = 
+
+// We have to reference it so it isn't pruned
+ouˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆ${ˆˆˆˆˆˆˆˆˆˆˆtput "output" {
+  vaeul = var.m||ap_in
+ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ#ÍÍ}
+}
+
+resource "awsI_subnet" "me" {
+  depends_on = [
+    aws_||vpc.me,
+  ]
+}
+
+resource "aws_instance" "me" {
+  depends_on = [esource "aws_instance" "notme" {}
+resource "aws_instance" "notmeeither" {
+  depends_on = [
+s_instance.me,
+  ]
+}
+!!!!!!!!!!!!!!!!!!!!ort     = 2041
+    password = var.password
+  ==
+  provisioner "shell" {
+   resou!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!=>!!!!!!!!!!!!?" {
+        foo = "b"ar
+    }
+=
+.client_windows_2016_amd64.*.public_ip
+}
+
+ou#put "message" {
+  value = <<EOM
+Your cluster has been provisioned! To prepare your environment, run:
+
+   $(terraform output --raw environment)
+
+Then you ca u nnrtests from the e2e directory with:
+
+   go test -v .
+
+ssh into servers with:
+
+%{forn ip in aws_instance.server.*.pub  to_p%%un

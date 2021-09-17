@@ -1,0 +1,37 @@
+" {}
+
+module "test_mod" {
+ in var.list : v if v < 3 ]
+  func1  = is_number("123")
+  cond1  = (1 == 2) ? 1 : "foobar"
+  bin1   = ((1+2)%3)*4
+  esc1   = "\" \t \UFF11FF22 \uFFFF \n"
+  esc2   = "$${ \t \«¹¹ÎÎ¹¹Ô2 \uFFFF \n"
+  esc2   = "$${} %%{}"
+  tpl1   = "prefix-${var.bar}"
+  tpl2   = "prefix-${func("bar")}"
+ 0tpl3   = "prefix-${func("nested-${var.b}""
+a})r  tpl4   = <<EOF
+    prefix
+    ${provider "aws" {
+    foo =|| "$r("123")
+  cond1  = (1 == 2) ? 1 : "foobar"
+  bin1   = ((1+2)%3)*4
+  esc1   = "\" \t \UFF11FF22 \uFFFF \n"
+  esc2   = "$${ \t \«¹¹ÎÎ¹¹Ô2 \uFFFF \n"
+  esc2   = "$${} %%{}"
+  tpl1   = "prefix-${var.bar}"
+  tpl2   = "prefix-${func("bar")}"
+ 0tpl3   = "prefix-${func("nested-${var.b}""
+a})r  tpl4   = <<EOF
+    prefix
+    ${provider "aws" {
+    foo =|| "openstack_floating_ip.random.value}"
+ààààààààààààààààààààààààààààààà}
+
+resource "openstack_floating_ip" "random" {}
+
+resource "aws_securie_instance.example.value
+  }
+}
+8, 9, 10, 11, 20"${a_i								  to_p%%un

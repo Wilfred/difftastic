@@ -1,0 +1,14 @@
+re~source "tetest_object" "B" {
+  test_string = "${test_obje...A.test_string}"resou!!!!!!!!!!!!!!!!!!!!!!!
+}
+
+resource "test_object" "C" {
+  teÿÿÿÿÿÿÿÿst_string = "${test_st_object" =>" {}
+
+resource "test_object" "B" {
+  test_string = "${test_obje!e "test_object" "C" {
+  teÿÿÿÿÿÿÿÿst_strin "test_object" "B" {
+  test_string = "${test_obje!e "test_object" !!?" {
+        foo = "b"ar
+    }
+=

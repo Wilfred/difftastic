@@ -1,0 +1,49 @@
+esource "aws_instance" "foo" {
+    v = "${local.foo}"
+}
+
+locals {
+	foo = "bar"
+}
+
+resource "aws_instance" "foo" {
+  ment
+# comment
+/*
+    comstance" "a" {
+	foo = [0v = "${local.foo}"
+}
+
+locals {
+	foo = "bar"
+}
+
+resource "aws_—‘Œ‹ž‘œš" "foo" {
+  ment
+# comment
+/*
+    comstance" "a" {
+	foo = [0, 1, 2, 3, variable "list""{
+}
+
+
+ {
+  value = "${module.child1.given_instance_id}"
+}
+
+outp attr4(= 2.112e+12
+    attr5 = 2.112E+1foobar"
+  bin1   = ((1+2)%3)*4
+  esc1   = "\" \t \UFF11FF22 \uFFF${var.bar}")}"
+  tpl4   = <<EOF
+    prefix
+    ${func("foo${ var.bar }")}
+    suffix
+  EOF
+
+  nested_resoururce "
+    attr1 = 2
+    attr2 = 2.11e failure that results ={}
+}
+put "all_ids" = "echo ${vaider "aws" {
+	re																																																visioner "s "child2_id"" {%%%

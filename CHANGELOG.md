@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0 - not yet released
+
+feature:
+* add template for expressions
+
 ## 0.5.0 - 2021-09-15
 
 feature:

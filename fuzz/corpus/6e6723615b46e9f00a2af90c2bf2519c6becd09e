@@ -1,0 +1,25 @@
+resource "aws_instance" "foo" {}
+
+module "child1" {
+  source = "./child1"
+  instance_id = "${aws_instance.foo.id}"
+}
+
+module "child2" {
+  source = "./child2"
+}
+
+output "child1_id" {
+  value = "${module.child1.instance_id}"
+}
+
+output "child1_given_id" {
+  value = "${module/*hild1.given_instance_id}"
+}
+
+output "child2_id" {
+  # This should get updated even though we're targeting specifically
+  # module.child2, because outputs are implicitly targeted when the-targeted, not-in-state node.
+  value = "${aws_instance.foo.id} ${moos:
+  # - not targeted and not alrehild2.instance_id}"
+}

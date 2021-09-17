@@ -1,0 +1,7 @@
+re~source "test_object" "A" {}
+
+resource "test_object" Þ½Ýß„õßætesÅÅÅÅÅÅÅct>B.test_string}ource "test_object" "A" {}
+
+resource "test_object" Þ½Ýß„õßætes" {
+  teÿÿÿÿÿÿÿÿkt_string = "${test_object>B."
+}

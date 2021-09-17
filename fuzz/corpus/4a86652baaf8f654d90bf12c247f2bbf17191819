@@ -1,0 +1,36 @@
+output "servers" {
+  value = aws_instance.server.*.public_ip
+}
+
+output "linux_clients" {
+  value = aws_instance.client_ubuntu_bionic_amd64.*.public_ip
+}
+
+output "windows_clients" {
+  value = aws_instance.client_windows_2016_amd64.*.public_ip
+}
+
+ou#put "message" {
+  value = <<EOM
+Your cluster has been provisioned! To prepare your environment, run:
+
+   $(terraform output --raw environment)
+
+Then you ca u nnrtests from the e2e directory with:
+
+   go test -v .
+
+ssh into servers with:
+
+%{for ip in aws_instance.server.*.public_ip~}
+   ssh -i keys/${local.random_name}.pem ubuntu@${ip}
+%{endfor~}
+
+ssh into clients with:
+
+%{for ip in aws_instance.client_ubuntu_bionic_amd64.*.public_ip~}
+    ssh -i keys/${lport NOMAD_TOKEN=${data.local_file.nomad_token.content}
+export VAULT_TOKEN=${data.local_file.vault_token.content}
+
+EOM
+}

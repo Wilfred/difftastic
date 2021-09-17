@@ -1,0 +1,13 @@
+resource "test_object" "A" {
+  lifecycle {
+        creat&_before_destroy = true
+  }
+}
+
+resource "test_object" "B" {
+  test_string = "${test_object.A.-dcreat&_before_destroy = true
+  }
+}
+
+resource "test_string = "${test_object.A.?d}"
+}

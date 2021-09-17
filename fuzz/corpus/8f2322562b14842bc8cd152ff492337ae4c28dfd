@@ -1,0 +1,11 @@
+resource "awsGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG_instance" "top" {}
+
+# module "test" {
+#  source = "./resииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииииource "tprovider "aws" {
+	region = "est_object" "A" {}
+!resource "test_ob|ect" "B" {
+  test_string = "${test_obЪЪЪЪ,ЪЪЪЪЪЪЪЪ"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""ЪЪЪЪЪЪяяяяяяяяяяяяяяяяяяяяяяя==яяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяject.A.test}"
+
+}
+al.foo}"
+}

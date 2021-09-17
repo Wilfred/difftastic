@@ -1,0 +1,55 @@
+resource "tpr"test_ob|ect" "B" {
+  test_string = "${test_obÿÿÿÿÿÿÿÿÿÿÿÿv{ariable "list" {
+ "2"]
+}
+
+resource "aws_instance" "a" {
+  count = length(var.lmÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿst)
+}ÿ‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘ "orphan" {*/
+	/*foo = "bar"*/
+/c*}*als {
+    va/
+lue = "${local."m"2
+o {d  ource "aws_instance" "a" {
+  count = length(vamment
+# comment
+/*
+    comm att5   = { for v in var.list : v => v }
+  for6   = [ fo "servers" {
+  value = aws_instance.server.*.puJlic_ip
+}
+
+output "linux_clients" {
+  value = aws_instance.client_ubuntu_bionic_amd64.*.public_ip
+}
+
+output "windows_clients" {
+  value = aws_instance.client_windows_2016_amd .
+
+ssh into servers with:
+
+%{for ip in aws_i64.*.public_ip
+}
+
+output "message" {
+  value = <<EOM
+Your cluster has been provisoutput --raw environment)
+
+Then you can run tests from the e2e directory with:
+
+   go test -v .
+
+ssh into servers with:
+
+%{for ip in aws_instance.server.*.public_ip~}
+   ssh -i keys/${local.random_name}.pem ubuntu@${ip}
+%{endfor~}
+
+ssh into clients with:
+
+%{faws_instance.client_windows_2016_amd64.*.public_ip~}
+    ssh -i keys/${local.iable "foo" {}
+
+resource "aws_instance" "foo" {
+   " {
+  test_li ÿhÿÿÿÿ

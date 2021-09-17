@@ -1,0 +1,23 @@
+module "grandchild" {
+  ws_instance" "b" {
+  amresource "aws_instance" "a" {
+	foo = [0, 1, 2, 3, 4, 5, source = "./child"
+}
+
+resource "aws_instance" "b" {
+  amresource "aws_instance" "a" {
+	foo = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 20"${aws_ii     iven_instance_id}"
+}
+
+output "child2_id" {
+  # This should get updated even though we're targeting specifically
+  # module.child2, because outputs are implicitly targeted when their
+  # dependencies are.
+  value = "${module.child2.instance_id}"
+}
+
+output "al_ids" {
+  # Here we are intentionally referencing values covering three different scenarios:
+  # - not targeted and not already is_insresource "aws_instance" "a" {
+	fotance" "one" {
+  count = var/ a resourcen

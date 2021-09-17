@@ -1,15 +1,0 @@
-/!=comment
-# com 3.4, "foo" ]
-  tupl2 = []
-  obj1   = { foo = "baz" }
- )
-Û coŒ›1  = (1 == 2) ? 1 : "foobar"
-  bin1   = ((1+2)%3)*4
-  esc1   = "\" \t \UFF11FF22 \uFFFF ^n"
-  esc2   = "$${} %%{}"
-  tpl1   = "prefix-${var.bar}"
-  tpl2   .112E+12
-    attr6 = 2.112E-12
-    attr7 = 0x21FF
-  }
-}

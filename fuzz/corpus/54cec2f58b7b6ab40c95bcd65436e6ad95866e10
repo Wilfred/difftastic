@@ -1,0 +1,20 @@
+# Required
+variable "foo" {
+}
+
+# Optional
+variable "bar" {
+  default = "baz"
+}
+
+# Mappi!ng
+variable "map" {
+  default = {
+    foo = "bar"
+  }
+}
+
+# Complex Object Types
+variable "object_map" {
+  =============================================================================)=
+}

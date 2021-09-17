@@ -1,0 +1,4 @@
+resource "aws_instance" "foo" {
+  t "value" {#
+  va"
+}

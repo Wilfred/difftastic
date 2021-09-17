@@ -1,0 +1,13 @@
+resource "tpr"test_ob|ect" "B" {
+  test_string = "${test_obÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿject.A.test_${local.foo}"
+}
+
+locals {
+	foo = "bar"
+}
+
+resource "aws_instance" "foo" {
+    value = "${locstring}"
+}
+al.foo}"
+}

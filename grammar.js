@@ -25,6 +25,8 @@ module.exports = grammar({
     $._template_literal_chunk,
     $.template_interpolation_start,
     $.template_interpolation_end,
+    $.template_directive_start,
+    $.template_directive_end,
     $.heredoc_identifier,
   ],
 
@@ -267,24 +269,22 @@ module.exports = grammar({
       $.heredoc_template,
     ),
 
+    _template: $ => prec.left(repeat1(choice(
+      $.template_literal,
+      $.template_interpolation,
+      $.template_directive,
+     ))),
+
     quoted_template: $ => prec(PREC.quoted_template, seq(
       $.quoted_template_start,
-      optional(repeat(choice(
-        $.template_literal,
-        $.template_interpolation,
-        //$.template_directive,
-      ))),
+      optional($._template),
       $.quoted_template_end,
     )),
 
     heredoc_template: $ => seq(
       $.heredoc_start,
       $.heredoc_identifier,
-      optional(repeat(choice(
-        $.template_literal,
-        $.template_interpolation,
-        //$.template_directive,
-      ))),
+      optional($._template),
       $.heredoc_identifier,
     ),
 
@@ -305,10 +305,36 @@ module.exports = grammar({
     ),
 
     // TODO
-    //template_directive: $ => choice(
-      //$.template_for,
+    template_directive: $ => choice(
+      $.template_for,
       //$.template_if,
-    //),
+    ),
+
+    template_for: $ => seq(
+      $.template_for_start,
+      optional($._template),
+      $.template_for_end,
+    ),
+
+    template_for_start: $ => seq(
+      $.template_directive_start,
+      optional($.strip_marker),
+      "for",
+      $.identifier,
+      optional(seq(",", $.identifier)),
+      "in",
+      $.expression,
+      optional($.strip_marker),
+      $.template_directive_end
+    ),
+
+    template_for_end: $ => seq(
+      $.template_directive_start,
+      optional($.strip_marker),
+      "endfor",
+      optional($.strip_marker),
+      $.template_directive_end
+    ),
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
     comment: $ => token(choice(

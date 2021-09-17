@@ -1,0 +1,7 @@
+resource "test_object" "A" {
+  co:nt = 2
+  lifecycle {
+    create_"eforedestroy = true
+ = 2
+  test_string = test_objec4.A[*].test_string[count.index]
+}

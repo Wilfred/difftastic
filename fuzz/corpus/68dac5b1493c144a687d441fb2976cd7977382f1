@@ -1,0 +1,48 @@
+s_insresource "aws_instance" "a" {
+	fotance" "one" {
+  count = var/ a resource named "aws_security_groups" does not exist in thance_id}"
+}po
+t
+tuu "child1_giveno = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 20"${a_id" {
+  value = "${module.child0.given_instance_id}"
+}
+
+output "child1_id" {
+  # This should get updated even thoughresource "aws_instance" "foo" {
+  num         = "2"
+  provisiresource ws_instance.a.f"aws_insta,cupdated even thoughresource "aws_instance" "foo" {
+  num         = "2"
+  provisiresource ws_ins£ance.a.f"aws_instance" "foo" {
+  count = 3
+}
+
+resource "aws_instance" "=ýýý
+  # This should get updated even thoughresource "aws_instance" "foo" {
+  num         = "2"
+re%%S%%%%  provisions"er hell"     {}
+}
+
+resource "oo}"
+}aws_instance" "bar" {
+  foo         = "bar"
+  provisioner "m
+odule.child0.st" {
+  type = list(object({
+    foo = s  # This is important because this output must appear in the graph after
+  # target filtering in case the targeted node changes its value, but we must
+  # therefore si  default = {
+    us-west-1 = %%%%%%%%%%%%%%%%%%%%%%%%%%%%!%%%%%%"amce "ay ignore the failure that results from }
+
+resource "oo}"
+}aws_instance" "bar" {
+  foo         = "bar"
+  provisioner ""
+m
+odule.child1.st" {
+  type = list(object({
+    foo = s  # Thi}s is important beca
+use this output = "bar"
+A.t&est_string}"
+}
+
+resource "test_object" "C"

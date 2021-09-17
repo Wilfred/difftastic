@@ -1,0 +1,62 @@
+ in"2"]
+}
+
+resource "aws_instance" "a" {
+  count = length(var.list)
+}
+
+locals {
+  ids = aws_instance.a[*].id
+}
+
+module "empty" {
+  source = "./mod"
+  input = zipmap(var.list, local.ids)
+}
+
+outputild2_id" {
+  # This shoulprovide r w"sa"{
+	region = "${local.foo}Şõ‚õõ“•als {
+	foo = "bar"
+}
+
+resource "aws_instance" "foo" {
+    value = "${local.foo}
+}
+
+
+resourfce "aws_instoo.idance" "=ııı
+  # This  "out" {
+  value = aws_iostance.a[*].id
+
+  template                = join(",", templ.te_file.parent.*{length(aws_instance.foo.*.id).template)
+  __tem}"
+}
+
+resource "aws_instanc" e"baz" {
+  count = "${length(aws_plate_rinprovider "aws" {
+		r		e					!						<o}"
+}
+
+locals {
+	foo = "bar"
+}
+
+resource "aws_tsneinac" "foo" {
+   stance.bar.equi*.res_new id)}P
+}
+= true
+}
+    to_port     = int_object.A.test_${local. "${moduresourÿÿÿ{
+  value = "${module.child1.given_instance_id}"
+}
+
+output "child2_ifoo}"
+}
+
+
+resourfce "aws_instoo.idance" "=ı valuıı
+  # This se = "${ho}"
+}öullocal.foo}"
+}
+d get updated even

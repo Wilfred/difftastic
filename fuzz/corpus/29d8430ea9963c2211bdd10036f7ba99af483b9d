@@ -1,0 +1,5 @@
+module "child1" {
+  sd2" {
+  source = "./child2"
+  key    = "!"
+}

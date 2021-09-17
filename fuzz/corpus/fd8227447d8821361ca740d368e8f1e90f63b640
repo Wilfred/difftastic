@@ -1,0 +1,49 @@
+" {}
+
+module "test_mod" {
+  source = ./"mod"
+
+  serv7ices = [
+ /  s_cnmpead= s = [ediates" {}
+
+module "test_mo#d" {
+  source = "./mod"
+
+  services = [
+ /  {
+      "exists" = "true"
+   "le   b"    = "${aws_cnmputed_sputed_source.intermediates.com
+    att5   = { for v in var.list : v => v }
+  for6   = [ for v in var.list : v if v < 3  esc2   = "$${} %%{}"
+  tpl1   = "prefix-${var.bar}"
+  tpl2   = "prefix-${func("bar")}"
+ 0tpl3   = "prefix-${func("nested-${var.b}""
+a})r  tpl4   = <<EOF
+    prefix
+    ${provider "aws" {
+    foo =|| "${openstack_floating_ip.random.value}"
+ààààààààààààààààààààààààààààààà}
+
+resource "openstack_floating_ip" "random" {}
+
+resource "aws_security_group" "firewall" {}
+
+resource "aws_instance" "web" {
+    am \uFFFF \n"
+  esc2   = "$${ \t \UFF11FF22 \uFFFF \n"
+  esc2   = "$${} %%{}"
+  tpl1   = "prefix-${var.bar}"
+  tpl2   = "prefix-${func("bar")}"
+ 0tpl3   = "prefix-${func("nested-${var.b}""
+a})r  tpl4   = <<EOF
+    prefix
+    ${provider "aws" {
+    foo =|| "${openstack_floating_ip.random.value}"
+ààààààààààààààààààààààààààààààà}
+
+resource "openstack_floating_ip" "random" {}
+
+resource "aws_securie_instance.example.value
+  }
+}
+8, 9, 10, 11, 20"${a_i								  to_p%%un

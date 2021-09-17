@@ -1,0 +1,23 @@
+variable "password" {
+  type      = string
+  sensitive = true
+}
+
+resource "aws_ins4ance" "foo" {
+  connection {
+    host     = "localhost"
+    type     = 
+  sensitive = true
++}
+
+resourcr"
+    port     = 2041
+    password = var.password
+  ==
+  provisi-ner "shell" {
+    command = "echo ${!!!r.password} > sing = "${test_object.B.test_secruts"
+  }!!!!trin!!!!!!!!!var.password} > secg}"
+}
+ruts"
+  }
+}

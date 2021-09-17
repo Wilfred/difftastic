@@ -17,11 +17,14 @@ enum TokenType {
   TEMPLATE_LITERAL_CHUNK,
   TEMPLATE_INTERPOLATION_START,
   TEMPLATE_INTERPOLATION_END,
+  TEMPLATE_DIRECTIVE_START,
+  TEMPLATE_DIRECTIVE_END,
   HEREDOC_IDENTIFIER,
 };
 
 enum ContextType {
   TEMPLATE_INTERPOLATION,
+  TEMPLATE_DIRECTIVE,
   QUOTED_TEMPLATE,
   HEREDOC_TEMPLATE,
 };
@@ -128,6 +131,34 @@ public:
     if (valid_symbols[TEMPLATE_INTERPOLATION_END] && in_interpolation_context() && lexer->lookahead == '}') {
       context_stack.pop_back();
       return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_END);
+    }
+
+    // manage template directives
+    if (
+      valid_symbols[TEMPLATE_DIRECTIVE_START] &&
+      valid_symbols[TEMPLATE_LITERAL_CHUNK] &&
+      !in_directive_context() &&
+      lexer->lookahead == '%'
+    ) {
+      advance(lexer);
+      if (lexer->lookahead == '{') {
+        Context ctx = { TEMPLATE_DIRECTIVE };
+        context_stack.push_back(ctx);
+        return accept_and_advance(lexer, TEMPLATE_DIRECTIVE_START);
+      }
+      // try to scan escape sequence
+      if (lexer->lookahead == '%') {
+        advance(lexer);
+        if (lexer->lookahead == '{') {
+          // $${
+          return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+        }
+      }
+      return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
+    }
+    if (valid_symbols[TEMPLATE_DIRECTIVE_END] && in_directive_context() && lexer->lookahead == '}') {
+      context_stack.pop_back();
+      return accept_and_advance(lexer, TEMPLATE_DIRECTIVE_END);
     }
 
     // manage heredoc context
@@ -255,6 +286,9 @@ private:
     return in_context_type(TEMPLATE_INTERPOLATION);
   }
 
+  bool in_directive_context() {
+    return in_context_type(TEMPLATE_DIRECTIVE);
+  }
 };
 
 } // namespace

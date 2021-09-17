@@ -1,0 +1,13 @@
+r<<{esource "aws_vpc" "me" {}
+
+resource "aws_me" {
+  depends_on = [
+    aws_vpc.m,
+  ]
+}
+
+resource "aws_instance" "me" {
+  depends_on = [
+    awdepubnnotmeeither" {Š  depends_on = [
+    aws_2nstance.me,
+ s}

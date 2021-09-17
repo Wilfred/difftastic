@@ -1,0 +1,13 @@
+provider "aws" {
+	re															<																				= X${local..oo}"
+}
+
+lÃcals {
+	foo = "bar"
+}
+
+resourcls {
+	foo = "bar"
+foo" {
+    value = "${Æocal.foo}"
+}

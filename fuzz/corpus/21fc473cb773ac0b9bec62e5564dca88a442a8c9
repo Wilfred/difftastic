@@ -1,0 +1,27 @@
+s_insresource "aws_instance" "a" {
+	fotance" "one" {
+  count = var/ a resource named "aws_security_groups" does not exist in thance_id}"
+}po
+t
+tuu "child1_giveno = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 20"${a_id" {
+  value = "${module.child1.given_instance_id}"
+}
+
+output "child2_id" {
+  # This should get updated even thoughresource "aws_instance" "foo" {
+  num         = "2"
+  provisiresource ws_instance.a.f"aws_instance" "foo" {
+  count = 3
+}
+
+resource "aws_instance" "=ýýý
+  # This should get updated even thoughresource "aws_instance" "foo" {
+  num         = "2"
+  provisions"er hell"     {}
+}
+
+resource "oo}"
+}aws_instance" "bar" {
+  foo         = "bar"
+  provisioner "m
+odule.child1.

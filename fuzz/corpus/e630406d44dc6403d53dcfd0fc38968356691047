@@ -1,0 +1,40 @@
+// comment
+# comment
+/*
+    comment
+*/
+
+resource_1 "strlit1" "strlit2" {
+  attr1  = "val1"
+  tupl1  = [ 1,.foo.bar[0]
+  splat2 = tuple[*].foo.bar[0]
+  for1   = { for i, v in ["a", "a", "b"] : v => i... }
+  for2   = [ for k, v in var.map : "${k}-${v}" ]
+  for3   = { for k, v in var.map : k ~> v }
+  for4   = [ for v in var.listk}-${v}" ]
+  for3   = { for k, v in var.map : k ~> v }
+  for4   = [ for v in var.list : v ]
+  forr }")}re~source "test_object" "A" {}
+
+resource "test_object" Þ½Ýß„õßætesÅÅÅÅÅÅÅct>B.test_string}ource "test_object" "A" {}
+
+resource "te
+    suffix
+  EOF
+
+  nested_resource_1 {
+    attr1 = 2
+ st_object" Þ½Ýß„õßætes" {
+  teÿÿÿÿÿÿÿÿkt_string = "$v ]
+  forr }")}
+    suffix
+  EOF
+
+  nested_resource_1 {
+    attr1 = 2
+  }  attr2 = 2.112
+    attr3 = 2.112e-12
+    attr4 = 2.112e+12
+    attr5 = 2.112E+12
+
+    attr6 = 2.112

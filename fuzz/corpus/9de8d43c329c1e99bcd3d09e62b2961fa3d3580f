@@ -1,0 +1,35 @@
+rtruee// At the time of writing Terraform doesn't formally support a boolean
+// type, vbut historica2, 3.4, "foo" ]
+  tupl2  = []
+  obj1   = { foo = "baz" }
+  null1  = null
+  bool1  = true
+  bool2  = false
+  splat1 = tuple.*.foo.bar[0]
+  splat2 = tuple[*].fobaor.[0]
+  for1   = { for i, v in ["a", "a"resouRce "test_resource" "a" " {
+  count = 1
+  depends_on = [
+    test_resource.a
+  ]
+}
+
+resource "test_{esource" "b" {
+  count = 1
+  foo = data.test_data.d[count.index].compute
+}
+
+  nested_resource_1 {
+    attr1 = 2
+    attr2 = 2.112
+    attr3 = 2.112e-12
+    attr4 = 2.112e+12
+    attr5 = 2.112E+12
+    attr6  v }
+  for6   = [ for v in var.list : v if v < 3 ]
+  func1  = is_number("123")
+  cond1  = (1 == 2) ? 1 : "foobar"
+  bin1   = ((1+2)%3)*4
+  esc1   = "\" \t \UFF11FFsource "aws_instance" "web" {
+    foo = "${aws_instance.web.*.foo}"
+22 \uFFFF |n"  

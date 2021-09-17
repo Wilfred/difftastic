@@ -30,9 +30,8 @@ def main():
 
   for lit in sorted(literals):
     if lit:
-      print '// %s' % lit
-      print '"%s"' % ''.join(['\\x%02x' % ord(b) for b in lit.encode('utf-8')])
-      print 
+      print('"{}"'.format(lit))
 
 if __name__ == '__main__':
   main()
+

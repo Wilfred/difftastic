@@ -46,6 +46,169 @@ foo = "${}"
             (quoted_template_end)))))))
 
 ================================================================================
+template for expression in quoted template
+================================================================================
+
+foo = "%{ for a in b } prefix-${a} %{ endfor }"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (quoted_template_start)
+            (template_directive
+              (template_for
+                (template_for_start
+                  (template_directive_start)
+                  (identifier)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (template_directive_end))
+                (template_literal)
+                (template_interpolation
+                  (template_interpolation_start)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (template_interpolation_end))
+                (template_for_end
+                  (template_directive_start)
+                  (template_directive_end))))
+            (quoted_template_end)))))))
+
+================================================================================
+escaped template for directive
+================================================================================
+
+foo = "%{ for a in b } %%{ endfor } %{ endfor }"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (quoted_template_start)
+            (template_directive
+              (template_for
+                (template_for_start
+                  (template_directive_start)
+                  (identifier)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (template_directive_end))
+                (template_literal)
+                (template_for_end
+                  (template_directive_start)
+                  (template_directive_end))))
+            (quoted_template_end)))))))
+
+================================================================================
+escaped template for directive 2
+================================================================================
+
+foo = "%%{ for a in b } %%{ endfor }"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
+
+================================================================================
+template for directive with weird whitespace
+================================================================================
+
+foo = "%{     for a in b   } %{      endfor    }"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (quoted_template_start)
+            (template_directive
+              (template_for
+                (template_for_start
+                  (template_directive_start)
+                  (identifier)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (template_directive_end))
+                (template_for_end
+                  (template_directive_start)
+                  (template_directive_end))))
+            (quoted_template_end)))))))
+
+================================================================================
+template for expression in heredoc template
+================================================================================
+
+foo = <<EOF
+%{ for a in b ~}
+
+prefix-${a}
+
+%{~ endfor }
+EOF
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (heredoc_template
+            (heredoc_start)
+            (heredoc_identifier)
+            (template_directive
+              (template_for
+                (template_for_start
+                  (template_directive_start)
+                  (identifier)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (strip_marker)
+                  (template_directive_end))
+                (template_literal)
+                (template_interpolation
+                  (template_interpolation_start)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (template_interpolation_end))
+                (template_for_end
+                  (template_directive_start)
+                  (strip_marker)
+                  (template_directive_end))))
+            (heredoc_identifier)))))))
+
+================================================================================
 empty heredoc template
 ================================================================================
 

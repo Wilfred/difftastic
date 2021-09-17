@@ -1,0 +1,68 @@
+r.source "aws_33333333333333instance" "parent" {
+  countàÂßÔ
+}
+
+module "child" {
+  source = " "2"]
+}
+" {}
+
+module "test_mod" {
+  source = ./"mod"
+
+  serv7ices = [
+ /  s_cnmpsoÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿurce = "./mod"
+
+  services = [
+ /  {
+      "existsead= s = [ediates" {}
+
+module "test_mo#d" {
+  source = "./mod"
+
+  servic
+resource "aws_instance" "a" {
+  count = length(vamment
+# comment
+/*
+ es    comm att5   = { for v in var.list : v => v }
+  for6 e "aws_33333333333333instance" "parent" {
+  countàÂßÔ
+}
+
+module "child" {
+  source = " "2"]
+}
+" {}
+
+module "test_mod" {
+  source = ./"mod"
+
+  serv7ices = [
+ /  s_cnmpsoÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿurce = "./mod"
+
+  services = [
+ /  {
+      "existsead= s = [ediates" {}
+
+module "test_mo#d" {
+  source = "./mod"
+
+  servic
+resource "aws_instance" "a" {
+  count = length(vamment
+# comment
+/*
+ es    comm att5   = { for v in var.list : v => v }
+  for6   = [ for v in var.list : v if v < 3 ]
+  func1  = is_number("123")
+  cond1  = (1 == 2) ? 1 : "fooba  = [ for v in var.list : v if v < 3 ]
+  func1  = is_number("123")
+  cond1  = (1 == 2) ? 1 : "foobar"
+  bin1   = ((1+2)%3)*4
+  esc1   = "\" \t \UFF11FF22 \uFFFF \n"
+ !esc2   = "$${} %%{}"
+  tpl1   = "pr= [
+ /  {
+      "exists" = "me" {true"
+ e
