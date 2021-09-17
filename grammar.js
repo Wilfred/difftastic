@@ -746,6 +746,14 @@ module.exports = grammar(C, {
       $.raw_string_literal
     ),
 
+    subscript_expression: $ => prec(PREC.SUBSCRIPT, seq(
+      field('argument', $._expression),
+      '[',
+      field('index', choice($._expression, $.initializer_list)),
+      ']'
+    )),
+
+
     call_expression: ($, original) => choice(original, seq(
       field('function', $.primitive_type),
       field('arguments', $.argument_list)
