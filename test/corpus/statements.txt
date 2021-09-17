@@ -308,7 +308,7 @@ void f() {
 (translation_unit
   (function_definition (primitive_type)
     (function_declarator (identifier) (parameter_list))
-      (compound_statement
+    (compound_statement
       (attributed_statement (attribute_declaration (attribute (identifier)))
         (switch_statement
           (condition_clause (identifier))
@@ -341,3 +341,37 @@ co_yield 1;
   (co_return_statement)
   (co_yield_statement
     (number_literal)))
+
+
+===========================================
+Switch statements
+===========================================
+
+void foo(int a) {
+  switch (a) {
+    case 1:
+      for (auto i : vec) {}
+    case 2:
+      try {
+        // do something
+      } catch(...) {}
+      throw 1;
+    case 3:
+      co_return;
+    default:
+      co_yield a;
+  }
+}
+
+---
+
+(translation_unit
+  (function_definition (primitive_type)
+    (function_declarator (identifier) (parameter_list (parameter_declaration (primitive_type) (identifier))))
+    (compound_statement
+      (switch_statement (condition_clause (identifier))
+        (compound_statement
+          (case_statement (number_literal) (for_range_loop (auto) (identifier) (identifier) (compound_statement)))
+          (case_statement (number_literal) (try_statement (compound_statement (comment)) (catch_clause (parameter_list) (compound_statement))) (throw_statement (number_literal)))
+          (case_statement (number_literal) (co_return_statement))
+          (case_statement (co_yield_statement (identifier))))))))

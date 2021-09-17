@@ -1080,6 +1080,14 @@
           "named": true
         },
         {
+          "type": "co_return_statement",
+          "named": true
+        },
+        {
+          "type": "co_yield_statement",
+          "named": true
+        },
+        {
           "type": "compound_statement",
           "named": true
         },
@@ -1097,6 +1105,10 @@
         },
         {
           "type": "expression_statement",
+          "named": true
+        },
+        {
+          "type": "for_range_loop",
           "named": true
         },
         {
@@ -1121,6 +1133,14 @@
         },
         {
           "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "throw_statement",
+          "named": true
+        },
+        {
+          "type": "try_statement",
           "named": true
         },
         {
