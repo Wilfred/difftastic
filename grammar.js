@@ -617,7 +617,7 @@ module.exports = grammar(C, {
 
     // Statements
 
-    _statement: ($, original) => choice(
+    _non_case_statement: ($, original) => choice(
       original,
       $.co_return_statement,
       $.co_yield_statement,

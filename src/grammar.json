@@ -4357,15 +4357,68 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "SYMBOL",
+          "name": "case_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_non_case_statement"
+        }
+      ]
+    },
+    "_non_case_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "case_statement"
+              "name": "labeled_statement"
             },
             {
               "type": "SYMBOL",
-              "name": "_non_case_statement"
+              "name": "compound_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "expression_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "if_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "switch_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "do_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "while_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "for_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "return_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "break_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "continue_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "goto_statement"
             }
           ]
         },
@@ -4388,59 +4441,6 @@
         {
           "type": "SYMBOL",
           "name": "throw_statement"
-        }
-      ]
-    },
-    "_non_case_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "labeled_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "compound_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expression_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "if_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "switch_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "do_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "while_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "for_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "return_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "break_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "continue_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "goto_statement"
         }
       ]
     },
