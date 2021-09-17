@@ -659,6 +659,7 @@ Array assignment expression
 ============================================
 
 array_[i] = s[i];
+array_[{i}] = s[{1,2,3}];
 
 ---
 (translation_unit
@@ -669,7 +670,19 @@ array_[i] = s[i];
         (identifier))
       (subscript_expression
         (identifier)
-        (identifier)))))
+        (identifier))))
+  (expression_statement
+    (assignment_expression
+      (subscript_expression
+        (identifier)
+        (initializer_list
+          (identifier)))
+      (subscript_expression
+        (identifier)
+        (initializer_list
+          (number_literal)
+          (number_literal)
+          (number_literal))))))
 
 ============================================
 Coroutines

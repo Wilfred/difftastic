@@ -4476,6 +4476,10 @@
           {
             "type": "_expression",
             "named": true
+          },
+          {
+            "type": "initializer_list",
+            "named": true
           }
         ]
       }
