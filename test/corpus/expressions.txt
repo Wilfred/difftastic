@@ -172,6 +172,24 @@ x %some \% escaped text% y
   (binary left: (identifier) operator: (special) right: (identifier))
   (binary left: (identifier) operator: (special (escape_sequence)) right: (identifier)))
 
+========
+Pipe
+========
+
+x |> print()
+
+x |> print
+
+---
+
+(program
+  (binary
+    left: (identifier)
+    right: (call function: (identifier)))
+  (binary
+    left: (identifier)
+    right: (identifier)))
+
 ===========
 Subset
 ===========

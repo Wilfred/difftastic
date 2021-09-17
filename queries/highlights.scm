@@ -53,6 +53,7 @@
   "&"
   ":"
   "~"
+  "|>"
 ] @operator)
 
 (special) @operator

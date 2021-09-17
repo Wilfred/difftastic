@@ -250,6 +250,7 @@ module.exports = grammar({
         [prec.left, PREC.REL, choice('<', '>', '<=', '>=', '==', '!=')],
         [prec.left, PREC.OR, choice('||', '|')],
         [prec.left, PREC.AND, choice('&&', '&')],
+        [prec.left, PREC.SPECIAL, '|>'],
         [prec.left, PREC.SPECIAL, $.special],
         [prec.left, PREC.COLON, ':'],
         [prec.left, PREC.TILDE, '~'],
