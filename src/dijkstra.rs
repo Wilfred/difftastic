@@ -61,13 +61,11 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     // usage.
     let mut predecessors: FxHashMap<Vertex, (u64, Vertex, Edge)> = FxHashMap::default();
 
-    let end;
-    loop {
+    let end = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
                 if current.is_end() {
-                    end = current;
-                    break;
+                    break current;
                 }
 
                 for (edge, next) in neighbours(&current) {
@@ -87,7 +85,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
             }
             None => panic!("Ran out of graph nodes before reaching end"),
         }
-    }
+    };
 
     info!(
         "Found predecessors for {} syntax nodes, with {} left on heap.",
