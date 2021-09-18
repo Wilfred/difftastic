@@ -119,7 +119,7 @@ impl Edge {
                 } else {
                     // This needs to be more than 40 greater than the
                     // contiguous case. Otherwise, we end up choosing
-                    // a badly positioned unchanged elimiter just
+                    // a badly positioned unchanged delimiter just
                     // because it has a better depth difference.
                     //
                     // TODO: write a test for this case.
