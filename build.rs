@@ -37,6 +37,11 @@ fn main() {
 
     // TODO: build these in parallel.
     build("tree-sitter-c", "vendor/tree-sitter-c-src", &[]);
+    build(
+        "tree-sitter-cpp",
+        "vendor/tree-sitter-cpp-src",
+        &["scanner.cc"],
+    );
     build("tree-sitter-clojure", "vendor/tree-sitter-clojure-src", &[]);
     build(
         "tree-sitter-css",
