@@ -16,7 +16,10 @@ fn build(package_name: &str, package_dir: &str, extra_files: &[&str]) {
 
     if !cpp_files.is_empty() {
         let mut cpp_build = cc::Build::new();
-        cpp_build.include(&dir).cpp(true);
+        cpp_build
+            .include(&dir)
+            .cpp(true)
+            .flag("-Wno-unused-parameter");
         for file in cpp_files {
             cpp_build.file(dir.join(file));
         }
