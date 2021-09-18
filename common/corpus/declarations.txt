@@ -1059,5 +1059,4 @@ class Bar extends Foo {
         (override_modifier)
         name: (property_identifier)
         parameters: (formal_parameters)
-        body: (statement_block))))
-)
+        body: (statement_block)))))
