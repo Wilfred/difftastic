@@ -1,9 +1,10 @@
 # Introduction
 
 Difftastic is a diff tool that understands syntax. It currently
-supports 15 languages:
+supports 16 languages:
 
 * C
+* C++
 * Clojure
 * CSS
 * Elixir
