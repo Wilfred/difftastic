@@ -477,10 +477,13 @@ module.exports = grammar(C, {
       '[', commaSep1($.identifier), ']'
     )),
 
+    ref_qualifier: $ => choice('&', '&&'),
+
     function_declarator: ($, original) => prec.dynamic(1, seq(
       original,
       repeat(choice(
         $.type_qualifier,
+        $.ref_qualifier,
         $.virtual_specifier,
         $.noexcept,
         $.throw_specifier,
@@ -492,6 +495,7 @@ module.exports = grammar(C, {
       original,
       repeat(choice(
         $.type_qualifier,
+        $.ref_qualifier,
         $.virtual_specifier,
         $.noexcept,
         $.throw_specifier,
@@ -503,6 +507,7 @@ module.exports = grammar(C, {
       original,
       repeat(choice(
         $.type_qualifier,
+        $.ref_qualifier,
         $.noexcept,
         $.throw_specifier
       )),
