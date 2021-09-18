@@ -1149,3 +1149,91 @@ thread_local int c;
   (declaration (storage_class_specifier) (primitive_type) (identifier))
   (declaration (storage_class_specifier) (primitive_type) (identifier))
   (declaration (storage_class_specifier) (primitive_type) (identifier)))
+
+=========================
+Ref-qualifiers
+=========================
+
+class C
+{
+  void f() &;
+  void f() && noexcept;
+  void f() & {}
+  void f() & noexcept {}
+};
+
+void C::f() &;
+void C::f() & noexcept;
+void C::f() && {}
+void C::f() & noexcept {}
+
+---
+
+(translation_unit
+  (class_specifier
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list)
+          (ref_qualifier)))
+      (field_declaration
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list)
+          (ref_qualifier)
+          (noexcept)))
+      (function_definition
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list)
+          (ref_qualifier))
+        (compound_statement))
+      (function_definition
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list)
+          (ref_qualifier)
+          (noexcept))
+        (compound_statement))))
+  (declaration
+    (primitive_type)
+    (function_declarator
+      (scoped_identifier
+        (namespace_identifier)
+        (identifier))
+      (parameter_list)
+      (ref_qualifier)))
+  (declaration
+    (primitive_type)
+    (function_declarator
+      (scoped_identifier
+        (namespace_identifier)
+        (identifier))
+      (parameter_list)
+      (ref_qualifier)
+      (noexcept)))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (scoped_identifier
+        (namespace_identifier)
+        (identifier))
+      (parameter_list)
+      (ref_qualifier))
+    (compound_statement))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (scoped_identifier
+        (namespace_identifier)
+        (identifier))
+      (parameter_list)
+      (ref_qualifier)
+      (noexcept))
+    (compound_statement)))
