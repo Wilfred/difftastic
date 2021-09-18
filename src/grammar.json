@@ -3786,6 +3786,22 @@
         }
       ]
     },
+    "attributed_non_case_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "attribute_declaration"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_non_case_statement"
+        }
+      ]
+    },
     "_statement": {
       "type": "CHOICE",
       "members": [
@@ -4023,6 +4039,15 @@
             "content": {
               "type": "CHOICE",
               "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "attributed_non_case_statement"
+                  },
+                  "named": true,
+                  "value": "attributed_statement"
+                },
                 {
                   "type": "SYMBOL",
                   "name": "_non_case_statement"
@@ -6552,6 +6577,10 @@
     [
       "_declaration_modifiers",
       "attributed_statement"
+    ],
+    [
+      "_declaration_modifiers",
+      "attributed_non_case_statement"
     ]
   ],
   "precedences": [],

@@ -853,6 +853,10 @@
       "required": false,
       "types": [
         {
+          "type": "attributed_statement",
+          "named": true
+        },
+        {
           "type": "break_statement",
           "named": true
         },
