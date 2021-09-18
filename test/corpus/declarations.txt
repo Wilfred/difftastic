@@ -295,7 +295,7 @@ static baz quux(...);
   (declaration
     (storage_class_specifier)
     (type_identifier)
-    (function_declarator (identifier) (parameter_list))))
+    (function_declarator (identifier) (parameter_list (variadic_parameter)))))
 
 ============================================
 Function definitions
@@ -470,7 +470,7 @@ typedef int MyInt [[deprecated]];
   (declaration
     (primitive_type)
     (function_declarator (identifier)
-      (parameter_list (parameter_declaration (type_qualifier) (primitive_type) (pointer_declarator (identifier))))
+      (parameter_list (parameter_declaration (type_qualifier) (primitive_type) (pointer_declarator (identifier))) (variadic_parameter))
       (attribute_specifier (argument_list (identifier)))
       (attribute_specifier
         (argument_list (call_expression (identifier) (argument_list (identifier) (number_literal) (number_literal)))))))
