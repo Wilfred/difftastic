@@ -3672,6 +3672,15 @@
         }
       ]
     },
+    "variadic_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "..."
+        }
+      ]
+    },
     "parameter_list": {
       "type": "SEQ",
       "members": [
@@ -3693,8 +3702,8 @@
                       "name": "parameter_declaration"
                     },
                     {
-                      "type": "STRING",
-                      "value": "..."
+                      "type": "SYMBOL",
+                      "name": "variadic_parameter"
                     }
                   ]
                 },
@@ -3715,8 +3724,8 @@
                             "name": "parameter_declaration"
                           },
                           {
-                            "type": "STRING",
-                            "value": "..."
+                            "type": "SYMBOL",
+                            "name": "variadic_parameter"
                           }
                         ]
                       }
