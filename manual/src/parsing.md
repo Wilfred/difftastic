@@ -24,39 +24,6 @@ $ difftastic --dump-ts sample_files/before.js
         ...
 ```
 
-### Adding a new parser
-
-Tree-sitter parsers are sometimes packaged on npm, sometimes packaged
-on crates.io, and have different release frequencies.
-
-Difftastic uses git subtrees to vendor the source code for
-parsers. This makes upgrading easier.
-
-If you've found a reasonably complete parser implementation for your
-target language, add it to `vendor/`.
-
-```
-$ git subtree add --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
-```
-
-Cargo does not allow packages to include subdirectories that contain a
-`Cargo.toml`. Add a symlink to the `src/` parser subdirectory.
-
-```
-$ cd vendor
-$ ln -s tree-sitter-java/src tree-sitter-java-src
-```
-
-You can now add the parser to build by including the directory in
-`build.rs`. You will also need to update `tree_sitter_parser.rs` to
-configure the file extensions, atoms and delimiters.
-
-### Updating a parser
-
-```
-$ git subtree pull --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
-```
-
 ## Simplified Syntax
 
 Difftastic converts the tree-sitter parse tree to a simplified syntax
