@@ -34,8 +34,125 @@ pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<'a>> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    // TODO: move assert_syntaxes to a more relevant file.
-    use crate::regex_parser::tests::assert_syntaxes;
+    use Syntax::*;
+
+    fn assert_syntaxes<'a>(actual: &[&'a Syntax<'a>], expected: &[&'a Syntax<'a>]) {
+        if !syntaxes_match(actual, expected) {
+            dbg!(expected, actual);
+            assert!(false);
+        }
+    }
+
+    fn syntaxes_match<'a>(actual: &[&'a Syntax<'a>], expected: &[&'a Syntax<'a>]) -> bool {
+        if actual.len() != expected.len() {
+            return false;
+        } else {
+            for (lhs_child, rhs_child) in actual.iter().zip(expected.iter()) {
+                if !syntax_matches(lhs_child, rhs_child) {
+                    return false;
+                }
+            }
+        }
+        true
+    }
+
+    /// Compare all the fields in a Syntax value, not just
+    /// those used in its Eq implementation.
+    fn syntax_matches<'a>(actual: &'a Syntax<'a>, expected: &'a Syntax<'a>) -> bool {
+        match (actual, expected) {
+            (
+                List {
+                    info: lhs_info,
+                    open_position: lhs_open_position,
+                    open_content: lhs_start_content,
+                    children: lhs_children,
+                    close_content: lhs_end_content,
+                    close_position: lhs_close_position,
+                    num_descendants: lhs_num_descendants,
+                    ..
+                },
+                List {
+                    info: rhs_info,
+                    open_position: rhs_open_position,
+                    open_content: rhs_start_content,
+                    children: rhs_children,
+                    close_content: rhs_end_content,
+                    close_position: rhs_close_position,
+                    num_descendants: rhs_num_descendants,
+                    ..
+                },
+            ) => {
+                if lhs_info.change.get() != rhs_info.change.get() {
+                    dbg!(lhs_info.change.get(), rhs_info.change.get());
+                    return false;
+                }
+                if lhs_open_position != rhs_open_position {
+                    dbg!(lhs_open_position, rhs_open_position);
+                    return false;
+                }
+
+                if lhs_start_content != rhs_start_content {
+                    dbg!(lhs_start_content, rhs_start_content);
+                    return false;
+                }
+                if lhs_end_content != rhs_end_content {
+                    dbg!(lhs_end_content, rhs_end_content);
+                    return false;
+                }
+                if lhs_close_position != rhs_close_position {
+                    dbg!(lhs_close_position, rhs_close_position);
+                    return false;
+                }
+
+                if lhs_num_descendants != rhs_num_descendants {
+                    dbg!(lhs_num_descendants, rhs_num_descendants);
+                    return false;
+                }
+
+                if !syntaxes_match(lhs_children, rhs_children) {
+                    return false;
+                }
+            }
+            (
+                Atom {
+                    info: lhs_info,
+                    position: lhs_position,
+                    content: lhs_content,
+                    is_comment: lhs_is_comment,
+                    ..
+                },
+                Atom {
+                    info: rhs_info,
+                    position: rhs_position,
+                    content: rhs_content,
+                    is_comment: rhs_is_comment,
+                    ..
+                },
+            ) => {
+                if lhs_info.change.get() != rhs_info.change.get() {
+                    dbg!(lhs_info.change.get(), rhs_info.change.get());
+                    return false;
+                }
+                if lhs_position != rhs_position {
+                    dbg!(lhs_position, rhs_position);
+                    return false;
+                }
+
+                if lhs_content != rhs_content {
+                    dbg!(lhs_content, rhs_content);
+                    return false;
+                }
+                if lhs_is_comment != rhs_is_comment {
+                    dbg!(lhs_is_comment, rhs_is_comment);
+                    return false;
+                }
+            }
+            _ => {
+                return false;
+            }
+        }
+        true
+    }
 
     #[test]
     fn test_parse_lines() {

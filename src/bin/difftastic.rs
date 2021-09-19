@@ -211,35 +211,22 @@ fn main() {
 
     let extension = Path::new(&display_path).extension();
     let extension = extension.unwrap_or_else(|| OsStr::new(""));
-    // Try tree-sitter parser first unless DFT_RX (difftastic regex)
-    // environment variable is set.
-    let ts_lang = if env::var("DFT_RX").is_ok() {
-        None
-    } else {
-        tsp::from_extension(extension)
-    };
+    let ts_lang = tsp::from_extension(extension);
 
     let (lang_name, lhs, rhs) = match ts_lang {
         Some(ts_lang) => (
-            ts_lang.name.into(),
+            ts_lang.name,
             tsp::parse(&arena, &lhs_src, &ts_lang),
             tsp::parse(&arena, &rhs_src, &ts_lang),
         ),
-        None => match regex_parser::from_extension(extension) {
-            Some(lang) => (
-                format!("{} (regex parser)", lang.name),
-                regex_parser::parse(&arena, &lhs_src, &lang),
-                regex_parser::parse(&arena, &rhs_src, &lang),
-            ),
-            None => (
-                "text".into(),
-                line_parser::parse(&arena, &lhs_src),
-                line_parser::parse(&arena, &rhs_src),
-            ),
-        },
+        None => (
+            "text",
+            line_parser::parse(&arena, &lhs_src),
+            line_parser::parse(&arena, &rhs_src),
+        ),
     };
 
-    println!("{}", style::header(&display_path, &lang_name));
+    println!("{}", style::header(&display_path, lang_name));
 
     init_info(&lhs, &rhs);
     mark_syntax(lhs.get(0).copied(), rhs.get(0).copied());
