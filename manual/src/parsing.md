@@ -57,17 +57,6 @@ configure the file extensions, atoms and delimiters.
 $ git subtree pull --prefix=vendor/tree-sitter-java git@github.com:tree-sitter/tree-sitter-java.git master
 ```
 
-## Parsing with Regular Expressions
-
-Difftastic also has a legacy parser that uses regular expressions,
-inspired by [Comby](https://github.com/comby-tools/comby).
-
-```
-$ DFT_RX=1 difftastic sample_files/before.js sample_files/after.js
-```
-
-This parser is less precise and will probably be removed in future.
-
 ## Simplified Syntax
 
 Difftastic converts the tree-sitter parse tree to a simplified syntax
