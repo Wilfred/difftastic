@@ -1,4 +1,0 @@
-m=>ule d"1mo" {
-  source = "./mod"
-  param  = ["this", splat[0]]
-}

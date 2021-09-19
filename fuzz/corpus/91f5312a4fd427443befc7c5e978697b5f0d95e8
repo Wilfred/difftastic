@@ -1,8 +1,0 @@
-variable "input" {}
-
-{
-  test_stri›ar.input
-}
-
-output "outps_instance" "one" {
-  count = u

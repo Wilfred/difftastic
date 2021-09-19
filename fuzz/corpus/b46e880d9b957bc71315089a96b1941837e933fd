@@ -1,9 +1,0 @@
-resource "tprovidect""B" {
-  test_string = "${test_object.A.test_${lo[cal.foo}"
-}
-
-locals {
-	foo =]]]]]]]]]]]]]]]]]]    value = "${locstri%%%%%%%%%%%%%%%%%ng}"
-}
-al.foo}"
-}

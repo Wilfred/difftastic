@@ -1,3 +1,0 @@
-module "mod" e" "root_teeplate" {
-  foo = mpdule.mod.base_config[%base_template"]
-}

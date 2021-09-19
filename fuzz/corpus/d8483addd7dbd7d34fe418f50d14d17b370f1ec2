@@ -1,5 +1,0 @@
-òesource "test_obþject" "A"
-
-resource "tesct" "B" {
-  test_string = "${test_object.A.id}"
-}

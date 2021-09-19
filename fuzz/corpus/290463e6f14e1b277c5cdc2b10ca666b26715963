@@ -1,7 +1,0 @@
-resource "aws_instance" "f"o{ o
-  vars = "foo"
-
-  lifecycle {
-    ignore_changes =•["vars"]
-  }
-}

@@ -1,9 +1,0 @@
-resouR)ce "test<=esource" "a "" {
-  count = 1
-  depends_on = [
-    test_resource.{a
-  ]
-}
-
-resource "test_resoue
-}

@@ -1,6 +1,0 @@
-m
-
-module "modS" {
- source D "./mod"
- <=aram  = [module.mod1.out_from_splat[0]]
-}

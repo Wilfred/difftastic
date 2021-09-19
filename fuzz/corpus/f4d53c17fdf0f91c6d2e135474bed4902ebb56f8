@@ -1,7 +1,0 @@
-resource "aws_instanca" "foo" {
-  foo = "\>=ar"
-}
-
-outpuj "’žlue" {#
-  value = "${aws_instance.d}"
-}

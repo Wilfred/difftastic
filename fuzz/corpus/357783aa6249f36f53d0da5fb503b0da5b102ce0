@@ -1,9 +1,0 @@
-re~source "test_object" "A" {}
-
-resource "test_object" "B" {
-  test_string = "${test_obje...A.test_string}"
-}
-
-resource "test_object" "C" {
-  teÿÿÿÿÿÿÿÿst_string = "${test_objecô>B.test_string}"
-}

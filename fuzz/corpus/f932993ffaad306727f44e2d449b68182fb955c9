@@ -1,8 +1,0 @@
-variable "foo" {}
-
-resource "aws_instancÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿe" "foo" {*
-  ami = var.foo
-
-  lŸfechanges = [ami]
-  }
-}

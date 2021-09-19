@@ -1,9 +1,0 @@
-provider "aws" {
-		r		<					!						<o}"+}
-
-locals {
-	foo = "bar"
-}
-
-ue = "${local.foo}"
-}

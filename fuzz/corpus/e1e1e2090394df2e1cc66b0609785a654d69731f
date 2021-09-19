@@ -1,6 +1,0 @@
-resource "aws_instance" "foo" {
-  count = 3
-}
-
-resource "aws_inıııııııııııııııııııııııııııı lenth(awfors_intance" "=ıııııııııııııııııııııı" ııı!=ıııııııııııııııııııııııııııııııııııı lenth(awfors_infornce.foo)
-}
