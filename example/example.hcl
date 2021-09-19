@@ -1,54 +1,95 @@
-// comment
-# comment
-/*
-    comment
-*/
-
-resource_1 "strlit1" "strlit2" {
+resource "example" "literals" {
   attr1  = "val1"
   tupl1  = [ 1, 2, 3.4, "foo" ]
   tupl2  = []
-  obj1   = { foo = "bar", baz = quoz }
+  obj1   = { foo = "bar", baz = quz }
   null1  = null
   bool1  = true
   bool2  = false
-  splat1 = tuple.*.foo.bar[0]
-  splat2 = tuple[*].foo.bar[0]
-  for1   = { for i, v in ["a", "a", "b"] : v => i... }
-  for2   = [ for k, v in var.map : "${k}-${v}" ]
-  for3   = { for k, v in var.map : k => v }
-  for4   = [ for v in var.list : v ]
-  for5   = { for v in var.list : v => v }
-  for6   = [ for v in var.list : v if v < 3 ]
-  func1  = is_number("123")
-  cond1  = (1 == 2) ? 1 : "foobar"
-  bin1   = ((1+2)%3)*4
   esc1   = "\" \t \UFF11FF22 \uFFFF \n"
   esc2   = "$${} %%{}"
-  tpl1   = "prefix-${var.bar}"
-  tpl2   = "prefix-${func("bar")}"
-  tpl3   = "prefix-${func("nested-${var.bar}")}"
+  num1   = 2
+  num2   = 2.112
+  num3   = 2.112e-12
+  num4   = 2.112e+12
+  num5   = 2.112E+12
+  num6   = 2.112E-12
+  num7   = 0x21FF
+}
 
-  tpl4   = <<EOF
-    prefix
-    ${func("foo${ var.bar }")}
-    suffix
-  EOF
+resource "example" "comments" {
+  // comment
+  # comment
+  /*
+      comment
+  */
+}
 
-  func_of_object = func({
+resource "example" "splat_expressions" {
+  splat1 = foo.*.bar.baz[0]
+  splat2 = foo[*].bar.baz[0]
+}
+
+resource "example" "for_expressions" {
+  for1   = { for i, v in ["a", "a", "b"] : v => i... }
+  for2   = [ for k, v in x : "${k}-${v}" ]
+  for3   = { for k, v in x: k => v }
+  for4   = [ for v in x : v ]
+  for5   = { for v in x : v => v }
+  for6   = [ for v in x : v if v < 3 ]
+}
+
+resource "example" "function_expressions" {
+  func1  = is_number("123")
+  func2  = multiline(
+    arg1,
+    arg2,
+    arg3...
+  )
+  func3 = withobject({
     "foo" : 2,
     "bar" : baz,
     key   : val,
     fizz  : buzz,
   })
+}
 
-  nested_resource_1 {
-    attr1 = 2
-    attr2 = 2.112
-    attr3 = 2.112e-12
-    attr4 = 2.112e+12
-    attr5 = 2.112E+12
-    attr6 = 2.112E-12
-    attr7 = 0x21FF
+resource "example" "binary_expressions" {
+  cond1  = (1 == 2) ? 1 : "foobar"
+  bin1   = ((1+2)%3)*4
+}
+
+resource "example" "template_expressions" {
+  tpl1   = "prefix-${var.bar}"
+  tpl2   = "prefix-${func("bar")}"
+  tpl3   = "prefix-${func("nested-${var.bar}")}"
+
+  tpl4   = <<EOF
+    %{ for a in f(b) ~}
+      ${func("foo${ a }")}
+    %{ endfor ~}
+  EOF
+
+  tpl5 = <<-EOF
+    %{~if cond~} 
+      "foo" 
+    %{~else~}
+      4
+    %{~endif~}
+	EOF
+
+  tpl6 = <<-EOF
+    %{ for a in f(b) ~}
+      %{~if a~} "true" %{~else~} "false" %{~endif~}
+    %{ endfor ~}
+	EOF
+}
+
+resource "example" "nested_blocks" {
+  nested_block "first" {
+    attr1 = "foo"
+    nested_block "second" {
+      attr1 = "bar"
+    }
   }
 }

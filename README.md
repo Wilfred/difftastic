@@ -6,7 +6,7 @@ tree-sitter grammar for the [HCL](https://github.com/hashicorp/hcl/blob/main/hcl
 
 Highlighting `example/example.hcl`:
 
-![Highlighting Example](https://i.imgur.com/4XFVNVT.png)
+![Highlighting Example](https://i.imgur.com/yUJ0ybK.png)
 
 ## Developing
 
@@ -30,15 +30,3 @@ Total parses: 1892; successful parses: 1892; failed parses: 0; success percentag
 
 See the [fuzzing repo for this parser](https://github.com/MichaHoffmann/tree-sitter-hcl-fuzz)
 
-## Todo
-
-* [ ] add [template expressions](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md#template-expressions)
-  * [x] add template interpolations
-  * [ ] add template directives
-    * [x] add template for expressions
-    * [ ] add template if expressions
-  * [x] add quoted templates
-  * [x] add heredoc templates
-* [ ] quality
-  * [x] add CI job that ensures the parser builds on different plattforms
-  * [ ] add CI job that parses crashers that were found during fuzzing
