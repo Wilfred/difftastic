@@ -447,3 +447,39 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             (heredoc_start)
             (heredoc_identifier)
             (heredoc_identifier)))))))
+
+================================================================================
+template if directive in quoted template
+================================================================================
+
+foo = "%{if cond } foo %{else} bar %{endif}"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (quoted_template_start)
+            (template_directive
+              (template_if
+                (template_if_branch
+                  (template_if_intro
+                    (template_directive_start)
+                    (expression
+                      (variable_expr
+                        (identifier)))
+                    (template_directive_end))
+                  (template_literal))
+                (template_else_branch
+                  (template_else_intro
+                    (template_directive_start)
+                    (template_directive_end))
+                  (template_literal))
+                (template_if_end
+                  (template_directive_start)
+                  (template_directive_end))))
+            (quoted_template_end)))))))

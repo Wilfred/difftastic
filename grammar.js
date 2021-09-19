@@ -231,7 +231,7 @@ module.exports = grammar({
     function_arguments: $ => prec.right(seq(
       $.expression,
       repeat(seq($._comma, $.expression,)),
-      optional(choice(',', $.ellipsis)),
+      optional(choice($._comma, $.ellipsis)),
     )),
 
     ellipsis: $ => token('...'),
@@ -307,7 +307,7 @@ module.exports = grammar({
     // TODO
     template_directive: $ => choice(
       $.template_for,
-      //$.template_if,
+      $.template_if,
     ),
 
     template_for: $ => seq(
@@ -332,6 +332,45 @@ module.exports = grammar({
       $.template_directive_start,
       optional($.strip_marker),
       "endfor",
+      optional($.strip_marker),
+      $.template_directive_end
+    ),
+
+    template_if: $ => seq(
+      $.template_if_branch,
+      optional($.template_else_branch),
+      $.template_if_end,
+    ),
+
+    template_if_branch: $ => seq(
+      $.template_if_intro, $._template
+    ),
+
+    template_if_intro: $ => seq(
+      $.template_directive_start,
+      optional($.strip_marker),
+      "if",
+      $.expression,
+      optional($.strip_marker),
+      $.template_directive_end
+    ),
+
+    template_else_branch: $ => seq(
+      $.template_else_intro, $._template
+    ),
+
+    template_else_intro: $ => seq(
+      $.template_directive_start,
+      optional($.strip_marker),
+      "else",
+      optional($.strip_marker),
+      $.template_directive_end
+    ),
+
+    template_if_end: $ => seq(
+      $.template_directive_start,
+      optional($.strip_marker),
+      "endif",
       optional($.strip_marker),
       $.template_directive_end
     ),

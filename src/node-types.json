@@ -729,6 +729,60 @@
         {
           "type": "template_for",
           "named": true
+        },
+        {
+          "type": "template_if",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_else_branch",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "template_directive",
+          "named": true
+        },
+        {
+          "type": "template_else_intro",
+          "named": true
+        },
+        {
+          "type": "template_interpolation",
+          "named": true
+        },
+        {
+          "type": "template_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_else_intro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "strip_marker",
+          "named": true
+        },
+        {
+          "type": "template_directive_end",
+          "named": true
+        },
+        {
+          "type": "template_directive_start",
+          "named": true
         }
       ]
     }
@@ -820,6 +874,106 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "strip_marker",
+          "named": true
+        },
+        {
+          "type": "template_directive_end",
+          "named": true
+        },
+        {
+          "type": "template_directive_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_if",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "template_else_branch",
+          "named": true
+        },
+        {
+          "type": "template_if_branch",
+          "named": true
+        },
+        {
+          "type": "template_if_end",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_if_branch",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "template_directive",
+          "named": true
+        },
+        {
+          "type": "template_if_intro",
+          "named": true
+        },
+        {
+          "type": "template_interpolation",
+          "named": true
+        },
+        {
+          "type": "template_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_if_end",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "strip_marker",
+          "named": true
+        },
+        {
+          "type": "template_directive_end",
+          "named": true
+        },
+        {
+          "type": "template_directive_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_if_intro",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
           "named": true
         },
         {
@@ -1089,7 +1243,15 @@
     "named": true
   },
   {
+    "type": "else",
+    "named": false
+  },
+  {
     "type": "endfor",
+    "named": false
+  },
+  {
+    "type": "endif",
     "named": false
   },
   {
