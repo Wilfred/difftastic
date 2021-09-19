@@ -1,4 +1,0 @@
-provider "aws" {
-	re																									ocals {
-    value = "${local.foo}"
-}

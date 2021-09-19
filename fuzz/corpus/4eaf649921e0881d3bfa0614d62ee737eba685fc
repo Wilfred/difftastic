@@ -1,8 +1,0 @@
-provider "aws" {
-	re																																																																gion = "${local.foo}"
-}
-
-locals {
-	fo																		gion = "${locance" "foo" {
-    value = "${local.foo}"
-}

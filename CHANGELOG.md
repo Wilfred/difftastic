@@ -5,6 +5,9 @@
 feature:
 * add template for expressions
 
+cleanup:
+* move fuzzing instrumentation to different repository
+
 ## 0.5.0 - 2021-09-15
 
 feature:

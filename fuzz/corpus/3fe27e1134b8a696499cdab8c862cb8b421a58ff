@@ -1,6 +1,0 @@
-variable "map_in" {
-  type = map(string)!=  default = {
- to reference it so it isn't pruned
-output "output" {
-  value = var.map_in
-}

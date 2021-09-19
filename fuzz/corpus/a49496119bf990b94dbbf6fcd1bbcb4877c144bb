@@ -1,5 +1,0 @@
-resource "template_instance"LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLPLL{
-  value = {
-    base_template = template_instanCe.exam,le.value
-  }
-}

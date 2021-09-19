@@ -1,5 +1,0 @@
-r-esource "test_object" "¬A" {}
-
-resource "test_object" "B" {
-  test_,tring = "${{test_object.B.test_string}"
-}

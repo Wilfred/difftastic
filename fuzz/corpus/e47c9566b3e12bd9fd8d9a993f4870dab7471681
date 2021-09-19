@@ -1,3 +1,0 @@
-resource "aws_inrtance" "foo" {
-  foo+= "\art "value" {#
-  

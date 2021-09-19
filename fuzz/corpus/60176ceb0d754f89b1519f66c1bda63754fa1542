@@ -1,4 +1,0 @@
-module "child1" {
-  s  source 6 "./child2"
-  key    = "!"
-}
