@@ -127,11 +127,10 @@ mod tests {
     use crate::{
         graph::Edge::*,
         positions::SingleLineSpan,
-        syntax::{init_info, ChangeKind, Syntax::*, SyntaxInfo},
+        syntax::{init_info, ChangeKind},
     };
 
     use itertools::Itertools;
-    use std::cell::Cell;
     use typed_arena::Arena;
 
     fn pos_helper(line: usize) -> Vec<SingleLineSpan> {
@@ -154,26 +153,10 @@ mod tests {
     fn identical_atoms() {
         let arena = Arena::new();
 
-        let lhs = arena.alloc(Atom {
-            info: SyntaxInfo {
-                unique_id: Cell::new(0),
-                ..SyntaxInfo::new(0)
-            },
-            position: pos_helper(0),
-            content: "foo".into(),
-            is_comment: false,
-        });
-
+        let lhs = Syntax::new_atom(&arena, pos_helper(0), "foo");
         // Same content as LHS.
-        let rhs = arena.alloc(Atom {
-            info: SyntaxInfo {
-                unique_id: Cell::new(1),
-                ..SyntaxInfo::new(1)
-            },
-            position: pos_helper(1),
-            content: "foo".into(),
-            is_comment: false,
-        });
+        let rhs = Syntax::new_atom(&arena, pos_helper(0), "foo");
+        init_info(&[lhs], &[rhs]);
 
         let start = Vertex {
             lhs_syntax: Some(lhs),
