@@ -50,7 +50,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-kotlin"
-version = "0.2.8"
+version = "0.2.9"
 dependencies = [
  "cc",
  "tree-sitter",
