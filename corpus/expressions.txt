@@ -25,3 +25,29 @@ sum(1, 2)
 		(call_suffix (value_arguments
 			(value_argument (integer_literal))
 			(value_argument (integer_literal))))))
+
+==================
+When expression
+==================
+
+val x = 1
+val y = when(x){
+        1 -> true
+        2 -> false
+    }
+
+---
+
+(source_file
+   (property_declaration
+      (variable_declaration (simple_identifier))
+      (integer_literal))
+   (property_declaration
+      (variable_declaration (simple_identifier))
+      (when_expression
+         (when_subject (simple_identifier))
+	 (when_entry (when_condition (integer_literal))
+	    (control_structure_body (boolean_literal)))
+	 (when_entry (when_condition (integer_literal))
+	    (control_structure_body (boolean_literal))))))
+	 
