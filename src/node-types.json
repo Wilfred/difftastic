@@ -8525,8 +8525,8 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "additive_expression",
@@ -9322,10 +9322,6 @@
   {
     "type": "class",
     "named": false
-  },
-  {
-    "type": "comment",
-    "named": true
   },
   {
     "type": "companion",

@@ -772,7 +772,7 @@ module.exports = grammar({
 			optional($._semi)
 		),
 
-		when_condition: $ => seq(
+		when_condition: $ => choice(
 			$._expression,
 			$.range_test,
 			$.type_test
