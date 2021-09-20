@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-kotlin",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Tree-Sitter grammar for Kotlin",
   "main": "bindings/node",
   "scripts": {
