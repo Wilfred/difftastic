@@ -7,7 +7,7 @@ tree-sitter = "0.20"
 tree-sitter-kotlin = "0.2.8"
 ```
 
-Typically, you will use the [`language`](https://docs.rs/tree-sitter-java/*/tree_sitter_java/fn.language.html) function to add this grammar to a tree-sitter [`Parser`](https://docs.rs/tree-sitter/*/tree_sitter/struct.Parser.html), and then use the parser to parse some code:
+Typically, you will use the `language` function to add this grammar to a tree-sitter [`Parser`](https://docs.rs/tree-sitter/*/tree_sitter/struct.Parser.html), and then use the parser to parse some code:
 
 ```rust
 let code = r#"
