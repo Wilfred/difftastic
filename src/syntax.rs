@@ -42,14 +42,13 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub struct SyntaxInfo<'a> {
-    // TODO: Make these fields private.
-    pub pos_content_hash: u64,
-    pub next: Cell<Option<&'a Syntax<'a>>>,
-    pub prev: Cell<Option<&'a Syntax<'a>>>,
-    pub prev_is_contiguous: Cell<bool>,
+    pos_content_hash: u64,
+    next: Cell<Option<&'a Syntax<'a>>>,
+    prev: Cell<Option<&'a Syntax<'a>>>,
+    prev_is_contiguous: Cell<bool>,
     pub change: Cell<Option<ChangeKind<'a>>>,
-    pub num_ancestors: Cell<u64>,
-    pub unique_id: Cell<u64>,
+    num_ancestors: Cell<u64>,
+    unique_id: Cell<u64>,
 }
 
 impl<'a> SyntaxInfo<'a> {
