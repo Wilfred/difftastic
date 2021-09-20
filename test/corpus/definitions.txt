@@ -32,6 +32,8 @@ T::T() : f1(0), f2(1, 2) {
   puts("HI");
 }
 
+T::T() : Base<T>() {}
+
 ---
 
 (translation_unit
@@ -48,7 +50,18 @@ T::T() : f1(0), f2(1, 2) {
       (field_initializer (field_identifier) (argument_list (number_literal)))
       (field_initializer (field_identifier) (argument_list (number_literal) (number_literal))))
     (compound_statement
-      (expression_statement (call_expression (identifier) (argument_list (string_literal)))))))
+      (expression_statement (call_expression (identifier) (argument_list (string_literal))))))
+  (function_definition
+    (function_declarator
+      (scoped_identifier (namespace_identifier) (identifier))
+      (parameter_list))
+    (field_initializer_list
+      (field_initializer
+        (template_method
+          (field_identifier)
+          (template_argument_list (type_descriptor (type_identifier))))
+        (argument_list)))
+    (compound_statement)))
 
 =====================================
 Explicit constructor definitions
