@@ -28,12 +28,15 @@ Consider comparing `A` with `X A`.
 +---------------------+  +---------------------+
 ```
 
-From the start vertex, we have two options: we can mark the first item
-in the left as novel and advance that position, or we can mark the
-first item on the right as novel.
+From the start vertex, we have two options:
 
-Choosing "novel atom R" will turn out to be the best choice. From that
-vertex, we can see three routes to the end vertex.
+* we can mark the first syntax node on the left as novel, and advance
+  to the next syntax node on the left (vertex 1 above), or
+* we can mark the first syntax node on the right as novel, and advance
+  to the next syntax node on the right (vertex 2 above).
+
+Choosing "novel atom R" to vertex 2 will turn out to be the best
+choice. From vertex 2, we can see three routes to the end vertex.
 
 ```
             2
@@ -62,14 +65,14 @@ vertex, we can see three routes to the end vertex.
 
 We assign a cost to each edge. Marking a syntax node as novel is worse
 than finding a matching syntax node, so the "novel atom" edge has a
-higher cost than the "nodes match" edge.
+higher cost than the "syntax nodes match" edge.
 
 The best route is the lowest cost route from the start vertex to the
 end vertex.
 
 ## Finding The Best Route
 
-Difftastic uses Dijkstra's algorithm to find the best (lowest cost)
+Difftastic uses Dijkstra's algorithm to find the best (i.e. lowest cost)
 route.
 
 One big advantage of this algorithm is that we don't need to construct
