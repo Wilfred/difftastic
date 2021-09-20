@@ -330,7 +330,7 @@ module.exports = grammar(C, {
     ),
 
     field_initializer: $ => prec(1, seq(
-      choice($._field_identifier, $.scoped_field_identifier),
+      choice($._field_identifier, $.scoped_field_identifier, $.template_method),
       choice($.initializer_list, $.argument_list),
       optional('...')
     )),

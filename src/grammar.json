@@ -8383,6 +8383,10 @@
               {
                 "type": "SYMBOL",
                 "name": "scoped_field_identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "template_method"
               }
             ]
           },

@@ -250,6 +250,7 @@ class C {
   [[deprecated]] C();
   template <typename T>
   C(T t);
+  C() : NS::Base<C>() {}
   ~C();
 };
 
@@ -269,6 +270,14 @@ class C {
       (function_declarator (identifier) (parameter_list)))
     (template_declaration (template_parameter_list (type_parameter_declaration (type_identifier)))
       (declaration (function_declarator (identifier) (parameter_list (parameter_declaration (type_identifier) (identifier))))))
+    (function_definition (function_declarator (identifier) (parameter_list))
+      (field_initializer_list
+        (field_initializer
+          (template_method
+            (scoped_field_identifier (namespace_identifier) (field_identifier))
+            (template_argument_list (type_descriptor (type_identifier))))
+          (argument_list)))
+      (compound_statement))
     (declaration (function_declarator (destructor_name (identifier)) (parameter_list))))))
 
 =========================================

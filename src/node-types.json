@@ -2219,6 +2219,10 @@
         {
           "type": "scoped_field_identifier",
           "named": true
+        },
+        {
+          "type": "template_method",
+          "named": true
         }
       ]
     }
