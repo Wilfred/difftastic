@@ -19,3 +19,11 @@ jobs:
         run: npm run generate
       - name: Run tests
         run: npm test
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Build and test crate
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
