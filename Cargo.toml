@@ -47,3 +47,11 @@ cc="1.0"
 [[bench]]
 name = "parse_and_diff"
 harness = false
+
+[profile.release]
+# Release builds don't have debug symbols by default. We explicitly
+# set this flag so it's easier to toggle when profiling with
+# flamegraph.
+#
+# https://doc.rust-lang.org/cargo/reference/profiles.html#release
+debug = false
