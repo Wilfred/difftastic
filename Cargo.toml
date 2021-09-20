@@ -7,6 +7,7 @@ categories = ["parsing", "text-editors"]
 repository = "https://github.com/fwcd/tree-sitter-kotlin"
 edition = "2018"
 license = "MIT"
+readme = "bindings/rust/README.md"
 
 build = "bindings/rust/build.rs"
 include = [
