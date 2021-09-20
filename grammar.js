@@ -60,7 +60,6 @@ module.exports = grammar({
       $.sequence_expression,
       $.arrow_function
     ],
-    [$.rest_pattern, 'assign'],
     ['assign', $.primary_expression],
     ['member', 'new', 'call', $.expression],
     ['declaration', 'literal'],
@@ -1092,10 +1091,10 @@ module.exports = grammar({
       $.rest_pattern
     )),
 
-    rest_pattern: $ => seq(
+    rest_pattern: $ => prec.right(seq(
       '...',
       $._lhs_expression
-    ),
+    )),
 
     method_definition: $ => seq(
       repeat(field('decorator', $.decorator)),

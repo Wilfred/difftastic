@@ -5995,17 +5995,21 @@
       }
     },
     "rest_pattern": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "..."
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_lhs_expression"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "..."
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_lhs_expression"
+          }
+        ]
+      }
     },
     "method_definition": {
       "type": "SEQ",
@@ -6396,16 +6400,6 @@
       {
         "type": "SYMBOL",
         "name": "arrow_function"
-      }
-    ],
-    [
-      {
-        "type": "SYMBOL",
-        "name": "rest_pattern"
-      },
-      {
-        "type": "STRING",
-        "value": "assign"
       }
     ],
     [

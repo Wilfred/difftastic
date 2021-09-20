@@ -1341,12 +1341,15 @@ Expressions with rest elements
 ==============================================
 
 foo(...rest)
+foo = [...[bar] = [baz]]
 
 ---
 
 (program
   (expression_statement
-    (call_expression (identifier) (arguments (spread_element (identifier))))))
+    (call_expression (identifier) (arguments (spread_element (identifier)))))
+  (expression_statement
+    (assignment_expression (identifier) (array (spread_element (assignment_expression (array_pattern (identifier)) (array (identifier))))))))
 
 ==============================================
 Forward slashes after parenthesized expressions
