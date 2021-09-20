@@ -139,9 +139,13 @@ impl Edge {
 
 const NOVEL_TREE_THRESHOLD: u64 = 20;
 
-pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
-    let mut res = vec![];
+/// Calculate all the neighbours from `v` and write them to `buf`.
+pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
+    for i in 0..buf.len() {
+        buf[i] = None;
+    }
 
+    let mut i = 0;
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax.equal_content(rhs_syntax) {
             let depth_difference = (lhs_syntax.num_ancestors() as i64
@@ -150,7 +154,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
 
             // Both nodes are equal, the happy case.
             // TODO: this is only OK if we've not changed depth.
-            res.push((
+            buf[i] = Some((
                 UnchangedNode { depth_difference },
                 Vertex {
                     lhs_syntax: lhs_syntax.next(),
@@ -159,6 +163,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     rhs_prev_is_novel: false,
                 },
             ));
+            i += 1;
         }
 
         if let (
@@ -193,7 +198,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     - rhs_syntax.num_ancestors() as i64)
                     .abs() as u64;
 
-                res.push((
+                buf[i] = Some((
                     UnchangedDelimiter { depth_difference },
                     Vertex {
                         lhs_syntax: lhs_next,
@@ -202,6 +207,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         rhs_prev_is_novel: false,
                     },
                 ));
+                i += 1;
             }
         }
 
@@ -223,7 +229,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             if lhs_content != rhs_content {
                 let levenshtein_pct =
                     (normalized_levenshtein(lhs_content, rhs_content) * 100.0).round() as u8;
-                res.push((
+                buf[i] = Some((
                     ReplacedComment { levenshtein_pct },
                     Vertex {
                         lhs_syntax: lhs_syntax.next(),
@@ -232,6 +238,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         rhs_prev_is_novel: false,
                     },
                 ));
+                i += 1;
             }
         }
     }
@@ -240,7 +247,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         match lhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
-                res.push((
+                buf[i] = Some((
                     NovelAtomLHS {
                         contiguous: v.lhs_prev_is_novel && lhs_syntax.prev_is_contiguous(),
                     },
@@ -251,6 +258,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         rhs_prev_is_novel: v.rhs_prev_is_novel,
                     },
                 ));
+                i += 1;
             }
             // Step into this partially/fully novel list.
             Syntax::List {
@@ -264,7 +272,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     Some(children[0])
                 };
 
-                res.push((
+                buf[i] = Some((
                     NovelDelimiterLHS {
                         contiguous: v.lhs_prev_is_novel && lhs_syntax.prev_is_contiguous(),
                     },
@@ -275,9 +283,10 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         rhs_prev_is_novel: v.rhs_prev_is_novel,
                     },
                 ));
+                i += 1;
 
                 if *num_descendants > NOVEL_TREE_THRESHOLD {
-                    res.push((
+                    buf[i] = Some((
                         NovelTreeLHS {
                             num_descendants: *num_descendants as u64,
                         },
@@ -288,6 +297,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                             rhs_prev_is_novel: v.rhs_prev_is_novel,
                         },
                     ));
+                    i += 1;
                 }
             }
         }
@@ -297,7 +307,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
         match rhs_syntax {
             // Step over this novel atom.
             Syntax::Atom { .. } => {
-                res.push((
+                buf[i] = Some((
                     NovelAtomRHS {
                         contiguous: v.rhs_prev_is_novel && rhs_syntax.prev_is_contiguous(),
                     },
@@ -321,7 +331,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                     Some(children[0])
                 };
 
-                res.push((
+                buf[i] = Some((
                     NovelDelimiterRHS {
                         contiguous: v.rhs_prev_is_novel && rhs_syntax.prev_is_contiguous(),
                     },
@@ -332,9 +342,10 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
                         rhs_prev_is_novel: true,
                     },
                 ));
+                i += 1;
 
                 if *num_descendants > NOVEL_TREE_THRESHOLD {
-                    res.push((
+                    buf[i] = Some((
                         NovelTreeRHS {
                             num_descendants: *num_descendants as u64,
                         },
@@ -349,8 +360,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>) -> Vec<(Edge, Vertex<'a>)> {
             }
         }
     }
-
-    res
 }
 
 pub fn mark_route(route: &[(Edge, Vertex)]) {
