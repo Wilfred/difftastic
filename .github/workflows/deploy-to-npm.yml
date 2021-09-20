@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to NPM
 on:
   push:
     tags:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Node
+      - name: Set up Node
         uses: actions/setup-node@v2
         with:
           node-version: '12'

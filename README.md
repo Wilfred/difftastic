@@ -1,6 +1,6 @@
 # Kotlin Grammar for Tree-Sitter
 
-[![Build](https://github.com/fwcd/tree-sitter-kotlin/workflows/Build/badge.svg)](https://github.com/fwcd/tree-sitter-kotlin/actions)
+[![Build](https://github.com/fwcd/tree-sitter-kotlin/actions/workflows/build.yml/badge.svg)](https://github.com/fwcd/tree-sitter-kotlin/actions/workflows/build.yml)
 
 [Kotlin](https://kotlinlang.org) language grammar for [Tree-Sitter](http://tree-sitter.github.io/tree-sitter/).
 
