@@ -61,6 +61,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     // usage.
     let mut predecessors: FxHashMap<Vertex, (u64, Vertex, Edge)> = FxHashMap::default();
 
+    let mut neighbour_buf = [None, None, None, None, None, None, None, None, None, None];
     let end = loop {
         match heap.pop() {
             Some((Reverse(distance), current)) => {
@@ -68,18 +69,19 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                     break current;
                 }
 
-                for (edge, next) in neighbours(&current) {
+                neighbours(&current, &mut neighbour_buf);
+                for (edge, next) in neighbour_buf.iter().flatten() {
                     let distance_to_next = distance + edge.cost();
-                    let found_shorter_route = match predecessors.get(&next) {
+                    let found_shorter_route = match predecessors.get(next) {
                         Some((prev_shortest, _, _)) => distance_to_next < *prev_shortest,
                         _ => true,
                     };
 
                     if found_shorter_route {
                         predecessors
-                            .insert(next.clone(), (distance_to_next, current.clone(), edge));
+                            .insert(next.clone(), (distance_to_next, current.clone(), *edge));
 
-                        heap.push(Reverse(distance_to_next), next);
+                        heap.push(Reverse(distance_to_next), next.clone());
                     }
                 }
             }
