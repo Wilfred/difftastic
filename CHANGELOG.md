@@ -9,6 +9,10 @@ files. Please file a bug if you see issues.
 
 Removed legacy regex-based parsing backend.
 
+### Diffing
+
+Some additional runtime optimisations.
+
 ## 0.9
 
 ### Parsing
