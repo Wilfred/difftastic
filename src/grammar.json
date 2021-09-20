@@ -1852,35 +1852,39 @@
         }
       ]
     },
+    "_declaration_modifiers": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "storage_class_specifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_qualifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attribute_specifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attribute_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ms_declspec_modifier"
+        }
+      ]
+    },
     "_declaration_specifiers": {
       "type": "SEQ",
       "members": [
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "storage_class_specifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type_qualifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attribute_specifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attribute_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "ms_declspec_modifier"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_declaration_modifiers"
           }
         },
         {
@@ -1894,29 +1898,8 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "storage_class_specifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type_qualifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attribute_specifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attribute_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "ms_declspec_modifier"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_declaration_modifiers"
           }
         }
       ]
@@ -4235,6 +4218,15 @@
         }
       ]
     },
+    "variadic_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "..."
+        }
+      ]
+    },
     "parameter_list": {
       "type": "SEQ",
       "members": [
@@ -4362,6 +4354,22 @@
         {
           "type": "SYMBOL",
           "name": "_statement"
+        }
+      ]
+    },
+    "attributed_non_case_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "attribute_declaration"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_non_case_statement"
         }
       ]
     },
@@ -4639,6 +4647,15 @@
             "content": {
               "type": "CHOICE",
               "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "attributed_non_case_statement"
+                  },
+                  "named": true,
+                  "value": "attributed_statement"
+                },
                 {
                   "type": "SYMBOL",
                   "name": "_non_case_statement"
@@ -10723,8 +10740,12 @@
       "sized_type_specifier"
     ],
     [
-      "_declaration_specifiers",
+      "_declaration_modifiers",
       "attributed_statement"
+    ],
+    [
+      "_declaration_modifiers",
+      "attributed_non_case_statement"
     ],
     [
       "template_function",
@@ -10782,13 +10803,13 @@
       "_constructor_specifiers"
     ],
     [
-      "_declaration_specifiers",
+      "_declaration_modifiers",
       "operator_cast_declaration",
       "operator_cast_definition",
       "constructor_or_destructor_definition"
     ],
     [
-      "_declaration_specifiers",
+      "_declaration_modifiers",
       "attributed_statement",
       "operator_cast_declaration",
       "operator_cast_definition",
