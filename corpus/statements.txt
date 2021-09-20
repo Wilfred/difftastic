@@ -7,8 +7,8 @@ for (value in values) {}
 ---
 
 (source_file
-	(for_statement
-		(variable_declaration (simple_identifier))
-		(simple_identifier)
-		(control_structure_body)))
+  (for_statement
+    (variable_declaration (simple_identifier))
+    (simple_identifier)
+    (control_structure_body)))
 
