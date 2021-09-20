@@ -18,13 +18,13 @@ sum(1, 2)
 ---
 
 (source_file
-	(call_expression (simple_identifier)
-		(call_suffix (value_arguments
-			(value_argument (line_string_literal)))))
-	(call_expression (simple_identifier)
-		(call_suffix (value_arguments
-			(value_argument (integer_literal))
-			(value_argument (integer_literal))))))
+  (call_expression (simple_identifier)
+    (call_suffix (value_arguments
+      (value_argument (line_string_literal)))))
+  (call_expression (simple_identifier)
+    (call_suffix (value_arguments
+      (value_argument (integer_literal))
+      (value_argument (integer_literal))))))
 
 ==================
 When expression
@@ -39,15 +39,14 @@ val y = when(x){
 ---
 
 (source_file
-   (property_declaration
-      (variable_declaration (simple_identifier))
-      (integer_literal))
-   (property_declaration
-      (variable_declaration (simple_identifier))
-      (when_expression
-         (when_subject (simple_identifier))
-	 (when_entry (when_condition (integer_literal))
-	    (control_structure_body (boolean_literal)))
-	 (when_entry (when_condition (integer_literal))
-	    (control_structure_body (boolean_literal))))))
-	 
+  (property_declaration
+    (variable_declaration (simple_identifier))
+    (integer_literal))
+  (property_declaration
+    (variable_declaration (simple_identifier))
+    (when_expression
+      (when_subject (simple_identifier))
+      (when_entry (when_condition (integer_literal))
+        (control_structure_body (boolean_literal)))
+      (when_entry (when_condition (integer_literal))
+        (control_structure_body (boolean_literal))))))

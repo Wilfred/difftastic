@@ -8,7 +8,7 @@ class Empty
 ---
 
 (source_file
-	(class_declaration
+  (class_declaration
         (modifiers (annotation (user_type (type_identifier))))
         (type_identifier)))
 
@@ -21,7 +21,7 @@ class Empty(@field:Test val x: Boolean)
 ---
 
 (source_file
-	(class_declaration
+  (class_declaration
         (type_identifier)
         (primary_constructor (class_parameter
             (modifiers (annotation (use_site_target) (user_type (type_identifier))))

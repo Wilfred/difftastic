@@ -18,8 +18,8 @@ false
 ---
 
 (source_file
-	(boolean_literal)
-	(boolean_literal))
+  (boolean_literal)
+  (boolean_literal))
 
 ==================
 String literals
@@ -34,8 +34,8 @@ string.
 ---
 
 (source_file
-	(line_string_literal)
-	(multi_line_string_literal))
+  (line_string_literal)
+  (multi_line_string_literal))
 
 ==================
 String interpolation
@@ -51,11 +51,11 @@ ${"""string interpolation"""} $literal
 ---
 
 (source_file
-	(line_string_literal (interpolated_identifier))
-	(line_string_literal (interpolated_expression (line_string_literal)))
-	(multi_line_string_literal
-		(interpolated_expression (multi_line_string_literal))
-		(interpolated_identifier)))
+  (line_string_literal (interpolated_identifier))
+  (line_string_literal (interpolated_expression (line_string_literal)))
+  (multi_line_string_literal
+    (interpolated_expression (multi_line_string_literal))
+    (interpolated_identifier)))
 
 ==================
 Integer literals
@@ -69,10 +69,10 @@ Integer literals
 ---
 
 (source_file
-	(integer_literal)
-	(integer_literal)
-	(integer_literal)
-	(integer_literal))
+  (integer_literal)
+  (integer_literal)
+  (integer_literal)
+  (integer_literal))
 
 ==================
 Real literals
@@ -87,9 +87,9 @@ Real literals
 ---
 
 (source_file
-	(real_literal)
-	(prefix_expression (real_literal))
-	(real_literal)
-	(real_literal)
-	(prefix_expression (real_literal)))
+  (real_literal)
+  (prefix_expression (real_literal))
+  (real_literal)
+  (real_literal)
+  (prefix_expression (real_literal)))
 
