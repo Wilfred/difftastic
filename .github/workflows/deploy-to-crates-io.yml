@@ -23,7 +23,7 @@ jobs:
           toolchain: stable
       - name: Publish to crates.io
         uses: actions-rs/cargo@v1
-        if: env.CRATES_IO_TOKEN
+        if: secrets.CRATES_IO_TOKEN
         with:
           command: publish
           args: --token ${{ secrets.CRATES_IO_TOKEN }}
