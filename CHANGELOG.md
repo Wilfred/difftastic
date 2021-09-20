@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.6.0 - not yet released
+## 0.6.0 - 2021-09-20
 
 feature:
 * add template for expressions
