@@ -2331,6 +2331,21 @@
     }
   },
   {
+    "type": "expression_colon",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "expression_statement",
     "named": true,
     "fields": {},
@@ -5043,7 +5058,7 @@
           "named": true
         },
         {
-          "type": "name_colon",
+          "type": "expression_colon",
           "named": true
         },
         {

@@ -5201,6 +5201,19 @@
         ]
       }
     },
+    "expression_colon": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        }
+      ]
+    },
     "subpattern": {
       "type": "SEQ",
       "members": [
@@ -5209,7 +5222,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "name_colon"
+              "name": "expression_colon"
             },
             {
               "type": "BLANK"
@@ -9868,6 +9881,10 @@
     [
       "_simple_name",
       "constructor_declaration"
+    ],
+    [
+      "_simple_name",
+      "name_colon"
     ],
     [
       "qualified_name",
