@@ -63,6 +63,7 @@ module.exports = grammar({
     [$._simple_name, $.type_parameter],
     [$._simple_name, $.generic_name],
     [$._simple_name, $.constructor_declaration],
+    [$._simple_name, $.name_colon],
 
     [$.qualified_name, $.explicit_interface_specifier],
     [$.qualified_name, $.member_access_expression],
@@ -983,9 +984,11 @@ module.exports = grammar({
       optional(seq($.subpattern, ',', commaSep1($.subpattern))),// we really should allow single sub patterns, but that causes conficts, and will rarely be used
       ')',
     )),
+    
+    expression_colon: $ => seq($._expression, ':'),
 
     subpattern: $ => seq(
-      optional($.name_colon),
+      optional($.expression_colon),
       $._pattern
     ),
 

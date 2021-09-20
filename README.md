@@ -92,7 +92,7 @@ Comprehensive support for C# exists with the following exceptions:
 
 - [x] global using directives
 - [x] File-scoped namespace declaration
-- [ ] Extended property patterns
+- [x] Extended property patterns
 - [x] Allow const interpolated strings
 - [x] Record types can seal ToString()
 - [x] Allow both assignment and declaration in the same deconstruction

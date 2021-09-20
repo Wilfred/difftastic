@@ -493,7 +493,7 @@ switch (A)
             (recursive_pattern
               (property_pattern_clause
                 (subpattern
-                  (name_colon (identifier))
+                  (expression_colon (identifier))
                   (constant_pattern (integer_literal)))))
             (when_clause
               (prefix_unary_expression (identifier))))
