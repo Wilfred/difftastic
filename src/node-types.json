@@ -17,7 +17,18 @@
   {
     "type": "alias",
     "named": true,
-    "fields": {},
+    "fields": {
+      "table_reference": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -703,6 +714,16 @@
             "named": false
           }
         ]
+      },
+      "table_reference": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -1140,7 +1161,7 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "table_reference",
           "named": true
         }
       ]
@@ -1364,7 +1385,18 @@
   {
     "type": "from_clause",
     "named": true,
-    "fields": {},
+    "fields": {
+      "table_reference": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -1694,6 +1726,11 @@
     }
   },
   {
+    "type": "identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "in_expression",
     "named": true,
     "fields": {},
@@ -1868,7 +1905,7 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "table_reference",
           "named": true
         },
         {
@@ -2038,6 +2075,10 @@
           "named": true
         },
         {
+          "type": "table_reference",
+          "named": true
+        },
+        {
           "type": "type_cast",
           "named": true
         }
@@ -2046,6 +2087,11 @@
   },
   {
     "type": "join_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "language",
     "named": true,
     "fields": {}
   },
@@ -2412,6 +2458,10 @@
         {
           "type": "on_update_action",
           "named": true
+        },
+        {
+          "type": "table_reference",
+          "named": true
         }
       ]
     }
@@ -2434,7 +2484,18 @@
   {
     "type": "select_clause_body",
     "named": true,
-    "fields": {},
+    "fields": {
+      "table_reference": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -2772,6 +2833,32 @@
     "fields": {}
   },
   {
+    "type": "table_reference",
+    "named": true,
+    "fields": {
+      "table_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "tuple",
     "named": true,
     "fields": {
@@ -2861,6 +2948,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3219,6 +3321,10 @@
   },
   {
     "type": "->>",
+    "named": false
+  },
+  {
+    "type": ".",
     "named": false
   },
   {
@@ -3594,20 +3700,28 @@
     "named": false
   },
   {
+    "type": "`",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
   {
-    "type": "identifier",
-    "named": true
+    "type": "time",
+    "named": false
   },
   {
-    "type": "language",
-    "named": true
+    "type": "with",
+    "named": false
   },
   {
-    "type": "type",
-    "named": true
+    "type": "without",
+    "named": false
+  },
+  {
+    "type": "zone",
+    "named": false
   },
   {
     "type": "~",

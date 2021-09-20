@@ -307,7 +307,7 @@ SELECT a.b;
   (select_statement
     (select_clause
       (select_clause_body
-        (identifier)))))
+        (identifier) (identifier)))))
 
 ================================================================================
 SELECT statement with comparison expression and is expression
@@ -718,7 +718,7 @@ CREATE TABLE my_table (col1 INT, col2 INT)
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -726,6 +726,38 @@ CREATE TABLE my_table (col1 INT, col2 INT)
       (create_table_column_parameter
         (identifier)
         (type)))))
+
+================================================================================
+CREATE TABLE with timestamp
+================================================================================
+
+CREATE TABLE public.my_table (
+    col1 INT PRIMARY KEY,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (table_reference (identifier) (identifier))
+    (create_table_parameters
+      (create_table_column_parameter
+        (identifier)
+        (type)
+        (primary_key_constraint))
+      (create_table_column_parameter
+        (identifier)
+        (type (number))
+        (null_constraint (NULL)))
+      (create_table_column_parameter
+        (identifier)
+        (type (number))
+        (null_constraint (NULL)))
+    )
+  )
+)
 
 ================================================================================
 CREATE TABLE with not null constraint
@@ -737,7 +769,7 @@ CREATE TABLE my_table (col1 INT NOT NULL)
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -755,7 +787,7 @@ CREATE TABLE my_table (col1 INT DEFAULT get_num())
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -774,7 +806,7 @@ CREATE TABLE my_table (col1 INT DEFAULT 'hey')
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -792,7 +824,7 @@ CREATE TABLE my_table (col1 INT PRIMARY KEY)
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -809,13 +841,13 @@ CREATE TABLE my_table (col1 INT REFERENCES table1)
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
         (type)
         (references_constraint
-          (identifier))))))
+          (table_reference (identifier)))))))
 
 ================================================================================
 CREATE TABLE with references constraint with column specified
@@ -827,13 +859,13 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1))
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
         (type)
         (references_constraint
-          (identifier)
+          (table_reference (identifier))
           (identifier))))))
 
 ================================================================================
@@ -846,19 +878,19 @@ CREATE TABLE my_table (col1 INT REFERENCES table1(col1) ON DELETE SET NULL ON UP
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
         (type)
         (references_constraint
-          (identifier)
+          (table_reference (identifier))
           (identifier)
           (on_delete_action)
           (on_update_action))))))
 
 ================================================================================
-CREATE TABLE with unqiue constraint
+CREATE TABLE with unique constraint
 ================================================================================
 
 CREATE TABLE my_table (col1 INT UNIQUE)
@@ -867,7 +899,7 @@ CREATE TABLE my_table (col1 INT UNIQUE)
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -884,7 +916,7 @@ CREATE TABLE my_table (col1 INT DEFAULT get_val() NOT NULL)
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -905,7 +937,7 @@ CREATE TABLE my_table (col1 INT CHECK(col1 IN (1, 2)));
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -931,7 +963,7 @@ CREATE TABLE my_table (
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -943,7 +975,7 @@ CREATE TABLE my_table (
         (identifier)
         (identifier)
         (references_constraint
-          (identifier))))))
+          (table_reference (identifier)))))))
 
 ================================================================================
 CREATE TABLE with multiple constraints
@@ -955,7 +987,7 @@ CREATE TABLE foo(col1 INT NOT NULL REFERENCES bar(col1) ON UPDATE CASCADE ON DEL
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -963,7 +995,7 @@ CREATE TABLE foo(col1 INT NOT NULL REFERENCES bar(col1) ON UPDATE CASCADE ON DEL
         (null_constraint
           (NULL))
         (references_constraint
-          (identifier)
+          (table_reference (identifier))
           (identifier)
           (on_update_action)
           (on_delete_action))))))
@@ -978,7 +1010,7 @@ CREATE TABLE foo(col1 INT, col2 INT, UNIQUE(col1, col2))
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -1024,7 +1056,7 @@ CREATE TABLE foo(col1 INT CONSTRAINT col1_constraint)
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -1042,7 +1074,7 @@ CREATE TABLE foo(col1 INT, col2 INT, PRIMARY KEY(col1, col2))
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -1064,7 +1096,7 @@ CREATE TABLE foo(col1 INT[])
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -1081,7 +1113,7 @@ CREATE TABLE foo(col1 INT, col2 INT, CHECK(col1 > col2))
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -1108,7 +1140,7 @@ CREATE TABLE my_table (
 
 (source_file
   (create_table_statement
-    (identifier)
+    (table_reference (identifier))
     (create_table_parameters
       (create_table_column_parameter
         (identifier)
@@ -1120,7 +1152,7 @@ CREATE TABLE my_table (
         (identifier)
         (identifier)
         (references_constraint
-          (identifier)
+          (table_reference (identifier))
           (identifier)
           (identifier))))))
 

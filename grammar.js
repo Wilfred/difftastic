@@ -242,7 +242,7 @@ module.exports = grammar({
       seq(kw("PRIMARY KEY"), "(", commaSep1($.identifier), ")"),
     primary_key_constraint: $ => kw("PRIMARY KEY"),
     create_table_statement: $ =>
-      seq(kw("CREATE TABLE"), $.identifier, $.create_table_parameters),
+      seq(kw("CREATE TABLE"), $.table_reference, $.create_table_parameters),
     using_clause: $ => seq(kw("USING"), field("type", $.identifier)),
     index_table_parameters: $ =>
       seq("(", commaSep1(choice($._expression, $.ordered_expression)), ")"),
@@ -262,9 +262,21 @@ module.exports = grammar({
     order_by_clause_body: $ => commaSep1($._expression),
     order_by_clause: $ => seq(kw("ORDER BY"), $.order_by_clause_body),
     where_clause: $ => seq(kw("WHERE"), $._expression),
-    _aliased_expression: $ => seq($._expression, kw("AS"), $.identifier),
+    _aliased_expression: $ =>
+      seq(
+        optional(seq(field("table_reference", $.identifier), ".")),
+        $._expression,
+        kw("AS"),
+        $.identifier,
+      ),
     _aliasable_expression: $ =>
-      choice($._expression, alias($._aliased_expression, $.alias)),
+      choice(
+        seq(
+          optional(seq(field("table_reference", $.identifier), ".")),
+          $._expression,
+        ),
+        alias($._aliased_expression, $.alias),
+      ),
     select_clause_body: $ => commaSep1($._aliasable_expression),
     select_clause: $ =>
       prec.left(seq(kw("SELECT"), optional($.select_clause_body))),
@@ -283,7 +295,7 @@ module.exports = grammar({
       seq(
         optional($.join_type),
         kw("JOIN"),
-        $.identifier,
+        $.table_reference,
         kw("ON"),
         $._expression,
       ),
@@ -299,7 +311,7 @@ module.exports = grammar({
 
     // INSERT
     insert_statement: $ =>
-      seq(kw("INSERT"), kw("INTO"), $.identifier, $.values_clause),
+      seq(kw("INSERT"), kw("INTO"), $.table_reference, $.values_clause),
     values_clause: $ => seq(kw("VALUES"), "(", $.values_clause_body, ")"),
     values_clause_body: $ => commaSep1($._expression),
     in_expression: $ =>
@@ -315,7 +327,7 @@ module.exports = grammar({
     references_constraint: $ =>
       seq(
         kw("REFERENCES"),
-        $.identifier, // table_name
+        $.table_reference,
         optional(seq("(", commaSep1($.identifier), ")")),
         // seems like a case for https://github.com/tree-sitter/tree-sitter/issues/130
         optional(
@@ -349,12 +361,26 @@ module.exports = grammar({
         ")",
       ),
     comparison_operator: $ =>
-      prec.left(
-        1,
-        seq(
-          $._expression,
-          field("operator", choice("<", "<=", "<>", "=", ">", ">=")),
-          $._expression,
+      choice(
+        prec.left(
+          1,
+          seq(
+            optional(seq(field("table_reference", $.identifier), ".")),
+            $._expression,
+            field("operator", choice("<", "<=", "<>", "=", ">", ">=")),
+            optional(seq(field("table_reference", $.identifier), ".")),
+            $._expression,
+          ),
+        ),
+        prec.left(
+          2,
+          seq(
+            seq(field("table_reference", $.identifier), "."),
+            $._expression,
+            field("operator", choice("<", "<=", "<>", "=", ">", ">=")),
+            optional(seq(field("table_reference", $.identifier), ".")),
+            $._expression,
+          ),
         ),
       ),
     _parenthesized_expression: $ => seq("(", $._expression, ")"),
@@ -378,7 +404,16 @@ module.exports = grammar({
     TRUE: $ => kw("TRUE"),
     FALSE: $ => kw("FALSE"),
     number: $ => /\d+/,
-    identifier: $ => /[a-zA-Z0-9_]+[.a-zA-Z0-9_]*/,
+    table_reference: $ =>
+      seq(optional(seq($.identifier, ".")), field("table_name", $.identifier)),
+    type: $ =>
+      seq(
+        $._identifier,
+        optional(seq("(", $.number, ")")),
+        optional(seq(choice("without", "with"), "time", "zone")),
+      ),
+    identifier: $ => choice($._identifier, seq("`", $._identifier, "`")),
+    _identifier: _ => /([a-zA-Z_][0-9a-zA-Z_]*)/,
     string: $ =>
       choice(
         seq("'", field("content", /[^']*/), "'"),
@@ -387,12 +422,12 @@ module.exports = grammar({
     field_access: $ => seq($.identifier, "->>", $.string),
     ordered_expression: $ =>
       seq($._expression, field("order", choice(kw("ASC"), kw("DESC")))),
-    _type_alias: $ => alias($.identifier, $.type),
+    _type_alias: $ => $.type,
     array_type: $ => seq($._type, "[", "]"),
     _type: $ => choice($._type_alias, $.array_type),
     type_cast: $ =>
       seq(
-        // TODO: should be moved to basic expression or somethign
+        // TODO: should be moved to basic expression or something
         choice(
           $._parenthesized_expression,
           $.string,

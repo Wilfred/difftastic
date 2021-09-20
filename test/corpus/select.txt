@@ -20,56 +20,74 @@ LEFT OUTER JOIN t7 ON t.a = t7.a;
     (select_clause
       (select_clause_body
         (identifier)
+        (identifier)
+        (identifier)
         (identifier)))
     (from_clause
       (alias
         (identifier)
         (identifier)))
     (join_clause
-      (identifier)
+      (table_reference (identifier))
       (comparison_operator
+        (identifier)
+        (identifier)
         (identifier)
         (identifier)))
     (join_clause
       (join_type)
-      (identifier)
+      (table_reference (identifier))
       (comparison_operator
+        (identifier)
+        (identifier)
         (identifier)
         (identifier)))
     (join_clause
       (join_type)
-      (identifier)
+      (table_reference (identifier))
       (comparison_operator
+        (identifier)
+        (identifier)
         (identifier)
         (identifier)))
     (join_clause
       (join_type)
-      (identifier)
+      (table_reference (identifier))
       (comparison_operator
+        (identifier)
+        (identifier)
         (identifier)
         (identifier)))
     (join_clause
       (join_type)
-      (identifier)
+      (table_reference (identifier))
       (comparison_operator
+        (identifier)
+        (identifier)
         (identifier)
         (identifier)))
     (join_clause
       (join_type)
-      (identifier)
+      (table_reference (identifier))
       (comparison_operator
+        (identifier)
+        (identifier)
         (identifier)
         (identifier)))
     (join_clause
       (join_type)
-      (identifier)
+      (table_reference (identifier))
       (comparison_operator
+        (identifier)
+        (identifier)
         (identifier)
         (identifier)))
     (join_clause
       (join_type)
-      (identifier)
+      (table_reference (identifier))
       (comparison_operator
+        (identifier)
+        (identifier)
         (identifier)
         (identifier)))))
 

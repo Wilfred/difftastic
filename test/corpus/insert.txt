@@ -8,6 +8,6 @@ INSERT INTO table1 VALUES (1, 'test')
 
 (source_file
   (insert_statement
-    (identifier)
+    (table_reference (identifier))
     (values_clause
       (values_clause_body (number) (string)))))
