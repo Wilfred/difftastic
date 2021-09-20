@@ -328,16 +328,21 @@ impl<'a> Syntax<'a> {
                     open_content: lhs_open_content,
                     close_content: lhs_close_content,
                     children: lhs_children,
+                    num_descendants: lhs_num_descendants,
                     ..
                 },
                 List {
                     open_content: rhs_open_content,
                     close_content: rhs_close_content,
                     children: rhs_children,
+                    num_descendants: rhs_num_descendants,
                     ..
                 },
             ) => {
                 if lhs_open_content != rhs_open_content || lhs_close_content != rhs_close_content {
+                    return false;
+                }
+                if lhs_num_descendants != rhs_num_descendants {
                     return false;
                 }
                 if lhs_children.len() != rhs_children.len() {
