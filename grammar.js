@@ -1088,18 +1088,13 @@ module.exports = grammar({
     // unfinished constructs are generally treated as literal expressions,
     // not patterns.
     pattern: $ => prec.dynamic(-1, choice(
-      $.identifier,
-      alias($._reserved_identifier, $.identifier),
-      $._destructuring_pattern,
+      $._lhs_expression,
       $.rest_pattern
     )),
 
     rest_pattern: $ => seq(
       '...',
-      choice(
-        $.identifier,
-        $._destructuring_pattern,
-      )
+      $._lhs_expression
     ),
 
     method_definition: $ => seq(
