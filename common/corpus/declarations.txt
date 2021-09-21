@@ -1025,3 +1025,38 @@ class Foo {
         (property_identifier)
         (formal_parameters)
         (statement_block))))) 
+
+=====================
+Override modifier
+=====================
+
+abstract class Foo {
+  abstract baz(): void;
+}
+
+class Bar extends Foo {
+  override baz() {}
+}
+
+---
+
+(program
+  (abstract_class_declaration
+    name: (type_identifier)
+    body: (class_body
+      (abstract_method_signature
+        name: (property_identifier)
+        parameters: (formal_parameters)
+        return_type: (type_annotation
+          (predefined_type)))))
+  (class_declaration
+    name: (type_identifier)
+    (class_heritage
+      (extends_clause
+        (type_identifier)))
+    body: (class_body
+      (method_definition
+        (override_modifier)
+        name: (property_identifier)
+        parameters: (formal_parameters)
+        body: (statement_block)))))
