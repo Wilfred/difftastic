@@ -42,6 +42,41 @@ f=g   \
     (word)))
 
 =============================
+escaped newline immediately after a char
+=============================
+
+echo a \
+    b
+
+echo a\
+    b
+
+echo a\
+    b\
+    c
+
+
+-----------------------------
+
+(program
+  (command
+    (command_name
+      (word))
+    (word)
+    (word))
+  (command
+    (command_name
+      (word))
+    (word)
+    (word))
+  (command
+    (command_name
+      (word))
+    (word)
+    (word)
+    (word)))
+
+=============================
 Escaped whitespace
 ============================
 
