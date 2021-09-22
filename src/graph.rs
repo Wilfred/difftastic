@@ -137,7 +137,7 @@ impl Edge {
     }
 }
 
-const NOVEL_TREE_THRESHOLD: u64 = 20;
+const NOVEL_TREE_THRESHOLD: u32 = 20;
 
 /// Calculate all the neighbours from `v` and write them to `buf`.
 pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
