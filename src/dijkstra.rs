@@ -622,8 +622,8 @@ mod tests {
         init_info(&[lhs], &[rhs]);
 
         mark_syntax(Some(lhs), Some(rhs));
-        assert_eq!(lhs.info().change.get(), Some(ChangeKind::Unchanged(rhs)));
-        assert_eq!(rhs.info().change.get(), Some(ChangeKind::Unchanged(lhs)));
+        assert_eq!(lhs.change(), Some(ChangeKind::Unchanged(rhs)));
+        assert_eq!(rhs.change(), Some(ChangeKind::Unchanged(lhs)));
     }
 
     #[test]
@@ -634,7 +634,7 @@ mod tests {
         init_info(&[lhs], &[rhs]);
 
         mark_syntax(Some(lhs), Some(rhs));
-        assert_eq!(lhs.info().change.get(), Some(ChangeKind::Novel));
-        assert_eq!(rhs.info().change.get(), Some(ChangeKind::Novel));
+        assert_eq!(lhs.change(), Some(ChangeKind::Novel));
+        assert_eq!(rhs.change(), Some(ChangeKind::Novel));
     }
 }
