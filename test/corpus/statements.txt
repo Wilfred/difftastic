@@ -1023,6 +1023,32 @@ CREATE TABLE foo(col1 INT, col2 INT, UNIQUE(col1, col2))
         (identifier)))))
 
 ================================================================================
+CREATE TABLE with direction
+================================================================================
+
+CREATE TABLE foo(
+  id BIGINT NOT NULL PRIMARY KEY,
+	date DATE DEFAULT NULL ASC
+);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (create_table_statement
+    (table_reference (identifier))
+    (create_table_parameters
+      (create_table_column_parameter
+        (identifier)
+        (type)
+        (null_constraint (NULL))
+        (primary_key_constraint))
+      (create_table_column_parameter
+        (identifier)
+        (type)
+        (column_default (identifier))
+        (direction_constraint)))))
+
+================================================================================
 Comment
 ================================================================================
 
