@@ -87,24 +87,24 @@ impl<'a> Vertex<'a> {
 /// See [`neighbours`] for all the edges available for a given `Vertex`.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Edge {
-    UnchangedNode { depth_difference: u64 },
-    UnchangedDelimiter { depth_difference: u64 },
+    UnchangedNode { depth_difference: u32 },
+    UnchangedDelimiter { depth_difference: u32 },
     ReplacedComment { levenshtein_pct: u8 },
     NovelAtomLHS { contiguous: bool },
     NovelAtomRHS { contiguous: bool },
     NovelDelimiterLHS { contiguous: bool },
     NovelDelimiterRHS { contiguous: bool },
-    NovelTreeLHS { num_descendants: u64 },
-    NovelTreeRHS { num_descendants: u64 },
+    NovelTreeLHS { num_descendants: u32 },
+    NovelTreeRHS { num_descendants: u32 },
 }
 
 impl Edge {
     pub fn cost(&self) -> u64 {
         match self {
             // Matching nodes is always best.
-            UnchangedNode { depth_difference } => min(40, *depth_difference),
+            UnchangedNode { depth_difference } => min(40, *depth_difference as u64),
             // Matching an outer delimiter is good.
-            UnchangedDelimiter { depth_difference } => 100 + min(40, *depth_difference),
+            UnchangedDelimiter { depth_difference } => 100 + min(40, *depth_difference as u64),
 
             // Replacing a comment is better than treating it as novel.
             ReplacedComment { levenshtein_pct } => 150 + u64::from(100 - levenshtein_pct),
@@ -131,7 +131,8 @@ impl Edge {
             // novel rather than marking 90% of the children as
             // novel. This stops us matching up completely unrelated trees.
             NovelTreeLHS { num_descendants } | NovelTreeRHS { num_descendants } => {
-                300 + (*num_descendants - 10) * NovelDelimiterLHS { contiguous: false }.cost()
+                300 + (*num_descendants as u64 - 10)
+                    * NovelDelimiterLHS { contiguous: false }.cost()
             }
         }
     }
@@ -148,9 +149,9 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
     let mut i = 0;
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
         if lhs_syntax == rhs_syntax {
-            let depth_difference = (lhs_syntax.num_ancestors() as i64
-                - rhs_syntax.num_ancestors() as i64)
-                .abs() as u64;
+            let depth_difference = (lhs_syntax.num_ancestors() as i32
+                - rhs_syntax.num_ancestors() as i32)
+                .abs() as u32;
 
             // Both nodes are equal, the happy case.
             // TODO: this is only OK if we've not changed depth.
@@ -194,9 +195,9 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     Some(rhs_children[0])
                 };
 
-                let depth_difference = (lhs_syntax.num_ancestors() as i64
-                    - rhs_syntax.num_ancestors() as i64)
-                    .abs() as u64;
+                let depth_difference = (lhs_syntax.num_ancestors() as i32
+                    - rhs_syntax.num_ancestors() as i32)
+                    .abs() as u32;
 
                 buf[i] = Some((
                     UnchangedDelimiter { depth_difference },
@@ -288,7 +289,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 if *num_descendants > NOVEL_TREE_THRESHOLD {
                     buf[i] = Some((
                         NovelTreeLHS {
-                            num_descendants: *num_descendants as u64,
+                            num_descendants: *num_descendants,
                         },
                         Vertex {
                             lhs_syntax: lhs_syntax.next(),
@@ -347,7 +348,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 if *num_descendants > NOVEL_TREE_THRESHOLD {
                     buf[i] = Some((
                         NovelTreeRHS {
-                            num_descendants: *num_descendants as u64,
+                            num_descendants: *num_descendants,
                         },
                         Vertex {
                             lhs_syntax: v.lhs_syntax,
