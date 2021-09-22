@@ -147,7 +147,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
     let mut i = 0;
     if let (Some(lhs_syntax), Some(rhs_syntax)) = (&v.lhs_syntax, &v.rhs_syntax) {
-        if lhs_syntax.equal_content(rhs_syntax) {
+        if lhs_syntax == rhs_syntax {
             let depth_difference = (lhs_syntax.num_ancestors() as i64
                 - rhs_syntax.num_ancestors() as i64)
                 .abs() as u64;

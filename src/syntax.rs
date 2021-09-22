@@ -48,6 +48,7 @@ pub struct SyntaxInfo<'a> {
     change: Cell<Option<ChangeKind<'a>>>,
     num_ancestors: Cell<u64>,
     unique_id: Cell<u64>,
+    content_id: Cell<u64>,
 }
 
 impl<'a> SyntaxInfo<'a> {
@@ -59,6 +60,7 @@ impl<'a> SyntaxInfo<'a> {
             change: Cell::new(None),
             num_ancestors: Cell::new(0),
             unique_id: Cell::new(0),
+            content_id: Cell::new(0),
         }
     }
 }
@@ -104,7 +106,11 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 info,
                 ..
             } => {
-                let mut ds = f.debug_struct(&format!("List id:{}", self.id()));
+                let mut ds = f.debug_struct(&format!(
+                    "List id:{} content:{}",
+                    self.id(),
+                    self.content_id()
+                ));
 
                 ds.field("open_content", &open_content)
                     .field("open_position", &dbg_pos(open_position))
@@ -131,7 +137,11 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 info,
                 ..
             } => {
-                let mut ds = f.debug_struct(&format!("Atom id:{}", self.id()));
+                let mut ds = f.debug_struct(&format!(
+                    "Atom id:{} content:{}",
+                    self.id(),
+                    self.content_id()
+                ));
                 ds.field("content", &content);
                 ds.field("position", &dbg_pos(position));
 
@@ -226,8 +236,17 @@ impl<'a> Syntax<'a> {
         self.info().prev_is_contiguous.get()
     }
 
+    /// A unique ID of this syntax node. Every node is guaranteed to
+    /// have a different value.
     pub fn id(&self) -> u64 {
         self.info().unique_id.get()
+    }
+
+    /// A content ID of this syntax node. Two nodes have the same
+    /// content ID if they have the same content, regardless of
+    /// position.
+    fn content_id(&self) -> u64 {
+        self.info().content_id.get()
     }
 
     pub fn num_ancestors(&self) -> u64 {
@@ -279,123 +298,6 @@ impl<'a> Syntax<'a> {
             };
         }
     }
-
-    pub fn equal_content(&self, other: &Self) -> bool {
-        match (&self, other) {
-            (
-                Atom {
-                    content: lhs_content,
-                    is_comment: lhs_is_comment,
-                    ..
-                },
-                Atom {
-                    content: rhs_content,
-                    is_comment: rhs_is_comment,
-                    ..
-                },
-            ) => {
-                if lhs_is_comment != rhs_is_comment {
-                    return false;
-                }
-
-                if *lhs_is_comment {
-                    let is_multiline = lhs_content.lines().count() > 1;
-
-                    if is_multiline {
-                        let lhs_lines = lhs_content.lines().map(|l| l.trim_start()).collect_vec();
-                        let rhs_lines = rhs_content.lines().map(|l| l.trim_start()).collect_vec();
-                        return lhs_lines == rhs_lines;
-                    }
-                }
-                lhs_content == rhs_content
-            }
-            (
-                List {
-                    open_content: lhs_open_content,
-                    close_content: lhs_close_content,
-                    children: lhs_children,
-                    num_descendants: lhs_num_descendants,
-                    ..
-                },
-                List {
-                    open_content: rhs_open_content,
-                    close_content: rhs_close_content,
-                    children: rhs_children,
-                    num_descendants: rhs_num_descendants,
-                    ..
-                },
-            ) => {
-                if lhs_open_content != rhs_open_content || lhs_close_content != rhs_close_content {
-                    return false;
-                }
-                if lhs_num_descendants != rhs_num_descendants {
-                    return false;
-                }
-                if lhs_children.len() != rhs_children.len() {
-                    return false;
-                }
-                for (lhs_child, rhs_child) in lhs_children.iter().zip(rhs_children.iter()) {
-                    if !lhs_child.equal_content(rhs_child) {
-                        return false;
-                    }
-                }
-
-                true
-            }
-            _ => false,
-        }
-    }
-
-    /// Does this `Node` have the same position in all its subnodes?
-    ///
-    /// Nodes with different numbers of children return false
-    /// regardless of top-level positions.
-    fn equal_pos(&self, other: &Self) -> bool {
-        match (&self, other) {
-            (
-                Atom {
-                    position: lhs_position,
-                    ..
-                },
-                Atom {
-                    position: rhs_position,
-                    ..
-                },
-            ) => lhs_position == rhs_position,
-            (
-                List {
-                    open_position: lhs_open_position,
-                    close_position: lhs_close_position,
-                    children: lhs_children,
-                    ..
-                },
-                List {
-                    open_position: rhs_open_position,
-                    close_position: rhs_close_position,
-                    children: rhs_children,
-                    ..
-                },
-            ) => {
-                if lhs_open_position != rhs_open_position
-                    || lhs_close_position != rhs_close_position
-                {
-                    return false;
-                }
-                if lhs_children.len() != rhs_children.len() {
-                    return false;
-                }
-
-                for (lhs_child, rhs_child) in lhs_children.iter().zip(rhs_children.iter()) {
-                    if !lhs_child.equal_pos(rhs_child) {
-                        return false;
-                    }
-                }
-
-                true
-            }
-            _ => false,
-        }
-    }
 }
 
 /// Initialise all the fields in `SyntaxInfo`.
@@ -403,6 +305,62 @@ pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>])
     let mut id = 0;
     init_info_single(lhs_roots, &mut id);
     init_info_single(rhs_roots, &mut id);
+
+    let mut existing = HashMap::new();
+    set_content_id(lhs_roots, &mut existing);
+    set_content_id(rhs_roots, &mut existing);
+}
+
+type ContentKey = (Option<String>, Option<String>, Vec<u64>, bool, bool);
+
+fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut HashMap<ContentKey, u64>) {
+    for node in nodes {
+        let key: ContentKey = match node {
+            List {
+                open_content,
+                close_content,
+                children,
+                ..
+            } => {
+                // Recurse first, so children all have their content_id set.
+                set_content_id(children, existing);
+
+                let children_content_ids: Vec<_> =
+                    children.iter().map(|c| c.info().content_id.get()).collect();
+
+                (
+                    Some(open_content.clone()),
+                    Some(close_content.clone()),
+                    children_content_ids,
+                    true,
+                    false,
+                )
+            }
+            Atom {
+                content,
+                is_comment,
+                ..
+            } => {
+                let clean_content = if *is_comment && content.lines().count() > 1 {
+                    content
+                        .lines()
+                        .map(|l| l.trim_start())
+                        .collect::<Vec<_>>()
+                        .join("\n")
+                        .to_string()
+                } else {
+                    content.clone()
+                };
+                (Some(clean_content), None, vec![], false, *is_comment)
+            }
+        };
+
+        // Ensure the ID is always greater than zero, so we can
+        // distinguish an uninitialised SyntaxInfo value.
+        let next_id = existing.len() as u64 + 1;
+        let content_id = existing.entry(key).or_insert(next_id);
+        node.info().content_id.set(*content_id);
+    }
 }
 
 fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u64) {
@@ -493,14 +451,16 @@ fn set_prev_is_contiguous<'a>(roots: &[&Syntax<'a>]) {
 
 impl<'a> PartialEq for Syntax<'a> {
     fn eq(&self, other: &Self) -> bool {
-        self.equal_pos(other) && self.equal_content(other)
+        debug_assert!(self.content_id() > 0);
+        debug_assert!(other.content_id() > 0);
+        self.content_id() == other.content_id()
     }
 }
 impl<'a> Eq for Syntax<'a> {}
 
 impl<'a> Hash for Syntax<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.info().unique_id.get().hash(state);
+        self.content_id().hash(state);
     }
 }
 
@@ -1108,6 +1068,7 @@ mod tests {
 
         let comment = Syntax::new_comment(&arena, pos.clone(), "foo");
         let atom = Syntax::new_atom(&arena, pos, "foo");
+        init_info(&[comment], &[atom]);
 
         assert_ne!(comment, atom);
     }
@@ -1124,41 +1085,43 @@ mod tests {
 
         let x = Syntax::new_comment(&arena, pos.clone(), "foo\nbar");
         let y = Syntax::new_comment(&arena, pos, "foo\n    bar");
+        init_info(&[x], &[y]);
 
         assert_eq!(x, y);
     }
 
     #[test]
     fn test_atom_equality_ignores_change() {
-        assert_eq!(
-            Atom {
-                info: SyntaxInfo {
-                    change: Cell::new(Some(Novel)),
-                    ..SyntaxInfo::new()
-                },
-
-                position: vec![SingleLineSpan {
-                    line: 1.into(),
-                    start_col: 2,
-                    end_col: 3
-                }],
-                content: "foo".into(),
-                is_comment: false,
+        let lhs = Atom {
+            info: SyntaxInfo {
+                change: Cell::new(Some(Novel)),
+                ..SyntaxInfo::new()
             },
-            Atom {
-                info: SyntaxInfo {
-                    change: Cell::new(None),
-                    ..SyntaxInfo::new()
-                },
-                position: vec![SingleLineSpan {
-                    line: 1.into(),
-                    start_col: 2,
-                    end_col: 3
-                }],
-                content: "foo".into(),
-                is_comment: false,
-            }
-        );
+
+            position: vec![SingleLineSpan {
+                line: 1.into(),
+                start_col: 2,
+                end_col: 3,
+            }],
+            content: "foo".into(),
+            is_comment: false,
+        };
+        let rhs = Atom {
+            info: SyntaxInfo {
+                change: Cell::new(None),
+                ..SyntaxInfo::new()
+            },
+            position: vec![SingleLineSpan {
+                line: 1.into(),
+                start_col: 2,
+                end_col: 3,
+            }],
+            content: "foo".into(),
+            is_comment: false,
+        };
+        init_info(&[&lhs], &[&rhs]);
+
+        assert_eq!(lhs, rhs);
     }
 
     #[test]
