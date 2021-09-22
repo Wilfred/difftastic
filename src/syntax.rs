@@ -46,9 +46,9 @@ pub struct SyntaxInfo<'a> {
     prev: Cell<Option<&'a Syntax<'a>>>,
     prev_is_contiguous: Cell<bool>,
     change: Cell<Option<ChangeKind<'a>>>,
-    num_ancestors: Cell<u64>,
-    unique_id: Cell<u64>,
-    content_id: Cell<u64>,
+    num_ancestors: Cell<u32>,
+    unique_id: Cell<u32>,
+    content_id: Cell<u32>,
 }
 
 impl<'a> SyntaxInfo<'a> {
@@ -73,7 +73,7 @@ pub enum Syntax<'a> {
         children: Vec<&'a Syntax<'a>>,
         close_position: Vec<SingleLineSpan>,
         close_content: String,
-        num_descendants: u64,
+        num_descendants: u32,
     },
     Atom {
         info: SyntaxInfo<'a>,
@@ -238,18 +238,18 @@ impl<'a> Syntax<'a> {
 
     /// A unique ID of this syntax node. Every node is guaranteed to
     /// have a different value.
-    pub fn id(&self) -> u64 {
+    pub fn id(&self) -> u32 {
         self.info().unique_id.get()
     }
 
     /// A content ID of this syntax node. Two nodes have the same
     /// content ID if they have the same content, regardless of
     /// position.
-    fn content_id(&self) -> u64 {
+    fn content_id(&self) -> u32 {
         self.info().content_id.get()
     }
 
-    pub fn num_ancestors(&self) -> u64 {
+    pub fn num_ancestors(&self) -> u32 {
         self.info().num_ancestors.get()
     }
 
@@ -311,9 +311,9 @@ pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>])
     set_content_id(rhs_roots, &mut existing);
 }
 
-type ContentKey = (Option<String>, Option<String>, Vec<u64>, bool, bool);
+type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
 
-fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut HashMap<ContentKey, u64>) {
+fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut HashMap<ContentKey, u32>) {
     for node in nodes {
         let key: ContentKey = match node {
             List {
@@ -357,13 +357,13 @@ fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut HashMap<ContentKe
 
         // Ensure the ID is always greater than zero, so we can
         // distinguish an uninitialised SyntaxInfo value.
-        let next_id = existing.len() as u64 + 1;
+        let next_id = existing.len() as u32 + 1;
         let content_id = existing.entry(key).or_insert(next_id);
         node.info().content_id.set(*content_id);
     }
 }
 
-fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u64) {
+fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u32) {
     set_next(roots, None);
     set_prev(roots, None);
     set_num_ancestors(roots, 0);
@@ -371,7 +371,7 @@ fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u64) {
     set_unique_id(roots, next_id)
 }
 
-fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut u64) {
+fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut u32) {
     for node in nodes {
         node.info().unique_id.set(*next_id);
         *next_id += 1;
@@ -410,7 +410,7 @@ fn set_prev<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
     }
 }
 
-fn set_num_ancestors<'a>(nodes: &[&Syntax<'a>], num_ancestors: u64) {
+fn set_num_ancestors<'a>(nodes: &[&Syntax<'a>], num_ancestors: u32) {
     for node in nodes {
         node.info().num_ancestors.set(num_ancestors);
 
