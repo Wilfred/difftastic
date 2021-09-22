@@ -109,11 +109,11 @@ pub fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
                         if !heap_full || !cost_too_high {
                             predecessors
-                                .insert(next.clone(), (distance_to_next, current.clone(), edge));
+                                .insert(next.clone(), (distance_to_next, current.clone(), *edge));
 
                             heap.push(OrdVertex {
                                 distance: distance_to_next,
-                                current: next,
+                                current: next.clone(),
                                 total_estimate,
                             });
                         }
@@ -162,6 +162,7 @@ pub fn shortest_path_greedy(start: Vertex) -> Vec<(Edge, Vertex)> {
     // usage.
     let mut predecessors: FxHashMap<Vertex, (u64, Vertex, Edge)> = FxHashMap::default();
 
+    let mut neighbour_buf = [None, None, None, None, None, None, None, None, None, None];
     let end;
     loop {
         match heap.pop() {
@@ -175,17 +176,18 @@ pub fn shortest_path_greedy(start: Vertex) -> Vec<(Edge, Vertex)> {
                     break;
                 }
 
-                for (edge, next) in neighbours(&current) {
+                neighbours(&current, &mut neighbour_buf);
+                for (edge, next) in neighbour_buf.iter().flatten() {
                     if predecessors.get(&next).is_none() {
                         let distance_to_next = distance + edge.cost();
                         predecessors
-                            .insert(next.clone(), (distance_to_next, current.clone(), edge));
+                            .insert(next.clone(), (distance_to_next, current.clone(), *edge));
 
                         let total_estimate = distance_to_next + estimated_distance_remaining(&next);
 
                         heap.push(Reverse(OrdVertex {
                             distance: distance_to_next,
-                            current: next,
+                            current: next.clone(),
                             total_estimate,
                         }));
                     }
