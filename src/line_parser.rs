@@ -62,7 +62,6 @@ mod tests {
         match (actual, expected) {
             (
                 List {
-                    info: lhs_info,
                     open_position: lhs_open_position,
                     open_content: lhs_start_content,
                     children: lhs_children,
@@ -72,7 +71,6 @@ mod tests {
                     ..
                 },
                 List {
-                    info: rhs_info,
                     open_position: rhs_open_position,
                     open_content: rhs_start_content,
                     children: rhs_children,
@@ -82,8 +80,8 @@ mod tests {
                     ..
                 },
             ) => {
-                if lhs_info.change.get() != rhs_info.change.get() {
-                    dbg!(lhs_info.change.get(), rhs_info.change.get());
+                if actual.change() != expected.change() {
+                    dbg!(actual.change(), expected.change());
                     return false;
                 }
                 if lhs_open_position != rhs_open_position {
@@ -115,22 +113,20 @@ mod tests {
             }
             (
                 Atom {
-                    info: lhs_info,
                     position: lhs_position,
                     content: lhs_content,
                     is_comment: lhs_is_comment,
                     ..
                 },
                 Atom {
-                    info: rhs_info,
                     position: rhs_position,
                     content: rhs_content,
                     is_comment: rhs_is_comment,
                     ..
                 },
             ) => {
-                if lhs_info.change.get() != rhs_info.change.get() {
-                    dbg!(lhs_info.change.get(), rhs_info.change.get());
+                if actual.change() != expected.change() {
+                    dbg!(actual.change(), expected.change());
                     return false;
                 }
                 if lhs_position != rhs_position {

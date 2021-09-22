@@ -45,7 +45,7 @@ pub struct SyntaxInfo<'a> {
     next: Cell<Option<&'a Syntax<'a>>>,
     prev: Cell<Option<&'a Syntax<'a>>>,
     prev_is_contiguous: Cell<bool>,
-    pub change: Cell<Option<ChangeKind<'a>>>,
+    change: Cell<Option<ChangeKind<'a>>>,
     num_ancestors: Cell<u64>,
     unique_id: Cell<u64>,
 }
@@ -232,6 +232,10 @@ impl<'a> Syntax<'a> {
 
     pub fn num_ancestors(&self) -> u64 {
         self.info().num_ancestors.get()
+    }
+
+    pub fn change(&'a self) -> Option<ChangeKind<'a>> {
+        self.info().change.get()
     }
 
     pub fn first_line(&self) -> Option<LineNumber> {
