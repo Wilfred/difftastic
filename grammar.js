@@ -195,9 +195,11 @@ module.exports = grammar({
             $.unique_constraint,
             $.null_constraint,
             $.named_constraint,
+            $.direction_constraint,
           ),
         ),
       ),
+    direction_constraint: _ => choice(kw("ASC"), kw("DESC")),
     named_constraint: $ => seq("CONSTRAINT", $.identifier),
     column_default: $ =>
       seq(

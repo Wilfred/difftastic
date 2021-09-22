@@ -1288,9 +1288,36 @@
               {
                 "type": "SYMBOL",
                 "name": "named_constraint"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "direction_constraint"
               }
             ]
           }
+        }
+      ]
+    },
+    "direction_constraint": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[aA][sS][cC]"
+          },
+          "named": false,
+          "value": "ASC"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[dD][eE][sS][cC]"
+          },
+          "named": false,
+          "value": "DESC"
         }
       ]
     },

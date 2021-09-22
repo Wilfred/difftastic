@@ -1095,6 +1095,10 @@
           "named": true
         },
         {
+          "type": "direction_constraint",
+          "named": true
+        },
+        {
           "type": "named_constraint",
           "named": true
         },
@@ -1264,6 +1268,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "direction_constraint",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "distinct_from",
