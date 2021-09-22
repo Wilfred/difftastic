@@ -395,32 +395,31 @@ impl<'a> Syntax<'a> {
 }
 
 pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
-    let next_id = init_info_single(lhs_roots, 0);
-    init_info_single(rhs_roots, next_id);
+    let mut id = 0;
+    init_info_single(lhs_roots, &mut id);
+    init_info_single(rhs_roots, &mut id);
 }
 
 /// Initialise all the fields in `SyntaxInfo`.
 ///
 /// Return the next unique ID available, so we can ensure LHS and RHS
 /// have different IDs.
-pub fn init_info_single<'a>(roots: &[&'a Syntax<'a>], first_id: u64) -> u64 {
+pub fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u64) {
     set_next(roots, None);
     set_prev(roots, None);
     set_num_ancestors(roots, 0);
     set_prev_is_contiguous(roots);
-    set_unique_id(roots, first_id)
+    set_unique_id(roots, next_id)
 }
 
-fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], prev_id: u64) -> u64 {
-    let mut id = prev_id + 1;
+fn set_unique_id<'a>(nodes: &[&'a Syntax<'a>], next_id: &mut u64) {
     for node in nodes {
-        node.info().unique_id.set(id);
+        node.info().unique_id.set(*next_id);
+        *next_id += 1;
         if let List { children, .. } = node {
-            id = set_unique_id(children, id);
+            set_unique_id(children, next_id);
         }
-        id += 1;
     }
-    id
 }
 
 /// For every syntax node in the tree, mark the next node according to
