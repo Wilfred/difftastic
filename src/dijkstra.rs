@@ -49,6 +49,8 @@ impl<'a> PartialEq for OrdVertex<'a> {
 }
 impl<'a> Eq for OrdVertex<'a> {}
 
+type PredecessorInfo<'a> = (u64, Vertex<'a>, Edge);
+
 fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     // We want to visit nodes with the shortest distance first, but
     // BinaryHeap is a max-heap. Ensure nodes are wrapped with Reverse
@@ -59,7 +61,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
-    let mut predecessors: FxHashMap<Vertex, (u64, Vertex, Edge)> = FxHashMap::default();
+    let mut predecessors: FxHashMap<Vertex, PredecessorInfo> = FxHashMap::default();
 
     let mut neighbour_buf = [None, None, None, None, None, None, None, None, None, None];
     let end = loop {
@@ -90,8 +92,9 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     };
 
     info!(
-        "Found predecessors for {} syntax nodes, with {} left on heap.",
+        "Found predecessors for {} syntax nodes ({} bytes per hashmap value), with {} left on heap.",
         predecessors.len(),
+        std::mem::size_of::<PredecessorInfo>(),
         heap.len(),
     );
     let mut current = end;
