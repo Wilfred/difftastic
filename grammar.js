@@ -75,6 +75,9 @@ module.exports = grammar({
 
     [$._type, $.array_creation_expression],
     [$._type, $.stack_alloc_array_creation_expression],
+    [$._type, $._nullable_base_type],
+    [$._type, $._nullable_base_type, $.array_creation_expression],
+    [$._nullable_base_type, $.stack_alloc_array_creation_expression],
 
     [$.parameter_modifier, $.this_expression],
     [$.parameter, $._simple_name],
@@ -86,7 +89,11 @@ module.exports = grammar({
     [$.tuple_element, $.declaration_expression],
     [$.tuple_element, $.variable_declarator],
 
-    [$.array_creation_expression, $.element_access_expression]
+    [$.array_creation_expression, $.element_access_expression],
+
+    [$.constant_pattern, $._name],
+    [$.constant_pattern, $._name, $._expression],
+    [$.constant_pattern, $._expression],
   ],
 
   inline: $ => [
@@ -663,14 +670,15 @@ module.exports = grammar({
     // expression but we can't match empty rules.
     array_rank_specifier: $ => seq('[', commaSep(optional($._expression)), ']'),
 
-    // When used in a nullable type, the '?' operator binds tighter than the
-    // binary operators `as` and `is`. But in a conditional expression, the `?`
-    // binds *looser*. This weird double precedence is required in order to
-    // preserve the conflict, so that `?` can be used in both ways, depending
-    // on what follows.
-    nullable_type: $ => choice(
-      prec(PREC.EQUAL + 1, seq($._type, '?')),
-      prec(PREC.COND - 1, seq($._type, '?'))
+    nullable_type: $ => seq($._nullable_base_type, '?'),
+
+    _nullable_base_type: $ => choice(
+      $.array_type,
+      $._name,
+      $.pointer_type,
+      $.function_pointer_type,
+      $.predefined_type,
+      $.tuple_type
     ),
 
     pointer_type: $ => prec(PREC.POSTFIX, seq($._type, '*')),
@@ -946,7 +954,24 @@ module.exports = grammar({
       )),
     ),
 
-    constant_pattern: $ => prec.right($._expression),
+    //We may need to expand this list if more things can be evaluated at compile time
+    constant_pattern: $ => choice(
+        $.binary_expression,
+        $.default_expression,
+        $.interpolated_string_expression,
+        $.parenthesized_expression,
+        $.postfix_unary_expression,
+        $.prefix_unary_expression,
+        $.size_of_expression,
+        $.tuple_expression,
+        $.type_of_expression,
+        $.member_access_expression,
+        $.invocation_expression,
+        $.cast_expression,
+  
+        $._simple_name,
+        $._literal
+      ),
 
     declaration_pattern: $ => seq(
       field('type', $._type),
@@ -1228,7 +1253,7 @@ module.exports = grammar({
       field('arguments', $.argument_list)
     )),
 
-    is_pattern_expression: $ => prec.left(PREC.EQUAL, seq(
+    is_pattern_expression: $ => prec.left(PREC.REL, seq(
       field('expression', $._expression),
       'is',
       field('pattern', $._pattern)
@@ -1512,13 +1537,13 @@ module.exports = grammar({
       ))
     ),
 
-    as_expression: $ => prec.left(PREC.EQUAL, seq(
+    as_expression: $ => prec.left(PREC.REL, seq(
       field('left', $._expression),
       field('operator', 'as'),
       field('right', $._type)
     )),
 
-    is_expression: $ => prec.left(PREC.EQUAL, seq(
+    is_expression: $ => prec.left(PREC.REL, seq(
       field('left', $._expression),
       field('operator', 'is'),
       field('right', $._type)

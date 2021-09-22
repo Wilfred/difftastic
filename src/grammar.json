@@ -3450,41 +3450,44 @@
       ]
     },
     "nullable_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_nullable_base_type"
+        },
+        {
+          "type": "STRING",
+          "value": "?"
+        }
+      ]
+    },
+    "_nullable_base_type": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "PREC",
-          "value": 10,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_type"
-              },
-              {
-                "type": "STRING",
-                "value": "?"
-              }
-            ]
-          }
+          "type": "SYMBOL",
+          "name": "array_type"
         },
         {
-          "type": "PREC",
-          "value": 1,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_type"
-              },
-              {
-                "type": "STRING",
-                "value": "?"
-              }
-            ]
-          }
+          "type": "SYMBOL",
+          "name": "_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "pointer_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_pointer_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "predefined_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_type"
         }
       ]
     },
@@ -4980,12 +4983,65 @@
       ]
     },
     "constant_pattern": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SYMBOL",
-        "name": "_expression"
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "binary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "default_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "interpolated_string_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parenthesized_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "postfix_unary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "prefix_unary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "size_of_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_of_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "member_access_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "invocation_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "cast_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_simple_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_literal"
+        }
+      ]
     },
     "declaration_pattern": {
       "type": "SEQ",
@@ -6609,7 +6665,7 @@
     },
     "is_pattern_expression": {
       "type": "PREC_LEFT",
-      "value": 9,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -8542,7 +8598,7 @@
     },
     "as_expression": {
       "type": "PREC_LEFT",
-      "value": 9,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -8575,7 +8631,7 @@
     },
     "is_expression": {
       "type": "PREC_LEFT",
-      "value": 9,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9919,6 +9975,19 @@
       "stack_alloc_array_creation_expression"
     ],
     [
+      "_type",
+      "_nullable_base_type"
+    ],
+    [
+      "_type",
+      "_nullable_base_type",
+      "array_creation_expression"
+    ],
+    [
+      "_nullable_base_type",
+      "stack_alloc_array_creation_expression"
+    ],
+    [
       "parameter_modifier",
       "this_expression"
     ],
@@ -9957,6 +10026,19 @@
     [
       "array_creation_expression",
       "element_access_expression"
+    ],
+    [
+      "constant_pattern",
+      "_name"
+    ],
+    [
+      "constant_pattern",
+      "_name",
+      "_expression"
+    ],
+    [
+      "constant_pattern",
+      "_expression"
     ]
   ],
   "precedences": [],

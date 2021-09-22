@@ -1592,6 +1592,9 @@ is pattern
 
 var b = s is string s2;
 var c = s is "test";
+var a = 1 is int.MaxValue;
+var d = a is nameof(a);
+var e = a is (int)b;
 
 ---
 
@@ -1618,7 +1621,114 @@ var c = s is "test";
             (is_pattern_expression
               (identifier)
                 (constant_pattern
-                  (string_literal)))))))))
+                  (string_literal))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (is_pattern_expression
+              (integer_literal)
+              (constant_pattern
+                (member_access_expression
+                  (predefined_type)
+                  (identifier)))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (is_pattern_expression
+              (identifier)
+              (constant_pattern
+                (invocation_expression
+                  (identifier)
+                  (argument_list
+                    (argument (identifier)))))))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (is_pattern_expression
+              (identifier)
+              (constant_pattern
+                (cast_expression
+                  (predefined_type)
+                  (identifier))))))))))
+
+=====================================
+Precedence between is operator and conditional_expression
+=====================================
+
+int a = 1 is Object ? 1 : 2;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (conditional_expression
+              (is_pattern_expression
+                (integer_literal)
+                (constant_pattern
+                  (identifier)))
+              (integer_literal)
+              (integer_literal))))))))
+
+=====================================
+Precedence between is operator and as operator
+=====================================
+
+//var a = new object() is null as Object == false; // this parses with wrong precedence
+var a = new object() is null as Object;
+var b = true == 1 as int? is int;
+
+---
+
+(compilation_unit
+  (comment)
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+              (as_expression
+                (is_pattern_expression
+                  (object_creation_expression
+                    (predefined_type)
+                    (argument_list))
+                  (constant_pattern
+                    (null_literal)))
+                (identifier)))))))
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (binary_expression
+              (boolean_literal)
+              (is_expression
+                (as_expression
+                  (integer_literal)
+                  (nullable_type
+                    (predefined_type)))
+                (predefined_type)))))))))
 
 =====================================
 Discard pattern
