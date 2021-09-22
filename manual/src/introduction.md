@@ -1,7 +1,7 @@
 # Introduction
 
 Difftastic is a diff tool that understands syntax. It currently
-supports 16 languages:
+supports 17 languages:
 
 * C
 * C++
@@ -10,6 +10,7 @@ supports 16 languages:
 * Elixir
 * Emacs Lisp
 * Go
+* Haskell
 * Java
 * JavaScript (and JSX)
 * JSON

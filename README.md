@@ -23,6 +23,7 @@ Difftastic supports the following languages:
 * Elixir
 * Emacs Lisp
 * Go
+* Haskell
 * Java
 * JavaScript (and JSX)
 * JSON
