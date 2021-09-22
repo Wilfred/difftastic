@@ -1,0 +1,435 @@
+================================================================================
+type decl: basic
+================================================================================
+
+type A = A
+type A a = A a
+type A = A A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_name (type)))
+ (type_alias
+  (type)
+  (type_variable)
+  (type_apply (type_name (type)) (type_name (type_variable))))
+ (type_alias
+  (type)
+  (type_apply (type_name (type)) (type_name (type)))))
+
+================================================================================
+type decl: two tycons
+================================================================================
+
+type A = A A
+
+---
+
+(haskell (type_alias (type) (type_apply (type_name (type)) (type_name (type)))))
+
+================================================================================
+type decl: promoted constructor
+================================================================================
+
+type A = ' A
+type A = 'A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_name (promoted (type))))
+ (type_alias
+  (type)
+  (type_name (promoted (type)))))
+
+================================================================================
+type decl: list plain
+================================================================================
+
+type A = []
+type A = [A a]
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_literal (con_list)))
+ (type_alias
+  (type)
+  (type_list (type_apply (type_name (type)) (type_name (type_variable))))))
+
+================================================================================
+type decl: parens
+================================================================================
+
+type A = ()
+type A = (,)
+type A = (,,)
+type A = (->)
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_literal (con_unit)))
+ (type_alias
+  (type)
+  (type_literal (con_tuple (comma))))
+ (type_alias
+  (type)
+  (type_literal (con_tuple (comma) (comma))))
+ (type_alias
+  (type)
+  (type_name (tycon_arrow))))
+
+================================================================================
+type decl: consym
+================================================================================
+
+type A = A :++ A ':++ A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (constructor_operator)
+   (type_infix
+    (type_name (type))
+    (promoted (constructor_operator))
+    (type_name (type))))))
+
+================================================================================
+type decl: list cons
+================================================================================
+
+type A = A : A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (constructor_operator)
+   (type_name (type)))))
+
+================================================================================
+type decl: promoted list cons
+================================================================================
+
+type A = A ': A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (promoted (constructor_operator))
+   (type_name (type)))))
+
+================================================================================
+type decl: promoted list nil
+================================================================================
+
+type A = '[]
+
+---
+
+(haskell (type_alias (type) (promoted (type_literal (con_list)))))
+
+================================================================================
+type decl: qualified consym
+================================================================================
+
+type A = A A.A.:++ A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (qualified_constructor_operator (module) (module) (constructor_operator))
+   (type_name (type)))))
+
+================================================================================
+type decl: promoted consym
+================================================================================
+
+type A = A ':++ A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (promoted (constructor_operator))
+   (type_name (type)))))
+
+================================================================================
+type decl: qualified promoted consym
+================================================================================
+
+type A = A 'A.:++ A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (promoted (qualified_constructor_operator (module) (constructor_operator)))
+   (type_name (type)))))
+
+================================================================================
+type decl: qualified ticked
+================================================================================
+
+type A = A `A.A` A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (ticked (qualified_type (module) (type)))
+   (type_name (type)))))
+
+================================================================================
+type decl: promoted tuple
+================================================================================
+
+type A = '(A a, A)
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (promoted
+   (type_tuple
+    (type_apply (type_name (type)) (type_name (type_variable)))
+    (comma)
+    (type_name (type))))))
+
+================================================================================
+type decl: equality
+================================================================================
+
+type A = A ~ A
+type A = A ~~ A
+type A = ∀ a . (A a ~ A a) => A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_infix (type_name (type)) (type_operator) (type_name (type))))
+ (type_alias
+  (type)
+  (type_infix (type_name (type)) (type_operator) (type_name (type))))
+ (type_alias
+  (type)
+  (forall
+   (quantifiers (type_variable))
+   (context
+    (constraint
+     (type_infix
+      (type_apply (type_name (type)) (type_name (type_variable)))
+      (type_operator)
+      (type_apply (type_name (type)) (type_name (type_variable))))
+    )
+    (type_name (type))))))
+
+================================================================================
+type decl: mixed infix
+================================================================================
+
+type A = A :++ A A ': A (A A a) : '[] ':++ A `A.A` '[]
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_infix
+   (type_name (type))
+   (constructor_operator)
+   (type_infix
+    (type_apply
+     (type_name (type))
+     (type_name (type)))
+    (promoted (constructor_operator))
+    (type_infix
+     (type_apply
+      (type_name (type))
+      (type_parens (type_apply (type_name (type)) (type_name (type)) (type_name (type_variable)))))
+     (constructor_operator)
+     (type_infix
+      (promoted (type_literal (con_list)))
+      (promoted (constructor_operator))
+      (type_infix
+       (type_name (type))
+       (ticked (qualified_type (module) (type)))
+       (promoted (type_literal (con_list))))))))))
+
+================================================================================
+type decl: symbol
+================================================================================
+
+type A = "a"
+type A = A (A "a")
+
+---
+
+(haskell
+ (type_alias (type) (type_literal (string)))
+ (type_alias
+  (type)
+  (type_apply
+   (type_name (type))
+   (type_parens (type_apply (type_name (type)) (type_literal (string)))))))
+
+================================================================================
+type decl: prefix notation symbol
+================================================================================
+
+type A = (++) a a
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_apply
+   (type_name (type_operator))
+   (type_name (type_variable))
+   (type_name (type_variable)))))
+
+================================================================================
+type decl: nullary context
+================================================================================
+
+type A = A => A
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (context (constraint (class_name (type))) (type_name (type)))))
+
+================================================================================
+type decl: forall
+================================================================================
+
+type A = ∀ a a . A => A
+type A = forall a a . A a => [A]
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (forall
+   (quantifiers (type_variable) (type_variable))
+   (context (constraint (class_name (type))) (type_name (type)))))
+  (type_alias
+   (type)
+   (forall
+    (quantifiers (type_variable) (type_variable))
+    (context
+     (constraint (class_name (type)) (type_name (type_variable)))
+     (type_list (type_name (type)))))))
+
+================================================================================
+type decl: lhs parens
+================================================================================
+
+type (A a a) = A
+
+---
+
+(haskell (type_alias (type) (type_variable) (type_variable) (type_name (type))))
+
+================================================================================
+type decl: contraint tuple with implicit parameter
+================================================================================
+
+type A = (?a :: A.A, A)
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_tuple
+   (implicit_param (implicit_parid) (type_name (qualified_type (module) (type))))
+   (comma)
+   (type_name (type)))))
+
+================================================================================
+type decl: implicit parameter constraint
+================================================================================
+
+type A = ?a :: A
+
+---
+
+(haskell (type_alias (type) (implicit_param (implicit_parid) (type_name (type)))))
+
+================================================================================
+type decl: role
+================================================================================
+
+type role A phantom
+type role A.A _ representational nominal _ phantom _
+type role (A.>>) nominal nominal
+
+---
+
+(haskell
+ (role_annotation (type) (type_role))
+ (role_annotation
+  (qualified_type (module) (type))
+  (type_role)
+  (type_role)
+  (type_role)
+  (type_role)
+  (type_role)
+  (type_role))
+ (role_annotation (qualified_type_operator (module) (type_operator)) (type_role) (type_role)))
+
+================================================================================
+type decl: StandaloneKindSignatures
+================================================================================
+
+type A a :: a -> Type
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (type_variable)
+  (fun (type_name (type_variable)) (type_name (type)))))

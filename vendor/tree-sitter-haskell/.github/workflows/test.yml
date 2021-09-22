@@ -1,0 +1,34 @@
+name: Test the grammar
+on:
+  push:
+    branches:
+      - "**"
+    pull_request:
+      - "**"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: npm install
+        env:
+          CXX: g++-9
+      - run: npm test
+        env:
+          CXX: g++-9
+      - run: npm run examples
+        env:
+          CXX: g++-9
+  # build-mac:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 14
+  #     - run: npm install
+  #       env:
+  #         CXX: g++-9
