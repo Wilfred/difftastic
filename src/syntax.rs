@@ -398,16 +398,13 @@ impl<'a> Syntax<'a> {
     }
 }
 
+/// Initialise all the fields in `SyntaxInfo`.
 pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     let mut id = 0;
     init_info_single(lhs_roots, &mut id);
     init_info_single(rhs_roots, &mut id);
 }
 
-/// Initialise all the fields in `SyntaxInfo`.
-///
-/// Return the next unique ID available, so we can ensure LHS and RHS
-/// have different IDs.
 pub fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u64) {
     set_next(roots, None);
     set_prev(roots, None);
