@@ -13,7 +13,7 @@ use difftastic::{
     dijkstra::mark_syntax,
     files::{is_probably_binary, read_or_die},
     lines::{join_overlapping, visible_groups, MaxLine},
-    syntax::{change_positions, init_info, init_info_single, matching_lines},
+    syntax::{change_positions, init_info, matching_lines},
     tree_sitter_parser as tsp,
 };
 
@@ -175,8 +175,7 @@ fn main() {
                     let bytes = read_or_die(&path);
                     let src = String::from_utf8_lossy(&bytes).to_string();
                     let ast = tsp::parse(&arena, &src, &ts_lang);
-                    let mut id = 0;
-                    init_info_single(&ast, &mut id);
+                    init_info(&ast, &[]);
                     println!("{:#?}", ast);
                 }
                 None => {

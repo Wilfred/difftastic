@@ -405,7 +405,7 @@ pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>])
     init_info_single(rhs_roots, &mut id);
 }
 
-pub fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u64) {
+fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u64) {
     set_next(roots, None);
     set_prev(roots, None);
     set_num_ancestors(roots, 0);
