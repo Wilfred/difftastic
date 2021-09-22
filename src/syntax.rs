@@ -6,7 +6,7 @@ use itertools::{EitherOrBoth, Itertools};
 use std::{
     cell::Cell,
     cmp::min,
-    collections::{hash_map::DefaultHasher, HashMap},
+    collections::HashMap,
     env, fmt,
     hash::{Hash, Hasher},
 };
@@ -42,7 +42,6 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub struct SyntaxInfo<'a> {
-    pos_content_hash: u64,
     next: Cell<Option<&'a Syntax<'a>>>,
     prev: Cell<Option<&'a Syntax<'a>>>,
     prev_is_contiguous: Cell<bool>,
@@ -52,9 +51,8 @@ pub struct SyntaxInfo<'a> {
 }
 
 impl<'a> SyntaxInfo<'a> {
-    pub fn new(pos_content_hash: u64) -> Self {
+    pub fn new() -> Self {
         Self {
-            pos_content_hash,
             next: Cell::new(None),
             prev: Cell::new(None),
             prev_is_contiguous: Cell::new(false),
@@ -172,18 +170,8 @@ impl<'a> Syntax<'a> {
             };
         }
 
-        let mut hasher = DefaultHasher::new();
-
-        open_position.hash(&mut hasher);
-        open_content.hash(&mut hasher);
-        close_content.hash(&mut hasher);
-        close_position.hash(&mut hasher);
-        for child in &children {
-            child.hash(&mut hasher);
-        }
-
         arena.alloc(List {
-            info: SyntaxInfo::new(hasher.finish()),
+            info: SyntaxInfo::new(),
             open_position,
             open_content: open_content.into(),
             close_content: close_content.into(),
@@ -216,13 +204,8 @@ impl<'a> Syntax<'a> {
         content: &str,
         is_comment: bool,
     ) -> &'a mut Syntax<'a> {
-        let mut hasher = DefaultHasher::new();
-
-        position.hash(&mut hasher);
-        content.hash(&mut hasher);
-
         arena.alloc(Atom {
-            info: SyntaxInfo::new(hasher.finish()),
+            info: SyntaxInfo::new(),
             position,
             content: content.into(),
             is_comment,
@@ -517,7 +500,7 @@ impl<'a> Eq for Syntax<'a> {}
 
 impl<'a> Hash for Syntax<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.info().pos_content_hash.hash(state);
+        self.info().unique_id.get().hash(state);
     }
 }
 
@@ -1151,7 +1134,7 @@ mod tests {
             Atom {
                 info: SyntaxInfo {
                     change: Cell::new(Some(Novel)),
-                    ..SyntaxInfo::new(1)
+                    ..SyntaxInfo::new()
                 },
 
                 position: vec![SingleLineSpan {
@@ -1165,7 +1148,7 @@ mod tests {
             Atom {
                 info: SyntaxInfo {
                     change: Cell::new(None),
-                    ..SyntaxInfo::new(1)
+                    ..SyntaxInfo::new()
                 },
                 position: vec![SingleLineSpan {
                     line: 1.into(),
