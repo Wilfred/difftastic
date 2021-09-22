@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "tree_sitter_SQL_binding",
+      "target_name": "tree_sitter_sql_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
         "src"
