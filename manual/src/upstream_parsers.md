@@ -11,6 +11,7 @@ Difftastic uses the following tree-sitter parsers:
 | Elixir          | [ananthakumaran/tree-sitter-elixir](https://github.com/ananthakumaran/tree-sitter-elixir)   |
 | Emacs Lisp      | [wilfred/tree-sitter-elisp](https://github.com/Wilfred/tree-sitter-elisp)                   |
 | Go              | [tree-sitter/tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go)                 |
+| Haskell         | [tree-sitter/tree-sitter-haskell](https://github.com/tree-sitter/tree-sitter-haskell)       |
 | Java            | [tree-sitter/tree-sitter-java](https://github.com/tree-sitter/tree-sitter-java)             |
 | JavaScript, JSX | [tree-sitter/tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript) |
 | JSON            | [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)             |

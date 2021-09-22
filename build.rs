@@ -19,7 +19,8 @@ fn build(package_name: &str, package_dir: &str, extra_files: &[&str]) {
         cpp_build
             .include(&dir)
             .cpp(true)
-            .flag("-Wno-unused-parameter");
+            .flag("-Wno-unused-parameter")
+            .flag("-Wno-ignored-qualifiers");
         for file in cpp_files {
             cpp_build.file(dir.join(file));
         }
@@ -58,6 +59,11 @@ fn main() {
         &["scanner.cc"],
     );
     build("tree-sitter-go", "vendor/tree-sitter-go-src", &[]);
+    build(
+        "tree-sitter-haskell",
+        "vendor/tree-sitter-haskell-src",
+        &["scanner.cc"],
+    );
     build("tree-sitter-java", "vendor/tree-sitter-java-src", &[]);
     build(
         "tree-sitter-javascript",

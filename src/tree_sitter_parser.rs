@@ -32,6 +32,7 @@ extern "C" {
     fn tree_sitter_elisp() -> Language;
     fn tree_sitter_elixir() -> Language;
     fn tree_sitter_go() -> Language;
+    fn tree_sitter_haskell() -> Language;
     fn tree_sitter_java() -> Language;
     fn tree_sitter_javascript() -> Language;
     fn tree_sitter_json() -> Language;
@@ -105,6 +106,12 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 .into_iter()
                 .collect(),
             open_delimiter_tokens: (vec!["{", "[", "("]).into_iter().collect(),
+        }),
+        "hs" => Some(TreeSitterConfig {
+            name: "Haskell",
+            language: unsafe { tree_sitter_haskell() },
+            atom_nodes: (vec![]).into_iter().collect(),
+            open_delimiter_tokens: (vec!["[", "("]).into_iter().collect(),
         }),
         "java" => Some(TreeSitterConfig {
             name: "Java",

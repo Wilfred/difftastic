@@ -7,6 +7,8 @@ Added a C parser.
 Added a C++ parser. Difftastic prefers the C++ parser for `.h`
 files. Please file a bug if you see issues.
 
+Added a Haskell parser.
+
 Removed legacy regex-based parsing backend.
 
 ### Diffing
