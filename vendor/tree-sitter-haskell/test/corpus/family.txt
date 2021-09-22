@@ -1,0 +1,216 @@
+================================================================================
+family: closed, nullary
+================================================================================
+
+type family A where
+  A = A
+
+---
+
+(haskell
+ (type_family
+  (head (type))
+  (where)
+  (equation
+   (pattern (type))
+   (type_name (type)))))
+
+================================================================================
+family: closed, tyvars
+================================================================================
+
+type family A a b c where
+  A a b c = b c
+
+---
+
+(haskell
+ (type_family
+  (head name: (type) (type_variable) (type_variable) (type_variable))
+  (where)
+  (equation
+   (pattern name: (type) (type_name (type_variable)) (type_name (type_variable)) (type_name (type_variable)))
+   (type_apply (type_name (type_variable)) (type_name (type_variable))))))
+
+================================================================================
+family: closed, pattern matching
+================================================================================
+
+type family A a b c where
+  A (Maybe a) [c] = a (Maybe c)
+
+---
+
+(haskell
+ (type_family
+  (head (type) (type_variable) (type_variable) (type_variable))
+  (where)
+  (equation
+   (pattern
+    (type)
+    (type_parens (type_apply (type_name (type)) (type_name (type_variable))))
+    (type_list (type_name (type_variable))))
+   (type_apply (type_name (type_variable)) (type_parens (type_apply (type_name (type)) (type_name (type_variable))))))))
+
+================================================================================
+family: closed, signature
+================================================================================
+
+type family A a :: (k -> *) -> 'Just k where
+  A a = a
+
+---
+
+(haskell
+ (type_family
+  (head name: (type) (type_variable))
+  type: (fun
+   (type_parens (fun (type_name (type_variable)) (type_star)))
+   (type_apply (type_name (promoted (type))) (type_name (type_variable))))
+(where)
+  (equation
+   (pattern name: (type) (type_name (type_variable)))
+   (type_name (type_variable)))))
+
+================================================================================
+family: closed, type_variable kind
+================================================================================
+
+type family A (a :: ([k] -> *) -> k) where
+  A a = a
+
+---
+
+(haskell
+ (type_family
+  (head
+   (type)
+   (annotated_type_variable
+    (type_variable)
+    (fun
+     (type_parens (fun (type_list (type_name (type_variable))) (type_star)))
+     (type_name (type_variable)))))
+  (where)
+  (equation (pattern (type) (type_name (type_variable))) (type_name (type_variable)))))
+
+================================================================================
+family: open
+================================================================================
+
+type family A (a :: a) :: *
+type instance A [A] = A
+type instance A (A A) = A
+
+---
+
+(haskell
+ (type_family
+  (head
+   name: (type)
+   (annotated_type_variable (type_variable) type: (type_name (type_variable))))
+  type: (type_star))
+ (type_instance
+  (type_name (type))
+  (type_list (type_name (type)))
+  (type_name (type)))
+ (type_instance
+  (type_name (type))
+  (type_parens
+   (type_apply
+    (type_name (type))
+    (type_name (type))))
+  (type_name (type))))
+
+================================================================================
+family: data family
+================================================================================
+
+data family A a (a :: [a]) :: Type -> *
+
+---
+
+(haskell
+ (data_family
+  (type)
+  (type_variable)
+  (annotated_type_variable (type_variable) (type_list (type_name (type_variable))))
+  (fun (type_name (type)) (type_star))))
+
+================================================================================
+family: data instance adt
+================================================================================
+
+data instance ∀ a . A a A =
+  A a A a
+  |
+  A { a :: A }
+
+---
+
+(haskell
+ (data_instance
+  (forall (quantifiers (type_variable)))
+  (type_apply
+   (type_name (type))
+   (type_name (type_variable))
+   (type_name (type)))
+  (constructors
+   (data_constructor (constructor) (type_name (type_variable)) (type_name (type)) (type_name (type_variable)))
+   (data_constructor_record
+    (constructor)
+    (record_fields (field (variable) (type_name (type))))))))
+
+================================================================================
+family: data instance gadt
+================================================================================
+
+data instance A a where
+  A :: A -> A a
+  deriving (A, A)
+
+---
+
+(haskell
+ (data_instance
+  (type_apply
+   (type_name (type))
+   (type_name (type_variable)))
+  (where)
+  (gadt_constructor
+   (constructor)
+   (fun (type_name (type)) (type_apply (type_name (type)) (type_name (type_variable)))))
+  (deriving (constraint (class_name (type))) (comma) (constraint (class_name (type))))))
+
+================================================================================
+family: data instance newtype
+================================================================================
+
+newtype instance A a a = A a deriving A
+
+---
+
+(haskell
+ (data_instance
+  (type_apply
+   (type_name (type))
+   (type_name (type_variable))
+   (type_name (type_variable)))
+  (newtype_constructor (constructor) (type_name (type_variable)))
+  (deriving (type))))
+
+================================================================================
+family: symbolic equation
+================================================================================
+
+type family A a where
+  a <> a = a
+
+---
+
+(haskell
+ (type_family
+  (head (type) (type_variable))
+  (where)
+  (equation
+   (pattern (type_name (type_variable)) (type_operator) (type_name (type_variable)))
+   (type_name (type_variable)))))

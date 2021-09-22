@@ -1,0 +1,79 @@
+================================================================================
+cpp: restore layout
+================================================================================
+
+a = do
+  do
+    do
+      a <- a
+#ifndef Aaaa
+    a <- a
+#elif Aaa
+    a <- a
+    a
+  a
+#else
+    a <- a
+    a
+  a
+#endif
+    a <- a
+    a
+  a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt
+    (exp_do
+     (stmt
+      (exp_do
+       (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+       (cpp)))
+     (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+     (cpp)
+     (cpp)
+     (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+     (stmt (exp_name (variable)))))
+   (stmt (exp_name (variable))))))
+
+================================================================================
+cpp: multiline
+================================================================================
+
+#if a \
+a \
+a
+
+a = a
+
+#endif
+
+---
+
+(haskell (cpp) (function (variable) (exp_name (variable))) (cpp))
+
+================================================================================
+cpp: newline after decl in layout with one-way if
+================================================================================
+
+instance A where
+  a = a
+
+#if
+  a = a
+#endif
+
+---
+
+(haskell
+ (instance
+  (instance_head (class_name (type)))
+  (where)
+  (function (variable) (exp_name (variable)))
+  (cpp)
+  (function (variable) (exp_name (variable)))
+  (cpp)))

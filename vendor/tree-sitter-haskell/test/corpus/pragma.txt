@@ -1,0 +1,70 @@
+================================================================================
+pragma: inline
+================================================================================
+
+a = a
+{-# inline a #-}
+
+a = a
+{-# inline conlike [1] a #-}
+{-#INLINE [~2] a#-}
+
+---
+
+(haskell
+ (function (variable) (exp_name (variable)))
+ (pragma)
+ (function (variable) (exp_name (variable)))
+ (pragma)
+ (pragma))
+
+
+================================================================================
+pragma: without module
+================================================================================
+
+{-# LANGUAGE LambdaCase #-}
+{-# language ScopedTypeVariables, DataKinds #-}
+
+---
+
+(haskell (pragma) (pragma) (empty_file))
+
+================================================================================
+pragma: before module
+================================================================================
+
+{-# language LambdaCase #-}
+{-# language ScopedTypeVariables, DataKinds #-}
+module A where
+
+---
+
+(haskell
+  (pragma)
+  (pragma)
+  (module)
+  (where))
+
+================================================================================
+pragma: instance
+================================================================================
+
+instance {-# overlappable #-} A where
+
+---
+
+(haskell (instance (pragma) (instance_head (class_name (type))) (where)))
+
+================================================================================
+pragma: multiline
+================================================================================
+
+module A where
+{-# rules
+      "a/a" [2] forall a . a a = a
+  #-}
+
+---
+
+(haskell (module) (where) (pragma))

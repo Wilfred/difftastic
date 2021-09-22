@@ -1,0 +1,770 @@
+================================================================================
+layout: where on same level as case alt with nothing following
+================================================================================
+
+a =
+  case b of
+  c -> d
+  where e = f
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable)))))
+  (where)
+  (decls (function (variable) (exp_name (variable))))))
+
+================================================================================
+layout: error: where on same level as case alt with following alt
+================================================================================
+
+a = case a of
+  a -> a
+  where
+    a = a
+  a -> a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable)))))
+  (where)
+  (decls (function (variable) (exp_name (variable)))))
+ (ERROR))
+
+================================================================================
+layout: where on deeper level as case alt with following alt
+================================================================================
+
+a = case b of
+  c -> d
+    where
+      e = f
+  g -> h
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_case
+   (exp_name (variable))
+   (alts
+    (alt (pat_name (variable)) (exp_name (variable))
+     (where) (decls (function (variable) (exp_name (variable)))))
+    (alt (pat_name (variable)) (exp_name (variable)))))))
+
+================================================================================
+layout: where with subsequent top decl
+================================================================================
+
+a =
+  a
+  where a = a
+a = a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_name (variable))
+  (where)
+  (decls (function (variable) (exp_name (variable)))))
+ (function (variable) (exp_name (variable))))
+
+================================================================================
+layout: indented empty where with subsequent top decl
+================================================================================
+
+a =
+  a
+   where
+a = a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_name (variable))
+  (where))
+ (function (variable) (exp_name (variable))))
+
+================================================================================
+layout: where after case alt in do, then immediate top level where indented further right
+================================================================================
+
+x = do a <- b
+       case c of
+         _ -> d
+          where e = f
+              where g = h
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt
+    (bind_pattern
+     (pat_name (variable))
+     (exp_name (variable))))
+   (stmt
+    (exp_case
+     (exp_name (variable))
+     (alts
+      (alt
+       (pat_wildcard)
+       (exp_name (variable))
+       (where)
+       (decls (function (variable) (exp_name (variable)))))))))
+  (where)
+  (decls (function (variable) (exp_name (variable))))))
+
+================================================================================
+layout: where after case alt in do, then immediate toplevel where at minimum indent
+================================================================================
+
+a = do
+  case a of
+    a -> a
+         where a = a
+  where a = a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt
+    (exp_case
+     (exp_name (variable))
+     (alts
+      (alt
+       (pat_name (variable))
+       (exp_name (variable))
+       (where)
+       (decls (function (variable) (exp_name (variable)))))))))
+  (where)
+  (decls (function (variable) (exp_name (variable))))))
+
+================================================================================
+layout: where after case alt inline, then immediate toplevel where at minimum indent
+================================================================================
+
+f = case a of
+  a -> a where a = a
+  where a = a
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_case
+   (exp_name (variable))
+   (alts
+    (alt (pat_name (variable)) (exp_name (variable))
+     (where)
+     (decls (function (variable) (exp_name (variable)))))))
+  (where)
+  (decls (function (variable) (exp_name (variable))))))
+
+================================================================================
+layout: do nested
+================================================================================
+
+x = do a
+       b
+       do
+         c
+         d
+         do e
+            f
+         g
+       h
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt (exp_name (variable)))
+   (stmt (exp_name (variable)))
+   (stmt
+    (exp_do
+     (stmt (exp_name (variable)))
+     (stmt (exp_name (variable)))
+     (stmt
+      (exp_do
+       (stmt (exp_name (variable)))
+       (stmt (exp_name (variable)))))
+     (stmt (exp_name (variable)))))
+   (stmt (exp_name (variable))))))
+
+================================================================================
+layout: do and indented where
+================================================================================
+
+a = do
+  b
+    where c = d
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do (stmt (exp_name (variable))))
+  (where)
+  (decls (function (variable) (exp_name (variable))))))
+
+================================================================================
+layout: do and empty line
+================================================================================
+
+a = do
+  a <- a
+
+  a <- a
+  a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+   (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+   (stmt (exp_name (variable))))))
+
+================================================================================
+layout: recursive do with rec keyword
+================================================================================
+
+f = mdo
+  a <- pure 5
+  rec
+    b <- pure c
+    c <- pure b
+  pure c
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt (bind_pattern (pat_name (variable)) (exp_apply (exp_name (variable)) (exp_literal (integer)))))
+   (stmt
+    (rec
+     (stmt (bind_pattern (pat_name (variable)) (exp_apply (exp_name (variable)) (exp_name (variable)))))
+     (stmt (bind_pattern (pat_name (variable)) (exp_apply (exp_name (variable)) (exp_name (variable)))))))
+   (stmt (exp_apply (exp_name (variable)) (exp_name (variable)))))))
+
+================================================================================
+layout: in after let on same indent
+================================================================================
+
+a = let a = a
+        in a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_let_in
+   (exp_let
+    (decls
+     (function (variable) (exp_name (variable)))))
+   (exp_in (exp_name (variable))))))
+
+================================================================================
+layout: identifier named "whe" in place of valid "where"
+================================================================================
+
+a =
+  case b of
+  whe -> d
+  where
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_case
+   (exp_name (variable))
+   (alts (alt (pat_name (variable)) (exp_name (variable)))))
+  (where)))
+
+================================================================================
+layout: identifier "i" should not prematurely fail the scanner due to "in" parser
+================================================================================
+
+a (i:a) = a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (patterns
+   (pat_parens
+    (pat_infix
+     (pat_name (variable))
+     (constructor_operator)
+     (pat_name (variable)))))
+  (exp_name (variable))))
+
+================================================================================
+layout: empty file
+================================================================================
+
+
+---
+
+(haskell (empty_file))
+
+================================================================================
+layout: indented let/in
+================================================================================
+
+a = let
+           a = let
+            a = a
+            in a
+             in do
+         a <- a
+         a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_let_in
+   (exp_let
+    (decls
+     (function
+      (variable)
+      (exp_let_in
+       (exp_let
+        (decls (function (variable) (exp_name (variable)))))
+       (exp_in (exp_name (variable)))))))
+   (exp_in (exp_do (stmt (bind_pattern (pat_name (variable)) (exp_name (variable)))) (stmt (exp_name (variable))))))))
+
+================================================================================
+layout: where after stmt, on deeper or same indent
+================================================================================
+
+a = do
+  b
+      where d = e
+
+a = do
+  b
+  where d = e
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do (stmt (exp_name (variable))))
+  (where)
+  (decls (function (variable) (exp_name (variable)))))
+ (function
+  (variable)
+  (exp_do (stmt (exp_name (variable))))
+  (where)
+  (decls (function (variable) (exp_name (variable))))))
+
+================================================================================
+layout: empty where, then indented decls after inline where
+================================================================================
+
+c = d where
+e = f where
+  g = h
+i = j
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_name (variable)) (where))
+ (function
+  (variable)
+  (exp_name (variable))
+  (where)
+  (decls (function (variable) (exp_name (variable)))))
+ (function
+  (variable)
+  (exp_name (variable))))
+
+================================================================================
+layout: parenthesized case inline
+================================================================================
+
+a =
+  (\case a -> b) . c
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_infix
+   (exp_parens (exp_lambda_case (alts (alt (pat_name (variable)) (exp_name (variable))))))
+   (operator)
+   (exp_name (variable)))))
+
+================================================================================
+layout: parenthesized case newline
+================================================================================
+
+a =
+  (\case a -> b
+                ) . c
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_infix
+   (exp_parens (exp_lambda_case (alts (alt (pat_name (variable)) (exp_name (variable))))))
+   (operator)
+   (exp_name (variable)))))
+
+================================================================================
+layout: comment between where and decl
+================================================================================
+
+a = b where
+  {- comment -} c = d
+
+a = b where
+  -- comment
+  c = d
+
+a = b where -- comment
+  c = d
+
+a = b where {- comment -}
+  c = d
+
+a = b where -1 = a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_name (variable))
+  (where)
+  (comment)
+  (decls (function (variable) (exp_name (variable)))))
+ (function
+  (variable)
+  (exp_name (variable))
+  (where)
+  (comment)
+  (decls (function (variable) (exp_name (variable)))))
+ (function
+  (variable)
+  (exp_name (variable))
+  (where)
+  (comment)
+  (decls (function (variable) (exp_name (variable)))))
+ (function
+  (variable)
+  (exp_name (variable))
+  (where)
+  (comment)
+  (decls (function (variable) (exp_name (variable)))))
+ (function
+  (variable)
+  (exp_name (variable))
+  (where)
+  (decls (function (pat_negation (integer)) (exp_name (variable))))))
+
+================================================================================
+layout: comment in empty where on next line indented
+================================================================================
+
+a = b where
+    {-# pragma #-}
+a = a where
+  {- comment
+-}
+
+a = a where
+  --
+a = b
+  where
+    {- comment -}
+c = d
+
+---
+
+(haskell
+ (function (variable) (exp_name (variable)) (where))
+ (pragma)
+ (function (variable) (exp_name (variable)) (where))
+ (comment)
+ (function (variable) (exp_name (variable)) (where))
+ (comment)
+ (function (variable) (exp_name (variable)) (where))
+ (comment)
+  (function (variable) (exp_name (variable))))
+
+================================================================================
+layout: normal module
+================================================================================
+
+module A where
+a = a
+
+---
+
+(haskell
+ (module)
+ (where)
+ (function (variable) (exp_name (variable))))
+
+================================================================================
+layout: indented module keyword, decls further left
+================================================================================
+
+    module A where
+  a = a
+
+---
+
+(haskell
+ (module)
+ (where)
+ (function (variable) (exp_name (variable))))
+
+================================================================================
+layout: end two layouts at the same position
+================================================================================
+
+a = case a of
+  a -> do a
+a :: a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_do (stmt (exp_name (variable))))))))
+ (signature (variable) (type_name (type_variable))))
+
+================================================================================
+layout: case in a list terminated by bracket
+================================================================================
+
+a = [case a of a -> a]
+a = [case a of a -> a
+      ]
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_list (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable)))))))
+ (function
+  (variable)
+  (exp_list (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable))))))))
+
+================================================================================
+layout: case in a list terminated by comma
+================================================================================
+
+a = [case a of a -> a, a]
+
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_list
+   (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable)))))
+   (comma)
+   (exp_name (variable)))))
+
+================================================================================
+layout: case in a list terminated by comprehension bar
+================================================================================
+
+a = [case a of a -> a | a <- a]
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_list_comprehension
+   (exp_case (exp_name (variable)) (alts (alt (pat_name (variable)) (exp_name (variable)))))
+   (qual (bind_pattern (pat_name (variable)) (exp_name (variable)))))))
+
+================================================================================
+layout: do in an if-then block
+================================================================================
+
+a = if a then do a; a else a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_cond
+   (exp_name (variable))
+   (exp_do (stmt (exp_name (variable))) (stmt (exp_name (variable))))
+   (exp_name (variable)))))
+
+================================================================================
+layout: nondecreasing indent for do in if-then
+================================================================================
+
+a = do
+  a <- a
+  if a then do
+  a <- a
+  pure a
+  else a
+  a <- a
+  pure a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+   (stmt
+    (exp_cond
+     (exp_name (variable))
+     (exp_do
+      (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+      (stmt (exp_apply (exp_name (variable)) (exp_name (variable)))))
+     (exp_name (variable))))
+   (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+   (stmt (exp_apply (exp_name (variable)) (exp_name (variable)))))))
+
+================================================================================
+layout: infix in statement position ends layout
+================================================================================
+
+a = do
+  a
+  >>= a
+
+a = do
+  a
+  `a` a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_infix (exp_do (stmt (exp_name (variable)))) (operator) (exp_name (variable))))
+ (function
+  (variable)
+  (exp_infix (exp_do (stmt (exp_name (variable)))) (variable) (exp_name (variable)))))
+
+================================================================================
+layout: two lines starting with m without leading newline or module
+================================================================================
+m1 :: a -> a
+m1 = a
+
+---
+
+(haskell
+ (signature (variable) (fun (type_name (type_variable)) (type_name (type_variable))))
+ (function (variable) (exp_name (variable))))
+
+================================================================================
+layout: do not end do layout with strictness annotation
+================================================================================
+
+a = do
+  a <- a
+  !a <- a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt (bind_pattern (pat_name (variable)) (exp_name (variable))))
+   (stmt (bind_pattern (pat_strict (pat_name (variable))) (exp_name (variable)))))))
+
+================================================================================
+layout: let/in after do
+================================================================================
+
+a = do
+  let g = a
+   in a
+
+---
+
+(haskell
+ (function
+  (variable)
+  (exp_do
+   (stmt
+    (exp_let_in
+     (exp_let (decls (function (variable) (exp_name (variable)))))
+     (exp_in (exp_name (variable))))))))
+
+================================================================================
+layout: instance after where, triggers rule for "in" token
+================================================================================
+
+class A where
+
+instance A
+
+---
+
+(haskell
+ (class (class_head (class_name (type))) (class_body (where)))
+ (instance (instance_head (class_name (type)))))
+
+================================================================================
+layout: carriage return
+================================================================================
+
+a = a
+a = a
+
+---
+
+(haskell (function (variable) (exp_name (variable))) (function (variable) (exp_name (variable))))
+
+================================================================================
+layout: test
+================================================================================
