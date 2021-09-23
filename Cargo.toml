@@ -43,6 +43,7 @@ criterion = { version = "0.3", features = ["html_reports"] }
 
 [build-dependencies]
 cc="1.0"
+rayon = "1.5"
 
 [[bench]]
 name = "parse_and_diff"
