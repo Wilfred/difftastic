@@ -18,18 +18,14 @@
     "lexer",
     "sql"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/m-novikov/tree-sitter-sql"
-  },
-  "author": "Maksim Novikov <mnovikov.work@gmail.com>",
   "repository": "https://github.com/m-novikov/tree-sitter-sql",
+  "author": "Maksim Novikov <mnovikov.work@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "nan": "^2.14.2"
   },
   "devDependencies": {
-    "prettier": "2.3.0",
+    "prettier": "^2.4.1",
     "tree-sitter-cli": "^0.20.0"
   },
   "tree-sitter": [
