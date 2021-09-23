@@ -474,7 +474,8 @@ Operator overload declarations
 =========================================
 
 ostream &operator<<(ostream &, const A &a);
-
+Foo operator "" _foo(const char* s);
+std::string_view operator ""s_v(const char* s);
 bool A::operator!=(const A &other) const;
 
 bool A::operator ==(const A &other) const;
@@ -494,6 +495,18 @@ void * A::operator delete   [](void * p);
         (parameter_list
           (parameter_declaration (type_identifier) (abstract_reference_declarator))
           (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier)))))))
+  (declaration
+    (type_identifier)
+    (function_declarator
+      (operator_name (identifier))
+      (parameter_list
+        (parameter_declaration (type_qualifier) (primitive_type) (pointer_declarator (identifier))))))
+  (declaration
+    (scoped_type_identifier (namespace_identifier) (type_identifier))
+    (function_declarator
+      (operator_name (identifier))
+      (parameter_list
+        (parameter_declaration (type_qualifier) (primitive_type) (pointer_declarator (identifier))))))
   (declaration
     (primitive_type)
     (function_declarator

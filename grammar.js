@@ -745,7 +745,8 @@ module.exports = grammar(C, {
       $.parameter_pack_expansion,
       $.nullptr,
       $.this,
-      $.raw_string_literal
+      $.raw_string_literal,
+      $.user_defined_literal
     ),
 
     subscript_expression: $ => prec(PREC.SUBSCRIPT, seq(
@@ -920,9 +921,8 @@ module.exports = grammar(C, {
       $.scoped_namespace_identifier,
     ),
 
-    operator_name: $ => token(seq(
+    operator_name: $ => prec(1, seq(
       'operator',
-      /\s*/,
       choice(
         'co_await',
         '+', '-', '*', '/', '%',
@@ -937,9 +937,10 @@ module.exports = grammar(C, {
         '->*',
         '->',
         '()', '[]',
-        seq(choice('new', 'delete'),  /\s*/, optional('[]')),
-      )
-    )),
+        seq(choice('new', 'delete'), optional('[]')),
+        seq('""', $.identifier)
+	  )
+	)),
 
     this: $ => 'this',
     nullptr: $ => 'nullptr',
@@ -947,6 +948,19 @@ module.exports = grammar(C, {
     concatenated_string: $ => seq(
       choice($.raw_string_literal, $.string_literal),
       repeat1(choice($.raw_string_literal, $.string_literal))
+    ),
+
+	literal_suffix: $ => token.immediate(/[a-zA-Z_]\w*/),
+
+    user_defined_literal: $ => seq(
+      choice(
+        $.number_literal,
+        $.char_literal,
+        $.string_literal,
+        $.raw_string_literal,
+        $.concatenated_string
+      ),
+      $.literal_suffix
     ),
 
     _namespace_identifier: $ => alias($.identifier, $.namespace_identifier)

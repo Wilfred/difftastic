@@ -627,6 +627,24 @@ R"(a)" R"(b)" R"(c)";
   (expression_statement (concatenated_string (raw_string_literal) (raw_string_literal) (raw_string_literal)))
   (expression_statement (concatenated_string (string_literal) (raw_string_literal) (string_literal) (raw_string_literal))))
 
+============================================
+User-defined literals
+============================================
+
+1.2_km;
+"foo" "bar"_baz;
+---
+
+(translation_unit
+  (expression_statement
+    (user_defined_literal
+	  (number_literal)
+	  (literal_suffix)))
+  (expression_statement
+    (user_defined_literal
+      (concatenated_string (string_literal) (string_literal))
+	  (literal_suffix))))
+
 ====================================================
 Primitive types ctor
 ====================================================
