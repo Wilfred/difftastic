@@ -47,6 +47,7 @@ rayon = "1.5"
 
 [[bench]]
 name = "parse_and_diff"
+path = "benches/parse_and_diff.rs"
 harness = false
 
 [profile.release]
