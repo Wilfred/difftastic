@@ -18,6 +18,7 @@ Difftastic supports the following languages:
 
 * C
 * C++
+* C#
 * Clojure
 * CSS
 * Elixir

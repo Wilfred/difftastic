@@ -26,6 +26,7 @@ pub struct TreeSitterConfig {
 
 extern "C" {
     fn tree_sitter_c() -> Language;
+    fn tree_sitter_c_sharp() -> Language;
     fn tree_sitter_clojure() -> Language;
     fn tree_sitter_cpp() -> Language;
     fn tree_sitter_css() -> Language;
@@ -81,6 +82,19 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 open_delimiter_tokens: (vec!["{", "(", "["]).into_iter().collect(),
             })
         }
+        "cs" => Some(TreeSitterConfig {
+            name: "C#",
+            language: unsafe { tree_sitter_c_sharp() },
+            atom_nodes: (vec![
+                "string_literal",
+                "verbatim_string_literal",
+                "character_literal",
+            ])
+            .into_iter()
+            .collect(),
+            // TODO: If statements have ( as the second item.
+            open_delimiter_tokens: (vec!["{", "("]).into_iter().collect(),
+        }),
         "css" => Some(TreeSitterConfig {
             name: "CSS",
             language: unsafe { tree_sitter_css() },

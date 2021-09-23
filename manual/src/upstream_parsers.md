@@ -6,6 +6,7 @@ Difftastic uses the following tree-sitter parsers:
 |-----------------|---------------------------------------------------------------------------------------------|
 | C               | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c)                   |
 | C++             | [tree-sitter/tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp)               |
+| C#              | [tree-sitter/tree-sitter-c-sharp](https://github.com/tree-sitter/tree-sitter-c-sharp)       |
 | Clojure         | [sogaiu/tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure)                 |
 | CSS             | [tree-sitter/tree-sitter-css](https://github.com/tree-sitter/tree-sitter-css)               |
 | Elixir          | [ananthakumaran/tree-sitter-elixir](https://github.com/ananthakumaran/tree-sitter-elixir)   |

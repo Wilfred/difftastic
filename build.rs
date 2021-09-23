@@ -61,6 +61,11 @@ fn main() {
             extra_files: vec!["scanner.cc".into()],
         },
         TreeSitterParser {
+            name: "tree-sitter-c-sharp".into(),
+            src_dir: "vendor/tree-sitter-c-sharp-src".into(),
+            extra_files: vec!["scanner.c".into()],
+        },
+        TreeSitterParser {
             name: "tree-sitter-clojure".into(),
             src_dir: "vendor/tree-sitter-clojure-src".into(),
             extra_files: vec![],
