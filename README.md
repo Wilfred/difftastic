@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/tree-sitter/tree-sitter-c-sharp/workflows/build/badge.svg)](https://github.com/tree-sitter/tree-sitter-c-sharp/actions?query=workflow%3Abuild)
 
-C# grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter) based on an export of the Roslyn grammar export with various changes in order to:
+C# grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter) based upon the Roslyn grammar with changes in order to:
 
 - Deal with differences between the parsing technologies
 - Work around some bugs in that grammar
@@ -16,45 +16,7 @@ Comprehensive support for C# exists with the following exceptions:
 
 - [ ] `async`, `var` and `await` cannot be used as identifiers
 
-#### C# 7.0 (complete)
-
-- [x] Tuples
-- [x] Discards
-- [x] Basic pattern matching
-- [x] Recursive pattern matching
-- [x] Ref locals and return
-- [x] Local function statements
-- [x] Expression bodied constructors
-- [x] Expression bodied destructors/finalizers
-- [x] Throw expressions
-- [x] Binary and `_` literal support
-
-#### C# 7.1 (complete)
-
-- [x] `async` main method
-- [x] Default literals (as `default_expression`)
-- [x] Inferred tuple element names
-- [x] Generic type pattern matching
-
-#### C# 7.2 (complete)
-
-- [x] `in` parameter modifiers
-- [x] `ref readonly` method returns
-- [x] `readonly struct`
-- [x] `ref struct`
-- [x] Non-named trailing arguments
-- [x] `_` leading binary and hex literals
-- [x] `private protected` modifier
-- [x] Conditional `ref` expressions
-
-#### C# 7.3 (complete)
-
-- [x] `stackalloc` array initializers
-- [x] `unmanaged` generic type parameter constraint
-- [x] Attributes attached to auto property backing fields
-- [x] `out` support for parameters on initializers, constructors etc.
-
-#### C# 8.0 (complete)
+### C# 8.0 (complete)
 
 - [x] `readonly` members
 - [x] Default interface methods
