@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -eu
+
+find examples -name '*.cs' -print0      | \
+  xargs -0 -n 1000 tree-sitter parse -q | \
+  tee >(cut -d' ' -f1 | sort > script/known-failures.txt)

@@ -1,0 +1,318 @@
+=======================================
+Global attributes
+=======================================
+
+[assembly: Single]
+[module: A, C()]
+
+---
+
+(compilation_unit
+  (global_attribute_list (attribute (identifier)))
+  (global_attribute_list
+    (attribute (identifier))
+    (attribute (identifier) (attribute_argument_list))))
+
+
+=======================================
+Attributes with arguments
+=======================================
+
+[A(B.C)]
+class D {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (attribute_list
+      (attribute
+        (identifier)
+        (attribute_argument_list
+          (attribute_argument (member_access_expression (identifier) (identifier))))))
+    (identifier)
+    (declaration_list)))
+
+=======================================
+Attributes with qualified name
+=======================================
+
+[NS.A(B.C)]
+class D {}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (attribute_list
+      (attribute
+        (qualified_name (identifier) (identifier))
+        (attribute_argument_list
+          (attribute_argument (member_access_expression (identifier) (identifier))))))
+    (identifier)
+    (declaration_list)))
+
+=======================================
+Attributes on classes
+=======================================
+
+[Single]
+class A { }
+
+[One][Two]
+[Three]
+class A { }
+
+[One]
+[Two,Three()]
+class A { }
+
+---
+
+(compilation_unit
+  (class_declaration
+    (attribute_list (attribute (identifier)))
+    (identifier)
+    (declaration_list))
+
+  (class_declaration
+    (attribute_list (attribute (identifier)))
+    (attribute_list (attribute (identifier)))
+    (attribute_list (attribute (identifier)))
+    (identifier)
+    (declaration_list))
+
+  (class_declaration
+    (attribute_list (attribute (identifier)))
+    (attribute_list (attribute (identifier)) (attribute (identifier) (attribute_argument_list)))
+    (identifier)
+    (declaration_list)))
+
+=======================================
+Attributes on structs
+=======================================
+
+[A,B()][C]
+struct A { }
+
+---
+
+(compilation_unit
+  (struct_declaration
+    (attribute_list (attribute (identifier)) (attribute (identifier) (attribute_argument_list)))
+    (attribute_list (attribute (identifier)))
+    (identifier)
+    (declaration_list)))
+
+=======================================
+Attributes on fields
+=======================================
+
+class Zzz {
+  [A,B()][C]
+  public int Z;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (field_declaration
+        (attribute_list
+          (attribute (identifier))
+          (attribute (identifier) (attribute_argument_list)))
+        (attribute_list
+          (attribute (identifier)))
+        (modifier)
+        (variable_declaration (predefined_type) (variable_declarator (identifier)))))))
+
+=======================================
+Attributes on methods
+=======================================
+
+class Methods {
+  [ValidatedContract]
+  int Method1() { return 0; }
+
+  [method: ValidatedContract]
+  int Method2() { return 0; }
+
+  [return: ValidatedContract]
+  int Method3() { return 0; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (method_declaration
+        (attribute_list
+          (attribute (identifier)))
+        (predefined_type)
+        (identifier)
+        (parameter_list)
+        (block (return_statement (integer_literal))))
+      (method_declaration
+        (attribute_list
+          (attribute_target_specifier)
+          (attribute (identifier)))
+        (predefined_type)
+        (identifier)
+        (parameter_list)
+        (block (return_statement (integer_literal))))
+      (method_declaration
+        (attribute_list
+          (attribute_target_specifier)
+          (attribute (identifier)))
+        (predefined_type)
+        (identifier)
+        (parameter_list)
+        (block (return_statement (integer_literal)))))))
+
+=======================================
+Attributes on enums
+=======================================
+
+[Single]
+enum A { B, C }
+
+[One][Two]
+[Three]
+enum A { B, C }
+
+[One]
+[Two,Three()]
+enum A { B, C }
+
+---
+
+(compilation_unit
+  (enum_declaration
+    (attribute_list (attribute (identifier)))
+    (identifier)
+    (enum_member_declaration_list
+      (enum_member_declaration (identifier))
+      (enum_member_declaration (identifier))))
+
+  (enum_declaration
+    (attribute_list (attribute (identifier)))
+    (attribute_list (attribute (identifier)))
+    (attribute_list (attribute (identifier)))
+    (identifier)
+    (enum_member_declaration_list
+      (enum_member_declaration (identifier))
+      (enum_member_declaration (identifier))))
+
+  (enum_declaration
+    (attribute_list (attribute (identifier)))
+    (attribute_list (attribute (identifier)) (attribute (identifier) (attribute_argument_list)))
+    (identifier)
+    (enum_member_declaration_list
+      (enum_member_declaration (identifier))
+      (enum_member_declaration (identifier)))))
+
+=======================================
+Attributes on events
+=======================================
+
+class Zzz {
+  [A,B()][C]
+  public event EventHandler SomeEvent { add { } remove { } }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (event_declaration
+        (attribute_list (attribute (identifier)) (attribute (identifier) (attribute_argument_list)))
+        (attribute_list (attribute (identifier)))
+        (modifier)
+        (identifier)
+        (identifier)
+        (accessor_list
+          (accessor_declaration (block))
+          (accessor_declaration (block)))))))
+
+=======================================
+Attributes on type parameters
+=======================================
+
+class Class<[A, B][C()]T1> {
+  void Method<[E] [F, G(1)] T2>() {
+  }
+}
+
+---
+(compilation_unit
+  (class_declaration (identifier)
+    (type_parameter_list
+      (type_parameter
+        (attribute_list (attribute (identifier)) (attribute (identifier)))
+        (attribute_list (attribute (identifier) (attribute_argument_list)))
+        (identifier)))
+      (declaration_list
+        (method_declaration (void_keyword) (identifier)
+          (type_parameter_list
+            (type_parameter
+              (attribute_list (attribute (identifier)))
+              (attribute_list (attribute (identifier))
+                (attribute (identifier)
+                  (attribute_argument_list (attribute_argument (integer_literal)))))
+              (identifier)))
+          (parameter_list)
+          (block)))))
+
+=======================================
+Attributes on event accessors
+=======================================
+
+class Zzz {
+  public event EventHandler SomeEvent {
+    [A,B()][C] add { }
+    [A,B()][C] remove { }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (event_declaration
+        (modifier)
+        (identifier)
+        (identifier)
+        (accessor_list
+          (accessor_declaration
+            (attribute_list (attribute (identifier)) (attribute (identifier) (attribute_argument_list)))
+            (attribute_list (attribute (identifier)))
+            (block))
+          (accessor_declaration
+            (attribute_list (attribute (identifier)) (attribute (identifier) (attribute_argument_list)))
+            (attribute_list (attribute (identifier)))
+            (block)))))))
+
+=======================================
+Attributes with trailing comma
+=======================================
+[Theory,]
+void A() { }
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_function_statement
+      (attribute_list (attribute (identifier)))
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block))))

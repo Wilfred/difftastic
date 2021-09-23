@@ -1,0 +1,35 @@
+[package]
+name = "tree-sitter-c-sharp"
+description = "C# grammar for the tree-sitter parsing library"
+version = "0.19.0"
+authors = [
+    "Max Brunsfeld <maxbrunsfeld@gmail.com>",
+    "Noelle Caldwell <noelle.caldwell@microsoft.com>",
+    "Douglas Creager <dcreager@dcreager.net>",
+    "Damien Guard <damieng@gmail.com>",
+    "Martin Midtgaard <martin.midtgaard@gmail.com>",
+    "Patrick Thomson <patrickt@github.com>",
+]
+license = "MIT"
+readme = "bindings/rust/README.md"
+keywords = ["incremental", "parsing", "c-sharp"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/tree-sitter/tree-sitter-c-sharp"
+edition = "2018"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.19"
+
+[build-dependencies]
+cc = "1.0"
