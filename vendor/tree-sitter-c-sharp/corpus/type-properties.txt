@@ -1,0 +1,196 @@
+=====================================
+Class with bodyless properties
+=====================================
+
+class Foo {
+  byte Get { get; }
+  char Set { set; }
+  uint GetSet { get; set; }
+  long SetGet { set; get; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list
+          (accessor_declaration)))
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list
+          (accessor_declaration)))
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list
+          (accessor_declaration) (accessor_declaration)))
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list
+          (accessor_declaration) (accessor_declaration))))))
+
+=====================================
+Class with init properties
+=====================================
+
+class Person
+{
+    public string FirstName { get; init; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (modifier)
+        (predefined_type)
+        (identifier)
+        (accessor_list
+          (accessor_declaration) (accessor_declaration))))))
+
+=====================================
+Class with single-accessor property bodies
+=====================================
+
+class Foo {
+  byte Get { get { return 0xFF; } }
+  char Set { set { x = value; } }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list
+          (accessor_declaration
+            (block
+              (return_statement (integer_literal))))))
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list
+          (accessor_declaration
+            (block
+              (expression_statement
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (identifier))))))))))
+
+=====================================
+Class with double-accessor property bodies
+=====================================
+
+class Foo {
+  uint GetSet {
+    get { return x; }
+    set { x = value; }
+  }
+  long SetGet {
+    set { x = value; }
+    get { return x; }
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list
+          (accessor_declaration
+            (block
+              (return_statement (identifier))))
+          (accessor_declaration
+            (block
+              (expression_statement
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (identifier)))))))
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list
+          (accessor_declaration
+            (block
+              (expression_statement
+                (assignment_expression
+                  (identifier)
+                  (assignment_operator)
+                  (identifier)))))
+          (accessor_declaration
+            (block
+              (return_statement (identifier)))))))))
+
+=====================================
+Class with bodyless properties and initializers
+=====================================
+
+class Foo {
+  byte Get { get; } = 0x00;
+  uint GetSet { get; set; } = 1;
+  long SetGet { set; get; } = 2;
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration))
+        (integer_literal))
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration) (accessor_declaration))
+        (integer_literal))
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration) (accessor_declaration))
+        (integer_literal)))))
+
+=====================================
+Class with explicit interface properties
+=====================================
+
+class Foo: IFoo {
+  byte IFoo.Get { get; }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (base_list (identifier))
+    (declaration_list
+      (property_declaration
+        (predefined_type)
+        (explicit_interface_specifier (identifier))
+        (identifier)
+        (accessor_list (accessor_declaration))))))

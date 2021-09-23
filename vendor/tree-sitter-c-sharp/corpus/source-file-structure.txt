@@ -1,0 +1,207 @@
+=====================================
+Using directives
+=====================================
+
+using A;
+using B.C;
+using global::E.F;
+using G = H.I;
+using static J.K;
+
+---
+
+(compilation_unit
+  (using_directive
+    (identifier))
+  (using_directive
+    (qualified_name (identifier) (identifier)))
+  (using_directive
+    (qualified_name
+      (alias_qualified_name (identifier) (identifier))
+      (identifier)))
+  (using_directive
+    (name_equals (identifier))
+    (qualified_name (identifier) (identifier)))
+  (using_directive
+    (qualified_name (identifier) (identifier))))
+
+=====================================
+Nested using directives
+=====================================
+
+namespace Foo {
+  using A;
+}
+
+---
+
+(compilation_unit
+  (namespace_declaration
+    (identifier)
+    (declaration_list
+      (using_directive
+        (identifier)))))
+
+=====================================
+Global using directives
+=====================================
+
+global using A;
+global using static A.B;
+
+---
+
+(compilation_unit
+  (using_directive
+    (identifier))
+  (using_directive
+    (qualified_name
+      (identifier)
+      (identifier))))
+
+=====================================
+Comments
+=====================================
+
+// I'm a single-line comment
+
+/*
+ *  I'm a block comment: a * b / c
+ */
+
+---
+
+(compilation_unit (comment) (comment))
+
+=====================================
+Comment with double asterisk
+=====================================
+
+/** test **/
+
+---
+
+(compilation_unit (comment))
+
+=====================================
+Namespaces
+=====================================
+
+namespace A {
+  namespace B.C.D {
+  }
+
+  namespace E.F {
+  }
+}
+
+---
+
+(compilation_unit
+  (namespace_declaration
+    (identifier)
+    (declaration_list
+      (namespace_declaration
+        (qualified_name
+          (qualified_name (identifier) (identifier))
+          (identifier))
+        (declaration_list))
+      (namespace_declaration
+        (qualified_name (identifier) (identifier))
+        (declaration_list)))))
+
+=====================================
+File scoped namespaces
+=====================================
+
+namespace A;
+
+class B {
+}
+
+---
+
+(compilation_unit
+  (file_scoped_namespace_declaration
+    (identifier)
+    (class_declaration
+      (identifier)
+      (declaration_list))))
+
+=====================================
+Interfaces
+=====================================
+
+public interface IFoo {
+}
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (modifier)
+    (identifier)
+    (declaration_list)))
+
+=====================================
+Externs
+=====================================
+
+extern alias A;
+
+---
+
+(compilation_unit
+  (extern_alias_directive
+    (identifier)))
+
+
+=====================================
+Delegates
+=====================================
+
+public delegate int Global(ref char a = '\n');
+
+delegate void A<T>() where T:class;
+
+delegate void A(params int [] test);
+
+class Z {
+  delegate void Zed();
+}
+
+---
+
+(compilation_unit
+  (delegate_declaration
+    (modifier)
+    (predefined_type)
+    (identifier)
+    (parameter_list
+      (parameter
+        (parameter_modifier)
+        (predefined_type)
+        (identifier)
+        (equals_value_clause (character_literal (escape_sequence))))))
+  (delegate_declaration (void_keyword) (identifier)
+    (type_parameter_list (type_parameter (identifier)))
+    (parameter_list)
+    (type_parameter_constraints_clause (identifier) (type_parameter_constraint)))
+  (delegate_declaration (void_keyword) (identifier)
+    (parameter_list (array_type (predefined_type) (array_rank_specifier)) (identifier)))
+  (class_declaration (identifier) (declaration_list
+    (delegate_declaration (void_keyword) (identifier) (parameter_list)))))
+
+=====================================
+Var declared equal to integer literal
+=====================================
+
+var a = 1;
+
+---
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration (implicit_type)
+        (variable_declarator (identifier)
+          (equals_value_clause (integer_literal)))))))

@@ -1,0 +1,702 @@
+=======================================
+integer literals
+=======================================
+
+const int dec = 1_2;
+const long hex = 0xf_1l;
+const long hex2 = 0Xffff;
+const long hex3 = 0x_0_f;
+const UInt64 dec = 1uL;
+const UInt16 bin = 0b0100_100;
+const UInt16 bin2 = 0B01010__10;
+const long bin3 = 0b_0_10;
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (identifier)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (identifier)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (identifier)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (integer_literal)))))))
+
+=======================================
+boolean literals
+=======================================
+
+const bool t = true, u = false;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (boolean_literal)))
+        (variable_declarator (identifier) (equals_value_clause (boolean_literal)))))))
+
+=======================================
+char literals
+=======================================
+
+const char c = 'a';
+const char esc = '\n';
+const char hex = '\xf09a';
+const char uni16 = '\ua0bf';
+const char uni32 = '\UA0BFf9ca';
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (character_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence)))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence)))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence)))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (character_literal (escape_sequence))))))))
+
+=======================================
+real literals
+=======================================
+
+const float s = 012.23F;
+const float e = 1e6f;
+const Single en = 0e-1f;
+const Single ep = 1_1e+12f;
+const double d = 0.9_9d;
+const double e = .4_9d;
+const decimal m = 0_1_2.9m;
+const Decimal m2 = 102.349M;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (identifier)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (identifier)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (predefined_type)
+      (variable_declarator (identifier) (equals_value_clause (real_literal))))))
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+      (identifier)
+      (variable_declarator (identifier) (equals_value_clause (real_literal)))))))
+
+=======================================
+null literals
+=======================================
+
+const string x = null;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (modifier)
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator (identifier) (equals_value_clause (null_literal)))))))
+
+=======================================
+string literals
+=======================================
+
+class A {
+  String e = "";
+  string s = "a";
+  string m = "abc";
+  string esc = "ab\"\t";
+  string hex = "ab\x22r";
+  string hex2 = "\x22r\x00";
+  string u16 = "\ub0d0ok";
+  string u32 = "\uF1D20ff0test";
+  string ve = @"";
+  string v = @"abcde\ef";
+  string quotes = @"<TestClass xmlns=""http://example.com/omg"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""></TestClass>";
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list
+      (field_declaration
+        (variable_declaration
+          (identifier)
+          (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier) (equals_value_clause (string_literal)))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier) (equals_value_clause (string_literal (escape_sequence) (escape_sequence))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier) (equals_value_clause (string_literal (escape_sequence))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier) (equals_value_clause (string_literal (escape_sequence) (escape_sequence))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier) (equals_value_clause (string_literal (escape_sequence))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier) (equals_value_clause (string_literal (escape_sequence))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier) (equals_value_clause (verbatim_string_literal)))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier) (equals_value_clause (verbatim_string_literal)))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator (identifier) (equals_value_clause (verbatim_string_literal))))))))
+
+=======================================
+string literals
+=======================================
+
+var e = @"This
+is
+a
+multi-line";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (verbatim_string_literal)))))))
+
+==================================================
+string literals containing the line comment token
+==================================================
+
+class A {
+  string s = "//\n//";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause (string_literal (escape_sequence)))))))))
+
+==================================================
+string literals containing block comment
+==================================================
+
+string s = "\u0065/* \u0065 */\u0065";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (string_literal
+              (escape_sequence)
+              (escape_sequence)
+              (escape_sequence))))))))
+
+==================================================
+verbatim string literals containing block comment
+==================================================
+
+string s = @"/* comment */";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (verbatim_string_literal)))))))
+
+==================================================
+interpolated string literals
+==================================================
+
+class A {
+  string s = $"hello";
+  string esc = $"ab\"\t";
+  string double = $"{{nope}}";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text)
+              (interpolated_string_text
+                (escape_sequence))
+              (interpolated_string_text
+                (escape_sequence)))))))
+      (field_declaration
+        (variable_declaration
+          (predefined_type)
+          (variable_declarator
+            (identifier)
+            (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text)
+              (interpolated_string_text)))))))))
+
+==================================================
+interpolated string literals with expressions
+==================================================
+
+class A {
+  string s = $"hello {name}, how are you?";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text)
+              (interpolation (identifier))
+              (interpolated_string_text)))))))))
+
+==================================================
+interpolated string literals with formatted expressions
+==================================================
+
+class A {
+  string s = $"hello {name:0.00}, how are you?";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text)
+              (interpolation (identifier) (interpolation_format_clause))
+              (interpolated_string_text)))))))))
+
+==================================================
+interpolated string literals with alignment expressions
+==================================================
+
+class A {
+  string s = $"hello {name,25}, how are you?";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text)
+              (interpolation (identifier)
+                (interpolation_alignment_clause (integer_literal)))
+              (interpolated_string_text)))))))))
+
+==================================================
+interpolated string literals containing block comment
+==================================================
+
+string s = $"\u0065/* \u0065 */\u0065";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_string_text
+                (escape_sequence))
+              (interpolated_string_text)
+              (interpolated_string_text
+                (escape_sequence))
+              (interpolated_string_text)
+              (interpolated_string_text
+                (escape_sequence)))))))))
+
+==================================================
+interpolated verbatim string literals
+==================================================
+
+class A {
+  string s = $@"hello";
+  string s = @$"hello";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_verbatim_string_text))))))
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_verbatim_string_text)))))))))
+
+==================================================
+interpolated verbatim string literals with expressions
+==================================================
+
+class A {
+  string s = $@"hello {name}, how are you?";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_verbatim_string_text)
+              (interpolation (identifier))
+              (interpolated_verbatim_string_text)))))))))
+
+==================================================
+interpolated verbatim string literals with formatted expressions
+==================================================
+
+class A {
+  string s = $@"hello {name:g}, how are you?";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_verbatim_string_text)
+              (interpolation (identifier) (interpolation_format_clause))
+              (interpolated_verbatim_string_text)))))))))
+
+==================================================
+interpolated verbatim string literals with alignment expressions
+==================================================
+
+class A {
+  string s = $@"hello {name,-10}, how are you?";
+}
+
+---
+
+(compilation_unit (class_declaration
+  (identifier)
+  (declaration_list
+    (field_declaration
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_verbatim_string_text)
+              (interpolation (identifier)
+                (interpolation_alignment_clause (prefix_unary_expression (integer_literal))))
+              (interpolated_verbatim_string_text)))))))))
+
+==================================================
+interpolated verbatim string literals bracket escapes (WRONG!)
+==================================================
+
+var s = $@"Another
+multiple
+line";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression (interpolated_verbatim_string_text))))))))
+
+==================================================
+interpolated verbatim string literals bracket escapes
+==================================================
+
+string s = $@"
+class A
+{{
+    bool Method(int value)
+    {{
+        return value  is  {operatorText}  3  or  {operatorText}  5;
+    }}
+}}
+";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_verbatim_string_text)
+              (interpolated_verbatim_string_text)
+              (interpolated_verbatim_string_text)
+              (interpolated_verbatim_string_text)
+              (interpolated_verbatim_string_text)
+              (interpolation (identifier))
+              (interpolated_verbatim_string_text)
+              (interpolation (identifier))
+              (interpolated_verbatim_string_text))))))))
+
+==================================================
+interpolated verbatim string containing block comment
+==================================================
+
+string s = $@"{a}/* comment */{a}";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (predefined_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolation
+                (identifier))
+              (interpolated_verbatim_string_text)
+              (interpolation
+                (identifier)))))))))
+
+==================================================
+interpolated verbatim string comment with interpolation
+==================================================
+
+var x = $@"/* {world} */";
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (interpolated_string_expression
+              (interpolated_verbatim_string_text)
+              (interpolation
+                (identifier))
+              (interpolated_verbatim_string_text))))))))

@@ -1,0 +1,262 @@
+=====================================
+Global empty interface
+=====================================
+
+public interface IOne {};
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (modifier)
+    (identifier)
+    (declaration_list)))
+
+=====================================
+Interface with properties
+=====================================
+
+interface IOne {
+  byte Get { get; }
+  char Set { set; }
+  uint GetSet { get; set; }
+  long SetGet { set; get; }
+};
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (identifier)
+    (declaration_list
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration)))
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration)))
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration) (accessor_declaration)))
+      (property_declaration
+        (predefined_type)
+        (identifier)
+        (accessor_list (accessor_declaration) (accessor_declaration))))))
+
+=====================================
+Interface with methods
+=====================================
+
+interface IOne {
+  void Nothing();
+  int Output();
+  void Input(string a);
+  int InputOutput(string a);
+};
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (identifier)
+    (declaration_list
+      (method_declaration
+        (void_keyword)
+        (identifier)
+        (parameter_list))
+      (method_declaration
+        (predefined_type)
+        (identifier)
+        (parameter_list))
+      (method_declaration
+        (void_keyword)
+        (identifier)
+        (parameter_list (parameter (predefined_type) (identifier))))
+      (method_declaration
+        (predefined_type)
+        (identifier)
+        (parameter_list (parameter (predefined_type) (identifier)))))))
+
+=====================================
+Interface base single
+=====================================
+
+private interface IOne : ITwo { }
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (modifier)
+    (identifier)
+    (base_list
+      (identifier))
+    (declaration_list)))
+
+=====================================
+Interface base multiple
+=====================================
+
+private interface IOne : ITwo, IThree { }
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (modifier)
+    (identifier)
+    (base_list
+      (identifier)
+      (identifier))
+    (declaration_list)))
+
+=====================================
+Interface generic
+=====================================
+
+private interface IOne<T1> : ITwo { }
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list (type_parameter (identifier)))
+    (base_list
+      (identifier))
+    (declaration_list)))
+
+=====================================
+Interface generic single constraint
+=====================================
+
+private interface IOne<T1> : ITwo where T1:T2 { }
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list (type_parameter (identifier)))
+    (base_list (identifier))
+     (type_parameter_constraints_clause
+      (identifier)
+       (type_parameter_constraint (type_constraint (identifier))))
+    (declaration_list)))
+
+=====================================
+Interface generic multiple constraints
+=====================================
+
+private interface IOne<T1, T3> : ITwo where T1:T2 where T3:new() { }
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (modifier)
+    (identifier)
+    (type_parameter_list
+      (type_parameter (identifier))
+      (type_parameter (identifier)))
+    (base_list (identifier))
+     (type_parameter_constraints_clause
+      (identifier)
+       (type_parameter_constraint (type_constraint (identifier))))
+     (type_parameter_constraints_clause
+      (identifier)
+      (type_parameter_constraint (constructor_constraint)))
+    (declaration_list)))
+
+=====================================
+Interface in namespace
+=====================================
+
+namespace A {
+  interface IOne : ITwo { }
+}
+
+---
+
+(compilation_unit
+  (namespace_declaration
+    (identifier)
+    (declaration_list
+      (interface_declaration
+        (identifier)
+        (base_list
+          (identifier))
+        (declaration_list)))))
+
+=======================================
+Interface event declarations
+=======================================
+
+interface A {
+  event EventHandler<T> SomeEvent;
+}
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (identifier)
+    (declaration_list
+        (event_field_declaration
+          (variable_declaration
+            (generic_name (identifier)
+              (type_argument_list (identifier)))
+            (variable_declarator (identifier)))))))
+
+=====================================
+Interface with indexer
+=====================================
+
+interface A {
+  bool this[int index] { get; set; }
+}
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (identifier)
+    (declaration_list
+      (indexer_declaration
+        (predefined_type)
+        (bracketed_parameter_list (parameter (predefined_type) (identifier)))
+        (accessor_list
+          (accessor_declaration)
+          (accessor_declaration))))))
+
+=====================================
+Interface with default method
+=====================================
+
+interface MyDefault {
+  void Log(string message) {
+    Console.WriteLine(message);
+  }
+}
+
+---
+
+(compilation_unit
+  (interface_declaration
+    (identifier)
+    (declaration_list
+      (method_declaration
+        (void_keyword)
+        (identifier)
+        (parameter_list
+          (parameter (predefined_type) (identifier)))
+        (block
+          (expression_statement
+            (invocation_expression
+              (member_access_expression (identifier) (identifier))
+              (argument_list (argument (identifier))))))))))
