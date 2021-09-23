@@ -250,6 +250,7 @@ dependencies = [
  "pretty_assertions",
  "pretty_env_logger",
  "radix-heap",
+ "rayon",
  "regex",
  "rustc-hash",
  "strsim 0.10.0",
