@@ -1,7 +1,7 @@
 ; Functions
 
 (call_expression
-  function: (scoped_identifier
+  function: (qualified_identifier
     name: (identifier) @function))
 
 (template_function
@@ -11,15 +11,14 @@
   name: (field_identifier) @function)
 
 (template_function
-  name: (scoped_identifier
+  name: (identifier) @function)
+
+(function_declarator
+  declarator: (qualified_identifier
     name: (identifier) @function))
 
 (function_declarator
-  declarator: (scoped_identifier
-    name: (identifier) @function))
-
-(function_declarator
-  declarator: (scoped_identifier
+  declarator: (qualified_identifier
     name: (identifier) @function))
 
 (function_declarator
