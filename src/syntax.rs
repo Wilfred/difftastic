@@ -44,6 +44,7 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
 pub struct SyntaxInfo<'a> {
     next: Cell<Option<&'a Syntax<'a>>>,
     prev: Cell<Option<&'a Syntax<'a>>>,
+    parent: Cell<Option<&'a Syntax<'a>>>,
     prev_is_contiguous: Cell<bool>,
     change: Cell<Option<ChangeKind<'a>>>,
     num_ancestors: Cell<u32>,
@@ -56,6 +57,7 @@ impl<'a> SyntaxInfo<'a> {
         Self {
             next: Cell::new(None),
             prev: Cell::new(None),
+            parent: Cell::new(None),
             prev_is_contiguous: Cell::new(false),
             change: Cell::new(None),
             num_ancestors: Cell::new(0),
@@ -366,6 +368,7 @@ fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut HashMap<ContentKe
 fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u32) {
     set_next(roots, None);
     set_prev(roots, None);
+    set_parent(roots, None);
     set_num_ancestors(roots, 0);
     set_prev_is_contiguous(roots);
     set_unique_id(roots, next_id)
@@ -406,6 +409,15 @@ fn set_prev<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
         node.info().prev.set(node_prev);
         if let List { children, .. } = node {
             set_prev(children, Some(node));
+        }
+    }
+}
+
+fn set_parent<'a>(nodes: &[&'a Syntax<'a>], parent: Option<&'a Syntax<'a>>) {
+    for node in nodes {
+        node.info().parent.set(parent);
+        if let List { children, .. } = node {
+            set_parent(children, Some(node));
         }
     }
 }
