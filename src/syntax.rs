@@ -234,6 +234,14 @@ impl<'a> Syntax<'a> {
         self.info().next.get()
     }
 
+    pub fn prev(&self) -> Option<&'a Syntax<'a>> {
+        self.info().prev.get()
+    }
+
+    pub fn parent(&self) -> Option<&'a Syntax<'a>> {
+        self.info().parent.get()
+    }
+
     pub fn prev_is_contiguous(&self) -> bool {
         self.info().prev_is_contiguous.get()
     }

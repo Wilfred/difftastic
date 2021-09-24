@@ -4,7 +4,7 @@
 use std::cmp::{Ordering, Reverse};
 
 use crate::{
-    graph::{mark_route, neighbours, Edge, Vertex},
+    graph::{mark_route, neighbours, prev_vertex, Edge, Vertex},
     syntax::Syntax,
 };
 use radix_heap::RadixHeapMap;
@@ -49,7 +49,7 @@ impl<'a> PartialEq for OrdVertex<'a> {
 }
 impl<'a> Eq for OrdVertex<'a> {}
 
-type PredecessorInfo<'a> = (u64, Vertex<'a>, Edge);
+type PredecessorInfo<'a> = (u64, Edge);
 
 fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     // We want to visit nodes with the shortest distance first, but
@@ -57,7 +57,7 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     // to flip comparisons.
     let mut heap: RadixHeapMap<Reverse<_>, Vertex> = RadixHeapMap::new();
 
-    heap.push(Reverse(0), start);
+    heap.push(Reverse(0), start.clone());
 
     // TODO: this grows very big. Consider using IDA* to reduce memory
     // usage.
@@ -75,13 +75,13 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
                 for (edge, next) in neighbour_buf.iter().flatten() {
                     let distance_to_next = distance + edge.cost();
                     let found_shorter_route = match predecessors.get(next) {
-                        Some((prev_shortest, _, _)) => distance_to_next < *prev_shortest,
+                        Some((prev_shortest, _)) => distance_to_next < *prev_shortest,
                         _ => true,
                     };
 
                     if found_shorter_route {
                         predecessors
-                            .insert(next.clone(), (distance_to_next, current.clone(), *edge));
+                            .insert(next.clone(), (distance_to_next, *edge));
 
                         heap.push(Reverse(distance_to_next), next.clone());
                     }
@@ -102,7 +102,8 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
     let mut route: Vec<(Edge, Vertex)> = vec![];
     let mut cost = 0;
-    while let Some((_, node, edge)) = predecessors.remove(&current) {
+    while let Some((_, edge)) = predecessors.remove(&current) {
+        let node = prev_vertex(&start, &current, &edge);
         route.push((edge, node.clone()));
         cost += edge.cost();
 

@@ -363,6 +363,88 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
     }
 }
 
+pub fn prev_vertex<'a>(start: &Vertex<'a>, v: &Vertex<'a>, e: &Edge) -> Vertex<'a> {
+    let lhs_prev = match v.lhs_syntax {
+        Some(lhs_syntax) => lhs_syntax.prev(),
+        None => {
+            // We've reached the end, so find the last syntax node.
+            let mut current = start.lhs_syntax.unwrap();
+            while let Some(node) = current.next() {
+                current = node;
+            }
+            Some(current)
+        }
+    };
+    let rhs_prev = match v.rhs_syntax {
+        Some(rhs_syntax) => rhs_syntax.prev(),
+        None => {
+            // We've reached the end, so find the last syntax node.
+            let mut current = start.rhs_syntax.unwrap();
+            while let Some(node) = current.next() {
+                current = node;
+            }
+            Some(current)
+        }
+    };
+
+    match e {
+        UnchangedNode { .. } => Vertex {
+            lhs_syntax: lhs_prev,
+            rhs_syntax: rhs_prev,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
+        },
+        UnchangedDelimiter { .. } => Vertex {
+            lhs_syntax: v.lhs_syntax.unwrap().parent(),
+            rhs_syntax: v.rhs_syntax.unwrap().parent(),
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
+        },
+        ReplacedComment { .. } => Vertex {
+            lhs_syntax: lhs_prev,
+            rhs_syntax: rhs_prev,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
+        },
+        NovelAtomLHS { .. } => Vertex {
+            lhs_syntax: lhs_prev,
+            rhs_syntax: v.rhs_syntax,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
+        },
+        NovelAtomRHS { .. } => Vertex {
+            lhs_syntax: v.lhs_syntax,
+            rhs_syntax: rhs_prev,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
+        },
+        NovelDelimiterLHS { .. } => Vertex {
+            lhs_syntax: v.lhs_syntax.unwrap().parent(),
+            rhs_syntax: v.rhs_syntax,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
+        },
+        NovelDelimiterRHS { .. } => Vertex {
+            lhs_syntax: v.lhs_syntax,
+            rhs_syntax: v.rhs_syntax.unwrap().parent(),
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
+        },
+        NovelTreeLHS { .. } => Vertex {
+            lhs_syntax: lhs_prev,
+            rhs_syntax: v.rhs_syntax,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
+        },
+        NovelTreeRHS { .. } => Vertex {
+            lhs_syntax: v.lhs_syntax,
+            rhs_syntax: rhs_prev,
+            lhs_prev_is_novel: false,
+            rhs_prev_is_novel: false,
+        },
+    }
+}
+
 pub fn mark_route(route: &[(Edge, Vertex)]) {
     for (e, v) in route {
         match e {
