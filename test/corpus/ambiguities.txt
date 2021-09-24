@@ -29,9 +29,11 @@ int a = std::get<0>(t);
     (init_declarator
       (identifier)
       (call_expression
-        (template_function
-          (scoped_identifier (namespace_identifier) (identifier))
-          (template_argument_list (number_literal)))
+        (qualified_identifier
+          (namespace_identifier)
+          (template_function
+            (identifier)
+            (template_argument_list (number_literal))))
         (argument_list (identifier))))))
 
 =================================================

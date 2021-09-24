@@ -91,12 +91,12 @@ T f() {
     body: (compound_statement
       (if_statement
         condition: (condition_clause
-          value: (template_function
-            name: (scoped_identifier
-              namespace: (namespace_identifier)
-              name: (identifier))
-            arguments: (template_argument_list
-              (type_descriptor type: (type_identifier)))))
+          value: (qualified_identifier
+            scope: (namespace_identifier)
+            name: (template_function
+              name: (identifier)
+              arguments: (template_argument_list
+                (type_descriptor type: (type_identifier))))))
         consequence: (return_statement
           (pointer_expression argument: (identifier)))
         alternative: (return_statement (identifier))))))
@@ -176,7 +176,7 @@ void main() {
         (compound_statement
           (expression_statement (call_expression (identifier) (argument_list))))
         (catch_clause
-          (parameter_list (parameter_declaration (type_qualifier) (scoped_type_identifier (namespace_identifier) (type_identifier))))
+          (parameter_list (parameter_declaration (type_qualifier) (qualified_identifier (namespace_identifier) (type_identifier))))
           (compound_statement (comment)))
         (catch_clause
           (parameter_list (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier))))
@@ -260,7 +260,7 @@ void foo() throw(float) { }
     (primitive_type)
     (function_declarator (identifier) (parameter_list)
       (throw_specifier
-        (type_descriptor (scoped_type_identifier (namespace_identifier) (type_identifier)))
+        (type_descriptor (qualified_identifier (namespace_identifier) (type_identifier)))
         (type_descriptor (primitive_type) (abstract_pointer_declarator)))))
   (function_definition
     (primitive_type)
@@ -279,9 +279,11 @@ a::b::c = 1;
 (translation_unit
   (expression_statement
     (assignment_expression
-      (scoped_namespace_identifier
-        (scoped_namespace_identifier (namespace_identifier) (namespace_identifier))
-        (namespace_identifier))
+      (qualified_identifier
+        (namespace_identifier)
+        (qualified_identifier
+          (namespace_identifier)
+          (identifier)))
       (number_literal))))
 
 =========================================

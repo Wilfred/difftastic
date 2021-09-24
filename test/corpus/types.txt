@@ -26,14 +26,16 @@ std::vector<int>::size_typ my_string;
 
 (translation_unit
   (declaration
-    (scoped_type_identifier (namespace_identifier) (type_identifier))
+    (qualified_identifier (namespace_identifier) (type_identifier))
     (identifier))
   (declaration
-    (scoped_type_identifier
-      (template_type
-        (scoped_type_identifier (namespace_identifier) (type_identifier))
-        (template_argument_list (type_descriptor (primitive_type))))
-      (type_identifier))
+    (qualified_identifier
+      (namespace_identifier)
+      (qualified_identifier
+        (template_type
+          (type_identifier)
+          (template_argument_list (type_descriptor (primitive_type))))
+        (type_identifier)))
     (identifier)))
 
 ==========================================
@@ -57,7 +59,7 @@ struct X : B<T>
         (template_type (type_identifier) (template_argument_list (type_descriptor (type_identifier)))))
       (field_declaration_list
         (field_declaration
-          (dependent_type (scoped_type_identifier (namespace_identifier) (type_identifier)))
+          (dependent_type (qualified_identifier (namespace_identifier) (type_identifier)))
           (pointer_declarator (field_identifier)))))))
 
 ==========================================
@@ -82,22 +84,26 @@ typedef std::function<void(int)> b;
 
 (translation_unit
   (type_definition
-    (template_type
-      (scoped_type_identifier (namespace_identifier) (type_identifier))
-      (template_argument_list
-        (type_descriptor
-          (type_identifier)
-          (abstract_function_declarator (parameter_list
-            (parameter_declaration (primitive_type)))))))
+    (qualified_identifier
+      (namespace_identifier)
+      (template_type
+        (type_identifier)
+        (template_argument_list
+          (type_descriptor
+            (type_identifier)
+            (abstract_function_declarator (parameter_list
+              (parameter_declaration (primitive_type))))))))
     (type_identifier))
   (type_definition
-    (template_type
-      (scoped_type_identifier (namespace_identifier) (type_identifier))
-      (template_argument_list
-        (type_descriptor
-          (primitive_type)
-          (abstract_function_declarator (parameter_list
-            (parameter_declaration (primitive_type)))))))
+    (qualified_identifier
+      (namespace_identifier)
+      (template_type
+        (type_identifier)
+        (template_argument_list
+          (type_descriptor
+            (primitive_type)
+            (abstract_function_declarator (parameter_list
+              (parameter_declaration (primitive_type))))))))
     (type_identifier)))
 
 ====================================================
@@ -145,7 +151,7 @@ auto a::foo() const -> const A<B>& {}
   (function_definition
     (auto)
     (function_declarator
-      (scoped_identifier (namespace_identifier) (identifier))
+      (qualified_identifier (namespace_identifier) (identifier))
       (parameter_list)
       (type_qualifier)
       (trailing_return_type
