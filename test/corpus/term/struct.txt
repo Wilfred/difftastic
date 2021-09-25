@@ -139,7 +139,8 @@ update syntax
         (binary_operator
           (string
             (string_content))
-          (integer))))))
+          (string
+            (string_content)))))))
 
 =====================================
 unused struct identifier
@@ -199,3 +200,47 @@ with special identifier
       (dot
         (special_identifier)
         (alias)))))
+
+=====================================
+with atom
+=====================================
+
+%:"Elixir.Mod"{}
+
+---
+
+(source
+  (map
+    (struct
+      (atom
+        (string_content)))))
+
+=====================================
+with call
+=====================================
+
+%fun(){}
+%Mod.fun(){}
+%fun.(){}
+
+---
+
+(source
+  (map
+    (struct
+      (call
+        (identifier)
+        (arguments))))
+  (map
+    (struct
+      (call
+        (dot
+          (alias)
+          (identifier))
+        (arguments))))
+  (map
+    (struct
+      (call
+        (dot
+          (identifier))
+        (arguments)))))

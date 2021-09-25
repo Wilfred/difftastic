@@ -67,7 +67,7 @@ nested interpolation
       (charlist
         (string_content)
         (interpolation
-          (identifier))))
+          (integer))))
     (string_content)))
 
 =====================================
@@ -167,7 +167,8 @@ this is #{
       (charlist
         (string_content)
         (interpolation
-          (identifier))))
+          (integer))
+        (string_content)))
     (string_content)))
 
 =====================================
@@ -186,9 +187,13 @@ heredoc / escaped delimiter
 
 (source
   (charlist
-    (escape_sequence)
     (string_content)
+    (escape_sequence)
+    (string_content))
   (charlist
+    (string_content)
+    (escape_sequence)
+    (escape_sequence)
     (escape_sequence)
     (string_content)))
 
@@ -204,5 +209,6 @@ heredoc / escaped interpolation
 
 (source
   (charlist
+    (string_content)
     (escape_sequence)
     (string_content)))

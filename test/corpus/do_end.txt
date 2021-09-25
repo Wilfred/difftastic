@@ -87,7 +87,7 @@ end
       (call
         (identifier)
         (arguments
-          (identifier)))
+          (identifier))))
     (do_block
       (identifier))))
 
@@ -100,11 +100,47 @@ do
   x
 end
 
+fun x
+# comment
+do
+  x
+end
+
+fun()
+do
+  x
+end
+
+Mod.fun x
+do
+  x
+end
+
 ---
 
 (source
   (call
     (identifier)
+    (arguments
+      (identifier))
+    (do_block
+      (identifier)))
+  (call
+    (identifier)
+    (arguments
+      (identifier))
+    (comment)
+    (do_block
+      (identifier)))
+  (call
+    (identifier)
+    (arguments)
+    (do_block
+      (identifier)))
+  (call
+    (dot
+      (alias)
+      (identifier))
     (arguments
       (identifier))
     (do_block
@@ -265,7 +301,7 @@ end
     (do_block
       (stab_clause
         (arguments
-          (integer))
+          (identifier))
         (body
           (identifier)
           (identifier))))))
@@ -318,8 +354,7 @@ end
             (identifier)
             (list)))
         (body
-          (atom
-            (atom_literal)))))))
+          (identifier))))))
 
 =====================================
 stab clause / with guard / multiple arguments
@@ -344,8 +379,7 @@ end
             (identifier)
             (list)))
         (body
-          (atom
-            (atom_literal)))))))
+          (identifier))))))
 
 =====================================
 stab clause / with guard / arguments in parentheses
@@ -370,8 +404,7 @@ end
             (identifier)
             (list)))
         (body
-          (atom
-            (atom_literal)))))))
+          (identifier))))))
 
 =====================================
 stab clause / with guard / multiple guards
@@ -394,14 +427,150 @@ end
           (binary_operator
             (binary_operator
               (identifier)
+              (integer))
+            (binary_operator
+              (identifier)
+              (integer))))
+        (body
+          (identifier))))))
+
+=====================================
+stab clause / edge cases / no stab
+=====================================
+
+foo do
+  a when a
+end
+
+foo do
+  ([])
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (binary_operator
+        (identifier)
+        (identifier))))
+  (call
+    (identifier)
+    (do_block
+      (block
+        (list)))))
+
+=====================================
+stab clause / edge cases / "when" in arguments
+=====================================
+
+foo do
+  a when b, c when d == e -> 1
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (binary_operator
+          (arguments
+            (binary_operator
+              (identifier)
               (identifier))
+            (identifier))
+          (binary_operator
+            (identifier)
+            (identifier)))
+        (body
+          (integer))))))
+
+=====================================
+stab clause / edge cases / block argument
+=====================================
+
+foo do
+  (x; y) -> 1
+  ((x; y)) -> 1
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (block
+            (identifier)
+            (identifier)))
+        (body
+          (integer)))
+      (stab_clause
+        (arguments
+          (block
+            (identifier)
+            (identifier)))
+        (body
+          (integer))))))
+
+=====================================
+stab clause / edge cases / operator with lower precedence than "when"
+=====================================
+
+foo do
+  x <- y when x -> y
+end
+
+foo do
+  (x <- y) when x -> y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (binary_operator
+            (identifier)
             (binary_operator
               (identifier)
               (identifier))))
         (body
-          (atom
-            (atom_literal)))))))
+          (identifier)))))
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (binary_operator
+          (arguments
+            (binary_operator
+              (identifier)
+              (identifier)))
+          (identifier))
+        (body
+          (identifier))))))
 
+=====================================
+stab clause / edge cases / empty
+=====================================
+
+fun do->end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause))))
 
 =====================================
 pattern matching
@@ -424,8 +593,9 @@ end
               (identifier)
               (identifier))))
         (body
-          (atom
-            (atom_literal)))))))
+          (tuple
+            (identifier)
+            (identifier)))))))
 
 =====================================
 child blocks / after
@@ -576,5 +746,35 @@ end
         (stab_clause
           (arguments
             (identifier))
+          (body
+            (identifier)))))))
+
+=====================================
+child blocks / keyword pattern with child block start token
+=====================================
+
+fun do
+  x
+after
+after
+  after: 1 -> y
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (identifier)
+      (after_block)
+      (after_block
+        (stab_clause
+          (arguments
+            (keywords
+              (pair
+                (keyword
+                  (atom_literal))
+                (integer))))
           (body
             (identifier)))))))

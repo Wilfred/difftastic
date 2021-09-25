@@ -14,14 +14,14 @@ for n <- [1, 2], do: n * 2
         (identifier)
         (list
           (integer)
-          (integer))))
+          (integer)))
       (keywords
         (pair
           (keyword
             (atom_literal))
           (binary_operator
             (identifier)
-            (integer))))))
+            (integer)))))))
 
 =====================================
 for / enumerable / with options and block
@@ -42,7 +42,8 @@ end
         (call
           (dot
             (alias)
-            (identifier))))
+            (identifier))
+          (arguments)))
       (keywords
         (pair
           (keyword
@@ -50,7 +51,8 @@ end
           (call
             (dot
               (alias)
-              (identifier))))))
+              (identifier))
+            (arguments)))))
     (do_block
       (call
         (dot
@@ -71,7 +73,7 @@ for <<c <- " hello world ">>, c != ?\s, into: "", do: <<c>>
   (call
     (identifier)
     (arguments
-      (binary
+      (bitstring
         (binary_operator
           (identifier)
           (string
@@ -83,12 +85,11 @@ for <<c <- " hello world ">>, c != ?\s, into: "", do: <<c>>
         (pair
           (keyword
             (atom_literal))
-          (string
-            (string_content)))
+          (string))
         (pair
           (keyword
             (atom_literal))
-          (binary
+          (bitstring
             (identifier)))))))
 
 =====================================

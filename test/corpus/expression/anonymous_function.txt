@@ -15,6 +15,7 @@ fn () -> 1 end
         (integer))))
   (anonymous_function
     (stab_clause
+      (arguments)
       (body
         (integer)))))
 
@@ -178,8 +179,7 @@ end
           (atom
             (atom_literal))))
       (body
-        (atom
-          (atom_literal))))))
+        (boolean)))))
 
 =====================================
 with guard / one argument
@@ -201,8 +201,7 @@ end
           (identifier)
           (list)))
       (body
-        (atom
-          (atom_literal))))))
+        (identifier)))))
 
 =====================================
 with guard / multiple arguments
@@ -225,8 +224,7 @@ end
           (identifier)
           (list)))
       (body
-        (atom
-          (atom_literal))))))
+        (identifier)))))
 
 =====================================
 with guard / arguments in parentheses
@@ -249,8 +247,7 @@ end
           (identifier)
           (list)))
       (body
-        (atom
-          (atom_literal))))))
+        (identifier)))))
 
 =====================================
 with guard / multiple guards
@@ -271,13 +268,12 @@ end
         (binary_operator
           (binary_operator
             (identifier)
-            (identifier))
+            (integer))
           (binary_operator
             (identifier)
-            (identifier))))
+            (integer))))
       (body
-        (atom
-          (atom_literal))))))
+        (identifier)))))
 
 =====================================
 pattern matching
@@ -299,8 +295,9 @@ end
             (identifier)
             (identifier))))
       (body
-        (atom
-          (atom_literal))))
+        (tuple
+          (identifier)
+          (identifier))))
     (stab_clause
       (binary_operator
         (arguments
@@ -312,12 +309,7 @@ end
                     (atom_literal))
                   (identifier))))))
         (binary_operator
-          (binary_operator
-            (identifier)
-            (identifier))
-          (binary_operator
-            (identifier)
-            (identifier))))
+          (identifier)
+          (integer)))
       (body
-        (atom
-          (atom_literal))))))
+        (integer)))))

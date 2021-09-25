@@ -80,33 +80,38 @@ multiple modifiers
         (string_content))
       (binary_operator
         (identifier)
-        (identifier)))
+        (identifier))))
+  (bitstring
     (binary_operator
       (string
         (string_content))
       (binary_operator
         (identifier)
-        (identifier)))
+        (identifier))))
+  (bitstring
     (binary_operator
       (string
         (string_content))
       (binary_operator
         (identifier)
-        (identifier)))
+        (identifier))))
+  (bitstring
     (binary_operator
       (integer)
       (binary_operator
         (binary_operator
           (integer)
           (identifier))
-        (identifier)))
+        (identifier))))
+  (bitstring
     (binary_operator
       (integer)
       (binary_operator
         (binary_operator
           (identifier)
           (identifier))
-        (identifier)))
+        (identifier))))
+  (bitstring
     (binary_operator
       (float)
       (binary_operator
@@ -143,6 +148,7 @@ multiple components with modifiers
       (binary_operator
         (identifier)
         (call
+          (identifier)
           (arguments
             (identifier)))))))
 
@@ -169,6 +175,7 @@ spacing
       (binary_operator
         (identifier)
         (call
+          (identifier)
           (arguments
             (identifier)))))))
 

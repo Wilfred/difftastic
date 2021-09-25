@@ -7,7 +7,6 @@ camelCase
 az_AZ_19
 bang!
 question?
-__TEST__
 doctest
 not1
 notfalse
@@ -15,7 +14,6 @@ notfalse
 ---
 
 (source
-  (identifier)
   (identifier)
   (identifier)
   (identifier)
@@ -31,10 +29,12 @@ unused
 
 _
 _number
+__TEST__
 
 ---
 
 (source
+  (unused_identifier)
   (unused_identifier)
   (unused_identifier))
 

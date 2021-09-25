@@ -23,6 +23,7 @@ anonymous function
         (integer))))
   (unary_operator
     (call
+      (identifier)
       (arguments
         (unary_operator
           (integer))
@@ -45,22 +46,22 @@ argument call
     (call
       (dot
         (unary_operator
-          (integer)
-        (identifier)))))
+          (integer))
+        (identifier))))
   (unary_operator
     (call
       (dot
         (unary_operator
-          (integer)
-        (identifier)))))
+          (integer))
+        (identifier))))
   (unary_operator
     (call
       (dot
         (unary_operator
-          (integer)
-        (arguments
-          (unary_operator
-            (integer))))))))
+          (integer)))
+      (arguments
+        (unary_operator
+          (integer))))))
 
 =====================================
 remote MFA

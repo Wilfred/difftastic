@@ -3,6 +3,8 @@ simple literal
 =====================================
 
 []
+[a]
+[A]
 [1]
 [1, 2]
 [1,2]
@@ -12,6 +14,10 @@ simple literal
 
 (source
   (list)
+  (list
+    (identifier))
+  (list
+    (alias))
   (list
     (integer))
   (list
@@ -64,8 +70,8 @@ trailing separator
 
 (source
   (list
-    (ERROR
-      (integer))))
+    (ERROR)
+    (integer)))
 
 =====================================
 [error] missing separator

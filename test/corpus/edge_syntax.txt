@@ -5,13 +5,76 @@ operator with arity (valid and supported by IEx.Helpers.h)
 ::/2
 @ / 1
 & / 1
+not / 1
+not in / 2
+* / 2
+h +/2
 
 ---
 
 (source
   (binary_operator
     (operator_identifier)
-    (integer)))
+    (integer))
+  (binary_operator
+    (operator_identifier)
+    (integer))
+  (binary_operator
+    (operator_identifier)
+    (integer))
+  (binary_operator
+    (operator_identifier)
+    (integer))
+  (binary_operator
+    (operator_identifier)
+    (integer))
+  (binary_operator
+    (operator_identifier)
+    (integer))
+  (call
+    (identifier)
+    (arguments
+      (binary_operator
+        (operator_identifier)
+        (integer)))))
+
+=====================================
+stab and slash ambiguity
+=====================================
+
+(-> / 2)
+(-> / / 2)
+
+---
+
+(source
+  (block
+    (binary_operator
+      (operator_identifier)
+      (integer)))
+  (block
+    (stab_clause
+      (body
+        (binary_operator
+          (operator_identifier)
+          (integer))))))
+
+=====================================
+unary operator and slash ambiguity
+=====================================
+
+& / 2
+& / / 2
+---
+
+(source
+  (binary_operator
+    (operator_identifier)
+    (integer))
+  (unary_operator
+    (binary_operator
+      (operator_identifier)
+      (integer))))
 
 =====================================
 map with identifiers
@@ -54,16 +117,3 @@ def Mod.fun(x), do: 1
           (keyword
             (atom_literal))
           (integer))))))
-
-=====================================
-[error] arrow outside of map
-=====================================
-
-a => b
-
----
-
-(source
-  (identifier)
-  (ERROR
-    (identifier)))

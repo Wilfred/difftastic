@@ -16,26 +16,20 @@ not arg
 ---
 
 (source
-  (unary_operator
-    (identifier))
-  (unary_operator
-    (identifier))
-  (unary_operator
-    (identifier))
-  (unary_operator
-    (identifier))
-  (unary_operator
-    (identifier))
-  (unary_operator
-    (identifier))
-  (unary_operator
-    (identifier))
-  (unary_operator
-    (identifier)))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier)))
 
 =====================================
 binary left associative
 =====================================
+
+a ** b ** c
 
 a * b * c
 a / b / c
@@ -83,6 +77,7 @@ a \\ b \\ c
 ---
 
 (source
+  (binary_operator (binary_operator (identifier) (identifier)) (identifier))
   (binary_operator (binary_operator (identifier) (identifier)) (identifier))
   (binary_operator (binary_operator (identifier) (identifier)) (identifier))
   (binary_operator (binary_operator (identifier) (identifier)) (identifier))
@@ -190,6 +185,7 @@ a - b ++ c
 a = b <<< c
 
 a + b * c - d
+a ** b + c ** d
 
 ---
 
@@ -220,7 +216,14 @@ a + b * c - d
       (binary_operator
         (identifier)
         (identifier)))
-    (identifier)))
+    (identifier))
+  (binary_operator
+    (binary_operator
+      (identifier)
+      (identifier))
+    (binary_operator
+      (identifier)
+      (identifier))))
 
 =====================================
 precedence determined by parentheses
@@ -234,8 +237,9 @@ precedence determined by parentheses
 
 (source
   (binary_operator
-    (unary_operator
-      (identifier))
+    (block
+      (unary_operator
+        (identifier)))
     (identifier))
   (binary_operator
     (block
@@ -248,25 +252,413 @@ precedence determined by parentheses
         (identifier)))))
 
 =====================================
-multiline
+"not in" spacing
 =====================================
 
+a not    in b
+
+---
+
+(source
+  (binary_operator
+    (identifier)
+    (identifier)))
+
+=====================================
+"not in" boundary
+=====================================
+
+fun not inARG
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (unary_operator
+        (identifier)))))
+
+=====================================
+multiline / unary
+=====================================
+
+@
+arg
+
++
+arg
+
 -
-x
+arg
+
+!
+arg
+
+^
+arg
+
+not
+arg
+
+~~~
+arg
+
+&
+arg
+
+---
+
+(source
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier))
+  (unary_operator (identifier)))
+
+=====================================
+multiline / binary
+=====================================
+
+a
+**
+b
+
+a
+*
+b
+
+a
+/
+b
+
+a
+++
+b
+
+a
+--
+b
+
+a
++++
+b
+
+a
+---
+b
+
+a
+..
+b
+
+a
+<>
+b
+
+
+a
+^^^
+b
+
+a
+in
+b
+
+a
+not in
+b
+
+a
+|>
+b
+
+a
+<<<
+b
+
+a
+>>>
+b
+
+a
+<<~
+b
+
+a
+~>>
+b
+
+a
+<~
+b
+
+a
+~>
+b
+
+a
+<~>
+b
+
+a
+<|>
+b
+
+a
+<
+b
+
+a
+>
+b
+
+a
+<=
+b
+
+a
+>=
+b
+
+a
+==
+b
+
+a
+!=
+b
+
+a
+=~
+b
+
+a
+===
+b
+
+a
+!==
+b
+
+a
+&&
+b
+
+a
+&&&
+b
+
+a
+and
+b
+
+a
+||
+b
+
+a
+|||
+b
+
+a
+or
+b
+
+a
+=
+b
+
+a
+|
+b
+
+a
+::
+b
+
+a
+when
+b
+
+a
+<-
+b
+
+a
+\\
+b
+
+---
+
+(source
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier))
+  (binary_operator (identifier) (identifier)))
+
+=====================================
+multiline / unary over binary
+=====================================
+
+a
++
+b
+
+a
+-
+b
+
+---
+
+(source
+  (identifier)
+  (unary_operator
+    (identifier))
+  (identifier)
+  (unary_operator
+    (identifier)))
+
+=====================================
+multiline / right operands
+=====================================
 
 x
 not in
 [y]
 
+x
+not in[y]
+
+:a
+++:b
+
+:a++
+:b
+
 ---
 
 (source
-  (unary_operator
-    (identifier))
   (binary_operator
     (identifier)
     (list
-      (identifier))))
+      (identifier)))
+  (binary_operator
+    (identifier)
+    (list
+      (identifier)))
+  (binary_operator
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal)))
+  (binary_operator
+    (atom
+      (atom_literal))
+    (atom
+      (atom_literal))))
+
+=====================================
+multiline / unary over binary (precedence)
+=====================================
+
+x
+-
+y
+
+x
++
+y
+
+---
+
+(source
+  (identifier)
+  (unary_operator
+    (identifier))
+  (identifier)
+  (unary_operator
+    (identifier)))
+
+=====================================
+plus minus
+=====================================
+
+x+y
+x + y
+x+ y
+
+x +y
+x +y +z
+
+
+---
+
+(source
+  (binary_operator
+    (identifier)
+    (identifier))
+  (binary_operator
+    (identifier)
+    (identifier))
+  (binary_operator
+    (identifier)
+    (identifier))
+  (call
+    (identifier)
+    (arguments
+      (unary_operator
+        (identifier))))
+  (call
+    (identifier)
+    (arguments
+      (unary_operator
+        (call
+          (identifier)
+          (arguments
+            (unary_operator
+              (identifier))))))))
 
 =====================================
 stepped range

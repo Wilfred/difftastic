@@ -87,7 +87,7 @@ nested interpolation
         (sigil_name)
         (string_content)
         (interpolation
-          (identifier))))
+          (integer))))
     (string_content)))
 
 =====================================
@@ -126,7 +126,7 @@ escape sequence
 escaped interpolation
 =====================================
 
-~s{\#{1}}
+~s/\#{1}/
 
 ---
 
@@ -229,6 +229,7 @@ modifiers
     (sigil_modifiers))
   (sigil
     (sigil_name)
+    (string_content)
     (sigil_modifiers)))
 
 =====================================
@@ -240,7 +241,7 @@ modifiers
 ---
 
 (source
-  (ERROR)
-  (call
-    (string
-      (string_content))))
+  (sigil
+    (sigil_name)
+    (ERROR)
+    (string_content)))

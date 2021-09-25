@@ -26,12 +26,12 @@ simple literal
 operators
 =====================================
 
-[:~~~, :~>>, :~>, :|||, :||, :|>, :|, :>>>, :>=, :>, :=~, :===, :==, :=, :<~>, :<~, :<|>, :<>, :<=, :<<~, :<<<, :<-, :<, :+++, :++, :+, :^^^, :^, :&&&, :&&, :&, :\\, :/, :*, :@, :.., :., :!==, :!=, :!, :::, :->, :---, :--, :-]
+[:~~~, :~>>, :~>, :|||, :||, :|>, :|, :>>>, :>=, :>, :=~, :===, :==, :=, :<~>, :<~, :<|>, :<>, :<=, :<<~, :<<<, :<-, :<, :+++, :++, :+, :^^^, :^, :&&&, :&&, :&, :\\, :/, :**, :*, :@, :.., :., :!==, :!=, :!, :::, :->, :---, :--, :-]
 
 ---
 
 (source
-  (list (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal))))
+  (list (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal)) (atom (atom_literal))))
 
 =====================================
 special operator-like atoms

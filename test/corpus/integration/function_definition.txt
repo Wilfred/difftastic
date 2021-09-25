@@ -29,8 +29,7 @@ end
   (call
     (identifier)
     (arguments
-      (call
-        (identifier)))
+      (identifier))
     (do_block)))
 
 =====================================
@@ -48,9 +47,9 @@ end
     (identifier)
     (arguments
       (call
-        (identifier
-          (arguments
-            (identifier)))))
+        (identifier)
+        (arguments
+          (identifier))))
     (do_block
       (identifier))))
 
@@ -69,9 +68,9 @@ end
     (identifier)
     (arguments
       (call
-        (identifier
-          (arguments
-            (identifier)))))
+        (identifier)
+        (arguments
+          (identifier))))
     (do_block
       (identifier))))
 
@@ -90,10 +89,10 @@ end
     (identifier)
     (arguments
       (call
-        (identifier
-          (arguments
-            (identifier)
-            (identifier)))))
+        (identifier)
+        (arguments
+          (identifier)
+          (identifier))))
     (do_block
       (binary_operator
         (identifier)
@@ -114,10 +113,10 @@ end
     (identifier)
     (arguments
       (call
-        (identifier
-          (arguments
-            (identifier)
-            (identifier)))))
+        (identifier)
+        (arguments
+          (identifier)
+          (identifier))))
     (do_block
       (binary_operator
         (identifier)
@@ -142,12 +141,12 @@ end
     (identifier)
     (arguments
       (call
-        (identifier
-          (arguments
+        (identifier)
+        (arguments
+          (identifier)
+          (binary_operator
             (identifier)
-            (binary_operator
-              (identifier)
-              (integer))))))
+            (integer)))))
     (do_block
       (binary_operator
         (identifier)
@@ -156,12 +155,12 @@ end
     (identifier)
     (arguments
       (call
-        (identifier
-          (arguments
+        (identifier)
+        (arguments
+          (identifier)
+          (binary_operator
             (identifier)
-            (binary_operator
-              (identifier)
-              (integer))))))
+            (integer)))))
     (do_block
       (binary_operator
         (identifier)
@@ -181,24 +180,25 @@ def fun(x), do: x
     (identifier)
     (arguments
       (call
-        (identifier)))
-    (keywords
-      (pair
-        (keyword
-          (atom_literal))
-        (integer))))
+        (identifier)
+        (arguments))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (integer)))))
   (call
     (identifier)
     (arguments
       (call
-        (identifier
-          (arguments
-            (identifier)))))
-    (keywords
-      (pair
-        (keyword
-          (atom_literal))
-        (identifier)))))
+        (identifier)
+        (arguments
+          (identifier)))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (identifier))))))
 
 =====================================
 def / pattern matching
@@ -244,9 +244,9 @@ end
     (arguments
       (binary_operator
         (call
-          (identifier
-            (arguments
-              (identifier))))
+          (identifier)
+          (arguments
+            (identifier)))
         (binary_operator
           (identifier)
           (integer))))
@@ -269,9 +269,9 @@ end
     (arguments
       (binary_operator
         (call
-          (identifier
-            (arguments
-              (identifier))))
+          (identifier)
+          (arguments
+            (identifier)))
         (binary_operator
           (binary_operator
             (identifier)
@@ -297,9 +297,9 @@ end
     (identifier)
     (arguments
       (call
-        (identifier
-          (arguments
-            (identifier)))))
+        (identifier)
+        (arguments
+          (identifier))))
     (do_block
       (identifier))))
 
@@ -320,9 +320,9 @@ end
     (identifier)
     (arguments
       (call
-        (identifier
-          (arguments
-            (identifier)))))
+        (identifier)
+        (arguments
+          (identifier))))
     (do_block
       (call
         (identifier)
@@ -347,9 +347,9 @@ defguard is_even(term) when is_integer(term) and rem(term, 2) == 0
     (arguments
       (binary_operator
         (call
-          (identifier
-            (arguments
-              (identifier))))
+          (identifier)
+          (arguments
+            (identifier)))
         (binary_operator
           (call
             (identifier)
@@ -362,3 +362,33 @@ defguard is_even(term) when is_integer(term) and rem(term, 2) == 0
                 (identifier)
                 (integer)))
             (integer)))))))
+
+=====================================
+def in macro
+=====================================
+
+def unquote(name)(unquote_splicing(args)) do
+  unquote(compiled)
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (call
+        (call
+          (identifier)
+          (arguments
+            (identifier)))
+        (arguments
+          (call
+            (identifier)
+            (arguments
+              (identifier))))))
+    (do_block
+      (call
+        (identifier)
+        (arguments
+          (identifier))))))

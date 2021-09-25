@@ -38,13 +38,17 @@ with type parentheses
             (identifier)
             (arguments
               (call
-                (identifier))
+                (identifier)
+                (arguments))
               (call
-                (identifier))
+                (identifier)
+                (arguments))
               (call
-                (identifier))))
+                (identifier)
+                (arguments))))
           (call
-            (identifier)))))))
+            (identifier)
+            (arguments)))))))
 
 =====================================
 with literals
@@ -68,8 +72,8 @@ with literals
                   (keywords
                     (pair
                       (keyword
-                        (atom_literal)
-                      (identifier))))))))
+                        (atom_literal))
+                      (identifier)))))))
           (binary_operator
             (tuple
               (atom
@@ -97,14 +101,16 @@ with function reference
           (call
             (identifier)
             (arguments
-              (stab_clause
-                (body
-                  (identifier)))
-              (stab_clause
-                (arguments
-                  (identifier))
-                (body
-                  (identifier)))))
+              (block
+                (stab_clause
+                  (body
+                    (identifier))))
+              (block
+                (stab_clause
+                  (arguments
+                    (identifier))
+                  (body
+                    (identifier))))))
           (identifier))))))
 
 =====================================
@@ -127,11 +133,13 @@ with remote type
               (call
                 (dot
                   (alias)
-                  (identifier)))))
+                  (identifier))
+                (arguments))))
           (call
             (dot
               (alias)
-              (identifier))))))))
+              (identifier))
+            (arguments)))))))
 
 =====================================
 with type guard
@@ -208,10 +216,11 @@ nonempty list
       (identifier)
       (arguments
         (binary_operator
-          (identifier)
+          (call
+            (identifier)
+            (arguments))
           (list
-            (call
-              (identifier))
+            (identifier)
             (identifier)))))))
 
 =====================================

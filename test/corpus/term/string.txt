@@ -67,7 +67,7 @@ nested interpolation
       (string
         (string_content)
         (interpolation
-          (identifier))))
+          (integer))))
     (string_content)))
 
 =====================================
@@ -167,7 +167,8 @@ this is #{
       (string
         (string_content)
         (interpolation
-          (identifier))))
+          (integer))
+        (string_content)))
     (string_content)))
 
 =====================================
@@ -186,9 +187,13 @@ heredoc / escaped delimiter
 
 (source
   (string
-    (escape_sequence)
     (string_content)
+    (escape_sequence)
+    (string_content))
   (string
+    (string_content)
+    (escape_sequence)
+    (escape_sequence)
     (escape_sequence)
     (string_content)))
 
@@ -204,6 +209,7 @@ heredoc / escaped interpolation
 
 (source
   (string
+    (string_content)
     (escape_sequence)
     (string_content)))
 

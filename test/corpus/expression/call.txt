@@ -46,7 +46,9 @@ local call / arguments without parentheses
 =====================================
 
 fun a
+fun {}
 fun [1, 2], option: true, other: 5
+fun +: 1
 
 ---
 
@@ -55,6 +57,45 @@ fun [1, 2], option: true, other: 5
     (identifier)
     (arguments
       (identifier)))
+  (call
+    (identifier)
+    (arguments
+      (tuple)))
+  (call
+    (identifier)
+    (arguments
+      (list
+        (integer)
+        (integer))
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (boolean))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer)))))
+    (call
+      (identifier)
+      (arguments
+        (keywords
+          (pair
+            (keyword
+              (atom_literal))
+            (integer))))))
+
+=====================================
+local call / arguments without parentheses / multiline
+=====================================
+
+fun [1, 2],
+  option: true,
+  other: 5
+
+---
+
+(source
   (call
     (identifier)
     (arguments
@@ -92,7 +133,8 @@ outer_fun(inner_fun(a))
 local call / nested without parentheses (right associativity)
 =====================================
 
-outer_fun inner_fun a
+outer_fun inner_fun a, b
+outer_fun inner_fun do: 1
 
 ---
 
@@ -103,13 +145,24 @@ outer_fun inner_fun a
       (call
         (identifier)
         (arguments
-          (identifier))))))
+          (identifier)
+          (identifier)))))
+  (call
+    (identifier)
+    (arguments
+      (call
+        (identifier)
+        (arguments
+          (keywords
+            (pair
+              (keyword
+                (atom_literal))
+              (integer))))))))
 
 =====================================
 local call / precedence with operator
 =====================================
 
-fun +1
 outer_fun 1 + 1
 1 + inner_fun 1
 outer_fun 1 + inner_fun 1
@@ -118,11 +171,6 @@ fun 1, 2 |> other_fun
 ---
 
 (source
-  (call
-    (identifier)
-    (arguments
-      (unary_operator
-        (integer))))
   (call
     (identifier)
     (arguments
@@ -337,15 +385,15 @@ Mod.outer_fun 1 + Mod.inner_fun 1
       (dot
         (alias)
         (identifier))
-    (arguments
-      (binary_operator
-        (integer)
-        (call
-          (dot
-            (alias)
-            (identifier))
-          (arguments
-            (integer)))))))
+      (arguments
+        (binary_operator
+          (integer)
+          (call
+            (dot
+              (alias)
+              (identifier))
+            (arguments
+              (integer)))))))
 
 =====================================
 remote call / treats nonimmediate parentheses as a block argument
@@ -410,7 +458,15 @@ Mod.'fun'(a)
   (call
     (dot
       (alias)
-      (identifier))
+      (string
+        (string_content)))
+    (arguments
+      (identifier)))
+  (call
+    (dot
+      (alias)
+      (charlist
+        (string_content)))
     (arguments
       (identifier))))
 
@@ -520,11 +576,12 @@ Mod.outer_fun mid_fun inner_fun.(a)
     (arguments
       (call
         (identifier)
-        (call
-          (dot
-            (identifier))
-          (arguments
-            (identifier)))))))
+        (arguments
+          (call
+            (dot
+              (identifier))
+            (arguments
+              (identifier))))))))
 
 =====================================
 identifier call
@@ -599,8 +656,8 @@ range call
           (binary_operator
             (integer)
             (integer))
-          (integer))))
-    (identifier)))
+          (integer)))
+      (identifier))))
 
 =====================================
 multi-expression block call
@@ -774,14 +831,22 @@ map [key]
         (identifier)))))
 
 =====================================
-access syntax / precedence over dot call
+access syntax / precedence with dot call
 =====================================
 
+map.map[:key]
 map[:mod].fun
 
 ---
 
 (source
+  (access_call
+    (call
+      (dot
+        (identifier)
+        (identifier)))
+    (atom
+      (atom_literal)))
   (call
     (dot
       (access_call
@@ -789,6 +854,91 @@ map[:mod].fun
         (atom
           (atom_literal)))
       (identifier))))
+
+=====================================
+access syntax / precedence with operators
+=====================================
+
+-x[:key]
+@x[:key]
+&x[:key]
+&1[:key]
+
+---
+
+(source
+  (unary_operator
+    (access_call
+      (identifier)
+      (atom
+        (atom_literal))))
+  (access_call
+    (unary_operator
+      (identifier))
+    (atom
+      (atom_literal)))
+  (unary_operator
+    (access_call
+      (identifier)
+      (atom
+        (atom_literal))))
+  (access_call
+    (unary_operator
+      (integer))
+    (atom
+      (atom_literal))))
+
+=====================================
+double parenthesised call
+=====================================
+
+fun()()
+fun() ()
+fun(1)(1)
+Mod.fun()()
+fun.()()
+
+unquote(name)()
+
+---
+
+(source
+  (call
+    (call
+      (identifier)
+      (arguments))
+    (arguments))
+  (call
+    (call
+      (identifier)
+      (arguments))
+    (arguments))
+  (call
+    (call
+      (identifier)
+      (arguments
+        (integer)))
+    (arguments
+      (integer)))
+  (call
+    (call
+      (dot
+        (alias)
+        (identifier))
+      (arguments))
+    (arguments))
+  (call
+    (call
+      (dot
+        (identifier))
+      (arguments))
+    (arguments))
+  (call
+    (call
+      (identifier)
+      (arguments
+        (identifier)))
+    (arguments)))
 
 =====================================
 [error] leading argument separator
@@ -804,3 +954,18 @@ fun(, a)
     (arguments
       (ERROR)
       (identifier))))
+
+=====================================
+[error] trailing argument separator
+=====================================
+
+fun(a,)
+
+---
+
+(source
+  (call
+    (identifier)
+    (arguments
+      (identifier)
+      (ERROR))))

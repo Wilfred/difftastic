@@ -94,3 +94,30 @@ trailing semicolon
   (block
     (integer)
     (integer)))
+
+=====================================
+stab clauses
+=====================================
+
+(x -> x; y -> y
+ z -> z)
+
+---
+
+(source
+  (block
+    (stab_clause
+      (arguments
+        (identifier))
+      (body
+        (identifier)))
+    (stab_clause
+      (arguments
+        (identifier))
+      (body
+        (identifier)))
+    (stab_clause
+      (arguments
+        (identifier))
+      (body
+        (identifier)))))

@@ -9,7 +9,6 @@ AZ_az_19_
 
 (source
   (alias)
-  (alias)
   (alias))
 
 =====================================
@@ -18,6 +17,22 @@ multiple parts
 
 Mod.Child
 Mod.Child.Child
+
+---
+
+(source
+  (alias)
+  (alias))
+
+=====================================
+spacing
+=====================================
+
+Mod . Child
+
+Mod
+.
+Child
 
 ---
 
@@ -72,17 +87,12 @@ __MODULE__.Child
 [error] does not support characters outside ASCII
 =====================================
 
-Modこ
 Ólá
 Olá
 
 ---
 
 (source
-  (alias)
   (ERROR
-    (identifier))
-  (ERROR
-    (identifier))
-  (ERROR
-    (identifier)))
+    (atom_literal)
+    (atom_literal)))

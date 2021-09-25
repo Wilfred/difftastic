@@ -91,11 +91,7 @@ does not match inside a string
 
 (source
   (string
-    (string_start)
-    (string_content)
-    (string_end))
+    (string_content))
   (string
-    (string_start)
     (string_content)
-    (interpolation (identifier))
-    (string_end)))
+    (interpolation (identifier))))

@@ -64,8 +64,8 @@ trailing separator
 
 (source
   (tuple
-    (ERROR
-      (integer))))
+    (ERROR)
+    (integer)))
 
 =====================================
 [error] missing separator

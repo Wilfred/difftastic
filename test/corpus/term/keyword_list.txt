@@ -2,13 +2,25 @@
 simple literal
 =====================================
 
-[a_b@12?: 1, A_B@12!: 2]
+[a: 1, a_b@12?: 2, A_B@12!: 3, Mod: 4, __struct__: 5]
 
 ---
 
 (source
   (list
     (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
       (pair
         (keyword
           (atom_literal))
@@ -84,6 +96,73 @@ operator key
         (integer)))))
 
 =====================================
+special atom key
+=====================================
+
+[...: 1, %{}: 2, {}: 3, %: 4, <<>>: 5, ..//: 6]
+
+---
+
+(source
+  (list
+    (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer)))))
+
+=====================================
+reserved token key
+=====================================
+
+[not: 1, and: 2]
+[nil: 1, true: 2]
+
+---
+
+(source
+  (list
+    (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))))
+  (list
+    (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer)))))
+
+=====================================
 quoted key
 =====================================
 
@@ -141,18 +220,21 @@ key interpolation
 [error] with trailing items
 =====================================
 
-[a: 1, b: 2, 1]
+[a: 1, b: 2, 1 => 1]
 
 ---
 
 (source
   (list
+    (keywords
+      (pair
+        (keyword
+          (atom_literal))
+        (integer))
+      (pair
+        (keyword
+          (atom_literal))
+        (integer)))
     (ERROR
-      (keywords
-        (pair
-          (keyword
-            (atom_literal)))
-        (pair
-          (keyword
-            (atom_literal)))))
-    (integer)))
+      (integer)
+      (integer))))

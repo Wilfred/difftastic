@@ -126,31 +126,32 @@ update syntax
         (binary_operator
           (string
             (string_content))
-          (integer))))))
+          (string
+            (string_content)))))))
 
 =====================================
 [error] ordering
 =====================================
 
-%{b: 2, c: 3, "a" => 1}
+%{b: 2, c: 3, 1 => 1}
 
 ---
 
 (source
   (map
-    (map_content)
-      (ERROR
-        (keywords
-          (pair
-            (keyword
-              (atom_literal)))
-          (pair
-            (keyword
-              (atom_literal)))))
-      (binary_operator
-        (string
-          (string_content))
-        (integer))))
+    (map_content
+      (keywords
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))
+        (pair
+          (keyword
+            (atom_literal))
+          (integer))))
+    (ERROR
+      (integer)
+      (integer))))
 
 =====================================
 [error] missing separator
@@ -162,40 +163,12 @@ update syntax
 
 (source
   (map
-    (map_content)
-      (ERROR
-        (binary_operator
-          (string
-            (string_content))
-          (integer)))
+    (map_content
       (binary_operator
         (string
           (string_content))
-        (integer))))
-
-=====================================
-[error] invalid content
-=====================================
-
-%{1}
-%{1, 1}
-%{a, [], {}}
-
----
-
-(source
-  (map
-    (map_content
-      (ERROR
-        (integer))))
-  (map
-    (map_content
-      (ERROR
-        (integer)
-        (integer))))
-  (map
-    (map_content
-      (ERROR
-        (identifier)
-        (list)
-        (tuple)))))
+        (ERROR (integer))
+        (binary_operator
+          (string
+            (string_content))
+          (integer))))))
