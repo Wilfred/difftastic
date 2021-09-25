@@ -10,9 +10,17 @@
 Difftastic is an experimental structured diff tool that compares files
 based on their syntax.
 
-![screenshot](img/difftastic.png)
-
 See [the manual](http://difftastic.wilfred.me.uk/) to get started.
+
+## Screenshots
+
+![C screenshot](img/c.png)
+
+![C++ screenshot](img/cpp.png)
+
+![Haskell screenshot](img/haskell.png)
+
+## Languages
 
 Difftastic supports the following languages:
 
@@ -38,21 +46,19 @@ line-oriented diff.
 
 ## Known Issues
 
-Robustness. Difftastic is young and each release has fixed several
-crashes.
-
-Comprehensible display. Minimal diffs can be confusing: replacing
-one function with another may have a small amount of common
-punctuation even though they're completely unrelated. Alignment of
-slightly modified lines is a major challenge too.
-
-Changes to long lines. Difftastic uses a side-by-side display by
-default, which is unhelpful if the only changes are near the end of a
-line.
-
 Performance. Difftastic scales relatively poorly on files with a large
 number of changes, and can use a lot of memory. This might be solved
 by A* search.
+
+Display. Difftastic has a side-by-side which usually works well, but can
+be confusing.
+
+Diff accuracy. Some delimiter moves are currently ignored (see
+[#30](https://github.com/Wilfred/difftastic/issues/30)).
+
+Integration. Difftastic only has [limited support for
+git](http://difftastic.wilfred.me.uk/getting_started.html#git-external-diffs)
+today.
 
 ## Non-goals
 
@@ -70,5 +76,5 @@ otherwise in their header.
 
 ## Further Reading
 
-The [wiki](https://github.com/Wilfred/difftastic/wiki) includes a
-thorough overview of alternative diffing techniques and tools.
+The [wiki](https://github.com/Wilfred/difftastic/wiki) includes
+additional notes on alternative diffing techniques and tools.
