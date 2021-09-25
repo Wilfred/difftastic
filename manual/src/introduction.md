@@ -1,7 +1,7 @@
 # Introduction
 
-Difftastic is a diff tool that understands syntax. It currently
-supports 18 languages:
+Difftastic ([source](https://github.com/wilfred/difftastic)) is a diff
+tool that understands syntax. It currently supports 18 languages:
 
 * C
 * C++
