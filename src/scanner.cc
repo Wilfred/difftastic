@@ -220,6 +220,9 @@ struct Scanner {
           skip(lexer);
         } else if (lexer->lookahead == '\\') {
           skip(lexer);
+          if (lexer->lookahead == '\r') {
+            skip(lexer);
+          }
           if (lexer->lookahead == '\n') {
             skip(lexer);
           } else {
