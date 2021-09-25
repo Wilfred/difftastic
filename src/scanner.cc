@@ -218,6 +218,9 @@ struct Scanner {
           break;
         case '\\':
           advance(lexer);
+          if ('\r' == lexer->lookahead) {
+            skip(lexer);
+          }
           if (iswspace(lexer->lookahead)) {
             skip(lexer);
           } else {
@@ -488,6 +491,7 @@ struct Scanner {
             literal.close_delimiter = '>';
             break;
 
+          case '\r':
           case '\n':
           case ' ':
           case '\t':
