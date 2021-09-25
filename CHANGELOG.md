@@ -17,6 +17,10 @@ Removed legacy regex-based parsing backend.
 
 Some additional runtime optimisations.
 
+### Manual
+
+Added a chapter on difficult cases for tree diff algorithms.
+
 ## 0.9
 
 ### Parsing
