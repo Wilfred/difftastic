@@ -2041,7 +2041,7 @@
         "value": -1,
         "content": {
           "type": "PATTERN",
-          "value": "([^\"`$\\\\]|\\\\(.|\\n))+"
+          "value": "([^\"`$\\\\]|\\\\(.|\\r?\\n))+"
         }
       }
     },
@@ -2526,7 +2526,15 @@
     },
     {
       "type": "PATTERN",
-      "value": "\\\\?\\s"
+      "value": "\\s"
+    },
+    {
+      "type": "PATTERN",
+      "value": "\\\\\\r?\\n"
+    },
+    {
+      "type": "PATTERN",
+      "value": "\\\\( |\\t|\\v|\\f)"
     }
   ],
   "conflicts": [],
