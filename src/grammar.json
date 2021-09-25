@@ -6008,7 +6008,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "\\s|\\\\\\n"
+      "value": "\\s|\\\\\\r?\\n"
     }
   ],
   "conflicts": [],
