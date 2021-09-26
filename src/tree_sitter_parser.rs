@@ -21,7 +21,7 @@ pub struct TreeSitterConfig {
     // tree-sitter, and occurs more often for complex string syntax.
     // https://github.com/tree-sitter/tree-sitter/issues/1156
     atom_nodes: HashSet<&'static str>,
-    open_delimiter_tokens: HashSet<&'static str>,
+    delimiter_tokens: Vec<(&'static str, &'static str)>,
 }
 
 extern "C" {
@@ -55,8 +55,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["string_literal", "char_literal"])
                 .into_iter()
                 .collect(),
-            // TODO: Handle array_declarator where [ is the second token.
-            open_delimiter_tokens: (vec!["(", "{"]).into_iter().collect(),
+            delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("[", "]")]),
         }),
         // Treat .h as C++ rather than C. This is an arbitrary choice,
         // but C++ is more widely used than C according to
@@ -72,14 +71,16 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["string_literal", "char_literal"])
                 .into_iter()
                 .collect(),
-            open_delimiter_tokens: (vec!["(", "{"]).into_iter().collect(),
+            delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("[", "]")]),
         }),
         "bb" | "boot" | "clj" | "cljc" | "clje" | "cljs" | "cljx" | "edn" | "joke" | "joker" => {
             Some(TreeSitterConfig {
                 name: "Clojure",
                 language: unsafe { tree_sitter_clojure() },
                 atom_nodes: (vec![]).into_iter().collect(),
-                open_delimiter_tokens: (vec!["{", "(", "["]).into_iter().collect(),
+                delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")])
+                    .into_iter()
+                    .collect(),
             })
         }
         "cs" => Some(TreeSitterConfig {
@@ -92,26 +93,29 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             ])
             .into_iter()
             .collect(),
-            // TODO: If statements have ( as the second item.
-            open_delimiter_tokens: (vec!["{", "("]).into_iter().collect(),
+            delimiter_tokens: (vec![("{", "}"), ("(", ")")]),
         }),
         "css" => Some(TreeSitterConfig {
             name: "CSS",
             language: unsafe { tree_sitter_css() },
             atom_nodes: (vec!["integer_value"]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["{", "("]).into_iter().collect(),
+            delimiter_tokens: (vec![("{", "}"), ("(", ")")]),
         }),
         "el" => Some(TreeSitterConfig {
             name: "Emacs Lisp",
             language: unsafe { tree_sitter_elisp() },
             atom_nodes: (vec![]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["{", "(", "["]).into_iter().collect(),
+            delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")])
+                .into_iter()
+                .collect(),
         }),
         "ex" | "exs" => Some(TreeSitterConfig {
             name: "Elixir",
             language: unsafe { tree_sitter_elixir() },
             atom_nodes: (vec!["string", "heredoc"]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["(", "{", "do"]).into_iter().collect(),
+            delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("do", "end")])
+                .into_iter()
+                .collect(),
         }),
         "go" => Some(TreeSitterConfig {
             name: "Go",
@@ -119,56 +123,60 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["interpreted_string_literal", "raw_string_literal"])
                 .into_iter()
                 .collect(),
-            open_delimiter_tokens: (vec!["{", "[", "("]).into_iter().collect(),
+            delimiter_tokens: (vec![("{", "}"), ("[", "]"), ("(", ")")])
+                .into_iter()
+                .collect(),
         }),
         "hs" => Some(TreeSitterConfig {
             name: "Haskell",
             language: unsafe { tree_sitter_haskell() },
             atom_nodes: (vec![]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["[", "("]).into_iter().collect(),
+            delimiter_tokens: (vec![("[", "]"), ("(", ")")]),
         }),
         "java" => Some(TreeSitterConfig {
             name: "Java",
             language: unsafe { tree_sitter_java() },
             atom_nodes: (vec![]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["(", "{"]).into_iter().collect(),
+            delimiter_tokens: (vec![("(", ")"), ("{", "}")]),
         }),
         "js" | "jsx" => Some(TreeSitterConfig {
             name: "JavaScript",
             language: unsafe { tree_sitter_javascript() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
-            open_delimiter_tokens: (vec![
-                "[", "(", "{",
-                // This is only correct because < cannot occur as the
-                // first token in tree-sitter node unless we're in JSX.
-                "<",
-            ])
-            .into_iter()
-            .collect(),
+            delimiter_tokens: (vec![
+                ("[", "]"),
+                ("(", ")"),
+                ("{", "}"),
+                // We may see a standalone < token in an expression
+                // like 1 < 2, but we should never see both a < and a
+                // > at the same level in JSX.
+                ("<", ">"),
+            ]),
         }),
         "json" => Some(TreeSitterConfig {
             name: "JSON",
             language: unsafe { tree_sitter_json() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["{", "["]).into_iter().collect(),
+            delimiter_tokens: (vec![("{", "}"), ("[", "]")]),
         }),
         "ml" => Some(TreeSitterConfig {
             name: "OCaml",
             language: unsafe { tree_sitter_ocaml() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["(", "[", "{"]).into_iter().collect(),
+            // TODO: begin/end and object/end.
+            delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
         }),
         "mli" => Some(TreeSitterConfig {
             name: "OCaml Interface",
             language: unsafe { tree_sitter_ocaml_interface() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["(", "[", "{"]).into_iter().collect(),
+            delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
         }),
         "py" => Some(TreeSitterConfig {
             name: "Python",
             language: unsafe { tree_sitter_python() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["(", "[", "{"]).into_iter().collect(),
+            delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
         }),
         "rs" => Some(TreeSitterConfig {
             name: "Rust",
@@ -176,19 +184,19 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["char_literal", "string_literal"])
                 .into_iter()
                 .collect(),
-            open_delimiter_tokens: (vec!["{", "(", "[", "|"]).into_iter().collect(),
+            delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|")]),
         }),
         "ts" => Some(TreeSitterConfig {
             name: "TypeScript",
             language: unsafe { tree_sitter_typescript() },
             atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["{", "(", "[", "<"]).into_iter().collect(),
+            delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
         }),
         "tsx" => Some(TreeSitterConfig {
             name: "TypeScript TSX",
             language: unsafe { tree_sitter_tsx() },
             atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
-            open_delimiter_tokens: (vec!["{", "(", "[", "<"]).into_iter().collect(),
+            delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
         }),
         _ => None,
     }
@@ -240,85 +248,72 @@ pub fn parse<'a>(
     // each top level syntax item.
     cursor.goto_first_child();
 
-    syntax_from_cursor(arena, src, &nl_pos, &mut cursor, config, false)
+    all_syntaxes_from_cursor(arena, src, &nl_pos, &mut cursor, config)
 }
 
-fn syntax_from_cursor<'a>(
+fn child_tokens<'a>(src: &'a str, cursor: &mut TreeCursor) -> Vec<Option<&'a str>> {
+    let mut tokens = vec![];
+
+    cursor.goto_first_child();
+    loop {
+        let node = cursor.node();
+
+        // We're only interested in tree-sitter nodes that are plain tokens,
+        // not lists or comments.
+        if node.child_count() > 1 || node.is_extra() {
+            tokens.push(None);
+        } else {
+            tokens.push(Some(&src[node.start_byte()..node.end_byte()]));
+        }
+
+        if !cursor.goto_next_sibling() {
+            break;
+        }
+    }
+    cursor.goto_parent();
+
+    tokens
+}
+
+/// Are any of the children of the node at `cursor` delimiters? Return
+/// their indexes if so.
+fn find_delim_positions(
+    src: &str,
+    cursor: &mut TreeCursor,
+    lang_delims: &[(&str, &str)],
+) -> Option<(usize, usize)> {
+    let tokens = child_tokens(src, cursor);
+
+    for (i, token) in tokens.iter().enumerate() {
+        for (open_delim, close_delim) in lang_delims {
+            if *token == Some(open_delim) {
+                for (j, token) in tokens.iter().skip(i).enumerate() {
+                    if *token == Some(close_delim) {
+                        return Some((i, j));
+                    }
+                }
+            }
+        }
+    }
+
+    None
+}
+
+/// Convert all the tree-sitter nodes at this level to difftastic
+/// syntax nodes.
+///
+/// `cursor` should be pointing at the first tree-sitter node in a level.
+fn all_syntaxes_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
     nl_pos: &NewlinePositions,
     cursor: &mut TreeCursor,
     config: &TreeSitterConfig,
-    skip_ends: bool,
 ) -> Vec<&'a Syntax<'a>> {
     let mut result: Vec<&Syntax> = vec![];
 
-    let mut is_first = true;
     loop {
-        let node = cursor.node();
-
-        if config.atom_nodes.contains(node.kind()) {
-            // Treat nodes like string literals as atoms, regardless
-            // of whether they have children.
-            let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
-            let content = &src[node.start_byte()..node.end_byte()];
-            result.push(Syntax::new_atom(arena, position, content));
-        } else if cursor.goto_first_child() {
-            let child_node = cursor.node();
-            let child_content = &src[child_node.start_byte()..child_node.end_byte()];
-            // TODO: consider open delimiters that aren't the first child.
-            // TODO: find the close delimiter rather than assuming it's last.
-            let has_delimiters = config.open_delimiter_tokens.contains(child_content);
-
-            // This node has children, so treat it as a list.
-            let children = syntax_from_cursor(arena, src, nl_pos, cursor, config, has_delimiters);
-            cursor.goto_parent();
-
-            let mut open_content = "";
-            let mut open_position = nl_pos.from_offsets(node.start_byte(), node.start_byte());
-            let mut close_content = "";
-            let mut close_position = nl_pos.from_offsets(node.end_byte(), node.end_byte());
-
-            if has_delimiters {
-                cursor.goto_first_child();
-                let first_child_node = cursor.node();
-                while cursor.goto_next_sibling() {}
-                let last_child_node = cursor.node();
-
-                open_content = &src[first_child_node.start_byte()..first_child_node.end_byte()];
-                open_position =
-                    nl_pos.from_offsets(first_child_node.start_byte(), first_child_node.end_byte());
-
-                close_content = &src[last_child_node.start_byte()..last_child_node.end_byte()];
-                close_position =
-                    nl_pos.from_offsets(last_child_node.start_byte(), last_child_node.end_byte());
-
-                cursor.goto_parent();
-            }
-
-            result.push(Syntax::new_list(
-                arena,
-                open_content,
-                open_position,
-                children,
-                close_content,
-                close_position,
-            ))
-        } else {
-            let skip_this = skip_ends && (is_first || is_last_sibling(cursor));
-
-            if !skip_this {
-                let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
-                let content = &src[node.start_byte()..node.end_byte()];
-
-                if node.is_extra() {
-                    result.push(Syntax::new_comment(arena, position, content));
-                } else {
-                    result.push(Syntax::new_atom(arena, position, content));
-                }
-            }
-        }
-        is_first = false;
+        result.push(syntax_from_cursor(arena, src, nl_pos, cursor, config));
 
         if !cursor.goto_next_sibling() {
             break;
@@ -328,9 +323,148 @@ fn syntax_from_cursor<'a>(
     result
 }
 
-fn is_last_sibling(cursor: &mut TreeCursor) -> bool {
+/// Convert the tree-sitter node at `cursor` to a difftastic syntax
+/// node.
+fn syntax_from_cursor<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    src: &str,
+    nl_pos: &NewlinePositions,
+    cursor: &mut TreeCursor,
+    config: &TreeSitterConfig,
+) -> &'a Syntax<'a> {
     let node = cursor.node();
-    node.next_sibling().is_none()
+
+    if config.atom_nodes.contains(node.kind()) {
+        // Treat nodes like string literals as atoms, regardless
+        // of whether they have children.
+        atom_from_cursor(arena, src, nl_pos, cursor)
+    } else if node.child_count() > 1 {
+        list_from_cursor(arena, src, nl_pos, cursor, config)
+    } else {
+        atom_from_cursor(arena, src, nl_pos, cursor)
+    }
+}
+
+/// Convert the tree-sitter node at `cursor` to a difftastic list
+/// node.
+fn list_from_cursor<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    src: &str,
+    nl_pos: &NewlinePositions,
+    cursor: &mut TreeCursor,
+    config: &TreeSitterConfig,
+) -> &'a Syntax<'a> {
+    let root_node = cursor.node();
+
+    // We may not have an enclosing delimiter for this list. Use "" as
+    // the delimiter text and the start/end of this node as the
+    // delimiter positions.
+    let outer_open_content = "";
+    let outer_open_position = nl_pos.from_offsets(root_node.start_byte(), root_node.start_byte());
+    let outer_close_content = "";
+    let outer_close_position = nl_pos.from_offsets(root_node.end_byte(), root_node.end_byte());
+
+    let (i, j) = match find_delim_positions(src, cursor, &config.delimiter_tokens) {
+        Some((i, j)) => (i as isize, j as isize),
+        None => (-1, root_node.child_count() as isize),
+    };
+
+    let mut inner_open_content = outer_open_content;
+    let mut inner_open_position = outer_open_position.clone();
+    let mut inner_close_content = outer_close_content;
+    let mut inner_close_position = outer_close_position.clone();
+
+    // Tree-sitter trees include the delimiter tokens, so `(x)` is
+    // parsed as:
+    //
+    // "(" "x" ")"
+    //
+    // However, there's no guarantee that the first token is a
+    // delimiter. For example, the C parser treats `foo[0]` as:
+    //
+    // "foo" "[" "0" "]"
+    //
+    // Store the syntax nodes before, between and after the
+    // delimiters, so we can construct lists.
+    let mut before_delim = vec![];
+    let mut between_delim = vec![];
+    let mut after_delim = vec![];
+
+    let mut node_i = 0;
+    cursor.goto_first_child();
+    loop {
+        let node = cursor.node();
+        if node_i < i {
+            before_delim.push(syntax_from_cursor(arena, src, nl_pos, cursor, config));
+        } else if node_i == i {
+            inner_open_content = &src[node.start_byte()..node.end_byte()];
+            inner_open_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
+        } else if node_i < j {
+            between_delim.push(syntax_from_cursor(arena, src, nl_pos, cursor, config));
+        } else if node_i == j {
+            inner_close_content = &src[node.start_byte()..node.end_byte()];
+            inner_close_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
+        } else if node_i > j {
+            after_delim.push(syntax_from_cursor(arena, src, nl_pos, cursor, config));
+        }
+
+        if !cursor.goto_next_sibling() {
+            break;
+        }
+        node_i += 1;
+    }
+    cursor.goto_parent();
+
+    let inner_list = Syntax::new_list(
+        arena,
+        inner_open_content,
+        inner_open_position,
+        between_delim,
+        inner_close_content,
+        inner_close_position,
+    );
+
+    if before_delim.is_empty() && after_delim.is_empty() {
+        // The common case "(" "x" ")", so we don't need the outer list.
+        inner_list
+    } else {
+        // Wrap the inner list in an additional list that includes the
+        // syntax nodes before and after the delimiters.
+        //
+        // "foo" "[" "0" "]" // tree-sitter nodes
+        //
+        // (List "foo" (List "0")) // difftastic syntax nodes
+        let mut children = before_delim;
+        children.push(inner_list);
+        children.append(&mut after_delim);
+
+        Syntax::new_list(
+            arena,
+            outer_open_content,
+            outer_open_position,
+            children,
+            outer_close_content,
+            outer_close_position,
+        )
+    }
+}
+
+/// Convert the tree-sitter node at `cursor` to a difftastic atom.
+fn atom_from_cursor<'a>(
+    arena: &'a Arena<Syntax<'a>>,
+    src: &str,
+    nl_pos: &NewlinePositions,
+    cursor: &mut TreeCursor,
+) -> &'a Syntax<'a> {
+    let node = cursor.node();
+    let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
+    let content = &src[node.start_byte()..node.end_byte()];
+
+    if node.is_extra() {
+        Syntax::new_comment(arena, position, content)
+    } else {
+        Syntax::new_atom(arena, position, content)
+    }
 }
 
 #[cfg(test)]
