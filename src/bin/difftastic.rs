@@ -147,7 +147,6 @@ fn main() {
 
     reset_sigpipe();
     configure_color();
-    let arena = Arena::new();
 
     let mode = parse_args();
     let (display_path, lhs_path, rhs_path) = match mode {
@@ -174,6 +173,7 @@ fn main() {
                 Some(ts_lang) => {
                     let bytes = read_or_die(&path);
                     let src = String::from_utf8_lossy(&bytes).to_string();
+                    let arena = Arena::new();
                     let ast = tsp::parse(&arena, &src, &ts_lang);
                     init_info(&ast, &[]);
                     println!("{:#?}", ast);
@@ -191,13 +191,17 @@ fn main() {
         } => (display_path, lhs_path, rhs_path),
     };
 
-    let lhs_bytes = read_or_die(&lhs_path);
-    let rhs_bytes = read_or_die(&rhs_path);
+    diff_file(&display_path, &lhs_path, &rhs_path);
+}
+
+fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
+    let lhs_bytes = read_or_die(lhs_path);
+    let rhs_bytes = read_or_die(rhs_path);
 
     let lhs_binary = is_probably_binary(&lhs_bytes);
     let rhs_binary = is_probably_binary(&rhs_bytes);
     if lhs_binary || rhs_binary {
-        println!("{}", style::header(&display_path, "binary"));
+        println!("{}", style::header(display_path, "binary"));
         return;
     }
 
@@ -213,6 +217,7 @@ fn main() {
     let extension = extension.unwrap_or_else(|| OsStr::new(""));
     let ts_lang = tsp::from_extension(extension);
 
+    let arena = Arena::new();
     let (lang_name, lhs, rhs) = match ts_lang {
         Some(ts_lang) => (
             ts_lang.name,
@@ -226,7 +231,7 @@ fn main() {
         ),
     };
 
-    println!("{}", style::header(&display_path, lang_name));
+    println!("{}", style::header(display_path, lang_name));
 
     init_info(&lhs, &rhs);
     mark_syntax(lhs.get(0).copied(), rhs.get(0).copied());
