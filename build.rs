@@ -27,6 +27,7 @@ impl TreeSitterParser {
             cpp_build
                 .include(&dir)
                 .cpp(true)
+                .flag("--std=c++14")
                 .flag("-Wno-unused-parameter")
                 .flag("-Wno-ignored-qualifiers");
             for file in cpp_files {
