@@ -1,6 +1,8 @@
 ## 0.11 (unreleased)
 
-No changes.
+### Parsing
+
+Improved handling of paired delimiters, particularly in C, C++ and C#.
 
 ## 0.10
 
