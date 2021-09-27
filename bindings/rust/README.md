@@ -10,7 +10,7 @@ You will also need the [tree-sitter crate][] to do the actual parsing here.
 ``` toml
 [dependencies]
 tree-sitter = "0.19"
-tree-sitter-php = { git = "https://github.com/tree-sitter/tree-sitter-php.git", branch = "master }
+tree-sitter-php = { git = "https://github.com/tree-sitter/tree-sitter-php.git", branch = "master" }
 ```
 
 To you the parser, you need to obtain an instance of a [`tree_sitter::Language`][Language] struct for php.
