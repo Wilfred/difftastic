@@ -19,19 +19,19 @@ include = [
 ]
 
 [dependencies]
-regex = "1"
-colored = "2.0"
-diff = "0.1.11"
-clap = "2.32"
-itertools = "0.8.0"
-term_size = "0.3"
+regex = "1.5.4"
+colored = "2.0.0"
+diff = "0.1.12"
+clap = "2.33.3"
+itertools = "0.10.1"
+term_size = "0.3.2"
 typed-arena = "2.0.1"
 rustc-hash = "1.1.0"
 strsim = "0.10.0"
 lazy_static = "1.4.0"
 atty = "0.2.14"
 tree-sitter = "0.20.0"
-libc = "0.2.99"
+libc = "0.2.102"
 log = "0.4.14"
 pretty_env_logger = "0.4.0"
 mimalloc = { version = "0.1.26", default-features = false }
@@ -39,12 +39,12 @@ radix-heap = "0.3.8"
 walkdir = "2.3.2"
 
 [dev-dependencies]
-pretty_assertions = "0.6.1"
-criterion = { version = "0.3", features = ["html_reports"] }
+pretty_assertions = "0.7.2"
+criterion = { version = "0.3.5", features = ["html_reports"] }
 
 [build-dependencies]
-cc="1.0"
-rayon = "1.5"
+cc= "1.0.70"
+rayon = "1.5.1"
 
 [[bench]]
 name = "parse_and_diff"
