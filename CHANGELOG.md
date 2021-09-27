@@ -4,6 +4,11 @@
 
 Improved handling of paired delimiters, particularly in C, C++ and C#.
 
+### Build
+
+Fix compilation for systems where the C++ compiler defaulted to a
+version of C++ older than C++14.
+
 ## 0.10
 
 ### Parsing
