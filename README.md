@@ -56,9 +56,9 @@ be confusing.
 Diff accuracy. Some delimiter moves are currently ignored (see
 [#30](https://github.com/Wilfred/difftastic/issues/30)).
 
-Integration. Difftastic only has [limited support for
-git](http://difftastic.wilfred.me.uk/getting_started.html#git-external-diffs)
-today.
+Integration. Difftastic only has [limited
+support](http://difftastic.wilfred.me.uk/getting_started.html#git-external-diffs)
+for git and mercurial today.
 
 ## Non-goals
 
