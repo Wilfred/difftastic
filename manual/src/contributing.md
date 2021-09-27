@@ -48,14 +48,21 @@ If you have a file that's particularly slow, you can use
 which functions are slow.
 
 ```
-$ cargo flamegraph --bin difftastic ~/tmp/slow_before.rs ~/tmp/slow_after.rs
+$ cargo flamegraph --bin difftastic sample_files/slow_before.rs sample_files/slow_after.rs
 ```
 
 It's also worth looking at memory usage, as graph traversal bugs can
 lead to huge memory consumption.
 
 ```
-$ /usr/bin/time -v ./target/release/difftastic before.rs after.rs
+$ /usr/bin/time -v ./target/release/difftastic sample_files/slow_before.rs sample_files/slow_after.rs
+```
+
+If timing measurement are noisy, Linux's `perf` tool will report
+instructions executed, which is more stable.
+
+```
+$ perf stat ./target/release/difftastic sample_files/slow_before.rs sample_files/slow_after.rs
 ```
 
 Many more profiling techniques are discussed in the [The Rust
