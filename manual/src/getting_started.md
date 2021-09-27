@@ -89,8 +89,7 @@ extdiff =
 ```
 
 You can then run `hg extdiff -p difftastic` (assumes difftastic is on
-your `$PATH`). **This currently only supports diffs where a single file
-is modified.**
+your `$PATH`).
 
 You can also define an alias to run difftastic with hg. Add the
 following to your `.hgrc` to run difftastic with `hg dft`.

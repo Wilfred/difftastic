@@ -4,6 +4,12 @@
 
 Improved handling of paired delimiters, particularly in C, C++ and C#.
 
+### Integration
+
+Added support for Mercuial, see [this section in the
+manual](http://difftastic.wilfred.me.uk/getting_started.html#mercurial-external-diffs)
+for instructions.
+
 ### Build
 
 Fix compilation for systems where the C++ compiler defaulted to a

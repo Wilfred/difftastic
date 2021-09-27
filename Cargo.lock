@@ -257,6 +257,7 @@ dependencies = [
  "term_size",
  "tree-sitter",
  "typed-arena",
+ "walkdir",
 ]
 
 [[package]]
