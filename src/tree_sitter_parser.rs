@@ -287,9 +287,9 @@ fn find_delim_positions(
     for (i, token) in tokens.iter().enumerate() {
         for (open_delim, close_delim) in lang_delims {
             if *token == Some(open_delim) {
-                for (j, token) in tokens.iter().skip(i).enumerate() {
+                for (j, token) in tokens.iter().skip(i + 1).enumerate() {
                     if *token == Some(close_delim) {
-                        return Some((i, j));
+                        return Some((i, i + 1 + j));
                     }
                 }
             }
