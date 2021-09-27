@@ -7,6 +7,7 @@ use atty::Stream;
 use clap::{crate_version, App, AppSettings, Arg};
 use std::{env, ffi::OsStr, path::Path};
 use typed_arena::Arena;
+use walkdir::WalkDir;
 
 use difftastic::*;
 use difftastic::{
@@ -191,9 +192,14 @@ fn main() {
         } => (display_path, lhs_path, rhs_path),
     };
 
-    diff_file(&display_path, &lhs_path, &rhs_path);
+    if Path::new(&lhs_path).is_dir() && Path::new(&rhs_path).is_dir() {
+        diff_directories(&lhs_path, &rhs_path);
+    } else {
+        diff_file(&display_path, &lhs_path, &rhs_path);
+    }
 }
 
+// TODO: prefer PathBuf to &str for paths.
 fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     let lhs_bytes = read_or_die(lhs_path);
     let rhs_bytes = read_or_die(rhs_path);
@@ -275,4 +281,27 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
         );
     }
     println!();
+}
+
+/// Given two directories that contain the files, compare them
+/// pairwise.
+///
+/// This is how the hg extdiff extension calls a diff tool when there
+/// is more than one changed file.
+fn diff_directories(lhs_dir: &str, rhs_dir: &str) {
+    for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
+        let lhs_path = entry.path();
+        if lhs_path.is_dir() {
+            continue;
+        }
+
+        let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
+        let rhs_path = Path::new(rhs_dir).join(rel_path);
+
+        diff_file(
+            &rel_path.to_string_lossy(),
+            &lhs_path.to_string_lossy(),
+            &rhs_path.to_string_lossy(),
+        );
+    }
 }
