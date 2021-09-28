@@ -5512,8 +5512,12 @@
                         "type": "SEQ",
                         "members": [
                           {
-                            "type": "SYMBOL",
-                            "name": "_expression"
+                            "type": "PREC_RIGHT",
+                            "value": 20,
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "_expression"
+                            }
                           },
                           {
                             "type": "REPEAT",
@@ -5525,8 +5529,12 @@
                                   "value": ","
                                 },
                                 {
-                                  "type": "SYMBOL",
-                                  "name": "_expression"
+                                  "type": "PREC_RIGHT",
+                                  "value": 20,
+                                  "content": {
+                                    "type": "SYMBOL",
+                                    "name": "_expression"
+                                  }
                                 }
                               ]
                             }
@@ -5873,6 +5881,10 @@
     [
       "binary_operator",
       "_stab_clause_arguments_without_parentheses"
+    ],
+    [
+      "_stab_clause_arguments_without_parentheses",
+      "_stab_clause_arguments_with_parentheses"
     ],
     [
       "operator_identifier",

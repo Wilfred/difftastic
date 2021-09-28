@@ -461,6 +461,7 @@ stab clause / edge cases / "when" in arguments
 
 foo do
   a when b, c when d == e -> 1
+  (a, a when b) -> 1
 end
 
 ---
@@ -476,6 +477,14 @@ end
               (identifier)
               (identifier))
             (identifier))
+          (binary_operator
+            (identifier)
+            (identifier)))
+        (body
+          (integer)))
+      (stab_clause
+        (arguments
+          (identifier)
           (binary_operator
             (identifier)
             (identifier)))

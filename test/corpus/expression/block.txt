@@ -96,7 +96,7 @@ trailing semicolon
     (integer)))
 
 =====================================
-stab clauses
+stab clause / multiple clauses
 =====================================
 
 (x -> x; y -> y
@@ -121,3 +121,110 @@ stab clauses
         (identifier))
       (body
         (identifier)))))
+
+=====================================
+stab clause / multiple arguments
+=====================================
+
+(x, y, z -> x)
+((x, y, z) -> x)
+
+---
+
+(source
+  (block
+    (stab_clause
+      (arguments
+        (identifier)
+        (identifier)
+        (identifier))
+      (body
+        (identifier))))
+  (block
+    (stab_clause
+      (arguments
+        (identifier)
+        (identifier)
+        (identifier))
+      (body
+        (identifier)))))
+
+=====================================
+stab clause / guard
+=====================================
+
+(x, y when x == y -> 1)
+((x, y when x == y -> 1))
+((x, y when x == y) -> 1)
+(x, y when x, z -> 1)
+((x, y when x, z -> 1))
+((x, y when x, z) -> 1)
+
+---
+
+(source
+  (block
+    (stab_clause
+      (binary_operator
+        (arguments
+          (identifier)
+          (identifier))
+        (binary_operator
+          (identifier)
+          (identifier)))
+      (body
+        (integer))))
+  (block
+    (block
+      (stab_clause
+        (binary_operator
+          (arguments
+            (identifier)
+            (identifier))
+          (binary_operator
+            (identifier)
+            (identifier)))
+        (body
+          (integer)))))
+  (block
+    (stab_clause
+      (arguments
+        (identifier)
+        (binary_operator
+          (identifier)
+          (binary_operator
+            (identifier)
+            (identifier))))
+      (body
+        (integer))))
+  (block
+    (stab_clause
+      (arguments
+        (identifier)
+        (binary_operator
+          (identifier)
+          (identifier))
+        (identifier))
+      (body
+        (integer))))
+  (block
+    (block
+      (stab_clause
+        (arguments
+          (identifier)
+          (binary_operator
+            (identifier)
+            (identifier))
+          (identifier))
+        (body
+          (integer)))))
+  (block
+    (stab_clause
+      (arguments
+        (identifier)
+        (binary_operator
+          (identifier)
+          (identifier))
+        (identifier))
+      (body
+        (integer)))))

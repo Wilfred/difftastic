@@ -168,6 +168,14 @@ module.exports = grammar({
     //   * stab arguments item in `arg1, left when right ->`
     [$.binary_operator, $._stab_clause_arguments_without_parentheses],
 
+    // Given `((arg1, arg2 • ,`, `arg3` expression can be either:
+    //   * stab parenthesised arguments item in `((arg1, arg2, arg3) ->)`
+    //   * stab non-parenthesised arguments item in `((arg1, arg2, arg3 ->))`
+    [
+      $._stab_clause_arguments_without_parentheses,
+      $._stab_clause_arguments_with_parentheses,
+    ],
+
     // Given `(-> • /`, stab can be either:
     //   * stab clause operator in `(-> / / 2)`
     //   * operator identifier in `(-> / 2)`
@@ -738,7 +746,13 @@ module.exports = grammar({
           "(",
           optional(
             choice(
-              seq(sep1($._expression, ","), optional(seq(",", $.keywords))),
+              seq(
+                // We need the same expression precedence as below, so that we don't
+                // discard this rule in favour of the one below. We use right precedence,
+                // because in this case we can consume expression until the next comma
+                sep1(prec.right(PREC.WHEN_OP, $._expression), ","),
+                optional(seq(",", $.keywords))
+              ),
               $.keywords
             )
           ),
