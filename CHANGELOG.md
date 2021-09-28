@@ -12,7 +12,7 @@ for instructions.
 
 ### Build
 
-Fix compilation for systems where the C++ compiler defaulted to a
+Fix compilation on macOS where the C++ compiler defaulted to a
 version of C++ older than C++14.
 
 ## 0.10
