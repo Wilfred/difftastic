@@ -50,3 +50,29 @@ val y = when(x){
         (control_structure_body (boolean_literal)))
       (when_entry (when_condition (integer_literal))
         (control_structure_body (boolean_literal))))))
+
+==================
+Expect as an expression
+==================
+
+val x = expect(1)
+
+---
+(source_file
+   (property_declaration
+     (variable_declaration (simple_identifier))
+     (call_expression (simple_identifier)
+        (call_suffix (value_arguments (value_argument (integer_literal)))))))
+
+==================
+Expect as a platform modifier
+==================
+
+expect fun randomUUID(): String
+
+---
+(source_file
+  (function_declaration
+     (modifiers (platform_modifier))
+     (simple_identifier)
+     (user_type (type_identifier))))

@@ -4533,19 +4533,23 @@
       ]
     },
     "modifiers": {
-      "type": "REPEAT1",
+      "type": "PREC_LEFT",
+      "value": 0,
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "annotation"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_modifier"
-          }
-        ]
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "annotation"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_modifier"
+            }
+          ]
+        }
       }
     },
     "parameter_modifiers": {
@@ -4931,8 +4935,17 @@
       ]
     },
     "simple_identifier": {
-      "type": "SYMBOL",
-      "name": "_lexical_identifier"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_lexical_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "expect"
+        }
+      ]
     },
     "identifier": {
       "type": "SEQ",
@@ -5688,9 +5701,12 @@
     [
       "constructor_invocation",
       "_unescaped_annotation"
+    ],
+    [
+      "platform_modifier",
+      "simple_identifier"
     ]
   ],
-  "precedences": [],
   "externals": [],
   "inline": [],
   "supertypes": []
