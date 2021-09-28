@@ -72,7 +72,11 @@ module.exports = grammar({
     [$._primary_expression, $.callable_reference],
 
     // @Type(... could either be an annotation constructor invocation or an annotated expression
-    [$.constructor_invocation, $._unescaped_annotation]
+    [$.constructor_invocation, $._unescaped_annotation],
+
+    // "expect" as a plaform modifier conflicts with expect as an identifier
+    [$.platform_modifier, $.simple_identifier]
+
   ],
 
   extras: $ => [
@@ -856,7 +860,7 @@ module.exports = grammar({
     // Modifiers
     // ==========
 
-    modifiers: $ => repeat1(choice($.annotation, $._modifier)),
+    modifiers: $ => prec.left(repeat1(choice($.annotation, $._modifier))),
 
     parameter_modifiers: $ => repeat1(choice($.annotation, $.parameter_modifier)),
 
@@ -974,7 +978,11 @@ module.exports = grammar({
     // Identifiers
     // ==========
 
-    simple_identifier: $ => $._lexical_identifier, // TODO
+    simple_identifier: $ => choice(
+	$._lexical_identifier,
+	"expect",
+	// TODO: far more identifierOrSoftKeyword
+    ),
 
     identifier: $ => sep1($.simple_identifier, "."),
 
