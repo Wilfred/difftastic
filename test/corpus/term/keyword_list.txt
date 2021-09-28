@@ -195,6 +195,23 @@ key interpolation
         (integer)))))
 
 =====================================
+[field names]
+=====================================
+
+[a: 1, b: 2]
+---
+
+(source
+  (list
+    (keywords
+      (pair
+        key: (keyword)
+        value: (integer))
+      (pair
+        key: (keyword)
+        value: (integer)))))
+
+=====================================
 [error] with trailing items
 =====================================
 

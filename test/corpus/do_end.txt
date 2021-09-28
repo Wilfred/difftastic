@@ -771,3 +771,33 @@ end
                 (integer))))
           (body
             (identifier)))))))
+
+=====================================
+[field names]
+=====================================
+
+fun do
+  x -> x
+  x when x == [] -> x
+end
+
+---
+
+(source
+  (call
+    target: (identifier)
+    (do_block
+      (stab_clause
+        left: (arguments
+          (identifier))
+        right: (body
+          (identifier)))
+      (stab_clause
+        left: (binary_operator
+          left: (arguments
+            (identifier))
+          right: (binary_operator
+            left: (identifier)
+            right: (list)))
+        right: (body
+          (identifier))))))

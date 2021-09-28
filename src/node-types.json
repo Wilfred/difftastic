@@ -2,112 +2,219 @@
   {
     "type": "access_call",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "access_call",
-          "named": true
-        },
-        {
-          "type": "alias",
-          "named": true
-        },
-        {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "atom",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "bitstring",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "charlist",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "map",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "quoted_atom",
-          "named": true
-        },
-        {
-          "type": "sigil",
-          "named": true
-        },
-        {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access_call",
+            "named": true
+          },
+          {
+            "type": "alias",
+            "named": true
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "atom",
+            "named": true
+          },
+          {
+            "type": "binary_operator",
+            "named": true
+          },
+          {
+            "type": "bitstring",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "char",
+            "named": true
+          },
+          {
+            "type": "charlist",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "quoted_atom",
+            "named": true
+          },
+          {
+            "type": "sigil",
+            "named": true
+          },
+          {
+            "type": "special_identifier",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_operator",
+            "named": true
+          },
+          {
+            "type": "unused_identifier",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access_call",
+            "named": true
+          },
+          {
+            "type": "alias",
+            "named": true
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "atom",
+            "named": true
+          },
+          {
+            "type": "binary_operator",
+            "named": true
+          },
+          {
+            "type": "bitstring",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "char",
+            "named": true
+          },
+          {
+            "type": "charlist",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "quoted_atom",
+            "named": true
+          },
+          {
+            "type": "sigil",
+            "named": true
+          },
+          {
+            "type": "special_identifier",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_operator",
+            "named": true
+          },
+          {
+            "type": "unused_identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -361,7 +468,7 @@
     "fields": {
       "left": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "access_call",
@@ -373,6 +480,10 @@
           },
           {
             "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "arguments",
             "named": true
           },
           {
@@ -471,7 +582,7 @@
       },
       "operator": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "!=",
@@ -657,7 +768,7 @@
       },
       "right": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "access_call",
@@ -765,116 +876,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "access_call",
-          "named": true
-        },
-        {
-          "type": "alias",
-          "named": true
-        },
-        {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "arguments",
-          "named": true
-        },
-        {
-          "type": "atom",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "bitstring",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "charlist",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "map",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "quoted_atom",
-          "named": true
-        },
-        {
-          "type": "sigil",
-          "named": true
-        },
-        {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1226,7 +1227,34 @@
   {
     "type": "call",
     "named": true,
-    "fields": {},
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "special_identifier",
+            "named": true
+          },
+          {
+            "type": "unused_identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -1236,27 +1264,7 @@
           "named": true
         },
         {
-          "type": "call",
-          "named": true
-        },
-        {
           "type": "do_block",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -1534,116 +1542,161 @@
   {
     "type": "dot",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "access_call",
-          "named": true
-        },
-        {
-          "type": "alias",
-          "named": true
-        },
-        {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "atom",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "bitstring",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "charlist",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "map",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "operator_identifier",
-          "named": true
-        },
-        {
-          "type": "quoted_atom",
-          "named": true
-        },
-        {
-          "type": "sigil",
-          "named": true
-        },
-        {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access_call",
+            "named": true
+          },
+          {
+            "type": "alias",
+            "named": true
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "atom",
+            "named": true
+          },
+          {
+            "type": "binary_operator",
+            "named": true
+          },
+          {
+            "type": "bitstring",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "char",
+            "named": true
+          },
+          {
+            "type": "charlist",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "quoted_atom",
+            "named": true
+          },
+          {
+            "type": "sigil",
+            "named": true
+          },
+          {
+            "type": "special_identifier",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_operator",
+            "named": true
+          },
+          {
+            "type": "unused_identifier",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "alias",
+            "named": true
+          },
+          {
+            "type": "charlist",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "operator_identifier",
+            "named": true
+          },
+          {
+            "type": "special_identifier",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unused_identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2154,120 +2207,127 @@
   {
     "type": "pair",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "access_call",
-          "named": true
-        },
-        {
-          "type": "alias",
-          "named": true
-        },
-        {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "atom",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "bitstring",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "charlist",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "map",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "quoted_atom",
-          "named": true
-        },
-        {
-          "type": "quoted_keyword",
-          "named": true
-        },
-        {
-          "type": "sigil",
-          "named": true
-        },
-        {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "keyword",
+            "named": true
+          },
+          {
+            "type": "quoted_keyword",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access_call",
+            "named": true
+          },
+          {
+            "type": "alias",
+            "named": true
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "atom",
+            "named": true
+          },
+          {
+            "type": "binary_operator",
+            "named": true
+          },
+          {
+            "type": "bitstring",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "char",
+            "named": true
+          },
+          {
+            "type": "charlist",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "quoted_atom",
+            "named": true
+          },
+          {
+            "type": "sigil",
+            "named": true
+          },
+          {
+            "type": "special_identifier",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_operator",
+            "named": true
+          },
+          {
+            "type": "unused_identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2581,24 +2641,41 @@
   {
     "type": "stab_clause",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "arguments",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "body",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "arguments",
+            "named": true
+          },
+          {
+            "type": "binary_operator",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "->",
+            "named": false
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2790,6 +2867,120 @@
     "type": "unary_operator",
     "named": true,
     "fields": {
+      "operand": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "access_call",
+            "named": true
+          },
+          {
+            "type": "alias",
+            "named": true
+          },
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "atom",
+            "named": true
+          },
+          {
+            "type": "binary_operator",
+            "named": true
+          },
+          {
+            "type": "bitstring",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "char",
+            "named": true
+          },
+          {
+            "type": "charlist",
+            "named": true
+          },
+          {
+            "type": "dot",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "quoted_atom",
+            "named": true
+          },
+          {
+            "type": "sigil",
+            "named": true
+          },
+          {
+            "type": "special_identifier",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_operator",
+            "named": true
+          },
+          {
+            "type": "unused_identifier",
+            "named": true
+          }
+        ]
+      },
       "operator": {
         "multiple": false,
         "required": true,
@@ -2828,112 +3019,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "access_call",
-          "named": true
-        },
-        {
-          "type": "alias",
-          "named": true
-        },
-        {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "atom",
-          "named": true
-        },
-        {
-          "type": "binary_operator",
-          "named": true
-        },
-        {
-          "type": "bitstring",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "char",
-          "named": true
-        },
-        {
-          "type": "charlist",
-          "named": true
-        },
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "map",
-          "named": true
-        },
-        {
-          "type": "nil",
-          "named": true
-        },
-        {
-          "type": "quoted_atom",
-          "named": true
-        },
-        {
-          "type": "sigil",
-          "named": true
-        },
-        {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
-          "named": true
-        }
-      ]
     }
   },
   {

@@ -917,6 +917,46 @@ unquote(name)()
     (arguments)))
 
 =====================================
+[field names]
+=====================================
+
+fun()
+fun a
+Mod.fun a
+fun()()
+fun.()
+map[key]
+
+---
+
+(source
+  (call
+    target: (identifier)
+    (arguments))
+  (call
+    target: (identifier)
+    (arguments
+      (identifier)))
+  (call
+    target: (dot
+      left: (alias)
+      right: (identifier))
+    (arguments
+      (identifier)))
+  (call
+    target: (call
+      target: (identifier)
+      (arguments))
+    (arguments))
+  (call
+    target: (dot
+      left: (identifier))
+    (arguments))
+  (access_call
+    target: (identifier)
+    key: (identifier)))
+
+=====================================
 [error] leading argument separator
 =====================================
 

@@ -364,7 +364,7 @@ module.exports = grammar({
     _keywords_with_trailing_separator: ($) =>
       seq(sep1($.pair, ","), optional(",")),
 
-    pair: ($) => seq($._keyword, $._expression),
+    pair: ($) => seq(field("key", $._keyword), field("value", $._expression)),
 
     _keyword: ($) => choice($.keyword, $.quoted_keyword),
 
@@ -534,7 +534,11 @@ module.exports = grammar({
     dot: ($) =>
       prec(
         PREC.DOT_OP,
-        seq(choice($._expression), ".", choice($.alias, $.tuple))
+        seq(
+          field("left", $._expression),
+          field("operator", "."),
+          field("right", choice($.alias, $.tuple))
+        )
       ),
 
     call: ($) => choice($._call_without_parentheses, $._call_with_parentheses),
@@ -560,7 +564,7 @@ module.exports = grammar({
     _local_call_without_parentheses: ($) =>
       prec.left(
         seq(
-          $._identifier,
+          field("target", $._identifier),
           alias($._call_arguments_without_parentheses, $.arguments),
           optional(seq(optional($._newline_before_do), $.do_block))
         )
@@ -569,7 +573,7 @@ module.exports = grammar({
     _local_call_with_parentheses: ($) =>
       prec.left(
         seq(
-          $._identifier,
+          field("target", $._identifier),
           alias($._call_arguments_with_parentheses_immediate, $.arguments),
           optional(seq(optional($._newline_before_do), $.do_block))
         )
@@ -577,12 +581,12 @@ module.exports = grammar({
 
     _local_call_just_do_block: ($) =>
       // Lower precedence than identifier, because `foo bar do` is `foo(bar) do end`
-      prec(-1, seq($._identifier, $.do_block)),
+      prec(-1, seq(field("target", $._identifier), $.do_block)),
 
     _remote_call_without_parentheses: ($) =>
       prec.left(
         seq(
-          alias($._remote_dot, $.dot),
+          field("target", alias($._remote_dot, $.dot)),
           optional(alias($._call_arguments_without_parentheses, $.arguments)),
           optional(seq(optional($._newline_before_do), $.do_block))
         )
@@ -591,7 +595,7 @@ module.exports = grammar({
     _remote_call_with_parentheses: ($) =>
       prec.left(
         seq(
-          alias($._remote_dot, $.dot),
+          field("target", alias($._remote_dot, $.dot)),
           alias($._call_arguments_with_parentheses_immediate, $.arguments),
           optional(seq(optional($._newline_before_do), $.do_block))
         )
@@ -601,36 +605,46 @@ module.exports = grammar({
       prec(
         PREC.DOT_OP,
         seq(
-          $._expression,
-          ".",
-          choice(
-            $._identifier,
-            alias(choice(...RESERVED_WORD_TOKENS), $.identifier),
-            $.operator_identifier,
-            alias($._quoted_i_double, $.string),
-            alias($._quoted_i_single, $.charlist)
+          field("left", $._expression),
+          field("operator", "."),
+          field(
+            "right",
+            choice(
+              $._identifier,
+              alias(choice(...RESERVED_WORD_TOKENS), $.identifier),
+              $.operator_identifier,
+              alias($._quoted_i_double, $.string),
+              alias($._quoted_i_single, $.charlist)
+            )
           )
         )
       ),
 
     _anonymous_call: ($) =>
       seq(
-        alias($._anonymous_dot, $.dot),
+        field("target", alias($._anonymous_dot, $.dot)),
         alias($._call_arguments_with_parentheses, $.arguments)
       ),
 
-    _anonymous_dot: ($) => prec(PREC.DOT_OP, seq($._expression, ".")),
+    _anonymous_dot: ($) =>
+      prec(
+        PREC.DOT_OP,
+        seq(field("left", $._expression), field("operator", "."))
+      ),
 
     _double_call: ($) =>
       prec.left(
         seq(
-          alias(
-            choice(
-              $._local_call_with_parentheses,
-              $._remote_call_with_parentheses,
-              $._anonymous_call
-            ),
-            $.call
+          field(
+            "target",
+            alias(
+              choice(
+                $._local_call_with_parentheses,
+                $._remote_call_with_parentheses,
+                $._anonymous_call
+              ),
+              $.call
+            )
           ),
           alias($._call_arguments_with_parentheses, $.arguments),
           optional(seq(optional($._newline_before_do), $.do_block))
@@ -684,12 +698,23 @@ module.exports = grammar({
     access_call: ($) =>
       prec(
         PREC.ACCESS,
-        seq($._expression, token.immediate("["), $._expression, "]")
+        seq(
+          field("target", $._expression),
+          token.immediate("["),
+          field("key", $._expression),
+          "]"
+        )
       ),
 
     stab_clause: ($) =>
       // Right precedence, because we want to consume body if any
-      prec.right(seq(optional($._stab_clause_left), "->", optional($.body))),
+      prec.right(
+        seq(
+          optional(field("left", $._stab_clause_left)),
+          field("operator", "->"),
+          optional(field("right", $.body))
+        )
+      ),
 
     _stab_clause_left: ($) =>
       choice(
@@ -738,9 +763,12 @@ module.exports = grammar({
 
     _stab_clause_arguments_with_parentheses_with_guard: ($) =>
       seq(
-        alias($._stab_clause_arguments_with_parentheses, $.arguments),
-        "when",
-        $._expression
+        field(
+          "left",
+          alias($._stab_clause_arguments_with_parentheses, $.arguments)
+        ),
+        field("operator", "when"),
+        field("right", $._expression)
       ),
 
     _stab_clause_arguments_without_parentheses_with_guard: ($) =>
@@ -751,9 +779,12 @@ module.exports = grammar({
       prec.dynamic(
         1,
         seq(
-          alias($._stab_clause_arguments_without_parentheses, $.arguments),
-          "when",
-          $._expression
+          field(
+            "left",
+            alias($._stab_clause_arguments_without_parentheses, $.arguments)
+          ),
+          field("operator", "when"),
+          field("right", $._expression)
         )
       ),
 
@@ -798,7 +829,7 @@ function unaryOp($, assoc, precedence, operator, right = null) {
       seq(
         optional($._before_unary_op),
         field("operator", operator),
-        right || $._expression
+        field("operand", right || $._expression)
       )
     )
   );

@@ -742,3 +742,19 @@ foo do end..bar do end//baz do end
         (integer)))
     (block
       (integer))))
+
+=====================================
+[field names]
+=====================================
+
+a + b
+@a
+
+---
+
+(source
+  (binary_operator
+    left: (identifier)
+    right: (identifier))
+  (unary_operator
+    operand: (identifier)))
