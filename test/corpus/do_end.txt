@@ -223,8 +223,7 @@ end
           (identifier)
           (integer))
         (body
-          (atom
-            (atom_literal)))))))
+          (atom))))))
 
 =====================================
 stab clause / arguments in parentheses
@@ -245,8 +244,7 @@ end
           (identifier)
           (identifier))
         (body
-          (atom
-            (atom_literal)))))))
+          (atom))))))
 
 =====================================
 stab clause / many clauses
@@ -268,20 +266,17 @@ end
         (arguments
           (integer))
         (body
-          (atom
-            (atom_literal))))
+          (atom)))
       (stab_clause
         (arguments
           (integer))
         (body
-          (atom
-            (atom_literal))))
+          (atom)))
       (stab_clause
         (arguments
           (identifier))
         (body
-          (atom
-            (atom_literal)))))))
+          (atom))))))
 
 =====================================
 stab clause / multiline expression
@@ -327,8 +322,7 @@ end
             (call
               (identifier)
               (arguments))
-            (atom
-              (atom_literal))))
+            (atom)))
         (body
           (boolean))))))
 
@@ -773,8 +767,7 @@ end
           (arguments
             (keywords
               (pair
-                (keyword
-                  (atom_literal))
+                (keyword)
                 (integer))))
           (body
             (identifier)))))))

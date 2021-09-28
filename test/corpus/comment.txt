@@ -91,7 +91,7 @@ does not match inside a string
 
 (source
   (string
-    (string_content))
+    (quoted_content))
   (string
-    (string_content)
+    (quoted_content)
     (interpolation (identifier))))

@@ -14,14 +14,14 @@ simple literal
 ---
 
 (source
-  (sigil (sigil_name) (string_content))
-  (sigil (sigil_name) (string_content))
-  (sigil (sigil_name) (string_content))
-  (sigil (sigil_name) (string_content))
-  (sigil (sigil_name) (string_content))
-  (sigil (sigil_name) (string_content))
-  (sigil (sigil_name) (string_content))
-  (sigil (sigil_name) (string_content)))
+  (sigil (sigil_name) (quoted_content))
+  (sigil (sigil_name) (quoted_content))
+  (sigil (sigil_name) (quoted_content))
+  (sigil (sigil_name) (quoted_content))
+  (sigil (sigil_name) (quoted_content))
+  (sigil (sigil_name) (quoted_content))
+  (sigil (sigil_name) (quoted_content))
+  (sigil (sigil_name) (quoted_content)))
 
 
 =====================================
@@ -36,7 +36,7 @@ line 2"
 (source
   (sigil
     (sigil_name)
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 interpolation
@@ -53,22 +53,22 @@ interpolation
 (source
   (sigil
     (sigil_name)
-    (string_content)
+    (quoted_content)
     (interpolation
       (identifier))
-    (string_content))
+    (quoted_content))
   (sigil
     (sigil_name)
-    (string_content)
+    (quoted_content)
     (interpolation
       (identifier))
-    (string_content))
+    (quoted_content))
   (sigil
     (sigil_name)
-    (string_content)
+    (quoted_content)
     (interpolation
       (identifier))
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 nested interpolation
@@ -81,14 +81,14 @@ nested interpolation
 (source
   (sigil
     (sigil_name)
-    (string_content)
+    (quoted_content)
     (interpolation
       (sigil
         (sigil_name)
-        (string_content)
+        (quoted_content)
         (interpolation
           (integer))))
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 escape sequence
@@ -101,26 +101,26 @@ escape sequence
 (source
   (sigil
     (sigil_name)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
     (escape_sequence)
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 escaped interpolation
@@ -134,7 +134,7 @@ escaped interpolation
   (sigil
     (sigil_name)
     (escape_sequence)
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 upper sigil / no interpolation
@@ -147,7 +147,7 @@ upper sigil / no interpolation
 (source
   (sigil
     (sigil_name)
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 upper sigil / no escape sequence
@@ -160,7 +160,7 @@ upper sigil / no escape sequence
 (source
   (sigil
     (sigil_name)
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 upper sigil / escape terminator
@@ -175,19 +175,19 @@ upper sigil / escape terminator
 (source
   (sigil
     (sigil_name)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content))
+    (quoted_content))
   (sigil
     (sigil_name)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content))
+    (quoted_content))
   (sigil
     (sigil_name)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 heredoc delimiter
@@ -208,10 +208,10 @@ with 'quotes'
 (source
   (sigil
     (sigil_name)
-    (string_content))
+    (quoted_content))
   (sigil
     (sigil_name)
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 modifiers
@@ -225,11 +225,11 @@ modifiers
 (source
   (sigil
     (sigil_name)
-    (string_content)
+    (quoted_content)
     (sigil_modifiers))
   (sigil
     (sigil_name)
-    (string_content)
+    (quoted_content)
     (sigil_modifiers)))
 
 =====================================
@@ -244,4 +244,4 @@ modifiers
   (sigil
     (sigil_name)
     (ERROR)
-    (string_content)))
+    (quoted_content)))

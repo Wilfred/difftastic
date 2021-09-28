@@ -114,6 +114,5 @@ def Mod.fun(x), do: 1
           (identifier)))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))

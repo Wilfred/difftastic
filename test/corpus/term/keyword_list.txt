@@ -10,24 +10,19 @@ simple literal
   (list
     (keywords
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer)))))
 
 =====================================
@@ -42,8 +37,7 @@ trailing separator
   (list
     (keywords
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer)))))
 
 =====================================
@@ -58,17 +52,14 @@ with leading items
   (list
     (integer)
     (tuple
-      (atom
-        (atom_literal))
+      (atom)
       (integer))
     (keywords
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer)))))
 
 =====================================
@@ -83,16 +74,13 @@ operator key
   (list
     (keywords
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer)))))
 
 =====================================
@@ -107,28 +95,22 @@ special atom key
   (list
     (keywords
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer)))))
 
 =====================================
@@ -144,22 +126,18 @@ reserved token key
   (list
     (keywords
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))))
   (list
     (keywords
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer))
       (pair
-        (keyword
-          (atom_literal))
+        (keyword)
         (integer)))))
 
 =====================================
@@ -177,13 +155,13 @@ quoted key
   (list
     (keywords
       (pair
-        (keyword
-          (string_content)
+        (quoted_keyword
+          (quoted_content)
           (escape_sequence))
         (integer))
       (pair
-        (keyword
-          (string_content)
+        (quoted_keyword
+          (quoted_content)
           (escape_sequence))
         (integer)))))
 
@@ -202,18 +180,18 @@ key interpolation
   (list
     (keywords
       (pair
-        (keyword
-          (string_content)
+        (quoted_keyword
+          (quoted_content)
           (interpolation
             (identifier))
-          (string_content))
+          (quoted_content))
         (integer))
       (pair
-        (keyword
-          (string_content)
+        (quoted_keyword
+          (quoted_content)
           (interpolation
             (identifier))
-          (string_content))
+          (quoted_content))
         (integer)))))
 
 =====================================
@@ -226,15 +204,14 @@ key interpolation
 
 (source
   (list
-    (keywords
-      (pair
-        (keyword
-          (atom_literal))
-        (integer))
-      (pair
-        (keyword
-          (atom_literal))
-        (integer)))
     (ERROR
+      (keywords
+        (pair
+          (keyword)
+          (integer))
+        (pair
+          (keyword)
+          (integer))))
+    (binary_operator
       (integer)
       (integer))))

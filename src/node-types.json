@@ -80,6 +80,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -187,6 +191,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -216,11 +224,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "alias",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "anonymous_function",
@@ -322,6 +325,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -347,38 +354,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "atom",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "atom_literal",
-          "named": true
-        },
-        {
-          "type": "escape_sequence",
-          "named": true
-        },
-        {
-          "type": "interpolation",
-          "named": true
-        },
-        {
-          "type": "string_content",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "atom_literal",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "binary_operator",
@@ -462,6 +437,10 @@
           },
           {
             "type": "operator_identifier",
+            "named": true
+          },
+          {
+            "type": "quoted_atom",
             "named": true
           },
           {
@@ -757,6 +736,10 @@
             "named": true
           },
           {
+            "type": "quoted_atom",
+            "named": true
+          },
+          {
             "type": "sigil",
             "named": true
           },
@@ -861,6 +844,10 @@
         },
         {
           "type": "nil",
+          "named": true
+        },
+        {
+          "type": "quoted_atom",
           "named": true
         },
         {
@@ -975,6 +962,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -1082,6 +1073,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -1118,7 +1113,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "access_call",
@@ -1193,6 +1188,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -1230,7 +1229,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "arguments",
@@ -1344,6 +1343,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -1391,7 +1394,7 @@
           "named": true
         },
         {
-          "type": "string_content",
+          "type": "quoted_content",
           "named": true
         }
       ]
@@ -1487,6 +1490,10 @@
         },
         {
           "type": "nil",
+          "named": true
+        },
+        {
+          "type": "quoted_atom",
           "named": true
         },
         {
@@ -1609,6 +1616,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -1713,6 +1724,10 @@
         },
         {
           "type": "nil",
+          "named": true
+        },
+        {
+          "type": "quoted_atom",
           "named": true
         },
         {
@@ -1832,6 +1847,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -1853,33 +1872,6 @@
         },
         {
           "type": "unused_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "keyword",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "atom_literal",
-          "named": true
-        },
-        {
-          "type": "escape_sequence",
-          "named": true
-        },
-        {
-          "type": "interpolation",
-          "named": true
-        },
-        {
-          "type": "string_content",
           "named": true
         }
       ]
@@ -1982,6 +1974,10 @@
         },
         {
           "type": "nil",
+          "named": true
+        },
+        {
+          "type": "quoted_atom",
           "named": true
         },
         {
@@ -2115,6 +2111,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -2236,6 +2236,14 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
+          "type": "quoted_keyword",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -2257,6 +2265,52 @@
         },
         {
           "type": "unused_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quoted_atom",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "quoted_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quoted_keyword",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "quoted_content",
           "named": true
         }
       ]
@@ -2343,6 +2397,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -2390,15 +2448,15 @@
           "named": true
         },
         {
+          "type": "quoted_content",
+          "named": true
+        },
+        {
           "type": "sigil_modifiers",
           "named": true
         },
         {
           "type": "sigil_name",
-          "named": true
-        },
-        {
-          "type": "string_content",
           "named": true
         }
       ]
@@ -2485,6 +2543,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -2556,7 +2618,7 @@
           "named": true
         },
         {
-          "type": "string_content",
+          "type": "quoted_content",
           "named": true
         }
       ]
@@ -2588,6 +2650,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "quoted_atom",
           "named": true
         },
         {
@@ -2687,6 +2753,10 @@
         },
         {
           "type": "nil",
+          "named": true
+        },
+        {
+          "type": "quoted_atom",
           "named": true
         },
         {
@@ -2836,6 +2906,10 @@
           "named": true
         },
         {
+          "type": "quoted_atom",
+          "named": true
+        },
+        {
           "type": "sigil",
           "named": true
         },
@@ -2863,10 +2937,6 @@
     }
   },
   {
-    "type": "\n",
-    "named": false
-  },
-  {
     "type": "!",
     "named": false
   },
@@ -2892,10 +2962,6 @@
   },
   {
     "type": "%",
-    "named": false
-  },
-  {
-    "type": "%{}",
     "named": false
   },
   {
@@ -2979,10 +3045,6 @@
     "named": false
   },
   {
-    "type": "..//",
-    "named": false
-  },
-  {
     "type": "/",
     "named": false
   },
@@ -3012,10 +3074,6 @@
   },
   {
     "type": "<<<",
-    "named": false
-  },
-  {
-    "type": "<<>>",
     "named": false
   },
   {
@@ -3131,8 +3189,16 @@
     "named": false
   },
   {
+    "type": "alias",
+    "named": true
+  },
+  {
     "type": "and",
     "named": false
+  },
+  {
+    "type": "atom",
+    "named": true
   },
   {
     "type": "catch",
@@ -3183,6 +3249,10 @@
     "named": true
   },
   {
+    "type": "keyword",
+    "named": true
+  },
+  {
     "type": "nil",
     "named": false
   },
@@ -3195,6 +3265,10 @@
     "named": false
   },
   {
+    "type": "quoted_content",
+    "named": true
+  },
+  {
     "type": "rescue",
     "named": false
   },
@@ -3204,10 +3278,6 @@
   },
   {
     "type": "sigil_name",
-    "named": true
-  },
-  {
-    "type": "string_content",
     "named": true
   },
   {
@@ -3224,10 +3294,6 @@
   },
   {
     "type": "{",
-    "named": false
-  },
-  {
-    "type": "{}",
     "named": false
   },
   {

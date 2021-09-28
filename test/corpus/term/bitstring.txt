@@ -17,7 +17,7 @@ single item
     (float))
   (bitstring
     (string
-      (string_content))))
+      (quoted_content))))
 
 =====================================
 multiple items
@@ -36,7 +36,7 @@ multiple items
     (integer)
     (float)
     (string
-      (string_content))))
+      (quoted_content))))
 
 =====================================
 size modifiers
@@ -77,21 +77,21 @@ multiple modifiers
   (bitstring
     (binary_operator
       (string
-        (string_content))
+        (quoted_content))
       (binary_operator
         (identifier)
         (identifier))))
   (bitstring
     (binary_operator
       (string
-        (string_content))
+        (quoted_content))
       (binary_operator
         (identifier)
         (identifier))))
   (bitstring
     (binary_operator
       (string
-        (string_content))
+        (quoted_content))
       (binary_operator
         (identifier)
         (identifier))))
@@ -136,7 +136,7 @@ multiple components with modifiers
         (integer)
         (identifier)))
     (string
-      (string_content))
+      (quoted_content))
     (binary_operator
       (float)
       (identifier))

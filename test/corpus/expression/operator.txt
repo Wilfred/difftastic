@@ -589,15 +589,11 @@ not in[y]
     (list
       (identifier)))
   (binary_operator
-    (atom
-      (atom_literal))
-    (atom
-      (atom_literal)))
+    (atom)
+    (atom))
   (binary_operator
-    (atom
-      (atom_literal))
-    (atom
-      (atom_literal))))
+    (atom)
+    (atom)))
 
 =====================================
 multiline / unary over binary (precedence)

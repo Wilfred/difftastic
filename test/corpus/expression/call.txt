@@ -33,12 +33,10 @@ fun([1, 2], option: true, other: 5)
         (integer))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (boolean))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))
 
 =====================================
@@ -69,20 +67,17 @@ fun +: 1
         (integer))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (boolean))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer)))))
     (call
       (identifier)
       (arguments
         (keywords
           (pair
-            (keyword
-              (atom_literal))
+            (keyword)
             (integer))))))
 
 =====================================
@@ -104,12 +99,10 @@ fun [1, 2],
         (integer))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (boolean))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))
 
 =====================================
@@ -155,8 +148,7 @@ outer_fun inner_fun do: 1
         (arguments
           (keywords
             (pair
-              (keyword
-                (atom_literal))
+              (keyword)
               (integer))))))))
 
 =====================================
@@ -270,12 +262,10 @@ Mod.fun([1, 2], option: true, other: 5)
         (integer))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (boolean))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))
 
 =====================================
@@ -304,12 +294,10 @@ Mod.fun [1, 2], option: true, other: 5
         (integer))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (boolean))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))
 
 =====================================
@@ -459,14 +447,14 @@ Mod.'fun'(a)
     (dot
       (alias)
       (string
-        (string_content)))
+        (quoted_content)))
     (arguments
       (identifier)))
   (call
     (dot
       (alias)
       (charlist
-        (string_content)))
+        (quoted_content)))
     (arguments
       (identifier))))
 
@@ -482,15 +470,14 @@ remote call / atom literal module
 (source
   (call
     (dot
-      (atom
-        (atom_literal))
+      (atom)
       (identifier))
     (arguments
       (identifier)))
   (call
     (dot
-      (atom
-        (string_content))
+      (quoted_atom
+        (quoted_content))
       (identifier))
     (arguments
       (identifier))))
@@ -533,12 +520,10 @@ fun.([1, 2], option: true, other: 5)
         (integer))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (boolean))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))
 
 =====================================
@@ -755,12 +740,10 @@ fun(option: true, other: 5,)
     (arguments
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (boolean))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))
 
 =====================================
@@ -812,8 +795,7 @@ map[:key]
     (identifier))
   (access_call
     (identifier)
-    (atom
-      (atom_literal))))
+    (atom)))
 
 =====================================
 access syntax / does not allow whitespace
@@ -845,14 +827,12 @@ map[:mod].fun
       (dot
         (identifier)
         (identifier)))
-    (atom
-      (atom_literal)))
+    (atom))
   (call
     (dot
       (access_call
         (identifier)
-        (atom
-          (atom_literal)))
+        (atom))
       (identifier))))
 
 =====================================
@@ -870,23 +850,19 @@ access syntax / precedence with operators
   (unary_operator
     (access_call
       (identifier)
-      (atom
-        (atom_literal))))
+      (atom)))
   (access_call
     (unary_operator
       (identifier))
-    (atom
-      (atom_literal)))
+    (atom))
   (unary_operator
     (access_call
       (identifier)
-      (atom
-        (atom_literal))))
+      (atom)))
   (access_call
     (unary_operator
       (integer))
-    (atom
-      (atom_literal))))
+    (atom)))
 
 =====================================
 double parenthesised call

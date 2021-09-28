@@ -142,20 +142,17 @@ end
       (arguments
         (integer))
       (body
-        (atom
-          (atom_literal))))
+        (atom)))
     (stab_clause
       (arguments
         (integer))
       (body
-        (atom
-          (atom_literal))))
+        (atom)))
     (stab_clause
       (arguments
         (identifier))
       (body
-        (atom
-          (atom_literal))))))
+        (atom)))))
 
 =====================================
 with guard / no arguments
@@ -176,8 +173,7 @@ end
           (call
             (identifier)
             (arguments))
-          (atom
-            (atom_literal))))
+          (atom)))
       (body
         (boolean)))))
 
@@ -305,8 +301,7 @@ end
             (map_content
               (keywords
                 (pair
-                  (keyword
-                    (atom_literal))
+                  (keyword)
                   (identifier))))))
         (binary_operator
           (identifier)

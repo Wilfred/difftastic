@@ -13,20 +13,15 @@ atom
 ---
 
 (source
-  (atom
-    (atom_literal))
-  (atom
-    (string_content))
-  (atom
-    (string_content))
-  (atom
-    (atom_literal))
-  (atom
-    (atom_literal))
-  (atom
-    (atom_literal))
-  (atom
-    (atom_literal)))
+  (atom)
+  (quoted_atom
+    (quoted_content))
+  (quoted_atom
+    (quoted_content))
+  (atom)
+  (atom)
+  (atom)
+  (atom))
 
 =====================================
 string
@@ -43,17 +38,17 @@ string
 
 (source
   (string
-    (string_content))
+    (quoted_content))
   (string
-    (string_content))
+    (quoted_content))
   (string
-    (string_content))
+    (quoted_content))
   (string
-    (string_content))
+    (quoted_content))
   (string
-    (string_content))
+    (quoted_content))
   (string
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 charlist
@@ -69,17 +64,17 @@ charlist
 
 (source
   (charlist
-    (string_content))
+    (quoted_content))
   (charlist
-    (string_content))
+    (quoted_content))
   (charlist
-    (string_content))
+    (quoted_content))
   (charlist
-    (string_content))
+    (quoted_content))
   (charlist
-    (string_content))
+    (quoted_content))
   (charlist
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 char

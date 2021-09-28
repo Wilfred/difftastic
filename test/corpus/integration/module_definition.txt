@@ -35,8 +35,7 @@ end
   (call
     (identifier)
     (arguments
-      (atom
-        (atom_literal)))
+      (atom))
     (do_block)))
 
 =====================================
@@ -76,7 +75,7 @@ end
           (identifier)
           (arguments
             (string
-              (string_content)))))
+              (quoted_content)))))
       (call
         (identifier)
         (arguments
@@ -91,7 +90,7 @@ end
           (identifier)
           (arguments
             (string
-              (string_content)))))
+              (quoted_content)))))
       (unary_operator
         (call
           (identifier)
@@ -133,8 +132,7 @@ end
               (identifier)))
           (keywords
             (pair
-              (keyword
-                (atom_literal))
+              (keyword)
               (binary_operator
                 (identifier)
                 (identifier)))))))))

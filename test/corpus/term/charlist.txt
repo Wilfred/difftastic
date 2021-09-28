@@ -8,7 +8,7 @@ single line
 
 (source
   (charlist
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 multiple lines
@@ -21,7 +21,7 @@ line 2'
 
 (source
   (charlist
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 interpolation
@@ -37,20 +37,20 @@ interpolation
 
 (source
   (charlist
-    (string_content)
+    (quoted_content)
     (interpolation
       (identifier))
-    (string_content))
+    (quoted_content))
   (charlist
-    (string_content)
+    (quoted_content)
     (interpolation
       (identifier))
-    (string_content))
+    (quoted_content))
   (charlist
-    (string_content)
+    (quoted_content)
     (interpolation
       (identifier))
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 nested interpolation
@@ -62,13 +62,13 @@ nested interpolation
 
 (source
   (charlist
-    (string_content)
+    (quoted_content)
     (interpolation
       (charlist
-        (string_content)
+        (quoted_content)
         (interpolation
           (integer))))
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 escape sequence
@@ -80,26 +80,26 @@ escape sequence
 
 (source
   (charlist
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)
+    (quoted_content)
     (escape_sequence)
     (escape_sequence)
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 escaped interpolation
@@ -112,7 +112,7 @@ escaped interpolation
 (source
   (charlist
     (escape_sequence)
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 heredoc / charlist
@@ -127,7 +127,7 @@ with 'quotes'
 
 (source
   (charlist
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 heredoc / interpolation
@@ -141,10 +141,10 @@ hey #{name}!
 
 (source
   (charlist
-    (string_content)
+    (quoted_content)
     (interpolation
       (identifier))
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 heredoc / nested interpolation
@@ -162,14 +162,14 @@ this is #{
 
 (source
   (charlist
-    (string_content)
+    (quoted_content)
     (interpolation
       (charlist
-        (string_content)
+        (quoted_content)
         (interpolation
           (integer))
-        (string_content)))
-    (string_content)))
+        (quoted_content)))
+    (quoted_content)))
 
 =====================================
 heredoc / escaped delimiter
@@ -187,15 +187,15 @@ heredoc / escaped delimiter
 
 (source
   (charlist
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content))
+    (quoted_content))
   (charlist
-    (string_content)
+    (quoted_content)
     (escape_sequence)
     (escape_sequence)
     (escape_sequence)
-    (string_content)))
+    (quoted_content)))
 
 =====================================
 heredoc / escaped interpolation
@@ -209,6 +209,6 @@ heredoc / escaped interpolation
 
 (source
   (charlist
-    (string_content)
+    (quoted_content)
     (escape_sequence)
-    (string_content)))
+    (quoted_content)))

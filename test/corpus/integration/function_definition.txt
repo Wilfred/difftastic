@@ -184,8 +184,7 @@ def fun(x), do: x
         (arguments))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer)))))
   (call
     (identifier)
@@ -196,8 +195,7 @@ def fun(x), do: x
           (identifier)))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (identifier))))))
 
 =====================================

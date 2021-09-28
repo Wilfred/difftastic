@@ -17,8 +17,7 @@ for n <- [1, 2], do: n * 2
           (integer)))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (binary_operator
             (identifier)
             (integer)))))))
@@ -46,8 +45,7 @@ end
           (arguments)))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (call
             (dot
               (alias)
@@ -77,18 +75,16 @@ for <<c <- " hello world ">>, c != ?\s, into: "", do: <<c>>
         (binary_operator
           (identifier)
           (string
-            (string_content))))
+            (quoted_content))))
       (binary_operator
         (identifier)
         (char))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (string))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (bitstring
             (identifier)))))))
 
@@ -114,8 +110,7 @@ end
           (integer)))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (map))))
     (do_block
       (stab_clause

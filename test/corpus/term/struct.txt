@@ -26,12 +26,10 @@ from keywords
     (map_content
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))
 
 =====================================
@@ -48,12 +46,11 @@ from arrow entries
       (alias))
     (map_content
       (binary_operator
-        (atom
-          (atom_literal))
+        (atom)
         (integer))
       (binary_operator
         (string
-          (string_content))
+          (quoted_content))
         (integer))
       (binary_operator
         (identifier)
@@ -74,16 +71,14 @@ from both arrow entries and keywords
     (map_content
       (binary_operator
         (string
-          (string_content))
+          (quoted_content))
         (integer))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))
 
 =====================================
@@ -101,7 +96,7 @@ trailing separator
     (map_content
       (binary_operator
         (string
-          (string_content))
+          (quoted_content))
         (integer)))))
 
 =====================================
@@ -121,15 +116,13 @@ update syntax
         (identifier)
         (keywords
           (pair
-            (keyword
-              (atom_literal))
+            (keyword)
             (string
-              (string_content)))
+              (quoted_content)))
           (pair
-            (keyword
-              (atom_literal))
+            (keyword)
             (string
-              (string_content)))))))
+              (quoted_content)))))))
   (map
     (struct
       (alias))
@@ -138,9 +131,9 @@ update syntax
         (identifier)
         (binary_operator
           (string
-            (string_content))
+            (quoted_content))
           (string
-            (string_content)))))))
+            (quoted_content)))))))
 
 =====================================
 unused struct identifier
@@ -212,8 +205,8 @@ with atom
 (source
   (map
     (struct
-      (atom
-        (string_content)))))
+      (quoted_atom
+        (quoted_content)))))
 
 =====================================
 with call

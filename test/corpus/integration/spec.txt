@@ -71,17 +71,14 @@ with literals
                 (map_content
                   (keywords
                     (pair
-                      (keyword
-                        (atom_literal))
+                      (keyword)
                       (identifier)))))))
           (binary_operator
             (tuple
-              (atom
-                (atom_literal))
+              (atom)
               (identifier))
             (tuple
-              (atom
-                (atom_literal))
+              (atom)
               (identifier))))))))
 
 =====================================
@@ -166,12 +163,10 @@ with type guard
               (identifier)))
           (keywords
             (pair
-              (keyword
-                (atom_literal))
+              (keyword)
               (identifier))
             (pair
-              (keyword
-                (atom_literal))
+              (keyword)
               (identifier))))))))
 
 =====================================
@@ -245,7 +240,6 @@ nonempty list
             (identifier))
           (keywords
             (pair
-              (keyword
-                (atom_literal))
+              (keyword)
               (identifier)))))))
   (ERROR))

@@ -82,17 +82,3 @@ __MODULE__.Child
   (dot
     (special_identifier)
     (alias)))
-
-=====================================
-[error] does not support characters outside ASCII
-=====================================
-
-Ólá
-Olá
-
----
-
-(source
-  (ERROR
-    (atom_literal)
-    (atom_literal)))

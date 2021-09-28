@@ -22,12 +22,10 @@ from keywords
     (map_content
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))
 
 =====================================
@@ -42,12 +40,11 @@ from arrow entries
   (map
     (map_content
       (binary_operator
-        (atom
-          (atom_literal))
+        (atom)
         (integer))
       (binary_operator
         (string
-          (string_content))
+          (quoted_content))
         (integer))
       (binary_operator
         (identifier)
@@ -66,16 +63,14 @@ from both arrow entries and keywords
     (map_content
       (binary_operator
         (string
-          (string_content))
+          (quoted_content))
         (integer))
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))))
 
 =====================================
@@ -91,7 +86,7 @@ trailing separator
     (map_content
       (binary_operator
         (string
-          (string_content))
+          (quoted_content))
         (integer)))))
 
 =====================================
@@ -110,24 +105,22 @@ update syntax
         (identifier)
         (keywords
           (pair
-            (keyword
-              (atom_literal))
+            (keyword)
             (string
-              (string_content)))
+              (quoted_content)))
           (pair
-            (keyword
-              (atom_literal))
+            (keyword)
             (string
-              (string_content)))))))
+              (quoted_content)))))))
   (map
     (map_content
       (binary_operator
         (identifier)
         (binary_operator
           (string
-            (string_content))
+            (quoted_content))
           (string
-            (string_content)))))))
+            (quoted_content)))))))
 
 =====================================
 [error] ordering
@@ -139,19 +132,18 @@ update syntax
 
 (source
   (map
-    (map_content
+    (ERROR
       (keywords
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))
         (pair
-          (keyword
-            (atom_literal))
+          (keyword)
           (integer))))
-    (ERROR
-      (integer)
-      (integer))))
+    (map_content
+      (binary_operator
+        (integer)
+        (integer)))))
 
 =====================================
 [error] missing separator
@@ -166,9 +158,9 @@ update syntax
     (map_content
       (binary_operator
         (string
-          (string_content))
+          (quoted_content))
         (ERROR (integer))
         (binary_operator
           (string
-            (string_content))
+            (quoted_content))
           (integer))))))
