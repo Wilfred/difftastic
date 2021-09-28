@@ -10,6 +10,8 @@ Added support for Mercuial, see [this section in the
 manual](http://difftastic.wilfred.me.uk/getting_started.html#mercurial-external-diffs)
 for instructions.
 
+## 0.10.1
+
 ### Build
 
 Fix compilation on macOS where the C++ compiler defaulted to a
