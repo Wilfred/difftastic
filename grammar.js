@@ -69,7 +69,8 @@ module.exports = grammar({
   extras: $ => [
     $.comment,
     $.heredoc_body,
-    /\s|\\\r?\n/
+    /\s/,
+    /\\\r?\n/
   ],
 
   word: $ => $.identifier,

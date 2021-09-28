@@ -200,9 +200,17 @@ struct Scanner {
       switch (lexer->lookahead) {
         case ' ':
         case '\t':
-        case '\r':
           skip(lexer);
           break;
+        case '\r':
+          if (heredoc_body_start_is_valid) {
+            lexer->result_symbol = HEREDOC_BODY_START;
+            open_heredocs[0].started = true;
+            return true;
+          } else {
+            skip(lexer);
+            break;
+          }
         case '\n':
           if (heredoc_body_start_is_valid) {
             lexer->result_symbol = HEREDOC_BODY_START;
@@ -557,7 +565,7 @@ struct Scanner {
       case '`':
         quote = lexer->lookahead;
         advance(lexer);
-        while (lexer->lookahead != quote && lexer->lookahead != 0) {
+        while (lexer->lookahead != quote && !lexer->eof(lexer)) {
           result += lexer->lookahead;
           advance(lexer);
         }
@@ -589,9 +597,8 @@ struct Scanner {
       if (position_in_word == heredoc.word.size()) {
         if (!has_content) lexer->mark_end(lexer);
         while (lexer->lookahead == ' ' ||
-               lexer->lookahead == '\t' ||
-               lexer->lookahead == '\r') advance(lexer);
-        if (lexer->lookahead == '\n') {
+               lexer->lookahead == '\t') advance(lexer);
+        if (lexer->lookahead == '\n' || lexer->lookahead == '\r') {
           if (has_content) {
             lexer->result_symbol = HEREDOC_CONTENT;
           } else {
@@ -605,7 +612,7 @@ struct Scanner {
         }
       }
 
-      if (lexer->lookahead == 0) {
+      if (lexer->eof(lexer)) {
         lexer->mark_end(lexer);
         if (has_content) {
           lexer->result_symbol = HEREDOC_CONTENT;
@@ -644,10 +651,17 @@ struct Scanner {
             }
           }
           lexer->mark_end(lexer);
-        } else if (lexer->lookahead == '\n') {
+        } else if (lexer->lookahead == '\r' || lexer->lookahead == '\n') {
+          if (lexer->lookahead == '\r') {
+            advance(lexer);
+            if (lexer->lookahead == '\n') {
+              advance(lexer);
+            }
+          } else {
+            advance(lexer);
+          }
           has_content = true;
           look_for_heredoc_end = true;
-          advance(lexer);
           while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
             advance(lexer);
             if (!heredoc.end_word_indentation_allowed) look_for_heredoc_end = false;
@@ -723,7 +737,7 @@ struct Scanner {
           advance(lexer);
           advance(lexer);
         }
-      } else if (lexer->lookahead == 0) {
+      } else if (lexer->eof(lexer)) {
         advance(lexer);
         lexer->mark_end(lexer);
         return false;
