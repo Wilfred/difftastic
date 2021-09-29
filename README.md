@@ -6,4 +6,4 @@ Elixir grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
 ## Development
 
-See [the docs](./docs.md) for development notes.
+See [the docs](./docs/index.md) for more details.

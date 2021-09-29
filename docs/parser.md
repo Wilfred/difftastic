@@ -1,14 +1,4 @@
-# Development notes
-
-## Acknowledgements
-
-While this parser is written from scratch, there were previous efforts that made
-for a helpful reference:
-
-* [tree-sitter-elixir](https://github.com/ananthakumaran/tree-sitter-elixir) developed
-  by [@ananthakumaran](https://github.com/ananthakumaran)
-* [tree-sitter-elixir](https://github.com/wingyplus/tree-sitter-elixir) developed
-  by [@wingyplus](https://github.com/wingyplus) and [@Tuxified](https://github.com/Tuxified)
+# Parser
 
 ## The AST
 
@@ -39,7 +29,7 @@ like, have a look at the tests in `test/corpus/`.
 
 ## Getting started with Tree-sitter
 
-For official notes see the official guide on [Creating parsers](https://tree-sitter.github.io/tree-sitter/creating-parsers).
+For detailed introduction see the official guide on [Creating parsers](https://tree-sitter.github.io/tree-sitter/creating-parsers).
 
 Essentially, we define relevant language rules in `grammar.js`, based on which
 Tree-sitter generates parser code (under `src/`). In some cases, we want to write
