@@ -109,7 +109,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_identifier"
+          "name": "identifier"
         },
         {
           "type": "SYMBOL",
@@ -318,62 +318,16 @@
         }
       ]
     },
-    "_identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "unused_identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "special_identifier"
-        }
-      ]
-    },
     "identifier": {
       "type": "CHOICE",
       "members": [
         {
           "type": "PATTERN",
-          "value": "[\\p{Ll}\\p{Lm}\\p{Lo}\\p{Nl}\\u1885\\u1886\\u2118\\u212E\\u309B\\u309C][\\p{ID_Continue}]*[?!]?"
+          "value": "[_\\p{Ll}\\p{Lm}\\p{Lo}\\p{Nl}\\u1885\\u1886\\u2118\\u212E\\u309B\\u309C][\\p{ID_Continue}]*[?!]?"
         },
         {
           "type": "STRING",
           "value": "..."
-        }
-      ]
-    },
-    "unused_identifier": {
-      "type": "PATTERN",
-      "value": "_[\\p{ID_Continue}]*[?!]?"
-    },
-    "special_identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "__MODULE__"
-        },
-        {
-          "type": "STRING",
-          "value": "__DIR__"
-        },
-        {
-          "type": "STRING",
-          "value": "__ENV__"
-        },
-        {
-          "type": "STRING",
-          "value": "__CALLER__"
-        },
-        {
-          "type": "STRING",
-          "value": "__STACKTRACE__"
         }
       ]
     },
@@ -2695,7 +2649,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_identifier"
+            "name": "identifier"
           },
           {
             "type": "SYMBOL",
@@ -4195,7 +4149,7 @@
             "name": "target",
             "content": {
               "type": "SYMBOL",
-              "name": "_identifier"
+              "name": "identifier"
             }
           },
           {
@@ -4250,7 +4204,7 @@
             "name": "target",
             "content": {
               "type": "SYMBOL",
-              "name": "_identifier"
+              "name": "identifier"
             }
           },
           {
@@ -4305,7 +4259,7 @@
             "name": "target",
             "content": {
               "type": "SYMBOL",
-              "name": "_identifier"
+              "name": "identifier"
             }
           },
           {
@@ -4473,7 +4427,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_identifier"
+                  "name": "identifier"
                 },
                 {
                   "type": "ALIAS",

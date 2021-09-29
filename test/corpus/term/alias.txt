@@ -80,5 +80,5 @@ __MODULE__.Child
 
 (source
   (dot
-    (special_identifier)
+    (identifier)
     (alias)))

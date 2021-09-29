@@ -88,10 +88,6 @@
             "named": true
           },
           {
-            "type": "special_identifier",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
@@ -101,10 +97,6 @@
           },
           {
             "type": "unary_operator",
-            "named": true
-          },
-          {
-            "type": "unused_identifier",
             "named": true
           }
         ]
@@ -194,10 +186,6 @@
             "named": true
           },
           {
-            "type": "special_identifier",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
@@ -207,10 +195,6 @@
           },
           {
             "type": "unary_operator",
-            "named": true
-          },
-          {
-            "type": "unused_identifier",
             "named": true
           }
         ]
@@ -306,10 +290,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "stab_clause",
           "named": true
         },
@@ -323,10 +303,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -440,10 +416,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -453,10 +425,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -559,10 +527,6 @@
             "named": true
           },
           {
-            "type": "special_identifier",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
@@ -572,10 +536,6 @@
           },
           {
             "type": "unary_operator",
-            "named": true
-          },
-          {
-            "type": "unused_identifier",
             "named": true
           }
         ]
@@ -855,10 +815,6 @@
             "named": true
           },
           {
-            "type": "special_identifier",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
@@ -868,10 +824,6 @@
           },
           {
             "type": "unary_operator",
-            "named": true
-          },
-          {
-            "type": "unused_identifier",
             "named": true
           }
         ]
@@ -971,10 +923,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -984,10 +932,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -1082,10 +1026,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "stab_clause",
           "named": true
         },
@@ -1099,10 +1039,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -1197,10 +1133,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -1210,10 +1142,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -1242,14 +1170,6 @@
           },
           {
             "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "special_identifier",
-            "named": true
-          },
-          {
-            "type": "unused_identifier",
             "named": true
           }
         ]
@@ -1359,10 +1279,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "stab_clause",
           "named": true
         },
@@ -1376,10 +1292,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -1542,10 +1454,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "stab_clause",
           "named": true
         },
@@ -1559,10 +1467,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -1657,10 +1561,6 @@
             "named": true
           },
           {
-            "type": "special_identifier",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
@@ -1670,10 +1570,6 @@
           },
           {
             "type": "unary_operator",
-            "named": true
-          },
-          {
-            "type": "unused_identifier",
             "named": true
           }
         ]
@@ -1709,19 +1605,11 @@
             "named": true
           },
           {
-            "type": "special_identifier",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
           {
             "type": "tuple",
-            "named": true
-          },
-          {
-            "type": "unused_identifier",
             "named": true
           }
         ]
@@ -1817,10 +1705,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "stab_clause",
           "named": true
         },
@@ -1834,10 +1718,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -1937,10 +1817,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -1950,10 +1826,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -2067,10 +1939,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -2080,10 +1948,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -2201,10 +2065,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -2214,10 +2074,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -2336,10 +2192,6 @@
             "named": true
           },
           {
-            "type": "special_identifier",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
@@ -2349,10 +2201,6 @@
           },
           {
             "type": "unary_operator",
-            "named": true
-          },
-          {
-            "type": "unused_identifier",
             "named": true
           }
         ]
@@ -2552,10 +2400,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "stab_clause",
           "named": true
         },
@@ -2569,10 +2413,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -2791,10 +2631,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -2805,18 +2641,9 @@
         {
           "type": "unary_operator",
           "named": true
-        },
-        {
-          "type": "unused_identifier",
-          "named": true
         }
       ]
     }
-  },
-  {
-    "type": "special_identifier",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "stab_clause",
@@ -2943,15 +2770,7 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -3050,10 +2869,6 @@
           "named": true
         },
         {
-          "type": "special_identifier",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
@@ -3063,10 +2878,6 @@
         },
         {
           "type": "unary_operator",
-          "named": true
-        },
-        {
-          "type": "unused_identifier",
           "named": true
         }
       ]
@@ -3169,10 +2980,6 @@
             "named": true
           },
           {
-            "type": "special_identifier",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
@@ -3182,10 +2989,6 @@
           },
           {
             "type": "unary_operator",
-            "named": true
-          },
-          {
-            "type": "unused_identifier",
             "named": true
           }
         ]
@@ -3459,26 +3262,6 @@
     "named": false
   },
   {
-    "type": "__CALLER__",
-    "named": false
-  },
-  {
-    "type": "__DIR__",
-    "named": false
-  },
-  {
-    "type": "__ENV__",
-    "named": false
-  },
-  {
-    "type": "__MODULE__",
-    "named": false
-  },
-  {
-    "type": "__STACKTRACE__",
-    "named": false
-  },
-  {
     "type": "after",
     "named": false
   },
@@ -3577,10 +3360,6 @@
   {
     "type": "true",
     "named": false
-  },
-  {
-    "type": "unused_identifier",
-    "named": true
   },
   {
     "type": "when",

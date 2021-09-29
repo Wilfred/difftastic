@@ -75,14 +75,6 @@ const RESERVED_WORD_TOKENS = [
   ["after", "catch", "do", "else", "end", "fn", "rescue"],
 ].flat();
 
-const SPECIAL_IDENTIFIERS = [
-  "__MODULE__",
-  "__DIR__",
-  "__ENV__",
-  "__CALLER__",
-  "__STACKTRACE__",
-];
-
 const DIGITS = /[0-9]+/;
 const BIN_DIGITS = /[0-1]+/;
 const OCT_DIGITS = /[0-7]+/;
@@ -208,7 +200,7 @@ module.exports = grammar({
     _expression: ($) =>
       choice(
         $.block,
-        $._identifier,
+        $.identifier,
         $.alias,
         $.integer,
         $.float,
@@ -247,19 +239,12 @@ module.exports = grammar({
         ")"
       ),
 
-    _identifier: ($) =>
-      choice($.identifier, $.unused_identifier, $.special_identifier),
-
     identifier: ($) =>
       choice(
         // See Ref 6. in the docs
-        /[\p{Ll}\p{Lm}\p{Lo}\p{Nl}\u1885\u1886\u2118\u212E\u309B\u309C][\p{ID_Continue}]*[?!]?/u,
+        /[_\p{Ll}\p{Lm}\p{Lo}\p{Nl}\u1885\u1886\u2118\u212E\u309B\u309C][\p{ID_Continue}]*[?!]?/u,
         "..."
       ),
-
-    unused_identifier: ($) => /_[\p{ID_Continue}]*[?!]?/u,
-
-    special_identifier: ($) => choice(...SPECIAL_IDENTIFIERS),
 
     alias: ($) => token(sep1(/[A-Z][_a-zA-Z0-9]*/, /\s*\.\s*/)),
 
@@ -422,7 +407,7 @@ module.exports = grammar({
         choice(
           $.alias,
           $._atom,
-          $._identifier,
+          $.identifier,
           $.unary_operator,
           $.dot,
           alias($._call_with_parentheses, $.call)
@@ -572,7 +557,7 @@ module.exports = grammar({
     _local_call_without_parentheses: ($) =>
       prec.left(
         seq(
-          field("target", $._identifier),
+          field("target", $.identifier),
           alias($._call_arguments_without_parentheses, $.arguments),
           optional(seq(optional($._newline_before_do), $.do_block))
         )
@@ -581,7 +566,7 @@ module.exports = grammar({
     _local_call_with_parentheses: ($) =>
       prec.left(
         seq(
-          field("target", $._identifier),
+          field("target", $.identifier),
           alias($._call_arguments_with_parentheses_immediate, $.arguments),
           optional(seq(optional($._newline_before_do), $.do_block))
         )
@@ -589,7 +574,7 @@ module.exports = grammar({
 
     _local_call_just_do_block: ($) =>
       // Lower precedence than identifier, because `foo bar do` is `foo(bar) do end`
-      prec(-1, seq(field("target", $._identifier), $.do_block)),
+      prec(-1, seq(field("target", $.identifier), $.do_block)),
 
     _remote_call_without_parentheses: ($) =>
       prec.left(
@@ -618,7 +603,7 @@ module.exports = grammar({
           field(
             "right",
             choice(
-              $._identifier,
+              $.identifier,
               alias(choice(...RESERVED_WORD_TOKENS), $.identifier),
               $.operator_identifier,
               alias($._quoted_i_double, $.string),

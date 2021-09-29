@@ -146,7 +146,7 @@ unused struct identifier
 (source
   (map
     (struct
-      (unused_identifier))))
+      (identifier))))
 
 =====================================
 matching struct identifier
@@ -187,11 +187,11 @@ with special identifier
 (source
   (map
     (struct
-      (special_identifier)))
+      (identifier)))
   (map
     (struct
       (dot
-        (special_identifier)
+        (identifier)
         (alias)))))
 
 =====================================
