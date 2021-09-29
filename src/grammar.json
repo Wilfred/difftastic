@@ -5769,6 +5769,7 @@
       "simple_identifier"
     ]
   ],
+  "precedences": [],
   "externals": [],
   "inline": [],
   "supertypes": []
