@@ -3,7 +3,12 @@
   "version": "0.19.0",
   "description": "Elixir grammar for tree-sitter",
   "main": "bindings/node",
-  "keywords": ["parser", "lexer", "elixir", "tree-sitter"],
+  "keywords": [
+    "parser",
+    "lexer",
+    "elixir",
+    "tree-sitter"
+  ],
   "scripts": {
     "test": "tree-sitter test",
     "format": "prettier --trailing-comma es5 --write grammar.js",
@@ -16,6 +21,16 @@
   },
   "devDependencies": {
     "prettier": "^2.3.2",
-    "tree-sitter-cli": "^0.20.0"
-  }
+    "tree-sitter-cli": "^0.19.5"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.elixir",
+      "file-types": [
+        "ex",
+        "exs"
+      ],
+      "injection-regex": "^(ex|elixir)$"
+    }
+  ]
 }

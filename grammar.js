@@ -812,10 +812,6 @@ function sep1(rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));
 }
 
-function sep(rule, separator) {
-  return optional(sep1(rule, separator));
-}
-
 function unaryOp($, assoc, precedence, operator, right = null) {
   // Expression such as `x + y` falls under the "expression vs local call"
   // conflict that we already have. By using dynamic precedence we penalize
