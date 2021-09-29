@@ -58,8 +58,6 @@ const ATOM_OPERATOR_LITERALS = ALL_OPS.filter(
   (operator) => !/[a-z]/.test(operator) && operator !== "=>"
 );
 
-// Note that for keywords we use external scanner (KEYWORD_SPECIAL_LITERAL),
-// so it should be kept in sync
 const ATOM_SPECIAL_LITERALS = ["...", "%{}", "{}", "%", "<<>>", "..//"];
 
 // See Ref 6. in the docs

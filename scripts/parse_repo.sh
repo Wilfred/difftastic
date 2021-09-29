@@ -26,7 +26,7 @@ dir="tmp/gh/${gh_repo//[\/-]/_}"
 
 if [[ ! -d "$dir" ]]; then
   mkdir -p "$(dirname "$dir")"
-  git clone "https://github.com/$gh_repo.git" "$dir"
+  git clone --depth 1 "https://github.com/$gh_repo.git" "$dir"
 fi
 
 echo "Running parser against $gh_repo"

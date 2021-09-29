@@ -89,6 +89,9 @@ npm run format
 
 # Run parser against the given repository
 scripts/parse_repo.sh elixir-lang/elixir
+
+# Run parser against a predefined list of popular repositories
+scripts/integration_test.sh
 ```
 
 ## Implementation notes
