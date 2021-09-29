@@ -1073,8 +1073,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\""
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "\""
+          }
         },
         {
           "type": "REPEAT",
@@ -1102,8 +1106,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\""
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "\""
+          }
         }
       ]
     },
@@ -1111,8 +1119,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\""
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "\""
+          }
         },
         {
           "type": "REPEAT",
@@ -1136,8 +1148,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\""
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "\""
+          }
         }
       ]
     },
@@ -1145,8 +1161,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "'"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "'"
+          }
         },
         {
           "type": "REPEAT",
@@ -1174,8 +1194,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "'"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "'"
+          }
         }
       ]
     },
@@ -1183,8 +1207,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "'"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "'"
+          }
         },
         {
           "type": "REPEAT",
@@ -1208,8 +1236,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "'"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "'"
+          }
         }
       ]
     },
@@ -1217,8 +1249,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "'''"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "'''"
+          }
         },
         {
           "type": "REPEAT",
@@ -1246,8 +1282,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "'''"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "'''"
+          }
         }
       ]
     },
@@ -1255,8 +1295,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "'''"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "'''"
+          }
         },
         {
           "type": "REPEAT",
@@ -1280,8 +1324,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "'''"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "'''"
+          }
         }
       ]
     },
@@ -1289,8 +1337,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\"\"\""
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "\"\"\""
+          }
         },
         {
           "type": "REPEAT",
@@ -1318,8 +1370,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\"\"\""
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "\"\"\""
+          }
         }
       ]
     },
@@ -1327,8 +1383,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\"\"\""
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "\"\"\""
+          }
         },
         {
           "type": "REPEAT",
@@ -1352,8 +1412,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\"\"\""
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "\"\"\""
+          }
         }
       ]
     },
@@ -1361,8 +1425,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "("
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
         },
         {
           "type": "REPEAT",
@@ -1390,8 +1458,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ")"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
         }
       ]
     },
@@ -1399,8 +1471,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "("
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
         },
         {
           "type": "REPEAT",
@@ -1424,8 +1500,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ")"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
         }
       ]
     },
@@ -1433,8 +1513,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "{"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "{"
+          }
         },
         {
           "type": "REPEAT",
@@ -1462,8 +1546,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "}"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "}"
+          }
         }
       ]
     },
@@ -1471,8 +1559,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "{"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "{"
+          }
         },
         {
           "type": "REPEAT",
@@ -1496,8 +1588,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "}"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "}"
+          }
         }
       ]
     },
@@ -1505,8 +1601,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "["
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "["
+          }
         },
         {
           "type": "REPEAT",
@@ -1534,8 +1634,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "]"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "]"
+          }
         }
       ]
     },
@@ -1543,8 +1647,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "["
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "["
+          }
         },
         {
           "type": "REPEAT",
@@ -1568,8 +1676,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "]"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "]"
+          }
         }
       ]
     },
@@ -1577,8 +1689,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "<"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "<"
+          }
         },
         {
           "type": "REPEAT",
@@ -1606,8 +1722,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ">"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": ">"
+          }
         }
       ]
     },
@@ -1615,8 +1735,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "<"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "<"
+          }
         },
         {
           "type": "REPEAT",
@@ -1640,8 +1764,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ">"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": ">"
+          }
         }
       ]
     },
@@ -1649,8 +1777,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "|"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "|"
+          }
         },
         {
           "type": "REPEAT",
@@ -1678,8 +1810,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "|"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "|"
+          }
         }
       ]
     },
@@ -1687,8 +1823,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "|"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "|"
+          }
         },
         {
           "type": "REPEAT",
@@ -1712,8 +1852,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "|"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "|"
+          }
         }
       ]
     },
@@ -1721,8 +1865,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "/"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "/"
+          }
         },
         {
           "type": "REPEAT",
@@ -1750,8 +1898,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "/"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "/"
+          }
         }
       ]
     },
@@ -1759,8 +1911,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "/"
+          "type": "FIELD",
+          "name": "quoted_start",
+          "content": {
+            "type": "STRING",
+            "value": "/"
+          }
         },
         {
           "type": "REPEAT",
@@ -1784,8 +1940,12 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "/"
+          "type": "FIELD",
+          "name": "quoted_end",
+          "content": {
+            "type": "STRING",
+            "value": "/"
+          }
         }
       ]
     },

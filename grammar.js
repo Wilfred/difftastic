@@ -877,7 +877,7 @@ function defineQuoted(start, end, name) {
   return {
     [`_quoted_i_${name}`]: ($) =>
       seq(
-        start,
+        field("quoted_start", start),
         repeat(
           choice(
             alias($[`_quoted_content_i_${name}`], $.quoted_content),
@@ -885,12 +885,12 @@ function defineQuoted(start, end, name) {
             $.escape_sequence
           )
         ),
-        end
+        field("quoted_end", end)
       ),
 
     [`_quoted_${name}`]: ($) =>
       seq(
-        start,
+        field("quoted_start", start),
         repeat(
           choice(
             alias($[`_quoted_content_${name}`], $.quoted_content),
@@ -898,7 +898,7 @@ function defineQuoted(start, end, name) {
             $.escape_sequence
           )
         ),
-        end
+        field("quoted_end", end)
       ),
   };
 }
