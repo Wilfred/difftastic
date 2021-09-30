@@ -75,7 +75,10 @@ module.exports = grammar({
     [$.constructor_invocation, $._unescaped_annotation],
 
     // "expect" as a plaform modifier conflicts with expect as an identifier
-    [$.platform_modifier, $.simple_identifier]
+    [$.platform_modifier, $.simple_identifier],
+
+    // "<x>.<y> = z assignment conflicts with <x>.<y>() function call"
+    [$._postfix_unary_expression, $._expression]
 
   ],
 
@@ -857,10 +860,7 @@ module.exports = grammar({
       $.navigation_suffix
     ),
 
-    _postfix_unary_expression: $ => prec(
-      PREC.ASSIGNMENT,
-      seq($._primary_expression, repeat($._postfix_unary_suffix))
-    ),
+    _postfix_unary_expression: $ => seq($._primary_expression, repeat($._postfix_unary_suffix)),
 
     directly_assignable_expression: $ => prec(
       PREC.ASSIGNMENT,
