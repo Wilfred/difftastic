@@ -1,0 +1,4 @@
+/src/**/* linguist-generated=true
+/src/scanner.cc linguist-generated=false
+# Exclude test files from language stats
+/test/**/*.ex linguist-documentation=true
