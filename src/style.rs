@@ -32,7 +32,7 @@ impl Style {
 /// Dim any parts of the line that have no spans.
 fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     if styles.is_empty() {
-        return line.dimmed().to_string();
+        return line.purple().to_string();
     }
 
     let mut res = String::with_capacity(line.len());
