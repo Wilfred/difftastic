@@ -10,6 +10,12 @@ Added support for Mercuial, see [this section in the
 manual](http://difftastic.wilfred.me.uk/getting_started.html#mercurial-external-diffs)
 for instructions.
 
+### Display
+
+Characters that don't have a position in the parsed syntax tree are
+now displayed in purple, to make bugs more obvious. Previously they
+were dimmed.
+
 ## 0.10.1
 
 ### Build
