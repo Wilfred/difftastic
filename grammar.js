@@ -867,7 +867,7 @@ module.exports = grammar({
 
     string: $ => seq(
       alias($._string_start, '"'),
-      repeat(choice($.interpolation, $.escape_sequence, $._not_escape_sequence, $._string_content)),
+      repeat(choice($.interpolation, $._escape_interpolation, $.escape_sequence, $._not_escape_sequence, $._string_content)),
       alias($._string_end, '"')
     ),
 
@@ -878,6 +878,8 @@ module.exports = grammar({
       optional($.format_specifier),
       '}'
     ),
+
+    _escape_interpolation: $ => choice('{{', '}}'),
 
     escape_sequence: $ => token(prec(1, seq(
       '\\',
