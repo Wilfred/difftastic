@@ -6,7 +6,7 @@ keywords = ["incremental", "parsing", "elixir"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-elixir"
 edition = "2018"
-license = "MIT"
+license = "Apache-2.0"
 
 build = "bindings/rust/build.rs"
 include = [

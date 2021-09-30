@@ -14,8 +14,7 @@
     "format": "prettier --trailing-comma es5 --write grammar.js",
     "format-check": "prettier --trailing-comma es5 --check grammar.js"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "nan": "^2.15.0"
   },

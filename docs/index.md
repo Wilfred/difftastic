@@ -17,3 +17,5 @@ for a helpful reference:
   by [@ananthakumaran](https://github.com/ananthakumaran)
 * [tree-sitter-elixir](https://github.com/wingyplus/tree-sitter-elixir) developed
   by [@wingyplus](https://github.com/wingyplus) and [@Tuxified](https://github.com/Tuxified)
+
+In particular, some test cases were sourced from [ananthakumaran/tree-sitter-elixir](https://github.com/ananthakumaran/tree-sitter-elixir).
