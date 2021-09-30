@@ -476,9 +476,16 @@ impl<'a> Hash for Syntax<'a> {
     }
 }
 
+#[derive(PartialEq, Eq, Debug, Clone, Copy)]
+pub enum HighlightKind {
+    Normal,
+    Comment,
+}
+
 #[derive(PartialEq, Eq, Debug, Clone)]
 pub enum MatchKind {
     Unchanged {
+        highlight: HighlightKind,
         opposite_pos: (Vec<SingleLineSpan>, Vec<SingleLineSpan>),
     },
     Novel,
@@ -576,6 +583,7 @@ fn split_comment_words(
 impl MatchedPos {
     fn new(
         ck: ChangeKind,
+        is_comment: bool,
         pos: Vec<SingleLineSpan>,
         prev_opposite_pos: Vec<SingleLineSpan>,
     ) -> Vec<Self> {
@@ -610,7 +618,14 @@ impl MatchedPos {
                     Atom { position, .. } => (position.clone(), position.clone()),
                 };
 
-                MatchKind::Unchanged { opposite_pos }
+                MatchKind::Unchanged {
+                    highlight: if is_comment {
+                        HighlightKind::Comment
+                    } else {
+                        HighlightKind::Normal
+                    },
+                    opposite_pos,
+                }
             }
             Novel => MatchKind::Novel,
         };
@@ -683,6 +698,7 @@ fn change_positions_<'a>(
 
                 positions.extend(MatchedPos::new(
                     change,
+                    false,
                     open_position.clone(),
                     prev_opposite_pos.clone(),
                 ));
@@ -708,11 +724,17 @@ fn change_positions_<'a>(
                 }
                 positions.extend(MatchedPos::new(
                     change,
+                    false,
                     close_position.clone(),
                     prev_opposite_pos.clone(),
                 ));
             }
-            Atom { info, position, .. } => {
+            Atom {
+                info,
+                position,
+                is_comment,
+                ..
+            } => {
                 let change = info
                     .change
                     .get()
@@ -733,6 +755,7 @@ fn change_positions_<'a>(
                 }
                 positions.extend(MatchedPos::new(
                     change,
+                    *is_comment,
                     position.clone(),
                     prev_opposite_pos.clone(),
                 ));

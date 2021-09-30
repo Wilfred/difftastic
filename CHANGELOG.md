@@ -12,6 +12,9 @@ for instructions.
 
 ### Display
 
+Unchanged comments are now dimmed, to distinguish them from other
+unchanged code.
+
 Characters that don't have a position in the parsed syntax tree are
 now displayed in purple, to make bugs more obvious. Previously they
 were dimmed.

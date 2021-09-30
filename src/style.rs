@@ -1,10 +1,6 @@
 //! Apply colours and styling to strings.
 
-use crate::{
-    lines::{codepoint_len, substring_by_codepoint, LineNumber},
-    positions::SingleLineSpan,
-    syntax::{MatchKind, MatchedPos},
-};
+use crate::{lines::{codepoint_len, substring_by_codepoint, LineNumber}, positions::SingleLineSpan, syntax::{HighlightKind, MatchKind, MatchedPos}};
 use colored::*;
 use std::{cmp::min, collections::HashMap};
 
@@ -13,6 +9,7 @@ struct Style {
     foreground: Color,
     background: Option<Color>,
     bold: bool,
+    dimmed: bool,
 }
 
 impl Style {
@@ -20,6 +17,9 @@ impl Style {
         let mut res = s.color(self.foreground);
         if self.bold {
             res = res.bold();
+        }
+        if self.dimmed {
+            res = res.dimmed();
         }
         if let Some(background) = self.background {
             res = res.on_color(background);
@@ -99,10 +99,11 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
     let mut styles = vec![];
     for pos in positions {
         let style = match pos.kind {
-            MatchKind::Unchanged { .. } => Style {
+            MatchKind::Unchanged { highlight, .. } => Style {
                 foreground: Color::White,
                 background: None,
                 bold: false,
+                dimmed: highlight == HighlightKind::Comment,
             },
             MatchKind::Novel | MatchKind::ChangedCommentPart => Style {
                 foreground: if is_lhs {
@@ -112,11 +113,13 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
                 },
                 background: None,
                 bold: true,
+                dimmed: false,
             },
             MatchKind::UnchangedCommentPart { .. } => Style {
                 foreground: if is_lhs { Color::Red } else { Color::Green },
                 background: None,
                 bold: false,
+                dimmed: false,
             },
         };
         for line_pos in &pos.pos {
