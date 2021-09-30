@@ -17,15 +17,15 @@ end
 
 As opposed to other languages, core constructs like `def`, `if` and `for` are not
 particularly special either, since they are itself regular functions (or macros rather).
-Consequently they can be used "improperly" in a quoted expression, as shown above.
+As a result, these constructs can be used "improperly" in a quoted expression, as shown above.
 
 Consequently, to correctly parse all Elixir code, we need the AST to closely match
 the Elixir AST. See [Elixir / Syntax reference](https://hexdocs.pm/elixir/syntax-reference.html)
 for more details.
 
-Whenever possible possible, we try using a more specific nodes (like binary/unary operator),
-but only to the extent that doesn't lose on generality. To get a sense of what the AST looks
-like, have a look at the tests in `test/corpus/`.
+Whenever possible, we try using a more specific nodes (like binary/unary operator), but only
+to the extent that doesn't lose on generality. To get a sense of what the AST looks like, have
+a look at the tests in `test/corpus/`.
 
 ## Getting started with Tree-sitter
 
@@ -155,9 +155,6 @@ a +b
 In the first three expressions `+` is a binary operator, while in the last one
 `+` is an unary operator referring to local call argument.
 
-To correctly tokenize all the cases, we have a special `_before_unary_operator` empty
-token and use external scanner to tokenize
-
 To correctly tokenize all cases we use external scanner to tokenize a special empty
 token (`_before_unary_operator`) when the spacing matches `a +b`, which forces the
 parser to pick the unary operator path.
@@ -166,7 +163,7 @@ parser to pick the unary operator path.
 
 The `not in` operator may have an arbitrary inline whitespace between `not` and `in`.
 
-We cannot use a regular expressoin like `/not[ \t]+in/`, because it would also match
+We cannot use a regular expression like `/not[ \t]+in/`, because it would also match
 in expressions like `a not inn` as the longest matching token.
 
 A possible solution could be `seq("not", "in")` with dynamic conflict resolution, but
