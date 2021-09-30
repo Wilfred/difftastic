@@ -1,6 +1,6 @@
 # tree-sitter-elixir
 
-[![Test](https://github.com/jonatanklosko/tree-sitter-elixir/actions/workflows/test.yml/badge.svg)](https://github.com/jonatanklosko/tree-sitter-elixir/actions/workflows/test.yml)
+[![Test](https://github.com/elixir-lang/tree-sitter-elixir/actions/workflows/test.yml/badge.svg)](https://github.com/elixir-lang/tree-sitter-elixir/actions/workflows/test.yml)
 
 Elixir grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
