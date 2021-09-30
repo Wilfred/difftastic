@@ -4291,6 +4291,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "_escape_interpolation"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "escape_sequence"
               },
               {
@@ -4353,6 +4357,19 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "_escape_interpolation": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{{"
+        },
+        {
+          "type": "STRING",
+          "value": "}}"
         }
       ]
     },
