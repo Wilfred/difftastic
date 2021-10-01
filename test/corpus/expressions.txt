@@ -178,17 +178,35 @@ Pipe
 
 x |> print()
 
-x |> print
+x |> foo() |> bar() + baz()
+
+x |> {function(x) x}()
 
 ---
 
 (program
   (binary
     left: (identifier)
-    right: (call function: (identifier)))
+    right: (call
+      function: (identifier)))
+  (binary
+    left: (binary
+      left: (binary
+        left: (identifier)
+        right: (call
+          function: (identifier)))
+      right: (call
+        function: (identifier)))
+    right: (call
+      function: (identifier)))
   (binary
     left: (identifier)
-    right: (identifier)))
+    right: (call
+      function: (brace_list
+        (function_definition
+          (formal_parameters
+            (identifier))
+          (identifier))))))
 
 ===========
 Subset
