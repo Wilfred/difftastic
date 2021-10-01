@@ -131,7 +131,7 @@ mod tests {
     use crate::{
         graph::Edge::*,
         positions::SingleLineSpan,
-        syntax::{init_info, ChangeKind},
+        syntax::{init_info, ChangeKind, AtomKind},
     };
 
     use itertools::Itertools;
@@ -157,9 +157,9 @@ mod tests {
     fn identical_atoms() {
         let arena = Arena::new();
 
-        let lhs = Syntax::new_atom(&arena, pos_helper(0), "foo");
+        let lhs = Syntax::new_atom(&arena, pos_helper(0), "foo", AtomKind::Normal);
         // Same content as LHS.
-        let rhs = Syntax::new_atom(&arena, pos_helper(0), "foo");
+        let rhs = Syntax::new_atom(&arena, pos_helper(0), "foo", AtomKind::Normal);
         init_info(&[lhs], &[rhs]);
 
         let start = Vertex {
@@ -187,7 +187,12 @@ mod tests {
             &arena,
             "[",
             pos_helper(0),
-            vec![Syntax::new_atom(&arena, pos_helper(1), "foo")],
+            vec![Syntax::new_atom(
+                &arena,
+                pos_helper(1),
+                "foo",
+                AtomKind::Normal,
+            )],
             "]",
             pos_helper(2),
         )];
@@ -240,8 +245,8 @@ mod tests {
             "[",
             pos_helper(0),
             vec![
-                Syntax::new_atom(&arena, pos_helper(1), "foo"),
-                Syntax::new_atom(&arena, pos_helper(2), "foo"),
+                Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(2), "foo", AtomKind::Normal),
             ],
             "]",
             pos_helper(3),
@@ -279,7 +284,7 @@ mod tests {
             pos_helper(0),
             vec![
                 Syntax::new_list(&arena, "(", pos_helper(1), vec![], ")", pos_helper(2)),
-                Syntax::new_atom(&arena, pos_helper(3), "foo"),
+                Syntax::new_atom(&arena, pos_helper(3), "foo", AtomKind::Normal),
             ],
             "]",
             pos_helper(4),
@@ -291,7 +296,7 @@ mod tests {
             pos_helper(0),
             vec![
                 Syntax::new_list(&arena, "(", pos_helper(1), vec![], ")", pos_helper(2)),
-                Syntax::new_atom(&arena, pos_helper(3), "foo"),
+                Syntax::new_atom(&arena, pos_helper(3), "foo", AtomKind::Normal),
             ],
             "}",
             pos_helper(4),
@@ -327,12 +332,17 @@ mod tests {
         let arena = Arena::new();
 
         let lhs = vec![
-            Syntax::new_atom(&arena, col_helper(1, 0), "foo"),
-            Syntax::new_atom(&arena, col_helper(2, 0), "bar"),
-            Syntax::new_atom(&arena, col_helper(2, 1), "foo"),
+            Syntax::new_atom(&arena, col_helper(1, 0), "foo", AtomKind::Normal),
+            Syntax::new_atom(&arena, col_helper(2, 0), "bar", AtomKind::Normal),
+            Syntax::new_atom(&arena, col_helper(2, 1), "foo", AtomKind::Normal),
         ];
 
-        let rhs = vec![Syntax::new_atom(&arena, col_helper(1, 0), "foo")];
+        let rhs = vec![Syntax::new_atom(
+            &arena,
+            col_helper(1, 0),
+            "foo",
+            AtomKind::Normal,
+        )];
         init_info(&lhs, &rhs);
 
         let start = Vertex {
@@ -364,7 +374,12 @@ mod tests {
             &arena,
             "[",
             col_helper(1, 0),
-            vec![Syntax::new_atom(&arena, col_helper(1, 2), "1")],
+            vec![Syntax::new_atom(
+                &arena,
+                col_helper(1, 2),
+                "1",
+                AtomKind::Normal,
+            )],
             "]",
             pos_helper(2),
         )];
@@ -399,11 +414,16 @@ mod tests {
                 &arena,
                 "[",
                 col_helper(1, 0),
-                vec![Syntax::new_atom(&arena, col_helper(1, 2), "1")],
+                vec![Syntax::new_atom(
+                    &arena,
+                    col_helper(1, 2),
+                    "1",
+                    AtomKind::Normal,
+                )],
                 "]",
                 col_helper(2, 1),
             ),
-            Syntax::new_atom(&arena, col_helper(2, 2), ";"),
+            Syntax::new_atom(&arena, col_helper(2, 2), ";", AtomKind::Normal),
         ];
 
         let rhs = vec![];
@@ -437,27 +457,27 @@ mod tests {
             "[",
             pos_helper(0),
             vec![
-                Syntax::new_atom(&arena, pos_helper(1), "1"),
-                Syntax::new_atom(&arena, pos_helper(2), "2"),
-                Syntax::new_atom(&arena, pos_helper(3), "3"),
-                Syntax::new_atom(&arena, pos_helper(4), "4"),
-                Syntax::new_atom(&arena, pos_helper(5), "5"),
-                Syntax::new_atom(&arena, pos_helper(6), "6"),
-                Syntax::new_atom(&arena, pos_helper(7), "7"),
-                Syntax::new_atom(&arena, pos_helper(8), "8"),
-                Syntax::new_atom(&arena, pos_helper(9), "9"),
-                Syntax::new_atom(&arena, pos_helper(10), "10"),
-                Syntax::new_atom(&arena, pos_helper(11), "11"),
-                Syntax::new_atom(&arena, pos_helper(12), "12"),
-                Syntax::new_atom(&arena, pos_helper(13), "13"),
-                Syntax::new_atom(&arena, pos_helper(14), "14"),
-                Syntax::new_atom(&arena, pos_helper(15), "15"),
-                Syntax::new_atom(&arena, pos_helper(16), "16"),
-                Syntax::new_atom(&arena, pos_helper(17), "17"),
-                Syntax::new_atom(&arena, pos_helper(18), "18"),
-                Syntax::new_atom(&arena, pos_helper(19), "19"),
-                Syntax::new_atom(&arena, pos_helper(20), "20"),
-                Syntax::new_atom(&arena, pos_helper(21), "21"),
+                Syntax::new_atom(&arena, pos_helper(1), "1", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(2), "2", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(3), "3", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(4), "4", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(5), "5", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(6), "6", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(7), "7", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(8), "8", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(9), "9", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(10), "10", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(11), "11", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(12), "12", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(13), "13", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(14), "14", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(15), "15", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(16), "16", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(17), "17", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(18), "18", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(19), "19", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(20), "20", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(21), "21", AtomKind::Normal),
             ],
             "]",
             pos_helper(100),
@@ -468,28 +488,28 @@ mod tests {
             "[",
             pos_helper(0),
             vec![
-                Syntax::new_atom(&arena, pos_helper(1), "d1"),
-                Syntax::new_atom(&arena, pos_helper(2), "d2"),
-                Syntax::new_atom(&arena, pos_helper(3), "d3"),
-                Syntax::new_atom(&arena, pos_helper(4), "d4"),
-                Syntax::new_atom(&arena, pos_helper(5), "d5"),
-                Syntax::new_atom(&arena, pos_helper(6), "d6"),
-                Syntax::new_atom(&arena, pos_helper(7), "d7"),
-                Syntax::new_atom(&arena, pos_helper(8), "d8"),
-                Syntax::new_atom(&arena, pos_helper(9), "d9"),
+                Syntax::new_atom(&arena, pos_helper(1), "d1", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(2), "d2", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(3), "d3", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(4), "d4", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(5), "d5", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(6), "d6", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(7), "d7", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(8), "d8", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(9), "d9", AtomKind::Normal),
                 // This is the only common atom:
-                Syntax::new_atom(&arena, pos_helper(10), "10"),
-                Syntax::new_atom(&arena, pos_helper(11), "d11"),
-                Syntax::new_atom(&arena, pos_helper(12), "d12"),
-                Syntax::new_atom(&arena, pos_helper(13), "d13"),
-                Syntax::new_atom(&arena, pos_helper(14), "d14"),
-                Syntax::new_atom(&arena, pos_helper(15), "d15"),
-                Syntax::new_atom(&arena, pos_helper(16), "d16"),
-                Syntax::new_atom(&arena, pos_helper(17), "d17"),
-                Syntax::new_atom(&arena, pos_helper(18), "d18"),
-                Syntax::new_atom(&arena, pos_helper(19), "d19"),
-                Syntax::new_atom(&arena, pos_helper(20), "d20"),
-                Syntax::new_atom(&arena, pos_helper(21), "d21"),
+                Syntax::new_atom(&arena, pos_helper(10), "10", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(11), "d11", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(12), "d12", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(13), "d13", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(14), "d14", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(15), "d15", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(16), "d16", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(17), "d17", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(18), "d18", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(19), "d19", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(20), "d20", AtomKind::Normal),
+                Syntax::new_atom(&arena, pos_helper(21), "d21", AtomKind::Normal),
             ],
             "]",
             pos_helper(100),
@@ -522,16 +542,18 @@ mod tests {
     fn replace_similar_comment() {
         let arena = Arena::new();
 
-        let lhs = vec![Syntax::new_comment(
+        let lhs = vec![Syntax::new_atom(
             &arena,
             pos_helper(1),
             "the quick brown fox",
+            AtomKind::Comment,
         )];
 
-        let rhs = vec![Syntax::new_comment(
+        let rhs = vec![Syntax::new_atom(
             &arena,
             pos_helper(1),
             "the quick brown cat",
+            AtomKind::Comment,
         )];
         init_info(&lhs, &rhs);
 
@@ -556,13 +578,19 @@ mod tests {
     fn replace_very_different_comment() {
         let arena = Arena::new();
 
-        let lhs = vec![Syntax::new_comment(
+        let lhs = vec![Syntax::new_atom(
             &arena,
             pos_helper(1),
             "the quick brown fox",
+            AtomKind::Comment,
         )];
 
-        let rhs = vec![Syntax::new_comment(&arena, pos_helper(1), "foo bar")];
+        let rhs = vec![Syntax::new_atom(
+            &arena,
+            pos_helper(1),
+            "foo bar",
+            AtomKind::Comment,
+        )];
         init_info(&lhs, &rhs);
 
         let start = Vertex {
@@ -587,14 +615,25 @@ mod tests {
         let arena = Arena::new();
 
         let lhs = vec![
-            Syntax::new_comment(&arena, pos_helper(1), "the quick brown fox"),
-            Syntax::new_comment(&arena, pos_helper(2), "the quick brown thing"),
+            Syntax::new_atom(
+                &arena,
+                pos_helper(1),
+                "the quick brown fox",
+                AtomKind::Comment,
+            ),
+            Syntax::new_atom(
+                &arena,
+                pos_helper(2),
+                "the quick brown thing",
+                AtomKind::Comment,
+            ),
         ];
 
-        let rhs = vec![Syntax::new_comment(
+        let rhs = vec![Syntax::new_atom(
             &arena,
             pos_helper(1),
             "the quick brown fox.",
+            AtomKind::Comment,
         )];
         init_info(&lhs, &rhs);
 
@@ -621,8 +660,8 @@ mod tests {
     #[test]
     fn mark_syntax_equal_atoms() {
         let arena = Arena::new();
-        let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo");
-        let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo");
+        let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
+        let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         init_info(&[lhs], &[rhs]);
 
         mark_syntax(Some(lhs), Some(rhs));
@@ -633,8 +672,8 @@ mod tests {
     #[test]
     fn mark_syntax_different_atoms() {
         let arena = Arena::new();
-        let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo");
-        let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar");
+        let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
+        let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
         init_info(&[lhs], &[rhs]);
 
         mark_syntax(Some(lhs), Some(rhs));

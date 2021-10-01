@@ -158,7 +158,7 @@ fn main() {
                 Some(ts_lang) => {
                     let bytes = read_or_die(&path);
                     let src = String::from_utf8_lossy(&bytes).to_string();
-                    let tree = tsp::parse_to_tree(&src, &ts_lang);
+                    let (tree, _) = tsp::parse_to_tree(&src, &ts_lang);
                     tsp::print_tree(&tree);
                 }
                 None => {

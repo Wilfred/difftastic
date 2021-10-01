@@ -49,6 +49,14 @@ You can now add the parser to build by including the directory in
 `build.rs`. You will also need to update `tree_sitter_parser.rs` to
 configure the file extensions, atoms and delimiters.
 
+To add syntax highlighting to the package, you'll also need a symlink
+to the `highlights.scm`, if available.
+
+```
+$ cd vendor/highlights
+$ ln -s ../tree-sitter-java/queries/highlights.scm java.scm
+```
+
 ## Updating a parser
 
 To update a parser, pull commits from the upstream git repository. For

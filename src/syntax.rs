@@ -81,7 +81,7 @@ pub enum Syntax<'a> {
         info: SyntaxInfo<'a>,
         position: Vec<SingleLineSpan>,
         content: String,
-        is_comment: bool,
+        kind: AtomKind,
     },
 }
 
@@ -137,6 +137,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 content,
                 position,
                 info,
+                kind: highlight,
                 ..
             } => {
                 let mut ds = f.debug_struct(&format!(
@@ -148,6 +149,7 @@ impl<'a> fmt::Debug for Syntax<'a> {
                 ds.field("position", &dbg_pos(position));
 
                 if env::var("DFT_VERBOSE").is_ok() {
+                    ds.field("highlight", highlight);
                     ds.field("change", &info.change.get());
                     let next_s = match info.next.get() {
                         Some(List { .. }) => "Some(List)",
@@ -197,30 +199,13 @@ impl<'a> Syntax<'a> {
         arena: &'a Arena<Syntax<'a>>,
         position: Vec<SingleLineSpan>,
         content: &str,
+        kind: AtomKind,
     ) -> &'a Syntax<'a> {
-        Self::new_atom_(arena, position, content, false)
-    }
-
-    pub fn new_comment(
-        arena: &'a Arena<Syntax<'a>>,
-        position: Vec<SingleLineSpan>,
-        content: &str,
-    ) -> &'a Syntax<'a> {
-        Self::new_atom_(arena, position, content, true)
-    }
-
-    #[allow(clippy::mut_from_ref)] // Clippy doesn't understand arenas.
-    fn new_atom_(
-        arena: &'a Arena<Syntax<'a>>,
-        position: Vec<SingleLineSpan>,
-        content: &str,
-        is_comment: bool,
-    ) -> &'a mut Syntax<'a> {
         arena.alloc(Atom {
             info: SyntaxInfo::new(),
             position,
             content: content.into(),
-            is_comment,
+            kind,
         })
     }
 
@@ -313,7 +298,13 @@ pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>])
     set_content_id(rhs_roots, &mut existing);
 }
 
-type ContentKey = (Option<String>, Option<String>, Vec<u32>, bool, bool);
+type ContentKey = (
+    Option<String>,
+    Option<String>,
+    Vec<u32>,
+    bool,
+    Option<AtomKind>,
+);
 
 fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut HashMap<ContentKey, u32>) {
     for node in nodes {
@@ -335,25 +326,26 @@ fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut HashMap<ContentKe
                     Some(close_content.clone()),
                     children_content_ids,
                     true,
-                    false,
+                    None,
                 )
             }
             Atom {
                 content,
-                is_comment,
+                kind: highlight,
                 ..
             } => {
-                let clean_content = if *is_comment && content.lines().count() > 1 {
-                    content
-                        .lines()
-                        .map(|l| l.trim_start())
-                        .collect::<Vec<_>>()
-                        .join("\n")
-                        .to_string()
-                } else {
-                    content.clone()
-                };
-                (Some(clean_content), None, vec![], false, *is_comment)
+                let clean_content =
+                    if *highlight == AtomKind::Comment && content.lines().count() > 1 {
+                        content
+                            .lines()
+                            .map(|l| l.trim_start())
+                            .collect::<Vec<_>>()
+                            .join("\n")
+                            .to_string()
+                    } else {
+                        content.clone()
+                    };
+                (Some(clean_content), None, vec![], false, Some(*highlight))
             }
         };
 
@@ -476,16 +468,25 @@ impl<'a> Hash for Syntax<'a> {
     }
 }
 
-#[derive(PartialEq, Eq, Debug, Clone, Copy)]
-pub enum HighlightKind {
+#[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
+pub enum AtomKind {
     Normal,
     Comment,
+    Keyword,
+}
+
+/// Unlike atoms, tokens can be delimiters like `{`.
+#[derive(PartialEq, Eq, Debug, Clone, Copy)]
+pub enum TokenKind {
+    Delimiter,
+    Atom(AtomKind),
 }
 
 #[derive(PartialEq, Eq, Debug, Clone)]
 pub enum MatchKind {
     Unchanged {
-        highlight: HighlightKind,
+        highlight: TokenKind,
+        // as this match could be for a list.
         opposite_pos: (Vec<SingleLineSpan>, Vec<SingleLineSpan>),
     },
     Novel,
@@ -583,7 +584,7 @@ fn split_comment_words(
 impl MatchedPos {
     fn new(
         ck: ChangeKind,
-        is_comment: bool,
+        highlight: TokenKind,
         pos: Vec<SingleLineSpan>,
         prev_opposite_pos: Vec<SingleLineSpan>,
     ) -> Vec<Self> {
@@ -619,11 +620,7 @@ impl MatchedPos {
                 };
 
                 MatchKind::Unchanged {
-                    highlight: if is_comment {
-                        HighlightKind::Comment
-                    } else {
-                        HighlightKind::Normal
-                    },
+                    highlight,
                     opposite_pos,
                 }
             }
@@ -698,7 +695,7 @@ fn change_positions_<'a>(
 
                 positions.extend(MatchedPos::new(
                     change,
-                    false,
+                    TokenKind::Delimiter,
                     open_position.clone(),
                     prev_opposite_pos.clone(),
                 ));
@@ -724,7 +721,7 @@ fn change_positions_<'a>(
                 }
                 positions.extend(MatchedPos::new(
                     change,
-                    false,
+                    TokenKind::Delimiter,
                     close_position.clone(),
                     prev_opposite_pos.clone(),
                 ));
@@ -732,7 +729,7 @@ fn change_positions_<'a>(
             Atom {
                 info,
                 position,
-                is_comment,
+                kind,
                 ..
             } => {
                 let change = info
@@ -755,7 +752,7 @@ fn change_positions_<'a>(
                 }
                 positions.extend(MatchedPos::new(
                     change,
-                    *is_comment,
+                    TokenKind::Atom(*kind),
                     position.clone(),
                     prev_opposite_pos.clone(),
                 ));
@@ -1076,6 +1073,7 @@ mod tests {
                 end_col: 3,
             }],
             "foo",
+            AtomKind::Normal,
         );
         atom.set_change(ChangeKind::Novel);
         let nodes: Vec<&Syntax> = vec![atom];
@@ -1101,8 +1099,8 @@ mod tests {
 
         let arena = Arena::new();
 
-        let comment = Syntax::new_comment(&arena, pos.clone(), "foo");
-        let atom = Syntax::new_atom(&arena, pos, "foo");
+        let comment = Syntax::new_atom(&arena, pos.clone(), "foo", AtomKind::Comment);
+        let atom = Syntax::new_atom(&arena, pos, "foo", AtomKind::Normal);
         init_info(&[comment], &[atom]);
 
         assert_ne!(comment, atom);
@@ -1118,8 +1116,8 @@ mod tests {
 
         let arena = Arena::new();
 
-        let x = Syntax::new_comment(&arena, pos.clone(), "foo\nbar");
-        let y = Syntax::new_comment(&arena, pos, "foo\n    bar");
+        let x = Syntax::new_atom(&arena, pos.clone(), "foo\nbar", AtomKind::Comment);
+        let y = Syntax::new_atom(&arena, pos, "foo\n    bar", AtomKind::Comment);
         init_info(&[x], &[y]);
 
         assert_eq!(x, y);
@@ -1139,7 +1137,7 @@ mod tests {
                 end_col: 3,
             }],
             content: "foo".into(),
-            is_comment: false,
+            kind: AtomKind::Normal,
         };
         let rhs = Atom {
             info: SyntaxInfo {
@@ -1152,7 +1150,7 @@ mod tests {
                 end_col: 3,
             }],
             content: "foo".into(),
-            is_comment: false,
+            kind: AtomKind::Normal,
         };
         init_info(&[&lhs], &[&rhs]);
 

@@ -3,7 +3,7 @@
 use crate::{
     lines::{codepoint_len, substring_by_codepoint, LineNumber},
     positions::SingleLineSpan,
-    syntax::{HighlightKind, MatchKind, MatchedPos},
+    syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 use colored::*;
 use std::{cmp::min, collections::HashMap};
@@ -102,31 +102,31 @@ fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
     let mut styles = vec![];
     for pos in positions {
-        let style = match pos.kind {
-            MatchKind::Unchanged { highlight, .. } => Style {
-                foreground: Color::White,
-                background: None,
-                bold: false,
-                dimmed: highlight == HighlightKind::Comment,
-            },
-            MatchKind::Novel | MatchKind::ChangedCommentPart => Style {
-                foreground: if is_lhs {
-                    Color::BrightRed
-                } else {
-                    Color::BrightGreen
-                },
-                background: None,
-                bold: true,
-                dimmed: false,
-            },
-            MatchKind::UnchangedCommentPart { .. } => Style {
-                foreground: if is_lhs { Color::Red } else { Color::Green },
-                background: None,
-                bold: false,
-                dimmed: false,
-            },
-        };
         for line_pos in &pos.pos {
+            let style = match pos.kind {
+                MatchKind::Unchanged { highlight, .. } => Style {
+                    foreground: Color::White,
+                    background: None,
+                    bold: highlight == TokenKind::Atom(AtomKind::Keyword),
+                    dimmed: highlight == TokenKind::Atom(AtomKind::Comment),
+                },
+                MatchKind::Novel | MatchKind::ChangedCommentPart => Style {
+                    foreground: if is_lhs {
+                        Color::BrightRed
+                    } else {
+                        Color::BrightGreen
+                    },
+                    background: None,
+                    bold: true,
+                    dimmed: false,
+                },
+                MatchKind::UnchangedCommentPart { .. } => Style {
+                    foreground: if is_lhs { Color::Red } else { Color::Green },
+                    background: None,
+                    bold: false,
+                    dimmed: false,
+                },
+            };
             styles.push((*line_pos, style));
         }
     }

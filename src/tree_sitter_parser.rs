@@ -2,10 +2,13 @@
 
 use std::{borrow::Borrow, collections::HashSet, ffi::OsStr};
 
-use tree_sitter::{Language, Parser, TreeCursor};
+use tree_sitter::{Language, Parser, Query, QueryCursor, TreeCursor};
 use typed_arena::Arena;
 
-use crate::{lines::NewlinePositions, syntax::Syntax};
+use crate::{
+    lines::NewlinePositions,
+    syntax::{AtomKind, Syntax},
+};
 
 pub struct TreeSitterConfig {
     pub name: &'static str,
@@ -22,6 +25,7 @@ pub struct TreeSitterConfig {
     // https://github.com/tree-sitter/tree-sitter/issues/1156
     atom_nodes: HashSet<&'static str>,
     delimiter_tokens: Vec<(&'static str, &'static str)>,
+    highlight_queries: &'static str,
 }
 
 extern "C" {
@@ -56,6 +60,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 .into_iter()
                 .collect(),
             delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("[", "]")]),
+            highlight_queries: include_str!("../vendor/highlights/c.scm"),
         }),
         // Treat .h as C++ rather than C. This is an arbitrary choice,
         // but C++ is more widely used than C according to
@@ -72,6 +77,10 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 .into_iter()
                 .collect(),
             delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("[", "]")]),
+            highlight_queries: concat!(
+                include_str!("../vendor/highlights/c.scm"),
+                include_str!("../vendor/highlights/cpp.scm")
+            ),
         }),
         "bb" | "boot" | "clj" | "cljc" | "clje" | "cljs" | "cljx" | "edn" | "joke" | "joker" => {
             Some(TreeSitterConfig {
@@ -81,6 +90,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")])
                     .into_iter()
                     .collect(),
+                highlight_queries: "",
             })
         }
         "cs" => Some(TreeSitterConfig {
@@ -94,12 +104,14 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             .into_iter()
             .collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")")]),
+            highlight_queries: include_str!("../vendor/highlights/c-sharp.scm"),
         }),
         "css" => Some(TreeSitterConfig {
             name: "CSS",
             language: unsafe { tree_sitter_css() },
             atom_nodes: (vec!["integer_value"]).into_iter().collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")")]),
+            highlight_queries: include_str!("../vendor/highlights/css.scm"),
         }),
         "el" => Some(TreeSitterConfig {
             name: "Emacs Lisp",
@@ -108,6 +120,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")])
                 .into_iter()
                 .collect(),
+            highlight_queries: include_str!("../vendor/highlights/elisp.scm"),
         }),
         "ex" | "exs" => Some(TreeSitterConfig {
             name: "Elixir",
@@ -116,6 +129,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("do", "end")])
                 .into_iter()
                 .collect(),
+            highlight_queries: include_str!("../vendor/highlights/elixir.scm"),
         }),
         "go" => Some(TreeSitterConfig {
             name: "Go",
@@ -126,18 +140,21 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             delimiter_tokens: (vec![("{", "}"), ("[", "]"), ("(", ")")])
                 .into_iter()
                 .collect(),
+            highlight_queries: include_str!("../vendor/highlights/go.scm"),
         }),
         "hs" => Some(TreeSitterConfig {
             name: "Haskell",
             language: unsafe { tree_sitter_haskell() },
             atom_nodes: (vec![]).into_iter().collect(),
             delimiter_tokens: (vec![("[", "]"), ("(", ")")]),
+            highlight_queries: include_str!("../vendor/highlights/haskell.scm"),
         }),
         "java" => Some(TreeSitterConfig {
             name: "Java",
             language: unsafe { tree_sitter_java() },
             atom_nodes: (vec![]).into_iter().collect(),
             delimiter_tokens: (vec![("(", ")"), ("{", "}")]),
+            highlight_queries: include_str!("../vendor/highlights/java.scm"),
         }),
         "cjs" | "js" | "jsx" | "mjs" => Some(TreeSitterConfig {
             name: "JavaScript",
@@ -152,12 +169,14 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 // > at the same level in JSX.
                 ("<", ">"),
             ]),
+            highlight_queries: include_str!("../vendor/highlights/javascript.scm"),
         }),
         "json" => Some(TreeSitterConfig {
             name: "JSON",
             language: unsafe { tree_sitter_json() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
             delimiter_tokens: (vec![("{", "}"), ("[", "]")]),
+            highlight_queries: include_str!("../vendor/highlights/json.scm"),
         }),
         "ml" => Some(TreeSitterConfig {
             name: "OCaml",
@@ -165,18 +184,21 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
             // TODO: begin/end and object/end.
             delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
+            highlight_queries: include_str!("../vendor/highlights/ocaml.scm"),
         }),
         "mli" => Some(TreeSitterConfig {
             name: "OCaml Interface",
             language: unsafe { tree_sitter_ocaml_interface() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
             delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
+            highlight_queries: include_str!("../vendor/highlights/ocaml.scm"),
         }),
         "py" => Some(TreeSitterConfig {
             name: "Python",
             language: unsafe { tree_sitter_python() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
             delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
+            highlight_queries: include_str!("../vendor/highlights/python.scm"),
         }),
         "rs" => Some(TreeSitterConfig {
             name: "Rust",
@@ -185,31 +207,62 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 .into_iter()
                 .collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|")]),
+            highlight_queries: include_str!("../vendor/highlights/rust.scm"),
         }),
         "ts" => Some(TreeSitterConfig {
             name: "TypeScript",
             language: unsafe { tree_sitter_typescript() },
             atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
+            highlight_queries: include_str!("../vendor/highlights/typescript.scm"),
         }),
         "tsx" => Some(TreeSitterConfig {
             name: "TypeScript TSX",
             language: unsafe { tree_sitter_tsx() },
             atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
+            highlight_queries: include_str!("../vendor/highlights/typescript.scm"),
         }),
         _ => None,
     }
 }
 
 /// Parse `src` with tree-sitter.
-pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> tree_sitter::Tree {
+pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> (tree_sitter::Tree, HashSet<usize>) {
     let mut parser = Parser::new();
     parser
         .set_language(config.language)
         .expect("Incompatible tree-sitter version");
 
-    parser.parse(src, None).unwrap()
+    let tree = parser.parse(src, None).unwrap();
+
+    let query = Query::new(config.language, config.highlight_queries).unwrap();
+
+    let mut node_keyword_ids = HashSet::new();
+
+    let mut keyword_ish_ids = vec![];
+    if let Some(idx) = query.capture_index_for_name("keyword") {
+        keyword_ish_ids.push(idx);
+    }
+    if let Some(idx) = query.capture_index_for_name("operator") {
+        keyword_ish_ids.push(idx);
+    }
+    if let Some(idx) = query.capture_index_for_name("constant") {
+        keyword_ish_ids.push(idx);
+    }
+
+    let mut qc = QueryCursor::new();
+    let q_matches = qc.matches(&query, tree.root_node(), src.as_bytes());
+
+    for m in q_matches {
+        for c in m.captures {
+            if keyword_ish_ids.contains(&c.index) {
+                node_keyword_ids.insert(c.node.id());
+            }
+        }
+    }
+
+    (tree, node_keyword_ids)
 }
 
 pub fn print_tree(tree: &tree_sitter::Tree) {
@@ -239,7 +292,7 @@ pub fn parse<'a>(
     src: &str,
     config: &TreeSitterConfig,
 ) -> Vec<&'a Syntax<'a>> {
-    let tree = parse_to_tree(src, config);
+    let (tree, keyword_ids) = parse_to_tree(src, config);
 
     let nl_pos = NewlinePositions::from(src);
     let mut cursor = tree.walk();
@@ -248,7 +301,7 @@ pub fn parse<'a>(
     // each top level syntax item.
     cursor.goto_first_child();
 
-    all_syntaxes_from_cursor(arena, src, &nl_pos, &mut cursor, config)
+    all_syntaxes_from_cursor(arena, src, &nl_pos, &mut cursor, config, &keyword_ids)
 }
 
 fn child_tokens<'a>(src: &'a str, cursor: &mut TreeCursor) -> Vec<Option<&'a str>> {
@@ -309,11 +362,19 @@ fn all_syntaxes_from_cursor<'a>(
     nl_pos: &NewlinePositions,
     cursor: &mut TreeCursor,
     config: &TreeSitterConfig,
+    keyword_ids: &HashSet<usize>,
 ) -> Vec<&'a Syntax<'a>> {
     let mut result: Vec<&Syntax> = vec![];
 
     loop {
-        result.push(syntax_from_cursor(arena, src, nl_pos, cursor, config));
+        result.push(syntax_from_cursor(
+            arena,
+            src,
+            nl_pos,
+            cursor,
+            config,
+            keyword_ids,
+        ));
 
         if !cursor.goto_next_sibling() {
             break;
@@ -331,17 +392,18 @@ fn syntax_from_cursor<'a>(
     nl_pos: &NewlinePositions,
     cursor: &mut TreeCursor,
     config: &TreeSitterConfig,
+    keyword_ids: &HashSet<usize>,
 ) -> &'a Syntax<'a> {
     let node = cursor.node();
 
     if config.atom_nodes.contains(node.kind()) {
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
-        atom_from_cursor(arena, src, nl_pos, cursor)
+        atom_from_cursor(arena, src, nl_pos, cursor, keyword_ids)
     } else if node.child_count() > 0 {
-        list_from_cursor(arena, src, nl_pos, cursor, config)
+        list_from_cursor(arena, src, nl_pos, cursor, config, keyword_ids)
     } else {
-        atom_from_cursor(arena, src, nl_pos, cursor)
+        atom_from_cursor(arena, src, nl_pos, cursor, keyword_ids)
     }
 }
 
@@ -353,6 +415,7 @@ fn list_from_cursor<'a>(
     nl_pos: &NewlinePositions,
     cursor: &mut TreeCursor,
     config: &TreeSitterConfig,
+    keyword_ids: &HashSet<usize>,
 ) -> &'a Syntax<'a> {
     let root_node = cursor.node();
 
@@ -395,17 +458,38 @@ fn list_from_cursor<'a>(
     loop {
         let node = cursor.node();
         if node_i < i {
-            before_delim.push(syntax_from_cursor(arena, src, nl_pos, cursor, config));
+            before_delim.push(syntax_from_cursor(
+                arena,
+                src,
+                nl_pos,
+                cursor,
+                config,
+                keyword_ids,
+            ));
         } else if node_i == i {
             inner_open_content = &src[node.start_byte()..node.end_byte()];
             inner_open_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         } else if node_i < j {
-            between_delim.push(syntax_from_cursor(arena, src, nl_pos, cursor, config));
+            between_delim.push(syntax_from_cursor(
+                arena,
+                src,
+                nl_pos,
+                cursor,
+                config,
+                keyword_ids,
+            ));
         } else if node_i == j {
             inner_close_content = &src[node.start_byte()..node.end_byte()];
             inner_close_position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         } else if node_i > j {
-            after_delim.push(syntax_from_cursor(arena, src, nl_pos, cursor, config));
+            after_delim.push(syntax_from_cursor(
+                arena,
+                src,
+                nl_pos,
+                cursor,
+                config,
+                keyword_ids,
+            ));
         }
 
         if !cursor.goto_next_sibling() {
@@ -455,16 +539,21 @@ fn atom_from_cursor<'a>(
     src: &str,
     nl_pos: &NewlinePositions,
     cursor: &mut TreeCursor,
+    keyword_ids: &HashSet<usize>,
 ) -> &'a Syntax<'a> {
     let node = cursor.node();
     let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
     let content = &src[node.start_byte()..node.end_byte()];
 
-    if node.is_extra() {
-        Syntax::new_comment(arena, position, content)
+    let highlight = if node.is_extra() {
+        AtomKind::Comment
+    } else if keyword_ids.contains(&node.id()) {
+        AtomKind::Keyword
     } else {
-        Syntax::new_atom(arena, position, content)
-    }
+        AtomKind::Normal
+    };
+
+    Syntax::new_atom(arena, position, content, highlight)
 }
 
 #[cfg(test)]
