@@ -476,7 +476,7 @@ impl MaxLine for String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::syntax::MatchKind;
+    use crate::syntax::{HighlightKind, MatchKind};
     use pretty_assertions::assert_eq;
 
     #[test]
@@ -511,6 +511,7 @@ mod tests {
     fn test_visible_groups_ignores_unchanged() {
         let lhs_positions = vec![MatchedPos {
             kind: MatchKind::Unchanged {
+                highlight: HighlightKind::Normal,
                 opposite_pos: (vec![], vec![]),
             },
             pos: vec![SingleLineSpan {
@@ -522,6 +523,7 @@ mod tests {
         }];
         let rhs_positions = vec![MatchedPos {
             kind: MatchKind::Unchanged {
+                highlight: HighlightKind::Normal,
                 opposite_pos: (vec![], vec![]),
             },
             pos: vec![SingleLineSpan {
