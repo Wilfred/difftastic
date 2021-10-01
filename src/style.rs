@@ -1,6 +1,10 @@
 //! Apply colours and styling to strings.
 
-use crate::{lines::{codepoint_len, substring_by_codepoint, LineNumber}, positions::SingleLineSpan, syntax::{HighlightKind, MatchKind, MatchedPos}};
+use crate::{
+    lines::{codepoint_len, substring_by_codepoint, LineNumber},
+    positions::SingleLineSpan,
+    syntax::{HighlightKind, MatchKind, MatchedPos},
+};
 use colored::*;
 use std::{cmp::min, collections::HashMap};
 
