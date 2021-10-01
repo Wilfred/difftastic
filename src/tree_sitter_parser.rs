@@ -139,7 +139,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec![]).into_iter().collect(),
             delimiter_tokens: (vec![("(", ")"), ("{", "}")]),
         }),
-        "js" | "jsx" => Some(TreeSitterConfig {
+        "cjs" | "js" | "jsx" | "mjs" => Some(TreeSitterConfig {
             name: "JavaScript",
             language: unsafe { tree_sitter_javascript() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
