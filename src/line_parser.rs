@@ -2,7 +2,10 @@
 
 use typed_arena::Arena;
 
-use crate::{positions::SingleLineSpan, syntax::Syntax};
+use crate::{
+    positions::SingleLineSpan,
+    syntax::{AtomKind, Syntax},
+};
 
 /// Split `s` by lines, and treat each line as an atom.
 ///
@@ -17,7 +20,7 @@ pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<'a>> {
         // TODO: this is very hot on large files, such as parser.c,
         // because we spend ~65% of execution time computing
         // levenshtein distance.
-        res.push(Syntax::new_comment(
+        res.push(Syntax::new_atom(
             arena,
             vec![SingleLineSpan {
                 line: i.into(),
@@ -25,6 +28,7 @@ pub fn parse<'a>(arena: &'a Arena<Syntax<'a>>, s: &str) -> Vec<&'a Syntax<'a>> {
                 end_col: line.len(),
             }],
             line,
+            AtomKind::Comment, // TODO: don't dim plain lines like other comments
         ));
     }
 
@@ -115,13 +119,13 @@ mod tests {
                 Atom {
                     position: lhs_position,
                     content: lhs_content,
-                    is_comment: lhs_is_comment,
+                    kind: lhs_highlight,
                     ..
                 },
                 Atom {
                     position: rhs_position,
                     content: rhs_content,
-                    is_comment: rhs_is_comment,
+                    kind: rhs_highlight,
                     ..
                 },
             ) => {
@@ -138,8 +142,8 @@ mod tests {
                     dbg!(lhs_content, rhs_content);
                     return false;
                 }
-                if lhs_is_comment != rhs_is_comment {
-                    dbg!(lhs_is_comment, rhs_is_comment);
+                if lhs_highlight != rhs_highlight {
+                    dbg!(lhs_highlight, rhs_highlight);
                     return false;
                 }
             }
@@ -157,7 +161,7 @@ mod tests {
         assert_syntaxes(
             &parse(&arena, "foo\nbar"),
             &[
-                Syntax::new_comment(
+                Syntax::new_atom(
                     &arena,
                     vec![SingleLineSpan {
                         line: 0.into(),
@@ -165,8 +169,9 @@ mod tests {
                         end_col: 3,
                     }],
                     "foo",
+                    AtomKind::Comment,
                 ),
-                Syntax::new_comment(
+                Syntax::new_atom(
                     &arena,
                     vec![SingleLineSpan {
                         line: 1.into(),
@@ -174,6 +179,7 @@ mod tests {
                         end_col: 3,
                     }],
                     "bar",
+                    AtomKind::Comment,
                 ),
             ],
         );

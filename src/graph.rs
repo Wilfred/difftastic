@@ -6,7 +6,7 @@ use std::{
 };
 use strsim::normalized_levenshtein;
 
-use crate::syntax::{ChangeKind, Syntax};
+use crate::syntax::{ChangeKind, AtomKind, Syntax};
 use Edge::*;
 
 /// A vertex in a directed acyclic graph that represents a diff.
@@ -215,12 +215,12 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
         if let (
             Syntax::Atom {
                 content: lhs_content,
-                is_comment: true,
+                kind: AtomKind::Comment,
                 ..
             },
             Syntax::Atom {
                 content: rhs_content,
-                is_comment: true,
+                kind: AtomKind::Comment,
                 ..
             },
         ) = (lhs_syntax, rhs_syntax)

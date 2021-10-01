@@ -12,6 +12,7 @@ edition = "2018"
 include = [
         "/build.rs",
         "/src/",
+        "/vendor/highlights/*.scm",
         "/vendor/**/*.c",
         "/vendor/**/*.h",
         "/vendor/**/*.cc",
