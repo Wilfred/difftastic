@@ -13,6 +13,7 @@ Function definition
 
 '(defun 1)
 '(defun)
+'(defun foo)
 
 --------------------------------------------------------------------------------
 
@@ -47,4 +48,7 @@ Function definition
       (integer)))
   (quote
     (list
+      (symbol)))
+  (quote
+    (function_definition
       (symbol))))

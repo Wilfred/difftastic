@@ -105,7 +105,7 @@ module.exports = grammar({
           "(",
           choice("defun", "defsubst"),
           field("name", $.symbol),
-          field("parameters", $._sexp),
+          optional(field("parameters", $._sexp)),
           optional(field("docstring", $.string)),
           repeat($._sexp),
           ")"
@@ -119,7 +119,7 @@ module.exports = grammar({
           "(",
           "defmacro",
           field("name", $.symbol),
-          field("parameters", $._sexp),
+          optional(field("parameters", $._sexp)),
           optional(field("docstring", $.string)),
           repeat($._sexp),
           ")"

@@ -1,5 +1,8 @@
 # v1.3 (unreleased)
 
+Don't error on quoted forms that look like function definitions (such
+as `'(defun foo)`).
+
 # v1.2
 
 Added some basic syntax highlighting support ("queries" in tree-sitter

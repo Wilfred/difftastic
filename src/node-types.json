@@ -114,7 +114,7 @@
       },
       "parameters": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "byte_compiled_file_name",
@@ -451,7 +451,7 @@
       },
       "parameters": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "byte_compiled_file_name",
