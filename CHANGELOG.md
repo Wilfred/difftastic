@@ -4,6 +4,8 @@
 
 Improved handling of paired delimiters, particularly in C, C++ and C#.
 
+Fixed a rare issue where single-item lists were flattened.
+
 ### Integration
 
 Added support for Mercuial, see [this section in the
