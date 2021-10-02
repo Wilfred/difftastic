@@ -1,4 +1,4 @@
-const COMMENT = token(/;.*\n?/);
+const COMMENT = token(/;.*/);
 
 const STRING = token(
   seq('"', repeat(choice(/[^"\\]/, seq("\\", /(.|\n)/))), '"')
@@ -51,6 +51,9 @@ module.exports = grammar({
 
     _sexp: ($) =>
       choice(
+        $.special_form,
+        $.function_definition,
+        $.macro_definition,
         $.list,
         $.vector,
         $.hash_table,
@@ -60,6 +63,67 @@ module.exports = grammar({
         $.quote,
         $.unquote_splice,
         $.unquote
+      ),
+
+    special_form: ($) =>
+      seq(
+        "(",
+        choice(
+          "and",
+          "catch",
+          "cond",
+          "condition-case",
+          "defconst",
+          "defvar",
+          "function",
+          "if",
+          "interactive",
+          "lambda",
+          "let",
+          "let*",
+          "or",
+          "prog1",
+          "prog2",
+          "progn",
+          "quote",
+          "save-current-buffer",
+          "save-excursion",
+          "save-restriction",
+          "setq",
+          "setq-default",
+          "unwind-protect",
+          "while"
+        ),
+        repeat($._sexp),
+        ")"
+      ),
+
+    function_definition: ($) =>
+      prec(
+        1,
+        seq(
+          "(",
+          choice("defun", "defsubst"),
+          field("name", $.symbol),
+          optional(field("parameters", $._sexp)),
+          optional(field("docstring", $.string)),
+          repeat($._sexp),
+          ")"
+        )
+      ),
+
+    macro_definition: ($) =>
+      prec(
+        1,
+        seq(
+          "(",
+          "defmacro",
+          field("name", $.symbol),
+          optional(field("parameters", $._sexp)),
+          optional(field("docstring", $.string)),
+          repeat($._sexp),
+          ")"
+        )
       ),
 
     _atom: ($) =>
@@ -93,7 +157,21 @@ module.exports = grammar({
       ),
     string: ($) => STRING,
     byte_compiled_file_name: ($) => BYTE_COMPILED_FILE_NAME,
-    symbol: ($) => choice(ESCAPED_READER_SYMBOL, SYMBOL, INTERNED_EMPTY_STRING),
+    symbol: ($) =>
+      choice(
+        // Match nil and t separately so we can highlight them.
+        "nil",
+        "t",
+        // We need to define these as separate tokens so we can handle
+        // e.g '(defun) as a sexp. Without these, we just try
+        // function_definition and produce a parse failure.
+        "defun",
+        "defsubst",
+        "defmacro",
+        ESCAPED_READER_SYMBOL,
+        SYMBOL,
+        INTERNED_EMPTY_STRING
+      ),
 
     quote: ($) => seq(choice("#'", "'", "`"), $._sexp),
     unquote_splice: ($) => seq(",@", $._sexp),

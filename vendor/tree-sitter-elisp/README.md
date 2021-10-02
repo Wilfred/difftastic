@@ -10,12 +10,12 @@ Syntax supported:
 * Quoting and unquoting (`'`, `#'`, `` ` ``, `,`, `,@`)
 * Some special read syntax (`$#`, `##`, `#("foo" 1 2 x)`)
 * Bytecode literals (`#[1 2 3 4]`)
+* Special forms (`let` etc)
 * Comments
 
 Currently unsupported:
 
 * Autoload cookies
-* Special forms (e.g. `let`, currently treated as symbols)
 * Definitions (e.g. `defun`, `defvar`, `defmacro`)
 
 ## Limitations
@@ -27,6 +27,12 @@ expression argument, or a macro call where `let` means something else.
 Currently tree-sitter-elisp treats everything as an s-expression. This
 is accurate, but makes this package less useful for generating a
 summary of file contents, or for syntax highlighting.
+
+Emacs itself has more information that it can use. Emacs will
+highlight macro calls based on which macros are defined in the current
+instance. Some elisp packages also offer custom highlighting logic,
+such as `dash-fontify-mode` in
+[dash.el](https://github.com/magnars/dash.el).
 
 ## Developing
 
@@ -71,7 +77,7 @@ However, there is a growing ecosystem of tools built on top of
 tree-sitter, such as GitHub. This project should allow them to support
 emacs lisp too.
 
-## References
+## Related Projects
 
 [tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure)
 is another tree-sitter package for the lisp family. It's a useful
