@@ -338,7 +338,7 @@ fn syntax_from_cursor<'a>(
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
         atom_from_cursor(arena, src, nl_pos, cursor)
-    } else if node.child_count() > 1 {
+    } else if node.child_count() > 0 {
         list_from_cursor(arena, src, nl_pos, cursor, config)
     } else {
         atom_from_cursor(arena, src, nl_pos, cursor)
