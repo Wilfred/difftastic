@@ -13,6 +13,18 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "special_form"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_definition"
+        },
+        {
+          "type": "SYMBOL",
           "name": "list"
         },
         {
@@ -48,6 +60,272 @@
           "name": "unquote"
         }
       ]
+    },
+    "special_form": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "and"
+            },
+            {
+              "type": "STRING",
+              "value": "catch"
+            },
+            {
+              "type": "STRING",
+              "value": "cond"
+            },
+            {
+              "type": "STRING",
+              "value": "condition-case"
+            },
+            {
+              "type": "STRING",
+              "value": "defconst"
+            },
+            {
+              "type": "STRING",
+              "value": "defvar"
+            },
+            {
+              "type": "STRING",
+              "value": "function"
+            },
+            {
+              "type": "STRING",
+              "value": "if"
+            },
+            {
+              "type": "STRING",
+              "value": "interactive"
+            },
+            {
+              "type": "STRING",
+              "value": "lambda"
+            },
+            {
+              "type": "STRING",
+              "value": "let"
+            },
+            {
+              "type": "STRING",
+              "value": "let*"
+            },
+            {
+              "type": "STRING",
+              "value": "or"
+            },
+            {
+              "type": "STRING",
+              "value": "prog1"
+            },
+            {
+              "type": "STRING",
+              "value": "prog2"
+            },
+            {
+              "type": "STRING",
+              "value": "progn"
+            },
+            {
+              "type": "STRING",
+              "value": "quote"
+            },
+            {
+              "type": "STRING",
+              "value": "save-current-buffer"
+            },
+            {
+              "type": "STRING",
+              "value": "save-excursion"
+            },
+            {
+              "type": "STRING",
+              "value": "save-restriction"
+            },
+            {
+              "type": "STRING",
+              "value": "setq"
+            },
+            {
+              "type": "STRING",
+              "value": "setq-default"
+            },
+            {
+              "type": "STRING",
+              "value": "unwind-protect"
+            },
+            {
+              "type": "STRING",
+              "value": "while"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_sexp"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "function_definition": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "defun"
+              },
+              {
+                "type": "STRING",
+                "value": "defsubst"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "symbol"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "parameters",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_sexp"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "docstring",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "string"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          }
+        ]
+      }
+    },
+    "macro_definition": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "STRING",
+            "value": "defmacro"
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "symbol"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "parameters",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_sexp"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "docstring",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "string"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          }
+        ]
+      }
     },
     "_atom": {
       "type": "CHOICE",
@@ -250,6 +528,26 @@
       "type": "CHOICE",
       "members": [
         {
+          "type": "STRING",
+          "value": "nil"
+        },
+        {
+          "type": "STRING",
+          "value": "t"
+        },
+        {
+          "type": "STRING",
+          "value": "defun"
+        },
+        {
+          "type": "STRING",
+          "value": "defsubst"
+        },
+        {
+          "type": "STRING",
+          "value": "defmacro"
+        },
+        {
           "type": "TOKEN",
           "content": {
             "type": "PATTERN",
@@ -444,7 +742,7 @@
       "type": "TOKEN",
       "content": {
         "type": "PATTERN",
-        "value": ";.*\\n?"
+        "value": ";.*"
       }
     }
   },

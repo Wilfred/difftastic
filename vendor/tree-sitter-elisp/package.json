@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-elisp",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "tree-sitter grammar for Emacs Lisp",
   "main": "bindings/node",
   "keywords": [
@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "generate": "tree-sitter generate",
+    "highlight": "tree-sitter highlight",
     "parse": "tree-sitter parse",
     "test": "tree-sitter test"
   },
