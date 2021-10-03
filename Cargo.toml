@@ -40,16 +40,10 @@ walkdir = "2.3.2"
 
 [dev-dependencies]
 pretty_assertions = "0.7.2"
-criterion = { version = "0.3.5", features = ["html_reports"] }
 
 [build-dependencies]
 cc= "1.0.70"
 rayon = "1.5.1"
-
-[[bench]]
-name = "parse_and_diff"
-path = "benches/parse_and_diff.rs"
-harness = false
 
 [profile.release]
 # Release builds don't have debug symbols by default. We explicitly
