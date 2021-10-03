@@ -131,7 +131,7 @@ mod tests {
     use crate::{
         graph::Edge::*,
         positions::SingleLineSpan,
-        syntax::{init_info, ChangeKind, AtomKind},
+        syntax::{init_info, AtomKind, ChangeKind},
     };
 
     use itertools::Itertools;
