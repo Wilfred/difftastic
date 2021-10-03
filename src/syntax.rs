@@ -67,6 +67,12 @@ impl<'a> SyntaxInfo<'a> {
     }
 }
 
+impl<'a> Default for SyntaxInfo<'a> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 pub enum Syntax<'a> {
     List {
         info: SyntaxInfo<'a>,
@@ -185,7 +191,7 @@ impl<'a> Syntax<'a> {
         }
 
         arena.alloc(List {
-            info: SyntaxInfo::new(),
+            info: SyntaxInfo::default(),
             open_position,
             open_content: open_content.into(),
             close_content: close_content.into(),
@@ -202,7 +208,7 @@ impl<'a> Syntax<'a> {
         kind: AtomKind,
     ) -> &'a Syntax<'a> {
         arena.alloc(Atom {
-            info: SyntaxInfo::new(),
+            info: SyntaxInfo::default(),
             position,
             content: content.into(),
             kind,
@@ -1128,7 +1134,7 @@ mod tests {
         let lhs = Atom {
             info: SyntaxInfo {
                 change: Cell::new(Some(Novel)),
-                ..SyntaxInfo::new()
+                ..SyntaxInfo::default()
             },
 
             position: vec![SingleLineSpan {
@@ -1142,7 +1148,7 @@ mod tests {
         let rhs = Atom {
             info: SyntaxInfo {
                 change: Cell::new(None),
-                ..SyntaxInfo::new()
+                ..SyntaxInfo::default()
             },
             position: vec![SingleLineSpan {
                 line: 1.into(),
