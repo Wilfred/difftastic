@@ -3,6 +3,8 @@
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
 use itertools::{EitherOrBoth, Itertools};
+use lazy_static::lazy_static;
+use regex::Regex;
 use std::{
     cell::Cell,
     cmp::min,
@@ -517,6 +519,14 @@ pub struct MatchedPos {
     pub prev_opposite_pos: Vec<SingleLineSpan>,
 }
 
+fn split_words(s: &str) -> Vec<String> {
+    lazy_static! {
+        static ref RE: Regex = Regex::new(r"[a-zA-Z0-9]+|[^a-zA-Z0-9]+").unwrap();
+    }
+
+    RE.find_iter(s).map(|m| m.as_str().to_owned()).collect()
+}
+
 fn split_comment_words(
     content: &str,
     pos: &[SingleLineSpan],
@@ -524,16 +534,10 @@ fn split_comment_words(
     opposite_pos: &[SingleLineSpan],
     prev_opposite_pos: &[SingleLineSpan],
 ) -> Vec<MatchedPos> {
-    // TODO: also split on whitespace, so "// (foo)" splits before "(".
-
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
-    let content_parts: Vec<_> = content
-        .split_inclusive(&[' ', '\n', '\t'] as &[char])
-        .collect();
-    let other_parts: Vec<_> = opposite_content
-        .split_inclusive(&[' ', '\n', '\t'] as &[char])
-        .collect();
+    let content_parts = split_words(content);
+    let other_parts = split_words(opposite_content);
 
     let content_newlines = NewlinePositions::from(content);
     let opposite_content_newlines = NewlinePositions::from(opposite_content);
@@ -1192,5 +1196,12 @@ mod tests {
                 prev_opposite_pos: vec![]
             },]
         );
+    }
+
+    #[test]
+    fn test_split_words() {
+        let s = "example.com";
+        let res = split_words(s);
+        assert_eq!(res, vec!["example", ".", "com"])
     }
 }

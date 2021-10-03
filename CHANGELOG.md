@@ -4,6 +4,9 @@
 
 Improved handling of paired delimiters, particularly in C, C++ and C#.
 
+Improved word splitting in when diffing similar comments (it's now
+more granular).
+
 Fixed a rare issue where single-item lists were flattened.
 
 ### Integration
