@@ -805,6 +805,10 @@
           "named": true
         },
         {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
           "type": "value_arguments",
           "named": true
         }
