@@ -25,7 +25,6 @@
 // Using an adapted version of https://kotlinlang.org/docs/reference/grammar.html
 
 const PREC = {
-  TYPE_ARGS: 17,
   POSTFIX: 16,
   PREFIX: 15,
   TYPE_RHS: 14,
@@ -78,8 +77,17 @@ module.exports = grammar({
     [$.platform_modifier, $.simple_identifier],
 
     // "<x>.<y> = z assignment conflicts with <x>.<y>() function call"
-    [$._postfix_unary_expression, $._expression]
+    [$._postfix_unary_expression, $._expression],
 
+    // ambiguity between generics and comparison operations (foo < b > c)
+    [$.call_expression, $.prefix_expression, $.comparison_expression],
+    [$.call_expression, $.range_expression, $.comparison_expression],
+    [$.call_expression, $.elvis_expression, $.comparison_expression],
+    [$.call_expression, $.check_expression, $.comparison_expression],
+    [$.call_expression, $.additive_expression, $.comparison_expression],
+    [$.call_expression, $.infix_expression, $.comparison_expression],
+    [$.call_expression, $.multiplicative_expression, $.comparison_expression],
+    [$.type_arguments, $._comparison_operator],
   ],
 
   extras: $ => [
@@ -547,11 +555,6 @@ module.exports = grammar({
 
     navigation_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $.navigation_suffix)),
 
-    // TODO: Postfix type arguments conflict naturally with 'less than'.
-    //       Possible solutions include listing this conflict
-    //       between 'unary_expression' and 'binary_expression'
-    //       in the array of LR(1) conflicts at the top.
-
     prefix_expression: $ => prec.right(PREC.PREFIX, seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
 
     as_expression: $ => prec.left(PREC.AS, seq($._expression, $._as_operator, $._type)),
@@ -609,7 +612,8 @@ module.exports = grammar({
     ),
 
     call_suffix: $ => prec.left(seq(
-      // optional($.type_arguments), // TODO: Type args conflict with 'less than', see above
+      // this introduces ambiguities with 'less than' for comparisons
+      optional($.type_arguments),
       choice(
         seq(optional($.value_arguments), $.annotated_lambda),
         $.value_arguments
@@ -622,7 +626,7 @@ module.exports = grammar({
       $.lambda_literal
     ),
 
-    type_arguments: $ => prec.left(PREC.TYPE_ARGS, seq("<", sep1($.type_projection, ","), ">")),
+    type_arguments: $ => seq("<", sep1($.type_projection, ","), ">"),
 
     value_arguments: $ => seq("(", optional(sep1($.value_argument, ",")), ")"),
 

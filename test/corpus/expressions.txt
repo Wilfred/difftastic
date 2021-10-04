@@ -76,3 +76,55 @@ expect fun randomUUID(): String
      (modifiers (platform_modifier))
      (simple_identifier)
      (user_type (type_identifier))))
+
+==================
+Less than for generics
+==================
+
+foo<Int>(1,2)
+foo<Int>(1)
+
+---
+(source_file
+  (call_expression (simple_identifier)
+    (call_suffix
+      (type_arguments (type_projection (user_type (type_identifier))))
+      (value_arguments (value_argument (integer_literal))
+                       (value_argument (integer_literal)))))
+  (call_expression (simple_identifier)
+    (call_suffix
+      (type_arguments (type_projection (user_type (type_identifier))))
+      (value_arguments (value_argument (integer_literal))))))
+
+
+==================
+Less than for comparison
+==================
+
+val x = a<b
+val y = a>b
+val z = a<b>c
+// this is parsed as a generic, but could also be parsed as a comparison
+val w = a<b>(c)
+val a = a<2>(3)
+
+---
+(source_file
+  (property_declaration (variable_declaration (simple_identifier))
+     (comparison_expression (simple_identifier) (simple_identifier)))
+  (property_declaration (variable_declaration (simple_identifier))
+     (comparison_expression (simple_identifier) (simple_identifier)))
+  (property_declaration (variable_declaration (simple_identifier))
+     (comparison_expression
+        (comparison_expression (simple_identifier) (simple_identifier))
+        (simple_identifier)))
+  (comment)
+  (property_declaration (variable_declaration (simple_identifier))
+    (call_expression (simple_identifier)
+       (call_suffix
+         (type_arguments (type_projection (user_type (type_identifier))))
+       (value_arguments (value_argument (simple_identifier))))))
+  (property_declaration (variable_declaration (simple_identifier))
+      (comparison_expression
+         (comparison_expression (simple_identifier) (integer_literal))
+         (parenthesized_expression (integer_literal)))))
