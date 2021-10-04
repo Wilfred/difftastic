@@ -8,8 +8,8 @@ way.)
 
 ``` toml
 [dependencies]
-tree-sitter = "0.17"
-tree-sitter-go = "0.16"
+tree-sitter = "0.20"
+tree-sitter-go = "0.19"
 ```
 
 Typically, you will use the [language][language func] function to add this
