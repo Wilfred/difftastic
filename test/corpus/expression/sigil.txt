@@ -219,10 +219,20 @@ modifiers
 
 ~r/left|right/i
 ~r/left|right/iUx
+~r/left|right/0
+~r/left|right/u8
 
 ---
 
 (source
+  (sigil
+    (sigil_name)
+    (quoted_content)
+    (sigil_modifiers))
+  (sigil
+    (sigil_name)
+    (quoted_content)
+    (sigil_modifiers))
   (sigil
     (sigil_name)
     (quoted_content)
