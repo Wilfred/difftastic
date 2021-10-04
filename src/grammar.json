@@ -2128,7 +2128,7 @@
                 "type": "IMMEDIATE_TOKEN",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[a-zA-Z]+"
+                  "value": "[a-zA-Z0-9]+"
                 }
               },
               "named": true,
