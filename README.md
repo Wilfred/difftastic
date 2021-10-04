@@ -9,11 +9,7 @@ R grammar for [tree-sitter][].
 
 # Rust bindings
 
-This grammar is available as a Rust crate. It is not yet published on crates.io, but you can still use it in your project by adding it as a `git` dependency in your `Cargo.toml`,
-
-```toml
-tree-sitter-r = { git = "https://github.com/r-lib/tree-sitter-r" }
-```
+This grammar is available as a [Rust crate on crates.io](https://crates.io/crates/tree-sitter-r).
 
 # References
 
