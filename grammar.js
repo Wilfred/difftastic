@@ -344,7 +344,7 @@ module.exports = grammar({
             )
           )
         ),
-        optional(alias(token.immediate(/[a-zA-Z]+/), $.sigil_modifiers))
+        optional(alias(token.immediate(/[a-zA-Z0-9]+/), $.sigil_modifiers))
       ),
 
     keywords: ($) =>
