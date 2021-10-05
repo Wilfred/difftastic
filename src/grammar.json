@@ -4553,6 +4553,51 @@
       "type": "STRING",
       "value": "?."
     },
+    "_indexing_suffix": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expression"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
     "_postfix_unary_suffix": {
       "type": "CHOICE",
       "members": [
@@ -4563,6 +4608,10 @@
         {
           "type": "SYMBOL",
           "name": "navigation_suffix"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "indexing_suffix"
         }
       ]
     },
