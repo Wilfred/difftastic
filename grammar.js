@@ -861,9 +861,18 @@ module.exports = grammar({
                                //       does it seem to be very uncommon to write the safe
                                //       navigation operator 'split up' in Kotlin.
 
+    _indexing_suffix: $ => seq(
+      '[',
+      $._expression,
+      repeat(seq(',', $._expression)),
+      optional(','),
+      ']'
+    ),
+
     _postfix_unary_suffix: $ => choice(
       $._postfix_unary_operator,
-      $.navigation_suffix
+      $.navigation_suffix,
+      $.indexing_suffix
     ),
 
     _postfix_unary_expression: $ => seq($._primary_expression, repeat($._postfix_unary_suffix)),
