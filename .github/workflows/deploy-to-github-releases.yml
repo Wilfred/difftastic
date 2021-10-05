@@ -1,0 +1,27 @@
+name: Deploy to GitHub Releases
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
+      - name: Compile grammar
+        run: npm run generate
+      - name: Build WASM binary
+        run: npm run build-wasm
+      - name: Create GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: tree-sitter-kotlin.wasm
+          token: ${{ secrets.GITHUB_TOKEN }}
