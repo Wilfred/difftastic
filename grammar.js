@@ -999,11 +999,7 @@ module.exports = grammar({
     // Identifiers
     // ==========
 
-    simple_identifier: $ => choice(
-      $._lexical_identifier,
-      "expect",
-      // TODO: far more identifierOrSoftKeyword
-    ),
+    simple_identifier: $ => $._lexical_identifier,
 
     identifier: $ => sep1($.simple_identifier, "."),
 
