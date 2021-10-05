@@ -88,8 +88,6 @@ module.exports = grammar({
     [$.call_expression, $.infix_expression, $.comparison_expression],
     [$.call_expression, $.multiplicative_expression, $.comparison_expression],
     [$.type_arguments, $._comparison_operator],
-
-    [$.prefix_expression, $.function_declaration]
   ],
 
   extras: $ => [
