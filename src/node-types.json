@@ -2200,6 +2200,10 @@
           "named": true
         },
         {
+          "type": "indexing_suffix",
+          "named": true
+        },
+        {
           "type": "integer_literal",
           "named": true
         },
