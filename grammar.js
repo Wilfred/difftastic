@@ -95,6 +95,8 @@ module.exports = grammar({
     /\s+/ // Whitespace
   ],
 
+  word: $ => $._alpha_identifier,
+
   rules: {
     // ====================
     // Syntax grammar
@@ -1089,9 +1091,13 @@ module.exports = grammar({
     // ==========
 
     _lexical_identifier: $ => choice(
-      /[a-zA-Z_][a-zA-Z_0-9]*/,
-      /`[^\r\n`]+`/
+      $._alpha_identifier,
+      $._backtick_identifier,
     ),
+
+    _alpha_identifier: $ => /[a-zA-Z_][a-zA-Z_0-9]*/,
+
+    _backtick_identifier: $ => /`[^\r\n`]+`/,
 
     _uni_character_literal: $ => seq(
       "\\",

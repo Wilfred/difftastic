@@ -1,5 +1,6 @@
 {
   "name": "kotlin",
+  "word": "_alpha_identifier",
   "rules": {
     "source_file": {
       "type": "SEQ",
@@ -5681,14 +5682,22 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "[a-zA-Z_][a-zA-Z_0-9]*"
+          "type": "SYMBOL",
+          "name": "_alpha_identifier"
         },
         {
-          "type": "PATTERN",
-          "value": "`[^\\r\\n`]+`"
+          "type": "SYMBOL",
+          "name": "_backtick_identifier"
         }
       ]
+    },
+    "_alpha_identifier": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z_][a-zA-Z_0-9]*"
+    },
+    "_backtick_identifier": {
+      "type": "PATTERN",
+      "value": "`[^\\r\\n`]+`"
     },
     "_uni_character_literal": {
       "type": "SEQ",
