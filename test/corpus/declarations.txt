@@ -222,6 +222,12 @@ end
 def foo(&block)
 end
 
+def foo(...)
+end
+
+def foo(a, b, ...)
+end
+
 ---
 
 (program
@@ -230,7 +236,11 @@ end
   (method (identifier) (method_parameters (identifier) (splat_parameter (identifier)) (identifier)))
   (method (identifier) (method_parameters (hash_splat_parameter (identifier))))
   (method (identifier) (method_parameters (keyword_parameter (identifier)) (hash_splat_parameter)))
-  (method (identifier) (method_parameters (block_parameter (identifier)))))
+  (method (identifier) (method_parameters (block_parameter (identifier))))
+  (method (identifier) (method_parameters (forward_parameter)))
+  (method (identifier) (method_parameters (identifier) (identifier) (forward_parameter)))
+)
+  
 
 =========================================
 singleton method
