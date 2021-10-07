@@ -458,7 +458,7 @@ interface X {
   get(key: Key): Promise<T>;
 }
 
-interface Enum extends Bar, Baz, funThatEvalsToInterface() {
+interface Enum extends Bar, Baz, Foo<A> {
   public toEnum(): Int;
 }
 
@@ -470,7 +470,7 @@ interface Enum extends Bar, Baz, funThatEvalsToInterface() {
     (object_type (property_signature (property_identifier) (type_annotation (predefined_type)))))
   (interface_declaration
     (type_identifier)
-    (extends_clause (type_identifier))
+    (extends_type_clause (type_identifier))
     (object_type (property_signature (property_identifier) (type_annotation (predefined_type)))))
   (interface_declaration
     (type_identifier)
@@ -495,10 +495,10 @@ interface Enum extends Bar, Baz, funThatEvalsToInterface() {
           (generic_type (type_identifier) (type_arguments (type_identifier)))))))
   (interface_declaration
     (type_identifier)
-    (extends_clause
+    (extends_type_clause
       (type_identifier)
       (type_identifier)
-      (functional_extension (type_identifier) (arguments)))
+      (generic_type (type_identifier) (type_arguments (type_identifier))))
       (object_type
         (method_signature
           (accessibility_modifier)
@@ -520,6 +520,11 @@ class D extends A<
   Y,
 > {}
 
+class E extends funThatEvalsToClass()<
+  X,
+  Y,
+> {}
+
 ---
 
 (program
@@ -529,9 +534,16 @@ class D extends A<
     (class_body))
   (class_declaration
     (type_identifier)
-    (class_heritage (extends_clause (generic_type
-      (type_identifier)
-      (type_arguments (type_identifier) (type_identifier)))))
+    (class_heritage (extends_clause
+      (identifier)
+      (type_arguments (type_identifier) (type_identifier))))
+    (class_body))
+  (class_declaration
+    (type_identifier)
+    (class_heritage
+      (extends_clause
+        (call_expression (identifier) (arguments))
+        (type_arguments (type_identifier) (type_identifier))))
     (class_body)))
 
 =======================================

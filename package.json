@@ -23,13 +23,13 @@
   },
   "scripts": {
     "build": "npm run build-typescript && npm run build-tsx",
-    "build-typescript": "cd typescript && tree-sitter generate --no-bindings",
-    "build-tsx": "cd tsx && tree-sitter generate --no-bindings",
+    "build-typescript": "cd typescript && npx tree-sitter generate --no-bindings",
+    "build-tsx": "cd tsx && npx tree-sitter generate --no-bindings",
     "test-load": "node -e \"console.log(require('./typescript').name, require('./tsx').name)\"",
     "test": "npm run test-typescript && npm run test-tsx && npm run test-load && script/parse-examples",
-    "test-typescript": "cd typescript && tree-sitter test",
-    "test-tsx": "cd tsx && tree-sitter test",
-    "test-windows": "pushd typescript && tree-sitter test && popd && pushd tsx && tree-sitter test"
+    "test-typescript": "cd typescript && npx tree-sitter test",
+    "test-tsx": "cd tsx && npx tree-sitter test",
+    "test-windows": "pushd typescript && npx tree-sitter test && popd && pushd tsx && npx tree-sitter test"
   },
   "tree-sitter": [
     {

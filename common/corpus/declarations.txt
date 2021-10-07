@@ -80,7 +80,7 @@ declare module Foo {
   (ambient_declaration
     (function_signature
       name: (identifier)
-      parameters: (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
+      parameters: (formal_parameters (required_parameter pattern: (identifier) type: (type_annotation (predefined_type))))
       return_type: (type_annotation (predefined_type))))
 
   (ambient_declaration
@@ -89,7 +89,7 @@ declare module Foo {
       body: (statement_block
         (function_signature
           name: (identifier)
-          parameters: (formal_parameters (required_parameter (identifier) (type_annotation (predefined_type))))
+          parameters: (formal_parameters (required_parameter pattern: (identifier) type: (type_annotation (predefined_type))))
           return_type: (type_annotation (predefined_type)))
         (lexical_declaration (variable_declarator
           name: (identifier)
@@ -114,7 +114,7 @@ declare module Foo {
         (method_signature
           name: (property_identifier)
           parameters: (formal_parameters
-            (required_parameter (identifier) (type_annotation (predefined_type)))))
+            (required_parameter pattern: (identifier) type: (type_annotation (predefined_type)))))
         (public_field_definition
           name: (property_identifier)
           type: (type_annotation (predefined_type)))
@@ -734,7 +734,7 @@ class Foo<Bar> extends Baz { bar = 5; static one(a) { return a; }; two(b) { retu
   (class_declaration
     (type_identifier)
     (type_parameters (type_parameter (type_identifier)))
-    (class_heritage (extends_clause (type_identifier)))
+    (class_heritage (extends_clause (identifier)))
     (class_body
       (public_field_definition (property_identifier) (number))
       (method_definition (property_identifier)
@@ -839,8 +839,8 @@ export type Extracted = keyof Pick<Base, "id">
       name: (type_identifier)
       value: (index_type_query
         (generic_type
-          (type_identifier)
-          (type_arguments
+          name: (type_identifier)
+          type_arguments: (type_arguments
             (type_identifier)
             (literal_type
               (string (string_fragment)))))))))
@@ -908,9 +908,9 @@ class D extends A<
     (class_body))
   (class_declaration
     (type_identifier)
-    (class_heritage (extends_clause (generic_type
-      (type_identifier)
-      (type_arguments (type_identifier) (type_identifier)))))
+    (class_heritage (extends_clause
+      (identifier)
+      (type_arguments (type_identifier) (type_identifier))))
     (class_body)))
 
 =======================================
@@ -932,11 +932,10 @@ export class A extends B<C, D> implements C {}
     (type_identifier)
     (class_heritage
       (extends_clause
-        (functional_extension
-          (generic_type
-            (type_identifier)
-            (type_arguments
-              (type_identifier)))
+        (call_expression
+          (identifier)
+          (type_arguments
+            (type_identifier))
           (arguments
             (identifier))))
       (implements_clause
@@ -947,11 +946,10 @@ export class A extends B<C, D> implements C {}
       (type_identifier)
       (class_heritage
         (extends_clause
-          (functional_extension
-            (generic_type
-              (type_identifier)
-              (type_arguments
-                (type_identifier)))
+          (call_expression
+            (identifier)
+            (type_arguments
+              (type_identifier))
             (arguments
               (identifier))))
         (implements_clause
@@ -961,15 +959,14 @@ export class A extends B<C, D> implements C {}
     (type_identifier)
     (class_heritage
       (extends_clause
-        (functional_extension
-          (generic_type
-            (type_identifier)
-            (type_arguments
-              (type_identifier)))
-          (arguments
-            (identifier))
+        (call_expression
+          (identifier)
           (type_arguments
-            (type_identifier))))
+            (type_identifier))
+          (arguments
+            (identifier)))
+        (type_arguments
+          (type_identifier)))
       (implements_clause
         (type_identifier)))
     (class_body))
@@ -978,15 +975,14 @@ export class A extends B<C, D> implements C {}
       (type_identifier)
       (class_heritage
         (extends_clause
-          (functional_extension
-            (generic_type
-              (type_identifier)
-              (type_arguments
-                (type_identifier)))
-            (arguments
-              (identifier))
+          (call_expression
+            (identifier)
             (type_arguments
-              (type_identifier))))
+              (type_identifier))
+            (arguments
+              (identifier)))
+          (type_arguments
+            (type_identifier)))
         (implements_clause
           (type_identifier)))
       (class_body)))
@@ -995,11 +991,10 @@ export class A extends B<C, D> implements C {}
       (type_identifier)
       (class_heritage
         (extends_clause
-          (generic_type
+          (identifier)
+          (type_arguments
             (type_identifier)
-            (type_arguments
-              (type_identifier)
-              (type_identifier))))
+            (type_identifier)))
         (implements_clause
           (type_identifier)))
       (class_body))))
@@ -1053,7 +1048,7 @@ class Bar extends Foo {
     name: (type_identifier)
     (class_heritage
       (extends_clause
-        (type_identifier)))
+        value: (identifier)))
     body: (class_body
       (method_definition
         (override_modifier)
