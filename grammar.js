@@ -35,10 +35,8 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $._str_content,
-    $._ind_str_content,
-    $.escape_sequence,
-    $.ind_escape_sequence,
+    $._string_fragment,
+    $._indented_string_fragment,
   ],
 
   word: $ => $.identifier,
@@ -186,24 +184,27 @@ module.exports = grammar({
     let_attrset: $ => seq('let', '{', optional($._binds), '}'),
     rec_attrset: $ => seq('rec', '{', optional($._binds), '}'),
 
-    string: $ => seq('"', optional($._string_parts), '"'),
-    indented_string: $ => seq("''", optional($._ind_string_parts), "''"),
-
-    _string_parts: $ => repeat1(
-      choice(
-        $._str_content,
+    string: $ => seq(
+      '"',
+      repeat(choice(
+        $._string_fragment,
         $.interpolation,
-        $.escape_sequence,
-      )
+        $.escape_sequence
+      )),
+      '"'
     ),
+    escape_sequence: $ => token.immediate(/\\(.|\s)/), // Can also escape newline.
 
-    _ind_string_parts: $ => repeat1(
-      choice(
-        $._ind_str_content,
+    indented_string: $ => seq(
+      "''",
+      repeat(choice(
+        $._indented_string_fragment,
         $.interpolation,
-        alias($.ind_escape_sequence, $.escape_sequence),
-      )
+        alias($.indented_escape_sequence, $.escape_sequence),
+      )),
+      "''"
     ),
+    indented_escape_sequence: $ => token.immediate(/'''|''\$|''\\(.|\s)/), // Can also escape newline.
 
     _binds: $ => repeat1(field('bind', choice($.bind, $.inherit, $.inherit_from))),
     bind: $ => seq(field('attrpath', $.attrpath), '=', field('expression', $._expression), ';'),
