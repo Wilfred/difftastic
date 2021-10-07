@@ -34,6 +34,8 @@ const ALPHA_CHAR = /[^\x00-\x1F\s0-9:;`"'@$#.,|^&<=>+\-*/\\%?!~()\[\]{}]/;
 module.exports = grammar({
   name: 'ruby',
 
+  inline: $ => [$.p_kwarg, $.p_args_post],
+
   externals: $ => [
     $._line_break,
 
@@ -333,7 +335,10 @@ module.exports = grammar({
       'case',
       field('value', optional($._statement)),
       optional($._terminator),
-      repeat($.when),
+      choice(
+        repeat($.when),
+        repeat($.in_clause),
+      ),
       optional($.else),
       'end'
     ),
@@ -344,7 +349,127 @@ module.exports = grammar({
       choice($._terminator, field('body', $.then))
     ),
 
+    in_clause: $ => seq(
+      'in',
+      $.p_top_expr,
+      choice($._terminator, field('body', $.then))
+    ),
+
     pattern: $ => choice($._arg, $.splat_argument),
+
+    p_top_expr: $ => choice($.p_top_expr_body,
+      seq($.p_top_expr_body, 'if', $._expression),
+      seq($.p_top_expr_body, 'unless', $._expression)
+    ),
+
+    p_top_expr_body: $ => choice(
+      $.p_expr,
+      seq($.p_expr, ',', optional($.p_args)),
+      $.p_find,
+      $.p_args_tail,
+      $.p_kwargs
+    ),
+
+    p_expr: $ => $.p_as,
+
+    p_as: $ => choice(
+      seq($.p_expr, '=>', $.p_variable),
+      $.p_alt
+    ),
+
+    p_alt: $ => sep1($.p_expr_basic, '|'),
+
+    p_expr_basic: $ => choice(
+      $.p_value,
+      seq($.p_const,
+        choice(
+          seq('(', optional(choice($.p_args, $.p_find, $.p_kwargs)), ')'),
+          seq('[', optional(choice($.p_args, $.p_find, $.p_kwargs)), ']'),
+        )
+      ),
+      seq('(', $.p_expr, ')'),
+      seq('[', optional(choice($.p_args, $.p_find)), ']'),
+      seq('{', optional($.p_kwargs), '}'),
+    ),
+
+    p_args: $ => choice(
+      $.p_expr,
+      seq(
+        repeat1(seq($.p_arg, ',')),
+        optional(
+          choice(
+            $.p_arg,
+            seq(
+              $.p_rest,
+              optional($.p_args_post)
+            )
+          )
+        )
+      ),
+      $.p_args_tail
+    ),
+
+    p_args_tail: $ => seq($.p_rest, optional($.p_args_post)),
+
+    p_find: $ => seq($.p_rest, $.p_args_post, ',', $.p_rest),
+
+    p_rest: $ => seq('*', optional($.identifier)),
+
+    p_args_post: $ => repeat1(seq(',', $.p_arg)),
+
+    p_arg: $ => $.p_expr,
+
+    p_kwargs: $ => choice(
+      seq(optional(seq($.p_kwarg, ',')), choice($.p_kwrest, $.p_kwnorest)),
+      seq($.p_kwarg, optional(','))
+    ),
+
+    p_kwarg: $ => commaSep1($.p_kw),
+
+    p_kw: $ => seq($.p_kw_label, optional($.p_expr)),
+
+    p_kw_label: $ => seq(
+      choice(
+        alias($.identifier, $.hash_key_symbol),
+        alias($.constant, $.hash_key_symbol),
+        $.string
+      ),
+      token.immediate(':')
+    ),
+
+    p_kwrest: $ => seq('**', optional($.identifier)),
+
+    p_kwnorest: $ => seq('**', 'nil'),
+
+    p_value: $ => choice(
+      $.p_primitive,
+      seq($.p_primitive, choice('..', '...'), optional($.p_primitive)),
+      seq(choice('..', '...'), $.p_primitive),
+      $.p_variable,
+      $.p_var_ref,
+      $.p_const
+    ),
+
+    p_primitive: $ => choice(
+      $._literal,
+      $.string,
+      $.regex,
+      $.string_array,
+      $.symbol_array,
+      $.keyword_variable,
+      $.lambda
+    ),
+
+    keyword_variable: $ => choice($.nil, $.self, $.true, $.false, '__LINE__', '__FILE__', '__ENCODING__'),
+
+    p_variable: $ => $.identifier,
+
+    p_var_ref: $ => seq('^', $.identifier),
+
+    p_const: $ => choice(
+      seq($.constant, repeat(seq('::', $._cname))),
+      repeat1(seq('::', $._cname))
+    ),
 
     if: $ => seq(
       'if',
@@ -459,12 +584,7 @@ module.exports = grammar({
       $.symbol_array,
       $.hash,
       $.subshell,
-      $.simple_symbol,
-      $.delimited_symbol,
-      $.integer,
-      $.float,
-      $.complex,
-      $.rational,
+      $._literal,
       $.string,
       $.character,
       $.chained_string,
@@ -489,7 +609,6 @@ module.exports = grammar({
       $.redo,
       $.retry,
       alias($.parenthesized_unary, $.unary),
-      alias($.unary_literal, $.unary),
       $.heredoc_beginning
     ),
 
@@ -507,8 +626,10 @@ module.exports = grammar({
         '::',
         seq(field('scope', $._primary), token.immediate('::'))
       ),
-      field('name', choice($.identifier, $.constant))
+      field('name', $._cname)
     )),
+
+    _cname: $ => choice($.identifier, $.constant),
 
     _call: $ => prec.left(PREC.CALL, seq(
       field('receiver', $._primary),
@@ -725,8 +846,28 @@ module.exports = grammar({
 
     unary_literal: $ => prec.right(PREC.UNARY_MINUS, seq(
       field('operator', choice(alias($._unary_minus, '-'), '+')),
-      field('operand', choice($.integer, $.float))
+      field('operand', $._simple_numeric)
     )),
+
+    _literal: $ => choice(
+      $.simple_symbol,
+      $.delimited_symbol,
+      $._numeric
+    ),
+
+    _numeric: $ => choice(
+      $._simple_numeric,
+      alias($.unary_literal, $.unary)
+    ),
+
+    _simple_numeric: $ =>
+      choice(
+        $.integer,
+        $.float,
+        $.complex,
+        $.rational
+
+      ),
 
     right_assignment_list: $ => prec(-1, commaSep1(choice($._arg, $.splat_argument))),
 
