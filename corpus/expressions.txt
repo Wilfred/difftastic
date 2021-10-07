@@ -647,6 +647,32 @@ void a() {
                   (integer_literal))))))))))
 
 ============================
+Lambda expression with ref modifier
+============================
+
+MyIntDelegate a = (ref int i) => i + 1;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (identifier)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (lambda_expression
+              (parameter_list
+                (parameter
+                  (parameter_modifier)
+                  (predefined_type)
+                  (identifier)))
+              (binary_expression
+                (identifier)
+                (integer_literal)))))))))
+
+============================
 Invocation expressions
 ============================
 

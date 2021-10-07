@@ -79,12 +79,13 @@ module.exports = grammar({
     [$._type, $._nullable_base_type, $.array_creation_expression],
     [$._nullable_base_type, $.stack_alloc_array_creation_expression],
 
-    [$.parameter_modifier, $.this_expression],
+    [$.parameter, $.this_expression],
     [$.parameter, $._simple_name],
     [$.parameter, $.tuple_element],
     [$.parameter, $.tuple_element, $.declaration_expression],
     [$.parameter, $._pattern],
     [$.parameter, $.declaration_expression],
+
     [$.tuple_element],
     [$.tuple_element, $.declaration_expression],
     [$.tuple_element, $.variable_declarator],
@@ -330,13 +331,13 @@ module.exports = grammar({
 
     parameter: $ => seq(
       repeat($.attribute_list),
-      optional($.parameter_modifier),
+      optional(alias(choice('ref', 'out', 'this', 'in'), $.parameter_modifier)),
       optional(field('type', $._type)),
       field('name', $.identifier),
       optional($.equals_value_clause)
     ),
 
-    parameter_modifier: $ => prec.right(choice('ref', 'out', 'this', 'in')),
+    parameter_modifier: $ => choice('ref', 'out', 'this', 'in'),
 
     _parameter_array: $ => seq(
       repeat($.attribute_list),
