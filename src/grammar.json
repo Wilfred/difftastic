@@ -1,6 +1,6 @@
 {
   "name": "nix",
-  "word": "identifier",
+  "word": "keyword",
   "rules": {
     "source_expression": {
       "type": "FIELD",
@@ -13,6 +13,10 @@
     "_expression": {
       "type": "SYMBOL",
       "name": "_expr_function"
+    },
+    "keyword": {
+      "type": "PATTERN",
+      "value": "if|then|else|let|inherit|in|rec|with|assert"
     },
     "identifier": {
       "type": "PATTERN",
@@ -1418,22 +1422,37 @@
           "value": "\""
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_string_parts"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_string_fragment"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "interpolation"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "escape_sequence"
+              }
+            ]
+          }
         },
         {
           "type": "STRING",
           "value": "\""
         }
       ]
+    },
+    "escape_sequence": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\\\(.|\\s)"
+      }
     },
     "indented_string": {
       "type": "SEQ",
@@ -1443,16 +1462,29 @@
           "value": "''"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_ind_string_parts"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_indented_string_fragment"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "interpolation"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "indented_escape_sequence"
+                },
+                "named": true,
+                "value": "escape_sequence"
+              }
+            ]
+          }
         },
         {
           "type": "STRING",
@@ -1460,49 +1492,11 @@
         }
       ]
     },
-    "_string_parts": {
-      "type": "REPEAT1",
+    "indented_escape_sequence": {
+      "type": "IMMEDIATE_TOKEN",
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_str_content"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "interpolation"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "escape_sequence"
-          }
-        ]
-      }
-    },
-    "_ind_string_parts": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_ind_str_content"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "interpolation"
-          },
-          {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "ind_escape_sequence"
-            },
-            "named": true,
-            "value": "escape_sequence"
-          }
-        ]
+        "type": "PATTERN",
+        "value": "'''|''\\$|''\\\\(.|\\s)"
       }
     },
     "_binds": {
@@ -1849,19 +1843,11 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "_str_content"
+      "name": "_string_fragment"
     },
     {
       "type": "SYMBOL",
-      "name": "_ind_str_content"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "escape_sequence"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "ind_escape_sequence"
+      "name": "_indented_string_fragment"
     }
   ],
   "inline": [],
