@@ -13,6 +13,7 @@ enum TokenType {
   CATCH,
   FINALLY,
   EXTENDS,
+  WITH,
 };
 
 void *tree_sitter_scala_external_scanner_create() { return NULL; }
@@ -168,6 +169,18 @@ bool tree_sitter_scala_external_scanner_scan(void *payload, TSLexer *lexer,
       return false;
     }
 
+    if (valid_symbols[WITH]) {
+      if (lexer->lookahead != 'w') return true;
+      advance(lexer);
+      if (lexer->lookahead != 'i') return true;
+      advance(lexer);
+      if (lexer->lookahead != 't') return true;
+      advance(lexer);
+      if (lexer->lookahead != 'h') return true;
+      advance(lexer);
+      if (iswalpha(lexer->lookahead)) return true;
+      return false;
+    }
     return true;
   }
 

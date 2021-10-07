@@ -106,7 +106,6 @@ Class definitions
 
 class C[T, U] {
 }
-
 ---
 
 (compilation_unit
@@ -127,7 +126,8 @@ class A(b: B) extends C(b || ok) {
 
 object C {
     class A
-        extends B
+        extends B[T]
+        with C[T]
 }
 
 ---
@@ -154,7 +154,10 @@ object C {
   (object_definition
     (identifier)
     (template_body
-        (class_definition (identifier) (extends_clause (type_identifier))))))
+        (class_definition (identifier) (extends_clause
+          (compound_type
+            (generic_type (type_identifier) (type_arguments (type_identifier)))
+            (generic_type (type_identifier) (type_arguments (type_identifier)))))))))
 
 =======================================
 Class definitions with parameters
@@ -181,6 +184,10 @@ implicit final sealed class Point {
   private override def getX() = 1
 }
 
+private[a] class D[T] private (x: T) {
+  private[a] def b: Byte
+}
+
 ---
 
 (compilation_unit
@@ -189,10 +196,16 @@ implicit final sealed class Point {
     (identifier)
     (template_body
       (function_definition
-        (modifiers)
+        (modifiers (access_modifier))
         (identifier)
         (parameters)
-        (integer_literal)))))
+        (integer_literal))))
+    (class_definition (modifiers (access_modifier (access_qualifier (identifier))))
+      (identifier) (type_parameters (identifier))
+      (access_modifier) (class_parameters (class_parameter (identifier) (type_identifier)))
+      (template_body (function_declaration
+        (modifiers (access_modifier (access_qualifier (identifier))))
+        (identifier) (type_identifier)))))
 
 =======================================
 Trait definitions
@@ -346,6 +359,7 @@ Function declarations
 
 class A {
   def b(c: D) : E
+  def <*[B](that: IO[B]): IO[A]
 }
 
 ---
@@ -357,7 +371,12 @@ class A {
       (function_declaration
         (identifier)
         (parameters (parameter (identifier) (type_identifier)))
-        (type_identifier)))))
+        (type_identifier))
+      (function_declaration
+        (operator_identifier)
+        (type_parameters (identifier))
+        (parameters (parameter (identifier) (generic_type (type_identifier) (type_arguments (type_identifier)))))
+        (generic_type (type_identifier) (type_arguments (type_identifier)))))))
 
 =======================================
 Function definitions

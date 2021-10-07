@@ -200,6 +200,10 @@
         "named": true
       },
       {
+        "type": "lambda_expression",
+        "named": true
+      },
+      {
         "type": "match_expression",
         "named": true
       },
@@ -252,6 +256,36 @@
         "named": true
       }
     ]
+  },
+  {
+    "type": "access_modifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "access_qualifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "access_qualifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "alternative_pattern",
@@ -411,6 +445,87 @@
     }
   },
   {
+    "type": "binding",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "annotation",
+            "named": true
+          },
+          {
+            "type": "compound_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "generic_type",
+            "named": true
+          },
+          {
+            "type": "infix_type",
+            "named": true
+          },
+          {
+            "type": "lazy_parameter_type",
+            "named": true
+          },
+          {
+            "type": "projected_type",
+            "named": true
+          },
+          {
+            "type": "repeated_parameter_type",
+            "named": true
+          },
+          {
+            "type": "stable_type_identifier",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "bindings",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "binding",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "block",
     "named": true,
     "fields": {},
@@ -445,13 +560,7 @@
           {
             "type": "arguments",
             "named": true
-          }
-        ]
-      },
-      "body": {
-        "multiple": false,
-        "required": false,
-        "types": [
+          },
           {
             "type": "block",
             "named": true
@@ -668,6 +777,10 @@
       "required": false,
       "types": [
         {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
           "type": "annotation",
           "named": true
         },
@@ -751,6 +864,10 @@
       "types": [
         {
           "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "modifiers",
           "named": true
         }
       ]
@@ -1039,6 +1156,10 @@
       "required": true,
       "types": [
         {
+          "type": "_pattern",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
@@ -1057,10 +1178,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
         {
           "type": "enumerator",
           "named": true
@@ -1220,6 +1337,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "operator_identifier",
+            "named": true
           }
         ]
       },
@@ -1321,6 +1442,10 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "operator_identifier",
             "named": true
           }
         ]
@@ -1879,6 +2004,25 @@
     }
   },
   {
+    "type": "lambda_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bindings",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "lazy_parameter_type",
     "named": true,
     "fields": {
@@ -2003,7 +2147,17 @@
   {
     "type": "modifiers",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "object_definition",
@@ -2039,6 +2193,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "modifiers",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2583,6 +2751,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "modifiers",
+          "named": true
+        }
+      ]
     }
   },
   {
