@@ -150,6 +150,30 @@ $#array;
 )
 
 =================================================
+single quoted string with # in it
+=================================================
+
+my $string = 'I have # in me';
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted) (semi_colon))
+)
+
+=================================================
+single quoted string with the only one supported escaping
+=================================================
+
+my $string = 'I have \' escaping in me';
+
+---
+
+(source_file
+  (variable_declaration (scope) (single_var_declaration (scalar_variable)) (string_single_quoted) (semi_colon))
+)
+
+=================================================
 Double quoted string with escape sequence
 =================================================
 
