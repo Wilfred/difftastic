@@ -6762,17 +6762,8 @@
           {
             "type": "REPEAT",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[^']"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "\\\\'"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_string_single_quoted_content"
             }
           },
           {
@@ -9089,19 +9080,20 @@
       "value": "-norequire"
     },
     "comments": {
-      "type": "TOKEN",
+      "type": "PREC",
+      "value": 5,
       "content": {
-        "type": "PREC",
-        "value": 5,
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "#.*"
-            }
-          ]
-        }
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "#"
+          },
+          {
+            "type": "PATTERN",
+            "value": ".*"
+          }
+        ]
       }
     }
   },
