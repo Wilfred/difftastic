@@ -13,7 +13,8 @@ my @array = qw / s6df 32 DF /;
 # print Dumper \@array;
 
 my $string = 'a simple string';
-
+$string = 'string with # in it';
+$string = 'string with escape \' sequence';
 $string =~ m/Simple/is;
 
 # Printing the String
