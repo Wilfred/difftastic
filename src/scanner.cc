@@ -189,34 +189,37 @@ namespace {
         }
       }
 
-
-      // TODO: might have to delete this
       if (valid_symbols[STRING_SINGLE_QUOTED_CONTENT]) {
-        while (lexer->lookahead) {
 
-          // end when you reach the final single quote '
+        // end when you reach the final single quote '
+        if (lexer->lookahead == '\'') {
+          lexer->mark_end(lexer);
+          advance(lexer);
+          return false;
+        }
+        // check for escaped single quote \'
+        else if (lexer->lookahead == '\\') {
+          lexer->result_symbol = STRING_SINGLE_QUOTED_CONTENT;
+          advance(lexer);
+
           if (lexer->lookahead == '\'') {
-            lexer->mark_end(lexer);
-            return true;
+            advance(lexer);
           }
-          else {
-
-            // check for escaped single quote \'
-            if (lexer->lookahead == '\\') {
-              // lexer->mark_end(lexer);
-              lexer->advance(lexer, false);
-
-              if (lexer->lookahead == '\'') {
-                lexer->advance(lexer, false);
-              }
-            }
-          }
-
-          lexer->advance(lexer, false);
+          lexer->mark_end(lexer);
+          return true;
         }
 
+        // some exit conditions
+        if (!lexer->lookahead) {
+          lexer->mark_end(lexer);
+          return false;
+        }
+
+        lexer->result_symbol = STRING_SINGLE_QUOTED_CONTENT;
+        advance(lexer);
         lexer->mark_end(lexer);
-        return false;
+
+        return true;
       }
       
       if (valid_symbols[STRING_DOUBLE_QUOTED_CONTENT]) {

@@ -1357,7 +1357,7 @@ module.exports = grammar({
 
     string_single_quoted: $ => prec(PRECEDENCE.STRING, seq(
       "'",
-      repeat(choice(/[^']/, /\\'/)),
+      repeat($._string_single_quoted_content),
       "'",
     )),
     // TODO change all + to * in regex
@@ -1689,9 +1689,10 @@ module.exports = grammar({
     super: $ => 'SUPER',
     no_require: $ => '-norequire',
 
-    comments: $ => token(prec(PRECEDENCE.COMMENTS, choice(
-      /#.*/, // single line comment
-    ))),
+    // single line comment
+    comments: $ => prec(PRECEDENCE.COMMENTS, seq(
+      '#', /.*/
+    )),
 
   }
 });

@@ -3439,6 +3439,11 @@
     }
   },
   {
+    "type": "comments",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "ellipsis_statement",
     "named": true,
     "fields": {},
@@ -15754,6 +15759,10 @@
     "named": false
   },
   {
+    "type": "#",
+    "named": false
+  },
+  {
     "type": "$",
     "named": false
   },
@@ -16082,10 +16091,6 @@
     "named": false
   },
   {
-    "type": "comments",
-    "named": true
-  },
-  {
     "type": "constant",
     "named": false
   },
@@ -16267,11 +16272,11 @@
   },
   {
     "type": "prototype",
-    "named": true
+    "named": false
   },
   {
     "type": "prototype",
-    "named": false
+    "named": true
   },
   {
     "type": "push",
