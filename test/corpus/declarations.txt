@@ -223,9 +223,11 @@ def foo(&block)
 end
 
 def foo(...)
+  super(...)
 end
 
 def foo(a, b, ...)
+  bar(b, ...)
 end
 
 ---
@@ -237,10 +239,13 @@ end
   (method (identifier) (method_parameters (hash_splat_parameter (identifier))))
   (method (identifier) (method_parameters (keyword_parameter (identifier)) (hash_splat_parameter)))
   (method (identifier) (method_parameters (block_parameter (identifier))))
-  (method (identifier) (method_parameters (forward_parameter)))
-  (method (identifier) (method_parameters (identifier) (identifier) (forward_parameter)))
+  (method (identifier) (method_parameters (forward_parameter))
+    (call (super) (argument_list (forward_argument)))
+  )  
+  (method (identifier) (method_parameters (identifier) (identifier) (forward_parameter))
+    (call (identifier) (argument_list (identifier) (forward_argument)))
+  )
 )
-  
 
 =========================================
 singleton method
