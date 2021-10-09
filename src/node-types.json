@@ -1612,6 +1612,10 @@
     "named": true
   },
   {
+    "type": "select",
+    "named": false
+  },
+  {
     "type": "special_variable_name",
     "named": true
   },
