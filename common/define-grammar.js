@@ -635,7 +635,7 @@ module.exports = function defineGrammar(dialect) {
         $.template_literal_type
       ),
 
-      template_type: $ => seq('${',$._primary_type,'}'),
+      template_type: $ => seq('${',choice($._primary_type, $.infer_type),'}'),
 
       template_literal_type: $ =>     seq(
         '`',

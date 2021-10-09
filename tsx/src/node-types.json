@@ -5104,6 +5104,10 @@
         {
           "type": "_primary_type",
           "named": true
+        },
+        {
+          "type": "infer_type",
+          "named": true
         }
       ]
     }
