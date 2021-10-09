@@ -8665,8 +8665,17 @@
           "value": "${"
         },
         {
-          "type": "SYMBOL",
-          "name": "_primary_type"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_primary_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "infer_type"
+            }
+          ]
         },
         {
           "type": "STRING",
