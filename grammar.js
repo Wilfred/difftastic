@@ -114,7 +114,7 @@ module.exports = grammar({
     )),
 
     for_statement: $ => seq(
-      'for',
+      choice('for', 'select'),
       field('variable', $._simple_variable_name),
       optional(seq(
         'in',
