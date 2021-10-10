@@ -102,6 +102,10 @@
         "named": true
       },
       {
+        "type": "stable_identifier",
+        "named": true
+      },
+      {
         "type": "string",
         "named": true
       },
