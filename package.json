@@ -16,7 +16,7 @@
   "author": "Razze",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.2",
+    "nan": "^2.15.0",
     "prebuild-install": "^6.1.4"
   },
   "devDependencies": {
