@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-// Using an adapted version of https://kotlinlang.org/docs/reference/grammar.html
-
 const PREC = {
   NAVIGATION: 13,
   MULTIPLICATIVE: 12,
@@ -99,6 +97,8 @@ module.exports = grammar({
 
   externals: ($) => [
     $.multiline_comment,
+    $.raw_str_part,
+    $.raw_str_end_part,
     $._semi,
     $._arrow_operator,
     $._dot_operator,
@@ -175,7 +175,11 @@ module.exports = grammar({
     // String literals
 
     _string_literal: ($) =>
-      choice($.line_string_literal, $.multi_line_string_literal),
+      choice(
+        $.line_string_literal,
+        $.multi_line_string_literal,
+        $.raw_string_literal
+      ),
 
     line_string_literal: ($) =>
       seq('"', repeat(choice($._line_string_content, $._interpolation)), '"'),
@@ -190,13 +194,15 @@ module.exports = grammar({
 
     _uni_character_literal: ($) => seq("\\", "u", /[0-9a-fA-F]{4}/), // TODO: { }
 
-    // TODO: # delimiter (probably use Rust's custom scanner for this)
     multi_line_string_literal: ($) =>
       seq(
         '"""',
         repeat(choice($._multi_line_string_content, $._interpolation)),
         '"""'
       ),
+
+    raw_string_literal: ($) =>
+      seq(repeat(seq($.raw_str_part, $._expression)), $.raw_str_end_part),
 
     _multi_line_string_content: ($) =>
       choice($._multi_line_str_text, $._escaped_identifier, '"'),
