@@ -474,6 +474,7 @@ module.exports = grammar({
 
     _pattern: $ => choice(
       $.identifier,
+      $.stable_identifier,
       $.capture_pattern,
       $.tuple_pattern,
       $.case_class_pattern,
@@ -497,20 +498,20 @@ module.exports = grammar({
       field('right', $._pattern),
     )),
 
-    capture_pattern: $ => prec(PREC.assign, seq(
+    capture_pattern: $ => prec(PREC.field, seq(
       field('name', $.identifier),
       '@',
       field('pattern', $._pattern)
     )),
 
-    typed_pattern: $ => prec(-1, seq(
+    typed_pattern: $ => prec.right(seq(
       field('pattern', $._pattern),
       ':',
       field('type', $._type)
     )),
 
     // TODO: Flatten this.
-    alternative_pattern: $ => prec.left(-2, seq(
+    alternative_pattern: $ => prec.left(-1, seq(
       $._pattern,
       '|',
       $._pattern

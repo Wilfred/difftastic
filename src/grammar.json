@@ -2497,6 +2497,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "stable_identifier"
+        },
+        {
+          "type": "SYMBOL",
           "name": "capture_pattern"
         },
         {
@@ -2640,7 +2644,7 @@
     },
     "capture_pattern": {
       "type": "PREC",
-      "value": 2,
+      "value": 6,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2668,8 +2672,8 @@
       }
     },
     "typed_pattern": {
-      "type": "PREC",
-      "value": -1,
+      "type": "PREC_RIGHT",
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2698,7 +2702,7 @@
     },
     "alternative_pattern": {
       "type": "PREC_LEFT",
-      "value": -2,
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
