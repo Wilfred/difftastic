@@ -59,10 +59,10 @@ val x = expect(1)
 
 ---
 (source_file
-   (property_declaration
-     (variable_declaration (simple_identifier))
-     (call_expression (simple_identifier)
-        (call_suffix (value_arguments (value_argument (integer_literal)))))))
+  (property_declaration
+    (variable_declaration (simple_identifier))
+    (call_expression (simple_identifier)
+      (call_suffix (value_arguments (value_argument (integer_literal)))))))
 
 ==================
 Expect as a top-level expression
@@ -84,9 +84,9 @@ expect fun randomUUID(): String
 ---
 (source_file
   (function_declaration
-     (modifiers (platform_modifier))
-     (simple_identifier)
-     (user_type (type_identifier))))
+    (modifiers (platform_modifier))
+    (simple_identifier)
+    (user_type (type_identifier))))
 
 ==================
 Less than for generics
