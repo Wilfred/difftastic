@@ -36,6 +36,35 @@ attrset typing field
         (identifier)))))
 
 ================================================================================
+attrset typing field following string
+================================================================================
+
+{
+  typing
+  inputs.nixpkgs.url = "github:nixos/nixpkgs";
+  inputs.nixpkgs-21-05.url = "github:nixos/nixpkgs/nixos-21.05";
+}
+
+--------------------------------------------------------------------------------
+
+(source_expression
+  (attrset
+    (ERROR
+      (identifier))
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier)
+        (attr_identifier))
+      (string))
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier)
+        (attr_identifier))
+      (string))))
+
+================================================================================
 attrset typing attrpath
 ================================================================================
 
