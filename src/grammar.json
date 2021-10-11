@@ -5051,8 +5051,17 @@
       ]
     },
     "simple_identifier": {
-      "type": "SYMBOL",
-      "name": "_lexical_identifier"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_lexical_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "expect"
+        }
+      ]
     },
     "identifier": {
       "type": "SEQ",

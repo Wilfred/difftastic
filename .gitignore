@@ -3,6 +3,7 @@
 .idea
 bin
 build
+local
 node_modules
 *.swp
 *.wasm
