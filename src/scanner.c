@@ -82,7 +82,15 @@ void *tree_sitter_nix_external_scanner_create() {
 
 bool tree_sitter_nix_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
-  if (valid_symbols[STRING_FRAGMENT]) {
+  // This never happens in valid grammar. Only during error recovery, everything becomes valid.
+  // See: https://github.com/tree-sitter/tree-sitter/issues/1259
+  //
+  // We should not consume any content as string fragment during error recovery, or we'll break
+  // more valid grammar below.
+  // The test 'attrset typing field following string' covers this.
+  if (valid_symbols[STRING_FRAGMENT] && valid_symbols[INDENTED_STRING_FRAGMENT]) {
+    return false;
+  } else if (valid_symbols[STRING_FRAGMENT]) {
     return scan_string_fragment(lexer);
   } else if (valid_symbols[INDENTED_STRING_FRAGMENT]) {
     return scan_indented_string_fragment(lexer);
