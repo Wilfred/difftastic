@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/fwcd/tree-sitter-kotlin/actions/workflows/build.yml/badge.svg)](https://github.com/fwcd/tree-sitter-kotlin/actions/workflows/build.yml)
 
-[Kotlin](https://kotlinlang.org) language grammar for [Tree-Sitter](http://tree-sitter.github.io/tree-sitter/).
+[Kotlin](https://kotlinlang.org) language grammar for [Tree-Sitter](http://tree-sitter.github.io/tree-sitter/). You can try it out directly [on the web](https://fwcd.github.io/tree-sitter-kotlin).
 
 ![Icon](Icon128.png)
 
