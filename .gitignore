@@ -4,6 +4,7 @@
 bin
 build
 local
+public
 node_modules
 *.swp
 *.wasm
