@@ -1101,9 +1101,8 @@ type A<B, C> = B extends C
     ? `${C}${"" extends C ? "" : "."}${B}`
     : never
   : never
-
+type Trim<S extends string> = S extends `${infer R}` ? Trim<R>  : S;
 ---
-
 (program
   (type_alias_declaration
     (type_identifier)
@@ -1138,7 +1137,8 @@ type A<B, C> = B extends C
     (template_literal_type
       (template_type
         (literal_type
-          (string (string_fragment))))
+          (string
+            (string_fragment))))
       (template_type
         (literal_type
           (number)))))
@@ -1166,12 +1166,30 @@ type A<B, C> = B extends C
               (literal_type
                 (string))
               (literal_type
-                (string (string_fragment)))))
+                (string
+                  (string_fragment)))))
           (template_type
             (type_identifier)))
         (predefined_type))
-      (predefined_type))))
-
+      (predefined_type)))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (constraint
+          (predefined_type))))
+    (conditional_type
+      (type_identifier)
+      (template_literal_type
+        (template_type
+          (infer_type
+            (type_identifier))))
+      (generic_type
+        (type_identifier)
+        (type_arguments
+          (type_identifier)))
+      (type_identifier))))
 ==================================
 Mapped type 'as' clauses
 ==================================
