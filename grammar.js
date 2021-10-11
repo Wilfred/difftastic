@@ -204,10 +204,13 @@ module.exports = grammar({
       $.identifier,
       $.splat_parameter,
       $.hash_splat_parameter,
+      $.forward_parameter,
       $.block_parameter,
       $.keyword_parameter,
       $.optional_parameter
     ),
+
+    forward_parameter: $ => '...',
 
     splat_parameter: $ => seq(
       '*',
@@ -582,10 +585,12 @@ module.exports = grammar({
       $._expression,
       $.splat_argument,
       $.hash_splat_argument,
+      $.forward_argument,
       $.block_argument,
       $.pair
     )),
 
+    forward_argument: $ => '...',
     splat_argument: $ => seq(alias($._splat_star, '*'), $._arg),
     hash_splat_argument: $ => seq(alias($._hash_splat_star_star, '**'), $._arg),
     block_argument: $ => seq(alias($._block_ampersand, '&'), $._arg),

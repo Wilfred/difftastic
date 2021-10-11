@@ -651,6 +651,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "forward_parameter"
+        },
+        {
+          "type": "SYMBOL",
           "name": "block_parameter"
         },
         {
@@ -662,6 +666,10 @@
           "name": "optional_parameter"
         }
       ]
+    },
+    "forward_parameter": {
+      "type": "STRING",
+      "value": "..."
     },
     "splat_parameter": {
       "type": "SEQ",
@@ -3161,6 +3169,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "forward_argument"
+          },
+          {
+            "type": "SYMBOL",
             "name": "block_argument"
           },
           {
@@ -3169,6 +3181,10 @@
           }
         ]
       }
+    },
+    "forward_argument": {
+      "type": "STRING",
+      "value": "..."
     },
     "splat_argument": {
       "type": "SEQ",

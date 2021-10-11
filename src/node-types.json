@@ -434,6 +434,10 @@
           "named": true
         },
         {
+          "type": "forward_argument",
+          "named": true
+        },
+        {
           "type": "hash_splat_argument",
           "named": true
         },
@@ -482,6 +486,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "forward_argument",
           "named": true
         },
         {
@@ -915,6 +923,10 @@
           "named": true
         },
         {
+          "type": "forward_parameter",
+          "named": true
+        },
+        {
           "type": "hash_splat_parameter",
           "named": true
         },
@@ -1218,6 +1230,10 @@
           "named": true
         },
         {
+          "type": "forward_parameter",
+          "named": true
+        },
+        {
           "type": "hash_splat_parameter",
           "named": true
         },
@@ -1334,6 +1350,10 @@
         },
         {
           "type": "call",
+          "named": true
+        },
+        {
+          "type": "forward_argument",
           "named": true
         },
         {
@@ -1538,6 +1558,16 @@
         ]
       }
     }
+  },
+  {
+    "type": "forward_argument",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "forward_parameter",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "hash",
@@ -1809,6 +1839,10 @@
           "named": true
         },
         {
+          "type": "forward_parameter",
+          "named": true
+        },
+        {
           "type": "hash_splat_parameter",
           "named": true
         },
@@ -1920,6 +1954,10 @@
         },
         {
           "type": "destructured_parameter",
+          "named": true
+        },
+        {
+          "type": "forward_parameter",
           "named": true
         },
         {
