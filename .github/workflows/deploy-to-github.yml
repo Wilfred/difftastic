@@ -1,4 +1,4 @@
-name: Deploy to GitHub Releases
+name: Deploy to GitHub
 on:
   push:
     tags:
@@ -20,8 +20,20 @@ jobs:
         run: npm run generate
       - name: Build WASM binary
         run: npm run build-wasm
-      - name: Create GitHub release
+      - name: Deploy to GitHub Releases
         uses: ncipollo/release-action@v1
         with:
           artifacts: tree-sitter-kotlin.wasm
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up folder for GitHub Pages deployment
+        run: |
+          mkdir public
+          cp tree-sitter-kotlin.wasm public/tree-sitter-parser.wasm
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          keep_files: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
