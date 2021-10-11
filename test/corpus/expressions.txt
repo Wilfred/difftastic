@@ -65,6 +65,17 @@ val x = expect(1)
         (call_suffix (value_arguments (value_argument (integer_literal)))))))
 
 ==================
+Expect as a top-level expression
+==================
+
+expect(1)
+
+---
+(source_file
+  (call_expression (simple_identifier)
+    (call_suffix (value_arguments (value_argument (integer_literal))))))
+
+==================
 Expect as a platform modifier
 ==================
 
