@@ -140,19 +140,42 @@ module.exports = grammar({
     _method_rest: $ => seq(
       field('name', $._method_name),
       choice(
+        $._body_expr,
         seq(
           field('parameters', alias($.parameters, $.method_parameters)),
-          optional($._terminator)
+          choice(
+            seq(optional($._terminator), $._body_statement),
+            $._body_expr
+          )
+
         ),
         seq(
           optional(
             field('parameters', alias($.bare_parameters, $.method_parameters))
           ),
-          $._terminator
+          $._terminator,
+          $._body_statement
         ),
       ),
-      $._body_statement
     ),
+
+    rescue_modifier_arg: $ => prec(PREC.RESCUE,
+      seq(
+        field('body', $._arg),
+        'rescue',
+        field('handler', $._arg)
+      )
+    ),
+
+    _body_expr: $ =>
+      seq(
+        '=',
+        choice(
+          $._arg,
+          alias($.rescue_modifier_arg, $.rescue_modifier),
+        )
+      ),
+
 
     parameters: $ => seq(
       '(',
@@ -753,7 +776,7 @@ module.exports = grammar({
       $.class_variable,
       $.global_variable
     ),
-    setter: $ => seq(field('name', $.identifier), '='),
+    setter: $ => seq(field('name', $.identifier), token.immediate('=')),
 
     undef: $ => seq('undef', commaSep1($._method_name)),
     alias: $ => seq(
@@ -799,7 +822,7 @@ module.exports = grammar({
     character: $ => /\?(\\\S({[0-9A-Fa-f]*}|[0-9A-Fa-f]*|-\S([MC]-\S)?)?|\S)/,
 
     interpolation: $ => seq(
-      '#{', optional($._statements),'}'
+      '#{', optional($._statements), '}'
     ),
 
     string: $ => seq(
@@ -921,18 +944,18 @@ module.exports = grammar({
   }
 });
 
-function sep (rule, separator) {
+function sep(rule, separator) {
   return optional(sep1(rule, separator));
 }
 
-function sep1 (rule, separator) {
+function sep1(rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));
 }
 
-function commaSep1 (rule) {
+function commaSep1(rule) {
   return sep1(rule, ',');
 }
 
-function commaSep (rule) {
+function commaSep(rule) {
   return optional(commaSep1(rule));
 }
