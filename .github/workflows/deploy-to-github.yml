@@ -30,7 +30,7 @@ jobs:
           mkdir public
           cp tree-sitter-kotlin.wasm public/tree-sitter-parser.wasm
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
