@@ -9,7 +9,7 @@
     "generate": "tree-sitter generate",
     "parse": "tree-sitter parse",
     "build-wasm": "tree-sitter build-wasm",
-    "web-ui": "tree-sitter web-ui"
+    "playground": "tree-sitter playground"
   },
   "repository": {
     "type": "git",
