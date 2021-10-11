@@ -44,15 +44,15 @@ First make sure to have [Emscripten](https://emscripten.org/) installed. If you 
 
 >`npm run build-wasm`
 
-### Web-UI
+### Playground
 
 After compiling the grammar to WebAssembly, you can invoke
 
->`npm run web-ui`
+>`npm run playground`
 
-to launch an interactive editing environment that displays the parsed syntax tree on-the-fly:
+to launch an interactive editing environment that displays the parsed syntax tree on-the-fly in the browser. You can also view a deployed version of this playground [on the web](https://fwcd.github.io/tree-sitter-kotlin).
 
-![Screenshot](web-ui-screenshot.png)
+![Screenshot](playground-screenshot.png)
 
 ## Documentation
 
