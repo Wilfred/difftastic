@@ -30,6 +30,33 @@ end
 
 (program (method (identifier) (identifier)))
 
+=====================
+"end"-less method
+=====================
+
+def foo = bar
+def foo() = bar
+def foo(x) = bar
+def Object.foo = bar
+def Object.foo (x) = bar
+def foo() = bar rescue (print "error")
+
+---
+
+(program 
+  (method (identifier) (identifier))
+  (method (identifier) (method_parameters) (identifier))
+  (method (identifier) (method_parameters (identifier)) (identifier))
+  (singleton_method (constant) (identifier) (identifier))
+  (singleton_method (constant) (identifier) (method_parameters (identifier)) (identifier))
+  (method (identifier) (method_parameters)
+    (rescue_modifier 
+      (identifier)
+      (parenthesized_statements (call (identifier) (argument_list (string (string_content)))))
+    )
+  )
+)
+
 ===========================
 method as attribute setter
 ===========================
