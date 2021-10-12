@@ -25,7 +25,10 @@ binding.gyp
 ```
 
 ### References
--> Ethereum solidity grammar: https://github.com/ethereum/solidity/blob/develop/docs/grammar/Solidity.g4
+-> Ethereum solidity grammar: 
+- https://github.com/ethereum/solidity/blob/develop/docs/grammar/SolidityParser.g4
+- https://github.com/ethereum/solidity/blob/develop/docs/grammar/SolidityLexer.g4
+- https://docs.soliditylang.org/en/latest/grammar.html?#
 
 -> Tree-sitter javascript grammar: https://github.com/tree-sitter/tree-sitter-javascript/blob/master/grammar.js
 
