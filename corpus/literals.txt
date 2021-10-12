@@ -229,9 +229,13 @@ extension URL {
             (control_transfer_statement
               (raw_string_literal
                 (raw_str_part)
-                (simple_identifier)
+                (raw_str_interpolation
+                    (raw_str_interpolation_start)
+                    (simple_identifier))
                 (raw_str_part)
-                (simple_identifier)
+                (raw_str_interpolation
+                    (raw_str_interpolation_start)
+                    (simple_identifier))
                 (raw_str_end_part)))))))))
 
 ==================
@@ -242,7 +246,7 @@ print(#"Hello \#(world /* commented out)"#)  */ )"#)
 
 let _ = ##"Multiple pound signs \##(interpolated): still one part "# not done yet "##
 let _ = ##"Fake \#(interpolation) and unused # pound signs "##
-let _ = ##"\##(a)\#(b)\##(c)\###(d)\##(e)\##"##
+let _ = ##"\##(a)\#(b)\##(c)\#(d)"# ##"##
 
 ---
 
@@ -254,8 +258,10 @@ let _ = ##"\##(a)\#(b)\##(c)\###(d)\##(e)\##"##
         (value_argument
           (raw_string_literal
             (raw_str_part)
-            (simple_identifier)
-            (multiline_comment)
+            (raw_str_interpolation
+                (raw_str_interpolation_start)
+                (simple_identifier)
+                (multiline_comment))
             (raw_str_end_part))))))
   (property_declaration
     (value_binding_pattern
@@ -263,7 +269,9 @@ let _ = ##"\##(a)\#(b)\##(c)\###(d)\##(e)\##"##
         (wildcard_pattern)))
     (raw_string_literal
       (raw_str_part)
-      (simple_identifier)
+      (raw_str_interpolation
+          (raw_str_interpolation_start)
+          (simple_identifier))
       (raw_str_end_part)))
   (property_declaration
     (value_binding_pattern
@@ -277,9 +285,11 @@ let _ = ##"\##(a)\#(b)\##(c)\###(d)\##(e)\##"##
         (wildcard_pattern)))
     (raw_string_literal
       (raw_str_part)
-      (simple_identifier)
+      (raw_str_interpolation
+          (raw_str_interpolation_start)
+          (simple_identifier))
       (raw_str_part)
-      (simple_identifier)
-      (raw_str_part)
-      (simple_identifier)
+      (raw_str_interpolation
+          (raw_str_interpolation_start)
+          (simple_identifier))
       (raw_str_end_part))))
