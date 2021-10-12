@@ -79,3 +79,12 @@ Enum.map([1, 2], fn x ->
 end)
 # <- keyword
 #  ^ punctuation.bracket
+
+:erlang.abs(-1)
+# ^ type
+#      ^ operator
+#       ^ function
+#          ^ punctuation.bracket
+#           ^ operator
+#            ^ number
+#             ^ punctuation.bracket
