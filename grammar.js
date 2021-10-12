@@ -98,6 +98,7 @@ module.exports = grammar({
   externals: ($) => [
     $.multiline_comment,
     $.raw_str_part,
+    $.raw_str_continuing_indicator,
     $.raw_str_end_part,
     $._semi,
     $._arrow_operator,
@@ -202,7 +203,21 @@ module.exports = grammar({
       ),
 
     raw_string_literal: ($) =>
-      seq(repeat(seq($.raw_str_part, $._expression)), $.raw_str_end_part),
+      seq(
+        repeat(
+          seq(
+            $.raw_str_part,
+            $.raw_str_interpolation,
+            optional($.raw_str_continuing_indicator)
+          )
+        ),
+        $.raw_str_end_part
+      ),
+
+    raw_str_interpolation: ($) =>
+      seq($.raw_str_interpolation_start, $._expression, ")"),
+
+    raw_str_interpolation_start: ($) => /\\#*\(/,
 
     _multi_line_string_content: ($) =>
       choice($._multi_line_str_text, $._escaped_identifier, '"'),
