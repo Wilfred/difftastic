@@ -13,10 +13,11 @@ enum TokenType {
     NIL_COALESCING_OPERATOR,
     EQUAL_SIGN,
     THROWS_KEYWORD,
-    RETHROWS_KEYWORD
+    RETHROWS_KEYWORD,
+    DEFAULT_KEYWORD
 };
 
-#define CROSS_SEMI_OPERATOR_COUNT 10
+#define CROSS_SEMI_OPERATOR_COUNT 11
 
 const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "->",
@@ -28,7 +29,8 @@ const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "??",
     "=",
     "throws",
-    "rethrows"
+    "rethrows",
+    "default"
 };
 
 const int32_t CROSS_SEMI_OP_LENS[CROSS_SEMI_OPERATOR_COUNT] = {
@@ -41,7 +43,8 @@ const int32_t CROSS_SEMI_OP_LENS[CROSS_SEMI_OPERATOR_COUNT] = {
     2,
     1,
     6,
-    8
+    8,
+    7
 };
 
 const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
@@ -54,7 +57,8 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     NIL_COALESCING_OPERATOR,
     EQUAL_SIGN,
     THROWS_KEYWORD,
-    RETHROWS_KEYWORD
+    RETHROWS_KEYWORD,
+    DEFAULT_KEYWORD
 };
 
 void *tree_sitter_swift_external_scanner_create() {
