@@ -5,6 +5,8 @@ const AMPERSAND = "&",
   ASTERISKEQUAL = "*=",
   ASTERISKPERCENT = "*%",
   ASTERISKPERCENTEQUAL = "*%=",
+  ASTERISKPIPE = "*|",
+  ASTERISKPIPEEQUAL = "*|=",
   CARET = "^",
   CARETEQUAL = "^=",
   COLON = ":",
@@ -21,6 +23,8 @@ const AMPERSAND = "&",
   EXCLAMATIONMARKEQUAL = "!=",
   LARROW = "<",
   LARROW2 = "<<",
+  LARROW2PIPE = "<<|",
+  LARROW2PIPEEQUAL = "<<|=",
   LARROW2EQUAL = "<<=",
   LARROWEQUAL = "<=",
   LBRACE = "{",
@@ -30,6 +34,8 @@ const AMPERSAND = "&",
   MINUSEQUAL = "-=",
   MINUSPERCENT = "-%",
   MINUSPERCENTEQUAL = "-%=",
+  MINUSPIPE = "-|",
+  MINUSPIPEEQUAL = "-|=",
   MINUSRARROW = "->",
   PERCENT = "%",
   PERCENTEQUAL = "%=",
@@ -41,6 +47,8 @@ const AMPERSAND = "&",
   PLUSEQUAL = "+=",
   PLUSPERCENT = "+%",
   PLUSPERCENTEQUAL = "+%=",
+  PLUSPIPE = "+|",
+  PLUSPIPEEQUAL = "+|=",
   LETTERC = "c",
   QUESTIONMARK = "?",
   RARROW = ">",
@@ -592,11 +600,15 @@ module.exports = grammar({
     AssignOp: (_) =>
       choice(
         ASTERISKEQUAL,
+        ASTERISKPIPEEQUAL,
         SLASHEQUAL,
         PERCENTEQUAL,
         PLUSEQUAL,
+        PLUSPIPEEQUAL,
         MINUSEQUAL,
+        MINUSPIPEEQUAL,
         LARROW2EQUAL,
+        LARROW2PIPEEQUAL,
         RARROW2EQUAL,
         AMPERSANDEQUAL,
         CARETEQUAL,
@@ -624,12 +636,29 @@ module.exports = grammar({
         seq(keyword("catch", $), optional($.Payload))
       ),
 
-    BitShiftOp: (_) => choice(LARROW2, RARROW2),
+    BitShiftOp: (_) => choice(LARROW2, RARROW2, LARROW2PIPE),
 
-    AdditionOp: (_) => choice(PLUS, MINUS, PLUS2, PLUSPERCENT, MINUSPERCENT),
+    AdditionOp: (_) =>
+      choice(
+        PLUS,
+        MINUS,
+        PLUS2,
+        PLUSPERCENT,
+        MINUSPERCENT,
+        PLUSPIPE,
+        MINUSPIPE
+      ),
 
     MultiplyOp: (_) =>
-      choice(PIPE2, ASTERISK, SLASH, PERCENT, ASTERISK2, ASTERISKPERCENT),
+      choice(
+        PIPE2,
+        ASTERISK,
+        SLASH,
+        PERCENT,
+        ASTERISK2,
+        ASTERISKPERCENT,
+        ASTERISKPIPE
+      ),
 
     PrefixOp: ($) =>
       choice(
