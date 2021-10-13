@@ -170,6 +170,7 @@ switch something {
     case .pattern: return "Hello"
     case expression: return "and"
     case "Literal": return "Goodbye"
+    default: return ":)"
 }
 
 ---
@@ -184,6 +185,9 @@ switch something {
             (statements (control_transfer_statement (line_string_literal))))
         (switch_entry
             (switch_pattern (line_string_literal))
+            (statements (control_transfer_statement (line_string_literal))))
+        (switch_entry
+            (default_keyword)
             (statements (control_transfer_statement (line_string_literal))))))
 
 ==================
@@ -218,6 +222,7 @@ case .notExecutable(let path?):
             (statements (simple_identifier)))
         (switch_entry
             (modifiers (attribute (user_type (type_identifier))))
+            (default_keyword)
             (statements (control_transfer_statement (line_string_literal)))))
     (switch_expression
         (self_expression)

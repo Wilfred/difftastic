@@ -110,6 +110,7 @@ module.exports = grammar({
     $._equal_sign,
     $._throws_keyword,
     $._rethrows_keyword,
+    $.default_keyword,
   ],
 
   rules: {
@@ -663,7 +664,7 @@ module.exports = grammar({
         optional($.modifiers),
         choice(
           seq("case", $.switch_pattern, repeat(seq(",", $.switch_pattern))),
-          "default"
+          $.default_keyword
         ),
         optional(seq("where", $._expression)),
         ":",
