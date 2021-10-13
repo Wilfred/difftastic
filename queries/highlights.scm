@@ -195,15 +195,14 @@ field_constant: (IDENTIFIER) @constant
   (BitwiseOp)
   (BitShiftOp)
   (AdditionOp)
+  (AssignOp)
   (MultiplyOp)
   (PrefixOp)
   "*"
   "**"
   "->"
-  "=>"
   ".?"
   ".*"
-  "="
   "?"
 ] @operator
 
