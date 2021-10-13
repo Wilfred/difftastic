@@ -104,11 +104,13 @@ const char token_terminators[] = {
   '#'
 };
 
+const uint8_t token_terminators_length = sizeof(token_terminators) / sizeof(char);
+
 // Note: this is a heuristic as we only use this to distinguish word
 // operators and we don't want to include complex Unicode ranges
 bool is_token_end(int32_t c) {
-  for (const char& terminator : token_terminators) {
-    if (c == terminator) {
+  for (uint8_t i = 0; i < token_terminators_length; i++) {
+    if (c == token_terminators[i]) {
       return true;
     }
   }
@@ -598,7 +600,7 @@ bool scan(TSLexer* lexer, const bool* valid_symbols) {
 
 extern "C" {
   void* tree_sitter_elixir_external_scanner_create() {
-    return nullptr;
+    return NULL;
   }
 
   bool tree_sitter_elixir_external_scanner_scan(void* payload, TSLexer* lexer, const bool* valid_symbols) {
