@@ -226,6 +226,7 @@ AssignOp
      / PLUSEQUAL
      / MINUSEQUAL
      / LARROW2EQUAL
+     / LARROW2PIPEEQUAL
      / RARROW2EQUAL
      / AMPERSANDEQUAL
      / CARETEQUAL
@@ -260,6 +261,8 @@ AdditionOp
      / PLUS2
      / PLUSPERCENT
      / MINUSPERCENT
+     / PLUSPIPE
+     / MINUSPIPE
 
 MultiplyOp
     <- PIPE2
@@ -268,6 +271,7 @@ MultiplyOp
      / PERCENT
      / ASTERISK2
      / ASTERISKPERCENT
+     / ASTERISKPIPE
 
 PrefixOp
     <- EXCLAMATIONMARK
@@ -407,8 +411,8 @@ CHAR_LITERAL <- "'" char_char "'" skip
 FLOAT
     <- "0x" hex_int "." hex_int ([pP] [-+]? dec_int)? skip
      /      dec_int "." dec_int ([eE] [-+]? dec_int)? skip
-     / "0x" hex_int [pP] [-+]? dec_int skip
-     /      dec_int [eE] [-+]? dec_int skip
+     / "0x" hex_int "."? [pP] [-+]? dec_int skip
+     /      dec_int "."? [eE] [-+]? dec_int skip
 INTEGER
     <- "0b" bin_int skip
      / "0o" oct_int skip
@@ -431,6 +435,8 @@ ASTERISK2            <- '**'               skip
 ASTERISKEQUAL        <- '*='               skip
 ASTERISKPERCENT      <- '*%'     ![=]      skip
 ASTERISKPERCENTEQUAL <- '*%='              skip
+ASTERISKPIPE         <- '*|'     ![=]      skip
+ASTERISKPIPEEQUAL    <- '*|='              skip
 CARET                <- '^'      ![=]      skip
 CARETEQUAL           <- '^='               skip
 COLON                <- ':'                skip
@@ -447,6 +453,8 @@ EXCLAMATIONMARK      <- '!'      ![=]      skip
 EXCLAMATIONMARKEQUAL <- '!='               skip
 LARROW               <- '<'      ![<=]     skip
 LARROW2              <- '<<'     ![=]      skip
+LARROW2PIPE          <- '<<|'    ![=]      skip
+LARROW2PIPEEQUAL     <- '<<|='   ![=]      skip
 LARROW2EQUAL         <- '<<='              skip
 LARROWEQUAL          <- '<='               skip
 LBRACE               <- '{'                skip
@@ -456,6 +464,8 @@ MINUS                <- '-'      ![%=>]    skip
 MINUSEQUAL           <- '-='               skip
 MINUSPERCENT         <- '-%'     ![=]      skip
 MINUSPERCENTEQUAL    <- '-%='              skip
+MINUSPIPE            <- '-|'     ![=]      skip
+MINUSPIPEEQUAL       <- '-|='              skip
 MINUSRARROW          <- '->'               skip
 PERCENT              <- '%'      ![=]      skip
 PERCENTEQUAL         <- '%='               skip
@@ -467,6 +477,8 @@ PLUS2                <- '++'               skip
 PLUSEQUAL            <- '+='               skip
 PLUSPERCENT          <- '+%'     ![=]      skip
 PLUSPERCENTEQUAL     <- '+%='              skip
+PLUSPIPE             <- '+|'     ![=]      skip
+PLUSPIPEEQUAL        <- '+|='              skip
 LETTERC              <- 'c'                skip
 QUESTIONMARK         <- '?'                skip
 RARROW               <- '>'      ![>=]     skip
