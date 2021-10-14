@@ -1,3 +1,20 @@
+a in b
+# <- variable
+# ^ keyword
+#    ^ variable
+
+a not in b
+# <- variable
+# ^ keyword
+#     ^ keyword
+#        ^ variable
+
+a not  in b
+# <- variable
+# ^ keyword
+#      ^ keyword
+#         ^ variable
+
 a ~>> b = bind(a, b)
 # <- variable
 #  ^ operator
