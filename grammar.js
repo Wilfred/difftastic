@@ -271,7 +271,10 @@ module.exports = grammar({
       ),
 
     quoted_atom: ($) =>
-      seq($._quoted_atom_start, choice($._quoted_i_double, $._quoted_i_single)),
+      seq(
+        alias($._quoted_atom_start, ":"),
+        choice($._quoted_i_double, $._quoted_i_single)
+      ),
 
     // Defines $._quoted_content_i_{name} and $._quoted_content_{name} rules,
     // content with and without interpolation respectively
@@ -468,7 +471,12 @@ module.exports = grammar({
         binaryOp($, prec.left, PREC.COMP_OPS, choice(...COMP_OPS)),
         binaryOp($, prec.left, PREC.REL_OPS, choice(...REL_OPS)),
         binaryOp($, prec.left, PREC.ARROW_OPS, choice(...ARROW_OPS)),
-        binaryOp($, prec.left, PREC.IN_OPS, choice("in", $._not_in)),
+        binaryOp(
+          $,
+          prec.left,
+          PREC.IN_OPS,
+          choice("in", alias($._not_in, "not in"))
+        ),
         binaryOp($, prec.left, PREC.XOR_OP, "^^^"),
         binaryOp($, prec.right, PREC.TERNARY_OP, "//"),
         binaryOp($, prec.right, PREC.CONCAT_OPS, choice(...CONCAT_OPS)),
@@ -513,7 +521,7 @@ module.exports = grammar({
         ...REL_OPS,
         ...ARROW_OPS,
         "in",
-        $._not_in,
+        alias($._not_in, "not in"),
         "^^",
         ...CONCAT_OPS,
         ...MULT_OPS,
