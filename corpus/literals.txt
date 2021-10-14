@@ -173,3 +173,123 @@ let _ = nil
 
 (source_file
     (property_declaration (value_binding_pattern (non_binding_pattern (wildcard_pattern)))))
+
+
+==================
+Raw strings
+==================
+
+let _ = #"Hello, world!"#
+let _ = ##"Hello, so-called "world"!"##
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (wildcard_pattern)))
+    (raw_string_literal
+      (raw_str_end_part)))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (wildcard_pattern)))
+    (raw_string_literal
+      (raw_str_end_part))))
+
+==================
+Raw strings with interpolation
+==================
+
+extension URL {
+    func html(withTitle title: String) -> String {
+        return #"<a href="\#(absoluteString)">\#(title)</a>"#
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (identifier
+      (simple_identifier))
+    (class_body
+      (function_declaration
+        (simple_identifier)
+        (external_parameter_name)
+        (parameter
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (user_type
+          (type_identifier))
+        (function_body
+          (statements
+            (control_transfer_statement
+              (raw_string_literal
+                (raw_str_part)
+                (raw_str_interpolation
+                    (raw_str_interpolation_start)
+                    (simple_identifier))
+                (raw_str_part)
+                (raw_str_interpolation
+                    (raw_str_interpolation_start)
+                    (simple_identifier))
+                (raw_str_end_part)))))))))
+
+==================
+Raw strings interpolation edge cases
+==================
+
+print(#"Hello \#(world /* commented out)"#)  */ )"#)
+
+let _ = ##"Multiple pound signs \##(interpolated): still one part "# not done yet "##
+let _ = ##"Fake \#(interpolation) and unused # pound signs "##
+let _ = ##"\##(a)\#(b)\##(c)\#(d)"# ##"##
+
+---
+
+(source_file
+  (call_expression
+    (simple_identifier)
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (raw_string_literal
+            (raw_str_part)
+            (raw_str_interpolation
+                (raw_str_interpolation_start)
+                (simple_identifier)
+                (multiline_comment))
+            (raw_str_end_part))))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (wildcard_pattern)))
+    (raw_string_literal
+      (raw_str_part)
+      (raw_str_interpolation
+          (raw_str_interpolation_start)
+          (simple_identifier))
+      (raw_str_end_part)))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (wildcard_pattern)))
+    (raw_string_literal
+      (raw_str_end_part)))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (wildcard_pattern)))
+    (raw_string_literal
+      (raw_str_part)
+      (raw_str_interpolation
+          (raw_str_interpolation_start)
+          (simple_identifier))
+      (raw_str_part)
+      (raw_str_interpolation
+          (raw_str_interpolation_start)
+          (simple_identifier))
+      (raw_str_end_part))))

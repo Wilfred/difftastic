@@ -3,6 +3,9 @@
 
 enum TokenType {
     BLOCK_COMMENT,
+    RAW_STR_PART,
+    RAW_STR_CONTINUING_INDICATOR,
+    RAW_STR_END_PART,
     SEMI,
     ARROW_OPERATOR,
     DOT_OPERATOR,
@@ -61,15 +64,51 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     DEFAULT_KEYWORD
 };
 
+struct ScannerState {
+    uint32_t ongoing_raw_str_hash_count;
+};
+
 void *tree_sitter_swift_external_scanner_create() {
-    return NULL;
+    return calloc(0, sizeof(struct ScannerState));
 }
-void tree_sitter_swift_external_scanner_destroy(void *p) {}
-void tree_sitter_swift_external_scanner_reset(void *p) {}
-unsigned tree_sitter_swift_external_scanner_serialize(void *p, char *buffer) {
-    return 0;
+
+void tree_sitter_swift_external_scanner_destroy(void *payload) {
+    free(payload);
 }
-void tree_sitter_swift_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
+
+void tree_sitter_swift_external_scanner_reset(void *payload) {
+    struct ScannerState *state = (struct ScannerState *)payload;
+    state->ongoing_raw_str_hash_count = 0;
+}
+
+unsigned tree_sitter_swift_external_scanner_serialize(void *payload, char *buffer) {
+    struct ScannerState *state = (struct ScannerState *)payload;
+    uint32_t hash_count = state->ongoing_raw_str_hash_count;
+    buffer[0] = (hash_count >> 24) & 0xff;
+    buffer[1] = (hash_count >> 16) & 0xff;
+    buffer[2] = (hash_count >> 8) & 0xff;
+    buffer[3] = (hash_count) & 0xff;
+    return 4;
+}
+
+void tree_sitter_swift_external_scanner_deserialize(
+    void *payload,
+    const char *buffer,
+    unsigned length
+) {
+    if (length < 4) {
+        return;
+    }
+
+    uint32_t hash_count = (
+                              (((uint32_t) buffer[0]) << 24) |
+                              (((uint32_t) buffer[1]) << 16) |
+                              (((uint32_t) buffer[2]) << 8) |
+                              (((uint32_t) buffer[3]))
+                          );
+    struct ScannerState *state = (struct ScannerState *)payload;
+    state->ongoing_raw_str_hash_count = hash_count;
+}
 
 static void advance(TSLexer *lexer) {
     lexer->advance(lexer, false);
@@ -221,12 +260,101 @@ static bool eat_comment(
     return false;
 }
 
+static bool eat_raw_str_part(
+    struct ScannerState *state,
+    TSLexer *lexer,
+    const bool *valid_symbols,
+    enum TokenType *symbol_result
+) {
+    uint32_t hash_count = state->ongoing_raw_str_hash_count;
+    if (!valid_symbols[RAW_STR_PART]) {
+        return false;
+    } else if (hash_count == 0) {
+        // If this is a raw_str_part, it's the first one - look for hashes
+        while (lexer->lookahead == '#') {
+            hash_count += 1;
+            advance(lexer);
+        }
+
+        if (hash_count == 0) {
+            return false;
+        }
+
+        if (lexer->lookahead == '"') {
+            advance(lexer);
+        } else {
+            return false;
+        }
+
+    } else if (valid_symbols[RAW_STR_CONTINUING_INDICATOR]) {
+        // This is the end of an interpolation - now it's another raw_str_part. This is a synthetic
+        // marker to tell us that the grammar just consumed a `(` symbol to close a raw
+        // interpolation (since we don't want to fire on every `(` in existence). We don't have
+        // anything to do except continue.
+    } else {
+        return false;
+    }
+
+    // We're in a state where anything other than `hash_count` hash symbols in a row should be eaten
+    // and is part of a string.
+    // The last character _before_ the hashes will tell us what happens next.
+    // Matters are also complicated by the fact that we don't want to consume every character we
+    // visit; if we see a `\#(`, for instance, with the appropriate number of hash symbols, we want
+    // to end our parsing _before_ that sequence. This allows highlighting tools to treat that as a
+    // separate token.
+    while (lexer->lookahead != '\0') {
+        uint8_t last_char = '\0';
+        lexer->mark_end(lexer); // We always want to parse thru the start of the string so far
+        // Advance through anything that isn't a hash symbol, because we want to count those.
+        while (lexer->lookahead != '#') {
+            last_char = lexer->lookahead;
+            advance(lexer);
+            if (last_char != '\\') {
+                // Mark a new end, but only if we didn't just advance past a `\` symbol, since we
+                // don't want to consume that.
+                lexer->mark_end(lexer);
+            }
+        }
+
+        // We hit at least one hash - count them and see if they match.
+        uint32_t current_hash_count = 0;
+        while (lexer->lookahead == '#' && current_hash_count < hash_count) {
+            current_hash_count += 1;
+            advance(lexer);
+        }
+
+        // If we saw exactly the right number of hashes, one of three things is true:
+        // 1. We're trying to interpolate into this string.
+        // 2. The string just ended.
+        // 3. This was just some hash characters doing nothing important.
+        if (current_hash_count == hash_count) {
+            if (last_char == '\\' && lexer->lookahead == '(') {
+                // Interpolation case! Don't consume those chars; they get saved for grammar.js.
+                *symbol_result = RAW_STR_PART;
+                state->ongoing_raw_str_hash_count = hash_count;
+                return true;
+            } else if (last_char == '"') {
+                // The string is finished! Mark the end here, on the very last hash symbol.
+                lexer->mark_end(lexer);
+                *symbol_result = RAW_STR_END_PART;
+                state->ongoing_raw_str_hash_count = 0;
+                return true;
+            }
+            // Nothing special happened - let the string continue.
+        }
+    }
+
+    return false;
+}
 
 bool tree_sitter_swift_external_scanner_scan(
     void *payload,
     TSLexer *lexer,
     const bool *valid_symbols
 ) {
+    // Figure out our scanner state
+    struct ScannerState *state = (struct ScannerState *)payload;
+
     // Consume any whitespace at the start.
     enum TokenType semi_result;
     bool saw_semi = eat_whitespace(lexer, valid_symbols, &semi_result);
@@ -251,6 +379,15 @@ bool tree_sitter_swift_external_scanner_scan(
     if (saw_comment) {
         lexer->mark_end(lexer);
         lexer->result_symbol = comment_result;
+        return true;
+    }
+
+    // NOTE: this will consume any `#` characters it sees, even if it does not find a result. Keep
+    // it at the end so that it doesn't interfere with special literals or selectors!
+    enum TokenType raw_str_result;
+    bool saw_raw_str_part = eat_raw_str_part(state, lexer, valid_symbols, &raw_str_result);
+    if (saw_raw_str_part) {
+        lexer->result_symbol = raw_str_result;
         return true;
     }
 
