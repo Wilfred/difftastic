@@ -16192,21 +16192,7 @@
   {
     "type": "word_list_qw",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "identifier_1",
-          "named": true
-        },
-        {
-          "type": "identifier_2",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "!",
@@ -17322,10 +17308,6 @@
   },
   {
     "type": "identifier",
-    "named": true
-  },
-  {
-    "type": "identifier_1",
     "named": true
   },
   {
