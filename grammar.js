@@ -105,6 +105,9 @@ module.exports = grammar({
     $._string_single_quoted_content,
     $._string_qq_quoted_content,
     $._string_double_quoted_content,
+    $._start_delimiter_qw,
+    $._element_in_qw,
+    $._end_delimiter_qw,
     //  TODO: handle <<EOF
     $._pod_content,
   ],
@@ -1587,13 +1590,10 @@ module.exports = grammar({
     // TODO: fix qw ( Parent::Base ) ie space is the only separater
     word_list_qw: $ => prec(PRECEDENCE.REGEXP, seq(
       'qw',
-      choice(
-        seq('{', repeat($.identifier_1), '}'),
-        seq('/', repeat($.identifier_2), '/'),
-        seq('(', repeat($.identifier_1), ')'),
-        seq('[', repeat($.identifier_1), ']'),
-        seq('\'', repeat($.identifier_1), '\''),
-      ),
+      // '/', '/'
+      $._start_delimiter_qw,
+      repeat($._element_in_qw),
+      $._end_delimiter_qw,
     )),
 
     patter_matcher_m: $ => prec(PRECEDENCE.REGEXP, seq(

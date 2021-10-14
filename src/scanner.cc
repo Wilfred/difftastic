@@ -15,6 +15,9 @@ namespace {
     STRING_SINGLE_QUOTED_CONTENT,
     STRING_QQ_QUOTED_CONTENT,
     STRING_DOUBLE_QUOTED_CONTENT,
+    START_DELIMITER_QW,
+    ELEMENT_IN_QW,
+    END_DELIMITER_QW,
     POD_CONTENT,
   };
 
@@ -85,21 +88,15 @@ namespace {
         && valid_symbols[STRING_SINGLE_QUOTED_CONTENT]
         && valid_symbols[STRING_QQ_QUOTED_CONTENT]
         && valid_symbols[STRING_DOUBLE_QUOTED_CONTENT]
+        && valid_symbols[START_DELIMITER_QW]
+        && valid_symbols[END_DELIMITER_QW]
         && valid_symbols[POD_CONTENT]
       ) {
         return false;
       }
       // TODO: handle qqqSTRINGq; - this should throw error
       if (valid_symbols[START_DELIMITER]) {
-        while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
-          skip(lexer);
-        }
-        start_delimiter_char = lexer->lookahead;
-        set_end_delimiter(start_delimiter_char);
-        lexer->result_symbol = START_DELIMITER;
-        advance(lexer);
-        lexer->mark_end(lexer);
-        return true;
+        return parse_start_delimiter(lexer, START_DELIMITER);
       }
       
       if (valid_symbols[STRING_QQ_QUOTED_CONTENT]) {
@@ -307,6 +304,37 @@ namespace {
         return true;
       }
 
+      if (valid_symbols[START_DELIMITER_QW]) {
+        return parse_start_delimiter(lexer, START_DELIMITER_QW);
+      }
+
+      if (valid_symbols[ELEMENT_IN_QW]) {
+        if (lexer->lookahead == get_end_delimiter()) {
+          lexer->result_symbol = END_DELIMITER_QW;
+          advance(lexer);
+          lexer->mark_end(lexer);
+          return true;
+        }
+
+        // exit condition
+        if (!lexer->lookahead) {
+          lexer->mark_end(lexer);
+          return false;
+        }
+
+        if (lexer->lookahead != ' ' && lexer->lookahead != '\t' && lexer->lookahead != '\r') {
+          lexer->result_symbol = ELEMENT_IN_QW;
+          advance(lexer);
+          
+          return true;
+        }
+        else {
+          lexer->mark_end(lexer);
+          advance(lexer);
+          return false;
+        }
+      }
+      
       if (valid_symbols[POD_CONTENT]) {
 
         while (lexer->lookahead) {
@@ -394,6 +422,23 @@ namespace {
 
     int32_t get_end_delimiter() {
       return end_delimiter_char;
+    }
+
+    // Give a token type, parses the start delimiter,
+    // and keeps track of it in memory.
+    bool parse_start_delimiter(TSLexer *lexer, TokenType token_type) {
+      while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
+        skip(lexer);
+      }
+
+      start_delimiter_char = lexer->lookahead;
+      set_end_delimiter(start_delimiter_char);
+
+      lexer->result_symbol = token_type;
+      advance(lexer);
+      lexer->mark_end(lexer);
+
+      return true;
     }
 
     int32_t start_delimiter_char;
