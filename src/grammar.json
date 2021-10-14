@@ -1005,8 +1005,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_quoted_atom_start"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_quoted_atom_start"
+          },
+          "named": false,
+          "value": ":"
         },
         {
           "type": "CHOICE",
@@ -3522,8 +3527,13 @@
                       "value": "in"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "_not_in"
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_not_in"
+                      },
+                      "named": false,
+                      "value": "not in"
                     }
                   ]
                 }
@@ -3992,8 +4002,13 @@
           "value": "in"
         },
         {
-          "type": "SYMBOL",
-          "name": "_not_in"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_not_in"
+          },
+          "named": false,
+          "value": "not in"
         },
         {
           "type": "STRING",

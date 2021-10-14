@@ -693,6 +693,10 @@
             "named": false
           },
           {
+            "type": "not in",
+            "named": false
+          },
+          {
             "type": "or",
             "named": false
           },
@@ -3150,6 +3154,10 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": "::",
     "named": false
   },
@@ -3335,6 +3343,10 @@
   },
   {
     "type": "not",
+    "named": false
+  },
+  {
+    "type": "not in",
     "named": false
   },
   {
