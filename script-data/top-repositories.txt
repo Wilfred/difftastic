@@ -1,0 +1,8 @@
+Alamofire Alamofire/Alamofire 4.8.2
+lottie-ios airbnb/lottie-ios 3.1.4
+vapor vapor/vapor 3.3.3
+Kingfisher onevcat/Kingfisher 6.3.1
+shadowsocks shadowsocks/ShadowsocksX-NG v1.9.4
+Carthage Carthage/Carthage 0.38.0
+Moya Moya/Moya 15.0.0
+ObjectMapper tristanhimmelman/ObjectMapper 3.5.3
