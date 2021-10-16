@@ -63,6 +63,26 @@ done
       (command name: (command_name (word)) argument: (word)))))
 
 ====================================
+Until statements
+====================================
+
+until something happens; do
+  echo a
+  echo b
+done
+
+---
+
+(program
+  (while_statement
+    condition: (command
+      name: (command_name (word))
+      argument: (word))
+    body: (do_group
+      (command name: (command_name (word)) argument: (word))
+      (command name: (command_name (word)) argument: (word)))))
+
+====================================
 While statements with IO redirects
 ====================================
 

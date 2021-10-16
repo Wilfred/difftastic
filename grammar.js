@@ -141,7 +141,7 @@ module.exports = grammar({
     ),
 
     while_statement: $ => seq(
-      'while',
+      choice('while', 'until'),
       field('condition', $._terminated_statement),
       field('body', $.do_group)
     ),
