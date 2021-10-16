@@ -1,6 +1,5 @@
 Alamofire/Example/Source/AppDelegate.swift
 Alamofire/Tests/SessionManagerTests.swift
-lottie-ios/lottie-swift/src/Private/Model/Extensions/KeyedDecodingContainerExtensions.swift
 lottie-ios/lottie-swift/src/Private/Utility/Primitives/BezierPath.swift
 lottie-ios/lottie-swift/src/Private/Utility/Primitives/CompoundBezierPath.swift
 vapor/Sources/Vapor/Middleware/CORSMiddleware.swift
