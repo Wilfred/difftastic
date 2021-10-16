@@ -446,3 +446,92 @@ Image.url(url, isLoaded: $done)
         (value_argument
           (simple_identifier)
           (simple_identifier))))))
+
+===
+Key-path expressions
+===
+
+let pathToProperty = \SomeStructure.someValue
+
+let c = SomeClass(someProperty: 10)
+c.observe(\.someProperty) { object, change in
+    // ...
+}
+
+compoundValue[keyPath: \.self] = (a: 10, b: 20)
+
+let nestedKeyPath = \OuterStructure.outer.someValue
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (navigation_expression
+      (key_path_expression
+        (type_identifier))
+      (navigation_suffix
+        (simple_identifier))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments
+          (value_argument
+            (simple_identifier)
+            (integer_literal))))))
+  (call_expression
+    (call_expression
+      (navigation_expression
+        (simple_identifier)
+        (navigation_suffix
+          (simple_identifier)))
+      (call_suffix
+        (value_arguments
+          (value_argument
+            (navigation_expression
+              (key_path_expression)
+              (navigation_suffix
+                (simple_identifier)))))))
+    (call_suffix
+      (lambda_literal
+        (lambda_function_type
+          (lambda_function_type_parameters
+            (simple_identifier)
+            (simple_identifier)))
+        (comment))))
+  (assignment
+    (directly_assignable_expression
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments
+            (value_argument
+              (simple_identifier)
+              (navigation_expression
+                (key_path_expression)
+                (navigation_suffix
+                  (simple_identifier))))))))
+    (tuple_expression
+      (simple_identifier)
+      (integer_literal)
+      (simple_identifier)
+      (integer_literal)))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (navigation_expression
+      (navigation_expression
+        (key_path_expression
+          (type_identifier))
+        (navigation_suffix
+          (simple_identifier)))
+      (navigation_suffix
+        (simple_identifier)))))
+
