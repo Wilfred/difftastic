@@ -1,10 +1,6 @@
 //! Manipulate lines of text and groups of lines.
 
-use crate::{
-    intervals::Interval,
-    positions::SingleLineSpan,
-    syntax::{MatchKind, MatchedPos},
-};
+use crate::{intervals::Interval, positions::SingleLineSpan, syntax::{MatchKind, MatchedPos}};
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::{
@@ -273,7 +269,7 @@ impl LineGroup {
 
 /// Compare two MatchedPos to see which starts earlier (on either
 /// side).
-fn compare_matched_pos(lhs: &MatchedPos, rhs: &MatchedPos) -> Ordering {
+pub fn compare_matched_pos(lhs: &MatchedPos, rhs: &MatchedPos) -> Ordering {
     let lhs_line = lhs.pos.line;
     let rhs_line = rhs.pos.line;
     lhs_line.cmp(&rhs_line)

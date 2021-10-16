@@ -8,6 +8,7 @@ use std::{
 };
 
 use crate::{
+    hunks::{extract_lines, Hunk},
     lines::{
         codepoint_len, enforce_exact_length, enforce_max_length, format_line_num, LineGroup,
         LineNumber,
@@ -308,4 +309,24 @@ pub fn display(
         &lhs_lines_with_novel,
         &rhs_lines_with_novel,
     )
+}
+
+pub fn display_hunks(
+    hunks: &[Hunk],
+    max_lhs_src_line: LineNumber,
+    max_rhs_src_line: LineNumber,
+) -> String {
+    for hunk in hunks {
+        for (lhs_line, rhs_line) in extract_lines(hunk, 3, max_lhs_src_line, max_rhs_src_line) {
+            println!(
+                "{:>2}      {:>2}",
+                lhs_line.map(|l| format!("{}", l.0)).unwrap_or("--".into()),
+                rhs_line.map(|l| format!("{}", l.0)).unwrap_or("--".into()),
+            );
+        }
+
+        println!("---------");
+    }
+
+    "todo".into()
 }
