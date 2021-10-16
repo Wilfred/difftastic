@@ -1640,6 +1640,10 @@
     "named": false
   },
   {
+    "type": "until",
+    "named": false
+  },
+  {
     "type": "variable_name",
     "named": true
   },
