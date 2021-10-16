@@ -17,10 +17,12 @@ enum TokenType {
     EQUAL_SIGN,
     THROWS_KEYWORD,
     RETHROWS_KEYWORD,
-    DEFAULT_KEYWORD
+    DEFAULT_KEYWORD,
+    WHERE_KEYWORD,
+    ELSE_KEYWORD
 };
 
-#define CROSS_SEMI_OPERATOR_COUNT 11
+#define CROSS_SEMI_OPERATOR_COUNT 13
 
 const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "->",
@@ -33,7 +35,9 @@ const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "=",
     "throws",
     "rethrows",
-    "default"
+    "default",
+    "where",
+    "else"
 };
 
 const int32_t CROSS_SEMI_OP_LENS[CROSS_SEMI_OPERATOR_COUNT] = {
@@ -47,7 +51,9 @@ const int32_t CROSS_SEMI_OP_LENS[CROSS_SEMI_OPERATOR_COUNT] = {
     1,
     6,
     8,
-    7
+    7,
+    5,
+    4
 };
 
 const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
@@ -61,7 +67,9 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     EQUAL_SIGN,
     THROWS_KEYWORD,
     RETHROWS_KEYWORD,
-    DEFAULT_KEYWORD
+    DEFAULT_KEYWORD,
+    WHERE_KEYWORD,
+    ELSE_KEYWORD
 };
 
 struct ScannerState {
