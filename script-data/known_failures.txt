@@ -25,9 +25,6 @@ Carthage/Source/CarthageKit/Git.swift
 Carthage/Tests/CarthageKitTests/DependencySpec.swift
 Carthage/Tests/CarthageKitTests/CartfileCommentsSpec.swift
 Carthage/Tests/CarthageKitTests/XcodeSpec.swift
-Moya/Tests/MoyaTests/TestHelpers.swift
-Moya/Sources/Moya/Plugins/NetworkLoggerPlugin.swift
-Moya/Sources/Moya/Response.swift
 ObjectMapper/Package@swift-4.swift
 ObjectMapper/Sources/HexColorTransform.swift
 ObjectMapper/Sources/ToJSON.swift
