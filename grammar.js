@@ -536,10 +536,7 @@ module.exports = grammar({
         $.dictionary_literal,
         $.self_expression,
         $.super_expression,
-        $.if_expression,
         $.guard_expression,
-        $.switch_expression,
-        $.do_expression,
         $.try_expression,
         $._referenceable_operator,
         $.key_path_expression,
@@ -648,9 +645,9 @@ module.exports = grammar({
 
     super_expression: ($) => seq("super"),
 
-    _else_options: ($) => choice($._block, $.if_expression),
+    _else_options: ($) => choice($._block, $.if_statement),
 
-    if_expression: ($) =>
+    if_statement: ($) =>
       prec.right(
         seq(
           "if",
@@ -679,7 +676,7 @@ module.exports = grammar({
         )
       ),
 
-    switch_expression: ($) =>
+    switch_statement: ($) =>
       seq("switch", $._expression, "{", repeat($.switch_entry), "}"),
 
     switch_entry: ($) =>
@@ -697,7 +694,7 @@ module.exports = grammar({
 
     switch_pattern: ($) => generate_pattern_matching_rule($, true, false, true),
 
-    do_expression: ($) => seq("do", $._block, repeat($.catch_block)),
+    do_statement: ($) => seq("do", $._block, repeat($.catch_block)),
 
     catch_block: ($) =>
       seq(
@@ -790,7 +787,7 @@ module.exports = grammar({
       choice(
         $._expression,
         $._declaration,
-        $._loop_statement,
+        $._labeled_statement,
         $.control_transfer_statement,
         $.assignment,
         $.availability_condition
@@ -798,13 +795,20 @@ module.exports = grammar({
 
     _block: ($) => prec(PREC.BLOCK, seq("{", optional($.statements), "}")),
 
-    _loop_statement: ($) =>
+    _labeled_statement: ($) =>
       seq(
-        optional($.loop_label),
-        choice($.for_statement, $.while_statement, $.repeat_while_statement)
+        optional($.statement_label),
+        choice(
+          $.for_statement,
+          $.while_statement,
+          $.repeat_while_statement,
+          $.do_statement,
+          $.if_statement,
+          $.switch_statement
+        )
       ),
 
-    loop_label: ($) => token(/[a-zA-Z_][a-zA-Z_0-9]*:/),
+    statement_label: ($) => token(/[a-zA-Z_][a-zA-Z_0-9]*:/),
 
     for_statement: ($) =>
       prec.right(
@@ -927,6 +931,7 @@ module.exports = grammar({
       prec.right(
         seq(
           optional($.modifiers),
+          optional("class"),
           choice("let", "var"),
           sep1(
             seq(
