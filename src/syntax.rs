@@ -790,7 +790,10 @@ fn change_positions_<'a>(
     }
 }
 
-fn zip_pad_shorter<Tx: Copy, Ty: Copy>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Option<Tx>, Option<Ty>)> {
+pub fn zip_pad_shorter<Tx: Copy, Ty: Copy>(
+    lhs: &[Tx],
+    rhs: &[Ty],
+) -> Vec<(Option<Tx>, Option<Ty>)> {
     let mut res = vec![];
 
     let mut i = 0;
