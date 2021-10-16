@@ -136,7 +136,8 @@ module.exports = grammar({
       choice(
         LEXICAL_IDENTIFIER,
         token(seq("`", LEXICAL_IDENTIFIER, "`")),
-        /\$[0-9]+/
+        /\$[0-9]+/,
+        token(seq("$", LEXICAL_IDENTIFIER))
       ),
 
     identifier: ($) => sep1($.simple_identifier, $._dot_operator),
@@ -236,9 +237,9 @@ module.exports = grammar({
 
     type_annotation: ($) => seq(":", $._possibly_implicitly_unwrapped_type),
 
-    // This is only legal in a few positions
+    // Superset of legal type declarations, including implicitly unwrapped types and protocol composition types.
     _possibly_implicitly_unwrapped_type: ($) =>
-      seq($._type, optional(token.immediate("!"))),
+      seq(sep1($._type, "&"), optional(token.immediate("!"))),
 
     _type: ($) =>
       prec.right(
@@ -618,7 +619,7 @@ module.exports = grammar({
           seq("(", optional($.lambda_function_type_parameters), ")")
         ),
         optional($.throws_modifier),
-        optional(seq($._arrow_operator, $._return_type))
+        optional(seq($._arrow_operator, $._possibly_implicitly_unwrapped_type))
       ),
 
     lambda_function_type_parameters: ($) => sep1($._lambda_parameter, ","),
@@ -837,7 +838,8 @@ module.exports = grammar({
         ")"
       ),
 
-    _availability_argument: ($) => seq($.identifier, $._basic_literal),
+    _availability_argument: ($) =>
+      seq($.identifier, sep1($.integer_literal, ".")),
 
     ////////////////////////////////
     // Declarations - https://docs.swift.org/swift-book/ReferenceManual/Declarations.html
@@ -891,7 +893,7 @@ module.exports = grammar({
       ),
 
     protocol_property_requirements: ($) =>
-      seq("{", repeat(choice("get", "set")), "}"),
+      seq("{", repeat(choice($.getter_specifier, $.setter_specifier)), "}"),
 
     property_declaration: ($) =>
       prec.right(
@@ -940,15 +942,14 @@ module.exports = grammar({
           optional($.type_parameters),
           $._function_value_parameters,
           optional($.throws_modifier),
-          optional(seq($._arrow_operator, $._return_type)),
+          optional(
+            seq($._arrow_operator, $._possibly_implicitly_unwrapped_type)
+          ),
           optional($.type_constraints)
         )
       ),
 
     function_body: ($) => $._block,
-
-    // When there's more than one item it's technically a "protocol composition type" but I won't tell if you don't
-    _return_type: ($) => sep1($._possibly_implicitly_unwrapped_type, "&"),
 
     class_declaration: ($) =>
       prec.right(
@@ -1010,7 +1011,12 @@ module.exports = grammar({
       choice($.inheritance_constraint, $.equality_constraint),
 
     inheritance_constraint: ($) =>
-      seq(repeat($.attribute), $.identifier, ":", $._type),
+      seq(
+        repeat($.attribute),
+        $.identifier,
+        ":",
+        $._possibly_implicitly_unwrapped_type
+      ),
 
     equality_constraint: ($) =>
       seq(repeat($.attribute), $.identifier, choice("=", "=="), $._type),
@@ -1022,6 +1028,7 @@ module.exports = grammar({
 
     _function_value_parameter: ($) =>
       seq(
+        optional($.attribute),
         optional(alias($.simple_identifier, $.external_parameter_name)),
         $.parameter,
         optional(seq($._equal_sign, $._expression))
@@ -1142,10 +1149,10 @@ module.exports = grammar({
           optional($.modifiers),
           "subscript",
           optional($.type_parameters),
-          "(",
-          $._function_value_parameter,
-          ")",
-          optional(seq($._arrow_operator, $._return_type)),
+          $._function_value_parameters,
+          optional(
+            seq($._arrow_operator, $._possibly_implicitly_unwrapped_type)
+          ),
           optional($.type_constraints),
           "{",
           choice(
@@ -1166,14 +1173,17 @@ module.exports = grammar({
         "}"
       ),
 
-    computed_getter: ($) => seq("get", optional($._block)),
+    computed_getter: ($) => seq($.getter_specifier, optional($._block)),
 
     computed_setter: ($) =>
       seq(
-        "set",
+        $.setter_specifier,
         optional(seq("(", $.simple_identifier, ")")),
         optional($._block)
       ),
+
+    getter_specifier: ($) => seq(optional($.mutation_modifier), "get"),
+    setter_specifier: ($) => seq(optional($.mutation_modifier), "set"),
 
     operator_declaration: ($) =>
       seq(
@@ -1287,6 +1297,7 @@ module.exports = grammar({
         $.member_modifier,
         $.visibility_modifier,
         $.function_modifier,
+        $.mutation_modifier,
         $.property_modifier,
         $.inheritance_modifier,
         $.parameter_modifier
@@ -1305,8 +1316,9 @@ module.exports = grammar({
 
     type_parameter_modifiers: ($) => repeat1($.attribute),
 
-    function_modifier: ($) =>
-      choice("infix", "postfix", "prefix", "mutating", "nonmutating"),
+    function_modifier: ($) => choice("infix", "postfix", "prefix"),
+
+    mutation_modifier: ($) => choice("mutating", "nonmutating"),
 
     property_modifier: ($) =>
       choice(
