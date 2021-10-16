@@ -542,6 +542,7 @@ module.exports = grammar({
         $.do_expression,
         $.try_expression,
         $._referenceable_operator,
+        $.key_path_expression,
         alias($._three_dot_operator, $.fully_open_range)
       ),
 
@@ -715,6 +716,33 @@ module.exports = grammar({
           $._try_operator,
           choice($._expression, $.assignment)
         )
+      ),
+
+    key_path_expression: ($) =>
+      prec.left(
+        seq(
+          "\\",
+          optional(
+            choice($._simple_user_type, $.array_type, $.dictionary_type)
+          ),
+          repeat(seq(".", $._key_path_component))
+        )
+      ),
+
+    _key_path_component: ($) =>
+      prec.left(
+        choice(
+          seq($.simple_identifier, repeat($._key_path_postfixes)),
+          repeat1($._key_path_postfixes)
+        )
+      ),
+
+    _key_path_postfixes: ($) =>
+      choice(
+        "?",
+        "!",
+        "self",
+        seq("[", optional(sep1($.value_argument, ",")), "]")
       ),
 
     _try_operator: ($) => choice("try", "try!", "try?"),
