@@ -424,3 +424,25 @@ foo.doSomething(a)?
                 (call_suffix (value_arguments (value_argument (simple_identifier)))))
             (navigation_suffix (simple_identifier)))
         (call_suffix (value_arguments (value_argument (simple_identifier))))))
+
+===
+Property wrapper projections
+===
+
+Image.url(url, isLoaded: $done)
+
+---
+
+(source_file
+  (call_expression
+    (navigation_expression
+      (simple_identifier)
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (simple_identifier))
+        (value_argument
+          (simple_identifier)
+          (simple_identifier))))))
