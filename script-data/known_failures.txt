@@ -9,11 +9,9 @@ Carthage/Source/carthage/Fetch.swift
 Carthage/Source/carthage/Build.swift
 Carthage/Source/carthage/Checkout.swift
 Carthage/Source/carthage/Formatting.swift
-Carthage/Source/CarthageKit/Simulator.swift
 Carthage/Source/CarthageKit/Archive.swift
 Carthage/Source/CarthageKit/VersionFile.swift
 Carthage/Source/CarthageKit/Project.swift
-Carthage/Source/CarthageKit/FrameworkExtensions.swift
 Carthage/Source/CarthageKit/GitURL.swift
 Carthage/Source/CarthageKit/Git.swift
 Carthage/Tests/CarthageKitTests/DependencySpec.swift
