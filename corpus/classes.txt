@@ -487,6 +487,30 @@ public protocol Indexable {
         (computed_getter
           (getter_specifier))))))
 
+===
+Typealias
+===
+
+class SomeClassWithAlias: NSObject {
+    typealias ProtocolComposition = Protocol1 & Protocol2
+}
+
+---
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body
+      (typealias_declaration
+        (type_identifier)
+        (user_type
+          (type_identifier))
+        (user_type
+          (type_identifier))))))
+
 ==================
 Special constructors
 ==================
@@ -782,3 +806,123 @@ enum ComputeType {
                     (simple_identifier)
                     (line_string_literal)))
                 (simple_identifier)))))
+
+===
+Protocol composition - generic type specifiers
+===
+
+let result: HasGeneric<P1 & P2> = HasGeneric<P1 & P2>(t: "Hello")
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (type_annotation
+      (user_type
+        (type_identifier)
+        (type_arguments
+          (user_type
+            (type_identifier))
+          (user_type
+            (type_identifier)))))
+    (constructor_expression
+      (user_type
+        (type_identifier)
+        (type_arguments
+          (user_type
+            (type_identifier))
+          (user_type
+            (type_identifier))))
+      (constructor_suffix
+        (value_argument
+          (simple_identifier)
+          (line_string_literal))))))
+
+
+===
+Protocol composition - where clauses
+===
+
+func iterate<S>(h: S) where S : Sequence, S.Element == P1 & P2 { }
+
+---
+
+(source_file
+  (function_declaration
+    (simple_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (parameter
+      (simple_identifier)
+      (user_type
+        (type_identifier)))
+    (type_constraints
+      (type_constraint
+        (inheritance_constraint
+          (identifier
+            (simple_identifier))
+          (user_type
+            (type_identifier))))
+      (type_constraint
+        (equality_constraint
+          (identifier
+            (simple_identifier)
+            (simple_identifier))
+          (user_type
+            (type_identifier))
+          (user_type
+            (type_identifier)))))
+    (function_body)))
+
+
+===
+Protocol composition - enum declarations
+===
+
+enum Foo {
+  case bar(P1 & P2)
+}
+
+---
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (enum_class_body
+      (enum_entry
+        (simple_identifier)
+        (enum_type_parameters
+          (user_type
+            (type_identifier))
+          (user_type
+            (type_identifier)))))))
+
+
+===
+Protocol composition in as expressions
+===
+
+let result = greet("me") as P1 & P2
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (as_expression
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments
+            (value_argument
+              (line_string_literal)))))
+      (user_type
+        (type_identifier))
+      (user_type
+        (type_identifier)))))
