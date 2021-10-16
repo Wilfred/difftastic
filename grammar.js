@@ -242,18 +242,19 @@ module.exports = grammar({
       seq(sep1($._type, "&"), optional(token.immediate("!"))),
 
     _type: ($) =>
+      prec.right(seq(optional($.type_modifiers), $._unannotated_type)),
+
+    _unannotated_type: ($) =>
       prec.right(
-        seq(
-          optional($.type_modifiers),
-          choice(
-            $.user_type,
-            $.tuple_type,
-            $.function_type,
-            $.array_type,
-            $.dictionary_type,
-            $.optional_type,
-            $._opaque_type
-          )
+        choice(
+          $.user_type,
+          $.tuple_type,
+          $.function_type,
+          $.array_type,
+          $.dictionary_type,
+          $.optional_type,
+          $.metatype,
+          $._opaque_type
         )
       ),
 
@@ -299,6 +300,9 @@ module.exports = grammar({
           repeat1($._immediate_quest)
         )
       ),
+
+    metatype: ($) =>
+      prec.left(seq($._unannotated_type, ".", choice("Type", "Protocol"))),
 
     _quest: ($) => "?",
     _immediate_quest: ($) => token.immediate("?"),
