@@ -163,6 +163,7 @@ class GenericSubscript {
                 (parameter (simple_identifier) (user_type (type_identifier)))
                 (optional_type (user_type (type_identifier)))
                 (computed_getter
+                    (getter_specifier)
                     (statements
                         (control_transfer_statement
                             (call_expression (simple_identifier)
@@ -173,6 +174,7 @@ class GenericSubscript {
                                                 (simple_identifier)
                                                 (navigation_suffix (simple_identifier))))))))))
                 (computed_setter
+                    (setter_specifier)
                     (statements
                         (assignment
                             (directly_assignable_expression
@@ -195,6 +197,44 @@ class GenericSubscript {
                 (parameter (simple_identifier) (user_type (type_identifier) (type_arguments (user_type (type_identifier)))))
                 (user_type (type_identifier) (type_arguments (user_type (type_identifier))))
                 (statements (control_transfer_statement (simple_identifier)))))))
+===
+Subscript with multiple arguments
+===
+
+public subscript<D>(_ value: D, arg2: Arg2) -> D where D: Decodable {
+    return value
+}
+
+---
+
+(source_file
+  (subscript_declaration
+    (modifiers
+      (visibility_modifier))
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (external_parameter_name)
+    (parameter
+      (simple_identifier)
+      (user_type
+        (type_identifier)))
+    (parameter
+      (simple_identifier)
+      (user_type
+        (type_identifier)))
+    (user_type
+      (type_identifier))
+    (type_constraints
+      (type_constraint
+        (inheritance_constraint
+          (identifier
+            (simple_identifier))
+          (user_type
+            (type_identifier)))))
+    (statements
+      (control_transfer_statement
+        (simple_identifier)))))
 
 ==================
 Inheritance
@@ -277,14 +317,14 @@ class SomethingElse: ThingProvider {
                 (type_annotation
                     (user_type (type_identifier)))
                     (computed_property
-                        (computed_getter (statements (simple_identifier)))
-                        (computed_setter (simple_identifier))))
+                        (computed_getter (getter_specifier) (statements (simple_identifier)))
+                        (computed_setter (setter_specifier) (simple_identifier))))
             (property_declaration
                 (value_binding_pattern (non_binding_pattern (simple_identifier)))
                 (type_annotation (user_type (type_identifier)))
                 (computed_property
-                    (computed_getter (statements (simple_identifier)))
-                    (computed_setter (statements (assignment (directly_assignable_expression (simple_identifier)) (simple_identifier))))))))
+                    (computed_getter (getter_specifier) (statements (simple_identifier)))
+                    (computed_setter (setter_specifier) (statements (assignment (directly_assignable_expression (simple_identifier)) (simple_identifier))))))))
     (class_declaration
         (type_identifier)
         (inheritance_specifier (user_type (type_identifier)))
@@ -300,6 +340,31 @@ class SomethingElse: ThingProvider {
                             (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
                         (control_transfer_statement (simple_identifier)))))
             (function_declaration (simple_identifier) (function_body)))))
+===
+Protocol composition types
+===
+
+var propertyMap: NodePropertyMap & KeypathSearchable {
+  return transformProperties
+}
+
+---
+
+    (source_file
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier))
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (statements
+            (control_transfer_statement
+              (simple_identifier))))))
+
 ==================
 Structs
 ==================
@@ -323,7 +388,7 @@ struct Adder {
                 (type_annotation
                     (user_type (type_identifier))))
             (function_declaration
-                (modifiers (function_modifier))
+                (modifiers (mutation_modifier))
                 (simple_identifier)
                 (function_body
                     (statements
@@ -342,7 +407,7 @@ protocol Fallible {
 }
 
 public protocol FooProvider {
-    var foo: String { get }
+    var foo: String { nonmutating get }
 }
 
 protocol Wrapper {
@@ -367,7 +432,7 @@ protocol Wrapper {
             (protocol_property_declaration
                 (value_binding_pattern (non_binding_pattern (simple_identifier)))
                 (type_annotation (user_type (type_identifier)))
-                (protocol_property_requirements))))
+                (protocol_property_requirements (getter_specifier (mutation_modifier))))))
     (protocol_declaration
         (type_identifier)
         (protocol_body

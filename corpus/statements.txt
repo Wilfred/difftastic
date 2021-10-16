@@ -493,7 +493,7 @@ if #available(iOS 14.0, *) {
     doSomething()
 }
 
-if #available(iOS 13.0, *) {
+if #available(macOS 10.12.0, *) {
     return 3
 } else {
     return 0
@@ -503,11 +503,11 @@ if #available(iOS 13.0, *) {
 (source_file
     (if_expression (availability_condition
         (identifier (simple_identifier))
-        (real_literal))
+        (integer_literal) (integer_literal))
         (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
     (if_expression (availability_condition
         (identifier (simple_identifier))
-        (real_literal))
+        (integer_literal) (integer_literal) (integer_literal))
         (statements (control_transfer_statement (integer_literal)))
         (statements (control_transfer_statement (integer_literal)))))
 
