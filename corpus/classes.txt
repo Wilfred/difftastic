@@ -404,6 +404,7 @@ protocol Fallible {
     associatedtype SuccessType = Void
 
     func getFailure() -> Self.FailureType?
+        where Self.FailureType: Equatable
 }
 
 public protocol FooProvider {
@@ -424,7 +425,14 @@ protocol Wrapper {
             (associatedtype_declaration (type_identifier) (user_type (type_identifier)))
             (protocol_function_declaration
                 (simple_identifier)
-                (optional_type (user_type (type_identifier) (type_identifier))))))
+                (optional_type (user_type (type_identifier) (type_identifier)))
+                (type_constraints
+                    (type_constraint
+                        (inheritance_constraint
+                            (identifier
+                                  (simple_identifier)
+                                  (simple_identifier))
+                            (user_type (type_identifier))))))))
     (protocol_declaration
         (modifiers (visibility_modifier))
         (type_identifier)

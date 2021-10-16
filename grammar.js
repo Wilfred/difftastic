@@ -112,6 +112,8 @@ module.exports = grammar({
     $._throws_keyword,
     $._rethrows_keyword,
     $.default_keyword,
+    $._where_keyword,
+    $._else,
   ],
 
   rules: {
@@ -656,7 +658,7 @@ module.exports = grammar({
         seq(
           "if",
           sep1(prec.left($._if_condition_sequence_item), ","),
-          choice($._block, seq($._block, "else", $._else_options))
+          choice($._block, seq($._block, $._else, $._else_options))
         )
       ),
 
@@ -675,7 +677,7 @@ module.exports = grammar({
         seq(
           "guard",
           sep1(prec.left($._if_condition_sequence_item), ","),
-          "else",
+          $._else,
           $._block
         )
       ),
@@ -690,7 +692,7 @@ module.exports = grammar({
           seq("case", $.switch_pattern, repeat(seq(",", $.switch_pattern))),
           $.default_keyword
         ),
-        optional(seq("where", $._expression)),
+        optional(seq($._where_keyword, $._expression)),
         ":",
         $.statements,
         optional("fallthrough")
@@ -708,7 +710,7 @@ module.exports = grammar({
         $._block
       ),
 
-    where_clause: ($) => prec.left(seq("where", $._expression)),
+    where_clause: ($) => prec.left(seq($._where_keyword, $._expression)),
 
     try_expression: ($) =>
       prec.left(
@@ -1042,7 +1044,7 @@ module.exports = grammar({
       ),
 
     type_constraints: ($) =>
-      prec.right(seq("where", sep1($.type_constraint, ","))),
+      prec.right(seq($._where_keyword, sep1($.type_constraint, ","))),
 
     type_constraint: ($) =>
       choice($.inheritance_constraint, $.equality_constraint),

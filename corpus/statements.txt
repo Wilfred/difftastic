@@ -418,7 +418,8 @@ if let aPrime = a {
 }
 
 if a == b {
-} else if let cPrime = c {
+}
+else if let cPrime = c {
 }
 
 ---
