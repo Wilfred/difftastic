@@ -7,6 +7,7 @@ use crate::{
     graph::{mark_route, neighbours, Edge, Vertex},
     syntax::Syntax,
 };
+use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
 
@@ -108,9 +109,10 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
 
         current = node;
     }
-    info!("Found a path of {} with cost {}.", route.len(), cost);
-
     route.reverse();
+
+    info!("Found a path of {} with cost {}.", route.len(), cost);
+    info!("Initial path: {:#?}", route.iter().map(|x| x.0).take(5).collect_vec());
     route
 }
 
