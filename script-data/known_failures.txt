@@ -3,10 +3,7 @@ Alamofire/Tests/SessionManagerTests.swift
 lottie-ios/lottie-swift/src/Private/Model/Extensions/KeyedDecodingContainerExtensions.swift
 lottie-ios/lottie-swift/src/Private/Utility/Primitives/BezierPath.swift
 lottie-ios/lottie-swift/src/Private/Utility/Primitives/CompoundBezierPath.swift
-vapor/Tests/VaporTests/ApplicationTests.swift
 vapor/Sources/Vapor/Middleware/CORSMiddleware.swift
-vapor/Sources/Vapor/Response/Response.swift
-vapor/Sources/Vapor/Request/Request.swift
 Kingfisher/Sources/SwiftUI/ImageBinder.swift
 shadowsocks/ShadowsocksX-NG/ServerProfile.swift
 Carthage/Source/carthage/Outdated.swift
