@@ -116,7 +116,7 @@ outerLoop: for outerObject in dataArray {
                 (simple_identifier))
             (user_type (type_identifier)))
         (simple_identifier))
-    (loop_label)
+    (statement_label)
     (for_statement
         (simple_identifier)
         (simple_identifier)
@@ -125,7 +125,7 @@ outerLoop: for outerObject in dataArray {
                 (simple_identifier)
                 (simple_identifier)
                 (statements
-                    (if_expression
+                    (if_statement
                         (equality_expression (simple_identifier) (simple_identifier))
                         (statements
                             (assignment
@@ -175,7 +175,7 @@ switch something {
 
 ---
 (source_file
-    (switch_expression
+    (switch_statement
         (simple_identifier)
         (switch_entry
             (switch_pattern (simple_identifier))
@@ -207,7 +207,7 @@ case .notExecutable(let path?):
 
 ---
 (source_file
-    (switch_expression
+    (switch_statement
         (simple_identifier)
         (switch_entry
             (switch_pattern
@@ -224,7 +224,7 @@ case .notExecutable(let path?):
             (modifiers (attribute (user_type (type_identifier))))
             (default_keyword)
             (statements (control_transfer_statement (line_string_literal)))))
-    (switch_expression
+    (switch_statement
         (self_expression)
         (switch_entry
             (switch_pattern
@@ -271,7 +271,7 @@ do {
 
 ---
 (source_file
-    (do_expression
+    (do_statement
         (statements
             (property_declaration
                 (value_binding_pattern (non_binding_pattern (simple_identifier)))
@@ -309,7 +309,7 @@ do {
                 (simple_identifier)
                 (non_binding_pattern (simple_identifier))))
         (catch_block))
-    (do_expression
+    (do_statement
         (statements
             (property_declaration
                 (value_binding_pattern (non_binding_pattern (simple_identifier)))
@@ -329,24 +329,25 @@ if case .someCase(_) = otherThing() {
 if let something: MyType = doThing() {
 }
 
-if a.isEmpty, let b = getB() {
+someLabel: if a.isEmpty, let b = getB() {
 }
 
 ---
 
 (source_file
-    (if_expression
+    (if_statement
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (call_expression (simple_identifier) (call_suffix (value_arguments)))
         (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
-    (if_expression
+    (if_statement
         (binding_pattern (simple_identifier) (wildcard_pattern))
         (call_expression (simple_identifier) (call_suffix (value_arguments))))
-    (if_expression
+    (if_statement
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (type_annotation (user_type (type_identifier)))
         (call_expression (simple_identifier) (call_suffix (value_arguments))))
-    (if_expression
+    (statement_label)
+    (if_statement
         (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (call_expression (simple_identifier) (call_suffix (value_arguments)))))
@@ -363,7 +364,7 @@ return default
 ---
 
 (source_file
-    (if_expression
+    (if_statement
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (call_expression
             (try_expression
@@ -390,14 +391,14 @@ if let something = doThing(), let somethingElse = something.somethingElse() {
 ---
 
 (source_file
-    (if_expression
+    (if_statement
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (call_expression (simple_identifier) (call_suffix (value_arguments)))
         (call_expression
             (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
             (call_suffix (value_arguments)))
         (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
-    (if_expression
+    (if_statement
         (value_binding_pattern
             (non_binding_pattern (simple_identifier)))
         (call_expression (simple_identifier) (call_suffix (value_arguments)))
@@ -423,13 +424,13 @@ if a == b {
 ---
 
 (source_file
-    (if_expression
+    (if_statement
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (simple_identifier)
-        (if_expression (value_binding_pattern (non_binding_pattern (simple_identifier))) (simple_identifier)))
-    (if_expression
+        (if_statement (value_binding_pattern (non_binding_pattern (simple_identifier))) (simple_identifier)))
+    (if_statement
         (equality_expression (simple_identifier) (simple_identifier))
-        (if_expression
+        (if_statement
             (value_binding_pattern (non_binding_pattern (simple_identifier)))
             (simple_identifier))))
 
@@ -501,11 +502,11 @@ if #available(macOS 10.12.0, *) {
 
 ---
 (source_file
-    (if_expression (availability_condition
+    (if_statement (availability_condition
         (identifier (simple_identifier))
         (integer_literal) (integer_literal))
         (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
-    (if_expression (availability_condition
+    (if_statement (availability_condition
         (identifier (simple_identifier))
         (integer_literal) (integer_literal) (integer_literal))
         (statements (control_transfer_statement (integer_literal)))
