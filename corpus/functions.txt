@@ -54,7 +54,7 @@ func main(args: [String]) {}
 
 func maybe_main(args: Maybe<String>) {}
 
-func convert(args: [String: Int]) {}
+func convert(@Arg args: [String: Int]) {}
 
 func sum(a: Int, b: Int!) { return a + b }
 
@@ -77,6 +77,7 @@ func sum(a: Int, b: Int!) { return a + b }
         (function_body))
     (function_declaration
         (simple_identifier)
+        (attribute (user_type (type_identifier)))
         (parameter 
             (simple_identifier)
             (dictionary_type (user_type (type_identifier)) (user_type (type_identifier))))
