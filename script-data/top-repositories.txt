@@ -1,8 +1,8 @@
-Alamofire Alamofire/Alamofire 4.8.2
-lottie-ios airbnb/lottie-ios 3.1.4
+Alamofire Alamofire/Alamofire 5.4.4
+lottie-ios airbnb/lottie-ios 3.2.3
 vapor vapor/vapor 3.3.3
 SwiftyJSON SwiftyJSON/SwiftyJSON 5.0.1
-Kingfisher onevcat/Kingfisher 6.3.1
+Kingfisher onevcat/Kingfisher 7.1.1
 shadowsocks shadowsocks/ShadowsocksX-NG v1.9.4
 Carthage Carthage/Carthage 0.38.0
 Moya Moya/Moya 15.0.0
