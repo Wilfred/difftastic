@@ -72,6 +72,9 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     ELSE_KEYWORD
 };
 
+#define NON_CONSUMING_CROSS_SEMI_CHAR_COUNT 3
+const char NON_CONSUMING_CROSS_SEMI_CHARS[CROSS_SEMI_OPERATOR_COUNT] = { '?', ':', '{' };
+
 struct ScannerState {
     uint32_t ongoing_raw_str_hash_count;
 };
@@ -367,6 +370,16 @@ bool tree_sitter_swift_external_scanner_scan(
     enum TokenType semi_result;
     bool saw_semi = eat_whitespace(lexer, valid_symbols, &semi_result);
 
+    // Let's consume operators that can live after a "semicolon" style newline. Before we do that, though, we want to
+    // check for a set of characters that we do not consume, but that still suppress the semi.
+    uint8_t char_after_whitespace = lexer->lookahead;
+    bool allow_semi = true;
+    for (int i = 0; i < NON_CONSUMING_CROSS_SEMI_CHAR_COUNT; i++) {
+        if (NON_CONSUMING_CROSS_SEMI_CHARS[i] == char_after_whitespace) {
+            allow_semi = false;
+        }
+    }
+
     // Now consume any operators that might cause our whitespace to be suppressed.
     enum TokenType operator_result;
     bool saw_operator = eat_operators(lexer, valid_symbols, &operator_result);
@@ -376,7 +389,7 @@ bool tree_sitter_swift_external_scanner_scan(
         return true;
     }
 
-    if (saw_semi) {
+    if (saw_semi && allow_semi) {
         // Don't `mark_end`, since we may have advanced through some operators.
         lexer->result_symbol = semi_result;
         return true;
