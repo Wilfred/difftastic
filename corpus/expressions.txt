@@ -89,9 +89,22 @@ Ternary expression
 
 a ? b : c
 
+someVeryLongFunctionCall()
+    ? doSomethingHere()
+    : fallback
+
 ---
 
-(source_file (ternary_expression (simple_identifier) (simple_identifier) (simple_identifier))) 
+(source_file
+    (ternary_expression (simple_identifier) (simple_identifier) (simple_identifier))
+    (ternary_expression
+        (call_expression
+            (simple_identifier)
+            (call_suffix (value_arguments)))
+        (call_expression
+            (simple_identifier)
+            (call_suffix (value_arguments)))
+        (simple_identifier)))
 
 ==================
 Multiple expressions on one line using semicolons
