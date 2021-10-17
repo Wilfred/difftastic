@@ -513,3 +513,21 @@ if #available(macOS 10.12.0, *) {
         (statements (control_transfer_statement (integer_literal)))
         (statements (control_transfer_statement (integer_literal)))))
 
+
+===
+Unicode identifiers
+===
+
+let ø = unicode()
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments)))))

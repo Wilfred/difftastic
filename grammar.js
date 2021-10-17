@@ -48,7 +48,7 @@ const HEX_DIGITS = token(sep1(/[0-9a-fA-F]+/, /_+/));
 const OCT_DIGITS = token(sep1(/[0-7]+/, /_+/));
 const BIN_DIGITS = token(sep1(/[01]+/, /_+/));
 const REAL_EXPONENT = token(seq(/[eE]/, optional(/[+-]/), DEC_DIGITS));
-const LEXICAL_IDENTIFIER = /[a-zA-Z_][a-zA-Z_0-9]*/;
+const LEXICAL_IDENTIFIER = /[_\p{XID_Start}][_\p{XID_Continue}]*/;
 const CUSTOM_OPERATORS = token(
   choice(
     // https://docs.swift.org/swift-book/ReferenceManual/LexicalStructure.html#ID418
