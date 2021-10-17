@@ -548,3 +548,24 @@ let nestedKeyPath = \OuterStructure.outer.someValue
       (navigation_suffix
         (simple_identifier)))))
 
+===
+Tuple expression in function
+===
+
+trimPathAtLengths(positions: [(start: start, end: end)])
+
+---
+
+(source_file
+  (call_expression
+    (simple_identifier)
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (simple_identifier)
+          (array_literal
+            (tuple_expression
+              (simple_identifier)
+              (simple_identifier)
+              (simple_identifier)
+              (simple_identifier))))))))

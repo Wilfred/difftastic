@@ -86,6 +86,9 @@ module.exports = grammar({
     // { (foo, bar) ...
     [$._expression, $._lambda_parameter],
     [$._primary_expression, $._lambda_parameter],
+
+    // (start: start, end: end)
+    [$._tuple_type_item_identifier, $.tuple_expression],
   ],
 
   extras: ($) => [
@@ -551,7 +554,6 @@ module.exports = grammar({
 
     tuple_expression: ($) =>
       prec.left(
-        -1,
         seq(
           "(",
           sep1(
