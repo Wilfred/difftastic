@@ -133,7 +133,7 @@ module.exports = grammar({
     // Lexical Structure - https://docs.swift.org/swift-book/ReferenceManual/LexicalStructure.html
     ////////////////////////////////
 
-    comment: ($) => prec(PREC.COMMENT, seq("//", /.*/)),
+    comment: ($) => token(prec(PREC.COMMENT, seq("//", /.*/))),
 
     // Identifiers
 
