@@ -242,7 +242,7 @@ Inheritance
 
 class A : B {}
 
-class D : SomeInterface { }
+class D : Protocol1 & Protocol2 { }
 
 ---
 
@@ -253,6 +253,7 @@ class D : SomeInterface { }
         (class_body))
     (class_declaration
         (type_identifier)
+        (inheritance_specifier (user_type (type_identifier)))
         (inheritance_specifier (user_type (type_identifier)))
         (class_body)))
 
