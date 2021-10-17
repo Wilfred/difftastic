@@ -112,7 +112,10 @@ fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     route.reverse();
 
     info!("Found a path of {} with cost {}.", route.len(), cost);
-    info!("Initial path: {:#?}", route.iter().map(|x| x.0).take(5).collect_vec());
+    info!(
+        "Initial path: {:#?}",
+        route.iter().map(|x| x.0).take(5).collect_vec()
+    );
     route
 }
 
