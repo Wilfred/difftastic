@@ -158,16 +158,14 @@ impl LineGroup {
         if let Some(group_lines) = group_lines {
             let last_group_line = group_lines.end;
 
-            let match_lines = &mp.pos;
-            assert!(!match_lines.is_empty());
-            let first_match_line = match_lines[0].line.0;
+            let first_match_line = mp.pos.line.0;
 
             if first_match_line <= last_group_line.0 + max_gap {
                 return true;
             }
         }
         if let (Some(first_opposite), Some(opposite_group_lines)) =
-            (mp.prev_opposite_pos.first(), opposite_group_lines)
+            (mp.prev_opposite_pos, opposite_group_lines)
         {
             if first_opposite.line.0 <= opposite_group_lines.end.0 + max_gap {
                 return true;
@@ -177,42 +175,42 @@ impl LineGroup {
         false
     }
 
-    fn add_lhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
-        if let (Some(first), Some(last)) = (line_spans.first(), line_spans.last()) {
+    fn add_lhs_pos(&mut self, line_span: Option<SingleLineSpan>) {
+        if let Some(first) = line_span {
             if let Some(lhs_lines) = &self.lhs_lines {
                 let start = min(lhs_lines.start, first.line);
-                let end = max(lhs_lines.end, last.line);
+                let end = max(lhs_lines.end, first.line);
                 self.lhs_lines = Some(Interval { start, end });
             } else {
                 self.lhs_lines = Some(Interval {
                     start: first.line,
-                    end: last.line,
+                    end: first.line,
                 });
             }
         }
     }
-    fn add_rhs_pos(&mut self, line_spans: &[SingleLineSpan]) {
-        if let (Some(first), Some(last)) = (line_spans.first(), line_spans.last()) {
+    fn add_rhs_pos(&mut self, line_span: Option<SingleLineSpan>) {
+        if let Some(first) = line_span {
             if let Some(rhs_lines) = &self.rhs_lines {
                 let start = min(rhs_lines.start, first.line);
-                let end = max(rhs_lines.end, last.line);
+                let end = max(rhs_lines.end, first.line);
                 self.rhs_lines = Some(Interval { start, end });
             } else {
                 self.rhs_lines = Some(Interval {
                     start: first.line,
-                    end: last.line,
+                    end: first.line,
                 });
             }
         }
     }
 
     fn add_lhs(&mut self, mp: &MatchedPos) {
-        self.add_lhs_pos(&mp.pos);
-        self.add_rhs_pos(&mp.prev_opposite_pos);
+        self.add_lhs_pos(Some(mp.pos));
+        self.add_rhs_pos(mp.prev_opposite_pos);
     }
     fn add_rhs(&mut self, mp: &MatchedPos) {
-        self.add_rhs_pos(&mp.pos);
-        self.add_lhs_pos(&mp.prev_opposite_pos);
+        self.add_rhs_pos(Some(mp.pos));
+        self.add_lhs_pos(mp.prev_opposite_pos);
     }
 
     pub fn max_visible_lhs(&self) -> LineNumber {
@@ -232,8 +230,8 @@ impl LineGroup {
 /// Compare two MatchedPos to see which starts earlier (on either
 /// side).
 fn compare_matched_pos(lhs: &MatchedPos, rhs: &MatchedPos) -> Ordering {
-    let lhs_line = lhs.pos[0].line;
-    let rhs_line = rhs.pos[0].line;
+    let lhs_line = lhs.pos.line;
+    let rhs_line = rhs.pos.line;
     lhs_line.cmp(&rhs_line)
 }
 
@@ -514,24 +512,24 @@ mod tests {
                 highlight: TokenKind::Atom(AtomKind::Normal),
                 opposite_pos: (vec![], vec![]),
             },
-            pos: vec![SingleLineSpan {
+            pos: SingleLineSpan {
                 line: 1.into(),
                 start_col: 0,
                 end_col: 1,
-            }],
-            prev_opposite_pos: vec![],
+            },
+            prev_opposite_pos: None,
         }];
         let rhs_positions = vec![MatchedPos {
             kind: MatchKind::Unchanged {
                 highlight: TokenKind::Atom(AtomKind::Normal),
                 opposite_pos: (vec![], vec![]),
             },
-            pos: vec![SingleLineSpan {
+            pos: SingleLineSpan {
                 line: 1.into(),
                 start_col: 0,
                 end_col: 1,
-            }],
-            prev_opposite_pos: vec![],
+            },
+            prev_opposite_pos: None,
         }];
 
         let res = visible_groups(&lhs_positions, &rhs_positions);

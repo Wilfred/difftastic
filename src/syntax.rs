@@ -513,10 +513,10 @@ impl MatchKind {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct MatchedPos {
     pub kind: MatchKind,
-    pub pos: Vec<SingleLineSpan>,
+    pub pos: SingleLineSpan,
     // TODO: this is confusing: the previous syntax node with a match
     // may be on the current line or a previous one.
-    pub prev_opposite_pos: Vec<SingleLineSpan>,
+    pub prev_opposite_pos: Option<SingleLineSpan>,
 }
 
 fn split_words(s: &str) -> Vec<String> {
@@ -529,10 +529,10 @@ fn split_words(s: &str) -> Vec<String> {
 
 fn split_comment_words(
     content: &str,
-    pos: &[SingleLineSpan],
+    pos: SingleLineSpan,
     opposite_content: &str,
-    opposite_pos: &[SingleLineSpan],
-    prev_opposite_pos: &[SingleLineSpan],
+    opposite_pos: SingleLineSpan,
+    prev_opposite_pos: Option<SingleLineSpan>,
 ) -> Vec<MatchedPos> {
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
@@ -553,20 +553,20 @@ fn split_comment_words(
                 res.push(MatchedPos {
                     kind: MatchKind::ChangedCommentPart,
                     pos: content_newlines.from_offsets_relative_to(
-                        pos[0],
+                        pos,
                         offset,
                         offset + word.len(),
-                    ),
-                    prev_opposite_pos: prev_opposite_pos.to_vec(),
+                    )[0],
+                    prev_opposite_pos,
                 });
                 offset += word.len();
             }
             diff::Result::Both(word, opposite_word) => {
                 // This word is present on both sides.
                 let word_pos =
-                    content_newlines.from_offsets_relative_to(pos[0], offset, offset + word.len());
+                    content_newlines.from_offsets_relative_to(pos, offset, offset + word.len())[0];
                 let opposite_word_pos = opposite_content_newlines.from_offsets_relative_to(
-                    opposite_pos[0],
+                    opposite_pos,
                     opposite_offset,
                     opposite_offset + opposite_word.len(),
                 );
@@ -576,7 +576,7 @@ fn split_comment_words(
                         opposite_pos: opposite_word_pos,
                     },
                     pos: word_pos,
-                    prev_opposite_pos: prev_opposite_pos.to_vec(),
+                    prev_opposite_pos,
                 });
                 offset += word.len();
                 opposite_offset += opposite_word.len();
@@ -595,8 +595,8 @@ impl MatchedPos {
     fn new(
         ck: ChangeKind,
         highlight: TokenKind,
-        pos: Vec<SingleLineSpan>,
-        prev_opposite_pos: Vec<SingleLineSpan>,
+        pos: SingleLineSpan,
+        prev_opposite_pos: Option<SingleLineSpan>,
     ) -> Vec<Self> {
         let kind = match ck {
             ReplacedComment(this, opposite) => {
@@ -613,10 +613,10 @@ impl MatchedPos {
 
                 return split_comment_words(
                     this_content,
-                    &pos,
+                    pos,
                     opposite_content,
-                    opposite_pos,
-                    &prev_opposite_pos,
+                    opposite_pos[0],
+                    prev_opposite_pos,
                 );
             }
             Unchanged(opposite) => {
@@ -706,8 +706,8 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
-                    open_position.clone(),
-                    prev_opposite_pos.clone(),
+                    open_position[0],
+                    prev_opposite_pos.first().copied(),
                 ));
 
                 change_positions_(
@@ -732,8 +732,8 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
-                    close_position.clone(),
-                    prev_opposite_pos.clone(),
+                    close_position[0],
+                    prev_opposite_pos.first().copied(),
                 ));
             }
             Atom {
@@ -763,8 +763,8 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Atom(*kind),
-                    position.clone(),
-                    prev_opposite_pos.clone(),
+                    position[0],
+                    prev_opposite_pos.first().copied(),
                 ));
             }
         }
@@ -1091,11 +1091,11 @@ mod tests {
         let positions = change_positions("irrelevant", "also irrelevant", &nodes);
         assert_eq!(
             positions[0].prev_opposite_pos,
-            vec![SingleLineSpan {
+            Some(SingleLineSpan {
                 line: 0.into(),
                 start_col: 0,
                 end_col: 0
-            }]
+            })
         );
     }
 
@@ -1170,30 +1170,30 @@ mod tests {
     #[test]
     fn test_split_comment_words_basic() {
         let content = "abc";
-        let pos = vec![SingleLineSpan {
+        let pos = SingleLineSpan {
             line: 0.into(),
             start_col: 0,
             end_col: 3,
-        }];
+        };
 
         let opposite_content = "def";
-        let opposite_pos = vec![SingleLineSpan {
+        let opposite_pos = SingleLineSpan {
             line: 0.into(),
             start_col: 0,
             end_col: 3,
-        }];
+        };
 
-        let res = split_comment_words(content, &pos, opposite_content, &opposite_pos, &[]);
+        let res = split_comment_words(content, pos, opposite_content, opposite_pos, None);
         assert_eq!(
             res,
             vec![MatchedPos {
                 kind: MatchKind::ChangedCommentPart,
-                pos: vec![SingleLineSpan {
+                pos: SingleLineSpan {
                     line: 0.into(),
                     start_col: 0,
                     end_col: 3
-                }],
-                prev_opposite_pos: vec![]
+                },
+                prev_opposite_pos: None,
             },]
         );
     }

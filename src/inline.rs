@@ -24,15 +24,12 @@ fn last_lhs_context_line(
             continue;
         }
 
-        // TODO: is the first SingleLineSpan in the MatchedPos the best one?
-        if let Some(pos) = lhs_position.pos.first() {
-            if pos.line.0 > lhs_hunk_end.0 {
-                break;
-            }
+        if lhs_position.pos.line.0 > lhs_hunk_end.0 {
+            break;
+        }
 
-            if pos.line.0 > lhs_hunk_start.0 {
-                return (pos.line.0 - 1).into();
-            }
+        if lhs_position.pos.line.0 > lhs_hunk_start.0 {
+            return (lhs_position.pos.line.0 - 1).into();
         }
     }
 
@@ -43,7 +40,7 @@ fn last_lhs_context_line(
             continue;
         }
 
-        if let Some(pos) = rhs_position.prev_opposite_pos.first() {
+        if let Some(pos) = rhs_position.prev_opposite_pos {
             if pos.line.0 > lhs_hunk_end.0 {
                 break;
             }
@@ -73,14 +70,12 @@ fn first_rhs_context_line(
             continue;
         }
 
-        if let Some(pos) = rhs_position.pos.first() {
-            if pos.line.0 > rhs_hunk_end.0 {
-                break;
-            }
+        if rhs_position.pos.line.0 > rhs_hunk_end.0 {
+            break;
+        }
 
-            if pos.line.0 > rhs_hunk_start.0 {
-                last_change_line = Some(pos.line);
-            }
+        if rhs_position.pos.line.0 > rhs_hunk_start.0 {
+            last_change_line = Some(rhs_position.pos.line);
         }
     }
 
@@ -98,7 +93,7 @@ fn first_rhs_context_line(
             _ => break,
         }
 
-        if let Some(pos) = lhs_position.prev_opposite_pos.first() {
+        if let Some(pos) = lhs_position.prev_opposite_pos {
             last_change_line = Some(pos.line);
         }
     }
@@ -119,15 +114,13 @@ fn changed_lines(
             continue;
         }
 
-        if let Some(pos) = position.pos.first() {
-            if pos.line.0 > hunk_end.0 {
-                break;
-            }
-            if pos.line.0 >= hunk_start.0 {
-                if !lines_seen.contains(&pos.line) {
-                    lines_seen.insert(pos.line);
-                    res.push(pos.line);
-                }
+        if position.pos.line.0 > hunk_end.0 {
+            break;
+        }
+        if position.pos.line.0 >= hunk_start.0 {
+            if !lines_seen.contains(&position.pos.line) {
+                lines_seen.insert(position.pos.line);
+                res.push(position.pos.line);
             }
         }
     }

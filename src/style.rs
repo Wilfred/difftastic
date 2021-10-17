@@ -102,33 +102,32 @@ fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
 pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
     let mut styles = vec![];
     for pos in positions {
-        for line_pos in &pos.pos {
-            let style = match pos.kind {
-                MatchKind::Unchanged { highlight, .. } => Style {
-                    foreground: Color::White,
-                    background: None,
-                    bold: highlight == TokenKind::Atom(AtomKind::Keyword),
-                    dimmed: highlight == TokenKind::Atom(AtomKind::Comment),
+        let line_pos = pos.pos;
+        let style = match pos.kind {
+            MatchKind::Unchanged { highlight, .. } => Style {
+                foreground: Color::White,
+                background: None,
+                bold: highlight == TokenKind::Atom(AtomKind::Keyword),
+                dimmed: highlight == TokenKind::Atom(AtomKind::Comment),
+            },
+            MatchKind::Novel | MatchKind::ChangedCommentPart => Style {
+                foreground: if is_lhs {
+                    Color::BrightRed
+                } else {
+                    Color::BrightGreen
                 },
-                MatchKind::Novel | MatchKind::ChangedCommentPart => Style {
-                    foreground: if is_lhs {
-                        Color::BrightRed
-                    } else {
-                        Color::BrightGreen
-                    },
-                    background: None,
-                    bold: true,
-                    dimmed: false,
-                },
-                MatchKind::UnchangedCommentPart { .. } => Style {
-                    foreground: if is_lhs { Color::Red } else { Color::Green },
-                    background: None,
-                    bold: false,
-                    dimmed: false,
-                },
-            };
-            styles.push((*line_pos, style));
-        }
+                background: None,
+                bold: true,
+                dimmed: false,
+            },
+            MatchKind::UnchangedCommentPart { .. } => Style {
+                foreground: if is_lhs { Color::Red } else { Color::Green },
+                background: None,
+                bold: false,
+                dimmed: false,
+            },
+        };
+        styles.push((line_pos, style));
     }
 
     apply(s, &styles)
