@@ -1,4 +1,3 @@
-shadowsocks/ShadowsocksX-NG/ServerProfile.swift
 Carthage/Source/carthage/Outdated.swift
 Carthage/Source/carthage/Archive.swift
 Carthage/Source/carthage/Update.swift

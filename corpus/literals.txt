@@ -30,12 +30,14 @@ String literals
 This is a "multiline"
 string.
 """
+"This string has a // comment (except not!)"
 
 ---
 
 (source_file
     (line_string_literal)
-    (multi_line_string_literal))
+    (multi_line_string_literal)
+    (line_string_literal))
 
 ==================
 String interpolation
