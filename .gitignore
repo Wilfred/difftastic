@@ -4,3 +4,5 @@
 *.swp
 /build
 /test
+Cargo.lock
+/target/*
