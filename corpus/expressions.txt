@@ -569,3 +569,39 @@ trimPathAtLengths(positions: [(start: start, end: end)])
               (simple_identifier)
               (simple_identifier)
               (simple_identifier))))))))
+
+===
+Navigation expressions
+===
+
+_ = self.foo.bar.baz
+print(thing.maybeGreeting!.definitely)
+
+---
+
+(source_file
+  (assignment
+    (directly_assignable_expression
+      (simple_identifier))
+    (navigation_expression
+      (navigation_expression
+        (navigation_expression
+          (self_expression)
+          (navigation_suffix
+            (simple_identifier)))
+        (navigation_suffix
+          (simple_identifier)))
+      (navigation_suffix
+        (simple_identifier))))
+  (call_expression
+    (simple_identifier)
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (navigation_expression
+            (navigation_expression
+              (simple_identifier)
+              (navigation_suffix
+                (simple_identifier)))
+            (navigation_suffix
+              (simple_identifier))))))))

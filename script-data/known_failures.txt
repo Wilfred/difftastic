@@ -1,5 +1,3 @@
-Alamofire/Example/Source/AppDelegate.swift
-Alamofire/Tests/SessionManagerTests.swift
 shadowsocks/ShadowsocksX-NG/ServerProfile.swift
 Carthage/Source/carthage/Outdated.swift
 Carthage/Source/carthage/Archive.swift

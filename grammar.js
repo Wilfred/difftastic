@@ -479,9 +479,13 @@ module.exports = grammar({
 
     navigation_suffix: ($) =>
       seq(
-        $._dot_operator,
+        $._navigation_operator,
         choice($.simple_identifier, $.tuple_expression, $.integer_literal)
       ),
+
+    // `!.` should just be the result of a postfix `!` before navigation, but it gets parsed as a
+    // custom infix operator instead.
+    _navigation_operator: ($) => choice($._dot_operator, "!."),
 
     call_suffix: ($) =>
       prec.left(
