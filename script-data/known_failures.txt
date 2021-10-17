@@ -2,8 +2,6 @@ Alamofire/Example/Source/AppDelegate.swift
 Alamofire/Tests/SessionManagerTests.swift
 lottie-ios/lottie-swift/src/Private/Utility/Primitives/BezierPath.swift
 lottie-ios/lottie-swift/src/Private/Utility/Primitives/CompoundBezierPath.swift
-vapor/Sources/Vapor/Middleware/CORSMiddleware.swift
-Kingfisher/Sources/SwiftUI/ImageBinder.swift
 shadowsocks/ShadowsocksX-NG/ServerProfile.swift
 Carthage/Source/carthage/Outdated.swift
 Carthage/Source/carthage/Archive.swift
@@ -13,7 +11,6 @@ Carthage/Source/carthage/Fetch.swift
 Carthage/Source/carthage/Build.swift
 Carthage/Source/carthage/Checkout.swift
 Carthage/Source/carthage/Formatting.swift
-Carthage/Source/CarthageKit/Xcode.swift
 Carthage/Source/CarthageKit/Simulator.swift
 Carthage/Source/CarthageKit/Archive.swift
 Carthage/Source/CarthageKit/VersionFile.swift
@@ -23,7 +20,6 @@ Carthage/Source/CarthageKit/GitURL.swift
 Carthage/Source/CarthageKit/Git.swift
 Carthage/Tests/CarthageKitTests/DependencySpec.swift
 Carthage/Tests/CarthageKitTests/CartfileCommentsSpec.swift
-Carthage/Tests/CarthageKitTests/XcodeSpec.swift
 ObjectMapper/Package@swift-4.swift
 ObjectMapper/Sources/HexColorTransform.swift
 ObjectMapper/Sources/ToJSON.swift
