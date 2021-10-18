@@ -532,7 +532,7 @@ fn split_comment_words(
     pos: SingleLineSpan,
     opposite_content: &str,
     opposite_pos: SingleLineSpan,
-    prev_opposite_pos: Option<SingleLineSpan>,
+    prev_opposite_pos: &[SingleLineSpan],
 ) -> Vec<MatchedPos> {
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
@@ -557,7 +557,7 @@ fn split_comment_words(
                         offset,
                         offset + word.len(),
                     )[0],
-                    prev_opposite_pos,
+                    prev_opposite_pos: prev_opposite_pos.first().copied(),
                 });
                 offset += word.len();
             }
@@ -576,7 +576,7 @@ fn split_comment_words(
                         opposite_pos: opposite_word_pos,
                     },
                     pos: word_pos,
-                    prev_opposite_pos,
+                    prev_opposite_pos: prev_opposite_pos.first().copied(),
                 });
                 offset += word.len();
                 opposite_offset += opposite_word.len();
@@ -595,8 +595,8 @@ impl MatchedPos {
     fn new(
         ck: ChangeKind,
         highlight: TokenKind,
-        pos: SingleLineSpan,
-        prev_opposite_pos: Option<SingleLineSpan>,
+        pos: &[SingleLineSpan],
+        prev_opposite_pos: &[SingleLineSpan],
     ) -> Vec<Self> {
         let kind = match ck {
             ReplacedComment(this, opposite) => {
@@ -613,7 +613,8 @@ impl MatchedPos {
 
                 return split_comment_words(
                     this_content,
-                    pos,
+                    // TODO: handle the whole pos here.
+                    pos[0],
                     opposite_content,
                     opposite_pos[0],
                     prev_opposite_pos,
@@ -637,11 +638,25 @@ impl MatchedPos {
             Novel => MatchKind::Novel,
         };
 
-        vec![Self {
-            kind,
-            pos,
-            prev_opposite_pos,
-        }]
+        // Create a MatchedPos for every line that `pos` covers.
+        let mut res = vec![];
+        for (i, line_pos) in pos.iter().enumerate() {
+            // Try to take line N on the opposite side for line N in
+            // this position. If the opposite position is fewer lines,
+            // just take the last line.
+            let opposite_line_pos = prev_opposite_pos
+                .get(i)
+                .or_else(|| prev_opposite_pos.last())
+                .copied();
+
+            res.push(Self {
+                kind: kind.clone(),
+                pos: *line_pos,
+                prev_opposite_pos: opposite_line_pos,
+            });
+        }
+
+        res
     }
 }
 
@@ -706,8 +721,8 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
-                    open_position[0],
-                    prev_opposite_pos.first().copied(),
+                    open_position,
+                    prev_opposite_pos,
                 ));
 
                 change_positions_(
@@ -732,8 +747,8 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
-                    close_position[0],
-                    prev_opposite_pos.first().copied(),
+                    close_position,
+                    prev_opposite_pos,
                 ));
             }
             Atom {
@@ -763,8 +778,8 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Atom(*kind),
-                    position[0],
-                    prev_opposite_pos.first().copied(),
+                    position,
+                    prev_opposite_pos,
                 ));
             }
         }
@@ -1183,7 +1198,7 @@ mod tests {
             end_col: 3,
         };
 
-        let res = split_comment_words(content, pos, opposite_content, opposite_pos, None);
+        let res = split_comment_words(content, pos, opposite_content, opposite_pos, &[]);
         assert_eq!(
             res,
             vec![MatchedPos {
