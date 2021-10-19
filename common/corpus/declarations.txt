@@ -159,8 +159,8 @@ declare module Foo {
         (switch_statement
           value: (parenthesized_expression (identifier))
           body: (switch_body
-            (switch_case value: (number) (break_statement))
-            (switch_default (break_statement))))
+            (switch_case value: (number) body: (break_statement))
+            (switch_default body: (break_statement))))
         (throw_statement (string (string_fragment)))
         (try_statement
           body: (statement_block)
