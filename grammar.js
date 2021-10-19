@@ -89,6 +89,12 @@ module.exports = grammar({
     [$.call_expression, $.infix_expression, $.comparison_expression],
     [$.call_expression, $.multiplicative_expression, $.comparison_expression],
     [$.type_arguments, $._comparison_operator],
+
+    // ambiguity between prefix expressions and annotations before functions
+    [$._statement, $.prefix_expression],
+    [$._statement, $.prefix_expression, $.modifiers],
+    [$.prefix_expression, $.when_subject],
+    [$.prefix_expression, $.value_argument],
   ],
 
   extras: $ => [
@@ -570,7 +576,7 @@ module.exports = grammar({
 
     navigation_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $.navigation_suffix)),
 
-    prefix_expression: $ => prec.right(PREC.PREFIX, seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
+    prefix_expression: $ => prec.right(seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
 
     as_expression: $ => prec.left(PREC.AS, seq($._expression, $._as_operator, $._type)),
 
