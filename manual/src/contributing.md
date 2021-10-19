@@ -85,3 +85,17 @@ locally.
 $ cd manual
 $ mdbook serve
 ```
+
+## Releasing
+
+Use Cargo to create a new release, and tag it in git.
+
+```
+$ cargo publish
+$ VERSION=$(cargo metadata | jq -r '.packages | .[] | select(.name == "difftastic") | .version')
+$ git tag $VERSION
+$ git push --tags
+```
+
+You can now increment the version in Cargo.tmol and add a new entry
+CHANGELOG.md.
