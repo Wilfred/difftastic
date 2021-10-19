@@ -4835,24 +4835,25 @@
   {
     "type": "component_instantiation",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "component": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -5886,24 +5887,25 @@
   {
     "type": "configuration_instantiation",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "configuration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -7077,24 +7079,39 @@
   {
     "type": "entity_instantiation",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "selected_name",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "architecture": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          }
+        ]
+      },
+      "entity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "selected_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -14360,6 +14377,10 @@
   },
   {
     "type": "**",
+    "named": false
+  },
+  {
+    "type": "*/",
     "named": false
   },
   {
