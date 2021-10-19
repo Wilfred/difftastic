@@ -13,7 +13,7 @@ more granular).
 
 Fixed a rare issue where single-item lists were flattened.
 
-## Diffing
+### Diffing
 
 Diff calculations are now greedier when syntax nodes are identical, making
 diffing significantly faster when most syntax nodes are the same.
