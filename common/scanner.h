@@ -10,6 +10,27 @@ enum TokenType {
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
+static bool scan_template_chars(TSLexer *lexer) {
+  lexer->result_symbol = TEMPLATE_CHARS;
+  for (bool has_content = false;; has_content = true) {
+    lexer->mark_end(lexer);
+    switch (lexer->lookahead) {
+    case '`':
+      return has_content;
+    case '\0':
+      return false;
+    case '$':
+      advance(lexer);
+      if (lexer->lookahead == '{') return has_content;
+      break;
+    case '\\':
+      return has_content;
+    default:
+      advance(lexer);
+    }
+  }
+}
+
 static bool scan_whitespace_and_comments(TSLexer *lexer) {
   for (;;) {
     while (iswspace(lexer->lookahead)) {
@@ -49,26 +70,7 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
 static inline bool external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
   if (valid_symbols[TEMPLATE_CHARS]) {
     if (valid_symbols[AUTOMATIC_SEMICOLON]) return false;
-    lexer->result_symbol = TEMPLATE_CHARS;
-    for (bool notfirst = false;; notfirst = true) {
-      lexer->mark_end(lexer);
-      switch (lexer->lookahead) {
-        case '`':
-          return notfirst;
-        case '\0':
-          return false;
-        case '$':
-          advance(lexer);
-          if (lexer->lookahead == '{') return notfirst;
-          break;
-        case '\\':
-          advance(lexer);
-          advance(lexer);
-          break;
-        default:
-          advance(lexer);
-      }
-    }
+    return scan_template_chars(lexer);
   } else if (
     valid_symbols[AUTOMATIC_SEMICOLON] ||
     valid_symbols[FUNCTION_SIGNATURE_AUTOMATIC_SEMICOLON]
