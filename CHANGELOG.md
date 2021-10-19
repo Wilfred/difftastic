@@ -9,6 +9,11 @@ more granular).
 
 Fixed a rare issue where single-item lists were flattened.
 
+## Diffing
+
+Diff calculations are now greedier when syntax nodes are identical, making
+diffing significantly faster when most syntax nodes are the same.
+
 ### Integration
 
 Added support for Mercuial, see [this section in the
