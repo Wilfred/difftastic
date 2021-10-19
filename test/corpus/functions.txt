@@ -15,7 +15,7 @@ fun main() {}
 Generic functions
 ==================
 
-<T> fun test() {}
+fun <T> test() {}
 
 ---
 
@@ -23,6 +23,29 @@ Generic functions
   (function_declaration
     (type_parameters (type_parameter (type_identifier)))
     (simple_identifier)
+    (function_body)))
+
+==================
+Generic functions with parameters
+=================
+
+fun <T: Int> bar(foo: Int): T {}
+
+---
+(source_file
+  (function_declaration
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (user_type
+          (type_identifier))))
+    (simple_identifier)
+    (parameter
+      (simple_identifier)
+      (user_type
+        (type_identifier)))
+    (user_type
+      (type_identifier))
     (function_body)))
 
 ==================
@@ -38,7 +61,7 @@ fun sum(a: Int, b: Int) = a + b
 (source_file
   (function_declaration
     (simple_identifier)
-    (parameter 
+    (parameter
       (simple_identifier)
       (user_type
         (type_identifier)
@@ -71,3 +94,51 @@ fun answerToTheUltimateQuestionOfLifeTheUniverseAndEverything(): Int = 42
     (user_type (type_identifier))
     (function_body (integer_literal))))
 
+==================
+Functions with return calls
+==================
+
+fun foo(p0: Int): Long {
+  return p0.toLong()
+}
+
+---
+
+(source_file
+  (function_declaration
+    (simple_identifier)
+    (parameter
+      (simple_identifier)
+      (user_type
+        (type_identifier)))
+    (user_type
+      (type_identifier))
+    (function_body
+      (statements
+        (jump_expression
+          (call_expression
+            (navigation_expression
+              (simple_identifier)
+              (navigation_suffix
+                (simple_identifier)))
+            (call_suffix
+              (value_arguments))))))))
+
+=====================
+Override functions
+======================
+
+override fun boo() = foo()
+
+---
+
+(source_file
+  (function_declaration
+    (modifiers
+      (member_modifier))
+    (simple_identifier)
+    (function_body
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments))))))
