@@ -20,7 +20,7 @@ diffing significantly faster when most syntax nodes are the same.
 
 ### Integration
 
-Added support for Mercuial, see [this section in the
+Added support for Mercurial, see [this section in the
 manual](http://difftastic.wilfred.me.uk/getting_started.html#mercurial-external-diffs)
 for instructions.
 
