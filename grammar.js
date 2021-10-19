@@ -1449,10 +1449,9 @@ module.exports = grammar({
                 prec.dynamic(-1, $.subtype_indication),
                 prec.dynamic(99, $.open),
                 // used to resolve conflicts
-                // between ambiguous_name and
-                // function_call:
-                //    _name '(' character_literal ')'
-                //    _name '(' string_literal ')'
+                // between ambiguous_name and function_call:
+                //   _name '(' character_literal ')'
+                //   _name '(' string_literal ')'
                 prec.dynamic(2, $.character_literal),
                 prec.dynamic(2, $.string_literal),
             ),
@@ -2819,31 +2818,28 @@ module.exports = grammar({
 
         entity_instantiation: $ => seq(
             reservedWord('entity'),
-            choice(
+            field('entity', choice(
                 $._simple_name,
                 $.selected_name,
-            ),
+            )),
             optional(seq(
                 '(',
-                $._simple_name,
+                field('architecture',$._simple_name),
                 ')'
             ))
         ),
 
         configuration_instantiation: $ => seq(
             reservedWord('configuration'),
-            choice(
+            field('configuration', choice(
                 $._simple_name,
                 $.selected_name,
-            ),
+            ))
         ),
 
         component_instantiation: $ => prec('component_instantiation',seq(
             optional(reservedWord('component')),
-            choice(
-                $._simple_name,
-                $.selected_name,
-            ),
+            field('component_name', $._simple_name),
         )),
         // }}}
         // 11.8 Generate statements {{{
@@ -3232,11 +3228,11 @@ module.exports = grammar({
                 token(prec(2, '--')),
                 token(prec(2, new RegExp('[^' + VT + CR + LF + FF + ']*')))
             ),
-            // from tree-sitter-c
+            // from https://re2c.org/examples/c/real_world/example_cxx98.html
             seq(
                 '/*',
-                /[^*]*\*+([^/*][^*]*\*+)*/,
-                '/'
+                /([^\*]|(\*[^\/]))*/,
+                '*/'
             )
         ),
         // }}}
