@@ -156,7 +156,7 @@ end configuration V4_27_87;
           component: (simple_name)
           (binding_indication
             (configuration_instantiation
-              (selected_name
+              configuration: (selected_name
                 prefix: (simple_name)
                 suffix: (simple_name)))))
         (component_configuration
@@ -167,8 +167,8 @@ end configuration V4_27_87;
           component: (simple_name)
           (binding_indication
             (entity_instantiation
-              (simple_name)
-              (simple_name))))
+              entity: (simple_name)
+              architecture: (simple_name))))
         (component_configuration
           (instantiation_list
             (all))

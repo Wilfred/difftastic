@@ -2839,7 +2839,10 @@ module.exports = grammar({
 
         component_instantiation: $ => prec('component_instantiation',seq(
             optional(reservedWord('component')),
-            field('component_name', $._simple_name),
+            field('component', choice(
+                $._simple_name,
+                $.selected_name,
+            )),
         )),
         // }}}
         // 11.8 Generate statements {{{

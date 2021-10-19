@@ -91,20 +91,20 @@ for all : c
     component: (simple_name)
     (binding_indication
       (entity_instantiation
-        (simple_name))))
+        entity: (simple_name))))
   (configuration_specification
     (instantiation_list (all))
     component: (simple_name)
     (binding_indication
       (entity_instantiation
-        (simple_name)
-        (simple_name))))
+        entity: (simple_name)
+        architecture: (simple_name))))
   (configuration_specification
     (instantiation_list (all))
     component: (simple_name)
     (binding_indication
       (configuration_instantiation
-        (simple_name))))
+        configuration: (simple_name))))
   (configuration_specification
     (instantiation_list (all))
     component: (simple_name)
