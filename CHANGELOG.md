@@ -26,8 +26,8 @@ for instructions.
 
 ### Display
 
-Unchanged comments are now dimmed, to distinguish them from other
-unchanged code.
+Added basic syntax highlighting for comments (dimmed) and keywords
+(bold) in unchanged source code.
 
 Characters that don't have a position in the parsed syntax tree are
 now displayed in purple, to make bugs more obvious. Previously they
