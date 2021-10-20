@@ -169,6 +169,8 @@ static bool scan_ternary_qmark(TSLexer *lexer) {
     advance(lexer);
 
     if (lexer->lookahead == '?') return false;
+    /* Optional chaining. */
+    if (lexer->lookahead == '.') return false;
 
     /* TypeScript optional arguments contain the ?: sequence, possibly
        with whitespace. */
@@ -177,6 +179,8 @@ static bool scan_ternary_qmark(TSLexer *lexer) {
       skip(lexer);
     }
     if (lexer->lookahead == ':') return false;
+    if (lexer->lookahead == ')') return false;
+    if (lexer->lookahead == ',') return false;
 
     lexer->mark_end(lexer);
     lexer->result_symbol = TERNARY_QMARK;
