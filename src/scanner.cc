@@ -309,6 +309,10 @@ namespace {
       }
 
       if (valid_symbols[ELEMENT_IN_QW]) {
+        while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r' || lexer->lookahead == '\n') {
+          skip(lexer);
+        }
+
         if (lexer->lookahead == get_end_delimiter()) {
           lexer->result_symbol = END_DELIMITER_QW;
           advance(lexer);
@@ -322,17 +326,18 @@ namespace {
           return false;
         }
 
-        if (lexer->lookahead != ' ' && lexer->lookahead != '\t' && lexer->lookahead != '\r') {
+        while (
+          lexer->lookahead != ' '
+          && lexer->lookahead != '\t'
+          && lexer->lookahead != '\r'
+          && lexer->lookahead != get_end_delimiter()
+        ) {
           lexer->result_symbol = ELEMENT_IN_QW;
           advance(lexer);
-          
-          return true;
         }
-        else {
-          lexer->mark_end(lexer);
-          advance(lexer);
-          return false;
-        }
+
+        lexer->mark_end(lexer);
+        return true;
       }
       
       if (valid_symbols[POD_CONTENT]) {
