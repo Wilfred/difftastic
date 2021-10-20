@@ -309,9 +309,7 @@ namespace {
       }
 
       if (valid_symbols[ELEMENT_IN_QW]) {
-        while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r' || lexer->lookahead == '\n') {
-          skip(lexer);
-        }
+        run_over_spaces(lexer);
 
         if (lexer->lookahead == get_end_delimiter()) {
           lexer->result_symbol = END_DELIMITER_QW;
@@ -432,9 +430,7 @@ namespace {
     // Give a token type, parses the start delimiter,
     // and keeps track of it in memory.
     bool parse_start_delimiter(TSLexer *lexer, TokenType token_type) {
-      while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
-        skip(lexer);
-      }
+      run_over_spaces(lexer);
 
       start_delimiter_char = lexer->lookahead;
       set_end_delimiter(start_delimiter_char);
@@ -444,6 +440,13 @@ namespace {
       lexer->mark_end(lexer);
 
       return true;
+    }
+
+    // runs over spaces like a champ
+    void run_over_spaces(TSLexer *lexer) {
+      while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r' || lexer->lookahead == '\n') {
+        skip(lexer);
+      }
     }
 
     int32_t start_delimiter_char;
