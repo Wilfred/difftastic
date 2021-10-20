@@ -61,6 +61,7 @@ module.exports = function defineGrammar(dialect) {
       [$.call_expression, $.binary_expression, $.unary_expression],
       [$.call_expression, $.binary_expression, $.update_expression],
       [$.call_expression, $.binary_expression, $.type_assertion],
+      [$.call_expression, $.binary_expression, $.await_expression],
 
       [$.nested_identifier, $.nested_type_identifier, $.primary_expression],
       [$.nested_identifier, $.nested_type_identifier],
