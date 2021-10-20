@@ -40,6 +40,7 @@ const PREC = {
   CONJUNCTION: 4,
   DISJUNCTION: 3,
   SPREAD: 2,
+  SIMPLE_USER_TYPE: 1,
   ASSIGNMENT: 1,
   BLOCK: 1,
   LAMBDA_LITERAL: 0,
@@ -273,10 +274,20 @@ module.exports = grammar({
       optional(seq("=", $._expression))
     ),
 
+    _receiver_type: $ => seq(
+      optional($.type_modifiers),
+      choice (
+        $._type_reference,
+        $.parenthesized_type,
+        $.nullable_type
+      )
+    ),
+
     function_declaration: $ => prec.right(seq( // TODO
       optional($.modifiers),
-      optional($.type_parameters),
       "fun",
+      optional($.type_parameters),
+      optional(seq($._receiver_type, optional('.'))),
       $.simple_identifier,
       $._function_value_parameters,
       optional(seq(":", $._type)),
@@ -297,12 +308,14 @@ module.exports = grammar({
       choice("val", "var"),
       optional($.type_parameters),
       // TODO: Receiver type
+      optional(seq($._receiver_type, optional('.'))),
       $.variable_declaration, // TODO: Multi-variable-declaration
       optional($.type_constraints),
       optional(choice(
         seq("=", $._expression),
         $.property_delegate
       )),
+      optional(';'),
       choice(
         // TODO: Getter-setter combinations
         optional($.getter),
@@ -414,7 +427,7 @@ module.exports = grammar({
 
     user_type: $ => prec.right(sep1($._simple_user_type, ".")),
 
-    _simple_user_type: $ => prec.right(seq(
+    _simple_user_type: $ => prec.right(PREC.SIMPLE_USER_TYPE, seq(
       alias($.simple_identifier, $.type_identifier),
       optional($.type_arguments)
     )),
@@ -819,8 +832,8 @@ module.exports = grammar({
     finally_block: $ => seq("finally", $._block),
 
     jump_expression: $ => choice(
-      prec.left(PREC.RETURN_OR_THROW, seq("throw", $._expression)),
-      prec.left(PREC.RETURN_OR_THROW, seq(choice("return", $._return_at), optional($._expression))),
+      prec.right(PREC.RETURN_OR_THROW, seq("throw", $._expression)),
+      prec.right(PREC.RETURN_OR_THROW, seq(choice("return", $._return_at), optional($._expression))),
       "continue",
       $._continue_at,
       "break",
