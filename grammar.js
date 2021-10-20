@@ -95,6 +95,11 @@ module.exports = grammar({
     [$._statement, $.prefix_expression, $.modifiers],
     [$.prefix_expression, $.when_subject],
     [$.prefix_expression, $.value_argument],
+
+    // ambiguity between multiple user types and class property/function declarations
+    [$.user_type],
+    [$.user_type, $.anonymous_function],
+    [$.user_type, $.function_type]
   ],
 
   extras: $ => [
@@ -313,7 +318,6 @@ module.exports = grammar({
       optional($.modifiers),
       choice("val", "var"),
       optional($.type_parameters),
-      // TODO: Receiver type
       optional(seq($._receiver_type, optional('.'))),
       $.variable_declaration, // TODO: Multi-variable-declaration
       optional($.type_constraints),
@@ -431,7 +435,7 @@ module.exports = grammar({
     //       to prevent nested types from being recognized as
     //       unary expresions with navigation suffixes.
 
-    user_type: $ => prec.right(sep1($._simple_user_type, ".")),
+    user_type: $ => sep1($._simple_user_type, "."),
 
     _simple_user_type: $ => prec.right(PREC.SIMPLE_USER_TYPE, seq(
       alias($.simple_identifier, $.type_identifier),

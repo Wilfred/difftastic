@@ -52,6 +52,26 @@ val y = when(x){
         (control_structure_body (boolean_literal))))))
 
 ==================
+Value declaration with receiver type
+==================
+
+val MyDate.s: String get() = "hello"
+
+---
+
+(source_file
+  (property_declaration
+    (user_type
+      (type_identifier))
+    (variable_declaration
+      (simple_identifier)
+      (user_type
+        (type_identifier)))
+    (getter
+      (function_body
+        (line_string_literal)))))
+
+==================
 Expect as an expression
 ==================
 
