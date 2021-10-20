@@ -16192,7 +16192,17 @@
   {
     "type": "word_list_qw",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "list_item",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "!",
@@ -17341,6 +17351,10 @@
   {
     "type": "le",
     "named": false
+  },
+  {
+    "type": "list_item",
+    "named": true
   },
   {
     "type": "local",

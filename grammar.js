@@ -1592,7 +1592,7 @@ module.exports = grammar({
       'qw',
       // '/', '/'
       $._start_delimiter_qw,
-      repeat($._element_in_qw),
+      repeat(alias($._element_in_qw, $.list_item)),
       $._end_delimiter_qw,
     )),
 
