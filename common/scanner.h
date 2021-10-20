@@ -170,6 +170,14 @@ static bool scan_ternary_qmark(TSLexer *lexer) {
 
     if (lexer->lookahead == '?') return false;
 
+    /* TypeScript optional arguments contain the ?: sequence, possibly
+       with whitespace. */
+    for(;;) {
+      if (!iswspace(lexer->lookahead)) break;
+      skip(lexer);
+    }
+    if (lexer->lookahead == ':') return false;
+
     lexer->mark_end(lexer);
     lexer->result_symbol = TERNARY_QMARK;
 
