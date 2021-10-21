@@ -159,3 +159,31 @@ val a = a<2>(3)
       (comparison_expression
          (comparison_expression (simple_identifier) (integer_literal))
          (parenthesized_expression (integer_literal)))))
+
+==================
+Lambda Expressions
+==================
+
+foo.forEach { (index, value) -> 2 }
+
+---
+
+(source_file
+  (call_expression
+    (navigation_expression
+      (simple_identifier)
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (annotated_lambda
+        (lambda_literal
+          (lambda_parameters
+            (multi_variable_declaration
+              (variable_declaration
+                (simple_identifier))
+              (variable_declaration
+                (simple_identifier))))
+          (statements
+            (integer_literal)))))))
+
+

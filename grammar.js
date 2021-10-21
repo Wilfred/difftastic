@@ -40,7 +40,8 @@ const PREC = {
   CONJUNCTION: 4,
   DISJUNCTION: 3,
   SPREAD: 2,
-  SIMPLE_USER_TYPE: 1,
+  SIMPLE_USER_TYPE: 2,
+  VAR_DECL: 1,
   ASSIGNMENT: 1,
   BLOCK: 1,
   LAMBDA_LITERAL: 0,
@@ -308,18 +309,18 @@ module.exports = grammar({
 
     function_body: $ => choice($._block, seq("=", $._expression)),
 
-    variable_declaration: $ => seq(
+    variable_declaration: $ => prec.left(PREC.VAR_DECL, seq(
       // repeat($.annotation), TODO
       $.simple_identifier,
       optional(seq(":", $._type))
-    ),
+    )),
 
     property_declaration: $ => prec.right(seq(
       optional($.modifiers),
       choice("val", "var"),
       optional($.type_parameters),
       optional(seq($._receiver_type, optional('.'))),
-      $.variable_declaration, // TODO: Multi-variable-declaration
+      choice($.variable_declaration, $.multi_variable_declaration),
       optional($.type_constraints),
       optional(choice(
         seq("=", $._expression),
@@ -514,7 +515,7 @@ module.exports = grammar({
       "for",
       "(",
       repeat($.annotation),
-      choice($.variable_declaration), // TODO: Multi-variable declaration
+      choice($.variable_declaration, $.multi_variable_declaration),
       "in",
       $._expression,
       ")",
@@ -732,10 +733,17 @@ module.exports = grammar({
       "}"
     )),
 
+    multi_variable_declaration: $ => seq(
+      '(',
+      sep1($.variable_declaration, ','),
+      ')'
+    ),
+
     lambda_parameters: $ => sep1($._lambda_parameter, ","),
 
     _lambda_parameter: $ => choice(
-      $.variable_declaration, // TODO
+      $.variable_declaration, 
+      $.multi_variable_declaration
     ),
 
     anonymous_function: $ => seq(
