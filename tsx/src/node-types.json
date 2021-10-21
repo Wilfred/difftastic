@@ -214,11 +214,27 @@
         "named": true
       },
       {
+        "type": "member_expression",
+        "named": true
+      },
+      {
+        "type": "non_null_expression",
+        "named": true
+      },
+      {
         "type": "object_pattern",
         "named": true
       },
       {
         "type": "rest_pattern",
+        "named": true
+      },
+      {
+        "type": "subscript_expression",
+        "named": true
+      },
+      {
+        "type": "undefined",
         "named": true
       }
     ]
@@ -2089,7 +2105,7 @@
           "named": true
         },
         {
-          "type": "namespace_import",
+          "type": "namespace_export",
           "named": true
         }
       ]
@@ -2289,6 +2305,16 @@
           },
           {
             "type": "sequence_expression",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
             "named": true
           }
         ]
@@ -3986,6 +4012,21 @@
     }
   },
   {
+    "type": "namespace_export",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "namespace_import",
     "named": true,
     "fields": {},
@@ -4882,7 +4923,23 @@
           "named": true
         },
         {
+          "type": "member_expression",
+          "named": true
+        },
+        {
+          "type": "non_null_expression",
+          "named": true
+        },
+        {
           "type": "object_pattern",
+          "named": true
+        },
+        {
+          "type": "subscript_expression",
+          "named": true
+        },
+        {
+          "type": "undefined",
           "named": true
         }
       ]
