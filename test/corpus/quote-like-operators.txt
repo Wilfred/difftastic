@@ -27,6 +27,18 @@ qq /im inside another delimiter/;
 )
 
 =================================================
+qq '' interpolate
+=================================================
+
+qq 'this should $interpolate, yes';
+
+---
+
+(source_file
+  (string_qq_quoted (start_delimiter) (interpolation (scalar_variable)) (end_delimiter)) (semi_colon)
+)
+
+=================================================
 q{} string
 =================================================
 

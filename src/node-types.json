@@ -3533,10 +3533,26 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
+          "type": "end_delimiter",
+          "named": true
+        },
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
           "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "start_delimiter",
+          "named": true
+        },
+        {
+          "type": "string_single_quoted",
           "named": true
         }
       ]
@@ -12265,10 +12281,6 @@
         },
         {
           "type": "start_delimiter",
-          "named": true
-        },
-        {
-          "type": "string_single_quoted",
           "named": true
         }
       ]

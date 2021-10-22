@@ -1510,7 +1510,6 @@ module.exports = grammar({
     // bareword: $ => /[a-zA-Z0-9_$]+/,
 
     // any characters or just bareword(s) and variables
-    identifier_1: $ => /[a-zA-Z0-9_$:\./@%\^]+/,
     identifier_2: $ => /[a-zA-Z0-9_$:\.@%\^]+/,
 
     loop_control_keyword: $ => choice(
@@ -1567,23 +1566,20 @@ module.exports = grammar({
     )),
     string_qq_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qq',
-      choice(
-        $.string_single_quoted, // don't interpolate for a single quote // TODO: this is not working
-        seq(
-          alias($._start_delimiter, $.start_delimiter),
-          repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
-          alias($._end_delimiter, $.end_delimiter),
-        ),
-      ),
+      alias($._start_delimiter, $.start_delimiter),
+      repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
+      alias($._end_delimiter, $.end_delimiter),
     )),
 
     command_qx_quoted: $ => prec(PRECEDENCE.STRING, seq(
       'qx',
       choice(
-        seq('{', repeat(choice($.interpolation, token(prec(PRECEDENCE.STRING, /[^}]+/)))), '}'),
-        seq('/', repeat(choice($.interpolation, token(prec(PRECEDENCE.STRING, /[^\/]+/)))), '/'),
-        seq('(', repeat(choice($.interpolation, token(prec(PRECEDENCE.STRING, /[^)]+/)))), ')'),
-        /'.*'/, // don't interpolate for a single quote
+        $.string_single_quoted, // TODO: this is not working
+        seq(
+          alias($._start_delimiter, $.start_delimiter),
+          repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
+          alias($._end_delimiter, $.end_delimiter),
+        ),
       ),
     )),
 
