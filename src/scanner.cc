@@ -328,6 +328,7 @@ namespace {
           lexer->lookahead != ' '
           && lexer->lookahead != '\t'
           && lexer->lookahead != '\r'
+          && lexer->lookahead != '\n'
           && lexer->lookahead != get_end_delimiter()
         ) {
           lexer->result_symbol = ELEMENT_IN_QW;
