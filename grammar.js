@@ -1587,10 +1587,8 @@ module.exports = grammar({
       ),
     )),
 
-    // TODO: fix qw ( Parent::Base ) ie space is the only separater
     word_list_qw: $ => prec(PRECEDENCE.REGEXP, seq(
       'qw',
-      // '/', '/'
       $._start_delimiter_qw,
       repeat(alias($._element_in_qw, $.list_item)),
       $._end_delimiter_qw,
