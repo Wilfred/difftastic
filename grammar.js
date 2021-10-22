@@ -40,7 +40,8 @@ const PREC = {
   CONJUNCTION: 4,
   DISJUNCTION: 3,
   SPREAD: 2,
-  SIMPLE_USER_TYPE: 1,
+  SIMPLE_USER_TYPE: 2,
+  VAR_DECL: 1,
   ASSIGNMENT: 1,
   BLOCK: 1,
   LAMBDA_LITERAL: 0,
@@ -89,6 +90,17 @@ module.exports = grammar({
     [$.call_expression, $.infix_expression, $.comparison_expression],
     [$.call_expression, $.multiplicative_expression, $.comparison_expression],
     [$.type_arguments, $._comparison_operator],
+
+    // ambiguity between prefix expressions and annotations before functions
+    [$._statement, $.prefix_expression],
+    [$._statement, $.prefix_expression, $.modifiers],
+    [$.prefix_expression, $.when_subject],
+    [$.prefix_expression, $.value_argument],
+
+    // ambiguity between multiple user types and class property/function declarations
+    [$.user_type],
+    [$.user_type, $.anonymous_function],
+    [$.user_type, $.function_type]
   ],
 
   extras: $ => [
@@ -297,19 +309,18 @@ module.exports = grammar({
 
     function_body: $ => choice($._block, seq("=", $._expression)),
 
-    variable_declaration: $ => seq(
+    variable_declaration: $ => prec.left(PREC.VAR_DECL, seq(
       // repeat($.annotation), TODO
       $.simple_identifier,
       optional(seq(":", $._type))
-    ),
+    )),
 
     property_declaration: $ => prec.right(seq(
       optional($.modifiers),
       choice("val", "var"),
       optional($.type_parameters),
-      // TODO: Receiver type
       optional(seq($._receiver_type, optional('.'))),
-      $.variable_declaration, // TODO: Multi-variable-declaration
+      choice($.variable_declaration, $.multi_variable_declaration),
       optional($.type_constraints),
       optional(choice(
         seq("=", $._expression),
@@ -425,7 +436,7 @@ module.exports = grammar({
     //       to prevent nested types from being recognized as
     //       unary expresions with navigation suffixes.
 
-    user_type: $ => prec.right(sep1($._simple_user_type, ".")),
+    user_type: $ => sep1($._simple_user_type, "."),
 
     _simple_user_type: $ => prec.right(PREC.SIMPLE_USER_TYPE, seq(
       alias($.simple_identifier, $.type_identifier),
@@ -504,7 +515,7 @@ module.exports = grammar({
       "for",
       "(",
       repeat($.annotation),
-      choice($.variable_declaration), // TODO: Multi-variable declaration
+      choice($.variable_declaration, $.multi_variable_declaration),
       "in",
       $._expression,
       ")",
@@ -570,7 +581,7 @@ module.exports = grammar({
 
     navigation_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $.navigation_suffix)),
 
-    prefix_expression: $ => prec.right(PREC.PREFIX, seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
+    prefix_expression: $ => prec.right(seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
 
     as_expression: $ => prec.left(PREC.AS, seq($._expression, $._as_operator, $._type)),
 
@@ -722,10 +733,17 @@ module.exports = grammar({
       "}"
     )),
 
+    multi_variable_declaration: $ => seq(
+      '(',
+      sep1($.variable_declaration, ','),
+      ')'
+    ),
+
     lambda_parameters: $ => sep1($._lambda_parameter, ","),
 
     _lambda_parameter: $ => choice(
-      $.variable_declaration, // TODO
+      $.variable_declaration, 
+      $.multi_variable_declaration
     ),
 
     anonymous_function: $ => seq(

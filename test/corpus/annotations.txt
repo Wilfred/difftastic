@@ -95,6 +95,27 @@ class X {
   )
 )
 
+=====================
+Annotated functions
+======================
 
+@Test
+fun foo() = bar {}
+
+---
+
+(source_file
+  (function_declaration
+    (modifiers
+      (annotation
+        (user_type
+          (type_identifier))))
+    (simple_identifier)
+    (function_body
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (annotated_lambda
+            (lambda_literal)))))))
 
 
