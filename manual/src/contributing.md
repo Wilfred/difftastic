@@ -38,7 +38,7 @@ project. Set `GIT_EXTERNAL_DIFF` to point to your current build.
 For example, you can run difftastic on its own source code.
 
 ```
-$ GIT_EXTERNAL_DIFF=./target/release/difftastic git log -p --ext-diff -- src
+$ GIT_EXTERNAL_DIFF=./target/release/difft git log -p --ext-diff -- src
 ```
 
 ## Profiling
@@ -48,21 +48,21 @@ If you have a file that's particularly slow, you can use
 which functions are slow.
 
 ```
-$ cargo flamegraph --bin difftastic sample_files/slow_before.rs sample_files/slow_after.rs
+$ cargo flamegraph --bin difft sample_files/slow_before.rs sample_files/slow_after.rs
 ```
 
 It's also worth looking at memory usage, as graph traversal bugs can
 lead to huge memory consumption.
 
 ```
-$ /usr/bin/time -v ./target/release/difftastic sample_files/slow_before.rs sample_files/slow_after.rs
+$ /usr/bin/time -v ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
 ```
 
 If timing measurement are noisy, Linux's `perf` tool will report
 instructions executed, which is more stable.
 
 ```
-$ perf stat ./target/release/difftastic sample_files/slow_before.rs sample_files/slow_after.rs
+$ perf stat ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
 ```
 
 Many more profiling techniques are discussed in the [The Rust

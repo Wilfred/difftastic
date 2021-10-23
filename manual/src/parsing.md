@@ -12,7 +12,7 @@ the parse tree that tree-sitter produces using the `--dump-ts`
 flag.
 
 ```
-$ difftastic --dump-ts sample_files/before.js
+$ difft --dump-ts sample_files/before.js
 {Node program (0, 0) - (7, 0)}
   {Node comment (0, 0) - (0, 8)}
   {Node expression_statement (1, 0) - (1, 6)}
@@ -36,7 +36,7 @@ The flag `--dump-syntax` will display the syntax tree generated for a
 file.
 
 ```
-$ difftastic --dump-syntax sample_files/before.js
+$ difft --dump-syntax sample_files/before.js
 [
     Atom id:1 {
         content: "// hello",
@@ -70,7 +70,7 @@ as nodes.
 
 ```
 $ echo '[1]' > example.js
-$ difftastic --dump-ts example.js
+$ difft --dump-ts example.js
 {Node program (0, 0) - (1, 0)}
   {Node expression_statement (0, 0) - (0, 3)}
     {Node array (0, 0) - (0, 3)}
