@@ -209,7 +209,7 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     let lhs_binary = is_probably_binary(&lhs_bytes);
     let rhs_binary = is_probably_binary(&rhs_bytes);
     if lhs_binary || rhs_binary {
-        println!("{}", style::header(display_path, "binary"));
+        print!("{}", style::header(display_path, 1, 1, "binary"));
         return;
     }
 
@@ -239,8 +239,6 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
         ),
     };
 
-    println!("{}", style::header(display_path, lang_name));
-
     init_info(&lhs, &rhs);
     mark_syntax(lhs.get(0).copied(), rhs.get(0).copied());
 
@@ -265,6 +263,8 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     groups = join_overlapping(groups);
 
     if env::var("INLINE").is_ok() {
+        print!("{}", style::header(display_path, 1, 1, lang_name));
+
         print!(
             "{}",
             inline::display(&lhs_src, &rhs_src, &lhs_positions, &rhs_positions, &groups)
@@ -273,6 +273,8 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
         print!(
             "{}",
             side_by_side::display(
+                display_path,
+                lang_name,
                 &lhs_src,
                 &rhs_src,
                 &lhs_positions,

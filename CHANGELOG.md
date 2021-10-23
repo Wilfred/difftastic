@@ -1,5 +1,11 @@
 ## 0.12 (unreleased)
 
+### Display
+
+Every hunk is now shown with the file name and a hunk number. This
+makes it easier to see which file you're looking at when there are
+many changes.
+
 ### Command Line Interface
 
 The difftastic binary is now named `difft`, to reduce typing during

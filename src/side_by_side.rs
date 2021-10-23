@@ -12,7 +12,7 @@ use crate::{
         codepoint_len, enforce_exact_length, enforce_max_length, format_line_num, LineGroup,
         LineNumber,
     },
-    style::apply_colors,
+    style::{apply_colors, header},
     syntax::{aligned_lines, MatchedPos},
 };
 
@@ -161,6 +161,8 @@ fn apply_group<S: AsRef<str>>(
 /// Display all the lines in `lhs` and `rhs` that are mentioned in
 /// `groups`, horizontally concatenating the matched lines.
 fn apply_groups(
+    display_path: &str,
+    lang_name: &str,
     lhs: &str,
     rhs: &str,
     groups: &[LineGroup],
@@ -172,6 +174,8 @@ fn apply_groups(
     let mut result = String::new();
 
     for (i, group) in groups.iter().enumerate() {
+        result.push_str(&header(display_path, i + 1, groups.len(), lang_name));
+
         result.push_str(&apply_group(
             &split_lines_nonempty(lhs),
             &split_lines_nonempty(rhs),
@@ -182,7 +186,7 @@ fn apply_groups(
             rhs_column_width,
         ));
         if i != groups.len() - 1 {
-            result.push_str("\n\n");
+            result.push('\n');
         }
     }
 
@@ -220,6 +224,8 @@ fn display_single_column(src: &str, color: Color) -> String {
 /// Display `lhs_src` and `rhs_src` in a side-by-side view with
 /// changed lines shown and highlighted.
 pub fn display(
+    display_path: &str,
+    lang_name: &str,
     lhs_src: &str,
     rhs_src: &str,
     lhs_positions: &[MatchedPos],
@@ -257,6 +263,8 @@ pub fn display(
     let rhs_colored = apply_colors(&rhs_src, false, rhs_positions);
 
     apply_groups(
+        display_path,
+        lang_name,
         &lhs_colored,
         &rhs_colored,
         groups,
