@@ -1,3 +1,4 @@
+use log::info;
 use mimalloc::MiMalloc;
 
 #[global_allocator]
@@ -61,6 +62,7 @@ fn parse_args() -> Mode {
             .get_matches();
 
     let args: Vec<_> = matches.values_of_lossy("positional_args").unwrap();
+    info!("CLI arguments: {:?}", args);
 
     if matches.is_present("dump-syntax") {
         if args.len() == 1 {
