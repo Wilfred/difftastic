@@ -16,7 +16,7 @@ builds.
 ## Diffing Files
 
 ```
-$ difftastic sample_files/before.js sample_files/after.js
+$ difft sample_files/before.js sample_files/after.js
 ```
 
 Difftastic uses the file extension to decide which parser to use.
@@ -28,22 +28,22 @@ tools](https://git-scm.com/docs/diff-config#Documentation/diff-config.txt-diffex
 can use `GIT_EXTERNAL_DIFF` for a one-off git command.
 
 ```
-$ GIT_EXTERNAL_DIFF=difftastic git diff
-$ GIT_EXTERNAL_DIFF=difftastic git log -p --ext-diff
-$ GIT_EXTERNAL_DIFF=difftastic git show e96a7241760319 --ext-diff
+$ GIT_EXTERNAL_DIFF=difft git diff
+$ GIT_EXTERNAL_DIFF=difft git log -p --ext-diff
+$ GIT_EXTERNAL_DIFF=difft git show e96a7241760319 --ext-diff
 ```
 
 If you want to use difftastic by default, use `git config`.
 
 ```
 # Set git configuration for the current repository.
-$ git config diff.external difftastic
+$ git config diff.external difft
 
 # Set git configuration for all repositories.
-$ git config --global diff.external difftastic
+$ git config --global diff.external difft
 ```
 
-After running `git config`, `git diff` will use `difftastic`
+After running `git config`, `git diff` will use `difft`
 automatically. Other git commands require `--ext-diff` to use
 `diff.external`.
 
@@ -67,7 +67,7 @@ following to your `.gitconfig` to use difftastic as your difftool.
         prompt = false
 
 [difftool "difftastic"]
-        cmd = difftastic "$LOCAL" "$REMOTE"
+        cmd = difft "$LOCAL" "$REMOTE"
 ```
 
 You can then run `git difftool` to see current changes with difftastic.
@@ -88,13 +88,13 @@ your `.hgrc`.
 extdiff =
 ```
 
-You can then run `hg extdiff -p difftastic` (assumes difftastic is on
-your `$PATH`).
+You can then run `hg extdiff -p difft` (assumes the `difft` binary is
+on your `$PATH`).
 
 You can also define an alias to run difftastic with hg. Add the
 following to your `.hgrc` to run difftastic with `hg dft`.
 
 ```
 [extdiff]
-cmd.dft = difftastic
+cmd.dft = difft
 ```

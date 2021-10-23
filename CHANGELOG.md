@@ -1,6 +1,9 @@
 ## 0.12 (unreleased)
 
-No changes yet.
+### Command Line Interface
+
+The difftastic binary is now named `difft`, to reduce typing during
+usage.
 
 ## 0.11
 
