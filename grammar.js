@@ -99,11 +99,33 @@ module.exports = grammar({
   ],
 
   externals: ($) => [
+    // Comments and raw strings are parsed in a custom scanner because they require us to carry forward state to
+    // maintain symmetry. For instance, parsing a multiline comment requires us to increment a counter whenever we see
+    // `/*`, and decrement it whenever we see `*/`. A standard grammar would only be able to exit the comment at the
+    // first `*/` (like C does). Similarly, when you start a string with `##"`, you're required to include the same
+    // number of `#` symbols to end it.
     $.multiline_comment,
     $.raw_str_part,
     $.raw_str_continuing_indicator,
     $.raw_str_end_part,
+    // Because Swift doesn't have explicit semicolons, we also do some whitespace handling in a custom scanner. Line
+    // breaks are _sometimes_ meaningful as the end of a statement: try to write `let foo: Foo let bar: Bar`, for
+    // instance and the compiler will complain, but add either a newline or a semicolon and it's fine. We borrow the
+    // idea from the Kotlin grammar that a newline is sometimes a "semicolon". By including `\n` in both `_semi` and
+    // an anonymous `whitespace` extras, we _should_ be able to let the parser decide if a newline is meaningful. If the
+    // parser sees something like `foo.bar(1\n)`, it knows that a "semicolon" would not be valid there, so it parses
+    // that as whitespace. On the other hand, `let foo: Foo\n let bar: Bar` has a meaningful newline.
+    // Unfortunately, we can't simply stop at that. There are some expressions and statements that remain valid if you
+    // end them early, but are expected to be parsed across multiple lines. One particular nefarious example is a
+    // function declaration, where you might have something like `func foo<A>(args: A) -> Foo throws where A: Hashable`.
+    // This would still be a valid declaration even if it ended after the `)`, the `Foo`, or the `throws`, so a grammar
+    // that simply interprets a newline as "sometimes a semi" would parse those incorrectly.
+    // To solve that case, our custom scanner must do a bit of extra lookahead itself. If we're about to generate a
+    // `_semi`, we advance a bit further to see if the next non-whitespace token would be one of these other operators.
+    // If so, we ignore the `_semi` and just produce the operator; if not, we produce the `_semi` and let the rest of
+    // the grammar sort it out. This isn't perfect, but it works well enough most of the time.
     $._semi,
+    // Every one of the below operators will suppress a `_semi` if we encounter it after a newline.
     $._arrow_operator,
     $._dot_operator,
     $._three_dot_operator,
