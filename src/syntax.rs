@@ -490,6 +490,7 @@ pub enum TokenKind {
     Atom(AtomKind),
 }
 
+/// A matched token (an atom, a delimiter, or a comment word).
 #[derive(PartialEq, Eq, Debug, Clone)]
 pub enum MatchKind {
     Unchanged {
@@ -497,11 +498,15 @@ pub enum MatchKind {
         // as this match could be for a list.
         opposite_pos: (Vec<SingleLineSpan>, Vec<SingleLineSpan>),
     },
-    Novel,
+    Novel {
+        prev_opposite_pos: Vec<SingleLineSpan>,
+    },
     UnchangedCommentPart {
         opposite_pos: Vec<SingleLineSpan>,
     },
-    ChangedCommentPart,
+    ChangedCommentPart {
+        prev_opposite_pos: Vec<SingleLineSpan>,
+    },
 }
 
 impl MatchKind {
@@ -514,9 +519,6 @@ impl MatchKind {
 pub struct MatchedPos {
     pub kind: MatchKind,
     pub pos: SingleLineSpan,
-    // TODO: this is confusing: the previous syntax node with a match
-    // may be on the current line or a previous one.
-    pub prev_opposite_pos: Option<SingleLineSpan>,
 }
 
 fn split_words(s: &str) -> Vec<String> {
@@ -551,13 +553,17 @@ fn split_comment_words(
             diff::Result::Left(word) => {
                 // This word is novel to this side.
                 res.push(MatchedPos {
-                    kind: MatchKind::ChangedCommentPart,
+                    kind: MatchKind::ChangedCommentPart {
+                        // TODO: this feels wrong. It should be the
+                        // previous comment part position, not the
+                        // previous token position.
+                        prev_opposite_pos: prev_opposite_pos.to_vec(),
+                    },
                     pos: content_newlines.from_offsets_relative_to(
                         pos,
                         offset,
                         offset + word.len(),
                     )[0],
-                    prev_opposite_pos: prev_opposite_pos.first().copied(),
                 });
                 offset += word.len();
             }
@@ -576,7 +582,6 @@ fn split_comment_words(
                         opposite_pos: opposite_word_pos,
                     },
                     pos: word_pos,
-                    prev_opposite_pos: prev_opposite_pos.first().copied(),
                 });
                 offset += word.len();
                 opposite_offset += opposite_word.len();
@@ -635,24 +640,18 @@ impl MatchedPos {
                     opposite_pos,
                 }
             }
-            Novel => MatchKind::Novel,
+            Novel => MatchKind::Novel {
+                prev_opposite_pos: prev_opposite_pos.to_vec(),
+            },
         };
 
         // Create a MatchedPos for every line that `pos` covers.
+        // TODO: what about opposite pos or prev oppoiste pos?
         let mut res = vec![];
-        for (i, line_pos) in pos.iter().enumerate() {
-            // Try to take line N on the opposite side for line N in
-            // this position. If the opposite position is fewer lines,
-            // just take the last line.
-            let opposite_line_pos = prev_opposite_pos
-                .get(i)
-                .or_else(|| prev_opposite_pos.last())
-                .copied();
-
+        for line_pos in pos {
             res.push(Self {
                 kind: kind.clone(),
                 pos: *line_pos,
-                prev_opposite_pos: opposite_line_pos,
             });
         }
 
@@ -1085,35 +1084,6 @@ mod tests {
         );
     }
 
-    /// Ensure that we assign prev_opposite_pos even if the change is on the first node.
-    #[test]
-    fn test_prev_opposite_pos_first_node() {
-        let arena = Arena::new();
-
-        let atom = Syntax::new_atom(
-            &arena,
-            vec![SingleLineSpan {
-                line: 0.into(),
-                start_col: 2,
-                end_col: 3,
-            }],
-            "foo",
-            AtomKind::Normal,
-        );
-        atom.set_change(ChangeKind::Novel);
-        let nodes: Vec<&Syntax> = vec![atom];
-
-        let positions = change_positions("irrelevant", "also irrelevant", &nodes);
-        assert_eq!(
-            positions[0].prev_opposite_pos,
-            Some(SingleLineSpan {
-                line: 0.into(),
-                start_col: 0,
-                end_col: 0
-            })
-        );
-    }
-
     #[test]
     fn test_comment_and_atom_differ() {
         let pos = vec![SingleLineSpan {
@@ -1202,13 +1172,14 @@ mod tests {
         assert_eq!(
             res,
             vec![MatchedPos {
-                kind: MatchKind::ChangedCommentPart,
+                kind: MatchKind::ChangedCommentPart {
+                    prev_opposite_pos: vec![],
+                },
                 pos: SingleLineSpan {
                     line: 0.into(),
                     start_col: 0,
                     end_col: 3
                 },
-                prev_opposite_pos: None,
             },]
         );
     }

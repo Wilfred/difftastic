@@ -36,11 +36,13 @@ fn last_lhs_context_line(
     // If we don't have changes on the LHS, find the line opposite the
     // last RHS unchanged node in this hunk.
     for rhs_position in rhs_positions {
-        if rhs_position.kind.is_unchanged() {
-            continue;
-        }
+        let opposite_pos = match &rhs_position.kind {
+            MatchKind::Unchanged { opposite_pos, .. } => opposite_pos.0.clone(),
+            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => continue,
+            MatchKind::UnchangedCommentPart { opposite_pos } => opposite_pos.clone(),
+        };
 
-        if let Some(pos) = rhs_position.prev_opposite_pos {
+        if let Some(pos) = opposite_pos.first() {
             if pos.line.0 > lhs_hunk_end.0 {
                 break;
             }
@@ -88,12 +90,13 @@ fn first_rhs_context_line(
     let mut lhs_rev_positions: Vec<_> = lhs_positions.into();
     lhs_rev_positions.reverse();
     for lhs_position in lhs_rev_positions {
-        match lhs_position.kind {
-            MatchKind::Unchanged { .. } => {}
+        let opposite_pos = match lhs_position.kind {
+            MatchKind::Unchanged { opposite_pos, .. } => opposite_pos.0,
+            // TODO: handle UnchangedCommentPart here too?
             _ => break,
-        }
+        };
 
-        if let Some(pos) = lhs_position.prev_opposite_pos {
+        if let Some(pos) = opposite_pos.first() {
             last_change_line = Some(pos.line);
         }
     }
