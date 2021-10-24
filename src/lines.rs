@@ -548,7 +548,7 @@ mod tests {
         let lhs_positions = vec![MatchedPos {
             kind: MatchKind::Unchanged {
                 highlight: TokenKind::Atom(AtomKind::Normal),
-                self_pos: vec![],
+                self_pos: (vec![], vec![]),
                 opposite_pos: (vec![], vec![]),
             },
             pos: SingleLineSpan {
@@ -560,7 +560,7 @@ mod tests {
         let rhs_positions = vec![MatchedPos {
             kind: MatchKind::Unchanged {
                 highlight: TokenKind::Atom(AtomKind::Normal),
-                self_pos: vec![],
+                self_pos: (vec![], vec![]),
                 opposite_pos: (vec![], vec![]),
             },
             pos: SingleLineSpan {

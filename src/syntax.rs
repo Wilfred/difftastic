@@ -495,7 +495,7 @@ pub enum TokenKind {
 pub enum MatchKind {
     Unchanged {
         highlight: TokenKind,
-        self_pos: Vec<SingleLineSpan>,
+        self_pos: (Vec<SingleLineSpan>, Vec<SingleLineSpan>),
         // If it's a matched atom, only use the first vec. If it'a
         // matched delimiter pair, use both vecs.
         // TODO: better data type.
@@ -609,7 +609,7 @@ impl MatchedPos {
     fn new(
         ck: ChangeKind,
         highlight: TokenKind,
-        pos: &[SingleLineSpan],
+        pos: (&[SingleLineSpan], &[SingleLineSpan]),
         prev_opposite_pos: &[SingleLineSpan],
     ) -> Vec<Self> {
         let kind = match ck {
@@ -627,8 +627,8 @@ impl MatchedPos {
 
                 return split_comment_words(
                     this_content,
-                    // TODO: handle the whole pos here.
-                    pos[0],
+                    // TODO: handle the whole pos.0 here.
+                    pos.0[0],
                     opposite_content,
                     opposite_pos[0],
                     prev_opposite_pos,
@@ -646,7 +646,7 @@ impl MatchedPos {
 
                 MatchKind::Unchanged {
                     highlight,
-                    self_pos: pos.to_vec(),
+                    self_pos: (pos.0.to_vec(), pos.1.to_vec()),
                     opposite_pos,
                 }
             }
@@ -659,7 +659,7 @@ impl MatchedPos {
         // Create a MatchedPos for every line that `pos` covers.
         // TODO: what about opposite pos or prev oppoiste pos?
         let mut res = vec![];
-        for line_pos in pos {
+        for line_pos in pos.0 {
             res.push(Self {
                 kind: kind.clone(),
                 pos: *line_pos,
@@ -731,7 +731,7 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
-                    open_position,
+                    (open_position, close_position),
                     prev_opposite_pos,
                 ));
 
@@ -757,7 +757,9 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
-                    close_position,
+                    // TODO: use open position here too (currently
+                    // breaks display).
+                    (close_position, close_position),
                     prev_opposite_pos,
                 ));
             }
@@ -788,7 +790,7 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Atom(*kind),
-                    position,
+                    (position, &[]),
                     prev_opposite_pos,
                 ));
             }
