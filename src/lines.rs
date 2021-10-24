@@ -1,6 +1,10 @@
 //! Manipulate lines of text and groups of lines.
 
-use crate::{intervals::Interval, positions::SingleLineSpan, syntax::{MatchKind, MatchedPos}};
+use crate::{
+    intervals::Interval,
+    positions::SingleLineSpan,
+    syntax::{MatchKind, MatchedPos},
+};
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::{
@@ -550,6 +554,7 @@ mod tests {
         let lhs_positions = vec![MatchedPos {
             kind: MatchKind::Unchanged {
                 highlight: TokenKind::Atom(AtomKind::Normal),
+                self_pos: vec![],
                 opposite_pos: (vec![], vec![]),
             },
             pos: SingleLineSpan {
@@ -561,6 +566,7 @@ mod tests {
         let rhs_positions = vec![MatchedPos {
             kind: MatchKind::Unchanged {
                 highlight: TokenKind::Atom(AtomKind::Normal),
+                self_pos: vec![],
                 opposite_pos: (vec![], vec![]),
             },
             pos: SingleLineSpan {

@@ -495,7 +495,10 @@ pub enum TokenKind {
 pub enum MatchKind {
     Unchanged {
         highlight: TokenKind,
-        // as this match could be for a list.
+        self_pos: Vec<SingleLineSpan>,
+        // If it's a matched atom, only use the first vec. If it'a
+        // matched delimiter pair, use both vecs.
+        // TODO: better data type.
         opposite_pos: (Vec<SingleLineSpan>, Vec<SingleLineSpan>),
     },
     Novel {
@@ -641,6 +644,7 @@ impl MatchedPos {
 
                 MatchKind::Unchanged {
                     highlight,
+                    self_pos: pos.to_vec(),
                     opposite_pos,
                 }
             }
