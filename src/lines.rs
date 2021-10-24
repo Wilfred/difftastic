@@ -1,6 +1,10 @@
 //! Manipulate lines of text and groups of lines.
 
-use crate::{intervals::Interval, positions::SingleLineSpan, syntax::MatchedPos};
+use crate::{
+    intervals::Interval,
+    positions::SingleLineSpan,
+    syntax::{MatchKind, MatchedPos},
+};
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::{
@@ -164,8 +168,16 @@ impl LineGroup {
                 return true;
             }
         }
+
+        let opposite_pos: Vec<SingleLineSpan> = match &mp.kind {
+            MatchKind::Unchanged { opposite_pos, .. } => opposite_pos.1.clone(),
+            MatchKind::Novel { prev_opposite_pos } => prev_opposite_pos.clone(),
+            MatchKind::UnchangedCommentPart { opposite_pos } => opposite_pos.clone(),
+            MatchKind::ChangedCommentPart { prev_opposite_pos } => prev_opposite_pos.clone(),
+        };
+
         if let (Some(first_opposite), Some(opposite_group_lines)) =
-            (mp.prev_opposite_pos, opposite_group_lines)
+            (opposite_pos.first(), opposite_group_lines)
         {
             if first_opposite.line.0 <= opposite_group_lines.end.0 + max_gap {
                 return true;
@@ -206,11 +218,37 @@ impl LineGroup {
 
     fn add_lhs(&mut self, mp: &MatchedPos) {
         self.add_lhs_pos(Some(mp.pos));
-        self.add_rhs_pos(mp.prev_opposite_pos);
+
+        let opposite_pos: Vec<SingleLineSpan> = match &mp.kind {
+            MatchKind::Unchanged { opposite_pos, .. } => {
+                // TODO: should we take the open or close delim pos
+                // here?
+                opposite_pos.1.clone()
+            }
+            MatchKind::Novel { prev_opposite_pos } => prev_opposite_pos.clone(),
+            MatchKind::UnchangedCommentPart { opposite_pos } => opposite_pos.clone(),
+            MatchKind::ChangedCommentPart { prev_opposite_pos } => prev_opposite_pos.clone(),
+        };
+
+        // TODO: first or last here?
+        self.add_rhs_pos(opposite_pos.first().copied());
     }
     fn add_rhs(&mut self, mp: &MatchedPos) {
         self.add_rhs_pos(Some(mp.pos));
-        self.add_lhs_pos(mp.prev_opposite_pos);
+
+        let opposite_pos: Vec<SingleLineSpan> = match &mp.kind {
+            MatchKind::Unchanged { opposite_pos, .. } => {
+                // TODO: should we take the open or close delim pos
+                // here?
+                opposite_pos.1.clone()
+            }
+            MatchKind::Novel { prev_opposite_pos } => prev_opposite_pos.clone(),
+            MatchKind::UnchangedCommentPart { opposite_pos } => opposite_pos.clone(),
+            MatchKind::ChangedCommentPart { prev_opposite_pos } => prev_opposite_pos.clone(),
+        };
+
+        // TODO: first or last here?
+        self.add_lhs_pos(opposite_pos.first().copied());
     }
 
     pub fn max_visible_lhs(&self) -> LineNumber {
@@ -517,7 +555,6 @@ mod tests {
                 start_col: 0,
                 end_col: 1,
             },
-            prev_opposite_pos: None,
         }];
         let rhs_positions = vec![MatchedPos {
             kind: MatchKind::Unchanged {
@@ -529,7 +566,6 @@ mod tests {
                 start_col: 0,
                 end_col: 1,
             },
-            prev_opposite_pos: None,
         }];
 
         let res = visible_groups(&lhs_positions, &rhs_positions);

@@ -110,7 +110,7 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
                 bold: highlight == TokenKind::Atom(AtomKind::Keyword),
                 dimmed: highlight == TokenKind::Atom(AtomKind::Comment),
             },
-            MatchKind::Novel | MatchKind::ChangedCommentPart => Style {
+            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => Style {
                 foreground: if is_lhs {
                     Color::BrightRed
                 } else {
