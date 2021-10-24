@@ -171,10 +171,8 @@ impl LineGroup {
 
         let opposite_pos: Vec<SingleLineSpan> = match &mp.kind {
             MatchKind::Unchanged { opposite_pos, .. } => opposite_pos.1.clone(),
-            MatchKind::Novel {
-                prev_opposite_pos, ..
-            } => prev_opposite_pos.clone(),
-            MatchKind::UnchangedCommentPart { opposite_pos } => opposite_pos.clone(),
+            MatchKind::Novel { prev_opposite_pos, .. } => prev_opposite_pos.clone(),
+            MatchKind::UnchangedCommentPart { opposite_pos, .. } => opposite_pos.clone(),
             MatchKind::ChangedCommentPart { prev_opposite_pos } => prev_opposite_pos.clone(),
         };
 
@@ -227,10 +225,8 @@ impl LineGroup {
                 // here?
                 opposite_pos.1.clone()
             }
-            MatchKind::Novel {
-                prev_opposite_pos, ..
-            } => prev_opposite_pos.clone(),
-            MatchKind::UnchangedCommentPart { opposite_pos } => opposite_pos.clone(),
+            MatchKind::Novel { prev_opposite_pos, .. } => prev_opposite_pos.clone(),
+            MatchKind::UnchangedCommentPart { opposite_pos, .. } => opposite_pos.clone(),
             MatchKind::ChangedCommentPart { prev_opposite_pos } => prev_opposite_pos.clone(),
         };
 
@@ -246,10 +242,8 @@ impl LineGroup {
                 // here?
                 opposite_pos.1.clone()
             }
-            MatchKind::Novel {
-                prev_opposite_pos, ..
-            } => prev_opposite_pos.clone(),
-            MatchKind::UnchangedCommentPart { opposite_pos } => opposite_pos.clone(),
+            MatchKind::Novel { prev_opposite_pos, .. } => prev_opposite_pos.clone(),
+            MatchKind::UnchangedCommentPart { opposite_pos, .. } => opposite_pos.clone(),
             MatchKind::ChangedCommentPart { prev_opposite_pos } => prev_opposite_pos.clone(),
         };
 
