@@ -506,6 +506,7 @@ pub enum MatchKind {
         prev_opposite_pos: Vec<SingleLineSpan>,
     },
     UnchangedCommentPart {
+        self_pos: SingleLineSpan,
         opposite_pos: Vec<SingleLineSpan>,
     },
     ChangedCommentPart {
@@ -586,6 +587,7 @@ fn split_comment_words(
 
                 res.push(MatchedPos {
                     kind: MatchKind::UnchangedCommentPart {
+                        self_pos: word_pos,
                         opposite_pos: opposite_word_pos,
                     },
                     pos: word_pos,

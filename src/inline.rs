@@ -39,7 +39,7 @@ fn last_lhs_context_line(
         let opposite_pos = match &rhs_position.kind {
             MatchKind::Unchanged { opposite_pos, .. } => opposite_pos.0.clone(),
             MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => continue,
-            MatchKind::UnchangedCommentPart { opposite_pos } => opposite_pos.clone(),
+            MatchKind::UnchangedCommentPart { opposite_pos, .. } => opposite_pos.clone(),
         };
 
         if let Some(pos) = opposite_pos.first() {
