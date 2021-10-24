@@ -6,7 +6,7 @@ const MAX_PADDING: usize = 2;
 
 use crate::{
     lines::{compare_matched_pos, LineNumber},
-    syntax::{zip_pad_shorter, MatchedPos},
+    syntax::{zip_pad_shorter, MatchKind, MatchedPos},
 };
 
 #[derive(Debug, Clone)]
@@ -286,10 +286,22 @@ pub fn matched_pos_to_hunks(
 
     let mut lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     for (is_lhs, mp) in positions {
+        let self_line = mp.pos.line;
+        let opposite_line: Option<LineNumber> = match &mp.kind {
+            MatchKind::Unchanged { opposite_pos, .. } => {
+                opposite_pos.0.first().map(|span| span.line)
+            }
+            MatchKind::UnchangedCommentPart { opposite_pos } => {
+                opposite_pos.first().map(|span| span.line)
+            }
+            MatchKind::Novel { prev_opposite_pos } => None,
+            MatchKind::ChangedCommentPart { prev_opposite_pos } => None,
+        };
+
         let line = if is_lhs {
-            (Some(mp.pos.line), mp.prev_opposite_pos.map(|p| p.line))
+            (Some(self_line), opposite_line)
         } else {
-            (mp.prev_opposite_pos.map(|p| p.line), Some(mp.pos.line))
+            (opposite_line, Some(self_line))
         };
         lines.push(line);
     }
