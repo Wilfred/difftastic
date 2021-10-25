@@ -48,39 +48,6 @@ fn extend_forward(
     res
 }
 
-// Add up to MAX_PADDING lines before the first relevant line in this hunk.
-fn extend_backward(
-    first_lhs: Option<LineNumber>,
-    first_rhs: Option<LineNumber>,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut lhs_current = first_lhs;
-    let mut rhs_current = first_rhs;
-
-    let mut res = vec![];
-    for _ in 0..MAX_PADDING {
-        lhs_current = match lhs_current {
-            Some(lhs_current_line) if lhs_current_line.0 > 0 => {
-                Some((lhs_current_line.0 - 1).into())
-            }
-            _ => None,
-        };
-        rhs_current = match rhs_current {
-            Some(rhs_current_line) if rhs_current_line.0 > 0 => {
-                Some((rhs_current_line.0 - 1).into())
-            }
-            _ => None,
-        };
-
-        if lhs_current.is_none() && rhs_current.is_none() {
-            break;
-        }
-        res.push((lhs_current, rhs_current));
-    }
-
-    res.reverse();
-    res
-}
-
 fn fill_between(
     prev_lhs: Option<LineNumber>,
     next_lhs: Option<LineNumber>,
@@ -143,17 +110,7 @@ pub fn extract_lines(
         relevant.push((*left_line, *right_line));
     }
 
-    let mut res = vec![];
-
-    let mut context_before = extend_backward(min_lhs, min_rhs);
-    res.append(&mut context_before);
-
-    res.append(&mut relevant);
-
-    let mut context_after = extend_forward(max_lhs, max_rhs, max_lhs_src_line, max_rhs_src_line);
-    res.append(&mut context_after);
-
-    res
+    relevant
 }
 
 fn line_close(
