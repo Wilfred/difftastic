@@ -8,6 +8,7 @@ use std::{
 };
 
 use crate::{
+    context::add_context,
     hunks::{extract_lines, Hunk},
     lines::{
         codepoint_len, enforce_exact_length, enforce_max_length, format_line_num, LineGroup,
@@ -313,11 +314,17 @@ pub fn display(
 
 pub fn display_hunks(
     hunks: &[Hunk],
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> String {
     for hunk in hunks {
-        for (lhs_line, rhs_line) in extract_lines(hunk, 3, max_lhs_src_line, max_rhs_src_line) {
+        let lines = extract_lines(hunk, 3, max_lhs_src_line, max_rhs_src_line);
+        let contextual_lines =
+            add_context(&lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
+
+        for (lhs_line, rhs_line) in contextual_lines {
             println!(
                 "{:>2}      {:>2}",
                 lhs_line.map(|l| format!("{}", l.0)).unwrap_or("--".into()),
