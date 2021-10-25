@@ -14,7 +14,7 @@ use crate::{
         codepoint_len, enforce_exact_length, enforce_max_length, format_line_num, LineGroup,
         LineNumber,
     },
-    style::{apply_colors, header},
+    style::{self, apply_colors, header},
     syntax::{aligned_lines, MatchedPos},
 };
 
@@ -197,6 +197,7 @@ fn apply_groups(
 
     for (i, group) in groups.iter().enumerate() {
         result.push_str(&header(display_path, i + 1, groups.len(), lang_name));
+        result.push('\n');
 
         result.push_str(&apply_group(
             &split_lines_nonempty(lhs),
@@ -314,26 +315,31 @@ pub fn display(
 
 pub fn display_hunks(
     hunks: &[Hunk],
+    display_path: &str,
+    lang_name: &str,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> String {
-    for hunk in hunks {
+    let mut out_lines: Vec<String> = vec![];
+
+    for (i, hunk) in hunks.iter().enumerate() {
+        out_lines.push(style::header(display_path, i + 1, hunks.len(), lang_name));
+
         let lines = extract_lines(hunk, 3, max_lhs_src_line, max_rhs_src_line);
         let contextual_lines =
             add_context(&lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
         for (lhs_line, rhs_line) in contextual_lines {
-            println!(
+            out_lines.push(format!(
                 "{:>3}\t{:>3}",
                 lhs_line.map(|l| format!("{}", l.0)).unwrap_or("--".into()),
                 rhs_line.map(|l| format!("{}", l.0)).unwrap_or("--".into()),
-            );
+            ));
         }
-
-        println!("---------");
+        out_lines.push("".into());
     }
 
-    "todo".into()
+    out_lines.join("\n")
 }

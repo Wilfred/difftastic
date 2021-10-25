@@ -145,7 +145,7 @@ pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
 
 pub fn header(file_name: &str, hunk_num: usize, hunk_total: usize, language_name: &str) -> String {
     format!(
-        "{} --- {}/{} --- {}\n",
+        "{} --- {}/{} --- {}",
         file_name.yellow().bold(),
         hunk_num,
         hunk_total,
