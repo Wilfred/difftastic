@@ -41,6 +41,7 @@ module.exports = grammar(C, {
     _top_level_item: ($, original) => choice(
       original,
       $.namespace_definition,
+      $.namespace_alias_definition,
       $.using_declaration,
       $.alias_declaration,
       $.static_assert_declaration,
@@ -574,6 +575,17 @@ module.exports = grammar(C, {
           $.namespace_definition_name,
         ))),
       field('body', $.declaration_list)
+    ),
+
+    namespace_alias_definition: $ => seq(
+      'namespace',
+      field('name', $.identifier),
+      '=',
+      choice(
+        $.identifier,
+        $.qualified_identifier
+      ),
+      ';'
     ),
 
     namespace_definition_name: $ => seq(
