@@ -33,6 +33,45 @@ namespace A::B::inline C::D { }
     body: (declaration_list)))
 
 =========================================
+Namespace alias definitions
+=========================================
+
+namespace A = B;
+namespace C = ::D;
+namespace fs = std::filesystem;
+namespace bfs = ::boost::filesystem;
+namespace literals = std::chono::literals;
+
+---
+
+(translation_unit
+  (namespace_alias_definition
+    name: (identifier)
+    (identifier))
+  (namespace_alias_definition
+    name: (identifier)
+    (qualified_identifier
+      name: (identifier)))
+  (namespace_alias_definition
+    name: (identifier)
+    (qualified_identifier
+      scope: (namespace_identifier)
+      name: (identifier)))
+  (namespace_alias_definition
+    name: (identifier)
+    (qualified_identifier
+      name: (qualified_identifier
+        scope: (namespace_identifier)
+        name: (identifier))))
+  (namespace_alias_definition
+    name: (identifier)
+    (qualified_identifier
+      scope: (namespace_identifier)
+      name: (qualified_identifier
+        scope: (namespace_identifier)
+        name: (identifier)))))
+
+=========================================
 Using declarations
 =========================================
 
