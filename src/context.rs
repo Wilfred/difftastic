@@ -132,6 +132,10 @@ fn pad_after(ln: LineNumber, max_line: LineNumber) -> Vec<LineNumber> {
     res
 }
 
+fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx)> {
+    items.into_iter().map(|(x, y)| (*y, *x)).collect()
+}
+
 /// Before:
 /// 120    -- (novel)
 /// 121    --
@@ -215,7 +219,7 @@ pub fn add_context(
             }
             (_, Some(rhs_line)) => {
                 let padded_lines = pad_after(rhs_line, max_rhs_src_line);
-                after_with_opposites(&padded_lines, opposite_to_rhs, max_rhs_src_line)
+                flip_tuples(&after_with_opposites(&padded_lines, opposite_to_rhs, max_rhs_src_line))
             }
             (None, None) => return vec![],
         },
@@ -224,6 +228,7 @@ pub fn add_context(
 
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     res.append(&mut before_lines);
+    res.extend(lines.iter());
     res.append(&mut after_lines);
     res
 }
