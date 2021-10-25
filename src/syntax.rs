@@ -2,13 +2,15 @@
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
 
+#![allow(warnings, unused)]
+
 use itertools::{EitherOrBoth, Itertools};
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::{
     cell::Cell,
     cmp::min,
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     env, fmt,
     hash::{Hash, Hasher},
 };
@@ -529,6 +531,42 @@ pub struct MatchedPos {
     pub pos: SingleLineSpan,
 }
 
+fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
+    let mut res: HashMap<LineNumber, HashSet<LineNumber>> = HashMap::new();
+
+    for mp in mps {
+        match &mp.kind {
+            MatchKind::Unchanged {
+                opposite_pos,
+                self_pos,
+                ..
+            } => {
+                for (self_p, opposite_p) in self_pos.0.iter().zip(opposite_pos.0.iter()) {
+                    let opposites = res.entry(self_p.line).or_insert_with(HashSet::new);
+                    opposites.insert(opposite_p.line);
+                }
+                for (self_p, opposite_p) in self_pos.1.iter().zip(opposite_pos.1.iter()) {
+                    let opposites = res.entry(self_p.line).or_insert_with(HashSet::new);
+                    opposites.insert(opposite_p.line);
+                }
+            }
+            MatchKind::UnchangedCommentPart {
+                opposite_pos,
+                self_pos,
+            } => {
+                let opposites = res.entry(self_pos.line).or_insert_with(HashSet::new);
+
+                for opposite_p in opposite_pos {
+                    opposites.insert(opposite_p.line);
+                }
+            }
+            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => continue,
+        }
+    }
+
+    res
+}
+
 fn split_words(s: &str) -> Vec<String> {
     lazy_static! {
         static ref RE: Regex = Regex::new(r"[a-zA-Z0-9]+|[^a-zA-Z0-9]+").unwrap();
@@ -809,6 +847,36 @@ pub fn zip_pad_shorter<Tx: Copy, Ty: Copy>(
         match (lhs.get(i), rhs.get(i)) {
             (None, None) => break,
             (x, y) => res.push((x.copied(), y.copied())),
+        }
+
+        i += 1;
+    }
+
+    res
+}
+
+/// Zip `lhs` with `rhs`, but repeat the last item from the shorter
+/// slice.
+fn zip_repeat_shorter<Tx: Copy, Ty: Copy>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Tx, Ty)> {
+    let lhs_last: Tx = match lhs.last() {
+        Some(last) => *last,
+        None => return vec![],
+    };
+    let rhs_last: Ty = match rhs.last() {
+        Some(last) => *last,
+        None => return vec![],
+    };
+
+    let mut res = vec![];
+
+    let mut i = 0;
+    loop {
+        match (lhs.get(i), rhs.get(i)) {
+            (None, None) => break,
+            (x, y) => res.push((
+                x.copied().unwrap_or(lhs_last),
+                y.copied().unwrap_or(rhs_last),
+            )),
         }
 
         i += 1;
