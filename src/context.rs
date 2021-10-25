@@ -148,6 +148,7 @@ fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx)> {
 fn after_with_opposites(
     after_lines: &[LineNumber],
     opposite_lines: HashMap<LineNumber, HashSet<LineNumber>>,
+    prev_max_opposite: Option<LineNumber>,
     max_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut lines = after_lines.to_vec();
@@ -170,6 +171,13 @@ fn after_with_opposites(
                     let mut all_opposites: Vec<LineNumber> =
                         all_opposites.iter().copied().collect();
                     all_opposites.sort();
+
+                    if let Some(prev_max_opposite) = prev_max_opposite {
+                        all_opposites = all_opposites
+                            .into_iter()
+                            .filter(|x| *x > prev_max_opposite)
+                            .collect()
+                    }
 
                     all_opposites.first().copied()
                 }
@@ -204,7 +212,7 @@ pub fn add_context(
             }
             (_, Some(rhs_line)) => {
                 let padded_lines = pad_before(rhs_line);
-                before_with_opposites(&padded_lines, &opposite_to_rhs)
+                flip_tuples(&before_with_opposites(&padded_lines, &opposite_to_rhs))
             }
             (None, None) => return vec![],
         },
@@ -214,12 +222,36 @@ pub fn add_context(
     let mut after_lines = match lines.last() {
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
+                let mut max_opposite = None;
+                for (_, rhs_line) in &before_lines {
+                    if let Some(rhs_line) = rhs_line {
+                        max_opposite = Some(*rhs_line);
+                    }
+                }
+
                 let padded_lines = pad_after(lhs_line, max_lhs_src_line);
-                after_with_opposites(&padded_lines, opposite_to_lhs, max_lhs_src_line)
+                after_with_opposites(
+                    &padded_lines,
+                    opposite_to_lhs,
+                    max_opposite,
+                    max_lhs_src_line,
+                )
             }
             (_, Some(rhs_line)) => {
+                let mut max_opposite = None;
+                for (lhs_line, _) in &before_lines {
+                    if let Some(lhs_line) = lhs_line {
+                        max_opposite = Some(*lhs_line);
+                    }
+                }
+
                 let padded_lines = pad_after(rhs_line, max_rhs_src_line);
-                flip_tuples(&after_with_opposites(&padded_lines, opposite_to_rhs, max_rhs_src_line))
+                flip_tuples(&after_with_opposites(
+                    &padded_lines,
+                    opposite_to_rhs,
+                    max_opposite,
+                    max_rhs_src_line,
+                ))
             }
             (None, None) => return vec![],
         },
