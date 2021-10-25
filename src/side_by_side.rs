@@ -326,7 +326,7 @@ pub fn display_hunks(
 
         for (lhs_line, rhs_line) in contextual_lines {
             println!(
-                "{:>2}      {:>2}",
+                "{:>3}\t{:>3}",
                 lhs_line.map(|l| format!("{}", l.0)).unwrap_or("--".into()),
                 rhs_line.map(|l| format!("{}", l.0)).unwrap_or("--".into()),
             );
