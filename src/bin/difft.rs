@@ -251,15 +251,20 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     let hunks = matched_pos_to_hunks(&lhs_positions, &rhs_positions, 3);
     // TODO: fill inbetween lines.
     // TODO: merge overlapping hunks.
-    print!("{}\n", side_by_side::display_hunks(
-        &hunks,
-        display_path,
-        lang_name,
-        &lhs_positions,
-        &rhs_positions,
-        lhs_src.max_line(),
-        rhs_src.max_line(),
-    ));
+    println!(
+        "{}",
+        side_by_side::display_hunks(
+            &hunks,
+            display_path,
+            lang_name,
+            &lhs_src,
+            &rhs_src,
+            &lhs_positions,
+            &rhs_positions,
+            lhs_src.max_line(),
+            rhs_src.max_line(),
+        )
+    );
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     if groups.is_empty() {

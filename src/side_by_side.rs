@@ -317,11 +317,32 @@ pub fn display_hunks(
     hunks: &[Hunk],
     display_path: &str,
     lang_name: &str,
+    lhs_src: &str,
+    rhs_src: &str,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> String {
+    let terminal_width = term_width().unwrap_or(80);
+
+    let lhs_column_width = 3; // TODO
+    let rhs_column_width = 3; // TODO
+
+    let lhs_formatted_length = lhs_printable_width(terminal_width);
+    let rhs_formatted_length = lhs_formatted_length - 2; // TODO
+
+    let lhs_content_width = lhs_formatted_length - lhs_column_width;
+    let rhs_content_width = rhs_formatted_length - rhs_column_width;
+
+    let lhs_src = enforce_exact_length(lhs_src, lhs_content_width);
+    let rhs_src = enforce_max_length(rhs_src, rhs_content_width);
+    let lhs_colored = apply_colors(&lhs_src, true, lhs_mps);
+    let rhs_colored = apply_colors(&rhs_src, false, rhs_mps);
+
+    let lhs_colored_lines = split_lines_nonempty(&lhs_colored);
+    let rhs_colored_lines = split_lines_nonempty(&rhs_colored);
+
     let mut out_lines: Vec<String> = vec![];
 
     for (i, hunk) in hunks.iter().enumerate() {
@@ -331,11 +352,29 @@ pub fn display_hunks(
         let contextual_lines =
             add_context(&lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
-        for (lhs_line, rhs_line) in contextual_lines {
+        for (lhs_line_num, rhs_line_num) in contextual_lines {
+            let lhs_line = match lhs_line_num {
+                Some(lhs_line_num) => lhs_colored_lines[lhs_line_num.0].clone(),
+                None => " ".repeat(lhs_content_width),
+            };
+            let rhs_line = match rhs_line_num {
+                Some(rhs_line_num) => &rhs_colored_lines[rhs_line_num.0],
+                None => "",
+            };
+
+            let display_lhs_line_num: String = match lhs_line_num {
+                Some(line_num) => format_line_num_padded(line_num, lhs_column_width),
+                None => "... ".into(), // TODO
+            };
+
             out_lines.push(format!(
-                "{:>3}\t{:>3}",
-                lhs_line.map(|l| format!("{}", l.0)).unwrap_or("--".into()),
-                rhs_line.map(|l| format!("{}", l.0)).unwrap_or("--".into()),
+                "{}{} {:>3}{}",
+                display_lhs_line_num,
+                lhs_line,
+                rhs_line_num
+                    .map(|l| format!("{}", l.0))
+                    .unwrap_or("--".into()),
+                rhs_line
             ));
         }
         out_lines.push("".into());
