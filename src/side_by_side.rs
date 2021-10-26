@@ -343,6 +343,9 @@ pub fn display_hunks(
     let lhs_colored_lines = split_lines_nonempty(&lhs_colored);
     let rhs_colored_lines = split_lines_nonempty(&rhs_colored);
 
+    let mut prev_lhs_line_num = None;
+    let mut prev_rhs_line_num = None;
+
     let mut out_lines: Vec<String> = vec![];
 
     for (i, hunk) in hunks.iter().enumerate() {
@@ -364,18 +367,28 @@ pub fn display_hunks(
 
             let display_lhs_line_num: String = match lhs_line_num {
                 Some(line_num) => format_line_num_padded(line_num, lhs_column_width),
-                None => "... ".into(), // TODO
+                None => format_missing_line_num(prev_lhs_line_num.unwrap_or_else(|| 10.into()), lhs_column_width),
+            };
+            let display_rhs_line_num: String = match rhs_line_num {
+                Some(line_num) => format_line_num_padded(line_num, rhs_column_width),
+                None => format_missing_line_num(prev_rhs_line_num.unwrap_or_else(|| 10.into()), rhs_column_width),
             };
 
             out_lines.push(format!(
-                "{}{} {:>3}{}",
+                "{}{}{}{}{}",
                 display_lhs_line_num,
                 lhs_line,
-                rhs_line_num
-                    .map(|l| format!("{}", l.0))
-                    .unwrap_or("--".into()),
+                SPACER,
+                display_rhs_line_num,
                 rhs_line
             ));
+
+            if lhs_line_num.is_some() {
+                prev_lhs_line_num = lhs_line_num;
+            }
+            if rhs_line_num.is_some() {
+                prev_rhs_line_num = rhs_line_num;
+            }
         }
         out_lines.push("".into());
     }
