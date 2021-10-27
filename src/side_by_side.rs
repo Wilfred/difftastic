@@ -352,6 +352,9 @@ pub fn display_hunks(
         out_lines.push(style::header(display_path, i + 1, hunks.len(), lang_name));
 
         let lines = extract_lines(hunk, 3, max_lhs_src_line, max_rhs_src_line);
+        let no_lhs_changes = lines.iter().all(|(l, _)| l.is_none());
+        let no_rhs_changes = lines.iter().all(|(_, r)| r.is_none());
+
         let contextual_lines =
             add_context(&lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
@@ -367,21 +370,35 @@ pub fn display_hunks(
 
             let display_lhs_line_num: String = match lhs_line_num {
                 Some(line_num) => format_line_num_padded(line_num, lhs_column_width),
-                None => format_missing_line_num(prev_lhs_line_num.unwrap_or_else(|| 10.into()), lhs_column_width),
+                None => format_missing_line_num(
+                    prev_lhs_line_num.unwrap_or_else(|| 10.into()),
+                    lhs_column_width,
+                ),
             };
             let display_rhs_line_num: String = match rhs_line_num {
                 Some(line_num) => format_line_num_padded(line_num, rhs_column_width),
-                None => format_missing_line_num(prev_rhs_line_num.unwrap_or_else(|| 10.into()), rhs_column_width),
+                None => format_missing_line_num(
+                    prev_rhs_line_num.unwrap_or_else(|| 10.into()),
+                    rhs_column_width,
+                ),
             };
 
-            out_lines.push(format!(
-                "{}{}{}{}{}",
-                display_lhs_line_num,
-                lhs_line,
-                SPACER,
-                display_rhs_line_num,
-                rhs_line
-            ));
+            if no_lhs_changes {
+                out_lines.push(format!(
+                    "{}{}{}{}",
+                    display_lhs_line_num, SPACER, display_rhs_line_num, rhs_line
+                ));
+            } else if no_rhs_changes {
+                out_lines.push(format!(
+                    "{}{}{}{}",
+                    display_lhs_line_num, SPACER, display_rhs_line_num, lhs_line
+                ));
+            } else {
+                out_lines.push(format!(
+                    "{}{}{}{}{}",
+                    display_lhs_line_num, lhs_line, SPACER, display_rhs_line_num, rhs_line
+                ));
+            }
 
             if lhs_line_num.is_some() {
                 prev_lhs_line_num = lhs_line_num;
