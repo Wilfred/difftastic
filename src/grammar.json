@@ -3775,6 +3775,18 @@
             "type": "CHOICE",
             "members": [
               {
+                "type": "SYMBOL",
+                "name": "attribute_declaration"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
                 "type": "FIELD",
                 "name": "name",
                 "content": {
@@ -3856,6 +3868,18 @@
               {
                 "type": "SYMBOL",
                 "name": "ms_declspec_modifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "attribute_declaration"
               },
               {
                 "type": "BLANK"
@@ -7470,6 +7494,18 @@
               {
                 "type": "SYMBOL",
                 "name": "ms_declspec_modifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "attribute_declaration"
               },
               {
                 "type": "BLANK"
