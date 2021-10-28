@@ -1271,6 +1271,10 @@
       "required": false,
       "types": [
         {
+          "type": "attribute_declaration",
+          "named": true
+        },
+        {
           "type": "base_class_clause",
           "named": true
         },
@@ -4452,6 +4456,10 @@
       "required": false,
       "types": [
         {
+          "type": "attribute_declaration",
+          "named": true
+        },
+        {
           "type": "base_class_clause",
           "named": true
         },
@@ -5161,6 +5169,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute_declaration",
+          "named": true
+        },
         {
           "type": "base_class_clause",
           "named": true
