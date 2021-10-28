@@ -499,6 +499,7 @@ pub enum MatchKind {
         opposite_pos: (Vec<SingleLineSpan>, Vec<SingleLineSpan>),
     },
     Novel {
+        highlight: TokenKind,
         prev_opposite_pos: Vec<SingleLineSpan>,
     },
     UnchangedCommentPart {
@@ -641,6 +642,7 @@ impl MatchedPos {
                 }
             }
             Novel => MatchKind::Novel {
+                highlight,
                 prev_opposite_pos: prev_opposite_pos.to_vec(),
             },
         };
