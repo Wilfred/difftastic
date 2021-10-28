@@ -4,7 +4,7 @@ use atty::Stream;
 use colored::{Color, Colorize};
 use std::{
     cmp::{max, min},
-    collections::HashMap,
+    collections::{HashMap, HashSet},
 };
 
 use crate::{
@@ -92,6 +92,8 @@ fn apply_group<S: AsRef<str>>(
     lhs_content_width: usize,
     lhs_column_width: usize,
     rhs_column_width: usize,
+    lhs_lines_with_novel: &HashSet<LineNumber>,
+    rhs_lines_with_novel: &HashSet<LineNumber>,
 ) -> String {
     let mut result = String::new();
 
@@ -121,7 +123,15 @@ fn apply_group<S: AsRef<str>>(
         if !lhs_empty {
             match lhs_line_num {
                 Some(lhs_line_num) => {
-                    result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
+                    if lhs_lines_with_novel.contains(&lhs_line_num) {
+                        result.push_str(
+                            &format_line_num_padded(lhs_line_num, lhs_column_width)
+                                .bright_red()
+                                .to_string(),
+                        );
+                    } else {
+                        result.push_str(&format_line_num_padded(lhs_line_num, lhs_column_width));
+                    }
                     result.push_str(lhs_lines[lhs_line_num.0].as_ref());
 
                     lhs_prev_line_num = lhs_line_num;
@@ -139,7 +149,15 @@ fn apply_group<S: AsRef<str>>(
 
         match rhs_line_num {
             Some(rhs_line_num) => {
-                result.push_str(&format_line_num_padded(rhs_line_num, rhs_column_width));
+                if rhs_lines_with_novel.contains(&rhs_line_num) {
+                    result.push_str(
+                        &format_line_num_padded(rhs_line_num, rhs_column_width)
+                            .bright_green()
+                            .to_string(),
+                    );
+                } else {
+                    result.push_str(&format_line_num_padded(rhs_line_num, lhs_column_width));
+                }
                 result.push_str(rhs_lines[rhs_line_num.0].as_ref());
 
                 rhs_prev_line_num = rhs_line_num;
@@ -170,6 +188,8 @@ fn apply_groups(
     lhs_content_width: usize,
     lhs_column_width: usize,
     rhs_column_width: usize,
+    lhs_lines_with_novel: &HashSet<LineNumber>,
+    rhs_lines_with_novel: &HashSet<LineNumber>,
 ) -> String {
     let mut result = String::new();
 
@@ -184,6 +204,8 @@ fn apply_groups(
             lhs_content_width,
             lhs_column_width,
             rhs_column_width,
+            lhs_lines_with_novel,
+            rhs_lines_with_novel,
         ));
         if i != groups.len() - 1 {
             result.push('\n');
@@ -262,6 +284,17 @@ pub fn display(
     let lhs_colored = apply_colors(&lhs_src, true, lhs_positions);
     let rhs_colored = apply_colors(&rhs_src, false, rhs_positions);
 
+    let lhs_lines_with_novel: HashSet<LineNumber> = lhs_positions
+        .iter()
+        .filter(|mp| mp.kind.is_novel())
+        .map(|mp| mp.pos.line)
+        .collect();
+    let rhs_lines_with_novel: HashSet<LineNumber> = rhs_positions
+        .iter()
+        .filter(|mp| mp.kind.is_novel())
+        .map(|mp| mp.pos.line)
+        .collect();
+
     apply_groups(
         display_path,
         lang_name,
@@ -272,5 +305,7 @@ pub fn display(
         lhs_content_width,
         lhs_column_width,
         rhs_column_width,
+        &lhs_lines_with_novel,
+        &rhs_lines_with_novel,
     )
 }

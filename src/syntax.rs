@@ -514,6 +514,9 @@ impl MatchKind {
     pub fn is_unchanged(&self) -> bool {
         matches!(self, MatchKind::Unchanged { .. })
     }
+    pub fn is_novel(&self) -> bool {
+        matches!(self, MatchKind::Novel { .. })
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
