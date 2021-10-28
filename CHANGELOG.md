@@ -10,6 +10,9 @@ Keywords in added/removed regions are now shown in bold, to give
 modified regions basic syntax highlighting. Previously, all
 added/removed regions were bold.
 
+Lines with changes are now shown in a different colour in side-by-side
+display.
+
 ### Command Line Interface
 
 The difftastic binary is now named `difft`, to reduce typing during
