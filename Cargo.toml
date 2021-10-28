@@ -36,7 +36,7 @@ libc = "0.2.102"
 log = "0.4.14"
 pretty_env_logger = "0.4.0"
 mimalloc = { version = "0.1.26", default-features = false }
-radix-heap = "0.3.8"
+radix-heap = "0.4.0"
 walkdir = "2.3.2"
 
 [dev-dependencies]
