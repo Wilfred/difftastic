@@ -1,6 +1,6 @@
 # Introduction
 
-Difftastic ([source](https://github.com/wilfred/difftastic)) is a diff
+Difftastic ([source on GitHub](https://github.com/wilfred/difftastic)) is a diff
 tool that understands syntax. It currently supports 18 languages:
 
 * C
