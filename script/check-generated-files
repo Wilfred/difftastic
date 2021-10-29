@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -eu
+
+if ! git diff-index --quiet HEAD -- {tsx,typescript}/src/; then
+    cat 1>&2 <<EOF
+Generated files in the working tree are inconsistent with HEAD.
+Make sure to commit generated files in {tsx,typescript}/src/ when the grammar changes.
+EOF
+    exit 1
+fi
+
+exit 0

@@ -25,5 +25,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build and check generated files
+        run: |
+          npm run build
+          script/check-generated-files
+
       - name: Test corpus & parse examples
         run: npm test
