@@ -93,3 +93,27 @@ Real literals
   (real_literal)
   (prefix_expression (real_literal)))
 
+===================
+Unicode literals
+===================
+
+assertEquals("\u214E\uA7B5\u2CEF", "\u2132\uA7B4\u2CEF".lowercase())
+
+---
+
+(source_file
+  (call_expression
+    (simple_identifier)
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (line_string_literal))
+        (value_argument
+          (call_expression
+            (navigation_expression
+              (line_string_literal)
+              (navigation_suffix
+                (simple_identifier)))
+            (call_suffix
+              (value_arguments))))))))
+
