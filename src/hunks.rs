@@ -251,7 +251,7 @@ pub fn matched_pos_to_hunks(
             MatchKind::UnchangedCommentPart { opposite_pos, .. } => {
                 opposite_pos.first().map(|span| span.line)
             }
-            MatchKind::Novel { prev_opposite_pos } => None,
+            MatchKind::Novel { prev_opposite_pos, .. } => None,
             MatchKind::ChangedCommentPart { prev_opposite_pos } => None,
         };
 
