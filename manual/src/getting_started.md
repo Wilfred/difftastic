@@ -4,7 +4,7 @@
 
 The latest version of difftastic is [available on
 crates.io](https://crates.io/crates/difftastic). You can install it
-with Cargo. Difftastic requires Rust 1.46 or later.
+with Cargo. Difftastic requires Rust 1.54 or later.
 
 ```
 $ cargo install difftastic
