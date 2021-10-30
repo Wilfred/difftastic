@@ -449,13 +449,13 @@ pub fn display_hunks(
 
             if no_lhs_changes {
                 out_lines.push(format!(
-                    "{}{}{}{}",
-                    display_lhs_line_num, SPACER, display_rhs_line_num, rhs_line
+                    "{}{}{}",
+                    display_lhs_line_num, display_rhs_line_num, rhs_line
                 ));
             } else if no_rhs_changes {
                 out_lines.push(format!(
-                    "{}{}{}{}",
-                    display_lhs_line_num, SPACER, display_rhs_line_num, lhs_line
+                    "{}{}{}",
+                    display_lhs_line_num, display_rhs_line_num, lhs_line
                 ));
             } else {
                 out_lines.push(format!(
