@@ -1,7 +1,6 @@
 //! Syntax tree definitions with change metadata.
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
-
 #![allow(warnings, unused)]
 
 use itertools::{EitherOrBoth, Itertools};
