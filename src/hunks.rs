@@ -2,6 +2,8 @@
 
 const MAX_PADDING: usize = 2;
 
+use std::collections::HashSet;
+
 use crate::{
     lines::{compare_matched_pos, LineNumber},
     syntax::{zip_pad_shorter, MatchKind, MatchedPos},
@@ -10,6 +12,41 @@ use crate::{
 #[derive(Debug, Clone)]
 pub struct Hunk {
     pub lines: Vec<(Option<LineNumber>, Option<LineNumber>)>,
+}
+
+impl Hunk {
+    pub fn merge(self, other: &Self) -> Self {
+        let mut lines = self.lines;
+        lines.extend(other.lines.iter());
+        lines.sort();
+
+        let mut lhs_seen: HashSet<LineNumber> = HashSet::new();
+        let mut rhs_seen: HashSet<LineNumber> = HashSet::new();
+
+        let mut deduped_lines = vec![];
+        for (lhs_line, rhs_line) in lines {
+            let lhs_is_dupe = match lhs_line {
+                Some(lhs_line) => lhs_seen.contains(&lhs_line),
+                None => false,
+            };
+            let rhs_is_dupe = match rhs_line {
+                Some(rhs_line) => rhs_seen.contains(&rhs_line),
+                None => false,
+            };
+            if lhs_is_dupe && rhs_is_dupe {
+                continue;
+            }
+
+            deduped_lines.push((
+                if lhs_is_dupe { None } else { lhs_line },
+                if rhs_is_dupe { None } else { rhs_line },
+            ))
+        }
+
+        Hunk {
+            lines: deduped_lines,
+        }
+    }
 }
 
 // Add up to MAX_PADDING lines after the last relevant line in this hunk.
@@ -73,9 +110,7 @@ fn fill_between(
     zip_pad_shorter(&lhs_lines, &rhs_lines)
 }
 
-pub fn extract_lines(
-    hunk: &Hunk,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+pub fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut min_lhs = None;
     let mut min_rhs = None;
     let mut max_lhs = None;
