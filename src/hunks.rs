@@ -1,7 +1,5 @@
 #![allow(warnings, unused)]
 
-use std::cmp::{max, min};
-
 const MAX_PADDING: usize = 2;
 
 use crate::{
@@ -77,9 +75,6 @@ fn fill_between(
 
 pub fn extract_lines(
     hunk: &Hunk,
-    num_context: usize,
-    max_lhs_src_line: LineNumber,
-    max_rhs_src_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut min_lhs = None;
     let mut min_rhs = None;
