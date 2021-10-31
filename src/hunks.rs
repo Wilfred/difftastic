@@ -308,8 +308,12 @@ fn fill_gaps(lines: &[(LineNumber, LineNumber)]) -> Vec<(Option<LineNumber>, Opt
         if i > 0 {
             let (lhs_prev_line, rhs_prev_line) = lines[i - 1];
 
-            let lhs_missing: Vec<LineNumber> = (lhs_prev_line.0 + 1..lhs_line.0).map(|i| i.into()).collect();
-            let rhs_missing: Vec<LineNumber> = (rhs_prev_line.0 + 1..rhs_line.0).map(|i| i.into()).collect();
+            let lhs_missing: Vec<LineNumber> = (lhs_prev_line.0 + 1..lhs_line.0)
+                .map(|i| i.into())
+                .collect();
+            let rhs_missing: Vec<LineNumber> = (rhs_prev_line.0 + 1..rhs_line.0)
+                .map(|i| i.into())
+                .collect();
 
             let missing = zip_pad_shorter(&lhs_missing, &rhs_missing);
             res.extend(missing.iter());
