@@ -11,6 +11,7 @@ use crate::{
 
 #[derive(Debug, Clone)]
 pub struct Hunk {
+    // TODO: consider having a lhs_changed_lines and rhs_changed_lines instead.
     pub lines: Vec<(Option<LineNumber>, Option<LineNumber>)>,
 }
 
