@@ -2,7 +2,7 @@
 
 const MAX_PADDING: usize = 2;
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use crate::{
     lines::{compare_matched_pos, LineNumber},
@@ -296,4 +296,37 @@ pub fn matched_pos_to_hunks(
     }
 
     lines_to_hunks(&lines, max_distance)
+}
+
+fn fill_aligned(
+    start: (LineNumber, LineNumber),
+    end: (LineNumber, LineNumber),
+    matched_rhs_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
+) -> Vec<(LineNumber, LineNumber)> {
+    let mut res = vec![];
+
+    let mut lhs_current = start.0;
+    let mut rhs_max_so_far = start.1;
+
+    let (lhs_max, rhs_max) = end;
+
+    while lhs_current < lhs_max {
+        lhs_current = (lhs_current.0 + 1).into();
+
+        let empty = HashSet::new();
+        let mut opposite_lines: Vec<LineNumber> = matched_rhs_lines
+            .get(&lhs_current)
+            .unwrap_or(&empty)
+            .iter()
+            .copied()
+            .filter(|ln| *ln > rhs_max_so_far && *ln < rhs_max)
+            .collect();
+        opposite_lines.sort();
+
+        if let Some(opposite_line) = opposite_lines.first() {
+            res.push((lhs_current, *opposite_line));
+        }
+    }
+
+    res
 }
