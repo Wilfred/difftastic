@@ -400,8 +400,72 @@ fn split_last_pair(
     (last_pair, before_items)
 }
 
-fn compact_gaps(items: &mut Vec<(Option<LineNumber>, Option<LineNumber>)>) {
-    todo!();
+/// Before:
+///
+/// 10 --
+/// 11 --
+/// -- 20
+/// 12 21
+///
+/// After:
+///
+/// 10 20
+/// 11 --
+/// 12 21
+///
+/// The returned vec will contain no (None, None) pairs.
+fn compact_gaps(
+    items: Vec<(Option<LineNumber>, Option<LineNumber>)>,
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+    // A vec of the most recent single-sided lines, e.g.
+    //
+    // 10 --
+    // 11 --
+    //
+    // All items must be Some on the same side.
+    let mut one_side_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+
+    for (lhs_line, rhs_line) in items.into_iter() {
+        match (lhs_line, rhs_line) {
+            (Some(lhs_line), None) => {
+                match one_side_lines.first() {
+                    Some((None, Some(rhs_line))) => {
+                        // We've found a line that can be compacted.
+                        res.push((Some(lhs_line), Some(*rhs_line)));
+                        one_side_lines.remove(0);
+                    }
+                    _ => {
+                        // We can't compact this item, so start new chunk.
+                        res.extend(one_side_lines);
+                        one_side_lines = vec![(Some(lhs_line), None)];
+                    }
+                }
+            }
+            (None, Some(rhs_line)) => {
+                match one_side_lines.first() {
+                    Some((Some(lhs_line), None)) => {
+                        // We've found a line that can be compacted.
+                        res.push((Some(*lhs_line), Some(rhs_line)));
+                        one_side_lines.remove(0);
+                    }
+                    _ => {
+                        // We can't compact this item, so start new chunk of one-side lines.
+                        res.extend(one_side_lines);
+                        one_side_lines = vec![(None, Some(rhs_line))];
+                    }
+                }
+            }
+            _ => {
+                res.extend(one_side_lines);
+                one_side_lines = vec![];
+                res.push((lhs_line, rhs_line));
+            }
+        }
+    }
+
+    res.extend(one_side_lines);
+    res
 }
 
 fn aligned_lines_from_hunk(
@@ -434,6 +498,5 @@ fn aligned_lines_from_hunk(
 
     res.extend(after_context);
 
-    compact_gaps(&mut res);
-    res
+    compact_gaps(res)
 }
