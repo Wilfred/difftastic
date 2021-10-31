@@ -415,10 +415,7 @@ pub fn display_hunks(
     for (i, hunk) in hunks.iter().enumerate() {
         out_lines.push(style::header(display_path, i + 1, hunks.len(), lang_name));
 
-        let lines = extract_lines(hunk, 3, max_lhs_src_line, max_rhs_src_line);
-        let no_lhs_changes = lines.iter().all(|(l, _)| l.is_none());
-        let no_rhs_changes = lines.iter().all(|(_, r)| r.is_none());
-
+        let lines = extract_lines(hunk);
         let contextual_lines =
             add_context(&lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
@@ -447,22 +444,10 @@ pub fn display_hunks(
                 ),
             };
 
-            if no_lhs_changes {
-                out_lines.push(format!(
-                    "{}{}{}",
-                    display_lhs_line_num, display_rhs_line_num, rhs_line
-                ));
-            } else if no_rhs_changes {
-                out_lines.push(format!(
-                    "{}{}{}",
-                    display_lhs_line_num, display_rhs_line_num, lhs_line
-                ));
-            } else {
-                out_lines.push(format!(
-                    "{}{}{}{}{}",
-                    display_lhs_line_num, lhs_line, SPACER, display_rhs_line_num, rhs_line
-                ));
-            }
+            out_lines.push(format!(
+                "{}{}{}{}{}",
+                display_lhs_line_num, lhs_line, SPACER, display_rhs_line_num, rhs_line
+            ));
 
             if lhs_line_num.is_some() {
                 prev_lhs_line_num = lhs_line_num;
