@@ -248,7 +248,7 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
 
     let lhs_matched_lines = matching_lines(&lhs);
 
-    let hunks = matched_pos_to_hunks(&lhs_positions, &rhs_positions, 3);
+    let hunks = matched_pos_to_hunks(&lhs_positions, &rhs_positions);
     // TODO: fill inbetween lines.
     // TODO: merge overlapping hunks.
     println!(
