@@ -9,13 +9,13 @@ use std::{
 
 use crate::{
     context::add_context,
-    hunks::{extract_lines, Hunk},
+    hunks::{aligned_lines_from_hunk, extract_lines, Hunk},
     lines::{
         codepoint_len, enforce_exact_length, enforce_max_length, format_line_num, LineGroup,
         LineNumber,
     },
     style::{self, apply_colors, header},
-    syntax::{aligned_lines, MatchedPos},
+    syntax::{aligned_lines, zip_repeat_shorter, MatchKind, MatchedPos},
 };
 
 const SPACER: &str = "  ";
@@ -375,6 +375,42 @@ fn merge_adjacent(
     res
 }
 
+// TODO: this duplicates context::opposite_positions.
+fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
+    let mut res: HashMap<LineNumber, HashSet<LineNumber>> = HashMap::new();
+
+    for mp in mps {
+        match &mp.kind {
+            MatchKind::Unchanged {
+                self_pos,
+                opposite_pos,
+                ..
+            } => {
+                for (self_span, opposite_span) in zip_repeat_shorter(&self_pos.0, &opposite_pos.0) {
+                    let opposite_lines = res.entry(self_span.line).or_insert_with(HashSet::new);
+                    opposite_lines.insert(opposite_span.line);
+                }
+                for (self_span, opposite_span) in zip_repeat_shorter(&self_pos.1, &opposite_pos.1) {
+                    let opposite_lines = res.entry(self_span.line).or_insert_with(HashSet::new);
+                    opposite_lines.insert(opposite_span.line);
+                }
+            }
+            MatchKind::UnchangedCommentPart {
+                opposite_pos,
+                self_pos,
+            } => {
+                let opposite_lines = res.entry(self_pos.line).or_insert_with(HashSet::new);
+                for opposite_span in opposite_pos {
+                    opposite_lines.insert(opposite_span.line);
+                }
+            }
+            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => {}
+        }
+    }
+
+    res
+}
+
 pub fn display_hunks(
     hunks: &[Hunk],
     display_path: &str,
@@ -415,11 +451,17 @@ pub fn display_hunks(
     for (i, hunk) in hunks.iter().enumerate() {
         out_lines.push(style::header(display_path, i + 1, hunks.len(), lang_name));
 
-        let lines = extract_lines(hunk);
-        let contextual_lines =
-            add_context(&lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
+        let matched_rhs_lines = opposite_positions(lhs_mps);
+        let aligned_lines = aligned_lines_from_hunk(
+            hunk,
+            lhs_mps,
+            rhs_mps,
+            max_lhs_src_line,
+            max_rhs_src_line,
+            &matched_rhs_lines,
+        );
 
-        for (lhs_line_num, rhs_line_num) in contextual_lines {
+        for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line = match lhs_line_num {
                 Some(lhs_line_num) => lhs_colored_lines[lhs_line_num.0].clone(),
                 None => " ".repeat(lhs_content_width),

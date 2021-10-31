@@ -856,7 +856,7 @@ pub fn zip_pad_shorter<Tx: Copy, Ty: Copy>(
 
 /// Zip `lhs` with `rhs`, but repeat the last item from the shorter
 /// slice.
-fn zip_repeat_shorter<Tx: Copy, Ty: Copy>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Tx, Ty)> {
+pub fn zip_repeat_shorter<Tx: Copy, Ty: Copy>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Tx, Ty)> {
     let lhs_last: Tx = match lhs.last() {
         Some(last) => *last,
         None => return vec![],

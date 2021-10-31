@@ -6,13 +6,13 @@ const MAX_DISTANCE: usize = 3;
 use std::collections::{HashMap, HashSet};
 
 use crate::{
+    context::{add_context, calculate_context},
     lines::{compare_matched_pos, LineNumber},
     syntax::{zip_pad_shorter, MatchKind, MatchedPos},
 };
 
 #[derive(Debug, Clone)]
 pub struct Hunk {
-    // TODO: consider having a lhs_changed_lines and rhs_changed_lines instead.
     pub lines: Vec<(Option<LineNumber>, Option<LineNumber>)>,
 }
 
@@ -468,20 +468,29 @@ fn compact_gaps(
     res
 }
 
-fn aligned_lines_from_hunk(
+pub fn aligned_lines_from_hunk(
     hunk: &Hunk,
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+    max_lhs_src_line: LineNumber,
+    max_rhs_src_line: LineNumber,
     matched_rhs_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let hunk_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = hunk.lines.clone();
 
-    let prev_context: Vec<(Option<LineNumber>, Option<LineNumber>)> = todo!();
-    let after_context: Vec<(Option<LineNumber>, Option<LineNumber>)> = todo!();
+    let (before_context, after_context) = calculate_context(
+        &hunk_lines,
+        lhs_mps,
+        rhs_mps,
+        max_lhs_src_line,
+        max_rhs_src_line,
+    );
 
-    let (start_pair, prev_context) = split_last_pair(prev_context);
-    let (end_pair, after_context) = split_last_pair(prev_context);
+    let (start_pair, before_context) = split_last_pair(before_context);
+    let (end_pair, after_context) = split_first_pair(after_context);
 
     let mut res = vec![];
-    res.extend(prev_context);
+    res.extend(before_context);
     if let (Some(start_pair), Some(end_pair)) = (start_pair, end_pair) {
         // Fill lines between.
         let aligned_between = fill_aligned(start_pair, end_pair, matched_rhs_lines);
