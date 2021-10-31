@@ -1,6 +1,7 @@
 #![allow(warnings, unused)]
 
 const MAX_PADDING: usize = 2;
+const MAX_DISTANCE: usize = 3;
 
 use std::collections::{HashMap, HashSet};
 
@@ -148,17 +149,16 @@ fn line_close(
     max_lhs: Option<LineNumber>,
     max_rhs: Option<LineNumber>,
     line: (Option<LineNumber>, Option<LineNumber>),
-    max_distance: usize,
 ) -> bool {
     let (lhs, rhs) = line;
 
     if let (Some(max_lhs_number), Some(lhs_number)) = (max_lhs, lhs) {
-        if lhs_number.0 <= max_lhs_number.0 + max_distance {
+        if lhs_number.0 <= max_lhs_number.0 + MAX_DISTANCE {
             return true;
         }
     }
     if let (Some(max_rhs_number), Some(rhs_number)) = (max_rhs, rhs) {
-        if rhs_number.0 <= max_rhs_number.0 + max_distance {
+        if rhs_number.0 <= max_rhs_number.0 + MAX_DISTANCE {
             return true;
         }
     }
@@ -218,10 +218,7 @@ fn enforce_increasing(
 }
 
 /// Split lines into hunks.
-fn lines_to_hunks(
-    lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    max_distance: usize,
-) -> Vec<Hunk> {
+fn lines_to_hunks(lines: &[(Option<LineNumber>, Option<LineNumber>)]) -> Vec<Hunk> {
     let mut hunks = vec![];
     let mut current_hunk_lines = vec![];
     let mut max_lhs_line: Option<LineNumber> = None;
@@ -230,9 +227,7 @@ fn lines_to_hunks(
     for line in enforce_increasing(lines) {
         let (lhs_line, rhs_line) = line;
 
-        if current_hunk_lines.is_empty()
-            || line_close(max_lhs_line, max_rhs_line, line, max_distance)
-        {
+        if current_hunk_lines.is_empty() || line_close(max_lhs_line, max_rhs_line, line) {
             current_hunk_lines.push(line);
         } else {
             hunks.push(Hunk {
@@ -258,11 +253,7 @@ fn lines_to_hunks(
     hunks
 }
 
-pub fn matched_pos_to_hunks(
-    lhs_mps: &[MatchedPos],
-    rhs_mps: &[MatchedPos],
-    max_distance: usize,
-) -> Vec<Hunk> {
+pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> Vec<Hunk> {
     let lhs_changed_mps = lhs_mps.iter().filter(|mp| !mp.kind.is_unchanged());
     let rhs_changed_mps = rhs_mps.iter().filter(|mp| !mp.kind.is_unchanged());
 
@@ -296,7 +287,7 @@ pub fn matched_pos_to_hunks(
         lines.push(line);
     }
 
-    lines_to_hunks(&lines, max_distance)
+    lines_to_hunks(&lines)
 }
 
 /// Before:
