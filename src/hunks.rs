@@ -316,7 +316,7 @@ fn fill_gaps(lines: &[(LineNumber, LineNumber)]) -> Vec<(Option<LineNumber>, Opt
                 .collect();
 
             let missing = zip_pad_shorter(&lhs_missing, &rhs_missing);
-            res.extend(missing.iter());
+            res.extend(missing);
         }
 
         res.push((Some(lhs_line), Some(rhs_line)));
@@ -325,6 +325,14 @@ fn fill_gaps(lines: &[(LineNumber, LineNumber)]) -> Vec<(Option<LineNumber>, Opt
     res
 }
 
+/// Fill matched pairs from `start` to end.
+///
+/// 10 20
+/// 11 25
+/// 17 31
+///
+/// Pairs are monotonically increasing, but may have gaps.
+///
 fn fill_aligned(
     start: (LineNumber, LineNumber),
     end: (LineNumber, LineNumber),
@@ -355,5 +363,77 @@ fn fill_aligned(
         }
     }
 
+    res
+}
+
+/// Find the first pair in this vec where both items are Some. Return
+/// that pair, plus all the items that occur afterwards.
+fn split_first_pair(
+    items: Vec<(Option<LineNumber>, Option<LineNumber>)>,
+) -> (
+    Option<(LineNumber, LineNumber)>,
+    Vec<(Option<LineNumber>, Option<LineNumber>)>,
+) {
+    for (i, (lhs_line, rhs_line)) in items.iter().copied().enumerate() {
+        if let (Some(lhs_line), Some(rhs_line)) = (lhs_line, rhs_line) {
+            let after_items: Vec<(Option<LineNumber>, Option<LineNumber>)> =
+                items[i + 1..].iter().copied().collect();
+            return (Some((lhs_line, rhs_line)), after_items);
+        }
+    }
+
+    (None, items)
+}
+
+fn split_last_pair(
+    items: Vec<(Option<LineNumber>, Option<LineNumber>)>,
+) -> (
+    Option<(LineNumber, LineNumber)>,
+    Vec<(Option<LineNumber>, Option<LineNumber>)>,
+) {
+    let mut items = items;
+    items.reverse();
+
+    let (last_pair, mut before_items) = split_first_pair(items);
+    before_items.reverse();
+
+    (last_pair, before_items)
+}
+
+fn compact_gaps(items: &mut Vec<(Option<LineNumber>, Option<LineNumber>)>) {
+    todo!();
+}
+
+fn aligned_lines_from_hunk(
+    hunk: &Hunk,
+    matched_rhs_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let hunk_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = hunk.lines.clone();
+
+    let prev_context: Vec<(Option<LineNumber>, Option<LineNumber>)> = todo!();
+    let after_context: Vec<(Option<LineNumber>, Option<LineNumber>)> = todo!();
+
+    let (start_pair, prev_context) = split_last_pair(prev_context);
+    let (end_pair, after_context) = split_last_pair(prev_context);
+
+    let mut res = vec![];
+    res.extend(prev_context);
+    if let (Some(start_pair), Some(end_pair)) = (start_pair, end_pair) {
+        // Fill lines between.
+        let aligned_between = fill_aligned(start_pair, end_pair, matched_rhs_lines);
+
+        // TODO: align based on blank lines too.
+
+        let between = fill_gaps(&aligned_between);
+        res.extend(between);
+    } else {
+        // We weren't able to find both a start pair and an end pair,
+        // so we can't fill between. Use the hunk lines as-is.
+        res.extend(hunk_lines);
+    }
+
+    res.extend(after_context);
+
+    compact_gaps(&mut res);
     res
 }
