@@ -298,6 +298,37 @@ pub fn matched_pos_to_hunks(
     lines_to_hunks(&lines, max_distance)
 }
 
+/// Before:
+///
+/// 1 11
+/// 3 14
+///
+/// After
+///
+/// 1 10
+/// 2 12 (choosing to align even though content doesn't match)
+/// - 13 (fix uneven gap)
+/// 3 14
+///
+fn fill_gaps(lines: &[(LineNumber, LineNumber)]) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut res = vec![];
+    for (i, (lhs_line, rhs_line)) in lines.iter().copied().enumerate() {
+        if i > 0 {
+            let (lhs_prev_line, rhs_prev_line) = lines[i - 1];
+
+            let lhs_missing: Vec<LineNumber> = (lhs_prev_line.0 + 1..lhs_line.0).map(|i| i.into()).collect();
+            let rhs_missing: Vec<LineNumber> = (rhs_prev_line.0 + 1..rhs_line.0).map(|i| i.into()).collect();
+
+            let missing = zip_pad_shorter(&lhs_missing, &rhs_missing);
+            res.extend(missing.iter());
+        }
+
+        res.push((Some(lhs_line), Some(rhs_line)));
+    }
+
+    res
+}
+
 fn fill_aligned(
     start: (LineNumber, LineNumber),
     end: (LineNumber, LineNumber),
