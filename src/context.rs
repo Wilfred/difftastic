@@ -194,13 +194,16 @@ fn after_with_opposites(
     res
 }
 
-pub fn add_context(
+pub fn calculate_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+) -> (
+    Vec<(Option<LineNumber>, Option<LineNumber>)>,
+    Vec<(Option<LineNumber>, Option<LineNumber>)>,
+) {
     let opposite_to_lhs = opposite_positions(lhs_mps);
     let opposite_to_rhs = opposite_positions(rhs_mps);
 
@@ -214,9 +217,9 @@ pub fn add_context(
                 let padded_lines = pad_before(rhs_line);
                 flip_tuples(&before_with_opposites(&padded_lines, &opposite_to_rhs))
             }
-            (None, None) => return vec![],
+            (None, None) => return (vec![], vec![]),
         },
-        None => return vec![],
+        None => return (vec![], vec![]),
     };
 
     let mut after_lines = match lines.last() {
@@ -253,10 +256,23 @@ pub fn add_context(
                     max_rhs_src_line,
                 ))
             }
-            (None, None) => return vec![],
+            (None, None) => return (vec![], vec![]),
         },
-        None => return vec![],
+        None => return (vec![], vec![]),
     };
+
+    (before_lines, after_lines)
+}
+
+pub fn add_context(
+    lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+    max_lhs_src_line: LineNumber,
+    max_rhs_src_line: LineNumber,
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let (mut before_lines, mut after_lines) =
+        calculate_context(lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     res.append(&mut before_lines);
