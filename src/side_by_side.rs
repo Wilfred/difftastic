@@ -375,6 +375,40 @@ fn merge_adjacent(
     res
 }
 
+fn column_widths(
+    hunks: &[Hunk],
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+    max_lhs_src_line: LineNumber,
+    max_rhs_src_line: LineNumber,
+) -> (usize, usize) {
+    let hunk = if let Some(hunk) = hunks.last() {
+        hunk
+    } else {
+        return (1, 1);
+    };
+
+    let matched_rhs_lines = opposite_positions(lhs_mps);
+    let aligned_lines = aligned_lines_from_hunk(
+        hunk,
+        lhs_mps,
+        rhs_mps,
+        max_lhs_src_line,
+        max_rhs_src_line,
+        &matched_rhs_lines,
+    );
+
+    let lhs_column_width = match aligned_lines.iter().flat_map(|(l, _)| *l).next() {
+        Some(lhs_max_line) => format_line_num(lhs_max_line).len(),
+        None => 1,
+    };
+    let rhs_column_width = match aligned_lines.iter().flat_map(|(_, r)| *r).next() {
+        Some(rhs_max_line) => format_line_num(rhs_max_line).len(),
+        None => 1,
+    };
+    (lhs_column_width, rhs_column_width)
+}
+
 pub fn display_hunks(
     hunks: &[Hunk],
     display_path: &str,
@@ -388,8 +422,8 @@ pub fn display_hunks(
 ) -> String {
     let terminal_width = term_width().unwrap_or(80);
 
-    let lhs_column_width = 3; // TODO
-    let rhs_column_width = 3; // TODO
+    let (lhs_column_width, rhs_column_width) =
+        column_widths(hunks, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
     let lhs_formatted_length = lhs_printable_width(terminal_width);
     let rhs_formatted_length = lhs_formatted_length - 2; // TODO
