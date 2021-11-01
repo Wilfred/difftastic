@@ -1,45 +1,38 @@
 use std::collections::{HashMap, HashSet};
 
-use crate::{
-    lines::LineNumber,
-    syntax::{MatchKind, MatchedPos},
-};
+use crate::{lines::LineNumber, syntax::{MatchKind, MatchedPos, zip_repeat_shorter}};
 
 const MAX_PADDING: usize = 2;
 
-fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
+pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
     let mut res: HashMap<LineNumber, HashSet<LineNumber>> = HashMap::new();
-
-    // TODO: we should also match up blank lines pairwise, to give
-    // more attractive results.
 
     for mp in mps {
         match &mp.kind {
             MatchKind::Unchanged {
-                opposite_pos,
                 self_pos,
+                opposite_pos,
                 ..
             } => {
-                for (self_p, opposite_p) in self_pos.0.iter().zip(opposite_pos.0.iter()) {
-                    let opposites = res.entry(self_p.line).or_insert_with(HashSet::new);
-                    opposites.insert(opposite_p.line);
+                for (self_span, opposite_span) in zip_repeat_shorter(&self_pos.0, &opposite_pos.0) {
+                    let opposite_lines = res.entry(self_span.line).or_insert_with(HashSet::new);
+                    opposite_lines.insert(opposite_span.line);
                 }
-                for (self_p, opposite_p) in self_pos.1.iter().zip(opposite_pos.1.iter()) {
-                    let opposites = res.entry(self_p.line).or_insert_with(HashSet::new);
-                    opposites.insert(opposite_p.line);
+                for (self_span, opposite_span) in zip_repeat_shorter(&self_pos.1, &opposite_pos.1) {
+                    let opposite_lines = res.entry(self_span.line).or_insert_with(HashSet::new);
+                    opposite_lines.insert(opposite_span.line);
                 }
             }
             MatchKind::UnchangedCommentPart {
                 opposite_pos,
                 self_pos,
             } => {
-                let opposites = res.entry(self_pos.line).or_insert_with(HashSet::new);
-
-                for opposite_p in opposite_pos {
-                    opposites.insert(opposite_p.line);
+                let opposite_lines = res.entry(self_pos.line).or_insert_with(HashSet::new);
+                for opposite_span in opposite_pos {
+                    opposite_lines.insert(opposite_span.line);
                 }
             }
-            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => continue,
+            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => {}
         }
     }
 
