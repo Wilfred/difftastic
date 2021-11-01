@@ -340,6 +340,7 @@ fn fill_aligned(
 
         if let Some(opposite_line) = opposite_lines.first() {
             res.push((lhs_current, *opposite_line));
+            rhs_max_so_far = *opposite_line;
         }
     }
 
