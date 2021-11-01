@@ -10647,14 +10647,26 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "end_delimiter",
+          "named": true
+        },
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        },
         {
           "type": "regex_option",
           "named": true
         },
         {
-          "type": "regex_pattern",
+          "type": "start_delimiter",
           "named": true
         }
       ]

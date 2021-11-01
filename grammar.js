@@ -1601,12 +1601,10 @@ module.exports = grammar({
 
     regex_pattern_qr: $ => prec(PRECEDENCE.REGEXP, seq(
       'qr',
-      choice(
-        seq('{', optional($.regex_pattern), '}'),
-        seq('/', optional($.regex_pattern), '/'),
-        seq('(', optional($.regex_pattern), ')'),
-        seq('\'', optional($.regex_pattern), '\''),
-      ),
+      // /'.*'/, // don't interpolate for a single quote. TODO: not working
+      alias($._start_delimiter, $.start_delimiter),
+      repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
+      alias($._end_delimiter, $.end_delimiter),
       optional($.regex_option),
     )),
 
