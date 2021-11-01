@@ -1585,12 +1585,10 @@ module.exports = grammar({
 
     patter_matcher_m: $ => prec(PRECEDENCE.REGEXP, seq(
       'm',
-      choice(
-        seq('{', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.REGEXP, /[^}]+/)))), '}'),
-        seq('/', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.REGEXP, /[^/]+/)))), '/'),
-        seq('(', repeat(choice($.interpolation, $.escape_sequence, token(prec(PRECEDENCE.REGEXP, /[^)]+/)))), ')'),
-        /'.*'/, // don't interpolate for a single quote
-      ),
+      // /'.*'/, // don't interpolate for a single quote. TODO: not working
+      alias($._start_delimiter, $.start_delimiter),
+      repeat(choice($._string_qq_quoted_content, $.interpolation, $.escape_sequence)),
+      alias($._end_delimiter, $.end_delimiter),
       optional($.regex_option),
     )),
 

@@ -94,6 +94,40 @@ namespace {
       ) {
         return false;
       }
+
+      if (valid_symbols[STRING_SINGLE_QUOTED_CONTENT]) {
+
+        // end when you reach the final single quote '
+        if (lexer->lookahead == '\'') {
+          lexer->mark_end(lexer);
+          advance(lexer);
+          return false;
+        }
+        // check for escaped single quote \'
+        else if (lexer->lookahead == '\\') {
+          lexer->result_symbol = STRING_SINGLE_QUOTED_CONTENT;
+          advance(lexer);
+
+          if (lexer->lookahead == '\'') {
+            advance(lexer);
+          }
+          lexer->mark_end(lexer);
+          return true;
+        }
+
+        // some exit conditions
+        if (!lexer->lookahead) {
+          lexer->mark_end(lexer);
+          return false;
+        }
+
+        lexer->result_symbol = STRING_SINGLE_QUOTED_CONTENT;
+        advance(lexer);
+        lexer->mark_end(lexer);
+
+        return true;
+      }
+      
       // TODO: handle qqqSTRINGq; - this should throw error
       if (valid_symbols[START_DELIMITER]) {
         return parse_start_delimiter(lexer, START_DELIMITER);
@@ -186,39 +220,8 @@ namespace {
         }
       }
 
-      if (valid_symbols[STRING_SINGLE_QUOTED_CONTENT]) {
+      // if (valid_symbols[])
 
-        // end when you reach the final single quote '
-        if (lexer->lookahead == '\'') {
-          lexer->mark_end(lexer);
-          advance(lexer);
-          return false;
-        }
-        // check for escaped single quote \'
-        else if (lexer->lookahead == '\\') {
-          lexer->result_symbol = STRING_SINGLE_QUOTED_CONTENT;
-          advance(lexer);
-
-          if (lexer->lookahead == '\'') {
-            advance(lexer);
-          }
-          lexer->mark_end(lexer);
-          return true;
-        }
-
-        // some exit conditions
-        if (!lexer->lookahead) {
-          lexer->mark_end(lexer);
-          return false;
-        }
-
-        lexer->result_symbol = STRING_SINGLE_QUOTED_CONTENT;
-        advance(lexer);
-        lexer->mark_end(lexer);
-
-        return true;
-      }
-      
       if (valid_symbols[STRING_DOUBLE_QUOTED_CONTENT]) {
         if (lexer->lookahead == '"') {
           lexer->mark_end(lexer);

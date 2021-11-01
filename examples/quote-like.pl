@@ -16,6 +16,9 @@ my $string = 'a simple string';
 $string = 'string with # in it';
 $string = 'string with escape \' sequence';
 $string =~ m/Simple/is;
+my $baa = 'bbb';
+$_ = "AAA bbb AAA";
+print "Found bbb\n" if m/$baa/;
 
 # Printing the String
 print "Before: $`\n";
