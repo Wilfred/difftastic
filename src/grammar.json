@@ -452,33 +452,29 @@
           "value": "feature"
         },
         {
-          "type": "SYMBOL",
-          "name": "_experimental_feature"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_list"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_string"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
           "name": "semi_colon"
-        }
-      ]
-    },
-    "_experimental_feature": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "\"signatures\""
-        },
-        {
-          "type": "STRING",
-          "value": "'signatures'"
-        },
-        {
-          "type": "STRING",
-          "value": "\"switch\""
-        },
-        {
-          "type": "STRING",
-          "value": "'switch'"
         }
       ]
     },
