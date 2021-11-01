@@ -1,12 +1,9 @@
-#![allow(warnings, unused)]
-
-const MAX_PADDING: usize = 2;
 const MAX_DISTANCE: usize = 3;
 
 use std::collections::{HashMap, HashSet};
 
 use crate::{
-    context::{add_context, calculate_context},
+    context::calculate_context,
     lines::{compare_matched_pos, LineNumber},
     syntax::{zip_pad_shorter, MatchKind, MatchedPos},
 };
@@ -49,40 +46,6 @@ impl Hunk {
             lines: deduped_lines,
         }
     }
-}
-
-// Add up to MAX_PADDING lines after the last relevant line in this hunk.
-fn extend_forward(
-    last_lhs: Option<LineNumber>,
-    last_rhs: Option<LineNumber>,
-    max_lhs_src_line: LineNumber,
-    max_rhs_src_line: LineNumber,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut lhs_current = last_lhs;
-    let mut rhs_current = last_rhs;
-
-    let mut res = vec![];
-    for _ in 0..MAX_PADDING {
-        lhs_current = match lhs_current {
-            Some(lhs_current_line) if lhs_current_line < max_lhs_src_line => {
-                Some((lhs_current_line.0 + 1).into())
-            }
-            _ => None,
-        };
-        rhs_current = match rhs_current {
-            Some(rhs_current_line) if rhs_current_line < max_rhs_src_line => {
-                Some((rhs_current_line.0 + 1).into())
-            }
-            _ => None,
-        };
-
-        if lhs_current.is_none() && rhs_current.is_none() {
-            break;
-        }
-        res.push((lhs_current, rhs_current));
-    }
-
-    res
 }
 
 fn fill_between(
@@ -273,10 +236,7 @@ pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> V
             MatchKind::UnchangedCommentPart { opposite_pos, .. } => {
                 opposite_pos.first().map(|span| span.line)
             }
-            MatchKind::Novel {
-                prev_opposite_pos, ..
-            } => None,
-            MatchKind::ChangedCommentPart { prev_opposite_pos } => None,
+            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => None,
         };
 
         let line = if is_lhs {
@@ -288,41 +248,6 @@ pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> V
     }
 
     lines_to_hunks(&lines)
-}
-
-/// Before:
-///
-/// 1 11
-/// 3 14
-///
-/// After
-///
-/// 1 10
-/// 2 12 (choosing to align even though content doesn't match)
-/// - 13 (fix uneven gap)
-/// 3 14
-///
-fn fill_gaps(lines: &[(LineNumber, LineNumber)]) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut res = vec![];
-    for (i, (lhs_line, rhs_line)) in lines.iter().copied().enumerate() {
-        if i > 0 {
-            let (lhs_prev_line, rhs_prev_line) = lines[i - 1];
-
-            let lhs_missing: Vec<LineNumber> = (lhs_prev_line.0 + 1..lhs_line.0)
-                .map(|i| i.into())
-                .collect();
-            let rhs_missing: Vec<LineNumber> = (rhs_prev_line.0 + 1..rhs_line.0)
-                .map(|i| i.into())
-                .collect();
-
-            let missing = zip_pad_shorter(&lhs_missing, &rhs_missing);
-            res.extend(missing);
-        }
-
-        res.push((Some(lhs_line), Some(rhs_line)));
-    }
-
-    res
 }
 
 /// Ensure that we don't miss any intermediate values.
