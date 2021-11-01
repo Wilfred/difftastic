@@ -1,5 +1,3 @@
-#![allow(warnings, unused)]
-
 use std::collections::{HashMap, HashSet};
 
 use crate::{
@@ -64,7 +62,6 @@ fn before_with_opposites(
     let mut lines = before_lines.to_vec();
     lines.reverse();
 
-    let mut nearest_opposite: Option<LineNumber> = None;
     let mut prev_opposite: Option<LineNumber> = None;
     let mut res = vec![];
 
@@ -133,7 +130,7 @@ fn pad_after(ln: LineNumber, max_line: LineNumber) -> Vec<LineNumber> {
 }
 
 fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx)> {
-    items.into_iter().map(|(x, y)| (*y, *x)).collect()
+    items.iter().map(|(x, y)| (*y, *x)).collect()
 }
 
 /// Before:
@@ -151,13 +148,10 @@ fn after_with_opposites(
     prev_max_opposite: Option<LineNumber>,
     max_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let mut lines = after_lines.to_vec();
-
-    let mut nearest_opposite: Option<LineNumber> = None;
     let mut prev_opposite: Option<LineNumber> = None;
-    let mut res = vec![];
+    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
 
-    for line in lines {
+    for line in after_lines {
         let current_opposite: Option<LineNumber> = match prev_opposite {
             Some(prev_opposite) => {
                 if prev_opposite < max_line {
@@ -166,7 +160,7 @@ fn after_with_opposites(
                     None
                 }
             }
-            None => match opposite_lines.get(&line) {
+            None => match opposite_lines.get(line) {
                 Some(all_opposites) => {
                     let mut all_opposites: Vec<LineNumber> =
                         all_opposites.iter().copied().collect();
@@ -185,7 +179,7 @@ fn after_with_opposites(
             },
         };
 
-        res.push((Some(line), current_opposite));
+        res.push((Some(*line), current_opposite));
         if current_opposite.is_some() {
             prev_opposite = current_opposite;
         }
@@ -207,7 +201,7 @@ pub fn calculate_context(
     let opposite_to_lhs = opposite_positions(lhs_mps);
     let opposite_to_rhs = opposite_positions(rhs_mps);
 
-    let mut before_lines: Vec<_> = match lines.first() {
+    let before_lines: Vec<_> = match lines.first() {
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
                 let padded_lines = pad_before(lhs_line);
@@ -222,7 +216,7 @@ pub fn calculate_context(
         None => return (vec![], vec![]),
     };
 
-    let mut after_lines = match lines.last() {
+    let after_lines = match lines.last() {
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
                 let mut max_opposite = None;
