@@ -100,7 +100,7 @@ module.exports = grammar({
     // ambiguity between multiple user types and class property/function declarations
     [$.user_type],
     [$.user_type, $.anonymous_function],
-    [$.user_type, $.function_type]
+    [$.user_type, $.function_type],
   ],
 
   extras: $ => [
@@ -1140,8 +1140,7 @@ module.exports = grammar({
     _backtick_identifier: $ => /`[^\r\n`]+`/,
 
     _uni_character_literal: $ => seq(
-      "\\",
-      "u",
+      "\\u",
       /[0-9a-fA-F]{4}/
     ),
 
