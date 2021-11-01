@@ -8,14 +8,14 @@ use std::{
 };
 
 use crate::{
-    context::add_context,
+    context::{add_context, opposite_positions},
     hunks::{aligned_lines_from_hunk, extract_lines, Hunk},
     lines::{
         codepoint_len, enforce_exact_length, enforce_max_length, format_line_num, LineGroup,
         LineNumber,
     },
     style::{self, apply_colors, header},
-    syntax::{aligned_lines, zip_repeat_shorter, MatchKind, MatchedPos},
+    syntax::{aligned_lines, MatchedPos},
 };
 
 const SPACER: &str = "  ";
@@ -370,42 +370,6 @@ fn merge_adjacent(
 
     if let Some(current_hunk) = prev_hunk {
         res.push(current_hunk);
-    }
-
-    res
-}
-
-// TODO: this duplicates context::opposite_positions.
-fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
-    let mut res: HashMap<LineNumber, HashSet<LineNumber>> = HashMap::new();
-
-    for mp in mps {
-        match &mp.kind {
-            MatchKind::Unchanged {
-                self_pos,
-                opposite_pos,
-                ..
-            } => {
-                for (self_span, opposite_span) in zip_repeat_shorter(&self_pos.0, &opposite_pos.0) {
-                    let opposite_lines = res.entry(self_span.line).or_insert_with(HashSet::new);
-                    opposite_lines.insert(opposite_span.line);
-                }
-                for (self_span, opposite_span) in zip_repeat_shorter(&self_pos.1, &opposite_pos.1) {
-                    let opposite_lines = res.entry(self_span.line).or_insert_with(HashSet::new);
-                    opposite_lines.insert(opposite_span.line);
-                }
-            }
-            MatchKind::UnchangedCommentPart {
-                opposite_pos,
-                self_pos,
-            } => {
-                let opposite_lines = res.entry(self_pos.line).or_insert_with(HashSet::new);
-                for opposite_span in opposite_pos {
-                    opposite_lines.insert(opposite_span.line);
-                }
-            }
-            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => {}
-        }
     }
 
     res
