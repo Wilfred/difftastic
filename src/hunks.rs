@@ -325,6 +325,53 @@ fn fill_gaps(lines: &[(LineNumber, LineNumber)]) -> Vec<(Option<LineNumber>, Opt
     res
 }
 
+/// Ensure that we don't miss any intermediate values.
+///
+/// Before:
+///
+/// 1 11
+/// 3 14
+/// 4 --
+///
+/// After
+///
+/// 1 10
+/// 2 12 (choosing to align even though content doesn't match)
+/// - 13 (fix uneven gap)
+/// 3 14
+/// 4 -- (preserve outer gaps)
+///
+fn ensure_contiguous(
+    lines: &[(Option<LineNumber>, Option<LineNumber>)],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+
+    let mut lhs_min: Option<LineNumber> = None;
+    let mut rhs_min: Option<LineNumber> = None;
+
+    for (lhs_line, rhs_line) in lines {
+        if let Some(lhs_line) = lhs_line {
+            if let Some(lhs_prev_min) = lhs_min {
+                if lhs_prev_min.0 + 1 != lhs_line.0 {
+                    res.extend((lhs_prev_min.0 + 1..lhs_line.0).map(|l| (Some(l.into()), None)));
+                }
+            }
+            lhs_min = Some(*lhs_line);
+        }
+        if let Some(rhs_line) = rhs_line {
+            if let Some(rhs_prev_min) = rhs_min {
+                if rhs_prev_min.0 + 1 != rhs_line.0 {
+                    res.extend((rhs_prev_min.0 + 1..rhs_line.0).map(|r| (None, Some(r.into()))));
+                }
+            }
+            rhs_min = Some(*rhs_line);
+        }
+        res.push((*lhs_line, *rhs_line));
+    }
+
+    res
+}
+
 /// Fill matched pairs from `start` to end.
 ///
 /// 10 20
@@ -489,7 +536,7 @@ pub fn aligned_lines_from_hunk(
     let (start_pair, before_context) = split_last_pair(before_context);
     let (end_pair, after_context) = split_first_pair(after_context);
 
-    let mut res = vec![];
+    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     res.extend(before_context);
     if let (Some(start_pair), Some(end_pair)) = (start_pair, end_pair) {
         // Fill lines between.
@@ -497,8 +544,7 @@ pub fn aligned_lines_from_hunk(
 
         // TODO: align based on blank lines too.
 
-        let between = fill_gaps(&aligned_between);
-        res.extend(between);
+        res.extend(aligned_between.iter().map(|(x, y)| (Some(*x), Some(*y))));
     } else {
         // We weren't able to find both a start pair and an end pair,
         // so we can't fill between. Use the hunk lines as-is.
@@ -507,5 +553,5 @@ pub fn aligned_lines_from_hunk(
 
     res.extend(after_context);
 
-    compact_gaps(res)
+    compact_gaps(ensure_contiguous(&res))
 }
