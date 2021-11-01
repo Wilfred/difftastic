@@ -2470,29 +2470,56 @@
     "word": {
       "type": "TOKEN",
       "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[^'\"<>{}\\[\\]()`$|&;\\\\\\s#]"
-            },
-            {
-              "type": "SEQ",
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^#'\"<>{}\\[\\]()`$|&;\\\\\\s]"
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "\\"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[^\\s]"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "\\"
+                  "type": "PATTERN",
+                  "value": "[^'\"<>{}\\[\\]()`$|&;\\\\\\s]"
                 },
                 {
-                  "type": "PATTERN",
-                  "value": "[^\\s]"
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "\\"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "[^\\s]"
+                    }
+                  ]
                 }
               ]
             }
-          ]
-        }
+          }
+        ]
       }
     },
     "test_operator": {

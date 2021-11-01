@@ -355,3 +355,18 @@ echo -ne "\033k$1\033\\" > /dev/stderr
   (redirected_statement
     (command (command_name (word)) (word) (string (simple_expansion (variable_name))))
     (file_redirect (word))))
+
+================================================================================
+Words containing bare '#'
+================================================================================
+
+curl -# localhost #comment without space
+nix build nixpkgs#hello -v # comment with space
+
+--------------------------------------------------------------------------------
+
+(program
+  (command (command_name (word)) (word) (word))
+  (comment)
+  (command (command_name (word)) (word) (word) (word))
+  (comment))
