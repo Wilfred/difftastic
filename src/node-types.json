@@ -10352,8 +10352,12 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "end_delimiter",
+          "named": true
+        },
         {
           "type": "escape_sequence",
           "named": true
@@ -10364,6 +10368,10 @@
         },
         {
           "type": "regex_option",
+          "named": true
+        },
+        {
+          "type": "start_delimiter",
           "named": true
         }
       ]

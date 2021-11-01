@@ -90,7 +90,7 @@ $string =~ m/Simple/is;
 
 (source_file
   (binary_expression
-    (scalar_variable) (patter_matcher_m (regex_option))
+    (scalar_variable) (patter_matcher_m (start_delimiter) (end_delimiter) (regex_option))
   ) (semi_colon)
 )
 
