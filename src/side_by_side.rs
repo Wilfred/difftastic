@@ -441,6 +441,17 @@ pub fn display_hunks(
     let lhs_colored_lines = split_lines_nonempty(&lhs_colored);
     let rhs_colored_lines = split_lines_nonempty(&rhs_colored);
 
+    let lhs_lines_with_novel: HashSet<LineNumber> = lhs_mps
+        .iter()
+        .filter(|mp| mp.kind.is_novel())
+        .map(|mp| mp.pos.line)
+        .collect();
+    let rhs_lines_with_novel: HashSet<LineNumber> = rhs_mps
+        .iter()
+        .filter(|mp| mp.kind.is_novel())
+        .map(|mp| mp.pos.line)
+        .collect();
+
     let hunks = merge_adjacent(hunks, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
     let mut prev_lhs_line_num = None;
@@ -472,14 +483,28 @@ pub fn display_hunks(
             };
 
             let display_lhs_line_num: String = match lhs_line_num {
-                Some(line_num) => format_line_num_padded(line_num, lhs_column_width),
+                Some(line_num) => {
+                    let s = format_line_num_padded(line_num, lhs_column_width);
+                    if lhs_lines_with_novel.contains(&line_num) {
+                        s.bright_red().to_string()
+                    } else {
+                        s
+                    }
+                }
                 None => format_missing_line_num(
                     prev_lhs_line_num.unwrap_or_else(|| 10.into()),
                     lhs_column_width,
                 ),
             };
             let display_rhs_line_num: String = match rhs_line_num {
-                Some(line_num) => format_line_num_padded(line_num, rhs_column_width),
+                Some(line_num) => {
+                    let s = format_line_num_padded(line_num, rhs_column_width);
+                    if rhs_lines_with_novel.contains(&line_num) {
+                        s.bright_green().to_string()
+                    } else {
+                        s
+                    }
+                }
                 None => format_missing_line_num(
                     prev_rhs_line_num.unwrap_or_else(|| 10.into()),
                     rhs_column_width,
