@@ -227,15 +227,8 @@ module.exports = grammar({
         field('no', 'no'),
       ),
       'feature',
-      $._experimental_feature,
+      optional(choice($._list, $._string)),
       $.semi_colon,
-    ),
-
-    _experimental_feature: $ => choice(
-      '"signatures"',
-      "'signatures'",
-      '"switch"',
-      "'switch'", // TODO: add more https://perldoc.perl.org/feature#AVAILABLE-FEATURES
     ),
 
     _expression_or_return_expression: $ => choice(
