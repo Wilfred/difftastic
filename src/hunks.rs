@@ -25,11 +25,19 @@ impl Hunk {
         let mut deduped_lines = vec![];
         for (lhs_line, rhs_line) in lines {
             let lhs_is_dupe = match lhs_line {
-                Some(lhs_line) => lhs_seen.contains(&lhs_line),
+                Some(lhs_line) => {
+                    let seen_already = lhs_seen.contains(&lhs_line);
+                    lhs_seen.insert(lhs_line);
+                    seen_already
+                }
                 None => false,
             };
             let rhs_is_dupe = match rhs_line {
-                Some(rhs_line) => rhs_seen.contains(&rhs_line),
+                Some(rhs_line) => {
+                    let seen_already = rhs_seen.contains(&rhs_line);
+                    rhs_seen.insert(rhs_line);
+                    seen_already
+                }
                 None => false,
             };
             if lhs_is_dupe && rhs_is_dupe {
