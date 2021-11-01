@@ -377,7 +377,7 @@ fn split_first_pair(
     for (i, (lhs_line, rhs_line)) in items.iter().copied().enumerate() {
         if let (Some(lhs_line), Some(rhs_line)) = (lhs_line, rhs_line) {
             let after_items: Vec<(Option<LineNumber>, Option<LineNumber>)> =
-                items[i + 1..].iter().copied().collect();
+                items[i..].iter().copied().collect();
             return (Some((lhs_line, rhs_line)), after_items);
         }
     }
