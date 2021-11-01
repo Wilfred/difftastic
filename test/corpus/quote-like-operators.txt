@@ -104,7 +104,7 @@ my $rex = qr/my.STRING/is;
 
 (source_file
   (variable_declaration
-    (scope) (single_var_declaration (scalar_variable)) (regex_pattern_qr (regex_pattern) (regex_option)) (semi_colon)
+    (scope) (single_var_declaration (scalar_variable)) (regex_pattern_qr (start_delimiter) (end_delimiter) (regex_option)) (semi_colon)
   )
 )
 
