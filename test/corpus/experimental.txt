@@ -6,4 +6,14 @@ use feature "switch";
 
 ---
 
-(source_file (use_no_feature_statement (semi_colon)))
+(source_file (use_no_feature_statement (string_double_quoted) (semi_colon)))
+
+=================================================
+multi features
+=================================================
+
+use feature qw(switch say);
+
+---
+
+(source_file (use_no_feature_statement (word_list_qw (list_item) (list_item)) (semi_colon)))
