@@ -27,6 +27,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Nullable reference types
 - [x] Null-forgiving operator
 - [x] Null-coalescing assignment
+- [x] using statement without braces
 
 #### C# 9.0 (complete)
 
