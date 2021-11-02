@@ -249,25 +249,9 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     let lhs_matched_lines = matching_lines(&lhs);
 
     let hunks = matched_pos_to_hunks(&lhs_positions, &rhs_positions);
-    // TODO: fill inbetween lines.
-    // TODO: merge overlapping hunks.
-    println!(
-        "{}",
-        side_by_side::display_hunks(
-            &hunks,
-            display_path,
-            lang_name,
-            &lhs_src,
-            &rhs_src,
-            &lhs_positions,
-            &rhs_positions,
-            lhs_src.max_line(),
-            rhs_src.max_line(),
-        )
-    );
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
-    if groups.is_empty() {
+    if hunks.is_empty() {
         if lang_name == "text" {
             println!("No changes.\n");
         } else {
@@ -284,26 +268,26 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     if env::var("INLINE").is_ok() {
         println!("{}", style::header(display_path, 1, 1, lang_name));
 
-        print!(
+        println!(
             "{}",
             inline::display(&lhs_src, &rhs_src, &lhs_positions, &rhs_positions, &groups)
         );
     } else {
-        print!(
+        println!(
             "{}",
-            side_by_side::display(
+            side_by_side::display_hunks(
+                &hunks,
                 display_path,
                 lang_name,
                 &lhs_src,
                 &rhs_src,
                 &lhs_positions,
                 &rhs_positions,
-                &lhs_matched_lines,
-                &groups
+                lhs_src.max_line(),
+                rhs_src.max_line(),
             )
         );
     }
-    println!();
 }
 
 /// Given two directories that contain the files, compare them
