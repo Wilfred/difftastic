@@ -1,7 +1,6 @@
 //! Syntax tree definitions with change metadata.
 
 #![allow(clippy::mutable_key_type)] // Hash for Syntax doesn't use mutable fields.
-#![allow(warnings, unused)]
 
 use itertools::{EitherOrBoth, Itertools};
 use lazy_static::lazy_static;
@@ -9,7 +8,7 @@ use regex::Regex;
 use std::{
     cell::Cell,
     cmp::min,
-    collections::{HashMap, HashSet},
+    collections::HashMap,
     env, fmt,
     hash::{Hash, Hasher},
 };
@@ -528,42 +527,6 @@ impl MatchKind {
 pub struct MatchedPos {
     pub kind: MatchKind,
     pub pos: SingleLineSpan,
-}
-
-fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
-    let mut res: HashMap<LineNumber, HashSet<LineNumber>> = HashMap::new();
-
-    for mp in mps {
-        match &mp.kind {
-            MatchKind::Unchanged {
-                opposite_pos,
-                self_pos,
-                ..
-            } => {
-                for (self_p, opposite_p) in self_pos.0.iter().zip(opposite_pos.0.iter()) {
-                    let opposites = res.entry(self_p.line).or_insert_with(HashSet::new);
-                    opposites.insert(opposite_p.line);
-                }
-                for (self_p, opposite_p) in self_pos.1.iter().zip(opposite_pos.1.iter()) {
-                    let opposites = res.entry(self_p.line).or_insert_with(HashSet::new);
-                    opposites.insert(opposite_p.line);
-                }
-            }
-            MatchKind::UnchangedCommentPart {
-                opposite_pos,
-                self_pos,
-            } => {
-                let opposites = res.entry(self_pos.line).or_insert_with(HashSet::new);
-
-                for opposite_p in opposite_pos {
-                    opposites.insert(opposite_p.line);
-                }
-            }
-            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => continue,
-        }
-    }
-
-    res
 }
 
 fn split_words(s: &str) -> Vec<String> {
