@@ -16,7 +16,7 @@ use difftastic::{
     dijkstra::mark_syntax,
     files::{is_probably_binary, read_or_die},
     lines::{join_overlapping, visible_groups, MaxLine},
-    syntax::{change_positions, init_info, matching_lines},
+    syntax::{change_positions, init_info},
     tree_sitter_parser as tsp,
 };
 
@@ -245,8 +245,6 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
 
     let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
     let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
-
-    let lhs_matched_lines = matching_lines(&lhs);
 
     let hunks = matched_pos_to_hunks(&lhs_positions, &rhs_positions);
 
