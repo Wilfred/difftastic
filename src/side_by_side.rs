@@ -425,11 +425,9 @@ pub fn display_hunks(
     let (lhs_column_width, rhs_column_width) =
         column_widths(hunks, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
-    let lhs_formatted_length = lhs_printable_width(terminal_width);
-    let rhs_formatted_length = lhs_formatted_length - 2; // TODO
-
-    let lhs_content_width = lhs_formatted_length - lhs_column_width;
-    let rhs_content_width = rhs_formatted_length - rhs_column_width;
+    let lhs_content_width = lhs_printable_width(terminal_width) - lhs_column_width;
+    let rhs_content_width =
+        terminal_width - lhs_column_width - lhs_content_width - SPACER.len() - rhs_column_width;
 
     let lhs_src = enforce_exact_length(lhs_src, lhs_content_width);
     let rhs_src = enforce_max_length(rhs_src, rhs_content_width);
