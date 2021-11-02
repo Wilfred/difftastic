@@ -122,7 +122,8 @@ module.exports = grammar({
     // start
     source_file: $ => seq(
       optional($.shebang_line),
-      optional(seq(repeat1($.file_annotation), $._semi)),
+      repeat($.file_annotation),
+      //optional(seq(repeat1($.file_annotation), $._semi)),
       optional($.package_header),
       repeat($.import_header),
       repeat(seq($._statement, $._semi))
@@ -543,7 +544,7 @@ module.exports = grammar({
     // generic EOF/newline token
     _semi: $ => /[\r\n]+/,
 
-    _semis: $ => /[\r\n]+/,
+    _semis: $ => /[\r\n;]+/,
 
     assignment: $ => choice(
       prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, $._assignment_and_operator, $._expression)),
