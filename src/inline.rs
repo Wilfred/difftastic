@@ -3,7 +3,9 @@
 use std::collections::HashSet;
 
 use crate::{
-    lines::{format_line_num, LineGroup, LineNumber},
+    context::calculate_context,
+    hunks::Hunk,
+    lines::{format_line_num, LineGroup, LineNumber, MaxLine},
     style::apply_colors,
     syntax::{MatchKind, MatchedPos},
 };
@@ -136,7 +138,7 @@ pub fn display(
     rhs_src: &str,
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
-    groups: &[LineGroup],
+    hunks: &[Hunk],
 ) -> String {
     let lhs_colored = apply_colors(lhs_src, true, lhs_positions);
     let rhs_colored = apply_colors(rhs_src, false, rhs_positions);
@@ -146,75 +148,59 @@ pub fn display(
 
     let mut res = String::new();
 
-    for group in groups {
-        let lhs_context_last = last_lhs_context_line(
-            // TODO: Use non-empty vectors in LineGroup.
-            *group.lhs_lines().first().unwrap(),
-            *group.lhs_lines().last().unwrap(),
+    for hunk in hunks {
+        let hunk_lines = hunk.lines.clone();
+        let (before_lines, after_lines) = calculate_context(
+            &hunk_lines,
             lhs_positions,
             rhs_positions,
+            // TODO: repeatedly calculating the maximum is wasteful.
+            lhs_src.max_line(),
+            rhs_src.max_line(),
         );
-        for lhs_line_num in group.lhs_lines() {
-            if lhs_line_num.0 <= lhs_context_last.0 {
-                res.push_str(&format_line_num(lhs_line_num));
-                res.push_str("   ");
 
-                res.push_str(lhs_lines[lhs_line_num.0]);
-                res.push('\n');
+        for (lhs_line, _) in before_lines {
+            if let Some(lhs_line) = lhs_line {
+                res.push_str(&format_line_num(lhs_line));
+                res.push_str("   ");
+                res.push_str(lhs_lines[lhs_line.0]);
             } else {
-                break;
+                continue;
             }
-        }
-        for lhs_line_num in changed_lines(
-            *group.lhs_lines().first().unwrap(),
-            *group.lhs_lines().last().unwrap(),
-            lhs_positions,
-        ) {
-            res.push_str(
-                &format_line_num(lhs_line_num)
-                    .bright_red()
-                    .bold()
-                    .to_string(),
-            );
-            res.push_str("   ");
-
-            res.push_str(lhs_lines[lhs_line_num.0]);
             res.push('\n');
         }
 
-        for rhs_line_num in changed_lines(
-            *group.rhs_lines().first().unwrap(),
-            *group.rhs_lines().last().unwrap(),
-            rhs_positions,
-        ) {
-            res.push_str("   ");
-            res.push_str(
-                &format_line_num(rhs_line_num)
-                    .bright_green()
-                    .bold()
-                    .to_string(),
-            );
-
-            res.push_str(rhs_lines[rhs_line_num.0]);
-            res.push('\n');
-        }
-
-        let rhs_context_first = first_rhs_context_line(
-            *group.rhs_lines().first().unwrap(),
-            *group.rhs_lines().last().unwrap(),
-            lhs_positions,
-            rhs_positions,
-        );
-        for rhs_line_num in group.rhs_lines() {
-            if rhs_line_num.0 >= rhs_context_first.0 {
+        for (lhs_line, _) in &hunk_lines {
+            if let Some(lhs_line) = lhs_line {
+                res.push_str(&format_line_num(*lhs_line).bright_red().to_string());
                 res.push_str("   ");
-                res.push_str(&format_line_num(rhs_line_num));
-
-                res.push_str(rhs_lines[rhs_line_num.0]);
-                res.push('\n');
+                res.push_str(lhs_lines[lhs_line.0]);
+            } else {
+                continue;
             }
+            res.push('\n');
+        }
+        for (_, rhs_line) in &hunk_lines {
+            if let Some(rhs_line) = rhs_line {
+                res.push_str("   ");
+                res.push_str(&format_line_num(*rhs_line).bright_green().to_string());
+                res.push_str(rhs_lines[rhs_line.0]);
+            } else {
+                continue;
+            }
+            res.push('\n');
         }
 
+        for (_, rhs_line) in &after_lines {
+            if let Some(rhs_line) = rhs_line {
+                res.push_str("   ");
+                res.push_str(&format_line_num(*rhs_line));
+                res.push_str(rhs_lines[rhs_line.0]);
+            } else {
+                continue;
+            }
+            res.push('\n');
+        }
         res.push('\n');
     }
 
