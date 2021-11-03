@@ -122,8 +122,7 @@ module.exports = grammar({
     // start
     source_file: $ => seq(
       optional($.shebang_line),
-      repeat($.file_annotation),
-      //optional(seq(repeat1($.file_annotation), $._semi)),
+      optional(seq(repeat1($.file_annotation), $._semi)),
       optional($.package_header),
       repeat($.import_header),
       repeat(seq($._statement, $._semi))
@@ -330,8 +329,8 @@ module.exports = grammar({
       optional(';'),
       choice(
         // TODO: Getter-setter combinations
-        seq(optional($.getter), optional(seq($.setter))),
-        seq(optional($.setter), optional(seq($.getter)))
+        optional($.getter),
+        optional($.setter)
       )
     )),
 
