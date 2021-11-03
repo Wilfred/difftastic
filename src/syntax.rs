@@ -660,6 +660,13 @@ impl MatchedPos {
         // TODO: what about opposite pos or prev oppoiste pos?
         let mut res = vec![];
         for line_pos in pos.0 {
+            // Don't create a MatchedPos for empty positions. This
+            // occurs when we have lists with empty open/close
+            // delimiter positions, such as the top-level list of syntax items.
+            if line_pos.start_col == line_pos.end_col {
+                continue;
+            }
+
             res.push(Self {
                 kind: kind.clone(),
                 pos: *line_pos,
