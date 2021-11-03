@@ -1626,6 +1626,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "glimmer_template"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_jsx_element"
         },
         {
@@ -2301,6 +2305,86 @@
         {
           "type": "STRING",
           "value": "]"
+        }
+      ]
+    },
+    "glimmer_template": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "open_tag",
+              "content": {
+                "type": "SYMBOL",
+                "name": "glimmer_opening_tag"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "content",
+              "content": {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_glimmer_template_content"
+                }
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "close_tag",
+              "content": {
+                "type": "SYMBOL",
+                "name": "glimmer_closing_tag"
+              }
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "open_tag",
+              "content": {
+                "type": "SYMBOL",
+                "name": "glimmer_opening_tag"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "close_tag",
+              "content": {
+                "type": "SYMBOL",
+                "name": "glimmer_closing_tag"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "_glimmer_template_content": {
+      "type": "PATTERN",
+      "value": ".{1,}"
+    },
+    "glimmer_opening_tag": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<template>"
+        }
+      ]
+    },
+    "glimmer_closing_tag": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "</template>"
         }
       ]
     },
@@ -5856,6 +5940,14 @@
                     "name": "_semicolon"
                   }
                 ]
+              },
+              {
+                "type": "FIELD",
+                "name": "template",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "glimmer_template"
+                }
               }
             ]
           }

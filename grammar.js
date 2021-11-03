@@ -436,6 +436,7 @@ module.exports = grammar({
 
     expression: $ => choice(
       $.primary_expression,
+      $.glimmer_template,
       $._jsx_element,
       $.jsx_fragment,
       $.assignment_expression,
@@ -542,6 +543,24 @@ module.exports = grammar({
       ))),
       ']'
     ),
+
+    glimmer_template: $ => choice(
+      seq(
+        field('open_tag', $.glimmer_opening_tag),
+        field('content', repeat($._glimmer_template_content)),
+        field('close_tag', $.glimmer_closing_tag),
+      ),
+      // empty template has no content
+      // <template></template>
+      seq(
+        field('open_tag', $.glimmer_opening_tag),
+        field('close_tag', $.glimmer_closing_tag),
+      ),
+    ),
+
+    _glimmer_template_content: $ => /.{1,}/,
+    glimmer_opening_tag: $ => seq('<template>'),
+    glimmer_closing_tag: $ => seq('</template>'),
 
     _jsx_element: $ => choice($.jsx_element, $.jsx_self_closing_element),
 
@@ -1062,7 +1081,8 @@ module.exports = grammar({
       '{',
       repeat(choice(
         seq(field('member', $.method_definition), optional(';')),
-        seq(field('member', $.field_definition), $._semicolon)
+        seq(field('member', $.field_definition), $._semicolon),
+        field('template', $.glimmer_template)
       )),
       '}'
     ),
