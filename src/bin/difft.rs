@@ -16,7 +16,7 @@ use difftastic::*;
 use difftastic::{
     dijkstra::mark_syntax,
     files::{is_probably_binary, read_or_die},
-    lines::{join_overlapping, visible_groups, MaxLine},
+    lines::MaxLine,
     syntax::{change_positions, init_info},
     tree_sitter_parser as tsp,
 };
@@ -256,7 +256,6 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
         rhs_src.max_line(),
     );
 
-    let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     if hunks.is_empty() {
         if lang_name == "text" {
             println!("No changes.\n");
@@ -266,23 +265,12 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
         return;
     }
 
-    for group in &mut groups {
-        group.pad(3, lhs_src.max_line(), rhs_src.max_line());
-    }
-    groups = join_overlapping(groups);
-
     if env::var("INLINE").is_ok() {
         println!("{}", style::header(display_path, 1, 1, lang_name));
 
         println!(
             "{}",
-            inline::display(
-                &lhs_src,
-                &rhs_src,
-                &lhs_positions,
-                &rhs_positions,
-                &hunks
-            )
+            inline::display(&lhs_src, &rhs_src, &lhs_positions, &rhs_positions, &hunks)
         );
     } else {
         println!(
