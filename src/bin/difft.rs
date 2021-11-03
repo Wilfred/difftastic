@@ -1,4 +1,5 @@
 use difftastic::hunks::matched_pos_to_hunks;
+use difftastic::side_by_side::merge_adjacent;
 use log::info;
 use mimalloc::MiMalloc;
 
@@ -247,6 +248,13 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
 
     let hunks = matched_pos_to_hunks(&lhs_positions, &rhs_positions);
+    let hunks = merge_adjacent(
+        &hunks,
+        &lhs_positions,
+        &rhs_positions,
+        lhs_src.max_line(),
+        rhs_src.max_line(),
+    );
 
     let mut groups = visible_groups(&lhs_positions, &rhs_positions);
     if hunks.is_empty() {
@@ -281,8 +289,6 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
                 &rhs_src,
                 &lhs_positions,
                 &rhs_positions,
-                lhs_src.max_line(),
-                rhs_src.max_line(),
             )
         );
     }
