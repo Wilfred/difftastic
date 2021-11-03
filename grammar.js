@@ -330,8 +330,8 @@ module.exports = grammar({
       optional(';'),
       choice(
         // TODO: Getter-setter combinations
-        optional($.getter),
-        optional($.setter)
+        seq(optional($.getter), optional(seq($.setter))),
+        seq(optional($.setter), optional(seq($.getter)))
       )
     )),
 
@@ -481,8 +481,8 @@ module.exports = grammar({
 
     statements: $ => seq(
       $._statement,
-      repeat(seq($._semis, $._statement)),
-      optional($._semis),
+      repeat(seq($._semis_and_colon, $._statement)),
+      optional($._semis_and_colon),
     ),
 
     _statement: $ => choice(
@@ -544,7 +544,9 @@ module.exports = grammar({
     // generic EOF/newline token
     _semi: $ => /[\r\n]+/,
 
-    _semis: $ => /[\r\n;]+/,
+    _semis: $ => /[\r\n]+/,
+
+    _semis_and_colon: $ => choice($._semis, ';'),
 
     assignment: $ => choice(
       prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, $._assignment_and_operator, $._expression)),
@@ -826,7 +828,7 @@ module.exports = grammar({
 
     range_test: $ => seq($._in_operator, $._expression),
 
-    type_test: $ => seq($._is_operator, $._expression),
+    type_test: $ => seq($._is_operator, $._type),
 
     try_expression: $ => seq(
       "try",
