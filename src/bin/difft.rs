@@ -276,7 +276,13 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
 
         println!(
             "{}",
-            inline::display(&lhs_src, &rhs_src, &lhs_positions, &rhs_positions, &groups)
+            inline::display(
+                &lhs_src,
+                &rhs_src,
+                &lhs_positions,
+                &rhs_positions,
+                &hunks
+            )
         );
     } else {
         println!(
