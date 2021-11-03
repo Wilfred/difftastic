@@ -13,6 +13,10 @@ added/removed regions were bold.
 Lines with changes are now shown in a different colour in side-by-side
 display.
 
+The display logic has been written in terms of a `Hunk` type. This
+produces more accurate context, with better alignment, especially when
+the context contains blank lines.
+
 ### Command Line Interface
 
 The difftastic binary is now named `difft`, to reduce typing during
