@@ -420,6 +420,13 @@ pub fn display_hunks(
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> String {
+    if lhs_src == "" {
+        return display_single_column(rhs_src, Color::BrightGreen);
+    }
+    if rhs_src == "" {
+        return display_single_column(lhs_src, Color::BrightRed);
+    }
+
     let terminal_width = term_width().unwrap_or(80);
 
     let (lhs_column_width, rhs_column_width) =
