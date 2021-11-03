@@ -1,6 +1,9 @@
 use std::collections::{HashMap, HashSet};
 
-use crate::{lines::LineNumber, syntax::{MatchKind, MatchedPos, zip_repeat_shorter}};
+use crate::{
+    lines::LineNumber,
+    syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
+};
 
 const MAX_PADDING: usize = 2;
 

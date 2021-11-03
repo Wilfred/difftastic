@@ -16,7 +16,6 @@ pub mod files;
 mod graph;
 pub mod hunks;
 pub mod inline;
-mod intervals;
 pub mod line_parser;
 pub mod lines;
 mod positions;
