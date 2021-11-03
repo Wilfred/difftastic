@@ -7,7 +7,7 @@ use std::collections::HashSet;
 use crate::{
     context::{add_context, opposite_positions},
     hunks::{aligned_lines_from_hunk, extract_lines, Hunk},
-    lines::{enforce_exact_length, enforce_max_length, format_line_num, LineNumber},
+    lines::{enforce_exact_length, enforce_max_length, format_line_num, LineNumber, MaxLine},
     style::{self, apply_colors},
     syntax::MatchedPos,
 };
@@ -77,7 +77,8 @@ fn display_single_column(src: &str, color: Color) -> String {
     result
 }
 
-fn merge_adjacent(
+// TODO: Move to hunks.rs
+pub fn merge_adjacent(
     hunks: &[Hunk],
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
@@ -181,8 +182,6 @@ pub fn display_hunks(
     rhs_src: &str,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
-    max_lhs_src_line: LineNumber,
-    max_rhs_src_line: LineNumber,
 ) -> String {
     if lhs_src == "" {
         return display_single_column(rhs_src, Color::BrightGreen);
@@ -193,6 +192,8 @@ pub fn display_hunks(
 
     let terminal_width = term_width().unwrap_or(80);
 
+    let max_lhs_src_line = lhs_src.max_line();
+    let max_rhs_src_line = rhs_src.max_line();
     let (lhs_column_width, rhs_column_width) =
         column_widths(hunks, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
@@ -218,8 +219,6 @@ pub fn display_hunks(
         .filter(|mp| mp.kind.is_novel())
         .map(|mp| mp.pos.line)
         .collect();
-
-    let hunks = merge_adjacent(hunks, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
     let mut prev_lhs_line_num = None;
     let mut prev_rhs_line_num = None;

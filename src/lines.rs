@@ -509,9 +509,9 @@ pub trait MaxLine {
     fn max_line(&self) -> LineNumber;
 }
 
-impl MaxLine for String {
+impl<S: AsRef<str>> MaxLine for S {
     fn max_line(&self) -> LineNumber {
-        (max(1, self.lines().count()) - 1).into()
+        (max(1, self.as_ref().lines().count()) - 1).into()
     }
 }
 
