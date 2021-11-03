@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/tree-sitter/tree-sitter-c-sharp.git"
   },
-  "author": "Max Brunsfeld",
+  "author": "The Tree-Sitter C# Team",
   "license": "MIT",
   "dependencies": {
     "nan": "^2.14.0"
