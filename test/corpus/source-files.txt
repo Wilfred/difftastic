@@ -17,3 +17,33 @@ val x = 4
     (variable_declaration
       (simple_identifier))
     (integer_literal)))
+
+===================
+Multiple file annotations
+===================
+
+@file:JvmMultifileClass
+@file:JvmName("BuildersKt")
+@file:OptIn(ExperimentalContracts::class)
+
+---
+
+(source_file
+  (file_annotation
+    (user_type
+      (type_identifier)))
+  (file_annotation
+    (constructor_invocation
+      (user_type
+        (type_identifier))
+      (value_arguments
+        (value_argument
+          (line_string_literal)))))
+  (file_annotation
+    (constructor_invocation
+      (user_type
+        (type_identifier))
+      (value_arguments
+        (value_argument
+          (callable_reference
+            (type_identifier)))))))
