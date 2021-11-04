@@ -122,7 +122,7 @@ module.exports = grammar({
     // start
     source_file: $ => seq(
       optional($.shebang_line),
-      optional(seq(repeat1($.file_annotation), $._semi)),
+      repeat($.file_annotation),
       optional($.package_header),
       repeat($.import_header),
       repeat(seq($._statement, $._semi))
@@ -152,6 +152,7 @@ module.exports = grammar({
     top_level_object: $ => seq($._declaration, optional($._semis)),
 
     type_alias: $ => seq(
+      optional($.modifiers),
       "typealias",
       alias($.simple_identifier, $.type_identifier),
       "=",
@@ -480,8 +481,8 @@ module.exports = grammar({
 
     statements: $ => seq(
       $._statement,
-      repeat(seq($._semis_and_colon, $._statement)),
-      optional($._semis_and_colon),
+      repeat(seq($._semis, $._statement)),
+      optional($._semis),
     ),
 
     _statement: $ => choice(
@@ -544,8 +545,6 @@ module.exports = grammar({
     _semi: $ => /[\r\n]+/,
 
     _semis: $ => /[\r\n]+/,
-
-    _semis_and_colon: $ => choice($._semis, ';'),
 
     assignment: $ => choice(
       prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, $._assignment_and_operator, $._expression)),
@@ -616,7 +615,9 @@ module.exports = grammar({
 
     elvis_expression: $ => prec.left(PREC.ELVIS, seq($._expression, "?:", $._expression)),
 
-    check_expression: $ => prec.left(PREC.CHECK, seq($._expression, choice($._in_operator, $._is_operator), $._expression)),
+    check_expression: $ => prec.left(PREC.CHECK, seq($._expression, choice(
+      seq($._in_operator, $._expression), 
+      seq($._is_operator, $._type)))),
 
     comparison_expression: $ => prec.left(PREC.COMPARISON, seq($._expression, $._comparison_operator, $._expression)),
 
