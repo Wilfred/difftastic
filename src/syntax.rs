@@ -803,7 +803,7 @@ fn change_positions_<'a>(
     }
 }
 
-pub fn zip_pad_shorter<Tx: Copy, Ty: Copy>(
+pub fn zip_pad_shorter<Tx: Clone, Ty: Clone>(
     lhs: &[Tx],
     rhs: &[Ty],
 ) -> Vec<(Option<Tx>, Option<Ty>)> {
@@ -813,7 +813,7 @@ pub fn zip_pad_shorter<Tx: Copy, Ty: Copy>(
     loop {
         match (lhs.get(i), rhs.get(i)) {
             (None, None) => break,
-            (x, y) => res.push((x.copied(), y.copied())),
+            (x, y) => res.push((x.cloned(), y.cloned())),
         }
 
         i += 1;
@@ -824,13 +824,13 @@ pub fn zip_pad_shorter<Tx: Copy, Ty: Copy>(
 
 /// Zip `lhs` with `rhs`, but repeat the last item from the shorter
 /// slice.
-pub fn zip_repeat_shorter<Tx: Copy, Ty: Copy>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Tx, Ty)> {
+pub fn zip_repeat_shorter<Tx: Clone, Ty: Clone>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Tx, Ty)> {
     let lhs_last: Tx = match lhs.last() {
-        Some(last) => *last,
+        Some(last) => last.clone(),
         None => return vec![],
     };
     let rhs_last: Ty = match rhs.last() {
-        Some(last) => *last,
+        Some(last) => last.clone(),
         None => return vec![],
     };
 
@@ -841,8 +841,8 @@ pub fn zip_repeat_shorter<Tx: Copy, Ty: Copy>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(Tx
         match (lhs.get(i), rhs.get(i)) {
             (None, None) => break,
             (x, y) => res.push((
-                x.copied().unwrap_or(lhs_last),
-                y.copied().unwrap_or(rhs_last),
+                x.cloned().unwrap_or_else(|| lhs_last.clone()),
+                y.cloned().unwrap_or_else(|| rhs_last.clone()),
             )),
         }
 
