@@ -64,9 +64,9 @@ fn display_width() -> usize {
 /// Display `src` in a single column (e.g. a file removal or addition).
 fn display_single_column(src: &str, color: Color) -> String {
     let column_width = format_line_num(src.lines().count().into()).len();
-    let rhs_src = enforce_max_length(src, display_width());
+    let src = enforce_max_length(src, display_width());
 
-    let mut result = String::with_capacity(rhs_src.len());
+    let mut result = String::with_capacity(src.len());
     for (i, line) in src.lines().enumerate() {
         result.push_str(&format_line_num_padded(i.into(), column_width));
         // TODO: factor out the common styling from style::apply_colors.
