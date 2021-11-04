@@ -24,5 +24,13 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.19.4"
-  }
+  },
+  "tree-sitter": [
+      {
+          "scope": "source.perl",
+          "file-types": [
+              "pl"
+          ]
+      }
+  ]
 }
