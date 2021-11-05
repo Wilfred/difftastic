@@ -137,23 +137,6 @@ pub fn substring_by_codepoint(s: &str, start: usize, end: usize) -> &str {
     }
 }
 
-/// Ensure that every line in `s` has this length. Pad short lines and
-/// truncate long lines.
-pub fn enforce_exact_length(s: &str, line_length: usize) -> String {
-    let mut result = String::with_capacity(s.len());
-    for line in s.lines() {
-        if codepoint_len(line) > line_length {
-            result.push_str(substring_by_codepoint(line, 0, line_length));
-            result.push('\n');
-        } else {
-            // Pad with spaces.
-            result.push_str(&format!("{:width$}\n", line, width = line_length));
-        }
-    }
-
-    result
-}
-
 /// Truncate any lines in `s` that are longer than `line_length`.
 pub fn enforce_max_length(s: &str, line_length: usize) -> String {
     let mut result = String::with_capacity(s.len());
@@ -233,18 +216,6 @@ mod tests {
                 })
             ]
         );
-    }
-
-    #[test]
-    fn enforce_length_short() {
-        let result = enforce_exact_length("foo\nbar\n", 5);
-        assert_eq!(result, "foo  \nbar  \n");
-    }
-
-    #[test]
-    fn enforce_length_long() {
-        let result = enforce_exact_length("foobar\nbarbaz\n", 3);
-        assert_eq!(result, "foo\nbar\n");
     }
 
     #[test]
