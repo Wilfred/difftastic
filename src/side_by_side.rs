@@ -2,14 +2,15 @@
 
 use atty::Stream;
 use colored::{Color, Colorize};
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use crate::{
     context::opposite_positions,
     hunks::{aligned_lines_from_hunk, Hunk},
-    lines::{enforce_exact_length, enforce_max_length, format_line_num, LineNumber, MaxLine},
-    style::{self, apply_colors},
-    syntax::MatchedPos,
+    lines::{enforce_max_length, format_line_num, LineNumber, MaxLine},
+    positions::SingleLineSpan,
+    style::{self, color_positions, split_and_apply, Style},
+    syntax::{zip_pad_shorter, MatchedPos},
 };
 
 const SPACER: &str = "  ";
@@ -127,6 +128,18 @@ pub fn display_hunks(
         return display_single_column(lhs_src, Color::BrightRed);
     }
 
+    let mut lhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = HashMap::new();
+    for (span, style) in color_positions(true, lhs_mps) {
+        let styles = lhs_styles.entry(span.line).or_insert_with(Vec::new);
+        styles.push((span, style));
+    }
+
+    let mut rhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = HashMap::new();
+    for (span, style) in color_positions(false, rhs_mps) {
+        let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
+        styles.push((span, style));
+    }
+
     let terminal_width = term_width().unwrap_or(80);
 
     let max_lhs_src_line = lhs_src.max_line();
@@ -138,13 +151,8 @@ pub fn display_hunks(
     let rhs_content_width =
         terminal_width - lhs_column_width - lhs_content_width - SPACER.len() - rhs_column_width;
 
-    let lhs_src = enforce_exact_length(lhs_src, lhs_content_width);
-    let rhs_src = enforce_max_length(rhs_src, rhs_content_width);
-    let lhs_colored = apply_colors(&lhs_src, true, lhs_mps);
-    let rhs_colored = apply_colors(&rhs_src, false, rhs_mps);
-
-    let lhs_colored_lines = split_lines_nonempty(&lhs_colored);
-    let rhs_colored_lines = split_lines_nonempty(&rhs_colored);
+    let lhs_lines = split_lines_nonempty(lhs_src);
+    let rhs_lines = split_lines_nonempty(rhs_src);
 
     let lhs_lines_with_novel: HashSet<LineNumber> = lhs_mps
         .iter()
@@ -177,12 +185,20 @@ pub fn display_hunks(
 
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line = match lhs_line_num {
-                Some(lhs_line_num) => lhs_colored_lines[lhs_line_num.0].clone(),
-                None => " ".repeat(lhs_content_width),
+                Some(lhs_line_num) => split_and_apply(
+                    &lhs_lines[lhs_line_num.0],
+                    lhs_content_width,
+                    &lhs_styles.get(&lhs_line_num).unwrap_or(&vec![]),
+                ),
+                None => vec![" ".repeat(lhs_content_width)],
             };
             let rhs_line = match rhs_line_num {
-                Some(rhs_line_num) => &rhs_colored_lines[rhs_line_num.0],
-                None => "",
+                Some(rhs_line_num) => split_and_apply(
+                    &rhs_lines[rhs_line_num.0],
+                    rhs_content_width,
+                    &rhs_styles.get(&rhs_line_num).unwrap_or(&vec![]),
+                ),
+                None => vec!["".into()],
             };
 
             let display_lhs_line_num: String = match lhs_line_num {
@@ -214,10 +230,52 @@ pub fn display_hunks(
                 ),
             };
 
-            out_lines.push(format!(
-                "{}{}{}{}{}",
-                display_lhs_line_num, lhs_line, SPACER, display_rhs_line_num, rhs_line
-            ));
+            for (i, (lhs_line, rhs_line)) in zip_pad_shorter(&lhs_line, &rhs_line)
+                .into_iter()
+                .enumerate()
+            {
+                let lhs_line = lhs_line.unwrap_or(" ".repeat(lhs_content_width));
+                let rhs_line = rhs_line.unwrap_or("".into());
+                let lhs_num: String = if i == 0 {
+                    display_lhs_line_num.clone()
+                } else {
+                    let s: String = format_missing_line_num(
+                        lhs_line_num.unwrap_or(prev_lhs_line_num.unwrap_or(10.into())),
+                        lhs_column_width,
+                    );
+                    if let Some(line_num) = lhs_line_num {
+                        if lhs_lines_with_novel.contains(&line_num) {
+                            s.bright_red().to_string()
+                        } else {
+                            s
+                        }
+                    } else {
+                        s
+                    }
+                };
+                let rhs_num: String = if i == 0 {
+                    display_rhs_line_num.clone()
+                } else {
+                    let s: String = format_missing_line_num(
+                        rhs_line_num.unwrap_or(prev_rhs_line_num.unwrap_or(10.into())),
+                        rhs_column_width,
+                    );
+                    if let Some(line_num) = rhs_line_num {
+                        if rhs_lines_with_novel.contains(&line_num) {
+                            s.bright_green().to_string()
+                        } else {
+                            s
+                        }
+                    } else {
+                        s
+                    }
+                };
+
+                out_lines.push(format!(
+                    "{}{}{}{}{}",
+                    lhs_num, lhs_line, SPACER, rhs_num, rhs_line
+                ));
+            }
 
             if lhs_line_num.is_some() {
                 prev_lhs_line_num = lhs_line_num;
