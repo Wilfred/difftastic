@@ -10,7 +10,7 @@ class Empty2 {}
 (source_file
   (class_declaration (type_identifier))
   (class_declaration (type_identifier) (class_body)))
- 
+
 ==================
 Class with methods
 ==================
@@ -272,3 +272,32 @@ enum class Color(val rgb: Int) {
             (call_suffix
               (value_arguments
                 (value_argument (integer_literal))))))))))
+
+==================
+Type alias declaration
+==================
+
+@Suppress("ACTUAL_WITHOUT_EXPECT")
+ internal actual typealias CoroutineStackFrame = kotlin.coroutines.jvm.internal.CoroutineStackFrame
+
+ ---
+
+ (source_file
+  (type_alias
+    (modifiers
+      (annotation
+        (constructor_invocation
+          (user_type
+            (type_identifier))
+          (value_arguments
+            (value_argument
+              (line_string_literal)))))
+      (visibility_modifier)
+      (platform_modifier))
+    (type_identifier)
+    (user_type
+      (type_identifier)
+      (type_identifier)
+      (type_identifier)
+      (type_identifier)
+      (type_identifier))))

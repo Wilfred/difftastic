@@ -51,6 +51,30 @@ val y = when(x){
       (when_entry (when_condition (integer_literal))
         (control_structure_body (boolean_literal))))))
 
+=================
+When expression with type arguments
+================
+
+when (this) {
+    is DispatchedCoroutine<*> -> return null
+}
+
+---
+
+(source_file
+  (when_expression
+    (when_subject
+      (this_expression))
+    (when_entry
+      (when_condition
+        (type_test
+          (user_type
+            (type_identifier)
+            (type_arguments
+              (type_projection)))))
+      (control_structure_body
+        (jump_expression)))))
+
 ==================
 Value declaration with receiver type
 ==================
