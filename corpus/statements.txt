@@ -356,25 +356,39 @@ someLabel: if a.isEmpty, let b = getB() {
 If let with function call
 ===============
 
-if let a = try? Foo.getValue("key") {
-    return a
+func doSomething() {
+    if let a = try? Foo.getValue("key") {
+        return a
+    }
+    return default
 }
-return default
 
 ---
 
-(source_file
-    (if_statement
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (call_expression
-            (try_expression
-                (navigation_expression (simple_identifier)
-                    (navigation_suffix (simple_identifier))))
-            (call_suffix
-                (value_arguments
-                    (value_argument (line_string_literal)))))
-        (statements (control_transfer_statement (simple_identifier))))
-    (control_transfer_statement (simple_identifier)))
+    (source_file
+      (function_declaration
+        (simple_identifier)
+        (function_body
+          (statements
+            (if_statement
+              (value_binding_pattern
+                (non_binding_pattern
+                  (simple_identifier)))
+              (call_expression
+                (try_expression
+                  (navigation_expression
+                    (simple_identifier)
+                    (navigation_suffix
+                      (simple_identifier))))
+                (call_suffix
+                  (value_arguments
+                    (value_argument
+                      (line_string_literal)))))
+              (statements
+                (control_transfer_statement
+                  (simple_identifier))))
+            (control_transfer_statement
+              (simple_identifier))))))
 
 ==================
 Compound if let
@@ -531,3 +545,52 @@ let ø = unicode()
       (simple_identifier)
       (call_suffix
         (value_arguments)))))
+
+===
+Contextual keywords are usable as identifiers
+===
+
+public init() {
+    // `prefix` doesn't work as a function modifier here, so it's legal as an identifier
+    prefix = prefixToJSON
+
+    // But some modifiers are legal!
+    weak var weakPrefix = prefix
+    final class LocalClass { }
+
+    // Annotations are legal too!
+    @someAnnotation
+    func innerFunc() { }
+}
+
+---
+
+(source_file
+  (function_declaration
+    (modifiers
+      (visibility_modifier))
+    (function_body
+      (comment)
+      (statements
+        (assignment
+          (directly_assignable_expression
+            (simple_identifier))
+          (simple_identifier))
+        (comment)
+        (property_declaration
+          (ownership_modifier)
+          (value_binding_pattern
+            (non_binding_pattern
+              (simple_identifier)))
+          (simple_identifier))
+        (class_declaration
+          (inheritance_modifier)
+          (type_identifier)
+          (class_body))
+        (comment)
+        (function_declaration
+          (attribute
+            (user_type
+              (type_identifier)))
+          (simple_identifier)
+          (function_body))))))

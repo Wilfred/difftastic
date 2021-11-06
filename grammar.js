@@ -89,6 +89,10 @@ module.exports = grammar({
 
     // (start: start, end: end)
     [$._tuple_type_item_identifier, $.tuple_expression],
+
+    // After a `{` in a function or switch context, it's ambigous whether we're starting a set of local statements or
+    // applying some modifiers to a capture or pattern.
+    [$.modifiers],
   ],
 
   extras: ($) => [
@@ -147,7 +151,10 @@ module.exports = grammar({
     ////////////////////////////////
 
     source_file: ($) =>
-      seq(optional($.shebang_line), repeat(seq($._statement, $._semi))),
+      seq(
+        optional($.shebang_line),
+        repeat(seq($._top_level_statement, $._semi))
+      ),
 
     shebang_line: ($) => seq("#!", /[^\r\n]*/),
 
@@ -634,15 +641,12 @@ module.exports = grammar({
         choice(
           "self",
           seq(
-            optional($._capture_specifier),
+            optional($.ownership_modifier),
             $.simple_identifier,
             optional(seq($._equal_sign, $._expression))
           )
         )
       ),
-
-    _capture_specifier: ($) =>
-      choice("weak", "unowned", "unowned(safe)", "unowned(unsafe)"),
 
     lambda_function_type: ($) =>
       seq(
@@ -814,17 +818,29 @@ module.exports = grammar({
 
     statements: ($) =>
       prec.left(
-        seq($._statement, repeat(seq($._semi, $._statement)), optional($._semi))
+        seq(
+          $._local_statement,
+          repeat(seq($._semi, $._local_statement)),
+          optional($._semi)
+        )
       ),
 
-    _statement: ($) =>
+    _local_statement: ($) =>
       choice(
         $._expression,
-        $._declaration,
+        $._local_declaration,
         $._labeled_statement,
         $.control_transfer_statement,
-        $.assignment,
-        $.availability_condition
+        $.assignment
+      ),
+
+    _top_level_statement: ($) =>
+      choice(
+        $._expression,
+        $._global_declaration,
+        $._labeled_statement,
+        $._throw_statement,
+        $.assignment
       ),
 
     _block: ($) => prec(PREC.BLOCK, seq("{", optional($.statements), "}")),
@@ -880,9 +896,12 @@ module.exports = grammar({
 
     control_transfer_statement: ($) =>
       choice(
-        prec.right(seq("throw", $._expression)),
+        prec.right($._throw_statement),
         prec.right(seq($._return_continue_break, optional($._expression)))
       ),
+
+    _throw_statement: ($) => seq($.throw_keyword, $._expression),
+    throw_keyword: ($) => "throw",
 
     _return_continue_break: ($) => choice("return", "continue", "break"),
 
@@ -911,7 +930,7 @@ module.exports = grammar({
     // Declarations - https://docs.swift.org/swift-book/ReferenceManual/Declarations.html
     ////////////////////////////////
 
-    _declaration: ($) =>
+    _global_declaration: ($) =>
       choice(
         $.import_declaration,
         $.property_declaration,
@@ -920,11 +939,56 @@ module.exports = grammar({
         $.class_declaration,
         // TODO actor declaration
         $.protocol_declaration,
+        $.operator_declaration,
+        $.precedence_group_declaration,
+        $.associatedtype_declaration
+      ),
+
+    _type_level_declaration: ($) =>
+      choice(
+        $.import_declaration,
+        $.property_declaration,
+        $.typealias_declaration,
+        $.function_declaration,
+        $.class_declaration,
+        $.protocol_declaration,
         $.deinit_declaration,
         $.subscript_declaration,
         $.operator_declaration,
         $.precedence_group_declaration,
         $.associatedtype_declaration
+      ),
+
+    _local_declaration: ($) =>
+      choice(
+        alias($._local_property_declaration, $.property_declaration),
+        alias($._local_typealias_declaration, $.typealias_declaration),
+        alias($._local_function_declaration, $.function_declaration),
+        alias($._local_class_declaration, $.class_declaration)
+      ),
+
+    _local_property_declaration: ($) =>
+      seq(
+        optional($._locally_permitted_modifiers),
+        $._modifierless_property_declaration
+      ),
+
+    _local_typealias_declaration: ($) =>
+      seq(
+        optional($._locally_permitted_modifiers),
+        $._modifierless_typealias_declaration
+      ),
+
+    _local_function_declaration: ($) =>
+      seq(
+        optional($._locally_permitted_modifiers),
+        $._modifierless_function_declaration
+      ),
+
+    _local_class_declaration: ($) =>
+      seq(
+        optional($._locally_permitted_modifiers),
+        $._modifierless_class_declaration
       ),
 
     import_declaration: ($) =>
@@ -962,10 +1026,15 @@ module.exports = grammar({
       seq("{", repeat(choice($.getter_specifier, $.setter_specifier)), "}"),
 
     property_declaration: ($) =>
+      seq(
+        optional($.modifiers),
+        optional("class"),
+        $._modifierless_property_declaration
+      ),
+
+    _modifierless_property_declaration: ($) =>
       prec.right(
         seq(
-          optional($.modifiers),
-          optional("class"),
           choice("let", "var"),
           sep1(
             seq(
@@ -985,8 +1054,10 @@ module.exports = grammar({
       generate_pattern_matching_rule($, false, false),
 
     typealias_declaration: ($) =>
+      seq(optional($.modifiers), $._modifierless_typealias_declaration),
+
+    _modifierless_typealias_declaration: ($) =>
       seq(
-        optional($.modifiers),
         "typealias",
         alias($.simple_identifier, $.type_identifier),
         optional($.type_parameters),
@@ -997,11 +1068,21 @@ module.exports = grammar({
     function_declaration: ($) =>
       prec.right(seq($._bodyless_function_declaration, $.function_body)),
 
+    _modifierless_function_declaration: ($) =>
+      prec.right(
+        seq($._modifierless_function_declaration_no_body, $.function_body)
+      ),
+
     _bodyless_function_declaration: ($) =>
+      seq(
+        optional($.modifiers),
+        optional("class"), // XXX: This should be possible in non-last position, but that creates parsing ambiguity
+        $._modifierless_function_declaration_no_body
+      ),
+
+    _modifierless_function_declaration_no_body: ($) =>
       prec.right(
         seq(
-          optional($.modifiers),
-          optional("class"), // XXX: This should be possible in non-last position, but that creates parsing ambiguity
           choice(
             $._constructor_function_decl,
             $._non_constructor_function_decl
@@ -1019,10 +1100,12 @@ module.exports = grammar({
     function_body: ($) => $._block,
 
     class_declaration: ($) =>
+      seq(optional($.modifiers), $._modifierless_class_declaration),
+
+    _modifierless_class_declaration: ($) =>
       prec.right(
         choice(
           seq(
-            optional($.modifiers),
             choice("class", "struct"),
             alias($.simple_identifier, $.type_identifier),
             optional($.type_parameters),
@@ -1031,7 +1114,6 @@ module.exports = grammar({
             $.class_body
           ),
           seq(
-            optional($.modifiers),
             "extension",
             $.identifier,
             optional($.type_parameters),
@@ -1040,7 +1122,6 @@ module.exports = grammar({
             $.class_body
           ),
           seq(
-            optional($.modifiers),
             "enum",
             alias($.simple_identifier, $.type_identifier),
             optional($.type_parameters),
@@ -1088,7 +1169,8 @@ module.exports = grammar({
     equality_constraint: ($) =>
       seq(repeat($.attribute), $.identifier, choice("=", "=="), $._type),
 
-    _class_member_declarations: ($) => repeat1(seq($._declaration, $._semi)),
+    _class_member_declarations: ($) =>
+      repeat1(seq($._type_level_declaration, $._semi)),
 
     _function_value_parameters: ($) =>
       seq("(", optional(sep1($._function_value_parameter, ",")), ")"),
@@ -1135,7 +1217,7 @@ module.exports = grammar({
     throws_modifier: ($) => choice($._throws_keyword, $._rethrows_keyword),
 
     enum_class_body: ($) =>
-      seq("{", repeat(choice($.enum_entry, $._declaration)), "}"),
+      seq("{", repeat(choice($.enum_entry, $._type_level_declaration)), "}"),
 
     enum_entry: ($) =>
       prec.left(
@@ -1355,29 +1437,44 @@ module.exports = grammar({
     // Modifiers
     // ==========
 
-    modifiers: ($) => repeat1(choice($.attribute, $._modifier)),
+    modifiers: ($) =>
+      repeat1(
+        choice($._non_local_scope_modifier, $._locally_permitted_modifiers)
+      ),
+    _locally_permitted_modifiers: ($) =>
+      repeat1(choice($.attribute, $._locally_permitted_modifier)),
 
     parameter_modifiers: ($) => repeat1($.parameter_modifier),
 
     _modifier: ($) =>
+      choice($._non_local_scope_modifier, $._locally_permitted_modifier),
+
+    _non_local_scope_modifier: ($) =>
       choice(
         $.member_modifier,
         $.visibility_modifier,
         $.function_modifier,
         $.mutation_modifier,
         $.property_modifier,
-        $.inheritance_modifier,
         $.parameter_modifier
       ),
 
+    _locally_permitted_modifier: ($) =>
+      choice(
+        $.ownership_modifier,
+        $.property_behavior_modifier,
+        $.inheritance_modifier
+      ),
+
+    property_behavior_modifier: ($) => "lazy",
+
     type_modifiers: ($) => repeat1($.attribute),
 
-    member_modifier: ($) =>
-      choice("override", "convenience", "required", "unowned", "weak"),
+    member_modifier: ($) => choice("override", "convenience", "required"),
 
     visibility_modifier: ($) =>
       seq(
-        choice("public", "private", "internal", "fileprivate"),
+        choice("public", "private", "internal", "fileprivate", "open"),
         optional(seq("(", "set", ")"))
       ),
 
@@ -1387,16 +1484,14 @@ module.exports = grammar({
 
     mutation_modifier: ($) => choice("mutating", "nonmutating"),
 
-    property_modifier: ($) =>
-      choice(
-        "static", // XXX should be in multiple places
-        "lazy",
-        "optional"
-      ),
+    property_modifier: ($) => choice("static", "optional"),
 
-    inheritance_modifier: ($) => choice("final", "open"),
+    inheritance_modifier: ($) => choice("final"),
 
     parameter_modifier: ($) => choice("inout", "@escaping", "@autoclosure"),
+
+    ownership_modifier: ($) =>
+      choice("weak", "unowned", "unowned(safe)", "unowned(unsafe)"),
 
     use_site_target: ($) =>
       seq(

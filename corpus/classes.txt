@@ -84,7 +84,7 @@ internal open class Test {
 
 (source_file
     (class_declaration
-        (modifiers (visibility_modifier) (inheritance_modifier))
+        (modifiers (visibility_modifier) (visibility_modifier))
         (type_identifier)
         (class_body
             (property_declaration
@@ -159,7 +159,7 @@ class GenericSubscript {
         (type_identifier)
         (class_body
             (subscript_declaration
-                (modifiers (inheritance_modifier))
+                (modifiers (visibility_modifier))
                 (parameter (simple_identifier) (user_type (type_identifier)))
                 (optional_type (user_type (type_identifier)))
                 (computed_getter
@@ -201,40 +201,45 @@ class GenericSubscript {
 Subscript with multiple arguments
 ===
 
-public subscript<D>(_ value: D, arg2: Arg2) -> D where D: Decodable {
-    return value
+class Subscriptable {
+    public subscript<D>(_ value: D, arg2: Arg2) -> D where D: Decodable {
+        return value
+    }
 }
 
 ---
 
-(source_file
-  (subscript_declaration
-    (modifiers
-      (visibility_modifier))
-    (type_parameters
-      (type_parameter
-        (type_identifier)))
-    (external_parameter_name)
-    (parameter
-      (simple_identifier)
-      (user_type
-        (type_identifier)))
-    (parameter
-      (simple_identifier)
-      (user_type
-        (type_identifier)))
-    (user_type
-      (type_identifier))
-    (type_constraints
-      (type_constraint
-        (inheritance_constraint
-          (identifier
-            (simple_identifier))
-          (user_type
-            (type_identifier)))))
-    (statements
-      (control_transfer_statement
-        (simple_identifier)))))
+    (source_file
+      (class_declaration
+        (type_identifier)
+        (class_body
+          (subscript_declaration
+            (modifiers
+              (visibility_modifier))
+            (type_parameters
+              (type_parameter
+                (type_identifier)))
+            (external_parameter_name)
+            (parameter
+              (simple_identifier)
+              (user_type
+                (type_identifier)))
+            (parameter
+              (simple_identifier)
+              (user_type
+                (type_identifier)))
+            (user_type
+              (type_identifier))
+            (type_constraints
+              (type_constraint
+                (inheritance_constraint
+                  (identifier
+                    (simple_identifier))
+                  (user_type
+                    (type_identifier)))))
+            (statements
+              (control_transfer_statement
+                (simple_identifier)))))))
 
 ==================
 Inheritance
@@ -303,7 +308,7 @@ class SomethingElse: ThingProvider {
                 (type_annotation
                     (optional_type (user_type (type_identifier)))))
             (property_declaration
-                (modifiers (property_modifier))
+                (modifiers (property_behavior_modifier))
                 (value_binding_pattern (non_binding_pattern (simple_identifier)))
                 (type_annotation
                 (user_type (type_identifier)))

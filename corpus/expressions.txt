@@ -110,15 +110,19 @@ someVeryLongFunctionCall()
 Multiple expressions on one line using semicolons
 ==================
 
-print(a); return b
+print(a); throw b
 
 ---
 
-(source_file
-    (call_expression
+    (source_file
+      (call_expression
         (simple_identifier)
-        (call_suffix (value_arguments (value_argument (simple_identifier)))))
-    (control_transfer_statement (simple_identifier)))
+        (call_suffix
+          (value_arguments
+            (value_argument
+              (simple_identifier)))))
+      (throw_keyword)
+      (simple_identifier))
 
 ==================
 Indexing
@@ -230,20 +234,37 @@ let a: SomeClass = .someInstance
 Tuple expressions
 ==================
 
-let a: (Int, Int) = (1, 2)
-return (lhs: 3, rhs: 4)
+func math() {
+    let a: (Int, Int) = (1, 2)
+    return (lhs: 3, rhs: 4)
+}
 
 ---
 
-(source_file
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (type_annotation (tuple_type (user_type (type_identifier)) (user_type (type_identifier))))
-        (tuple_expression (integer_literal) (integer_literal)))
-    (control_transfer_statement
-        (tuple_expression
-            (simple_identifier) (integer_literal)
-            (simple_identifier) (integer_literal))))
+    (source_file
+      (function_declaration
+        (simple_identifier)
+        (function_body
+          (statements
+            (property_declaration
+              (value_binding_pattern
+                (non_binding_pattern
+                  (simple_identifier)))
+              (type_annotation
+                (tuple_type
+                  (user_type
+                    (type_identifier))
+                  (user_type
+                    (type_identifier))))
+              (tuple_expression
+                (integer_literal)
+                (integer_literal)))
+            (control_transfer_statement
+              (tuple_expression
+                (simple_identifier)
+                (integer_literal)
+                (simple_identifier)
+                (integer_literal)))))))
 
 ==================
 Function calls
