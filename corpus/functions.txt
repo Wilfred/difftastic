@@ -390,7 +390,7 @@ test { [weak self, otherSelf] (a) in }
         (simple_identifier)
         (call_suffix
             (lambda_literal
-                (capture_list (simple_identifier) (simple_identifier))
+                (capture_list (ownership_modifier) (simple_identifier) (simple_identifier))
                 (lambda_function_type (lambda_function_type_parameters (simple_identifier)))))))
 
 ==================
@@ -469,7 +469,7 @@ private lazy var onCatClosure: (_ cat: Cat) throws -> Void = { _ in
 
 (source_file
     (property_declaration
-        (modifiers (visibility_modifier) (property_modifier))
+        (modifiers (visibility_modifier) (property_behavior_modifier))
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (type_annotation
             (function_type
