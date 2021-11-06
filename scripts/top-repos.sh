@@ -4,6 +4,13 @@ set -e
 
 parser_dir="$(pwd)"
 known_failures="$parser_dir/script-data/known_failures.txt"
+if [ -z "$1" ]; then
+  repos=$(cat $parser_dir/script-data/top-repositories.txt)
+  echo "Running on all top repositories."
+else
+  repos=$(sed "$1q;d" $parser_dir/script-data/top-repositories.txt)
+  echo "Running on single repository $repos."
+fi
 
 # Run all this logic in a temporary directory that we delete on exit
 tmpdir="$(mktemp -d -t top-10-XXXXXX)"
@@ -20,7 +27,7 @@ function checkout() {
   repo=$1; url=$2; tag=$3
 
   if [ ! -d "$repo" ]; then
-    git clone --branch $tag --depth 1 "https://github.com/$url" "$repo"
+    git clone --quiet --branch $tag --depth 1 "https://github.com/$url" "$repo" >/dev/null 2>/dev/null
   fi
 
   echo "Cloned repository into $(pwd)/$repo"
@@ -50,6 +57,8 @@ function validate() {
     echo "Unexpected parse failure found in $repo:"
     cat <<<"$failed_files"
     exit 1
+  else
+    echo "Parsed $repo successfully!"
   fi
 }
 
@@ -64,4 +73,4 @@ fi
 # Run `validate` on every repository in `top-repositories` sequentially.
 while read line ; do
     validate $line
-done < $parser_dir/script-data/top-repositories.txt
+done <<<"$repos"
