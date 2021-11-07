@@ -112,6 +112,48 @@ fn column_widths(
     (lhs_column_width, rhs_column_width)
 }
 
+fn display_line_nums(
+    lhs_line_num: Option<LineNumber>,
+    rhs_line_num: Option<LineNumber>,
+    lhs_column_width: usize,
+    rhs_column_width: usize,
+    lhs_lines_with_novel: &HashSet<LineNumber>,
+    rhs_lines_with_novel: &HashSet<LineNumber>,
+    prev_lhs_line_num: Option<LineNumber>,
+    prev_rhs_line_num: Option<LineNumber>,
+) -> (String, String) {
+    let display_lhs_line_num: String = match lhs_line_num {
+        Some(line_num) => {
+            let s = format_line_num_padded(line_num, lhs_column_width);
+            if lhs_lines_with_novel.contains(&line_num) {
+                s.bright_red().to_string()
+            } else {
+                s
+            }
+        }
+        None => format_missing_line_num(
+            prev_lhs_line_num.unwrap_or_else(|| 1.into()),
+            lhs_column_width,
+        ),
+    };
+    let display_rhs_line_num: String = match rhs_line_num {
+        Some(line_num) => {
+            let s = format_line_num_padded(line_num, rhs_column_width);
+            if rhs_lines_with_novel.contains(&line_num) {
+                s.bright_green().to_string()
+            } else {
+                s
+            }
+        }
+        None => format_missing_line_num(
+            prev_rhs_line_num.unwrap_or_else(|| 1.into()),
+            rhs_column_width,
+        ),
+    };
+
+    (display_lhs_line_num, display_rhs_line_num)
+}
+
 pub fn display_hunks(
     hunks: &[Hunk],
     display_path: &str,
@@ -191,34 +233,16 @@ pub fn display_hunks(
         let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());
 
         for (lhs_line_num, rhs_line_num) in aligned_lines {
-            let display_lhs_line_num: String = match lhs_line_num {
-                Some(line_num) => {
-                    let s = format_line_num_padded(line_num, lhs_column_width);
-                    if lhs_lines_with_novel.contains(&line_num) {
-                        s.bright_red().to_string()
-                    } else {
-                        s
-                    }
-                }
-                None => format_missing_line_num(
-                    prev_lhs_line_num.unwrap_or_else(|| 1.into()),
-                    lhs_column_width,
-                ),
-            };
-            let display_rhs_line_num: String = match rhs_line_num {
-                Some(line_num) => {
-                    let s = format_line_num_padded(line_num, rhs_column_width);
-                    if rhs_lines_with_novel.contains(&line_num) {
-                        s.bright_green().to_string()
-                    } else {
-                        s
-                    }
-                }
-                None => format_missing_line_num(
-                    prev_rhs_line_num.unwrap_or_else(|| 1.into()),
-                    rhs_column_width,
-                ),
-            };
+            let (display_lhs_line_num, display_rhs_line_num) = display_line_nums(
+                lhs_line_num,
+                rhs_line_num,
+                lhs_column_width,
+                rhs_column_width,
+                &lhs_lines_with_novel,
+                &rhs_lines_with_novel,
+                prev_lhs_line_num,
+                prev_rhs_line_num,
+            );
 
             if no_lhs_changes {
                 let rhs_line = &rhs_colored_lines[rhs_line_num.expect("Should have RHS line").0];
@@ -263,36 +287,30 @@ pub fn display_hunks(
                 let lhs_num: String = if i == 0 {
                     display_lhs_line_num.clone()
                 } else {
-                    let s: String = format_missing_line_num(
+                    let mut s = format_missing_line_num(
                         lhs_line_num.unwrap_or(prev_lhs_line_num.unwrap_or(10.into())),
                         lhs_column_width,
                     );
                     if let Some(line_num) = lhs_line_num {
                         if lhs_lines_with_novel.contains(&line_num) {
-                            s.bright_red().to_string()
-                        } else {
-                            s
+                            s = s.bright_red().to_string()
                         }
-                    } else {
-                        s
                     }
+                    s
                 };
                 let rhs_num: String = if i == 0 {
                     display_rhs_line_num.clone()
                 } else {
-                    let s: String = format_missing_line_num(
+                    let mut s = format_missing_line_num(
                         rhs_line_num.unwrap_or(prev_rhs_line_num.unwrap_or(10.into())),
                         rhs_column_width,
                     );
                     if let Some(line_num) = rhs_line_num {
                         if rhs_lines_with_novel.contains(&line_num) {
-                            s.bright_green().to_string()
-                        } else {
-                            s
+                            s = s.bright_green().to_string();
                         }
-                    } else {
-                        s
                     }
+                    s
                 };
 
                 out_lines.push(format!(
