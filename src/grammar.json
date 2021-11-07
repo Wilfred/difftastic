@@ -2181,6 +2181,40 @@
         }
       ]
     },
+    "modifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "%"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_atype"
+        }
+      ]
+    },
+    "_fun_arrow": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "modifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "->"
+        }
+      ]
+    },
     "_type_fun": {
       "type": "PREC",
       "value": "function-type",
@@ -2192,8 +2226,8 @@
             "name": "_type_infix"
           },
           {
-            "type": "STRING",
-            "value": "->"
+            "type": "SYMBOL",
+            "name": "_fun_arrow"
           },
           {
             "type": "SYMBOL",

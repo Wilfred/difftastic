@@ -433,3 +433,40 @@ type A a :: a -> Type
   (type)
   (type_variable)
   (fun (type_name (type_variable)) (type_name (type)))))
+
+================================================================================
+type decl: function with multiplicity modifier
+================================================================================
+
+type A = a %1-> a
+type A = a %1 -> a
+type A = a %One -> a
+type A = a %m -> a
+
+---
+
+(haskell
+ (type_alias
+  (type)
+  (fun
+    (type_name (type_variable))
+    (modifier (type_literal (integer)))
+    (type_name (type_variable))))
+ (type_alias
+  (type)
+  (fun
+    (type_name (type_variable))
+    (modifier (type_literal (integer)))
+    (type_name (type_variable))))
+  (type_alias
+   (type)
+   (fun
+    (type_name (type_variable))
+    (modifier (type_name (type)))
+    (type_name (type_variable))))
+  (type_alias
+   (type)
+   (fun
+    (type_name (type_variable))
+    (modifier (type_name (type_variable)))
+    (type_name (type_variable)))))
