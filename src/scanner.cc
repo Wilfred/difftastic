@@ -1328,7 +1328,8 @@ Parser symop(Symbolic type) {
 }
 
 /**
- * Parse an inline comment if the next chars are two or more minuses and the uint32_t after the last minus is not symbolic.
+ * Parse an inline comment if the next chars are two or more minuses and the uint32_t after the last minus is not
+ * symbolic.
  *
  * To be called when it is certain that two minuses cannot succeed as a symbolic operator.
  * Those cases are:
@@ -1356,9 +1357,15 @@ Parser nested_comment(uint16_t level) {
   return [=](State & state) {
     auto p =
       eof +
-      seq("{-")(multiline_comment(level + 1) + fail) +
-      seq("-}")(when(level <= 1)(multiline_comment_success) + multiline_comment(level - 1) + fail) +
-      parser::advance +
+      either(
+        cond::consume('{'),
+        iff(cond::consume('-'))(multiline_comment(level + 1) + fail),
+        either(
+          cond::consume('-'),
+          iff(cond::consume('}'))(when(level <= 1)(multiline_comment_success) + multiline_comment(level - 1) + fail),
+          parser::advance
+        )
+      ) +
       multiline_comment(level)
       ;
     return p(state);
