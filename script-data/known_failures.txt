@@ -1,11 +1,5 @@
-Carthage/Source/carthage/Outdated.swift
-Carthage/Source/carthage/Archive.swift
-Carthage/Source/carthage/Update.swift
 Carthage/Source/carthage/Extensions.swift
-Carthage/Source/carthage/Fetch.swift
 Carthage/Source/carthage/Build.swift
-Carthage/Source/carthage/Checkout.swift
-Carthage/Source/carthage/Formatting.swift
 Carthage/Source/CarthageKit/Archive.swift
 Carthage/Source/CarthageKit/Project.swift
 Carthage/Source/CarthageKit/GitURL.swift

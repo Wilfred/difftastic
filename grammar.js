@@ -93,6 +93,10 @@ module.exports = grammar({
     // After a `{` in a function or switch context, it's ambigous whether we're starting a set of local statements or
     // applying some modifiers to a capture or pattern.
     [$.modifiers],
+
+    // Custom operators get weird special handling for `<` characters in silly stuff like `func =<<<<T>(...)`
+    [$.custom_operator],
+    [$._prefix_unary_operator, $._referenceable_operator],
   ],
 
   extras: ($) => [
@@ -500,7 +504,7 @@ module.exports = grammar({
     bitwise_operation: ($) =>
       prec.left(seq($._expression, $._bitwise_binary_operator, $._expression)),
 
-    custom_operator: ($) => CUSTOM_OPERATORS,
+    custom_operator: ($) => seq(CUSTOM_OPERATORS, optional("<")),
 
     // Suffixes
 
@@ -797,7 +801,19 @@ module.exports = grammar({
     _as_operator: ($) => choice("as", "as?", "as!"),
 
     _prefix_unary_operator: ($) =>
-      prec.right(choice("++", "--", "-", "+", "!", "&", "~", $._dot_operator)),
+      prec.right(
+        choice(
+          "++",
+          "--",
+          "-",
+          "+",
+          "!",
+          "&",
+          "~",
+          $._dot_operator,
+          $.custom_operator
+        )
+      ),
 
     _bitwise_binary_operator: ($) => choice("&", "|", "^", "<<", ">>"),
 
