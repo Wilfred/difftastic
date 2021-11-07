@@ -9,7 +9,7 @@ use crate::{
     hunks::{aligned_lines_from_hunk, Hunk},
     lines::{enforce_max_length, format_line_num, LineNumber, MaxLine},
     positions::SingleLineSpan,
-    style::{self, color_positions, split_and_apply, Style},
+    style::{self, apply_colors, color_positions, split_and_apply, Style},
     syntax::{zip_pad_shorter, MatchedPos},
 };
 
@@ -151,8 +151,13 @@ pub fn display_hunks(
     let rhs_content_width =
         terminal_width - lhs_column_width - lhs_content_width - SPACER.len() - rhs_column_width;
 
+    let lhs_colored_src = apply_colors(lhs_src, true, lhs_mps);
+    let rhs_colored_src = apply_colors(rhs_src, false, rhs_mps);
+
     let lhs_lines = split_lines_nonempty(lhs_src);
     let rhs_lines = split_lines_nonempty(rhs_src);
+    let lhs_colored_lines = split_lines_nonempty(&lhs_colored_src);
+    let rhs_colored_lines = split_lines_nonempty(&rhs_colored_src);
 
     let lhs_lines_with_novel: HashSet<LineNumber> = lhs_mps
         .iter()
@@ -182,25 +187,10 @@ pub fn display_hunks(
             max_rhs_src_line,
             &matched_rhs_lines,
         );
+        let no_lhs_changes = hunk.lines.iter().all(|(l, _)| l.is_none());
+        let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());
 
         for (lhs_line_num, rhs_line_num) in aligned_lines {
-            let lhs_line = match lhs_line_num {
-                Some(lhs_line_num) => split_and_apply(
-                    &lhs_lines[lhs_line_num.0],
-                    lhs_content_width,
-                    &lhs_styles.get(&lhs_line_num).unwrap_or(&vec![]),
-                ),
-                None => vec![" ".repeat(lhs_content_width)],
-            };
-            let rhs_line = match rhs_line_num {
-                Some(rhs_line_num) => split_and_apply(
-                    &rhs_lines[rhs_line_num.0],
-                    rhs_content_width,
-                    &rhs_styles.get(&rhs_line_num).unwrap_or(&vec![]),
-                ),
-                None => vec!["".into()],
-            };
-
             let display_lhs_line_num: String = match lhs_line_num {
                 Some(line_num) => {
                     let s = format_line_num_padded(line_num, lhs_column_width);
@@ -228,6 +218,40 @@ pub fn display_hunks(
                     prev_rhs_line_num.unwrap_or_else(|| 1.into()),
                     rhs_column_width,
                 ),
+            };
+
+            if no_lhs_changes {
+                let rhs_line = &rhs_colored_lines[rhs_line_num.expect("Should have RHS line").0];
+                out_lines.push(format!(
+                    "{}{}{}{}",
+                    display_lhs_line_num, SPACER, display_rhs_line_num, rhs_line
+                ));
+                continue;
+            }
+            if no_rhs_changes {
+                let lhs_line = &lhs_colored_lines[lhs_line_num.expect("Should have LHS line").0];
+                out_lines.push(format!(
+                    "{}{}{}{}",
+                    display_lhs_line_num, SPACER, display_rhs_line_num, lhs_line
+                ));
+                continue;
+            }
+
+            let lhs_line = match lhs_line_num {
+                Some(lhs_line_num) => split_and_apply(
+                    &lhs_lines[lhs_line_num.0],
+                    lhs_content_width,
+                    &lhs_styles.get(&lhs_line_num).unwrap_or(&vec![]),
+                ),
+                None => vec![" ".repeat(lhs_content_width)],
+            };
+            let rhs_line = match rhs_line_num {
+                Some(rhs_line_num) => split_and_apply(
+                    &rhs_lines[rhs_line_num.0],
+                    rhs_content_width,
+                    &rhs_styles.get(&rhs_line_num).unwrap_or(&vec![]),
+                ),
+                None => vec!["".into()],
             };
 
             for (i, (lhs_line, rhs_line)) in zip_pad_shorter(&lhs_line, &rhs_line)
