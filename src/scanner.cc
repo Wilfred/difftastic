@@ -694,7 +694,7 @@ function<Symbolic(State &)> symop(u32string s) {
       if (c == '#' && cond::peek_with(cond::varid_start_char)(state)) return Symbolic::invalid;
       if (c == '$' && cond::valid_splice(state)) return Symbolic::splice;
       if (c == '?' && cond::varid(state)) return Symbolic::implicit;
-      if (c == '%' && !cond::peekws(state)) return Symbolic::modifier;
+      if (c == '%' && !(cond::peekws(state) || cond::peek(')'))) return Symbolic::modifier;
       if (c == '|') return Symbolic::bar;
       switch (c) {
         case '*':
