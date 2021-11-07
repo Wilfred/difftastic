@@ -70,3 +70,27 @@ comment: unicode symbol
 ---
 
 (haskell (comment) (comment) (empty_file))
+
+================================================================================
+comment: double minus before multiline end
+================================================================================
+
+module A where
+
+{- --}
+
+---
+
+(haskell (module) (where) (comment))
+
+================================================================================
+comment: double brace before nested begin
+================================================================================
+
+module A where
+
+{- {{- -} -}
+
+---
+
+(haskell (module) (where) (comment))
