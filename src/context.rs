@@ -5,7 +5,7 @@ use crate::{
     syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
 };
 
-const MAX_PADDING: usize = 2;
+const MAX_PADDING: usize = 3;
 
 pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
     let mut res: HashMap<LineNumber, HashSet<LineNumber>> = HashMap::new();

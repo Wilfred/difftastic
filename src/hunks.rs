@@ -1,4 +1,4 @@
-const MAX_DISTANCE: usize = 3;
+const MAX_DISTANCE: usize = 4;
 
 use std::collections::{HashMap, HashSet};
 
