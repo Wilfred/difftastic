@@ -2,12 +2,15 @@
 
 use atty::Stream;
 use colored::{Color, Colorize};
-use std::collections::{HashMap, HashSet};
+use std::{
+    cmp::max,
+    collections::{HashMap, HashSet},
+};
 
 use crate::{
-    context::opposite_positions,
-    hunks::{aligned_lines_from_hunk, Hunk},
-    lines::{enforce_max_length, format_line_num, LineNumber, MaxLine},
+    context::{add_context, opposite_positions},
+    hunks::{aligned_lines_from_hunk, extract_lines, Hunk},
+    lines::{codepoint_len, enforce_max_length, format_line_num, LineNumber, MaxLine},
     positions::SingleLineSpan,
     style::{self, apply_colors, color_positions, split_and_apply, Style},
     syntax::{zip_pad_shorter, MatchedPos},
@@ -31,10 +34,6 @@ fn split_lines_nonempty(s: &str) -> Vec<String> {
         lines.push(line.into());
     }
     lines
-}
-
-fn lhs_printable_width(terminal_width: usize) -> usize {
-    (terminal_width - SPACER.len()) / 2
 }
 
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
@@ -78,45 +77,73 @@ fn display_single_column(src: &str, color: Color) -> String {
     result
 }
 
-fn column_widths(
+// TODO: Move to hunks.rs
+pub fn merge_adjacent(
     hunks: &[Hunk],
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
-) -> (usize, usize) {
-    let hunk = if let Some(hunk) = hunks.last() {
-        hunk
-    } else {
-        return (1, 1);
-    };
+) -> Vec<Hunk> {
+    let mut res: Vec<Hunk> = vec![];
+    let mut prev_hunk: Option<Hunk> = None;
 
-    let matched_rhs_lines = opposite_positions(lhs_mps);
-    let aligned_lines = aligned_lines_from_hunk(
-        hunk,
-        lhs_mps,
-        rhs_mps,
-        max_lhs_src_line,
-        max_rhs_src_line,
-        &matched_rhs_lines,
-    );
+    let mut prev_lhs_lines: HashSet<LineNumber> = HashSet::new();
+    let mut prev_rhs_lines: HashSet<LineNumber> = HashSet::new();
 
-    let lhs_column_width = match aligned_lines.iter().flat_map(|(l, _)| *l).next() {
-        Some(lhs_max_line) => format_line_num(lhs_max_line).len(),
-        None => 1,
-    };
-    let rhs_column_width = match aligned_lines.iter().flat_map(|(_, r)| *r).next() {
-        Some(rhs_max_line) => format_line_num(rhs_max_line).len(),
-        None => 1,
-    };
-    (lhs_column_width, rhs_column_width)
+    for hunk in hunks {
+        let mut lhs_lines: HashSet<LineNumber> = HashSet::new();
+        let mut rhs_lines: HashSet<LineNumber> = HashSet::new();
+
+        let lines = extract_lines(hunk);
+        let contextual_lines =
+            add_context(&lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
+        for (lhs_line, rhs_line) in contextual_lines {
+            if let Some(lhs_line) = lhs_line {
+                lhs_lines.insert(lhs_line);
+            }
+            if let Some(rhs_line) = rhs_line {
+                rhs_lines.insert(rhs_line);
+            }
+        }
+
+        match prev_hunk {
+            Some(hunk_so_far) => {
+                if lhs_lines.is_disjoint(&prev_lhs_lines) && rhs_lines.is_disjoint(&prev_rhs_lines)
+                {
+                    // No overlaps, start a new hunk.
+                    res.push(hunk_so_far.clone());
+                    prev_hunk = Some(hunk.clone());
+
+                    prev_lhs_lines = lhs_lines;
+                    prev_rhs_lines = rhs_lines;
+                } else {
+                    // Adjacent hunks, merge.
+                    prev_hunk = Some(hunk_so_far.merge(hunk));
+                    prev_lhs_lines.extend(lhs_lines.iter());
+                    prev_rhs_lines.extend(rhs_lines.iter());
+                }
+            }
+            None => {
+                // The very first hunk.
+                prev_hunk = Some(hunk.clone());
+                prev_lhs_lines = lhs_lines;
+                prev_rhs_lines = rhs_lines;
+            }
+        }
+    }
+
+    if let Some(current_hunk) = prev_hunk {
+        res.push(current_hunk);
+    }
+
+    res
 }
 
 fn display_line_nums(
     lhs_line_num: Option<LineNumber>,
     rhs_line_num: Option<LineNumber>,
-    lhs_column_width: usize,
-    rhs_column_width: usize,
+    widths: &Widths,
     lhs_lines_with_novel: &HashSet<LineNumber>,
     rhs_lines_with_novel: &HashSet<LineNumber>,
     prev_lhs_line_num: Option<LineNumber>,
@@ -124,7 +151,7 @@ fn display_line_nums(
 ) -> (String, String) {
     let display_lhs_line_num: String = match lhs_line_num {
         Some(line_num) => {
-            let s = format_line_num_padded(line_num, lhs_column_width);
+            let s = format_line_num_padded(line_num, widths.lhs_line_nums);
             if lhs_lines_with_novel.contains(&line_num) {
                 s.bright_red().to_string()
             } else {
@@ -133,12 +160,12 @@ fn display_line_nums(
         }
         None => format_missing_line_num(
             prev_lhs_line_num.unwrap_or_else(|| 1.into()),
-            lhs_column_width,
+            widths.lhs_line_nums,
         ),
     };
     let display_rhs_line_num: String = match rhs_line_num {
         Some(line_num) => {
-            let s = format_line_num_padded(line_num, rhs_column_width);
+            let s = format_line_num_padded(line_num, widths.rhs_line_nums);
             if rhs_lines_with_novel.contains(&line_num) {
                 s.bright_green().to_string()
             } else {
@@ -147,11 +174,62 @@ fn display_line_nums(
         }
         None => format_missing_line_num(
             prev_rhs_line_num.unwrap_or_else(|| 1.into()),
-            rhs_column_width,
+            widths.rhs_line_nums,
         ),
     };
 
     (display_lhs_line_num, display_rhs_line_num)
+}
+
+// Sizes used when displaying a hunk.
+struct Widths {
+    lhs_content: usize,
+    rhs_content: usize,
+    lhs_line_nums: usize,
+    rhs_line_nums: usize,
+}
+
+impl Widths {
+    fn new(
+        terminal_width: usize,
+        line_nums: &[(Option<LineNumber>, Option<LineNumber>)],
+        lhs_src: &str,
+        rhs_src: &str,
+    ) -> Self {
+        let lhs_lines = split_lines_nonempty(lhs_src);
+        let rhs_lines = split_lines_nonempty(rhs_src);
+
+        let mut lhs_max_line: LineNumber = 1.into();
+        let mut rhs_max_line: LineNumber = 1.into();
+        let mut lhs_max_content = 1;
+        let mut rhs_max_content = 1;
+
+        for (lhs_line_num, rhs_line_num) in line_nums {
+            if let Some(lhs_line_num) = lhs_line_num {
+                lhs_max_line = max(lhs_max_line, *lhs_line_num);
+                lhs_max_content = max(lhs_max_content, codepoint_len(&lhs_lines[lhs_line_num.0]));
+            }
+            if let Some(rhs_line_num) = rhs_line_num {
+                rhs_max_line = max(rhs_max_line, *rhs_line_num);
+                rhs_max_content = max(rhs_max_content, codepoint_len(&rhs_lines[rhs_line_num.0]));
+            }
+        }
+
+        let lhs_line_nums_width = format_line_num(lhs_max_line).len();
+        let rhs_line_nums_width = format_line_num(lhs_max_line).len();
+
+        let lhs_total_width = (terminal_width - SPACER.len()) / 2;
+        let lhs_content_width = lhs_total_width - lhs_line_nums_width;
+        let rhs_content_width =
+            terminal_width - lhs_total_width - SPACER.len() - rhs_line_nums_width;
+
+        Self {
+            lhs_content: lhs_content_width,
+            rhs_content: rhs_content_width,
+            lhs_line_nums: lhs_line_nums_width,
+            rhs_line_nums: rhs_line_nums_width,
+        }
+    }
 }
 
 pub fn display_hunks(
@@ -181,17 +259,6 @@ pub fn display_hunks(
         let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
         styles.push((span, style));
     }
-
-    let terminal_width = term_width().unwrap_or(80);
-
-    let max_lhs_src_line = lhs_src.max_line();
-    let max_rhs_src_line = rhs_src.max_line();
-    let (lhs_column_width, rhs_column_width) =
-        column_widths(hunks, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
-
-    let lhs_content_width = lhs_printable_width(terminal_width) - lhs_column_width;
-    let rhs_content_width =
-        terminal_width - lhs_column_width - lhs_content_width - SPACER.len() - rhs_column_width;
 
     let lhs_colored_src = apply_colors(lhs_src, true, lhs_mps);
     let rhs_colored_src = apply_colors(rhs_src, false, rhs_mps);
@@ -225,19 +292,19 @@ pub fn display_hunks(
             hunk,
             lhs_mps,
             rhs_mps,
-            max_lhs_src_line,
-            max_rhs_src_line,
+            lhs_src.max_line(),
+            rhs_src.max_line(),
             &matched_rhs_lines,
         );
         let no_lhs_changes = hunk.lines.iter().all(|(l, _)| l.is_none());
         let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());
 
+        let widths = Widths::new(term_width().unwrap_or(80), &aligned_lines, lhs_src, rhs_src);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let (display_lhs_line_num, display_rhs_line_num) = display_line_nums(
                 lhs_line_num,
                 rhs_line_num,
-                lhs_column_width,
-                rhs_column_width,
+                &widths,
                 &lhs_lines_with_novel,
                 &rhs_lines_with_novel,
                 prev_lhs_line_num,
@@ -264,16 +331,16 @@ pub fn display_hunks(
             let lhs_line = match lhs_line_num {
                 Some(lhs_line_num) => split_and_apply(
                     &lhs_lines[lhs_line_num.0],
-                    lhs_content_width,
-                    &lhs_styles.get(&lhs_line_num).unwrap_or(&vec![]),
+                    widths.lhs_content,
+                    lhs_styles.get(&lhs_line_num).unwrap_or(&vec![]),
                 ),
-                None => vec![" ".repeat(lhs_content_width)],
+                None => vec![" ".repeat(widths.lhs_content)],
             };
             let rhs_line = match rhs_line_num {
                 Some(rhs_line_num) => split_and_apply(
                     &rhs_lines[rhs_line_num.0],
-                    rhs_content_width,
-                    &rhs_styles.get(&rhs_line_num).unwrap_or(&vec![]),
+                    widths.rhs_content,
+                    rhs_styles.get(&rhs_line_num).unwrap_or(&vec![]),
                 ),
                 None => vec!["".into()],
             };
@@ -282,14 +349,14 @@ pub fn display_hunks(
                 .into_iter()
                 .enumerate()
             {
-                let lhs_line = lhs_line.unwrap_or(" ".repeat(lhs_content_width));
+                let lhs_line = lhs_line.unwrap_or(" ".repeat(widths.rhs_content));
                 let rhs_line = rhs_line.unwrap_or("".into());
                 let lhs_num: String = if i == 0 {
                     display_lhs_line_num.clone()
                 } else {
                     let mut s = format_missing_line_num(
                         lhs_line_num.unwrap_or(prev_lhs_line_num.unwrap_or(10.into())),
-                        lhs_column_width,
+                        widths.lhs_line_nums,
                     );
                     if let Some(line_num) = lhs_line_num {
                         if lhs_lines_with_novel.contains(&line_num) {
@@ -303,7 +370,7 @@ pub fn display_hunks(
                 } else {
                     let mut s = format_missing_line_num(
                         rhs_line_num.unwrap_or(prev_rhs_line_num.unwrap_or(10.into())),
-                        rhs_column_width,
+                        widths.rhs_line_nums,
                     );
                     if let Some(line_num) = rhs_line_num {
                         if rhs_lines_with_novel.contains(&line_num) {
