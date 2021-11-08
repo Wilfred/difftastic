@@ -317,73 +317,70 @@ pub fn display_hunks(
                     "{}{}{}",
                     display_lhs_line_num, display_rhs_line_num, rhs_line
                 ));
-                continue;
-            }
-            if no_rhs_changes {
+            } else if no_rhs_changes {
                 let lhs_line = &lhs_colored_lines[lhs_line_num.expect("Should have LHS line").0];
                 out_lines.push(format!(
                     "{}{}{}",
                     display_lhs_line_num, display_rhs_line_num, lhs_line
                 ));
-                continue;
-            }
-
-            let lhs_line = match lhs_line_num {
-                Some(lhs_line_num) => split_and_apply(
-                    &lhs_lines[lhs_line_num.0],
-                    widths.lhs_content,
-                    lhs_styles.get(&lhs_line_num).unwrap_or(&vec![]),
-                ),
-                None => vec![" ".repeat(widths.lhs_content)],
-            };
-            let rhs_line = match rhs_line_num {
-                Some(rhs_line_num) => split_and_apply(
-                    &rhs_lines[rhs_line_num.0],
-                    widths.rhs_content,
-                    rhs_styles.get(&rhs_line_num).unwrap_or(&vec![]),
-                ),
-                None => vec!["".into()],
-            };
-
-            for (i, (lhs_line, rhs_line)) in zip_pad_shorter(&lhs_line, &rhs_line)
-                .into_iter()
-                .enumerate()
-            {
-                let lhs_line = lhs_line.unwrap_or(" ".repeat(widths.rhs_content));
-                let rhs_line = rhs_line.unwrap_or("".into());
-                let lhs_num: String = if i == 0 {
-                    display_lhs_line_num.clone()
-                } else {
-                    let mut s = format_missing_line_num(
-                        lhs_line_num.unwrap_or(prev_lhs_line_num.unwrap_or(10.into())),
-                        widths.lhs_line_nums,
-                    );
-                    if let Some(line_num) = lhs_line_num {
-                        if lhs_lines_with_novel.contains(&line_num) {
-                            s = s.bright_red().to_string()
-                        }
-                    }
-                    s
+            } else {
+                let lhs_line = match lhs_line_num {
+                    Some(lhs_line_num) => split_and_apply(
+                        &lhs_lines[lhs_line_num.0],
+                        widths.lhs_content,
+                        lhs_styles.get(&lhs_line_num).unwrap_or(&vec![]),
+                    ),
+                    None => vec![" ".repeat(widths.lhs_content)],
                 };
-                let rhs_num: String = if i == 0 {
-                    display_rhs_line_num.clone()
-                } else {
-                    let mut s = format_missing_line_num(
-                        rhs_line_num.unwrap_or(prev_rhs_line_num.unwrap_or(10.into())),
-                        widths.rhs_line_nums,
-                    );
-                    if let Some(line_num) = rhs_line_num {
-                        if rhs_lines_with_novel.contains(&line_num) {
-                            s = s.bright_green().to_string();
-                        }
-                    }
-                    s
+                let rhs_line = match rhs_line_num {
+                    Some(rhs_line_num) => split_and_apply(
+                        &rhs_lines[rhs_line_num.0],
+                        widths.rhs_content,
+                        rhs_styles.get(&rhs_line_num).unwrap_or(&vec![]),
+                    ),
+                    None => vec!["".into()],
                 };
 
-                out_lines.push(format!(
-                    "{}{}{}{}{}",
-                    lhs_num, lhs_line, SPACER, rhs_num, rhs_line
-                ));
+                for (i, (lhs_line, rhs_line)) in zip_pad_shorter(&lhs_line, &rhs_line)
+                    .into_iter()
+                    .enumerate()
+                {
+                    let lhs_line = lhs_line.unwrap_or(" ".repeat(widths.lhs_content));
+                    let rhs_line = rhs_line.unwrap_or("".into());
+                    let lhs_num: String = if i == 0 {
+                        display_lhs_line_num.clone()
+                    } else {
+                        let mut s = format_missing_line_num(
+                            lhs_line_num.unwrap_or(prev_lhs_line_num.unwrap_or(10.into())),
+                            widths.lhs_line_nums,
+                        );
+                        if let Some(line_num) = lhs_line_num {
+                            if lhs_lines_with_novel.contains(&line_num) {
+                                s = s.bright_red().to_string()
+                            }
+                        }
+                        s
+                    };
+                    let rhs_num: String = if i == 0 {
+                        display_rhs_line_num.clone()
+                    } else {
+                        let mut s = format_missing_line_num(
+                            rhs_line_num.unwrap_or(prev_rhs_line_num.unwrap_or(10.into())),
+                            widths.rhs_line_nums,
+                        );
+                        if let Some(line_num) = rhs_line_num {
+                            if rhs_lines_with_novel.contains(&line_num) {
+                                s = s.bright_green().to_string();
+                            }
+                        }
+                        s
+                    };
+
+                    out_lines.push(format!(
+                        "{}{}{}{}{}",
+                        lhs_num, lhs_line, SPACER, rhs_num, rhs_line
+                    ));
+                }
             }
 
             if lhs_line_num.is_some() {
