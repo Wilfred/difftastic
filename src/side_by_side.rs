@@ -16,7 +16,7 @@ use crate::{
     syntax::{zip_pad_shorter, MatchedPos},
 };
 
-const SPACER: &str = "  ";
+const SPACER: &str = " ";
 
 fn term_width() -> Option<usize> {
     term_size::dimensions().map(|(w, _)| w)
@@ -314,16 +314,16 @@ pub fn display_hunks(
             if no_lhs_changes {
                 let rhs_line = &rhs_colored_lines[rhs_line_num.expect("Should have RHS line").0];
                 out_lines.push(format!(
-                    "{}{}{}{}",
-                    display_lhs_line_num, SPACER, display_rhs_line_num, rhs_line
+                    "{}{}{}",
+                    display_lhs_line_num, display_rhs_line_num, rhs_line
                 ));
                 continue;
             }
             if no_rhs_changes {
                 let lhs_line = &lhs_colored_lines[lhs_line_num.expect("Should have LHS line").0];
                 out_lines.push(format!(
-                    "{}{}{}{}",
-                    display_lhs_line_num, SPACER, display_rhs_line_num, lhs_line
+                    "{}{}{}",
+                    display_lhs_line_num, display_rhs_line_num, lhs_line
                 ));
                 continue;
             }
