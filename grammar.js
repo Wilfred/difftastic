@@ -103,6 +103,10 @@ module.exports = grammar({
     [$.user_type, $.function_type],
   ],
 
+  externals: $ => [
+    $._automatic_semicolon,
+  ],
+
   extras: $ => [
     $.comment,
     /\s+/ // Whitespace
@@ -135,7 +139,8 @@ module.exports = grammar({
       choice(
         seq("[", repeat1($._unescaped_annotation), "]"),
         $._unescaped_annotation
-      )
+      ),
+      $._semi
     ),
 
     package_header: $ => seq("package", $.identifier, $._semi),
@@ -542,9 +547,9 @@ module.exports = grammar({
 
     // See also https://github.com/tree-sitter/tree-sitter/issues/160
     // generic EOF/newline token
-    _semi: $ => /[\r\n]+/,
+    _semi: $ => choice($._automatic_semicolon, ';'),
 
-    _semis: $ => /[\r\n]+/,
+    _semis: $ => choice($._automatic_semicolon, ';'),
 
     assignment: $ => choice(
       prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, $._assignment_and_operator, $._expression)),

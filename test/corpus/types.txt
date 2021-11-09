@@ -19,31 +19,35 @@ something as A
 Nested types
 ==================
 
+// TODO the introduction of scanner.c changed the AST for nested types
 something as Some.NestedType
 
 ---
-
 (source_file
-  (as_expression
-    (simple_identifier)
-    (user_type (type_identifier) (type_identifier))))
+   (comment)
+   (navigation_expression
+      (as_expression (simple_identifier)
+          (user_type (type_identifier)))
+      (navigation_suffix (simple_identifier))))
 
 ==================
 Deeply nested types
 ==================
 
+// TODO the introduction of scanner.c changed the AST for nested types
 somethingElse as A.Deeply.Nested.Type
 
 ---
-
 (source_file
-  (as_expression
-    (simple_identifier)
-    (user_type
-      (type_identifier)
-      (type_identifier)
-      (type_identifier)
-      (type_identifier))))
+   (comment)
+   (navigation_expression
+      (navigation_expression
+         (navigation_expression
+	    (as_expression (simple_identifier) (user_type (type_identifier)))
+	    (navigation_suffix (simple_identifier)))
+	 (navigation_suffix (simple_identifier)))
+      (navigation_suffix (simple_identifier))))
+
 
 ==================
 Generic wildcard types
