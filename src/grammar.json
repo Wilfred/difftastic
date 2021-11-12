@@ -26,20 +26,20 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_simple_statement"
-        },
-        {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_simple_statement"
+            },
             {
               "type": "REPEAT",
               "content": {
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "_semicolon"
+                    "type": "STRING",
+                    "value": ";"
                   },
                   {
                     "type": "SYMBOL",
@@ -47,9 +47,6 @@
                   }
                 ]
               }
-            },
-            {
-              "type": "BLANK"
             }
           ]
         },
@@ -57,8 +54,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_semicolon"
+              "type": "STRING",
+              "value": ";"
             },
             {
               "type": "BLANK"
@@ -4885,10 +4882,6 @@
           }
         ]
       }
-    },
-    "_semicolon": {
-      "type": "STRING",
-      "value": ";"
     }
   },
   "extras": [

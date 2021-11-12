@@ -977,3 +977,20 @@ or len("aa")
         (identifier)
         (argument_list
           (string))))))
+
+==========================
+Statements with semicolons
+==========================
+
+foo;
+foo; bar
+foo; bar;
+
+---
+
+(module
+  (expression_statement (identifier))
+  (expression_statement (identifier))
+  (expression_statement (identifier))
+  (expression_statement (identifier))
+  (expression_statement (identifier)))
