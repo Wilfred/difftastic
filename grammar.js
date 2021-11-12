@@ -34,8 +34,6 @@ const ALPHA_CHAR = /[^\x00-\x1F\s0-9:;`"'@$#.,|^&<=>+\-*/\\%?!~()\[\]{}]/;
 module.exports = grammar({
   name: 'ruby',
 
-  inline: $ => [$.p_kwarg, $.p_args_post],
-
   externals: $ => [
     $._line_break,
 
@@ -351,124 +349,176 @@ module.exports = grammar({
 
     in_clause: $ => seq(
       'in',
-      $.p_top_expr,
+      field('pattern', $._pattern_top_expr_body),
+      field('guard', optional($._guard)),
       choice($._terminator, field('body', $.then))
     ),
 
     pattern: $ => choice($._arg, $.splat_argument),
 
-    p_top_expr: $ => choice($.p_top_expr_body,
-      seq($.p_top_expr_body, 'if', $._expression),
-      seq($.p_top_expr_body, 'unless', $._expression)
+    _guard: $ => choice(
+      $.if_guard,
+      $.unless_guard
     ),
 
-    p_top_expr_body: $ => choice(
-      $.p_expr,
-      seq($.p_expr, ',', optional($.p_args)),
-      $.p_find,
-      $.p_args_tail,
-      $.p_kwargs
+    if_guard: $ => seq(
+      'if',
+      field('condition', $._expression)
     ),
 
-    p_expr: $ => $.p_as,
-
-    p_as: $ => choice(
-      seq($.p_expr, '=>', $.p_variable),
-      $.p_alt
+    unless_guard: $ => seq(
+      'unless',
+      field('condition', $._expression)
     ),
 
-    p_alt: $ => sep1($.p_expr_basic, '|'),
+    _pattern_top_expr_body: $ => choice(
+      $._pattern_expr,
+      alias($._array_pattern_n, $.array_pattern),
+      alias($._find_pattern_body, $.find_pattern),
+      alias($._hash_pattern_body, $.hash_pattern),
+    ),
 
-    p_expr_basic: $ => choice(
-      $.p_value,
-      seq($.p_const,
+    _array_pattern_n: $ => choice(
+      seq($._pattern_expr, alias(',', $.array_pattern_rest)),
+      seq($._pattern_expr, ',', choice($._pattern_expr, $._array_pattern_n)),
+      seq($.array_pattern_rest, repeat(seq(',', $._pattern_expr))),
+    ),
+
+    _pattern_expr: $ => choice(
+      $.as_pattern,
+      $._pattern_expr_alt,
+    ),
+
+    as_pattern: $ => seq(field('value', $._pattern_expr), '=>', field('name', $.identifier)),
+
+    _pattern_expr_alt: $ => choice(
+      $.alternative_pattern,
+      $._pattern_expr_basic,
+    ),
+
+    alternative_pattern: $ => seq(field('alternatives', $._pattern_expr_basic), repeat1(seq('|', field('alternatives', $._pattern_expr_basic)))),
+
+    _array_pattern_body: $ => choice(
+      $._pattern_expr,
+      $._array_pattern_n,
+    ),
+
+    array_pattern: $ => choice(
+      seq('[', optional($._array_pattern_body), ']'),
+      seq(field('class', $._pattern_constant), token.immediate('['), optional($._array_pattern_body), ']'),
+      seq(field('class', $._pattern_constant), token.immediate('('), optional($._array_pattern_body), ')')
+    ),
+
+    _find_pattern_body: $ => seq($.array_pattern_rest, repeat1(seq(',', $._pattern_expr)), ',', $.array_pattern_rest),
+    find_pattern: $ => choice(
+      seq('[', $._find_pattern_body, ']'),
+      seq(field('class', $._pattern_constant), token.immediate('['), $._find_pattern_body, ']'),
+      seq(field('class', $._pattern_constant), token.immediate('('), $._find_pattern_body, ')')
+    ),
+
+    _hash_pattern_body: $ => choice(
+      seq(commaSep1($.pattern_pair), optional(',')),
+      seq(commaSep1($.pattern_pair), ',', $._hash_pattern_any_rest),
+      $._hash_pattern_any_rest
+    ),
+
+    pattern_pair: $ => seq(
+      field('key',
         choice(
-          seq('(', optional(choice($.p_args, $.p_find, $.p_kwargs)), ')'),
-          seq('[', optional(choice($.p_args, $.p_find, $.p_kwargs)), ']'),
+          alias($.identifier, $.hash_key_symbol),
+          alias($.constant, $.hash_key_symbol),
+          $.string
         )
       ),
-      seq('(', $.p_expr, ')'),
-      seq('[', optional(choice($.p_args, $.p_find)), ']'),
-      seq('{', optional($.p_kwargs), '}'),
+      token.immediate(':'),
+      optional(field('value', $._pattern_expr))
     ),
 
-    p_args: $ => choice(
-      $.p_expr,
-      seq(
-        repeat1(seq($.p_arg, ',')),
-        optional(
-          choice(
-            $.p_arg,
-            seq(
-              $.p_rest,
-              optional($.p_args_post)
-            )
-          )
-        )
-      ),
-      $.p_args_tail
+    _hash_pattern_any_rest: $ => choice($.hash_pattern_rest, $.hash_pattern_norest),
+
+    hash_pattern_rest: $ => seq('**', field('name', optional($.identifier))),
+
+    hash_pattern_norest: $ => seq('**', 'nil'),
+
+    hash_pattern: $ => choice(
+      seq('{', optional($._hash_pattern_body), '}'),
+      seq(field('class', $._pattern_constant), token.immediate('['), $._hash_pattern_body, ']'),
+      seq(field('class', $._pattern_constant), token.immediate('('), $._hash_pattern_body, ')')
     ),
 
-    p_args_tail: $ => seq($.p_rest, optional($.p_args_post)),
-
-    p_find: $ => seq($.p_rest, $.p_args_post, ',', $.p_rest),
-
-    p_rest: $ => seq('*', optional($.identifier)),
-
-    p_args_post: $ => repeat1(seq(',', $.p_arg)),
-
-    p_arg: $ => $.p_expr,
-
-    p_kwargs: $ => choice(
-      seq(optional(seq($.p_kwarg, ',')), choice($.p_kwrest, $.p_kwnorest)),
-      seq($.p_kwarg, optional(','))
+    _pattern_expr_basic: $ => choice(
+      $._pattern_value,
+      $.array_pattern,
+      $.find_pattern,
+      $.hash_pattern,
     ),
 
-    p_kwarg: $ => commaSep1($.p_kw),
+    array_pattern_rest: $ => seq('*', field('name', optional($.identifier))),
 
-    p_kw: $ => seq($.p_kw_label, optional($.p_expr)),
-
-    p_kw_label: $ => seq(
-      choice(
-        alias($.identifier, $.hash_key_symbol),
-        alias($.constant, $.hash_key_symbol),
-        $.string
-      ),
-      token.immediate(':')
+    _pattern_value: $ => choice(
+      $._pattern_primitive,
+      $.pattern_range,
+      $.pattern_variable,
+      $.variable_reference_pattern,
+      $._pattern_constant
     ),
 
-    p_kwrest: $ => seq('**', optional($.identifier)),
+    pattern_range: $ => {
+      const begin = field('begin', $._pattern_primitive);
+      const end = field('end', $._pattern_primitive);
+      const operator = field('operator', choice('..', '...'));
+      return choice(
+        seq(begin, operator, end),
+        seq(operator, end),
+        seq(begin, operator)
+      );
+    },
 
-    p_kwnorest: $ => seq('**', 'nil'),
-
-    p_value: $ => choice(
-      $.p_primitive,
-      seq($.p_primitive, choice('..', '...'), optional($.p_primitive)),
-      seq(choice('..', '...'), $.p_primitive),
-      $.p_variable,
-      $.p_var_ref,
-      $.p_const
+    _pattern_primitive: $ => choice(
+      $._pattern_literal,
+      $._pattern_lambda
     ),
 
-    p_primitive: $ => choice(
+    _pattern_lambda: $ => $.lambda,
+
+    _pattern_literal: $ => choice(
       $._literal,
       $.string,
       $.regex,
       $.string_array,
       $.symbol_array,
-      $.keyword_variable,
-      $.lambda
+      $._keyword_variable
     ),
 
-    keyword_variable: $ => choice($.nil, $.self, $.true, $.false, '__LINE__', '__FILE__', '__ENCODING__'),
+    _keyword_variable: $ => choice(
+      $.nil,
+      $.self,
+      $.true,
+      $.false,
+      $.line,
+      $.file,
+      $.encoding,
+    ),
 
-    p_variable: $ => $.identifier,
+    line: $ => '__LINE__',
+    file: $ => '__FILE__',
+    encoding: $ => '__ENCODING__',
 
-    p_var_ref: $ => seq('^', $.identifier),
+    pattern_variable: $ => field('name', $.identifier),
 
-    p_const: $ => choice(
-      seq($.constant, repeat(seq('::', $._cname))),
-      repeat1(seq('::', $._cname))
+    variable_reference_pattern: $ => seq('^', field('name', $.identifier)),
+
+    _pattern_constant: $ => choice(
+      $.pattern_constant,
+      $.pattern_constant_resolution
+    ),
+
+    pattern_constant: $ => field('name', $.constant),
+
+    pattern_constant_resolution: $ => seq(
+      optional(field('scope', $._pattern_constant)),
+      '::',
+      field('name', $.constant)
     ),
 
     if: $ => seq(
@@ -626,10 +676,8 @@ module.exports = grammar({
         '::',
         seq(field('scope', $._primary), token.immediate('::'))
       ),
-      field('name', $._cname)
+      field('name', choice($.identifier, $.constant))
     )),
-
-    _cname: $ => choice($.identifier, $.constant),
 
     _call: $ => prec.left(PREC.CALL, seq(
       field('receiver', $._primary),
@@ -866,7 +914,6 @@ module.exports = grammar({
         $.float,
         $.complex,
         $.rational
-
       ),
 
     right_assignment_list: $ => prec(-1, commaSep1(choice($._arg, $.splat_argument))),
