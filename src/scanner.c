@@ -51,6 +51,14 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
   }
 }
 
+bool scan_for_word(TSLexer *lexer, char* word, unsigned len) {
+    advance(lexer);
+    for (unsigned i = 0; i < len; i++) {
+      if (lexer->lookahead != word[i]) return true;
+      advance(lexer);
+    }
+    return false;
+}
 
 bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
@@ -83,6 +91,14 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
     case '&': // ex: binary operator between 2 exprs
 
       return false;
+    
+    //case 'e': // ex: else on next line after 'if' control body
+    //  return scan_for_word(lexer, "lse", 3);
+    case 's': // ex: getter function defined on line after variable declaration
+    case 'g': // ex: setter function defined on line after variable declaration
+      return scan_for_word(lexer, "et()", 4);
+    case 'e':
+      return scan_for_word(lexer, "lse", 3);
   }
 
   return true;

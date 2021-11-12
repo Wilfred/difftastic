@@ -666,8 +666,8 @@ module.exports = grammar({
     )),
 
     annotated_lambda: $ => seq(
-      // repeat($.annotation),
-      // optional($.label),
+      repeat($.annotation),
+      optional($.label),
       $.lambda_literal
     ),
 
