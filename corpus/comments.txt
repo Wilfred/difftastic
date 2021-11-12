@@ -20,7 +20,7 @@ Comment in datasource
 
 // comment for the developer
 datasource pg { // this should be fine
-  provider = "postgresql" /// This comment is for documentation
+  provider = "postgresql//postgresql" /// This comment is for documentation
   url = env.POSTGRES_URL /// This one as well
   // enabled = true
 }

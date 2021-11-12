@@ -72,7 +72,7 @@ module.exports = grammar({
     ),
 
     developer_comment: $ => token(
-      seq('//', /.*/),
+      seq('//', /[^/].*/),
     ),
 
     comment: $ => prec(PREC.COMMENT, token(

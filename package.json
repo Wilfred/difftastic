@@ -7,11 +7,11 @@
     "prisma",
     "grammar"
   ],
-  "main": "index.js",
+  "main": "bindings/node",
   "homepage": "https://github.com/victorhqc/tree-sitter-prisma#readme",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/victorhqc/tree-sitter-prisma.git"
+    "type": "git",
+    "url": "https://github.com/victorhqc/tree-sitter-prisma.git"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
@@ -26,11 +26,11 @@
   "author": "Victor Quiroz Castro <victorhqc@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.0"
+    "nan": "^2.15.0"
   },
   "devDependencies": {
     "@semantic-release/git": "^7.0.16",
     "semantic-release": "^15.13.24",
-    "tree-sitter-cli": "^0.15.7"
+    "tree-sitter-cli": "^0.20.0"
   }
 }
