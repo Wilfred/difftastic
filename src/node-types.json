@@ -94,6 +94,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -251,6 +255,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -490,6 +498,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -643,6 +655,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda_function",
           "named": true
         },
         {
@@ -812,6 +828,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -986,6 +1006,10 @@
           "named": true
         },
         {
+          "type": "lambda_function",
+          "named": true
+        },
+        {
           "type": "left_assignment",
           "named": true
         },
@@ -1145,6 +1169,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -1296,6 +1324,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -1456,6 +1488,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -1623,6 +1659,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -1776,6 +1816,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda_function",
           "named": true
         },
         {
@@ -1935,6 +1979,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda_function",
           "named": true
         },
         {
@@ -2116,6 +2164,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -2267,6 +2319,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -2424,6 +2480,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -2508,6 +2568,169 @@
     }
   },
   {
+    "type": "lambda_function",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "brace_list",
+          "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "complex",
+          "named": true
+        },
+        {
+          "type": "dollar",
+          "named": true
+        },
+        {
+          "type": "dots",
+          "named": true
+        },
+        {
+          "type": "equals_assignment",
+          "named": true
+        },
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "formal_parameters",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inf",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda_function",
+          "named": true
+        },
+        {
+          "type": "left_assignment",
+          "named": true
+        },
+        {
+          "type": "left_assignment2",
+          "named": true
+        },
+        {
+          "type": "na",
+          "named": true
+        },
+        {
+          "type": "namespace_get",
+          "named": true
+        },
+        {
+          "type": "namespace_get_internal",
+          "named": true
+        },
+        {
+          "type": "nan",
+          "named": true
+        },
+        {
+          "type": "next",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "paren_list",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "right_assignment",
+          "named": true
+        },
+        {
+          "type": "slot",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "subset",
+          "named": true
+        },
+        {
+          "type": "subset2",
+          "named": true
+        },
+        {
+          "type": "super_assignment",
+          "named": true
+        },
+        {
+          "type": "switch",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "left_assignment",
     "named": true,
     "fields": {
@@ -2581,6 +2804,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -2735,6 +2962,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -2898,6 +3129,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -3049,6 +3284,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -3265,6 +3504,10 @@
           "named": true
         },
         {
+          "type": "lambda_function",
+          "named": true
+        },
+        {
           "type": "left_assignment",
           "named": true
         },
@@ -3417,6 +3660,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda_function",
           "named": true
         },
         {
@@ -3576,6 +3823,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -3739,6 +3990,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -3890,6 +4145,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -4046,6 +4305,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda_function",
           "named": true
         },
         {
@@ -4238,6 +4501,10 @@
           "named": true
         },
         {
+          "type": "lambda_function",
+          "named": true
+        },
+        {
           "type": "left_assignment",
           "named": true
         },
@@ -4394,6 +4661,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "lambda_function",
           "named": true
         },
         {
@@ -4556,6 +4827,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -4707,6 +4982,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -4880,6 +5159,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -5037,6 +5320,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -5222,6 +5509,10 @@
             "named": true
           },
           {
+            "type": "lambda_function",
+            "named": true
+          },
+          {
             "type": "left_assignment",
             "named": true
           },
@@ -5373,6 +5664,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "lambda_function",
             "named": true
           },
           {
@@ -5609,6 +5904,10 @@
   },
   {
     "type": "[[",
+    "named": false
+  },
+  {
+    "type": "\\",
     "named": false
   },
   {

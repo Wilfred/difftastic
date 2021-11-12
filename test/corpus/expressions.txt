@@ -26,6 +26,88 @@ function(x, ...) f(...)
     (formal_parameters (identifier) (dots))
     (call (identifier) (arguments (dots)))))
 
+=======================
+Lambda Function
+=======================
+
+a <- \(arg) arg
+b <- \(arg1, arg2) paste0(arg1, arg2)
+c <- \(fun, ...) fun(...)
+1:3 |> {\(x, y = 1) x + y}() |> {\(x) sum(x)}()
+{\(a = 1) a + 1}()
+\() 1 + 2
+---
+(program
+
+  (left_assignment
+    name: (identifier)
+    value: (lambda_function
+      (formal_parameters (identifier))
+      (identifier)))
+
+  (left_assignment
+    name: (identifier)
+    value: (lambda_function
+      (formal_parameters
+        (identifier)
+        (identifier))
+      (call
+        function: (identifier)
+        arguments: (arguments
+          value: (identifier)
+          value: (identifier)))))
+
+  (left_assignment
+   name: (identifier)
+   value: (lambda_function
+     (formal_parameters
+       (identifier)
+       (dots))
+     (call
+       function: (identifier)
+       arguments: (arguments value: (dots)))))
+
+  (binary
+    left: (binary
+      left: (binary
+        left: (float)
+        right: (float))
+      right: (call
+        function: (brace_list
+          (lambda_function
+            (formal_parameters
+              (identifier)
+              (identifier)
+              (float))
+            (binary
+             left: (identifier)
+             right: (identifier))))))
+    right: (call
+      function: (brace_list
+        (lambda_function
+         (formal_parameters
+          (identifier))
+         (call
+           function: (identifier)
+           arguments: (arguments
+             value: (identifier)))))))
+
+    (call
+      function: (brace_list
+        (lambda_function
+         (formal_parameters
+          (identifier)
+          (float))
+         (binary
+          left: (identifier)
+          right: (float)))))
+
+    (lambda_function
+     (formal_parameters)
+     (binary
+      left: (float)
+      right: (float))))
+
 ==========
 Relational
 ==========

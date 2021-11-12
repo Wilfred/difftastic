@@ -40,6 +40,10 @@
         {
           "type": "SYMBOL",
           "name": "function_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lambda_function"
         }
       ]
     },
@@ -52,6 +56,27 @@
           {
             "type": "STRING",
             "value": "function"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "formal_parameters"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "lambda_function": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "\\"
           },
           {
             "type": "SYMBOL",
@@ -1502,6 +1527,10 @@
           {
             "type": "SYMBOL",
             "name": "function_definition"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "lambda_function"
           },
           {
             "type": "SYMBOL",

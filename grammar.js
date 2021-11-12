@@ -35,12 +35,19 @@ module.exports = grammar({
     program: $ => repeat(seq($._expression, optional(terminator))),
 
     _definition: $ => choice(
-      $.function_definition
+      $.function_definition,
+      $.lambda_function
       // TODO: other kinds of definitions
     ),
 
     function_definition: $ => prec.left(seq(
       'function',
+      $.formal_parameters,
+      $._expression
+    )),
+
+    lambda_function: $ => prec.left(seq(
+      '\\',
       $.formal_parameters,
       $._expression
     )),
@@ -289,6 +296,7 @@ module.exports = grammar({
       $.string,
       $.call,
       $.function_definition,
+      $.lambda_function,
       $._assignment,
       $.brace_list,
       $.paren_list,
@@ -317,7 +325,7 @@ module.exports = grammar({
       ';'
     )),
 
-    identifier: $ => 
+    identifier: $ =>
       choice(
       /[A-Za-z.][A-Za-z0-9_.]*/,
       seq(
