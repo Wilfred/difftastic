@@ -79,6 +79,11 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
 
   switch (lexer->lookahead) {
     // specific to Kotlin
+    case 's': // ex: getter function defined on line after variable declaration
+    case 'g': // ex: setter function defined on line after variable declaration
+      return scan_for_word(lexer, "et()", 4);
+    case 'e': // ex: else on next line after 'if' control body
+      return scan_for_word(lexer, "lse", 3);
     case '{': // ex: function body defined on next line after decl
 
     // cases also in tree-sitter-javascript/src/scanner.c
@@ -91,14 +96,6 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
     case '&': // ex: binary operator between 2 exprs
 
       return false;
-    
-    //case 'e': // ex: else on next line after 'if' control body
-    //  return scan_for_word(lexer, "lse", 3);
-    case 's': // ex: getter function defined on line after variable declaration
-    case 'g': // ex: setter function defined on line after variable declaration
-      return scan_for_word(lexer, "et()", 4);
-    case 'e':
-      return scan_for_word(lexer, "lse", 3);
   }
 
   return true;
