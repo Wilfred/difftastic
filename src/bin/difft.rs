@@ -1,5 +1,4 @@
-use difftastic::hunks::matched_pos_to_hunks;
-use difftastic::side_by_side::merge_adjacent;
+use difftastic::hunks::{matched_pos_to_hunks, merge_adjacent};
 use log::info;
 use mimalloc::MiMalloc;
 
