@@ -195,7 +195,7 @@ pub fn display_hunks(
                     }
                 }
                 None => format_missing_line_num(
-                    prev_lhs_line_num.unwrap_or_else(|| 10.into()),
+                    prev_lhs_line_num.unwrap_or_else(|| 1.into()),
                     lhs_column_width,
                 ),
             };
@@ -209,7 +209,7 @@ pub fn display_hunks(
                     }
                 }
                 None => format_missing_line_num(
-                    prev_rhs_line_num.unwrap_or_else(|| 10.into()),
+                    prev_rhs_line_num.unwrap_or_else(|| 1.into()),
                     rhs_column_width,
                 ),
             };
