@@ -5,8 +5,8 @@ use colored::{Color, Colorize};
 use std::collections::HashSet;
 
 use crate::{
-    context::{add_context, opposite_positions},
-    hunks::{aligned_lines_from_hunk, extract_lines, Hunk},
+    context::opposite_positions,
+    hunks::{aligned_lines_from_hunk, Hunk},
     lines::{enforce_exact_length, enforce_max_length, format_line_num, LineNumber, MaxLine},
     style::{self, apply_colors},
     syntax::MatchedPos,
@@ -75,69 +75,6 @@ fn display_single_column(src: &str, color: Color) -> String {
     }
 
     result
-}
-
-// TODO: Move to hunks.rs
-pub fn merge_adjacent(
-    hunks: &[Hunk],
-    lhs_mps: &[MatchedPos],
-    rhs_mps: &[MatchedPos],
-    max_lhs_src_line: LineNumber,
-    max_rhs_src_line: LineNumber,
-) -> Vec<Hunk> {
-    let mut res: Vec<Hunk> = vec![];
-    let mut prev_hunk: Option<Hunk> = None;
-
-    let mut prev_lhs_lines: HashSet<LineNumber> = HashSet::new();
-    let mut prev_rhs_lines: HashSet<LineNumber> = HashSet::new();
-
-    for hunk in hunks {
-        let mut lhs_lines: HashSet<LineNumber> = HashSet::new();
-        let mut rhs_lines: HashSet<LineNumber> = HashSet::new();
-
-        let lines = extract_lines(hunk);
-        let contextual_lines =
-            add_context(&lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
-        for (lhs_line, rhs_line) in contextual_lines {
-            if let Some(lhs_line) = lhs_line {
-                lhs_lines.insert(lhs_line);
-            }
-            if let Some(rhs_line) = rhs_line {
-                rhs_lines.insert(rhs_line);
-            }
-        }
-
-        match prev_hunk {
-            Some(hunk_so_far) => {
-                if lhs_lines.is_disjoint(&prev_lhs_lines) && rhs_lines.is_disjoint(&prev_rhs_lines)
-                {
-                    // No overlaps, start a new hunk.
-                    res.push(hunk_so_far.clone());
-                    prev_hunk = Some(hunk.clone());
-
-                    prev_lhs_lines = lhs_lines;
-                    prev_rhs_lines = rhs_lines;
-                } else {
-                    // Adjacent hunks, merge.
-                    prev_hunk = Some(hunk_so_far.merge(hunk));
-                    prev_lhs_lines.extend(lhs_lines.iter());
-                    prev_rhs_lines.extend(rhs_lines.iter());
-                }
-            }
-            None => {
-                // The very first hunk.
-                prev_hunk = Some(hunk.clone());
-                prev_lhs_lines = lhs_lines;
-                prev_rhs_lines = rhs_lines;
-            }
-        }
-    }
-
-    if let Some(current_hunk) = prev_hunk {
-        res.push(current_hunk);
-    }
-
-    res
 }
 
 fn column_widths(
