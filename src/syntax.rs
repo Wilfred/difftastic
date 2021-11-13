@@ -501,15 +501,12 @@ pub enum MatchKind {
     },
     Novel {
         highlight: TokenKind,
-        prev_opposite_pos: Vec<SingleLineSpan>,
     },
     UnchangedCommentPart {
         self_pos: SingleLineSpan,
         opposite_pos: Vec<SingleLineSpan>,
     },
-    ChangedCommentPart {
-        prev_opposite_pos: Vec<SingleLineSpan>,
-    },
+    ChangedCommentPart {},
 }
 
 impl MatchKind {
@@ -540,7 +537,6 @@ fn split_comment_words(
     pos: SingleLineSpan,
     opposite_content: &str,
     opposite_pos: SingleLineSpan,
-    prev_opposite_pos: &[SingleLineSpan],
 ) -> Vec<MatchedPos> {
     // TODO: merge adjacent single-line comments unless there are
     // blank lines between them.
@@ -559,12 +555,7 @@ fn split_comment_words(
             diff::Result::Left(word) => {
                 // This word is novel to this side.
                 res.push(MatchedPos {
-                    kind: MatchKind::ChangedCommentPart {
-                        // TODO: this feels wrong. It should be the
-                        // previous comment part position, not the
-                        // previous token position.
-                        prev_opposite_pos: prev_opposite_pos.to_vec(),
-                    },
+                    kind: MatchKind::ChangedCommentPart {},
                     pos: content_newlines.from_offsets_relative_to(
                         pos,
                         offset,
@@ -608,7 +599,6 @@ impl MatchedPos {
         ck: ChangeKind,
         highlight: TokenKind,
         pos: (&[SingleLineSpan], &[SingleLineSpan]),
-        prev_opposite_pos: &[SingleLineSpan],
     ) -> Vec<Self> {
         let kind = match ck {
             ReplacedComment(this, opposite) => {
@@ -629,7 +619,6 @@ impl MatchedPos {
                     pos.0[0],
                     opposite_content,
                     opposite_pos[0],
-                    prev_opposite_pos,
                 );
             }
             Unchanged(opposite) => {
@@ -648,14 +637,11 @@ impl MatchedPos {
                     opposite_pos,
                 }
             }
-            Novel => MatchKind::Novel {
-                highlight,
-                prev_opposite_pos: prev_opposite_pos.to_vec(),
-            },
+            Novel => MatchKind::Novel { highlight },
         };
 
         // Create a MatchedPos for every line that `pos` covers.
-        // TODO: what about opposite pos or prev oppoiste pos?
+        // TODO: what about opposite pos?
         let mut res = vec![];
         for line_pos in pos.0 {
             // Don't create a MatchedPos for empty positions. This
@@ -685,18 +671,7 @@ pub fn change_positions<'a>(
     let opposite_nl_pos = NewlinePositions::from(opposite_src);
 
     let mut positions = Vec::new();
-    let mut prev_unchanged = vec![SingleLineSpan {
-        line: 0.into(),
-        start_col: 0,
-        end_col: 0,
-    }];
-    change_positions_(
-        &nl_pos,
-        &opposite_nl_pos,
-        nodes,
-        &mut prev_unchanged,
-        &mut positions,
-    );
+    change_positions_(&nl_pos, &opposite_nl_pos, nodes, &mut positions);
     positions
 }
 
@@ -704,7 +679,6 @@ fn change_positions_<'a>(
     nl_pos: &NewlinePositions,
     opposite_nl_pos: &NewlinePositions,
     nodes: &[&Syntax<'a>],
-    prev_opposite_pos: &mut Vec<SingleLineSpan>,
     positions: &mut Vec<MatchedPos>,
 ) {
     for node in nodes {
@@ -721,51 +695,20 @@ fn change_positions_<'a>(
                     .get()
                     .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
 
-                if let Unchanged(opposite_node) = change {
-                    match opposite_node {
-                        List {
-                            open_position: opposite_open_pos,
-                            ..
-                        } => {
-                            *prev_opposite_pos = opposite_open_pos.clone();
-                        }
-                        Atom { .. } => unreachable!(),
-                    }
-                }
-
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
                     (open_position, close_position),
-                    prev_opposite_pos,
                 ));
 
-                change_positions_(
-                    nl_pos,
-                    opposite_nl_pos,
-                    children,
-                    prev_opposite_pos,
-                    positions,
-                );
+                change_positions_(nl_pos, opposite_nl_pos, children, positions);
 
-                if let Unchanged(opposite_node) = change {
-                    match opposite_node {
-                        List {
-                            close_position: opposite_close_pos,
-                            ..
-                        } => {
-                            *prev_opposite_pos = opposite_close_pos.clone();
-                        }
-                        Atom { .. } => unreachable!(),
-                    }
-                }
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
                     // TODO: use open position here too (currently
                     // breaks display).
                     (close_position, close_position),
-                    prev_opposite_pos,
                 ));
             }
             Atom {
@@ -778,25 +721,10 @@ fn change_positions_<'a>(
                     .change
                     .get()
                     .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
-                if let Unchanged(opposite_node) = change {
-                    match opposite_node {
-                        List { .. } => {
-                            dbg!(node, opposite_node);
-                            unreachable!();
-                        }
-                        Atom {
-                            position: opposite_position,
-                            ..
-                        } => {
-                            *prev_opposite_pos = opposite_position.clone();
-                        }
-                    }
-                }
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Atom(*kind),
                     (position, &[]),
-                    prev_opposite_pos,
                 ));
             }
         }
@@ -941,13 +869,11 @@ mod tests {
             end_col: 3,
         };
 
-        let res = split_comment_words(content, pos, opposite_content, opposite_pos, &[]);
+        let res = split_comment_words(content, pos, opposite_content, opposite_pos);
         assert_eq!(
             res,
             vec![MatchedPos {
-                kind: MatchKind::ChangedCommentPart {
-                    prev_opposite_pos: vec![],
-                },
+                kind: MatchKind::ChangedCommentPart {},
                 pos: SingleLineSpan {
                     line: 0.into(),
                     start_col: 0,
