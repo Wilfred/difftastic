@@ -15,7 +15,7 @@ bar.foo()
              (navigation_suffix (simple_identifier)))
           (call_suffix (value_arguments)))
         (navigation_suffix (simple_identifier)))
-      (call_suffix (value_arguments))))
+      (call_suffix (value_arguments)))) 
 
 ==================
 Eq after newline
@@ -151,45 +151,3 @@ foo(1,
       (value_arguments
         (value_argument (integer_literal))
         (value_argument (integer_literal))))))
-
-
-==================
-Else after newline
-==================
-
-if (!foo) 3
-else boo()
-
----
-
-(source_file
-  (if_expression
-    (prefix_expression
-      (simple_identifier))
-    (control_structure_body
-      (integer_literal))
-    (control_structure_body
-      (call_expression
-        (simple_identifier)
-        (call_suffix
-          (value_arguments))))))
-
-==================
-Getter after newline
-==================
-
- val maxMemory: Long
-     get() = 1024
-
----
-
-(source_file
-  (property_declaration
-    (variable_declaration
-      (simple_identifier)
-      (user_type
-        (type_identifier)))
-    (getter
-      (function_body
-        (integer_literal)))))
-
