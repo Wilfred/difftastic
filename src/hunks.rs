@@ -286,7 +286,7 @@ fn lines_to_hunks(lines: &[(Option<LineNumber>, Option<LineNumber>)]) -> Vec<Hun
     hunks
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 enum Side {
     LHS,
     RHS,
@@ -629,4 +629,58 @@ pub fn aligned_lines_from_hunk(
     res.extend(after_context);
 
     compact_gaps(ensure_contiguous(&res))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{
+        positions::SingleLineSpan,
+        syntax::{MatchKind, TokenKind},
+    };
+
+    #[test]
+    fn test_sorted_novel_positions_simple() {
+        let novel_mp = MatchedPos {
+            kind: MatchKind::Novel {
+                highlight: TokenKind::Delimiter,
+            },
+            pos: SingleLineSpan {
+                line: 0.into(),
+                start_col: 1,
+                end_col: 2,
+            },
+        };
+        let matched_mp = MatchedPos {
+            kind: MatchKind::Unchanged {
+                highlight: TokenKind::Delimiter,
+                self_pos: (
+                    vec![SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 1,
+                        end_col: 2,
+                    }],
+                    vec![],
+                ),
+                opposite_pos: (
+                    vec![SingleLineSpan {
+                        line: 2.into(),
+                        start_col: 1,
+                        end_col: 2,
+                    }],
+                    vec![],
+                ),
+            },
+            pos: SingleLineSpan {
+                line: 1.into(),
+                start_col: 1,
+                end_col: 2,
+            },
+        };
+
+        let lhs_mps = vec![novel_mp.clone(), matched_mp];
+        let res = sorted_novel_positions(&lhs_mps, &[]);
+
+        assert_eq!(res, vec![(Side::LHS, novel_mp)]);
+    }
 }
