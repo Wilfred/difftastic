@@ -17,7 +17,6 @@ impl Hunk {
     pub fn merge(self, other: &Self) -> Self {
         let mut lines = self.lines;
         lines.extend(other.lines.iter());
-        lines.sort();
 
         let mut lhs_seen: HashSet<LineNumber> = HashSet::new();
         let mut rhs_seen: HashSet<LineNumber> = HashSet::new();
