@@ -1044,11 +1044,11 @@ using namespace parser;
 uint32_t count_indent(State & state) {
   uint32_t indent = 0;
   for (;;) {
-    if (cond::consumes(cond::newline)(state)) {
+    if (cond::skips(cond::newline)(state)) {
       indent = 0;
-    } else if (cond::consume(' ')(state)) {
+    } else if (cond::skip(' ')(state)) {
       indent++;
-    } else if (cond::consume('\t')(state)) {
+    } else if (cond::skip('\t')(state)) {
       indent += 8;
     } else break;
   }
