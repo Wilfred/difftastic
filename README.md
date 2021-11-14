@@ -25,15 +25,15 @@ To regenerate these screenshots:
 
 $ git clone git@github.com:stedolan/jq.git
 $ cd jq
-$ GIT_EXTERNAL_DIFF=difftastic git show --ext-diff 6306ac89667cf35f47ddc40aa0630546c57e387f
+$ GIT_EXTERNAL_DIFF=difft git show --ext-diff 6306ac89667cf35f47ddc40aa0630546c57e387f
 
 $ git clone git@github.com:MisterTea/EternalTerminal.git
 $ cd EternalTerminal
-$ GIT_EXTERNAL_DIFF=difftastic git show --ext-diff 51ca3e695e94b3fec037c8fe1050e3e343b2a890
+$ GIT_EXTERNAL_DIFF=difft git show --ext-diff 51ca3e695e94b3fec037c8fe1050e3e343b2a890
 
 $ git clone git@github.com:xmonad/xmonad.git
 $ cd xmonad
-$ GIT_EXTERNAL_DIFF=difftastic git show --ext-diff 6d661203d39e44d1dc2aa3a930381e6711d26d56
+$ GIT_EXTERNAL_DIFF=difft git show --ext-diff 6d661203d39e44d1dc2aa3a930381e6711d26d56
 
 -->
 
