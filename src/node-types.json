@@ -51,7 +51,7 @@
           "named": true
         },
         {
-          "type": "type",
+          "type": "specializedType",
           "named": true
         }
       ]
@@ -97,7 +97,7 @@
           "named": true
         },
         {
-          "type": "specializedName",
+          "type": "specializedType",
           "named": true
         }
       ]
@@ -124,7 +124,7 @@
           "named": true
         },
         {
-          "type": "type",
+          "type": "specializedType",
           "named": true
         }
       ]
@@ -143,7 +143,7 @@
           "named": true
         },
         {
-          "type": "genericName",
+          "type": "genericProc",
           "named": true
         },
         {
@@ -155,7 +155,7 @@
           "named": true
         },
         {
-          "type": "type",
+          "type": "specializedType",
           "named": true
         }
       ]
@@ -174,7 +174,7 @@
           "named": true
         },
         {
-          "type": "genericName",
+          "type": "genericProc",
           "named": true
         },
         {
@@ -248,7 +248,7 @@
           "named": true
         },
         {
-          "type": "specializedName",
+          "type": "specializedType",
           "named": true
         }
       ]
@@ -357,7 +357,7 @@
           "named": true
         },
         {
-          "type": "genericName",
+          "type": "genericType",
           "named": true
         },
         {
@@ -380,7 +380,7 @@
           "named": true
         },
         {
-          "type": "specializedName",
+          "type": "specializedType",
           "named": true
         }
       ]
@@ -407,7 +407,7 @@
           "named": true
         },
         {
-          "type": "type",
+          "type": "specializedType",
           "named": true
         }
       ]
@@ -445,15 +445,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
         {
           "type": "literal",
           "named": true
         },
         {
-          "type": "specializedName",
+          "type": "specializedParams",
           "named": true
         }
       ]
@@ -479,7 +483,45 @@
     }
   },
   {
-    "type": "genericName",
+    "type": "genericParam",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "defaultValue",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "specializedType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "genericParams",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "genericParam",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "genericProc",
     "named": true,
     "fields": {},
     "children": {
@@ -498,7 +540,7 @@
     }
   },
   {
-    "type": "genericParam",
+    "type": "genericType",
     "named": true,
     "fields": {},
     "children": {
@@ -506,30 +548,11 @@
       "required": true,
       "types": [
         {
-          "type": "defaultValue",
+          "type": "genericParams",
           "named": true
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "genericParams",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "genericParam",
           "named": true
         }
       ]
@@ -778,7 +801,7 @@
     }
   },
   {
-    "type": "specializedName",
+    "type": "specializedParam",
     "named": true,
     "fields": {},
     "children": {
@@ -790,26 +813,11 @@
           "named": true
         },
         {
-          "type": "specializedParams",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "specializedParam",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
           "type": "literal",
           "named": true
         },
         {
-          "type": "specializedName",
+          "type": "specializedParams",
           "named": true
         }
       ]
@@ -825,6 +833,25 @@
       "types": [
         {
           "type": "specializedParam",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "specializedType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "specializedParams",
           "named": true
         }
       ]
@@ -859,21 +886,6 @@
         },
         {
           "type": "statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "specializedName",
           "named": true
         }
       ]

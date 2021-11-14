@@ -261,15 +261,6 @@
         }
       ]
     },
-    "type": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "specializedName"
-        }
-      ]
-    },
     "specializedName": {
       "type": "SEQ",
       "members": [
@@ -435,7 +426,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "type"
+                  "name": "specializedType"
                 }
               ]
             },
@@ -468,6 +459,127 @@
         {
           "type": "SYMBOL",
           "name": "specializedName"
+        }
+      ]
+    },
+    "genericType": {
+      "type": "SYMBOL",
+      "name": "genericName"
+    },
+    "specializedType": {
+      "type": "SYMBOL",
+      "name": "specializedName"
+    },
+    "genericProc": {
+      "type": "SYMBOL",
+      "name": "genericName"
+    },
+    "definitions": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "definition"
+      }
+    },
+    "definition": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "declType"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declVar"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declConst"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "defProc"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declProcFwd"
+        }
+      ]
+    },
+    "defProc": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "declProc"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "declFunc"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "body"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "declProcFwd": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "declProc"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "declFunc"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kForward"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "locals": {
+      "type": "SYMBOL",
+      "name": "definitions"
+    },
+    "body": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "locals"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
         }
       ]
     },
@@ -524,7 +636,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "genericName"
+          "name": "genericType"
         },
         {
           "type": "STRING",
@@ -570,7 +682,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "specializedName"
+          "name": "specializedType"
         }
       ]
     },
@@ -593,7 +705,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "specializedName"
+                  "name": "specializedType"
                 },
                 {
                   "type": "STRING",
@@ -631,7 +743,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "specializedName"
+                  "name": "specializedType"
                 },
                 {
                   "type": "STRING",
@@ -737,7 +849,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "specializedName"
+          "name": "specializedType"
         }
       ]
     },
@@ -775,7 +887,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "genericName"
+          "name": "genericProc"
         },
         {
           "type": "CHOICE",
@@ -816,7 +928,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "genericName"
+          "name": "genericProc"
         },
         {
           "type": "CHOICE",
@@ -836,7 +948,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "type"
+          "name": "specializedType"
         },
         {
           "type": "STRING",
@@ -1041,7 +1153,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "type"
+            "name": "specializedType"
           },
           {
             "type": "CHOICE",
@@ -1104,7 +1216,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "type"
+                    "name": "specializedType"
                   }
                 ]
               },
@@ -1166,7 +1278,7 @@
                         },
                         {
                           "type": "SYMBOL",
-                          "name": "type"
+                          "name": "specializedType"
                         },
                         {
                           "type": "CHOICE",
@@ -1202,7 +1314,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "type"
+                  "name": "specializedType"
                 },
                 {
                   "type": "CHOICE",
@@ -1219,115 +1331,6 @@
               ]
             }
           ]
-        }
-      ]
-    },
-    "definitions": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "SYMBOL",
-        "name": "definition"
-      }
-    },
-    "definition": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "declType"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "declVar"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "declConst"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "defProc"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "declProcFwd"
-        }
-      ]
-    },
-    "defProc": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "declProc"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "declFunc"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "body"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        }
-      ]
-    },
-    "declProcFwd": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "declProc"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "declFunc"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "kForward"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        }
-      ]
-    },
-    "locals": {
-      "type": "SYMBOL",
-      "name": "definitions"
-    },
-    "body": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "locals"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
         }
       ]
     },
@@ -1540,7 +1543,7 @@
           "type": "IMMEDIATE_TOKEN",
           "content": {
             "type": "PATTERN",
-            "value": "\\$[a-zA-Z0-9]+"
+            "value": "\\$[a-fA-F0-9]+"
           }
         }
       ]
@@ -1573,7 +1576,9 @@
     "definitions",
     "definition",
     "identifiers",
+    "genericName",
     "genericParams_",
+    "specializedName",
     "specializedParams_",
     "constant",
     "literalString_",

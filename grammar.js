@@ -9,9 +9,9 @@ module.exports = grammar({
 		$.definitions,
 		$.definition,
 		$.identifiers,
-		//$.genericName,
+		$.genericName,
 		$.genericParams_,
-		//$.specializedName,
+		$.specializedName,
 		$.specializedParams_,
 		$.constant,
 		$.literalString_,
@@ -88,16 +88,13 @@ module.exports = grammar({
 			$.kEnd,
 		),
 
-		type:            $ => choice(
-			$.specializedName,
-		),
 
 		// E.g. Foo<Bar<A,B>, C>
 		specializedName: $ => seq(
 			$.identifier, 
 			optional($.specializedParams)
 		),
-		specializedParams: $ => seq( '<', /*$.identifiers,*/$.specializedParams_, '>'),
+		specializedParams: $ => seq( '<', $.specializedParams_, '>'),
 		specializedParams_: $ => seq(
 			optional(repeat1(seq($.specializedParam, ','))),
 			$.specializedParam
@@ -112,8 +109,40 @@ module.exports = grammar({
 			optional(repeat1(seq($.genericParam, ';'))),
 			$.genericParam
 		),
-		genericParam:    $ => seq($.identifiers, optional(seq(':', $.type)), optional($.defaultValue)),
+		genericParam:    $ => seq($.identifiers, optional(seq(':', $.specializedType)), optional($.defaultValue)),
 		constant:        $ => choice($.literal, $.specializedName),
+
+
+		genericType:     $ => $.genericName,
+		specializedType: $ => $.specializedName,
+
+		genericProc:     $ => $.genericName,
+
+		// DEFINITIONS --------------------------------------------------------
+
+		definitions:     $ => repeat1($.definition),
+		definition:      $ => choice(
+			$.declType, $.declVar, $.declConst, $.defProc, $.declProcFwd
+		),
+
+		defProc:         $ => seq(
+			choice($.declProc, $.declFunc),
+			$.body,
+			';'
+		),
+
+		declProcFwd:     $ => seq(
+			choice($.declProc, $.declFunc),
+			$.kForward,
+			';'
+		),
+
+		locals:          $ => $.definitions,
+
+		body:            $ => seq(
+			optional($.locals),
+			$.block
+		),
 
 		// DECLARATIONS -------------------------------------------------------
 
@@ -124,19 +153,19 @@ module.exports = grammar({
 
 		declType:        $ => seq($.kType, repeat1($.declType_)),
 		declType_:       $ => seq(
-			$.genericName, '=', choice(
+			$.genericType, '=', choice(
 				$.declClass,
 				$.declRecord,
 				$.declTypedef
 			),
 			';'
 		),
-		declTypedef:     $ => seq(optional($.kType), $.specializedName),
+		declTypedef:     $ => seq(optional($.kType), $.specializedType),
 		declClass:       $ => seq(
-			$.kClass, optional(seq('(',$.specializedName,')')), $.declClass_
+			$.kClass, optional(seq('(',$.specializedType,')')), $.declClass_
 		),
 		declRecord:      $ => seq(
-			$.kRecord, optional(seq('(',$.specializedName,')')), $.declClass_
+			$.kRecord, optional(seq('(',$.specializedType,')')), $.declClass_
 		),
 
 		declSectionDef:  $ => $.declarations,
@@ -152,12 +181,12 @@ module.exports = grammar({
 			repeat($.declSection),
 			$.kEnd
 		),
-		declArray:       $ => seq($.kArray, $.kOf, $.specializedName),
+		declArray:       $ => seq($.kArray, $.kOf, $.specializedType),
 
 		declProc:        $ => seq(
 			optional($.kClass),
 			choice($.kProcedure, $.kConstructor, $.kDestructor),
-			$.genericName,
+			$.genericProc,
 			optional($.declArgs),
 			';',
 			optional($.procAttributes)
@@ -165,10 +194,10 @@ module.exports = grammar({
 
 		declFunc:        $ => seq(
 			$.kFunction,
-			$.genericName,
+			$.genericProc,
 			optional($.declArgs),
 			':',
-			$.type,
+			$.specializedType,
 			';',
 			optional($.procAttributes)
 		),
@@ -200,11 +229,11 @@ module.exports = grammar({
 
 		declVar:         $ => seq($.kVar, optional($.declVar_)),
 		declVar_:        $ => repeat1(seq(
-			$.identifiers, ':', $.type, optional($.defaultValue), ';'
+			$.identifiers, ':', $.specializedType, optional($.defaultValue), ';'
 		)),
 		declConst:       $ => seq($.kConst, optional($.declConst_)),
 		declConst_:      $ => repeat1(seq(
-			$.identifier, optional(seq(':', $.type)), $.defaultValue, ';'
+			$.identifier, optional(seq(':', $.specializedType)), $.defaultValue, ';'
 		)),
 
 		declArg:         $ => seq(
@@ -212,38 +241,12 @@ module.exports = grammar({
 				seq(
 					choice($.kVar, $.kConst, $.kOut),
 					$.identifiers,
-					optional(seq(':', $.type, optional($.defaultValue)))
+					optional(seq(':', $.specializedType, optional($.defaultValue)))
 				),
 				seq(
-					$.identifiers, ':', $.type, optional($.defaultValue)
+					$.identifiers, ':', $.specializedType, optional($.defaultValue)
 				)
 			),
-		),
-
-		// DEFINITIONS --------------------------------------------------------
-
-		definitions:     $ => repeat1($.definition),
-		definition:      $ => choice(
-			$.declType, $.declVar, $.declConst, $.defProc, $.declProcFwd
-		),
-
-		defProc:         $ => seq(
-			choice($.declProc, $.declFunc),
-			$.body,
-			';'
-		),
-
-		declProcFwd:     $ => seq(
-			choice($.declProc, $.declFunc),
-			$.kForward,
-			';'
-		),
-
-		locals:          $ => $.definitions,
-
-		body:            $ => seq(
-			optional($.locals),
-			$.block
 		),
 
 		// BASIC TOKENS -------------------------------------------------------
@@ -303,9 +306,10 @@ module.exports = grammar({
 		literalInt:      $ => $.literalInt_,
 		literalInt_:     $ => choice(
 			token.immediate(/-?[0-9]+/),
-			token.immediate(/\$[a-zA-Z0-9]+/)
+			token.immediate(/\$[a-fA-F0-9]+/)
 		),
 		literalFloat:    $ => /-?[0-9]*\.?[0-9]+(e[+-]?[0-9]+)/,
+
 
 	  	_space:          $ => /[\s\r\n\t]+/,
 	}

@@ -41,7 +41,19 @@
 (kCdecl)          @keyword
 (kPascal)         @keyword
 
-(type)            @type
+(genericType)     @type
+(specializedType) @type
 
-(genericName)     @type
-(specializedName) @type
+(genericProc)     @function
+
+(literalNumber)   @number
+(literalString)   @string
+
+(comment)         @comment
+
+;(idVariable)      @variable
+;(idParam)         @parameter
+
+["(" ")" "<" ">"]         @punctuation.bracket
+[";" "," ":"]     @punctuation.delimiter
+["="]             @operator
