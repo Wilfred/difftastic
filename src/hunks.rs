@@ -82,7 +82,7 @@ fn fill_between(
     zip_pad_shorter(&lhs_lines, &rhs_lines)
 }
 
-fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+pub fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut min_lhs = None;
     let mut min_rhs = None;
     let mut max_lhs = None;
