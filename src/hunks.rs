@@ -4,8 +4,8 @@ use std::collections::{HashMap, HashSet};
 
 use crate::{
     context::{add_context, calculate_context},
-    lines::{compare_matched_pos, LineNumber},
-    syntax::{zip_pad_shorter, MatchKind, MatchedPos},
+    lines::LineNumber,
+    syntax::{zip_pad_shorter, MatchedPos},
 };
 
 #[derive(Debug, Clone)]
@@ -286,25 +286,112 @@ fn lines_to_hunks(lines: &[(Option<LineNumber>, Option<LineNumber>)]) -> Vec<Hun
     hunks
 }
 
+#[derive(Debug, Copy, Clone)]
+enum Side {
+    LHS,
+    RHS,
+}
+
+/// Return a vec of novel MatchedPos values in an order suited for
+/// displaying.
+///
+/// Since novel positions don't have a corresponding opposite
+/// position, use the last opposite matched position to decide
+/// ordering.
+fn sorted_novel_positions(
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+) -> Vec<(Side, MatchedPos)> {
+    let mut lhs_mps: Vec<MatchedPos> = lhs_mps.to_vec();
+    lhs_mps.sort_unstable_by_key(|mp| mp.pos);
+
+    let mut rhs_mps: Vec<MatchedPos> = rhs_mps.to_vec();
+    rhs_mps.sort_unstable_by_key(|mp| mp.pos);
+
+    let mut lhs_prev_opposite = None;
+    let mut rhs_prev_opposite = None;
+
+    let mut res: Vec<(Side, MatchedPos)> = vec![];
+    let mut lhs_i = 0;
+    let mut rhs_i = 0;
+    while let (Some(lhs_mp), Some(rhs_mp)) = (lhs_mps.get(lhs_i), rhs_mps.get(rhs_i)) {
+        match (
+            lhs_mp.kind.first_opposite_span(),
+            rhs_mp.kind.first_opposite_span(),
+        ) {
+            (Some(lhs_opposite_span), _) => {
+                // This is an unchanged position, so just update the
+                // opposite position.
+                lhs_prev_opposite = Some(lhs_opposite_span);
+                lhs_i += 1;
+            }
+            (_, Some(rhs_opposite_span)) => {
+                // This is an unchanged position, so just update the
+                // opposite position.
+                rhs_prev_opposite = Some(rhs_opposite_span);
+                rhs_i += 1;
+            }
+            (None, None) => {
+                assert!(lhs_mp.kind.is_novel());
+                assert!(rhs_mp.kind.is_novel());
+
+                match (lhs_prev_opposite, rhs_prev_opposite) {
+                    (None, _) => {
+                        // If we see a novel LHS position and we don't
+                        // have a previous matched position, put it
+                        // first.
+                        res.push((Side::LHS, lhs_mp.clone()));
+                        lhs_i += 1;
+                    }
+                    (_, None) => {
+                        // If we see a novel RHS position and we don't
+                        // have a previous matched position,
+                        // arbitrarily put it after novel LHS
+                        // positions. This prevents incorrect
+                        // interleaving.
+                        res.push((Side::RHS, rhs_mp.clone()));
+                        rhs_i += 1;
+                    }
+                    (Some(lhs_prev_opposite), Some(_)) => {
+                        // Both sides are novel. Take the side with the earlier opposite position.
+                        if lhs_prev_opposite < rhs_mp.pos {
+                            res.push((Side::LHS, lhs_mp.clone()));
+                            lhs_i += 1;
+                        } else {
+                            res.push((Side::RHS, rhs_mp.clone()));
+                            rhs_i += 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    while let Some(lhs_mp) = lhs_mps.get(lhs_i) {
+        if lhs_mp.kind.is_novel() {
+            res.push((Side::LHS, lhs_mp.clone()));
+        }
+        lhs_i += 1;
+    }
+    while let Some(rhs_mp) = rhs_mps.get(rhs_i) {
+        if rhs_mp.kind.is_novel() {
+            res.push((Side::RHS, rhs_mp.clone()));
+        }
+        rhs_i += 1;
+    }
+
+    res
+}
+
 pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> Vec<Hunk> {
-    let lhs_changed_mps = lhs_mps.iter().filter(|mp| !mp.kind.is_unchanged());
-    let rhs_changed_mps = rhs_mps.iter().filter(|mp| !mp.kind.is_unchanged());
-
-    let mut positions = vec![];
-    positions.extend(lhs_changed_mps.map(|p| (true, p)));
-    positions.extend(rhs_changed_mps.map(|p| (false, p)));
-
-    positions.sort_unstable_by(|(_, x), (_, y)| compare_matched_pos(x, y));
-
     let mut lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
-    for (is_lhs, mp) in positions {
+    for (side, mp) in sorted_novel_positions(lhs_mps, rhs_mps) {
         let self_line = mp.pos.line;
         let opposite_line = mp.kind.first_opposite_span().map(|span| span.line);
 
-        let line = if is_lhs {
-            (Some(self_line), opposite_line)
-        } else {
-            (opposite_line, Some(self_line))
+        let line = match side {
+            Side::LHS => (Some(self_line), opposite_line),
+            Side::RHS => (opposite_line, Some(self_line)),
         };
         lines.push(line);
     }

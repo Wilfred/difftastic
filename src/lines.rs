@@ -1,12 +1,9 @@
 //! Manipulate lines of text and groups of lines.
 
-use crate::{positions::SingleLineSpan, syntax::MatchedPos};
+use crate::positions::SingleLineSpan;
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::{
-    cmp::{max, Ordering},
-    fmt,
-};
+use std::{cmp::max, fmt};
 
 /// A distinct number type for line numbers, to prevent confusion with
 /// other numerical data.
@@ -23,14 +20,6 @@ impl From<usize> for LineNumber {
     fn from(number: usize) -> Self {
         Self(number)
     }
-}
-
-/// Compare two MatchedPos to see which starts earlier (on either
-/// side).
-pub fn compare_matched_pos(lhs: &MatchedPos, rhs: &MatchedPos) -> Ordering {
-    let lhs_line = lhs.pos.line;
-    let rhs_line = rhs.pos.line;
-    lhs_line.cmp(&rhs_line)
 }
 
 pub fn format_line_num(line_num: LineNumber) -> String {
