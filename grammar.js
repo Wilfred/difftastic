@@ -20,6 +20,7 @@ module.exports = grammar({
 
 		kVar:            $ => /[vV][aA][rR]/,
 		kConst:          $ => /[cC][oO][nN][sS][tT]/,
+		kOut:            $ => /[oO][uU][tT]/,
 		kType:           $ => /[tT][yY][pP][eE]/,
 
 		kClass:          $ => /[cC][lL][aA][sS][sS]/,
@@ -57,7 +58,7 @@ module.exports = grammar({
 			$.literalNumber
 		),
 		literalString:   $ => repeat1($.literalString_),
-		literalString_:  $ => choice(/'[.^']*'/, $.literalChar),
+		literalString_:  $ => choice(/'[^']*'/, $.literalChar),
 		literalChar:     $ => seq('#', $.literalInt_),
 		literalNumber:   $ => choice($.literalInt, $.literalFloat),
 		literalInt:      $ => $.literalInt_,
@@ -89,9 +90,29 @@ module.exports = grammar({
 			$.kEnd,
 		),
 
-		type:            $ => $.identifier,
+		type:            $ => choice(
+			$.specializedName,
+		),
 
-		//
+		// E.g. Foo<Bar<A,B>, C>
+		specializedName: $ => seq(
+			$.identifier, 
+			optional(seq('<', $.identifiers, '>'))
+		),
+
+		// E.g. Foo<A: B, C: D<E>>
+		genericName:     $ => seq(
+			$.identifier, 
+			optional(seq('<', $.genericParams, '>'))
+		),
+		genericParams:   $ => repeat1(seq(
+			$.identifiers, optional(seq(':', $.type))
+		)),
+
+		constant:        $ => choice($.literal, $.specializedName),
+
+		// DECLARATIONS -------------------------------------------------------
+
 		declarations:    $ => repeat1($.declaration),
 		declaration:     $ => choice(
 			$.declType, $.declProc, $.declFunc, $.declVar, $.declConst
@@ -99,19 +120,19 @@ module.exports = grammar({
 
 		declType:        $ => seq($.kType, repeat1($.declType_)),
 		declType_:       $ => seq(
-			$.identifier, '=', choice(
+			$.genericName, '=', choice(
 				$.declClass,
 				$.declRecord,
 				$.declTypedef
 			),
 			';'
 		),
-		declTypedef:     $ => seq(optional($.kType), $.identifier),
+		declTypedef:     $ => seq(optional($.kType), $.specializedName),
 		declClass:       $ => seq(
-			$.kClass, optional(seq('(',$.identifier,')')), $.declClass_
+			$.kClass, optional(seq('(',$.specializedName,')')), $.declClass_
 		),
 		declRecord:      $ => seq(
-			$.kRecord, optional(seq('(',$.identifier,')')), $.declClass_
+			$.kRecord, optional(seq('(',$.specializedName,')')), $.declClass_
 		),
 		declClass_:      $ => seq(
 			optional(
@@ -126,11 +147,11 @@ module.exports = grammar({
 			),
 			$.kEnd
 		),
-		declArray:       $ => seq($.kArray, $.kOf, $.identifier),
+		declArray:       $ => seq($.kArray, $.kOf, $.specializedName),
 
 		declProc:        $ => seq(
 			choice($.kProcedure, $.kConstructor, $.kDestructor),
-			$.identifier,
+			$.genericName,
 			optional($.arguments),
 			';',
 			optional($.procAttributes)
@@ -138,7 +159,7 @@ module.exports = grammar({
 
 		declFunc:        $ => seq(
 			$.kFunction,
-			$.identifier,
+			$.genericName,
 			optional($.arguments),
 			':',
 			$.type,
@@ -146,7 +167,15 @@ module.exports = grammar({
 			optional($.procAttributes)
 		),
 
-		arguments:       $ => seq('(', ')'),
+		arguments:       $ => seq(
+			'(', optional($.arguments_), ')'
+		),
+		arguments_:      $ => seq(
+			optional( repeat1(
+					seq($.declParam, ';')
+			)),
+			$.declParam
+		),
 
 		procAttributes:  $ => repeat1(
 			seq(
@@ -158,10 +187,34 @@ module.exports = grammar({
 			)
 		),
 
+		identifiers:     $ => seq(
+			optional(repeat1(seq($.identifier, ','))),
+			$.identifier
+		),
+
+		defaultValue:    $ => seq('=', $.constant),
+
 		declVar:         $ => seq($.kVar, optional($.declVar_)),
-		declVar_:        $ => $.identifier,
+		declVar_:        $ => repeat1(seq(
+			$.identifiers, ':', $.type, optional($.defaultValue), ';'
+		)),
 		declConst:       $ => seq($.kConst, optional($.declConst_)),
-		declConst_:      $ => $.identifier,
+		declConst_:      $ => repeat1(seq(
+			$.identifier, optional(seq(':', $.type)), $.defaultValue, ';'
+		)),
+
+		declParam:       $ => seq(
+			choice(
+				seq(
+					choice($.kVar, $.kConst, $.kOut),
+					$.identifiers,
+					optional(seq(':', $.type, optional($.defaultValue)))
+				),
+				seq(
+					$.identifiers, ':', $.type, optional($.defaultValue)
+				)
+			),
+		),
 
 		// HIGH LEVEL ----------------------------------------------------------
 
@@ -183,7 +236,7 @@ module.exports = grammar({
 	
 		comment:         $ => token(choice(
 			seq('//', /.*/),
-			seq('{', /[.\n^}]*/, '}'),
+			seq('{', /[.\r\n^}]*/, '}'),
 			seq(
 				'(*',
 				/[^*]*\*+([^(*][^*]*\*+)*/,

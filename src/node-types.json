@@ -2,7 +2,32 @@
   {
     "type": "arguments",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "arguments_",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "arguments_",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declParam",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "block",
@@ -28,6 +53,25 @@
     }
   },
   {
+    "type": "constant",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "specializedName",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "declClass",
     "named": true,
     "fields": {},
@@ -40,11 +84,11 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "kClass",
           "named": true
         },
         {
-          "type": "kClass",
+          "type": "specializedName",
           "named": true
         }
       ]
@@ -113,11 +157,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "defaultValue",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -136,7 +188,7 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "genericName",
           "named": true
         },
         {
@@ -145,6 +197,41 @@
         },
         {
           "type": "procAttributes",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declParam",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "defaultValue",
+          "named": true
+        },
+        {
+          "type": "identifiers",
+          "named": true
+        },
+        {
+          "type": "kConst",
+          "named": true
+        },
+        {
+          "type": "kOut",
+          "named": true
+        },
+        {
+          "type": "kVar",
           "named": true
         },
         {
@@ -167,7 +254,7 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "genericName",
           "named": true
         },
         {
@@ -202,11 +289,11 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "kRecord",
           "named": true
         },
         {
-          "type": "kRecord",
+          "type": "specializedName",
           "named": true
         }
       ]
@@ -252,7 +339,7 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "genericName",
           "named": true
         }
       ]
@@ -267,11 +354,11 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "kType",
           "named": true
         },
         {
-          "type": "kType",
+          "type": "specializedName",
           "named": true
         }
       ]
@@ -301,11 +388,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "defaultValue",
+          "named": true
+        },
+        {
+          "type": "identifiers",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -358,6 +453,21 @@
     }
   },
   {
+    "type": "defaultValue",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "constant",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "expr",
     "named": true,
     "fields": {},
@@ -371,6 +481,59 @@
         },
         {
           "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "genericName",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "genericParams",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "genericParams",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifiers",
+          "named": true
+        },
+        {
+          "type": "specializedName",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "identifiers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -629,6 +792,25 @@
     }
   },
   {
+    "type": "specializedName",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "identifiers",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "statement",
     "named": true,
     "fields": {},
@@ -671,7 +853,7 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "specializedName",
           "named": true
         }
       ]
@@ -717,6 +899,10 @@
     "named": false
   },
   {
+    "type": ",",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -729,7 +915,15 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
     "named": false
   },
   {
@@ -790,6 +984,10 @@
   },
   {
     "type": "kOf",
+    "named": true
+  },
+  {
+    "type": "kOut",
     "named": true
   },
   {
