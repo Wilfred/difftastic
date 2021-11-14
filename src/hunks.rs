@@ -331,8 +331,8 @@ fn sorted_novel_positions(
                 rhs_i += 1;
             }
             (None, None) => {
-                assert!(lhs_mp.kind.is_novel());
-                assert!(rhs_mp.kind.is_novel());
+                assert!(lhs_mp.kind.is_change());
+                assert!(rhs_mp.kind.is_change());
 
                 match (lhs_prev_opposite, rhs_prev_opposite) {
                     (None, _) => {
@@ -367,13 +367,13 @@ fn sorted_novel_positions(
     }
 
     while let Some(lhs_mp) = lhs_mps.get(lhs_i) {
-        if lhs_mp.kind.is_novel() {
+        if lhs_mp.kind.is_change() {
             res.push((Side::LHS, lhs_mp.clone()));
         }
         lhs_i += 1;
     }
     while let Some(rhs_mp) = rhs_mps.get(rhs_i) {
-        if rhs_mp.kind.is_novel() {
+        if rhs_mp.kind.is_change() {
             res.push((Side::RHS, rhs_mp.clone()));
         }
         rhs_i += 1;

@@ -270,12 +270,12 @@ pub fn display_hunks(
 
     let lhs_lines_with_novel: HashSet<LineNumber> = lhs_mps
         .iter()
-        .filter(|mp| mp.kind.is_novel())
+        .filter(|mp| mp.kind.is_change())
         .map(|mp| mp.pos.line)
         .collect();
     let rhs_lines_with_novel: HashSet<LineNumber> = rhs_mps
         .iter()
-        .filter(|mp| mp.kind.is_novel())
+        .filter(|mp| mp.kind.is_change())
         .map(|mp| mp.pos.line)
         .collect();
 

@@ -519,8 +519,11 @@ impl MatchKind {
         }
     }
 
-    pub fn is_novel(&self) -> bool {
-        matches!(self, MatchKind::Novel { .. })
+    pub fn is_change(&self) -> bool {
+        matches!(
+            self,
+            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart {}
+        )
     }
 }
 
