@@ -299,15 +299,7 @@ pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> V
     let mut lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     for (is_lhs, mp) in positions {
         let self_line = mp.pos.line;
-        let opposite_line: Option<LineNumber> = match &mp.kind {
-            MatchKind::Unchanged { opposite_pos, .. } => {
-                opposite_pos.0.first().map(|span| span.line)
-            }
-            MatchKind::UnchangedCommentPart { opposite_pos, .. } => {
-                opposite_pos.first().map(|span| span.line)
-            }
-            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart { .. } => None,
-        };
+        let opposite_line = mp.kind.first_opposite_span().map(|span| span.line);
 
         let line = if is_lhs {
             (Some(self_line), opposite_line)

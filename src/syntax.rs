@@ -510,6 +510,15 @@ pub enum MatchKind {
 }
 
 impl MatchKind {
+    pub fn first_opposite_span(&self) -> Option<SingleLineSpan> {
+        match self {
+            MatchKind::Unchanged { opposite_pos, .. } => opposite_pos.0.first().copied(),
+            MatchKind::UnchangedCommentPart { opposite_pos, .. } => opposite_pos.first().copied(),
+            MatchKind::Novel { .. } => None,
+            MatchKind::ChangedCommentPart {} => None,
+        }
+    }
+
     pub fn is_unchanged(&self) -> bool {
         matches!(self, MatchKind::Unchanged { .. })
     }
