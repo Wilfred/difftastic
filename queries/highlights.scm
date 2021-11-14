@@ -51,9 +51,14 @@
 
 (comment)         @comment
 
-;(idVariable)      @variable
-;(idParam)         @parameter
+(defProc)         @local.scope
 
-["(" ")" "<" ">"]         @punctuation.bracket
+(declArg          (identifier) @variable.parameter)
+(genericParam     (identifier) @type.parameter)
+(declVar          (identifier) @variable)
+
+(identifier)      @identifier
+
+["(" ")" "<" ">"] @punctuation.bracket
 [";" "," ":"]     @punctuation.delimiter
 ["="]             @operator
