@@ -23,6 +23,9 @@ only one column is shown, to maximise display usage.
 Difftastic now wraps rather than truncating lines that are too long
 for the terminal width.
 
+If a file has no syntactic changes, difftastic now shows the file name
+consistently with changed files.
+
 ### Command Line Interface
 
 The difftastic binary is now named `difft`, to reduce typing during

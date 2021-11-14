@@ -256,6 +256,7 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     );
 
     if hunks.is_empty() {
+        println!("{}", style::header(display_path, 1, 1, lang_name));
         if lang_name == "text" {
             println!("No changes.\n");
         } else {
