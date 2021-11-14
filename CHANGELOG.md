@@ -31,6 +31,11 @@ consistently with changed files.
 The difftastic binary is now named `difft`, to reduce typing during
 usage.
 
+### Parsing
+
+Updated to latest upstream Haskell parser ([commit
+666808](https://github.com/tree-sitter/tree-sitter-haskell/commit/6668085e7d3dc6205a3ef27e6293988cf4a10419)).
+
 ## 0.11
 
 ### Parsing
