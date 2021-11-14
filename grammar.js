@@ -2,6 +2,30 @@ module.exports = grammar({
 	name: "pascal",
 	
 	extras: $ => [$.space, $.comment],
+
+	inline: $ => [
+		$.declarations,
+		$.declaration,
+		$.identifiers,
+		$.genericName,
+		$.genericParams_,
+		$.specializedName,
+		$.specializedParams_,
+		$.constant,
+		$.literalString_,
+		$.literalInt_,
+		$.literalInt,
+		$.literalFloat,
+		$.declType_,
+		$.declClass_,
+		$.arguments_,
+		$.declVar_,
+		$.declConst_,
+		$.interface_,
+		$.implementation_,
+	],
+
+	word: $ => $.identifier,
 	
 	rules: {
 	  	root:           $ => choice(
@@ -97,18 +121,25 @@ module.exports = grammar({
 		// E.g. Foo<Bar<A,B>, C>
 		specializedName: $ => seq(
 			$.identifier, 
-			optional(seq('<', $.identifiers, '>'))
+			optional($.specializedParams)
 		),
+		specializedParams: $ => seq( '<', /*$.identifiers,*/$.specializedParams_, '>'),
+		specializedParams_: $ => seq(
+			optional(repeat1(seq($.specializedParam, ','))),
+			$.specializedParam
+		),
+
+		specializedParam: $ => $.constant,
 
 		// E.g. Foo<A: B, C: D<E>>
-		genericName:     $ => seq(
-			$.identifier, 
-			optional(seq('<', $.genericParams, '>'))
+		genericName:       $ => seq($.identifier, optional($.genericParams)),
+		//genericParams:     $ => seq('<', repeat1($.genericParam), '>'),
+		genericParams:     $ => seq('<', $.genericParams_, '>'),
+		genericParams_:    $ => seq(
+			optional(repeat1(seq($.genericParam, ';'))),
+			$.genericParam
 		),
-		genericParams:   $ => repeat1(seq(
-			$.identifiers, optional(seq(':', $.type))
-		)),
-
+		genericParam:    $ => seq($.identifiers, optional(seq(':', $.type))),
 		constant:        $ => choice($.literal, $.specializedName),
 
 		// DECLARATIONS -------------------------------------------------------
@@ -134,17 +165,18 @@ module.exports = grammar({
 		declRecord:      $ => seq(
 			$.kRecord, optional(seq('(',$.specializedName,')')), $.declClass_
 		),
+
+		declSectionDef:  $ => $.declarations,
+
+		declSection: $ => seq(
+			optional($.kStrict),
+			choice($.kPublished, $.kPublic, $.kProtected, $.kPrivate),
+			$.declarations
+		),
+
 		declClass_:      $ => seq(
-			optional(
-				$.declarations
-			),
-			repeat(
-				seq(
-					optional($.kStrict),
-					choice($.kPublished, $.kPublic, $.kProtected, $.kPrivate),
-					$.declarations
-				)
-			),
+			optional($.declSectionDef),
+			repeat($.declSection),
 			$.kEnd
 		),
 		declArray:       $ => seq($.kArray, $.kOf, $.specializedName),
@@ -236,7 +268,7 @@ module.exports = grammar({
 	
 		comment:         $ => token(choice(
 			seq('//', /.*/),
-			seq('{', /[.\r\n^}]*/, '}'),
+			seq('{', /[^}]*/, '}'),
 			seq(
 				'(*',
 				/[^*]*\*+([^(*][^*]*\*+)*/,

@@ -1,5 +1,6 @@
 {
   "name": "pascal",
+  "word": "identifier",
   "rules": {
     "root": {
       "type": "CHOICE",
@@ -335,21 +336,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "<"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "identifiers"
-                },
-                {
-                  "type": "STRING",
-                  "value": ">"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "specializedParams"
             },
             {
               "type": "BLANK"
@@ -357,6 +345,60 @@
           ]
         }
       ]
+    },
+    "specializedParams": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "specializedParams_"
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        }
+      ]
+    },
+    "specializedParams_": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "specializedParam"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  }
+                ]
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "specializedParam"
+        }
+      ]
+    },
+    "specializedParam": {
+      "type": "SYMBOL",
+      "name": "constant"
     },
     "genericName": {
       "type": "SEQ",
@@ -369,21 +411,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "<"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "genericParams"
-                },
-                {
-                  "type": "STRING",
-                  "value": ">"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "genericParams"
             },
             {
               "type": "BLANK"
@@ -393,45 +422,84 @@
       ]
     },
     "genericParams": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "identifiers"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "genericParams_"
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        }
+      ]
+    },
+    "genericParams_": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": ":"
+                    "type": "SYMBOL",
+                    "name": "genericParam"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "specializedName"
+                    "type": "STRING",
+                    "value": ";"
                   }
                 ]
-              },
-              {
-                "type": "BLANK"
               }
-            ]
-          }
-        ]
-      }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "genericParam"
+        }
+      ]
     },
-    "typeName": {
-      "type": "SYMBOL",
-      "name": "identifier"
-    },
-    "procName": {
-      "type": "SYMBOL",
-      "name": "identifier"
+    "genericParam": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifiers"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ":"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "type"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "constant": {
       "type": "CHOICE",
@@ -625,6 +693,52 @@
         }
       ]
     },
+    "declSectionDef": {
+      "type": "SYMBOL",
+      "name": "declarations"
+    },
+    "declSection": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "kStrict"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "kPublished"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "kPublic"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "kProtected"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "kPrivate"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declarations"
+        }
+      ]
+    },
     "declClass_": {
       "type": "SEQ",
       "members": [
@@ -633,7 +747,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "declarations"
+              "name": "declSectionDef"
             },
             {
               "type": "BLANK"
@@ -643,46 +757,8 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "kStrict"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "kPublished"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "kPublic"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "kProtected"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "kPrivate"
-                  }
-                ]
-              },
-              {
-                "type": "SYMBOL",
-                "name": "declarations"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "declSection"
           }
         },
         {
@@ -1308,7 +1384,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[.\\r\\n^}]*"
+                "value": "[^}]*"
               },
               {
                 "type": "STRING",
@@ -1354,7 +1430,27 @@
   "conflicts": [],
   "precedences": [],
   "externals": [],
-  "inline": [],
+  "inline": [
+    "declarations",
+    "declaration",
+    "identifiers",
+    "genericName",
+    "genericParams_",
+    "specializedName",
+    "specializedParams_",
+    "constant",
+    "literalString_",
+    "literalInt_",
+    "literalInt",
+    "literalFloat",
+    "declType_",
+    "declClass_",
+    "arguments_",
+    "declVar_",
+    "declConst_",
+    "interface_",
+    "implementation_"
+  ],
   "supertypes": []
 }
 
