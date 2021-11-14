@@ -1,0 +1,867 @@
+[
+  {
+    "type": "arguments",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "kBegin",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "statements",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declClass",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declClass_",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kClass",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declClass_",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declarations",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kPrivate",
+          "named": true
+        },
+        {
+          "type": "kProtected",
+          "named": true
+        },
+        {
+          "type": "kPublic",
+          "named": true
+        },
+        {
+          "type": "kPublished",
+          "named": true
+        },
+        {
+          "type": "kStrict",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declConst",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declConst_",
+          "named": true
+        },
+        {
+          "type": "kConst",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declConst_",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declFunc",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arguments",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kFunction",
+          "named": true
+        },
+        {
+          "type": "procAttributes",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declProc",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arguments",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kConstructor",
+          "named": true
+        },
+        {
+          "type": "kDestructor",
+          "named": true
+        },
+        {
+          "type": "kProcedure",
+          "named": true
+        },
+        {
+          "type": "procAttributes",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declRecord",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declClass_",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kRecord",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declType_",
+          "named": true
+        },
+        {
+          "type": "kType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declType_",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declClass",
+          "named": true
+        },
+        {
+          "type": "declRecord",
+          "named": true
+        },
+        {
+          "type": "declTypedef",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declTypedef",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declVar",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declVar_",
+          "named": true
+        },
+        {
+          "type": "kVar",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declVar_",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "declConst",
+          "named": true
+        },
+        {
+          "type": "declFunc",
+          "named": true
+        },
+        {
+          "type": "declProc",
+          "named": true
+        },
+        {
+          "type": "declType",
+          "named": true
+        },
+        {
+          "type": "declVar",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declarations",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "implementation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "implementation_",
+          "named": true
+        },
+        {
+          "type": "kImplementation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "implementation_",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "statements",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interface",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "interface_",
+          "named": true
+        },
+        {
+          "type": "kInterface",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interface_",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "declarations",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "literalNumber",
+          "named": true
+        },
+        {
+          "type": "literalString",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "literalChar",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "literalInt_",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "literalInt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "literalInt_",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "literalInt_",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "literalNumber",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "literalFloat",
+          "named": true
+        },
+        {
+          "type": "literalInt",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "literalString",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "literalString_",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "literalString_",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "literalChar",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "procAttributes",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "kAbstract",
+          "named": true
+        },
+        {
+          "type": "kCdecl",
+          "named": true
+        },
+        {
+          "type": "kOverride",
+          "named": true
+        },
+        {
+          "type": "kPascal",
+          "named": true
+        },
+        {
+          "type": "kStatic",
+          "named": true
+        },
+        {
+          "type": "kStdcall",
+          "named": true
+        },
+        {
+          "type": "kVirtual",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "program",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "implementation_",
+          "named": true
+        },
+        {
+          "type": "kProgram",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "root",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "program",
+          "named": true
+        },
+        {
+          "type": "unit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statements",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "implementation",
+          "named": true
+        },
+        {
+          "type": "interface",
+          "named": true
+        },
+        {
+          "type": "kUnit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "#",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ":=",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "kAbstract",
+    "named": true
+  },
+  {
+    "type": "kArray",
+    "named": true
+  },
+  {
+    "type": "kBegin",
+    "named": true
+  },
+  {
+    "type": "kCdecl",
+    "named": true
+  },
+  {
+    "type": "kClass",
+    "named": true
+  },
+  {
+    "type": "kConst",
+    "named": true
+  },
+  {
+    "type": "kConstructor",
+    "named": true
+  },
+  {
+    "type": "kDestructor",
+    "named": true
+  },
+  {
+    "type": "kEnd",
+    "named": true
+  },
+  {
+    "type": "kFunction",
+    "named": true
+  },
+  {
+    "type": "kImplementation",
+    "named": true
+  },
+  {
+    "type": "kInterface",
+    "named": true
+  },
+  {
+    "type": "kOf",
+    "named": true
+  },
+  {
+    "type": "kOverride",
+    "named": true
+  },
+  {
+    "type": "kPascal",
+    "named": true
+  },
+  {
+    "type": "kPrivate",
+    "named": true
+  },
+  {
+    "type": "kProcedure",
+    "named": true
+  },
+  {
+    "type": "kProgram",
+    "named": true
+  },
+  {
+    "type": "kProtected",
+    "named": true
+  },
+  {
+    "type": "kPublic",
+    "named": true
+  },
+  {
+    "type": "kPublished",
+    "named": true
+  },
+  {
+    "type": "kRecord",
+    "named": true
+  },
+  {
+    "type": "kStatic",
+    "named": true
+  },
+  {
+    "type": "kStdcall",
+    "named": true
+  },
+  {
+    "type": "kStrict",
+    "named": true
+  },
+  {
+    "type": "kType",
+    "named": true
+  },
+  {
+    "type": "kUnit",
+    "named": true
+  },
+  {
+    "type": "kVar",
+    "named": true
+  },
+  {
+    "type": "kVirtual",
+    "named": true
+  },
+  {
+    "type": "literalFloat",
+    "named": true
+  },
+  {
+    "type": "space",
+    "named": true
+  }
+]
