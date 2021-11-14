@@ -24,4 +24,4 @@ When it works, it's *fantastic*.
 
 This manual tracks the bleeding edge version of difftastic. [The
 changelog](https://github.com/Wilfred/difftastic/blob/master/CHANGELOG.md)
-records what features and bug fixes are in each version.
+records which features and bug fixes are in each version.
