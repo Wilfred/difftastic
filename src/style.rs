@@ -6,10 +6,13 @@ use crate::{
     syntax::{AtomKind, MatchKind, MatchedPos, TokenKind},
 };
 use colored::*;
-use std::{cmp::min, collections::HashMap};
+use std::{
+    cmp::{max, min},
+    collections::HashMap,
+};
 
 #[derive(Clone, Copy, Debug)]
-struct Style {
+pub struct Style {
     foreground: Color,
     background: Option<Color>,
     bold: bool,
@@ -30,6 +33,86 @@ impl Style {
         };
         res.to_string()
     }
+}
+
+/// "fooba", 3 -> vec!["foo", "ba "]
+fn split_string(s: &str, max_len: usize) -> Vec<String> {
+    let mut res = vec![];
+    let mut s = s;
+
+    while s.len() > max_len {
+        res.push(s[..max_len].into());
+        s = &s[max_len..];
+    }
+
+    if res.is_empty() || s != "" {
+        res.push(format!("{:width$}", s, width = max_len));
+    }
+
+    res
+}
+
+pub fn split_and_apply(
+    line: &str,
+    max_len: usize,
+    styles: &[(SingleLineSpan, Style)],
+) -> Vec<String> {
+    if styles.is_empty() {
+        // Missing styles is a bug, so higlight in purple to make this obvious.
+        return split_string(line, max_len)
+            .into_iter()
+            .map(|part| part.purple().to_string())
+            .collect();
+    }
+
+    let mut styled_parts = vec![];
+    let mut prev_length = 0;
+
+    for part in split_string(line, max_len) {
+        let mut res = String::with_capacity(part.len());
+        let mut i = 0;
+        for (span, style) in styles {
+            // The remaining spans are beyond the end of this part.
+            if span.start_col >= prev_length + codepoint_len(&part) {
+                break;
+            }
+
+            if i >= prev_length {
+                // Dim text before the next span.
+                if i < span.start_col {
+                    res.push_str(
+                        &substring_by_codepoint(
+                            &part,
+                            i - prev_length,
+                            span.start_col - prev_length,
+                        )
+                        .dimmed(),
+                    );
+                }
+            }
+
+            // Apply style to the substring in this span.
+            if span.end_col > prev_length {
+                let span_s = substring_by_codepoint(
+                    &part,
+                    max(0, span.start_col as isize - prev_length as isize) as usize,
+                    min(codepoint_len(&part), span.end_col - prev_length),
+                );
+                res.push_str(&style.apply(span_s));
+            }
+            i = span.end_col;
+        }
+        // Dim text after the last span.
+        if i < prev_length + codepoint_len(&part) {
+            let span_s = substring_by_codepoint(&part, i - prev_length, codepoint_len(&part));
+            res.push_str(&span_s.dimmed());
+        }
+
+        styled_parts.push(res);
+        prev_length += codepoint_len(&part)
+    }
+
+    styled_parts
 }
 
 /// Return a copy of `line` with styles applied to all the spans specified.
@@ -97,6 +180,49 @@ fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
         res.push('\n');
     }
     res
+}
+
+pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLineSpan, Style)> {
+    let mut styles = vec![];
+    for pos in positions {
+        let line_pos = pos.pos;
+        let style = match pos.kind {
+            MatchKind::Unchanged { highlight, .. } => Style {
+                foreground: Color::White,
+                background: None,
+                bold: highlight == TokenKind::Atom(AtomKind::Keyword),
+                dimmed: highlight == TokenKind::Atom(AtomKind::Comment),
+            },
+            MatchKind::Novel { highlight, .. } => Style {
+                foreground: if is_lhs {
+                    Color::BrightRed
+                } else {
+                    Color::BrightGreen
+                },
+                background: None,
+                bold: highlight == TokenKind::Atom(AtomKind::Keyword),
+                dimmed: false,
+            },
+            MatchKind::ChangedCommentPart { .. } => Style {
+                foreground: if is_lhs {
+                    Color::BrightRed
+                } else {
+                    Color::BrightGreen
+                },
+                background: None,
+                bold: false,
+                dimmed: false,
+            },
+            MatchKind::UnchangedCommentPart { .. } => Style {
+                foreground: if is_lhs { Color::Red } else { Color::Green },
+                background: None,
+                bold: false,
+                dimmed: false,
+            },
+        };
+        styles.push((line_pos, style));
+    }
+    styles
 }
 
 pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {

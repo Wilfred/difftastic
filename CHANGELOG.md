@@ -17,6 +17,12 @@ The display logic has been written in terms of a `Hunk` type. This
 produces more accurate context, with better alignment, especially when
 the context contains blank lines.
 
+If only a single side has changes (e.g. additions but no removals),
+only one column is shown, to maximise display usage.
+
+Difftastic now wraps rather than truncating lines that are too long
+for the terminal width.
+
 ### Command Line Interface
 
 The difftastic binary is now named `difft`, to reduce typing during
