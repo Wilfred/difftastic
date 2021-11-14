@@ -1,15 +1,17 @@
 module.exports = grammar({
 	name: "pascal",
 	
-	extras: $ => [$.space, $.comment],
+	extras: $ => [$._space, $.comment],
 
 	inline: $ => [
 		$.declarations,
 		$.declaration,
+		$.definitions,
+		$.definition,
 		$.identifiers,
-		$.genericName,
+		//$.genericName,
 		$.genericParams_,
-		$.specializedName,
+		//$.specializedName,
 		$.specializedParams_,
 		$.constant,
 		$.literalString_,
@@ -18,11 +20,13 @@ module.exports = grammar({
 		$.literalFloat,
 		$.declType_,
 		$.declClass_,
-		$.arguments_,
+		$.declArgs_,
 		$.declVar_,
 		$.declConst_,
 		$.interface_,
 		$.implementation_,
+		$.body,
+		$.decProcFwd,
 	],
 
 	word: $ => $.identifier,
@@ -33,64 +37,34 @@ module.exports = grammar({
 	  		$.unit
 	  	),
 
-		// BASIC TOKENS -------------------------------------------------------
+		// HIGH LEVEL ----------------------------------------------------------
 
-		kProgram:        $ => /[pP][rR][oO][gG][rR][aA][mM]/,
-		kUnit:           $ => /[uU][nN][iI][tT]/,
-		kUses:           $ => /[uU][sS][eE][sS]/,
-
-		kBegin:          $ => /[bB][eE][gG][iI][nN]/,
-		kEnd:            $ => /[eE][nN][dD]/,
-
-		kVar:            $ => /[vV][aA][rR]/,
-		kConst:          $ => /[cC][oO][nN][sS][tT]/,
-		kOut:            $ => /[oO][uU][tT]/,
-		kType:           $ => /[tT][yY][pP][eE]/,
-
-		kClass:          $ => /[cC][lL][aA][sS][sS]/,
-		kRecord:         $ => /[rR][eE][cC][oO][rR][dD]/,
-		kArray:          $ => /[aA][rR][aA][yY]/,
-		kOf:             $ => /[oO][fF]/,
-
-		kFunction:       $ => /[fF][uU][nN][cC][tT][iI][oO][nN]/,
-		kProcedure:      $ => /[pP][rR][oO][cC][eE][dD][uU][rR][eE]/,
-		kConstructor:    $ => /[cC][oO][nN][sS][tT][rR][uU][cC][tT][oO][rR]/,
-		kDestructor:     $ => /[dD][eE][sS][tT][rR][uU][cC][tT][oO][rR]/,
-
-		kInterface:      $ => /[iI][nN][tT][eE][rR][fF][aA][cC][eE]/,
-		kImplementation: $ => /[iI][mM][pP][lL][eE][mM][eE][nN][tT][aA][tT][iI][oO][nN]/,
-
-		kPublished:      $ => /[pP][uU][bB][lL][iI][sS][hH][eE][dD]/,
-		kPublic:         $ => /[pP][uU][bB][lL][iI][cC]/,
-		kProtected:      $ => /[pP][rR][oO][tT][eE][cC][tT][eE][dD]/,
-		kPrivate:        $ => /[pP][rR][iI][vV][aA][tT][eE]/,
-		kStrict:         $ => /[sS][tT][rR][iI][cC][tT]/,
-
-		kStatic:         $ => /[sS][tT][aA][tT][iI][cC]/,
-		kVirtual:        $ => /[vV][iI][rR][tT][uU][aA][lL]/,
-		kAbstract:       $ => /[aA][bB][sS][tT][rR][aA][cC][tT]/,
-		kOverride:       $ => /[oO][vV][eE][rR][rR][iI][dD][eE]/,
-
-		kStdcall:        $ => /[sS][tT][dD][cC][aA][lL][lL]/,
-		kCdecl:          $ => /[cC][dD][eE][cC][lL]/,
-		kPascal:         $ => /[pP][aA][sS][cC][aA][lL]/,
-		
-    	identifier:      $ => /[&]?[a-zA-Z_]+[0-9_a-zA-Z]*/,
-
-		literal:         $ => choice(
-			$.literalString,
-			$.literalNumber
+		program:         $ => seq(
+			$.kProgram, $.identifier, ';',
+			$.implementation_
 		),
-		literalString:   $ => repeat1($.literalString_),
-		literalString_:  $ => choice(/'[^']*'/, $.literalChar),
-		literalChar:     $ => seq('#', $.literalInt_),
-		literalNumber:   $ => choice($.literalInt, $.literalFloat),
-		literalInt:      $ => $.literalInt_,
-		literalInt_:     $ => choice(
-			token.immediate(/-?[0-9]+/),
-			token.immediate(/\$[a-zA-Z0-9]+/)
+
+		unit:            $ => seq(
+			$.kUnit, $.identifier, ';',
+			optional($.interface),
+			$.implementation
 		),
-		literalFloat:    $ => /-?[0-9]*\.?[0-9]+(e[+-]?[0-9]+)/,
+
+		interface:       $ => seq($.kInterface, optional($.interface_)),
+		interface_:      $ => $.declarations,
+		implementation:  $ => seq($.kImplementation, optional($.implementation_)),
+		implementation_: $ => $.definitions,
+	
+		comment:         $ => token(choice(
+			seq('//', /.*/),
+			seq('{', /[^}]*/, '}'),
+			seq(
+				'(*',
+				/[^*]*\*+([^(*][^*]*\*+)*/,
+				')'
+			)
+		)),
+
 
 		// STATEMENTS & EXPRESSIONS -------------------------------------------
 
@@ -133,20 +107,19 @@ module.exports = grammar({
 
 		// E.g. Foo<A: B, C: D<E>>
 		genericName:       $ => seq($.identifier, optional($.genericParams)),
-		//genericParams:     $ => seq('<', repeat1($.genericParam), '>'),
 		genericParams:     $ => seq('<', $.genericParams_, '>'),
 		genericParams_:    $ => seq(
 			optional(repeat1(seq($.genericParam, ';'))),
 			$.genericParam
 		),
-		genericParam:    $ => seq($.identifiers, optional(seq(':', $.type))),
+		genericParam:    $ => seq($.identifiers, optional(seq(':', $.type)), optional($.defaultValue)),
 		constant:        $ => choice($.literal, $.specializedName),
 
 		// DECLARATIONS -------------------------------------------------------
 
 		declarations:    $ => repeat1($.declaration),
 		declaration:     $ => choice(
-			$.declType, $.declProc, $.declFunc, $.declVar, $.declConst
+			$.declType, $.declVar, $.declConst, $.declProc, $.declFunc
 		),
 
 		declType:        $ => seq($.kType, repeat1($.declType_)),
@@ -182,9 +155,10 @@ module.exports = grammar({
 		declArray:       $ => seq($.kArray, $.kOf, $.specializedName),
 
 		declProc:        $ => seq(
+			optional($.kClass),
 			choice($.kProcedure, $.kConstructor, $.kDestructor),
 			$.genericName,
-			optional($.arguments),
+			optional($.declArgs),
 			';',
 			optional($.procAttributes)
 		),
@@ -192,21 +166,19 @@ module.exports = grammar({
 		declFunc:        $ => seq(
 			$.kFunction,
 			$.genericName,
-			optional($.arguments),
+			optional($.declArgs),
 			':',
 			$.type,
 			';',
 			optional($.procAttributes)
 		),
 
-		arguments:       $ => seq(
-			'(', optional($.arguments_), ')'
+		declArgs:       $ => seq(
+			'(', optional($.declArgs_), ')'
 		),
-		arguments_:      $ => seq(
-			optional( repeat1(
-					seq($.declParam, ';')
-			)),
-			$.declParam
+		declArgs_:      $ => seq(
+			optional( repeat1( seq($.declArg, ';'))),
+			$.declArg
 		),
 
 		procAttributes:  $ => repeat1(
@@ -235,7 +207,7 @@ module.exports = grammar({
 			$.identifier, optional(seq(':', $.type)), $.defaultValue, ';'
 		)),
 
-		declParam:       $ => seq(
+		declArg:         $ => seq(
 			choice(
 				seq(
 					choice($.kVar, $.kConst, $.kOut),
@@ -248,34 +220,93 @@ module.exports = grammar({
 			),
 		),
 
-		// HIGH LEVEL ----------------------------------------------------------
+		// DEFINITIONS --------------------------------------------------------
 
-		program:         $ => seq(
-			$.kProgram, $.identifier, ';',
-			$.implementation_
+		definitions:     $ => repeat1($.definition),
+		definition:      $ => choice(
+			$.declType, $.declVar, $.declConst, $.defProc, $.declProcFwd
 		),
 
-		unit:            $ => seq(
-			$.kUnit, $.identifier, ';',
-			optional($.interface),
-			$.implementation
+		defProc:         $ => seq(
+			choice($.declProc, $.declFunc),
+			$.body,
+			';'
 		),
 
-		interface:       $ => seq($.kInterface, optional($.interface_)),
-		interface_:      $ => $.declarations,
-		implementation:  $ => seq($.kImplementation, optional($.implementation_)),
-		implementation_: $ => $.statements,
-	
-		comment:         $ => token(choice(
-			seq('//', /.*/),
-			seq('{', /[^}]*/, '}'),
-			seq(
-				'(*',
-				/[^*]*\*+([^(*][^*]*\*+)*/,
-				')'
-			)
-		)),
+		declProcFwd:     $ => seq(
+			choice($.declProc, $.declFunc),
+			$.kForward,
+			';'
+		),
 
-	  	space:          $ => /[\s\r\n\t]+/,
+		locals:          $ => $.definitions,
+
+		body:            $ => seq(
+			optional($.locals),
+			$.block
+		),
+
+		// BASIC TOKENS -------------------------------------------------------
+
+		kProgram:        $ => /[pP][rR][oO][gG][rR][aA][mM]/,
+		kUnit:           $ => /[uU][nN][iI][tT]/,
+		kUses:           $ => /[uU][sS][eE][sS]/,
+
+		kBegin:          $ => /[bB][eE][gG][iI][nN]/,
+		kEnd:            $ => /[eE][nN][dD]/,
+
+		kVar:            $ => /[vV][aA][rR]/,
+		kConst:          $ => /[cC][oO][nN][sS][tT]/,
+		kOut:            $ => /[oO][uU][tT]/,
+		kType:           $ => /[tT][yY][pP][eE]/,
+
+		kClass:          $ => /[cC][lL][aA][sS][sS]/,
+		kRecord:         $ => /[rR][eE][cC][oO][rR][dD]/,
+		kArray:          $ => /[aA][rR][aA][yY]/,
+		kOf:             $ => /[oO][fF]/,
+
+		kFunction:       $ => /[fF][uU][nN][cC][tT][iI][oO][nN]/,
+		kProcedure:      $ => /[pP][rR][oO][cC][eE][dD][uU][rR][eE]/,
+		kConstructor:    $ => /[cC][oO][nN][sS][tT][rR][uU][cC][tT][oO][rR]/,
+		kDestructor:     $ => /[dD][eE][sS][tT][rR][uU][cC][tT][oO][rR]/,
+
+		kInterface:      $ => /[iI][nN][tT][eE][rR][fF][aA][cC][eE]/,
+		kImplementation: $ => /[iI][mM][pP][lL][eE][mM][eE][nN][tT][aA][tT][iI][oO][nN]/,
+
+		kPublished:      $ => /[pP][uU][bB][lL][iI][sS][hH][eE][dD]/,
+		kPublic:         $ => /[pP][uU][bB][lL][iI][cC]/,
+		kProtected:      $ => /[pP][rR][oO][tT][eE][cC][tT][eE][dD]/,
+		kPrivate:        $ => /[pP][rR][iI][vV][aA][tT][eE]/,
+		kStrict:         $ => /[sS][tT][rR][iI][cC][tT]/,
+
+		kForward:        $ => /[fF][oO][rR][wW][aA][rR][dD]/,
+
+		kStatic:         $ => /[sS][tT][aA][tT][iI][cC]/,
+		kVirtual:        $ => /[vV][iI][rR][tT][uU][aA][lL]/,
+		kAbstract:       $ => /[aA][bB][sS][tT][rR][aA][cC][tT]/,
+		kOverride:       $ => /[oO][vV][eE][rR][rR][iI][dD][eE]/,
+
+		kStdcall:        $ => /[sS][tT][dD][cC][aA][lL][lL]/,
+		kCdecl:          $ => /[cC][dD][eE][cC][lL]/,
+		kPascal:         $ => /[pP][aA][sS][cC][aA][lL]/,
+		
+    	identifier:      $ => /[&]?[a-zA-Z_]+[0-9_a-zA-Z]*/,
+
+		literal:         $ => choice(
+			$.literalString,
+			$.literalNumber
+		),
+		literalString:   $ => repeat1($.literalString_),
+		literalString_:  $ => choice(/'[^']*'/, $.literalChar),
+		literalChar:     $ => seq('#', $.literalInt_),
+		literalNumber:   $ => choice($.literalInt, $.literalFloat),
+		literalInt:      $ => $.literalInt_,
+		literalInt_:     $ => choice(
+			token.immediate(/-?[0-9]+/),
+			token.immediate(/\$[a-zA-Z0-9]+/)
+		),
+		literalFloat:    $ => /-?[0-9]*\.?[0-9]+(e[+-]?[0-9]+)/,
+
+	  	_space:          $ => /[\s\r\n\t]+/,
 	}
 });

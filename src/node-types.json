@@ -1,20 +1,5 @@
 [
   {
-    "type": "arguments",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "declParam",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "block",
     "named": true,
     "fields": {},
@@ -38,6 +23,56 @@
     }
   },
   {
+    "type": "declArg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "defaultValue",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kConst",
+          "named": true
+        },
+        {
+          "type": "kOut",
+          "named": true
+        },
+        {
+          "type": "kVar",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declArgs",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "declArg",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "declClass",
     "named": true,
     "fields": {},
@@ -54,10 +89,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "kClass",
           "named": true
         },
@@ -66,7 +97,7 @@
           "named": true
         },
         {
-          "type": "specializedParams",
+          "type": "specializedName",
           "named": true
         }
       ]
@@ -108,15 +139,11 @@
       "required": true,
       "types": [
         {
-          "type": "arguments",
+          "type": "declArgs",
           "named": true
         },
         {
-          "type": "genericParams",
-          "named": true
-        },
-        {
-          "type": "identifier",
+          "type": "genericName",
           "named": true
         },
         {
@@ -135,41 +162,6 @@
     }
   },
   {
-    "type": "declParam",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "defaultValue",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "kConst",
-          "named": true
-        },
-        {
-          "type": "kOut",
-          "named": true
-        },
-        {
-          "type": "kVar",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "declProc",
     "named": true,
     "fields": {},
@@ -178,15 +170,15 @@
       "required": true,
       "types": [
         {
-          "type": "arguments",
+          "type": "declArgs",
           "named": true
         },
         {
-          "type": "genericParams",
+          "type": "genericName",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "kClass",
           "named": true
         },
         {
@@ -209,6 +201,29 @@
     }
   },
   {
+    "type": "declProcFwd",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declFunc",
+          "named": true
+        },
+        {
+          "type": "declProc",
+          "named": true
+        },
+        {
+          "type": "kForward",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "declRecord",
     "named": true,
     "fields": {},
@@ -225,10 +240,6 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "kEnd",
           "named": true
         },
@@ -237,7 +248,7 @@
           "named": true
         },
         {
-          "type": "specializedParams",
+          "type": "specializedName",
           "named": true
         }
       ]
@@ -346,11 +357,7 @@
           "named": true
         },
         {
-          "type": "genericParams",
-          "named": true
-        },
-        {
-          "type": "identifier",
+          "type": "genericName",
           "named": true
         },
         {
@@ -369,15 +376,11 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "kType",
           "named": true
         },
         {
-          "type": "specializedParams",
+          "type": "specializedName",
           "named": true
         }
       ]
@@ -411,7 +414,7 @@
     }
   },
   {
-    "type": "defaultValue",
+    "type": "defProc",
     "named": true,
     "fields": {},
     "children": {
@@ -419,15 +422,38 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "block",
           "named": true
         },
+        {
+          "type": "declFunc",
+          "named": true
+        },
+        {
+          "type": "declProc",
+          "named": true
+        },
+        {
+          "type": "locals",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "defaultValue",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "literal",
           "named": true
         },
         {
-          "type": "specializedParams",
+          "type": "specializedName",
           "named": true
         }
       ]
@@ -453,6 +479,25 @@
     }
   },
   {
+    "type": "genericName",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "genericParams",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "genericParam",
     "named": true,
     "fields": {},
@@ -460,6 +505,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "defaultValue",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
@@ -495,11 +544,27 @@
       "required": true,
       "types": [
         {
-          "type": "kImplementation",
+          "type": "declConst",
           "named": true
         },
         {
-          "type": "statements",
+          "type": "declProcFwd",
+          "named": true
+        },
+        {
+          "type": "declType",
+          "named": true
+        },
+        {
+          "type": "declVar",
+          "named": true
+        },
+        {
+          "type": "defProc",
+          "named": true
+        },
+        {
+          "type": "kImplementation",
           "named": true
         }
       ]
@@ -585,6 +650,37 @@
     }
   },
   {
+    "type": "locals",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "declConst",
+          "named": true
+        },
+        {
+          "type": "declProcFwd",
+          "named": true
+        },
+        {
+          "type": "declType",
+          "named": true
+        },
+        {
+          "type": "declVar",
+          "named": true
+        },
+        {
+          "type": "defProc",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "procAttributes",
     "named": true,
     "fields": {},
@@ -632,15 +728,31 @@
       "required": true,
       "types": [
         {
+          "type": "declConst",
+          "named": true
+        },
+        {
+          "type": "declProcFwd",
+          "named": true
+        },
+        {
+          "type": "declType",
+          "named": true
+        },
+        {
+          "type": "declVar",
+          "named": true
+        },
+        {
+          "type": "defProc",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
           "type": "kProgram",
-          "named": true
-        },
-        {
-          "type": "statements",
           "named": true
         }
       ]
@@ -666,7 +778,7 @@
     }
   },
   {
-    "type": "specializedParam",
+    "type": "specializedName",
     "named": true,
     "fields": {},
     "children": {
@@ -678,11 +790,26 @@
           "named": true
         },
         {
+          "type": "specializedParams",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "specializedParam",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
           "type": "literal",
           "named": true
         },
         {
-          "type": "specializedParams",
+          "type": "specializedName",
           "named": true
         }
       ]
@@ -742,15 +869,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "specializedParams",
+          "type": "specializedName",
           "named": true
         }
       ]
@@ -868,6 +991,10 @@
     "named": true
   },
   {
+    "type": "kForward",
+    "named": true
+  },
+  {
     "type": "kFunction",
     "named": true
   },
@@ -953,10 +1080,6 @@
   },
   {
     "type": "literalFloat",
-    "named": true
-  },
-  {
-    "type": "space",
     "named": true
   }
 ]

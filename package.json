@@ -7,9 +7,16 @@
   "author": "Benjamin Gray",
   "license": "MIT",
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.0"
+    "tree-sitter-cli": "^0.19.0"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.pas",
+      "file-types": ["pas", "pp"],
+	  "highlights": ["queries/highlights.scm"]
+    }
+  ]
 }
