@@ -137,7 +137,14 @@ module.exports = {
 
   _type_context: $ => seq($._context, $._type),
 
-  _type_fun: $ => prec('function-type', seq($._type_infix, '->', $._type)),
+  modifier: $ => seq('%', $._atype),
+
+  _fun_arrow: $ => seq(
+    optional($.modifier),
+    '->',
+  ),
+
+  _type_fun: $ => prec('function-type', seq($._type_infix, $._fun_arrow, $._type)),
 
   _type: $ => prec('type', choice(
     alias($._type_quantifiers, $.forall),

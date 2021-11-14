@@ -130,8 +130,9 @@ These extensions are supported ✅, unsupported ❌ or not applicable because th
 * LambdaCase ✅
 * LexicalNegation ❌
 * LiberalTypeSynonyms ✅
-* LinearTypes ❌
+* LinearTypes ✅
 * MagicHash ✅
+* Modifiers ❌
 * MonadComprehensions ➖️
 * MonadFailDesugaring ➖️
 * MonoLocalBinds ➖️

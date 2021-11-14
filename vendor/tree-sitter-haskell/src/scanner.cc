@@ -332,8 +332,6 @@ Condition not_(const Condition & c) { return [=](State & state) { return !c(stat
 /**
  * Peeking the next character uses the `State` to access the lexer and returns the predicate success as well as the
  * character itself.
- *
- * TODO change to uint32_t
  */
 typedef function<pair<bool, uint32_t>(State &)> PeekResult;
 
@@ -354,7 +352,7 @@ bool quoter_char(const uint32_t c) { return varid_char(c) || eq('.')(c); };
 
 /**
  * Require that the next character matches a predicate, without advancing the parser.
- * Returns the next uint32_t as well.
+ * Returns the next char as well.
  */
 function<std::pair<bool, uint32_t>(State &)> peeks(Peek pred) {
   return [=](State & state) {
@@ -585,41 +583,7 @@ bool symbolic(uint32_t c) {
   }
 }
 
-bool valid_varsym_one_char(uint32_t c) {
-  switch (c) {
-    case '!':
-    case '#':
-    case '$':
-    case '%':
-    case '&':
-    case '*':
-    case '+':
-    case '.':
-    case '/':
-    case '<':
-    case '>':
-    case '?':
-    case '^':
-      return true;
-    default:
-      return false;
-  }
-}
-
 Peek valid_first_varsym = not_(eq(':')) & symbolic;
-
-bool valid_tyconsym_one_char(uint32_t c) {
-  switch (c) {
-    case '*':
-      return false;
-    case '~':
-    case ':':
-    case '-':
-      return true;
-    default:
-      return valid_varsym_one_char(c);
-  }
-}
 
 /**
  * Test for reserved operators of two characters.
@@ -641,20 +605,6 @@ bool valid_symop_two_chars(uint32_t first_char, uint32_t second_char) {
   }
 }
 
-/**
- * Single-uint32_t operators that change meaning if they are followed by a varid without space.
- */
-bool symop_needs_token_end(uint32_t c) {
-  switch (c) {
-    case '$':
-    case '?':
-    case '!':
-      return true;
-    default:
-      return false;
-  }
-}
-
 Condition valid_splice = peek_with(cond::varid_start_char) | peek('(');
 
 }
@@ -669,6 +619,7 @@ enum Symbolic: uint16_t {
   star,
   tilde,
   implicit,
+  modifier,
   minus,
   unboxed_tuple_close,
   bar,
@@ -731,7 +682,7 @@ bool expression_op(Symbolic type) {
  * parens/bracket, but strictness is only valid in patterns and that makes it ambiguous anyway.
  * Needs something better, but seems unlikely to be deterministic.
  *
- * Hashes followed by a varid start uint32_t `#foo` are labels.
+ * Hashes followed by a varid start character `#foo` are labels.
  */
 function<Symbolic(State &)> symop(u32string s) {
   return [=](State & state) {
@@ -743,6 +694,7 @@ function<Symbolic(State &)> symop(u32string s) {
       if (c == '#' && cond::peek_with(cond::varid_start_char)(state)) return Symbolic::invalid;
       if (c == '$' && cond::valid_splice(state)) return Symbolic::splice;
       if (c == '?' && cond::varid(state)) return Symbolic::implicit;
+      if (c == '%' && !(cond::peekws(state) || cond::peek(')')(state))) return Symbolic::modifier;
       if (c == '|') return Symbolic::bar;
       switch (c) {
         case '*':
@@ -1296,6 +1248,7 @@ Symbolic read_symop(State & state) { return symbolic::symop(cond::read_string(co
  *  - Implicit `?` with immediate varid is always invalid, to be parsed by the grammar
  *  - `$` with immediate varid or parens is a splice
  *  - `!` can be a strictness annotation
+ *  - `%` can be a modifier TODO currently only checked for types
  *  - /--+/ is a comment
  *  - `#)` is an unboxed tuple terminator
  *  - Leadering `:` is a `Sym::consym`
@@ -1312,7 +1265,7 @@ Parser symop(Symbolic type) {
     mark("symop") +
     when(type == Symbolic::invalid)(fail) +
     sym(Sym::tyconsym)(
-      when(type == Symbolic::star)(fail) +
+      when(type == Symbolic::star || type == Symbolic::modifier)(fail) +
       when(type == Symbolic::tilde || type == Symbolic::minus)(finish(Sym::tyconsym, "symop"))
     ) +
     when(type == Symbolic::minus || type == Symbolic::implicit || type == Symbolic::tilde)(fail) +
@@ -1328,7 +1281,8 @@ Parser symop(Symbolic type) {
 }
 
 /**
- * Parse an inline comment if the next chars are two or more minuses and the uint32_t after the last minus is not symbolic.
+ * Parse an inline comment if the next chars are two or more minuses and the char after the last minus is not
+ * symbolic.
  *
  * To be called when it is certain that two minuses cannot succeed as a symbolic operator.
  * Those cases are:
@@ -1356,9 +1310,15 @@ Parser nested_comment(uint16_t level) {
   return [=](State & state) {
     auto p =
       eof +
-      seq("{-")(multiline_comment(level + 1) + fail) +
-      seq("-}")(when(level <= 1)(multiline_comment_success) + multiline_comment(level - 1) + fail) +
-      parser::advance +
+      either(
+        cond::consume('{'),
+        iff(cond::consume('-'))(multiline_comment(level + 1) + fail),
+        either(
+          cond::consume('-'),
+          iff(cond::consume('}'))(when(level <= 1)(multiline_comment_success) + multiline_comment(level - 1) + fail),
+          parser::advance
+        )
+      ) +
       multiline_comment(level)
       ;
     return p(state);
