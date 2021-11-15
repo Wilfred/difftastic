@@ -1,53 +1,68 @@
 
-(kProgram)        @keyword
-(kUnit)           @keyword
-(kUses)           @keyword
+[
+	(kProgram)
+	(kUnit)
+	(kUses)
 
-(kBegin)          @keyword
-(kEnd)            @keyword
+	(kBegin)
+	(kEnd)
 
-(kVar)            @keyword
-(kConst)          @keyword
-(kOut)            @keyword
-(kType)           @keyword
+	(kVar)
+	(kConst)
+	(kOut)
+	(kType)
 
-(kClass)          @keyword
-(kInterface)      @keyword
-(kObject)         @keyword
-(kRecord)         @keyword
-(kArray)          @keyword
-(kOf)             @keyword
-(kHelper)         @keyword
+	(kClass)
+	(kInterface)
+	(kObject)
+	(kRecord)
+	(kArray)
+	(kOf)
+	(kHelper)
 
+	(kFunction)
+	(kProcedure)
+	(kConstructor)
+	(kDestructor)
 
+	(kInterface)
+	(kImplementation)
 
-(kFunction)       @keyword
-(kProcedure)      @keyword
-(kConstructor)    @keyword
-(kDestructor)     @keyword
+	(kPublished)
+	(kPublic)
+	(kProtected)
+	(kPrivate)
+	(kStrict)
 
-(kInterface)      @keyword
-(kImplementation) @keyword
+	(kForward)
 
-(kPublished)      @keyword
-(kPublic)         @keyword
-(kProtected)      @keyword
-(kPrivate)        @keyword
-(kStrict)         @keyword
+	(kStatic)
+	(kVirtual)
+	(kAbstract)
+	(kOverride)
 
-(kForward)        @keyword
+	(kStdcall)
+	(kCdecl)
+	(kPascal)
 
-(kStatic)         @keyword
-(kVirtual)        @keyword
-(kAbstract)       @keyword
-(kOverride)       @keyword
+	(kFor)
+	(kTo)
+	(kIf)
+	(kThen)
+	(kElse)
+	(kDo)
+	(kWhile)
+	(kRepeat)
+	(kUntil)
+	(kTry)
+	(kExcept)
+	(kFinally)
+] @keyword
 
-(kStdcall)        @keyword
-(kCdecl)          @keyword
-(kPascal)         @keyword
-
-(genericType)     @type
-(specializedType) @type
+[
+	(genericType)
+	(specializedType)
+] @type
 
 (genericProc)     @function
 
@@ -64,28 +79,40 @@
 
 (identifier)      @identifier
 
-["(" ")"]         @punctuation.bracket
-(kAngleOpen)      @punctuation.bracket
-(kAngleClose)     @punctuation.bracket
-[";" "," ":"]     @punctuation.delimiter
+[
+	"("
+	")"
+	(kAngleOpen) 
+	(kAngleClose)
+] @punctuation.bracket
 
-;["=" "." "+" "-" "*" "/" ":="]         @operator
-(kDot)            @operator
-(kAdd)            @operator
-(kSub)            @operator
-(kMul)            @operator
-(kFdiv)           @operator
-(kOr)             @operator
-(kXor)            @operator
-(kDiv)            @operator
-(kMod)            @operator
-(kAnd)            @operator
-(kShl)            @operator
-(kShr)            @operator
-(kAssign)         @operator
-(kEq)             @operator
-;(kLt)             @operator
-;(kLte)            @operator
-;(kGt)             @operator
-;(kGte)            @operator
-;(kNe)             @operator
+[
+	";"
+	","
+	":"
+] @punctuation.delimiter
+
+[
+	(kDot)
+	(kAdd)
+	(kSub)
+	(kMul)
+	(kFdiv)
+	(kOr)
+	(kXor)
+	(kDiv)
+	(kMod)
+	(kAnd)
+	(kShl)
+	(kShr)
+	(kAssign)
+	(kEq)
+	(kLt)
+	(kLte)
+	(kGt)
+	(kGte)
+	(kNeq)
+	(kIs)
+	(kAs)
+	(kIn)
+] @operator

@@ -27,7 +27,27 @@
       "required": true,
       "types": [
         {
+          "type": "assignment",
+          "named": true
+        },
+        {
           "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
           "named": true
         },
         {
@@ -39,7 +59,15 @@
           "named": true
         },
         {
-          "type": "statement",
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -138,11 +166,27 @@
       "required": true,
       "types": [
         {
+          "type": "declConst",
+          "named": true
+        },
+        {
+          "type": "declFunc",
+          "named": true
+        },
+        {
+          "type": "declProc",
+          "named": true
+        },
+        {
           "type": "declSection",
           "named": true
         },
         {
-          "type": "declSectionDef",
+          "type": "declType",
+          "named": true
+        },
+        {
+          "type": "declVar",
           "named": true
         },
         {
@@ -200,6 +244,25 @@
     }
   },
   {
+    "type": "declEnum",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "defaultValue",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "declFunc",
     "named": true,
     "fields": {},
@@ -243,11 +306,27 @@
       "required": true,
       "types": [
         {
+          "type": "declConst",
+          "named": true
+        },
+        {
+          "type": "declFunc",
+          "named": true
+        },
+        {
+          "type": "declProc",
+          "named": true
+        },
+        {
           "type": "declSection",
           "named": true
         },
         {
-          "type": "declSectionDef",
+          "type": "declType",
+          "named": true
+        },
+        {
+          "type": "declVar",
           "named": true
         },
         {
@@ -418,31 +497,23 @@
     }
   },
   {
-    "type": "declSectionDef",
+    "type": "declSet",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "declConst",
+          "type": "expr",
           "named": true
         },
         {
-          "type": "declFunc",
+          "type": "kOf",
           "named": true
         },
         {
-          "type": "declProc",
-          "named": true
-        },
-        {
-          "type": "declType",
-          "named": true
-        },
-        {
-          "type": "declVar",
+          "type": "kSet",
           "named": true
         }
       ]
@@ -461,11 +532,19 @@
           "named": true
         },
         {
+          "type": "declEnum",
+          "named": true
+        },
+        {
           "type": "declHelper",
           "named": true
         },
         {
           "type": "declMetaClass",
+          "named": true
+        },
+        {
+          "type": "declSet",
           "named": true
         },
         {
@@ -600,6 +679,10 @@
           "named": true
         },
         {
+          "type": "callArgs",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -620,7 +703,35 @@
           "named": true
         },
         {
+          "type": "kEq",
+          "named": true
+        },
+        {
           "type": "kFdiv",
+          "named": true
+        },
+        {
+          "type": "kGt",
+          "named": true
+        },
+        {
+          "type": "kGte",
+          "named": true
+        },
+        {
+          "type": "kIn",
+          "named": true
+        },
+        {
+          "type": "kIs",
+          "named": true
+        },
+        {
+          "type": "kLt",
+          "named": true
+        },
+        {
+          "type": "kLte",
           "named": true
         },
         {
@@ -629,6 +740,10 @@
         },
         {
           "type": "kMul",
+          "named": true
+        },
+        {
+          "type": "kNeq",
           "named": true
         },
         {
@@ -653,6 +768,124 @@
         },
         {
           "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kFor",
+          "named": true
+        },
+        {
+          "type": "kTo",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "foreach",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kFor",
+          "named": true
+        },
+        {
+          "type": "kIn",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -743,6 +976,65 @@
     }
   },
   {
+    "type": "if",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "kElse",
+          "named": true
+        },
+        {
+          "type": "kIf",
+          "named": true
+        },
+        {
+          "type": "kThen",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "implementation",
     "named": true,
     "fields": {},
@@ -824,6 +1116,16 @@
   },
   {
     "type": "kDot",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "kGt",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "kLt",
     "named": true,
     "fields": {}
   },
@@ -950,6 +1252,10 @@
       "required": true,
       "types": [
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "declConst",
           "named": true
         },
@@ -975,6 +1281,61 @@
         },
         {
           "type": "kProgram",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "repeat",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "kRepeat",
+          "named": true
+        },
+        {
+          "type": "kUntil",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -1065,11 +1426,11 @@
     }
   },
   {
-    "type": "statement",
+    "type": "try",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -1077,7 +1438,51 @@
           "named": true
         },
         {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kExcept",
+          "named": true
+        },
+        {
+          "type": "kFinally",
+          "named": true
+        },
+        {
+          "type": "kTry",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -1105,6 +1510,61 @@
         },
         {
           "type": "kUnit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "while",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kWhile",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -1144,6 +1604,14 @@
   },
   {
     "type": ">",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {
@@ -1203,6 +1671,14 @@
     "named": true
   },
   {
+    "type": "kDo",
+    "named": true
+  },
+  {
+    "type": "kElse",
+    "named": true
+  },
+  {
     "type": "kEnd",
     "named": true
   },
@@ -1211,7 +1687,15 @@
     "named": true
   },
   {
+    "type": "kExcept",
+    "named": true
+  },
+  {
     "type": "kFdiv",
+    "named": true
+  },
+  {
+    "type": "kFinally",
     "named": true
   },
   {
@@ -1227,7 +1711,15 @@
     "named": true
   },
   {
+    "type": "kGte",
+    "named": true
+  },
+  {
     "type": "kHelper",
+    "named": true
+  },
+  {
+    "type": "kIf",
     "named": true
   },
   {
@@ -1235,7 +1727,19 @@
     "named": true
   },
   {
+    "type": "kIn",
+    "named": true
+  },
+  {
     "type": "kInterface",
+    "named": true
+  },
+  {
+    "type": "kIs",
+    "named": true
+  },
+  {
+    "type": "kLte",
     "named": true
   },
   {
@@ -1244,6 +1748,10 @@
   },
   {
     "type": "kMul",
+    "named": true
+  },
+  {
+    "type": "kNeq",
     "named": true
   },
   {
@@ -1299,6 +1807,14 @@
     "named": true
   },
   {
+    "type": "kRepeat",
+    "named": true
+  },
+  {
+    "type": "kSet",
+    "named": true
+  },
+  {
     "type": "kShl",
     "named": true
   },
@@ -1323,6 +1839,18 @@
     "named": true
   },
   {
+    "type": "kThen",
+    "named": true
+  },
+  {
+    "type": "kTo",
+    "named": true
+  },
+  {
+    "type": "kTry",
+    "named": true
+  },
+  {
     "type": "kType",
     "named": true
   },
@@ -1331,11 +1859,19 @@
     "named": true
   },
   {
+    "type": "kUntil",
+    "named": true
+  },
+  {
     "type": "kVar",
     "named": true
   },
   {
     "type": "kVirtual",
+    "named": true
+  },
+  {
+    "type": "kWhile",
     "named": true
   },
   {
