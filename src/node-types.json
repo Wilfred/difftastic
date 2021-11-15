@@ -194,11 +194,19 @@
           "named": true
         },
         {
+          "type": "declField",
+          "named": true
+        },
+        {
           "type": "declFunc",
           "named": true
         },
         {
           "type": "declProc",
+          "named": true
+        },
+        {
+          "type": "declProp",
           "named": true
         },
         {
@@ -302,6 +310,29 @@
     }
   },
   {
+    "type": "declField",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "defaultValue",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "specializedType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "declFunc",
     "named": true,
     "fields": {},
@@ -322,6 +353,14 @@
           "named": true
         },
         {
+          "type": "kClass",
+          "named": true
+        },
+        {
+          "type": "kDot",
+          "named": true
+        },
+        {
           "type": "kFunction",
           "named": true
         },
@@ -331,6 +370,33 @@
         },
         {
           "type": "specializedType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declFuncRef",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declArgs",
+          "named": true
+        },
+        {
+          "type": "kFunction",
+          "named": true
+        },
+        {
+          "type": "kObject",
+          "named": true
+        },
+        {
+          "type": "kOf",
           "named": true
         }
       ]
@@ -349,11 +415,19 @@
           "named": true
         },
         {
+          "type": "declField",
+          "named": true
+        },
+        {
           "type": "declFunc",
           "named": true
         },
         {
           "type": "declProc",
+          "named": true
+        },
+        {
+          "type": "declProp",
           "named": true
         },
         {
@@ -451,6 +525,10 @@
           "named": true
         },
         {
+          "type": "kDot",
+          "named": true
+        },
+        {
           "type": "kProcedure",
           "named": true
         },
@@ -485,6 +563,80 @@
     }
   },
   {
+    "type": "declProcRef",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declArgs",
+          "named": true
+        },
+        {
+          "type": "kObject",
+          "named": true
+        },
+        {
+          "type": "kOf",
+          "named": true
+        },
+        {
+          "type": "kProcedure",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declProp",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kDefault",
+          "named": true
+        },
+        {
+          "type": "kIndex",
+          "named": true
+        },
+        {
+          "type": "kProperty",
+          "named": true
+        },
+        {
+          "type": "kRead",
+          "named": true
+        },
+        {
+          "type": "kWrite",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "specializedParams",
+          "named": true
+        },
+        {
+          "type": "specializedType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "declSection",
     "named": true,
     "fields": {},
@@ -497,11 +649,19 @@
           "named": true
         },
         {
+          "type": "declField",
+          "named": true
+        },
+        {
           "type": "declFunc",
           "named": true
         },
         {
           "type": "declProc",
+          "named": true
+        },
+        {
+          "type": "declProp",
           "named": true
         },
         {
@@ -575,11 +735,19 @@
           "named": true
         },
         {
+          "type": "declFuncRef",
+          "named": true
+        },
+        {
           "type": "declHelper",
           "named": true
         },
         {
           "type": "declMetaClass",
+          "named": true
+        },
+        {
+          "type": "declProcRef",
           "named": true
         },
         {
@@ -783,6 +951,10 @@
         },
         {
           "type": "kNeq",
+          "named": true
+        },
+        {
+          "type": "kNot",
           "named": true
         },
         {
@@ -1163,6 +1335,10 @@
         {
           "type": "kInterface",
           "named": true
+        },
+        {
+          "type": "uses",
+          "named": true
         }
       ]
     }
@@ -1268,6 +1444,21 @@
     }
   },
   {
+    "type": "moduleName",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "procAttributes",
     "named": true,
     "fields": {},
@@ -1281,6 +1472,10 @@
         },
         {
           "type": "kCdecl",
+          "named": true
+        },
+        {
+          "type": "kInline",
           "named": true
         },
         {
@@ -1339,11 +1534,11 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "kProgram",
           "named": true
         },
         {
-          "type": "kProgram",
+          "type": "moduleName",
           "named": true
         }
       ]
@@ -1503,6 +1698,10 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kDot",
           "named": true
         },
         {
@@ -2006,10 +2205,6 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "implementation",
           "named": true
         },
@@ -2019,6 +2214,29 @@
         },
         {
           "type": "kUnit",
+          "named": true
+        },
+        {
+          "type": "moduleName",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "uses",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "kUses",
+          "named": true
+        },
+        {
+          "type": "moduleName",
           "named": true
         }
       ]
@@ -2116,6 +2334,10 @@
     "named": false
   },
   {
+    "type": "@",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
@@ -2169,6 +2391,10 @@
   },
   {
     "type": "kConstructor",
+    "named": true
+  },
+  {
+    "type": "kDefault",
     "named": true
   },
   {
@@ -2240,6 +2466,14 @@
     "named": true
   },
   {
+    "type": "kIndex",
+    "named": true
+  },
+  {
+    "type": "kInline",
+    "named": true
+  },
+  {
     "type": "kInterface",
     "named": true
   },
@@ -2261,6 +2495,10 @@
   },
   {
     "type": "kNeq",
+    "named": true
+  },
+  {
+    "type": "kNot",
     "named": true
   },
   {
@@ -2300,6 +2538,10 @@
     "named": true
   },
   {
+    "type": "kProperty",
+    "named": true
+  },
+  {
     "type": "kProtected",
     "named": true
   },
@@ -2309,6 +2551,10 @@
   },
   {
     "type": "kPublished",
+    "named": true
+  },
+  {
+    "type": "kRead",
     "named": true
   },
   {
@@ -2372,6 +2618,10 @@
     "named": true
   },
   {
+    "type": "kUses",
+    "named": true
+  },
+  {
     "type": "kVar",
     "named": true
   },
@@ -2381,6 +2631,10 @@
   },
   {
     "type": "kWhile",
+    "named": true
+  },
+  {
+    "type": "kWrite",
     "named": true
   },
   {

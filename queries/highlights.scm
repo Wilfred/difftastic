@@ -12,6 +12,12 @@
 	(kOut)
 	(kType)
 
+	(kProperty)
+	(kRead)
+	(kWrite)
+	(kDefault)
+	(kIndex)
+
 	(kClass)
 	(kInterface)
 	(kObject)
@@ -41,6 +47,7 @@
 	(kVirtual)
 	(kAbstract)
 	(kOverride)
+	(kInline)
 
 	(kStdcall)
 	(kCdecl)
@@ -113,6 +120,7 @@
 	(kGt)
 	(kGte)
 	(kNeq)
+	(kNot)
 	(kIs)
 	(kAs)
 	(kIn)
