@@ -23,7 +23,7 @@ impl From<usize> for LineNumber {
 }
 
 pub fn format_line_num(line_num: LineNumber) -> String {
-    format!("{:>2} ", line_num.0 + 1)
+    format!("{} ", line_num.0 + 1)
 }
 
 /// A position in a single line of a string.
