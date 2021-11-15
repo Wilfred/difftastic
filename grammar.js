@@ -109,7 +109,11 @@ module.exports = grammar({
 			optional(repeat1(seq($.genericParam, ';'))),
 			$.genericParam
 		),
-		genericParam:    $ => seq($.identifiers, optional(seq(':', $.specializedType)), optional($.defaultValue)),
+		genericParam:    $ => seq(
+			$.identifiers, 
+			optional(seq(':', $.specializedType)), 
+			optional($.defaultValue)
+		),
 		constant:        $ => choice($.literal, $.specializedName),
 
 
