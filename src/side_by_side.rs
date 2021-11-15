@@ -298,6 +298,7 @@ pub fn display_hunks(
         );
         let no_lhs_changes = hunk.lines.iter().all(|(l, _)| l.is_none());
         let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());
+        let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
         let widths = Widths::new(term_width().unwrap_or(80), &aligned_lines, lhs_src, rhs_src);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
@@ -313,16 +314,26 @@ pub fn display_hunks(
 
             if no_lhs_changes {
                 let rhs_line = &rhs_colored_lines[rhs_line_num.expect("Should have RHS line").0];
-                out_lines.push(format!(
-                    "{}{}{}",
-                    display_lhs_line_num, display_rhs_line_num, rhs_line
-                ));
+                if same_lines {
+                    // Don't print the line numbers in two columns if
+                    // they're all the same.
+                    out_lines.push(format!("{}{}", display_rhs_line_num, rhs_line));
+                } else {
+                    out_lines.push(format!(
+                        "{}{}{}",
+                        display_lhs_line_num, display_rhs_line_num, rhs_line
+                    ));
+                }
             } else if no_rhs_changes {
                 let lhs_line = &lhs_colored_lines[lhs_line_num.expect("Should have LHS line").0];
-                out_lines.push(format!(
-                    "{}{}{}",
-                    display_lhs_line_num, display_rhs_line_num, lhs_line
-                ));
+                if same_lines {
+                    out_lines.push(format!("{}{}", display_lhs_line_num, lhs_line));
+                } else {
+                    out_lines.push(format!(
+                        "{}{}{}",
+                        display_lhs_line_num, display_rhs_line_num, lhs_line
+                    ));
+                }
             } else {
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
