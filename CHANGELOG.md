@@ -36,6 +36,11 @@ usage.
 Updated to latest upstream Haskell parser ([commit
 666808](https://github.com/tree-sitter/tree-sitter-haskell/commit/6668085e7d3dc6205a3ef27e6293988cf4a10419)).
 
+### Diffing
+
+Fixed a bug when diffing multiline comments where unchanged parts were
+not highlighted correctly.
+
 ## 0.11
 
 ### Parsing
