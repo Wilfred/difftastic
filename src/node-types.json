@@ -1,5 +1,72 @@
 [
   {
+    "type": "assignment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "block",
     "named": true,
     "fields": {},
@@ -7,6 +74,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "block",
+          "named": true
+        },
         {
           "type": "kBegin",
           "named": true
@@ -16,7 +87,93 @@
           "named": true
         },
         {
-          "type": "statements",
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "call",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "callArgs",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "callArgs",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "literal",
           "named": true
         }
       ]
@@ -97,6 +254,18 @@
           "named": true
         },
         {
+          "type": "kInterface",
+          "named": true
+        },
+        {
+          "type": "kObject",
+          "named": true
+        },
+        {
+          "type": "kRecord",
+          "named": true
+        },
+        {
           "type": "specializedType",
           "named": true
         }
@@ -147,11 +316,81 @@
           "named": true
         },
         {
+          "type": "genericType",
+          "named": true
+        },
+        {
           "type": "kFunction",
           "named": true
         },
         {
           "type": "procAttributes",
+          "named": true
+        },
+        {
+          "type": "specializedType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declHelper",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declSection",
+          "named": true
+        },
+        {
+          "type": "declSectionDef",
+          "named": true
+        },
+        {
+          "type": "kClass",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kFor",
+          "named": true
+        },
+        {
+          "type": "kHelper",
+          "named": true
+        },
+        {
+          "type": "kRecord",
+          "named": true
+        },
+        {
+          "type": "specializedType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declMetaClass",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "kClass",
+          "named": true
+        },
+        {
+          "type": "kOf",
           "named": true
         },
         {
@@ -175,6 +414,10 @@
         },
         {
           "type": "genericProc",
+          "named": true
+        },
+        {
+          "type": "genericType",
           "named": true
         },
         {
@@ -218,37 +461,6 @@
         },
         {
           "type": "kForward",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declRecord",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declSection",
-          "named": true
-        },
-        {
-          "type": "declSectionDef",
-          "named": true
-        },
-        {
-          "type": "kEnd",
-          "named": true
-        },
-        {
-          "type": "kRecord",
-          "named": true
-        },
-        {
-          "type": "specializedType",
           "named": true
         }
       ]
@@ -349,7 +561,11 @@
           "named": true
         },
         {
-          "type": "declRecord",
+          "type": "declHelper",
+          "named": true
+        },
+        {
+          "type": "declMetaClass",
           "named": true
         },
         {
@@ -464,15 +680,828 @@
     }
   },
   {
-    "type": "expr",
+    "type": "exprAdd",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprAnd",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "kAnd",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprDiv",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "kDiv",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprDot",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprFdiv",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprMod",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "kMod",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprMul",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprOr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "kOr",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprShl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "kShl",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprShr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "kShr",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprSub",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprXor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "kXor",
           "named": true
         },
         {
@@ -862,30 +1891,67 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "statements",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "block",
+          "type": "assignment",
           "named": true
         },
         {
-          "type": "statement",
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "literal",
           "named": true
         }
       ]
@@ -931,7 +1997,27 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "/",
     "named": false
   },
   {
@@ -971,6 +2057,10 @@
     "named": true
   },
   {
+    "type": "kAnd",
+    "named": true
+  },
+  {
     "type": "kArray",
     "named": true
   },
@@ -999,7 +2089,15 @@
     "named": true
   },
   {
+    "type": "kDiv",
+    "named": true
+  },
+  {
     "type": "kEnd",
+    "named": true
+  },
+  {
+    "type": "kFor",
     "named": true
   },
   {
@@ -1011,6 +2109,10 @@
     "named": true
   },
   {
+    "type": "kHelper",
+    "named": true
+  },
+  {
     "type": "kImplementation",
     "named": true
   },
@@ -1019,7 +2121,19 @@
     "named": true
   },
   {
+    "type": "kMod",
+    "named": true
+  },
+  {
+    "type": "kObject",
+    "named": true
+  },
+  {
     "type": "kOf",
+    "named": true
+  },
+  {
+    "type": "kOr",
     "named": true
   },
   {
@@ -1063,6 +2177,14 @@
     "named": true
   },
   {
+    "type": "kShl",
+    "named": true
+  },
+  {
+    "type": "kShr",
+    "named": true
+  },
+  {
     "type": "kStatic",
     "named": true
   },
@@ -1091,7 +2213,7 @@
     "named": true
   },
   {
-    "type": "literalFloat",
+    "type": "kXor",
     "named": true
   }
 ]

@@ -12,9 +12,14 @@
 (kType)           @keyword
 
 (kClass)          @keyword
+(kInterface)      @keyword
+(kObject)         @keyword
 (kRecord)         @keyword
 (kArray)          @keyword
 (kOf)             @keyword
+(kHelper)         @keyword
+
+
 
 (kFunction)       @keyword
 (kProcedure)      @keyword
@@ -61,4 +66,12 @@
 
 ["(" ")" "<" ">"] @punctuation.bracket
 [";" "," ":"]     @punctuation.delimiter
-["="]             @operator
+
+["=" "." "+" "-" "*" "/" ":="]         @operator
+(kOr)             @operator
+(kXor)            @operator
+(kDiv)            @operator
+(kMod)            @operator
+(kAnd)            @operator
+(kShl)            @operator
+(kShr)            @operator

@@ -27,6 +27,11 @@ module.exports = grammar({
 		$.implementation_,
 		$.body,
 		$.decProcFwd,
+		$.namespace,
+		$.calls,
+		$.statements,
+		//$.path,
+		$.expr
 	],
 
 	word: $ => $.identifier,
@@ -68,26 +73,58 @@ module.exports = grammar({
 
 		// STATEMENTS & EXPRESSIONS -------------------------------------------
 
-		statement:       $ => seq(
-			repeat($.identifier),
-			';'
-		),
-
-		assignment:      $ => seq($.expr, ':=', $.expr),
-
-		expr:            $ => choice(
-			$.identifier,
-			$.literal
-		),
-
-		statements:      $ => repeat1(choice($.statement, $.block)),
-
 		block:           $ => seq(
 			$.kBegin,
 			optional($.statements),
 			$.kEnd,
 		),
 
+		statements:      $ => repeat1(choice($.statement, $.block)),
+
+		statement:       $ => choice(seq($.expr, ';'), $.assignment),
+
+		assignment:      $ => seq($.expr, ':=', $.expr, ';'),
+
+		call:            $ => seq($.identifier, optional(seq('(',optional($.callArgs),')'))),
+
+		callArgs:        $ => seq(
+			optional(repeat1(seq($.expr, ','))),
+			$.expr
+		),
+
+		exprDot:         $ => prec.left(4, seq($.expr, '.',  $.expr)),
+
+		exprParens:      $ => seq('(', $.expr, ')'),
+
+		exprAdd:         $ => prec.left(2,seq($.expr, '+',    $.expr)),
+		exprSub:         $ => prec.left(2,seq($.expr, '-',    $.expr)),
+		exprOr:          $ => prec.left(2,seq($.expr, $.kOr,  $.expr)),
+		exprXor:         $ => prec.left(2,seq($.expr, $.kXor, $.expr)),
+
+		exprMul:         $ => prec.left(3,seq($.expr, '*',    $.expr)),
+		exprFdiv:        $ => prec.left(3,seq($.expr, '/',    $.expr)),
+		exprDiv:         $ => prec.left(3,seq($.expr, $.kDiv, $.expr)),
+		exprMod:         $ => prec.left(3,seq($.expr, $.kMod, $.expr)),
+		exprAnd:         $ => prec.left(3,seq($.expr, $.kAnd, $.expr)),
+		exprShl:         $ => prec.left(3,seq($.expr, $.kShl, $.expr)),
+		exprShr:         $ => prec.left(3,seq($.expr, $.kShr, $.expr)),
+
+		expr:            $ => choice(
+			$.literal,
+			prec.left(4,$.call),
+			$.exprDot,
+			$.exprAdd,
+			$.exprSub,
+			$.exprMul,
+			$.exprFdiv,
+			$.exprDiv,
+			$.exprMod,
+			$.exprAnd,
+			$.exprOr,
+			$.exprXor,
+			$.exprShl,
+			$.exprShr,
+		),
 
 		// E.g. Foo<Bar<A,B>, C>
 		specializedName: $ => seq(
@@ -158,18 +195,17 @@ module.exports = grammar({
 		declType:        $ => seq($.kType, repeat1($.declType_)),
 		declType_:       $ => seq(
 			$.genericType, '=', choice(
+				$.declTypedef,
 				$.declClass,
-				$.declRecord,
-				$.declTypedef
+				$.declMetaClass,
+				$.declHelper,
 			),
 			';'
 		),
 		declTypedef:     $ => seq(optional($.kType), $.specializedType),
 		declClass:       $ => seq(
-			$.kClass, optional(seq('(',$.specializedType,')')), $.declClass_
-		),
-		declRecord:      $ => seq(
-			$.kRecord, optional(seq('(',$.specializedType,')')), $.declClass_
+			choice($.kClass, $.kRecord, $.kObject, $.kInterface), 
+			optional(seq('(',$.specializedType,')')), $.declClass_
 		),
 
 		declSectionDef:  $ => $.declarations,
@@ -187,9 +223,19 @@ module.exports = grammar({
 		),
 		declArray:       $ => seq($.kArray, $.kOf, $.specializedType),
 
+		declMetaClass:   $ => seq(
+			$.kClass, $.kOf, $.specializedType
+		),
+
+		declHelper:      $ => seq(
+			choice($.kClass, $.kRecord), $.kHelper, $.kFor, $.specializedType,
+			$.declClass_
+		),
+
 		declProc:        $ => seq(
 			optional($.kClass),
 			choice($.kProcedure, $.kConstructor, $.kDestructor),
+			optional($.namespace),
 			$.genericProc,
 			optional($.declArgs),
 			';',
@@ -198,6 +244,7 @@ module.exports = grammar({
 
 		declFunc:        $ => seq(
 			$.kFunction,
+			optional($.namespace),
 			$.genericProc,
 			optional($.declArgs),
 			':',
@@ -228,6 +275,8 @@ module.exports = grammar({
 			optional(repeat1(seq($.identifier, ','))),
 			$.identifier
 		),
+
+		namespace:       $ => repeat1(seq($.genericType, '.')),
 
 		defaultValue:    $ => seq('=', $.constant),
 
@@ -268,9 +317,31 @@ module.exports = grammar({
 		kType:           $ => /[tT][yY][pP][eE]/,
 
 		kClass:          $ => /[cC][lL][aA][sS][sS]/,
+		kInterface:      $ => /[iI][nN][tT][eE][rR][fF][aA][cC][eE]/,
+		kObject:         $ => /[oO][bB][jJ][eE][cC][tT]/,
 		kRecord:         $ => /[rR][eE][cC][oO][rR][dD]/,
 		kArray:          $ => /[aA][rR][aA][yY]/,
 		kOf:             $ => /[oO][fF]/,
+		kHelper:         $ => /[hH][eE][lL][pP][eE][rR]/,
+
+		kOr:             $ => /[oO][rR]/,
+		kXor:            $ => /[xX][oO][rR]/,
+		kDiv:            $ => /[dD][iI][vV]/,
+		kMod:            $ => /[mM][oO][dD]/,
+		kAnd:            $ => /[aA][nN][dD]/,
+		kShl:            $ => /[sS][hH][lL]/,
+		kShr:            $ => /[sS][hH][rR]/,
+
+		//kIs:             $ => /[iI][sS]/,
+		//kAs:             $ => /[aA][sS]/,
+		//kIn:             $ => /[iI][nN]/,
+
+		kFor:            $ => /[fF][oO][rR]/,
+		//kIf:             $ => /[iI][fF]/,
+		//kDo:             $ => /[dD][oO]/,
+		//kWhile:          $ => /[wW][hH][iI][lL][eE]/,
+		//kRepeat:         $ => /[rR][eE][pP][eE][aA][tT]/,
+		//kUntil:          $ => /[uU][nN][tT][iI][lL]/,
 
 		kFunction:       $ => /[fF][uU][nN][cC][tT][iI][oO][nN]/,
 		kProcedure:      $ => /[pP][rR][oO][cC][eE][dD][uU][rR][eE]/,
@@ -312,8 +383,7 @@ module.exports = grammar({
 			token.immediate(/-?[0-9]+/),
 			token.immediate(/\$[a-fA-F0-9]+/)
 		),
-		literalFloat:    $ => /-?[0-9]*\.?[0-9]+(e[+-]?[0-9]+)/,
-
+		literalFloat:    $ => prec(10, /-?[0-9]*\.?[0-9]+(e[+-]?[0-9]+)?/),
 
 	  	_space:          $ => /[\s\r\n\t]+/,
 	}
