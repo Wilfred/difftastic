@@ -211,26 +211,8 @@
           "name": "kThen"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_statement"
-                },
-                {
-                  "type": "STRING",
-                  "value": ";"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_controlStructure"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_statement"
         }
       ]
     },
@@ -257,11 +239,10 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_statement"
+                "name": "_trailingStatement"
               },
               {
-                "type": "SYMBOL",
-                "name": "_controlStructure"
+                "type": "BLANK"
               }
             ]
           },
@@ -270,26 +251,8 @@
             "name": "kElse"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_statement"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ";"
-                  }
-                ]
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_controlStructure"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_statement"
           }
         ]
       }
@@ -310,53 +273,47 @@
           "name": "kDo"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_statement"
-                },
-                {
-                  "type": "STRING",
-                  "value": ";"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_controlStructure"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_statement"
         }
       ]
     },
     "repeat": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "kRepeat"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_statements"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "kUntil"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expr"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        }
-      ]
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "kRepeat"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_trailingStatements"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "kUntil"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "expr"
+          },
+          {
+            "type": "STRING",
+            "value": ";"
+          }
+        ]
+      }
     },
     "for": {
       "type": "SEQ",
@@ -382,26 +339,8 @@
           "name": "kDo"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_statement"
-                },
-                {
-                  "type": "STRING",
-                  "value": ";"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_controlStructure"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_statement"
         }
       ]
     },
@@ -429,30 +368,315 @@
           "name": "kDo"
         },
         {
+          "type": "SYMBOL",
+          "name": "_statement"
+        }
+      ]
+    },
+    "try": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "kTry"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_trailingStatements"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "kExcept"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_trailingStatements"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "kFinally"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_trailingStatements"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "kEnd"
+          },
+          {
+            "type": "STRING",
+            "value": ";"
+          }
+        ]
+      }
+    },
+    "trailingIf": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_trailingIf"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_trailingIfElse"
+        }
+      ]
+    },
+    "_trailingIf": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kIf"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kThen"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_statement"
-                },
-                {
-                  "type": "STRING",
-                  "value": ";"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "_trailingStatement"
             },
             {
-              "type": "SYMBOL",
-              "name": "_controlStructure"
+              "type": "BLANK"
             }
           ]
         }
       ]
     },
-    "try": {
+    "_trailingIfElse": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "kIf"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "expr"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "kThen"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_trailingStatement"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "kElse"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_trailingStatement"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trailingWhile": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kWhile"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kDo"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_trailingStatement"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "trailingRepeat": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kRepeat"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_trailingStatements"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kUntil"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        }
+      ]
+    },
+    "trailingFor": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kFor"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kTo"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kDo"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_trailingStatement"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "trailingForeach": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kFor"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kIn"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kDo"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_trailingStatement"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "trailingTry": {
       "type": "SEQ",
       "members": [
         {
@@ -460,8 +684,16 @@
           "name": "kTry"
         },
         {
-          "type": "SYMBOL",
-          "name": "_statements"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_trailingStatements"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -474,8 +706,16 @@
                   "name": "kExcept"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_statements"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_trailingStatements"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             },
@@ -487,8 +727,16 @@
                   "name": "kFinally"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_statements"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_trailingStatements"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             }
@@ -497,10 +745,6 @@
         {
           "type": "SYMBOL",
           "name": "kEnd"
-        },
-        {
-          "type": "STRING",
-          "value": ";"
         }
       ]
     },
@@ -516,7 +760,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_statements"
+              "name": "_trailingStatements"
             },
             {
               "type": "BLANK"
@@ -532,31 +776,76 @@
     "_statements": {
       "type": "REPEAT1",
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_statement"
-              },
-              {
-                "type": "STRING",
-                "value": ";"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_controlStructure"
-          }
-        ]
+        "type": "SYMBOL",
+        "name": "_statement"
       }
     },
-    "_controlStructure": {
+    "_trailingStatements": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_statement"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_trailingStatement"
+        }
+      ]
+    },
+    "_statement": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "expr"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "assignment"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "block"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
+        },
         {
           "type": "SYMBOL",
           "name": "if"
@@ -583,22 +872,67 @@
         }
       ]
     },
-    "_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "expr"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assignment"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
-        }
-      ]
+    "_trailingStatement": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "expr"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "assignment"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "block"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "trailingIf"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "trailingWhile"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "trailingRepeat"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "trailingFor"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "trailingForeach"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "trailingTry"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ";"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "assignment": {
       "type": "SEQ",

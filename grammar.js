@@ -1,3 +1,23 @@
+// TODO:
+// - case of
+// - except on E: XYZ do ...
+// - label, goto
+// - raise
+// - uses
+// - array literals
+// - set literals
+// - record literals
+// - ranges ([0..9])
+// - static arrays + shortstrings
+// - inline declaration of types, e.g.:
+//       var foo: array [0..100] of bar;
+//       procedure foo(bar: array of string);
+// - properties
+// - preprocessor
+// - objectivec
+// - "message"
+// - FPCisms: specialize, generic, += etc.
+// - GUIDs
 module.exports = grammar({
 	name: "pascal",
 	
@@ -44,67 +64,110 @@ module.exports = grammar({
 		if:                 $ => choice($._if, $._ifElse),
 		_if:                $ => seq(
 			$.kIf, $.expr, $.kThen,
-			choice(seq($._statement, ';'), $._controlStructure)
+			$._statement
 		),
 		_ifElse:            $ => prec.right(1, seq(
 			$.kIf, $.expr, $.kThen,
-			choice($._statement, $._controlStructure),
+			optional($._trailingStatement),
 			$.kElse,
-			choice(seq($._statement, ';'), $._controlStructure)
+			$._statement
 		)),
 
 		while:              $ => seq(
 			$.kWhile, $.expr, $.kDo,
-			choice(seq($._statement, ';'), $._controlStructure)
+			$._statement
 		),
 
-		repeat:             $ => seq(
-			$.kRepeat, $._statements, $.kUntil, $.expr, ';'
-		),
+		repeat:             $ => prec(2,seq(
+			$.kRepeat, optional($._trailingStatements), $.kUntil, $.expr, ';'
+		)),
 
 		for:                $ => seq(
 			$.kFor, $.assignment, $.kTo, $.expr, $.kDo,
-			choice(seq($._statement, ';'), $._controlStructure)
+			$._statement
 		),
 
 		foreach:            $ => seq(
 			$.kFor, $.expr, $.kIn, $.expr, $.kDo,
-			choice(seq($._statement, ';'), $._controlStructure)
+			$._statement
 		),
 
-		try:                $ => seq(
-			$.kTry, $._statements, 
+		try:                $ => prec(2,seq(
+			$.kTry, optional($._trailingStatements), 
 			choice(
-				seq($.kExcept, $._statements), // todo "On E [:X] do ..."
-				seq($.kFinally, $._statements)
+				seq($.kExcept, optional($._trailingStatements)), // todo "On E [:X] do ..."
+				seq($.kFinally, optional($._trailingStatements))
 			),
 			$.kEnd, ';'
+		)),
+
+		// --
+		trailingIf:                 $ => choice($._trailingIf, $._trailingIfElse),
+		_trailingIf:                $ => seq(
+			$.kIf, $.expr, $.kThen,
+			optional($._trailingStatement)
+		),
+		_trailingIfElse:            $ => prec.right(1, seq(
+			$.kIf, $.expr, $.kThen,
+			optional($._trailingStatement),
+			$.kElse,
+			optional($._trailingStatement)
+		)),
+
+		trailingWhile:              $ => seq(
+			$.kWhile, $.expr, $.kDo,
+			optional($._trailingStatement)
+		),
+
+		trailingRepeat:             $ => seq(
+			$.kRepeat, optional($._trailingStatements), $.kUntil, $.expr
+		),
+
+		trailingFor:                $ => seq(
+			$.kFor, $.assignment, $.kTo, $.expr, $.kDo,
+			optional($._trailingStatement)
+		),
+
+		trailingForeach:            $ => seq(
+			$.kFor, $.expr, $.kIn, $.expr, $.kDo,
+			optional($._trailingStatement)
+		),
+
+		trailingTry:                $ => seq(
+			$.kTry, optional($._trailingStatements), 
+			choice(
+				seq($.kExcept, optional($._trailingStatements)), // todo "On E [:X] do ..."
+				seq($.kFinally, optional($._trailingStatements))
+			),
+			$.kEnd
 		),
 
 		// STATEMENTS & EXPRESSIONS -------------------------------------------
 
 		block:              $ => seq(
 			$.kBegin,
-			optional($._statements),
+			optional($._trailingStatements),
 			$.kEnd,
 		),
 
-		_statements:        $ => repeat1(
-			choice(
-				seq($._statement, ';'),
-				$._controlStructure
-			)
-		),
-
-		_controlStructure:  $ => choice(
-			$.if, $.while, $.repeat, $.for, $.foreach, $.try
+		_statements:        $ => repeat1($._statement),
+		_trailingStatements:$ => seq(
+			optional(repeat1($._statement)),
+			$._trailingStatement
 		),
 
 		_statement:         $ => choice(
+			seq($.expr, ';'),
+			seq($.assignment, ';'),
+			seq($.block, ';'),
+			$.if, $.while, $.repeat, $.for, $.foreach, $.try
+		),
+		_trailingStatement:  $ => prec.left(1,seq(choice(
 			$.expr,
 			$.assignment,
-			$.block
-		),
+			$.block,
+			$.trailingIf, $.trailingWhile, $.trailingRepeat, $.trailingFor, $.trailingForeach, $.trailingTry
+		), optional(';'))),
 
 		assignment:         $ => seq($.expr, $.kAssign, $.expr),
 

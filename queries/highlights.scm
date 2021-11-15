@@ -17,6 +17,7 @@
 	(kObject)
 	(kRecord)
 	(kArray)
+	(kSet)
 	(kOf)
 	(kHelper)
 
