@@ -51,6 +51,14 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
   }
 }
 
+bool scan_for_word(TSLexer *lexer, char* word, unsigned len) {
+    advance(lexer);
+    for (unsigned i = 0; i < len; i++) {
+      if (lexer->lookahead != word[i]) return true;
+      advance(lexer);
+    }
+    return false;
+}
 
 bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
@@ -71,6 +79,8 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
 
   switch (lexer->lookahead) {
     // specific to Kotlin
+    case 'e': // ex: else on next line after 'if' control body
+      return scan_for_word(lexer, "lse", 3);
     case '{': // ex: function body defined on next line after decl
 
     // cases also in tree-sitter-javascript/src/scanner.c
