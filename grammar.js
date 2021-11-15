@@ -31,7 +31,7 @@ module.exports = grammar({
 		$.calls,
 		$.statements,
 		//$.path,
-		$.expr
+		//$.expr
 	],
 
 	word: $ => $.identifier,
@@ -83,7 +83,7 @@ module.exports = grammar({
 
 		statement:       $ => choice(seq($.expr, ';'), $.assignment),
 
-		assignment:      $ => seq($.expr, ':=', $.expr, ';'),
+		assignment:      $ => seq($.expr, $.kAssign, $.expr, ';'),
 
 		call:            $ => seq($.identifier, optional(seq('(',optional($.callArgs),')'))),
 
@@ -92,38 +92,39 @@ module.exports = grammar({
 			$.expr
 		),
 
-		exprDot:         $ => prec.left(4, seq($.expr, '.',  $.expr)),
+		_exprDot:         $ => prec.left(4, seq($.expr, $.kDot,  $.expr)),
 
-		exprParens:      $ => seq('(', $.expr, ')'),
+		_exprParens:      $ => seq('(', $.expr, ')'),
 
-		exprAdd:         $ => prec.left(2,seq($.expr, '+',    $.expr)),
-		exprSub:         $ => prec.left(2,seq($.expr, '-',    $.expr)),
-		exprOr:          $ => prec.left(2,seq($.expr, $.kOr,  $.expr)),
-		exprXor:         $ => prec.left(2,seq($.expr, $.kXor, $.expr)),
+		_exprAdd:         $ => prec.left(2,seq($.expr, $.kAdd, $.expr)),
+		_exprSub:         $ => prec.left(2,seq($.expr, $.kSub, $.expr)),
+		_exprOr:          $ => prec.left(2,seq($.expr, $.kOr,  $.expr)),
+		_exprXor:         $ => prec.left(2,seq($.expr, $.kXor, $.expr)),
 
-		exprMul:         $ => prec.left(3,seq($.expr, '*',    $.expr)),
-		exprFdiv:        $ => prec.left(3,seq($.expr, '/',    $.expr)),
-		exprDiv:         $ => prec.left(3,seq($.expr, $.kDiv, $.expr)),
-		exprMod:         $ => prec.left(3,seq($.expr, $.kMod, $.expr)),
-		exprAnd:         $ => prec.left(3,seq($.expr, $.kAnd, $.expr)),
-		exprShl:         $ => prec.left(3,seq($.expr, $.kShl, $.expr)),
-		exprShr:         $ => prec.left(3,seq($.expr, $.kShr, $.expr)),
+		_exprMul:         $ => prec.left(3,seq($.expr, $.kMul, $.expr)),
+		_exprFdiv:        $ => prec.left(3,seq($.expr, $.kFdiv,$.expr)),
+		_exprDiv:         $ => prec.left(3,seq($.expr, $.kDiv, $.expr)),
+		_exprMod:         $ => prec.left(3,seq($.expr, $.kMod, $.expr)),
+		_exprAnd:         $ => prec.left(3,seq($.expr, $.kAnd, $.expr)),
+		_exprShl:         $ => prec.left(3,seq($.expr, $.kShl, $.expr)),
+		_exprShr:         $ => prec.left(3,seq($.expr, $.kShr, $.expr)),
 
 		expr:            $ => choice(
 			$.literal,
 			prec.left(4,$.call),
-			$.exprDot,
-			$.exprAdd,
-			$.exprSub,
-			$.exprMul,
-			$.exprFdiv,
-			$.exprDiv,
-			$.exprMod,
-			$.exprAnd,
-			$.exprOr,
-			$.exprXor,
-			$.exprShl,
-			$.exprShr,
+			$._exprDot,
+			$._exprParens,
+			$._exprAdd,
+			$._exprSub,
+			$._exprMul,
+			$._exprFdiv,
+			$._exprDiv,
+			$._exprMod,
+			$._exprAnd,
+			$._exprOr,
+			$._exprXor,
+			$._exprShl,
+			$._exprShr,
 		),
 
 		// E.g. Foo<Bar<A,B>, C>
@@ -131,7 +132,7 @@ module.exports = grammar({
 			$.identifier, 
 			optional($.specializedParams)
 		),
-		specializedParams: $ => seq( '<', $.specializedParams_, '>'),
+		specializedParams: $ => seq( $.kAngleOpen, $.specializedParams_, $.kAngleClose),
 		specializedParams_: $ => seq(
 			optional(repeat1(seq($.specializedParam, ','))),
 			$.specializedParam
@@ -141,7 +142,7 @@ module.exports = grammar({
 
 		// E.g. Foo<A: B, C: D<E>>
 		genericName:       $ => seq($.identifier, optional($.genericParams)),
-		genericParams:     $ => seq('<', $.genericParams_, '>'),
+		genericParams:     $ => seq($.kAngleOpen, $.genericParams_, $.kAngleClose),
 		genericParams_:    $ => seq(
 			optional(repeat1(seq($.genericParam, ';'))),
 			$.genericParam
@@ -194,7 +195,7 @@ module.exports = grammar({
 
 		declType:        $ => seq($.kType, repeat1($.declType_)),
 		declType_:       $ => seq(
-			$.genericType, '=', choice(
+			$.genericType, $.kEq, choice(
 				$.declTypedef,
 				$.declClass,
 				$.declMetaClass,
@@ -278,7 +279,7 @@ module.exports = grammar({
 
 		namespace:       $ => repeat1(seq($.genericType, '.')),
 
-		defaultValue:    $ => seq('=', $.constant),
+		defaultValue:    $ => seq($.kEq, $.constant),
 
 		declVar:         $ => seq($.kVar, optional($.declVar_)),
 		declVar_:        $ => repeat1(seq(
@@ -324,6 +325,11 @@ module.exports = grammar({
 		kOf:             $ => /[oO][fF]/,
 		kHelper:         $ => /[hH][eE][lL][pP][eE][rR]/,
 
+		kDot:            $ => '.',
+		kAdd:            $ => '+',
+		kSub:            $ => '-',
+		kMul:            $ => '*',
+		kFdiv:           $ => '/',
 		kOr:             $ => /[oO][rR]/,
 		kXor:            $ => /[xX][oO][rR]/,
 		kDiv:            $ => /[dD][iI][vV]/,
@@ -331,6 +337,16 @@ module.exports = grammar({
 		kAnd:            $ => /[aA][nN][dD]/,
 		kShl:            $ => /[sS][hH][lL]/,
 		kShr:            $ => /[sS][hH][rR]/,
+		kAssign:         $ => ':=',
+		kEq:             $ => '=',
+		kLt:             $ => '<',
+		kLte:            $ => '<=',
+		kGt:             $ => '>',
+		kGte:            $ => '>=',
+		kNe:             $ => '<>',
+
+		kAngleOpen:      $ => '<',
+		kAngleClose:     $ => '>',
 
 		//kIs:             $ => /[iI][sS]/,
 		//kAs:             $ => /[aA][sS]/,

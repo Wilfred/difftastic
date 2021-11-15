@@ -8,59 +8,11 @@
       "required": true,
       "types": [
         {
-          "type": "call",
+          "type": "expr",
           "named": true
         },
         {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
-          "named": true
-        },
-        {
-          "type": "literal",
+          "type": "kAssign",
           "named": true
         }
       ]
@@ -121,59 +73,7 @@
       "required": true,
       "types": [
         {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
-          "named": true
-        },
-        {
-          "type": "literal",
+          "type": "expr",
           "named": true
         }
       ]
@@ -577,6 +477,10 @@
           "named": true
         },
         {
+          "type": "kEq",
+          "named": true
+        },
+        {
           "type": "kType",
           "named": true
         }
@@ -669,6 +573,10 @@
           "named": true
         },
         {
+          "type": "kEq",
+          "named": true
+        },
+        {
           "type": "literal",
           "named": true
         },
@@ -680,7 +588,7 @@
     }
   },
   {
-    "type": "exprAdd",
+    "type": "expr",
     "named": true,
     "fields": {},
     "children": {
@@ -692,118 +600,11 @@
           "named": true
         },
         {
-          "type": "exprAdd",
+          "type": "expr",
           "named": true
         },
         {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprAnd",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
+          "type": "kAdd",
           "named": true
         },
         {
@@ -811,275 +612,15 @@
           "named": true
         },
         {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprDiv",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
-          "named": true
-        },
-        {
           "type": "kDiv",
           "named": true
         },
         {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprDot",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
+          "type": "kDot",
           "named": true
         },
         {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprFdiv",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprMod",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
+          "type": "kFdiv",
           "named": true
         },
         {
@@ -1087,137 +628,7 @@
           "named": true
         },
         {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprMul",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprOr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
+          "type": "kMul",
           "named": true
         },
         {
@@ -1225,141 +636,7 @@
           "named": true
         },
         {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprShl",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
-          "named": true
-        },
-        {
           "type": "kShl",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprShr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
           "named": true
         },
         {
@@ -1367,137 +644,7 @@
           "named": true
         },
         {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprSub",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprXor",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
+          "type": "kSub",
           "named": true
         },
         {
@@ -1544,6 +691,14 @@
       "types": [
         {
           "type": "genericParam",
+          "named": true
+        },
+        {
+          "type": "kAngleClose",
+          "named": true
+        },
+        {
+          "type": "kAngleOpen",
           "named": true
         }
       ]
@@ -1656,6 +811,21 @@
         }
       ]
     }
+  },
+  {
+    "type": "kAngleClose",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "kAngleOpen",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "kDot",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "literal",
@@ -1861,6 +1031,14 @@
       "required": true,
       "types": [
         {
+          "type": "kAngleClose",
+          "named": true
+        },
+        {
+          "type": "kAngleOpen",
+          "named": true
+        },
+        {
           "type": "specializedParam",
           "named": true
         }
@@ -1899,59 +1077,7 @@
           "named": true
         },
         {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "exprAdd",
-          "named": true
-        },
-        {
-          "type": "exprAnd",
-          "named": true
-        },
-        {
-          "type": "exprDiv",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprFdiv",
-          "named": true
-        },
-        {
-          "type": "exprMod",
-          "named": true
-        },
-        {
-          "type": "exprMul",
-          "named": true
-        },
-        {
-          "type": "exprOr",
-          "named": true
-        },
-        {
-          "type": "exprShl",
-          "named": true
-        },
-        {
-          "type": "exprShr",
-          "named": true
-        },
-        {
-          "type": "exprSub",
-          "named": true
-        },
-        {
-          "type": "exprXor",
-          "named": true
-        },
-        {
-          "type": "literal",
+          "type": "expr",
           "named": true
         }
       ]
@@ -1997,19 +1123,7 @@
     "named": false
   },
   {
-    "type": "*",
-    "named": false
-  },
-  {
-    "type": "+",
-    "named": false
-  },
-  {
     "type": ",",
-    "named": false
-  },
-  {
-    "type": "-",
     "named": false
   },
   {
@@ -2017,15 +1131,7 @@
     "named": false
   },
   {
-    "type": "/",
-    "named": false
-  },
-  {
     "type": ":",
-    "named": false
-  },
-  {
-    "type": ":=",
     "named": false
   },
   {
@@ -2034,10 +1140,6 @@
   },
   {
     "type": "<",
-    "named": false
-  },
-  {
-    "type": "=",
     "named": false
   },
   {
@@ -2057,11 +1159,19 @@
     "named": true
   },
   {
+    "type": "kAdd",
+    "named": true
+  },
+  {
     "type": "kAnd",
     "named": true
   },
   {
     "type": "kArray",
+    "named": true
+  },
+  {
+    "type": "kAssign",
     "named": true
   },
   {
@@ -2097,6 +1207,14 @@
     "named": true
   },
   {
+    "type": "kEq",
+    "named": true
+  },
+  {
+    "type": "kFdiv",
+    "named": true
+  },
+  {
     "type": "kFor",
     "named": true
   },
@@ -2122,6 +1240,10 @@
   },
   {
     "type": "kMod",
+    "named": true
+  },
+  {
+    "type": "kMul",
     "named": true
   },
   {
@@ -2194,6 +1316,10 @@
   },
   {
     "type": "kStrict",
+    "named": true
+  },
+  {
+    "type": "kSub",
     "named": true
   },
   {

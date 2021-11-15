@@ -245,8 +245,8 @@
           "name": "expr"
         },
         {
-          "type": "STRING",
-          "value": ":="
+          "type": "SYMBOL",
+          "name": "kAssign"
         },
         {
           "type": "SYMBOL",
@@ -333,7 +333,7 @@
         }
       ]
     },
-    "exprDot": {
+    "_exprDot": {
       "type": "PREC_LEFT",
       "value": 4,
       "content": {
@@ -344,8 +344,8 @@
             "name": "expr"
           },
           {
-            "type": "STRING",
-            "value": "."
+            "type": "SYMBOL",
+            "name": "kDot"
           },
           {
             "type": "SYMBOL",
@@ -354,7 +354,7 @@
         ]
       }
     },
-    "exprParens": {
+    "_exprParens": {
       "type": "SEQ",
       "members": [
         {
@@ -371,7 +371,7 @@
         }
       ]
     },
-    "exprAdd": {
+    "_exprAdd": {
       "type": "PREC_LEFT",
       "value": 2,
       "content": {
@@ -382,8 +382,8 @@
             "name": "expr"
           },
           {
-            "type": "STRING",
-            "value": "+"
+            "type": "SYMBOL",
+            "name": "kAdd"
           },
           {
             "type": "SYMBOL",
@@ -392,7 +392,7 @@
         ]
       }
     },
-    "exprSub": {
+    "_exprSub": {
       "type": "PREC_LEFT",
       "value": 2,
       "content": {
@@ -403,8 +403,8 @@
             "name": "expr"
           },
           {
-            "type": "STRING",
-            "value": "-"
+            "type": "SYMBOL",
+            "name": "kSub"
           },
           {
             "type": "SYMBOL",
@@ -413,7 +413,7 @@
         ]
       }
     },
-    "exprOr": {
+    "_exprOr": {
       "type": "PREC_LEFT",
       "value": 2,
       "content": {
@@ -434,7 +434,7 @@
         ]
       }
     },
-    "exprXor": {
+    "_exprXor": {
       "type": "PREC_LEFT",
       "value": 2,
       "content": {
@@ -455,7 +455,7 @@
         ]
       }
     },
-    "exprMul": {
+    "_exprMul": {
       "type": "PREC_LEFT",
       "value": 3,
       "content": {
@@ -466,8 +466,8 @@
             "name": "expr"
           },
           {
-            "type": "STRING",
-            "value": "*"
+            "type": "SYMBOL",
+            "name": "kMul"
           },
           {
             "type": "SYMBOL",
@@ -476,7 +476,7 @@
         ]
       }
     },
-    "exprFdiv": {
+    "_exprFdiv": {
       "type": "PREC_LEFT",
       "value": 3,
       "content": {
@@ -487,8 +487,8 @@
             "name": "expr"
           },
           {
-            "type": "STRING",
-            "value": "/"
+            "type": "SYMBOL",
+            "name": "kFdiv"
           },
           {
             "type": "SYMBOL",
@@ -497,7 +497,7 @@
         ]
       }
     },
-    "exprDiv": {
+    "_exprDiv": {
       "type": "PREC_LEFT",
       "value": 3,
       "content": {
@@ -518,7 +518,7 @@
         ]
       }
     },
-    "exprMod": {
+    "_exprMod": {
       "type": "PREC_LEFT",
       "value": 3,
       "content": {
@@ -539,7 +539,7 @@
         ]
       }
     },
-    "exprAnd": {
+    "_exprAnd": {
       "type": "PREC_LEFT",
       "value": 3,
       "content": {
@@ -560,7 +560,7 @@
         ]
       }
     },
-    "exprShl": {
+    "_exprShl": {
       "type": "PREC_LEFT",
       "value": 3,
       "content": {
@@ -581,7 +581,7 @@
         ]
       }
     },
-    "exprShr": {
+    "_exprShr": {
       "type": "PREC_LEFT",
       "value": 3,
       "content": {
@@ -619,51 +619,55 @@
         },
         {
           "type": "SYMBOL",
-          "name": "exprDot"
+          "name": "_exprDot"
         },
         {
           "type": "SYMBOL",
-          "name": "exprAdd"
+          "name": "_exprParens"
         },
         {
           "type": "SYMBOL",
-          "name": "exprSub"
+          "name": "_exprAdd"
         },
         {
           "type": "SYMBOL",
-          "name": "exprMul"
+          "name": "_exprSub"
         },
         {
           "type": "SYMBOL",
-          "name": "exprFdiv"
+          "name": "_exprMul"
         },
         {
           "type": "SYMBOL",
-          "name": "exprDiv"
+          "name": "_exprFdiv"
         },
         {
           "type": "SYMBOL",
-          "name": "exprMod"
+          "name": "_exprDiv"
         },
         {
           "type": "SYMBOL",
-          "name": "exprAnd"
+          "name": "_exprMod"
         },
         {
           "type": "SYMBOL",
-          "name": "exprOr"
+          "name": "_exprAnd"
         },
         {
           "type": "SYMBOL",
-          "name": "exprXor"
+          "name": "_exprOr"
         },
         {
           "type": "SYMBOL",
-          "name": "exprShl"
+          "name": "_exprXor"
         },
         {
           "type": "SYMBOL",
-          "name": "exprShr"
+          "name": "_exprShl"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_exprShr"
         }
       ]
     },
@@ -692,16 +696,16 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "<"
+          "type": "SYMBOL",
+          "name": "kAngleOpen"
         },
         {
           "type": "SYMBOL",
           "name": "specializedParams_"
         },
         {
-          "type": "STRING",
-          "value": ">"
+          "type": "SYMBOL",
+          "name": "kAngleClose"
         }
       ]
     },
@@ -767,16 +771,16 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "<"
+          "type": "SYMBOL",
+          "name": "kAngleOpen"
         },
         {
           "type": "SYMBOL",
           "name": "genericParams_"
         },
         {
-          "type": "STRING",
-          "value": ">"
+          "type": "SYMBOL",
+          "name": "kAngleClose"
         }
       ]
     },
@@ -1045,8 +1049,8 @@
           "name": "genericType"
         },
         {
-          "type": "STRING",
-          "value": "="
+          "type": "SYMBOL",
+          "name": "kEq"
         },
         {
           "type": "CHOICE",
@@ -1588,8 +1592,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "="
+          "type": "SYMBOL",
+          "name": "kEq"
         },
         {
           "type": "SYMBOL",
@@ -1878,6 +1882,26 @@
       "type": "PATTERN",
       "value": "[hH][eE][lL][pP][eE][rR]"
     },
+    "kDot": {
+      "type": "STRING",
+      "value": "."
+    },
+    "kAdd": {
+      "type": "STRING",
+      "value": "+"
+    },
+    "kSub": {
+      "type": "STRING",
+      "value": "-"
+    },
+    "kMul": {
+      "type": "STRING",
+      "value": "*"
+    },
+    "kFdiv": {
+      "type": "STRING",
+      "value": "/"
+    },
     "kOr": {
       "type": "PATTERN",
       "value": "[oO][rR]"
@@ -1905,6 +1929,42 @@
     "kShr": {
       "type": "PATTERN",
       "value": "[sS][hH][rR]"
+    },
+    "kAssign": {
+      "type": "STRING",
+      "value": ":="
+    },
+    "kEq": {
+      "type": "STRING",
+      "value": "="
+    },
+    "kLt": {
+      "type": "STRING",
+      "value": "<"
+    },
+    "kLte": {
+      "type": "STRING",
+      "value": "<="
+    },
+    "kGt": {
+      "type": "STRING",
+      "value": ">"
+    },
+    "kGte": {
+      "type": "STRING",
+      "value": ">="
+    },
+    "kNe": {
+      "type": "STRING",
+      "value": "<>"
+    },
+    "kAngleOpen": {
+      "type": "STRING",
+      "value": "<"
+    },
+    "kAngleClose": {
+      "type": "STRING",
+      "value": ">"
     },
     "kFor": {
       "type": "PATTERN",
@@ -2120,8 +2180,7 @@
     "ReferenceError",
     "namespace",
     "ReferenceError",
-    "statements",
-    "expr"
+    "statements"
   ],
   "supertypes": []
 }

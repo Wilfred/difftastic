@@ -64,10 +64,17 @@
 
 (identifier)      @identifier
 
-["(" ")" "<" ">"] @punctuation.bracket
+["(" ")"]         @punctuation.bracket
+(kAngleOpen)      @punctuation.bracket
+(kAngleClose)     @punctuation.bracket
 [";" "," ":"]     @punctuation.delimiter
 
-["=" "." "+" "-" "*" "/" ":="]         @operator
+;["=" "." "+" "-" "*" "/" ":="]         @operator
+(kDot)            @operator
+(kAdd)            @operator
+(kSub)            @operator
+(kMul)            @operator
+(kFdiv)           @operator
 (kOr)             @operator
 (kXor)            @operator
 (kDiv)            @operator
@@ -75,3 +82,10 @@
 (kAnd)            @operator
 (kShl)            @operator
 (kShr)            @operator
+(kAssign)         @operator
+(kEq)             @operator
+;(kLt)             @operator
+;(kLte)            @operator
+;(kGt)             @operator
+;(kGte)            @operator
+;(kNe)             @operator
