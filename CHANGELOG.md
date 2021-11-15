@@ -34,7 +34,7 @@ usage.
 ### Parsing
 
 Updated to latest upstream Haskell parser ([commit
-666808](https://github.com/tree-sitter/tree-sitter-haskell/commit/6668085e7d3dc6205a3ef27e6293988cf4a10419)).
+d72f2e4](https://github.com/tree-sitter/tree-sitter-haskell/commit/d72f2e42c0d5ccf8e8b1c39e3642428317e8fe02)).
 
 ### Diffing
 
