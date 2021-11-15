@@ -142,7 +142,7 @@ fn after_with_opposites(
     after_lines: &[LineNumber],
     opposite_lines: HashMap<LineNumber, HashSet<LineNumber>>,
     prev_max_opposite: Option<LineNumber>,
-    max_line: LineNumber,
+    max_opposite: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut prev_opposite: Option<LineNumber> = None;
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
@@ -150,7 +150,7 @@ fn after_with_opposites(
     for line in after_lines {
         let current_opposite: Option<LineNumber> = match prev_opposite {
             Some(prev_opposite) => {
-                if prev_opposite < max_line {
+                if prev_opposite < max_opposite {
                     Some((prev_opposite.0 + 1).into())
                 } else {
                     None
@@ -227,7 +227,7 @@ pub fn calculate_context(
                     &padded_lines,
                     opposite_to_lhs,
                     max_opposite,
-                    max_lhs_src_line,
+                    max_rhs_src_line,
                 )
             }
             (_, Some(rhs_line)) => {
@@ -243,7 +243,7 @@ pub fn calculate_context(
                     &padded_lines,
                     opposite_to_rhs,
                     max_opposite,
-                    max_rhs_src_line,
+                    max_lhs_src_line,
                 ))
             }
             (None, None) => return (vec![], vec![]),
