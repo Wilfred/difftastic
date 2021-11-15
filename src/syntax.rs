@@ -533,9 +533,10 @@ pub struct MatchedPos {
     pub pos: SingleLineSpan,
 }
 
+// "foo bar" -> vec!["foo", " ", "bar"]
 fn split_words(s: &str) -> Vec<String> {
     lazy_static! {
-        static ref RE: Regex = Regex::new(r"[a-zA-Z0-9]+|[^a-zA-Z0-9]+").unwrap();
+        static ref RE: Regex = Regex::new(r"[a-zA-Z0-9]+|\n|[^a-zA-Z0-9\n]+").unwrap();
     }
 
     RE.find_iter(s).map(|m| m.as_str().to_owned()).collect()
@@ -897,5 +898,12 @@ mod tests {
         let s = "example.com";
         let res = split_words(s);
         assert_eq!(res, vec!["example", ".", "com"])
+    }
+
+    #[test]
+    fn test_split_words_treats_newline_separately() {
+        let s = "example.\ncom";
+        let res = split_words(s);
+        assert_eq!(res, vec!["example", ".", "\n", "com"])
     }
 }
