@@ -14,22 +14,22 @@ See [the manual](http://difftastic.wilfred.me.uk/) to get started.
 
 ## Screenshots
 
-![C screenshot](img/c.png)
+![Rust screenshot](img/rust.png)
 
-![C++ screenshot](img/cpp.png)
+![C screenshot](img/c.png)
 
 ![Haskell screenshot](img/haskell.png)
 
 <!--
 To regenerate these screenshots:
 
+$ git clone git@github.com:rust-itertools/itertools.git
+$ cd itertools
+$ GIT_EXTERNAL_DIFF=difft git show --ext-diff 38805c6a882a9f00615078250ccc8c070c3a214d
+
 $ git clone git@github.com:stedolan/jq.git
 $ cd jq
 $ GIT_EXTERNAL_DIFF=difft git show --ext-diff 6306ac89667cf35f47ddc40aa0630546c57e387f
-
-$ git clone git@github.com:MisterTea/EternalTerminal.git
-$ cd EternalTerminal
-$ GIT_EXTERNAL_DIFF=difft git show --ext-diff 51ca3e695e94b3fec037c8fe1050e3e343b2a890
 
 $ git clone git@github.com:xmonad/xmonad.git
 $ cd xmonad
