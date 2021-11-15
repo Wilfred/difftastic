@@ -142,13 +142,15 @@ module.exports = grammar({
 			$.kEnd
 		),
 
-		// STATEMENTS & EXPRESSIONS -------------------------------------------
+		// STATEMENTS ---------------------------------------------------------
 
 		block:              $ => seq(
 			$.kBegin,
 			optional($._trailingStatements),
 			$.kEnd,
 		),
+
+		assignment:         $ => seq($.expr, $.kAssign, $.expr),
 
 		_statements:        $ => repeat1($._statement),
 		_trailingStatements:$ => seq(
@@ -169,14 +171,11 @@ module.exports = grammar({
 			$.trailingIf, $.trailingWhile, $.trailingRepeat, $.trailingFor, $.trailingForeach, $.trailingTry
 		), optional(';'))),
 
-		assignment:         $ => seq($.expr, $.kAssign, $.expr),
+		// EXPRESSIONS ---------------------------------------------------------
 
 		call:               $ => seq($.identifier, optional(seq('(',optional($.callArgs),')'))),
 
-		callArgs:           $ => seq(
-			optional(repeat1(seq($.expr, ','))),
-			$.expr
-		),
+		callArgs:           $ => delimited1($.expr),
 
 		_exprDot:           $ => prec.left(4, seq($.expr, $.kDot,  $.expr)),
 		_exprIdx:           $ => prec.left(4, seq('[', $.callArgs, ']')),
@@ -226,28 +225,18 @@ module.exports = grammar({
 			$.identifier, 
 			optional($.specializedParams)
 		),
-		specializedParams:  $ => seq( $.kAngleOpen, $._specializedParams, $.kAngleClose),
-		_specializedParams: $ => seq(
-			optional(repeat1(seq($.specializedParam, ','))),
-			$.specializedParam
-		),
-
+		specializedParams:  $ => seq( $.kAngleOpen, delimited1($.specializedParam), $.kAngleClose),
 		specializedParam:   $ => $._constant,
 
 		// E.g. Foo<A: B, C: D<E>>
 		_genericName:       $ => seq($.identifier, optional($.genericParams)),
-		genericParams:      $ => seq($.kAngleOpen, $._genericParams, $.kAngleClose),
-		_genericParams:     $ => seq(
-			optional(repeat1(seq($.genericParam, ';'))),
-			$.genericParam
-		),
+		genericParams:      $ => seq($.kAngleOpen, delimited1($.genericParam, ';'), $.kAngleClose),
 		genericParam:       $ => seq(
-			$._identifiers, 
+			delimited1($.identifier), 
 			optional(seq(':', $.specializedType)), 
 			optional($.defaultValue)
 		),
 		_constant:          $ => choice($.literal, $._specializedName),
-
 
 		genericType:        $ => $._genericName,
 		specializedType:    $ => $._specializedName,
@@ -318,13 +307,8 @@ module.exports = grammar({
 		),
 		declTypedef:        $ => seq(optional($.kType), $.specializedType),
 
-		declEnum:           $ => seq( 
-			'(', 
-			optional(repeat1(seq($._declEnum, ','))),
-			$._declEnum,
-			')'
-		),
-		_declEnum:          $ => seq($.identifier, optional($.defaultValue)),
+		declEnum:           $ => seq('(', delimited1($.declEnumValue), ')'),
+		declEnumValue:      $ => seq($.identifier, optional($.defaultValue)),
 
 		declSet:            $ => seq($.kSet, $.kOf, $.expr),
 
@@ -377,11 +361,7 @@ module.exports = grammar({
 		),
 
 		declArgs:           $ => seq(
-			'(', optional($._declArgs), ')'
-		),
-		_declArgs:          $ => seq(
-			optional( repeat1( seq($.declArg, ';'))),
-			$.declArg
+			'(', optional(delimited1($.declArg, ';')), ')'
 		),
 
 		procAttributes:     $ => repeat1(
@@ -394,35 +374,39 @@ module.exports = grammar({
 			)
 		),
 
-		_identifiers:       $ => seq(
-			optional(repeat1(seq($.identifier, ','))),
-			$.identifier
-		),
-
 		_namespace:         $ => repeat1(seq($.genericType, '.')),
 
 		defaultValue:       $ => seq($.kEq, $._constant),
 
-		declVar:            $ => seq($.kVar, optional($._declVar)),
-		_declVar:           $ => repeat1(seq(
-			$._identifiers, ':', $.specializedType, optional($.defaultValue), ';'
-		)),
-		declConst:          $ => seq($.kConst, optional($._declConst)),
-		_declConst:         $ => repeat1(seq(
-			$.identifier, optional(seq(':', $.specializedType)), $.defaultValue, ';'
-		)),
+		declVar:            $ => seq(
+			$.kVar,
+			repeat(seq(
+				delimited1($.identifier), 
+				':', 
+				$.specializedType, 
+				optional($.defaultValue), 
+				';'
+			))
+		),
+		declConst:          $ => seq(
+			$.kConst, 
+			repeat(seq(
+				$.identifier, 
+				optional(seq(':', $.specializedType)), 
+				$.defaultValue, 
+				';'
+			))
+		),
 
-		declArg:            $ => seq(
-			choice(
-				seq(
-					choice($.kVar, $.kConst, $.kOut),
-					$._identifiers,
-					optional(seq(':', $.specializedType, optional($.defaultValue)))
-				),
-				seq(
-					$._identifiers, ':', $.specializedType, optional($.defaultValue)
-				)
+		declArg:            $ => choice(
+			seq(
+				choice($.kVar, $.kConst, $.kOut),
+				delimited1($.identifier),
+				optional(seq(':', $.specializedType, optional($.defaultValue)))
 			),
+			seq(
+				delimited1($.identifier), ':', $.specializedType, optional($.defaultValue)
+			)
 		),
 
 		// TERMINAL SYMBOLS ----------------------------------------------------
@@ -517,3 +501,10 @@ module.exports = grammar({
 	  	_space:             $ => /[\s\r\n\t]+/,
 	}
 });
+
+function delimited1(rule, delimiter = ',') {
+	return seq(
+		optional(repeat1(seq(rule, delimiter))),
+		rule
+	);
+}
