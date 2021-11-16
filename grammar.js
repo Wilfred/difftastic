@@ -333,11 +333,19 @@ module.exports = grammar({
       'case',
       field('value', optional($._statement)),
       optional($._terminator),
-      choice(
-        repeat($.when),
-        repeat($.in_clause),
-      ),
+      repeat($.when),
       optional($.else),
+      'end'
+    ),
+
+    case_match: $ => seq(
+      'case',
+      field('value', optional($._statement)),
+      optional($._terminator),
+      choice(
+        repeat1(field('clauses', $.in_clause)),
+      ),
+      optional(field('else', $.else)),
       'end'
     ),
 
@@ -652,6 +660,7 @@ module.exports = grammar({
       $.unless,
       $.for,
       $.case,
+      $.case_match,
       $.return,
       $.yield,
       $.break,
