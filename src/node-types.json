@@ -1098,6 +1098,10 @@
           "named": true
         },
         {
+          "type": "getter",
+          "named": true
+        },
+        {
           "type": "object_declaration",
           "named": true
         },
@@ -1107,6 +1111,10 @@
         },
         {
           "type": "secondary_constructor",
+          "named": true
+        },
+        {
+          "type": "setter",
           "named": true
         },
         {
@@ -2026,6 +2034,10 @@
           "named": true
         },
         {
+          "type": "getter",
+          "named": true
+        },
+        {
           "type": "hex_literal",
           "named": true
         },
@@ -2107,6 +2119,10 @@
         },
         {
           "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "setter",
           "named": true
         },
         {
@@ -2836,6 +2852,10 @@
           "named": true
         },
         {
+          "type": "getter",
+          "named": true
+        },
+        {
           "type": "object_declaration",
           "named": true
         },
@@ -2845,6 +2865,10 @@
         },
         {
           "type": "secondary_constructor",
+          "named": true
+        },
+        {
+          "type": "setter",
           "named": true
         },
         {
@@ -3939,6 +3963,10 @@
         },
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "modifiers",
           "named": true
         },
         {
@@ -7297,6 +7325,10 @@
           "named": true
         },
         {
+          "type": "modifiers",
+          "named": true
+        },
+        {
           "type": "nullable_type",
           "named": true
         },
@@ -7426,6 +7458,10 @@
           "named": true
         },
         {
+          "type": "getter",
+          "named": true
+        },
+        {
           "type": "hex_literal",
           "named": true
         },
@@ -7515,6 +7551,10 @@
         },
         {
           "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "setter",
           "named": true
         },
         {
@@ -7824,6 +7864,10 @@
           "named": true
         },
         {
+          "type": "getter",
+          "named": true
+        },
+        {
           "type": "hex_literal",
           "named": true
         },
@@ -7905,6 +7949,10 @@
         },
         {
           "type": "real_literal",
+          "named": true
+        },
+        {
+          "type": "setter",
           "named": true
         },
         {
