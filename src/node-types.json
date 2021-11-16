@@ -9399,6 +9399,10 @@
     "named": false
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "companion",
     "named": false
   },
