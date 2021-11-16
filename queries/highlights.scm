@@ -23,9 +23,11 @@
 	(kObject)
 	(kRecord)
 	(kArray)
+	(kString)
 	(kSet)
 	(kOf)
 	(kHelper)
+	(kPacked)
 
 	(kFunction)
 	(kProcedure)
@@ -49,6 +51,7 @@
 	(kVirtual)
 	(kAbstract)
 	(kOverride)
+	(kInherited)
 	(kInline)
 
 	(kStdcall)
@@ -93,6 +96,8 @@
 [
 	"("
 	")"
+	"["
+	"]"
 	(kAngleOpen) 
 	(kAngleClose)
 ] @punctuation.bracket
@@ -102,6 +107,7 @@
 	","
 	":"
 	".."
+	(kEndDot)
 ] @punctuation.delimiter
 
 [

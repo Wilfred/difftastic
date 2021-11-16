@@ -1,18 +1,11 @@
 // TODO:
-// - case of
 // - except on E: XYZ do ...
 // - label, goto
 // - raise
 // - uses
-// - array literals
 // - set literals
 // - record literals
 // - ranges ([0..9])
-// - static arrays + shortstrings
-// - inline declaration of types, e.g.:
-//       var foo: array [0..100] of bar;
-//       procedure foo(bar: array of string);
-// - properties
 // - preprocessor
 // - objectivec
 // - "message"
@@ -37,7 +30,7 @@ module.exports = grammar({
 			$.kProgram, $.moduleName, ';',
 			optional($._definitions),
 			$.block,
-			'.'
+			$.kEndDot
 		),
 
 
@@ -47,6 +40,7 @@ module.exports = grammar({
 			$.implementation,
 			optional($.initialization),
 			optional($.finalization),
+			$.kEnd, $.kEndDot
 		),
 
 		uses:               $ => seq($.kUses, delimited($.moduleName), ';'),
@@ -91,7 +85,10 @@ module.exports = grammar({
 		// EXPRESSIONS ---------------------------------------------------------
 
 		// TODO: Should also support generics, e.g. Foo<XYZ>
-		call:               $ => seq($.identifier, optional(seq('(',optional($.callArgs),')'))),
+		call:               $ => seq(
+			optional($.kInherited),
+			$.identifier, optional(seq('(',optional($.callArgs),')'))
+		),
 
 		callArgs:           $ => delimited1($.expr),
 
@@ -177,6 +174,8 @@ module.exports = grammar({
 
 		genericProc:        $ => $._genericName,
 
+		type:               $ => choice($.specializedType, $.defType),
+
 		// LITERALS -----------------------------------------------------------
 
 		literal:            $ => choice(
@@ -232,18 +231,21 @@ module.exports = grammar({
 
 		declType:           $ => seq($.kType, repeat1($._declType)),
 		_declType:          $ => seq(
-			$.genericType, $.kEq, choice(
-				$.declTypedef,
-				$.declClass,
-				$.declMetaClass,
-				$.declHelper,
-				$.declEnum,
-				$.declSet,
-				$.declProcRef,
-				$.declFuncRef
-			),
-			';'
+			$.genericType, $.kEq, choice( $.declTypedef, $.defType), ';'
 		),
+
+		defType:            $ => choice(
+			$.declClass,
+			$.declMetaClass,
+			$.declHelper,
+			$.declEnum,
+			$.declSet,
+			$.declArray,
+			$.declString,
+			$.declProcRef,
+			$.declFuncRef
+		),
+
 		declTypedef:        $ => seq(optional($.kType), $.specializedType),
 
 		declEnum:           $ => seq('(', delimited1($.declEnumValue), ')'),
@@ -252,6 +254,7 @@ module.exports = grammar({
 		declSet:            $ => seq($.kSet, $.kOf, $.expr),
 
 		declClass:          $ => seq(
+			optional($.kPacked),
 			choice($.kClass, $.kRecord, $.kObject, $.kInterface), 
 			optional(seq('(',$.specializedType,')')), $._declClass
 		),
@@ -271,7 +274,17 @@ module.exports = grammar({
 			repeat($.declSection),
 			$.kEnd
 		),
-		declArray:          $ => seq($.kArray, $.kOf, $.specializedType),
+		declArray:          $ => seq(
+			optional($.kPacked),
+			$.kArray, 
+			optional(seq('[', delimited(choice($.range, $.expr/*$.specializedType*/)), ']')),
+			$.kOf, $.type
+		),
+		declString:          $ => seq(
+			$.kString, 
+			optional(seq('[', choice($._constant), ']'))
+		),
+
 
 		declMetaClass:      $ => seq(
 			$.kClass, $.kOf, $.specializedType
@@ -299,7 +312,7 @@ module.exports = grammar({
 			$.genericProc,
 			optional($.declArgs),
 			':',
-			$.specializedType,
+			$.type,
 			';',
 			optional($.procAttributes)
 		),
@@ -339,7 +352,7 @@ module.exports = grammar({
 			repeat1(seq(
 				delimited1($.identifier), 
 				':', 
-				$.specializedType, 
+				$.type, 
 				optional($.defaultValue), 
 				';'
 			))
@@ -348,7 +361,7 @@ module.exports = grammar({
 			$.kConst, 
 			repeat1(seq(
 				$.identifier, 
-				optional(seq(':', $.specializedType)), 
+				optional(seq(':', $.type)), 
 				$.defaultValue, 
 				';'
 			))
@@ -357,7 +370,7 @@ module.exports = grammar({
 		declField:            $ =>  seq(
 			delimited1($.identifier),
 			':', 
-			$.specializedType,
+			$.type,
 			optional($.defaultValue),
 			';'
 		),
@@ -366,7 +379,7 @@ module.exports = grammar({
 			$.kProperty,
 			$.identifier,
 			':',
-			$.specializedType,
+			$.type,
 			optional(seq($.kIndex, $._constant)),
 			optional(seq($.kRead, $.identifier)),
 			optional(seq($.kWrite, $.identifier)),
@@ -379,10 +392,10 @@ module.exports = grammar({
 			seq(
 				choice($.kVar, $.kConst, $.kOut),
 				delimited1($.identifier),
-				optional(seq(':', $.specializedType, optional($.defaultValue)))
+				optional(seq(':', $.type, optional($.defaultValue)))
 			),
 			seq(
-				delimited1($.identifier), ':', $.specializedType, optional($.defaultValue)
+				delimited1($.identifier), ':', $.type, optional($.defaultValue)
 			)
 		),
 
@@ -395,6 +408,7 @@ module.exports = grammar({
 		kImplementation:    $ => /[iI][mM][pP][lL][eE][mM][eE][nN][tT][aA][tT][iI][oO][nN]/,
 		kInitialization:    $ => /[iI][nN][iI][tT][iI][aA][lL][iI][zZ][aA][tT][iI][oO][nN]/,
 		kFinalization:      $ => /[fF][iI][nN][aA][lL][iI][zZ][aA][tT][iI][oO][nN]/,
+		kEndDot:            $ => '.',
 
 		kBegin:             $ => /[bB][eE][gG][iI][nN]/,
 		kEnd:               $ => /[eE][nN][dD]/,
@@ -414,10 +428,12 @@ module.exports = grammar({
 		kInterface:         $ => /[iI][nN][tT][eE][rR][fF][aA][cC][eE]/,
 		kObject:            $ => /[oO][bB][jJ][eE][cC][tT]/,
 		kRecord:            $ => /[rR][eE][cC][oO][rR][dD]/,
-		kArray:             $ => /[aA][rR][aA][yY]/,
+		kArray:             $ => /[aA][rR][rR][aA][yY]/,
+		kString:            $ => /[sS][tT][rR][iI][nN][gG]/,
 		kSet:               $ => /[sS][eE][tT]/,
 		kOf:                $ => /[oO][fF]/,
 		kHelper:            $ => /[hH][eE][lL][pP][eE][rR]/,
+		kPacked:            $ => /[pP][aA][cC][kK][eE][dD]/,
 
 		kDot:               $ => '.',
 		kAdd:               $ => '+',
@@ -477,6 +493,7 @@ module.exports = grammar({
 		kVirtual:           $ => /[vV][iI][rR][tT][uU][aA][lL]/,
 		kAbstract:          $ => /[aA][bB][sS][tT][rR][aA][cC][tT]/,
 		kOverride:          $ => /[oO][vV][eE][rR][rR][iI][dD][eE]/,
+		kInherited:         $ => /[iI][nN][hH][eE][rR][iI][tT][eE][dD]/,
 		kInline:            $ => /[iI][nN][lL][iI][nN][eE]/,
 
 		kStdcall:           $ => /[sS][tT][dD][cC][aA][lL][lL]/,

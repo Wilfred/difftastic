@@ -47,8 +47,8 @@
           "name": "block"
         },
         {
-          "type": "STRING",
-          "value": "."
+          "type": "SYMBOL",
+          "name": "kEndDot"
         }
       ]
     },
@@ -106,6 +106,14 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kEnd"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kEndDot"
         }
       ]
     },
@@ -1501,6 +1509,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "kInherited"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "identifier"
         },
@@ -2499,6 +2519,19 @@
       "type": "SYMBOL",
       "name": "_genericName"
     },
+    "type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "specializedType"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "defType"
+        }
+      ]
+    },
     "literal": {
       "type": "CHOICE",
       "members": [
@@ -2794,37 +2827,54 @@
             },
             {
               "type": "SYMBOL",
-              "name": "declClass"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "declMetaClass"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "declHelper"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "declEnum"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "declSet"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "declProcRef"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "declFuncRef"
+              "name": "defType"
             }
           ]
         },
         {
           "type": "STRING",
           "value": ";"
+        }
+      ]
+    },
+    "defType": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "declClass"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declMetaClass"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declHelper"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declEnum"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declSet"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declArray"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declString"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declProcRef"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declFuncRef"
         }
       ]
     },
@@ -2936,6 +2986,18 @@
     "declClass": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "kPacked"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "CHOICE",
           "members": [
@@ -3101,8 +3163,100 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "kPacked"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "kArray"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "["
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "REPEAT1",
+                              "content": {
+                                "type": "SEQ",
+                                "members": [
+                                  {
+                                    "type": "CHOICE",
+                                    "members": [
+                                      {
+                                        "type": "SYMBOL",
+                                        "name": "range"
+                                      },
+                                      {
+                                        "type": "SYMBOL",
+                                        "name": "expr"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "STRING",
+                                    "value": ","
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "BLANK"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "range"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "expr"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "]"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -3110,7 +3264,46 @@
         },
         {
           "type": "SYMBOL",
-          "name": "specializedType"
+          "name": "type"
+        }
+      ]
+    },
+    "declString": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kString"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "["
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_constant"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "]"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -3304,7 +3497,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "specializedType"
+          "name": "type"
         },
         {
           "type": "STRING",
@@ -3583,7 +3776,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "specializedType"
+                "name": "type"
               },
               {
                 "type": "CHOICE",
@@ -3634,7 +3827,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "specializedType"
+                        "name": "type"
                       }
                     ]
                   },
@@ -3698,7 +3891,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "specializedType"
+          "name": "type"
         },
         {
           "type": "CHOICE",
@@ -3735,7 +3928,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "specializedType"
+          "name": "type"
         },
         {
           "type": "CHOICE",
@@ -3916,7 +4109,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "specializedType"
+                      "name": "type"
                     },
                     {
                       "type": "CHOICE",
@@ -3981,7 +4174,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "specializedType"
+              "name": "type"
             },
             {
               "type": "CHOICE",
@@ -4026,6 +4219,10 @@
     "kFinalization": {
       "type": "PATTERN",
       "value": "[fF][iI][nN][aA][lL][iI][zZ][aA][tT][iI][oO][nN]"
+    },
+    "kEndDot": {
+      "type": "STRING",
+      "value": "."
     },
     "kBegin": {
       "type": "PATTERN",
@@ -4085,7 +4282,11 @@
     },
     "kArray": {
       "type": "PATTERN",
-      "value": "[aA][rR][aA][yY]"
+      "value": "[aA][rR][rR][aA][yY]"
+    },
+    "kString": {
+      "type": "PATTERN",
+      "value": "[sS][tT][rR][iI][nN][gG]"
     },
     "kSet": {
       "type": "PATTERN",
@@ -4098,6 +4299,10 @@
     "kHelper": {
       "type": "PATTERN",
       "value": "[hH][eE][lL][pP][eE][rR]"
+    },
+    "kPacked": {
+      "type": "PATTERN",
+      "value": "[pP][aA][cC][kK][eE][dD]"
     },
     "kDot": {
       "type": "STRING",
@@ -4306,6 +4511,10 @@
     "kOverride": {
       "type": "PATTERN",
       "value": "[oO][vV][eE][rR][rR][iI][dD][eE]"
+    },
+    "kInherited": {
+      "type": "PATTERN",
+      "value": "[iI][nN][hH][eE][rR][iI][tT][eE][dD]"
     },
     "kInline": {
       "type": "PATTERN",

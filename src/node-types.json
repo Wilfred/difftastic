@@ -96,6 +96,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "kInherited",
+          "named": true
         }
       ]
     }
@@ -341,7 +345,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "type",
           "named": true
         }
       ]
@@ -357,6 +361,41 @@
       "types": [
         {
           "type": "declArg",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declArray",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "kArray",
+          "named": true
+        },
+        {
+          "type": "kOf",
+          "named": true
+        },
+        {
+          "type": "kPacked",
+          "named": true
+        },
+        {
+          "type": "range",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -419,6 +458,10 @@
           "named": true
         },
         {
+          "type": "kPacked",
+          "named": true
+        },
+        {
           "type": "kRecord",
           "named": true
         },
@@ -450,7 +493,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "type",
           "named": true
         }
       ]
@@ -507,7 +550,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "type",
           "named": true
         }
       ]
@@ -550,7 +593,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "type",
           "named": true
         }
       ]
@@ -811,7 +854,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "type",
           "named": true
         }
       ]
@@ -900,6 +943,33 @@
     }
   },
   {
+    "type": "declString",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kString",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "specializedParams",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "declType",
     "named": true,
     "fields": {},
@@ -908,35 +978,11 @@
       "required": true,
       "types": [
         {
-          "type": "declClass",
-          "named": true
-        },
-        {
-          "type": "declEnum",
-          "named": true
-        },
-        {
-          "type": "declFuncRef",
-          "named": true
-        },
-        {
-          "type": "declHelper",
-          "named": true
-        },
-        {
-          "type": "declMetaClass",
-          "named": true
-        },
-        {
-          "type": "declProcRef",
-          "named": true
-        },
-        {
-          "type": "declSet",
-          "named": true
-        },
-        {
           "type": "declTypedef",
+          "named": true
+        },
+        {
+          "type": "defType",
           "named": true
         },
         {
@@ -994,7 +1040,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "type",
           "named": true
         }
       ]
@@ -1022,6 +1068,53 @@
         },
         {
           "type": "locals",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "defType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "declArray",
+          "named": true
+        },
+        {
+          "type": "declClass",
+          "named": true
+        },
+        {
+          "type": "declEnum",
+          "named": true
+        },
+        {
+          "type": "declFuncRef",
+          "named": true
+        },
+        {
+          "type": "declHelper",
+          "named": true
+        },
+        {
+          "type": "declMetaClass",
+          "named": true
+        },
+        {
+          "type": "declProcRef",
+          "named": true
+        },
+        {
+          "type": "declSet",
+          "named": true
+        },
+        {
+          "type": "declString",
           "named": true
         }
       ]
@@ -1721,6 +1814,11 @@
     "fields": {}
   },
   {
+    "type": "kEndDot",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "kGt",
     "named": true,
     "fields": {}
@@ -1893,6 +1991,10 @@
         },
         {
           "type": "defProc",
+          "named": true
+        },
+        {
+          "type": "kEndDot",
           "named": true
         },
         {
@@ -2144,6 +2246,25 @@
     }
   },
   {
+    "type": "type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "defType",
+          "named": true
+        },
+        {
+          "type": "specializedType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "unit",
     "named": true,
     "fields": {},
@@ -2165,6 +2286,14 @@
         },
         {
           "type": "interface",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kEndDot",
           "named": true
         },
         {
@@ -2445,6 +2574,10 @@
     "named": true
   },
   {
+    "type": "kInherited",
+    "named": true
+  },
+  {
     "type": "kInitialization",
     "named": true
   },
@@ -2498,6 +2631,10 @@
   },
   {
     "type": "kOverride",
+    "named": true
+  },
+  {
+    "type": "kPacked",
     "named": true
   },
   {
@@ -2566,6 +2703,10 @@
   },
   {
     "type": "kStrict",
+    "named": true
+  },
+  {
+    "type": "kString",
     "named": true
   },
   {
