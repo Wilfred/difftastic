@@ -3,9 +3,6 @@
 // - label, goto
 // - raise
 // - uses
-// - set literals
-// - record literals
-// - ranges ([0..9])
 // - preprocessor
 // - objectivec
 // - "message"
@@ -93,7 +90,7 @@ module.exports = grammar({
 		callArgs:           $ => delimited1($.expr),
 
 		_exprDot:           $ => prec.left(5, seq($.expr, $.kDot,  $.expr)),
-		_exprIdx:           $ => prec.left(5, seq('[', $.callArgs, ']')),
+		_exprIdx:           $ => prec.left(5, seq($.expr, '[', $.callArgs, ']')),
 
 		_exprParens:        $ => seq('(', $.expr, ')'),
 
@@ -126,6 +123,7 @@ module.exports = grammar({
 
 		expr:               $ => choice(
 			$.literal,
+			$.bracketed, // set or array
 			prec.left(4,$.call),
 			$._exprDot,  $._exprIdx,
 
@@ -144,6 +142,10 @@ module.exports = grammar({
 
 		range:              $ => seq(
 			$.expr, '..', $.expr
+		),
+
+		bracketed:       $ => seq(
+			'[', delimited(choice($.expr, $.range)), ']'
 		),
 
 		// E.g. Foo<Bar<A,B>, C>
@@ -345,7 +347,10 @@ module.exports = grammar({
 			)
 		),
 
-		defaultValue:       $ => seq($.kEq, $._constant),
+		defaultValue:       $ => seq(
+			$.kEq, 
+			choice($._constant, $._recInitializer, $._arrInitializer)
+		),
 
 		declVar:            $ => seq(
 			$.kVar,
@@ -367,7 +372,7 @@ module.exports = grammar({
 			))
 		),
 
-		declField:            $ =>  seq(
+		declField:          $ =>  seq(
 			delimited1($.identifier),
 			':', 
 			$.type,
@@ -398,6 +403,22 @@ module.exports = grammar({
 				delimited1($.identifier), ':', $.type, optional($.defaultValue)
 			)
 		),
+
+		// record initializer
+		_recInitializer:    $ => seq(
+			'(',
+			delimited1(
+				choice(
+					seq($.identifier, ':', $._constant),
+					$._constant
+				),
+				';'
+			),
+			')'
+		),
+
+		// array initializer
+		_arrInitializer:    $ => prec(1,seq('(', delimited1($._constant), ')')),
 
 		// TERMINAL SYMBOLS ----------------------------------------------------
 

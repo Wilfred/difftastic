@@ -82,6 +82,25 @@
     }
   },
   {
+    "type": "bracketed",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "range",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "call",
     "named": true,
     "fields": {},
@@ -1155,6 +1174,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "bracketed",
+          "named": true
+        },
         {
           "type": "call",
           "named": true
