@@ -64,117 +64,25 @@ module.exports = grammar({
 
 		moduleName:           $ => delimited1($.identifier, '.'),
 
-		// CONTROL STRUCTURES -------------------------------------------------
-
-		if:                 $ => choice($._if, $._ifElse),
-		_if:                $ => seq(
-			$.kIf, $.expr, $.kThen,
-			$._statement
-		),
-		_ifElse:            $ => prec.right(1, seq(
-			$.kIf, $.expr, $.kThen,
-			optional(choice($._trailingStatement, alias($._if, $.if))),
-			$.kElse,
-			$._statement
-		)),
-
-		while:              $ => seq(
-			$.kWhile, $.expr, $.kDo,
-			$._statement
-		),
-
-		repeat:             $ => prec(2,seq(
-			$.kRepeat, optional($._trailingStatements), $.kUntil, $.expr, ';'
-		)),
-
-		for:                $ => seq(
-			$.kFor, $.assignment, $.kTo, $.expr, $.kDo,
-			$._statement
-		),
-
-		foreach:            $ => seq(
-			$.kFor, $.expr, $.kIn, $.expr, $.kDo,
-			$._statement
-		),
-
-		try:                $ => prec(2,seq(
-			$.kTry, optional($._trailingStatements), 
-			choice(
-				seq($.kExcept, optional($._trailingStatements)), // todo "On E [:X] do ..."
-				seq($.kFinally, optional($._trailingStatements))
-			),
-			$.kEnd, ';'
-		)),
-
-		// --
-		trailingIf:                 $ => choice($._trailingIf, $._trailingIfElse),
-		_trailingIf:                $ => seq(
-			$.kIf, $.expr, $.kThen,
-			optional($._trailingStatement)
-		),
-		_trailingIfElse:            $ => prec.right(1, seq(
-			$.kIf, $.expr, $.kThen,
-			optional($._trailingStatement),
-			$.kElse,
-			optional($._trailingStatement)
-		)),
-
-		trailingWhile:              $ => seq(
-			$.kWhile, $.expr, $.kDo,
-			optional($._trailingStatement)
-		),
-
-		trailingRepeat:             $ => seq(
-			$.kRepeat, optional($._trailingStatements), $.kUntil, $.expr
-		),
-
-		trailingFor:                $ => seq(
-			$.kFor, $.assignment, $.kTo, $.expr, $.kDo,
-			optional($._trailingStatement)
-		),
-
-		trailingForeach:            $ => seq(
-			$.kFor, $.expr, $.kIn, $.expr, $.kDo,
-			optional($._trailingStatement)
-		),
-
-		trailingTry:                $ => seq(
-			$.kTry, optional($._trailingStatements), 
-			choice(
-				seq($.kExcept, optional($._trailingStatements)), // todo "On E [:X] do ..."
-				seq($.kFinally, optional($._trailingStatements))
-			),
-			$.kEnd
-		),
-
 		// STATEMENTS ---------------------------------------------------------
+
+		...statements(false),
+		...statements(true),
 
 		block:              $ => seq(
 			$.kBegin,
-			optional($._trailingStatements),
+			optional($._statementsTr),
 			$.kEnd,
 		),
 
 		assignment:         $ => seq($.expr, $.kAssign, $.expr),
 
 		_statements:        $ => repeat1($._statement),
-		_trailingStatements:$ => seq(
+		_statementsTr:      $ => seq(
 			repeat($._statement),
-			choice($._trailingStatement, $._statement)
+			choice($._statementTr, $._statement)
 		),
 
-		_statement:         $ => choice(
-			seq($.expr, ';'),
-			seq($.assignment, ';'),
-			seq($.block, ';'),
-			$.if, $.while, $.repeat, $.for, $.foreach, $.try
-		),
-		_trailingStatement:  $ => /*prec.right(1,seq(*/choice(
-			$.expr,
-			$.assignment,
-			$.block,
-			$.trailingIf, $.trailingWhile, $.trailingRepeat, $.trailingFor, $.trailingForeach, $.trailingTry
-		)/*, optional(';')))*/,
 
 		// EXPRESSIONS ---------------------------------------------------------
 
@@ -564,6 +472,64 @@ module.exports = grammar({
 	  	_space:             $ => /[\s\r\n\t]+/,
 	}
 });
+
+function statements(trailing) {
+	let rn            = x => trailing ? x + 'Tr' : x
+	let lastStatement = $ => trailing ? [optional($._statementTr)] : [$._statement];
+	let semicolon     = trailing ? [] : [';'];
+	
+	return Object.fromEntries([
+		[rn('if'),         $ => choice($[rn('_if')], $[rn('_ifElse')])],
+		[rn('_if'),        $ => seq(
+			$.kIf, $.expr, $.kThen,
+			...lastStatement($)
+		)],
+		[rn('_ifElse'),    $ => prec.right(1, seq(
+			$.kIf, $.expr, $.kThen,
+			optional(choice($._statementTr, alias($._if, $.if))),
+			$.kElse,
+			...lastStatement($)
+		))],
+		[rn('while'),      $ => seq(
+			$.kWhile, $.expr, $.kDo,
+			...lastStatement($)
+		)],
+		[rn('repeat'),     $ => prec(2,seq(
+			$.kRepeat, optional($._statementsTr), $.kUntil, $.expr, 
+			...semicolon
+		))],
+
+		[rn('for'),        $ => seq(
+			$.kFor, $.assignment, $.kTo, $.expr, $.kDo,
+			...lastStatement($)
+		)],
+
+		[rn('foreach'),    $ => seq(
+			$.kFor, $.expr, $.kIn, $.expr, $.kDo,
+			...lastStatement($)
+		)],
+
+		[rn('try'),        $ => prec(2,seq(
+			$.kTry, optional($._statementsTr), 
+			choice(
+				seq($.kExcept, optional($._statementsTr)), // todo "On E [:X] do ..."
+				seq($.kFinally, optional($._statementsTr))
+			),
+			$.kEnd, ...semicolon
+		))],
+
+		[rn('_statement'),  $ => choice(
+			seq($.expr, ...semicolon),
+			seq($.assignment, ...semicolon),
+			seq($.block, ...semicolon),
+			$[rn('if')], $[rn('while')], $[rn('repeat')], $[rn('for')], 
+			$[rn('foreach')], $[rn('try')]
+		)]
+	]);
+
+	return rules;
+}
+
 
 function delimited1(rule, delimiter = ',') {
 	return seq(

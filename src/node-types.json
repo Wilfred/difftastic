@@ -43,11 +43,23 @@
           "named": true
         },
         {
+          "type": "forTr",
+          "named": true
+        },
+        {
           "type": "foreach",
           "named": true
         },
         {
+          "type": "foreachTr",
+          "named": true
+        },
+        {
           "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifTr",
           "named": true
         },
         {
@@ -63,27 +75,7 @@
           "named": true
         },
         {
-          "type": "trailingFor",
-          "named": true
-        },
-        {
-          "type": "trailingForeach",
-          "named": true
-        },
-        {
-          "type": "trailingIf",
-          "named": true
-        },
-        {
-          "type": "trailingRepeat",
-          "named": true
-        },
-        {
-          "type": "trailingTry",
-          "named": true
-        },
-        {
-          "type": "trailingWhile",
+          "type": "repeatTr",
           "named": true
         },
         {
@@ -91,7 +83,15 @@
           "named": true
         },
         {
+          "type": "tryTr",
+          "named": true
+        },
+        {
           "type": "while",
+          "named": true
+        },
+        {
+          "type": "whileTr",
           "named": true
         }
       ]
@@ -1044,6 +1044,65 @@
     }
   },
   {
+    "type": "forTr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "forTr",
+          "named": true
+        },
+        {
+          "type": "foreachTr",
+          "named": true
+        },
+        {
+          "type": "ifTr",
+          "named": true
+        },
+        {
+          "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kFor",
+          "named": true
+        },
+        {
+          "type": "kTo",
+          "named": true
+        },
+        {
+          "type": "repeatTr",
+          "named": true
+        },
+        {
+          "type": "tryTr",
+          "named": true
+        },
+        {
+          "type": "whileTr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "foreach",
     "named": true,
     "fields": {},
@@ -1097,6 +1156,65 @@
         },
         {
           "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "foreachTr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "forTr",
+          "named": true
+        },
+        {
+          "type": "foreachTr",
+          "named": true
+        },
+        {
+          "type": "ifTr",
+          "named": true
+        },
+        {
+          "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kFor",
+          "named": true
+        },
+        {
+          "type": "kIn",
+          "named": true
+        },
+        {
+          "type": "repeatTr",
+          "named": true
+        },
+        {
+          "type": "tryTr",
+          "named": true
+        },
+        {
+          "type": "whileTr",
           "named": true
         }
       ]
@@ -1211,11 +1329,23 @@
           "named": true
         },
         {
+          "type": "forTr",
+          "named": true
+        },
+        {
           "type": "foreach",
           "named": true
         },
         {
+          "type": "foreachTr",
+          "named": true
+        },
+        {
           "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifTr",
           "named": true
         },
         {
@@ -1235,27 +1365,7 @@
           "named": true
         },
         {
-          "type": "trailingFor",
-          "named": true
-        },
-        {
-          "type": "trailingForeach",
-          "named": true
-        },
-        {
-          "type": "trailingIf",
-          "named": true
-        },
-        {
-          "type": "trailingRepeat",
-          "named": true
-        },
-        {
-          "type": "trailingTry",
-          "named": true
-        },
-        {
-          "type": "trailingWhile",
+          "type": "repeatTr",
           "named": true
         },
         {
@@ -1263,7 +1373,78 @@
           "named": true
         },
         {
+          "type": "tryTr",
+          "named": true
+        },
+        {
           "type": "while",
+          "named": true
+        },
+        {
+          "type": "whileTr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ifTr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "forTr",
+          "named": true
+        },
+        {
+          "type": "foreachTr",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifTr",
+          "named": true
+        },
+        {
+          "type": "kElse",
+          "named": true
+        },
+        {
+          "type": "kIf",
+          "named": true
+        },
+        {
+          "type": "kThen",
+          "named": true
+        },
+        {
+          "type": "repeatTr",
+          "named": true
+        },
+        {
+          "type": "tryTr",
+          "named": true
+        },
+        {
+          "type": "whileTr",
           "named": true
         }
       ]
@@ -1569,11 +1750,23 @@
           "named": true
         },
         {
+          "type": "forTr",
+          "named": true
+        },
+        {
           "type": "foreach",
           "named": true
         },
         {
+          "type": "foreachTr",
+          "named": true
+        },
+        {
           "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifTr",
           "named": true
         },
         {
@@ -1589,27 +1782,7 @@
           "named": true
         },
         {
-          "type": "trailingFor",
-          "named": true
-        },
-        {
-          "type": "trailingForeach",
-          "named": true
-        },
-        {
-          "type": "trailingIf",
-          "named": true
-        },
-        {
-          "type": "trailingRepeat",
-          "named": true
-        },
-        {
-          "type": "trailingTry",
-          "named": true
-        },
-        {
-          "type": "trailingWhile",
+          "type": "repeatTr",
           "named": true
         },
         {
@@ -1617,7 +1790,94 @@
           "named": true
         },
         {
+          "type": "tryTr",
+          "named": true
+        },
+        {
           "type": "while",
+          "named": true
+        },
+        {
+          "type": "whileTr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "repeatTr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "forTr",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "foreachTr",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifTr",
+          "named": true
+        },
+        {
+          "type": "kRepeat",
+          "named": true
+        },
+        {
+          "type": "kUntil",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "repeatTr",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "tryTr",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "whileTr",
           "named": true
         }
       ]
@@ -1712,404 +1972,6 @@
     }
   },
   {
-    "type": "trailingFor",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "kDo",
-          "named": true
-        },
-        {
-          "type": "kFor",
-          "named": true
-        },
-        {
-          "type": "kTo",
-          "named": true
-        },
-        {
-          "type": "trailingFor",
-          "named": true
-        },
-        {
-          "type": "trailingForeach",
-          "named": true
-        },
-        {
-          "type": "trailingIf",
-          "named": true
-        },
-        {
-          "type": "trailingRepeat",
-          "named": true
-        },
-        {
-          "type": "trailingTry",
-          "named": true
-        },
-        {
-          "type": "trailingWhile",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "trailingForeach",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "kDo",
-          "named": true
-        },
-        {
-          "type": "kFor",
-          "named": true
-        },
-        {
-          "type": "kIn",
-          "named": true
-        },
-        {
-          "type": "trailingFor",
-          "named": true
-        },
-        {
-          "type": "trailingForeach",
-          "named": true
-        },
-        {
-          "type": "trailingIf",
-          "named": true
-        },
-        {
-          "type": "trailingRepeat",
-          "named": true
-        },
-        {
-          "type": "trailingTry",
-          "named": true
-        },
-        {
-          "type": "trailingWhile",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "trailingIf",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "kElse",
-          "named": true
-        },
-        {
-          "type": "kIf",
-          "named": true
-        },
-        {
-          "type": "kThen",
-          "named": true
-        },
-        {
-          "type": "trailingFor",
-          "named": true
-        },
-        {
-          "type": "trailingForeach",
-          "named": true
-        },
-        {
-          "type": "trailingIf",
-          "named": true
-        },
-        {
-          "type": "trailingRepeat",
-          "named": true
-        },
-        {
-          "type": "trailingTry",
-          "named": true
-        },
-        {
-          "type": "trailingWhile",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "trailingRepeat",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "kRepeat",
-          "named": true
-        },
-        {
-          "type": "kUntil",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "trailingFor",
-          "named": true
-        },
-        {
-          "type": "trailingForeach",
-          "named": true
-        },
-        {
-          "type": "trailingIf",
-          "named": true
-        },
-        {
-          "type": "trailingRepeat",
-          "named": true
-        },
-        {
-          "type": "trailingTry",
-          "named": true
-        },
-        {
-          "type": "trailingWhile",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "while",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "trailingTry",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "kEnd",
-          "named": true
-        },
-        {
-          "type": "kExcept",
-          "named": true
-        },
-        {
-          "type": "kFinally",
-          "named": true
-        },
-        {
-          "type": "kTry",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "trailingFor",
-          "named": true
-        },
-        {
-          "type": "trailingForeach",
-          "named": true
-        },
-        {
-          "type": "trailingIf",
-          "named": true
-        },
-        {
-          "type": "trailingRepeat",
-          "named": true
-        },
-        {
-          "type": "trailingTry",
-          "named": true
-        },
-        {
-          "type": "trailingWhile",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "while",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "trailingWhile",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "kDo",
-          "named": true
-        },
-        {
-          "type": "kWhile",
-          "named": true
-        },
-        {
-          "type": "trailingFor",
-          "named": true
-        },
-        {
-          "type": "trailingForeach",
-          "named": true
-        },
-        {
-          "type": "trailingIf",
-          "named": true
-        },
-        {
-          "type": "trailingRepeat",
-          "named": true
-        },
-        {
-          "type": "trailingTry",
-          "named": true
-        },
-        {
-          "type": "trailingWhile",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "try",
     "named": true,
     "fields": {},
@@ -2134,11 +1996,23 @@
           "named": true
         },
         {
+          "type": "forTr",
+          "named": true
+        },
+        {
           "type": "foreach",
           "named": true
         },
         {
+          "type": "foreachTr",
+          "named": true
+        },
+        {
           "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifTr",
           "named": true
         },
         {
@@ -2162,27 +2036,7 @@
           "named": true
         },
         {
-          "type": "trailingFor",
-          "named": true
-        },
-        {
-          "type": "trailingForeach",
-          "named": true
-        },
-        {
-          "type": "trailingIf",
-          "named": true
-        },
-        {
-          "type": "trailingRepeat",
-          "named": true
-        },
-        {
-          "type": "trailingTry",
-          "named": true
-        },
-        {
-          "type": "trailingWhile",
+          "type": "repeatTr",
           "named": true
         },
         {
@@ -2190,7 +2044,102 @@
           "named": true
         },
         {
+          "type": "tryTr",
+          "named": true
+        },
+        {
           "type": "while",
+          "named": true
+        },
+        {
+          "type": "whileTr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tryTr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "forTr",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "foreachTr",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifTr",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kExcept",
+          "named": true
+        },
+        {
+          "type": "kFinally",
+          "named": true
+        },
+        {
+          "type": "kTry",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "repeatTr",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "tryTr",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "whileTr",
           "named": true
         }
       ]
@@ -2292,6 +2241,61 @@
         },
         {
           "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "whileTr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "forTr",
+          "named": true
+        },
+        {
+          "type": "foreachTr",
+          "named": true
+        },
+        {
+          "type": "ifTr",
+          "named": true
+        },
+        {
+          "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kWhile",
+          "named": true
+        },
+        {
+          "type": "repeatTr",
+          "named": true
+        },
+        {
+          "type": "tryTr",
+          "named": true
+        },
+        {
+          "type": "whileTr",
           "named": true
         }
       ]
