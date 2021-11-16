@@ -1316,7 +1316,8 @@ module.exports = grammar({
         $.deinit_declaration,
         $.protocol_property_declaration,
         $.typealias_declaration,
-        $.associatedtype_declaration
+        $.associatedtype_declaration,
+        $.subscript_declaration
       ),
 
     deinit_declaration: ($) =>
