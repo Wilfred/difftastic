@@ -1166,6 +1166,65 @@
     }
   },
   {
+    "type": "finalization",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "kFinalization",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "for",
     "named": true,
     "fields": {},
@@ -1543,6 +1602,65 @@
         },
         {
           "type": "kImplementation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "initialization",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "kInitialization",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -2034,7 +2152,15 @@
       "required": true,
       "types": [
         {
+          "type": "finalization",
+          "named": true
+        },
+        {
           "type": "implementation",
+          "named": true
+        },
+        {
+          "type": "initialization",
           "named": true
         },
         {
@@ -2275,6 +2401,10 @@
     "named": true
   },
   {
+    "type": "kFinalization",
+    "named": true
+  },
+  {
     "type": "kFinally",
     "named": true
   },
@@ -2312,6 +2442,10 @@
   },
   {
     "type": "kIndex",
+    "named": true
+  },
+  {
+    "type": "kInitialization",
     "named": true
   },
   {

@@ -34,6 +34,8 @@
 
 	(kInterface)
 	(kImplementation)
+	(kInitialization)
+	(kFinalization)
 
 	(kPublished)
 	(kPublic)

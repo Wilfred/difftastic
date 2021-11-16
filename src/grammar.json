@@ -82,6 +82,30 @@
         {
           "type": "SYMBOL",
           "name": "implementation"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "initialization"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "finalization"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -173,6 +197,48 @@
             {
               "type": "SYMBOL",
               "name": "_definitions"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "initialization": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kInitialization"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statementsTr"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "finalization": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kFinalization"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statementsTr"
             },
             {
               "type": "BLANK"
@@ -3945,6 +4011,22 @@
       "type": "PATTERN",
       "value": "[uU][sS][eE][sS]"
     },
+    "kInterface": {
+      "type": "PATTERN",
+      "value": "[iI][nN][tT][eE][rR][fF][aA][cC][eE]"
+    },
+    "kImplementation": {
+      "type": "PATTERN",
+      "value": "[iI][mM][pP][lL][eE][mM][eE][nN][tT][aA][tT][iI][oO][nN]"
+    },
+    "kInitialization": {
+      "type": "PATTERN",
+      "value": "[iI][nN][iI][tT][iI][aA][lL][iI][zZ][aA][tT][iI][oO][nN]"
+    },
+    "kFinalization": {
+      "type": "PATTERN",
+      "value": "[fF][iI][nN][aA][lL][iI][zZ][aA][tT][iI][oO][nN]"
+    },
     "kBegin": {
       "type": "PATTERN",
       "value": "[bB][eE][gG][iI][nN]"
@@ -3992,10 +4074,6 @@
     "kClass": {
       "type": "PATTERN",
       "value": "[cC][lL][aA][sS][sS]"
-    },
-    "kInterface": {
-      "type": "PATTERN",
-      "value": "[iI][nN][tT][eE][rR][fF][aA][cC][eE]"
     },
     "kObject": {
       "type": "PATTERN",
@@ -4188,10 +4266,6 @@
     "kDestructor": {
       "type": "PATTERN",
       "value": "[dD][eE][sS][tT][rR][uU][cC][tT][oO][rR]"
-    },
-    "kImplementation": {
-      "type": "PATTERN",
-      "value": "[iI][mM][pP][lL][eE][mM][eE][nN][tT][aA][tT][iI][oO][nN]"
     },
     "kPublished": {
       "type": "PATTERN",

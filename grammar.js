@@ -44,13 +44,17 @@ module.exports = grammar({
 		unit:               $ => seq(
 			$.kUnit, $.moduleName, ';',
 			optional($.interface),
-			$.implementation
+			$.implementation,
+			optional($.initialization),
+			optional($.finalization),
 		),
 
 		uses:               $ => seq($.kUses, delimited($.moduleName), ';'),
 
 		interface:          $ => seq($.kInterface, optional($._declarations)),
 		implementation:     $ => seq($.kImplementation, optional($._definitions)),
+		initialization:     $ => seq($.kInitialization, optional($._statementsTr)),
+		finalization:       $ => seq($.kFinalization, optional($._statementsTr)),
 	
 		comment:            $ => token(choice(
 			seq('//', /.*/),
@@ -387,6 +391,10 @@ module.exports = grammar({
 		kProgram:           $ => /[pP][rR][oO][gG][rR][aA][mM]/,
 		kUnit:              $ => /[uU][nN][iI][tT]/,
 		kUses:              $ => /[uU][sS][eE][sS]/,
+		kInterface:         $ => /[iI][nN][tT][eE][rR][fF][aA][cC][eE]/,
+		kImplementation:    $ => /[iI][mM][pP][lL][eE][mM][eE][nN][tT][aA][tT][iI][oO][nN]/,
+		kInitialization:    $ => /[iI][nN][iI][tT][iI][aA][lL][iI][zZ][aA][tT][iI][oO][nN]/,
+		kFinalization:      $ => /[fF][iI][nN][aA][lL][iI][zZ][aA][tT][iI][oO][nN]/,
 
 		kBegin:             $ => /[bB][eE][gG][iI][nN]/,
 		kEnd:               $ => /[eE][nN][dD]/,
@@ -456,9 +464,6 @@ module.exports = grammar({
 		kProcedure:         $ => /[pP][rR][oO][cC][eE][dD][uU][rR][eE]/,
 		kConstructor:       $ => /[cC][oO][nN][sS][tT][rR][uU][cC][tT][oO][rR]/,
 		kDestructor:        $ => /[dD][eE][sS][tT][rR][uU][cC][tT][oO][rR]/,
-
-		kInterface:         $ => /[iI][nN][tT][eE][rR][fF][aA][cC][eE]/,
-		kImplementation:    $ => /[iI][mM][pP][lL][eE][mM][eE][nN][tT][aA][tT][iI][oO][nN]/,
 
 		kPublished:         $ => /[pP][uU][bB][lL][iI][sS][hH][eE][dD]/,
 		kPublic:            $ => /[pP][uU][bB][lL][iI][cC]/,
