@@ -35,6 +35,10 @@
           "named": true
         },
         {
+          "type": "case",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -43,15 +47,7 @@
           "named": true
         },
         {
-          "type": "forTr",
-          "named": true
-        },
-        {
           "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "foreachTr",
           "named": true
         },
         {
@@ -59,7 +55,7 @@
           "named": true
         },
         {
-          "type": "ifTr",
+          "type": "ifElse",
           "named": true
         },
         {
@@ -75,23 +71,11 @@
           "named": true
         },
         {
-          "type": "repeatTr",
-          "named": true
-        },
-        {
           "type": "try",
           "named": true
         },
         {
-          "type": "tryTr",
-          "named": true
-        },
-        {
           "type": "while",
-          "named": true
-        },
-        {
-          "type": "whileTr",
           "named": true
         }
       ]
@@ -126,6 +110,203 @@
       "types": [
         {
           "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "caseCase",
+          "named": true
+        },
+        {
+          "type": "caseCaseTr",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "kCase",
+          "named": true
+        },
+        {
+          "type": "kElse",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kOf",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "caseCase",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "range",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "caseCaseTr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "range",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -1001,6 +1182,10 @@
           "named": true
         },
         {
+          "type": "case",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -1014,6 +1199,10 @@
         },
         {
           "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
           "named": true
         },
         {
@@ -1038,65 +1227,6 @@
         },
         {
           "type": "while",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "forTr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "forTr",
-          "named": true
-        },
-        {
-          "type": "foreachTr",
-          "named": true
-        },
-        {
-          "type": "ifTr",
-          "named": true
-        },
-        {
-          "type": "kDo",
-          "named": true
-        },
-        {
-          "type": "kFor",
-          "named": true
-        },
-        {
-          "type": "kTo",
-          "named": true
-        },
-        {
-          "type": "repeatTr",
-          "named": true
-        },
-        {
-          "type": "tryTr",
-          "named": true
-        },
-        {
-          "type": "whileTr",
           "named": true
         }
       ]
@@ -1119,6 +1249,10 @@
           "named": true
         },
         {
+          "type": "case",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -1132,6 +1266,10 @@
         },
         {
           "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
           "named": true
         },
         {
@@ -1156,65 +1294,6 @@
         },
         {
           "type": "while",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "foreachTr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "forTr",
-          "named": true
-        },
-        {
-          "type": "foreachTr",
-          "named": true
-        },
-        {
-          "type": "ifTr",
-          "named": true
-        },
-        {
-          "type": "kDo",
-          "named": true
-        },
-        {
-          "type": "kFor",
-          "named": true
-        },
-        {
-          "type": "kIn",
-          "named": true
-        },
-        {
-          "type": "repeatTr",
-          "named": true
-        },
-        {
-          "type": "tryTr",
-          "named": true
-        },
-        {
-          "type": "whileTr",
           "named": true
         }
       ]
@@ -1321,6 +1400,10 @@
           "named": true
         },
         {
+          "type": "case",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -1329,15 +1412,7 @@
           "named": true
         },
         {
-          "type": "forTr",
-          "named": true
-        },
-        {
           "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "foreachTr",
           "named": true
         },
         {
@@ -1345,7 +1420,70 @@
           "named": true
         },
         {
-          "type": "ifTr",
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "kIf",
+          "named": true
+        },
+        {
+          "type": "kThen",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ifElse",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
           "named": true
         },
         {
@@ -1365,86 +1503,11 @@
           "named": true
         },
         {
-          "type": "repeatTr",
-          "named": true
-        },
-        {
           "type": "try",
           "named": true
         },
         {
-          "type": "tryTr",
-          "named": true
-        },
-        {
           "type": "while",
-          "named": true
-        },
-        {
-          "type": "whileTr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "ifTr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "forTr",
-          "named": true
-        },
-        {
-          "type": "foreachTr",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifTr",
-          "named": true
-        },
-        {
-          "type": "kElse",
-          "named": true
-        },
-        {
-          "type": "kIf",
-          "named": true
-        },
-        {
-          "type": "kThen",
-          "named": true
-        },
-        {
-          "type": "repeatTr",
-          "named": true
-        },
-        {
-          "type": "tryTr",
-          "named": true
-        },
-        {
-          "type": "whileTr",
           "named": true
         }
       ]
@@ -1726,6 +1789,21 @@
     }
   },
   {
+    "type": "range",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "repeat",
     "named": true,
     "fields": {},
@@ -1742,6 +1820,10 @@
           "named": true
         },
         {
+          "type": "case",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -1750,15 +1832,7 @@
           "named": true
         },
         {
-          "type": "forTr",
-          "named": true
-        },
-        {
           "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "foreachTr",
           "named": true
         },
         {
@@ -1766,7 +1840,7 @@
           "named": true
         },
         {
-          "type": "ifTr",
+          "type": "ifElse",
           "named": true
         },
         {
@@ -1782,102 +1856,11 @@
           "named": true
         },
         {
-          "type": "repeatTr",
-          "named": true
-        },
-        {
           "type": "try",
           "named": true
         },
         {
-          "type": "tryTr",
-          "named": true
-        },
-        {
           "type": "while",
-          "named": true
-        },
-        {
-          "type": "whileTr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "repeatTr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "forTr",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "foreachTr",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifTr",
-          "named": true
-        },
-        {
-          "type": "kRepeat",
-          "named": true
-        },
-        {
-          "type": "kUntil",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "repeatTr",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "tryTr",
-          "named": true
-        },
-        {
-          "type": "while",
-          "named": true
-        },
-        {
-          "type": "whileTr",
           "named": true
         }
       ]
@@ -1988,6 +1971,10 @@
           "named": true
         },
         {
+          "type": "case",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -1996,15 +1983,7 @@
           "named": true
         },
         {
-          "type": "forTr",
-          "named": true
-        },
-        {
           "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "foreachTr",
           "named": true
         },
         {
@@ -2012,7 +1991,7 @@
           "named": true
         },
         {
-          "type": "ifTr",
+          "type": "ifElse",
           "named": true
         },
         {
@@ -2036,110 +2015,11 @@
           "named": true
         },
         {
-          "type": "repeatTr",
-          "named": true
-        },
-        {
           "type": "try",
           "named": true
         },
         {
-          "type": "tryTr",
-          "named": true
-        },
-        {
           "type": "while",
-          "named": true
-        },
-        {
-          "type": "whileTr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "tryTr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "forTr",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "foreachTr",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifTr",
-          "named": true
-        },
-        {
-          "type": "kEnd",
-          "named": true
-        },
-        {
-          "type": "kExcept",
-          "named": true
-        },
-        {
-          "type": "kFinally",
-          "named": true
-        },
-        {
-          "type": "kTry",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "repeatTr",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "tryTr",
-          "named": true
-        },
-        {
-          "type": "while",
-          "named": true
-        },
-        {
-          "type": "whileTr",
           "named": true
         }
       ]
@@ -2208,6 +2088,10 @@
           "named": true
         },
         {
+          "type": "case",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -2221,6 +2105,10 @@
         },
         {
           "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
           "named": true
         },
         {
@@ -2247,61 +2135,6 @@
     }
   },
   {
-    "type": "whileTr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "forTr",
-          "named": true
-        },
-        {
-          "type": "foreachTr",
-          "named": true
-        },
-        {
-          "type": "ifTr",
-          "named": true
-        },
-        {
-          "type": "kDo",
-          "named": true
-        },
-        {
-          "type": "kWhile",
-          "named": true
-        },
-        {
-          "type": "repeatTr",
-          "named": true
-        },
-        {
-          "type": "tryTr",
-          "named": true
-        },
-        {
-          "type": "whileTr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "#",
     "named": false
   },
@@ -2319,6 +2152,10 @@
   },
   {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": "..",
     "named": false
   },
   {
@@ -2379,6 +2216,10 @@
   },
   {
     "type": "kBegin",
+    "named": true
+  },
+  {
+    "type": "kCase",
     "named": true
   },
   {

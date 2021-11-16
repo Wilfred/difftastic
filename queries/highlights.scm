@@ -65,6 +65,7 @@
 	(kTry)
 	(kExcept)
 	(kFinally)
+	(kCase)
 ] @keyword
 
 [
@@ -98,6 +99,7 @@
 	";"
 	","
 	":"
+	".."
 ] @punctuation.delimiter
 
 [

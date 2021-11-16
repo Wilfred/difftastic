@@ -86,6 +86,7 @@ module.exports = grammar({
 
 		// EXPRESSIONS ---------------------------------------------------------
 
+		// TODO: Should also support generics, e.g. Foo<XYZ>
 		call:               $ => seq($.identifier, optional(seq('(',optional($.callArgs),')'))),
 
 		callArgs:           $ => delimited1($.expr),
@@ -140,6 +141,10 @@ module.exports = grammar({
 			$._exprNot, $._exprPos, $._exprNeg, $._exprAt
 		),
 
+		range:              $ => seq(
+			$.expr, '..', $.expr
+		),
+
 		// E.g. Foo<Bar<A,B>, C>
 		_specializedName:   $ => seq(
 			$.identifier, 
@@ -156,7 +161,12 @@ module.exports = grammar({
 			optional(seq(':', $.specializedType)), 
 			optional($.defaultValue)
 		),
-		_constant:          $ => choice($.literal, $._specializedName),
+		// We can't determine whether an expression is a constant at this stage.
+		// We would need type checking for that.
+		// TODO: We should use $.expr after adding support for generics to
+		// $.expr. Right now we can't do this because it leads to a conflict.
+		// Have to fix that first.
+		_constant:          $ => /*$.expr, */choice($.literal, $._specializedName),
 
 		genericType:        $ => $._genericName,
 		specializedType:    $ => delimited1($._specializedName, $.kDot),
@@ -440,6 +450,7 @@ module.exports = grammar({
 		kTry:               $ => /[tT][rR][yY]/,
 		kExcept:            $ => /[eE][xX][cC][eE][pP][tT]/,
 		kFinally:           $ => /[fF][iI][nN][aA][lL][lL][yY]/,
+		kCase:              $ => /[cC][aA][sS][eE]/,
 
 		kFunction:          $ => /[fF][uU][nN][cC][tT][iI][oO][nN]/,
 		kProcedure:         $ => /[pP][rR][oO][cC][eE][dD][uU][rR][eE]/,
@@ -476,24 +487,27 @@ module.exports = grammar({
 function statements(trailing) {
 	let rn            = x => trailing ? x + 'Tr' : x
 	let lastStatement = $ => trailing ? [optional($._statementTr)] : [$._statement];
+	let lastStatement1= $ => trailing ? [$._statementTr] : [$._statement];
 	let semicolon     = trailing ? [] : [';'];
 	
 	return Object.fromEntries([
-		[rn('if'),         $ => choice($[rn('_if')], $[rn('_ifElse')])],
-		[rn('_if'),        $ => seq(
+		[rn('if'),        $ => seq(
 			$.kIf, $.expr, $.kThen,
 			...lastStatement($)
 		)],
-		[rn('_ifElse'),    $ => prec.right(1, seq(
+
+		[rn('ifElse'),    $ => prec.right(1, seq(
 			$.kIf, $.expr, $.kThen,
-			optional(choice($._statementTr, alias($._if, $.if))),
+			optional(choice($._statementTr, $.if)),
 			$.kElse,
 			...lastStatement($)
 		))],
+
 		[rn('while'),      $ => seq(
 			$.kWhile, $.expr, $.kDo,
 			...lastStatement($)
 		)],
+
 		[rn('repeat'),     $ => prec(2,seq(
 			$.kRepeat, optional($._statementsTr), $.kUntil, $.expr, 
 			...semicolon
@@ -518,12 +532,35 @@ function statements(trailing) {
 			$.kEnd, ...semicolon
 		))],
 
-		[rn('_statement'),  $ => choice(
+		[rn('caseCase'),   $ => seq(
+			delimited1(choice($.expr, $.range)), ':',
+			...lastStatement($)
+		)],
+
+		[rn('case'),       $ => prec(2,seq(
+			$.kCase, $.expr, $.kOf,
+			repeat($.caseCase),
+			optional($.caseCaseTr),
+			optional(seq(
+				$.kElse,
+				optional(':'),
+				...lastStatement($)
+			)),
+			$.kEnd, ...semicolon
+		))],
+
+		[rn('_statement'), $ => choice(
 			seq($.expr, ...semicolon),
 			seq($.assignment, ...semicolon),
 			seq($.block, ...semicolon),
-			$[rn('if')], $[rn('while')], $[rn('repeat')], $[rn('for')], 
-			$[rn('foreach')], $[rn('try')]
+			alias($[rn('if')],      $.if), 
+			alias($[rn('ifElse')],  $.ifElse), 
+			alias($[rn('while')],   $.while), 
+			alias($[rn('repeat')],  $.repeat), 
+			alias($[rn('for')],     $.for),
+			alias($[rn('foreach')], $.foreach), 
+			alias($[rn('try')],     $.try),
+			alias($[rn('case')],    $.case)
 		)]
 	]);
 
