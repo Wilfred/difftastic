@@ -233,7 +233,7 @@ module.exports = grammar({
     _line_str_escaped_char: ($) =>
       choice($._escaped_identifier, $._uni_character_literal),
 
-    _uni_character_literal: ($) => seq("\\", "u", /[0-9a-fA-F]{4}/), // TODO: { }
+    _uni_character_literal: ($) => seq("\\", "u", /\{[0-9a-fA-F]+\}/),
 
     multi_line_string_literal: ($) =>
       seq(
@@ -578,6 +578,7 @@ module.exports = grammar({
         $._basic_literal,
         $._function_literal,
         $._special_literal,
+        $._playground_literal,
         $.array_literal,
         $.dictionary_literal,
         $.self_expression,
@@ -586,6 +587,7 @@ module.exports = grammar({
         $.try_expression,
         $._referenceable_operator,
         $.key_path_expression,
+        $.key_path_string_expression,
         alias($._three_dot_operator, $.fully_open_range)
       ),
 
@@ -623,6 +625,14 @@ module.exports = grammar({
         "#column",
         "#function",
         "#dsohandle"
+      ),
+
+    _playground_literal: ($) =>
+      seq(
+        choice("#colorLiteral", "#fileLiteral", "#imageLiteral"),
+        "(",
+        sep1(seq($.simple_identifier, ":", $._expression), ","),
+        ")"
       ),
 
     lambda_literal: ($) =>
@@ -767,6 +777,9 @@ module.exports = grammar({
           repeat(seq(".", $._key_path_component))
         )
       ),
+
+    key_path_string_expression: ($) =>
+      prec.left(seq("#keyPath", "(", $._expression, ")")),
 
     _key_path_component: ($) =>
       prec.left(
@@ -1208,7 +1221,8 @@ module.exports = grammar({
         optional($._three_dot_operator)
       ),
 
-    _constructor_function_decl: ($) => seq("init", optional($._quest)),
+    _constructor_function_decl: ($) =>
+      seq("init", optional(choice($._quest, "!"))),
 
     _non_constructor_function_decl: ($) =>
       seq(
@@ -1302,7 +1316,8 @@ module.exports = grammar({
         $.deinit_declaration,
         $.protocol_property_declaration,
         $.typealias_declaration,
-        $.associatedtype_declaration
+        $.associatedtype_declaration,
+        $.subscript_declaration
       ),
 
     deinit_declaration: ($) =>
@@ -1500,7 +1515,7 @@ module.exports = grammar({
 
     mutation_modifier: ($) => choice("mutating", "nonmutating"),
 
-    property_modifier: ($) => choice("static", "optional"),
+    property_modifier: ($) => choice("static", "dynamic", "optional"),
 
     inheritance_modifier: ($) => choice("final"),
 

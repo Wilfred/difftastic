@@ -496,6 +496,8 @@ compoundValue[keyPath: \.self] = (a: 10, b: 20)
 
 let nestedKeyPath = \OuterStructure.outer.someValue
 
+let keyPathStringExpression = #keyPath(someProperty)
+
 ---
 
 (source_file
@@ -567,7 +569,13 @@ let nestedKeyPath = \OuterStructure.outer.someValue
         (navigation_suffix
           (simple_identifier)))
       (navigation_suffix
-        (simple_identifier)))))
+        (simple_identifier))))
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (key_path_string_expression
+          (simple_identifier))))
 
 ===
 Tuple expression in function

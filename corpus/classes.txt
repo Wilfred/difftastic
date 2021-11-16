@@ -107,7 +107,7 @@ Class with annotations
 @objc(Test)
 class Test : Protocol {
     @objc(someArgument:)
-    func someFunction(with argument: Int) { }
+    dynamic func someFunction(with argument: Int) { }
 }
 
 ---
@@ -125,7 +125,8 @@ class Test : Protocol {
                 (modifiers
                     (attribute
                         (user_type (type_identifier))
-                        (simple_identifier)))
+                        (simple_identifier))
+                    (property_modifier))
                     (simple_identifier)
                     (external_parameter_name)
                     (parameter (simple_identifier) (user_type (type_identifier)))
@@ -459,6 +460,33 @@ protocol Wrapper {
                             (identifier (simple_identifier) (simple_identifier))
                             (user_type (type_identifier)))))))))
 
+===
+Protocol with subscript
+===
+
+public protocol Indexable {
+    subscript(index: Int) -> T? { get }
+}
+
+---
+
+(source_file
+  (protocol_declaration
+    (modifiers
+      (visibility_modifier))
+    (type_identifier)
+    (protocol_body
+      (subscript_declaration
+        (parameter
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (optional_type
+          (user_type
+            (type_identifier)))
+        (computed_getter
+          (getter_specifier))))))
+
 ==================
 Special constructors
 ==================
@@ -478,6 +506,10 @@ class Test {
 
     required init?(from: String) {
         self.init(1, 2)
+    }
+
+    required init!(from value: Int) {
+        self.init(value, value)
     }
 }
 
@@ -521,7 +553,16 @@ class Test {
                     (statements
                         (call_expression
                             (navigation_expression (self_expression) (navigation_suffix (simple_identifier)))
-                            (call_suffix (value_arguments (value_argument (integer_literal)) (value_argument (integer_literal))))))))))) 
+                            (call_suffix (value_arguments (value_argument (integer_literal)) (value_argument (integer_literal))))))))
+            (function_declaration
+              (modifiers (member_modifier))
+              (external_parameter_name)
+              (parameter (simple_identifier) (user_type (type_identifier)))
+              (function_body
+                (statements
+                  (call_expression
+                    (navigation_expression (self_expression) (navigation_suffix (simple_identifier)))
+                    (call_suffix (value_arguments (value_argument (simple_identifier)) (value_argument (simple_identifier)))))))))))
 
 ==================
 Deinit
