@@ -322,3 +322,24 @@ let infinity = "\u{221E}"
       (non_binding_pattern
         (simple_identifier)))
     (line_string_literal)))
+
+===
+Playground literals
+===
+
+===
+/tmp/top-repos/firefox/Client/Frontend/Update/UpdateViewModel.swift
+===
+
+let playgroundLiteral = #imageLiteral(resourceName: "heart")
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (simple_identifier)
+    (line_string_literal)))
+
