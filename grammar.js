@@ -233,7 +233,7 @@ module.exports = grammar({
     _line_str_escaped_char: ($) =>
       choice($._escaped_identifier, $._uni_character_literal),
 
-    _uni_character_literal: ($) => seq("\\", "u", /[0-9a-fA-F]{4}/), // TODO: { }
+    _uni_character_literal: ($) => seq("\\", "u", /\{[0-9a-fA-F]+\}/),
 
     multi_line_string_literal: ($) =>
       seq(
