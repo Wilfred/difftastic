@@ -61,13 +61,13 @@ end
 -----
 
 (program 
-  (case (identifier) 
+  (case_match (identifier) 
     (in_clause 
       (integer)
       (then (true))
     )
     (else (false))) 
-  (case (identifier) 
+  (case_match (identifier) 
     (in_clause 
       (pattern_variable (identifier))
       (unless_guard (binary (identifier) (integer)))
@@ -81,7 +81,7 @@ end
     (else (false))
   )
 
-  (case (identifier)
+  (case_match (identifier)
     (in_clause (integer)) 
     (in_clause (array_pattern (integer) (array_pattern_rest))) 
     (in_clause (array_pattern (integer) (integer))) 
@@ -155,7 +155,7 @@ end
 --------
 
  (program 
-   (case (identifier)
+   (case_match (identifier)
      (in_clause (integer))
      (in_clause (variable_reference_pattern (identifier)))
      (in_clause (pattern_variable (identifier)))
@@ -217,7 +217,7 @@ end
 --------------
 
 (program 
-  (case (identifier)
+  (case_match (identifier)
     (in_clause (array_pattern))
     (in_clause (array_pattern (pattern_variable (identifier))))
     (in_clause (array_pattern (pattern_variable (identifier)) (array_pattern_rest)))
@@ -251,7 +251,7 @@ end
 -------------
 
 (program 
-  (case (identifier)
+  (case_match (identifier)
     (in_clause (find_pattern (array_pattern_rest) (pattern_variable (identifier)) (array_pattern_rest)))
     (in_clause (find_pattern (array_pattern_rest (identifier)) (integer) (integer) (array_pattern_rest (identifier))))
     (in_clause (find_pattern 
@@ -280,7 +280,7 @@ end
 
 -------------
 
-(program (case (identifier)
+(program (case_match (identifier)
   (in_clause (hash_pattern))
   (in_clause (hash_pattern (pattern_pair (hash_key_symbol))))
   (in_clause (hash_pattern 
