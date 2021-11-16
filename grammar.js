@@ -82,6 +82,11 @@ module.exports = grammar({
     $._variable,
     $._primary,
     $._lhs,
+    $._pattern_top_expr_body,
+    $._pattern_expr,
+    $._pattern_expr_basic,
+    $._pattern_primitive,
+    $._pattern_constant,
   ],
 
   rules: {
