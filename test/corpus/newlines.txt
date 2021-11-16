@@ -110,6 +110,28 @@ fun foo() {
                (jump_expression)))))))
 
 ==================
+get after newline
+==================
+class Foo {
+     val maxMemory: Long
+     get() = bar() / 1024
+}
+
+---
+(source_file
+  (class_declaration (type_identifier)
+    (class_body
+      (property_declaration
+        (variable_declaration (simple_identifier)
+	  (user_type (type_identifier))))
+      (getter
+         (function_body
+	   (multiplicative_expression
+	     (call_expression (simple_identifier)
+	        (call_suffix (value_arguments)))
+	     (integer_literal)))))))
+
+==================
 Newline in function call
 ==================
 
