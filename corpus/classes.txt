@@ -479,6 +479,10 @@ class Test {
     required init?(from: String) {
         self.init(1, 2)
     }
+
+    required init!(from value: Int) {
+        self.init(value, value)
+    }
 }
 
 ---
@@ -521,7 +525,16 @@ class Test {
                     (statements
                         (call_expression
                             (navigation_expression (self_expression) (navigation_suffix (simple_identifier)))
-                            (call_suffix (value_arguments (value_argument (integer_literal)) (value_argument (integer_literal))))))))))) 
+                            (call_suffix (value_arguments (value_argument (integer_literal)) (value_argument (integer_literal))))))))
+            (function_declaration
+              (modifiers (member_modifier))
+              (external_parameter_name)
+              (parameter (simple_identifier) (user_type (type_identifier)))
+              (function_body
+                (statements
+                  (call_expression
+                    (navigation_expression (self_expression) (navigation_suffix (simple_identifier)))
+                    (call_suffix (value_arguments (value_argument (simple_identifier)) (value_argument (simple_identifier)))))))))))
 
 ==================
 Deinit
