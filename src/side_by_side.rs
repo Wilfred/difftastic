@@ -216,7 +216,7 @@ impl Widths {
         }
 
         let lhs_line_nums_width = format_line_num(lhs_max_line).len();
-        let rhs_line_nums_width = format_line_num(lhs_max_line).len();
+        let rhs_line_nums_width = format_line_num(rhs_max_line).len();
 
         let lhs_total_width = (terminal_width - SPACER.len()) / 2;
         let lhs_content_width = lhs_total_width - lhs_line_nums_width;
