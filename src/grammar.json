@@ -3800,6 +3800,15 @@
           "name": "kEq"
         },
         {
+          "type": "SYMBOL",
+          "name": "_initializer"
+        }
+      ]
+    },
+    "_initializer": {
+      "type": "SEQ",
+      "members": [
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -4319,13 +4328,13 @@
                               },
                               {
                                 "type": "SYMBOL",
-                                "name": "_constant"
+                                "name": "_initializer"
                               }
                             ]
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "_constant"
+                            "name": "_initializer"
                           }
                         ]
                       },
@@ -4357,13 +4366,13 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "_constant"
+                      "name": "_initializer"
                     }
                   ]
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_constant"
+                  "name": "_initializer"
                 }
               ]
             }
@@ -4398,7 +4407,7 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "_constant"
+                          "name": "_initializer"
                         },
                         {
                           "type": "STRING",
@@ -4414,7 +4423,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_constant"
+                "name": "_initializer"
               }
             ]
           },

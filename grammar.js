@@ -1,4 +1,5 @@
 // TODO:
+// - pointers (@ + ^)
 // - except on E: XYZ do ...
 // - label, goto
 // - raise
@@ -6,6 +7,7 @@
 // - preprocessor
 // - objectivec
 // - "message"
+// - external bla name bla...
 // - FPCisms: specialize, generic, += etc.
 // - GUIDs
 module.exports = grammar({
@@ -347,8 +349,9 @@ module.exports = grammar({
 			)
 		),
 
-		defaultValue:       $ => seq(
-			$.kEq, 
+		defaultValue:       $ => seq($.kEq, $._initializer),
+
+		_initializer:       $ => seq(
 			choice($._constant, $._recInitializer, $._arrInitializer)
 		),
 
@@ -409,8 +412,8 @@ module.exports = grammar({
 			'(',
 			delimited1(
 				choice(
-					seq($.identifier, ':', $._constant),
-					$._constant
+					seq($.identifier, ':', $._initializer),
+					$._initializer
 				),
 				';'
 			),
@@ -418,7 +421,7 @@ module.exports = grammar({
 		),
 
 		// array initializer
-		_arrInitializer:    $ => prec(1,seq('(', delimited1($._constant), ')')),
+		_arrInitializer:    $ => prec(1,seq('(', delimited1($._initializer), ')')),
 
 		// TERMINAL SYMBOLS ----------------------------------------------------
 
