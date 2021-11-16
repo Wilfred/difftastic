@@ -295,3 +295,51 @@ let _ = ##"\##(a)\#(b)\##(c)\#(d)"# ##"##
           (raw_str_interpolation_start)
           (simple_identifier))
       (raw_str_end_part))))
+
+===
+Unicode escape sequences
+===
+
+let unicodeEscaping = "\u{8}"
+let anotherUnicode = "…\u{2060}"
+let infinity = "\u{221E}"
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (line_string_literal))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (line_string_literal))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (line_string_literal)))
+
+===
+Playground literals
+===
+
+===
+/tmp/top-repos/firefox/Client/Frontend/Update/UpdateViewModel.swift
+===
+
+let playgroundLiteral = #imageLiteral(resourceName: "heart")
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (simple_identifier)
+    (line_string_literal)))
+
