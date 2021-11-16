@@ -1514,7 +1514,7 @@ module.exports = grammar({
 
     mutation_modifier: ($) => choice("mutating", "nonmutating"),
 
-    property_modifier: ($) => choice("static", "optional"),
+    property_modifier: ($) => choice("static", "dynamic", "optional"),
 
     inheritance_modifier: ($) => choice("final"),
 
