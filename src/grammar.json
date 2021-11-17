@@ -789,6 +789,19 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "goto"
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
               "name": "block"
             },
             {
@@ -1353,6 +1366,15 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "goto"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
               "name": "block"
             }
           ]
@@ -1473,11 +1495,46 @@
         }
       ]
     },
+    "label": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        }
+      ]
+    },
+    "goto": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kGoto"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
+    },
     "_statements": {
       "type": "REPEAT1",
       "content": {
-        "type": "SYMBOL",
-        "name": "_statement"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_statement"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "label"
+          }
+        ]
       }
     },
     "_statementsTr": {
@@ -1486,8 +1543,17 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_statement"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_statement"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "label"
+              }
+            ]
           }
         },
         {
@@ -2112,12 +2178,29 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "STRING",
-            "value": "@"
+            "type": "SYMBOL",
+            "name": "kAt"
           },
           {
             "type": "SYMBOL",
             "name": "expr"
+          }
+        ]
+      }
+    },
+    "_exprDeref": {
+      "type": "PREC_LEFT",
+      "value": 4,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "expr"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "kDeref"
           }
         ]
       }
@@ -2244,6 +2327,10 @@
         {
           "type": "SYMBOL",
           "name": "_exprAt"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_exprDeref"
         }
       ]
     },
@@ -2622,6 +2709,18 @@
         {
           "type": "SYMBOL",
           "name": "literalNumber"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kNil"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kTrue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kFalse"
         }
       ]
     },
@@ -2727,6 +2826,10 @@
         {
           "type": "SYMBOL",
           "name": "declProcFwd"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declLabel"
         }
       ]
     },
@@ -2835,6 +2938,10 @@
           {
             "type": "SYMBOL",
             "name": "uses"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "declLabel"
           }
         ]
       }
@@ -4021,8 +4128,24 @@
           "name": "kProperty"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "declPropArgs"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -4140,6 +4263,60 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "declPropArgs": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "REPEAT1",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "declArg"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ";"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "declArg"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "]"
         }
       ]
     },
@@ -4291,6 +4468,52 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    "declLabel": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kLabel"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },
@@ -4490,6 +4713,10 @@
       "type": "PATTERN",
       "value": "[tT][yY][pP][eE]"
     },
+    "kLabel": {
+      "type": "PATTERN",
+      "value": "[lL][aA][bB][eE][lL]"
+    },
     "kProperty": {
       "type": "PATTERN",
       "value": "[pP][rR][oO][pP][eE][rR][tT][yY]"
@@ -4638,6 +4865,14 @@
       "type": "PATTERN",
       "value": "[iI][nN]"
     },
+    "kAt": {
+      "type": "STRING",
+      "value": "@"
+    },
+    "kDeref": {
+      "type": "STRING",
+      "value": "^"
+    },
     "kAngleOpen": {
       "type": "STRING",
       "value": "<"
@@ -4697,6 +4932,10 @@
     "kCase": {
       "type": "PATTERN",
       "value": "[cC][aA][sS][eE]"
+    },
+    "kGoto": {
+      "type": "PATTERN",
+      "value": "[gG][oO][tT][oO]"
     },
     "kFunction": {
       "type": "PATTERN",
@@ -4773,6 +5012,18 @@
     "kPascal": {
       "type": "PATTERN",
       "value": "[pP][aA][sS][cC][aA][lL]"
+    },
+    "kNil": {
+      "type": "PATTERN",
+      "value": "[nN][iI][lL]"
+    },
+    "kTrue": {
+      "type": "PATTERN",
+      "value": "[tT][rR][uU][eE]"
+    },
+    "kFalse": {
+      "type": "PATTERN",
+      "value": "[fF][aA][lL][sS][eE]"
     },
     "identifier": {
       "type": "PATTERN",

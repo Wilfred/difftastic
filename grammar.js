@@ -1,15 +1,13 @@
 // TODO:
-// - pointers (@ + ^)
 // - except on E: XYZ do ...
-// - label, goto
 // - raise
-// - uses
 // - preprocessor
 // - objectivec
 // - "message"
-// - external bla name bla...
-// - FPCisms: specialize, generic, += etc.
+// - "external" bla name bla...
+// - FPCisms: "specialize", "generic", += etc.
 // - GUIDs
+// asm blocks
 module.exports = grammar({
 	name: "pascal",
 	
@@ -74,9 +72,12 @@ module.exports = grammar({
 
 		assignment:         $ => seq($.expr, $.kAssign, $.expr),
 
-		_statements:        $ => repeat1($._statement),
+		label:              $ => seq($.identifier, ':'),
+		goto:               $ => seq($.kGoto, $.identifier),
+
+		_statements:        $ => repeat1(choice($._statement, $.label)),
 		_statementsTr:      $ => seq(
-			repeat($._statement),
+			repeat(choice($._statement, $.label)),
 			choice($._statementTr, $._statement)
 		),
 
@@ -121,7 +122,8 @@ module.exports = grammar({
 		_exprNot:           $ => prec.left(4,seq($.kNot, $.expr)),
 		_exprPos:           $ => prec.left(4,seq($.kAdd, $.expr)),
 		_exprNeg:           $ => prec.left(4,seq($.kSub, $.expr)),
-		_exprAt:            $ => prec.left(4,seq('@', $.expr)),
+		_exprAt:            $ => prec.left(4,seq($.kAt,  $.expr)),
+		_exprDeref:         $ => prec.left(4,seq($.expr, $.kDeref)),
 
 		expr:               $ => choice(
 			$.literal,
@@ -139,7 +141,7 @@ module.exports = grammar({
 			$._exprMul, $._exprFdiv, $._exprDiv, $._exprMod, 
 			$._exprAnd, $._exprShl, $._exprShr,
 
-			$._exprNot, $._exprPos, $._exprNeg, $._exprAt
+			$._exprNot, $._exprPos, $._exprNeg, $._exprAt, $._exprDeref
 		),
 
 		range:              $ => seq(
@@ -184,7 +186,8 @@ module.exports = grammar({
 
 		literal:            $ => choice(
 			$.literalString,
-			$.literalNumber
+			$.literalNumber,
+			$.kNil, $.kTrue, $.kFalse
 		),
 		literalString:      $ => repeat1($._literalString),
 		_literalString:     $ => choice(/'[^']*'/, $.literalChar),
@@ -201,7 +204,8 @@ module.exports = grammar({
 
 		_definitions:       $ => repeat1($._definition),
 		_definition:        $ => choice(
-			$.declType, $.declVar, $.declConst, $.defProc, $.declProcFwd
+			$.declType, $.declVar, $.declConst, $.defProc, $.declProcFwd,
+			$.declLabel
 		),
 
 		defProc:            $ => seq(
@@ -226,7 +230,8 @@ module.exports = grammar({
 		// DECLARATIONS -------------------------------------------------------
 
 		_declarations:      $ => repeat1(choice(
-			$.declType, $.declVar, $.declConst, $.declProc, $.declFunc, $.uses
+			$.declType, $.declVar, $.declConst, $.declProc, $.declFunc, $.uses,
+			$.declLabel
 		)),
 		_classDeclarations:      $ => repeat1(choice(
 			$.declType, $.declVar, $.declConst, $.declProc, $.declFunc,
@@ -335,9 +340,7 @@ module.exports = grammar({
 			';'
 		),
 
-		declArgs:           $ => seq(
-			'(', optional(delimited1($.declArg, ';')), ')'
-		),
+		declArgs:           $ => seq('(', delimited($.declArg, ';'), ')'),
 
 		procAttributes:     $ => repeat1(
 			seq(
@@ -385,7 +388,8 @@ module.exports = grammar({
 
 		declProp:           $ => seq(
 			$.kProperty,
-			$.identifier,
+			field('name', $.identifier),
+			optional($.declPropArgs),
 			':',
 			$.type,
 			optional(seq($.kIndex, $._constant)),
@@ -395,6 +399,8 @@ module.exports = grammar({
 			';',
 			optional(seq($.kDefault, ';'))
 		),
+
+		declPropArgs:       $ => seq('[', delimited($.declArg, ';'), ']'),
 
 		declArg:            $ => choice(
 			seq(
@@ -406,6 +412,8 @@ module.exports = grammar({
 				delimited1($.identifier), ':', $.type, optional($.defaultValue)
 			)
 		),
+
+		declLabel:          $ => seq( $.kLabel, delimited1($.identifier), ';'),
 
 		// record initializer
 		_recInitializer:    $ => seq(
@@ -441,6 +449,7 @@ module.exports = grammar({
 		kConst:             $ => /[cC][oO][nN][sS][tT]/,
 		kOut:               $ => /[oO][uU][tT]/,
 		kType:              $ => /[tT][yY][pP][eE]/,
+		kLabel:             $ => /[lL][aA][bB][eE][lL]/,
 
 		kProperty:          $ => /[pP][rR][oO][pP][eE][rR][tT][yY]/,
 		kRead:              $ => /[rR][eE][aA][dD]/,
@@ -482,6 +491,8 @@ module.exports = grammar({
 		kIs:                $ => /[iI][sS]/,
 		kAs:                $ => /[aA][sS]/,
 		kIn:                $ => /[iI][nN]/,
+		kAt:                $ => '@',
+		kDeref:             $ => '^',
 
 		kAngleOpen:         $ => '<',
 		kAngleClose:        $ => '>',
@@ -499,6 +510,7 @@ module.exports = grammar({
 		kExcept:            $ => /[eE][xX][cC][eE][pP][tT]/,
 		kFinally:           $ => /[fF][iI][nN][aA][lL][lL][yY]/,
 		kCase:              $ => /[cC][aA][sS][eE]/,
+		kGoto:              $ => /[gG][oO][tT][oO]/,
 
 		kFunction:          $ => /[fF][uU][nN][cC][tT][iI][oO][nN]/,
 		kProcedure:         $ => /[pP][rR][oO][cC][eE][dD][uU][rR][eE]/,
@@ -523,6 +535,10 @@ module.exports = grammar({
 		kStdcall:           $ => /[sS][tT][dD][cC][aA][lL][lL]/,
 		kCdecl:             $ => /[cC][dD][eE][cC][lL]/,
 		kPascal:            $ => /[pP][aA][sS][cC][aA][lL]/,
+
+		kNil:               $ => /[nN][iI][lL]/,
+		kTrue:              $ => /[tT][rR][uU][eE]/,
+		kFalse:             $ => /[fF][aA][lL][sS][eE]/,
 		
     	identifier:         $ => /[&]?[a-zA-Z_]+[0-9_a-zA-Z]*/,
 
@@ -598,6 +614,7 @@ function statements(trailing) {
 		[rn('_statement'), $ => choice(
 			seq($.expr, ...semicolon),
 			seq($.assignment, ...semicolon),
+			seq($.goto, ...semicolon),
 			seq($.block, ...semicolon),
 			alias($[rn('if')],      $.if), 
 			alias($[rn('ifElse')],  $.ifElse), 

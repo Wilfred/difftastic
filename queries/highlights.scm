@@ -11,6 +11,7 @@
 	(kConst)
 	(kOut)
 	(kType)
+	(kLabel)
 
 	(kProperty)
 	(kRead)
@@ -71,14 +72,16 @@
 	(kExcept)
 	(kFinally)
 	(kCase)
+	(kGoto)
 ] @keyword
 
 [
-	(genericType)
+	;(genericType)
 	(specializedType)
 ] @type
 
-(genericProc)     @function
+;(genericProc)     @function
+(genericProc)     @method
 
 (literalNumber)   @number
 (literalString)   @string
@@ -90,6 +93,7 @@
 (declArg          (identifier) @variable.parameter)
 (genericParam     (identifier) @type.parameter)
 (declVar          (identifier) @variable)
+;(declProp   name: (identifier) @property)
 
 (identifier)      @identifier
 
@@ -134,4 +138,14 @@
 	(kIs)
 	(kAs)
 	(kIn)
+	(kAt)
+	(kDeref)
 ] @operator
+
+[
+	(kNil)
+	(kTrue)
+	(kFalse)
+	(label)
+	;(caseCase)
+] @constant;
