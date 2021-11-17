@@ -79,9 +79,16 @@ module.exports = grammar({
     $._statement,
     $._arg,
     $._method_name,
+    $._expression,
     $._variable,
     $._primary,
+    $._simple_numeric,
     $._lhs,
+    $._pattern_top_expr_body,
+    $._pattern_expr,
+    $._pattern_expr_basic,
+    $._pattern_primitive,
+    $._pattern_constant,
   ],
 
   rules: {
@@ -338,13 +345,196 @@ module.exports = grammar({
       'end'
     ),
 
+    case_match: $ => seq(
+      'case',
+      field('value', optional($._statement)),
+      optional($._terminator),
+      choice(
+        repeat1(field('clauses', $.in_clause)),
+      ),
+      optional(field('else', $.else)),
+      'end'
+    ),
+
     when: $ => seq(
       'when',
       commaSep1(field('pattern', $.pattern)),
       choice($._terminator, field('body', $.then))
     ),
 
+    in_clause: $ => seq(
+      'in',
+      field('pattern', $._pattern_top_expr_body),
+      field('guard', optional($._guard)),
+      choice($._terminator, field('body', $.then))
+    ),
+
     pattern: $ => choice($._arg, $.splat_argument),
+
+    _guard: $ => choice(
+      $.if_guard,
+      $.unless_guard
+    ),
+
+    if_guard: $ => seq(
+      'if',
+      field('condition', $._expression)
+    ),
+
+    unless_guard: $ => seq(
+      'unless',
+      field('condition', $._expression)
+    ),
+
+    _pattern_top_expr_body: $ => choice(
+      $._pattern_expr,
+      alias($._array_pattern_n, $.array_pattern),
+      alias($._find_pattern_body, $.find_pattern),
+      alias($._hash_pattern_body, $.hash_pattern),
+    ),
+
+    _array_pattern_n: $ => choice(
+      seq($._pattern_expr, alias(',', $.array_pattern_rest)),
+      seq($._pattern_expr, ',', choice($._pattern_expr, $._array_pattern_n)),
+      seq($.array_pattern_rest, repeat(seq(',', $._pattern_expr))),
+    ),
+
+    _pattern_expr: $ => choice(
+      $.as_pattern,
+      $._pattern_expr_alt,
+    ),
+
+    as_pattern: $ => seq(field('value', $._pattern_expr), '=>', field('name', $.identifier)),
+
+    _pattern_expr_alt: $ => choice(
+      $.alternative_pattern,
+      $._pattern_expr_basic,
+    ),
+
+    alternative_pattern: $ => seq(field('alternatives', $._pattern_expr_basic), repeat1(seq('|', field('alternatives', $._pattern_expr_basic)))),
+
+    _array_pattern_body: $ => choice(
+      $._pattern_expr,
+      $._array_pattern_n,
+    ),
+
+    array_pattern: $ => choice(
+      seq('[', optional($._array_pattern_body), ']'),
+      seq(field('class', $._pattern_constant), token.immediate('['), optional($._array_pattern_body), ']'),
+      seq(field('class', $._pattern_constant), token.immediate('('), optional($._array_pattern_body), ')')
+    ),
+
+    _find_pattern_body: $ => seq($.array_pattern_rest, repeat1(seq(',', $._pattern_expr)), ',', $.array_pattern_rest),
+    find_pattern: $ => choice(
+      seq('[', $._find_pattern_body, ']'),
+      seq(field('class', $._pattern_constant), token.immediate('['), $._find_pattern_body, ']'),
+      seq(field('class', $._pattern_constant), token.immediate('('), $._find_pattern_body, ')')
+    ),
+
+    _hash_pattern_body: $ => choice(
+      seq(commaSep1($.pattern_pair), optional(',')),
+      seq(commaSep1($.pattern_pair), ',', $._hash_pattern_any_rest),
+      $._hash_pattern_any_rest
+    ),
+
+    pattern_pair: $ => seq(
+      field('key',
+        choice(
+          alias($.identifier, $.hash_key_symbol),
+          alias($.constant, $.hash_key_symbol),
+          $.string
+        )
+      ),
+      token.immediate(':'),
+      optional(field('value', $._pattern_expr))
+    ),
+
+    _hash_pattern_any_rest: $ => choice($.hash_pattern_rest, $.hash_pattern_norest),
+
+    hash_pattern_rest: $ => seq('**', field('name', optional($.identifier))),
+
+    hash_pattern_norest: $ => seq('**', 'nil'),
+
+    hash_pattern: $ => choice(
+      seq('{', optional($._hash_pattern_body), '}'),
+      seq(field('class', $._pattern_constant), token.immediate('['), $._hash_pattern_body, ']'),
+      seq(field('class', $._pattern_constant), token.immediate('('), $._hash_pattern_body, ')')
+    ),
+
+    _pattern_expr_basic: $ => choice(
+      $._pattern_value,
+      $.array_pattern,
+      $.find_pattern,
+      $.hash_pattern,
+    ),
+
+    array_pattern_rest: $ => seq('*', field('name', optional($.identifier))),
+
+    _pattern_value: $ => choice(
+      $._pattern_primitive,
+      $.pattern_range,
+      $.pattern_variable,
+      $.variable_reference_pattern,
+      $._pattern_constant
+    ),
+
+    pattern_range: $ => {
+      const begin = field('begin', $._pattern_primitive);
+      const end = field('end', $._pattern_primitive);
+      const operator = field('operator', choice('..', '...'));
+      return choice(
+        seq(begin, operator, end),
+        seq(operator, end),
+        seq(begin, operator)
+      );
+    },
+
+    _pattern_primitive: $ => choice(
+      $._pattern_literal,
+      $._pattern_lambda
+    ),
+
+    _pattern_lambda: $ => $.lambda,
+
+    _pattern_literal: $ => choice(
+      $._literal,
+      $.string,
+      $.regex,
+      $.string_array,
+      $.symbol_array,
+      $._keyword_variable
+    ),
+
+    _keyword_variable: $ => choice(
+      $.nil,
+      $.self,
+      $.true,
+      $.false,
+      $.line,
+      $.file,
+      $.encoding,
+    ),
+
+    line: $ => '__LINE__',
+    file: $ => '__FILE__',
+    encoding: $ => '__ENCODING__',
+
+    pattern_variable: $ => field('name', $.identifier),
+
+    variable_reference_pattern: $ => seq('^', field('name', $.identifier)),
+
+    _pattern_constant: $ => choice(
+      $.pattern_constant,
+      $.pattern_constant_resolution
+    ),
+
+    pattern_constant: $ => field('name', $.constant),
+
+    pattern_constant_resolution: $ => seq(
+      optional(field('scope', $._pattern_constant)),
+      '::',
+      field('name', $.constant)
+    ),
 
     if: $ => seq(
       'if',
@@ -459,12 +649,7 @@ module.exports = grammar({
       $.symbol_array,
       $.hash,
       $.subshell,
-      $.simple_symbol,
-      $.delimited_symbol,
-      $.integer,
-      $.float,
-      $.complex,
-      $.rational,
+      $._literal,
       $.string,
       $.character,
       $.chained_string,
@@ -482,6 +667,7 @@ module.exports = grammar({
       $.unless,
       $.for,
       $.case,
+      $.case_match,
       $.return,
       $.yield,
       $.break,
@@ -489,7 +675,6 @@ module.exports = grammar({
       $.redo,
       $.retry,
       alias($.parenthesized_unary, $.unary),
-      alias($.unary_literal, $.unary),
       $.heredoc_beginning
     ),
 
@@ -725,8 +910,27 @@ module.exports = grammar({
 
     unary_literal: $ => prec.right(PREC.UNARY_MINUS, seq(
       field('operator', choice(alias($._unary_minus, '-'), '+')),
-      field('operand', choice($.integer, $.float))
+      field('operand', $._simple_numeric)
     )),
+
+    _literal: $ => choice(
+      $.simple_symbol,
+      $.delimited_symbol,
+      $._numeric
+    ),
+
+    _numeric: $ => choice(
+      $._simple_numeric,
+      alias($.unary_literal, $.unary)
+    ),
+
+    _simple_numeric: $ =>
+      choice(
+        $.integer,
+        $.float,
+        $.complex,
+        $.rational
+      ),
 
     right_assignment_list: $ => prec(-1, commaSep1(choice($._arg, $.splat_argument))),
 
