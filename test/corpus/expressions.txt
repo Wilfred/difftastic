@@ -1071,7 +1071,7 @@ $fn1 = fn($x) => $x + $y;
     (arrow_function
       parameters: (formal_parameters
         (simple_parameter
-          type: (type_list (primitive_type))
+          type: (union_type (primitive_type))
           name: (variable_name (name))
         )
       )
@@ -1120,7 +1120,7 @@ $fn1 = fn($x) => $x + $y;
   (expression_statement
     (arrow_function
       parameters: (formal_parameters)
-      return_type: (type_list (primitive_type))
+      return_type: (union_type (primitive_type))
       body: (variable_name (name))
     )
   )
@@ -1271,7 +1271,7 @@ class A {
         (variable_name (name))
       )
       (variadic_parameter
-        (type_list (named_type (name)))
+        (union_type (named_type (name)))
         (reference_modifier)
         (variable_name (name))
       )

@@ -422,13 +422,17 @@ module.exports = grammar({
       optional($._return_type)
     ),
 
-    arrow_function: $ => seq(
+    _arrow_function_header: $ => seq(
       optional(field('attributes', $.attribute_list)),
       optional($.static_modifier),
       keyword('fn'),
       optional(field('reference_modifier', $.reference_modifier)),
       field('parameters', $.formal_parameters),
       optional($._return_type),
+    ),
+
+    arrow_function: $ => seq(
+      $._arrow_function_header,
       '=>',
       field('body', $._expression)
     ),
@@ -469,7 +473,7 @@ module.exports = grammar({
       field('name', $.variable_name)
     ),
 
-    _type: $ => alias($.union_type, $.type_list),
+    _type: $ => $.union_type,
 
     _types: $ => choice(
       $.optional_type,
