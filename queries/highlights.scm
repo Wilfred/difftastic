@@ -60,6 +60,14 @@
 ((identifier) @constant.builtin
  (#match? @constant.builtin "^__(FILE|LINE|ENCODING)__$"))
 
+(file) @constant.builtin
+(line) @constant.builtin
+(encoding) @constant.builtin
+
+(hash_pattern_norest
+  "**" @operator
+) @constant.builtin
+
 ((constant) @constant
  (#match? @constant "^[A-Z\\d_]+$"))
 
