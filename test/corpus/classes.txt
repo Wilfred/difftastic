@@ -301,3 +301,29 @@ Type alias declaration
       (type_identifier)
       (type_identifier)
       (type_identifier))))
+
+==================
+Data class with hanging comma
+==================
+
+data class JwtConfiguration(
+   val audience: String,
+   val realm: String,
+)
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (class_modifier))
+    (type_identifier)
+    (primary_constructor
+      (class_parameter
+        (simple_identifier)
+        (user_type
+          (type_identifier)))
+      (class_parameter
+        (simple_identifier)
+        (user_type
+          (type_identifier))))))
