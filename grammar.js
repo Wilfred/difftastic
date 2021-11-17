@@ -105,7 +105,11 @@ module.exports = grammar({
     [$.user_type, $.function_type],
 
     // ambiguity between annotated_lambda with modifiers and modifiers from var declarations
-    [$.annotated_lambda, $.modifiers]
+    [$.annotated_lambda, $.modifiers],
+
+    // ambiguity between simple identifier 'set/get' with actual setter/getter functions.
+    [$.setter, $.simple_identifier],
+    [$.getter, $.simple_identifier],
   ],
 
   externals: $ => [
@@ -220,7 +224,12 @@ module.exports = grammar({
 
     class_body: $ => seq("{", optional($._class_member_declarations), "}"),
 
-    _class_parameters: $ => seq("(", optional(sep1($.class_parameter, ",")), ")"),
+    _class_parameters: $ => seq(
+      "(",
+      optional(sep1($.class_parameter, ",")),
+      optional(","),
+      ")"
+    ),
 
     class_parameter: $ => seq(
       optional($.modifiers),
@@ -298,7 +307,12 @@ module.exports = grammar({
       optional($.class_body)
     ),
 
-    _function_value_parameters: $ => seq("(", optional(sep1($._function_value_parameter, ",")), ")"),
+    _function_value_parameters: $ => seq(
+      "(",
+      optional(sep1($._function_value_parameter, ",")),
+      optional(","),
+      ")"
+    ),
 
     _function_value_parameter: $ => seq(
       optional($.parameter_modifiers),
@@ -1067,6 +1081,8 @@ module.exports = grammar({
       "data",
       "inner",
       "actual",
+      "set",
+      "get"
       // TODO: More soft keywords
     ),
 
