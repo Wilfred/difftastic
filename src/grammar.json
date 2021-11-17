@@ -2069,7 +2069,7 @@
         }
       ]
     },
-    "arrow_function": {
+    "_arrow_function_header": {
       "type": "SEQ",
       "members": [
         {
@@ -2144,6 +2144,15 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "arrow_function": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_arrow_function_header"
         },
         {
           "type": "STRING",
@@ -2457,13 +2466,8 @@
       ]
     },
     "_type": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "union_type"
-      },
-      "named": true,
-      "value": "type_list"
+      "type": "SYMBOL",
+      "name": "union_type"
     },
     "_types": {
       "type": "CHOICE",

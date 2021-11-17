@@ -197,10 +197,10 @@ function test(int $a, string ...$b)
 		name: (name)
 		parameters: (formal_parameters
 			(simple_parameter
-				type: (type_list (primitive_type))
+				type: (union_type (primitive_type))
 				name: (variable_name (name)))
 			(variadic_parameter
-				type: (type_list (primitive_type))
+				type: (union_type (primitive_type))
 				name: (variable_name (name))))
 		body: (compound_statement)))
 
@@ -383,7 +383,7 @@ $baz = #[ExampleAttribute] function($x) {return $x;};
       (property_declaration
         attributes: (attribute_list (attribute (name)))
         (visibility_modifier)
-        type: (type_list (primitive_type))
+        type: (union_type (primitive_type))
         (property_element (variable_name (name))
           (property_initializer (string))
         )
@@ -552,13 +552,13 @@ enum Suit: string
   )
   (enum_declaration
     (name)
-    (type_list (primitive_type))
+    (union_type (primitive_type))
     (class_interface_clause (name))
     (enum_declaration_list)
   )
   (enum_declaration
     (name)
-    (type_list (primitive_type))
+    (union_type (primitive_type))
     (enum_declaration_list 
       (enum_case (name) (string))
       (enum_case (name))
@@ -571,7 +571,7 @@ enum Suit: string
         (visibility_modifier)
         (name)
         (formal_parameters)
-        (type_list (primitive_type))
+        (union_type (primitive_type))
         (compound_statement
           (return_statement
             (match_expression

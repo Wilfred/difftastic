@@ -321,18 +321,18 @@ class A {
     body: (declaration_list
       (property_declaration
         (visibility_modifier)
-        type: (type_list (primitive_type))
+        type: (union_type (primitive_type))
         (property_element (variable_name (name)))
       )
       (property_declaration
         (visibility_modifier)
         (static_modifier)
-        type: (type_list (named_type (name)))
+        type: (union_type (named_type (name)))
         (property_element (variable_name (name)))
       )
       (property_declaration
         (visibility_modifier)
-        type: (type_list (optional_type (primitive_type)))
+        type: (union_type (optional_type (primitive_type)))
         (property_element (variable_name (name)))
       )
       (property_declaration
@@ -371,20 +371,20 @@ class Point {
         parameters: (formal_parameters
           (property_promotion_parameter
             visibility: (visibility_modifier)
-            type: (type_list
+            type: (union_type
               (primitive_type)
             )
             name: (variable_name (name))
             default_value: (float)
           )
           (simple_parameter
-            type: (type_list (primitive_type))
+            type: (union_type (primitive_type))
             name: (variable_name (name))
             default_value: (float)
           )
           (property_promotion_parameter
             visibility: (visibility_modifier)
-            type: (type_list (primitive_type))
+            type: (union_type (primitive_type))
             name: (variable_name (name))
             default_value: (float)
           )

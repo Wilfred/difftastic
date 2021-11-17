@@ -12,11 +12,11 @@ function b(): A\B {}
   (php_tag)
   (function_definition
     (name) (formal_parameters)
-    (type_list (named_type (name)))
+    (union_type (named_type (name)))
     (compound_statement))
   (function_definition
     (name) (formal_parameters)
-    (type_list
+    (union_type
       (named_type (qualified_name (namespace_name_as_prefix (namespace_name (name))) (name)))
     )
     (compound_statement)))
@@ -36,15 +36,15 @@ function c(): iterable {}
   (php_tag)
   (function_definition
     (name) (formal_parameters)
-    (type_list (primitive_type))
+    (union_type (primitive_type))
     (compound_statement))
   (function_definition
     (name) (formal_parameters)
-    (type_list (primitive_type))
+    (union_type (primitive_type))
     (compound_statement))
   (function_definition
     (name) (formal_parameters)
-    (type_list (primitive_type))
+    (union_type (primitive_type))
     (compound_statement)))
 
 =======================
@@ -62,13 +62,13 @@ function b(): ?Something {}
   (php_tag)
   (function_definition
     (name) (formal_parameters)
-    (type_list
+    (union_type
       (optional_type (primitive_type))
     )
     (compound_statement))
   (function_definition
     (name) (formal_parameters)
-    (type_list
+    (union_type
       (optional_type (named_type (name)))
     )
     (compound_statement)))
@@ -90,7 +90,7 @@ function a(int|string|null $var) : ?int|MyClass {}
     name: (name)
     parameters: (formal_parameters
       (simple_parameter
-        type: (type_list
+        type: (union_type
           (primitive_type)
           (primitive_type)
           (primitive_type)
@@ -98,7 +98,7 @@ function a(int|string|null $var) : ?int|MyClass {}
         name: (variable_name (name))
       )
     )
-    return_type: (type_list
+    return_type: (union_type
       (optional_type
         (primitive_type)
       )
@@ -125,14 +125,14 @@ function a(mixed|string $var) : mixed {
     (name)
     (formal_parameters
       (simple_parameter
-        (type_list
+        (union_type
           (primitive_type)
           (primitive_type)
         )
         (variable_name (name))
       )
     )
-    (type_list (primitive_type))
+    (union_type (primitive_type))
     (compound_statement)
   )
 )
@@ -154,13 +154,13 @@ function a(string $var) : static {
     (name)
     (formal_parameters
       (simple_parameter
-        (type_list
+        (union_type
           (primitive_type)
         )
         (variable_name (name))
       )
     )
-    (type_list (primitive_type))
+    (union_type (primitive_type))
     (compound_statement)
   )
 )
