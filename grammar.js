@@ -1,56 +1,159 @@
+// Parsing markdown is hard, here's how this parser works:
+// (This is meant to implement the Github flavored markdown spec https://github.github.com/gfm/)
+//
+// A markdown has a double tree structure. On the top level there are blocks, like
+// lists, block quotes, paragraphs, ..., then some of these blocks can contain inline
+// elements like emphasis, links, backslash escapes, ...
+//
+// Markdown can not be parsed by a traditional tree-sitter parser, but tree-sitter
+// offers to use an external "scanner" (or lexer, see src/scanner.cc) to inject some
+// hand-written C code into the parser. This parser tries to use this as little as
+// possible, in practice this means using the external scanner to parse:
+//
+// * All blocks besides paragraphs and lists
+//   (list items DO get parsed by the external scanner)
+//   For container blocks this is needed because at the start of each line we need
+//   to match all open blocks so we need to be able to look back on the parse stack
+//   arbitrarily far. Traditional tree-sitter parsers are not able to do this.
+//
+//   Non container blocks are also parsed in the external scanner since for lazy
+//   continuations (which influence block structure) the parser needs to check if
+//   the a new block begins on the given line.
+//
+// * Code spans
+//   Code span delimiters have an arbitrary ammount of backticks ('`'), which must
+//   match between opening and closing delimiters. Maybe this would be possible to
+//   do as an traditional tree-sitter rule, but it would be VERY ugly.
+//
+// * Emphasis delimiters
+//   Parsing of emphasis delimiters depends on the character before and after a run
+//   of '*'s or '_'s, so we need more context than tree-sitter rules offer.
+//
+// Matching is done in 2 stages: First we try to match all open blocks, if we don't
+// manage to do so and cannot emit a lazy continuation open all unmatched blocks.
+// After that parse the openings of any new blocks. For more information look at the
+// external scanner.
+//
+// TODOs (critical):
+// * Implement: html blocks, link reference definitions, emphasis, links, images,
+//   autolinks and raw html
+//
+// TODOs (non critical):
+// * Unicode support for whitespace and punctuation characters
 
+// A file with all html entities, should be kept up to date with
+// https://html.spec.whatwg.org/multipage/entities.json
 const html_entities = require("./html_entities.json");
+
+// Punctuation characters as specified in
+// https://github.github.com/gfm/#ascii-punctuation-character
 const PUNCTUATION_CHARACTERS = '!-/:-@\\[-`\\{-~';
 
 module.exports = grammar({
     name: 'markdown',
 
-    // all block delimiters (except paragraphs) are handled by external scanner:
-    extras: $ => [
-        /[ \t]+/,
-        $._indentation,
-        $._block_continuation,
-        $._matching_done,
-    ],
-    word: $ => $._word,
+    // TODO: Sort these tokens in some more sensible manner
     externals: $ => [
+        // TOKENS FOR BLOCK STRUCTURE:
+        // Parses a newline (\n, \r or \r\n) and triggers the matching. TODO: Parse newline as
+        // normal rule and then trigger matching by "requesting" it manually
+        // Newline is not an extra, since it's very important for the syntax of markdown
         $._newline,
+        // Whitespace encountered during matching. TODO: we should be able to do parsing without
+        // this which should be nicer.
         $._indentation,
+        // Sometimes a indented code block can contain for example 3/4 of a tab. In this case the
+        // tab gets consumed by by the continuation of the parent block and we emit one "virtual_space"
+        // for every space that should be added to the indented code block.
+        // TODO: at the moment indentation just consumes all of the whitespace. Maybe remove indentation
+        // and use some other tactic for this. But tabs that are not at the beginning of a line in an
+        // indented code block might not behave like you would expect them to at all so maybe we should
+        // just give up here
         $.virtual_space,
+        // Emited once the external scanner is done with block structure for this line. Needed as
+        // tree-sitter expects the parser state to not change if we do not emit a token.
+        // TODO: I'm not 100% sure this get's emitted every line.
         $._matching_done,
+        // Every block that is not a paragraph and can have multiple lines will start with an opening token
+        // like `$._block_quote_start` and close with `$._block_close`
         $._block_close,
+        // The exception to this are list items since we need to differentiate between tight and loose
+        // lists (see https://github.github.com/gfm/#lists) which we can only do at the END of a list
+        // item. If the list item contains empty lines we emit `$._block_close_loose` when it closes
+        // else `$._block_close`
         $._block_close_loose,
+        // Token encountered if we match an open block. For example a '>' at the beginning of a line
+        // if we are in an (already open) block quote.
         $._block_continuation,
+        // Lazy continuations can happen if some open blocks did not get matched, but the current leaf
+        // block is a paragraph that continues in the next line.
         $._lazy_continuation,
+        // Start token for a block quote (https://github.github.com/gfm/#block-quotes)
         $._block_quote_start,
+        // Start token for an indented chunk which is part of an indented code block
+        // (https://github.github.com/gfm/#indented-chunk)
         $._indented_chunk_start,
+        // Markers for the different levels of an ATX heading (https://github.github.com/gfm/#atx-headings)
+        // This block does not need a `$._block_close`.
         $.atx_h1_marker,
         $.atx_h2_marker,
         $.atx_h3_marker,
         $.atx_h4_marker,
         $.atx_h5_marker,
         $.atx_h6_marker,
+        // Underlines for the 2 different levels of setext headings (https://github.github.com/gfm/#setext-headings)
+        // This block does not need a `$._block_close`.
         $._setext_h1_underline,
         $._setext_h2_underline,
-        $._setext_h2_underline_or_thematic_break,
+        $._setext_h2_underline_or_thematic_break, // TODO: Remove this. We probably don't need it
+        // Just a thematic break (https://github.github.com/gfm/#thematic-breaks)
+        // This block does not need a `$._block_close`.
         $._thematic_break,
+        // The different possiblities for a list marker (https://github.github.com/gfm/#list-marker).
+        // Marks the beginning of a list item (https://github.github.com/gfm/#list-items).
+        // We need to differentiate between the different markers as lists can only
+        // contain list items with the same marker.
         $.list_marker_minus,
         $.list_marker_plus,
         $.list_marker_star,
         $.list_marker_parenthethis,
         $.list_marker_dot,
+        // Marks the beginning of a fenced code block (https://github.github.com/gfm/#fenced-code-blocks)
+        // TODO: differentiate between code blocks delimited by backticks and tildas so
+        // we can impose the right restrictions on info strings. This could get a bit ugly since
+        // if the info string is not proper we need to tell the scanner that it should remove the
+        // fenced code block from its stack of open blocks
         $._fenced_code_block_start,
+        // Bad name. Just a whole blank line without the newline. TODO: rename this
         $._blank_line_start,
+
+        // TOKENS FOR INLINE PARSING
+        // Opening and closing delimiters
+        // A openging token does not mean the text after has to be a
+        // code span if there is no closing token
         $._code_span_start,
         $._code_span_close,
     ],
+    extras: $ => [
+        // Default is to ignore all whitespace. We can still be explicit about whitespace
+        // in the external parser
+        /[ \t]+/,
+        // Any token encountered during matching besides open and close tokens should be ignored
+        $._block_continuation,
+        $._indentation,
+        $._matching_done,
+    ],
+    // I'm not sure this declaration does anything. TODO: Ask someone if it does
+    word: $ => $._word,
     precedences: $ => [
         [$.tight_list, $.loose_list],
         [$.setext_heading, $._block],
         [$.indented_code_block, $._block]
     ],
     conflicts: $ => [
+        // This can probably solved in other ways
         [$.code_span, $.text],
+        // This also maybe, idk
         [$.hard_line_break, $.text]
     ],
 
