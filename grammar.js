@@ -1235,19 +1235,20 @@ module.exports = grammar({
           $._simple_string_part,
           $._complex_string_part,
           alias('\\u', $.string),
+          alias("'", $.string) // Needed to avoid the edge case "$b'" from breaking parsing by trying to apply the $.string rule for some reason
         ),
       ),
       '"',
     )),
 
-    string: $ => token(seq(
+    string: $ => seq(
       choice(
         /[bB]'/,
         "'"
       ),
-      repeat(/\\'|\\\\|\\?[^'\\]/),
+      token(prec(1, repeat(/\\'|\\\\|\\?[^'\\]/))), // prec(1, ...) is needed to avoid conflict with $.comment
       "'",
-    )),
+    ),
 
     boolean: $ => /[Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]/,
 

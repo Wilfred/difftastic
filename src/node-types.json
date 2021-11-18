@@ -4060,6 +4060,11 @@
     }
   },
   {
+    "type": "string",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "subscript_expression",
     "named": true,
     "fields": {},
@@ -4701,6 +4706,10 @@
     "named": false
   },
   {
+    "type": "'",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -5026,11 +5035,11 @@
   },
   {
     "type": "float",
-    "named": false
+    "named": true
   },
   {
     "type": "float",
-    "named": true
+    "named": false
   },
   {
     "type": "fn",
@@ -5126,11 +5135,11 @@
   },
   {
     "type": "null",
-    "named": false
+    "named": true
   },
   {
     "type": "null",
-    "named": true
+    "named": false
   },
   {
     "type": "or",
@@ -5191,10 +5200,6 @@
   {
     "type": "string",
     "named": false
-  },
-  {
-    "type": "string",
-    "named": true
   },
   {
     "type": "switch",
