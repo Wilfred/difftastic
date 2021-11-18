@@ -67,7 +67,102 @@
           "named": true
         },
         {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
           "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kExit",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "blockTr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "kBegin",
+          "named": true
+        },
+        {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -199,7 +294,15 @@
           "named": true
         },
         {
+          "type": "kBreak",
+          "named": true
+        },
+        {
           "type": "kCase",
+          "named": true
+        },
+        {
+          "type": "kContinue",
           "named": true
         },
         {
@@ -208,6 +311,10 @@
         },
         {
           "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -250,6 +357,10 @@
           "named": true
         },
         {
+          "type": "caseLabel",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -274,7 +385,15 @@
           "named": true
         },
         {
-          "type": "range",
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -313,6 +432,10 @@
           "named": true
         },
         {
+          "type": "caseLabel",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -337,7 +460,15 @@
           "named": true
         },
         {
-          "type": "range",
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -350,6 +481,25 @@
         },
         {
           "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "caseLabel",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "range",
           "named": true
         }
       ]
@@ -505,7 +655,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "qualifiedType",
           "named": true
         }
       ]
@@ -661,6 +811,10 @@
         {
           "type": "kOf",
           "named": true
+        },
+        {
+          "type": "type",
+          "named": true
         }
       ]
     }
@@ -726,7 +880,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "qualifiedType",
           "named": true
         }
       ]
@@ -768,7 +922,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "qualifiedType",
           "named": true
         }
       ]
@@ -1016,15 +1170,15 @@
       "required": true,
       "types": [
         {
-          "type": "expr",
-          "named": true
-        },
-        {
           "type": "kOf",
           "named": true
         },
         {
           "type": "kSet",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -1101,7 +1255,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "qualifiedType",
           "named": true
         }
       ]
@@ -1143,7 +1297,7 @@
       "required": true,
       "types": [
         {
-          "type": "block",
+          "type": "blockTr",
           "named": true
         },
         {
@@ -1403,6 +1557,18 @@
           "named": true
         },
         {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
+          "type": "kExit",
+          "named": true
+        },
+        {
           "type": "kFinalization",
           "named": true
         },
@@ -1470,7 +1636,19 @@
           "named": true
         },
         {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
           "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -1541,7 +1719,19 @@
           "named": true
         },
         {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
           "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -1584,7 +1774,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "qualifiedType",
           "named": true
         }
       ]
@@ -1660,11 +1850,11 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "kGoto",
           "named": true
         },
         {
-          "type": "kGoto",
+          "type": "label",
           "named": true
         }
       ]
@@ -1712,6 +1902,18 @@
         },
         {
           "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -1782,7 +1984,19 @@
           "named": true
         },
         {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
           "type": "kElse",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -1892,6 +2106,18 @@
           "named": true
         },
         {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
+          "type": "kExit",
+          "named": true
+        },
+        {
           "type": "kInitialization",
           "named": true
         },
@@ -1993,7 +2219,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "identifier",
@@ -2160,7 +2386,7 @@
       "required": true,
       "types": [
         {
-          "type": "block",
+          "type": "blockTr",
           "named": true
         },
         {
@@ -2197,6 +2423,29 @@
         },
         {
           "type": "moduleName",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qualifiedType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kDot",
+          "named": true
+        },
+        {
+          "type": "specializedParams",
           "named": true
         }
       ]
@@ -2259,6 +2508,18 @@
         },
         {
           "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -2354,29 +2615,6 @@
     }
   },
   {
-    "type": "specializedType",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "kDot",
-          "named": true
-        },
-        {
-          "type": "specializedParams",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "try",
     "named": true,
     "fields": {},
@@ -2421,11 +2659,23 @@
           "named": true
         },
         {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
           "type": "kEnd",
           "named": true
         },
         {
           "type": "kExcept",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -2468,7 +2718,7 @@
           "named": true
         },
         {
-          "type": "specializedType",
+          "type": "qualifiedType",
           "named": true
         }
       ]
@@ -2581,7 +2831,19 @@
           "named": true
         },
         {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
           "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kExit",
           "named": true
         },
         {
@@ -2688,6 +2950,10 @@
     "named": true
   },
   {
+    "type": "kBreak",
+    "named": true
+  },
+  {
     "type": "kCase",
     "named": true
   },
@@ -2705,6 +2971,10 @@
   },
   {
     "type": "kConstructor",
+    "named": true
+  },
+  {
+    "type": "kContinue",
     "named": true
   },
   {
@@ -2741,6 +3011,10 @@
   },
   {
     "type": "kExcept",
+    "named": true
+  },
+  {
+    "type": "kExit",
     "named": true
   },
   {

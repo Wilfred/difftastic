@@ -26,7 +26,7 @@ module.exports = grammar({
 		program:            $ => seq(
 			$.kProgram, $.moduleName, ';',
 			optional($._definitions),
-			$.block,
+			$.blockTr,
 			$.kEndDot
 		),
 
@@ -57,23 +57,18 @@ module.exports = grammar({
 			)
 		)),
 
-		moduleName:           $ => delimited1($.identifier, '.'),
+		moduleName:         $ => delimited1($.identifier, '.'),
 
 		// STATEMENTS ---------------------------------------------------------
 
 		...statements(false),
 		...statements(true),
 
-		block:              $ => seq(
-			$.kBegin,
-			optional($._statementsTr),
-			$.kEnd,
-		),
-
 		assignment:         $ => seq($.expr, $.kAssign, $.expr),
 
 		label:              $ => seq($.identifier, ':'),
-		goto:               $ => seq($.kGoto, $.identifier),
+		goto:               $ => seq($.kGoto, alias($.identifier, $.label)),
+		caseLabel:          $ => seq(delimited1(choice($.expr, $.range)), ':'),
 
 		_statements:        $ => repeat1(choice($._statement, $.label)),
 		_statementsTr:      $ => seq(
@@ -165,7 +160,7 @@ module.exports = grammar({
 		genericParams:      $ => seq($.kAngleOpen, delimited1($.genericParam, ';'), $.kAngleClose),
 		genericParam:       $ => seq(
 			delimited1($.identifier), 
-			optional(seq(':', $.specializedType)), 
+			optional(seq(':', $.qualifiedType)), 
 			optional($.defaultValue)
 		),
 		// We can't determine whether an expression is a constant at this stage.
@@ -176,11 +171,11 @@ module.exports = grammar({
 		_constant:          $ => /*$.expr, */choice($.literal, $._specializedName),
 
 		genericType:        $ => $._genericName,
-		specializedType:    $ => delimited1($._specializedName, $.kDot),
+		qualifiedType:      $ => delimited1($._specializedName, $.kDot),
 
 		genericProc:        $ => $._genericName,
 
-		type:               $ => choice($.specializedType, $.defType),
+		type:               $ => choice($.qualifiedType, $.defType),
 
 		// LITERALS -----------------------------------------------------------
 
@@ -224,7 +219,7 @@ module.exports = grammar({
 
 		_body:              $ => seq(
 			optional($.locals),
-			$.block
+			$.blockTr
 		),
 
 		// DECLARATIONS -------------------------------------------------------
@@ -255,17 +250,17 @@ module.exports = grammar({
 			$.declFuncRef
 		),
 
-		declTypedef:        $ => seq(optional($.kType), $.specializedType),
+		declTypedef:        $ => seq(optional($.kType), $.qualifiedType),
 
 		declEnum:           $ => seq('(', delimited1($.declEnumValue), ')'),
 		declEnumValue:      $ => seq($.identifier, optional($.defaultValue)),
 
-		declSet:            $ => seq($.kSet, $.kOf, $.expr),
+		declSet:            $ => seq($.kSet, $.kOf, $.type),
 
 		declClass:          $ => seq(
 			optional($.kPacked),
 			choice($.kClass, $.kRecord, $.kObject, $.kInterface), 
-			optional(seq('(',$.specializedType,')')), $._declClass
+			optional(seq('(',$.qualifiedType,')')), $._declClass
 		),
 
 		declSection:        $ => seq(
@@ -286,7 +281,7 @@ module.exports = grammar({
 		declArray:          $ => seq(
 			optional($.kPacked),
 			$.kArray, 
-			optional(seq('[', delimited(choice($.range, $.expr/*$.specializedType*/)), ']')),
+			optional(seq('[', delimited(choice($.range, $.expr/*$.qualifiedType*/)), ']')),
 			$.kOf, $.type
 		),
 		declString:          $ => seq(
@@ -296,11 +291,11 @@ module.exports = grammar({
 
 
 		declMetaClass:      $ => seq(
-			$.kClass, $.kOf, $.specializedType
+			$.kClass, $.kOf, $.qualifiedType
 		),
 
 		declHelper:         $ => seq(
-			choice($.kClass, $.kRecord), $.kHelper, $.kFor, $.specializedType,
+			choice($.kClass, $.kRecord), $.kHelper, $.kFor, $.qualifiedType,
 			$._declClass
 		),
 
@@ -336,6 +331,8 @@ module.exports = grammar({
 		declFuncRef:        $ => seq(
 			$.kFunction,
 			optional($.declArgs),
+			':',
+			$.type,
 			optional(seq($.kOf, $.kObject)),
 			';'
 		),
@@ -511,6 +508,9 @@ module.exports = grammar({
 		kFinally:           $ => /[fF][iI][nN][aA][lL][lL][yY]/,
 		kCase:              $ => /[cC][aA][sS][eE]/,
 		kGoto:              $ => /[gG][oO][tT][oO]/,
+		kBreak:             $ => /[bB][rR][eE][aA][kK]/,
+		kContinue:          $ => /[cC][oO][nN][tT][iI][nN][uU][eE]/,
+		kExit:              $ => /[eE][xX][iI][tT]/,
 
 		kFunction:          $ => /[fF][uU][nN][cC][tT][iI][oO][nN]/,
 		kProcedure:         $ => /[pP][rR][oO][cC][eE][dD][uU][rR][eE]/,
@@ -595,7 +595,7 @@ function statements(trailing) {
 		))],
 
 		[rn('caseCase'),   $ => seq(
-			delimited1(choice($.expr, $.range)), ':',
+			$.caseLabel,
 			...lastStatement($)
 		)],
 
@@ -611,11 +611,19 @@ function statements(trailing) {
 			$.kEnd, ...semicolon
 		))],
 
+		[rn('block'),      $ => seq(
+			$.kBegin,
+			optional($._statementsTr),
+			$.kEnd, ...semicolon
+		)],
+
 		[rn('_statement'), $ => choice(
 			seq($.expr, ...semicolon),
 			seq($.assignment, ...semicolon),
 			seq($.goto, ...semicolon),
-			seq($.block, ...semicolon),
+			seq($.kBreak, ...semicolon),
+			seq($.kContinue, ...semicolon),
+			seq($.kExit, ...semicolon),
 			alias($[rn('if')],      $.if), 
 			alias($[rn('ifElse')],  $.ifElse), 
 			alias($[rn('while')],   $.while), 
@@ -623,7 +631,8 @@ function statements(trailing) {
 			alias($[rn('for')],     $.for),
 			alias($[rn('foreach')], $.foreach), 
 			alias($[rn('try')],     $.try),
-			alias($[rn('case')],    $.case)
+			alias($[rn('case')],    $.case),
+			alias($[rn('block')],   $.block)
 		)]
 	]);
 
