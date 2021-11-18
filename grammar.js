@@ -103,6 +103,9 @@ module.exports = grammar({
     [$.user_type],
     [$.user_type, $.anonymous_function],
     [$.user_type, $.function_type],
+
+    // ambiguity between annotated_lambda with modifiers and modifiers from var declarations
+    [$.annotated_lambda, $.modifiers]
   ],
 
   externals: $ => [
@@ -666,8 +669,8 @@ module.exports = grammar({
     )),
 
     annotated_lambda: $ => seq(
-      // repeat($.annotation),
-      // optional($.label),
+      repeat($.annotation),
+      optional($.label),
       $.lambda_literal
     ),
 
