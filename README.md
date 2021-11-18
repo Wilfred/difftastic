@@ -19,7 +19,7 @@ Progress:
   * [ ] Task list items (extension) *ironic*
   * [x] Lists
 * Inlines
-  * [x]Backslash escapes
+  * [x] Backslash escapes
   * [x] Entity and numeric character references
   * [x] Code spans
   * [ ] Emphasis and strong emphasis
