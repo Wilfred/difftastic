@@ -96,7 +96,7 @@
 
 (declArg          (identifier) @variable.parameter)
 (genericParam     (identifier) @type.parameter)
-(specializedParam (identifier) @type)
+;(specializedParam (identifier) @type)
 (declVar          (identifier) @variable)
 (declConst        (identifier) @constant)
 ;(declProp   name: (identifier) @property)

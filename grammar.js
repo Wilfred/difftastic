@@ -153,7 +153,7 @@ module.exports = grammar({
 			optional($.specializedParams)
 		),
 		specializedParams:  $ => seq( $.kAngleOpen, delimited1($.specializedParam), $.kAngleClose),
-		specializedParam:   $ => $._constant,
+		specializedParam:   $ => $.expr,
 
 		// E.g. Foo<A: B, C: D<E>>
 		_genericName:       $ => seq($.identifier, optional($.genericParams)),
@@ -168,7 +168,7 @@ module.exports = grammar({
 		// TODO: We should use $.expr after adding support for generics to
 		// $.expr. Right now we can't do this because it leads to a conflict.
 		// Have to fix that first.
-		_constant:          $ => /*$.expr, */choice($.literal, $._specializedName),
+		//_constant:          $ => $.expr, /*choice($.literal, $._specializedName)*/
 
 		genericType:        $ => $._genericName,
 		qualifiedType:      $ => delimited1($._specializedName, $.kDot),
@@ -211,7 +211,7 @@ module.exports = grammar({
 
 		declProcFwd:        $ => seq(
 			choice($.declProc, $.declFunc),
-			$.kForward,
+			choice($.kForward, $.procExternal),
 			';'
 		),
 
@@ -291,7 +291,7 @@ module.exports = grammar({
 		),
 		declString:          $ => seq(
 			$.kString, 
-			optional(seq('[', choice($._constant), ']'))
+			optional(seq('[', choice($.expr), ']'))
 		),
 
 
@@ -349,11 +349,13 @@ module.exports = grammar({
 			$.kCdecl, $.kPascal
 		),
 
+		procExternal: $ => seq($.kExternal, $.expr, $.kName, $.expr),
+
 		defaultValue:       $ => seq($.kEq, $._initializer),
 
-		_initializer:       $ => seq(
-			choice($._constant, $._recInitializer, $._arrInitializer)
-		),
+		_initializer:       $ => prec(2,seq(
+			choice($.expr, $._recInitializer, $._arrInitializer)
+		)),
 
 		declVar:            $ => seq(
 			$.kVar,
@@ -389,10 +391,10 @@ module.exports = grammar({
 			optional($.declPropArgs),
 			':',
 			$.type,
-			optional(seq($.kIndex, $._constant)),
+			optional(seq($.kIndex, $.expr)),
 			optional(seq($.kRead, $.identifier)),
 			optional(seq($.kWrite, $.identifier)),
-			optional(seq($.kDefault, $._constant)),
+			optional(seq($.kDefault, $.expr)),
 			';',
 			optional(seq($.kDefault, ';'))
 		),
@@ -537,6 +539,8 @@ module.exports = grammar({
 		kStdcall:           $ => /[sS][tT][dD][cC][aA][lL][lL]/,
 		kCdecl:             $ => /[cC][dD][eE][cC][lL]/,
 		kPascal:            $ => /[pP][aA][sS][cC][aA][lL]/,
+		kExternal:          $ => /[eE][xX][tT][eE][rR][nN][aA][lL]/,
+		kName:              $ => /[nN][aA][mM][eE]/,
 
 		kNil:               $ => /[nN][iI][lL]/,
 		kTrue:              $ => /[tT][rR][uU][eE]/,
@@ -608,7 +612,7 @@ function statements(trailing) {
 			optional(seq(
 				$.kElse,
 				optional(':'),
-				...lastStatement($)
+				choice($._statementTr, $._statement)
 			)),
 			$.kEnd, ...semicolon
 		))],

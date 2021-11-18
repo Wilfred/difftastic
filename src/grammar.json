@@ -683,8 +683,17 @@
                     ]
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_statement"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_statementTr"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_statement"
+                      }
+                    ]
                   }
                 ]
               },
@@ -1284,7 +1293,8 @@
                         "name": "_statementTr"
                       },
                       {
-                        "type": "BLANK"
+                        "type": "SYMBOL",
+                        "name": "_statement"
                       }
                     ]
                   }
@@ -2546,7 +2556,7 @@
     },
     "specializedParam": {
       "type": "SYMBOL",
-      "name": "_constant"
+      "name": "expr"
     },
     "_genericName": {
       "type": "SEQ",
@@ -2683,19 +2693,6 @@
               "type": "BLANK"
             }
           ]
-        }
-      ]
-    },
-    "_constant": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_specializedName"
         }
       ]
     },
@@ -2930,8 +2927,17 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "kForward"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "kForward"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "procExternal"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3597,7 +3603,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "_constant"
+                      "name": "expr"
                     }
                   ]
                 },
@@ -4043,6 +4049,27 @@
         }
       ]
     },
+    "procExternal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kExternal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kName"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        }
+      ]
+    },
     "defaultValue": {
       "type": "SEQ",
       "members": [
@@ -4057,26 +4084,30 @@
       ]
     },
     "_initializer": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_constant"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_recInitializer"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_arrInitializer"
-            }
-          ]
-        }
-      ]
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "expr"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_recInitializer"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_arrInitializer"
+              }
+            ]
+          }
+        ]
+      }
     },
     "declVar": {
       "type": "SEQ",
@@ -4311,7 +4342,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_constant"
+                  "name": "expr"
                 }
               ]
             },
@@ -4374,7 +4405,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_constant"
+                  "name": "expr"
                 }
               ]
             },
@@ -5176,6 +5207,14 @@
     "kPascal": {
       "type": "PATTERN",
       "value": "[pP][aA][sS][cC][aA][lL]"
+    },
+    "kExternal": {
+      "type": "PATTERN",
+      "value": "[eE][xX][tT][eE][rR][nN][aA][lL]"
+    },
+    "kName": {
+      "type": "PATTERN",
+      "value": "[nN][aA][mM][eE]"
     },
     "kNil": {
       "type": "PATTERN",

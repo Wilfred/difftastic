@@ -998,6 +998,10 @@
         {
           "type": "kForward",
           "named": true
+        },
+        {
+          "type": "procExternal",
+          "named": true
         }
       ]
     }
@@ -1053,6 +1057,10 @@
           "named": true
         },
         {
+          "type": "expr",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
@@ -1074,14 +1082,6 @@
         },
         {
           "type": "kWrite",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        },
-        {
-          "type": "specializedParams",
           "named": true
         },
         {
@@ -1197,19 +1197,11 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "expr",
           "named": true
         },
         {
           "type": "kString",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        },
-        {
-          "type": "specializedParams",
           "named": true
         }
       ]
@@ -1387,19 +1379,15 @@
       "required": true,
       "types": [
         {
+          "type": "expr",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
           "type": "kEq",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        },
-        {
-          "type": "specializedParams",
           "named": true
         }
       ]
@@ -2402,6 +2390,29 @@
     }
   },
   {
+    "type": "procExternal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "kExternal",
+          "named": true
+        },
+        {
+          "type": "kName",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "program",
     "named": true,
     "fields": {},
@@ -2597,19 +2608,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        },
-        {
-          "type": "specializedParams",
+          "type": "expr",
           "named": true
         }
       ]
@@ -3042,6 +3045,10 @@
     "named": true
   },
   {
+    "type": "kExternal",
+    "named": true
+  },
+  {
     "type": "kFalse",
     "named": true
   },
@@ -3131,6 +3138,10 @@
   },
   {
     "type": "kMul",
+    "named": true
+  },
+  {
+    "type": "kName",
     "named": true
   },
   {
