@@ -6861,6 +6861,15 @@
                   },
                   "named": true,
                   "value": "string"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": "'"
+                  },
+                  "named": true,
+                  "value": "string"
                 }
               ]
             }
@@ -6873,36 +6882,40 @@
       }
     },
     "string": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "PATTERN",
-                "value": "[bB]'"
-              },
-              {
-                "type": "STRING",
-                "value": "'"
-              }
-            ]
-          },
-          {
-            "type": "REPEAT",
-            "content": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "PATTERN",
-              "value": "\\\\'|\\\\\\\\|\\\\?[^'\\\\]"
+              "value": "[bB]'"
+            },
+            {
+              "type": "STRING",
+              "value": "'"
             }
-          },
-          {
-            "type": "STRING",
-            "value": "'"
+          ]
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "REPEAT",
+              "content": {
+                "type": "PATTERN",
+                "value": "\\\\'|\\\\\\\\|\\\\?[^'\\\\]"
+              }
+            }
           }
-        ]
-      }
+        },
+        {
+          "type": "STRING",
+          "value": "'"
+        }
+      ]
     },
     "boolean": {
       "type": "PATTERN",

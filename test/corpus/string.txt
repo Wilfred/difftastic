@@ -601,6 +601,12 @@ okay to do';
 'You deleted C:\*.*?';
 'This will not expand: \n a newline';
 'Variables do not $expand $either';
+'socket://';
+'#valid regexp#';
+'hello#world';
+'hello//world';
+'/*valid regexp*/';
+'/*valid regexp';
 
 ---
 
@@ -613,4 +619,37 @@ okay to do';
   (expression_statement (string))
   (expression_statement (string))
   (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
+  (expression_statement (string))
 )
+
+=========================================
+Bug: #113 
+=========================================
+
+<?php
+"$b'";
+"'";
+
+---
+
+(program
+  (php_tag)
+  (expression_statement
+    (encapsed_string
+      (variable_name (name))
+      (string)
+    )
+  )
+  (expression_statement
+    (encapsed_string
+      (string)
+    )
+  )
+)
+
+
