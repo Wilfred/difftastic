@@ -530,6 +530,105 @@
         }
       ]
     },
+    "exceptionHandler": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kOn"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "STRING",
+                  "value": ":"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "qualifiedType"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kDo"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_statement"
+        }
+      ]
+    },
+    "exceptionElse": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kElse"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_statement"
+        }
+      ]
+    },
+    "_exceptionHandlers": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "exceptionHandler"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "exceptionHandler"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "exceptionHandlerTr"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "exceptionElse"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "try": {
       "type": "PREC",
       "value": 2,
@@ -566,8 +665,17 @@
                     "type": "CHOICE",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "_statementsTr"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_statementsTr"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_exceptionHandlersTr"
+                          }
+                        ]
                       },
                       {
                         "type": "BLANK"
@@ -742,6 +850,23 @@
         }
       ]
     },
+    "raise": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kRaise"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
     "_statement": {
       "type": "CHOICE",
       "members": [
@@ -903,6 +1028,15 @@
           },
           "named": true,
           "value": "block"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "raise"
+          },
+          "named": true,
+          "value": "raise"
         }
       ]
     },
@@ -1129,6 +1263,121 @@
         }
       ]
     },
+    "exceptionHandlerTr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kOn"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "STRING",
+                  "value": ":"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "qualifiedType"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kDo"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statementTr"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "exceptionElseTr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kElse"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_statement"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statementTr"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "_exceptionHandlersTr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "exceptionHandler"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "exceptionHandler"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "exceptionHandlerTr"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "exceptionElse"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "tryTr": {
       "type": "PREC",
       "value": 2,
@@ -1165,8 +1414,17 @@
                     "type": "CHOICE",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "_statementsTr"
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_statementsTr"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_exceptionHandlersTr"
+                          }
+                        ]
                       },
                       {
                         "type": "BLANK"
@@ -1337,6 +1595,19 @@
         }
       ]
     },
+    "raiseTr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kRaise"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        }
+      ]
+    },
     "_statementTr": {
       "type": "CHOICE",
       "members": [
@@ -1474,6 +1745,15 @@
           },
           "named": true,
           "value": "block"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "raiseTr"
+          },
+          "named": true,
+          "value": "raise"
         }
       ]
     },
@@ -5103,6 +5383,14 @@
     "kFinally": {
       "type": "PATTERN",
       "value": "[fF][iI][nN][aA][lL][lL][yY]"
+    },
+    "kRaise": {
+      "type": "PATTERN",
+      "value": "[rR][aA][iI][sS][eE]"
+    },
+    "kOn": {
+      "type": "PATTERN",
+      "value": "[oO][nN]"
     },
     "kCase": {
       "type": "PATTERN",

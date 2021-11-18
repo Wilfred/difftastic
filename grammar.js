@@ -1,10 +1,7 @@
 // TODO:
-// - except on E: XYZ do ...
-// - raise
 // - preprocessor
 // - objectivec
 // - "message"
-// - "external" bla name bla...
 // - FPCisms: "specialize", "generic", += etc.
 // - GUIDs
 // asm blocks
@@ -508,6 +505,8 @@ module.exports = grammar({
 		kTry:               $ => /[tT][rR][yY]/,
 		kExcept:            $ => /[eE][xX][cC][eE][pP][tT]/,
 		kFinally:           $ => /[fF][iI][nN][aA][lL][lL][yY]/,
+		kRaise:             $ => /[rR][aA][iI][sS][eE]/,
+		kOn:                $ => /[oO][nN]/,
 		kCase:              $ => /[cC][aA][sS][eE]/,
 		kGoto:              $ => /[gG][oO][tT][oO]/,
 		kBreak:             $ => /[bB][rR][eE][aA][kK]/,
@@ -591,10 +590,25 @@ function statements(trailing) {
 			...lastStatement($)
 		)],
 
+		[rn('exceptionHandler'), $ => seq(
+			$.kOn, optional(seq($.identifier, ':')), $.qualifiedType, $.kDo,
+			...lastStatement($)
+		)],
+
+		[rn('exceptionElse'), $ => seq(
+			$.kElse, repeat($._statement), ...lastStatement($)
+		)],
+
+		[rn('_exceptionHandlers'), $ => seq(
+			repeat($.exceptionHandler),
+			choice($.exceptionHandler, $.exceptionHandlerTr),
+			optional($.exceptionElse)
+		)],
+
 		[rn('try'),        $ => prec(2,seq(
 			$.kTry, optional($._statementsTr), 
 			choice(
-				seq($.kExcept, optional($._statementsTr)), // todo "On E [:X] do ..."
+				seq($.kExcept, optional(choice($._statementsTr, $._exceptionHandlersTr))), // todo "On E [:X] do ..."
 				seq($.kFinally, optional($._statementsTr))
 			),
 			$.kEnd, ...semicolon
@@ -623,6 +637,12 @@ function statements(trailing) {
 			$.kEnd, ...semicolon
 		)],
 
+		[rn('raise'),      $ => seq(
+			$.kRaise,
+			$.expr,
+			...semicolon
+		)],
+
 		[rn('_statement'), $ => choice(
 			seq($.expr, ...semicolon),
 			seq($.assignment, ...semicolon),
@@ -638,7 +658,8 @@ function statements(trailing) {
 			alias($[rn('foreach')], $.foreach), 
 			alias($[rn('try')],     $.try),
 			alias($[rn('case')],    $.case),
-			alias($[rn('block')],   $.block)
+			alias($[rn('block')],   $.block),
+			alias($[rn('raise')],   $.raise), 
 		)]
 	]);
 

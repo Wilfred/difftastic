@@ -52,12 +52,16 @@
 	(kVirtual)
 	(kAbstract)
 	(kOverride)
+	(kOverload)
+	(kReintroduce)
 	(kInherited)
 	(kInline)
 
 	(kStdcall)
 	(kCdecl)
 	(kPascal)
+	(kExternal)
+	(kName)
 
 	(kFor)
 	(kTo)
@@ -71,6 +75,8 @@
 	(kTry)
 	(kExcept)
 	(kFinally)
+	(kRaise)
+	(kOn)
 	(kCase)
 	(kGoto)
 	(kBreak)
@@ -102,12 +108,12 @@
 ;(declProp   name: (identifier) @property)
 (declProp   name: (identifier) @function)
 
-(call ((identifier) @constant
- (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
-(declEnumValue ((identifier) @constant
- (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
-(defaultValue ((identifier) @constant
- (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+;(call ((identifier) @constant
+; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+;(declEnumValue ((identifier) @constant
+; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+;(defaultValue ((identifier) @constant
+; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
 
 (identifier)      @identifier
 

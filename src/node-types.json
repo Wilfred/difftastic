@@ -87,6 +87,10 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
           "type": "repeat",
           "named": true
         },
@@ -167,6 +171,10 @@
         },
         {
           "type": "label",
+          "named": true
+        },
+        {
+          "type": "raise",
           "named": true
         },
         {
@@ -322,6 +330,10 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
           "type": "repeat",
           "named": true
         },
@@ -397,6 +409,10 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
           "type": "repeat",
           "named": true
         },
@@ -469,6 +485,10 @@
         },
         {
           "type": "kExit",
+          "named": true
+        },
+        {
+          "type": "raise",
           "named": true
         },
         {
@@ -1394,6 +1414,267 @@
     }
   },
   {
+    "type": "exceptionElse",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
+          "type": "kElse",
+          "named": true
+        },
+        {
+          "type": "kExit",
+          "named": true
+        },
+        {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exceptionHandler",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
+          "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kExit",
+          "named": true
+        },
+        {
+          "type": "kOn",
+          "named": true
+        },
+        {
+          "type": "qualifiedType",
+          "named": true
+        },
+        {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exceptionHandlerTr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "kBreak",
+          "named": true
+        },
+        {
+          "type": "kContinue",
+          "named": true
+        },
+        {
+          "type": "kDo",
+          "named": true
+        },
+        {
+          "type": "kExit",
+          "named": true
+        },
+        {
+          "type": "kOn",
+          "named": true
+        },
+        {
+          "type": "qualifiedType",
+          "named": true
+        },
+        {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "expr",
     "named": true,
     "fields": {},
@@ -1581,6 +1862,10 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
           "type": "repeat",
           "named": true
         },
@@ -1664,6 +1949,10 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
           "type": "repeat",
           "named": true
         },
@@ -1744,6 +2033,10 @@
         },
         {
           "type": "kIn",
+          "named": true
+        },
+        {
+          "type": "raise",
           "named": true
         },
         {
@@ -1929,6 +2222,10 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
           "type": "repeat",
           "named": true
         },
@@ -2009,6 +2306,10 @@
         },
         {
           "type": "kThen",
+          "named": true
+        },
+        {
+          "type": "raise",
           "named": true
         },
         {
@@ -2127,6 +2428,10 @@
         },
         {
           "type": "label",
+          "named": true
+        },
+        {
+          "type": "raise",
           "named": true
         },
         {
@@ -2487,6 +2792,25 @@
     }
   },
   {
+    "type": "raise",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "kRaise",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "range",
     "named": true,
     "fields": {},
@@ -2567,6 +2891,10 @@
         },
         {
           "type": "label",
+          "named": true
+        },
+        {
+          "type": "raise",
           "named": true
         },
         {
@@ -2662,6 +2990,18 @@
           "named": true
         },
         {
+          "type": "exceptionElse",
+          "named": true
+        },
+        {
+          "type": "exceptionHandler",
+          "named": true
+        },
+        {
+          "type": "exceptionHandlerTr",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -2715,6 +3055,10 @@
         },
         {
           "type": "label",
+          "named": true
+        },
+        {
+          "type": "raise",
           "named": true
         },
         {
@@ -2875,6 +3219,10 @@
         },
         {
           "type": "kWhile",
+          "named": true
+        },
+        {
+          "type": "raise",
           "named": true
         },
         {
@@ -3165,6 +3513,10 @@
     "named": true
   },
   {
+    "type": "kOn",
+    "named": true
+  },
+  {
     "type": "kOr",
     "named": true
   },
@@ -3214,6 +3566,10 @@
   },
   {
     "type": "kPublished",
+    "named": true
+  },
+  {
+    "type": "kRaise",
     "named": true
   },
   {
