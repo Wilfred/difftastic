@@ -29,6 +29,13 @@
 //   Parsing of emphasis delimiters depends on the character before and after a run
 //   of '*'s or '_'s, so we need more context than tree-sitter rules offer.
 //
+// I'm also considering just parsing any token with the external scanner since it so
+// happens that external parse needs to know about most of them (at least but not
+// limited to any newlines, spaces and punctuation). This would not mean using it for
+// all parsing, but it would mean not using tree-sitters lexer.
+// Als maybe this is just not possible as having 2 lexers gives us some extra
+// lookahead :)
+//
 // Matching is done in 2 stages: First we try to match all open blocks, if we don't
 // manage to do so and cannot emit a lazy continuation open all unmatched blocks.
 // After that parse the openings of any new blocks. For more information look at the
@@ -133,6 +140,26 @@ module.exports = grammar({
         // code span if there is no closing token
         $._code_span_start,
         $._code_span_close,
+
+        // Tactic for parsing emphasis:
+        // (See https://github.github.com/gfm/#emphasis-and-strong-emphasis)
+        // Most of this can actually be done by traditional tree-sitter rules, but we need
+        // the help of the external scanner to determine if a marker ('*' or '_')
+        // can open / close emphasis.
+        // Also I don't yet know about the weird "mod 3" stuff in rule 9
+
+        // We need to tell the parse if the last character was a whitespace (or equivalently the
+        // beginning of an inline context) or a punctuation.
+        $._last_character_whitespace,
+        $._last_character_punctuation,
+
+        // The external parser can then decide if any '*' or '_' can open / close emphasis
+        // Open should always be valid, but the external scanner will emit a close if it
+        // can to be in line with the spec.
+        $._emphasis_open_star,
+        $._emphasis_open_underscore,
+        $._emphasis_close_start,
+        $._emphasis_close_underscore,
     ],
     extras: $ => [
         // Default is to ignore all whitespace. We can still be explicit about whitespace
