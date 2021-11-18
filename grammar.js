@@ -235,7 +235,9 @@ module.exports = grammar({
 
 		declType:           $ => seq($.kType, repeat1($._declType)),
 		_declType:          $ => seq(
-			$.genericType, $.kEq, choice( $.declTypedef, $.defType), ';'
+			$.genericType, $.kEq, choice( $.declTypedef, $.defType),
+			repeat(seq(';', $.procAttribute)),
+			';'
 		),
 
 		defType:            $ => choice(
@@ -250,7 +252,10 @@ module.exports = grammar({
 			$.declFuncRef
 		),
 
-		declTypedef:        $ => seq(optional($.kType), $.qualifiedType),
+		declTypedef:        $ => seq(
+			optional($.kType), 
+			choice($.qualifiedType, $.kClass, $.kInterface)
+		),
 
 		declEnum:           $ => seq('(', delimited1($.declEnumValue), ')'),
 		declEnumValue:      $ => seq($.identifier, optional($.defaultValue)),
@@ -260,7 +265,7 @@ module.exports = grammar({
 		declClass:          $ => seq(
 			optional($.kPacked),
 			choice($.kClass, $.kRecord, $.kObject, $.kInterface), 
-			optional(seq('(',$.qualifiedType,')')), $._declClass
+			optional(seq('(',delimited($.qualifiedType),')')), $._declClass
 		),
 
 		declSection:        $ => seq(
@@ -305,8 +310,9 @@ module.exports = grammar({
 			repeat(seq($.genericType, $.kDot)),
 			$.genericProc,
 			optional($.declArgs),
+			optional($.defaultValue),
+			repeat(seq(';', $.procAttribute)),
 			';',
-			optional($.procAttributes)
 		),
 
 		declFunc:           $ => seq(
@@ -317,36 +323,30 @@ module.exports = grammar({
 			optional($.declArgs),
 			':',
 			$.type,
+			repeat(seq(';', $.procAttribute)),
 			';',
-			optional($.procAttributes)
 		),
 
-		declProcRef:        $ => seq(
+		declProcRef:        $ => prec.right(1,seq(
 			$.kProcedure,
 			optional($.declArgs),
 			optional(seq($.kOf, $.kObject)),
-			';'
-		),
+		)),
 
-		declFuncRef:        $ => seq(
+		declFuncRef:        $ => prec.right(100, seq(
 			$.kFunction,
 			optional($.declArgs),
 			':',
 			$.type,
 			optional(seq($.kOf, $.kObject)),
-			';'
-		),
+		)),
 
 		declArgs:           $ => seq('(', delimited($.declArg, ';'), ')'),
 
-		procAttributes:     $ => repeat1(
-			seq(
-				choice(
-					$.kStatic, $.kVirtual, $.kAbstract, $.kOverride, $.kInline,
-					$.kStdcall, $.kCdecl, $.kPascal
-				),
-				';'
-			)
+		procAttribute: $ => choice(
+			$.kStatic, $.kVirtual, $.kAbstract, $.kOverride,
+			$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
+			$.kCdecl, $.kPascal
 		),
 
 		defaultValue:       $ => seq($.kEq, $._initializer),
@@ -529,6 +529,8 @@ module.exports = grammar({
 		kVirtual:           $ => /[vV][iI][rR][tT][uU][aA][lL]/,
 		kAbstract:          $ => /[aA][bB][sS][tT][rR][aA][cC][tT]/,
 		kOverride:          $ => /[oO][vV][eE][rR][rR][iI][dD][eE]/,
+		kOverload:          $ => /[oO][vV][eE][rR][lL][oO][aA][dD]/,
+		kReintroduce:       $ => /[rR][eE][iI][nN][tT][rR][oO][dD][uU][cC][eE]/,
 		kInherited:         $ => /[iI][nN][hH][eE][rR][iI][tT][eE][dD]/,
 		kInline:            $ => /[iI][nN][lL][iI][nN][eE]/,
 

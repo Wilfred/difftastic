@@ -778,7 +778,7 @@
           "named": true
         },
         {
-          "type": "procAttributes",
+          "type": "procAttribute",
           "named": true
         },
         {
@@ -941,6 +941,10 @@
           "named": true
         },
         {
+          "type": "defaultValue",
+          "named": true
+        },
+        {
           "type": "genericProc",
           "named": true
         },
@@ -969,7 +973,7 @@
           "named": true
         },
         {
-          "type": "procAttributes",
+          "type": "procAttribute",
           "named": true
         }
       ]
@@ -1238,6 +1242,10 @@
         {
           "type": "kType",
           "named": true
+        },
+        {
+          "type": "procAttribute",
+          "named": true
         }
       ]
     }
@@ -1250,6 +1258,14 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "kClass",
+          "named": true
+        },
+        {
+          "type": "kInterface",
+          "named": true
+        },
         {
           "type": "kType",
           "named": true
@@ -2335,11 +2351,11 @@
     }
   },
   {
-    "type": "procAttributes",
+    "type": "procAttribute",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -2355,11 +2371,19 @@
           "named": true
         },
         {
+          "type": "kOverload",
+          "named": true
+        },
+        {
           "type": "kOverride",
           "named": true
         },
         {
           "type": "kPascal",
+          "named": true
+        },
+        {
+          "type": "kReintroduce",
           "named": true
         },
         {
@@ -3138,6 +3162,10 @@
     "named": true
   },
   {
+    "type": "kOverload",
+    "named": true
+  },
+  {
     "type": "kOverride",
     "named": true
   },
@@ -3183,6 +3211,10 @@
   },
   {
     "type": "kRecord",
+    "named": true
+  },
+  {
+    "type": "kReintroduce",
     "named": true
   },
   {
