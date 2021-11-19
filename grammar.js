@@ -11,6 +11,8 @@ module.exports = grammar({
 	extras: $ => [$._space, $.comment],
 
 	word: $ => $.identifier,
+
+	//conflicts: $ => [ [ $._specializedName ]/*, [$.qualifiedName]*/ ],
 	
 	rules: {
 	  	root:               $ => choice(
@@ -22,7 +24,7 @@ module.exports = grammar({
 
 		program:            $ => seq(
 			$.kProgram, $.moduleName, ';',
-			optional($._definitions),
+			//optional($._definitions),
 			$.blockTr,
 			$.kEndDot
 		),
@@ -37,12 +39,12 @@ module.exports = grammar({
 			$.kEnd, $.kEndDot
 		),
 
-		uses:               $ => seq($.kUses, delimited($.moduleName), ';'),
+		declUses:           $ => seq($.kUses, delimited($.moduleName), ';'),
 
 		interface:          $ => seq($.kInterface, optional($._declarations)),
-		implementation:     $ => seq($.kImplementation, optional($._definitions)),
-		initialization:     $ => seq($.kInitialization, optional($._statementsTr)),
-		finalization:       $ => seq($.kFinalization, optional($._statementsTr)),
+		implementation:     $ => seq($.kImplementation/*, optional($._definitions)*/),
+		initialization:     $ => seq($.kInitialization/*, optional($._statementsTr)*/),
+		finalization:       $ => seq($.kFinalization/*, optional($._statementsTr)*/),
 	
 		comment:            $ => token(choice(
 			seq('//', /.*/),
@@ -61,7 +63,7 @@ module.exports = grammar({
 		...statements(false),
 		...statements(true),
 
-		assignment:         $ => seq($.expr, $.kAssign, $.expr),
+		assignment:         $ => seq($.expr, ':=', $.expr),
 
 		label:              $ => seq($.identifier, ':'),
 		goto:               $ => seq($.kGoto, alias($.identifier, $.label)),
@@ -76,103 +78,71 @@ module.exports = grammar({
 
 		// EXPRESSIONS ---------------------------------------------------------
 
-		// TODO: Should also support generics, e.g. Foo<XYZ>
-		call:               $ => seq(
-			optional($.kInherited),
-			$.identifier, optional(seq('(',optional($.callArgs),')'))
+		refDot:     $ => prec.left(5,seq($.ref, '.', $.ref)),
+		refTpl:     $ => prec.left(5,seq($.ref, '<', delimited1($.expr), '>')),
+		refIdx:     $ => prec.left(5,seq($.ref, '[', delimited1($.expr), ']')),
+		refCall:    $ => prec.left(5,seq($.ref, '(', delimited($.expr), ')')),
+		ref:        $ => choice(
+			$.identifier, $.refDot, $.refTpl, $.refIdx, $.refCall
 		),
 
-		callArgs:           $ => delimited1($.expr),
+		expr:       $ => choice(
+			$.ref, $.literal,
+			$.exprParens,
 
-		_exprDot:           $ => prec.left(5, seq($.expr, $.kDot,  $.expr)),
-		_exprIdx:           $ => prec.left(5, seq($.expr, '[', $.callArgs, ']')),
+			$.exprLt, $.exprEq, $.exprNeq, $.exprGt, 
 
-		_exprParens:        $ => seq('(', $.expr, ')'),
+			$.exprAdd, $.exprSub, $.exprOr, $.exprXor,
 
-		_exprEq:            $ => prec.left(1,seq($.expr, $.kEq,  $.expr)),
-		_exprNeq:           $ => prec.left(1,seq($.expr, $.kNeq, $.expr)),
-		_exprLt:            $ => prec.left(1,seq($.expr, $.kLt,  $.expr)),
-		_exprGt:            $ => prec.left(1,seq($.expr, $.kGt,  $.expr)),
-		_exprLte:           $ => prec.left(1,seq($.expr, $.kLte, $.expr)),
-		_exprGte:           $ => prec.left(1,seq($.expr, $.kGte, $.expr)),
-		_exprIn:            $ => prec.left(1,seq($.expr, $.kIn,  $.expr)),
-		_exprIs:            $ => prec.left(1,seq($.expr, $.kIs,  $.expr)),
+			$.exprMul, $.exprFdiv, $.exprDiv, $.exprMod,
+			$.exprAnd, $.exprShl, $.exprShr,
 
-		_exprAdd:           $ => prec.left(2,seq($.expr, $.kAdd, $.expr)),
-		_exprSub:           $ => prec.left(2,seq($.expr, $.kSub, $.expr)),
-		_exprOr:            $ => prec.left(2,seq($.expr, $.kOr,  $.expr)),
-		_exprXor:           $ => prec.left(2,seq($.expr, $.kXor, $.expr)),
-
-		_exprMul:           $ => prec.left(3,seq($.expr, $.kMul, $.expr)),
-		_exprFdiv:          $ => prec.left(3,seq($.expr, $.kFdiv,$.expr)),
-		_exprDiv:           $ => prec.left(3,seq($.expr, $.kDiv, $.expr)),
-		_exprMod:           $ => prec.left(3,seq($.expr, $.kMod, $.expr)),
-		_exprAnd:           $ => prec.left(3,seq($.expr, $.kAnd, $.expr)),
-		_exprShl:           $ => prec.left(3,seq($.expr, $.kShl, $.expr)),
-		_exprShr:           $ => prec.left(3,seq($.expr, $.kShr, $.expr)),
-
-		_exprNot:           $ => prec.left(4,seq($.kNot, $.expr)),
-		_exprPos:           $ => prec.left(4,seq($.kAdd, $.expr)),
-		_exprNeg:           $ => prec.left(4,seq($.kSub, $.expr)),
-		_exprAt:            $ => prec.left(4,seq($.kAt,  $.expr)),
-		_exprDeref:         $ => prec.left(4,seq($.expr, $.kDeref)),
-
-		expr:               $ => choice(
-			$.literal,
-			$.bracketed, // set or array
-			prec.left(4,$.call),
-			$._exprDot,  $._exprIdx,
-
-			$._exprParens, 
-
-			$._exprEq, $._exprNeq, $._exprLt, $._exprGt, $._exprLte,
-			$._exprGte, $._exprIn, $._exprIs,
-
-			$._exprAdd, $._exprSub, $._exprOr, $._exprXor,
-
-			$._exprMul, $._exprFdiv, $._exprDiv, $._exprMod, 
-			$._exprAnd, $._exprShl, $._exprShr,
-
-			$._exprNot, $._exprPos, $._exprNeg, $._exprAt, $._exprDeref
+			$.exprNot, $.exprPos, $.exprNeg, $.exprAt, $.exprDeref
 		),
 
-		range:              $ => seq(
-			$.expr, '..', $.expr
-		),
+		exprLt:     $ => prec.left(1,seq($.expr, '<', $.expr)),
+		exprEq:     $ => prec.left(1,seq($.expr, '=', $.expr)),
+		exprNeq:    $ => prec.left(1,seq($.expr, '<>', $.expr)),
+		exprGt:     $ => prec.left(1,seq($.expr, '>', $.expr)),
 
-		bracketed:       $ => seq(
-			'[', delimited(choice($.expr, $.range)), ']'
-		),
+		exprAdd:    $ => prec.left(2,seq($.expr, '+',    $.expr)),
+		exprSub:    $ => prec.left(2,seq($.expr, '-',    $.expr)),
+		exprOr:     $ => prec.left(2,seq($.expr, $.kOr,  $.expr)),
+		exprXor:    $ => prec.left(2,seq($.expr, $.kXor, $.expr)),
 
-		// E.g. Foo<Bar<A,B>, C>
-		_specializedName:   $ => seq(
-			$.identifier, 
-			optional($.specializedParams)
+		exprMul:    $ => prec.left(3,seq($.expr, '*',    $.expr)),
+		exprFdiv:   $ => prec.left(3,seq($.expr, '/',    $.expr)),
+		exprDiv:    $ => prec.left(3,seq($.expr, $.kDiv, $.expr)),
+		exprMod:    $ => prec.left(3,seq($.expr, $.kMod, $.expr)),
+		exprAnd:    $ => prec.left(3,seq($.expr, $.kAnd, $.expr)),
+		exprShl:    $ => prec.left(3,seq($.expr, $.kShl, $.expr)),
+		exprShr:    $ => prec.left(3,seq($.expr, $.kShr, $.expr)),
+
+		exprNot:    $ => prec.left(4,seq($.kNot, $.expr)),
+		exprPos:    $ => prec.left(4,seq('+',    $.expr)),
+		exprNeg:    $ => prec.left(4,seq('-',    $.expr)),
+		exprAt:     $ => prec.left(4,seq('@',    $.expr)),
+		exprDeref:  $ => prec.left(4,seq($.expr, '^')),
+
+		exprParens: $ => prec.left(5,seq('(', $.expr, ')')),
+
+		// TYPEs ---------------------------------------------------------------
+
+		_typerefDot: $ => prec.left(1,seq($.typeref, '.', $.typeref)),
+		_typerefTpl: $ => prec.left(1,seq($.typeref, '<', delimited($.typeref), '>')),
+		_typerefPtr: $ => prec.left(1,seq('^', $.typeref)),
+		typeref:     $ => choice(
+			$.identifier, $._typerefDot, $._typerefTpl, $._typerefPtr,
 		),
-		specializedParams:  $ => seq( $.kAngleOpen, delimited1($.specializedParam), $.kAngleClose),
-		specializedParam:   $ => $.expr,
 
 		// E.g. Foo<A: B, C: D<E>>
-		_genericName:       $ => seq($.identifier, optional($.genericParams)),
-		genericParams:      $ => seq($.kAngleOpen, delimited1($.genericParam, ';'), $.kAngleClose),
+		genericName:        $ => seq($.identifier, optional($.genericParams)),
+		genericParams:      $ => seq('<', delimited1($.genericParam, ';'), '>'),
 		genericParam:       $ => seq(
 			delimited1($.identifier), 
-			optional(seq(':', $.qualifiedType)), 
+			optional(seq(':', $.typeref)),
 			optional($.defaultValue)
 		),
-		// We can't determine whether an expression is a constant at this stage.
-		// We would need type checking for that.
-		// TODO: We should use $.expr after adding support for generics to
-		// $.expr. Right now we can't do this because it leads to a conflict.
-		// Have to fix that first.
-		//_constant:          $ => $.expr, /*choice($.literal, $._specializedName)*/
-
-		genericType:        $ => $._genericName,
-		qualifiedType:      $ => delimited1($._specializedName, $.kDot),
-
-		genericProc:        $ => $._genericName,
-
-		type:               $ => choice($.qualifiedType, $.defType),
 
 		// LITERALS -----------------------------------------------------------
 
@@ -191,99 +161,105 @@ module.exports = grammar({
 		),
 		_literalFloat:      $ => prec(10, /-?[0-9]*\.?[0-9]+(e[+-]?[0-9]+)?/),
 
+		range:              $ => seq(
+			$.expr, '..', $.expr
+		),
+
+		bracketed:       $ => seq(
+			'[', delimited(choice($.expr, $.range)), ']'
+		),
 
 		// DEFINITIONS --------------------------------------------------------
 
-		_definitions:       $ => repeat1($._definition),
-		_definition:        $ => choice(
-			$.declType, $.declVar, $.declConst, $.defProc, $.declProcFwd,
-			$.declLabel
-		),
+		//_definitions:       $ => repeat1($._definition),
+		//_definition:        $ => choice(
+		//	$.declType, $.declVar, $.declConst, $.defProc, $.declProcFwd,
+		//	$.declLabel
+		//),
 
-		defProc:            $ => seq(
-			choice($.declProc, $.declFunc),
-			$._body,
-			';'
-		),
+		//defProc:            $ => seq(
+		//	choice($.declProc, $.declFunc),
+		//	$._body,
+		//	';'
+		//),
 
-		declProcFwd:        $ => seq(
-			choice($.declProc, $.declFunc),
-			choice($.kForward, $.procExternal),
-			';'
-		),
+		//declProcFwd:        $ => seq(
+		//	choice($.declProc, $.declFunc),
+		//	choice($.kForward, $.procExternal),
+		//	';'
+		//),
 
-		locals:             $ => $._definitions,
+		//locals:             $ => $._definitions,
 
-		_body:              $ => seq(
-			optional($.locals),
-			$.blockTr
-		),
+		//_body:              $ => seq(
+		//	optional($.locals),
+		//	$.blockTr
+		//),
 
 		// DECLARATIONS -------------------------------------------------------
 
 		_declarations:      $ => repeat1(choice(
-			$.declType, $.declVar, $.declConst, $.declProc, $.declFunc, $.uses,
-			$.declLabel
+			$.declType, $.declVar, $.declConst, /*$.declProc, $.declFunc, $.declUses,
+			$.declLabel*/
 		)),
-		_classDeclarations:      $ => repeat1(choice(
-			$.declType, $.declVar, $.declConst, $.declProc, $.declFunc,
-			$.declProp
-		)),
+		//_classDeclarations:      $ => repeat1(choice(
+		//	$.declType, $.declVar, $.declConst, $.declProc, $.declFunc,
+		//	$.declProp
+		//)),
 
 		declType:           $ => seq($.kType, repeat1($._declType)),
 		_declType:          $ => seq(
-			$.genericType, $.kEq, choice( $.declTypedef, $.defType),
-			repeat(seq(';', $.procAttribute)),
+			$.genericName, '=', 
+			choice(
+				seq(optional($.kType), $.type),
+				choice($.type, $.kClass, $.kInterface),
+				//	$.declClass,
+				$.declHelper,
+			),
 			';'
 		),
-
-		defType:            $ => choice(
-			$.declClass,
+		type:               $ => choice(
+			$.typeref, 
 			$.declMetaClass,
-			$.declHelper,
 			$.declEnum,
 			$.declSet,
 			$.declArray,
 			$.declString,
-			$.declProcRef,
-			$.declFuncRef
+			//$.declProcRef,
+			//$.declFuncRef
 		),
 
-		declTypedef:        $ => seq(
-			optional($.kType), 
-			choice($.qualifiedType, $.kClass, $.kInterface)
-		),
 
 		declEnum:           $ => seq('(', delimited1($.declEnumValue), ')'),
 		declEnumValue:      $ => seq($.identifier, optional($.defaultValue)),
 
 		declSet:            $ => seq($.kSet, $.kOf, $.type),
 
-		declClass:          $ => seq(
-			optional($.kPacked),
-			choice($.kClass, $.kRecord, $.kObject, $.kInterface), 
-			optional(seq('(',delimited($.qualifiedType),')')), $._declClass
-		),
+		//declClass:          $ => seq(
+		//	optional($.kPacked),
+		//	choice($.kClass, $.kRecord, $.kObject, $.kInterface), 
+		//	optional(seq('(',delimited($.expr),')')), $._declClass
+		//),
 
-		declSection:        $ => seq(
-			optional($.kStrict),
-			choice($.kPublished, $.kPublic, $.kProtected, $.kPrivate),
-			optional($._declFields),
-			optional($._classDeclarations)
-		),
+		//declSection:        $ => seq(
+		//	optional($.kStrict),
+		//	choice($.kPublished, $.kPublic, $.kProtected, $.kPrivate),
+		//	optional($._declFields),
+		//	optional($._classDeclarations)
+		//),
 
-		_declFields:        $ => repeat1($.declField),
+		//_declFields:        $ => repeat1($.declField),
 
-		_declClass:         $ => seq(
-			optional($._declFields),
-			optional($._classDeclarations),
-			repeat($.declSection),
-			$.kEnd
-		),
+		//_declClass:         $ => seq(
+		//	optional($._declFields),
+		//	optional($._classDeclarations),
+		//	repeat($.declSection),
+		//	$.kEnd
+		//),
 		declArray:          $ => seq(
 			optional($.kPacked),
 			$.kArray, 
-			optional(seq('[', delimited(choice($.range, $.expr/*$.qualifiedType*/)), ']')),
+			optional(seq('[', delimited(choice($.range, $.expr)), ']')),
 			$.kOf, $.type
 		),
 		declString:          $ => seq(
@@ -291,64 +267,60 @@ module.exports = grammar({
 			optional(seq('[', choice($.expr), ']'))
 		),
 
-
-		declMetaClass:      $ => seq(
-			$.kClass, $.kOf, $.qualifiedType
-		),
+		declMetaClass:      $ => seq($.kClass, $.kOf, $.typeref),
 
 		declHelper:         $ => seq(
-			choice($.kClass, $.kRecord), $.kHelper, $.kFor, $.qualifiedType,
-			$._declClass
+			choice($.kClass, $.kRecord), $.kHelper, $.kFor, $.typeref
 		),
 
-		declProc:           $ => seq(
-			optional($.kClass),
-			choice($.kProcedure, $.kConstructor, $.kDestructor),
-			repeat(seq($.genericType, $.kDot)),
-			$.genericProc,
-			optional($.declArgs),
-			optional($.defaultValue),
-			repeat(seq(';', $.procAttribute)),
-			';',
-		),
+		//declProc:           $ => seq(
+		//	optional($.kClass),
+		//	choice($.kProcedure, $.kConstructor, $.kDestructor),
+		//	repeat(seq($.genericType, $.kDot)),
+		//	$.genericProc,
+		//	optional($.declArgs),
+		//	optional($.defaultValue),
+		//	repeat(seq(';', $.procAttribute)),
+		//	';',
+		//),
 
-		declFunc:           $ => seq(
-			optional($.kClass),
-			$.kFunction,
-			repeat(seq($.genericType, $.kDot)),
-			$.genericProc,
-			optional($.declArgs),
-			':',
-			$.type,
-			repeat(seq(';', $.procAttribute)),
-			';',
-		),
+		//declFunc:           $ => seq(
+		//	optional($.kClass),
+		//	$.kFunction,
+		//	repeat(seq($.genericType, $.kDot)),
+		//	$.genericProc,
+		//	optional($.declArgs),
+		//	':',
+		//	$.type,
+		//	repeat(seq(';', $.procAttribute)),
+		//	';',
+		//),
 
-		declProcRef:        $ => prec.right(1,seq(
-			$.kProcedure,
-			optional($.declArgs),
-			optional(seq($.kOf, $.kObject)),
-		)),
+		//declProcRef:        $ => prec.right(1,seq(
+		//	$.kProcedure,
+		//	optional($.declArgs),
+		//	optional(seq($.kOf, $.kObject)),
+		//)),
 
-		declFuncRef:        $ => prec.right(100, seq(
-			$.kFunction,
-			optional($.declArgs),
-			':',
-			$.type,
-			optional(seq($.kOf, $.kObject)),
-		)),
+		//declFuncRef:        $ => prec.right(100, seq(
+		//	$.kFunction,
+		//	optional($.declArgs),
+		//	':',
+		//	$.type,
+		//	optional(seq($.kOf, $.kObject)),
+		//)),
 
-		declArgs:           $ => seq('(', delimited($.declArg, ';'), ')'),
+		//declArgs:           $ => seq('(', delimited($.declArg, ';'), ')'),
 
-		procAttribute: $ => choice(
-			$.kStatic, $.kVirtual, $.kAbstract, $.kOverride,
-			$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
-			$.kCdecl, $.kPascal
-		),
+		//procAttribute: $ => choice(
+		//	$.kStatic, $.kVirtual, $.kAbstract, $.kOverride,
+		//	$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
+		//	$.kCdecl, $.kPascal
+		//),
 
-		procExternal: $ => seq($.kExternal, $.expr, $.kName, $.expr),
+		//procExternal: $ => seq($.kExternal, $.expr, $.kName, $.expr),
 
-		defaultValue:       $ => seq($.kEq, $._initializer),
+		defaultValue:       $ => seq('=', $._initializer),
 
 		_initializer:       $ => prec(2,seq(
 			choice($.expr, $._recInitializer, $._arrInitializer)
@@ -374,44 +346,44 @@ module.exports = grammar({
 			))
 		),
 
-		declField:          $ =>  seq(
-			delimited1($.identifier),
-			':', 
-			$.type,
-			optional($.defaultValue),
-			';'
-		),
+		//declField:          $ =>  seq(
+		//	delimited1($.identifier),
+		//	':', 
+		//	$.type,
+		//	optional($.defaultValue),
+		//	';'
+		//),
 
-		declProp:           $ => seq(
-			$.kProperty,
-			field('name', $.identifier),
-			optional($.declPropArgs),
-			':',
-			$.type,
-			optional(seq($.kIndex, $.expr)),
-			optional(seq($.kRead, $.identifier)),
-			optional(seq($.kWrite, $.identifier)),
-			optional(seq($.kDefault, $.expr)),
-			';',
-			optional(seq($.kDefault, ';'))
-		),
+		//declProp:           $ => seq(
+		//	$.kProperty,
+		//	field('name', $.identifier),
+		//	optional($.declPropArgs),
+		//	':',
+		//	$.type,
+		//	optional(seq($.kIndex, $.expr)),
+		//	optional(seq($.kRead, $.identifier)),
+		//	optional(seq($.kWrite, $.identifier)),
+		//	optional(seq($.kDefault, $.expr)),
+		//	';',
+		//	optional(seq($.kDefault, ';'))
+		//),
 
-		declPropArgs:       $ => seq('[', delimited($.declArg, ';'), ']'),
+		//declPropArgs:       $ => seq('[', delimited($.declArg, ';'), ']'),
 
-		declArg:            $ => choice(
-			seq(
-				choice($.kVar, $.kConst, $.kOut),
-				delimited1($.identifier),
-				optional(seq(':', $.type, optional($.defaultValue)))
-			),
-			seq(
-				delimited1($.identifier), ':', $.type, optional($.defaultValue)
-			)
-		),
+		//declArg:            $ => choice(
+		//	seq(
+		//		choice($.kVar, $.kConst, $.kOut),
+		//		delimited1($.identifier),
+		//		optional(seq(':', $.type, optional($.defaultValue)))
+		//	),
+		//	seq(
+		//		delimited1($.identifier), ':', $.type, optional($.defaultValue)
+		//	)
+		//),
 
-		declLabel:          $ => seq( $.kLabel, delimited1($.identifier), ';'),
+		//declLabel:          $ => seq( $.kLabel, delimited1($.identifier), ';'),
 
-		// record initializer
+		//// record initializer
 		_recInitializer:    $ => seq(
 			'(',
 			delimited1(
@@ -464,11 +436,6 @@ module.exports = grammar({
 		kHelper:            $ => /[hH][eE][lL][pP][eE][rR]/,
 		kPacked:            $ => /[pP][aA][cC][kK][eE][dD]/,
 
-		kDot:               $ => '.',
-		kAdd:               $ => '+',
-		kSub:               $ => '-',
-		kMul:               $ => '*',
-		kFdiv:              $ => '/',
 		kOr:                $ => /[oO][rR]/,
 		kXor:               $ => /[xX][oO][rR]/,
 		kDiv:               $ => /[dD][iI][vV]/,
@@ -477,21 +444,9 @@ module.exports = grammar({
 		kShl:               $ => /[sS][hH][lL]/,
 		kShr:               $ => /[sS][hH][rR]/,
 		kNot:               $ => /[nN][oO][tT]/,
-		kAssign:            $ => ':=',
-		kEq:                $ => '=',
-		kLt:                $ => '<',
-		kLte:               $ => '<=',
-		kGt:                $ => '>',
-		kGte:               $ => '>=',
-		kNeq:               $ => '<>',
 		kIs:                $ => /[iI][sS]/,
 		kAs:                $ => /[aA][sS]/,
 		kIn:                $ => /[iI][nN]/,
-		kAt:                $ => '@',
-		kDeref:             $ => '^',
-
-		kAngleOpen:         $ => '<',
-		kAngleClose:        $ => '>',
 
 		kFor:               $ => /[fF][oO][rR]/,
 		kTo:                $ => /[tT][oO]/,
@@ -591,7 +546,7 @@ function statements(trailing) {
 		)],
 
 		[rn('exceptionHandler'), $ => seq(
-			$.kOn, optional(seq($.identifier, ':')), $.qualifiedType, $.kDo,
+			$.kOn, optional(seq($.identifier, ':')), $.expr, $.kDo,
 			...lastStatement($)
 		)],
 

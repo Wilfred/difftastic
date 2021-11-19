@@ -108,6 +108,8 @@
 ;(declProp   name: (identifier) @property)
 (declProp   name: (identifier) @function)
 
+(declEnumValue (identifier) @constant)
+
 ;(call ((identifier) @constant
 ; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
 ;(declEnumValue ((identifier) @constant

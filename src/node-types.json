@@ -10,10 +10,6 @@
         {
           "type": "expr",
           "named": true
-        },
-        {
-          "type": "kAssign",
-          "named": true
         }
       ]
     }
@@ -187,63 +183,6 @@
         },
         {
           "type": "while",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "bracketed",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "range",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "call",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "callArgs",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "kInherited",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "callArgs",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expr",
           "named": true
         }
       ]
@@ -526,56 +465,6 @@
     }
   },
   {
-    "type": "declArg",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "defaultValue",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "kConst",
-          "named": true
-        },
-        {
-          "type": "kOut",
-          "named": true
-        },
-        {
-          "type": "kVar",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declArgs",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "declArg",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "declArray",
     "named": true,
     "fields": {},
@@ -605,77 +494,6 @@
         },
         {
           "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declClass",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declConst",
-          "named": true
-        },
-        {
-          "type": "declField",
-          "named": true
-        },
-        {
-          "type": "declFunc",
-          "named": true
-        },
-        {
-          "type": "declProc",
-          "named": true
-        },
-        {
-          "type": "declProp",
-          "named": true
-        },
-        {
-          "type": "declSection",
-          "named": true
-        },
-        {
-          "type": "declType",
-          "named": true
-        },
-        {
-          "type": "declVar",
-          "named": true
-        },
-        {
-          "type": "kClass",
-          "named": true
-        },
-        {
-          "type": "kEnd",
-          "named": true
-        },
-        {
-          "type": "kInterface",
-          "named": true
-        },
-        {
-          "type": "kObject",
-          "named": true
-        },
-        {
-          "type": "kPacked",
-          "named": true
-        },
-        {
-          "type": "kRecord",
-          "named": true
-        },
-        {
-          "type": "qualifiedType",
           "named": true
         }
       ]
@@ -743,103 +561,6 @@
     }
   },
   {
-    "type": "declField",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "defaultValue",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declFunc",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declArgs",
-          "named": true
-        },
-        {
-          "type": "genericProc",
-          "named": true
-        },
-        {
-          "type": "genericType",
-          "named": true
-        },
-        {
-          "type": "kClass",
-          "named": true
-        },
-        {
-          "type": "kDot",
-          "named": true
-        },
-        {
-          "type": "kFunction",
-          "named": true
-        },
-        {
-          "type": "procAttribute",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declFuncRef",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declArgs",
-          "named": true
-        },
-        {
-          "type": "kFunction",
-          "named": true
-        },
-        {
-          "type": "kObject",
-          "named": true
-        },
-        {
-          "type": "kOf",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "declHelper",
     "named": true,
     "fields": {},
@@ -848,43 +569,7 @@
       "required": true,
       "types": [
         {
-          "type": "declConst",
-          "named": true
-        },
-        {
-          "type": "declField",
-          "named": true
-        },
-        {
-          "type": "declFunc",
-          "named": true
-        },
-        {
-          "type": "declProc",
-          "named": true
-        },
-        {
-          "type": "declProp",
-          "named": true
-        },
-        {
-          "type": "declSection",
-          "named": true
-        },
-        {
-          "type": "declType",
-          "named": true
-        },
-        {
-          "type": "declVar",
-          "named": true
-        },
-        {
           "type": "kClass",
-          "named": true
-        },
-        {
-          "type": "kEnd",
           "named": true
         },
         {
@@ -900,26 +585,7 @@
           "named": true
         },
         {
-          "type": "qualifiedType",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declLabel",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "kLabel",
+          "type": "typeref",
           "named": true
         }
       ]
@@ -942,244 +608,7 @@
           "named": true
         },
         {
-          "type": "qualifiedType",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declProc",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declArgs",
-          "named": true
-        },
-        {
-          "type": "defaultValue",
-          "named": true
-        },
-        {
-          "type": "genericProc",
-          "named": true
-        },
-        {
-          "type": "genericType",
-          "named": true
-        },
-        {
-          "type": "kClass",
-          "named": true
-        },
-        {
-          "type": "kConstructor",
-          "named": true
-        },
-        {
-          "type": "kDestructor",
-          "named": true
-        },
-        {
-          "type": "kDot",
-          "named": true
-        },
-        {
-          "type": "kProcedure",
-          "named": true
-        },
-        {
-          "type": "procAttribute",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declProcFwd",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declFunc",
-          "named": true
-        },
-        {
-          "type": "declProc",
-          "named": true
-        },
-        {
-          "type": "kForward",
-          "named": true
-        },
-        {
-          "type": "procExternal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declProcRef",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declArgs",
-          "named": true
-        },
-        {
-          "type": "kObject",
-          "named": true
-        },
-        {
-          "type": "kOf",
-          "named": true
-        },
-        {
-          "type": "kProcedure",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declProp",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declPropArgs",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "kDefault",
-          "named": true
-        },
-        {
-          "type": "kIndex",
-          "named": true
-        },
-        {
-          "type": "kProperty",
-          "named": true
-        },
-        {
-          "type": "kRead",
-          "named": true
-        },
-        {
-          "type": "kWrite",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declPropArgs",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "declArg",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declSection",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declConst",
-          "named": true
-        },
-        {
-          "type": "declField",
-          "named": true
-        },
-        {
-          "type": "declFunc",
-          "named": true
-        },
-        {
-          "type": "declProc",
-          "named": true
-        },
-        {
-          "type": "declProp",
-          "named": true
-        },
-        {
-          "type": "declType",
-          "named": true
-        },
-        {
-          "type": "declVar",
-          "named": true
-        },
-        {
-          "type": "kPrivate",
-          "named": true
-        },
-        {
-          "type": "kProtected",
-          "named": true
-        },
-        {
-          "type": "kPublic",
-          "named": true
-        },
-        {
-          "type": "kPublished",
-          "named": true
-        },
-        {
-          "type": "kStrict",
+          "type": "typeref",
           "named": true
         }
       ]
@@ -1236,40 +665,13 @@
       "required": true,
       "types": [
         {
-          "type": "declTypedef",
+          "type": "declHelper",
           "named": true
         },
         {
-          "type": "defType",
+          "type": "genericName",
           "named": true
         },
-        {
-          "type": "genericType",
-          "named": true
-        },
-        {
-          "type": "kEq",
-          "named": true
-        },
-        {
-          "type": "kType",
-          "named": true
-        },
-        {
-          "type": "procAttribute",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declTypedef",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
         {
           "type": "kClass",
           "named": true
@@ -1283,7 +685,7 @@
           "named": true
         },
         {
-          "type": "qualifiedType",
+          "type": "type",
           "named": true
         }
       ]
@@ -1317,80 +719,6 @@
     }
   },
   {
-    "type": "defProc",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "blockTr",
-          "named": true
-        },
-        {
-          "type": "declFunc",
-          "named": true
-        },
-        {
-          "type": "declProc",
-          "named": true
-        },
-        {
-          "type": "locals",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "defType",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "declArray",
-          "named": true
-        },
-        {
-          "type": "declClass",
-          "named": true
-        },
-        {
-          "type": "declEnum",
-          "named": true
-        },
-        {
-          "type": "declFuncRef",
-          "named": true
-        },
-        {
-          "type": "declHelper",
-          "named": true
-        },
-        {
-          "type": "declMetaClass",
-          "named": true
-        },
-        {
-          "type": "declProcRef",
-          "named": true
-        },
-        {
-          "type": "declSet",
-          "named": true
-        },
-        {
-          "type": "declString",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "defaultValue",
     "named": true,
     "fields": {},
@@ -1404,10 +732,6 @@
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "kEq",
           "named": true
         }
       ]
@@ -1561,10 +885,6 @@
           "named": true
         },
         {
-          "type": "qualifiedType",
-          "named": true
-        },
-        {
           "type": "raise",
           "named": true
         },
@@ -1652,10 +972,6 @@
           "named": true
         },
         {
-          "type": "qualifiedType",
-          "named": true
-        },
-        {
           "type": "raise",
           "named": true
         },
@@ -1679,119 +995,446 @@
     "named": true,
     "fields": {},
     "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "exprAdd",
+          "named": true
+        },
+        {
+          "type": "exprAnd",
+          "named": true
+        },
+        {
+          "type": "exprAt",
+          "named": true
+        },
+        {
+          "type": "exprDeref",
+          "named": true
+        },
+        {
+          "type": "exprDiv",
+          "named": true
+        },
+        {
+          "type": "exprEq",
+          "named": true
+        },
+        {
+          "type": "exprFdiv",
+          "named": true
+        },
+        {
+          "type": "exprGt",
+          "named": true
+        },
+        {
+          "type": "exprLt",
+          "named": true
+        },
+        {
+          "type": "exprMod",
+          "named": true
+        },
+        {
+          "type": "exprMul",
+          "named": true
+        },
+        {
+          "type": "exprNeg",
+          "named": true
+        },
+        {
+          "type": "exprNeq",
+          "named": true
+        },
+        {
+          "type": "exprNot",
+          "named": true
+        },
+        {
+          "type": "exprOr",
+          "named": true
+        },
+        {
+          "type": "exprParens",
+          "named": true
+        },
+        {
+          "type": "exprPos",
+          "named": true
+        },
+        {
+          "type": "exprShl",
+          "named": true
+        },
+        {
+          "type": "exprShr",
+          "named": true
+        },
+        {
+          "type": "exprSub",
+          "named": true
+        },
+        {
+          "type": "exprXor",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprAdd",
+    "named": true,
+    "fields": {},
+    "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "bracketed",
+          "type": "expr",
           "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "callArgs",
-          "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprAnd",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
           "type": "expr",
           "named": true
         },
         {
-          "type": "kAdd",
-          "named": true
-        },
-        {
           "type": "kAnd",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprAt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
-          "type": "kAt",
+          "type": "expr",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprDeref",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
-          "type": "kDeref",
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprDiv",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
           "named": true
         },
         {
           "type": "kDiv",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprEq",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "kDot",
+          "type": "expr",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprFdiv",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "kEq",
+          "type": "expr",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprGt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "kFdiv",
+          "type": "expr",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprLt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "kGt",
+          "type": "expr",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprMod",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "kGte",
-          "named": true
-        },
-        {
-          "type": "kIn",
-          "named": true
-        },
-        {
-          "type": "kIs",
-          "named": true
-        },
-        {
-          "type": "kLt",
-          "named": true
-        },
-        {
-          "type": "kLte",
+          "type": "expr",
           "named": true
         },
         {
           "type": "kMod",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprMul",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "kMul",
+          "type": "expr",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprNeg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
-          "type": "kNeq",
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprNeq",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprNot",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
           "named": true
         },
         {
           "type": "kNot",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprOr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
         },
         {
           "type": "kOr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprParens",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprPos",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprShl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
           "named": true
         },
         {
           "type": "kShl",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprShr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
         },
         {
           "type": "kShr",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprSub",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "kSub",
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprXor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
           "named": true
         },
         {
           "type": "kXor",
-          "named": true
-        },
-        {
-          "type": "literal",
           "named": true
         }
       ]
@@ -1802,79 +1445,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "goto",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifElse",
-          "named": true
-        },
-        {
-          "type": "kBreak",
-          "named": true
-        },
-        {
-          "type": "kContinue",
-          "named": true
-        },
-        {
-          "type": "kExit",
-          "named": true
-        },
-        {
           "type": "kFinalization",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "raise",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -2055,6 +1630,25 @@
     }
   },
   {
+    "type": "genericName",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "genericParams",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "genericParam",
     "named": true,
     "fields": {},
@@ -2071,7 +1665,7 @@
           "named": true
         },
         {
-          "type": "qualifiedType",
+          "type": "typeref",
           "named": true
         }
       ]
@@ -2087,52 +1681,6 @@
       "types": [
         {
           "type": "genericParam",
-          "named": true
-        },
-        {
-          "type": "kAngleClose",
-          "named": true
-        },
-        {
-          "type": "kAngleOpen",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "genericProc",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "genericParams",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "genericType",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "genericParams",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         }
       ]
@@ -2332,33 +1880,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "declConst",
-          "named": true
-        },
-        {
-          "type": "declLabel",
-          "named": true
-        },
-        {
-          "type": "declProcFwd",
-          "named": true
-        },
-        {
-          "type": "declType",
-          "named": true
-        },
-        {
-          "type": "declVar",
-          "named": true
-        },
-        {
-          "type": "defProc",
-          "named": true
-        },
         {
           "type": "kImplementation",
           "named": true
@@ -2371,79 +1895,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "goto",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifElse",
-          "named": true
-        },
-        {
-          "type": "kBreak",
-          "named": true
-        },
-        {
-          "type": "kContinue",
-          "named": true
-        },
-        {
-          "type": "kExit",
-          "named": true
-        },
-        {
           "type": "kInitialization",
-          "named": true
-        },
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "raise",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "while",
           "named": true
         }
       ]
@@ -2462,18 +1918,6 @@
           "named": true
         },
         {
-          "type": "declFunc",
-          "named": true
-        },
-        {
-          "type": "declLabel",
-          "named": true
-        },
-        {
-          "type": "declProc",
-          "named": true
-        },
-        {
           "type": "declType",
           "named": true
         },
@@ -2484,41 +1928,12 @@
         {
           "type": "kInterface",
           "named": true
-        },
-        {
-          "type": "uses",
-          "named": true
         }
       ]
     }
   },
   {
-    "type": "kAngleClose",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "kAngleOpen",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "kDot",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "kEndDot",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "kGt",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "kLt",
     "named": true,
     "fields": {}
   },
@@ -2594,41 +2009,6 @@
     }
   },
   {
-    "type": "locals",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "declConst",
-          "named": true
-        },
-        {
-          "type": "declLabel",
-          "named": true
-        },
-        {
-          "type": "declProcFwd",
-          "named": true
-        },
-        {
-          "type": "declType",
-          "named": true
-        },
-        {
-          "type": "declVar",
-          "named": true
-        },
-        {
-          "type": "defProc",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "moduleName",
     "named": true,
     "fields": {},
@@ -2638,80 +2018,6 @@
       "types": [
         {
           "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "procAttribute",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "kAbstract",
-          "named": true
-        },
-        {
-          "type": "kCdecl",
-          "named": true
-        },
-        {
-          "type": "kInline",
-          "named": true
-        },
-        {
-          "type": "kOverload",
-          "named": true
-        },
-        {
-          "type": "kOverride",
-          "named": true
-        },
-        {
-          "type": "kPascal",
-          "named": true
-        },
-        {
-          "type": "kReintroduce",
-          "named": true
-        },
-        {
-          "type": "kStatic",
-          "named": true
-        },
-        {
-          "type": "kStdcall",
-          "named": true
-        },
-        {
-          "type": "kVirtual",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "procExternal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "kExternal",
-          "named": true
-        },
-        {
-          "type": "kName",
           "named": true
         }
       ]
@@ -2730,30 +2036,6 @@
           "named": true
         },
         {
-          "type": "declConst",
-          "named": true
-        },
-        {
-          "type": "declLabel",
-          "named": true
-        },
-        {
-          "type": "declProcFwd",
-          "named": true
-        },
-        {
-          "type": "declType",
-          "named": true
-        },
-        {
-          "type": "declVar",
-          "named": true
-        },
-        {
-          "type": "defProc",
-          "named": true
-        },
-        {
           "type": "kEndDot",
           "named": true
         },
@@ -2763,29 +2045,6 @@
         },
         {
           "type": "moduleName",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "qualifiedType",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "kDot",
-          "named": true
-        },
-        {
-          "type": "specializedParams",
           "named": true
         }
       ]
@@ -2820,6 +2079,109 @@
       "types": [
         {
           "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ref",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "refCall",
+          "named": true
+        },
+        {
+          "type": "refDot",
+          "named": true
+        },
+        {
+          "type": "refIdx",
+          "named": true
+        },
+        {
+          "type": "refTpl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "refCall",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "refDot",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "refIdx",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "refTpl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "ref",
           "named": true
         }
       ]
@@ -2926,44 +2288,6 @@
         },
         {
           "type": "unit",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "specializedParam",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "expr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "specializedParams",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "kAngleClose",
-          "named": true
-        },
-        {
-          "type": "kAngleOpen",
-          "named": true
-        },
-        {
-          "type": "specializedParam",
           "named": true
         }
       ]
@@ -3085,11 +2409,46 @@
       "required": true,
       "types": [
         {
-          "type": "defType",
+          "type": "declArray",
           "named": true
         },
         {
-          "type": "qualifiedType",
+          "type": "declEnum",
+          "named": true
+        },
+        {
+          "type": "declMetaClass",
+          "named": true
+        },
+        {
+          "type": "declSet",
+          "named": true
+        },
+        {
+          "type": "declString",
+          "named": true
+        },
+        {
+          "type": "typeref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typeref",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "typeref",
           "named": true
         }
       ]
@@ -3129,25 +2488,6 @@
         },
         {
           "type": "kUnit",
-          "named": true
-        },
-        {
-          "type": "moduleName",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "uses",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "kUses",
           "named": true
         },
         {
@@ -3253,7 +2593,19 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
     "named": false
   },
   {
@@ -3265,7 +2617,15 @@
     "named": false
   },
   {
+    "type": "/",
+    "named": false
+  },
+  {
     "type": ":",
+    "named": false
+  },
+  {
+    "type": ":=",
     "named": false
   },
   {
@@ -3277,7 +2637,19 @@
     "named": false
   },
   {
+    "type": "<>",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": ">",
+    "named": false
+  },
+  {
+    "type": "@",
     "named": false
   },
   {
@@ -3289,6 +2661,10 @@
     "named": false
   },
   {
+    "type": "^",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
@@ -3297,27 +2673,11 @@
     "named": true
   },
   {
-    "type": "kAbstract",
-    "named": true
-  },
-  {
-    "type": "kAdd",
-    "named": true
-  },
-  {
     "type": "kAnd",
     "named": true
   },
   {
     "type": "kArray",
-    "named": true
-  },
-  {
-    "type": "kAssign",
-    "named": true
-  },
-  {
-    "type": "kAt",
     "named": true
   },
   {
@@ -3333,10 +2693,6 @@
     "named": true
   },
   {
-    "type": "kCdecl",
-    "named": true
-  },
-  {
     "type": "kClass",
     "named": true
   },
@@ -3345,23 +2701,7 @@
     "named": true
   },
   {
-    "type": "kConstructor",
-    "named": true
-  },
-  {
     "type": "kContinue",
-    "named": true
-  },
-  {
-    "type": "kDefault",
-    "named": true
-  },
-  {
-    "type": "kDeref",
-    "named": true
-  },
-  {
-    "type": "kDestructor",
     "named": true
   },
   {
@@ -3381,10 +2721,6 @@
     "named": true
   },
   {
-    "type": "kEq",
-    "named": true
-  },
-  {
     "type": "kExcept",
     "named": true
   },
@@ -3393,15 +2729,7 @@
     "named": true
   },
   {
-    "type": "kExternal",
-    "named": true
-  },
-  {
     "type": "kFalse",
-    "named": true
-  },
-  {
-    "type": "kFdiv",
     "named": true
   },
   {
@@ -3417,19 +2745,7 @@
     "named": true
   },
   {
-    "type": "kForward",
-    "named": true
-  },
-  {
-    "type": "kFunction",
-    "named": true
-  },
-  {
     "type": "kGoto",
-    "named": true
-  },
-  {
-    "type": "kGte",
     "named": true
   },
   {
@@ -3449,19 +2765,7 @@
     "named": true
   },
   {
-    "type": "kIndex",
-    "named": true
-  },
-  {
-    "type": "kInherited",
-    "named": true
-  },
-  {
     "type": "kInitialization",
-    "named": true
-  },
-  {
-    "type": "kInline",
     "named": true
   },
   {
@@ -3469,31 +2773,7 @@
     "named": true
   },
   {
-    "type": "kIs",
-    "named": true
-  },
-  {
-    "type": "kLabel",
-    "named": true
-  },
-  {
-    "type": "kLte",
-    "named": true
-  },
-  {
     "type": "kMod",
-    "named": true
-  },
-  {
-    "type": "kMul",
-    "named": true
-  },
-  {
-    "type": "kName",
-    "named": true
-  },
-  {
-    "type": "kNeq",
     "named": true
   },
   {
@@ -3502,10 +2782,6 @@
   },
   {
     "type": "kNot",
-    "named": true
-  },
-  {
-    "type": "kObject",
     "named": true
   },
   {
@@ -3521,31 +2797,7 @@
     "named": true
   },
   {
-    "type": "kOut",
-    "named": true
-  },
-  {
-    "type": "kOverload",
-    "named": true
-  },
-  {
-    "type": "kOverride",
-    "named": true
-  },
-  {
     "type": "kPacked",
-    "named": true
-  },
-  {
-    "type": "kPascal",
-    "named": true
-  },
-  {
-    "type": "kPrivate",
-    "named": true
-  },
-  {
-    "type": "kProcedure",
     "named": true
   },
   {
@@ -3553,35 +2805,11 @@
     "named": true
   },
   {
-    "type": "kProperty",
-    "named": true
-  },
-  {
-    "type": "kProtected",
-    "named": true
-  },
-  {
-    "type": "kPublic",
-    "named": true
-  },
-  {
-    "type": "kPublished",
-    "named": true
-  },
-  {
     "type": "kRaise",
     "named": true
   },
   {
-    "type": "kRead",
-    "named": true
-  },
-  {
     "type": "kRecord",
-    "named": true
-  },
-  {
-    "type": "kReintroduce",
     "named": true
   },
   {
@@ -3601,23 +2829,7 @@
     "named": true
   },
   {
-    "type": "kStatic",
-    "named": true
-  },
-  {
-    "type": "kStdcall",
-    "named": true
-  },
-  {
-    "type": "kStrict",
-    "named": true
-  },
-  {
     "type": "kString",
-    "named": true
-  },
-  {
-    "type": "kSub",
     "named": true
   },
   {
@@ -3657,15 +2869,7 @@
     "named": true
   },
   {
-    "type": "kVirtual",
-    "named": true
-  },
-  {
     "type": "kWhile",
-    "named": true
-  },
-  {
-    "type": "kWrite",
     "named": true
   },
   {
