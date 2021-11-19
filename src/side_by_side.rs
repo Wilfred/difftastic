@@ -66,11 +66,14 @@ fn display_width() -> usize {
 }
 
 /// Display `src` in a single column (e.g. a file removal or addition).
-fn display_single_column(src: &str, color: Color) -> String {
+fn display_single_column(display_path: &str, lang_name: &str, src: &str, color: Color) -> String {
     let column_width = format_line_num(src.lines().count().into()).len();
     let src = enforce_max_length(src, display_width());
 
     let mut result = String::with_capacity(src.len());
+    result.push_str(&style::header(display_path, 1, 1, lang_name));
+    result.push('\n');
+
     for (i, line) in src.lines().enumerate() {
         result.push_str(&format_line_num_padded(i.into(), column_width));
         // TODO: factor out the common styling from style::apply_colors.
@@ -183,10 +186,10 @@ pub fn display_hunks(
     rhs_mps: &[MatchedPos],
 ) -> String {
     if lhs_src == "" {
-        return display_single_column(rhs_src, Color::BrightGreen);
+        return display_single_column(display_path, lang_name, rhs_src, Color::BrightGreen);
     }
     if rhs_src == "" {
-        return display_single_column(lhs_src, Color::BrightRed);
+        return display_single_column(display_path, lang_name, lhs_src, Color::BrightRed);
     }
 
     let mut lhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = HashMap::new();
