@@ -107,7 +107,17 @@
   {
     "type": "code_span",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "line_break",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "document",
@@ -186,7 +196,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "backslash_escape",
@@ -309,6 +319,10 @@
           "named": true
         },
         {
+          "type": "soft_line_break",
+          "named": true
+        },
+        {
           "type": "text",
           "named": true
         }
@@ -341,6 +355,10 @@
         },
         {
           "type": "numeric_character_reference",
+          "named": true
+        },
+        {
+          "type": "soft_line_break",
           "named": true
         },
         {
@@ -443,7 +461,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "backslash_escape",
@@ -527,6 +545,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "soft_line_break",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "text",
@@ -627,10 +650,6 @@
   },
   {
     "type": "numeric_character_reference",
-    "named": true
-  },
-  {
-    "type": "soft_line_break",
     "named": true
   },
   {

@@ -62,10 +62,8 @@ module.exports = grammar({
     // TODO: Sort these tokens in some more sensible manner
     externals: $ => [
         // TOKENS FOR BLOCK STRUCTURE:
-        // Parses a newline (\n, \r or \r\n) and triggers the matching. TODO: Parse newline as
-        // normal rule and then trigger matching by "requesting" it manually
-        // Newline is not an extra, since it's very important for the syntax of markdown
-        $._newline,
+        // Indicates that we should start matching. Token never actually gets emitted.
+        $._line_ending,
         // Whitespace encountered during matching. TODO: we should be able to do parsing without
         // this which should be nicer.
         $._indentation,
@@ -79,7 +77,8 @@ module.exports = grammar({
         $.virtual_space,
         // Emited once the external scanner is done with block structure for this line. Needed as
         // tree-sitter expects the parser state to not change if we do not emit a token.
-        // TODO: I'm not 100% sure this get's emitted every line.
+        // TODO: I'm not 100% sure this get's emitted every line, but we should ensure it does at least
+        // get emitted if the outer most block can contain inline content.
         $._matching_done,
         // Every block that is not a paragraph and can have multiple lines will start with an opening token
         // like `$._block_quote_start` and close with `$._block_close`
@@ -148,10 +147,10 @@ module.exports = grammar({
         // can open / close emphasis.
         // Also I don't yet know about the weird "mod 3" stuff in rule 9
 
-        // We need to tell the parse if the last character was a whitespace (or equivalently the
-        // beginning of an inline context) or a punctuation.
-        $._last_character_whitespace,
-        $._last_character_punctuation,
+        // We need to tell the parse if the last character was a whitespace (or the
+        // beginning of a line) or a punctuation. These tokens never actually get emitted.
+        $._last_token_whitespace,
+        $._last_token_punctuation,
 
         // The external parser can then decide if any '*' or '_' can open / close emphasis
         // Open should always be valid, but the external scanner will emit a close if it
@@ -160,15 +159,6 @@ module.exports = grammar({
         $._emphasis_open_underscore,
         $._emphasis_close_start,
         $._emphasis_close_underscore,
-    ],
-    extras: $ => [
-        // Default is to ignore all whitespace. We can still be explicit about whitespace
-        // in the external parser
-        /[ \t]+/,
-        // Any token encountered during matching besides open and close tokens should be ignored
-        $._block_continuation,
-        $._indentation,
-        $._matching_done,
     ],
     // I'm not sure this declaration does anything. TODO: Ask someone if it does
     word: $ => $._word,
@@ -180,12 +170,13 @@ module.exports = grammar({
     conflicts: $ => [
         // This can probably solved in other ways
         [$.code_span, $.text],
+        [$._code_span_no_newline, $.text],
         // This also maybe, idk
         [$.hard_line_break, $.text]
     ],
 
     rules: {
-        document: $ => repeat($._block),
+        document: $ => seq(repeat(choice($._block_continuation, $._indentation)), optional($._matching_done), optional($._last_token_whitespace), repeat($._block)),
 
         _block: $ => choice(
             $.atx_heading,
@@ -201,17 +192,13 @@ module.exports = grammar({
         ),
 
         _blank_line: $ => seq($._blank_line_start, $._newline),
-        paragraph: $ => prec.right(seq($._inline, repeat(choice(
-            $._lazy_continuation,
-            $._inline,
-            alias($._newline, $.soft_line_break),
-        )))),
+        paragraph: $ => prec.right(seq($._inline_no_lazy_continuation, repeat($._inline))),
         indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, alias($._blank_line, $.line_break))))),
         _indented_chunk: $ => prec.right(seq($._indented_chunk_start, repeat(choice($.virtual_space, $.text, alias($._newline, $.line_break))), $._block_close)),
-        block_quote: $ => seq($._block_quote_start, repeat($._block), $._block_close),
+        block_quote: $ => seq($._block_quote_start, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
         atx_heading: $ => prec(1, seq(
             choice($.atx_h1_marker, $.atx_h2_marker, $.atx_h3_marker, $.atx_h4_marker, $.atx_h5_marker, $.atx_h6_marker),
-            optional(alias($._inline, $.heading_content)),
+            optional(alias($._inline_no_newline, $.heading_content)),
             $._newline
         )),
         setext_heading: $ => prec.dynamic(2, seq(
@@ -238,17 +225,17 @@ module.exports = grammar({
             repeat1(alias(choice($._list_item_parenthethis_tight, $._list_item_parenthethis_loose), $.list_item)),
         )),
 
-        _list_item_plus_tight: $ => seq($.list_marker_plus, repeat($._block), $._block_close),
-        _list_item_minus_tight: $ => seq($.list_marker_minus, repeat($._block), $._block_close),
-        _list_item_star_tight: $ => seq($.list_marker_star, repeat($._block), $._block_close),
-        _list_item_dot_tight: $ => seq($.list_marker_dot, repeat($._block), $._block_close),
-        _list_item_parenthethis_tight: $ => seq($.list_marker_parenthethis, repeat($._block), $._block_close),
+        _list_item_plus_tight: $ => seq($.list_marker_plus, optional($._indentation), ($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
+        _list_item_minus_tight: $ => seq($.list_marker_minus, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
+        _list_item_star_tight: $ => seq($.list_marker_star, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
+        _list_item_dot_tight: $ => seq($.list_marker_dot, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
+        _list_item_parenthethis_tight: $ => seq($.list_marker_parenthethis, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
 
-        _list_item_plus_loose: $ => seq($.list_marker_plus, repeat($._block), $._block_close_loose),
-        _list_item_minus_loose: $ => seq($.list_marker_minus, repeat($._block), $._block_close_loose),
-        _list_item_star_loose: $ => seq($.list_marker_star, repeat($._block), $._block_close_loose),
-        _list_item_dot_loose: $ => seq($.list_marker_dot, repeat($._block), $._block_close_loose),
-        _list_item_parenthethis_loose: $ => seq($.list_marker_parenthethis, repeat($._block), $._block_close_loose),
+        _list_item_plus_loose: $ => seq($.list_marker_plus, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close_loose),
+        _list_item_minus_loose: $ => seq($.list_marker_minus, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close_loose),
+        _list_item_star_loose: $ => seq($.list_marker_star, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close_loose),
+        _list_item_dot_loose: $ => seq($.list_marker_dot, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close_loose),
+        _list_item_parenthethis_loose: $ => seq($.list_marker_parenthethis, optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close_loose),
 
         fenced_code_block: $ => seq(
             $._fenced_code_block_start,
@@ -259,9 +246,24 @@ module.exports = grammar({
             $._newline
         ),
         code_fence_content: $ => repeat1(choice(alias($._newline, $.line_break), $.text)),
-        info_string: $ => seq(repeat1($._word), $._newline),
+        info_string: $ => seq(repeat1(choice($._word, $._punctuation, $._whitespace)), $._newline),
 
+        _inline_no_lazy_continuation: $ => choice(
+            alias($._newline, $.soft_line_break),
+            $.backslash_escape,
+            $.hard_line_break,
+            $.text,
+            $.entity_reference,
+            $.numeric_character_reference,
+            $.code_span,
+            // $.inline_link,
+            // $.reference_link,
+            // $.image,
+            // $.autolink,
+        ),
         _inline: $ => prec.right(repeat1(choice(
+            $._lazy_continuation,
+            alias($._newline, $.soft_line_break),
             $.backslash_escape,
             $.hard_line_break,
             $.text,
@@ -273,12 +275,24 @@ module.exports = grammar({
             // $.image,
             // $.autolink,
         ))),
+        _inline_no_newline: $ => prec.right(repeat1(choice(
+            $.backslash_escape,
+            $.text,
+            $.entity_reference,
+            $.numeric_character_reference,
+            alias($._code_span_no_newline, $.code_span),
+            // $.inline_link,
+            // $.reference_link,
+            // $.image,
+            // $.autolink,
+        ))),
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq('\\', $._newline, $._matching_done)),
-        text: $ => prec.right(repeat1(choice($._word, $._code_span_start, '\\'))),
+        text: $ => prec.right(repeat1(choice($._word, $._punctuation, $._whitespace, $._code_span_start, '\\'))),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
-        code_span: $ => prec.dynamic(1, seq($._code_span_start, repeat($._word), $._code_span_close)), // TODO
+        code_span: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($._word, alias($._newline, $.line_break), $._punctuation, $._whitespace)), $._code_span_close)), // TODO
+        _code_span_no_newline: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($._word, $._punctuation, $._whitespace)), $._code_span_close)),
 
         inline_link: $ => seq($.link_text, '(', optional(seq($.link_destination, optional(seq($._whitespace, $.link_title))))),
         reference_link: $ => prec.right(seq($.link_text, optional(alias($.link_text, $.link_label)))),
@@ -296,8 +310,15 @@ module.exports = grammar({
 
         autolink: $ => seq(/<[a-zA-Z][a-zA-Z0-9+\.\-]{1,31}:[^ \t\r\n<>]+>/),
 
-        _whitespace: $ => /[ \t]+/,
-        _word: $ => new RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r]+|[' + PUNCTUATION_CHARACTERS + ']'),
+        _whitespace: $ => seq(/[ \t]+/, optional($._last_token_whitespace)),
+        _word: $ => new RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r]+'),
+        _punctuation: $ => seq(new RegExp('[' + PUNCTUATION_CHARACTERS + ']'), optional($._last_token_punctuation)),
+        _newline: $ => prec.right(seq(
+            $._line_ending,
+            repeat(choice($._block_continuation, $._indentation)),
+            optional($._matching_done),
+            optional($._last_token_whitespace)
+        )),
     },
 });
 

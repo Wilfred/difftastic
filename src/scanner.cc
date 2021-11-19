@@ -9,7 +9,7 @@ using std::vector;
 using std::memcpy;
 
 enum TokenType {
-    NEWLINE,
+    LINE_ENDING,
     INDENTATION,
     VIRTUAL_SPACE,
     MATCHING_DONE, // needed because we can't modify state without emitting token
@@ -38,8 +38,8 @@ enum TokenType {
     BLANK_LINE,
     CODE_SPAN_START,
     CODE_SPAN_CLOSE,
-    LAST_CHARACTER_WHITESPACE,
-    LAST_CHARACTER_PUNCTUATION,
+    LAST_TOKEN_WHITESPACE,
+    LAST_TOKEN_PUNCTUATION,
     EMPHASIS_OPEN_STAR,
     EMPHASIS_OPEN_UNDERSCORE,
     EMPHASIS_CLOSE_STAR,
@@ -168,7 +168,7 @@ struct Scanner {
             }
             switch (lexer->lookahead) {
                 case '\r':
-                    if (valid_symbols[NEWLINE]) {
+                    if (valid_symbols[LINE_ENDING]) {
                         advance(lexer, true);
                         if (lexer->lookahead == '\n') {
                             advance(lexer, true);
@@ -177,17 +177,17 @@ struct Scanner {
                         matched = 0;
                         indentation = 0;
                         column = 0;
-                        lexer->result_symbol = NEWLINE;
+                        lexer->result_symbol = LINE_ENDING;
                         return true;
                     }
                     break;
                 case '\n':
-                    if (valid_symbols[NEWLINE]) {
+                    if (valid_symbols[LINE_ENDING]) {
                         advance(lexer, true);
                         matched = 0;
                         indentation = 0;
                         column = 0;
-                        lexer->result_symbol = NEWLINE;
+                        lexer->result_symbol = LINE_ENDING;
                         return true;
                     }
                     break;
