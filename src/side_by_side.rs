@@ -406,3 +406,22 @@ pub fn display_hunks(
 
     out_lines.join("\n")
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_width_calculations() {
+        let line_nums = [(Some(1.into()), Some(10.into()))];
+        let widths = Widths::new(
+            80,
+            &line_nums,
+            "foo\nbar\n",
+            "x\nx\nx\nx\nx\nx\nx\nx\nx\nx\nx\n",
+        );
+
+        assert_eq!(widths.lhs_line_nums, 2);
+        assert_eq!(widths.rhs_line_nums, 3);
+    }
+}
