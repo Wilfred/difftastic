@@ -199,8 +199,8 @@ module.exports = grammar({
 		// DECLARATIONS -------------------------------------------------------
 
 		_declarations:      $ => repeat1(choice(
-			$.declType, $.declVar, $.declConst, /*$.declProc, $.declFunc, $.declUses,
-			$.declLabel*/
+			$.declType, $.declVar, $.declConst, $.declProc, $.declFunc, $.declUses,
+			$.declLabel
 		)),
 		//_classDeclarations:      $ => repeat1(choice(
 		//	$.declType, $.declVar, $.declConst, $.declProc, $.declFunc,
@@ -216,8 +216,10 @@ module.exports = grammar({
 				//	$.declClass,
 				$.declHelper,
 			),
-			';'
+			';',
+			repeat(seq($.procAttribute, ';'))
 		),
+
 		type:               $ => choice(
 			$.typeref, 
 			$.declMetaClass,
@@ -225,8 +227,8 @@ module.exports = grammar({
 			$.declSet,
 			$.declArray,
 			$.declString,
-			//$.declProcRef,
-			//$.declFuncRef
+			$.declProcRef,
+			$.declFuncRef
 		),
 
 
@@ -273,52 +275,50 @@ module.exports = grammar({
 			choice($.kClass, $.kRecord), $.kHelper, $.kFor, $.typeref
 		),
 
-		//declProc:           $ => seq(
-		//	optional($.kClass),
-		//	choice($.kProcedure, $.kConstructor, $.kDestructor),
-		//	repeat(seq($.genericType, $.kDot)),
-		//	$.genericProc,
-		//	optional($.declArgs),
-		//	optional($.defaultValue),
-		//	repeat(seq(';', $.procAttribute)),
-		//	';',
-		//),
+		declProc:           $ => seq(
+			optional($.kClass),
+			choice($.kProcedure, $.kConstructor, $.kDestructor),
+			$.genericName,
+			optional($.declArgs),
+			optional($.defaultValue),
+			repeat(seq(';', $.procAttribute)),
+			';',
+		),
 
-		//declFunc:           $ => seq(
-		//	optional($.kClass),
-		//	$.kFunction,
-		//	repeat(seq($.genericType, $.kDot)),
-		//	$.genericProc,
-		//	optional($.declArgs),
-		//	':',
-		//	$.type,
-		//	repeat(seq(';', $.procAttribute)),
-		//	';',
-		//),
+		declFunc:           $ => seq(
+			optional($.kClass),
+			$.kFunction,
+			$.genericName,
+			optional($.declArgs),
+			':',
+			$.type,
+			repeat(seq(';', $.procAttribute)),
+			';',
+		),
 
-		//declProcRef:        $ => prec.right(1,seq(
-		//	$.kProcedure,
-		//	optional($.declArgs),
-		//	optional(seq($.kOf, $.kObject)),
-		//)),
+		declProcRef:        $ => prec.right(1,seq(
+			$.kProcedure,
+			optional($.declArgs),
+			optional(seq($.kOf, $.kObject))
+		)),
 
-		//declFuncRef:        $ => prec.right(100, seq(
-		//	$.kFunction,
-		//	optional($.declArgs),
-		//	':',
-		//	$.type,
-		//	optional(seq($.kOf, $.kObject)),
-		//)),
+		declFuncRef:        $ => prec.right(1, seq(
+			$.kFunction,
+			optional($.declArgs),
+			':',
+			$.type,
+			optional(seq($.kOf, $.kObject))
+		)),
 
-		//declArgs:           $ => seq('(', delimited($.declArg, ';'), ')'),
+		declArgs:           $ => seq('(', delimited($.declArg, ';'), ')'),
 
-		//procAttribute: $ => choice(
-		//	$.kStatic, $.kVirtual, $.kAbstract, $.kOverride,
-		//	$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
-		//	$.kCdecl, $.kPascal
-		//),
+		procAttribute: $ => choice(
+			$.kStatic, $.kVirtual, $.kAbstract, $.kOverride,
+			$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
+			$.kCdecl, $.kPascal
+		),
 
-		//procExternal: $ => seq($.kExternal, $.expr, $.kName, $.expr),
+		procExternal: $ => seq($.kExternal, $.expr, $.kName, $.expr),
 
 		defaultValue:       $ => seq('=', $._initializer),
 
@@ -333,7 +333,8 @@ module.exports = grammar({
 				':', 
 				$.type, 
 				optional($.defaultValue), 
-				';'
+				';',
+				repeat(seq($.procAttribute, ';'))
 			))
 		),
 		declConst:          $ => seq(
@@ -342,7 +343,8 @@ module.exports = grammar({
 				$.identifier, 
 				optional(seq(':', $.type)), 
 				$.defaultValue, 
-				';'
+				';',
+				repeat(seq($.procAttribute, ';'))
 			))
 		),
 
@@ -370,18 +372,18 @@ module.exports = grammar({
 
 		//declPropArgs:       $ => seq('[', delimited($.declArg, ';'), ']'),
 
-		//declArg:            $ => choice(
-		//	seq(
-		//		choice($.kVar, $.kConst, $.kOut),
-		//		delimited1($.identifier),
-		//		optional(seq(':', $.type, optional($.defaultValue)))
-		//	),
-		//	seq(
-		//		delimited1($.identifier), ':', $.type, optional($.defaultValue)
-		//	)
-		//),
+		declArg:            $ => choice(
+			seq(
+				choice($.kVar, $.kConst, $.kOut),
+				delimited1($.identifier),
+				optional(seq(':', $.type, optional($.defaultValue)))
+			),
+			seq(
+				delimited1($.identifier), ':', $.type, optional($.defaultValue)
+			)
+		),
 
-		//declLabel:          $ => seq( $.kLabel, delimited1($.identifier), ';'),
+		declLabel:          $ => seq( $.kLabel, delimited1($.identifier), ';'),
 
 		//// record initializer
 		_recInitializer:    $ => seq(
