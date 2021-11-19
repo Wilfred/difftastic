@@ -265,6 +265,45 @@ struct Scanner {
                         }
                     }
                     break;
+                case '_':
+                    if (num_emphasis_delimiters_left > 0) {
+                        if (emphasis_delimiters_is_open && valid_symbols[EMPHASIS_OPEN_UNDERSCORE]) {
+                            advance(lexer, true);
+                            lexer->result_symbol = EMPHASIS_OPEN_UNDERSCORE;
+                            num_emphasis_delimiters_left--;
+                            return true;
+                        } else if (valid_symbols[EMPHASIS_CLOSE_UNDERSCORE]) {
+                            advance(lexer, true);
+                            lexer->result_symbol = EMPHASIS_CLOSE_UNDERSCORE;
+                            num_emphasis_delimiters_left--;
+                            return true;
+                        }
+                    } else if (valid_symbols[EMPHASIS_OPEN_UNDERSCORE] || valid_symbols[EMPHASIS_CLOSE_UNDERSCORE]) {
+                        advance(lexer, true);
+                        lexer->mark_end(lexer);
+                        num_emphasis_delimiters = 1;
+                        while (lexer->lookahead == '_') {
+                            num_emphasis_delimiters++;
+                            advance(lexer, true);
+                        }
+                        num_emphasis_delimiters_left = num_emphasis_delimiters;
+                        bool right_flanking = !valid_symbols[LAST_TOKEN_WHITESPACE] &&
+                            (!valid_symbols[LAST_TOKEN_PUNCTUATION] || is_punctuation(lexer->lookahead) || is_whitespace(lexer->lookahead));
+                        bool left_flanking = !is_whitespace(lexer->lookahead) &&
+                            (!is_punctuation(lexer->lookahead) || valid_symbols[LAST_TOKEN_PUNCTUATION] || valid_symbols[LAST_TOKEN_WHITESPACE]);
+                        if (valid_symbols[EMPHASIS_CLOSE_UNDERSCORE] && right_flanking && (!left_flanking || is_punctuation(lexer->lookahead))) {
+                            emphasis_delimiters_is_open = 0;
+                            lexer->result_symbol = EMPHASIS_CLOSE_UNDERSCORE;
+                            num_emphasis_delimiters_left--;
+                            return true;
+                        } else if (left_flanking && (!right_flanking || valid_symbols[LAST_TOKEN_PUNCTUATION])) {
+                            emphasis_delimiters_is_open = 1;
+                            lexer->result_symbol = EMPHASIS_OPEN_UNDERSCORE;
+                            num_emphasis_delimiters_left--;
+                            return true;
+                        }
+                    }
+                    break;
             }
             return false;
         }
