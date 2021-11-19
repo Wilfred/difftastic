@@ -152,8 +152,7 @@ fn main() {
     reset_sigpipe();
     configure_color();
 
-    let mode = parse_args();
-    let (display_path, lhs_path, rhs_path) = match mode {
+    match parse_args() {
         Mode::DumpTreeSitter { path } => {
             let extension = Path::new(&path).extension();
             let extension = extension.unwrap_or_else(|| OsStr::new(""));
@@ -168,7 +167,6 @@ fn main() {
                     println!("No tree-sitter parser for extension: {:?}", extension);
                 }
             }
-            return;
         }
         Mode::DumpSyntax { path } => {
             let extension = Path::new(&path).extension();
@@ -186,20 +184,19 @@ fn main() {
                     println!("No tree-sitter parser for extension: {:?}", extension);
                 }
             }
-            return;
         }
         Mode::Diff {
             display_path,
             lhs_path,
             rhs_path,
-        } => (display_path, lhs_path, rhs_path),
+        } => {
+            if Path::new(&lhs_path).is_dir() && Path::new(&rhs_path).is_dir() {
+                diff_directories(&lhs_path, &rhs_path);
+            } else {
+                diff_file(&display_path, &lhs_path, &rhs_path);
+            }
+        }
     };
-
-    if Path::new(&lhs_path).is_dir() && Path::new(&rhs_path).is_dir() {
-        diff_directories(&lhs_path, &rhs_path);
-    } else {
-        diff_file(&display_path, &lhs_path, &rhs_path);
-    }
 }
 
 // TODO: prefer PathBuf to &str for paths.
