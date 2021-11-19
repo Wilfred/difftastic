@@ -404,7 +404,7 @@ struct Scanner {
                         level++;
                     }
                     if (matching) {
-                        if (level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
+                        if (indentation < 4 && level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
                             open_blocks.pop_back();
                             lexer->result_symbol = BLOCK_CLOSE;
                             matched++;
@@ -436,7 +436,7 @@ struct Scanner {
                         level++;
                     }
                     if (matching) {
-                        if (level >= code_span_delimiter_length) {
+                        if (indentation < 4 && level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
                             open_blocks.pop_back();
                             lexer->result_symbol = BLOCK_CLOSE;
                             matched++;

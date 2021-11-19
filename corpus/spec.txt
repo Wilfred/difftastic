@@ -1759,7 +1759,6 @@ Example 99 - https://github.github.com/gfm/#example-99
   (fenced_code_block
     (code_fence_content
       (line_break)
-      (text)
       (line_break))))
 
 ================================================================================

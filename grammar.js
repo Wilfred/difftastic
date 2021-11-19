@@ -177,7 +177,7 @@ module.exports = grammar({
     ],
 
     rules: {
-        document: $ => seq(repeat(choice($._block_continuation, $._indentation)), optional($._matching_done), optional($._last_token_whitespace), repeat($._block)),
+        document: $ => seq(optional($._ignore_matching_tokens), repeat($._block)),
 
         _block: $ => choice(
             $.atx_heading,
@@ -195,8 +195,8 @@ module.exports = grammar({
         _blank_line: $ => seq($._blank_line_start, $._newline),
         paragraph: $ => prec.right(seq($._inline_no_lazy_continuation, repeat($._inline))),
         indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, alias($._blank_line, $.line_break))))),
-        _indented_chunk: $ => prec.right(seq($._indented_chunk_start, repeat(choice($.virtual_space, $.text, alias($._newline, $.line_break))), $._block_close)),
-        block_quote: $ => seq($._block_quote_start, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
+        _indented_chunk: $ => prec.right(seq($._indented_chunk_start, repeat(choice($.virtual_space, $.text, alias($._newline, $.line_break))), $._block_close, optional($._ignore_matching_tokens))),
+        block_quote: $ => seq($._block_quote_start, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
         atx_heading: $ => prec(1, seq(
             choice($.atx_h1_marker, $.atx_h2_marker, $.atx_h3_marker, $.atx_h4_marker, $.atx_h5_marker, $.atx_h6_marker),
             optional(alias($._inline_no_newline, $.heading_content)),
@@ -226,26 +226,26 @@ module.exports = grammar({
             repeat1(alias(choice($._list_item_parenthethis_tight, $._list_item_parenthethis_loose), $.list_item)),
         )),
 
-        _list_item_plus_tight: $ => seq($.list_marker_plus, optional($._indentation), ($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
-        _list_item_minus_tight: $ => seq($.list_marker_minus, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
-        _list_item_star_tight: $ => seq($.list_marker_star, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
-        _list_item_dot_tight: $ => seq($.list_marker_dot, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
-        _list_item_parenthethis_tight: $ => seq($.list_marker_parenthethis, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close),
+        _list_item_plus_tight: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_minus_tight: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_star_tight: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_dot_tight: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_parenthethis_tight: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
 
-        _list_item_plus_loose: $ => seq($.list_marker_plus, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close_loose),
-        _list_item_minus_loose: $ => seq($.list_marker_minus, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close_loose),
-        _list_item_star_loose: $ => seq($.list_marker_star, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close_loose),
-        _list_item_dot_loose: $ => seq($.list_marker_dot, optional($._indentation), optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close_loose),
-        _list_item_parenthethis_loose: $ => seq($.list_marker_parenthethis, optional($._matching_done), optional($._last_token_whitespace), repeat($._block), $._block_close_loose),
+        _list_item_plus_loose: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
+        _list_item_minus_loose: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
+        _list_item_star_loose: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
+        _list_item_dot_loose: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
+        _list_item_parenthethis_loose: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
 
-        fenced_code_block: $ => seq(
+        fenced_code_block: $ => prec.right(seq(
             $._fenced_code_block_start,
             optional($.info_string),
             $._newline,
             optional($.code_fence_content),
             $._block_close,
-            $._newline
-        ),
+            optional($._newline)
+        )),
         code_fence_content: $ => repeat1(choice(alias($._newline, $.line_break), $.text)),
         info_string: $ => seq(repeat1(choice($._word, $._punctuation, $._whitespace)), $._newline),
 
@@ -298,8 +298,8 @@ module.exports = grammar({
         text: $ => prec.right(repeat1(choice($._word, $._punctuation, $._whitespace, $._code_span_start, '\\'))),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
-        code_span: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($._word, alias($._newline, $.line_break), $._punctuation, $._whitespace)), $._code_span_close)), // TODO
-        _code_span_no_newline: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($._word, $._punctuation, $._whitespace)), $._code_span_close)),
+        code_span: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($.text, $._newline)), $._code_span_close)), // TODO
+        _code_span_no_newline: $ => prec.dynamic(1, seq($._code_span_start, repeat($.text), $._code_span_close)),
 
         _unclosed_emphasis_star: $ => seq($._emphasis_open_star, $._inline),
         _emphasis_star: $ => prec(1, seq($._unclosed_emphasis_star, $._emphasis_close_star)),
@@ -340,10 +340,9 @@ module.exports = grammar({
         _punctuation: $ => seq(new RegExp('[' + PUNCTUATION_CHARACTERS + ']'), optional($._last_token_punctuation)),
         _newline: $ => prec.right(seq(
             $._line_ending,
-            repeat(choice($._block_continuation, $._indentation)),
-            optional($._matching_done),
-            optional($._last_token_whitespace)
+            optional($._ignore_matching_tokens)
         )),
+        _ignore_matching_tokens: $ => repeat1(choice($._block_continuation, $._indentation, $._matching_done, $._last_token_whitespace)),
     },
 });
 
