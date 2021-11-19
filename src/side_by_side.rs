@@ -66,8 +66,7 @@ fn display_single_column(display_path: &str, lang_name: &str, src: &str, color: 
                 .color(color)
                 .to_string(),
         );
-        // TODO: factor out the common styling from style::apply_colors.
-        result.push_str(&line.color(color).bold().to_string());
+        result.push_str(line);
         result.push('\n');
     }
 
@@ -175,11 +174,19 @@ pub fn display_hunks(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> String {
+    let lhs_colored_src = apply_colors(lhs_src, true, lhs_mps);
+    let rhs_colored_src = apply_colors(rhs_src, false, rhs_mps);
+
     if lhs_src == "" {
-        return display_single_column(display_path, lang_name, rhs_src, Color::BrightGreen);
+        return display_single_column(
+            display_path,
+            lang_name,
+            &rhs_colored_src,
+            Color::BrightGreen,
+        );
     }
     if rhs_src == "" {
-        return display_single_column(display_path, lang_name, lhs_src, Color::BrightRed);
+        return display_single_column(display_path, lang_name, &lhs_colored_src, Color::BrightRed);
     }
 
     let mut lhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = HashMap::new();
@@ -193,9 +200,6 @@ pub fn display_hunks(
         let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
         styles.push((span, style));
     }
-
-    let lhs_colored_src = apply_colors(lhs_src, true, lhs_mps);
-    let rhs_colored_src = apply_colors(rhs_src, false, rhs_mps);
 
     let lhs_lines = split_lines_nonempty(lhs_src);
     let rhs_lines = split_lines_nonempty(rhs_src);
