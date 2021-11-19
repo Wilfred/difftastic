@@ -10,6 +10,12 @@ use std::{cmp::max, fmt};
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LineNumber(pub usize);
 
+impl LineNumber {
+    pub fn one_indexed(&self) -> usize {
+        self.0 + 1
+    }
+}
+
 impl fmt::Debug for LineNumber {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_fmt(format_args!("LineNumber: {}", self.0))
@@ -23,7 +29,7 @@ impl From<usize> for LineNumber {
 }
 
 pub fn format_line_num(line_num: LineNumber) -> String {
-    format!("{} ", line_num.0 + 1)
+    format!("{} ", line_num.one_indexed())
 }
 
 /// A position in a single line of a string.
