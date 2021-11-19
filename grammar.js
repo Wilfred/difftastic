@@ -24,7 +24,7 @@ module.exports = grammar({
 
 		program:            $ => seq(
 			$.kProgram, $.moduleName, ';',
-			//optional($._definitions),
+			optional($._definitions),
 			$.blockTr,
 			$.kEndDot
 		),
@@ -42,9 +42,9 @@ module.exports = grammar({
 		declUses:           $ => seq($.kUses, delimited($.moduleName), ';'),
 
 		interface:          $ => seq($.kInterface, optional($._declarations)),
-		implementation:     $ => seq($.kImplementation/*, optional($._definitions)*/),
-		initialization:     $ => seq($.kInitialization/*, optional($._statementsTr)*/),
-		finalization:       $ => seq($.kFinalization/*, optional($._statementsTr)*/),
+		implementation:     $ => seq($.kImplementation, optional($._definitions)),
+		initialization:     $ => seq($.kInitialization, optional($._statementsTr)),
+		finalization:       $ => seq($.kFinalization, optional($._statementsTr)),
 	
 		comment:            $ => token(choice(
 			seq('//', /.*/),
@@ -83,27 +83,34 @@ module.exports = grammar({
 		refIdx:     $ => prec.left(5,seq($.ref, '[', delimited1($.expr), ']')),
 		refCall:    $ => prec.left(5,seq($.ref, '(', delimited($.expr), ')')),
 		ref:        $ => choice(
-			$.identifier, $.refDot, $.refTpl, $.refIdx, $.refCall
+			seq(optional($.kInherited), $.identifier), 
+			$.refDot, $.refTpl, $.refIdx, $.refCall
 		),
 
 		expr:       $ => choice(
-			$.ref, $.literal,
+			$.ref, $.literal, $.bracketed,
 			$.exprParens,
 
-			$.exprLt, $.exprEq, $.exprNeq, $.exprGt, 
+			$.exprLt, $.exprLt1, $.exprEq, $.exprNeq, $.exprGt, $.exprLte, $.exprGte,
+			$.exprIn, $.exprIs,
 
 			$.exprAdd, $.exprSub, $.exprOr, $.exprXor,
 
 			$.exprMul, $.exprFdiv, $.exprDiv, $.exprMod,
-			$.exprAnd, $.exprShl, $.exprShr,
+			$.exprAnd, $.exprShl, $.exprShr, $.exprAs,
 
 			$.exprNot, $.exprPos, $.exprNeg, $.exprAt, $.exprDeref
 		),
 
-		exprLt:     $ => prec.left(1,seq($.expr, '<', $.expr)),
-		exprEq:     $ => prec.left(1,seq($.expr, '=', $.expr)),
+		exprLt:     $ => prec.left(1,seq($.expr, '<',  $.expr)),
+		exprLt1:    $ => prec.left(1,seq($.ref,  '<',  $.expr)),
+		exprEq:     $ => prec.left(1,seq($.expr, '=',  $.expr)),
 		exprNeq:    $ => prec.left(1,seq($.expr, '<>', $.expr)),
-		exprGt:     $ => prec.left(1,seq($.expr, '>', $.expr)),
+		exprGt:     $ => prec.left(1,seq($.expr, '>',  $.expr)),
+		exprLte:    $ => prec.left(1,seq($.expr, '<=', $.expr)),
+		exprGte:    $ => prec.left(1,seq($.expr, '>=', $.expr)),
+		exprIn:     $ => prec.left(1,seq($.expr, $.kIn, $.expr)),
+		exprIs:     $ => prec.left(1,seq($.expr, $.kIs, $.expr)),
 
 		exprAdd:    $ => prec.left(2,seq($.expr, '+',    $.expr)),
 		exprSub:    $ => prec.left(2,seq($.expr, '-',    $.expr)),
@@ -117,6 +124,7 @@ module.exports = grammar({
 		exprAnd:    $ => prec.left(3,seq($.expr, $.kAnd, $.expr)),
 		exprShl:    $ => prec.left(3,seq($.expr, $.kShl, $.expr)),
 		exprShr:    $ => prec.left(3,seq($.expr, $.kShr, $.expr)),
+		exprAs:     $ => prec.left(3,seq($.expr, $.kAs, $.expr)),
 
 		exprNot:    $ => prec.left(4,seq($.kNot, $.expr)),
 		exprPos:    $ => prec.left(4,seq('+',    $.expr)),
@@ -135,8 +143,8 @@ module.exports = grammar({
 			$.identifier, $._typerefDot, $._typerefTpl, $._typerefPtr,
 		),
 
-		// E.g. Foo<A: B, C: D<E>>
-		genericName:        $ => seq($.identifier, optional($.genericParams)),
+		// E.g. Foo<A: B, C: D<E>>.XYZ<T>
+		genericName:        $ => delimited1(seq($.identifier, optional($.genericParams)), '.'),
 		genericParams:      $ => seq('<', delimited1($.genericParam, ';'), '>'),
 		genericParam:       $ => seq(
 			delimited1($.identifier), 
@@ -171,30 +179,30 @@ module.exports = grammar({
 
 		// DEFINITIONS --------------------------------------------------------
 
-		//_definitions:       $ => repeat1($._definition),
-		//_definition:        $ => choice(
-		//	$.declType, $.declVar, $.declConst, $.defProc, $.declProcFwd,
-		//	$.declLabel
-		//),
+		_definitions:       $ => repeat1($._definition),
+		_definition:        $ => choice(
+			$.declType, $.declVar, $.declConst, $.defProc, $.declProcFwd,
+			$.declLabel
+		),
 
-		//defProc:            $ => seq(
-		//	choice($.declProc, $.declFunc),
-		//	$._body,
-		//	';'
-		//),
+		defProc:            $ => seq(
+			choice($.declProc, $.declFunc),
+			$._body,
+			';'
+		),
 
-		//declProcFwd:        $ => seq(
-		//	choice($.declProc, $.declFunc),
-		//	choice($.kForward, $.procExternal),
-		//	';'
-		//),
+		declProcFwd:        $ => seq(
+			choice($.declProc, $.declFunc),
+			choice($.kForward, $.procExternal),
+			';'
+		),
 
-		//locals:             $ => $._definitions,
+		locals:             $ => $._definitions,
 
-		//_body:              $ => seq(
-		//	optional($.locals),
-		//	$.blockTr
-		//),
+		_body:              $ => seq(
+			optional($.locals),
+			$.blockTr
+		),
 
 		// DECLARATIONS -------------------------------------------------------
 
