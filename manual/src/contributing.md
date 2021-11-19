@@ -41,6 +41,18 @@ For example, you can run difftastic on its own source code.
 $ GIT_EXTERNAL_DIFF=./target/release/difft git log -p --ext-diff -- src
 ```
 
+## Logging
+
+Difftastic uses the `pretty_env_logger` library to log some additional
+debug information.
+
+```
+$ RUST_LOG=debug cargo run sample_files/old.jsx sample_files/new.jsx
+```
+
+See the [`env_logger`
+documentation](https://docs.rs/env_logger/0.9.0/env_logger/) for full details.
+
 ## Profiling
 
 If you have a file that's particularly slow, you can use
