@@ -550,6 +550,77 @@
     }
   },
   {
+    "type": "declClass",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declConst",
+          "named": true
+        },
+        {
+          "type": "declField",
+          "named": true
+        },
+        {
+          "type": "declFunc",
+          "named": true
+        },
+        {
+          "type": "declProc",
+          "named": true
+        },
+        {
+          "type": "declProp",
+          "named": true
+        },
+        {
+          "type": "declSection",
+          "named": true
+        },
+        {
+          "type": "declType",
+          "named": true
+        },
+        {
+          "type": "declVar",
+          "named": true
+        },
+        {
+          "type": "kClass",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kInterface",
+          "named": true
+        },
+        {
+          "type": "kObject",
+          "named": true
+        },
+        {
+          "type": "kPacked",
+          "named": true
+        },
+        {
+          "type": "kRecord",
+          "named": true
+        },
+        {
+          "type": "typeref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "declConst",
     "named": true,
     "fields": {},
@@ -609,6 +680,29 @@
         },
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declField",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "defaultValue",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -824,6 +918,138 @@
     }
   },
   {
+    "type": "declProp",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declPropArgs",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "kDefault",
+          "named": true
+        },
+        {
+          "type": "kIndex",
+          "named": true
+        },
+        {
+          "type": "kProperty",
+          "named": true
+        },
+        {
+          "type": "kRead",
+          "named": true
+        },
+        {
+          "type": "kWrite",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declPropArgs",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "declArg",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declSection",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declConst",
+          "named": true
+        },
+        {
+          "type": "declField",
+          "named": true
+        },
+        {
+          "type": "declFunc",
+          "named": true
+        },
+        {
+          "type": "declProc",
+          "named": true
+        },
+        {
+          "type": "declProp",
+          "named": true
+        },
+        {
+          "type": "declType",
+          "named": true
+        },
+        {
+          "type": "declVar",
+          "named": true
+        },
+        {
+          "type": "kPrivate",
+          "named": true
+        },
+        {
+          "type": "kProtected",
+          "named": true
+        },
+        {
+          "type": "kPublic",
+          "named": true
+        },
+        {
+          "type": "kPublished",
+          "named": true
+        },
+        {
+          "type": "kStrict",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "declSet",
     "named": true,
     "fields": {},
@@ -873,6 +1099,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "declClass",
+          "named": true
+        },
         {
           "type": "declHelper",
           "named": true
@@ -3028,6 +3258,10 @@
     "named": true
   },
   {
+    "type": "kDefault",
+    "named": true
+  },
+  {
     "type": "kDestructor",
     "named": true
   },
@@ -3100,6 +3334,10 @@
     "named": true
   },
   {
+    "type": "kIndex",
+    "named": true
+  },
+  {
     "type": "kInitialization",
     "named": true
   },
@@ -3168,6 +3406,10 @@
     "named": true
   },
   {
+    "type": "kPrivate",
+    "named": true
+  },
+  {
     "type": "kProcedure",
     "named": true
   },
@@ -3176,7 +3418,27 @@
     "named": true
   },
   {
+    "type": "kProperty",
+    "named": true
+  },
+  {
+    "type": "kProtected",
+    "named": true
+  },
+  {
+    "type": "kPublic",
+    "named": true
+  },
+  {
+    "type": "kPublished",
+    "named": true
+  },
+  {
     "type": "kRaise",
+    "named": true
+  },
+  {
+    "type": "kRead",
     "named": true
   },
   {
@@ -3209,6 +3471,10 @@
   },
   {
     "type": "kStdcall",
+    "named": true
+  },
+  {
+    "type": "kStrict",
     "named": true
   },
   {
@@ -3257,6 +3523,10 @@
   },
   {
     "type": "kWhile",
+    "named": true
+  },
+  {
+    "type": "kWrite",
     "named": true
   },
   {

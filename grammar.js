@@ -202,10 +202,10 @@ module.exports = grammar({
 			$.declType, $.declVar, $.declConst, $.declProc, $.declFunc, $.declUses,
 			$.declLabel
 		)),
-		//_classDeclarations:      $ => repeat1(choice(
-		//	$.declType, $.declVar, $.declConst, $.declProc, $.declFunc,
-		//	$.declProp
-		//)),
+		_classDeclarations:      $ => repeat1(choice(
+			$.declType, $.declVar, $.declConst, $.declProc, $.declFunc,
+			$.declProp
+		)),
 
 		declType:           $ => seq($.kType, repeat1($._declType)),
 		_declType:          $ => seq(
@@ -213,7 +213,7 @@ module.exports = grammar({
 			choice(
 				seq(optional($.kType), $.type),
 				choice($.type, $.kClass, $.kInterface),
-				//	$.declClass,
+				$.declClass,
 				$.declHelper,
 			),
 			';',
@@ -237,27 +237,28 @@ module.exports = grammar({
 
 		declSet:            $ => seq($.kSet, $.kOf, $.type),
 
-		//declClass:          $ => seq(
-		//	optional($.kPacked),
-		//	choice($.kClass, $.kRecord, $.kObject, $.kInterface), 
-		//	optional(seq('(',delimited($.expr),')')), $._declClass
-		//),
+		declClass:          $ => seq(
+			optional($.kPacked),
+			choice($.kClass, $.kRecord, $.kObject, $.kInterface), 
+			optional(seq('(',delimited($.typeref),')')), $._declClass
+		),
 
-		//declSection:        $ => seq(
-		//	optional($.kStrict),
-		//	choice($.kPublished, $.kPublic, $.kProtected, $.kPrivate),
-		//	optional($._declFields),
-		//	optional($._classDeclarations)
-		//),
+		declSection:        $ => seq(
+			optional($.kStrict),
+			choice($.kPublished, $.kPublic, $.kProtected, $.kPrivate),
+			optional($._declFields),
+			optional($._classDeclarations)
+		),
 
-		//_declFields:        $ => repeat1($.declField),
+		_declFields:        $ => repeat1($.declField),
 
-		//_declClass:         $ => seq(
-		//	optional($._declFields),
-		//	optional($._classDeclarations),
-		//	repeat($.declSection),
-		//	$.kEnd
-		//),
+		_declClass:         $ => seq(
+			optional($._declFields),
+			optional($._classDeclarations),
+			repeat($.declSection),
+			$.kEnd
+		),
+
 		declArray:          $ => seq(
 			optional($.kPacked),
 			$.kArray, 
@@ -348,29 +349,29 @@ module.exports = grammar({
 			))
 		),
 
-		//declField:          $ =>  seq(
-		//	delimited1($.identifier),
-		//	':', 
-		//	$.type,
-		//	optional($.defaultValue),
-		//	';'
-		//),
+		declField:          $ =>  seq(
+			delimited1($.identifier),
+			':', 
+			$.type,
+			optional($.defaultValue),
+			';'
+		),
 
-		//declProp:           $ => seq(
-		//	$.kProperty,
-		//	field('name', $.identifier),
-		//	optional($.declPropArgs),
-		//	':',
-		//	$.type,
-		//	optional(seq($.kIndex, $.expr)),
-		//	optional(seq($.kRead, $.identifier)),
-		//	optional(seq($.kWrite, $.identifier)),
-		//	optional(seq($.kDefault, $.expr)),
-		//	';',
-		//	optional(seq($.kDefault, ';'))
-		//),
+		declProp:           $ => seq(
+			$.kProperty,
+			field('name', $.identifier),
+			optional($.declPropArgs),
+			':',
+			$.type,
+			optional(seq($.kIndex, $.expr)),
+			optional(seq($.kRead, $.identifier)),
+			optional(seq($.kWrite, $.identifier)),
+			optional(seq($.kDefault, $.expr)),
+			';',
+			optional(seq($.kDefault, ';'))
+		),
 
-		//declPropArgs:       $ => seq('[', delimited($.declArg, ';'), ']'),
+		declPropArgs:       $ => seq('[', delimited($.declArg, ';'), ']'),
 
 		declArg:            $ => choice(
 			seq(
