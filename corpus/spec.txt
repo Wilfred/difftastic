@@ -378,7 +378,8 @@ Example 26 - https://github.github.com/gfm/#example-26
 (document
   (paragraph
     (emphasis
-      (text))))
+      (text))
+      (soft_line_break)))
 
 ================================================================================
 Example 27 - https://github.github.com/gfm/#example-27
@@ -822,13 +823,15 @@ Foo *bar*
     (heading_content
       (text)
       (emphasis
-        (text)))
+        (text))
+      (soft_line_break))
     (setext_h1_underline))
   (setext_heading
     (heading_content
       (text)
       (emphasis
-        (text)))
+        (text))
+      (soft_line_break))
     (setext_h2_underline)))
 
 ================================================================================
@@ -847,7 +850,8 @@ baz*
       (emphasis
         (text)
         (soft_line_break)
-        (text)))
+        (text))
+      (soft_line_break))
     (setext_h1_underline)))
 
 ================================================================================
@@ -866,7 +870,8 @@ baz*
       (emphasis
         (text)
         (soft_line_break)
-        (text)))
+        (text))
+      (soft_line_break))
     (setext_h1_underline)))
 
 ================================================================================

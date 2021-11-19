@@ -1270,6 +1270,14 @@
         {
           "type": "SYMBOL",
           "name": "code_span"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_unclosed_emphasis"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "emphasis"
         }
       ]
     },
@@ -1317,6 +1325,14 @@
             {
               "type": "SYMBOL",
               "name": "code_span"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_unclosed_emphasis"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "emphasis"
             }
           ]
         }
@@ -1354,6 +1370,19 @@
               },
               "named": true,
               "value": "code_span"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_unclosed_emphasis_no_newline"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_emphasis_no_newline"
+              },
+              "named": true,
+              "value": "emphasis"
             }
           ]
         }
@@ -1503,6 +1532,66 @@
           {
             "type": "SYMBOL",
             "name": "_code_span_close"
+          }
+        ]
+      }
+    },
+    "_unclosed_emphasis": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_emphasis_open_star"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_inline"
+        }
+      ]
+    },
+    "emphasis": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_unclosed_emphasis"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_close_star"
+          }
+        ]
+      }
+    },
+    "_unclosed_emphasis_no_newline": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_emphasis_open_star"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_inline_no_newline"
+        }
+      ]
+    },
+    "_emphasis_no_newline": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_unclosed_emphasis_no_newline"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_close_star"
           }
         ]
       }
@@ -1956,7 +2045,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_emphasis_close_start"
+      "name": "_emphasis_close_star"
     },
     {
       "type": "SYMBOL",

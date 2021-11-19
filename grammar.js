@@ -62,7 +62,8 @@ module.exports = grammar({
     // TODO: Sort these tokens in some more sensible manner
     externals: $ => [
         // TOKENS FOR BLOCK STRUCTURE:
-        // Indicates that we should start matching. Token never actually gets emitted.
+        // Currently we parse this with the external scanner since there seems to be a bug in tree-sitter
+        // with parsing newlines. Also the external parser needs to know about newlines to start matching.
         $._line_ending,
         // Whitespace encountered during matching. TODO: we should be able to do parsing without
         // this which should be nicer.
@@ -157,7 +158,7 @@ module.exports = grammar({
         // can to be in line with the spec.
         $._emphasis_open_star,
         $._emphasis_open_underscore,
-        $._emphasis_close_start,
+        $._emphasis_close_star,
         $._emphasis_close_underscore,
     ],
     // I'm not sure this declaration does anything. TODO: Ask someone if it does
@@ -256,6 +257,8 @@ module.exports = grammar({
             $.entity_reference,
             $.numeric_character_reference,
             $.code_span,
+            $._unclosed_emphasis,
+            $.emphasis,
             // $.inline_link,
             // $.reference_link,
             // $.image,
@@ -270,6 +273,8 @@ module.exports = grammar({
             $.entity_reference,
             $.numeric_character_reference,
             $.code_span,
+            $._unclosed_emphasis,
+            $.emphasis,
             // $.inline_link,
             // $.reference_link,
             // $.image,
@@ -281,6 +286,8 @@ module.exports = grammar({
             $.entity_reference,
             $.numeric_character_reference,
             alias($._code_span_no_newline, $.code_span),
+            $._unclosed_emphasis_no_newline,
+            alias($._emphasis_no_newline, $.emphasis),
             // $.inline_link,
             // $.reference_link,
             // $.image,
@@ -293,6 +300,11 @@ module.exports = grammar({
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
         code_span: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($._word, alias($._newline, $.line_break), $._punctuation, $._whitespace)), $._code_span_close)), // TODO
         _code_span_no_newline: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($._word, $._punctuation, $._whitespace)), $._code_span_close)),
+
+        _unclosed_emphasis: $ => seq($._emphasis_open_star, $._inline),
+        emphasis: $ => prec(1, seq($._unclosed_emphasis, $._emphasis_close_star)),
+        _unclosed_emphasis_no_newline: $ => seq($._emphasis_open_star, $._inline_no_newline),
+        _emphasis_no_newline: $ => prec(1, seq($._unclosed_emphasis_no_newline, $._emphasis_close_star)),
 
         inline_link: $ => seq($.link_text, '(', optional(seq($.link_destination, optional(seq($._whitespace, $.link_title))))),
         reference_link: $ => prec.right(seq($.link_text, optional(alias($.link_text, $.link_label)))),

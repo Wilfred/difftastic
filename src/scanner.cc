@@ -12,7 +12,7 @@ enum TokenType {
     LINE_ENDING,
     INDENTATION,
     VIRTUAL_SPACE,
-    MATCHING_DONE, // needed because we can't modify state without emitting token
+    MATCHING_DONE,
     BLOCK_CLOSE,
     BLOCK_CLOSE_LOOSE,
     BLOCK_CONTINUATION,
@@ -90,6 +90,14 @@ uint8_t list_item_indentation(Block block) {
     }
 }
 
+bool is_punctuation(char c) {
+    return (c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c >= '[' && c <= '`') || (c >= '{' && c <= '~'); // TODO: unicode support
+}
+
+bool is_whitespace(char c) {
+    return c == ' ' || c == '\t' || c == '\n' || c == '\r'; // TODO: unicode support
+}
+
 struct Scanner {
 
     vector<Block> open_blocks;
@@ -97,6 +105,9 @@ struct Scanner {
     uint8_t indentation; // TODO size_t
     uint8_t column;
     uint8_t code_span_delimiter_length; // TODO size_t
+    uint8_t num_emphasis_delimiters;
+    uint8_t num_emphasis_delimiters_left;
+    uint8_t emphasis_delimiters_is_open;
 
     Scanner() {
         assert(sizeof(Block) == sizeof(char));
@@ -110,6 +121,9 @@ struct Scanner {
         buffer[i++] = indentation;
         buffer[i++] = column;
         buffer[i++] = code_span_delimiter_length;
+        buffer[i++] = num_emphasis_delimiters;
+        buffer[i++] = num_emphasis_delimiters_left;
+        buffer[i++] = emphasis_delimiters_is_open;
         size_t blocks_count = open_blocks.size();
         if (blocks_count > UINT8_MAX - i) blocks_count = UINT8_MAX - i;
         memcpy(&buffer[i], open_blocks.data(), blocks_count);
@@ -123,12 +137,18 @@ struct Scanner {
         indentation = 0;
         column = 0;
         code_span_delimiter_length = 0;
+        num_emphasis_delimiters = 0;
+        num_emphasis_delimiters_left = 0;
+        emphasis_delimiters_is_open = 0;
         if (length > 0) {
             size_t i = 0;
             matched = buffer[i++];
             indentation = buffer[i++];
             column = buffer[i++];
             code_span_delimiter_length = buffer[i++];
+            num_emphasis_delimiters = buffer[i++];
+            num_emphasis_delimiters_left = buffer[i++];
+            emphasis_delimiters_is_open = buffer[i++];
             size_t blocks_count = length - i;
             open_blocks.resize(blocks_count);
             memcpy(open_blocks.data(), &buffer[i], blocks_count);
@@ -207,6 +227,44 @@ struct Scanner {
                             return true;
                         }
                     }
+                    break;
+                case '*':
+                    if (num_emphasis_delimiters_left > 0) {
+                        if (emphasis_delimiters_is_open && valid_symbols[EMPHASIS_OPEN_STAR]) {
+                            advance(lexer, true);
+                            lexer->result_symbol = EMPHASIS_OPEN_STAR;
+                            num_emphasis_delimiters_left--;
+                            return true;
+                        } else if (valid_symbols[EMPHASIS_CLOSE_STAR]) {
+                            advance(lexer, true);
+                            lexer->result_symbol = EMPHASIS_CLOSE_STAR;
+                            num_emphasis_delimiters_left--;
+                            return true;
+                        }
+                    } else if (valid_symbols[EMPHASIS_OPEN_STAR] || valid_symbols[EMPHASIS_CLOSE_STAR]) {
+                        advance(lexer, true);
+                        lexer->mark_end(lexer);
+                        num_emphasis_delimiters = 1;
+                        while (lexer->lookahead == '*') {
+                            num_emphasis_delimiters++;
+                            advance(lexer, true);
+                        }
+                        num_emphasis_delimiters_left = num_emphasis_delimiters;
+                        if (valid_symbols[EMPHASIS_CLOSE_STAR] && !valid_symbols[LAST_TOKEN_WHITESPACE] &&
+                            (!valid_symbols[LAST_TOKEN_PUNCTUATION] || is_punctuation(lexer->lookahead) || is_whitespace(lexer->lookahead))) {
+                            emphasis_delimiters_is_open = 0;
+                            lexer->result_symbol = EMPHASIS_CLOSE_STAR;
+                            num_emphasis_delimiters_left--;
+                            return true;
+                        } else if (!is_whitespace(lexer->lookahead) &&
+                            (!is_punctuation(lexer->lookahead) || valid_symbols[LAST_TOKEN_PUNCTUATION] || valid_symbols[LAST_TOKEN_WHITESPACE])) {
+                            emphasis_delimiters_is_open = 1;
+                            lexer->result_symbol = EMPHASIS_OPEN_STAR;
+                            num_emphasis_delimiters_left--;
+                            return true;
+                        }
+                    }
+                    break;
             }
             return false;
         }
