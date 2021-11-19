@@ -1,6 +1,5 @@
 //! Side-by-side (two column) display of diffs.
 
-use atty::Stream;
 use colored::{Color, Colorize};
 use std::{
     cmp::max,
@@ -10,7 +9,7 @@ use std::{
 use crate::{
     context::opposite_positions,
     hunks::{aligned_lines_from_hunk, Hunk},
-    lines::{codepoint_len, enforce_max_length, format_line_num, LineNumber, MaxLine},
+    lines::{codepoint_len, format_line_num, LineNumber, MaxLine},
     positions::SingleLineSpan,
     style::{self, apply_colors, color_positions, split_and_apply, Style},
     syntax::{zip_pad_shorter, MatchedPos},
@@ -51,18 +50,6 @@ fn format_missing_line_num(prev_num: LineNumber, column_width: usize) -> String 
         ".".repeat(num_digits),
         width = column_width - 1
     )
-}
-
-fn display_width() -> usize {
-    if atty::is(Stream::Stdout) {
-        // If we're displaying directly to a user's terminal,
-        // honour the terminal width.
-        term_width().unwrap_or(80)
-    } else {
-        // Don't truncate the source when output is being
-        // piped elsewhere. E.g. the user is using `less`.
-        1000
-    }
 }
 
 /// Display `src` in a single column (e.g. a file removal or addition).
