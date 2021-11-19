@@ -68,7 +68,6 @@ fn display_width() -> usize {
 /// Display `src` in a single column (e.g. a file removal or addition).
 fn display_single_column(display_path: &str, lang_name: &str, src: &str, color: Color) -> String {
     let column_width = format_line_num(src.lines().count().into()).len();
-    let src = enforce_max_length(src, display_width());
 
     let mut result = String::with_capacity(src.len());
     result.push_str(&style::header(display_path, 1, 1, lang_name));
