@@ -75,7 +75,11 @@ fn display_single_column(display_path: &str, lang_name: &str, src: &str, color: 
     result.push('\n');
 
     for (i, line) in src.lines().enumerate() {
-        result.push_str(&format_line_num_padded(i.into(), column_width));
+        result.push_str(
+            &format_line_num_padded(i.into(), column_width)
+                .color(color)
+                .to_string(),
+        );
         // TODO: factor out the common styling from style::apply_colors.
         result.push_str(&line.color(color).bold().to_string());
         result.push('\n');
