@@ -126,11 +126,11 @@ module.exports = grammar({
         $.list_marker_parenthethis,
         $.list_marker_dot,
         // Marks the beginning of a fenced code block (https://github.github.com/gfm/#fenced-code-blocks)
-        // TODO: differentiate between code blocks delimited by backticks and tildas so
-        // we can impose the right restrictions on info strings. This could get a bit ugly since
-        // if the info string is not proper we need to tell the scanner that it should remove the
-        // fenced code block from its stack of open blocks
-        $._fenced_code_block_start,
+        // We need to differentiate between backtick and tilde code blocks since info strings for backtick
+        // code blocks are not allowed to contain backticks.
+        $._fenced_code_block_start_backtick,
+        // This token does not actually contain the backticks for reasons to do with lexer->mark_end
+        $._fenced_code_block_start_tilde,
         // Bad name. Just a whole blank line without the newline. TODO: rename this
         $._blank_line_start,
 
@@ -239,7 +239,10 @@ module.exports = grammar({
         _list_item_parenthethis_loose: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
 
         fenced_code_block: $ => prec.right(seq(
-            $._fenced_code_block_start,
+            choice(
+                seq($._fenced_code_block_start_backtick, /`+/),
+                $._fenced_code_block_start_tilde
+            ),
             optional($.info_string),
             $._newline,
             optional($.code_fence_content),
@@ -247,7 +250,7 @@ module.exports = grammar({
             optional($._newline)
         )),
         code_fence_content: $ => repeat1(choice(alias($._newline, $.line_break), $.text)),
-        info_string: $ => seq(repeat1(choice($._word, $._punctuation, $._whitespace)), $._newline),
+        info_string: $ => repeat1($.text),
 
         _inline_no_lazy_continuation: $ => choice(
             alias($._newline, $.soft_line_break),

@@ -34,7 +34,8 @@ enum TokenType {
     LIST_MARKER_STAR,
     LIST_MARKER_PARENTHETHIS,
     LIST_MARKER_DOT,
-    FENCED_CODE_BLOCK_START,
+    FENCED_CODE_BLOCK_START_BACKTICK,
+    FENCED_CODE_BLOCK_START_TILDE,
     BLANK_LINE,
     CODE_SPAN_START,
     CODE_SPAN_CLOSE,
@@ -231,23 +232,23 @@ struct Scanner {
                 case '*':
                     if (num_emphasis_delimiters_left > 0) {
                         if (emphasis_delimiters_is_open && valid_symbols[EMPHASIS_OPEN_STAR]) {
-                            advance(lexer, true);
+                            advance(lexer, false);
                             lexer->result_symbol = EMPHASIS_OPEN_STAR;
                             num_emphasis_delimiters_left--;
                             return true;
                         } else if (valid_symbols[EMPHASIS_CLOSE_STAR]) {
-                            advance(lexer, true);
+                            advance(lexer, false);
                             lexer->result_symbol = EMPHASIS_CLOSE_STAR;
                             num_emphasis_delimiters_left--;
                             return true;
                         }
                     } else if (valid_symbols[EMPHASIS_OPEN_STAR] || valid_symbols[EMPHASIS_CLOSE_STAR]) {
-                        advance(lexer, true);
+                        advance(lexer, false);
                         lexer->mark_end(lexer);
                         num_emphasis_delimiters = 1;
                         while (lexer->lookahead == '*') {
                             num_emphasis_delimiters++;
-                            advance(lexer, true);
+                            advance(lexer, false);
                         }
                         num_emphasis_delimiters_left = num_emphasis_delimiters;
                         if (valid_symbols[EMPHASIS_CLOSE_STAR] && !valid_symbols[LAST_TOKEN_WHITESPACE] &&
@@ -268,23 +269,23 @@ struct Scanner {
                 case '_':
                     if (num_emphasis_delimiters_left > 0) {
                         if (emphasis_delimiters_is_open && valid_symbols[EMPHASIS_OPEN_UNDERSCORE]) {
-                            advance(lexer, true);
+                            advance(lexer, false);
                             lexer->result_symbol = EMPHASIS_OPEN_UNDERSCORE;
                             num_emphasis_delimiters_left--;
                             return true;
                         } else if (valid_symbols[EMPHASIS_CLOSE_UNDERSCORE]) {
-                            advance(lexer, true);
+                            advance(lexer, false);
                             lexer->result_symbol = EMPHASIS_CLOSE_UNDERSCORE;
                             num_emphasis_delimiters_left--;
                             return true;
                         }
                     } else if (valid_symbols[EMPHASIS_OPEN_UNDERSCORE] || valid_symbols[EMPHASIS_CLOSE_UNDERSCORE]) {
-                        advance(lexer, true);
+                        advance(lexer, false);
                         lexer->mark_end(lexer);
                         num_emphasis_delimiters = 1;
                         while (lexer->lookahead == '_') {
                             num_emphasis_delimiters++;
-                            advance(lexer, true);
+                            advance(lexer, false);
                         }
                         num_emphasis_delimiters_left = num_emphasis_delimiters;
                         bool right_flanking = !valid_symbols[LAST_TOKEN_WHITESPACE] &&
@@ -396,7 +397,7 @@ struct Scanner {
                 }
                 break;
             case '~':
-                if ((!matching && valid_symbols[FENCED_CODE_BLOCK_START]) || (matching && valid_symbols[BLOCK_CLOSE] && open_blocks[matched] == FENCED_CODE_BLOCK_TILDE)) {
+                if ((!matching && valid_symbols[FENCED_CODE_BLOCK_START_TILDE]) || (matching && valid_symbols[BLOCK_CLOSE] && open_blocks[matched] == FENCED_CODE_BLOCK_TILDE)) {
                     if (!check_block) lexer->mark_end(lexer);
                     size_t level = 0;
                     while (lexer->lookahead == '~') {
@@ -415,7 +416,7 @@ struct Scanner {
                     } else {
                         if (level >= 3) {
                             if (!check_block) {
-                                lexer->result_symbol = FENCED_CODE_BLOCK_START;
+                                lexer->result_symbol = FENCED_CODE_BLOCK_START_TILDE;
                                 open_blocks.push_back(FENCED_CODE_BLOCK_TILDE);
                                 code_span_delimiter_length = level;
                                 matched += 2;
@@ -428,7 +429,7 @@ struct Scanner {
                 }
                 break;
             case '`':
-                if ((!matching && valid_symbols[FENCED_CODE_BLOCK_START]) || (matching && valid_symbols[BLOCK_CLOSE] && open_blocks[matched] == FENCED_CODE_BLOCK_BACKTICK)) {
+                if ((!matching && valid_symbols[FENCED_CODE_BLOCK_START_BACKTICK]) || (matching && valid_symbols[BLOCK_CLOSE] && open_blocks[matched] == FENCED_CODE_BLOCK_BACKTICK)) {
                     if (!check_block) lexer->mark_end(lexer);
                     size_t level = 0;
                     while (lexer->lookahead == '`') {
@@ -445,16 +446,25 @@ struct Scanner {
                             return true;
                         }
                     } else {
-                        if (level >= 3 && (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
+                        if (level >= 3) {
                             if (!check_block) {
-                                lexer->result_symbol = FENCED_CODE_BLOCK_START;
-                                open_blocks.push_back(FENCED_CODE_BLOCK_BACKTICK);
-                                code_span_delimiter_length = level;
-                                matched += 2;
-                                indentation = 0;
-                                lexer->mark_end(lexer);
+                                bool info_string_has_backtick = false;
+                                while (lexer->lookahead != '\n' && lexer->lookahead != '\r') {
+                                    if (lexer->lookahead == '`') {
+                                        info_string_has_backtick = true;
+                                        break;
+                                    }
+                                    advance(lexer, true);
+                                }
+                                if (!info_string_has_backtick) {
+                                    lexer->result_symbol = FENCED_CODE_BLOCK_START_BACKTICK;
+                                    open_blocks.push_back(FENCED_CODE_BLOCK_BACKTICK);
+                                    code_span_delimiter_length = level;
+                                    matched += 2;
+                                    indentation = 0;
+                                    return true;
+                                }
                             }
-                            return true;
                         }
                     }
                 }
