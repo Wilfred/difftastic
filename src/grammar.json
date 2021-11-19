@@ -1276,8 +1276,21 @@
           "name": "_unclosed_emphasis"
         },
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_emphasis"
+          },
+          "named": true,
+          "value": "emphasis"
+        },
+        {
           "type": "SYMBOL",
-          "name": "emphasis"
+          "name": "_unclosed_strong_emphasis"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "strong_emphasis"
         }
       ]
     },
@@ -1294,45 +1307,8 @@
               "name": "_lazy_continuation"
             },
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_newline"
-              },
-              "named": true,
-              "value": "soft_line_break"
-            },
-            {
               "type": "SYMBOL",
-              "name": "backslash_escape"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "hard_line_break"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "text"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "entity_reference"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "numeric_character_reference"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "code_span"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_unclosed_emphasis"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "emphasis"
+              "name": "_inline_no_lazy_continuation"
             }
           ]
         }
@@ -1383,6 +1359,19 @@
               },
               "named": true,
               "value": "emphasis"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_unclosed_strong_emphasis_no_newline"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_strong_emphasis_no_newline"
+              },
+              "named": true,
+              "value": "strong_emphasis"
             }
           ]
         }
@@ -1549,7 +1538,7 @@
         }
       ]
     },
-    "emphasis": {
+    "_emphasis": {
       "type": "PREC",
       "value": 1,
       "content": {
@@ -1558,6 +1547,40 @@
           {
             "type": "SYMBOL",
             "name": "_unclosed_emphasis"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_close_star"
+          }
+        ]
+      }
+    },
+    "_unclosed_strong_emphasis": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_open_star"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis"
+          }
+        ]
+      }
+    },
+    "strong_emphasis": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_unclosed_strong_emphasis"
           },
           {
             "type": "SYMBOL",
@@ -1588,6 +1611,40 @@
           {
             "type": "SYMBOL",
             "name": "_unclosed_emphasis_no_newline"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_close_star"
+          }
+        ]
+      }
+    },
+    "_unclosed_strong_emphasis_no_newline": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_open_star"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_no_newline"
+          }
+        ]
+      }
+    },
+    "_strong_emphasis_no_newline": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_unclosed_strong_emphasis_no_newline"
           },
           {
             "type": "SYMBOL",

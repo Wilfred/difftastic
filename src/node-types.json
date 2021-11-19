@@ -203,6 +203,10 @@
           "named": true
         },
         {
+          "type": "strong_emphasis",
+          "named": true
+        },
+        {
           "type": "text",
           "named": true
         }
@@ -267,6 +271,10 @@
         },
         {
           "type": "soft_line_break",
+          "named": true
+        },
+        {
+          "type": "strong_emphasis",
           "named": true
         },
         {
@@ -374,6 +382,10 @@
           "named": true
         },
         {
+          "type": "strong_emphasis",
+          "named": true
+        },
+        {
           "type": "text",
           "named": true
         }
@@ -414,6 +426,10 @@
         },
         {
           "type": "soft_line_break",
+          "named": true
+        },
+        {
+          "type": "strong_emphasis",
           "named": true
         },
         {
@@ -547,6 +563,10 @@
           "named": true
         },
         {
+          "type": "strong_emphasis",
+          "named": true
+        },
+        {
           "type": "text",
           "named": true
         }
@@ -609,6 +629,53 @@
     "type": "soft_line_break",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "strong_emphasis",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "backslash_escape",
+          "named": true
+        },
+        {
+          "type": "code_span",
+          "named": true
+        },
+        {
+          "type": "emphasis",
+          "named": true
+        },
+        {
+          "type": "entity_reference",
+          "named": true
+        },
+        {
+          "type": "hard_line_break",
+          "named": true
+        },
+        {
+          "type": "numeric_character_reference",
+          "named": true
+        },
+        {
+          "type": "soft_line_break",
+          "named": true
+        },
+        {
+          "type": "strong_emphasis",
+          "named": true
+        },
+        {
+          "type": "text",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "text",
