@@ -8,7 +8,7 @@ use std::{
 };
 
 use crate::{
-    context::{opposite_positions},
+    context::opposite_positions,
     hunks::{aligned_lines_from_hunk, Hunk},
     lines::{codepoint_len, enforce_max_length, format_line_num, LineNumber, MaxLine},
     positions::SingleLineSpan,
