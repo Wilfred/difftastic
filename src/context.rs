@@ -261,12 +261,12 @@ pub fn add_context(
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let (mut before_lines, mut after_lines) =
+    let (before_lines, after_lines) =
         calculate_context(lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
 
-    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
-    res.append(&mut before_lines);
-    res.extend(lines.iter());
-    res.append(&mut after_lines);
-    res
+    before_lines
+        .into_iter()
+        .chain(lines.iter().copied())
+        .chain(after_lines.into_iter())
+        .collect()
 }
