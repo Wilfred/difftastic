@@ -22,7 +22,7 @@ Progress:
   * [x] Backslash escapes
   * [x] Entity and numeric character references
   * [x] Code spans
-  * [ ] Emphasis and strong emphasis
+  * [x] Emphasis and strong emphasis
   * [ ] Strikethrough (extension)
   * [ ] Links
   * [ ] Images
