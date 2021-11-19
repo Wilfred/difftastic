@@ -37,11 +37,15 @@ fn split_lines_nonempty(s: &str) -> Vec<String> {
 }
 
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
-    format!("{:width$} ", line_num.0 + 1, width = column_width - 1)
+    format!(
+        "{:width$} ",
+        line_num.one_indexed(),
+        width = column_width - 1
+    )
 }
 
 fn format_missing_line_num(prev_num: LineNumber, column_width: usize) -> String {
-    let num_digits = format!("{}", prev_num.0).len();
+    let num_digits = format!("{}", prev_num.one_indexed()).len();
     format!(
         "{:>width$} ",
         ".".repeat(num_digits),
