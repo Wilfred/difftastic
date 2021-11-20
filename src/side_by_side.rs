@@ -24,7 +24,7 @@ fn term_width() -> Option<usize> {
 /// Split `s` by newlines, but guarantees that the output is nonempty.
 /// An empty string is considered as a single line of length zero.
 fn split_lines_nonempty(s: &str) -> Vec<String> {
-    if s == "" {
+    if s.is_empty() {
         return vec!["".into()];
     }
 
@@ -177,7 +177,7 @@ pub fn display_hunks(
     let lhs_colored_src = apply_colors(lhs_src, true, lhs_mps);
     let rhs_colored_src = apply_colors(rhs_src, false, rhs_mps);
 
-    if lhs_src == "" {
+    if lhs_src.is_empty() {
         return display_single_column(
             display_path,
             lang_name,
@@ -185,7 +185,7 @@ pub fn display_hunks(
             Color::BrightGreen,
         );
     }
-    if rhs_src == "" {
+    if rhs_src.is_empty() {
         return display_single_column(display_path, lang_name, &lhs_colored_src, Color::BrightRed);
     }
 
@@ -294,13 +294,13 @@ pub fn display_hunks(
                     .into_iter()
                     .enumerate()
                 {
-                    let lhs_line = lhs_line.unwrap_or(" ".repeat(widths.lhs_content));
-                    let rhs_line = rhs_line.unwrap_or("".into());
+                    let lhs_line = lhs_line.unwrap_or_else(|| " ".repeat(widths.lhs_content));
+                    let rhs_line = rhs_line.unwrap_or_else(|| "".into());
                     let lhs_num: String = if i == 0 {
                         display_lhs_line_num.clone()
                     } else {
                         let mut s = format_missing_line_num(
-                            lhs_line_num.unwrap_or(prev_lhs_line_num.unwrap_or(10.into())),
+                            lhs_line_num.unwrap_or_else(|| prev_lhs_line_num.unwrap_or(10.into())),
                             widths.lhs_line_nums,
                         );
                         if let Some(line_num) = lhs_line_num {
@@ -314,7 +314,7 @@ pub fn display_hunks(
                         display_rhs_line_num.clone()
                     } else {
                         let mut s = format_missing_line_num(
-                            rhs_line_num.unwrap_or(prev_rhs_line_num.unwrap_or(10.into())),
+                            rhs_line_num.unwrap_or_else(|| prev_rhs_line_num.unwrap_or(10.into())),
                             widths.rhs_line_nums,
                         );
                         if let Some(line_num) = rhs_line_num {
