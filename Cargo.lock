@@ -344,9 +344,9 @@ dependencies = [
 
 [[package]]
 name = "radix-heap"
-version = "0.4.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e78ee6b9c4989e8331a007608b0e770c99ac5abda4038076cefb6849f8c05ec4"
+checksum = "bde9110b6926b8aaf55623dd7a0e2545b83b9b01cd9f47d36275fc2bc69a0bda"
 
 [[package]]
 name = "rayon"
