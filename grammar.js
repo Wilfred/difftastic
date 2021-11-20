@@ -65,22 +65,8 @@ module.exports = grammar({
         // Currently we parse this with the external scanner since there seems to be a bug in tree-sitter
         // with parsing newlines. Also the external parser needs to know about newlines to start matching.
         $._line_ending,
-        // Whitespace encountered during matching. TODO: we should be able to do parsing without
-        // this which should be nicer.
-        $._indentation,
-        // Sometimes a indented code block can contain for example 3/4 of a tab. In this case the
-        // tab gets consumed by by the continuation of the parent block and we emit one "virtual_space"
-        // for every space that should be added to the indented code block.
-        // TODO: at the moment indentation just consumes all of the whitespace. Maybe remove indentation
-        // and use some other tactic for this. But tabs that are not at the beginning of a line in an
-        // indented code block might not behave like you would expect them to at all so maybe we should
-        // just give up here
-        $.virtual_space,
-        // Emited once the external scanner is done with block structure for this line. Needed as
-        // tree-sitter expects the parser state to not change if we do not emit a token.
-        // TODO: I'm not 100% sure this get's emitted every line, but we should ensure it does at least
-        // get emitted if the outer most block can contain inline content.
-        $._matching_done,
+        // Never actually gets emitted
+        $._lazy_continuation,
         // Every block that is not a paragraph and can have multiple lines will start with an opening token
         // like `$._block_quote_start` and close with `$._block_close`
         $._block_close,
@@ -161,16 +147,17 @@ module.exports = grammar({
     // I'm not sure this declaration does anything. TODO: Ask someone if it does
     word: $ => $._word,
     precedences: $ => [
+        [$._inline_no_lazy_continuation, $.paragraph],
         [$.tight_list, $.loose_list],
         [$.setext_heading, $._block],
         [$.indented_code_block, $._block]
     ],
     conflicts: $ => [
         // This can probably solved in other ways
-        [$.code_span, $.text],
-        [$._code_span_no_newline, $.text],
+        [$.code_span, $._text],
+        [$._code_span_no_newline, $._text],
         // This also maybe, idk
-        [$.hard_line_break, $.text]
+        [$.hard_line_break, $._text]
     ],
 
     rules: {
@@ -190,9 +177,9 @@ module.exports = grammar({
         ),
 
         _blank_line: $ => seq($._blank_line_start, $._newline),
-        paragraph: $ => prec.right(seq($._inline_no_lazy_continuation, repeat($._inline))),
+        paragraph: $ => seq($._inline_no_lazy_continuation, optional($._inline), $._newline),
         indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, alias($._blank_line, $.line_break))))),
-        _indented_chunk: $ => prec.right(seq($._indented_chunk_start, repeat(choice($.virtual_space, $.text, alias($._newline, $.line_break))), $._block_close, optional($._ignore_matching_tokens))),
+        _indented_chunk: $ => prec.right(seq($._indented_chunk_start, repeat(choice($._text, alias($._newline, $.line_break))), $._block_close, optional($._ignore_matching_tokens))),
         block_quote: $ => seq($._block_quote_start, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
         atx_heading: $ => prec(1, seq(
             choice($.atx_h1_marker, $.atx_h2_marker, $.atx_h3_marker, $.atx_h4_marker, $.atx_h5_marker, $.atx_h6_marker),
@@ -246,14 +233,14 @@ module.exports = grammar({
             $._block_close,
             optional($._newline)
         )),
-        code_fence_content: $ => repeat1(choice(alias($._newline, $.line_break), $.text)),
-        info_string: $ => repeat1($.text),
+        code_fence_content: $ => repeat1(choice(alias($._newline, $.line_break), $._text)),
+        info_string: $ => repeat1($._text),
 
         _inline_no_lazy_continuation: $ => choice(
             alias($._newline, $.soft_line_break),
             $.backslash_escape,
             $.hard_line_break,
-            $.text,
+            $._text,
             $.entity_reference,
             $.numeric_character_reference,
             $.code_span,
@@ -265,17 +252,14 @@ module.exports = grammar({
             alias($._emphasis_underscore, $.emphasis),
             $._unclosed_strong_emphasis_underscore,
             alias($._strong_emphasis_underscore, $.strong_emphasis),
-            // $.inline_link,
-            // $.reference_link,
-            // $.image,
-            // $.autolink,
         ),
-        _inline: $ => prec.right(repeat1(choice(
+        _inline: $ => repeat1(choice(
+            $._lazy_continuation,
             $._inline_no_lazy_continuation,
-        ))),
+        )),
         _inline_no_newline: $ => prec.right(repeat1(choice(
             $.backslash_escape,
-            $.text,
+            $._text,
             $.entity_reference,
             $.numeric_character_reference,
             alias($._code_span_no_newline, $.code_span),
@@ -287,20 +271,16 @@ module.exports = grammar({
             alias($._emphasis_underscore_no_newline, $.emphasis),
             $._unclosed_strong_emphasis_underscore_no_newline,
             alias($._strong_emphasis_underscore_no_newline, $.strong_emphasis),
-            // $.inline_link,
-            // $.reference_link,
-            // $.image,
-            // $.autolink,
         ))),
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
-        hard_line_break: $ => prec.dynamic(1, seq('\\', $._newline, $._matching_done)),
-        text: $ => prec.right(repeat1(choice($._word, $._punctuation, $._whitespace, $._code_span_start, '\\'))),
+        hard_line_break: $ => prec.dynamic(1, seq('\\', $._newline)),
+        _text: $ => prec.right(repeat1(choice($._word, $._punctuation, $._whitespace, $._code_span_start, '\\'))),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
-        code_span: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($.text, $._newline)), $._code_span_close)), // TODO
-        _code_span_no_newline: $ => prec.dynamic(1, seq($._code_span_start, repeat($.text), $._code_span_close)),
+        code_span: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($._text, $._newline)), $._code_span_close)), // TODO
+        _code_span_no_newline: $ => prec.dynamic(1, seq($._code_span_start, repeat($._text), $._code_span_close)),
 
-        _unclosed_emphasis_star: $ => seq($._emphasis_open_star, $._inline),
+        _unclosed_emphasis_star: $ => prec.right(seq($._emphasis_open_star, $._inline)),
         _emphasis_star: $ => prec(1, seq($._unclosed_emphasis_star, $._emphasis_close_star)),
         _unclosed_strong_emphasis_star: $ => prec(1, seq($._emphasis_open_star, $._emphasis_star)),
         _strong_emphasis_star: $ => prec(1, seq($._unclosed_strong_emphasis_star, $._emphasis_close_star)),
@@ -309,7 +289,7 @@ module.exports = grammar({
         _unclosed_strong_emphasis_star_no_newline: $ => prec(1, seq($._emphasis_open_star, $._emphasis_star_no_newline)),
         _strong_emphasis_star_no_newline: $ => prec(1, seq($._unclosed_strong_emphasis_star_no_newline, $._emphasis_close_star)),
 
-        _unclosed_emphasis_underscore: $ => seq($._emphasis_open_underscore, $._inline),
+        _unclosed_emphasis_underscore: $ => prec.right(seq($._emphasis_open_underscore, $._inline)),
         _emphasis_underscore: $ => prec(1, seq($._unclosed_emphasis_underscore, $._emphasis_close_underscore)),
         _unclosed_strong_emphasis_underscore: $ => prec(1, seq($._emphasis_open_underscore, $._emphasis_underscore)),
         _strong_emphasis_underscore: $ => prec(1, seq($._unclosed_strong_emphasis_underscore, $._emphasis_close_underscore)),
@@ -318,22 +298,6 @@ module.exports = grammar({
         _unclosed_strong_emphasis_underscore_no_newline: $ => prec(1, seq($._emphasis_open_underscore, $._emphasis_underscore_no_newline)),
         _strong_emphasis_underscore_no_newline: $ => prec(1, seq($._unclosed_strong_emphasis_underscore_no_newline, $._emphasis_close_underscore)),
 
-        inline_link: $ => seq($.link_text, '(', optional(seq($.link_destination, optional(seq($._whitespace, $.link_title))))),
-        reference_link: $ => prec.right(seq($.link_text, optional(alias($.link_text, $.link_label)))),
-        image: $ => seq('!', choice($.inline_link, $.reference_link)),
-        link_text: $ => seq('[', repeat($._inline), ']'),
-        link_destination: $ => choice(
-            /<[^\r\n<>]*>/,
-            /[^ \t\r\n]+/,
-        ),
-        link_title: $ => choice(
-            /"[^"]*"/,
-            /'[^']*'/,
-            /\([^\(\)]*\)/,
-        ),
-
-        autolink: $ => seq(/<[a-zA-Z][a-zA-Z0-9+\.\-]{1,31}:[^ \t\r\n<>]+>/),
-
         _whitespace: $ => seq(/[ \t]+/, optional($._last_token_whitespace)),
         _word: $ => new RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r]+'),
         _punctuation: $ => seq(new RegExp('[' + PUNCTUATION_CHARACTERS + ']'), optional($._last_token_punctuation)),
@@ -341,7 +305,7 @@ module.exports = grammar({
             $._line_ending,
             optional($._ignore_matching_tokens)
         )),
-        _ignore_matching_tokens: $ => repeat1(choice($._block_continuation, $._indentation, $._matching_done, $._last_token_whitespace)),
+        _ignore_matching_tokens: $ => repeat1(choice($._block_continuation, $._last_token_whitespace)),
     },
 });
 
