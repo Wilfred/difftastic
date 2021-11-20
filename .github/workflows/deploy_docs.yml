@@ -22,10 +22,8 @@ jobs:
         run: mdbook build
         working-directory: manual
 
-      - name: Deploy to Surge
-        uses: dswistowski/surge-sh-action@v1
+      - name: Deploy to GitHub pages🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.6
         with:
-          domain: 'difftastic.wilfred.me.uk'
-          project: 'manual/book'
-          login: wilfred
-          token: ${{ secrets.SURGE_TOKEN }}
+          branch: gh-pages
+          folder: manual/book
