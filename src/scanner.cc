@@ -765,7 +765,7 @@ struct Scanner {
                 }
                 open_blocks.pop_back();
                 if (matched == open_blocks.size()) {
-                    matching = 0;
+                    matching = 2;
                 }
                 return true;
             } else {

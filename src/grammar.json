@@ -96,7 +96,7 @@
           "members": [
             {
               "type": "PREC_DYNAMIC",
-              "value": 2,
+              "value": 1,
               "content": {
                 "type": "SYMBOL",
                 "name": "_soft_line_break"
@@ -299,7 +299,7 @@
     },
     "setext_heading": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1122,10 +1122,15 @@
       "members": [
         {
           "type": "PREC_DYNAMIC",
-          "value": 1,
+          "value": 2,
           "content": {
-            "type": "SYMBOL",
-            "name": "_lazy_newline"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_lazy_newline"
+            },
+            "named": true,
+            "value": "soft_line_break"
           }
         },
         {

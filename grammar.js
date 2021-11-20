@@ -179,7 +179,7 @@ module.exports = grammar({
         ),
 
         _blank_line: $ => seq($._blank_line_start, $._newline),
-        paragraph: $ => seq($._inline, choice(prec.dynamic(2, $._soft_line_break), $._lazy_newline)),
+        paragraph: $ => seq($._inline, choice(prec.dynamic(1, $._soft_line_break), $._lazy_newline)),
         indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, alias($._blank_line, $.line_break))))),
         _indented_chunk: $ => prec.right(seq($._indented_chunk_start, repeat(choice($._text, alias($._newline, $.line_break))), $._block_close, optional($._ignore_matching_tokens))),
         block_quote: $ => seq($._block_quote_start, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
@@ -188,7 +188,7 @@ module.exports = grammar({
             optional(alias($._inline_no_newline, $.heading_content)),
             $._newline
         )),
-        setext_heading: $ => prec.dynamic(2, seq(
+        setext_heading: $ => prec.dynamic(1, seq(
             alias($.paragraph, $.heading_content),
             choice($.setext_h1_underline, $.setext_h2_underline),
             $._newline
@@ -239,7 +239,7 @@ module.exports = grammar({
         info_string: $ => repeat1($._text),
 
         _inline_element: $ => choice(
-            prec.dynamic(1, $._lazy_newline),
+            prec.dynamic(2, alias($._lazy_newline, $.soft_line_break)),
             alias($._soft_line_break, $.soft_line_break),
             $.backslash_escape,
             $.hard_line_break,
