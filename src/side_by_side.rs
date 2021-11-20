@@ -348,6 +348,7 @@ pub fn display_hunks(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_width_calculations() {
