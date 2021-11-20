@@ -204,16 +204,12 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
         "rb" => Some(TreeSitterConfig {
             name: "Ruby",
             language: unsafe { tree_sitter_ruby() },
-            atom_nodes: (vec!["escape_sequence", "string_content"])
-                .into_iter()
-                .collect(),
+            atom_nodes: (vec!["string", "heredoc_body", "regex"]).into_iter().collect(),
             delimiter_tokens: (vec![
                 ("{", "}"),
                 ("(", ")"),
                 ("[", "]"),
                 ("|", "|"),
-                // TODO: why doesn't this work on Jekyll commit 369c34510782ac8?
-                // ("\"", "\""),
                 ("def", "end"),
                 ("begin", "end"),
                 ("class", "end"),
