@@ -634,3 +634,27 @@ print(thing.maybeGreeting!.definitely)
                 (simple_identifier)))
             (navigation_suffix
               (simple_identifier))))))))
+
+===
+Check expression
+===
+
+checkThat(dict is Dictionary<Foo, Bar>)
+
+---
+
+(source_file
+  (call_expression
+    (simple_identifier)
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (check_expression
+            (simple_identifier)
+            (user_type
+              (type_identifier)
+              (type_arguments
+                (user_type
+                  (type_identifier))
+                (user_type
+                  (type_identifier))))))))))

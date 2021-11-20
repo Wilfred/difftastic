@@ -486,7 +486,7 @@ module.exports = grammar({
       ),
 
     check_expression: ($) =>
-      prec.left(PREC.CHECK, seq($._expression, $._is_operator, $._expression)),
+      prec.left(PREC.CHECK, seq($._expression, $._is_operator, $._type)),
 
     comparison_expression: ($) =>
       prec.left(seq($._expression, $._comparison_operator, $._expression)),
