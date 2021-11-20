@@ -1,5 +1,9 @@
 ## 0.13 (unreleased)
 
+### Parsing
+
+Updated C parser to latest upstream version.
+
 No changes.
 
 ## 0.12

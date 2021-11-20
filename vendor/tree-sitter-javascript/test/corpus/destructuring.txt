@@ -2,7 +2,7 @@
 Object destructuring assignments
 ============================================
 
-({a, b} = object);
+({a, b: c.d, ...e[f]} = object);
 let {a, b, ...c} = object
 const {a, b: {c, d}} = object
 
@@ -12,7 +12,10 @@ const {a, b: {c, d}} = object
   (expression_statement (parenthesized_expression (assignment_expression
     (object_pattern
       (shorthand_property_identifier_pattern)
-      (shorthand_property_identifier_pattern))
+      (pair_pattern
+        (property_identifier)
+        (member_expression (identifier) (property_identifier)))
+      (rest_pattern (subscript_expression (identifier) (identifier))))
     (identifier))))
   (lexical_declaration (variable_declarator
     (object_pattern
@@ -49,7 +52,7 @@ function a ({b, c}, {d}) {}
 Array destructuring assignments
 ============================================
 
-[a, b] = array;
+[a, b.c, ...c[d]] = array;
 [a, b, ...c] = array;
 [,, c,, d,] = array;
 
@@ -59,7 +62,8 @@ Array destructuring assignments
   (expression_statement (assignment_expression
     (array_pattern
       (identifier)
-      (identifier))
+      (member_expression (identifier) (property_identifier))
+      (rest_pattern (subscript_expression (identifier) (identifier))))
     (identifier)))
   (expression_statement (assignment_expression
     (array_pattern
