@@ -55,6 +55,7 @@ Difftastic supports the following languages:
 * JSON
 * OCaml
 * Python
+* Ruby
 * Rust
 * TypeScript (and TSX)
 

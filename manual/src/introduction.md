@@ -1,7 +1,7 @@
 # Introduction
 
 Difftastic ([source on GitHub](https://github.com/wilfred/difftastic)) is a diff
-tool that understands syntax. It currently supports 18 languages:
+tool that understands syntax. It currently supports 19 languages:
 
 * C
 * C++
@@ -17,6 +17,7 @@ tool that understands syntax. It currently supports 18 languages:
 * JSON
 * OCaml
 * Python
+* Ruby
 * Rust
 * TypeScript (and TSX)
 

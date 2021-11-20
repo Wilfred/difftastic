@@ -1,0 +1,1 @@
+../tree-sitter-ruby/queries/highlights.scm

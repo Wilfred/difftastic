@@ -2,9 +2,9 @@
 
 ### Parsing
 
-Updated the C, CSS and JSON parsers to the latest upstream versions.
+Added Ruby support.
 
-No changes.
+Updated the C, CSS and JSON parsers to the latest upstream versions.
 
 ## 0.12
 
