@@ -1215,10 +1215,6 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_lazy_continuation"
-            },
-            {
-              "type": "SYMBOL",
               "name": "_inline_no_lazy_continuation"
             }
           ]
@@ -2030,10 +2026,6 @@
     {
       "type": "SYMBOL",
       "name": "_block_continuation"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_lazy_continuation"
     },
     {
       "type": "SYMBOL",

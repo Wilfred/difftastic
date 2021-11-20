@@ -16,7 +16,6 @@ enum TokenType {
     BLOCK_CLOSE,
     BLOCK_CLOSE_LOOSE,
     BLOCK_CONTINUATION,
-    LAZY_CONTINUATION,
     BLOCK_QUOTE_START,
     INDENTED_CHUNK_START,
     ATX_H1_MARKER,
@@ -336,7 +335,7 @@ struct Scanner {
                         matched += 2;
                     }
                     return true;
-                } else if (!valid_symbols[LAZY_CONTINUATION]) { // indented code block can not interrupt paragraph
+                } else { // TODO: indented code block can not interrupt paragraph
                     if (!check_block) {
                         lexer->result_symbol = INDENTED_CHUNK_START;
                         open_blocks.push_back(INDENTED_CODE_BLOCK);
@@ -759,14 +758,6 @@ struct Scanner {
         }
         if (matching) {
             lexer->mark_end(lexer);
-            if (valid_symbols[LAZY_CONTINUATION]) {
-                if(!scan(lexer, valid_symbols, true)) {
-                    lexer->result_symbol = LAZY_CONTINUATION;
-                    indentation = 0;
-                    matched = open_blocks.size() + 1;
-                    return true;
-                }
-            }
             // if block close is not valid then there is an error
             /* if (valid_symbols[BLOCK_CLOSE]) { */
             Block block = open_blocks[open_blocks.size() - 1];

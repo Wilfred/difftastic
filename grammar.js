@@ -92,9 +92,6 @@ module.exports = grammar({
         // Token encountered if we match an open block. For example a '>' at the beginning of a line
         // if we are in an (already open) block quote.
         $._block_continuation,
-        // Lazy continuations can happen if some open blocks did not get matched, but the current leaf
-        // block is a paragraph that continues in the next line.
-        $._lazy_continuation,
         // Start token for a block quote (https://github.github.com/gfm/#block-quotes)
         $._block_quote_start,
         // Start token for an indented chunk which is part of an indented code block
@@ -274,7 +271,6 @@ module.exports = grammar({
             // $.autolink,
         ),
         _inline: $ => prec.right(repeat1(choice(
-            $._lazy_continuation,
             $._inline_no_lazy_continuation,
         ))),
         _inline_no_newline: $ => prec.right(repeat1(choice(
