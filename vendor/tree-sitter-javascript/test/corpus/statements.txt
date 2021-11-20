@@ -149,7 +149,7 @@ export { import1 as name1, import2 as name2, nameN } from 'foo';
   (export_statement
     source: (string (string_fragment)))
   (export_statement
-    (namespace_import (identifier))
+    (namespace_export (identifier))
     source: (string (string_fragment)))
   (export_statement
     (export_clause
@@ -341,6 +341,8 @@ for ([a, b] in c) {}
 
 for ((a) in b) {}
 
+for (var foo = bar in baz) {}
+
 ---
 
 (program
@@ -370,6 +372,11 @@ for ((a) in b) {}
     (statement_block))
   (for_in_statement
     (parenthesized_expression (identifier))
+    (identifier)
+    (statement_block))
+  (for_in_statement
+    (identifier)
+    (identifier)
     (identifier)
     (statement_block)))
 
@@ -758,7 +765,7 @@ while (true) {
 (program
   (labeled_statement
     label: (statement_identifier)
-    (for_statement
+    body: (for_statement
       initializer: (empty_statement)
       condition: (empty_statement)
       body: (statement_block
@@ -771,11 +778,11 @@ while (true) {
               (continue_statement label: (statement_identifier))))))))
   (labeled_statement
     label: (statement_identifier)
-    (statement_block
+    body: (statement_block
       (break_statement label: (statement_identifier))))
   (labeled_statement
     label: (statement_identifier)
-    (while_statement
+    body: (while_statement
       condition: (parenthesized_expression (true))
       body: (statement_block
         (continue_statement label: (statement_identifier))))))
