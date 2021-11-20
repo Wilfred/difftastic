@@ -44,7 +44,7 @@ walkdir = "2.3.2"
 pretty_assertions = "1.0.0"
 
 [build-dependencies]
-cc= "1.0.70"
+cc = "1.0.72"
 rayon = "1.5.1"
 
 [profile.release]
