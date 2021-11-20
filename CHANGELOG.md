@@ -2,7 +2,7 @@
 
 ### Parsing
 
-Updated C parser to latest upstream version.
+Updated C and JSON parsers to the latest upstream versions.
 
 No changes.
 
