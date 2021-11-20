@@ -153,8 +153,8 @@
         "required": true,
         "types": [
           {
-            "type": ":=",
-            "named": false
+            "type": "kAssign",
+            "named": true
           }
         ]
       },
@@ -6171,10 +6171,6 @@
     "named": false
   },
   {
-    "type": ":=",
-    "named": false
-  },
-  {
     "type": ";",
     "named": false
   },
@@ -6212,6 +6208,10 @@
   },
   {
     "type": "kAs",
+    "named": true
+  },
+  {
+    "type": "kAssign",
     "named": true
   },
   {

@@ -100,7 +100,7 @@ module.exports = grammar({
 		...statements(false),
 		...statements(true),
 
-		assignment:      $ => op.infix(0, $._expr, ':=', $._expr),
+		assignment:      $ => op.infix(0, $._expr, $.kAssign, $._expr),
 
 		label:           $ => seq($.identifier, ':'),
 		goto:            $ => seq($.kGoto, alias($.identifier, $.label)),
@@ -507,6 +507,7 @@ module.exports = grammar({
 		kFdiv:              $ => '/',
 		kAt:                $ => '@',
 		kHat:               $ => '^',
+		kAssign:            $ => ':=',
 		kOr:                $ => /[oO][rR]/,
 		kXor:               $ => /[xX][oO][rR]/,
 		kDiv:               $ => /[dD][iI][vV]/,

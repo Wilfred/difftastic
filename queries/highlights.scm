@@ -85,12 +85,12 @@
 ] @keyword
 
 [
-	(genericType)
-	(qualifiedType)
+;	(genericType)
+;	(qualifiedType)
 	(type)
 ] @type
 
-(genericProc)     @function
+;(genericProc)     @function
 ;(genericProc)     @method
 
 (literalNumber)   @number
@@ -98,17 +98,13 @@
 
 (comment)         @comment
 
-(defProc)         @local.scope
+;(declArg          (identifier) @variable.parameter)
+;(genericParam     (identifier) @type.parameter)
+;(declVar          (identifier) @variable)
+;(declConst        (identifier) @constant)
+;(declProp   name: (identifier) @function)
 
-(declArg          (identifier) @variable.parameter)
-(genericParam     (identifier) @type.parameter)
-;(specializedParam (identifier) @type)
-(declVar          (identifier) @variable)
-(declConst        (identifier) @constant)
-;(declProp   name: (identifier) @property)
-(declProp   name: (identifier) @function)
-
-(declEnumValue (identifier) @constant)
+;(declEnumValue (identifier) @constant)
 
 ;(call ((identifier) @constant
 ; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
@@ -125,8 +121,6 @@
 	")"
 	"["
 	"]"
-	(kAngleOpen) 
-	(kAngleClose)
 ] @punctuation.bracket
 
 [
@@ -151,7 +145,7 @@
 	(kGte)
 	(kNeq)
 	(kAt)
-	(kDeref)
+	(kHat)
 ] @operator
 
 ; technically operators, but better to render as reserved words

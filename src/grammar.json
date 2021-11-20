@@ -2032,8 +2032,8 @@
             "type": "FIELD",
             "name": "operator",
             "content": {
-              "type": "STRING",
-              "value": ":="
+              "type": "SYMBOL",
+              "name": "kAssign"
             }
           },
           {
@@ -6125,6 +6125,10 @@
     "kHat": {
       "type": "STRING",
       "value": "^"
+    },
+    "kAssign": {
+      "type": "STRING",
+      "value": ":="
     },
     "kOr": {
       "type": "PATTERN",
