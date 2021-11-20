@@ -28,6 +28,7 @@ impl TreeSitterParser {
                 .include(&dir)
                 .cpp(true)
                 .flag("--std=c++14")
+                .flag("-Wno-implicit-fallthrough")
                 .flag("-Wno-unused-parameter")
                 .flag("-Wno-ignored-qualifiers");
             for file in cpp_files {
@@ -124,6 +125,11 @@ fn main() {
         TreeSitterParser {
             name: "tree-sitter-python".into(),
             src_dir: "vendor/tree-sitter-python-src".into(),
+            extra_files: vec!["scanner.cc".into()],
+        },
+        TreeSitterParser {
+            name: "tree-sitter-ruby".into(),
+            src_dir: "vendor/tree-sitter-ruby-src".into(),
             extra_files: vec!["scanner.cc".into()],
         },
         TreeSitterParser {

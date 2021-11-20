@@ -44,6 +44,7 @@ extern "C" {
     fn tree_sitter_ocaml() -> Language;
     fn tree_sitter_ocaml_interface() -> Language;
     fn tree_sitter_python() -> Language;
+    fn tree_sitter_ruby() -> Language;
     fn tree_sitter_rust() -> Language;
     fn tree_sitter_tsx() -> Language;
     fn tree_sitter_typescript() -> Language;
@@ -199,6 +200,25 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["string"]).into_iter().collect(),
             delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
             highlight_queries: include_str!("../vendor/highlights/python.scm"),
+        }),
+        "rb" => Some(TreeSitterConfig {
+            name: "Ruby",
+            language: unsafe { tree_sitter_ruby() },
+            atom_nodes: (vec!["escape_sequence", "string_content"])
+                .into_iter()
+                .collect(),
+            delimiter_tokens: (vec![
+                ("{", "}"),
+                ("(", ")"),
+                ("[", "]"),
+                ("|", "|"),
+                // TODO: why doesn't this work on Jekyll commit 369c34510782ac8?
+                // ("\"", "\""),
+                ("def", "end"),
+                ("begin", "end"),
+                ("class", "end"),
+            ]),
+            highlight_queries: include_str!("../vendor/highlights/ruby.scm"),
         }),
         "rs" => Some(TreeSitterConfig {
             name: "Rust",
