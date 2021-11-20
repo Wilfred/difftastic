@@ -61,11 +61,11 @@ module.exports = grammar({
 
     // TODO: Sort these tokens in some more sensible manner
     externals: $ => [
+        $._dummy,
         // TOKENS FOR BLOCK STRUCTURE:
         // Currently we parse this with the external scanner since there seems to be a bug in tree-sitter
         // with parsing newlines. Also the external parser needs to know about newlines to start matching.
         $._line_ending,
-        // Never actually gets emitted
         $._lazy_continuation,
         // Every block that is not a paragraph and can have multiple lines will start with an opening token
         // like `$._block_quote_start` and close with `$._block_close`
@@ -147,12 +147,14 @@ module.exports = grammar({
     // I'm not sure this declaration does anything. TODO: Ask someone if it does
     word: $ => $._word,
     precedences: $ => [
-        [$._inline_no_lazy_continuation, $.paragraph],
+        [$._inline_element, $.paragraph],
         [$.tight_list, $.loose_list],
         [$.setext_heading, $._block],
         [$.indented_code_block, $._block]
     ],
     conflicts: $ => [
+        [$._lazy_newline, $._soft_line_break],
+        [$.paragraph, $._soft_line_break],
         // This can probably solved in other ways
         [$.code_span, $._text],
         [$._code_span_no_newline, $._text],
@@ -177,7 +179,7 @@ module.exports = grammar({
         ),
 
         _blank_line: $ => seq($._blank_line_start, $._newline),
-        paragraph: $ => seq($._inline_no_lazy_continuation, optional($._inline), $._newline),
+        paragraph: $ => seq($._inline, choice(prec.dynamic(2, $._soft_line_break), $._lazy_newline)),
         indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, alias($._blank_line, $.line_break))))),
         _indented_chunk: $ => prec.right(seq($._indented_chunk_start, repeat(choice($._text, alias($._newline, $.line_break))), $._block_close, optional($._ignore_matching_tokens))),
         block_quote: $ => seq($._block_quote_start, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
@@ -236,8 +238,9 @@ module.exports = grammar({
         code_fence_content: $ => repeat1(choice(alias($._newline, $.line_break), $._text)),
         info_string: $ => repeat1($._text),
 
-        _inline_no_lazy_continuation: $ => choice(
-            alias($._newline, $.soft_line_break),
+        _inline_element: $ => choice(
+            prec.dynamic(1, $._lazy_newline),
+            alias($._soft_line_break, $.soft_line_break),
             $.backslash_escape,
             $.hard_line_break,
             $._text,
@@ -254,8 +257,7 @@ module.exports = grammar({
             alias($._strong_emphasis_underscore, $.strong_emphasis),
         ),
         _inline: $ => repeat1(choice(
-            $._lazy_continuation,
-            $._inline_no_lazy_continuation,
+            $._inline_element,
         )),
         _inline_no_newline: $ => prec.right(repeat1(choice(
             $.backslash_escape,
@@ -272,6 +274,13 @@ module.exports = grammar({
             $._unclosed_strong_emphasis_underscore_no_newline,
             alias($._strong_emphasis_underscore_no_newline, $.strong_emphasis),
         ))),
+        _lazy_newline: $ => seq(
+            $._newline,
+            repeat(choice($._dummy, $._lazy_continuation)),
+            $._lazy_continuation,
+        ),
+        _soft_line_break: $ => seq($._newline, repeat($._dummy)),
+
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq('\\', $._newline)),
         _text: $ => prec.right(repeat1(choice($._word, $._punctuation, $._whitespace, $._code_span_start, '\\'))),

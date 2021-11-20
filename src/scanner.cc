@@ -9,6 +9,7 @@ using std::vector;
 using std::memcpy;
 
 enum TokenType {
+    DUMMY,
     LINE_ENDING,
     LAZY_CONTINUATION,
     BLOCK_CLOSE,
@@ -99,13 +100,15 @@ bool is_whitespace(char c) {
 struct Scanner {
 
     vector<Block> open_blocks;
+    uint8_t matching; // 1 -> matching, 0 -> not matching, 2 -> not matchin but lazy continuation
     uint8_t matched; // TODO size_t
     uint8_t indentation; // TODO size_t
     uint8_t column;
     uint8_t code_span_delimiter_length; // TODO size_t
     uint8_t num_emphasis_delimiters;
-    uint8_t num_emphasis_delimiters_left;
+    uint8_t num_emphasis_delimiters_left; // TODO ..._left and ..._is_open can be combined to 1 byte
     uint8_t emphasis_delimiters_is_open;
+    uint8_t dummy_count;
 
     Scanner() {
         assert(sizeof(Block) == sizeof(char));
@@ -115,6 +118,7 @@ struct Scanner {
 
     unsigned serialize(char *buffer) {
         size_t i = 0;
+        buffer[i++] = matching;
         buffer[i++] = matched;
         buffer[i++] = indentation;
         buffer[i++] = column;
@@ -122,6 +126,7 @@ struct Scanner {
         buffer[i++] = num_emphasis_delimiters;
         buffer[i++] = num_emphasis_delimiters_left;
         buffer[i++] = emphasis_delimiters_is_open;
+        buffer[i++] = dummy_count;
         size_t blocks_count = open_blocks.size();
         if (blocks_count > UINT8_MAX - i) blocks_count = UINT8_MAX - i;
         memcpy(&buffer[i], open_blocks.data(), blocks_count);
@@ -131,6 +136,7 @@ struct Scanner {
 
     void deserialize(const char *buffer, unsigned length) {
         open_blocks.clear();
+        matching = 0;
         matched = 0;
         indentation = 0;
         column = 0;
@@ -138,8 +144,10 @@ struct Scanner {
         num_emphasis_delimiters = 0;
         num_emphasis_delimiters_left = 0;
         emphasis_delimiters_is_open = 0;
+        dummy_count = 0;
         if (length > 0) {
             size_t i = 0;
+            matching = buffer[i++];
             matched = buffer[i++];
             indentation = buffer[i++];
             column = buffer[i++];
@@ -147,6 +155,7 @@ struct Scanner {
             num_emphasis_delimiters = buffer[i++];
             num_emphasis_delimiters_left = buffer[i++];
             emphasis_delimiters_is_open = buffer[i++];
+            dummy_count = buffer[i++];
             size_t blocks_count = length - i;
             open_blocks.resize(blocks_count);
             memcpy(open_blocks.data(), &buffer[i], blocks_count);
@@ -219,6 +228,15 @@ struct Scanner {
     }
 
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
+
+        std::cerr << "matching " << unsigned(matching) << std::endl;
+        std::cerr << "matched " << unsigned(matched) << std::endl;
+        std::cerr << "indentation " << unsigned(indentation) << std::endl;
+        std::cerr << "dummy_count " << unsigned(dummy_count) << std::endl;
+        for (size_t i = 0; i < open_blocks.size(); i++) {
+            std::cerr << BLOCK_NAME[open_blocks[i]] << std::endl;
+        }
+
         bool parsed_indentation = false;
         for (;;) {
             if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
@@ -243,14 +261,7 @@ struct Scanner {
             return false;
         }
 
-        std::cerr << "matched " << unsigned(matched) << std::endl;
-        std::cerr << "indentation " << unsigned(indentation) << std::endl;
-        for (size_t i = 0; i < open_blocks.size(); i++) {
-            std::cerr << BLOCK_NAME[open_blocks[i]] << std::endl;
-        }
-
-        bool matching = matched < open_blocks.size();
-        if (!matching) {
+        if (matching != 1) {
             if (valid_symbols[INDENTED_CHUNK_START]) {
                 if (!valid_symbols[LAZY_CONTINUATION] && indentation >= 4 && lexer->lookahead != '\n' && lexer->lookahead != '\r') {
                     // TODO: indented code block can not interrupt paragraph
@@ -278,8 +289,9 @@ struct Scanner {
                         if (lexer->lookahead == '\n') {
                             advance(lexer, true);
                         }
-                        advance(lexer, true);
                         matched = 0;
+                        dummy_count = 0;
+                        matching = open_blocks.size() > 0 ? 1 : 0;
                         indentation = 0;
                         column = 0;
                         lexer->result_symbol = LINE_ENDING;
@@ -300,6 +312,8 @@ struct Scanner {
                     if (valid_symbols[LINE_ENDING]) {
                         advance(lexer, true);
                         matched = 0;
+                        dummy_count = 0;
+                        matching = open_blocks.size() > 0 ? 1 : 0;
                         indentation = 0;
                         column = 0;
                         lexer->result_symbol = LINE_ENDING;
@@ -558,6 +572,7 @@ struct Scanner {
                             lexer->result_symbol = SETEXT_H1_UNDERLINE;
                             matched++;
                             lexer->mark_end(lexer);
+                            if (matching == 2) return false; // setext underline can not break lazy continuation 
                             return true;
                         }
                     }
@@ -672,7 +687,7 @@ struct Scanner {
                             extra_indentation = 1;
                         }
                         bool thematic_break = minus_count >= 3 && line_end;
-                        bool underline = minus_count >= 1 && !minus_after_whitespace && line_end;
+                        bool underline = minus_count >= 1 && !minus_after_whitespace && line_end && matching != 2; // setext heading can not break lazy continuation
                         bool list_marker_minus = minus_count >= 1 && extra_indentation >= 1;
                         if (valid_symbols[THEMATIC_BREAK] && thematic_break && !underline) { // underline is false if list_marker_minus is true
                             lexer->result_symbol = THEMATIC_BREAK;
@@ -725,22 +740,39 @@ struct Scanner {
             }
             if (partial_success) {
                 /* assert(valid_symbols[BLOCK_CONTINUATION]); */
+                if (matched == open_blocks.size()) {
+                    matching = 0;
+                }
                 lexer->result_symbol = BLOCK_CONTINUATION;
                 return true;
             }
 
-            Block block = open_blocks[open_blocks.size() - 1];
-            if (block >= LOOSE_LIST_ITEM && block <= LOOSE_LIST_ITEM_MAX_INDENTATION) {
-                lexer->result_symbol = BLOCK_CLOSE_LOOSE;
+            if (valid_symbols[DUMMY] && dummy_count < 2) {
+                dummy_count++;
+                lexer->result_symbol = DUMMY;
+                return true;
+            }
+            if (!valid_symbols[LAZY_CONTINUATION]) {
+                Block block = open_blocks[open_blocks.size() - 1];
+                if (block >= LOOSE_LIST_ITEM && block <= LOOSE_LIST_ITEM_MAX_INDENTATION) {
+                    lexer->result_symbol = BLOCK_CLOSE_LOOSE;
+                } else {
+                    lexer->result_symbol = BLOCK_CLOSE;
+                }
+                if (block == FENCED_CODE_BLOCK_BACKTICK || block == FENCED_CODE_BLOCK_TILDE) {
+                    lexer->mark_end(lexer);
+                    indentation = 0;
+                }
+                open_blocks.pop_back();
+                if (matched == open_blocks.size()) {
+                    matching = 0;
+                }
+                return true;
             } else {
-                lexer->result_symbol = BLOCK_CLOSE;
+                matching = 2;
+                lexer->result_symbol = LAZY_CONTINUATION;
+                return true;
             }
-            if (block == FENCED_CODE_BLOCK_BACKTICK || block == FENCED_CODE_BLOCK_TILDE) {
-                lexer->mark_end(lexer);
-                indentation = 0;
-            }
-            open_blocks.pop_back();
-            return true;
         }
         return false;
     }
