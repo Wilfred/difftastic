@@ -278,7 +278,7 @@ class Something {
     }
     var z: Int {
         get { v }
-        set { v = newValue }
+        set { return v = newValue }
     }
 }
 
@@ -331,7 +331,11 @@ class SomethingElse: ThingProvider {
                 (type_annotation (user_type (type_identifier)))
                 (computed_property
                     (computed_getter (getter_specifier) (statements (simple_identifier)))
-                    (computed_setter (setter_specifier) (statements (assignment (directly_assignable_expression (simple_identifier)) (simple_identifier))))))))
+                    (computed_setter
+                        (setter_specifier)
+                        (statements
+                            (control_transfer_statement
+                                (assignment (directly_assignable_expression (simple_identifier)) (simple_identifier)))))))))
     (class_declaration
         (type_identifier)
         (inheritance_specifier (user_type (type_identifier)))

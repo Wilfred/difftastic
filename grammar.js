@@ -37,8 +37,8 @@ const PREC = {
   CONJUNCTION: 4,
   DISJUNCTION: 3,
   RANGE: 2,
-  ASSIGNMENT: 1,
   BLOCK: 1,
+  ASSIGNMENT: -1,
   COMMENT: -1,
   LAMBDA_LITERAL: -1,
 };
@@ -366,6 +366,7 @@ module.exports = grammar({
         $._binary_expression,
         $.ternary_expression,
         $._primary_expression,
+        $.assignment,
         seq($._expression, $._immediate_quest)
       ),
 
@@ -771,7 +772,7 @@ module.exports = grammar({
         seq(
           // XXX associativity or precedence seems wrong here
           $._try_operator,
-          choice($._expression, $.assignment)
+          $._expression
         )
       ),
 
@@ -867,8 +868,7 @@ module.exports = grammar({
         $._expression,
         $._local_declaration,
         $._labeled_statement,
-        $.control_transfer_statement,
-        $.assignment
+        $.control_transfer_statement
       ),
 
     _top_level_statement: ($) =>
@@ -876,8 +876,7 @@ module.exports = grammar({
         $._expression,
         $._global_declaration,
         $._labeled_statement,
-        $._throw_statement,
-        $.assignment
+        $._throw_statement
       ),
 
     _block: ($) => prec(PREC.BLOCK, seq("{", optional($.statements), "}")),
