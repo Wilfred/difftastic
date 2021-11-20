@@ -40,22 +40,6 @@ const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "else"
 };
 
-const int32_t CROSS_SEMI_OP_LENS[CROSS_SEMI_OPERATOR_COUNT] = {
-    2,
-    1,
-    3,
-    3,
-    2,
-    2,
-    2,
-    1,
-    6,
-    8,
-    7,
-    5,
-    4
-};
-
 const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     ARROW_OPERATOR,
     DOT_OPERATOR,
@@ -187,14 +171,33 @@ static bool eat_operators(
                 continue;
             }
 
-            if (str_idx > CROSS_SEMI_OP_LENS[op_idx]) {
-                possible_operators[op_idx] = false;
-                continue;
-            }
+            if (CROSS_SEMI_OPERATORS[op_idx][str_idx] == '\0') {
+                switch (lexer->lookahead) {
+                // See "Operators":
+                // https://docs.swift.org/swift-book/ReferenceManual/LexicalStructure.html#ID418
+                case '/':
+                case '=':
+                case '-':
+                case '+':
+                case '!':
+                case '*':
+                case '%':
+                case '<':
+                case '>':
+                case '&':
+                case '|':
+                case '^':
+                case '?':
+                case '~':
+                    break;
+                default:
+                    // Only match if this is the _end_ of an operator. If it's possible for a custom
+                    // operator to continue from here, don't treat it as a full match.
+                    full_match = op_idx;
+                    lexer->mark_end(lexer);
+                }
 
-            if (str_idx == CROSS_SEMI_OP_LENS[op_idx]) {
-                full_match = op_idx;
-                lexer->mark_end(lexer);
+                possible_operators[op_idx] = false;
                 continue;
             }
 

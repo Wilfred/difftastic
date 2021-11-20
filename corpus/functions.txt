@@ -261,6 +261,24 @@ infix operator -=- : MyPrecedence
             (precedence_group_attribute (simple_identifier) (simple_identifier))))
     (operator_declaration (custom_operator) (simple_identifier)))
 
+===
+Custom operator with another operator as a prefix
+===
+
+let messageCoerced = error ??? "nil"
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (infix_expression
+      (simple_identifier)
+      (custom_operator)
+      (line_string_literal))))
+
 ==================
 Functions that throw
 ==================
