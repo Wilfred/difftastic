@@ -1029,10 +1029,6 @@
                   {
                     "type": "SYMBOL",
                     "name": "_fenced_code_block_start_backtick"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "`+"
                   }
                 ]
               },

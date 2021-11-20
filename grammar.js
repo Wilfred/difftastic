@@ -226,7 +226,7 @@ module.exports = grammar({
 
         fenced_code_block: $ => prec.right(seq(
             choice(
-                seq($._fenced_code_block_start_backtick, /`+/),
+                seq($._fenced_code_block_start_backtick),
                 $._fenced_code_block_start_tilde
             ),
             optional($.info_string),

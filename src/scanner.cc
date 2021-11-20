@@ -337,7 +337,7 @@ struct Scanner {
                                 }
                                 advance(lexer, true);
                             }
-                            if (!info_string_has_backtick) {
+                            if (!info_string_has_backtick && valid_symbols[FENCED_CODE_BLOCK_BACKTICK]) {
                                 lexer->result_symbol = FENCED_CODE_BLOCK_START_BACKTICK;
                                 open_blocks.push_back(FENCED_CODE_BLOCK_BACKTICK);
                                 code_span_delimiter_length = level;
