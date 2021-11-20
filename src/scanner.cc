@@ -163,6 +163,61 @@ struct Scanner {
         return size;
     }
 
+    bool match(TSLexer *lexer, Block block) {
+        switch (block) {
+            case INDENTED_CODE_BLOCK:
+                if (indentation >= 4 && lexer->lookahead != '\n' && lexer->lookahead != '\r') {
+                    indentation -= 4;
+                    return true;
+                }
+                break;
+            case TIGHT_LIST_ITEM:
+            case TIGHT_LIST_ITEM + 1:
+            case TIGHT_LIST_ITEM + 2:
+            case TIGHT_LIST_ITEM + 4:
+            case TIGHT_LIST_ITEM + 5:
+            case TIGHT_LIST_ITEM + 6:
+            case LOOSE_LIST_ITEM:
+            case LOOSE_LIST_ITEM + 1:
+            case LOOSE_LIST_ITEM + 2:
+            case LOOSE_LIST_ITEM + 4:
+            case LOOSE_LIST_ITEM + 5:
+            case LOOSE_LIST_ITEM + 6:
+                if (indentation >= list_item_indentation(open_blocks[matched])) {
+                    indentation -= list_item_indentation(open_blocks[matched]);
+                    return true;
+                }
+                if (lexer->lookahead == '\n' || lexer->lookahead == '\r') {
+                    indentation = 0;
+                    return true;
+                }
+                break;
+            case BLOCK_QUOTE:
+                if (lexer->lookahead == '>') {
+                    advance(lexer, false);
+                    indentation = 0;
+                    if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                        indentation += advance(lexer, true) - 1;
+                    }
+                    return true;
+                }
+                break;
+            case FENCED_CODE_BLOCK_BACKTICK:
+            case FENCED_CODE_BLOCK_TILDE:
+                lexer->mark_end(lexer);
+                size_t level = 0;
+                while (lexer->lookahead == (block == FENCED_CODE_BLOCK_BACKTICK ? '`' : '~')) {
+                    advance(lexer, false);
+                    level++;
+                }
+                if (!(indentation < 4 && level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r'))) {
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
         bool parsed_indentation = false;
         for (;;) {
@@ -659,93 +714,30 @@ struct Scanner {
                     break;
             }
         } else {
-            if (valid_symbols[BLOCK_CONTINUATION] && open_blocks[matched] == INDENTED_CODE_BLOCK) {
-                if (indentation >= 4 && lexer->lookahead != '\n' && lexer->lookahead != '\r') {
-                    lexer->result_symbol = BLOCK_CONTINUATION;
-                    indentation -= 4;
-                    matched += 2;
-                    return true;
-                }
-            }
-            if (valid_symbols[BLOCK_CONTINUATION] && is_list_item(open_blocks[matched])) {
-                if (indentation >= list_item_indentation(open_blocks[matched])) {
-                    indentation -= list_item_indentation(open_blocks[matched]);
-                    lexer->result_symbol = BLOCK_CONTINUATION;
+            bool partial_success = false;
+            while (matched < open_blocks.size()) {
+                if (match(lexer, open_blocks[matched])) {
+                    partial_success = true;
                     matched++;
-                    return true;
-                }
-                if (lexer->lookahead == '\n' || lexer->lookahead == '\r') {
-                    indentation = 0;
-                    lexer->result_symbol = BLOCK_CONTINUATION;
-                    matched++;
-                    return true;
+                } else {
+                    break;
                 }
             }
-            switch (lexer->lookahead) {
-                case '>':
-                    if (valid_symbols[BLOCK_CONTINUATION] && open_blocks[matched] == BLOCK_QUOTE) {
-                        advance(lexer, false);
-                        indentation = 0;
-                        if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-                            indentation += advance(lexer, true) - 1;
-                        }
-                        lexer->result_symbol = BLOCK_CONTINUATION;
-                        matched++;
-                        return true;
-                    }
-                    break;
-                case '~':
-                    if (valid_symbols[BLOCK_CLOSE] && open_blocks[matched] == FENCED_CODE_BLOCK_TILDE) {
-                        lexer->mark_end(lexer);
-                        size_t level = 0;
-                        while (lexer->lookahead == '~') {
-                            advance(lexer, false);
-                            level++;
-                        }
-                        if (indentation < 4 && level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
-                            open_blocks.pop_back();
-                            lexer->result_symbol = BLOCK_CLOSE;
-                            matched++;
-                            indentation = 0;
-                            lexer->mark_end(lexer);
-                            return true;
-                        }
-                    }
-                    break;
-                case '`':
-                    if (valid_symbols[BLOCK_CLOSE] && open_blocks[matched] == FENCED_CODE_BLOCK_BACKTICK) {
-                        lexer->mark_end(lexer);
-                        size_t level = 0;
-                        while (lexer->lookahead == '`') {
-                            advance(lexer, false);
-                            level++;
-                        }
-                        if (indentation < 4 && level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
-                            open_blocks.pop_back();
-                            lexer->result_symbol = BLOCK_CLOSE;
-                            matched++;
-                            indentation = 0;
-                            lexer->mark_end(lexer);
-                            return true;
-                        }
-                    }
-                    break;
-            }
-
-            if (valid_symbols[BLOCK_CONTINUATION] && (open_blocks[matched] == FENCED_CODE_BLOCK_TILDE || open_blocks[matched] == FENCED_CODE_BLOCK_BACKTICK))  {
+            if (partial_success) {
+                /* assert(valid_symbols[BLOCK_CONTINUATION]); */
                 lexer->result_symbol = BLOCK_CONTINUATION;
-                matched += 2;
-                indentation = 0;
                 return true;
             }
-            lexer->mark_end(lexer);
-            // if block close is not valid then there is an error
-            /* if (valid_symbols[BLOCK_CLOSE]) { */
+
             Block block = open_blocks[open_blocks.size() - 1];
             if (block >= LOOSE_LIST_ITEM && block <= LOOSE_LIST_ITEM_MAX_INDENTATION) {
                 lexer->result_symbol = BLOCK_CLOSE_LOOSE;
             } else {
                 lexer->result_symbol = BLOCK_CLOSE;
+            }
+            if (block == FENCED_CODE_BLOCK_BACKTICK || block == FENCED_CODE_BLOCK_TILDE) {
+                lexer->mark_end(lexer);
+                indentation = 0;
             }
             open_blocks.pop_back();
             return true;
