@@ -33,7 +33,8 @@ String content
   "",
   "abc",
   "def\n",
-  "ghi\t"
+  "ghi\t",
+  "jkl\f"
 ]
 
 ----
@@ -42,6 +43,7 @@ String content
   (array
     (string)
     (string (string_content))
+    (string (string_content (escape_sequence)))
     (string (string_content (escape_sequence)))
     (string (string_content (escape_sequence)))))
 
