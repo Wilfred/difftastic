@@ -1,3 +1,1 @@
-# Hello world
-gem "jekyll", "~> #{Jekyll::VERSION}"
-foo ""
+VALID_FILENAME_CHARS = 'foo'
