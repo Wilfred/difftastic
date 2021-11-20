@@ -97,18 +97,21 @@ bool is_whitespace(char c) {
     return c == ' ' || c == '\t' || c == '\n' || c == '\r'; // TODO: unicode support
 }
 
+const uint8_t STATE_MATCHING = 0x1 << 0;
+const uint8_t STATE_WAS_LAZY_CONTINUATION = 0x1 << 1;
+const uint8_t STATE_EMPHASIS_DELIMITER_MOD_3 = 0x3 << 2; // TODO
+const uint8_t STATE_EMPHASIS_DELIMITER_IS_OPEN = 0x1 << 4;
+const uint8_t STATE_DUMMY_COUNT = 0x3 << 5;
+
 struct Scanner {
 
     vector<Block> open_blocks;
-    uint8_t matching; // 1 -> matching, 0 -> not matching, 2 -> not matchin but lazy continuation
+    uint8_t state;
     uint8_t matched; // TODO size_t
     uint8_t indentation; // TODO size_t
     uint8_t column;
     uint8_t code_span_delimiter_length; // TODO size_t
-    uint8_t num_emphasis_delimiters;
     uint8_t num_emphasis_delimiters_left; // TODO ..._left and ..._is_open can be combined to 1 byte
-    uint8_t emphasis_delimiters_is_open;
-    uint8_t dummy_count;
 
     Scanner() {
         assert(sizeof(Block) == sizeof(char));
@@ -118,15 +121,12 @@ struct Scanner {
 
     unsigned serialize(char *buffer) {
         size_t i = 0;
-        buffer[i++] = matching;
+        buffer[i++] = state;
         buffer[i++] = matched;
         buffer[i++] = indentation;
         buffer[i++] = column;
         buffer[i++] = code_span_delimiter_length;
-        buffer[i++] = num_emphasis_delimiters;
         buffer[i++] = num_emphasis_delimiters_left;
-        buffer[i++] = emphasis_delimiters_is_open;
-        buffer[i++] = dummy_count;
         size_t blocks_count = open_blocks.size();
         if (blocks_count > UINT8_MAX - i) blocks_count = UINT8_MAX - i;
         memcpy(&buffer[i], open_blocks.data(), blocks_count);
@@ -136,26 +136,20 @@ struct Scanner {
 
     void deserialize(const char *buffer, unsigned length) {
         open_blocks.clear();
-        matching = 0;
+        state = 0;
         matched = 0;
         indentation = 0;
         column = 0;
         code_span_delimiter_length = 0;
-        num_emphasis_delimiters = 0;
         num_emphasis_delimiters_left = 0;
-        emphasis_delimiters_is_open = 0;
-        dummy_count = 0;
         if (length > 0) {
             size_t i = 0;
-            matching = buffer[i++];
+            state = buffer[i++];
             matched = buffer[i++];
             indentation = buffer[i++];
             column = buffer[i++];
             code_span_delimiter_length = buffer[i++];
-            num_emphasis_delimiters = buffer[i++];
             num_emphasis_delimiters_left = buffer[i++];
-            emphasis_delimiters_is_open = buffer[i++];
-            dummy_count = buffer[i++];
             size_t blocks_count = length - i;
             open_blocks.resize(blocks_count);
             memcpy(open_blocks.data(), &buffer[i], blocks_count);
@@ -229,10 +223,9 @@ struct Scanner {
 
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
 
-        std::cerr << "matching " << unsigned(matching) << std::endl;
+        std::cerr << "state " << unsigned(state) << std::endl;
         std::cerr << "matched " << unsigned(matched) << std::endl;
         std::cerr << "indentation " << unsigned(indentation) << std::endl;
-        std::cerr << "dummy_count " << unsigned(dummy_count) << std::endl;
         for (size_t i = 0; i < open_blocks.size(); i++) {
             std::cerr << BLOCK_NAME[open_blocks[i]] << std::endl;
         }
@@ -261,7 +254,7 @@ struct Scanner {
             return false;
         }
 
-        if (matching != 1) {
+        if (!(state & STATE_MATCHING)) {
             if (valid_symbols[INDENTED_CHUNK_START]) {
                 if (!valid_symbols[LAZY_CONTINUATION] && indentation >= 4 && lexer->lookahead != '\n' && lexer->lookahead != '\r') {
                     // TODO: indented code block can not interrupt paragraph
@@ -290,8 +283,12 @@ struct Scanner {
                             advance(lexer, true);
                         }
                         matched = 0;
-                        dummy_count = 0;
-                        matching = open_blocks.size() > 0 ? 1 : 0;
+                        if (open_blocks.size() > 0) {
+                            state |= STATE_MATCHING;
+                        } else {
+                            state &= (~STATE_MATCHING);
+                        }
+                        state &= (~STATE_WAS_LAZY_CONTINUATION) && (~STATE_DUMMY_COUNT);
                         indentation = 0;
                         column = 0;
                         lexer->result_symbol = LINE_ENDING;
@@ -312,8 +309,12 @@ struct Scanner {
                     if (valid_symbols[LINE_ENDING]) {
                         advance(lexer, true);
                         matched = 0;
-                        dummy_count = 0;
-                        matching = open_blocks.size() > 0 ? 1 : 0;
+                        if (open_blocks.size() > 0) {
+                            state |= STATE_MATCHING;
+                        } else {
+                            state &= (~STATE_MATCHING);
+                        }
+                        state &= (~STATE_WAS_LAZY_CONTINUATION) && (~STATE_DUMMY_COUNT);
                         indentation = 0;
                         column = 0;
                         lexer->result_symbol = LINE_ENDING;
@@ -359,7 +360,7 @@ struct Scanner {
                 case '*':
                     {
                         if (num_emphasis_delimiters_left > 0) {
-                            if (emphasis_delimiters_is_open && valid_symbols[EMPHASIS_OPEN_STAR]) {
+                            if ((state & STATE_EMPHASIS_DELIMITER_IS_OPEN) && valid_symbols[EMPHASIS_OPEN_STAR]) {
                                 advance(lexer, false);
                                 lexer->result_symbol = EMPHASIS_OPEN_STAR;
                                 num_emphasis_delimiters_left--;
@@ -428,18 +429,17 @@ struct Scanner {
                             return true;
                         }
                         if (valid_symbols[EMPHASIS_OPEN_STAR] || valid_symbols[EMPHASIS_CLOSE_STAR]) {
-                            num_emphasis_delimiters = star_count;
                             num_emphasis_delimiters_left = star_count - 1;
                             bool next_symbol_whitespace = extra_indentation > 0 || line_end;
                             bool next_symbol_punctuation = extra_indentation == 0 && is_punctuation(lexer->lookahead);
                             if (valid_symbols[EMPHASIS_CLOSE_STAR] && !valid_symbols[LAST_TOKEN_WHITESPACE] &&
                                 (!valid_symbols[LAST_TOKEN_PUNCTUATION] || next_symbol_punctuation || next_symbol_whitespace)) {
-                                emphasis_delimiters_is_open = 0;
+                                state &= (!STATE_EMPHASIS_DELIMITER_IS_OPEN);
                                 lexer->result_symbol = EMPHASIS_CLOSE_STAR;
                                 return true;
                             } else if (!next_symbol_whitespace &&
                                 (!next_symbol_punctuation || valid_symbols[LAST_TOKEN_PUNCTUATION] || valid_symbols[LAST_TOKEN_WHITESPACE])) {
-                                emphasis_delimiters_is_open = 1;
+                                state |= STATE_EMPHASIS_DELIMITER_IS_OPEN;
                                 lexer->result_symbol = EMPHASIS_OPEN_STAR;
                                 return true;
                             }
@@ -449,7 +449,7 @@ struct Scanner {
                 case '_':
                     {
                         if (num_emphasis_delimiters_left > 0) {
-                            if (emphasis_delimiters_is_open && valid_symbols[EMPHASIS_OPEN_UNDERSCORE]) {
+                            if ((state & STATE_EMPHASIS_DELIMITER_IS_OPEN) && valid_symbols[EMPHASIS_OPEN_UNDERSCORE]) {
                                 advance(lexer, false);
                                 lexer->result_symbol = EMPHASIS_OPEN_UNDERSCORE;
                                 num_emphasis_delimiters_left--;
@@ -489,7 +489,6 @@ struct Scanner {
                             return true;
                         }
                         if (valid_symbols[EMPHASIS_OPEN_UNDERSCORE] || valid_symbols[EMPHASIS_CLOSE_UNDERSCORE]) {
-                            num_emphasis_delimiters = underscore_count_before_whitespace;
                             num_emphasis_delimiters_left = underscore_count_before_whitespace - 1;
                             bool next_symbol_whitespace = encountered_whitespace || line_end;
                             bool next_symbol_punctuation = !encountered_whitespace && is_punctuation(lexer->lookahead);
@@ -498,11 +497,11 @@ struct Scanner {
                             bool left_flanking = !next_symbol_whitespace &&
                                 (!next_symbol_punctuation || valid_symbols[LAST_TOKEN_PUNCTUATION] || valid_symbols[LAST_TOKEN_WHITESPACE]);
                             if (valid_symbols[EMPHASIS_CLOSE_UNDERSCORE] && right_flanking && (!left_flanking || next_symbol_punctuation)) {
-                                emphasis_delimiters_is_open = 0;
+                                state &= (~STATE_EMPHASIS_DELIMITER_IS_OPEN);
                                 lexer->result_symbol = EMPHASIS_CLOSE_UNDERSCORE;
                                 return true;
                             } else if (left_flanking && (!right_flanking || valid_symbols[LAST_TOKEN_PUNCTUATION])) {
-                                emphasis_delimiters_is_open = 1;
+                                state |= STATE_EMPHASIS_DELIMITER_IS_OPEN;
                                 lexer->result_symbol = EMPHASIS_OPEN_UNDERSCORE;
                                 return true;
                             }
@@ -572,7 +571,7 @@ struct Scanner {
                             lexer->result_symbol = SETEXT_H1_UNDERLINE;
                             matched++;
                             lexer->mark_end(lexer);
-                            if (matching == 2) return false; // setext underline can not break lazy continuation 
+                            if (state & STATE_WAS_LAZY_CONTINUATION) return false; // setext underline can not break lazy continuation 
                             return true;
                         }
                     }
@@ -687,7 +686,7 @@ struct Scanner {
                             extra_indentation = 1;
                         }
                         bool thematic_break = minus_count >= 3 && line_end;
-                        bool underline = minus_count >= 1 && !minus_after_whitespace && line_end && matching != 2; // setext heading can not break lazy continuation
+                        bool underline = minus_count >= 1 && !minus_after_whitespace && line_end && !(state & STATE_WAS_LAZY_CONTINUATION); // setext heading can not break lazy continuation
                         bool list_marker_minus = minus_count >= 1 && extra_indentation >= 1;
                         if (valid_symbols[THEMATIC_BREAK] && thematic_break && !underline) { // underline is false if list_marker_minus is true
                             lexer->result_symbol = THEMATIC_BREAK;
@@ -741,14 +740,17 @@ struct Scanner {
             if (partial_success) {
                 /* assert(valid_symbols[BLOCK_CONTINUATION]); */
                 if (matched == open_blocks.size()) {
-                    matching = 0;
+                    state &= (~STATE_MATCHING);
                 }
                 lexer->result_symbol = BLOCK_CONTINUATION;
                 return true;
             }
 
+            uint8_t dummy_count = (state & STATE_DUMMY_COUNT) >> 5;
             if (valid_symbols[DUMMY] && dummy_count < 2) {
                 dummy_count++;
+                state &= ~STATE_DUMMY_COUNT;
+                state |= dummy_count << 5;
                 lexer->result_symbol = DUMMY;
                 return true;
             }
@@ -765,11 +767,12 @@ struct Scanner {
                 }
                 open_blocks.pop_back();
                 if (matched == open_blocks.size()) {
-                    matching = 2;
+                    state &= (~STATE_MATCHING);
                 }
                 return true;
             } else {
-                matching = 2;
+                state &= (~STATE_MATCHING);
+                state |= STATE_WAS_LAZY_CONTINUATION;
                 lexer->result_symbol = LAZY_CONTINUATION;
                 return true;
             }
