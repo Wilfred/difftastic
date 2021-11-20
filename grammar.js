@@ -275,9 +275,8 @@ module.exports = grammar({
 
     type_annotation: ($) => seq(":", $._possibly_implicitly_unwrapped_type),
 
-    // Superset of legal type declarations, including implicitly unwrapped types and protocol composition types.
     _possibly_implicitly_unwrapped_type: ($) =>
-      seq(sep1($._type, "&"), optional(token.immediate("!"))),
+      seq($._type, optional(token.immediate("!"))),
 
     _type: ($) =>
       prec.right(seq(optional($.type_modifiers), $._unannotated_type)),
@@ -292,7 +291,8 @@ module.exports = grammar({
           $.dictionary_type,
           $.optional_type,
           $.metatype,
-          $._opaque_type
+          $._opaque_type,
+          $._protocol_composition_type
         )
       ),
 
@@ -346,6 +346,14 @@ module.exports = grammar({
     _immediate_quest: ($) => token.immediate("?"),
 
     _opaque_type: ($) => seq("some", $.user_type),
+
+    _protocol_composition_type: ($) =>
+      prec.right(
+        seq(
+          $._unannotated_type,
+          repeat1(seq("&", prec.right($._unannotated_type)))
+        )
+      ),
 
     ////////////////////////////////
     // Expressions - https://docs.swift.org/swift-book/ReferenceManual/Expressions.html
@@ -1418,6 +1426,7 @@ module.exports = grammar({
                 $.simple_identifier,
                 $.type_arguments,
                 $._basic_literal,
+                $.key_path_expression,
                 ":",
                 "*",
                 ",",
