@@ -1,4 +1,27 @@
-use difftastic::hunks::{matched_pos_to_hunks, merge_adjacent};
+//! Difftastic is a syntactic diff tool.
+//!
+//! For usage instructions and advice on contributing, see [the
+//! manual](http://difftastic.wilfred.me.uk/).
+//!
+
+mod context;
+mod dijkstra;
+mod files;
+mod graph;
+mod hunks;
+mod inline;
+mod line_parser;
+mod lines;
+mod positions;
+mod side_by_side;
+mod style;
+mod syntax;
+mod tree_sitter_parser;
+
+#[macro_use]
+extern crate log;
+
+use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
 use log::info;
 use mimalloc::MiMalloc;
 
@@ -11,8 +34,8 @@ use std::{env, ffi::OsStr, path::Path};
 use typed_arena::Arena;
 use walkdir::WalkDir;
 
-use difftastic::*;
-use difftastic::{
+// use crate::*;
+use crate::{
     dijkstra::mark_syntax,
     files::{is_probably_binary, read_or_die},
     lines::MaxLine,
