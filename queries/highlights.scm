@@ -1,4 +1,4 @@
-
+; -- Keywords
 [
 	(kProgram)
 	(kUnit)
@@ -65,6 +65,7 @@
 
 	(kFor)
 	(kTo)
+	(kDownto)
 	(kIf)
 	(kThen)
 	(kElse)
@@ -84,37 +85,7 @@
 	(kExit)
 ] @keyword
 
-[
-;	(genericType)
-;	(qualifiedType)
-	(type)
-] @type
-
-;(genericProc)     @function
-;(genericProc)     @method
-
-(literalNumber)   @number
-(literalString)   @string
-
-(comment)         @comment
-
-;(declArg          (identifier) @variable.parameter)
-;(genericParam     (identifier) @type.parameter)
-;(declVar          (identifier) @variable)
-;(declConst        (identifier) @constant)
-;(declProp   name: (identifier) @function)
-
-;(declEnumValue (identifier) @constant)
-
-;(call ((identifier) @constant
-; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
-;(declEnumValue ((identifier) @constant
-; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
-;(defaultValue ((identifier) @constant
-; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
-
-(identifier)      @identifier
-
+; -- Punctuation & operators
 
 [
 	"("
@@ -163,14 +134,108 @@
 	(kIn)
 ] @keyword
 
+; -- Builtin constants
+
 [
 	(kTrue)
 	(kFalse)
+] @constant;
+
+; arguably a constant, but we highlight it as a keyword
+[
+	(kNil)
+] @keyword
+
+; -- Literals
+
+(literalNumber)   @number
+(literalString)   @string
+
+; -- Comments
+(comment)         @comment
+
+; -- Type declaration
+
+(declType name: (identifier) @type)
+(declType name: (genericTpl entity: (identifier) @type))
+
+; -- Procedure & function declarations
+
+; foobar
+(declFunc name: (identifier) @function)
+(declProc name: (identifier) @function)
+; foobar<t>
+(declFunc name: (genericTpl entity: (identifier) @function))
+(declProc name: (genericTpl entity: (identifier) @function))
+; foo.bar
+(declFunc name: (genericDot rhs: (identifier) @function))
+(declProc name: (genericDot rhs: (identifier) @function))
+; foo.bar<t>
+(declFunc name: (genericDot rhs: (genericTpl entity: (identifier) @function)))
+(declProc name: (genericDot rhs: (genericTpl entity: (identifier) @function)))
+
+; Treat property declarations like functions
+
+(declProp name: (identifier) @function)
+
+; -- Function parameters
+
+(declArg name: (identifier) @variable.parameter)
+
+; -- Template parameters
+
+(genericArg	name: (identifier) @type.parameter)
+(genericArg	type: (typeref) @type)
+
+(genericDot (identifier) @type)
+(genericDot (genericTpl entity: (identifier) @type))
+
+; -- Type usage
+(typeref) @type
+
+;;; ---------------------------------------------- ;;;
+;;; EVERYTHING BELOW THIS IS OF QUESTIONABLE VALUE ;;;
+;;; ---------------------------------------------- ;;;
+
+; -- Procedure name in calls with parentheses
+
+; foobar
+(exprCall entity: (identifier) @function)
+; foobar<t>
+(exprCall entity: (exprTpl entity: (identifier) @function))
+; foo.bar
+(exprCall entity: (exprDot rhs: (identifier) @function))
+; foo.bar<t>
+(exprCall entity: (exprDot rhs: (exprTpl entity: (identifier) @function)))
+
+; -- Heuristic for procedure/function calls without parentheses
+
+(statement (identifier) @function)
+(statement (exprDot rhs: (identifier) @function))
+(statement (exprTpl entity: (identifier) @function))
+(statement (exprDot rhs: (exprTpl entity: (identifier) @function)))
+
+; -- Variable & constant declarations
+
+(declVar name: (identifier) @variable)
+(declField name: (identifier) @variable)
+(declConst name: (identifier) @constant)
+(declEnumValue name: (identifier) @constant)
+
+; -- Constant usage
+[
 	(caseLabel)
 	(label)
 ] @constant;
 
-; arguably a constant, but...
-[
-	(kNil)
-] @keyword
+; -- Identifier type inferrence
+
+;(call ((identifier) @constant
+; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+;(declEnumValue ((identifier) @constant
+; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+;(defaultValue ((identifier) @constant
+; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+
+; this needs to be last
+(identifier)      @identifier

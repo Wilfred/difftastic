@@ -86,11 +86,7 @@ module.exports = grammar({
 		comment:            $ => token(choice(
 			seq('//', /.*/),
 			seq('{', /[^}]*/, '}'),
-			seq(
-				'(*',
-				/[^*]*\*+([^(*][^*]*\*+)*/,
-				')'
-			)
+			seq(/\(\*([^*]*[*][^)])*[^*]*\*\)/)
 		)),
 
 		moduleName:         $ => delimited1($.identifier, $.kDot),
@@ -106,10 +102,10 @@ module.exports = grammar({
 		goto:            $ => seq($.kGoto, alias($.identifier, $.label)),
 		caseLabel:       $ => seq(delimited1(choice($._expr, $.range)), ':'),
 
-		_statements:     $ => repeat1(choice($._statement, $.label)),
+		_statements:     $ => repeat1(choice($.statement, $.label)),
 		_statementsTr:   $ => seq(
-			repeat(choice($._statement, $.label)),
-			choice(tr($,'_statement'), $._statement)
+			repeat(choice($.statement, $.label)),
+			choice(tr($,'statement'), $.statement)
 		),
 
 		statements:      $ => $._statements,
@@ -131,8 +127,51 @@ module.exports = grammar({
 		inherited:       $ => seq($.kInherited, $.identifier), 
 
 		exprDot:         $ => op.infix(5, $._ref, $.kDot, $._ref),
-		exprTpl:         $ => op.args(5, $._ref, $.kLt, $.exprArgs,           $.kGt),
-		exprIndex:       $ => op.args(5, $._ref, '[',   $.exprArgs,           ']'  ),
+
+		// Unfortunately, we can't use $.exprArgs for $.exprTpl because the
+		// parser cannot handle it.
+		//
+		// There are two conflicting rules: 
+		//
+		//   0. Binary comparison: a < b
+		//   1. Template use:      a < b >
+		//                         ^^^^^
+		//                         prefix
+		//
+		// In order for this to work, the prefix must produce the same nodes in
+		// both cases. This is not the case when we introduce a wrapper node.
+		//
+		// Example:
+		//
+		//   exprBinary
+		//     identifier
+		//     <
+		//     identifier
+		//
+		//   vs.
+		//
+		//   exprTpl
+		//     exprArgs <-- extra node
+		//       identifier
+		//       <
+		//       identifier
+		//       >
+		//
+		// Basically the way this works is that there is a tentative node like
+		// "exprTplOrBinary", which looks like this:
+		//
+		//   exprTplOrBinary
+		//     identifier
+		//     <
+		//     identifier
+		//
+		// At this point we don't yet know what we are dealing with.  The next
+		// token will determine whether we are dealing with a comparison or a
+		// template. Then the existing node is simply "renamed". Because of
+		// this, we can't have an extra node in only one of the branches.
+		//
+		exprTpl:         $ => op.args(5, $._ref, $.kLt, delimited1($._expr),  $.kGt),
+		exprIndex:       $ => op.args(5, $._ref, '[',   $.exprArgs,  ']'  ),
 		exprCall:        $ => op.args(5, $._ref, '(',   optional($.exprArgs), ')'  ),
 
 		exprArgs:        $ => delimited1($._expr),
@@ -194,18 +233,25 @@ module.exports = grammar({
 		// GENERIC TYPE DECLARATION --------------------------------------------
 		//
 		// E.g. Foo<A: B, C: D<E>>.XYZ<T>
-		genericName:        $ => delimited1(
-			seq(
-				field('entity', $.identifier), 
-				optional(seq($.kLt, field('args', $.genericArgs), $.kGt))
-			), 
-			$.kDot
+		genericDot:     $ => op.infix(1,$._genericName, $.kDot, $._genericName),
+		genericTpl:     $ => op.args(2,$._genericName, $.kLt, $.genericArgs, $.kGt),
+
+		//genericName:        $ => delimited1(
+		//	seq(
+		//		field('entity', $.identifier), 
+		//		optional(seq($.kLt, field('args', $.genericArgs), $.kGt))
+		//	), 
+		//	$.kDot
+		//),
+
+		_genericName:      $ => choice(
+			$.identifier, $.genericDot, $.genericTpl
 		),
 		genericArgs:      $ => delimited1($.genericArg, ';'),
 		genericArg:       $ => seq(
-			delimited1($.identifier), 
-			optional(seq(':', $.typeref)),
-			optional($.defaultValue)
+			field('name', delimited1($.identifier)), 
+			field('type', optional(seq(':', $.typeref))),
+			field('defaultValue', optional($.defaultValue))
 		),
 
 		// LITERALS -----------------------------------------------------------
@@ -263,7 +309,7 @@ module.exports = grammar({
 
 		declTypes:           $ => seq($.kType, repeat1($.declType)),
 		declType:          $ => seq(
-			field('name', $.genericName), $.kEq, 
+			field('name', $._genericName), $.kEq, 
 			field('type',
 				choice(
 					seq(optional($.kType), $.type),
@@ -335,7 +381,7 @@ module.exports = grammar({
 		declProc:           $ => seq(
 			optional($.kClass),
 			choice($.kProcedure, $.kConstructor, $.kDestructor),
-			field('name', $.genericName),
+			field('name', $._genericName),
 			field('args', optional($.declArgs)),
 			field('assign', optional($.defaultValue)),
 			repeat(seq(';', $.procAttribute)),
@@ -345,7 +391,7 @@ module.exports = grammar({
 		declFunc:           $ => seq(
 			optional($.kClass),
 			$.kFunction,
-			field('name', $.genericName),
+			field('name', $._genericName),
 			field('args', optional($.declArgs)),
 			':',
 			field('type', $.type),
@@ -425,15 +471,20 @@ module.exports = grammar({
 		declArg:            $ => choice(
 			seq(
 				choice($.kVar, $.kConst, $.kOut),
-				delimited1($.identifier),
-				optional(seq(':', $.type, optional($.defaultValue)))
+				field('name', delimited1($.identifier)),
+				optional(seq(
+					':', field('type', $.type), 
+					field('defaultValue', optional($.defaultValue))
+				))
 			),
 			seq(
-				delimited1($.identifier), ':', $.type, optional($.defaultValue)
+				field('name', delimited1($.identifier)), ':', 
+				field('type', $.type), 
+				field('defaultValue', optional($.defaultValue))
 			)
 		),
 
-		declLabel:          $ => seq( $.kLabel, delimited1($.identifier), ';'),
+		declLabel:          $ => seq($.kLabel, field('name', delimited1($.identifier)), ';'),
 
 		// INITIALIZERS --------------------------------------------------------
 
@@ -522,6 +573,7 @@ module.exports = grammar({
 
 		kFor:               $ => /[fF][oO][rR]/,
 		kTo:                $ => /[tT][oO]/,
+		kDownto:            $ => /[dD][oO][wW][nN][tT][oO]/,
 		kIf:                $ => /[iI][fF]/,
 		kThen:              $ => /[tT][hH][eE][nN]/,
 		kElse:              $ => /[eE][lL][sS][eE]/,
@@ -580,8 +632,8 @@ module.exports = grammar({
 
 function statements(trailing) {
 	let rn            = x => trailing ? x + 'Tr' : x
-	let lastStatement = $ => trailing ? optional(tr($,'_statement')) : $._statement;
-	let lastStatement1= $ => trailing ? tr($,'_statement') : $._statement;
+	let lastStatement = $ => trailing ? optional(tr($,'statement')) : $.statement;
+	let lastStatement1= $ => trailing ? tr($,'statement') : $.statement;
 	let semicolon     = trailing ? [] : [';'];
 	
 	return Object.fromEntries([
@@ -592,7 +644,7 @@ function statements(trailing) {
 
 		[rn('ifElse'),    $ => prec.right(1, seq(
 			$.kIf, field('condition', $._expr), $.kThen,
-			field('then', optional(choice(tr($,'_statement'), $.if))),
+			field('then', optional(choice(tr($,'statement'), $.if))),
 			$.kElse,
 			field('else', lastStatement($))
 		))],
@@ -610,7 +662,7 @@ function statements(trailing) {
 		))],
 
 		[rn('for'),        $ => seq(
-			$.kFor, field('start', $.assignment), $.kTo, field('end', $._expr), $.kDo,
+			$.kFor, field('start', $.assignment), choice($.kTo, $.kDownto), field('end', $._expr), $.kDo,
 			field('body', lastStatement($))
 		)],
 
@@ -625,7 +677,7 @@ function statements(trailing) {
 		)],
 
 		[rn('exceptionElse'), $ => seq(
-			$.kElse, repeat($._statement), lastStatement($)
+			$.kElse, repeat($.statement), lastStatement($)
 		)],
 
 		[rn('_exceptionHandlers'), $ => seq(
@@ -656,7 +708,7 @@ function statements(trailing) {
 			optional(seq(
 				$.kElse,
 				optional(':'),
-				choice(tr($,'_statement'), $._statement)
+				choice(tr($,'statement'), $.statement)
 			)),
 			$.kEnd, ...semicolon
 		))],
@@ -673,7 +725,7 @@ function statements(trailing) {
 			...semicolon
 		)],
 
-		[rn('_statement'), $ => choice(
+		[rn('statement'), $ => choice(
 			seq($._expr, ...semicolon),
 			seq($.assignment, ...semicolon),
 			seq($.goto, ...semicolon),

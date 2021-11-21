@@ -235,87 +235,7 @@
       "required": true,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "exprBinary",
-          "named": true
-        },
-        {
-          "type": "exprBrackets",
-          "named": true
-        },
-        {
-          "type": "exprCall",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprIndex",
-          "named": true
-        },
-        {
-          "type": "exprParens",
-          "named": true
-        },
-        {
-          "type": "exprTpl",
-          "named": true
-        },
-        {
-          "type": "exprUnary",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "goto",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifElse",
-          "named": true
-        },
-        {
-          "type": "inherited",
-          "named": true
-        },
-        {
           "type": "kBegin",
-          "named": true
-        },
-        {
-          "type": "kBreak",
-          "named": true
-        },
-        {
-          "type": "kContinue",
           "named": true
         },
         {
@@ -323,47 +243,11 @@
           "named": true
         },
         {
-          "type": "kExit",
-          "named": true
-        },
-        {
-          "type": "kFalse",
-          "named": true
-        },
-        {
-          "type": "kNil",
-          "named": true
-        },
-        {
-          "type": "kTrue",
-          "named": true
-        },
-        {
           "type": "label",
           "named": true
         },
         {
-          "type": "literalNumber",
-          "named": true
-        },
-        {
-          "type": "literalString",
-          "named": true
-        },
-        {
-          "type": "raise",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "while",
+          "type": "statement",
           "named": true
         }
       ]
@@ -377,18 +261,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
         {
           "type": "caseCase",
           "named": true
@@ -426,27 +298,7 @@
           "named": true
         },
         {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "goto",
-          "named": true
-        },
-        {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifElse",
           "named": true
         },
         {
@@ -454,15 +306,7 @@
           "named": true
         },
         {
-          "type": "kBreak",
-          "named": true
-        },
-        {
           "type": "kCase",
-          "named": true
-        },
-        {
-          "type": "kContinue",
           "named": true
         },
         {
@@ -471,10 +315,6 @@
         },
         {
           "type": "kEnd",
-          "named": true
-        },
-        {
-          "type": "kExit",
           "named": true
         },
         {
@@ -502,19 +342,7 @@
           "named": true
         },
         {
-          "type": "raise",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "while",
+          "type": "statement",
           "named": true
         }
       ]
@@ -525,131 +353,11 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "case",
-            "named": true
-          },
-          {
-            "type": "exprBinary",
-            "named": true
-          },
-          {
-            "type": "exprBrackets",
-            "named": true
-          },
-          {
-            "type": "exprCall",
-            "named": true
-          },
-          {
-            "type": "exprDot",
-            "named": true
-          },
-          {
-            "type": "exprIndex",
-            "named": true
-          },
-          {
-            "type": "exprParens",
-            "named": true
-          },
-          {
-            "type": "exprTpl",
-            "named": true
-          },
-          {
-            "type": "exprUnary",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "foreach",
-            "named": true
-          },
-          {
-            "type": "goto",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "ifElse",
-            "named": true
-          },
-          {
-            "type": "inherited",
-            "named": true
-          },
-          {
-            "type": "kBreak",
-            "named": true
-          },
-          {
-            "type": "kContinue",
-            "named": true
-          },
-          {
-            "type": "kExit",
-            "named": true
-          },
-          {
-            "type": "kFalse",
-            "named": true
-          },
-          {
-            "type": "kNil",
-            "named": true
-          },
-          {
-            "type": "kTrue",
-            "named": true
-          },
-          {
-            "type": "literalNumber",
-            "named": true
-          },
-          {
-            "type": "literalString",
-            "named": true
-          },
-          {
-            "type": "raise",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "try",
-            "named": true
-          },
-          {
-            "type": "while",
+            "type": "statement",
             "named": true
           }
         ]
@@ -744,19 +452,46 @@
   {
     "type": "declArg",
     "named": true,
-    "fields": {},
+    "fields": {
+      "defaultValue": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "defaultValue",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
-        {
-          "type": "defaultValue",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
         {
           "type": "kConst",
           "named": true
@@ -767,10 +502,6 @@
         },
         {
           "type": "kVar",
-          "named": true
-        },
-        {
-          "type": "type",
           "named": true
         }
       ]
@@ -1126,7 +857,15 @@
         "required": true,
         "types": [
           {
-            "type": "genericName",
+            "type": "genericDot",
+            "named": true
+          },
+          {
+            "type": "genericTpl",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           }
         ]
@@ -1245,15 +984,26 @@
   {
     "type": "declLabel",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
         {
           "type": "kLabel",
           "named": true
@@ -1313,7 +1063,15 @@
         "required": true,
         "types": [
           {
-            "type": "genericName",
+            "type": "genericDot",
+            "named": true
+          },
+          {
+            "type": "genericTpl",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           }
         ]
@@ -1838,7 +1596,15 @@
         "required": true,
         "types": [
           {
-            "type": "genericName",
+            "type": "genericDot",
+            "named": true
+          },
+          {
+            "type": "genericTpl",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           }
         ]
@@ -2133,127 +1899,11 @@
       "required": true,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "exprBinary",
-          "named": true
-        },
-        {
-          "type": "exprBrackets",
-          "named": true
-        },
-        {
-          "type": "exprCall",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprIndex",
-          "named": true
-        },
-        {
-          "type": "exprParens",
-          "named": true
-        },
-        {
-          "type": "exprTpl",
-          "named": true
-        },
-        {
-          "type": "exprUnary",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "goto",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifElse",
-          "named": true
-        },
-        {
-          "type": "inherited",
-          "named": true
-        },
-        {
-          "type": "kBreak",
-          "named": true
-        },
-        {
-          "type": "kContinue",
-          "named": true
-        },
-        {
           "type": "kElse",
           "named": true
         },
         {
-          "type": "kExit",
-          "named": true
-        },
-        {
-          "type": "kFalse",
-          "named": true
-        },
-        {
-          "type": "kNil",
-          "named": true
-        },
-        {
-          "type": "kTrue",
-          "named": true
-        },
-        {
-          "type": "literalNumber",
-          "named": true
-        },
-        {
-          "type": "literalString",
-          "named": true
-        },
-        {
-          "type": "raise",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "while",
+          "type": "statement",
           "named": true
         }
       ]
@@ -2264,131 +1914,11 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "case",
-            "named": true
-          },
-          {
-            "type": "exprBinary",
-            "named": true
-          },
-          {
-            "type": "exprBrackets",
-            "named": true
-          },
-          {
-            "type": "exprCall",
-            "named": true
-          },
-          {
-            "type": "exprDot",
-            "named": true
-          },
-          {
-            "type": "exprIndex",
-            "named": true
-          },
-          {
-            "type": "exprParens",
-            "named": true
-          },
-          {
-            "type": "exprTpl",
-            "named": true
-          },
-          {
-            "type": "exprUnary",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "foreach",
-            "named": true
-          },
-          {
-            "type": "goto",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "ifElse",
-            "named": true
-          },
-          {
-            "type": "inherited",
-            "named": true
-          },
-          {
-            "type": "kBreak",
-            "named": true
-          },
-          {
-            "type": "kContinue",
-            "named": true
-          },
-          {
-            "type": "kExit",
-            "named": true
-          },
-          {
-            "type": "kFalse",
-            "named": true
-          },
-          {
-            "type": "kNil",
-            "named": true
-          },
-          {
-            "type": "kTrue",
-            "named": true
-          },
-          {
-            "type": "literalNumber",
-            "named": true
-          },
-          {
-            "type": "literalString",
-            "named": true
-          },
-          {
-            "type": "raise",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "try",
-            "named": true
-          },
-          {
-            "type": "while",
+            "type": "statement",
             "named": true
           }
         ]
@@ -3103,11 +2633,71 @@
     "named": true,
     "fields": {
       "args": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
-            "type": "exprArgs",
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "exprBinary",
+            "named": true
+          },
+          {
+            "type": "exprBrackets",
+            "named": true
+          },
+          {
+            "type": "exprCall",
+            "named": true
+          },
+          {
+            "type": "exprDot",
+            "named": true
+          },
+          {
+            "type": "exprIndex",
+            "named": true
+          },
+          {
+            "type": "exprParens",
+            "named": true
+          },
+          {
+            "type": "exprTpl",
+            "named": true
+          },
+          {
+            "type": "exprUnary",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "inherited",
+            "named": true
+          },
+          {
+            "type": "kFalse",
+            "named": true
+          },
+          {
+            "type": "kNil",
+            "named": true
+          },
+          {
+            "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "literalNumber",
+            "named": true
+          },
+          {
+            "type": "literalString",
             "named": true
           }
         ]
@@ -3265,103 +2855,7 @@
       "required": true,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "exprBinary",
-          "named": true
-        },
-        {
-          "type": "exprBrackets",
-          "named": true
-        },
-        {
-          "type": "exprCall",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprIndex",
-          "named": true
-        },
-        {
-          "type": "exprParens",
-          "named": true
-        },
-        {
-          "type": "exprTpl",
-          "named": true
-        },
-        {
-          "type": "exprUnary",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "goto",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifElse",
-          "named": true
-        },
-        {
-          "type": "inherited",
-          "named": true
-        },
-        {
-          "type": "kBreak",
-          "named": true
-        },
-        {
-          "type": "kContinue",
-          "named": true
-        },
-        {
-          "type": "kExit",
-          "named": true
-        },
-        {
-          "type": "kFalse",
-          "named": true
-        },
-        {
           "type": "kFinalization",
-          "named": true
-        },
-        {
-          "type": "kNil",
-          "named": true
-        },
-        {
-          "type": "kTrue",
           "named": true
         },
         {
@@ -3369,27 +2863,7 @@
           "named": true
         },
         {
-          "type": "literalNumber",
-          "named": true
-        },
-        {
-          "type": "literalString",
-          "named": true
-        },
-        {
-          "type": "raise",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "while",
+          "type": "statement",
           "named": true
         }
       ]
@@ -3400,131 +2874,11 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "case",
-            "named": true
-          },
-          {
-            "type": "exprBinary",
-            "named": true
-          },
-          {
-            "type": "exprBrackets",
-            "named": true
-          },
-          {
-            "type": "exprCall",
-            "named": true
-          },
-          {
-            "type": "exprDot",
-            "named": true
-          },
-          {
-            "type": "exprIndex",
-            "named": true
-          },
-          {
-            "type": "exprParens",
-            "named": true
-          },
-          {
-            "type": "exprTpl",
-            "named": true
-          },
-          {
-            "type": "exprUnary",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "foreach",
-            "named": true
-          },
-          {
-            "type": "goto",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "ifElse",
-            "named": true
-          },
-          {
-            "type": "inherited",
-            "named": true
-          },
-          {
-            "type": "kBreak",
-            "named": true
-          },
-          {
-            "type": "kContinue",
-            "named": true
-          },
-          {
-            "type": "kExit",
-            "named": true
-          },
-          {
-            "type": "kFalse",
-            "named": true
-          },
-          {
-            "type": "kNil",
-            "named": true
-          },
-          {
-            "type": "kTrue",
-            "named": true
-          },
-          {
-            "type": "literalNumber",
-            "named": true
-          },
-          {
-            "type": "literalString",
-            "named": true
-          },
-          {
-            "type": "raise",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "try",
-            "named": true
-          },
-          {
-            "type": "while",
+            "type": "statement",
             "named": true
           }
         ]
@@ -3615,6 +2969,10 @@
           "named": true
         },
         {
+          "type": "kDownto",
+          "named": true
+        },
+        {
           "type": "kFor",
           "named": true
         },
@@ -3630,131 +2988,11 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "case",
-            "named": true
-          },
-          {
-            "type": "exprBinary",
-            "named": true
-          },
-          {
-            "type": "exprBrackets",
-            "named": true
-          },
-          {
-            "type": "exprCall",
-            "named": true
-          },
-          {
-            "type": "exprDot",
-            "named": true
-          },
-          {
-            "type": "exprIndex",
-            "named": true
-          },
-          {
-            "type": "exprParens",
-            "named": true
-          },
-          {
-            "type": "exprTpl",
-            "named": true
-          },
-          {
-            "type": "exprUnary",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "foreach",
-            "named": true
-          },
-          {
-            "type": "goto",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "ifElse",
-            "named": true
-          },
-          {
-            "type": "inherited",
-            "named": true
-          },
-          {
-            "type": "kBreak",
-            "named": true
-          },
-          {
-            "type": "kContinue",
-            "named": true
-          },
-          {
-            "type": "kExit",
-            "named": true
-          },
-          {
-            "type": "kFalse",
-            "named": true
-          },
-          {
-            "type": "kNil",
-            "named": true
-          },
-          {
-            "type": "kTrue",
-            "named": true
-          },
-          {
-            "type": "literalNumber",
-            "named": true
-          },
-          {
-            "type": "literalString",
-            "named": true
-          },
-          {
-            "type": "raise",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "try",
-            "named": true
-          },
-          {
-            "type": "while",
+            "type": "statement",
             "named": true
           }
         ]
@@ -3914,24 +3152,45 @@
   {
     "type": "genericArg",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "defaultValue",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "typeref",
-          "named": true
-        }
-      ]
+    "fields": {
+      "defaultValue": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "defaultValue",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "typeref",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3950,12 +3209,64 @@
     }
   },
   {
-    "type": "genericName",
+    "type": "genericDot",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "genericDot",
+            "named": true
+          },
+          {
+            "type": "genericTpl",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "kDot",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "genericDot",
+            "named": true
+          },
+          {
+            "type": "genericTpl",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "genericTpl",
     "named": true,
     "fields": {
       "args": {
-        "multiple": true,
-        "required": false,
+        "multiple": false,
+        "required": true,
         "types": [
           {
             "type": "genericArgs",
@@ -3964,9 +3275,17 @@
         ]
       },
       "entity": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "genericDot",
+            "named": true
+          },
+          {
+            "type": "genericTpl",
+            "named": true
+          },
           {
             "type": "identifier",
             "named": true
@@ -3976,12 +3295,8 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
-        {
-          "type": "kDot",
-          "named": true
-        },
         {
           "type": "kGt",
           "named": true
@@ -4083,131 +3398,11 @@
         ]
       },
       "then": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "case",
-            "named": true
-          },
-          {
-            "type": "exprBinary",
-            "named": true
-          },
-          {
-            "type": "exprBrackets",
-            "named": true
-          },
-          {
-            "type": "exprCall",
-            "named": true
-          },
-          {
-            "type": "exprDot",
-            "named": true
-          },
-          {
-            "type": "exprIndex",
-            "named": true
-          },
-          {
-            "type": "exprParens",
-            "named": true
-          },
-          {
-            "type": "exprTpl",
-            "named": true
-          },
-          {
-            "type": "exprUnary",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "foreach",
-            "named": true
-          },
-          {
-            "type": "goto",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "ifElse",
-            "named": true
-          },
-          {
-            "type": "inherited",
-            "named": true
-          },
-          {
-            "type": "kBreak",
-            "named": true
-          },
-          {
-            "type": "kContinue",
-            "named": true
-          },
-          {
-            "type": "kExit",
-            "named": true
-          },
-          {
-            "type": "kFalse",
-            "named": true
-          },
-          {
-            "type": "kNil",
-            "named": true
-          },
-          {
-            "type": "kTrue",
-            "named": true
-          },
-          {
-            "type": "literalNumber",
-            "named": true
-          },
-          {
-            "type": "literalString",
-            "named": true
-          },
-          {
-            "type": "raise",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "try",
-            "named": true
-          },
-          {
-            "type": "while",
+            "type": "statement",
             "named": true
           }
         ]
@@ -4299,131 +3494,11 @@
         ]
       },
       "else": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "case",
-            "named": true
-          },
-          {
-            "type": "exprBinary",
-            "named": true
-          },
-          {
-            "type": "exprBrackets",
-            "named": true
-          },
-          {
-            "type": "exprCall",
-            "named": true
-          },
-          {
-            "type": "exprDot",
-            "named": true
-          },
-          {
-            "type": "exprIndex",
-            "named": true
-          },
-          {
-            "type": "exprParens",
-            "named": true
-          },
-          {
-            "type": "exprTpl",
-            "named": true
-          },
-          {
-            "type": "exprUnary",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "foreach",
-            "named": true
-          },
-          {
-            "type": "goto",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "ifElse",
-            "named": true
-          },
-          {
-            "type": "inherited",
-            "named": true
-          },
-          {
-            "type": "kBreak",
-            "named": true
-          },
-          {
-            "type": "kContinue",
-            "named": true
-          },
-          {
-            "type": "kExit",
-            "named": true
-          },
-          {
-            "type": "kFalse",
-            "named": true
-          },
-          {
-            "type": "kNil",
-            "named": true
-          },
-          {
-            "type": "kTrue",
-            "named": true
-          },
-          {
-            "type": "literalNumber",
-            "named": true
-          },
-          {
-            "type": "literalString",
-            "named": true
-          },
-          {
-            "type": "raise",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "try",
-            "named": true
-          },
-          {
-            "type": "while",
+            "type": "statement",
             "named": true
           }
         ]
@@ -4433,123 +3508,11 @@
         "required": false,
         "types": [
           {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "case",
-            "named": true
-          },
-          {
-            "type": "exprBinary",
-            "named": true
-          },
-          {
-            "type": "exprBrackets",
-            "named": true
-          },
-          {
-            "type": "exprCall",
-            "named": true
-          },
-          {
-            "type": "exprDot",
-            "named": true
-          },
-          {
-            "type": "exprIndex",
-            "named": true
-          },
-          {
-            "type": "exprParens",
-            "named": true
-          },
-          {
-            "type": "exprTpl",
-            "named": true
-          },
-          {
-            "type": "exprUnary",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "foreach",
-            "named": true
-          },
-          {
-            "type": "goto",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
             "type": "if",
             "named": true
           },
           {
-            "type": "ifElse",
-            "named": true
-          },
-          {
-            "type": "inherited",
-            "named": true
-          },
-          {
-            "type": "kBreak",
-            "named": true
-          },
-          {
-            "type": "kContinue",
-            "named": true
-          },
-          {
-            "type": "kExit",
-            "named": true
-          },
-          {
-            "type": "kFalse",
-            "named": true
-          },
-          {
-            "type": "kNil",
-            "named": true
-          },
-          {
-            "type": "kTrue",
-            "named": true
-          },
-          {
-            "type": "literalNumber",
-            "named": true
-          },
-          {
-            "type": "literalString",
-            "named": true
-          },
-          {
-            "type": "raise",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "try",
-            "named": true
-          },
-          {
-            "type": "while",
+            "type": "statement",
             "named": true
           }
         ]
@@ -4649,103 +3612,7 @@
       "required": true,
       "types": [
         {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "exprBinary",
-          "named": true
-        },
-        {
-          "type": "exprBrackets",
-          "named": true
-        },
-        {
-          "type": "exprCall",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprIndex",
-          "named": true
-        },
-        {
-          "type": "exprParens",
-          "named": true
-        },
-        {
-          "type": "exprTpl",
-          "named": true
-        },
-        {
-          "type": "exprUnary",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "goto",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifElse",
-          "named": true
-        },
-        {
-          "type": "inherited",
-          "named": true
-        },
-        {
-          "type": "kBreak",
-          "named": true
-        },
-        {
-          "type": "kContinue",
-          "named": true
-        },
-        {
-          "type": "kExit",
-          "named": true
-        },
-        {
-          "type": "kFalse",
-          "named": true
-        },
-        {
           "type": "kInitialization",
-          "named": true
-        },
-        {
-          "type": "kNil",
-          "named": true
-        },
-        {
-          "type": "kTrue",
           "named": true
         },
         {
@@ -4753,27 +3620,7 @@
           "named": true
         },
         {
-          "type": "literalNumber",
-          "named": true
-        },
-        {
-          "type": "literalString",
-          "named": true
-        },
-        {
-          "type": "raise",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "try",
-          "named": true
-        },
-        {
-          "type": "while",
+          "type": "statement",
           "named": true
         }
       ]
@@ -5436,11 +4283,11 @@
     }
   },
   {
-    "type": "statements",
+    "type": "statement",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -5540,10 +4387,6 @@
           "named": true
         },
         {
-          "type": "label",
-          "named": true
-        },
-        {
           "type": "literalNumber",
           "named": true
         },
@@ -5565,6 +4408,25 @@
         },
         {
           "type": "while",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statements",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "statement",
           "named": true
         }
       ]
@@ -5931,131 +4793,11 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ";",
-            "named": false
-          },
-          {
-            "type": "assignment",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "case",
-            "named": true
-          },
-          {
-            "type": "exprBinary",
-            "named": true
-          },
-          {
-            "type": "exprBrackets",
-            "named": true
-          },
-          {
-            "type": "exprCall",
-            "named": true
-          },
-          {
-            "type": "exprDot",
-            "named": true
-          },
-          {
-            "type": "exprIndex",
-            "named": true
-          },
-          {
-            "type": "exprParens",
-            "named": true
-          },
-          {
-            "type": "exprTpl",
-            "named": true
-          },
-          {
-            "type": "exprUnary",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "foreach",
-            "named": true
-          },
-          {
-            "type": "goto",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "ifElse",
-            "named": true
-          },
-          {
-            "type": "inherited",
-            "named": true
-          },
-          {
-            "type": "kBreak",
-            "named": true
-          },
-          {
-            "type": "kContinue",
-            "named": true
-          },
-          {
-            "type": "kExit",
-            "named": true
-          },
-          {
-            "type": "kFalse",
-            "named": true
-          },
-          {
-            "type": "kNil",
-            "named": true
-          },
-          {
-            "type": "kTrue",
-            "named": true
-          },
-          {
-            "type": "literalNumber",
-            "named": true
-          },
-          {
-            "type": "literalString",
-            "named": true
-          },
-          {
-            "type": "raise",
-            "named": true
-          },
-          {
-            "type": "repeat",
-            "named": true
-          },
-          {
-            "type": "try",
-            "named": true
-          },
-          {
-            "type": "while",
+            "type": "statement",
             "named": true
           }
         ]
@@ -6264,6 +5006,10 @@
   },
   {
     "type": "kDo",
+    "named": true
+  },
+  {
+    "type": "kDownto",
     "named": true
   },
   {
