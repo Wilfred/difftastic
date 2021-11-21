@@ -19,10 +19,11 @@ enum TokenType {
     RETHROWS_KEYWORD,
     DEFAULT_KEYWORD,
     WHERE_KEYWORD,
-    ELSE_KEYWORD
+    ELSE_KEYWORD,
+    CATCH_KEYWORD
 };
 
-#define CROSS_SEMI_OPERATOR_COUNT 13
+#define CROSS_SEMI_OPERATOR_COUNT 14
 
 const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "->",
@@ -37,7 +38,8 @@ const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "rethrows",
     "default",
     "where",
-    "else"
+    "else",
+    "catch"
 };
 
 const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
@@ -53,7 +55,8 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     RETHROWS_KEYWORD,
     DEFAULT_KEYWORD,
     WHERE_KEYWORD,
-    ELSE_KEYWORD
+    ELSE_KEYWORD,
+    CATCH_KEYWORD
 };
 
 #define NON_CONSUMING_CROSS_SEMI_CHAR_COUNT 3
@@ -124,32 +127,41 @@ static int32_t encountered_op_count(bool *encountered_operator) {
     return encountered;
 }
 
-static bool eat_whitespace(
+enum WhitespaceResult {
+    NO_NEWLINE,
+    IMPLICIT_EXPRESSION_TERMINATION,
+    EXPLICIT_EXPRESSION_TERMINATION
+};
+
+static enum WhitespaceResult eat_whitespace(
     TSLexer *lexer,
     const bool *valid_symbols,
     enum TokenType *symbol_result
 ) {
-    bool saw_semi = false;
+    enum WhitespaceResult ws_result = NO_NEWLINE;
     bool semi_is_valid = valid_symbols[SEMI];
     uint32_t lookahead;
     while (should_treat_as_wspace(lookahead = lexer->lookahead)) {
-        if (lookahead == ';' && !semi_is_valid) {
-            break;
+        if (lookahead == ';') {
+            if (!semi_is_valid) {
+                break;
+            }
+            ws_result = EXPLICIT_EXPRESSION_TERMINATION;
         }
 
         lexer->advance(lexer, true);
-        if (lookahead == '\n' || lookahead == '\r' || lookahead == ';') {
-            saw_semi = true;
+        if (ws_result == NO_NEWLINE && (lookahead == '\n' || lookahead == '\r')) {
+            ws_result = IMPLICIT_EXPRESSION_TERMINATION;
         }
     }
 
     lexer->mark_end(lexer);
-    if (saw_semi && semi_is_valid) {
+    if (semi_is_valid && ws_result != NO_NEWLINE) {
         *symbol_result = SEMI;
-        return true;
+        return ws_result;
     }
 
-    return false;
+    return NO_NEWLINE;
 }
 
 static bool eat_operators(
@@ -371,7 +383,13 @@ bool tree_sitter_swift_external_scanner_scan(
 
     // Consume any whitespace at the start.
     enum TokenType semi_result;
-    bool saw_semi = eat_whitespace(lexer, valid_symbols, &semi_result);
+    enum WhitespaceResult ws_result = eat_whitespace(lexer, valid_symbols, &semi_result);
+    if (ws_result == EXPLICIT_EXPRESSION_TERMINATION) {
+        lexer->result_symbol = semi_result;
+        return true;
+    }
+
+    bool saw_semi = (ws_result != NO_NEWLINE);
 
     // Let's consume operators that can live after a "semicolon" style newline. Before we do that, though, we want to
     // check for a set of characters that we do not consume, but that still suppress the semi.

@@ -147,6 +147,7 @@ module.exports = grammar({
     $.default_keyword,
     $._where_keyword,
     $._else,
+    $._catch,
   ],
 
   rules: {
@@ -768,7 +769,7 @@ module.exports = grammar({
 
     catch_block: ($) =>
       seq(
-        "catch",
+        $._catch,
         optional(generate_pattern_matching_rule($, true, false)),
         optional($.where_clause),
         $._block

@@ -80,4 +80,3 @@ Almost nested comments
     (multiline_comment)
     (multiline_comment)
     (multiline_comment))
-
