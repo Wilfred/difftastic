@@ -54,3 +54,7 @@ rayon = "1.5.1"
 #
 # https://doc.rust-lang.org/cargo/reference/profiles.html#release
 debug = false
+
+[[bin]]
+name = "difft"
+path = "src/main.rs"
