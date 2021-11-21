@@ -1,4 +1,3 @@
 Carthage/Tests/CarthageKitTests/CartfileCommentsSpec.swift
 firefox-ios/Shared/Functions.swift
-firefox-ios/Client/Frontend/Browser/TabDisplayManager.swift
 firefox-ios/Client/Frontend/Browser/Authenticator.swift
