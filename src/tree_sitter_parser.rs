@@ -204,7 +204,9 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
         "rb" => Some(TreeSitterConfig {
             name: "Ruby",
             language: unsafe { tree_sitter_ruby() },
-            atom_nodes: (vec!["string", "heredoc_body", "regex"]).into_iter().collect(),
+            atom_nodes: (vec!["string", "heredoc_body", "regex"])
+                .into_iter()
+                .collect(),
             delimiter_tokens: (vec![
                 ("{", "}"),
                 ("(", ")"),
