@@ -449,6 +449,32 @@ else if let cPrime = c {
             (value_binding_pattern (non_binding_pattern (simple_identifier)))
             (simple_identifier))))
 
+===
+Else interacts with comments
+===
+
+if foo {
+  fooVal = 0; // A comment
+}
+// Another comment
+else if bar {
+}
+
+---
+
+(source_file
+  (if_statement
+    (simple_identifier)
+    (statements
+      (assignment
+        (directly_assignable_expression
+          (simple_identifier))
+        (integer_literal)))
+    (comment)
+    (comment)
+    (if_statement
+      (simple_identifier))))
+
 ==================
 Guard statements
 ==================
