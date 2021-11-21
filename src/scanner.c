@@ -60,7 +60,25 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
 };
 
 #define NON_CONSUMING_CROSS_SEMI_CHAR_COUNT 3
-const char NON_CONSUMING_CROSS_SEMI_CHARS[CROSS_SEMI_OPERATOR_COUNT] = { '?', ':', '{' };
+const char NON_CONSUMING_CROSS_SEMI_CHARS[CROSS_SEMI_OPERATOR_COUNT] = { '?', ':', '{', '}' };
+
+/**
+ * All possible results of having performed some sort of parsing.
+ *
+ * A parser can return a result along two dimensions:
+ * 1. Should the scanner continue trying to find another result?
+ * 2. Was some result produced by this parsing attempt?
+ *
+ * These are flattened into a single enum together. When the function returns one of the `TOKEN_FOUND` cases, it
+ * will always populate its `symbol_result` field. When it returns one of the `STOP_PARSING` cases, callers should
+ * immediately return (with the value, if there is one).
+ */
+enum ParseDirective {
+    CONTINUE_PARSING_NOTHING_FOUND,
+    CONTINUE_PARSING_TOKEN_FOUND,
+    STOP_PARSING_NOTHING_FOUND,
+    STOP_PARSING_TOKEN_FOUND
+};
 
 struct ScannerState {
     uint32_t ongoing_raw_str_hash_count;
@@ -127,46 +145,10 @@ static int32_t encountered_op_count(bool *encountered_operator) {
     return encountered;
 }
 
-enum WhitespaceResult {
-    NO_NEWLINE,
-    IMPLICIT_EXPRESSION_TERMINATION,
-    EXPLICIT_EXPRESSION_TERMINATION
-};
-
-static enum WhitespaceResult eat_whitespace(
-    TSLexer *lexer,
-    const bool *valid_symbols,
-    enum TokenType *symbol_result
-) {
-    enum WhitespaceResult ws_result = NO_NEWLINE;
-    bool semi_is_valid = valid_symbols[SEMI];
-    uint32_t lookahead;
-    while (should_treat_as_wspace(lookahead = lexer->lookahead)) {
-        if (lookahead == ';') {
-            if (!semi_is_valid) {
-                break;
-            }
-            ws_result = EXPLICIT_EXPRESSION_TERMINATION;
-        }
-
-        lexer->advance(lexer, true);
-        if (ws_result == NO_NEWLINE && (lookahead == '\n' || lookahead == '\r')) {
-            ws_result = IMPLICIT_EXPRESSION_TERMINATION;
-        }
-    }
-
-    lexer->mark_end(lexer);
-    if (semi_is_valid && ws_result != NO_NEWLINE) {
-        *symbol_result = SEMI;
-        return ws_result;
-    }
-
-    return NO_NEWLINE;
-}
-
 static bool eat_operators(
     TSLexer *lexer,
     const bool *valid_symbols,
+    bool mark_end,
     enum TokenType *symbol_result
 ) {
     bool possible_operators[CROSS_SEMI_OPERATOR_COUNT];
@@ -206,7 +188,9 @@ static bool eat_operators(
                     // Only match if this is the _end_ of an operator. If it's possible for a custom
                     // operator to continue from here, don't treat it as a full match.
                     full_match = op_idx;
-                    lexer->mark_end(lexer);
+                    if (mark_end) {
+                        lexer->mark_end(lexer);
+                    }
                 }
 
                 possible_operators[op_idx] = false;
@@ -238,6 +222,7 @@ static bool eat_operators(
 static bool eat_comment(
     TSLexer *lexer,
     const bool *valid_symbols,
+    bool mark_end,
     enum TokenType *symbol_result
 ) {
     // This is from https://github.com/tree-sitter/tree-sitter-rust/blob/f1c5c4b1d7b98a0288c1e4e6094cfcc3f6213cc0/src/scanner.c
@@ -262,7 +247,9 @@ static bool eat_comment(
                     after_star = false;
                     nesting_depth--;
                     if (nesting_depth == 0) {
-                        lexer->mark_end(lexer);
+                        if (mark_end) {
+                            lexer->mark_end(lexer);
+                        }
                         *symbol_result = BLOCK_COMMENT;
                         return true;
                     }
@@ -284,6 +271,94 @@ static bool eat_comment(
     }
 
     return false;
+}
+
+static enum ParseDirective eat_whitespace(
+    TSLexer *lexer,
+    const bool *valid_symbols,
+    enum TokenType *symbol_result
+) {
+    enum ParseDirective ws_directive = CONTINUE_PARSING_NOTHING_FOUND;
+    bool semi_is_valid = valid_symbols[SEMI];
+    uint32_t lookahead;
+    while (should_treat_as_wspace(lookahead = lexer->lookahead)) {
+        if (lookahead == ';') {
+            if (!semi_is_valid) {
+                break;
+            }
+            ws_directive = STOP_PARSING_TOKEN_FOUND;
+        }
+
+        lexer->advance(lexer, true);
+        if (ws_directive == CONTINUE_PARSING_NOTHING_FOUND && (lookahead == '\n' || lookahead == '\r')) {
+            ws_directive = CONTINUE_PARSING_TOKEN_FOUND;
+        }
+    }
+
+    lexer->mark_end(lexer);
+
+    if (true && ws_directive == CONTINUE_PARSING_TOKEN_FOUND && lookahead == '/') {
+        bool has_seen_single_comment = false;
+        while (lexer->lookahead == '/') {
+            // It's possible that this is a comment - start an exploratory mission to find out, and if it is, look for what
+            // comes after it. We care about what comes after it for the purpose of suppressing the newline.
+
+            enum TokenType multiline_comment_result;
+            bool saw_multiline_comment = eat_comment(lexer, valid_symbols, /* mark_end */ false, &multiline_comment_result);
+            if (saw_multiline_comment) {
+                // This is a multiline comment. This scanner should be parsing those, so we might want to bail out and
+                // emit it instead. However, we only want to do that if we haven't advanced through a _single_ line
+                // comment on the way - otherwise that will get lumped into this.
+                if (!has_seen_single_comment) {
+                    lexer->mark_end(lexer);
+                    *symbol_result = multiline_comment_result;
+                    return STOP_PARSING_TOKEN_FOUND;
+                }
+            } else if (lexer->lookahead == '/') {
+                // There wasn't a multiline comment, which we know means that the comment parser ate its `/` and then
+                // bailed out. If it had seen anything comment-like after that first `/` it would have continued going
+                // and eventually had a well-formed comment or an EOF. Thus, if we're currently looking at a `/`, it's
+                // the second one of those and it means we have a single-line comment.
+                has_seen_single_comment = true;
+                while (lexer->lookahead != '\n') {
+                    lexer->advance(lexer, true);
+                }
+            }
+
+            // If we skipped through some comment, we're at whitespace now, so advance.
+            while(iswspace(lexer->lookahead)) {
+                lexer->advance(lexer, true);
+            }
+        }
+
+        enum TokenType operator_result;
+        bool saw_operator = eat_operators(lexer, valid_symbols, /* mark_end */ false, &operator_result);
+        if (saw_operator) {
+            // The operator we saw should suppress the newline, so bail out.
+            return STOP_PARSING_NOTHING_FOUND;
+        } else {
+            // Promote the implicit newline to an explicit one so we don't check for operators again.
+            *symbol_result = SEMI;
+            ws_directive = STOP_PARSING_TOKEN_FOUND;
+        }
+    }
+
+    // Let's consume operators that can live after a "semicolon" style newline. Before we do that, though, we want to
+    // check for a set of characters that we do not consume, but that still suppress the semi.
+    if (ws_directive == CONTINUE_PARSING_TOKEN_FOUND) {
+        for (int i = 0; i < NON_CONSUMING_CROSS_SEMI_CHAR_COUNT; i++) {
+            if (NON_CONSUMING_CROSS_SEMI_CHARS[i] == lookahead) {
+                return CONTINUE_PARSING_NOTHING_FOUND;
+            }
+        }
+    }
+
+    if (semi_is_valid && ws_directive != CONTINUE_PARSING_NOTHING_FOUND) {
+        *symbol_result = SEMI;
+        return ws_directive;
+    }
+
+    return CONTINUE_PARSING_NOTHING_FOUND;
 }
 
 static bool eat_raw_str_part(
@@ -382,42 +457,41 @@ bool tree_sitter_swift_external_scanner_scan(
     struct ScannerState *state = (struct ScannerState *)payload;
 
     // Consume any whitespace at the start.
-    enum TokenType semi_result;
-    enum WhitespaceResult ws_result = eat_whitespace(lexer, valid_symbols, &semi_result);
-    if (ws_result == EXPLICIT_EXPRESSION_TERMINATION) {
-        lexer->result_symbol = semi_result;
+    enum TokenType ws_result;
+    enum ParseDirective ws_directive = eat_whitespace(lexer, valid_symbols, &ws_result);
+    if (ws_directive == STOP_PARSING_TOKEN_FOUND) {
+        lexer->result_symbol = ws_result;
         return true;
     }
 
-    bool saw_semi = (ws_result != NO_NEWLINE);
-
-    // Let's consume operators that can live after a "semicolon" style newline. Before we do that, though, we want to
-    // check for a set of characters that we do not consume, but that still suppress the semi.
-    uint8_t char_after_whitespace = lexer->lookahead;
-    bool allow_semi = true;
-    for (int i = 0; i < NON_CONSUMING_CROSS_SEMI_CHAR_COUNT; i++) {
-        if (NON_CONSUMING_CROSS_SEMI_CHARS[i] == char_after_whitespace) {
-            allow_semi = false;
-        }
+    if (ws_directive == STOP_PARSING_NOTHING_FOUND) {
+        return false;
     }
+
+    bool has_ws_result = (ws_directive != CONTINUE_PARSING_NOTHING_FOUND);
 
     // Now consume any operators that might cause our whitespace to be suppressed.
     enum TokenType operator_result;
-    bool saw_operator = eat_operators(lexer, valid_symbols, &operator_result);
+    bool saw_operator = eat_operators(
+                            lexer,
+                            valid_symbols,
+                            /* mark_end */ true,
+                            &operator_result
+                        );
 
     if (saw_operator) {
         lexer->result_symbol = operator_result;
         return true;
     }
 
-    if (saw_semi && allow_semi) {
+    if (has_ws_result) {
         // Don't `mark_end`, since we may have advanced through some operators.
-        lexer->result_symbol = semi_result;
+        lexer->result_symbol = ws_result;
         return true;
     }
 
     enum TokenType comment_result;
-    bool saw_comment = eat_comment(lexer, valid_symbols, &comment_result);
+    bool saw_comment = eat_comment(lexer, valid_symbols, /* mark_end */ true, &comment_result);
     if (saw_comment) {
         lexer->mark_end(lexer);
         lexer->result_symbol = comment_result;
