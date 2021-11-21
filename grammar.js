@@ -402,7 +402,16 @@ module.exports = grammar({
       prec.left(PREC.POSTFIX, seq($._expression, $.indexing_suffix)),
 
     navigation_expression: ($) =>
-      prec.left(PREC.NAVIGATION, seq($._expression, $.navigation_suffix)),
+      prec.left(
+        PREC.NAVIGATION,
+        seq(
+          choice($._navigable_type_expression, $._expression),
+          $.navigation_suffix
+        )
+      ),
+
+    _navigable_type_expression: ($) =>
+      choice($.user_type, $.array_type, $.dictionary_type),
 
     // XXX precedence for ranges isn't right
     open_start_range_expression: ($) =>
