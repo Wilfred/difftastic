@@ -143,22 +143,6 @@ pub fn substring_by_codepoint(s: &str, start: usize, end: usize) -> &str {
     }
 }
 
-/// Truncate any lines in `s` that are longer than `line_length`.
-pub fn enforce_max_length(s: &str, line_length: usize) -> String {
-    let mut result = String::with_capacity(s.len());
-    for line in s.lines() {
-        // TODO: use length in chars not bytes.
-        if line.len() > line_length {
-            result.push_str(substring_by_codepoint(line, 0, line_length));
-            result.push('\n');
-        } else {
-            result.push_str(&format!("{}\n", line));
-        }
-    }
-
-    result
-}
-
 pub trait MaxLine {
     fn max_line(&self) -> LineNumber;
 }
