@@ -1800,14 +1800,11 @@ _world_.
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    (line_break)
-    (line_break))
+  (html_block)
   (paragraph
     (emphasis)
     (soft_line_break)
-    (html_close_tag
-      (html_tag_name)))
+    (html_tag))
   (html_block))
 
 ================================================================================
@@ -1826,23 +1823,8 @@ okay.
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    
-    (line_break)
-    
-    (line_break)
-    
-    (line_break)
-    
-    (line_break)
-    )
-  (paragraph
-    
-    ))
+  (html_block)
+  (paragraph))
 
 ================================================================================
 Example 120 - https://github.github.com/gfm/#example-120
@@ -1854,12 +1836,7 @@ Example 120 - https://github.github.com/gfm/#example-120
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 121 - https://github.github.com/gfm/#example-121
@@ -1870,10 +1847,7 @@ Example 121 - https://github.github.com/gfm/#example-121
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 122 - https://github.github.com/gfm/#example-122
@@ -1887,14 +1861,10 @@ Example 122 - https://github.github.com/gfm/#example-122
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    )
+  (html_block)
   (paragraph
-    (emphasis
-      )
-    )
-  (html_block
-    ))
+    (emphasis))
+  (html_block))
 
 ================================================================================
 Example 123 - https://github.github.com/gfm/#example-123
@@ -1906,12 +1876,7 @@ Example 123 - https://github.github.com/gfm/#example-123
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 124 - https://github.github.com/gfm/#example-124
@@ -1923,12 +1888,7 @@ Example 124 - https://github.github.com/gfm/#example-124
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 125 - https://github.github.com/gfm/#example-125
@@ -1941,14 +1901,9 @@ Example 125 - https://github.github.com/gfm/#example-125
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    )
+  (html_block)
   (paragraph
-    (emphasis
-      )
-    ))
+    (emphasis)))
 
 ================================================================================
 Example 126 - https://github.github.com/gfm/#example-126
@@ -1959,10 +1914,7 @@ Example 126 - https://github.github.com/gfm/#example-126
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 127 - https://github.github.com/gfm/#example-127
@@ -1973,10 +1925,7 @@ foo
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 128 - https://github.github.com/gfm/#example-128
@@ -1987,10 +1936,7 @@ Example 128 - https://github.github.com/gfm/#example-128
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 129 - https://github.github.com/gfm/#example-129
@@ -2000,8 +1946,7 @@ Example 129 - https://github.github.com/gfm/#example-129
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    ))
+  (html_block))
 
 ================================================================================
 Example 130 - https://github.github.com/gfm/#example-130
@@ -2013,12 +1958,7 @@ foo
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 131 - https://github.github.com/gfm/#example-131
@@ -2031,14 +1971,7 @@ int x = 33;
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 132 - https://github.github.com/gfm/#example-132
@@ -2050,13 +1983,7 @@ Example 132 - https://github.github.com/gfm/#example-132
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    ))
-
+  (html_block))
 ================================================================================
 Example 133 - https://github.github.com/gfm/#example-133
 ================================================================================
@@ -2067,12 +1994,7 @@ Example 133 - https://github.github.com/gfm/#example-133
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 134 - https://github.github.com/gfm/#example-134
@@ -2084,12 +2006,7 @@ Example 134 - https://github.github.com/gfm/#example-134
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 135 - https://github.github.com/gfm/#example-135
@@ -2100,10 +2017,7 @@ Example 135 - https://github.github.com/gfm/#example-135
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 136 - https://github.github.com/gfm/#example-136
@@ -2115,12 +2029,7 @@ Example 136 - https://github.github.com/gfm/#example-136
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 137 - https://github.github.com/gfm/#example-137
@@ -2134,14 +2043,10 @@ Example 137 - https://github.github.com/gfm/#example-137
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    )
+  (html_block)
   (paragraph
-    (emphasis
-      )
-    )
-  (html_block
-    ))
+    (emphasis))
+  (html_block))
 
 ================================================================================
 Example 138 - https://github.github.com/gfm/#example-138
@@ -2152,13 +2057,9 @@ Example 138 - https://github.github.com/gfm/#example-138
 
 (document
   (paragraph
-    (html_open_tag
-      (html_tag_name))
-    (emphasis
-      )
-    (html_close_tag
-      (html_tag_name))
-    ))
+    (html_tag)
+    (emphasis)
+    (html_tag)))
 
 ================================================================================
 Example 139 - https://github.github.com/gfm/#example-139
@@ -2174,20 +2075,8 @@ okay
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    (line_break)
-    
-    (line_break)
-    
-    (line_break)
-    )
-  (paragraph
-    
-    ))
+  (html_block)
+  (paragraph))
 
 ================================================================================
 Example 140 - https://github.github.com/gfm/#example-140
@@ -2202,18 +2091,8 @@ okay
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    (line_break)
-    
-    (line_break)
-    )
-  (paragraph
-    
-    ))
+  (html_block)
+  (paragraph))
 
 ================================================================================
 Example 141 - https://github.github.com/gfm/#example-141
@@ -2229,20 +2108,8 @@ okay
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    
-    (line_break)
-    (line_break)
-    
-    (line_break)
-    )
-  (paragraph
-    
-    ))
+  (html_block)
+  (paragraph))
 
 ================================================================================
 Example 142 - https://github.github.com/gfm/#example-142
@@ -2255,13 +2122,7 @@ foo
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 143 - https://github.github.com/gfm/#example-143
@@ -2275,13 +2136,8 @@ bar
 
 (document
   (block_quote
-    (html_block
-      
-      (line_break)
-      ))
-  (paragraph
-    
-    ))
+    (html_block))
+  (paragraph))
 
 ================================================================================
 Example 144 - https://github.github.com/gfm/#example-144
@@ -2294,14 +2150,11 @@ Example 144 - https://github.github.com/gfm/#example-144
 (document
   (tight_list
     (list_item
-      (list_marker)
-      (html_block
-        ))
+      (list_marker_minus)
+      (html_block))
     (list_item
-      (list_marker)
-      (paragraph
-        
-        ))))
+      (list_marker_minus)
+      (paragraph))))
 
 ================================================================================
 Example 145 - https://github.github.com/gfm/#example-145
@@ -2328,12 +2181,9 @@ Example 146 - https://github.github.com/gfm/#example-146
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    )
+  (html_block)
   (paragraph
-    (emphasis
-      )
-    ))
+    (emphasis)))
 
 ================================================================================
 Example 147 - https://github.github.com/gfm/#example-147
@@ -2345,12 +2195,7 @@ foo
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    
-    (line_break)
-    ))
+  (html_block))
 
 ================================================================================
 Example 148 - https://github.github.com/gfm/#example-148
@@ -2364,16 +2209,8 @@ okay
 --------------------------------------------------------------------------------
 
 (document
-  (html_block
-    
-    (line_break)
-    (line_break)
-    
-    (line_break)
-    )
-  (paragraph
-    
-    ))
+  (html_block)
+  (paragraph))
 
 ================================================================================
 Example 149 - https://github.github.com/gfm/#example-149

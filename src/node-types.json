@@ -59,6 +59,10 @@
           "named": true
         },
         {
+          "type": "html_block",
+          "named": true
+        },
+        {
           "type": "indented_code_block",
           "named": true
         },
@@ -126,6 +130,10 @@
           "named": true
         },
         {
+          "type": "html_block",
+          "named": true
+        },
+        {
           "type": "indented_code_block",
           "named": true
         },
@@ -178,6 +186,10 @@
         },
         {
           "type": "hard_line_break",
+          "named": true
+        },
+        {
+          "type": "html_tag",
           "named": true
         },
         {
@@ -248,6 +260,10 @@
           "named": true
         },
         {
+          "type": "html_tag",
+          "named": true
+        },
+        {
           "type": "numeric_character_reference",
           "named": true
         },
@@ -261,6 +277,16 @@
         }
       ]
     }
+  },
+  {
+    "type": "html_block",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "html_tag",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "indented_code_block",
@@ -305,6 +331,10 @@
         },
         {
           "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "html_block",
           "named": true
         },
         {
@@ -398,6 +428,10 @@
           "named": true
         },
         {
+          "type": "html_tag",
+          "named": true
+        },
+        {
           "type": "numeric_character_reference",
           "named": true
         },
@@ -479,6 +513,10 @@
           "named": true
         },
         {
+          "type": "html_tag",
+          "named": true
+        },
+        {
           "type": "numeric_character_reference",
           "named": true
         },
@@ -514,7 +552,35 @@
     }
   },
   {
+    "type": "-->",
+    "named": false
+  },
+  {
+    "type": "<!--",
+    "named": false
+  },
+  {
+    "type": "<![CDATA[",
+    "named": false
+  },
+  {
+    "type": "<?",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "?>",
+    "named": false
+  },
+  {
     "type": "\\",
+    "named": false
+  },
+  {
+    "type": "]]>",
     "named": false
   },
   {

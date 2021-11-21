@@ -43,9 +43,11 @@ enum TokenType {
     EMPHASIS_OPEN_UNDERSCORE,
     EMPHASIS_CLOSE_STAR,
     EMPHASIS_CLOSE_UNDERSCORE,
+    OPEN_BLOCK,
+    CLOSE_BLOCK,
 };
 
-enum Block : char {
+enum Block : uint8_t {
     BLOCK_QUOTE,
     INDENTED_CODE_BLOCK,
     TIGHT_LIST_ITEM = 2,
@@ -54,6 +56,7 @@ enum Block : char {
     LOOSE_LIST_ITEM_MAX_INDENTATION = 15,
     FENCED_CODE_BLOCK_TILDE,
     FENCED_CODE_BLOCK_BACKTICK,
+    ANONYMOUS
 };
 
 const char *BLOCK_NAME[] = {
@@ -75,6 +78,7 @@ const char *BLOCK_NAME[] = {
     "loose list item 6",
     "fenced code block tilde",
     "fenced code block backtick",
+    "anonymous",
 };
 
 bool is_list_item(Block block) {
@@ -97,11 +101,12 @@ bool is_whitespace(char c) {
     return c == ' ' || c == '\t' || c == '\n' || c == '\r'; // TODO: unicode support
 }
 
-const uint8_t STATE_MATCHING = 0x1 << 0;
+const uint8_t STATE_MATCHING = 0x1 << 0; // TODO: remove this in favor of matched < open_blocks.size()
 const uint8_t STATE_WAS_LAZY_CONTINUATION = 0x1 << 1;
 const uint8_t STATE_EMPHASIS_DELIMITER_MOD_3 = 0x3 << 2; // TODO
 const uint8_t STATE_EMPHASIS_DELIMITER_IS_OPEN = 0x1 << 4;
 const uint8_t STATE_DUMMY_COUNT = 0x3 << 5;
+const uint8_t STATE_CLOSE_BLOCK = 0x1 << 7;
 
 struct Scanner {
 
@@ -207,16 +212,20 @@ struct Scanner {
                 break;
             case FENCED_CODE_BLOCK_BACKTICK:
             case FENCED_CODE_BLOCK_TILDE:
-                lexer->mark_end(lexer);
-                size_t level = 0;
-                while (lexer->lookahead == (block == FENCED_CODE_BLOCK_BACKTICK ? '`' : '~')) {
-                    advance(lexer, false);
-                    level++;
-                }
-                if (!(indentation < 4 && level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r'))) {
-                    return true;
+                {
+                    lexer->mark_end(lexer);
+                    size_t level = 0;
+                    while (lexer->lookahead == (block == FENCED_CODE_BLOCK_BACKTICK ? '`' : '~')) {
+                        advance(lexer, false);
+                        level++;
+                    }
+                    if (!(indentation < 4 && level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r'))) {
+                        return true;
+                    }
                 }
                 break;
+            case ANONYMOUS:
+                return true;
         }
         return false;
     }
@@ -228,6 +237,32 @@ struct Scanner {
         std::cerr << "indentation " << unsigned(indentation) << std::endl;
         for (size_t i = 0; i < open_blocks.size(); i++) {
             std::cerr << BLOCK_NAME[open_blocks[i]] << std::endl;
+        }
+
+        if (valid_symbols[LINE_ENDING]) {
+            matched = 0;
+            if (open_blocks.size() > 0) {
+                state |= STATE_MATCHING;
+            } else {
+                state &= (~STATE_MATCHING);
+            }
+            state &= (~STATE_WAS_LAZY_CONTINUATION) & (~STATE_DUMMY_COUNT);
+            indentation = 0;
+            column = 0;
+            lexer->result_symbol = LINE_ENDING;
+            return true;
+        }
+
+        if (valid_symbols[OPEN_BLOCK]) {
+            open_blocks.push_back(ANONYMOUS);
+            lexer->result_symbol = OPEN_BLOCK;
+            return true;
+        }
+
+        if (valid_symbols[CLOSE_BLOCK]) {
+            state |= STATE_CLOSE_BLOCK;
+            lexer->result_symbol = CLOSE_BLOCK;
+            return true;
         }
 
         bool parsed_indentation = false;
@@ -253,7 +288,6 @@ struct Scanner {
             }
             return false;
         }
-
         if (!(state & STATE_MATCHING)) {
             if (valid_symbols[INDENTED_CHUNK_START]) {
                 if (!valid_symbols[LAZY_CONTINUATION] && indentation >= 4 && lexer->lookahead != '\n' && lexer->lookahead != '\r') {
@@ -277,23 +311,6 @@ struct Scanner {
                         }
                         return true;
                     }
-                    if (valid_symbols[LINE_ENDING]) {
-                        advance(lexer, true);
-                        if (lexer->lookahead == '\n') {
-                            advance(lexer, true);
-                        }
-                        matched = 0;
-                        if (open_blocks.size() > 0) {
-                            state |= STATE_MATCHING;
-                        } else {
-                            state &= (~STATE_MATCHING);
-                        }
-                        state &= (~STATE_WAS_LAZY_CONTINUATION) && (~STATE_DUMMY_COUNT);
-                        indentation = 0;
-                        column = 0;
-                        lexer->result_symbol = LINE_ENDING;
-                        return true;
-                    }
                     break;
                 case '\n':
                     if (valid_symbols[BLANK_LINE]) {
@@ -304,20 +321,6 @@ struct Scanner {
                                 open_blocks[i] = Block(open_blocks[i] + (LOOSE_LIST_ITEM - TIGHT_LIST_ITEM));
                             }
                         }
-                        return true;
-                    }
-                    if (valid_symbols[LINE_ENDING]) {
-                        advance(lexer, true);
-                        matched = 0;
-                        if (open_blocks.size() > 0) {
-                            state |= STATE_MATCHING;
-                        } else {
-                            state &= (~STATE_MATCHING);
-                        }
-                        state &= (~STATE_WAS_LAZY_CONTINUATION) && (~STATE_DUMMY_COUNT);
-                        indentation = 0;
-                        column = 0;
-                        lexer->result_symbol = LINE_ENDING;
                         return true;
                     }
                     break;
@@ -730,6 +733,10 @@ struct Scanner {
         } else {
             bool partial_success = false;
             while (matched < open_blocks.size()) {
+                if (matched == open_blocks.size() - 1 && (state & STATE_CLOSE_BLOCK)) {
+                    state &= ~STATE_CLOSE_BLOCK;
+                    break;
+                }
                 if (match(lexer, open_blocks[matched])) {
                     partial_success = true;
                     matched++;
