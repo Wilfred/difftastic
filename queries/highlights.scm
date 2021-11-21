@@ -23,6 +23,7 @@
 	(kInterface)
 	(kObject)
 	(kRecord)
+	(kObjcclass)
 	(kArray)
 	(kString)
 	(kSet)
@@ -60,8 +61,10 @@
 	(kStdcall)
 	(kCdecl)
 	(kPascal)
+	(kMwpascal)
 	(kExternal)
 	(kName)
+	(kMessage)
 
 	(kFor)
 	(kTo)
@@ -230,12 +233,35 @@
 
 ; -- Identifier type inferrence
 
-;(call ((identifier) @constant
+; vERY QUESTIONABLE: Highlighting of identifiers based on spelling
+(exprBinary ((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+(exprUnary ((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+(assignment rhs: ((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+(exprBrackets ((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+(exprParens ((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+;(exprDot rhs: ((identifier) @constant
 ; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+(exprTpl args: ((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
+(exprArgs ((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
 ;(declEnumValue ((identifier) @constant
 ; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
 ;(defaultValue ((identifier) @constant
 ; (#match? @constant "^[A-Z][A-Z0-9_]+$|^[a-z]{1,2}[A-Z].+$")))
 
-; this needs to be last
+; -- Use scoping information for additional highlighting. THIS NEED TO BE LAST.
+; FIXME: Right now this is buggy, because in case of something like this:
+;   procedure (x: integer);
+;   begin
+;     a.x;
+;   end;
+; The x in a.x would be highlighted as a parameter. Not what we want! We have to
+; come up with a more specific rule. Only the left-most identifier should be
+; matched.
 (identifier)      @identifier

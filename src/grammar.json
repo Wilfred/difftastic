@@ -3961,6 +3961,10 @@
         {
           "type": "SYMBOL",
           "name": "declLabel"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "declUses"
         }
       ]
     },
@@ -4396,6 +4400,10 @@
             {
               "type": "SYMBOL",
               "name": "kInterface"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "kObjcclass"
             }
           ]
         },
@@ -5158,6 +5166,23 @@
         {
           "type": "SYMBOL",
           "name": "kPascal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kMwpascal"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "kMessage"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expr"
+            }
+          ]
         }
       ]
     },
@@ -6168,6 +6193,10 @@
       "type": "PATTERN",
       "value": "[rR][eE][cC][oO][rR][dD]"
     },
+    "kObjcclass": {
+      "type": "PATTERN",
+      "value": "[oO][bB][jJ][cC][cC][lL][aA][sS][sS]"
+    },
     "kArray": {
       "type": "PATTERN",
       "value": "[aA][rR][rR][aA][yY]"
@@ -6456,6 +6485,10 @@
       "type": "PATTERN",
       "value": "[pP][aA][sS][cC][aA][lL]"
     },
+    "kMwpascal": {
+      "type": "PATTERN",
+      "value": "[mM][wW][pP][aA][sS][cC][aA][lL]"
+    },
     "kExternal": {
       "type": "PATTERN",
       "value": "[eE][xX][tT][eE][rR][nN][aA][lL]"
@@ -6463,6 +6496,10 @@
     "kName": {
       "type": "PATTERN",
       "value": "[nN][aA][mM][eE]"
+    },
+    "kMessage": {
+      "type": "PATTERN",
+      "value": "[mM][eE][sS][sS][aA][gG][eE]"
     },
     "kNil": {
       "type": "PATTERN",

@@ -280,7 +280,7 @@ module.exports = grammar({
 		_definitions:       $ => repeat1($._definition),
 		_definition:        $ => choice(
 			$.declTypes, $._declVars, $._declConsts, $.defProc, $.declProcFwd,
-			$.declLabel
+			$.declLabel, $.declUses
 		),
 
 		defProc:            $ => seq(
@@ -341,7 +341,7 @@ module.exports = grammar({
 
 		declClass:          $ => seq(
 			optional($.kPacked),
-			choice($.kClass, $.kRecord, $.kObject, $.kInterface), 
+			choice($.kClass, $.kRecord, $.kObject, $.kInterface, $.kObjcclass), 
 			field('parent', optional(seq('(',delimited($.typeref),')'))), $._declClass
 		),
 
@@ -418,7 +418,8 @@ module.exports = grammar({
 		procAttribute: $ => choice(
 			$.kStatic, $.kVirtual, $.kAbstract, $.kOverride,
 			$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
-			$.kCdecl, $.kPascal
+			$.kCdecl, $.kPascal, $.kMwpascal,
+			seq($.kMessage, $._expr)
 		),
 
 		procExternal: $ => seq($.kExternal, $._expr, $.kName, $._expr),
@@ -538,6 +539,7 @@ module.exports = grammar({
 		kInterface:         $ => /[iI][nN][tT][eE][rR][fF][aA][cC][eE]/,
 		kObject:            $ => /[oO][bB][jJ][eE][cC][tT]/,
 		kRecord:            $ => /[rR][eE][cC][oO][rR][dD]/,
+		kObjcclass:         $ => /[oO][bB][jJ][cC][cC][lL][aA][sS][sS]/,
 		kArray:             $ => /[aA][rR][rR][aA][yY]/,
 		kString:            $ => /[sS][tT][rR][iI][nN][gG]/,
 		kSet:               $ => /[sS][eE][tT]/,
@@ -617,8 +619,10 @@ module.exports = grammar({
 		kStdcall:           $ => /[sS][tT][dD][cC][aA][lL][lL]/,
 		kCdecl:             $ => /[cC][dD][eE][cC][lL]/,
 		kPascal:            $ => /[pP][aA][sS][cC][aA][lL]/,
+		kMwpascal:          $ => /[mM][wW][pP][aA][sS][cC][aA][lL]/,
 		kExternal:          $ => /[eE][xX][tT][eE][rR][nN][aA][lL]/,
 		kName:              $ => /[nN][aA][mM][eE]/,
+		kMessage:           $ => /[mM][eE][sS][sS][aA][gG][eE]/,
 
 		kNil:               $ => /[nN][iI][lL]/,
 		kTrue:              $ => /[tT][rR][uU][eE]/,

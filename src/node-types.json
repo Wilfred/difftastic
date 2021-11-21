@@ -693,6 +693,10 @@
           "named": true
         },
         {
+          "type": "kObjcclass",
+          "named": true
+        },
+        {
           "type": "kObject",
           "named": true
         },
@@ -1785,6 +1789,10 @@
           },
           {
             "type": "declTypes",
+            "named": true
+          },
+          {
+            "type": "declUses",
             "named": true
           },
           {
@@ -3562,6 +3570,10 @@
           "named": true
         },
         {
+          "type": "declUses",
+          "named": true
+        },
+        {
           "type": "declVar",
           "named": true
         },
@@ -3751,9 +3763,49 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "exprBinary",
+          "named": true
+        },
+        {
+          "type": "exprBrackets",
+          "named": true
+        },
+        {
+          "type": "exprCall",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprIndex",
+          "named": true
+        },
+        {
+          "type": "exprParens",
+          "named": true
+        },
+        {
+          "type": "exprTpl",
+          "named": true
+        },
+        {
+          "type": "exprUnary",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "inherited",
+          "named": true
+        },
         {
           "type": "kAbstract",
           "named": true
@@ -3763,7 +3815,23 @@
           "named": true
         },
         {
+          "type": "kFalse",
+          "named": true
+        },
+        {
           "type": "kInline",
+          "named": true
+        },
+        {
+          "type": "kMessage",
+          "named": true
+        },
+        {
+          "type": "kMwpascal",
+          "named": true
+        },
+        {
+          "type": "kNil",
           "named": true
         },
         {
@@ -3791,7 +3859,19 @@
           "named": true
         },
         {
+          "type": "kTrue",
+          "named": true
+        },
+        {
           "type": "kVirtual",
+          "named": true
+        },
+        {
+          "type": "literalNumber",
+          "named": true
+        },
+        {
+          "type": "literalString",
           "named": true
         }
       ]
@@ -3902,6 +3982,10 @@
         },
         {
           "type": "declTypes",
+          "named": true
+        },
+        {
+          "type": "declUses",
           "named": true
         },
         {
@@ -5133,11 +5217,19 @@
     "named": true
   },
   {
+    "type": "kMessage",
+    "named": true
+  },
+  {
     "type": "kMod",
     "named": true
   },
   {
     "type": "kMul",
+    "named": true
+  },
+  {
+    "type": "kMwpascal",
     "named": true
   },
   {
@@ -5154,6 +5246,10 @@
   },
   {
     "type": "kNot",
+    "named": true
+  },
+  {
+    "type": "kObjcclass",
     "named": true
   },
   {
