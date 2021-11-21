@@ -1,8 +1,3 @@
-Carthage/Source/carthage/Extensions.swift
-Carthage/Source/carthage/Build.swift
-Carthage/Source/CarthageKit/Archive.swift
-Carthage/Source/CarthageKit/Project.swift
-Carthage/Source/CarthageKit/Git.swift
 Carthage/Tests/CarthageKitTests/CartfileCommentsSpec.swift
 firefox-ios/Shared/Functions.swift
 firefox-ios/Client/Frontend/Browser/TabDisplayManager.swift

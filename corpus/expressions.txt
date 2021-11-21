@@ -658,3 +658,22 @@ checkThat(dict is Dictionary<Foo, Bar>)
                   (type_identifier))
                 (user_type
                   (type_identifier))))))))))
+
+===
+Navigation expression involving explicit type parameters
+===
+
+SignalProducer<(), CarthageError>.empty
+
+---
+
+(source_file
+  (navigation_expression
+    (user_type
+      (type_identifier)
+      (type_arguments
+        (tuple_type)
+        (user_type
+          (type_identifier))))
+    (navigation_suffix
+      (simple_identifier))))
