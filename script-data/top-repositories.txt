@@ -7,3 +7,9 @@ shadowsocks shadowsocks/ShadowsocksX-NG v1.9.4
 Carthage Carthage/Carthage 0.38.0
 Moya Moya/Moya 15.0.0
 ObjectMapper tristanhimmelman/ObjectMapper 3.5.3
+firefox-ios mozilla-mobile/firefox-ios v39.0 0 6
+firefox-ios mozilla-mobile/firefox-ios v39.0 1 6
+firefox-ios mozilla-mobile/firefox-ios v39.0 2 6
+firefox-ios mozilla-mobile/firefox-ios v39.0 3 6
+firefox-ios mozilla-mobile/firefox-ios v39.0 4 6
+firefox-ios mozilla-mobile/firefox-ios v39.0 5 6
