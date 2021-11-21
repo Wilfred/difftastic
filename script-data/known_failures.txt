@@ -2,12 +2,8 @@ Carthage/Source/carthage/Extensions.swift
 Carthage/Source/carthage/Build.swift
 Carthage/Source/CarthageKit/Archive.swift
 Carthage/Source/CarthageKit/Project.swift
-Carthage/Source/CarthageKit/GitURL.swift
 Carthage/Source/CarthageKit/Git.swift
-Carthage/Tests/CarthageKitTests/DependencySpec.swift
 Carthage/Tests/CarthageKitTests/CartfileCommentsSpec.swift
-ObjectMapper/Package@swift-4.swift
-ObjectMapper/Sources/ToJSON.swift
 firefox-ios/Shared/Functions.swift
 firefox-ios/Client/Frontend/Browser/TabDisplayManager.swift
 firefox-ios/Client/Frontend/Browser/Authenticator.swift
