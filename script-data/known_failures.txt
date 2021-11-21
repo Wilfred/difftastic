@@ -8,3 +8,6 @@ Carthage/Tests/CarthageKitTests/DependencySpec.swift
 Carthage/Tests/CarthageKitTests/CartfileCommentsSpec.swift
 ObjectMapper/Package@swift-4.swift
 ObjectMapper/Sources/ToJSON.swift
+firefox-ios/Shared/Functions.swift
+firefox-ios/Client/Frontend/Browser/TabDisplayManager.swift
+firefox-ios/Client/Frontend/Browser/Authenticator.swift
