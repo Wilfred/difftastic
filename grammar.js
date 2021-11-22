@@ -227,6 +227,7 @@ module.exports = grammar({
       '**',
       field('name', optional($.identifier))
     ),
+    hash_splat_nil: $ => seq('**', 'nil'),
     block_parameter: $ => seq(
       '&',
       field('name', $.identifier)
@@ -392,9 +393,9 @@ module.exports = grammar({
     ),
 
     _array_pattern_n: $ => choice(
-      seq($._pattern_expr, alias(',', $.array_pattern_rest)),
+      seq($._pattern_expr, alias(',', $.splat_parameter)),
       seq($._pattern_expr, ',', choice($._pattern_expr, $._array_pattern_n)),
-      seq($.array_pattern_rest, repeat(seq(',', $._pattern_expr))),
+      seq($.splat_parameter, repeat(seq(',', $._pattern_expr))),
     ),
 
     _pattern_expr: $ => choice(
@@ -422,7 +423,7 @@ module.exports = grammar({
       seq(field('class', $._pattern_constant), token.immediate('('), optional($._array_pattern_body), ')')
     ),
 
-    _find_pattern_body: $ => seq($.array_pattern_rest, repeat1(seq(',', $._pattern_expr)), ',', $.array_pattern_rest),
+    _find_pattern_body: $ => seq($.splat_parameter, repeat1(seq(',', $._pattern_expr)), ',', $.splat_parameter),
     find_pattern: $ => choice(
       seq('[', $._find_pattern_body, ']'),
       seq(field('class', $._pattern_constant), token.immediate('['), $._find_pattern_body, ']'),
@@ -447,11 +448,7 @@ module.exports = grammar({
       optional(field('value', $._pattern_expr))
     ),
 
-    _hash_pattern_any_rest: $ => choice($.hash_pattern_rest, $.hash_pattern_norest),
-
-    hash_pattern_rest: $ => seq('**', field('name', optional($.identifier))),
-
-    hash_pattern_norest: $ => seq('**', 'nil'),
+    _hash_pattern_any_rest: $ => choice($.hash_splat_parameter, $.hash_splat_nil),
 
     hash_pattern: $ => choice(
       seq('{', optional($._hash_pattern_body), '}'),
@@ -465,8 +462,6 @@ module.exports = grammar({
       $.find_pattern,
       $.hash_pattern,
     ),
-
-    array_pattern_rest: $ => seq('*', field('name', optional($.identifier))),
 
     _pattern_value: $ => choice(
       $._pattern_primitive,

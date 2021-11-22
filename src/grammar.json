@@ -721,6 +721,19 @@
         }
       ]
     },
+    "hash_splat_nil": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "**"
+        },
+        {
+          "type": "STRING",
+          "value": "nil"
+        }
+      ]
+    },
     "block_parameter": {
       "type": "SEQ",
       "members": [
@@ -1816,7 +1829,7 @@
                 "value": ","
               },
               "named": true,
-              "value": "array_pattern_rest"
+              "value": "splat_parameter"
             }
           ]
         },
@@ -1851,7 +1864,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "array_pattern_rest"
+              "name": "splat_parameter"
             },
             {
               "type": "REPEAT",
@@ -2077,7 +2090,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "array_pattern_rest"
+          "name": "splat_parameter"
         },
         {
           "type": "REPEAT1",
@@ -2101,7 +2114,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "array_pattern_rest"
+          "name": "splat_parameter"
         }
       ]
     },
@@ -2336,49 +2349,11 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "hash_pattern_rest"
+          "name": "hash_splat_parameter"
         },
         {
           "type": "SYMBOL",
-          "name": "hash_pattern_norest"
-        }
-      ]
-    },
-    "hash_pattern_rest": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "**"
-        },
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    "hash_pattern_norest": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "**"
-        },
-        {
-          "type": "STRING",
-          "value": "nil"
+          "name": "hash_splat_nil"
         }
       ]
     },
@@ -2486,31 +2461,6 @@
         {
           "type": "SYMBOL",
           "name": "hash_pattern"
-        }
-      ]
-    },
-    "array_pattern_rest": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "*"
-        },
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
         }
       ]
     },
