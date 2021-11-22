@@ -466,13 +466,13 @@ module.exports = grammar({
 
     _pattern_value: $ => choice(
       $._pattern_primitive,
-      $.pattern_range,
+      alias($._pattern_range, $.range),
       $.identifier,
       $.variable_reference_pattern,
       $._pattern_constant
     ),
 
-    pattern_range: $ => {
+    _pattern_range: $ => {
       const begin = field('begin', $._pattern_primitive);
       const end = field('end', $._pattern_primitive);
       const operator = field('operator', choice('..', '...'));

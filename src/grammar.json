@@ -2476,8 +2476,13 @@
           "name": "_pattern_primitive"
         },
         {
-          "type": "SYMBOL",
-          "name": "pattern_range"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_pattern_range"
+          },
+          "named": true,
+          "value": "range"
         },
         {
           "type": "SYMBOL",
@@ -2493,7 +2498,7 @@
         }
       ]
     },
-    "pattern_range": {
+    "_pattern_range": {
       "type": "CHOICE",
       "members": [
         {

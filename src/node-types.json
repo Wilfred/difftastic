@@ -216,7 +216,7 @@
         "named": true
       },
       {
-        "type": "pattern_range",
+        "type": "range",
         "named": true
       },
       {
@@ -2561,46 +2561,6 @@
     }
   },
   {
-    "type": "pattern_range",
-    "named": true,
-    "fields": {
-      "begin": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_pattern_primitive",
-            "named": true
-          }
-        ]
-      },
-      "end": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_pattern_primitive",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "..",
-            "named": false
-          },
-          {
-            "type": "...",
-            "named": false
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "program",
     "named": true,
     "fields": {},
@@ -2634,6 +2594,10 @@
           {
             "type": "_arg",
             "named": true
+          },
+          {
+            "type": "_pattern_primitive",
+            "named": true
           }
         ]
       },
@@ -2643,6 +2607,10 @@
         "types": [
           {
             "type": "_arg",
+            "named": true
+          },
+          {
+            "type": "_pattern_primitive",
             "named": true
           }
         ]
@@ -3863,11 +3831,11 @@
   },
   {
     "type": "nil",
-    "named": true
+    "named": false
   },
   {
     "type": "nil",
-    "named": false
+    "named": true
   },
   {
     "type": "not",
