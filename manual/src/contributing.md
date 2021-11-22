@@ -24,6 +24,14 @@ build.
 $ cargo build --release
 ```
 
+## rustdoc
+
+You can browse the internal API documentation
+[here](https://difftastic.wilfred.me.uk/rustdoc/difft/).
+
+Difftastic's internal docs are not available on docs.rs, as it [does
+not support binary crates today](https://difftastic.wilfred.me.uk/rustdoc/difft/).
+
 ## Testing
 
 ```
