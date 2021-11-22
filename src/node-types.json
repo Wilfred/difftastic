@@ -705,26 +705,10 @@
           "named": true
         },
         {
-          "type": "array_pattern_rest",
+          "type": "splat_parameter",
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "array_pattern_rest",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -1733,7 +1717,7 @@
           "named": true
         },
         {
-          "type": "array_pattern_rest",
+          "type": "splat_parameter",
           "named": true
         }
       ]
@@ -1828,11 +1812,11 @@
       "required": false,
       "types": [
         {
-          "type": "hash_pattern_norest",
+          "type": "hash_splat_nil",
           "named": true
         },
         {
-          "type": "hash_pattern_rest",
+          "type": "hash_splat_parameter",
           "named": true
         },
         {
@@ -1840,27 +1824,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "hash_pattern_norest",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "hash_pattern_rest",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -1877,6 +1840,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "hash_splat_nil",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "hash_splat_parameter",
@@ -3895,11 +3863,11 @@
   },
   {
     "type": "nil",
-    "named": true
+    "named": false
   },
   {
     "type": "nil",
-    "named": false
+    "named": true
   },
   {
     "type": "not",
