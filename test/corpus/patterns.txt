@@ -163,9 +163,9 @@ end
      (in_clause (string_array (bare_string (string_content)) (bare_string (string_content))))
      (in_clause (symbol_array (bare_symbol (string_content)) (bare_symbol (string_content))))
      (in_clause (regex (string_content)))
-     (in_clause (pattern_range (integer) (integer)))
-     (in_clause (pattern_range (integer)))
-     (in_clause (pattern_range (integer)))
+     (in_clause (range (integer) (integer)))
+     (in_clause (range (integer)))
+     (in_clause (range (integer)))
      (in_clause (as_pattern (integer) (identifier)))
      (in_clause 
        (alternative_pattern 
