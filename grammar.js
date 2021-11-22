@@ -432,12 +432,12 @@ module.exports = grammar({
     ),
 
     _hash_pattern_body: $ => choice(
-      seq(commaSep1($.pattern_pair), optional(',')),
-      seq(commaSep1($.pattern_pair), ',', $._hash_pattern_any_rest),
+      seq(commaSep1($.keyword_pattern), optional(',')),
+      seq(commaSep1($.keyword_pattern), ',', $._hash_pattern_any_rest),
       $._hash_pattern_any_rest
     ),
 
-    pattern_pair: $ => seq(
+    keyword_pattern: $ => seq(
       field('key',
         choice(
           alias($.identifier, $.hash_key_symbol),

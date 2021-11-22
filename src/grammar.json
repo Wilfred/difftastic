@@ -2211,7 +2211,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "pattern_pair"
+                  "name": "keyword_pattern"
                 },
                 {
                   "type": "REPEAT",
@@ -2224,7 +2224,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "pattern_pair"
+                        "name": "keyword_pattern"
                       }
                     ]
                   }
@@ -2253,7 +2253,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "pattern_pair"
+                  "name": "keyword_pattern"
                 },
                 {
                   "type": "REPEAT",
@@ -2266,7 +2266,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "pattern_pair"
+                        "name": "keyword_pattern"
                       }
                     ]
                   }
@@ -2289,7 +2289,7 @@
         }
       ]
     },
-    "pattern_pair": {
+    "keyword_pattern": {
       "type": "SEQ",
       "members": [
         {
