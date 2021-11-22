@@ -134,8 +134,10 @@ struct Scanner {
         buffer[i++] = num_emphasis_delimiters_left;
         size_t blocks_count = open_blocks.size();
         if (blocks_count > UINT8_MAX - i) blocks_count = UINT8_MAX - i;
-        memcpy(&buffer[i], open_blocks.data(), blocks_count);
-        i += blocks_count;
+        if (blocks_count > 0) {
+            memcpy(&buffer[i], open_blocks.data(), blocks_count);
+            i += blocks_count;
+        }
         return i;
     }
 
@@ -157,7 +159,9 @@ struct Scanner {
             num_emphasis_delimiters_left = buffer[i++];
             size_t blocks_count = length - i;
             open_blocks.resize(blocks_count);
-            memcpy(open_blocks.data(), &buffer[i], blocks_count);
+            if (blocks_count > 0) {
+                memcpy(open_blocks.data(), &buffer[i], blocks_count);
+            }
         }
     }
 
