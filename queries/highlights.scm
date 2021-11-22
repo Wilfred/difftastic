@@ -64,7 +64,7 @@
 (line) @constant.builtin
 (encoding) @constant.builtin
 
-(hash_pattern_norest
+(hash_splat_nil
   "**" @operator
 ) @constant.builtin
 
