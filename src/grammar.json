@@ -1545,16 +1545,8 @@
           "type": "FIELD",
           "name": "value",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_statement"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_statement"
           }
         },
         {
@@ -1570,20 +1562,15 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "REPEAT1",
-              "content": {
-                "type": "FIELD",
-                "name": "clauses",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "in_clause"
-                }
-              }
+          "type": "REPEAT1",
+          "content": {
+            "type": "FIELD",
+            "name": "clauses",
+            "content": {
+              "type": "SYMBOL",
+              "name": "in_clause"
             }
-          ]
+          }
         },
         {
           "type": "CHOICE",
