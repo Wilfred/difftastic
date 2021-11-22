@@ -289,14 +289,6 @@ module.exports = grammar({
 		genericDot:     $ => op.infix(1,$._genericName, $.kDot, $._genericName),
 		genericTpl:     $ => op.args(2,$._genericName, $.kLt, $.genericArgs, $.kGt),
 
-		//genericName:        $ => delimited1(
-		//	seq(
-		//		field('entity', $.identifier), 
-		//		optional(seq($.kLt, field('args', $.genericArgs), $.kGt))
-		//	), 
-		//	$.kDot
-		//),
-
 		_genericName:      $ => choice(
 			$.identifier, $.genericDot, $.genericTpl
 		),
@@ -340,7 +332,7 @@ module.exports = grammar({
 		),
 
 		defProc:            $ => seq(
-			/*pp($,*/field('header', choice($.declProc, $.declFunc))/*)*/,
+			field('header', choice($.declProc, $.declFunc)),
 			pp(
 				$,
 				field('local', optional($._definitions)),
@@ -361,22 +353,16 @@ module.exports = grammar({
 			$.declTypes, $._declVars, $._declConsts, $.declProc, $.declProcFwd,
 			$.declFunc, $.declUses, $.declLabel
 		)),
-		_classDeclarations:  $ => seq(
-			choice(
-				$.declTypes, $._declVars, $._declConsts, $.declProc, $.declProcFwd,
-				$.declFunc, $.declProp
-			),
-			repeat(choice(
-				$.declTypes, $._declVars, $._declConsts, $.declProc, $.declProcFwd,
-				$.declFunc, $.declProp
-			)),
-		),
+		_classDeclarations:  $ => repeat1(choice(
+			$.declTypes, $._declVars, $._declConsts, $.declProc, $.declProcFwd,
+			$.declFunc, $.declProp
+		)),
 
 		_visibility:         $ => choice(
 			$.kPublished, $.kPublic, $.kProtected, $.kPrivate
 		),
 
-		declUses:            $ => seq($.kUses, pp($,delimited($.moduleName)), ';'),
+		declUses:            $ => seq($.kUses, delimited($.moduleName), ';'),
 
 		declTypes:           $ => seq(
 			$.kType, 
@@ -866,8 +852,6 @@ function statements(trailing) {
 			alias($[rn('block')],   $.block),
 			alias($[rn('with')],    $.with),
 			alias($[rn('raise')],   $.raise), 
-			//alias($[rn('ppif')],    $.ppif), 
-			//alias($[rn('ppifelse')], $.ppifelse), 
 		)]
 	]);
 
