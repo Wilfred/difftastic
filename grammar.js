@@ -162,10 +162,11 @@ module.exports = grammar({
         [$._lazy_newline, $._soft_line_break],
         [$.paragraph, $._soft_line_break],
         // This can probably solved in other ways
-        [$.code_span, $._text],
-        [$._code_span_no_newline, $._text],
+        [$.code_span, $._text_inline],
+        [$._code_span_no_newline, $._text_inline],
         // This also maybe, idk
-        [$.hard_line_break, $._text]
+        [$.hard_line_break, $._text_inline],
+        [$._html_comment, $._text_inline]
     ],
 
     rules: {
@@ -245,7 +246,7 @@ module.exports = grammar({
         code_fence_content: $ => repeat1(choice(alias($._newline, $.line_break), $._text)),
         info_string: $ => repeat1($._text),
 
-        html_block: $ => seq(optional($._whitespace), choice(
+        html_block: $ => prec(1, seq(optional($._whitespace), choice(
             build_html_block($, new RegExp('<' + regex_case_insensitive_list(['script', 'style', 'pre']) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'), new RegExp('</' + regex_case_insensitive_list(['script', 'style', 'pre']) + '>')),
             build_html_block($, '<!--', '-->'),
             build_html_block($, '<?', '?>'),
@@ -269,7 +270,7 @@ module.exports = grammar({
                 $,
                 new RegExp('</?' + regex_case_insensitive_list(['address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul']) + '(\\n|\\r\\n?)'),
             ),
-        )),
+        ))),
         // tag name not pre script or style
         _open_tag_html_block: $ => new RegExp(HTML_OPEN_TAG_EXCLUDE + '[ \\t]'),
         _open_tag_html_block_newline: $ => new RegExp(HTML_OPEN_TAG_EXCLUDE + '(\n|\r\n?)'),
@@ -280,8 +281,8 @@ module.exports = grammar({
             prec.dynamic(2, alias($._lazy_newline, $.soft_line_break)),
             alias($._soft_line_break, $.soft_line_break),
             $.backslash_escape,
-            $.hard_line_break,
-            $._text,
+            // $.hard_line_break,
+            $._text_inline,
             $.entity_reference,
             $.numeric_character_reference,
             $.code_span,
@@ -300,7 +301,7 @@ module.exports = grammar({
         )),
         _inline_no_newline: $ => prec.right(repeat1(choice(
             $.backslash_escape,
-            $._text,
+            $._text_inline,
             $.entity_reference,
             $.numeric_character_reference,
             alias($._code_span_no_newline, $.code_span),
@@ -323,7 +324,8 @@ module.exports = grammar({
 
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq('\\', $._newline)),
-        _text: $ => prec.right(repeat1(choice($._word, $._punctuation, $._whitespace, $._code_span_start, '\\'))),
+        _text: $ => choice($._word, $._punctuation, $._whitespace),
+        _text_inline: $ => choice($._word, $._punctuation, $._whitespace, $._code_span_start, '\\', '<!--'),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
         code_span: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($._text, $._newline)), $._code_span_close)), // TODO
@@ -350,7 +352,26 @@ module.exports = grammar({
         html_tag: $ => choice($._open_tag, $._closing_tag, $._html_comment, $._processing_instruction, $._declaration, $._cdata_section),
         _open_tag: $ => HTML_OPEN_TAG,
         _closing_tag: $ => HTML_CLOSING_TAG,
-        _html_comment: $ => /<!--([^\->]|-[^\->])([^\-]|-[^\-])*-->/,
+        _html_comment: $ => prec.dynamic(1, seq(
+            '<!--',
+            optional(choice(
+                $._word,
+                $._whitespace,
+                $._newline,
+                /[^!-,\.\/:-=\?@\[-`\{-~]/, // punctuation without - and >
+                seq(
+                    '-',
+                    /[^!-\/:-=\?@\[-`\{-~]/ // punctuation without >
+                )
+            )),
+            repeat(prec.right(choice(
+                $._word,
+                $._whitespace,
+                $._newline,
+                $._punctuation
+            ))),
+            '-->'
+        )),
         _processing_instruction: $ => /<\?([^?]|\?[^>])*\?>/,
         _declaration: $ => /<![A-Z]+[ \t][^>]*>/,
         _cdata_section: $ => /<!\[CDATA\[([^\]]|\][^\]]|\]\][^>])*\]\]>/,
