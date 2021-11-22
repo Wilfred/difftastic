@@ -2,7 +2,7 @@
   "name": "tree-sitter-godot-resource",
   "version": "0.2.1",
   "description": "tree-sitter parser for godot text resources (tres, tscn)",
-  "main": "index.js",
+  "main": "bindings/node",
   "keywords": [
     "lexer",
     "parser",
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "prebuild": "^10.0.1",
-    "tree-sitter-cli": "^0.17.3"
+    "tree-sitter-cli": "0.20.0"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
