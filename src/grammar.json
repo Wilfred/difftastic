@@ -1341,7 +1341,7 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "<![A-Z]"
+                    "value": "<![A-Z]+"
                   },
                   {
                     "type": "SYMBOL",
@@ -2188,6 +2188,18 @@
         {
           "type": "STRING",
           "value": "<!--"
+        },
+        {
+          "type": "PATTERN",
+          "value": "<![A-Z]+"
+        },
+        {
+          "type": "STRING",
+          "value": "<?"
+        },
+        {
+          "type": "STRING",
+          "value": "<![CDATA["
         }
       ]
     },
@@ -2645,16 +2657,152 @@
       }
     },
     "_processing_instruction": {
-      "type": "PATTERN",
-      "value": "<\\?([^?]|\\?[^>])*\\?>"
+      "type": "PREC_DYNAMIC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "<?"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "PREC_RIGHT",
+              "value": 0,
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_word"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_whitespace"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_newline"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_punctuation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "?>"
+          }
+        ]
+      }
     },
     "_declaration": {
-      "type": "PATTERN",
-      "value": "<![A-Z]+[ \\t][^>]*>"
+      "type": "PREC_DYNAMIC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "<![A-Z]+"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_whitespace"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_newline"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "PREC_RIGHT",
+              "value": 0,
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_word"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_whitespace"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_newline"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_punctuation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ">"
+          }
+        ]
+      }
     },
     "_cdata_section": {
-      "type": "PATTERN",
-      "value": "<!\\[CDATA\\[([^\\]]|\\][^\\]]|\\]\\][^>])*\\]\\]>"
+      "type": "PREC_DYNAMIC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "<![CDATA["
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "PREC_RIGHT",
+              "value": 0,
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_word"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_whitespace"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_newline"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_punctuation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "]]>"
+          }
+        ]
+      }
     },
     "_whitespace": {
       "type": "SEQ",
@@ -2775,11 +2923,19 @@
       "_text_inline"
     ],
     [
-      "hard_line_break",
+      "_html_comment",
       "_text_inline"
     ],
     [
-      "_html_comment",
+      "_cdata_section",
+      "_text_inline"
+    ],
+    [
+      "_declaration",
+      "_text_inline"
+    ],
+    [
+      "_processing_instruction",
       "_text_inline"
     ]
   ],

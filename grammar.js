@@ -161,12 +161,12 @@ module.exports = grammar({
     conflicts: $ => [
         [$._lazy_newline, $._soft_line_break],
         [$.paragraph, $._soft_line_break],
-        // This can probably solved in other ways
         [$.code_span, $._text_inline],
         [$._code_span_no_newline, $._text_inline],
-        // This also maybe, idk
-        [$.hard_line_break, $._text_inline],
-        [$._html_comment, $._text_inline]
+        [$._html_comment, $._text_inline],
+        [$._cdata_section, $._text_inline],
+        [$._declaration, $._text_inline],
+        [$._processing_instruction, $._text_inline],
     ],
 
     rules: {
@@ -250,7 +250,7 @@ module.exports = grammar({
             build_html_block($, new RegExp('<' + regex_case_insensitive_list(['script', 'style', 'pre']) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'), new RegExp('</' + regex_case_insensitive_list(['script', 'style', 'pre']) + '>')),
             build_html_block($, '<!--', '-->'),
             build_html_block($, '<?', '?>'),
-            build_html_block($, /<![A-Z]/, '>'),
+            build_html_block($, /<![A-Z]+/, '>'),
             build_html_block($, '<![CDATA[', ']]>'),
             build_html_block(
                 $,
@@ -325,7 +325,17 @@ module.exports = grammar({
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq('\\', $._newline)),
         _text: $ => choice($._word, $._punctuation, $._whitespace),
-        _text_inline: $ => choice($._word, $._punctuation, $._whitespace, $._code_span_start, '\\', '<!--'),
+        _text_inline: $ => choice(
+            $._word,
+            $._punctuation,
+            $._whitespace,
+            $._code_span_start,
+            '\\',
+            '<!--',
+            /<![A-Z]+/,
+            '<?',
+            '<![CDATA[',
+        ),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
         code_span: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($._text, $._newline)), $._code_span_close)), // TODO
@@ -372,9 +382,40 @@ module.exports = grammar({
             ))),
             '-->'
         )),
-        _processing_instruction: $ => /<\?([^?]|\?[^>])*\?>/,
-        _declaration: $ => /<![A-Z]+[ \t][^>]*>/,
-        _cdata_section: $ => /<!\[CDATA\[([^\]]|\][^\]]|\]\][^>])*\]\]>/,
+        _processing_instruction: $ => prec.dynamic(1, seq(
+            '<?',
+            repeat(prec.right(choice(
+                $._word,
+                $._whitespace,
+                $._newline,
+                $._punctuation
+            ))),
+            '?>'
+        )),
+        _declaration: $ => prec.dynamic(1, seq(
+            /<![A-Z]+/,
+            choice(
+                $._whitespace,
+                $._newline,
+            ),
+            repeat(prec.right(choice(
+                $._word,
+                $._whitespace,
+                $._newline,
+                $._punctuation
+            ))),
+            '>'
+        )),
+        _cdata_section: $ => prec.dynamic(1, seq(
+            '<![CDATA[',
+            repeat(prec.right(choice(
+                $._word,
+                $._whitespace,
+                $._newline,
+                $._punctuation
+            ))),
+            ']]>'
+        )),
 
         _whitespace: $ => seq(/[ \t]+/, optional($._last_token_whitespace)),
         _word: $ => new RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r]+'),
