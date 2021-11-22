@@ -212,11 +212,11 @@
         "named": true
       },
       {
-        "type": "pattern_range",
+        "type": "identifier",
         "named": true
       },
       {
-        "type": "pattern_variable",
+        "type": "pattern_range",
         "named": true
       },
       {
@@ -2595,22 +2595,6 @@
           {
             "type": "...",
             "named": false
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "pattern_variable",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
           }
         ]
       }
