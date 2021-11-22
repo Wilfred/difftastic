@@ -1828,7 +1828,7 @@
           "named": true
         },
         {
-          "type": "pattern_pair",
+          "type": "keyword_pattern",
           "named": true
         }
       ]
@@ -2073,6 +2073,36 @@
         "types": [
           {
             "type": "_arg",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "keyword_pattern",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "hash_key_symbol",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_pattern_expr",
             "named": true
           }
         ]
@@ -2528,36 +2558,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "pattern_pair",
-    "named": true,
-    "fields": {
-      "key": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "hash_key_symbol",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_pattern_expr",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
