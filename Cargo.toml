@@ -4,7 +4,7 @@ description = "godotResource grammar for the tree-sitter parsing library"
 version = "0.0.1"
 keywords = ["incremental", "parsing", "godotResource"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/PrestonKnopp/tree-sitter-godotResource"
+repository = "https://github.com/PrestonKnopp/tree-sitter-godot-resource"
 edition = "2018"
 license = "MIT"
 
