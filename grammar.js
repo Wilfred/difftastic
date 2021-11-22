@@ -347,11 +347,9 @@ module.exports = grammar({
 
     case_match: $ => seq(
       'case',
-      field('value', optional($._statement)),
+      field('value', $._statement),
       optional($._terminator),
-      choice(
-        repeat1(field('clauses', $.in_clause)),
-      ),
+      repeat1(field('clauses', $.in_clause)),
       optional(field('else', $.else)),
       'end'
     ),
