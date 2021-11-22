@@ -160,11 +160,11 @@
     "named": true,
     "subtypes": [
       {
-        "type": "pattern_constant",
+        "type": "constant",
         "named": true
       },
       {
-        "type": "pattern_constant_resolution",
+        "type": "scope_resolution",
         "named": true
       }
     ]
@@ -2547,48 +2547,6 @@
     }
   },
   {
-    "type": "pattern_constant",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "constant",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "pattern_constant_resolution",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "constant",
-            "named": true
-          }
-        ]
-      },
-      "scope": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_pattern_constant",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "pattern_pair",
     "named": true,
     "fields": {
@@ -2946,6 +2904,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "_pattern_constant",
+            "named": true
+          },
           {
             "type": "_primary",
             "named": true

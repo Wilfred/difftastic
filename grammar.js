@@ -522,13 +522,11 @@ module.exports = grammar({
     variable_reference_pattern: $ => seq('^', field('name', $.identifier)),
 
     _pattern_constant: $ => choice(
-      $.pattern_constant,
-      $.pattern_constant_resolution
+      $.constant,
+      alias($._pattern_constant_resolution, $.scope_resolution)
     ),
 
-    pattern_constant: $ => field('name', $.constant),
-
-    pattern_constant_resolution: $ => seq(
+    _pattern_constant_resolution: $ => seq(
       optional(field('scope', $._pattern_constant)),
       '::',
       field('name', $.constant)

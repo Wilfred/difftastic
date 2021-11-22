@@ -2763,23 +2763,20 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "pattern_constant"
+          "name": "constant"
         },
         {
-          "type": "SYMBOL",
-          "name": "pattern_constant_resolution"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_pattern_constant_resolution"
+          },
+          "named": true,
+          "value": "scope_resolution"
         }
       ]
     },
-    "pattern_constant": {
-      "type": "FIELD",
-      "name": "name",
-      "content": {
-        "type": "SYMBOL",
-        "name": "constant"
-      }
-    },
-    "pattern_constant_resolution": {
+    "_pattern_constant_resolution": {
       "type": "SEQ",
       "members": [
         {
