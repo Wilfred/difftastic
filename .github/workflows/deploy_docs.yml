@@ -32,7 +32,7 @@ jobs:
         working-directory: manual
 
       - name: Add rustdoc output
-        run: cp -r target/doc manual/book
+        run: cp -r target/doc manual/book/rustdoc
 
       - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@4.1.6
