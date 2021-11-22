@@ -8,7 +8,7 @@ Progress:
   * [x] Setext headings
   * [x] Indented code blocks
   * [x] Fenced code blocks
-  * [ ] HTML blocks 
+  * [x] HTML blocks 
   * [ ] Link reference definitions
   * [x] Paragraphs
   * [x] Blank lines
@@ -28,9 +28,9 @@ Progress:
   * [ ] Images
   * [ ] Autolinks
   * [ ] Autolinks (extension)
-  * [ ] Raw HTML
+  * [ ] Raw HTML *in progress*
   * [ ] Disallowed Raw HTML (extension)
-  * [x] Hard line breaks
+  * [ ] Hard line breaks
   * [x] Soft line breaks
   * [x] Textual content
 
