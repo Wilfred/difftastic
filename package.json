@@ -15,7 +15,7 @@
   "tree-sitter": [
     {
       "scope": "source.pas",
-      "file-types": ["pas", "pp"],
+      "file-types": ["pas", "pp", "lpr"],
 	  "highlights": ["queries/highlights.scm"]
     }
   ]

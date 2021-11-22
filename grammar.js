@@ -1,8 +1,4 @@
 // TODO:
-// - preprocessor
-// - objectivec
-// - "message"
-// - FPCisms: "specialize", "generic", += etc.
 // - GUIDs
 // asm blocks
 
@@ -37,6 +33,45 @@ function delimited(rule, delimiter = ',') {
 	return optional(delimited1(rule, delimiter));
 }
 
+// Preprocessor wrapper. 
+// This just supports a single `if[def] ... [else ...] endif` right now.
+// It is inteded for code like this:
+// 
+//   procedure foo;
+//   {$ifdef bla}
+//   var i: integer;
+//   begin
+//     inc(i);
+//   end;
+//   {$else}
+//   var j: integer;
+//   begin
+//     dec(j);
+//   end;
+//   {$endif}
+//
+// If we don't handle this case explicitly, tree-sitter produces a completely
+// broken AST, which messes up the syntax highlighting.
+//
+// Ideally, we would want to support nested ifdefs, as well, but that will be
+// more complex.
+function pp($, ...rule) {
+	return (
+		choice(
+			seq(...rule),
+			seq(
+				alias(/\{\$[iI][fF][^}]*\}/, $.pp), 
+				...rule, 
+				optional(seq(
+					alias(/\{\$[eE][lL][sS][eE][^}]*\}/, $.pp),
+					...rule
+				)), 
+				alias(/\{\$[eE][nN][dD][^}]*\}/, $.pp)
+			),
+		)
+	);
+}
+
 // tr = Trailing
 var tr = ($,rule) => 
 	rule[0] == '_' ? $[rule+'Tr'] : alias($[rule+'Tr'], $[rule])
@@ -45,11 +80,12 @@ var tr = ($,rule) =>
 module.exports = grammar({
 	name: "pascal",
 	
-	extras: $ => [$._space, $.comment],
+	extras: $ => [$._space, $.comment, $.pp],
 
 	word: $ => $.identifier,
 
 	//conflicts: $ => [ [ $._specializedName ]/*, [$.qualifiedName]*/ ],
+	//conflicts: $ => [ [ $.declProc ], [$.declFunc] ],
 	
 	rules: {
 	  	root:               $ => choice(
@@ -76,8 +112,6 @@ module.exports = grammar({
 			$.kEnd, $.kEndDot
 		),
 
-		declUses:           $ => seq($.kUses, delimited($.moduleName), ';'),
-
 		interface:          $ => seq($.kInterface, optional($._declarations)),
 		implementation:     $ => seq($.kImplementation, optional($._definitions)),
 		initialization:     $ => seq($.kInitialization, optional(tr($,'_statements'))),
@@ -85,7 +119,7 @@ module.exports = grammar({
 	
 		comment:            $ => token(choice(
 			seq('//', /.*/),
-			seq('{', /[^}]*/, '}'),
+			seq('{', /[^$][^}]*/, '}'),
 			seq(/\(\*([^*]*[*][^)])*[^*]*\*\)/)
 		)),
 
@@ -96,7 +130,14 @@ module.exports = grammar({
 		...statements(false),
 		...statements(true),
 
-		assignment:      $ => op.infix(0, $._expr, $.kAssign, $._expr),
+		assignment:      $ => op.infix(1, 
+			$._expr, 
+			choice(
+				$.kAssign, 
+				$.kAssignAdd, $.kAssignSub, $.kAssignMul, $.kAssignDiv
+			), 
+			$._expr
+		),
 
 		label:           $ => seq($.identifier, ':'),
 		goto:            $ => seq($.kGoto, alias($.identifier, $.label)),
@@ -115,18 +156,25 @@ module.exports = grammar({
 		// EXPRESSIONS ---------------------------------------------------------
 
 		_expr:           $ => choice(
-			$._ref, $._literal, $.exprBrackets,
-			$.exprParens, $.exprBinary, $.exprUnary
+			$._ref, $.exprBinary, $.exprUnary
 		),
 
 		_ref:            $ => choice(
-			$.identifier, $.inherited,
-			$.exprDot, $.exprTpl, $.exprIndex, $.exprCall
+			$.identifier,
+			$._literal,  $.inherited,
+			$.exprDot, $.exprTpl, $.exprIndex, $.exprCall,
+			alias($.exprDeref, $.exprUnary),
+			alias($.exprAs, $.exprBinary),
+			$.exprBrackets,
+			$.exprParens, 
 		),
 
-		inherited:       $ => seq($.kInherited, $.identifier), 
+		inherited:       $ => seq($.kInherited, optional($.identifier)), 
 
 		exprDot:         $ => op.infix(5, $._ref, $.kDot, $._ref),
+		exprDeref:       $ => op.postfix(4, $._expr, $.kHat),
+
+		exprAs:          $ => op.infix(3, $._expr, $.kAs,  $._expr),
 
 		// Unfortunately, we can't use $.exprArgs for $.exprTpl because the
 		// parser cannot handle it.
@@ -174,7 +222,10 @@ module.exports = grammar({
 		exprIndex:       $ => op.args(5, $._ref, '[',   $.exprArgs,  ']'  ),
 		exprCall:        $ => op.args(5, $._ref, '(',   optional($.exprArgs), ')'  ),
 
-		exprArgs:        $ => delimited1($._expr),
+		// Pascal legacy formatting for WriteLn(foo:4:3) etc.
+		legacyFormat:    $ => repeat1(seq(':', $._expr)),
+
+		exprArgs:        $ => delimited1(seq($._expr, optional($.legacyFormat))),
 
 		exprBinary:      $ => choice(
 			op.infix(1, $._expr, $.kLt,  $._expr),
@@ -199,7 +250,6 @@ module.exports = grammar({
 			op.infix(3, $._expr, $.kAnd, $._expr),
 			op.infix(3, $._expr, $.kShl, $._expr),
 			op.infix(3, $._expr, $.kShr, $._expr),
-			op.infix(3, $._expr, $.kAs,  $._expr),
 		),
 
 		exprUnary:       $ => choice(
@@ -207,7 +257,7 @@ module.exports = grammar({
 			op.prefix(4,  $.kAdd,  $._expr),
 			op.prefix(4,  $.kSub,  $._expr),
 			op.prefix(4,  $.kAt,   $._expr),
-			op.postfix(4, $._expr, $.kHat),
+			//op.postfix(4, $._expr, $.kHat),
 		),
 
 		exprParens:      $ => prec.left(5,seq('(', $._expr, ')')),
@@ -219,7 +269,10 @@ module.exports = grammar({
 
 		// TYPES ---------------------------------------------------------------
 		
-		typeref:           $ => $._typeref,
+		typeref:           $ => seq(
+			field('_dummy', optional($.kSpecialize)), 
+			$._typeref
+		),
 
 		_typeref:           $ => choice(
 			$.identifier, $.typerefDot, $.typerefTpl, $.typerefPtr,
@@ -280,14 +333,20 @@ module.exports = grammar({
 		_definitions:       $ => repeat1($._definition),
 		_definition:        $ => choice(
 			$.declTypes, $._declVars, $._declConsts, $.defProc, $.declProcFwd,
-			$.declLabel, $.declUses
+			$.declLabel, $.declUses, 
+
+			// Not actually valid syntax, but helps the parser recover:
+			prec(-1,$.blockTr)
 		),
 
 		defProc:            $ => seq(
-			field('header', choice($.declProc, $.declFunc)),
-			field('local', optional($._definitions)),
-			field('body', tr($, 'block')),
-			';'
+			/*pp($,*/field('header', choice($.declProc, $.declFunc))/*)*/,
+			pp(
+				$,
+				field('local', optional($._definitions)),
+				field('body', tr($, 'block')),
+				';'
+			)
 		),
 
 		declProcFwd:        $ => seq(
@@ -299,30 +358,47 @@ module.exports = grammar({
 		// DECLARATIONS -------------------------------------------------------
 
 		_declarations:      $ => repeat1(choice(
-			$.declTypes, $._declVars, $._declConsts, $.declProc, $.declFunc, $.declUses,
-			$.declLabel
+			$.declTypes, $._declVars, $._declConsts, $.declProc, $.declProcFwd,
+			$.declFunc, $.declUses, $.declLabel
 		)),
-		_classDeclarations:      $ => repeat1(choice(
-			$.declTypes, $._declVars, $._declConsts, $.declProc, $.declFunc,
-			$.declProp
-		)),
+		_classDeclarations:  $ => seq(
+			choice(
+				$.declTypes, $._declVars, $._declConsts, $.declProc, $.declProcFwd,
+				$.declFunc, $.declProp
+			),
+			repeat(choice(
+				$.declTypes, $._declVars, $._declConsts, $.declProc, $.declProcFwd,
+				$.declFunc, $.declProp
+			)),
+		),
 
-		declTypes:           $ => seq($.kType, repeat1($.declType)),
+		_visibility:         $ => choice(
+			$.kPublished, $.kPublic, $.kProtected, $.kPrivate
+		),
+
+		declUses:            $ => seq($.kUses, pp($,delimited($.moduleName)), ';'),
+
+		declTypes:           $ => seq(
+			$.kType, 
+			optional($._visibility),
+			repeat1($.declType)
+		),
 		declType:          $ => seq(
+			optional($.kGeneric),
 			field('name', $._genericName), $.kEq, 
 			field('type',
 				choice(
 					seq(optional($.kType), $.type),
-					choice($.type, $.kClass, $.kInterface),
+					choice($.type/*, $.kClass, $.kInterface*/),
 					$.declClass,
 					$.declHelper,
 				)
 			),
 			';',
-			field('attribute', repeat(seq($.procAttribute, ';')))
+			field('attribute', repeat($.procAttribute))
 		),
 
-		type:               $ => choice(
+		type:               $ => pp($,choice(
 			$.typeref, 
 			$.declMetaClass,
 			$.declEnum,
@@ -331,7 +407,7 @@ module.exports = grammar({
 			$.declString,
 			$.declProcRef,
 			$.declFuncRef
-		),
+		)),
 
 
 		declEnum:           $ => seq('(', delimited1($.declEnumValue), ')'),
@@ -341,13 +417,15 @@ module.exports = grammar({
 
 		declClass:          $ => seq(
 			optional($.kPacked),
-			choice($.kClass, $.kRecord, $.kObject, $.kInterface, $.kObjcclass), 
-			field('parent', optional(seq('(',delimited($.typeref),')'))), $._declClass
+			choice($.kClass, $.kRecord, $.kObject, $.kInterface, $.kObjcclass, $.kObjccategory), 
+			optional($.kAbstract),
+			field('parent', optional(seq('(',delimited($.typeref),')'))), 
+			optional($._declClass)
 		),
 
 		declSection:        $ => seq(
 			optional($.kStrict),
-			choice($.kPublished, $.kPublic, $.kProtected, $.kPrivate),
+			$._visibility,
 			optional($._declFields),
 			optional($._classDeclarations)
 		),
@@ -375,7 +453,10 @@ module.exports = grammar({
 		declMetaClass:      $ => seq($.kClass, $.kOf, $.typeref),
 
 		declHelper:         $ => seq(
-			choice($.kClass, $.kRecord), $.kHelper, $.kFor, $.typeref
+			choice($.kClass, $.kRecord, $.kType), $.kHelper, 
+			field('parent', optional(seq('(',delimited($.typeref),')'))), 
+			$.kFor, $.typeref,
+			$._declClass
 		),
 
 		declProc:           $ => seq(
@@ -384,8 +465,8 @@ module.exports = grammar({
 			field('name', $._genericName),
 			field('args', optional($.declArgs)),
 			field('assign', optional($.defaultValue)),
-			repeat(seq(';', $.procAttribute)),
 			';',
+			repeat($.procAttribute),
 		),
 
 		declFunc:           $ => seq(
@@ -395,8 +476,8 @@ module.exports = grammar({
 			field('args', optional($.declArgs)),
 			':',
 			field('type', $.type),
-			repeat(seq(';', $.procAttribute)),
 			';',
+			repeat($.procAttribute),
 		),
 
 		declProcRef:        $ => prec.right(1,seq(
@@ -415,34 +496,49 @@ module.exports = grammar({
 
 		declArgs:           $ => seq('(', delimited($.declArg, ';'), ')'),
 
-		procAttribute: $ => choice(
-			$.kStatic, $.kVirtual, $.kAbstract, $.kOverride,
-			$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
-			$.kCdecl, $.kPascal, $.kMwpascal,
-			seq($.kMessage, $._expr)
+		procAttribute: $ => seq(
+			choice(
+				$.kStatic, $.kVirtual, $.kAbstract, $.kOverride,
+				$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
+				$.kCdecl, $.kPascal, $.kMwpascal,
+				$.kDefault,
+				seq(choice($.kMessage, $.kDeprecated, $.kExperimental, $.kPlatform, $.kUnimplemented), $._expr),
+			),
+			';'
 		),
 
-		procExternal: $ => seq($.kExternal, $._expr, $.kName, $._expr),
+		procExternal: $ => seq($.kExternal, $._expr, choice($.kName, $.kIndex), $._expr),
 
 		defaultValue:       $ => seq($.kEq, $._initializer),
 
-		_declVars:            $ => seq( $.kVar, repeat1($.declVar)),
+		_declVars:            $ => seq(
+			$.kVar, 
+			optional($._visibility),
+			repeat1($.declVar)
+		),
 		declVar:           $ => seq(
 			field('name', delimited1($.identifier)),
 			':', 
 			field('type', $.type), 
-			field('defaultValue', optional($.defaultValue)),
+			optional(choice(
+				seq($.kAbsolute, $._ref),
+				field('defaultValue', $.defaultValue)
+			)),
 			';',
-			repeat(seq($.procAttribute, ';'))
+			repeat($.procAttribute)
 		),
 
-		_declConsts:          $ => seq( $.kConst, repeat1($.declConst)),
+		_declConsts:          $ => seq(
+			choice($.kConst, $.kResourcestring), 
+			optional($._visibility),
+			repeat1($.declConst)
+		),
 		declConst:         $ => seq(
 			field('name', $.identifier), 
 			optional(seq(':', field('type', $.type))), 
 			field('defaultValue', $.defaultValue),
 			';',
-			repeat(seq($.procAttribute, ';'))
+			repeat($.procAttribute)
 		),
 
 		declField:          $ =>  seq(
@@ -464,14 +560,15 @@ module.exports = grammar({
 			field('setter', optional(seq($.kWrite, $.identifier))),
 			field('defaultValue', optional(seq($.kDefault, $._expr))),
 			';',
-			field('default', optional(seq($.kDefault, ';')))
+			//field('default', optional(seq($.kDefault, ';')))
+			repeat($.procAttribute)
 		),
 
 		declPropArgs:       $ => seq('[', delimited($.declArg, ';'), ']'),
 
 		declArg:            $ => choice(
 			seq(
-				choice($.kVar, $.kConst, $.kOut),
+				choice($.kVar, $.kConst, $.kOut, $.kConstref),
 				field('name', delimited1($.identifier)),
 				optional(seq(
 					':', field('type', $.type), 
@@ -525,9 +622,12 @@ module.exports = grammar({
 
 		kVar:               $ => /[vV][aA][rR]/,
 		kConst:             $ => /[cC][oO][nN][sS][tT]/,
+		kConstref:          $ => /[cC][oO][nN][sS][tT][rR][eE][fF]/,
+		kResourcestring:    $ => /[rR][eE][sS][oO][uU][rR][cC][eE][sS][tT][rR][iI][nN][gG]/,
 		kOut:               $ => /[oO][uU][tT]/,
 		kType:              $ => /[tT][yY][pP][eE]/,
 		kLabel:             $ => /[lL][aA][bB][eE][lL]/,
+		kAbsolute:          $ => /[aA][bB][sS][oO][lL][uU][tT][eE]/,
 
 		kProperty:          $ => /[pP][rR][oO][pP][eE][rR][tT][yY]/,
 		kRead:              $ => /[rR][eE][aA][dD]/,
@@ -540,12 +640,16 @@ module.exports = grammar({
 		kObject:            $ => /[oO][bB][jJ][eE][cC][tT]/,
 		kRecord:            $ => /[rR][eE][cC][oO][rR][dD]/,
 		kObjcclass:         $ => /[oO][bB][jJ][cC][cC][lL][aA][sS][sS]/,
+		kObjccategory:      $ => /[oO][bB][jJ][cC][cC][aA][tT][eE][gG][oO][rR][yY]/,
 		kArray:             $ => /[aA][rR][rR][aA][yY]/,
 		kString:            $ => /[sS][tT][rR][iI][nN][gG]/,
 		kSet:               $ => /[sS][eE][tT]/,
 		kOf:                $ => /[oO][fF]/,
 		kHelper:            $ => /[hH][eE][lL][pP][eE][rR]/,
 		kPacked:            $ => /[pP][aA][cC][kK][eE][dD]/,
+
+		kGeneric:           $ => /[gG][eE][nN][eE][rR][iI][cC]/,
+		kSpecialize:        $ => /[sS][pP][eE][cC][iI][aA][lL][iI][zZ][eE]/,
 
 		kDot:               $ => '.',
 		kLt:                $ => '<',
@@ -561,6 +665,10 @@ module.exports = grammar({
 		kAt:                $ => '@',
 		kHat:               $ => '^',
 		kAssign:            $ => ':=',
+		kAssignAdd:         $ => '+=', // Freepascal
+		kAssignSub:         $ => '-=', // Freepascal
+		kAssignMul:         $ => '*=', // Freepascal
+		kAssignDiv:         $ => '/=', // Freepascal
 		kOr:                $ => /[oO][rR]/,
 		kXor:               $ => /[xX][oO][rR]/,
 		kDiv:               $ => /[dD][iI][vV]/,
@@ -589,10 +697,8 @@ module.exports = grammar({
 		kRaise:             $ => /[rR][aA][iI][sS][eE]/,
 		kOn:                $ => /[oO][nN]/,
 		kCase:              $ => /[cC][aA][sS][eE]/,
+		kWith:              $ => /[wW][iI][tT][hH]/,
 		kGoto:              $ => /[gG][oO][tT][oO]/,
-		kBreak:             $ => /[bB][rR][eE][aA][kK]/,
-		kContinue:          $ => /[cC][oO][nN][tT][iI][nN][uU][eE]/,
-		kExit:              $ => /[eE][xX][iI][tT]/,
 
 		kFunction:          $ => /[fF][uU][nN][cC][tT][iI][oO][nN]/,
 		kProcedure:         $ => /[pP][rR][oO][cC][eE][dD][uU][rR][eE]/,
@@ -623,6 +729,14 @@ module.exports = grammar({
 		kExternal:          $ => /[eE][xX][tT][eE][rR][nN][aA][lL]/,
 		kName:              $ => /[nN][aA][mM][eE]/,
 		kMessage:           $ => /[mM][eE][sS][sS][aA][gG][eE]/,
+		kDeprecated:        $ => /[dD][eE][pP][rR][eE][cC][aA][tT][eE][dD]/,
+		kExperimental:      $ => /[eE][xX][pP][eE][rR][iI][mM][eE][nN][tT][aA][lL]/,
+		kPlatform:          $ => /[pP][lL][aA][tT][fF][oO][rR][mM]/,
+		kUnimplemented:     $ => /[uU][nN][iI][mM][pP][lL][eE][mM][eE][nN][tT][eE][dD]/,
+
+		kIfdef:             $ => /[iI][fF][dD][eE][fF]/,
+		kIfndef:            $ => /[iI][fF][nN][dD][eE][fF]/,
+		kEndif:             $ => /[eE][nN][dD][iI][fF]/,
 
 		kNil:               $ => /[nN][iI][lL]/,
 		kTrue:              $ => /[tT][rR][uU][eE]/,
@@ -631,6 +745,8 @@ module.exports = grammar({
     	identifier:         $ => /[&]?[a-zA-Z_]+[0-9_a-zA-Z]*/,
 
 	  	_space:             $ => /[\s\r\n\t]+/,
+
+		pp:                 $ => /\{\$[^}]*\}/
 	}
 });
 
@@ -676,7 +792,7 @@ function statements(trailing) {
 		)],
 
 		[rn('exceptionHandler'), $ => seq(
-			$.kOn, field('variable', optional(seq($.identifier, ':'))), field('exception', $._expr), $.kDo,
+			$.kOn, field('variable', optional(seq($.identifier, ':'))), field('exception', $.typeref), $.kDo,
 			field('body', lastStatement($))
 		)],
 
@@ -712,7 +828,7 @@ function statements(trailing) {
 			optional(seq(
 				$.kElse,
 				optional(':'),
-				choice(tr($,'statement'), $.statement)
+				optional(tr($,'_statements'))
 			)),
 			$.kEnd, ...semicolon
 		))],
@@ -723,6 +839,11 @@ function statements(trailing) {
 			$.kEnd, ...semicolon
 		)],
 
+		[rn('with'),      $ => seq(
+			$.kWith, delimited1(field('entity', $._expr)), $.kDo,
+			field('body', lastStatement($))
+		)],
+
 		[rn('raise'),      $ => seq(
 			$.kRaise,
 			field('exception', $._expr),
@@ -730,12 +851,10 @@ function statements(trailing) {
 		)],
 
 		[rn('statement'), $ => choice(
+			...trailing?[]:[';'],
 			seq($._expr, ...semicolon),
 			seq($.assignment, ...semicolon),
 			seq($.goto, ...semicolon),
-			seq($.kBreak, ...semicolon),
-			seq($.kContinue, ...semicolon),
-			seq($.kExit, ...semicolon),
 			alias($[rn('if')],      $.if), 
 			alias($[rn('ifElse')],  $.ifElse), 
 			alias($[rn('while')],   $.while), 
@@ -745,7 +864,10 @@ function statements(trailing) {
 			alias($[rn('try')],     $.try),
 			alias($[rn('case')],    $.case),
 			alias($[rn('block')],   $.block),
+			alias($[rn('with')],    $.with),
 			alias($[rn('raise')],   $.raise), 
+			//alias($[rn('ppif')],    $.ppif), 
+			//alias($[rn('ppifelse')], $.ppifelse), 
 		)]
 	]);
 
