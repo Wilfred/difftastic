@@ -35,7 +35,12 @@ impl Style {
     }
 }
 
-/// "fooba", 3 -> vec!["foo", "ba "]
+/// Split a string into equal length parts, padding the last part if
+/// necessary.
+///
+/// ```
+/// split_string("fooba", 3) // vec!["foo", "ba "]
+/// ```
 fn split_string(s: &str, max_len: usize) -> Vec<String> {
     let mut res = vec![];
     let mut s = s;

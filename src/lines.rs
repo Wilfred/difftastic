@@ -7,6 +7,8 @@ use std::{cmp::max, fmt};
 
 /// A distinct number type for line numbers, to prevent confusion with
 /// other numerical data.
+///
+/// Zero-indexed internally.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LineNumber(pub usize);
 

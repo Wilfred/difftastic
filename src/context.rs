@@ -1,3 +1,5 @@
+//! Calculate which nearby lines should also be displayed.
+
 use std::collections::{HashMap, HashSet};
 
 use crate::{
@@ -5,6 +7,11 @@ use crate::{
     syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
 };
 
+/// The maximum number of lines that may be displayed above and below
+/// the modified lines.
+///
+/// We may show fewer lines if the modified lines are at the beginning
+/// or end of the file.
 const MAX_PADDING: usize = 3;
 
 pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
@@ -43,14 +50,20 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<Lin
 }
 
 /// Before:
+///
+/// ```text
 /// 118    --
 /// 119    --
 /// 120    -- (novel)
+/// ```
 ///
 /// After:
+///
+/// ```text
 /// 118    88 (expanded from closest)
 /// 119    89 (closest match)
 /// 120    -- (novel)
+/// ```
 fn before_with_opposites(
     before_lines: &[LineNumber],
     opposite_lines: &HashMap<LineNumber, HashSet<LineNumber>>,

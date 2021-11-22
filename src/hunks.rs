@@ -1,3 +1,8 @@
+//! Calculating which modified lines should be displayed together.
+
+/// The maximum number of lines that may occur between changed lines in a hunk.
+///
+/// If we exceed this, the lines are stored in separate hunks.
 const MAX_DISTANCE: usize = 4;
 
 use std::collections::{HashMap, HashSet};
@@ -8,6 +13,8 @@ use crate::{
     syntax::{zip_pad_shorter, MatchedPos},
 };
 
+/// A hunk represents a series of modified lines that are displayed
+/// together.
 #[derive(Debug, Clone)]
 pub struct Hunk {
     pub lines: Vec<(Option<LineNumber>, Option<LineNumber>)>,
@@ -402,18 +409,21 @@ pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> V
 ///
 /// Before:
 ///
+/// ```text
 /// 1 11
 /// 3 14
 /// 4 --
+/// ```
 ///
-/// After
+/// After:
 ///
+/// ```text
 /// 1 10
 /// 2 12 (choosing to align even though content doesn't match)
 /// - 13 (fix uneven gap)
 /// 3 14
 /// 4 -- (preserve outer gaps)
-///
+/// ```
 fn ensure_contiguous(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
