@@ -160,11 +160,11 @@
     "named": true,
     "subtypes": [
       {
-        "type": "pattern_constant",
+        "type": "constant",
         "named": true
       },
       {
-        "type": "pattern_constant_resolution",
+        "type": "scope_resolution",
         "named": true
       }
     ]
@@ -212,11 +212,11 @@
         "named": true
       },
       {
-        "type": "pattern_range",
+        "type": "identifier",
         "named": true
       },
       {
-        "type": "pattern_variable",
+        "type": "range",
         "named": true
       },
       {
@@ -705,26 +705,10 @@
           "named": true
         },
         {
-          "type": "array_pattern_rest",
+          "type": "splat_parameter",
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "array_pattern_rest",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -1101,6 +1085,10 @@
           "named": true
         },
         {
+          "type": "hash_splat_nil",
+          "named": true
+        },
+        {
           "type": "hash_splat_parameter",
           "named": true
         },
@@ -1260,7 +1248,7 @@
       },
       "value": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "_statement",
@@ -1441,6 +1429,10 @@
         },
         {
           "type": "forward_parameter",
+          "named": true
+        },
+        {
+          "type": "hash_splat_nil",
           "named": true
         },
         {
@@ -1733,7 +1725,7 @@
           "named": true
         },
         {
-          "type": "array_pattern_rest",
+          "type": "splat_parameter",
           "named": true
         }
       ]
@@ -1828,39 +1820,18 @@
       "required": false,
       "types": [
         {
-          "type": "hash_pattern_norest",
+          "type": "hash_splat_nil",
           "named": true
         },
         {
-          "type": "hash_pattern_rest",
+          "type": "hash_splat_parameter",
           "named": true
         },
         {
-          "type": "pattern_pair",
+          "type": "keyword_pattern",
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "hash_pattern_norest",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "hash_pattern_rest",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -1877,6 +1848,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "hash_splat_nil",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "hash_splat_parameter",
@@ -2104,6 +2080,36 @@
     }
   },
   {
+    "type": "keyword_pattern",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "hash_key_symbol",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_pattern_expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "lambda",
     "named": true,
     "fields": {
@@ -2151,6 +2157,10 @@
         },
         {
           "type": "forward_parameter",
+          "named": true
+        },
+        {
+          "type": "hash_splat_nil",
           "named": true
         },
         {
@@ -2273,6 +2283,10 @@
         },
         {
           "type": "forward_parameter",
+          "named": true
+        },
+        {
+          "type": "hash_splat_nil",
           "named": true
         },
         {
@@ -2547,134 +2561,6 @@
     }
   },
   {
-    "type": "pattern_constant",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "constant",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "pattern_constant_resolution",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "constant",
-            "named": true
-          }
-        ]
-      },
-      "scope": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_pattern_constant",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "pattern_pair",
-    "named": true,
-    "fields": {
-      "key": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "hash_key_symbol",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_pattern_expr",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "pattern_range",
-    "named": true,
-    "fields": {
-      "begin": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_pattern_primitive",
-            "named": true
-          }
-        ]
-      },
-      "end": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "_pattern_primitive",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "..",
-            "named": false
-          },
-          {
-            "type": "...",
-            "named": false
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "pattern_variable",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "program",
     "named": true,
     "fields": {},
@@ -2708,6 +2594,10 @@
           {
             "type": "_arg",
             "named": true
+          },
+          {
+            "type": "_pattern_primitive",
+            "named": true
           }
         ]
       },
@@ -2717,6 +2607,10 @@
         "types": [
           {
             "type": "_arg",
+            "named": true
+          },
+          {
+            "type": "_pattern_primitive",
             "named": true
           }
         ]
@@ -2946,6 +2840,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "_pattern_constant",
+            "named": true
+          },
           {
             "type": "_primary",
             "named": true
@@ -3933,11 +3831,11 @@
   },
   {
     "type": "nil",
-    "named": true
+    "named": false
   },
   {
     "type": "nil",
-    "named": false
+    "named": true
   },
   {
     "type": "not",
