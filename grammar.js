@@ -467,7 +467,7 @@ module.exports = grammar({
     _pattern_value: $ => choice(
       $._pattern_primitive,
       $.pattern_range,
-      $.pattern_variable,
+      $.identifier,
       $.variable_reference_pattern,
       $._pattern_constant
     ),
@@ -512,8 +512,6 @@ module.exports = grammar({
     line: $ => '__LINE__',
     file: $ => '__FILE__',
     encoding: $ => '__ENCODING__',
-
-    pattern_variable: $ => field('name', $.identifier),
 
     variable_reference_pattern: $ => seq('^', field('name', $.identifier)),
 

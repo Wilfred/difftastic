@@ -69,12 +69,12 @@ end
     (else (false))) 
   (case_match (identifier) 
     (in_clause 
-      (pattern_variable (identifier))
+      (identifier)
       (unless_guard (binary (identifier) (integer)))
       (then (true))
     )
     (in_clause 
-      (pattern_variable (identifier))
+      (identifier)
       (if_guard (binary (identifier) (integer)))
       (then (true))
     )
@@ -158,7 +158,7 @@ end
    (case_match (identifier)
      (in_clause (integer))
      (in_clause (variable_reference_pattern (identifier)))
-     (in_clause (pattern_variable (identifier)))
+     (in_clause (identifier))
      (in_clause (string (string_content)))
      (in_clause (string_array (bare_string (string_content)) (bare_string (string_content))))
      (in_clause (symbol_array (bare_symbol (string_content)) (bare_symbol (string_content))))
@@ -171,7 +171,7 @@ end
        (alternative_pattern 
          (integer)
          (variable_reference_pattern (identifier))
-         (pattern_variable (identifier))
+         (identifier)
          (string (string_content))
        )
      )
@@ -219,19 +219,19 @@ end
 (program 
   (case_match (identifier)
     (in_clause (array_pattern))
-    (in_clause (array_pattern (pattern_variable (identifier))))
-    (in_clause (array_pattern (pattern_variable (identifier)) (splat_parameter)))
+    (in_clause (array_pattern (identifier)))
+    (in_clause (array_pattern (identifier) (splat_parameter)))
     (in_clause (array_pattern (scope_resolution (constant) (constant))))
     (in_clause (array_pattern (constant)))
     (in_clause (array_pattern (constant) (splat_parameter)))
     (in_clause 
       (array_pattern 
         (constant)
-        (pattern_variable (identifier))
-        (pattern_variable (identifier))
+        (identifier)
+        (identifier)
         (splat_parameter (identifier))
-        (pattern_variable (identifier))
-        (pattern_variable (identifier))
+        (identifier)
+        (identifier)
       )
     )
   )
@@ -252,7 +252,7 @@ end
 
 (program 
   (case_match (identifier)
-    (in_clause (find_pattern (splat_parameter) (pattern_variable (identifier)) (splat_parameter)))
+    (in_clause (find_pattern (splat_parameter) (identifier) (splat_parameter)))
     (in_clause (find_pattern (splat_parameter (identifier)) (integer) (integer) (splat_parameter (identifier))))
     (in_clause (find_pattern 
        (scope_resolution (constant) (constant))

@@ -2481,7 +2481,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "pattern_variable"
+          "name": "identifier"
         },
         {
           "type": "SYMBOL",
@@ -2686,14 +2686,6 @@
     "encoding": {
       "type": "STRING",
       "value": "__ENCODING__"
-    },
-    "pattern_variable": {
-      "type": "FIELD",
-      "name": "name",
-      "content": {
-        "type": "SYMBOL",
-        "name": "identifier"
-      }
     },
     "variable_reference_pattern": {
       "type": "SEQ",
