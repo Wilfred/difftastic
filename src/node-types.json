@@ -1085,6 +1085,10 @@
           "named": true
         },
         {
+          "type": "hash_splat_nil",
+          "named": true
+        },
+        {
           "type": "hash_splat_parameter",
           "named": true
         },
@@ -1425,6 +1429,10 @@
         },
         {
           "type": "forward_parameter",
+          "named": true
+        },
+        {
+          "type": "hash_splat_nil",
           "named": true
         },
         {
@@ -2122,6 +2130,10 @@
           "named": true
         },
         {
+          "type": "hash_splat_nil",
+          "named": true
+        },
+        {
           "type": "hash_splat_parameter",
           "named": true
         },
@@ -2241,6 +2253,10 @@
         },
         {
           "type": "forward_parameter",
+          "named": true
+        },
+        {
+          "type": "hash_splat_nil",
           "named": true
         },
         {
@@ -3863,11 +3879,11 @@
   },
   {
     "type": "nil",
-    "named": false
+    "named": true
   },
   {
     "type": "nil",
-    "named": true
+    "named": false
   },
   {
     "type": "not",
