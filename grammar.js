@@ -211,6 +211,7 @@ module.exports = grammar({
       $.identifier,
       $.splat_parameter,
       $.hash_splat_parameter,
+      $.hash_splat_nil,
       $.forward_parameter,
       $.block_parameter,
       $.keyword_parameter,

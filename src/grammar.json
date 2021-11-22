@@ -651,6 +651,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "hash_splat_nil"
+        },
+        {
+          "type": "SYMBOL",
           "name": "forward_parameter"
         },
         {
