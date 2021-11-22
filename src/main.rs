@@ -25,6 +25,10 @@ use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
 use log::info;
 use mimalloc::MiMalloc;
 
+/// The global allocator used by difftastic.
+///
+/// Diffing allocates a large amount of memory, and MiMalloc performs
+/// better.
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
@@ -69,6 +73,7 @@ enum Mode {
     },
 }
 
+/// Parse CLI arguments passed to the binary.
 fn parse_args() -> Mode {
     let matches =
         App::new("Difftastic")
@@ -169,6 +174,7 @@ fn reset_sigpipe() {
     // Do nothing.
 }
 
+/// The entrypoint.
 fn main() {
     pretty_env_logger::init();
 
@@ -222,6 +228,7 @@ fn main() {
     };
 }
 
+/// Print a diff between two files.
 // TODO: prefer PathBuf to &str for paths.
 fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     let lhs_bytes = read_or_die(lhs_path);
@@ -311,8 +318,8 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
 /// Given two directories that contain the files, compare them
 /// pairwise.
 ///
-/// This is how the hg extdiff extension calls a diff tool when there
-/// is more than one changed file.
+/// When more than one file is modified, the hg extdiff extension passes directory
+/// paths with the all the modified files.  fn
 fn diff_directories(lhs_dir: &str, rhs_dir: &str) {
     for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
         let lhs_path = entry.path();
