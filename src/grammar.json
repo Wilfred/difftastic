@@ -1853,19 +1853,19 @@
     },
     "_open_tag_html_block": {
       "type": "PATTERN",
-      "value": "<[a-zA-Z][a-zA-Z0-9\\-]*([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n\"'=<>`]+|'[^'\\r\\n]*'|\"[^\"\\r\\n]*\"))*[ \\t]*\\/?>[ \\t]"
+      "value": "<([a-oq-rt-zA-OQ-RT-Z][a-zA-Z0-9\\-]*|p|p([a-qs-zA-QS-Z0-9\\-][a-zA-Z0-9\\-]*|r|r([a-df-zA-DF-Z0-9\\-][a-zA-Z0-9\\-]*|[e][a-zA-Z0-9\\-]+))|s|s([a-bd-su-zA-BD-SU-Z0-9\\-][a-zA-Z0-9\\-]*|c|c([a-qs-zA-QS-Z0-9\\-][a-zA-Z0-9\\-]*|r|r([a-hj-zA-HJ-Z0-9\\-][a-zA-Z0-9\\-]*|i|i([a-oq-zA-OQ-Z0-9\\-][a-zA-Z0-9\\-]*|p|p([a-su-zA-SU-Z0-9\\-][a-zA-Z0-9\\-]*|[t][a-zA-Z0-9\\-]+))))|t|t([a-xzA-XZ0-9\\-][a-zA-Z0-9\\-]*|y|y([a-km-zA-KM-Z0-9\\-][a-zA-Z0-9\\-]*|l|l([a-df-zA-DF-Z0-9\\-][a-zA-Z0-9\\-]*|[e][a-zA-Z0-9\\-]+)))))([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n\"'=<>`]+|'[^'\\r\\n]*'|\"[^\"\\r\\n]*\"))*[ \\t]*\\/?>[ \\t]"
     },
     "_open_tag_html_block_newline": {
       "type": "PATTERN",
-      "value": "<[a-zA-Z][a-zA-Z0-9\\-]*([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n\"'=<>`]+|'[^'\\r\\n]*'|\"[^\"\\r\\n]*\"))*[ \\t]*\\/?>(\n|\r\n?)"
+      "value": "<([a-oq-rt-zA-OQ-RT-Z][a-zA-Z0-9\\-]*|p|p([a-qs-zA-QS-Z0-9\\-][a-zA-Z0-9\\-]*|r|r([a-df-zA-DF-Z0-9\\-][a-zA-Z0-9\\-]*|[e][a-zA-Z0-9\\-]+))|s|s([a-bd-su-zA-BD-SU-Z0-9\\-][a-zA-Z0-9\\-]*|c|c([a-qs-zA-QS-Z0-9\\-][a-zA-Z0-9\\-]*|r|r([a-hj-zA-HJ-Z0-9\\-][a-zA-Z0-9\\-]*|i|i([a-oq-zA-OQ-Z0-9\\-][a-zA-Z0-9\\-]*|p|p([a-su-zA-SU-Z0-9\\-][a-zA-Z0-9\\-]*|[t][a-zA-Z0-9\\-]+))))|t|t([a-xzA-XZ0-9\\-][a-zA-Z0-9\\-]*|y|y([a-km-zA-KM-Z0-9\\-][a-zA-Z0-9\\-]*|l|l([a-df-zA-DF-Z0-9\\-][a-zA-Z0-9\\-]*|[e][a-zA-Z0-9\\-]+)))))([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n\"'=<>`]+|'[^'\\r\\n]*'|\"[^\"\\r\\n]*\"))*[ \\t]*\\/?>(\n|\r\n?)"
     },
     "_closing_tag_html_block": {
       "type": "PATTERN",
-      "value": "<\\/[a-zA-Z][a-zA-Z0-9\\-]*[ \\t]*>[ \\t]"
+      "value": "<\\/([a-oq-rt-zA-OQ-RT-Z][a-zA-Z0-9\\-]*|p|p([a-qs-zA-QS-Z0-9\\-][a-zA-Z0-9\\-]*|r|r([a-df-zA-DF-Z0-9\\-][a-zA-Z0-9\\-]*|[e][a-zA-Z0-9\\-]+))|s|s([a-bd-su-zA-BD-SU-Z0-9\\-][a-zA-Z0-9\\-]*|c|c([a-qs-zA-QS-Z0-9\\-][a-zA-Z0-9\\-]*|r|r([a-hj-zA-HJ-Z0-9\\-][a-zA-Z0-9\\-]*|i|i([a-oq-zA-OQ-Z0-9\\-][a-zA-Z0-9\\-]*|p|p([a-su-zA-SU-Z0-9\\-][a-zA-Z0-9\\-]*|[t][a-zA-Z0-9\\-]+))))|t|t([a-xzA-XZ0-9\\-][a-zA-Z0-9\\-]*|y|y([a-km-zA-KM-Z0-9\\-][a-zA-Z0-9\\-]*|l|l([a-df-zA-DF-Z0-9\\-][a-zA-Z0-9\\-]*|[e][a-zA-Z0-9\\-]+)))))[ \\t]*>[ \\t]"
     },
     "_closing_tag_html_block_newline": {
       "type": "PATTERN",
-      "value": "<\\/[a-zA-Z][a-zA-Z0-9\\-]*[ \\t]*>(\n|\r\n?)"
+      "value": "<\\/([a-oq-rt-zA-OQ-RT-Z][a-zA-Z0-9\\-]*|p|p([a-qs-zA-QS-Z0-9\\-][a-zA-Z0-9\\-]*|r|r([a-df-zA-DF-Z0-9\\-][a-zA-Z0-9\\-]*|[e][a-zA-Z0-9\\-]+))|s|s([a-bd-su-zA-BD-SU-Z0-9\\-][a-zA-Z0-9\\-]*|c|c([a-qs-zA-QS-Z0-9\\-][a-zA-Z0-9\\-]*|r|r([a-hj-zA-HJ-Z0-9\\-][a-zA-Z0-9\\-]*|i|i([a-oq-zA-OQ-Z0-9\\-][a-zA-Z0-9\\-]*|p|p([a-su-zA-SU-Z0-9\\-][a-zA-Z0-9\\-]*|[t][a-zA-Z0-9\\-]+))))|t|t([a-xzA-XZ0-9\\-][a-zA-Z0-9\\-]*|y|y([a-km-zA-KM-Z0-9\\-][a-zA-Z0-9\\-]*|l|l([a-df-zA-DF-Z0-9\\-][a-zA-Z0-9\\-]*|[e][a-zA-Z0-9\\-]+)))))[ \\t]*>(\n|\r\n?)"
     },
     "_inline_element": {
       "type": "CHOICE",

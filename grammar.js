@@ -57,6 +57,8 @@ const html_entities = require("./html_entities.json");
 const PUNCTUATION_CHARACTERS = '!-/:-@\\[-`\\{-~';
 const HTML_OPEN_TAG = /<[a-zA-Z][a-zA-Z0-9\-]*([ \t]+[a-zA-Z_:][a-zA-Z0-9_\.:\-]*[ \t]*=[ \t]*([^ \t\r\n"'=<>`]+|'[^'\r\n]*'|"[^"\r\n]*"))*[ \t]*\/?>/;
 const HTML_CLOSING_TAG = /<\/[a-zA-Z][a-zA-Z0-9\-]*[ \t]*>/;
+const HTML_OPEN_TAG_EXCLUDE = '<' + negative_regex(['pre', 'script', 'style'], '', '0-9\\-') + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>';
+const HTML_CLOSING_TAG_EXCLUDE = '</' + negative_regex(['pre', 'script', 'style'], '', '0-9\\-') + '[ \\t]*>';
 
 module.exports = grammar({
     name: 'markdown',
@@ -269,10 +271,10 @@ module.exports = grammar({
             ),
         )),
         // tag name not pre script or style
-        _open_tag_html_block: $ => new RegExp(HTML_OPEN_TAG.source + '[ \\t]'),
-        _open_tag_html_block_newline: $ => new RegExp(HTML_OPEN_TAG.source + '(\n|\r\n?)'),
-        _closing_tag_html_block: $ => new RegExp(HTML_CLOSING_TAG.source + '[ \\t]'),
-        _closing_tag_html_block_newline: $ => new RegExp(HTML_CLOSING_TAG.source + '(\n|\r\n?)'),
+        _open_tag_html_block: $ => new RegExp(HTML_OPEN_TAG_EXCLUDE + '[ \\t]'),
+        _open_tag_html_block_newline: $ => new RegExp(HTML_OPEN_TAG_EXCLUDE + '(\n|\r\n?)'),
+        _closing_tag_html_block: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '[ \\t]'),
+        _closing_tag_html_block_newline: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '(\n|\r\n?)'),
 
         _inline_element: $ => choice(
             prec.dynamic(2, alias($._lazy_newline, $.soft_line_break)),
@@ -413,4 +415,55 @@ function regex_case_insensitive_list(ss) {
 
 function regex_case_insensitive(s) {
     return Array.from(s).map(x => "[" + x + x.toUpperCase() + "]").join("");
+}
+
+// used to build a regex that matches anything but pre, script and style
+function negative_regex(ss, classExtraStart, classExtra) {
+    let chars = {};
+    let end = true;
+    for (let s of ss) {
+        if (s.length > 1) {
+            end = false;
+        }
+        let char = s.charCodeAt(0);
+        if (!(char in chars)) {
+            chars[char] = [];
+        }
+        chars[char].push(s);
+    }
+    let ranges = [['a'.charCodeAt(0), 'z'.charCodeAt(0)]];
+    for (let char in chars) {
+        for (let i = 0; i < ranges.length; i++) {
+            let range = ranges[i];
+            if (range[1] < char) continue;
+            if (range[1] != char && range[0] != char) {
+                ranges.splice(i, 1, [range[0], char - 1], [+char + 1, range[1]]);
+            } else if(range[1] == char && range[0] == char) {
+                ranges.splice(i, 1);
+            } else if (range[1] == char) {
+                range[1]--;
+            } else {
+                range[0]++;
+            }
+            break;
+        }
+    }
+    let alphabet = ranges.map(x => {
+        if (x[0] == x[1]) {
+            return String.fromCharCode(x[0]);
+        } else {
+            return String.fromCharCode(x[0]) + '-' + String.fromCharCode(x[1]);
+        }
+    }).join('');
+    let output = '([' + alphabet + alphabet.toUpperCase() + classExtraStart + '][a-zA-Z' + classExtra + ']*';
+    if (!end) {
+        for (let char in chars) {
+            output += '|' + String.fromCharCode(char);
+            output += '|' + String.fromCharCode(char) + negative_regex(chars[char].map(x => x.substring(1)), classExtra, classExtra);
+        }
+    } else {
+        output += '|[' + Object.keys(chars).map(x => String.fromCharCode(x)).join('') + '][a-zA-Z' + classExtra + ']+';
+    }
+    output += ')';
+    return output;
 }
