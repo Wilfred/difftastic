@@ -28,11 +28,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -103,11 +103,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -195,11 +195,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -325,11 +325,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -446,11 +446,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -598,11 +598,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -696,7 +696,7 @@
       "required": true,
       "types": [
         {
-          "type": "declConst",
+          "type": "declConsts",
           "named": true
         },
         {
@@ -728,7 +728,7 @@
           "named": true
         },
         {
-          "type": "declVar",
+          "type": "declVars",
           "named": true
         },
         {
@@ -737,10 +737,6 @@
         },
         {
           "type": "kClass",
-          "named": true
-        },
-        {
-          "type": "kConst",
           "named": true
         },
         {
@@ -768,31 +764,11 @@
           "named": true
         },
         {
-          "type": "kPrivate",
-          "named": true
-        },
-        {
-          "type": "kProtected",
-          "named": true
-        },
-        {
-          "type": "kPublic",
-          "named": true
-        },
-        {
-          "type": "kPublished",
-          "named": true
-        },
-        {
           "type": "kRecord",
           "named": true
         },
         {
-          "type": "kResourcestring",
-          "named": true
-        },
-        {
-          "type": "kVar",
+          "type": "kSealed",
           "named": true
         }
       ]
@@ -839,6 +815,45 @@
       "types": [
         {
           "type": "procAttribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declConsts",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declConst",
+          "named": true
+        },
+        {
+          "type": "kConst",
+          "named": true
+        },
+        {
+          "type": "kPrivate",
+          "named": true
+        },
+        {
+          "type": "kProtected",
+          "named": true
+        },
+        {
+          "type": "kPublic",
+          "named": true
+        },
+        {
+          "type": "kPublished",
+          "named": true
+        },
+        {
+          "type": "kResourcestring",
           "named": true
         }
       ]
@@ -1069,7 +1084,7 @@
       "required": true,
       "types": [
         {
-          "type": "declConst",
+          "type": "declConsts",
           "named": true
         },
         {
@@ -1101,15 +1116,11 @@
           "named": true
         },
         {
-          "type": "declVar",
+          "type": "declVars",
           "named": true
         },
         {
           "type": "kClass",
-          "named": true
-        },
-        {
-          "type": "kConst",
           "named": true
         },
         {
@@ -1125,35 +1136,11 @@
           "named": true
         },
         {
-          "type": "kPrivate",
-          "named": true
-        },
-        {
-          "type": "kProtected",
-          "named": true
-        },
-        {
-          "type": "kPublic",
-          "named": true
-        },
-        {
-          "type": "kPublished",
-          "named": true
-        },
-        {
           "type": "kRecord",
           "named": true
         },
         {
-          "type": "kResourcestring",
-          "named": true
-        },
-        {
           "type": "kType",
-          "named": true
-        },
-        {
-          "type": "kVar",
           "named": true
         },
         {
@@ -1382,11 +1369,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -1466,11 +1453,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -1539,6 +1526,76 @@
           }
         ]
       },
+      "stored": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "exprBinary",
+            "named": true
+          },
+          {
+            "type": "exprBrackets",
+            "named": true
+          },
+          {
+            "type": "exprCall",
+            "named": true
+          },
+          {
+            "type": "exprDot",
+            "named": true
+          },
+          {
+            "type": "exprParens",
+            "named": true
+          },
+          {
+            "type": "exprSubscript",
+            "named": true
+          },
+          {
+            "type": "exprTpl",
+            "named": true
+          },
+          {
+            "type": "exprUnary",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "inherited",
+            "named": true
+          },
+          {
+            "type": "kFalse",
+            "named": true
+          },
+          {
+            "type": "kNil",
+            "named": true
+          },
+          {
+            "type": "kStored",
+            "named": true
+          },
+          {
+            "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "literalNumber",
+            "named": true
+          },
+          {
+            "type": "literalString",
+            "named": true
+          }
+        ]
+      },
       "type": {
         "multiple": false,
         "required": true,
@@ -1554,6 +1611,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "kNodefault",
+          "named": true
+        },
         {
           "type": "kProperty",
           "named": true
@@ -1589,7 +1650,7 @@
       "required": true,
       "types": [
         {
-          "type": "declConst",
+          "type": "declConsts",
           "named": true
         },
         {
@@ -1617,11 +1678,7 @@
           "named": true
         },
         {
-          "type": "declVar",
-          "named": true
-        },
-        {
-          "type": "kConst",
+          "type": "declVars",
           "named": true
         },
         {
@@ -1641,15 +1698,7 @@
           "named": true
         },
         {
-          "type": "kResourcestring",
-          "named": true
-        },
-        {
           "type": "kStrict",
-          "named": true
-        },
-        {
-          "type": "kVar",
           "named": true
         }
       ]
@@ -1703,11 +1752,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -1873,10 +1922,6 @@
         {
           "type": "moduleName",
           "named": true
-        },
-        {
-          "type": "pp",
-          "named": true
         }
       ]
     }
@@ -1941,11 +1986,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -1991,6 +2036,49 @@
         {
           "type": "procAttribute",
           "named": true
+        },
+        {
+          "type": "procExternal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declVars",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declVar",
+          "named": true
+        },
+        {
+          "type": "kPrivate",
+          "named": true
+        },
+        {
+          "type": "kProtected",
+          "named": true
+        },
+        {
+          "type": "kPublic",
+          "named": true
+        },
+        {
+          "type": "kPublished",
+          "named": true
+        },
+        {
+          "type": "kThreadvar",
+          "named": true
+        },
+        {
+          "type": "kVar",
+          "named": true
         }
       ]
     }
@@ -2032,7 +2120,7 @@
             "named": true
           },
           {
-            "type": "declConst",
+            "type": "declConsts",
             "named": true
           },
           {
@@ -2052,39 +2140,11 @@
             "named": true
           },
           {
-            "type": "declVar",
+            "type": "declVars",
             "named": true
           },
           {
             "type": "defProc",
-            "named": true
-          },
-          {
-            "type": "kConst",
-            "named": true
-          },
-          {
-            "type": "kPrivate",
-            "named": true
-          },
-          {
-            "type": "kProtected",
-            "named": true
-          },
-          {
-            "type": "kPublic",
-            "named": true
-          },
-          {
-            "type": "kPublished",
-            "named": true
-          },
-          {
-            "type": "kResourcestring",
-            "named": true
-          },
-          {
-            "type": "kVar",
             "named": true
           }
         ]
@@ -2130,11 +2190,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -2282,11 +2342,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -2357,11 +2417,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -2509,11 +2569,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -2581,11 +2641,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -2666,11 +2726,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -2738,11 +2798,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -2814,93 +2874,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
-            "named": true
-          },
-          {
             "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprTpl",
-            "named": true
-          },
-          {
-            "type": "exprUnary",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "inherited",
-            "named": true
-          },
-          {
-            "type": "kFalse",
-            "named": true
-          },
-          {
-            "type": "kNil",
-            "named": true
-          },
-          {
-            "type": "kTrue",
-            "named": true
-          },
-          {
-            "type": "literalNumber",
-            "named": true
-          },
-          {
-            "type": "literalString",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "exprIndex",
-    "named": true,
-    "fields": {
-      "args": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "exprArgs",
-            "named": true
-          }
-        ]
-      },
-      "entity": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "exprBinary",
-            "named": true
-          },
-          {
-            "type": "exprBrackets",
-            "named": true
-          },
-          {
-            "type": "exprCall",
-            "named": true
-          },
-          {
-            "type": "exprDot",
-            "named": true
-          },
-          {
-            "type": "exprIndex",
-            "named": true
-          },
-          {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -2968,11 +2946,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -3015,6 +2993,88 @@
     }
   },
   {
+    "type": "exprSubscript",
+    "named": true,
+    "fields": {
+      "args": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "exprArgs",
+            "named": true
+          }
+        ]
+      },
+      "entity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "exprBinary",
+            "named": true
+          },
+          {
+            "type": "exprBrackets",
+            "named": true
+          },
+          {
+            "type": "exprCall",
+            "named": true
+          },
+          {
+            "type": "exprDot",
+            "named": true
+          },
+          {
+            "type": "exprParens",
+            "named": true
+          },
+          {
+            "type": "exprSubscript",
+            "named": true
+          },
+          {
+            "type": "exprTpl",
+            "named": true
+          },
+          {
+            "type": "exprUnary",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "inherited",
+            "named": true
+          },
+          {
+            "type": "kFalse",
+            "named": true
+          },
+          {
+            "type": "kNil",
+            "named": true
+          },
+          {
+            "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "literalNumber",
+            "named": true
+          },
+          {
+            "type": "literalString",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "exprTpl",
     "named": true,
     "fields": {
@@ -3043,11 +3103,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -3109,11 +3169,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -3195,11 +3255,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -3326,11 +3386,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -3440,11 +3500,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -3506,11 +3566,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -3774,11 +3834,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -3870,11 +3930,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -3972,7 +4032,7 @@
           "named": true
         },
         {
-          "type": "declConst",
+          "type": "declConsts",
           "named": true
         },
         {
@@ -3992,7 +4052,7 @@
           "named": true
         },
         {
-          "type": "declVar",
+          "type": "declVars",
           "named": true
         },
         {
@@ -4000,35 +4060,7 @@
           "named": true
         },
         {
-          "type": "kConst",
-          "named": true
-        },
-        {
           "type": "kImplementation",
-          "named": true
-        },
-        {
-          "type": "kPrivate",
-          "named": true
-        },
-        {
-          "type": "kProtected",
-          "named": true
-        },
-        {
-          "type": "kPublic",
-          "named": true
-        },
-        {
-          "type": "kPublished",
-          "named": true
-        },
-        {
-          "type": "kResourcestring",
-          "named": true
-        },
-        {
-          "type": "kVar",
           "named": true
         }
       ]
@@ -4085,7 +4117,7 @@
       "required": true,
       "types": [
         {
-          "type": "declConst",
+          "type": "declConsts",
           "named": true
         },
         {
@@ -4113,39 +4145,11 @@
           "named": true
         },
         {
-          "type": "declVar",
-          "named": true
-        },
-        {
-          "type": "kConst",
+          "type": "declVars",
           "named": true
         },
         {
           "type": "kInterface",
-          "named": true
-        },
-        {
-          "type": "kPrivate",
-          "named": true
-        },
-        {
-          "type": "kProtected",
-          "named": true
-        },
-        {
-          "type": "kPublic",
-          "named": true
-        },
-        {
-          "type": "kPublished",
-          "named": true
-        },
-        {
-          "type": "kResourcestring",
-          "named": true
-        },
-        {
-          "type": "kVar",
           "named": true
         }
       ]
@@ -4201,11 +4205,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -4316,11 +4320,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -4344,7 +4348,19 @@
           "named": true
         },
         {
+          "type": "kAssembler",
+          "named": true
+        },
+        {
           "type": "kCdecl",
+          "named": true
+        },
+        {
+          "type": "kCppdecl",
+          "named": true
+        },
+        {
+          "type": "kCvar",
           "named": true
         },
         {
@@ -4356,11 +4372,23 @@
           "named": true
         },
         {
+          "type": "kDynamic",
+          "named": true
+        },
+        {
           "type": "kExperimental",
           "named": true
         },
         {
+          "type": "kExport",
+          "named": true
+        },
+        {
           "type": "kFalse",
+          "named": true
+        },
+        {
+          "type": "kFar",
           "named": true
         },
         {
@@ -4376,7 +4404,19 @@
           "named": true
         },
         {
+          "type": "kNear",
+          "named": true
+        },
+        {
           "type": "kNil",
+          "named": true
+        },
+        {
+          "type": "kNodefault",
+          "named": true
+        },
+        {
+          "type": "kNostackframe",
           "named": true
         },
         {
@@ -4396,7 +4436,15 @@
           "named": true
         },
         {
+          "type": "kRegister",
+          "named": true
+        },
+        {
           "type": "kReintroduce",
+          "named": true
+        },
+        {
+          "type": "kSafecall",
           "named": true
         },
         {
@@ -4455,11 +4503,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -4530,7 +4578,7 @@
           "named": true
         },
         {
-          "type": "declConst",
+          "type": "declConsts",
           "named": true
         },
         {
@@ -4550,7 +4598,7 @@
           "named": true
         },
         {
-          "type": "declVar",
+          "type": "declVars",
           "named": true
         },
         {
@@ -4558,39 +4606,11 @@
           "named": true
         },
         {
-          "type": "kConst",
-          "named": true
-        },
-        {
           "type": "kEndDot",
           "named": true
         },
         {
-          "type": "kPrivate",
-          "named": true
-        },
-        {
           "type": "kProgram",
-          "named": true
-        },
-        {
-          "type": "kProtected",
-          "named": true
-        },
-        {
-          "type": "kPublic",
-          "named": true
-        },
-        {
-          "type": "kPublished",
-          "named": true
-        },
-        {
-          "type": "kResourcestring",
-          "named": true
-        },
-        {
-          "type": "kVar",
           "named": true
         },
         {
@@ -4625,11 +4645,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -4707,11 +4727,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -4762,6 +4782,32 @@
       "required": true,
       "types": [
         {
+          "type": "recInitializerField",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "recInitializerField",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
           "type": "arrInitializer",
           "named": true
         },
@@ -4782,11 +4828,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -4867,11 +4913,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -4933,9 +4979,41 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
+      "multiple": true,
+      "required": false,
       "types": [
+        {
+          "type": "blockTr",
+          "named": true
+        },
+        {
+          "type": "declConsts",
+          "named": true
+        },
+        {
+          "type": "declLabel",
+          "named": true
+        },
+        {
+          "type": "declProcFwd",
+          "named": true
+        },
+        {
+          "type": "declTypes",
+          "named": true
+        },
+        {
+          "type": "declUses",
+          "named": true
+        },
+        {
+          "type": "declVars",
+          "named": true
+        },
+        {
+          "type": "defProc",
+          "named": true
+        },
         {
           "type": "program",
           "named": true
@@ -4984,11 +5062,11 @@
           "named": true
         },
         {
-          "type": "exprIndex",
+          "type": "exprParens",
           "named": true
         },
         {
-          "type": "exprParens",
+          "type": "exprSubscript",
           "named": true
         },
         {
@@ -5495,11 +5573,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -5591,11 +5669,11 @@
             "named": true
           },
           {
-            "type": "exprIndex",
+            "type": "exprParens",
             "named": true
           },
           {
-            "type": "exprParens",
+            "type": "exprSubscript",
             "named": true
           },
           {
@@ -5725,6 +5803,10 @@
     "named": true
   },
   {
+    "type": "kAssembler",
+    "named": true
+  },
+  {
     "type": "kAssign",
     "named": true
   },
@@ -5777,6 +5859,14 @@
     "named": true
   },
   {
+    "type": "kCppdecl",
+    "named": true
+  },
+  {
+    "type": "kCvar",
+    "named": true
+  },
+  {
     "type": "kDefault",
     "named": true
   },
@@ -5801,6 +5891,10 @@
     "named": true
   },
   {
+    "type": "kDynamic",
+    "named": true
+  },
+  {
     "type": "kElse",
     "named": true
   },
@@ -5821,11 +5915,19 @@
     "named": true
   },
   {
+    "type": "kExport",
+    "named": true
+  },
+  {
     "type": "kExternal",
     "named": true
   },
   {
     "type": "kFalse",
+    "named": true
+  },
+  {
+    "type": "kFar",
     "named": true
   },
   {
@@ -5945,11 +6047,23 @@
     "named": true
   },
   {
+    "type": "kNear",
+    "named": true
+  },
+  {
     "type": "kNeq",
     "named": true
   },
   {
     "type": "kNil",
+    "named": true
+  },
+  {
+    "type": "kNodefault",
+    "named": true
+  },
+  {
+    "type": "kNostackframe",
     "named": true
   },
   {
@@ -6045,6 +6159,10 @@
     "named": true
   },
   {
+    "type": "kRegister",
+    "named": true
+  },
+  {
     "type": "kReintroduce",
     "named": true
   },
@@ -6054,6 +6172,14 @@
   },
   {
     "type": "kResourcestring",
+    "named": true
+  },
+  {
+    "type": "kSafecall",
+    "named": true
+  },
+  {
+    "type": "kSealed",
     "named": true
   },
   {
@@ -6081,6 +6207,10 @@
     "named": true
   },
   {
+    "type": "kStored",
+    "named": true
+  },
+  {
     "type": "kStrict",
     "named": true
   },
@@ -6094,6 +6224,10 @@
   },
   {
     "type": "kThen",
+    "named": true
+  },
+  {
+    "type": "kThreadvar",
     "named": true
   },
   {

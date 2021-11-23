@@ -91,7 +91,8 @@ module.exports = grammar({
 	rules: {
 	  	root:               $ => choice(
 	  		$.program,
-	  		$.unit
+	  		$.unit,
+			$._definitions // For include files
 	  	),
 
 		// HIGH LEVEL ----------------------------------------------------------
@@ -344,8 +345,7 @@ module.exports = grammar({
 
 		declProcFwd:        $ => seq(
 			choice($.declProc, $.declFunc),
-			choice($.kForward, $.procExternal),
-			';'
+			choice(seq($.kForward, ';'), $.procExternal)
 		),
 
 		// DECLARATIONS -------------------------------------------------------
@@ -405,7 +405,7 @@ module.exports = grammar({
 		declClass:          $ => seq(
 			optional($.kPacked),
 			choice($.kClass, $.kRecord, $.kObject, $.kInterface, $.kObjcclass, $.kObjccategory), 
-			optional($.kAbstract),
+			optional(choice($.kAbstract, $.kSealed)),
 			field('parent', optional(seq('(',delimited($.typeref),')'))), 
 			optional($._declClass)
 		),
@@ -485,21 +485,30 @@ module.exports = grammar({
 
 		procAttribute: $ => seq(
 			choice(
-				$.kStatic, $.kVirtual, $.kAbstract, $.kOverride,
+				$.kStatic, $.kVirtual, $.kDynamic, $.kAbstract, $.kOverride,
 				$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
-				$.kCdecl, $.kPascal, $.kMwpascal,
-				$.kDefault,
-				seq(choice($.kMessage, $.kDeprecated, $.kExperimental, $.kPlatform, $.kUnimplemented), $._expr),
+				$.kCdecl, $.kCppdecl, $.kCvar, $.kPascal, $.kRegister, 
+				$.kMwpascal, $.kDefault, $.kNodefault, $.kFar, $.kNear,
+				$.kSafecall, $.kAssembler, $.kNostackframe,
+				seq(
+					choice(
+						$.kMessage, $.kDeprecated, $.kExperimental, $.kPlatform, 
+						$.kUnimplemented, $.kExport, /*$.kPublic */
+					), 
+					$._expr
+				),
 			),
 			';'
 		),
 
-		procExternal: $ => seq($.kExternal, $._expr, choice($.kName, $.kIndex), $._expr),
+		procExternal: $ => seq(
+			$.kExternal, optional($._expr), choice($.kName, $.kIndex), $._expr, ';'
+		),
 
 		defaultValue:       $ => seq($.kEq, $._initializer),
 
 		declVars:            $ => seq(
-			$.kVar, 
+			choice($.kVar, $.kThreadvar), 
 			optional($._visibility),
 			repeat1($.declVar)
 		),
@@ -512,7 +521,7 @@ module.exports = grammar({
 				field('defaultValue', $.defaultValue)
 			)),
 			';',
-			repeat($.procAttribute)
+			repeat(choice($.procAttribute, $.procExternal))
 		),
 
 		declConsts:          $ => seq(
@@ -542,10 +551,14 @@ module.exports = grammar({
 			field('args', optional($.declPropArgs)),
 			':',
 			field('type', $.type),
-			field('index', optional(seq($.kIndex, $._expr))),
-			field('getter', optional(seq($.kRead, $.identifier))),
-			field('setter', optional(seq($.kWrite, $.identifier))),
-			field('defaultValue', optional(seq($.kDefault, $._expr))),
+			repeat(choice(
+				field('index', seq($.kIndex, $._expr)),
+				field('getter', seq($.kRead, $.identifier)),
+				field('setter', seq($.kWrite, $.identifier)),
+				field('defaultValue', seq($.kDefault, $._expr)),
+				field('stored', seq($.kStored, $._expr)),
+				$.kNodefault,
+			)),
 			';',
 			//field('default', optional(seq($.kDefault, ';')))
 			repeat($.procAttribute)
@@ -607,6 +620,7 @@ module.exports = grammar({
 		kEnd:               $ => /[eE][nN][dD]/,
 
 		kVar:               $ => /[vV][aA][rR]/,
+		kThreadvar:         $ => /[tT][hH][rR][eE][aA][dD][vV][aA][rR]/,
 		kConst:             $ => /[cC][oO][nN][sS][tT]/,
 		kConstref:          $ => /[cC][oO][nN][sS][tT][rR][eE][fF]/,
 		kResourcestring:    $ => /[rR][eE][sS][oO][uU][rR][cC][eE][sS][tT][rR][iI][nN][gG]/,
@@ -619,6 +633,8 @@ module.exports = grammar({
 		kRead:              $ => /[rR][eE][aA][dD]/,
 		kWrite:             $ => /[wW][rR][iI][tT][eE]/,
 		kDefault:           $ => /[dD][eE][fF][aA][uU][lL][tT]/,
+		kNodefault:         $ => /[nN][oO][dD][eE][fF][aA][uU][lL][tT]/,
+		kStored:            $ => /[sS][tT][oO][rR][eE][dD]/,
 		kIndex:             $ => /[iI][nN][dD][eE][xX]/,
 
 		kClass:             $ => /[cC][lL][aA][sS][sS]/,
@@ -702,6 +718,8 @@ module.exports = grammar({
 		kStatic:            $ => /[sS][tT][aA][tT][iI][cC]/,
 		kVirtual:           $ => /[vV][iI][rR][tT][uU][aA][lL]/,
 		kAbstract:          $ => /[aA][bB][sS][tT][rR][aA][cC][tT]/,
+		kSealed:            $ => /[sS][eE][lL][eE][dD]/,
+		kDynamic:           $ => /[dD][yY][nN][aA][mM][iI][cC]/,
 		kOverride:          $ => /[oO][vV][eE][rR][rR][iI][dD][eE]/,
 		kOverload:          $ => /[oO][vV][eE][rR][lL][oO][aA][dD]/,
 		kReintroduce:       $ => /[rR][eE][iI][nN][tT][rR][oO][dD][uU][cC][eE]/,
@@ -710,7 +728,9 @@ module.exports = grammar({
 
 		kStdcall:           $ => /[sS][tT][dD][cC][aA][lL][lL]/,
 		kCdecl:             $ => /[cC][dD][eE][cC][lL]/,
+		kCppdecl:           $ => /[cC][pP][pP][dD][eE][cC][lL]/,
 		kPascal:            $ => /[pP][aA][sS][cC][aA][lL]/,
+		kRegister:          $ => /[rR][eE][gG][iI][sS][tT][eE][rR]/,
 		kMwpascal:          $ => /[mM][wW][pP][aA][sS][cC][aA][lL]/,
 		kExternal:          $ => /[eE][xX][tT][eE][rR][nN][aA][lL]/,
 		kName:              $ => /[nN][aA][mM][eE]/,
@@ -719,6 +739,13 @@ module.exports = grammar({
 		kExperimental:      $ => /[eE][xX][pP][eE][rR][iI][mM][eE][nN][tT][aA][lL]/,
 		kPlatform:          $ => /[pP][lL][aA][tT][fF][oO][rR][mM]/,
 		kUnimplemented:     $ => /[uU][nN][iI][mM][pP][lL][eE][mM][eE][nN][tT][eE][dD]/,
+		kCvar:              $ => /[cC][vV][aA][rR]/,
+		kExport:            $ => /[eE][xX][pP][oO][rR][tT]/,
+		kFar:               $ => /[fF][aA][rR]/,
+		kNear:              $ => /[nN][eE][aA][rR]/,
+		kSafecall:          $ => /[sS][aA][fF][eE][cC][aA][lL]/,
+		kAssembler:         $ => /[aA][sS][eE][mM][bB][lL][eE][rR]/,
+		kNostackframe:      $ => /[nN][oO][sS][tT][aA][cC][kK][fF][rR][aA][mM][eE]/,
 
 		kIfdef:             $ => /[iI][fF][dD][eE][fF]/,
 		kIfndef:            $ => /[iI][fF][nN][dD][eE][fF]/,
