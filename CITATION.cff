@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+title: Difftastic
+message: 'To cite difftastic in publications use:'
+type: software
+authors:
+  - given-names: Wilfred
+    family-names: Hughes
+    email: me@wilfred.me.uk
+url: https://github.com/wilfred/difftastic
+repository-artifact: https://crates.io/crates/difftastic
+abstract: A syntactic diffing tool
+keywords:
+  - diffing
+  - programming languages
+license: MIT
