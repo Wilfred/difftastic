@@ -144,49 +144,45 @@
       }
     },
     "_indented_chunk": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_indented_chunk_start"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_text"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_newline"
-                }
-              ]
-            }
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_block_close"
-          },
-          {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_indented_chunk_start"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_ignore_matching_tokens"
+                "name": "_text"
               },
               {
-                "type": "BLANK"
+                "type": "SYMBOL",
+                "name": "_newline"
               }
             ]
           }
-        ]
-      }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_block_close"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_ignore_matching_tokens"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "block_quote": {
       "type": "SEQ",

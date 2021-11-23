@@ -338,7 +338,7 @@ struct Scanner {
                         lexer->mark_end(lexer);
                         if (level >= 3) {
                             bool info_string_has_backtick = false;
-                            while (lexer->lookahead != '\n' && lexer->lookahead != '\r') {
+                            while (lexer->lookahead != '\n' && lexer->lookahead != '\r' && !lexer->eof(lexer)) {
                                 if (lexer->lookahead == '`') {
                                     info_string_has_backtick = true;
                                     break;

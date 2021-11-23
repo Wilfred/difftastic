@@ -189,7 +189,7 @@ module.exports = grammar({
         _blank_line: $ => seq($._blank_line_start, $._newline),
         paragraph: $ => seq($._inline, choice(prec.dynamic(1, $._soft_line_break), $._lazy_newline)),
         indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, $._blank_line)))),
-        _indented_chunk: $ => prec.right(seq($._indented_chunk_start, repeat(choice($._text, $._newline)), $._block_close, optional($._ignore_matching_tokens))),
+        _indented_chunk: $ => seq($._indented_chunk_start, repeat(choice($._text, $._newline)), $._block_close, optional($._ignore_matching_tokens)),
         block_quote: $ => seq($._block_quote_start, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
         atx_heading: $ => prec(1, seq(
             choice($.atx_h1_marker, $.atx_h2_marker, $.atx_h3_marker, $.atx_h4_marker, $.atx_h5_marker, $.atx_h6_marker),
