@@ -79,6 +79,25 @@
     }
   },
   {
+    "type": "asm",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "kAsm",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "assignment",
     "named": true,
     "fields": {
@@ -2197,6 +2216,10 @@
         "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "asm",
+            "named": true
+          },
           {
             "type": "block",
             "named": true
@@ -5231,6 +5254,10 @@
       "required": false,
       "types": [
         {
+          "type": "asm",
+          "named": true
+        },
+        {
           "type": "assignment",
           "named": true
         },
@@ -5997,6 +6024,10 @@
   },
   {
     "type": "kAs",
+    "named": true
+  },
+  {
+    "type": "kAsm",
     "named": true
   },
   {

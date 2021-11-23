@@ -1,6 +1,5 @@
 // TODO:
 // - GUIDs
-// - asm blocks
 // - variant records
 
 var op = {
@@ -345,7 +344,7 @@ module.exports = grammar({
 			pp(
 				$,
 				field('local', optional($._definitions)),
-				field('body', tr($, 'block')),
+				field('body', choice(tr($, 'block'), tr($, 'asm'))),
 				';'
 			)
 		),
@@ -629,6 +628,7 @@ module.exports = grammar({
 
 		kBegin:             $ => /[bB][eE][gG][iI][nN]/,
 		kEnd:               $ => /[eE][nN][dD]/,
+		kAsm:               $ => /[aA][sS][mM]/,
 
 		kVar:               $ => /[vV][aA][rR]/,
 		kThreadvar:         $ => /[tT][hH][rR][eE][aA][dD][vV][aA][rR]/,
@@ -757,7 +757,7 @@ module.exports = grammar({
 		kFar:               $ => /[fF][aA][rR]/,
 		kNear:              $ => /[nN][eE][aA][rR]/,
 		kSafecall:          $ => /[sS][aA][fF][eE][cC][aA][lL]/,
-		kAssembler:         $ => /[aA][sS][eE][mM][bB][lL][eE][rR]/,
+		kAssembler:         $ => /[aA][sS][sS][eE][mM][bB][lL][eE][rR]/,
 		kNostackframe:      $ => /[nN][oO][sS][tT][aA][cC][kK][fF][rR][aA][mM][eE]/,
 
 		kIfdef:             $ => /[iI][fF][dD][eE][fF]/,
@@ -865,6 +865,14 @@ function statements(trailing) {
 			$.kEnd, ...semicolon
 		)],
 
+		[rn('asm'),      $ => seq(
+			$.kAsm,
+			repeat(
+				/([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+/,
+			),
+			$.kEnd, ...semicolon
+		)],
+
 		[rn('with'),      $ => seq(
 			$.kWith, delimited1(field('entity', $._expr)), $.kDo,
 			field('body', lastStatement($))
@@ -892,6 +900,7 @@ function statements(trailing) {
 			alias($[rn('block')],   $.block),
 			alias($[rn('with')],    $.with),
 			alias($[rn('raise')],   $.raise), 
+			alias($[rn('asm')],     $.asm), 
 		)]
 	]);
 

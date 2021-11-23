@@ -7,6 +7,7 @@
 
 	(kBegin)
 	(kEnd)
+	(kAsm)
 
 	(kVar)
 	(kThreadvar)

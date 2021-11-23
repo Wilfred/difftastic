@@ -987,6 +987,30 @@
         }
       ]
     },
+    "asm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kAsm"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kEnd"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
     "with": {
       "type": "SEQ",
       "members": [
@@ -1214,6 +1238,15 @@
           },
           "named": true,
           "value": "raise"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "asm"
+          },
+          "named": true,
+          "value": "asm"
         }
       ]
     },
@@ -1947,6 +1980,26 @@
         }
       ]
     },
+    "asmTr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kAsm"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kEnd"
+        }
+      ]
+    },
     "withTr": {
       "type": "SEQ",
       "members": [
@@ -2167,6 +2220,15 @@
           },
           "named": true,
           "value": "raise"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "asmTr"
+          },
+          "named": true,
+          "value": "asm"
         }
       ]
     },
@@ -4230,13 +4292,27 @@
                   "type": "FIELD",
                   "name": "body",
                   "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "blockTr"
-                    },
-                    "named": true,
-                    "value": "block"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "blockTr"
+                        },
+                        "named": true,
+                        "value": "block"
+                      },
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "asmTr"
+                        },
+                        "named": true,
+                        "value": "asm"
+                      }
+                    ]
                   }
                 },
                 {
@@ -4277,13 +4353,27 @@
                   "type": "FIELD",
                   "name": "body",
                   "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "blockTr"
-                    },
-                    "named": true,
-                    "value": "block"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "blockTr"
+                        },
+                        "named": true,
+                        "value": "block"
+                      },
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "asmTr"
+                        },
+                        "named": true,
+                        "value": "asm"
+                      }
+                    ]
                   }
                 },
                 {
@@ -4325,13 +4415,27 @@
                           "type": "FIELD",
                           "name": "body",
                           "content": {
-                            "type": "ALIAS",
-                            "content": {
-                              "type": "SYMBOL",
-                              "name": "blockTr"
-                            },
-                            "named": true,
-                            "value": "block"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "ALIAS",
+                                "content": {
+                                  "type": "SYMBOL",
+                                  "name": "blockTr"
+                                },
+                                "named": true,
+                                "value": "block"
+                              },
+                              {
+                                "type": "ALIAS",
+                                "content": {
+                                  "type": "SYMBOL",
+                                  "name": "asmTr"
+                                },
+                                "named": true,
+                                "value": "asm"
+                              }
+                            ]
                           }
                         },
                         {
@@ -6989,6 +7093,10 @@
       "type": "PATTERN",
       "value": "[eE][nN][dD]"
     },
+    "kAsm": {
+      "type": "PATTERN",
+      "value": "[aA][sS][mM]"
+    },
     "kVar": {
       "type": "PATTERN",
       "value": "[vV][aA][rR]"
@@ -7451,7 +7559,7 @@
     },
     "kAssembler": {
       "type": "PATTERN",
-      "value": "[aA][sS][eE][mM][bB][lL][eE][rR]"
+      "value": "[aA][sS][sS][eE][mM][bB][lL][eE][rR]"
     },
     "kNostackframe": {
       "type": "PATTERN",
