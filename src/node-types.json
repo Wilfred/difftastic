@@ -181,10 +181,6 @@
         {
           "type": "numeric_character_reference",
           "named": true
-        },
-        {
-          "type": "strong_emphasis",
-          "named": true
         }
       ]
     }
@@ -238,10 +234,6 @@
         },
         {
           "type": "numeric_character_reference",
-          "named": true
-        },
-        {
-          "type": "strong_emphasis",
           "named": true
         }
       ]
@@ -384,10 +376,6 @@
         {
           "type": "numeric_character_reference",
           "named": true
-        },
-        {
-          "type": "strong_emphasis",
-          "named": true
         }
       ]
     }
@@ -420,45 +408,6 @@
         },
         {
           "type": "setext_h2_underline",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "strong_emphasis",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "backslash_escape",
-          "named": true
-        },
-        {
-          "type": "code_span",
-          "named": true
-        },
-        {
-          "type": "emphasis",
-          "named": true
-        },
-        {
-          "type": "entity_reference",
-          "named": true
-        },
-        {
-          "type": "html_tag",
-          "named": true
-        },
-        {
-          "type": "numeric_character_reference",
-          "named": true
-        },
-        {
-          "type": "strong_emphasis",
           "named": true
         }
       ]

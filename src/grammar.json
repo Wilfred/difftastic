@@ -1889,7 +1889,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_unclosed_emphasis_star"
+          "name": "html_tag"
         },
         {
           "type": "ALIAS",
@@ -1901,23 +1901,6 @@
           "value": "emphasis"
         },
         {
-          "type": "SYMBOL",
-          "name": "_unclosed_strong_emphasis_star"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_strong_emphasis_star"
-          },
-          "named": true,
-          "value": "strong_emphasis"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_unclosed_emphasis_underscore"
-        },
-        {
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
@@ -1925,23 +1908,6 @@
           },
           "named": true,
           "value": "emphasis"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_unclosed_strong_emphasis_underscore"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_strong_emphasis_underscore"
-          },
-          "named": true,
-          "value": "strong_emphasis"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "html_tag"
         }
       ]
     },
@@ -1992,7 +1958,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_unclosed_emphasis_star_no_newline"
+              "name": "html_tag"
             },
             {
               "type": "ALIAS",
@@ -2004,23 +1970,6 @@
               "value": "emphasis"
             },
             {
-              "type": "SYMBOL",
-              "name": "_unclosed_strong_emphasis_star_no_newline"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_strong_emphasis_star_no_newline"
-              },
-              "named": true,
-              "value": "strong_emphasis"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_unclosed_emphasis_underscore_no_newline"
-            },
-            {
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
@@ -2028,23 +1977,6 @@
               },
               "named": true,
               "value": "emphasis"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_unclosed_strong_emphasis_underscore_no_newline"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_strong_emphasis_underscore_no_newline"
-              },
-              "named": true,
-              "value": "strong_emphasis"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "html_tag"
             }
           ]
         }
@@ -2239,75 +2171,41 @@
         ]
       }
     },
-    "_unclosed_emphasis_star": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_open_star"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_inline"
-          }
-        ]
-      }
-    },
     "_emphasis_star": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_unclosed_emphasis_star"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_close_star"
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_emphasis_open_star"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_inline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_emphasis_close_star"
+        }
+      ]
     },
-    "_unclosed_strong_emphasis_star": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_open_star"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_star"
-          }
-        ]
-      }
+    "_emphasis_underscore": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_emphasis_open_underscore"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_inline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_emphasis_close_underscore"
+        }
+      ]
     },
-    "_strong_emphasis_star": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_unclosed_strong_emphasis_star"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_close_star"
-          }
-        ]
-      }
-    },
-    "_unclosed_emphasis_star_no_newline": {
+    "_emphasis_star_no_newline": {
       "type": "SEQ",
       "members": [
         {
@@ -2317,129 +2215,14 @@
         {
           "type": "SYMBOL",
           "name": "_inline_no_newline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_emphasis_close_star"
         }
       ]
     },
-    "_emphasis_star_no_newline": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_unclosed_emphasis_star_no_newline"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_close_star"
-          }
-        ]
-      }
-    },
-    "_unclosed_strong_emphasis_star_no_newline": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_open_star"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_star_no_newline"
-          }
-        ]
-      }
-    },
-    "_strong_emphasis_star_no_newline": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_unclosed_strong_emphasis_star_no_newline"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_close_star"
-          }
-        ]
-      }
-    },
-    "_unclosed_emphasis_underscore": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_open_underscore"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_inline"
-          }
-        ]
-      }
-    },
-    "_emphasis_underscore": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_unclosed_emphasis_underscore"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_close_underscore"
-          }
-        ]
-      }
-    },
-    "_unclosed_strong_emphasis_underscore": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_open_underscore"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_underscore"
-          }
-        ]
-      }
-    },
-    "_strong_emphasis_underscore": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_unclosed_strong_emphasis_underscore"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_close_underscore"
-          }
-        ]
-      }
-    },
-    "_unclosed_emphasis_underscore_no_newline": {
+    "_emphasis_underscore_no_newline": {
       "type": "SEQ",
       "members": [
         {
@@ -2449,59 +2232,12 @@
         {
           "type": "SYMBOL",
           "name": "_inline_no_newline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_emphasis_close_underscore"
         }
       ]
-    },
-    "_emphasis_underscore_no_newline": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_unclosed_emphasis_underscore_no_newline"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_close_underscore"
-          }
-        ]
-      }
-    },
-    "_unclosed_strong_emphasis_underscore_no_newline": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_open_underscore"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_underscore_no_newline"
-          }
-        ]
-      }
-    },
-    "_strong_emphasis_underscore_no_newline": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_unclosed_strong_emphasis_underscore_no_newline"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_emphasis_close_underscore"
-          }
-        ]
-      }
     },
     "html_tag": {
       "type": "CHOICE",
