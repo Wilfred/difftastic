@@ -142,3 +142,32 @@ override fun boo() = foo()
         (simple_identifier)
         (call_suffix
           (value_arguments))))))
+
+=====================
+Set function call
+======================
+
+fun test() {
+    isAccessible = true
+    set(it, COROUTINE_SUSPENDED)
+}
+
+---
+
+(source_file
+  (function_declaration
+    (simple_identifier)
+    (function_body
+      (statements
+        (assignment
+          (directly_assignable_expression
+            (simple_identifier))
+          (boolean_literal))
+        (call_expression
+          (simple_identifier)
+          (call_suffix
+            (value_arguments
+              (value_argument
+                (simple_identifier))
+              (value_argument
+                (simple_identifier)))))))))
