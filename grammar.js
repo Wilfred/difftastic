@@ -46,7 +46,7 @@
 // For example in '*foo *bar*' only 'bar' should be emphasized (see the spec for more info).
 // (Links could also have the same problem but I have not yet thought about that)
 //
-// I will try the following tactic: Whenever we encounter a delmiter - lets say a '*' -
+// I will try the following tactic: Whenever we encounter a delimiter - lets say a '*' -
 // and it is possible that this is a closing delimiter, it has to be a closing delimiter.
 // If it can only be a opening delimiter we split the parser state as before, but as soon
 // as we hit a second opening delimiter (and the previous one has not been closed). We know
@@ -65,7 +65,7 @@ const HTML_CLOSING_TAG = /<\/[a-zA-Z][a-zA-Z0-9\-]*[ \t]*>/;
 const HTML_OPEN_TAG_EXCLUDE = '<' + negative_regex(['pre', 'script', 'style'], '', '0-9\\-') + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>';
 const HTML_CLOSING_TAG_EXCLUDE = '</' + negative_regex(['pre', 'script', 'style'], '', '0-9\\-') + '[ \\t]*>';
 
-module.exports = grammar({
+module.exports = grammar(add_inline_rules({
     name: 'markdown',
 
     // TODO: Sort these tokens in some more sensible manner
@@ -156,7 +156,6 @@ module.exports = grammar({
         $._close_block,
     ],
     // I'm not sure this declaration does anything. TODO: Ask someone if it does
-    word: $ => $._word,
     precedences: $ => [
         [$._inline_element, $.paragraph],
         [$.tight_list, $.loose_list],
@@ -165,13 +164,6 @@ module.exports = grammar({
     ],
     conflicts: $ => [
         [$._lazy_newline, $._soft_line_break],
-        [$.paragraph, $._soft_line_break],
-        [$.code_span, $._text_inline],
-        [$._code_span_no_newline, $._text_inline],
-        [$._html_comment, $._text_inline],
-        [$._cdata_section, $._text_inline],
-        [$._declaration, $._text_inline],
-        [$._processing_instruction, $._text_inline],
     ],
 
     rules: {
@@ -282,32 +274,6 @@ module.exports = grammar({
         _closing_tag_html_block: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '[ \\t]'),
         _closing_tag_html_block_newline: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '(\n|\r\n?)'),
 
-        _inline_element: $ => choice(
-            prec.dynamic(2, $._lazy_newline),
-            $._soft_line_break,
-            $.backslash_escape,
-            // $.hard_line_break,
-            $._text_inline,
-            $.entity_reference,
-            $.numeric_character_reference,
-            $.code_span,
-            $.html_tag,
-            alias($._emphasis_star, $.emphasis),
-            alias($._emphasis_underscore, $.emphasis),
-        ),
-        _inline: $ => repeat1(choice(
-            $._inline_element,
-        )),
-        _inline_no_newline: $ => prec.right(repeat1(choice(
-            $.backslash_escape,
-            $._text_inline,
-            $.entity_reference,
-            $.numeric_character_reference,
-            alias($._code_span_no_newline, $.code_span),
-            $.html_tag,
-            alias($._emphasis_star_no_newline, $.emphasis),
-            alias($._emphasis_underscore_no_newline, $.emphasis),
-        ))),
         _lazy_newline: $ => seq(
             $._newline,
             repeat(choice($._dummy, $._lazy_continuation)),
@@ -318,28 +284,8 @@ module.exports = grammar({
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq('\\', $._newline)),
         _text: $ => choice($._word, $._punctuation, $._whitespace),
-        _text_inline: $ => choice(
-            $._word,
-            $._punctuation,
-            $._whitespace,
-            $._code_span_start,
-            '\\',
-            '<!--',
-            /<![A-Z]+/,
-            '<?',
-            '<![CDATA[',
-        ),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
-        code_span: $ => prec.dynamic(1, seq($._code_span_start, repeat(choice($._text, $._newline)), $._code_span_close)), // TODO
-        _code_span_no_newline: $ => prec.dynamic(1, seq($._code_span_start, repeat($._text), $._code_span_close)),
-
-        _emphasis_star: $ => seq($._emphasis_open_star, $._inline, $._emphasis_close_star),
-        _emphasis_underscore: $ => seq($._emphasis_open_underscore, $._inline, $._emphasis_close_underscore),
-
-        _emphasis_star_no_newline: $ => seq($._emphasis_open_star, $._inline_no_newline, $._emphasis_close_star),
-        _emphasis_underscore_no_newline: $ => seq($._emphasis_open_underscore, $._inline_no_newline, $._emphasis_close_underscore),
-
         html_tag: $ => choice($._open_tag, $._closing_tag, $._html_comment, $._processing_instruction, $._declaration, $._cdata_section),
         _open_tag: $ => HTML_OPEN_TAG,
         _closing_tag: $ => HTML_CLOSING_TAG,
@@ -399,7 +345,7 @@ module.exports = grammar({
         )),
 
         _whitespace: $ => seq(/[ \t]+/, optional($._last_token_whitespace)),
-        _word: $ => new RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r]+'),
+        _word: $ => RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r]+'),
         _punctuation: $ => seq(new RegExp('[' + PUNCTUATION_CHARACTERS + ']'), optional($._last_token_punctuation)),
         _newline: $ => prec.right(seq(
             token.immediate(/\n|\r\n?/),
@@ -408,7 +354,92 @@ module.exports = grammar({
         )),
         _ignore_matching_tokens: $ => repeat1(choice($._block_continuation, $._last_token_whitespace)),
     },
-});
+}));
+
+function add_inline_rules(grammar) {
+    let conflicts = [];
+    for (let newline of [false, true]) {
+        let suffix_newline = newline ? "" : "_no_newline";
+        for (let delimiter of [false, "star", "underscore"]) {
+            let suffix_delimiter = delimiter ? "_no_" + delimiter : "";
+            let suffix = suffix_newline + suffix_delimiter;
+            grammar.rules["_inline_element" + suffix] = $ => {
+                let elements = [
+                    $.backslash_escape,
+                    // $.hard_line_break,
+                    $['_text_inline' + suffix_delimiter],
+                    $.entity_reference,
+                    $.numeric_character_reference,
+                    alias($['_code_span' + suffix_newline], $.code_span),
+                    $.html_tag,
+                    alias($['_emphasis_star' + suffix_newline], $.emphasis),
+                    alias($['_emphasis_underscore' + suffix_newline], $.emphasis),
+                ];
+                if (newline) {
+                    elements = elements.concat([
+                        prec.dynamic(2, $._lazy_newline),
+                        $._soft_line_break,
+                    ]);
+                }
+                return choice(...elements);
+            }
+            grammar.rules["_inline" + suffix] = $ => repeat1($["_inline_element" + suffix]);
+            conflicts.push(['_code_span' + suffix_newline, '_text_inline' + suffix_delimiter]);
+            if (suffix !== "star") {
+                conflicts.push(['_emphasis_star' + suffix_newline, '_text_inline' + suffix_delimiter]);
+            }
+            if (suffix !== "underscore") {
+                conflicts.push(['_emphasis_underscore' + suffix_newline, '_text_inline' + suffix_delimiter]);
+            }
+
+            if (newline) {
+                conflicts.push(['_html_comment', '_text_inline' + suffix_delimiter]); // TODO: no_newline
+                conflicts.push(['_cdata_section', '_text_inline' + suffix_delimiter]);
+                conflicts.push(['_declaration', '_text_inline' + suffix_delimiter]);
+                conflicts.push(['_processing_instruction', '_text_inline' + suffix_delimiter]);
+                grammar.rules['_text_inline' + suffix_delimiter] = $ => {
+                    let elements = [
+                        $._word,
+                        $._punctuation,
+                        $._whitespace,
+                        $._code_span_start,
+                        '\\',
+                        '<!--',
+                        /<![A-Z]+/,
+                        '<?',
+                        '<![CDATA[',
+                    ];
+                    if (delimiter !== "star") {
+                        elements.push($._emphasis_open_star);
+                    }
+                    if (delimiter !== "underscore") {
+                        elements.push($._emphasis_open_underscore);
+                    }
+                    return choice(...elements);
+                }
+            }
+        }
+        
+        grammar.rules['_emphasis_star' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_star, $['_inline' + suffix_newline + '_no_star'], $._emphasis_close_star));
+        grammar.rules['_emphasis_underscore' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_underscore, $['_inline' + suffix_newline + '_no_underscore'], $._emphasis_close_underscore));
+        grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(1, seq($._code_span_start, repeat(newline ? choice($._text, $._newline) : $._text), $._code_span_close));
+    }
+
+    let old = grammar.conflicts
+    grammar.conflicts = $ => {
+        let cs = old($);
+        for (let conflict of conflicts) {
+            let c = [];
+            for (let rule of conflict) {
+                c.push($[rule]);
+            }
+            cs.push(c);
+        }
+        return cs;
+    }
+    
+    return grammar;
+}
 
 function html_entity_regex() {
     let s = '&(';
