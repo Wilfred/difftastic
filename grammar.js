@@ -1,6 +1,7 @@
 // TODO:
 // - GUIDs
-// asm blocks
+// - asm blocks
+// - variant records
 
 var op = {
 	infix:   (prio, lhs, op, rhs)      => prec.left(prio, seq(
@@ -119,7 +120,7 @@ module.exports = grammar({
 	
 		comment:            $ => token(choice(
 			seq('//', /.*/),
-			seq('{', /[^$][^}]*/, '}'),
+			seq('{', /([^$}][^}]*)?/, '}'),
 			seq(/\(\*([^*]*[*][^)])*[^*]*\*\)/)
 		)),
 
@@ -162,7 +163,7 @@ module.exports = grammar({
 		_ref:            $ => choice(
 			$.identifier,
 			$._literal,  $.inherited,
-			$.exprDot, $.exprTpl, $.exprIndex, $.exprCall,
+			$.exprDot, $.exprTpl, $.exprSubscript, $.exprCall,
 			alias($.exprDeref, $.exprUnary),
 			alias($.exprAs, $.exprBinary),
 			$.exprBrackets,
@@ -219,7 +220,7 @@ module.exports = grammar({
 		// this, we can't have an extra node in only one of the branches.
 		//
 		exprTpl:         $ => op.args(5, $._ref, $.kLt, delimited1($._expr),  $.kGt),
-		exprIndex:       $ => op.args(5, $._ref, '[',   $.exprArgs,  ']'  ),
+		exprSubscript:   $ => op.args(5, $._ref, '[',   $.exprArgs,  ']'  ),
 		exprCall:        $ => op.args(5, $._ref, '(',   optional($.exprArgs), ')'  ),
 
 		// Pascal legacy formatting for WriteLn(foo:4:3) etc.
@@ -324,7 +325,7 @@ module.exports = grammar({
 
 		_definitions:       $ => repeat1($._definition),
 		_definition:        $ => choice(
-			$.declTypes, $._declVars, $._declConsts, $.defProc, $.declProcFwd,
+			$.declTypes, $.declVars, $.declConsts, $.defProc, $.declProcFwd,
 			$.declLabel, $.declUses, 
 
 			// Not actually valid syntax, but helps the parser recover:
@@ -350,11 +351,11 @@ module.exports = grammar({
 		// DECLARATIONS -------------------------------------------------------
 
 		_declarations:      $ => repeat1(choice(
-			$.declTypes, $._declVars, $._declConsts, $.declProc, $.declProcFwd,
+			$.declTypes, $.declVars, $.declConsts, $.declProc, $.declProcFwd,
 			$.declFunc, $.declUses, $.declLabel
 		)),
 		_classDeclarations:  $ => repeat1(choice(
-			$.declTypes, $._declVars, $._declConsts, $.declProc, $.declProcFwd,
+			$.declTypes, $.declVars, $.declConsts, $.declProc, $.declProcFwd,
 			$.declFunc, $.declProp
 		)),
 
@@ -497,7 +498,7 @@ module.exports = grammar({
 
 		defaultValue:       $ => seq($.kEq, $._initializer),
 
-		_declVars:            $ => seq(
+		declVars:            $ => seq(
 			$.kVar, 
 			optional($._visibility),
 			repeat1($.declVar)
@@ -514,7 +515,7 @@ module.exports = grammar({
 			repeat($.procAttribute)
 		),
 
-		_declConsts:          $ => seq(
+		declConsts:          $ => seq(
 			choice($.kConst, $.kResourcestring), 
 			optional($._visibility),
 			repeat1($.declConst)
@@ -579,14 +580,13 @@ module.exports = grammar({
 		// record initializer
 		recInitializer:    $ => seq(
 			'(',
-			delimited1(
-				choice(
-					seq($.identifier, ':', $._initializer),
-					$._initializer
-				),
-				';'
-			),
+			delimited1( $.recInitializerField, ';'),
 			')'
+		),
+
+		recInitializerField: $ => choice(
+			seq(field('name',$.identifier), ':', $._initializer),
+			$._initializer
 		),
 
 		// array initializer
