@@ -236,12 +236,12 @@ struct Scanner {
 
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
 
-        std::cerr << "state " << unsigned(state) << std::endl;
-        std::cerr << "matched " << unsigned(matched) << std::endl;
-        std::cerr << "indentation " << unsigned(indentation) << std::endl;
-        for (size_t i = 0; i < open_blocks.size(); i++) {
-            std::cerr << BLOCK_NAME[open_blocks[i]] << std::endl;
-        }
+        /* std::cerr << "state " << unsigned(state) << std::endl; */
+        /* std::cerr << "matched " << unsigned(matched) << std::endl; */
+        /* std::cerr << "indentation " << unsigned(indentation) << std::endl; */
+        /* for (size_t i = 0; i < open_blocks.size(); i++) { */
+        /*     std::cerr << BLOCK_NAME[open_blocks[i]] << std::endl; */
+        /* } */
 
         if (valid_symbols[LINE_ENDING]) {
             matched = 0;

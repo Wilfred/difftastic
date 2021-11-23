@@ -188,8 +188,8 @@ module.exports = grammar({
 
         _blank_line: $ => seq($._blank_line_start, $._newline),
         paragraph: $ => seq($._inline, choice(prec.dynamic(1, $._soft_line_break), $._lazy_newline)),
-        indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, alias($._blank_line, $.line_break))))),
-        _indented_chunk: $ => prec.right(seq($._indented_chunk_start, repeat(choice($._text, alias($._newline, $.line_break))), $._block_close, optional($._ignore_matching_tokens))),
+        indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, $._blank_line)))),
+        _indented_chunk: $ => prec.right(seq($._indented_chunk_start, repeat(choice($._text, $._newline)), $._block_close, optional($._ignore_matching_tokens))),
         block_quote: $ => seq($._block_quote_start, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
         atx_heading: $ => prec(1, seq(
             choice($.atx_h1_marker, $.atx_h2_marker, $.atx_h3_marker, $.atx_h4_marker, $.atx_h5_marker, $.atx_h6_marker),
@@ -243,7 +243,7 @@ module.exports = grammar({
             $._block_close,
             optional($._newline)
         )),
-        code_fence_content: $ => repeat1(choice(alias($._newline, $.line_break), $._text)),
+        code_fence_content: $ => repeat1(choice($._newline, $._text)),
         info_string: $ => repeat1($._text),
 
         html_block: $ => prec(1, seq(optional($._whitespace), choice(
@@ -278,8 +278,8 @@ module.exports = grammar({
         _closing_tag_html_block_newline: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '(\n|\r\n?)'),
 
         _inline_element: $ => choice(
-            prec.dynamic(2, alias($._lazy_newline, $.soft_line_break)),
-            alias($._soft_line_break, $.soft_line_break),
+            prec.dynamic(2, $._lazy_newline),
+            $._soft_line_break,
             $.backslash_escape,
             // $.hard_line_break,
             $._text_inline,
