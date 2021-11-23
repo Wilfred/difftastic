@@ -1,6 +1,7 @@
 ; -- Keywords
 [
 	(kProgram)
+	(kLibrary)
 	(kUnit)
 	(kUses)
 
@@ -15,6 +16,8 @@
 	(kOut)
 	(kType)
 	(kLabel)
+	(kExports)
+
 	(kAbsolute)
 
 	(kProperty)

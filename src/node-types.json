@@ -901,6 +901,112 @@
     }
   },
   {
+    "type": "declExport",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "exprBinary",
+          "named": true
+        },
+        {
+          "type": "exprBrackets",
+          "named": true
+        },
+        {
+          "type": "exprCall",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprParens",
+          "named": true
+        },
+        {
+          "type": "exprSubscript",
+          "named": true
+        },
+        {
+          "type": "exprTpl",
+          "named": true
+        },
+        {
+          "type": "exprUnary",
+          "named": true
+        },
+        {
+          "type": "genericDot",
+          "named": true
+        },
+        {
+          "type": "genericTpl",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "inherited",
+          "named": true
+        },
+        {
+          "type": "kFalse",
+          "named": true
+        },
+        {
+          "type": "kIndex",
+          "named": true
+        },
+        {
+          "type": "kName",
+          "named": true
+        },
+        {
+          "type": "kNil",
+          "named": true
+        },
+        {
+          "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "literalNumber",
+          "named": true
+        },
+        {
+          "type": "literalString",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declExports",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declExport",
+          "named": true
+        },
+        {
+          "type": "kExports",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "declField",
     "named": true,
     "fields": {
@@ -2121,6 +2227,10 @@
           },
           {
             "type": "declConsts",
+            "named": true
+          },
+          {
+            "type": "declExports",
             "named": true
           },
           {
@@ -4036,6 +4146,10 @@
           "named": true
         },
         {
+          "type": "declExports",
+          "named": true
+        },
+        {
           "type": "declLabel",
           "named": true
         },
@@ -4118,6 +4232,10 @@
       "types": [
         {
           "type": "declConsts",
+          "named": true
+        },
+        {
+          "type": "declExports",
           "named": true
         },
         {
@@ -4246,6 +4364,73 @@
         },
         {
           "type": "literalString",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "library",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "blockTr",
+          "named": true
+        },
+        {
+          "type": "declConsts",
+          "named": true
+        },
+        {
+          "type": "declExports",
+          "named": true
+        },
+        {
+          "type": "declLabel",
+          "named": true
+        },
+        {
+          "type": "declProcFwd",
+          "named": true
+        },
+        {
+          "type": "declTypes",
+          "named": true
+        },
+        {
+          "type": "declUses",
+          "named": true
+        },
+        {
+          "type": "declVars",
+          "named": true
+        },
+        {
+          "type": "defProc",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kEndDot",
+          "named": true
+        },
+        {
+          "type": "kLibrary",
+          "named": true
+        },
+        {
+          "type": "moduleName",
           "named": true
         }
       ]
@@ -4579,6 +4764,10 @@
         },
         {
           "type": "declConsts",
+          "named": true
+        },
+        {
+          "type": "declExports",
           "named": true
         },
         {
@@ -4991,6 +5180,10 @@
           "named": true
         },
         {
+          "type": "declExports",
+          "named": true
+        },
+        {
           "type": "declLabel",
           "named": true
         },
@@ -5012,6 +5205,10 @@
         },
         {
           "type": "defProc",
+          "named": true
+        },
+        {
+          "type": "library",
           "named": true
         },
         {
@@ -5919,6 +6116,10 @@
     "named": true
   },
   {
+    "type": "kExports",
+    "named": true
+  },
+  {
     "type": "kExternal",
     "named": true
   },
@@ -6016,6 +6217,10 @@
   },
   {
     "type": "kLabel",
+    "named": true
+  },
+  {
+    "type": "kLibrary",
     "named": true
   },
   {

@@ -91,6 +91,7 @@ module.exports = grammar({
 	rules: {
 	  	root:               $ => choice(
 	  		$.program,
+	  		$.library,
 	  		$.unit,
 			$._definitions // For include files
 	  	),
@@ -104,6 +105,12 @@ module.exports = grammar({
 			$.kEndDot
 		),
 
+		library:            $ => seq(
+			$.kLibrary, $.moduleName, ';',
+			optional($._definitions),
+			choice(tr($,'block'), $.kEnd), 
+			$.kEndDot
+		),
 
 		unit:               $ => seq(
 			$.kUnit, $.moduleName, ';',
@@ -327,7 +334,7 @@ module.exports = grammar({
 		_definitions:       $ => repeat1($._definition),
 		_definition:        $ => choice(
 			$.declTypes, $.declVars, $.declConsts, $.defProc, $.declProcFwd,
-			$.declLabel, $.declUses, 
+			$.declLabel, $.declUses, $.declExports,
 
 			// Not actually valid syntax, but helps the parser recover:
 			prec(-1,$.blockTr)
@@ -352,7 +359,7 @@ module.exports = grammar({
 
 		_declarations:      $ => repeat1(choice(
 			$.declTypes, $.declVars, $.declConsts, $.declProc, $.declProcFwd,
-			$.declFunc, $.declUses, $.declLabel
+			$.declFunc, $.declUses, $.declLabel, $.declExports
 		)),
 		_classDeclarations:  $ => repeat1(choice(
 			$.declTypes, $.declVars, $.declConsts, $.declProc, $.declProcFwd,
@@ -364,6 +371,9 @@ module.exports = grammar({
 		),
 
 		declUses:            $ => seq($.kUses, delimited($.moduleName), ';'),
+
+		declExports:         $ => seq($.kExports, delimited($.declExport), ';'),
+		declExport:          $ => seq($._genericName, repeat(seq(choice($.kName, $.kIndex), $._expr))),
 
 		declTypes:           $ => seq(
 			$.kType, 
@@ -608,6 +618,7 @@ module.exports = grammar({
 		// TERMINAL SYMBOLS ----------------------------------------------------
 
 		kProgram:           $ => /[pP][rR][oO][gG][rR][aA][mM]/,
+		kLibrary:           $ => /[lL][iI][bB][rR][aA][rR][yY]/,
 		kUnit:              $ => /[uU][nN][iI][tT]/,
 		kUses:              $ => /[uU][sS][eE][sS]/,
 		kInterface:         $ => /[iI][nN][tT][eE][rR][fF][aA][cC][eE]/,
@@ -627,6 +638,8 @@ module.exports = grammar({
 		kOut:               $ => /[oO][uU][tT]/,
 		kType:              $ => /[tT][yY][pP][eE]/,
 		kLabel:             $ => /[lL][aA][bB][eE][lL]/,
+		kExports:           $ => /[eE][xX][pP][oO][rR][tT][sS]/,
+
 		kAbsolute:          $ => /[aA][bB][sS][oO][lL][uU][tT][eE]/,
 
 		kProperty:          $ => /[pP][rR][oO][pP][eE][rR][tT][yY]/,

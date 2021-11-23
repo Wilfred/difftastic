@@ -11,6 +11,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "library"
+        },
+        {
+          "type": "SYMBOL",
           "name": "unit"
         },
         {
@@ -54,6 +58,57 @@
           },
           "named": true,
           "value": "block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kEndDot"
+        }
+      ]
+    },
+    "library": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kLibrary"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "moduleName"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_definitions"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "blockTr"
+              },
+              "named": true,
+              "value": "block"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "kEnd"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -4116,6 +4171,10 @@
           "name": "declUses"
         },
         {
+          "type": "SYMBOL",
+          "name": "declExports"
+        },
+        {
           "type": "PREC",
           "value": -1,
           "content": {
@@ -4377,6 +4436,10 @@
           {
             "type": "SYMBOL",
             "name": "declLabel"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "declExports"
           }
         ]
       }
@@ -4489,6 +4552,94 @@
         {
           "type": "STRING",
           "value": ";"
+        }
+      ]
+    },
+    "declExports": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kExports"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "REPEAT1",
+                      "content": {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "declExport"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "declExport"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "declExport": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_genericName"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "kName"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "kIndex"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_expr"
+              }
+            ]
+          }
         }
       ]
     },
@@ -6798,6 +6949,10 @@
       "type": "PATTERN",
       "value": "[pP][rR][oO][gG][rR][aA][mM]"
     },
+    "kLibrary": {
+      "type": "PATTERN",
+      "value": "[lL][iI][bB][rR][aA][rR][yY]"
+    },
     "kUnit": {
       "type": "PATTERN",
       "value": "[uU][nN][iI][tT]"
@@ -6865,6 +7020,10 @@
     "kLabel": {
       "type": "PATTERN",
       "value": "[lL][aA][bB][eE][lL]"
+    },
+    "kExports": {
+      "type": "PATTERN",
+      "value": "[eE][xX][pP][oO][rR][tT][sS]"
     },
     "kAbsolute": {
       "type": "PATTERN",
