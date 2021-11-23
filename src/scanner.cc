@@ -436,6 +436,7 @@ struct Scanner {
                             return true;
                         }
                         if (valid_symbols[EMPHASIS_OPEN_STAR] || valid_symbols[EMPHASIS_CLOSE_STAR]) {
+                            if (indentation > 0) return false;
                             num_emphasis_delimiters_left = star_count - 1;
                             bool next_symbol_whitespace = extra_indentation > 0 || line_end;
                             bool next_symbol_punctuation = extra_indentation == 0 && is_punctuation(lexer->lookahead);
