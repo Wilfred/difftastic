@@ -10,15 +10,15 @@
 // hand-written C code into the parser. This parser tries to use this as little as
 // possible, in practice this means using the external scanner to parse:
 //
-// * All blocks besides paragraphs and lists
-//   (list items DO get parsed by the external scanner)
-//   For container blocks this is needed because at the start of each line we need
-//   to match all open blocks so we need to be able to look back on the parse stack
-//   arbitrarily far. Traditional tree-sitter parsers are not able to do this.
+// * All container blocks (besides list because they are just multiplse list items)
+//   This is needed because at the start of each line we need to match all open blocks
+//   so we need to be able to look back on the parse stack arbitrarily far. Traditional
+//   tree-sitter parsers are not able to do this.
 //
-//   Non container blocks are also parsed in the external scanner since for lazy
-//   continuations (which influence block structure) the parser needs to check if
-//   the a new block begins on the given line.
+// * Some leaf blocks
+//   The design of this parser has actually changed so that most leaf blocks _could_
+//   be parsed by traditional rules, but in the initial version they were not and it
+//   would take a lot of time to implement this
 //
 // * Code spans
 //   Code span delimiters have an arbitrary ammount of backticks ('`'), which must
@@ -29,24 +29,29 @@
 //   Parsing of emphasis delimiters depends on the character before and after a run
 //   of '*'s or '_'s, so we need more context than tree-sitter rules offer.
 //
-// I'm also considering just parsing any token with the external scanner since it so
-// happens that external parse needs to know about most of them (at least but not
-// limited to any newlines, spaces and punctuation). This would not mean using it for
-// all parsing, but it would mean not using tree-sitters lexer.
-// Als maybe this is just not possible as having 2 lexers gives us some extra
-// lookahead :)
-//
 // Matching is done in 2 stages: First we try to match all open blocks, if we don't
-// manage to do so and cannot emit a lazy continuation open all unmatched blocks.
-// After that parse the openings of any new blocks. For more information look at the
-// external scanner.
+// manage to do so and cannot emit a lazy continuation (since we are not in a paragraph)
+// we close all unmatched blocks.
+// If we can emit a lazy continuation we still need to split the parser state to check
+// that the line does not start with a new block.
 //
-// TODOs (critical):
-// * Implement: html blocks, link reference definitions, emphasis, links, images,
-//   autolinks and raw html
+// A lot of inlines work like this: If we match an opening token, like a '`' or '<!--'
+// this could either be text or the start of a new inline. Because of this we have to 
+// split the parser state (meaning we purposefully introduce a conflict between
+// $._text_inline and the inline).
+// This could be error prone as new blocks that start in a potential inline might not
+// get matched so we have to be very carefull with dynamic precedence.
 //
-// TODOs (non critical):
-// * Unicode support for whitespace and punctuation characters
+// Emphasis is not yet implemented but it will be a bit more complicated.
+// For example in '*foo *bar*' only 'bar' should be emphasized (see the spec for more info).
+// (Links could also have the same problem but I have not yet thought about that)
+//
+// I will try the following tactic: Whenever we encounter a delmiter - lets say a '*' -
+// and it is possible that this is a closing delimiter, it has to be a closing delimiter.
+// If it can only be a opening delimiter we split the parser state as before, but as soon
+// as we hit a second opening delimiter (and the previous one has not been closed). We know
+// that this second delimiter MUST be part of a complete emphasis, if the first delimiter
+// is part of a complete emphasis.
 
 // A file with all html entities, should be kept up to date with
 // https://html.spec.whatwg.org/multipage/entities.json
