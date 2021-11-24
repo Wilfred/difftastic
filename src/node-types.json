@@ -67,6 +67,10 @@
           "named": true
         },
         {
+          "type": "link_reference_definition",
+          "named": true
+        },
+        {
           "type": "loose_list",
           "named": true
         },
@@ -170,6 +174,10 @@
           "named": true
         },
         {
+          "type": "link_reference_definition",
+          "named": true
+        },
+        {
           "type": "loose_list",
           "named": true
         },
@@ -234,6 +242,10 @@
         },
         {
           "type": "html_tag",
+          "named": true
+        },
+        {
+          "type": "link",
           "named": true
         },
         {
@@ -327,6 +339,10 @@
           "named": true
         },
         {
+          "type": "link",
+          "named": true
+        },
+        {
           "type": "loose_list",
           "named": true
         },
@@ -374,6 +390,233 @@
     "fields": {}
   },
   {
+    "type": "link",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "link_text",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "link_label",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "atx_heading",
+          "named": true
+        },
+        {
+          "type": "backslash_escape",
+          "named": true
+        },
+        {
+          "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "html_block",
+          "named": true
+        },
+        {
+          "type": "loose_list",
+          "named": true
+        },
+        {
+          "type": "setext_h1_underline",
+          "named": true
+        },
+        {
+          "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "tight_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "link_reference_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "atx_heading",
+          "named": true
+        },
+        {
+          "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "html_block",
+          "named": true
+        },
+        {
+          "type": "link_destination",
+          "named": true
+        },
+        {
+          "type": "link_label",
+          "named": true
+        },
+        {
+          "type": "link_title",
+          "named": true
+        },
+        {
+          "type": "loose_list",
+          "named": true
+        },
+        {
+          "type": "setext_h1_underline",
+          "named": true
+        },
+        {
+          "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "tight_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "link_text",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "atx_heading",
+          "named": true
+        },
+        {
+          "type": "backslash_escape",
+          "named": true
+        },
+        {
+          "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "html_block",
+          "named": true
+        },
+        {
+          "type": "loose_list",
+          "named": true
+        },
+        {
+          "type": "setext_h1_underline",
+          "named": true
+        },
+        {
+          "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "tight_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "link_title",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "atx_heading",
+          "named": true
+        },
+        {
+          "type": "backslash_escape",
+          "named": true
+        },
+        {
+          "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "html_block",
+          "named": true
+        },
+        {
+          "type": "loose_list",
+          "named": true
+        },
+        {
+          "type": "setext_h1_underline",
+          "named": true
+        },
+        {
+          "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "tight_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "list_item",
     "named": true,
     "fields": {},
@@ -399,6 +642,10 @@
         },
         {
           "type": "indented_code_block",
+          "named": true
+        },
+        {
+          "type": "link_reference_definition",
           "named": true
         },
         {
@@ -504,6 +751,10 @@
           "named": true
         },
         {
+          "type": "link",
+          "named": true
+        },
+        {
           "type": "loose_list",
           "named": true
         },
@@ -584,11 +835,79 @@
     }
   },
   {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "#",
+    "named": false
+  },
+  {
+    "type": "$",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
     "type": "-",
     "named": false
   },
   {
     "type": "-->",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "<",
     "named": false
   },
   {
@@ -604,7 +923,15 @@
     "named": false
   },
   {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": ">",
+    "named": false
+  },
+  {
+    "type": "?",
     "named": false
   },
   {
@@ -612,11 +939,35 @@
     "named": false
   },
   {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
     "type": "\\",
     "named": false
   },
   {
+    "type": "]",
+    "named": false
+  },
+  {
     "type": "]]>",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "_",
+    "named": false
+  },
+  {
+    "type": "`",
     "named": false
   },
   {
@@ -652,6 +1003,10 @@
     "named": true
   },
   {
+    "type": "link_destination",
+    "named": true
+  },
+  {
     "type": "list_marker_dot",
     "named": true
   },
@@ -674,5 +1029,21 @@
   {
     "type": "numeric_character_reference",
     "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
   }
 ]

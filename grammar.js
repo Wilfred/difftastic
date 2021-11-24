@@ -60,6 +60,7 @@ const html_entities = require("./html_entities.json");
 // Punctuation characters as specified in
 // https://github.github.com/gfm/#ascii-punctuation-character
 const PUNCTUATION_CHARACTERS = '!-/:-@\\[-`\\{-~';
+const PUNCTUATION_CHARACTERS_ARRAY = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'];
 const HTML_OPEN_TAG = /<[a-zA-Z][a-zA-Z0-9\-]*([ \t]+[a-zA-Z_:][a-zA-Z0-9_\.:\-]*[ \t]*=[ \t]*([^ \t\r\n"'=<>`]+|'[^'\r\n]*'|"[^"\r\n]*"))*[ \t]*\/?>/;
 const HTML_CLOSING_TAG = /<\/[a-zA-Z][a-zA-Z0-9\-]*[ \t]*>/;
 const HTML_OPEN_TAG_EXCLUDE = '<' + negative_regex(['pre', 'script', 'style'], '', '0-9\\-') + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>';
@@ -162,9 +163,10 @@ module.exports = grammar(add_inline_rules({
         [$.tight_list, $.loose_list],
         [$.setext_heading, $._block],
         [$.setext_h2_underline, $.thematic_break],
-        [$.indented_code_block, $._block]
+        [$.indented_code_block, $._block],
     ],
     conflicts: $ => [
+        [$.link_reference_definition, $._shortcut_link],
         [$._lazy_newline, $._paragraph_end_newline],
     ],
 
@@ -183,6 +185,7 @@ module.exports = grammar(add_inline_rules({
             $.fenced_code_block,
             $._blank_line,
             $.html_block,
+            $.link_reference_definition,
         ),
         _block_interrupt_paragraph: $ => choice(
             $.atx_heading,
@@ -257,17 +260,23 @@ module.exports = grammar(add_inline_rules({
         code_fence_content: $ => repeat1(choice($._newline, $._text)),
         info_string: $ => repeat1($._text),
 
-        html_block: $ => prec(1, seq(optional($._whitespace), choice(
-            build_html_block($, new RegExp('<' + regex_case_insensitive_list(['script', 'style', 'pre']) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'), new RegExp('</' + regex_case_insensitive_list(['script', 'style', 'pre']) + '>')),
-            build_html_block($, '<!--', '-->'),
-            build_html_block($, '<?', '?>'),
-            build_html_block($, /<![A-Z]+/, '>'),
-            build_html_block($, '<![CDATA[', ']]>'),
+        _html_block_1: $ => build_html_block($, new RegExp('<' + regex_case_insensitive_list(['script', 'style', 'pre']) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'), new RegExp('</' + regex_case_insensitive_list(['script', 'style', 'pre']) + '>')),
+        _html_block_2: $ => build_html_block($, '<!--', '-->'),
+        _html_block_3: $ => build_html_block($, '<?', '?>'),
+        _html_block_4: $ => build_html_block($, /<![A-Z]+/, '>'),
+        _html_block_5: $ => build_html_block($, '<![CDATA[', ']]>'),
+        _html_block_6: $ => choice(
             build_html_block(
                 $,
                 new RegExp('</?' + regex_case_insensitive_list(['address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul']) + '([ \\t>]|/>)'),
                 seq($._newline, $._blank_line)
             ),
+            build_html_block_after_newline(
+                $,
+                new RegExp('</?' + regex_case_insensitive_list(['address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul']) + '(\\n|\\r\\n?)'),
+            ),
+        ),
+        _html_block_7: $ => choice(
             build_html_block(
                 $,
                 choice($._open_tag_html_block, $._closing_tag_html_block),
@@ -277,16 +286,45 @@ module.exports = grammar(add_inline_rules({
                 $,
                 choice($._open_tag_html_block_newline, $._closing_tag_html_block_newline),
             ),
-            build_html_block_after_newline(
-                $,
-                new RegExp('</?' + regex_case_insensitive_list(['address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul']) + '(\\n|\\r\\n?)'),
-            ),
+        ),
+        html_block: $ => prec(1, seq(optional($._whitespace), choice(
+            $._html_block_1,
+            $._html_block_2,
+            $._html_block_3,
+            $._html_block_4,
+            $._html_block_5,
+            $._html_block_6,
+            $._html_block_7,
         ))),
-        // tag name not pre script or style
         _open_tag_html_block: $ => new RegExp(HTML_OPEN_TAG_EXCLUDE + '[ \\t]'),
         _open_tag_html_block_newline: $ => new RegExp(HTML_OPEN_TAG_EXCLUDE + '(\n|\r\n?)'),
         _closing_tag_html_block: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '[ \\t]'),
         _closing_tag_html_block_newline: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '(\n|\r\n?)'),
+
+        link_reference_definition: $ => prec.right(seq(
+            optional($._whitespace),
+            $.link_label,
+            ':',
+            optional(seq(optional($._whitespace), optional(seq($._lazy_newline, optional($._whitespace))))),
+            $.link_destination,
+            optional(seq(
+                optional($._whitespace),
+                optional(seq($._lazy_newline, optional($._whitespace))),
+                $.link_title
+            )),
+            $._paragraph_end_newline,
+        )),
+        link_label: $ => seq('[', repeat1(choice($._text_no_bracket, $.backslash_escape, $._lazy_newline)), ']'),
+        link_destination: $ => /<(\\[^\r\n]|[^\r\n<>\\])*>|[^<\r\n \t\(\)][^\r\n \t\(\)]*/,
+        link_title: $ => choice(
+            seq('"', repeat(choice($._text_no_double_quotes, $.backslash_escape, $._lazy_newline)), '"'),
+            seq("'", repeat(choice($._text_no_quotes, $.backslash_escape, $._lazy_newline)), "'"),
+            seq('(', repeat(choice($._text_no_parenthethis, $.backslash_escape)), ')'),
+        ),
+        _text_no_bracket: $ => choice($._word, punctuation_without($, ['[', ']']), $._whitespace),
+        _text_no_double_quotes: $ => choice($._word, punctuation_without($, ['"']), $._whitespace),
+        _text_no_quotes: $ => choice($._word, punctuation_without($, ["'"]), $._whitespace),
+        _text_no_parenthethis: $ => choice($._word, punctuation_without($, ['(', ')']), $._whitespace),
 
         _lazy_newline: $ => prec.right(seq(
             $._newline,
@@ -296,9 +334,10 @@ module.exports = grammar(add_inline_rules({
         )),
         _paragraph_end_newline: $ => seq($._newline, repeat($._dummy)),
 
+        _shortcut_link: $ => alias($.link_label, $.link_text),
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq('\\', $._newline)),
-        _text: $ => choice($._word, $._punctuation, $._whitespace),
+        _text: $ => choice($._word, punctuation_without($, []), $._whitespace),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
         html_tag: $ => choice($._open_tag, $._closing_tag, $._html_comment, $._processing_instruction, $._declaration, $._cdata_section),
@@ -310,17 +349,17 @@ module.exports = grammar(add_inline_rules({
                 $._word,
                 $._whitespace,
                 $._newline,
-                /[^!-,\.\/:-=\?@\[-`\{-~]/, // punctuation without - and >
+                punctuation_without($, ['-', '>']),
                 seq(
                     '-',
-                    /[^!-\/:-=\?@\[-`\{-~]/ // punctuation without >
+                    punctuation_without($, ['>']),
                 )
             )),
             repeat(prec.right(choice(
                 $._word,
                 $._whitespace,
                 $._newline,
-                $._punctuation
+                punctuation_without($, []),
             ))),
             '-->'
         )),
@@ -330,7 +369,7 @@ module.exports = grammar(add_inline_rules({
                 $._word,
                 $._whitespace,
                 $._newline,
-                $._punctuation
+                punctuation_without($, []),
             ))),
             '?>'
         )),
@@ -344,7 +383,7 @@ module.exports = grammar(add_inline_rules({
                 $._word,
                 $._whitespace,
                 $._newline,
-                $._punctuation
+                punctuation_without($, ['>']),
             ))),
             '>'
         )),
@@ -354,14 +393,13 @@ module.exports = grammar(add_inline_rules({
                 $._word,
                 $._whitespace,
                 $._newline,
-                $._punctuation
+                punctuation_without($, []),
             ))),
             ']]>'
         )),
 
         _whitespace: $ => seq(/[ \t]+/, optional($._last_token_whitespace)),
         _word: $ => RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r]+'),
-        _punctuation: $ => seq(new RegExp('[' + PUNCTUATION_CHARACTERS + ']'), optional($._last_token_punctuation)),
         _newline: $ => prec.right(seq(
             token.immediate(/\n|\r\n?/),
             optional($._line_ending),
@@ -389,10 +427,11 @@ function add_inline_rules(grammar) {
                     $.html_tag,
                     alias($['_emphasis_star' + suffix_newline], $.emphasis),
                     alias($['_emphasis_underscore' + suffix_newline], $.emphasis),
+                    alias($._shortcut_link, $.link),
                 ];
                 if (newline) {
                     elements = elements.concat([
-                        prec.dynamic(2, $._lazy_newline),
+                        $._lazy_newline,
                     ]);
                 }
                 return choice(...elements);
@@ -411,13 +450,14 @@ function add_inline_rules(grammar) {
                 conflicts.push(['_cdata_section', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['_declaration', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['_processing_instruction', '_text_inline' + suffix_delimiter]);
+                conflicts.push(['link_label', '_text_inline' + suffix_delimiter]);
+                conflicts.push(['link_reference_definition', '_text_inline' + suffix_delimiter]);
                 grammar.rules['_text_inline' + suffix_delimiter] = $ => {
                     let elements = [
                         $._word,
-                        $._punctuation,
+                        punctuation_without($, []),
                         $._whitespace,
                         $._code_span_start,
-                        '\\',
                         '<!--',
                         /<![A-Z]+/,
                         '<?',
@@ -472,7 +512,7 @@ function build_html_block_after_newline($, open) {
         repeat(choice(
             $._whitespace,
             $._word,
-            $._punctuation,
+            punctuation_without($, []),
             $._newline,
             seq($._newline, $._blank_line, $._close_block),
         )),
@@ -488,7 +528,7 @@ function build_html_block($, open, close) {
         repeat(choice(
             $._whitespace,
             $._word,
-            $._punctuation,
+            punctuation_without($, []),
             $._newline,
             seq(close, $._close_block),
         )),
@@ -503,6 +543,10 @@ function regex_case_insensitive_list(ss) {
 
 function regex_case_insensitive(s) {
     return Array.from(s).map(x => "[" + x + x.toUpperCase() + "]").join("");
+}
+
+function punctuation_without($, chars) {
+    return seq(choice(...PUNCTUATION_CHARACTERS_ARRAY.filter(c => !chars.includes(c))), optional($._last_token_punctuation));
 }
 
 // used to build a regex that matches anything but pre, script and style
@@ -555,3 +599,4 @@ function negative_regex(ss, classExtraStart, classExtra) {
     output += ')';
     return output;
 }
+
