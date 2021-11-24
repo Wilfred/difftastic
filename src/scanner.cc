@@ -192,12 +192,14 @@ struct Scanner {
             case TIGHT_LIST_ITEM:
             case TIGHT_LIST_ITEM + 1:
             case TIGHT_LIST_ITEM + 2:
+            case TIGHT_LIST_ITEM + 3:
             case TIGHT_LIST_ITEM + 4:
             case TIGHT_LIST_ITEM + 5:
             case TIGHT_LIST_ITEM + 6:
             case LOOSE_LIST_ITEM:
             case LOOSE_LIST_ITEM + 1:
             case LOOSE_LIST_ITEM + 2:
+            case LOOSE_LIST_ITEM + 3:
             case LOOSE_LIST_ITEM + 4:
             case LOOSE_LIST_ITEM + 5:
             case LOOSE_LIST_ITEM + 6:
