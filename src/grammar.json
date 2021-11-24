@@ -30,7 +30,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "atx_heading"
+          "name": "paragraph"
         },
         {
           "type": "SYMBOL",
@@ -38,15 +38,15 @@
         },
         {
           "type": "SYMBOL",
-          "name": "paragraph"
+          "name": "indented_code_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "atx_heading"
         },
         {
           "type": "SYMBOL",
           "name": "block_quote"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "indented_code_block"
         },
         {
           "type": "SYMBOL",
@@ -74,6 +74,51 @@
         }
       ]
     },
+    "_block_interrupt_paragraph": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "atx_heading"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block_quote"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "thematic_break"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tight_list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "loose_list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "fenced_code_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_blank_line"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "html_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "setext_h1_underline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "setext_h2_underline"
+        }
+      ]
+    },
     "_blank_line": {
       "type": "SEQ",
       "members": [
@@ -95,21 +140,8 @@
           "name": "_inline"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PREC_DYNAMIC",
-              "value": 1,
-              "content": {
-                "type": "SYMBOL",
-                "name": "_soft_line_break"
-              }
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_lazy_newline"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_paragraph_end_newline"
         }
       ]
     },
@@ -1852,35 +1884,51 @@
       "value": "<\\/([a-oq-rt-zA-OQ-RT-Z][a-zA-Z0-9\\-]*|p|p([a-qs-zA-QS-Z0-9\\-][a-zA-Z0-9\\-]*|r|r([a-df-zA-DF-Z0-9\\-][a-zA-Z0-9\\-]*|[e][a-zA-Z0-9\\-]+))|s|s([a-bd-su-zA-BD-SU-Z0-9\\-][a-zA-Z0-9\\-]*|c|c([a-qs-zA-QS-Z0-9\\-][a-zA-Z0-9\\-]*|r|r([a-hj-zA-HJ-Z0-9\\-][a-zA-Z0-9\\-]*|i|i([a-oq-zA-OQ-Z0-9\\-][a-zA-Z0-9\\-]*|p|p([a-su-zA-SU-Z0-9\\-][a-zA-Z0-9\\-]*|[t][a-zA-Z0-9\\-]+))))|t|t([a-xzA-XZ0-9\\-][a-zA-Z0-9\\-]*|y|y([a-km-zA-KM-Z0-9\\-][a-zA-Z0-9\\-]*|l|l([a-df-zA-DF-Z0-9\\-][a-zA-Z0-9\\-]*|[e][a-zA-Z0-9\\-]+)))))[ \\t]*>(\n|\r\n?)"
     },
     "_lazy_newline": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_newline"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_newline"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_dummy"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_lazy_continuation"
+                }
+              ]
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_lazy_continuation"
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_dummy"
+                "name": "_block_interrupt_paragraph"
               },
               {
-                "type": "SYMBOL",
-                "name": "_lazy_continuation"
+                "type": "BLANK"
               }
             ]
           }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_lazy_continuation"
-        }
-      ]
+        ]
+      }
     },
-    "_soft_line_break": {
+    "_paragraph_end_newline": {
       "type": "SEQ",
       "members": [
         {
@@ -2274,8 +2322,16 @@
             }
           },
           {
-            "type": "SYMBOL",
-            "name": "_line_ending"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_line_ending"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -2608,10 +2664,6 @@
             "type": "SYMBOL",
             "name": "_lazy_newline"
           }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_soft_line_break"
         }
       ]
     },
@@ -2728,10 +2780,6 @@
             "type": "SYMBOL",
             "name": "_lazy_newline"
           }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_soft_line_break"
         }
       ]
     },
@@ -2844,10 +2892,6 @@
             "type": "SYMBOL",
             "name": "_lazy_newline"
           }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_soft_line_break"
         }
       ]
     },
@@ -2966,7 +3010,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_newline"
+                  "name": "_lazy_newline"
                 }
               ]
             }
@@ -2988,7 +3032,7 @@
   "conflicts": [
     [
       "_lazy_newline",
-      "_soft_line_break"
+      "_paragraph_end_newline"
     ],
     [
       "_code_span_no_newline",
@@ -3145,6 +3189,16 @@
     [
       {
         "type": "SYMBOL",
+        "name": "setext_h2_underline"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "thematic_break"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
         "name": "indented_code_block"
       },
       {
@@ -3154,6 +3208,10 @@
     ]
   ],
   "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_error"
+    },
     {
       "type": "SYMBOL",
       "name": "_dummy"

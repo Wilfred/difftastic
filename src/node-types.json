@@ -97,7 +97,49 @@
   {
     "type": "code_span",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "atx_heading",
+          "named": true
+        },
+        {
+          "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "html_block",
+          "named": true
+        },
+        {
+          "type": "loose_list",
+          "named": true
+        },
+        {
+          "type": "setext_h1_underline",
+          "named": true
+        },
+        {
+          "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "tight_list",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "document",
@@ -159,7 +201,15 @@
       "required": false,
       "types": [
         {
+          "type": "atx_heading",
+          "named": true
+        },
+        {
           "type": "backslash_escape",
+          "named": true
+        },
+        {
+          "type": "block_quote",
           "named": true
         },
         {
@@ -175,11 +225,39 @@
           "named": true
         },
         {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "html_block",
+          "named": true
+        },
+        {
           "type": "html_tag",
           "named": true
         },
         {
+          "type": "loose_list",
+          "named": true
+        },
+        {
           "type": "numeric_character_reference",
+          "named": true
+        },
+        {
+          "type": "setext_h1_underline",
+          "named": true
+        },
+        {
+          "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "tight_list",
           "named": true
         }
       ]
@@ -213,7 +291,15 @@
       "required": false,
       "types": [
         {
+          "type": "atx_heading",
+          "named": true
+        },
+        {
           "type": "backslash_escape",
+          "named": true
+        },
+        {
+          "type": "block_quote",
           "named": true
         },
         {
@@ -229,11 +315,39 @@
           "named": true
         },
         {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "html_block",
+          "named": true
+        },
+        {
           "type": "html_tag",
           "named": true
         },
         {
+          "type": "loose_list",
+          "named": true
+        },
+        {
           "type": "numeric_character_reference",
+          "named": true
+        },
+        {
+          "type": "setext_h1_underline",
+          "named": true
+        },
+        {
+          "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "tight_list",
           "named": true
         }
       ]
@@ -354,7 +468,15 @@
       "required": false,
       "types": [
         {
+          "type": "atx_heading",
+          "named": true
+        },
+        {
           "type": "backslash_escape",
+          "named": true
+        },
+        {
+          "type": "block_quote",
           "named": true
         },
         {
@@ -370,11 +492,39 @@
           "named": true
         },
         {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "html_block",
+          "named": true
+        },
+        {
           "type": "html_tag",
           "named": true
         },
         {
+          "type": "loose_list",
+          "named": true
+        },
+        {
           "type": "numeric_character_reference",
+          "named": true
+        },
+        {
+          "type": "setext_h1_underline",
+          "named": true
+        },
+        {
+          "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "tight_list",
           "named": true
         }
       ]

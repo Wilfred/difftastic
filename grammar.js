@@ -70,6 +70,7 @@ module.exports = grammar(add_inline_rules({
 
     // TODO: Sort these tokens in some more sensible manner
     externals: $ => [
+        $._error,
         $._dummy,
         // TOKENS FOR BLOCK STRUCTURE:
         // Currently we parse this with the external scanner since there seems to be a bug in tree-sitter
@@ -160,21 +161,22 @@ module.exports = grammar(add_inline_rules({
         [$._inline_element, $.paragraph],
         [$.tight_list, $.loose_list],
         [$.setext_heading, $._block],
+        [$.setext_h2_underline, $.thematic_break],
         [$.indented_code_block, $._block]
     ],
     conflicts: $ => [
-        [$._lazy_newline, $._soft_line_break],
+        [$._lazy_newline, $._paragraph_end_newline],
     ],
 
     rules: {
         document: $ => seq(optional($._ignore_matching_tokens), repeat($._block)),
 
         _block: $ => choice(
-            $.atx_heading,
-            $.setext_heading,
             $.paragraph,
-            $.block_quote,
+            $.setext_heading,
             $.indented_code_block,
+            $.atx_heading,
+            $.block_quote,
             $.thematic_break,
             $.tight_list,
             $.loose_list,
@@ -182,9 +184,21 @@ module.exports = grammar(add_inline_rules({
             $._blank_line,
             $.html_block,
         ),
+        _block_interrupt_paragraph: $ => choice(
+            $.atx_heading,
+            $.block_quote,
+            $.thematic_break,
+            $.tight_list,
+            $.loose_list,
+            $.fenced_code_block,
+            $._blank_line,
+            $.html_block,
+            $.setext_h1_underline,
+            $.setext_h2_underline,
+        ),
 
         _blank_line: $ => seq($._blank_line_start, $._newline),
-        paragraph: $ => seq($._inline, choice(prec.dynamic(1, $._soft_line_break), $._lazy_newline)),
+        paragraph: $ => seq($._inline, $._paragraph_end_newline),
         indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, $._blank_line)))),
         _indented_chunk: $ => seq($._indented_chunk_start, repeat(choice($._text, $._newline)), $._block_close, optional($._ignore_matching_tokens)),
         block_quote: $ => seq($._block_quote_start, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
@@ -274,12 +288,13 @@ module.exports = grammar(add_inline_rules({
         _closing_tag_html_block: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '[ \\t]'),
         _closing_tag_html_block_newline: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '(\n|\r\n?)'),
 
-        _lazy_newline: $ => seq(
+        _lazy_newline: $ => prec.right(seq(
             $._newline,
             repeat(choice($._dummy, $._lazy_continuation)),
             $._lazy_continuation,
-        ),
-        _soft_line_break: $ => seq($._newline, repeat($._dummy)),
+            optional($._block_interrupt_paragraph), // not actually valid, we will error if it manages to match a block
+        )),
+        _paragraph_end_newline: $ => seq($._newline, repeat($._dummy)),
 
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq('\\', $._newline)),
@@ -349,7 +364,7 @@ module.exports = grammar(add_inline_rules({
         _punctuation: $ => seq(new RegExp('[' + PUNCTUATION_CHARACTERS + ']'), optional($._last_token_punctuation)),
         _newline: $ => prec.right(seq(
             token.immediate(/\n|\r\n?/),
-            $._line_ending,
+            optional($._line_ending),
             optional($._ignore_matching_tokens)
         )),
         _ignore_matching_tokens: $ => repeat1(choice($._block_continuation, $._last_token_whitespace)),
@@ -378,7 +393,6 @@ function add_inline_rules(grammar) {
                 if (newline) {
                     elements = elements.concat([
                         prec.dynamic(2, $._lazy_newline),
-                        $._soft_line_break,
                     ]);
                 }
                 return choice(...elements);
@@ -422,7 +436,7 @@ function add_inline_rules(grammar) {
         
         grammar.rules['_emphasis_star' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_star, $['_inline' + suffix_newline + '_no_star'], $._emphasis_close_star));
         grammar.rules['_emphasis_underscore' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_underscore, $['_inline' + suffix_newline + '_no_underscore'], $._emphasis_close_underscore));
-        grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(1, seq($._code_span_start, repeat(newline ? choice($._text, $._newline) : $._text), $._code_span_close));
+        grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(1, seq($._code_span_start, repeat(newline ? choice($._text, $._lazy_newline) : $._text), $._code_span_close));
     }
 
     let old = grammar.conflicts
