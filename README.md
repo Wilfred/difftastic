@@ -21,7 +21,7 @@ unchanged.
 ![Elisp screenshot](img/elisp.png)
 
 Compare this with git's default diff. It is confused by indentation
-changes, and doesn't know which additional closing paren has been added.
+changes, and doesn't know which closing parenthesis has been added.
 
 ![Elisp comparison screenshot](img/elisp_comparison.png)
 
