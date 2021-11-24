@@ -12,28 +12,42 @@ based on their syntax.
 
 See [the manual](http://difftastic.wilfred.me.uk/) to get started.
 
-## Screenshots
+## Demo: Wrapping Expressions
+
+Difftastic understands expression nesting. If you wrap an expression
+in an if statement, difftastic understand that the inner values are
+unchanged.
+
+![Elisp screenshot](img/elisp.png)
+
+Compare this with git's default diff. It is confused by indentation
+changes, and doesn't know which additional closing paren has been added.
+
+![Elisp comparison screenshot](img/elisp_comparison.png)
+
+## Demo: Reflowing Code
+
+Difftastic is robust to code formatting changes. If you change how
+many items appear on a single line, difftastic will only show you
+items which have changed.
 
 ![Rust screenshot](img/rust.png)
 
-![C screenshot](img/c.png)
+In git's default diff, it's harder to see that `iter` and the curly
+braces are unchanged. It's also harder to see the affected line numbers.
 
-![Haskell screenshot](img/haskell.png)
+![Rust comparison screenshot](img/rust_comparison.png)
 
 <!--
 To regenerate these screenshots:
 
+$ git clone git@github.com:magnars/dash.el.git
+$ cd dash.el
+$ GIT_EXTERNAL_DIFF=difft git show --ext-diff 72675567c68f002d828945badbb07fe963d24b5d
+
 $ git clone git@github.com:rust-itertools/itertools.git
 $ cd itertools
 $ GIT_EXTERNAL_DIFF=difft git show --ext-diff 38805c6a882a9f00615078250ccc8c070c3a214d
-
-$ git clone git@github.com:stedolan/jq.git
-$ cd jq
-$ GIT_EXTERNAL_DIFF=difft git show --ext-diff 6306ac89667cf35f47ddc40aa0630546c57e387f
-
-$ git clone git@github.com:xmonad/xmonad.git
-$ cd xmonad
-$ GIT_EXTERNAL_DIFF=difft git show --ext-diff 6d661203d39e44d1dc2aa3a930381e6711d26d56
 
 -->
 
@@ -91,8 +105,3 @@ details.
 
 Files in `sample_files/` are also under the MIT license unless stated
 otherwise in their header.
-
-## Further Reading
-
-The [wiki](https://github.com/Wilfred/difftastic/wiki) includes
-additional notes on alternative diffing techniques and tools.
