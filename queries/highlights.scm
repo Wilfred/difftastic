@@ -24,6 +24,7 @@
 	(kProperty)
 	(kRead)
 	(kWrite)
+	(kImplements)
 	(kDefault)
 	(kNodefault)
 	(kStored)
@@ -94,6 +95,21 @@
 	(kSafecall)
 	(kAssembler)
 	(kNostackframe)
+	(kInterrupt)
+	(kNoreturn)
+	(kIocheck)
+	(kLocal)
+	(kHardfloat)
+	(kSoftfloat)
+	(kMs_abi_default)
+	(kMs_abi_cdecl)
+	(kSaveregisters)
+	(kSysv_abi_default)
+	(kSysv_abi_cdecl)
+	(kVectorcall)
+	(kVarargs)
+	(kWinapi)
+	(kAlias)
 
 	(kFor)
 	(kTo)
@@ -197,16 +213,12 @@
 ; -- Procedure & function declarations
 
 ; foobar
-(declFunc name: (identifier) @function)
 (declProc name: (identifier) @function)
 ; foobar<t>
-(declFunc name: (genericTpl entity: (identifier) @function))
 (declProc name: (genericTpl entity: (identifier) @function))
 ; foo.bar
-(declFunc name: (genericDot rhs: (identifier) @function))
 (declProc name: (genericDot rhs: (identifier) @function))
 ; foo.bar<t>
-(declFunc name: (genericDot rhs: (genericTpl entity: (identifier) @function)))
 (declProc name: (genericDot rhs: (genericTpl entity: (identifier) @function)))
 
 ; Treat property declarations like functions

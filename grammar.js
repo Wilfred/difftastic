@@ -83,8 +83,14 @@ module.exports = grammar({
 
 	word: $ => $.identifier,
 
-	//conflicts: $ => [ [ $._specializedName ]/*, [$.qualifiedName]*/ ],
-	//conflicts: $ => [ [ $.declProc ], [$.declFunc] ],
+	// These conflict rules are only needed because "public" can be a visibility
+	// or an attribute. *sigh*
+	// We would probably avoid this by having separate decl* clauses for use
+	// inside classes and at unit scope, since the "public" attribute seems to
+	// only be valid for standalone routines.
+	conflicts: $ => [ 
+		[ $.declProc ], [$.declConst], [$.declVar], [$.declType], [$.declProp] 
+	],
 	
 	rules: {
 	  	root:               $ => choice(
@@ -180,7 +186,7 @@ module.exports = grammar({
 			$.exprParens, 
 		),
 
-		inherited:       $ => seq($.kInherited, optional($.identifier)), 
+		inherited:       $ => prec.right(seq($.kInherited, optional($.identifier))),
 
 		exprDot:         $ => op.infix(5, $._ref, $.kDot, $._ref),
 		exprDeref:       $ => op.postfix(4, $._expr, $.kHat),
@@ -343,7 +349,7 @@ module.exports = grammar({
 		),
 
 		defProc:            $ => seq(
-			field('header', choice($.declProc, $.declFunc)),
+			field('header', $.declProc),
 			pp(
 				$,
 				field('local', optional($._definitions)),
@@ -352,20 +358,15 @@ module.exports = grammar({
 			)
 		),
 
-		declProcFwd:        $ => seq(
-			choice($.declProc, $.declFunc),
-			choice(seq($.kForward, ';'), $.procExternal)
-		),
-
 		// DECLARATIONS -------------------------------------------------------
 
 		_declarations:      $ => repeat1(choice(
 			$.declTypes, $.declVars, $.declConsts, $.declProc, $.declProcFwd,
-			$.declFunc, $.declUses, $.declLabel, $.declExports
+			$.declUses, $.declLabel, $.declExports
 		)),
 		_classDeclarations:  $ => repeat1(choice(
-			$.declTypes, $.declVars, $.declConsts, $.declProc, $.declProcFwd,
-			$.declFunc, $.declProp
+			$.declTypes, $.declVars, $.declConsts, $.declProc,
+			$.declProp
 		)),
 
 		_visibility:         $ => choice(
@@ -405,7 +406,6 @@ module.exports = grammar({
 			$.declArray,
 			$.declString,
 			$.declProcRef,
-			$.declFuncRef
 		)),
 
 
@@ -417,7 +417,10 @@ module.exports = grammar({
 		declClass:          $ => seq(
 			optional($.kPacked),
 			choice($.kClass, $.kRecord, $.kObject, $.kInterface, $.kObjcclass, $.kObjccategory), 
-			optional(choice($.kAbstract, $.kSealed)),
+			optional(choice(
+				$.kAbstract, $.kSealed, 
+				seq($.kExternal, optional(seq($.kName, $._expr)))
+			)),
 			field('parent', optional(seq('(',delimited($.typeref),')'))), 
 			optional($._declClass)
 		),
@@ -485,54 +488,61 @@ module.exports = grammar({
 			$._declClass
 		),
 
-		declProc:           $ => seq(
+		_declProc:           $ => seq(
 			optional($.kClass),
-			choice($.kProcedure, $.kConstructor, $.kDestructor),
+			choice($.kProcedure, $.kFunction, $.kConstructor, $.kDestructor),
 			field('name', $._genericName),
 			field('args', optional($.declArgs)),
+			optional(seq(
+				':',
+				field('type', $.type),
+			)),
 			field('assign', optional($.defaultValue)),
 			';',
-			repeat($.procAttribute),
 		),
 
-		declFunc:           $ => seq(
-			optional($.kClass),
-			$.kFunction,
-			field('name', $._genericName),
-			field('args', optional($.declArgs)),
-			':',
-			field('type', $.type),
-			';',
-			repeat($.procAttribute),
+		declProc:           $ => seq(
+			$._declProc,
+			repeat($.procAttribute)
+		),
+
+		// Order of attributes and forward/external is wrong!
+		declProcFwd:        $ => seq(
+			$._declProc,
+			choice(seq($.kForward, ';'), $.procExternal),
+			repeat($.procAttribute)
 		),
 
 		declProcRef:        $ => prec.right(1,seq(
-			$.kProcedure,
+			choice($.kProcedure, $.kFunction),
 			field('args', optional($.declArgs)),
+			optional(seq(
+				':',
+				field('type', $.type),
+			)),
 			optional(seq($.kOf, $.kObject))
-		)),
-
-		declFuncRef:        $ => prec.right(1, seq(
-			$.kFunction,
-			field('args', optional($.declArgs)),
-			':',
-			field('type', $.type),
-			field('ofObject', optional(seq($.kOf, $.kObject)))
 		)),
 
 		declArgs:           $ => seq('(', delimited($.declArg, ';'), ')'),
 
-		procAttribute: $ => seq(
+		procAttribute: $ => choice(
 			choice(
 				$.kStatic, $.kVirtual, $.kDynamic, $.kAbstract, $.kOverride,
 				$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
 				$.kCdecl, $.kCppdecl, $.kCvar, $.kPascal, $.kRegister, 
 				$.kMwpascal, $.kDefault, $.kNodefault, $.kFar, $.kNear,
 				$.kSafecall, $.kAssembler, $.kNostackframe,
+				$.kInterrupt, $.kNoreturn, $.kIocheck, $.kLocal, $.kHardfloat,
+				$.kSoftfloat, $.kMs_abi_default, $.kMs_abi_cdecl, 
+				$.kSaveregisters, $.kSysv_abi_default, $.kSysv_abi_cdecl,
+				$.kVectorcall, $.kVarargs, $.kWinapi,
 				seq(
 					choice(
-						$.kMessage, $.kDeprecated, $.kExperimental, $.kPlatform, 
-						$.kUnimplemented, $.kExport, /*$.kPublic */
+						seq($.kMessage, optional($.kName)), 
+						$.kDeprecated, $.kExperimental, $.kPlatform, 
+						$.kUnimplemented, $.kExport, 
+						seq($.kAlias, ':'),
+						seq($.kPublic, optional($.kName)),
 					), 
 					$._expr
 				),
@@ -547,6 +557,7 @@ module.exports = grammar({
 		defaultValue:       $ => seq($.kEq, $._initializer),
 
 		declVars:            $ => seq(
+			optional($.kClass),
 			choice($.kVar, $.kThreadvar), 
 			optional($._visibility),
 			repeat1($.declVar)
@@ -564,6 +575,7 @@ module.exports = grammar({
 		),
 
 		declConsts:          $ => seq(
+			optional($.kClass),
 			choice($.kConst, $.kResourcestring), 
 			optional($._visibility),
 			repeat1($.declConst)
@@ -585,6 +597,7 @@ module.exports = grammar({
 		),
 
 		declProp:           $ => seq(
+			optional($.kClass),
 			$.kProperty,
 			field('name', $.identifier),
 			field('args', optional($.declPropArgs)),
@@ -594,6 +607,7 @@ module.exports = grammar({
 				field('index', seq($.kIndex, $._expr)),
 				field('getter', seq($.kRead, $.identifier)),
 				field('setter', seq($.kWrite, $.identifier)),
+				field('implements', seq($.kImplements, delimited($._expr))),
 				field('defaultValue', seq($.kDefault, $._expr)),
 				field('stored', seq($.kStored, $._expr)),
 				$.kNodefault,
@@ -675,6 +689,7 @@ module.exports = grammar({
 		kProperty:          $ => /[pP][rR][oO][pP][eE][rR][tT][yY]/,
 		kRead:              $ => /[rR][eE][aA][dD]/,
 		kWrite:             $ => /[wW][rR][iI][tT][eE]/,
+		kImplements:        $ => /[iI][mM][pP][lL][eE][mM][eE][nN][tT][sS]/,
 		kDefault:           $ => /[dD][eE][fF][aA][uU][lL][tT]/,
 		kNodefault:         $ => /[nN][oO][dD][eE][fF][aA][uU][lL][tT]/,
 		kStored:            $ => /[sS][tT][oO][rR][eE][dD]/,
@@ -749,6 +764,7 @@ module.exports = grammar({
 		kProcedure:         $ => /[pP][rR][oO][cC][eE][dD][uU][rR][eE]/,
 		kConstructor:       $ => /[cC][oO][nN][sS][tT][rR][uU][cC][tT][oO][rR]/,
 		kDestructor:        $ => /[dD][eE][sS][tT][rR][uU][cC][tT][oO][rR]/,
+		kOperator:          $ => /[oO][pP][eE][rR][aA][tT][oO][rR]/,
 
 		kPublished:         $ => /[pP][uU][bB][lL][iI][sS][hH][eE][dD]/,
 		kPublic:            $ => /[pP][uU][bB][lL][iI][cC]/,
@@ -789,6 +805,22 @@ module.exports = grammar({
 		kSafecall:          $ => /[sS][aA][fF][eE][cC][aA][lL]/,
 		kAssembler:         $ => /[aA][sS][sS][eE][mM][bB][lL][eE][rR]/,
 		kNostackframe:      $ => /[nN][oO][sS][tT][aA][cC][kK][fF][rR][aA][mM][eE]/,
+		kInterrupt:         $ => /[iI][nN][tT][eE][rR][rR][uU][pP][tT]/,
+		kNoreturn:          $ => /[nN][oO][rR][eE][tT][uU][rR][nN]/,
+		kIocheck:           $ => /[iI][oO][cC][hH][eE][cC][kK]/,
+		kLocal:             $ => /[lL][oO][cC][aA][lL]/,
+		kHardfloat:         $ => /[hH][aA][rR][dD][fF][lL][oO][aA][tT]/,
+		kSoftfloat:         $ => /[sS][oO][fF][tT][fF][lL][oO][aA][tT]/,
+		kMs_abi_default:    $ => /[mM][sS]_[aA][bB][iI]_[dD][eE][fF][aA][uU][lL][tT]/,
+		kMs_abi_cdecl:      $ => /[mM][sS]_[aA][bB][iI]_[cC][dD][eE][cC][lL]/,
+		kSaveregisters:     $ => /[sS][aA][vV][eE][rR][eE][gG][iI][sS][tT][eE][rR][sS]/,
+		kSysv_abi_default:  $ => /[sS][yY][sS][vV]_[aA][bB][iI]_[dD][eE][fF][aA][uU][lL][tT]/,
+		kSysv_abi_cdecl:    $ => /[sS][yY][sS][vV]_[aA][bB][iI]_[cC][dD][eE][cC][lL]/,
+		kVectorcall:        $ => /[vV][eE][cC][tT][oO][rR][cC][aA][lL][lL]/,
+		kVarargs:           $ => /[vV][aA][rR][aA][rR][gG][sS]/,
+		kWinapi:            $ => /[wW][iI][nN][aA][pP][iI]/,
+		kAlias:             $ => /[aA][lL][iI][aA][sS]/,
+
 
 		kIfdef:             $ => /[iI][fF][dD][eE][fF]/,
 		kIfndef:            $ => /[iI][fF][nN][dD][eE][fF]/,

@@ -732,15 +732,7 @@
           "named": true
         },
         {
-          "type": "declFunc",
-          "named": true
-        },
-        {
           "type": "declProc",
-          "named": true
-        },
-        {
-          "type": "declProcFwd",
           "named": true
         },
         {
@@ -764,6 +756,46 @@
           "named": true
         },
         {
+          "type": "exprBinary",
+          "named": true
+        },
+        {
+          "type": "exprBrackets",
+          "named": true
+        },
+        {
+          "type": "exprCall",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprParens",
+          "named": true
+        },
+        {
+          "type": "exprSubscript",
+          "named": true
+        },
+        {
+          "type": "exprTpl",
+          "named": true
+        },
+        {
+          "type": "exprUnary",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "inherited",
+          "named": true
+        },
+        {
           "type": "kAbstract",
           "named": true
         },
@@ -776,7 +808,23 @@
           "named": true
         },
         {
+          "type": "kExternal",
+          "named": true
+        },
+        {
+          "type": "kFalse",
+          "named": true
+        },
+        {
           "type": "kInterface",
+          "named": true
+        },
+        {
+          "type": "kName",
+          "named": true
+        },
+        {
+          "type": "kNil",
           "named": true
         },
         {
@@ -801,6 +849,18 @@
         },
         {
           "type": "kSealed",
+          "named": true
+        },
+        {
+          "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "literalNumber",
+          "named": true
+        },
+        {
+          "type": "literalString",
           "named": true
         }
       ]
@@ -862,6 +922,10 @@
       "types": [
         {
           "type": "declConst",
+          "named": true
+        },
+        {
+          "type": "kClass",
           "named": true
         },
         {
@@ -1094,10 +1158,6 @@
           "named": true
         },
         {
-          "type": "declFuncRef",
-          "named": true
-        },
-        {
           "type": "declMetaClass",
           "named": true
         },
@@ -1193,118 +1253,6 @@
     }
   },
   {
-    "type": "declFunc",
-    "named": true,
-    "fields": {
-      "args": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "declArgs",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "genericDot",
-            "named": true
-          },
-          {
-            "type": "genericTpl",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "kClass",
-          "named": true
-        },
-        {
-          "type": "kFunction",
-          "named": true
-        },
-        {
-          "type": "procAttribute",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declFuncRef",
-    "named": true,
-    "fields": {
-      "args": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "declArgs",
-            "named": true
-          }
-        ]
-      },
-      "ofObject": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "kObject",
-            "named": true
-          },
-          {
-            "type": "kOf",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "kFunction",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "declHelper",
     "named": true,
     "fields": {
@@ -1344,15 +1292,7 @@
           "named": true
         },
         {
-          "type": "declFunc",
-          "named": true
-        },
-        {
           "type": "declProc",
-          "named": true
-        },
-        {
-          "type": "declProcFwd",
           "named": true
         },
         {
@@ -1500,6 +1440,16 @@
             "named": true
           }
         ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -1519,6 +1469,10 @@
           "named": true
         },
         {
+          "type": "kFunction",
+          "named": true
+        },
+        {
           "type": "kProcedure",
           "named": true
         },
@@ -1532,21 +1486,86 @@
   {
     "type": "declProcFwd",
     "named": true,
-    "fields": {},
+    "fields": {
+      "args": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "declArgs",
+            "named": true
+          }
+        ]
+      },
+      "assign": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "defaultValue",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "genericDot",
+            "named": true
+          },
+          {
+            "type": "genericTpl",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "declFunc",
+          "type": "kClass",
           "named": true
         },
         {
-          "type": "declProc",
+          "type": "kConstructor",
+          "named": true
+        },
+        {
+          "type": "kDestructor",
           "named": true
         },
         {
           "type": "kForward",
+          "named": true
+        },
+        {
+          "type": "kFunction",
+          "named": true
+        },
+        {
+          "type": "kProcedure",
+          "named": true
+        },
+        {
+          "type": "procAttribute",
           "named": true
         },
         {
@@ -1569,12 +1588,26 @@
             "named": true
           }
         ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "kFunction",
+          "named": true
+        },
         {
           "type": "kObject",
           "named": true
@@ -1684,6 +1717,80 @@
           },
           {
             "type": "kRead",
+            "named": true
+          }
+        ]
+      },
+      "implements": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "exprBinary",
+            "named": true
+          },
+          {
+            "type": "exprBrackets",
+            "named": true
+          },
+          {
+            "type": "exprCall",
+            "named": true
+          },
+          {
+            "type": "exprDot",
+            "named": true
+          },
+          {
+            "type": "exprParens",
+            "named": true
+          },
+          {
+            "type": "exprSubscript",
+            "named": true
+          },
+          {
+            "type": "exprTpl",
+            "named": true
+          },
+          {
+            "type": "exprUnary",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "inherited",
+            "named": true
+          },
+          {
+            "type": "kFalse",
+            "named": true
+          },
+          {
+            "type": "kImplements",
+            "named": true
+          },
+          {
+            "type": "kNil",
+            "named": true
+          },
+          {
+            "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "literalNumber",
+            "named": true
+          },
+          {
+            "type": "literalString",
             "named": true
           }
         ]
@@ -1868,6 +1975,10 @@
       "required": true,
       "types": [
         {
+          "type": "kClass",
+          "named": true
+        },
+        {
           "type": "kNodefault",
           "named": true
         },
@@ -1914,15 +2025,7 @@
           "named": true
         },
         {
-          "type": "declFunc",
-          "named": true
-        },
-        {
           "type": "declProc",
-          "named": true
-        },
-        {
-          "type": "declProcFwd",
           "named": true
         },
         {
@@ -2430,6 +2533,10 @@
           "named": true
         },
         {
+          "type": "kClass",
+          "named": true
+        },
+        {
           "type": "kPrivate",
           "named": true
         },
@@ -2478,10 +2585,6 @@
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "declFunc",
-            "named": true
-          },
           {
             "type": "declProc",
             "named": true
@@ -4510,10 +4613,6 @@
           "named": true
         },
         {
-          "type": "declFunc",
-          "named": true
-        },
-        {
           "type": "declLabel",
           "named": true
         },
@@ -4757,7 +4856,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "exprBinary",
@@ -4801,6 +4900,10 @@
         },
         {
           "type": "kAbstract",
+          "named": true
+        },
+        {
+          "type": "kAlias",
           "named": true
         },
         {
@@ -4848,7 +4951,23 @@
           "named": true
         },
         {
+          "type": "kHardfloat",
+          "named": true
+        },
+        {
           "type": "kInline",
+          "named": true
+        },
+        {
+          "type": "kInterrupt",
+          "named": true
+        },
+        {
+          "type": "kIocheck",
+          "named": true
+        },
+        {
+          "type": "kLocal",
           "named": true
         },
         {
@@ -4856,7 +4975,19 @@
           "named": true
         },
         {
+          "type": "kMs_abi_cdecl",
+          "named": true
+        },
+        {
+          "type": "kMs_abi_default",
+          "named": true
+        },
+        {
           "type": "kMwpascal",
+          "named": true
+        },
+        {
+          "type": "kName",
           "named": true
         },
         {
@@ -4869,6 +5000,10 @@
         },
         {
           "type": "kNodefault",
+          "named": true
+        },
+        {
+          "type": "kNoreturn",
           "named": true
         },
         {
@@ -4892,6 +5027,10 @@
           "named": true
         },
         {
+          "type": "kPublic",
+          "named": true
+        },
+        {
           "type": "kRegister",
           "named": true
         },
@@ -4904,11 +5043,27 @@
           "named": true
         },
         {
+          "type": "kSaveregisters",
+          "named": true
+        },
+        {
+          "type": "kSoftfloat",
+          "named": true
+        },
+        {
           "type": "kStatic",
           "named": true
         },
         {
           "type": "kStdcall",
+          "named": true
+        },
+        {
+          "type": "kSysv_abi_cdecl",
+          "named": true
+        },
+        {
+          "type": "kSysv_abi_default",
           "named": true
         },
         {
@@ -4920,7 +5075,19 @@
           "named": true
         },
         {
+          "type": "kVarargs",
+          "named": true
+        },
+        {
+          "type": "kVectorcall",
+          "named": true
+        },
+        {
           "type": "kVirtual",
+          "named": true
+        },
+        {
+          "type": "kWinapi",
           "named": true
         },
         {
@@ -5722,10 +5889,6 @@
           "named": true
         },
         {
-          "type": "declFuncRef",
-          "named": true
-        },
-        {
           "type": "declMetaClass",
           "named": true
         },
@@ -6263,6 +6426,10 @@
     "named": true
   },
   {
+    "type": "kAlias",
+    "named": true
+  },
+  {
     "type": "kAnd",
     "named": true
   },
@@ -6451,6 +6618,10 @@
     "named": true
   },
   {
+    "type": "kHardfloat",
+    "named": true
+  },
+  {
     "type": "kHat",
     "named": true
   },
@@ -6464,6 +6635,10 @@
   },
   {
     "type": "kImplementation",
+    "named": true
+  },
+  {
+    "type": "kImplements",
     "named": true
   },
   {
@@ -6491,6 +6666,14 @@
     "named": true
   },
   {
+    "type": "kInterrupt",
+    "named": true
+  },
+  {
+    "type": "kIocheck",
+    "named": true
+  },
+  {
     "type": "kIs",
     "named": true
   },
@@ -6500,6 +6683,10 @@
   },
   {
     "type": "kLibrary",
+    "named": true
+  },
+  {
+    "type": "kLocal",
     "named": true
   },
   {
@@ -6516,6 +6703,14 @@
   },
   {
     "type": "kMod",
+    "named": true
+  },
+  {
+    "type": "kMs_abi_cdecl",
+    "named": true
+  },
+  {
+    "type": "kMs_abi_default",
     "named": true
   },
   {
@@ -6544,6 +6739,10 @@
   },
   {
     "type": "kNodefault",
+    "named": true
+  },
+  {
+    "type": "kNoreturn",
     "named": true
   },
   {
@@ -6663,6 +6862,10 @@
     "named": true
   },
   {
+    "type": "kSaveregisters",
+    "named": true
+  },
+  {
     "type": "kSealed",
     "named": true
   },
@@ -6676,6 +6879,10 @@
   },
   {
     "type": "kShr",
+    "named": true
+  },
+  {
+    "type": "kSoftfloat",
     "named": true
   },
   {
@@ -6704,6 +6911,14 @@
   },
   {
     "type": "kSub",
+    "named": true
+  },
+  {
+    "type": "kSysv_abi_cdecl",
+    "named": true
+  },
+  {
+    "type": "kSysv_abi_default",
     "named": true
   },
   {
@@ -6751,11 +6966,23 @@
     "named": true
   },
   {
+    "type": "kVarargs",
+    "named": true
+  },
+  {
+    "type": "kVectorcall",
+    "named": true
+  },
+  {
     "type": "kVirtual",
     "named": true
   },
   {
     "type": "kWhile",
+    "named": true
+  },
+  {
+    "type": "kWinapi",
     "named": true
   },
   {
