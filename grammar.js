@@ -160,6 +160,10 @@ module.exports = grammar({
 		statements:      $ => $._statements,
 		statementsTr:    $ => $._statementsTr,
 
+		asmBody: $ => repeat1(
+			/([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+/,
+		),
+
 
 		// EXPRESSIONS ---------------------------------------------------------
 
@@ -867,9 +871,7 @@ function statements(trailing) {
 
 		[rn('asm'),      $ => seq(
 			$.kAsm,
-			repeat(
-				/([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+/,
-			),
+			optional($.asmBody),
 			$.kEnd, ...semicolon
 		)],
 
@@ -903,6 +905,4 @@ function statements(trailing) {
 			alias($[rn('asm')],     $.asm), 
 		)]
 	]);
-
-	return rules;
 }
