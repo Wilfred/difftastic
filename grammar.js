@@ -1,6 +1,5 @@
 // TODO:
 // - GUIDs
-// - variant records
 
 var op = {
 	infix:   (prio, lhs, op, rhs)      => prec.left(prio, seq(
@@ -436,8 +435,24 @@ module.exports = grammar({
 			optional($._declFields),
 			optional($._classDeclarations),
 			repeat($.declSection),
+			optional($.declUnion),
 			$.kEnd
 		),
+
+		declUnion:          $ => prec.right(seq(
+			$.kCase, 
+			field('name', optional(seq($.identifier, ':'))), 
+			field('type', $.type), $.kOf,
+			repeat($.declUnionCase)
+		)),
+		declUnionCase:      $ => seq(
+			field('label', $.caseLabel), 
+			choice(
+				seq(choice($.declField, $.declUnion)),
+				seq('(', repeat(choice($.declField, $.declUnion)), ')', optional(';'))
+			)
+		),
+
 
 		declArray:          $ => seq(
 			optional($.kPacked),

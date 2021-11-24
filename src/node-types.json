@@ -87,6 +87,10 @@
       "required": true,
       "types": [
         {
+          "type": "asmBody",
+          "named": true
+        },
+        {
           "type": "kAsm",
           "named": true
         },
@@ -96,6 +100,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "asmBody",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "assignment",
@@ -747,6 +756,10 @@
           "named": true
         },
         {
+          "type": "declUnion",
+          "named": true
+        },
+        {
           "type": "declVars",
           "named": true
         },
@@ -1238,6 +1251,10 @@
         },
         {
           "type": "declTypes",
+          "named": true
+        },
+        {
+          "type": "declUnion",
           "named": true
         },
         {
@@ -2027,6 +2044,84 @@
         },
         {
           "type": "kType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declUnion",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declUnionCase",
+          "named": true
+        },
+        {
+          "type": "kCase",
+          "named": true
+        },
+        {
+          "type": "kOf",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declUnionCase",
+    "named": true,
+    "fields": {
+      "label": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "caseLabel",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "declField",
+          "named": true
+        },
+        {
+          "type": "declUnion",
           "named": true
         }
       ]

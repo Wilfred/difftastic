@@ -995,11 +995,16 @@
           "name": "kAsm"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "PATTERN",
-            "value": "([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "asmBody"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -1988,11 +1993,16 @@
           "name": "kAsm"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "PATTERN",
-            "value": "([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "asmBody"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -2439,6 +2449,13 @@
     "statementsTr": {
       "type": "SYMBOL",
       "name": "_statementsTr"
+    },
+    "asmBody": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "PATTERN",
+        "value": "([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+"
+      }
     },
     "_expr": {
       "type": "CHOICE",
@@ -5356,8 +5373,154 @@
           }
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "declUnion"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "kEnd"
+        }
+      ]
+    },
+    "declUnion": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "kCase"
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "identifier"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ":"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "type",
+            "content": {
+              "type": "SYMBOL",
+              "name": "type"
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "kOf"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "declUnionCase"
+            }
+          }
+        ]
+      }
+    },
+    "declUnionCase": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "label",
+          "content": {
+            "type": "SYMBOL",
+            "name": "caseLabel"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "declField"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "declUnion"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "declField"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "declUnion"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ";"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
