@@ -301,7 +301,7 @@ module.exports = grammar(add_inline_rules({
         _closing_tag_html_block: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '[ \\t]'),
         _closing_tag_html_block_newline: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '(\n|\r\n?)'),
 
-        link_reference_definition: $ => prec.right(seq(
+        link_reference_definition: $ => prec.dynamic(1, prec.right(seq(
             optional($._whitespace),
             $.link_label,
             ':',
@@ -313,9 +313,12 @@ module.exports = grammar(add_inline_rules({
                 $.link_title
             )),
             $._paragraph_end_newline,
-        )),
+        ))),
         link_label: $ => seq('[', repeat1(choice($._text_no_bracket, $.backslash_escape, $._lazy_newline)), ']'),
-        link_destination: $ => /<(\\[^\r\n]|[^\r\n<>\\])*>|[^<\r\n \t\(\)][^\r\n \t\(\)]*/,
+        link_destination: $ => choice(
+            /<(\\[^\r\n]|[^\r\n<>\\])*>/,
+            /[^<\r\n \t\(\)]([^\r\n \t\(\)]|\(([^\r\n \t\(\)]|\(([^\r\n \t\(\)]|\(([^\r\n \t\(\)])*\))*\))*\))*|\(([^\r\n \t\(\)]|\(([^\r\n \t\(\)]|\(([^\r\n \t\(\)])*\))*\))*\)/,
+        ),
         link_title: $ => choice(
             seq('"', repeat(choice($._text_no_double_quotes, $.backslash_escape, $._lazy_newline)), '"'),
             seq("'", repeat(choice($._text_no_quotes, $.backslash_escape, $._lazy_newline)), "'"),

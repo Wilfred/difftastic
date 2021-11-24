@@ -405,6 +405,11 @@
     }
   },
   {
+    "type": "link_destination",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "link_label",
     "named": true,
     "fields": {},
@@ -1000,10 +1005,6 @@
   },
   {
     "type": "entity_reference",
-    "named": true
-  },
-  {
-    "type": "link_destination",
     "named": true
   },
   {
