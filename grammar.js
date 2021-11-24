@@ -435,24 +435,35 @@ module.exports = grammar({
 			optional($._declFields),
 			optional($._classDeclarations),
 			repeat($.declSection),
-			optional($.declUnion),
+			optional($.declVariant),
 			$.kEnd
 		),
 
-		declUnion:          $ => prec.right(seq(
+		declVariant:        $ => prec.right(seq(
 			$.kCase, 
-			field('name', optional(seq($.identifier, ':'))), 
+			field('name', optional(seq($.identifier, ':'))),
 			field('type', $.type), $.kOf,
-			repeat($.declUnionCase)
+			delimited1($.declVariantClause, ';'),
+			optional(';'),
 		)),
-		declUnionCase:      $ => seq(
-			field('label', $.caseLabel), 
+
+		declVariantClause:  $ => seq(
+			$.caseLabel, 
+			'(', 
 			choice(
-				seq(choice($.declField, $.declUnion)),
-				seq('(', repeat(choice($.declField, $.declUnion)), ')', optional(';'))
-			)
+				seq(delimited($.declVariantField, ';'), optional(seq(';', $.declVariant))), 
+				seq($.declVariant), 
+			),
+			optional(';'),
+			')',
 		),
 
+		declVariantField:  $ => alias(seq(
+			field('name', delimited1($.identifier)),
+			':', 
+			field('type', $.type),
+			field('defaultValue', optional($.defaultValue))
+		), $.declField),
 
 		declArray:          $ => seq(
 			optional($.kPacked),
@@ -918,6 +929,7 @@ function statements(trailing) {
 			alias($[rn('with')],    $.with),
 			alias($[rn('raise')],   $.raise), 
 			alias($[rn('asm')],     $.asm), 
-		)]
+		)],
+
 	]);
 }

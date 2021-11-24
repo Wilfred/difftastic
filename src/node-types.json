@@ -756,7 +756,7 @@
           "named": true
         },
         {
-          "type": "declUnion",
+          "type": "declVariant",
           "named": true
         },
         {
@@ -1054,7 +1054,7 @@
       },
       "name": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": ",",
@@ -1068,7 +1068,7 @@
       },
       "type": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "type",
@@ -1076,6 +1076,120 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "arrInitializer",
+          "named": true
+        },
+        {
+          "type": "declArray",
+          "named": true
+        },
+        {
+          "type": "declEnum",
+          "named": true
+        },
+        {
+          "type": "declFuncRef",
+          "named": true
+        },
+        {
+          "type": "declMetaClass",
+          "named": true
+        },
+        {
+          "type": "declProcRef",
+          "named": true
+        },
+        {
+          "type": "declSet",
+          "named": true
+        },
+        {
+          "type": "declString",
+          "named": true
+        },
+        {
+          "type": "exprBinary",
+          "named": true
+        },
+        {
+          "type": "exprBrackets",
+          "named": true
+        },
+        {
+          "type": "exprCall",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprParens",
+          "named": true
+        },
+        {
+          "type": "exprSubscript",
+          "named": true
+        },
+        {
+          "type": "exprTpl",
+          "named": true
+        },
+        {
+          "type": "exprUnary",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "inherited",
+          "named": true
+        },
+        {
+          "type": "kEq",
+          "named": true
+        },
+        {
+          "type": "kFalse",
+          "named": true
+        },
+        {
+          "type": "kNil",
+          "named": true
+        },
+        {
+          "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "literalNumber",
+          "named": true
+        },
+        {
+          "type": "literalString",
+          "named": true
+        },
+        {
+          "type": "pp",
+          "named": true
+        },
+        {
+          "type": "recInitializer",
+          "named": true
+        },
+        {
+          "type": "typeref",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1254,7 +1368,7 @@
           "named": true
         },
         {
-          "type": "declUnion",
+          "type": "declVariant",
           "named": true
         },
         {
@@ -2050,84 +2164,6 @@
     }
   },
   {
-    "type": "declUnion",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": ":",
-            "named": false
-          },
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "declUnionCase",
-          "named": true
-        },
-        {
-          "type": "kCase",
-          "named": true
-        },
-        {
-          "type": "kOf",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declUnionCase",
-    "named": true,
-    "fields": {
-      "label": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "caseLabel",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "declField",
-          "named": true
-        },
-        {
-          "type": "declUnion",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "declUses",
     "named": true,
     "fields": {},
@@ -2259,6 +2295,123 @@
         },
         {
           "type": "procExternal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declVariant",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declVariantClause",
+          "named": true
+        },
+        {
+          "type": "kCase",
+          "named": true
+        },
+        {
+          "type": "kOf",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declVariantClause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "caseLabel",
+          "named": true
+        },
+        {
+          "type": "declVariant",
+          "named": true
+        },
+        {
+          "type": "declVariantField",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declVariantField",
+    "named": true,
+    "fields": {
+      "defaultValue": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "declField",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "declField",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "declField",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "declField",
           "named": true
         }
       ]
