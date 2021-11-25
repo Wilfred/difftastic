@@ -1,8 +1,9 @@
 # Introduction
 
 Difftastic ([source on GitHub](https://github.com/wilfred/difftastic)) is a diff
-tool that understands syntax. It currently supports 19 languages:
+tool that understands syntax. It supports the following languages:
 
+* Bash
 * C
 * C++
 * C#
