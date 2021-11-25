@@ -1,0 +1,15 @@
+examples/bash-it/completion/available/docker-compose.completion.bash
+examples/bash-it/completion/available/docker-machine.completion.bash
+examples/bash-it/completion/available/docker.completion.bash
+examples/bash-it/completion/available/drush.completion.bash
+examples/bash-it/completion/available/git.completion.bash
+examples/bash-it/completion/available/svn.completion.bash
+examples/bash-it/completion/available/tmux.completion.bash
+examples/bash-it/plugins/available/extract.plugin.bash
+examples/bash-it/plugins/available/git.plugin.bash
+examples/bash-it/plugins/available/go.plugin.bash
+examples/bash-it/themes/colors.theme.bash
+examples/bash-it/themes/doubletime/doubletime.theme.bash
+examples/bash-it/themes/hawaii50/hawaii50.theme.bash
+examples/bash-it/themes/nwinkler_random_colors/nwinkler_random_colors.theme.bash
+examples/bash-it/themes/powerline/powerline.base.bash
