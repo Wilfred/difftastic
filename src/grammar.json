@@ -6053,8 +6053,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_declProc"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_declProc"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_declOperator"
+            }
+          ]
         },
         {
           "type": "REPEAT",
@@ -6062,6 +6071,244 @@
             "type": "SYMBOL",
             "name": "procAttribute"
           }
+        }
+      ]
+    },
+    "_declOperator": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "kClass"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kOperator"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_operatorName"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "args",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "declArgs"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "resultName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "assign",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "defaultValue"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "_operatorName": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_genericName"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "operatorName"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PREC_LEFT",
+                "value": 0,
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "lhs",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_genericName"
+                      }
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "operator",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "kDot"
+                      }
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "rhs",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "operatorName"
+                      }
+                    }
+                  ]
+                }
+              },
+              "named": true,
+              "value": "genericDot"
+            }
+          ]
+        }
+      ]
+    },
+    "operatorName": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kDot"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kLt"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kEq"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kNeq"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kGt"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kLte"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kGte"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kAdd"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kSub"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kMul"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kFdiv"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kDiv"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kMod"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kAssign"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kOr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kXor"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kAnd"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kShl"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kShr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kNot"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "kIn"
         }
       ]
     },

@@ -505,8 +505,37 @@ module.exports = grammar({
 		),
 
 		declProc:           $ => seq(
-			$._declProc,
+			choice($._declProc, $._declOperator),
 			repeat($.procAttribute)
+		),
+
+		_declOperator:       $ => seq(
+			optional($.kClass),
+			$.kOperator,
+			field('name', $._operatorName),
+			field('args', optional($.declArgs)),
+			field('resultName', optional($.identifier)),
+			':',
+			field('type', $.type),
+			field('assign', optional($.defaultValue)),
+			';',
+		),
+		_operatorName: $ => seq(
+			choice(
+				$._genericName,
+				$.operatorName,
+				alias(
+					op.infix(0, $._genericName, $.kDot, $.operatorName),
+					$.genericDot
+				)
+			)
+		),
+		operatorName: $ => choice(
+			$.kDot, $.kLt, $.kEq, $.kNeq, $.kGt, $.kLte, $.kGte,
+			$.kAdd, $.kSub, $.kMul, $.kFdiv, $.kDiv, $.kMod,
+			$.kAssign,
+			$.kOr, $.kXor, $.kAnd, $.kShl, $.kShr, $.kNot,
+			$.kIn,
 		),
 
 		// Order of attributes and forward/external is wrong!

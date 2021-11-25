@@ -51,6 +51,7 @@
 	(kProcedure)
 	(kConstructor)
 	(kDestructor)
+	(kOperator)
 
 	(kInterface)
 	(kImplementation)
