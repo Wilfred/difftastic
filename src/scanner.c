@@ -10,7 +10,7 @@ enum TokenType {
   STRING
 };
 
-bool tree_sitter_godotResource_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+bool tree_sitter_godot_resource_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
 
     if (!valid_symbols[STRING]) {
       return false;
@@ -42,7 +42,7 @@ bool tree_sitter_godotResource_external_scanner_scan(void *payload, TSLexer *lex
     return false;
 }
 
-void *tree_sitter_godotResource_external_scanner_create() { return NULL; }
-unsigned tree_sitter_godotResource_external_scanner_serialize(void *payload, char *buffer) { return 0; }
-void tree_sitter_godotResource_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {}
-void tree_sitter_godotResource_external_scanner_destroy(void *payload) {}
+void *tree_sitter_godot_resource_external_scanner_create() { return NULL; }
+unsigned tree_sitter_godot_resource_external_scanner_serialize(void *payload, char *buffer) { return 0; }
+void tree_sitter_godot_resource_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {}
+void tree_sitter_godot_resource_external_scanner_destroy(void *payload) {}

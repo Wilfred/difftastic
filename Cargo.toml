@@ -1,8 +1,8 @@
 [package]
-name = "tree-sitter-godotResource"
-description = "godotResource grammar for the tree-sitter parsing library"
+name = "tree-sitter-godot-resource"
+description = "godot-resource grammar for the tree-sitter parsing library"
 version = "0.0.1"
-keywords = ["incremental", "parsing", "godotResource"]
+keywords = ["incremental", "parsing", "godot-resource"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/PrestonKnopp/tree-sitter-godot-resource"
 edition = "2018"

@@ -1,5 +1,5 @@
 {
-  "name": "godotResource",
+  "name": "godot_resource",
   "word": "_identifier",
   "rules": {
     "resource": {

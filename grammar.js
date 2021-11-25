@@ -1,6 +1,6 @@
 module.exports = grammar({
 
-  name: 'godotResource',
+  name: 'godot_resource',
   word: $ => $._identifier,
   extras: $ => [
     $.comment,
