@@ -4,6 +4,7 @@ Difftastic uses the following tree-sitter parsers:
 
 | Language        | Git Repository                                                                                                                          |
 |-----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| Bash            | [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash)                                                         |
 | C               | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c)                                                               |
 | C++             | [tree-sitter/tree-sitter-cpp](https://github.com/tree-sitter/tree-sitter-cpp)                                                           |
 | C#              | [tree-sitter/tree-sitter-c-sharp](https://github.com/tree-sitter/tree-sitter-c-sharp)                                                   |
@@ -18,6 +19,7 @@ Difftastic uses the following tree-sitter parsers:
 | JSON            | [tree-sitter/tree-sitter-json](https://github.com/tree-sitter/tree-sitter-json)                                                         |
 | OCaml           | [tree-sitter/tree-sitter-ocaml](https://github.com/tree-sitter/tree-sitter-ocaml)                                                       |
 | Python          | [tree-sitter/tree-sitter-python](https://github.com/tree-sitter/tree-sitter-python)                                                     |
+| Ruby            | [tree-sitter/tree-sitter-ruby](https://github.com/tree-sitter/tree-sitter-ruby)                                                         |
 | Rust            | [tree-sitter/tree-sitter-rust](https://github.com/tree-sitter/tree-sitter-rust) ([forked](https://github.com/Wilfred/tree-sitter-rust)) |
 | TypeScript, TSX | [tree-sitter/tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)                                             |
 
