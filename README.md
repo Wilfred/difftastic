@@ -1,6 +1,8 @@
 # tree-sitter-markdown
 A markdown parser for tree-sitter
 
+This will initially implement the [CommonMark Spec](https://spec.commonmark.org/) and maybe be extended to support [Github flavored markdown](https://github.github.com/gfm/)
+
 Progress:
 * Leaf blocks
   * [x] Thematic breaks
@@ -12,24 +14,19 @@ Progress:
   * [x] Link reference definitions
   * [x] Paragraphs
   * [x] Blank lines
-  * [ ] Tables (extension)
 * Container blocks
   * [x] Block quotes
   * [x] List items
-  * [ ] Task list items (extension) *ironic*
   * [x] Lists
 * Inlines
   * [x] Backslash escapes
   * [x] Entity and numeric character references
   * [x] Code spans
   * [x] Emphasis and strong emphasis
-  * [ ] Strikethrough (extension)
   * [ ] Links
   * [ ] Images
   * [ ] Autolinks
-  * [ ] Autolinks (extension)
-  * [ ] Raw HTML *in progress*
-  * [ ] Disallowed Raw HTML (extension)
+  * [x] Raw HTML *in progress*
   * [ ] Hard line breaks
   * [x] Soft line breaks
   * [x] Textual content
