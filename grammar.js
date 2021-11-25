@@ -275,7 +275,6 @@ module.exports = grammar({
 			op.prefix(4,  $.kAdd,  $._expr),
 			op.prefix(4,  $.kSub,  $._expr),
 			op.prefix(4,  $.kAt,   $._expr),
-			//op.postfix(4, $._expr, $.kHat),
 		),
 
 		exprParens:      $ => prec.left(5,seq('(', $._expr, ')')),
@@ -396,7 +395,7 @@ module.exports = grammar({
 				)
 			),
 			';',
-			field('attribute', repeat($.procAttribute))
+			repeat($._procAttribute)
 		),
 
 		type:               $ => pp($,choice(
@@ -506,7 +505,7 @@ module.exports = grammar({
 
 		declProc:           $ => seq(
 			choice($._declProc, $._declOperator),
-			repeat($.procAttribute)
+			repeat($._procAttribute)
 		),
 
 		_declOperator:       $ => seq(
@@ -542,7 +541,7 @@ module.exports = grammar({
 		declProcFwd:        $ => seq(
 			$._declProc,
 			choice(seq($.kForward, ';'), $.procExternal),
-			repeat($.procAttribute)
+			repeat($._procAttribute)
 		),
 
 		declProcRef:        $ => prec.right(1,seq(
@@ -558,28 +557,31 @@ module.exports = grammar({
 		declArgs:           $ => seq('(', delimited($.declArg, ';'), ')'),
 
 		procAttribute: $ => choice(
-			choice(
-				$.kStatic, $.kVirtual, $.kDynamic, $.kAbstract, $.kOverride,
-				$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
-				$.kCdecl, $.kCppdecl, $.kCvar, $.kPascal, $.kRegister, 
-				$.kMwpascal, $.kDefault, $.kNodefault, $.kFar, $.kNear,
-				$.kSafecall, $.kAssembler, $.kNostackframe,
-				$.kInterrupt, $.kNoreturn, $.kIocheck, $.kLocal, $.kHardfloat,
-				$.kSoftfloat, $.kMs_abi_default, $.kMs_abi_cdecl, 
-				$.kSaveregisters, $.kSysv_abi_default, $.kSysv_abi_cdecl,
-				$.kVectorcall, $.kVarargs, $.kWinapi,
-				seq(
-					choice(
-						seq($.kMessage, optional($.kName)), 
-						$.kDeprecated, $.kExperimental, $.kPlatform, 
-						$.kUnimplemented, $.kExport, 
-						seq($.kAlias, ':'),
-						seq($.kPublic, optional($.kName)),
-					), 
-					$._expr
-				),
+			$.kStatic, $.kVirtual, $.kDynamic, $.kAbstract, $.kOverride,
+			$.kOverload, $.kReintroduce, $.kInline, $.kStdcall,
+			$.kCdecl, $.kCppdecl, $.kCvar, $.kPascal, $.kRegister, 
+			$.kMwpascal, $.kDefault, $.kNodefault, $.kFar, $.kNear,
+			$.kSafecall, $.kAssembler, $.kNostackframe,
+			$.kInterrupt, $.kNoreturn, $.kIocheck, $.kLocal, $.kHardfloat,
+			$.kSoftfloat, $.kMs_abi_default, $.kMs_abi_cdecl, 
+			$.kSaveregisters, $.kSysv_abi_default, $.kSysv_abi_cdecl,
+			$.kVectorcall, $.kVarargs, $.kWinapi, $.kPublic, $.kDeprecated,
+			$.kExperimental, $.kPlatform, $.kUnimplemented,
+			seq(
+				choice(
+					seq($.kMessage, optional($.kName)), 
+					$.kDeprecated, $.kExport, 
+					seq($.kAlias, ':'),
+					seq($.kPublic, $.kName),
+				), 
+				$._expr
 			),
-			';'
+		),
+
+		_procAttribute: $ => choice(
+			seq(field('attribute', $.procAttribute), ';'),
+			// FPC-specific syntax, e.g. procedure myproc; [public; alias:'bla'; cdecl];
+			seq('[', delimited(field('attribute', choice($.procAttribute, $.procExternal))), ']', ';')
 		),
 
 		procExternal: $ => seq(
@@ -603,7 +605,7 @@ module.exports = grammar({
 				field('defaultValue', $.defaultValue)
 			)),
 			';',
-			repeat(choice($.procAttribute, $.procExternal))
+			repeat(choice($._procAttribute, $.procExternal))
 		),
 
 		declConsts:          $ => seq(
@@ -617,7 +619,7 @@ module.exports = grammar({
 			optional(seq(':', field('type', $.type))), 
 			field('defaultValue', $.defaultValue),
 			';',
-			repeat($.procAttribute)
+			repeat($._procAttribute)
 		),
 
 		declField:          $ =>  seq(
@@ -646,7 +648,7 @@ module.exports = grammar({
 			)),
 			';',
 			//field('default', optional(seq($.kDefault, ';')))
-			repeat($.procAttribute)
+			repeat($._procAttribute)
 		),
 
 		declPropArgs:       $ => seq('[', delimited($.declArg, ';'), ']'),

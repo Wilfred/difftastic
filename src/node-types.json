@@ -870,6 +870,20 @@
     "type": "declConst",
     "named": true,
     "fields": {
+      "attribute": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "procAttribute",
+            "named": true
+          },
+          {
+            "type": "procExternal",
+            "named": true
+          }
+        ]
+      },
       "defaultValue": {
         "multiple": false,
         "required": true,
@@ -900,16 +914,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "procAttribute",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1450,6 +1454,20 @@
           }
         ]
       },
+      "attribute": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "procAttribute",
+            "named": true
+          },
+          {
+            "type": "procExternal",
+            "named": true
+          }
+        ]
+      },
       "lhs": {
         "multiple": false,
         "required": false,
@@ -1550,10 +1568,6 @@
         {
           "type": "kProcedure",
           "named": true
-        },
-        {
-          "type": "procAttribute",
-          "named": true
         }
       ]
     }
@@ -1578,6 +1592,20 @@
         "types": [
           {
             "type": "defaultValue",
+            "named": true
+          }
+        ]
+      },
+      "attribute": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "procAttribute",
+            "named": true
+          },
+          {
+            "type": "procExternal",
             "named": true
           }
         ]
@@ -1637,10 +1665,6 @@
         },
         {
           "type": "kProcedure",
-          "named": true
-        },
-        {
-          "type": "procAttribute",
           "named": true
         },
         {
@@ -1708,6 +1732,20 @@
         "types": [
           {
             "type": "declPropArgs",
+            "named": true
+          }
+        ]
+      },
+      "attribute": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "procAttribute",
+            "named": true
+          },
+          {
+            "type": "procExternal",
             "named": true
           }
         ]
@@ -2060,10 +2098,6 @@
         {
           "type": "kProperty",
           "named": true
-        },
-        {
-          "type": "procAttribute",
-          "named": true
         }
       ]
     }
@@ -2247,6 +2281,10 @@
           {
             "type": "procAttribute",
             "named": true
+          },
+          {
+            "type": "procExternal",
+            "named": true
           }
         ]
       },
@@ -2364,6 +2402,20 @@
     "type": "declVar",
     "named": true,
     "fields": {
+      "attribute": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "procAttribute",
+            "named": true
+          },
+          {
+            "type": "procExternal",
+            "named": true
+          }
+        ]
+      },
       "defaultValue": {
         "multiple": false,
         "required": false,
@@ -2465,10 +2517,6 @@
         },
         {
           "type": "literalString",
-          "named": true
-        },
-        {
-          "type": "procAttribute",
           "named": true
         },
         {
@@ -5128,7 +5176,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "exprBinary",
