@@ -67,6 +67,10 @@ extern "C" {
 pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
     // TODO: find a nice way to extract name and extension information
     // from the package.json in these parsers.
+    // TODO: consider using
+    // https://github.com/github/linguist/blob/master/lib/linguist/languages.yml
+    // as a source of extensions.
+    // TODO: support files without extensions, such as .bashrc.
     match extension.to_string_lossy().borrow() {
         "bash" | "sh" => Some(TreeSitterConfig {
             name: "Bash",
