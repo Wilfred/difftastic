@@ -1075,3 +1075,17 @@ Self-references
           (kwd_lit
             (kwd_symbol))
           (sym_lit))))))
+
+
+================================================================================
+@ in defun identifiers
+================================================================================
+;; this highlights properly
+(defun foo (bar)                                                                                                                                                                                         
+  (baz))                                                                                                                                                                                                     
+
+;; this doesn't and breaks all highlighting below                                                                                                                                                                                                        
+(defun @foo (bar)                                                                                                                                                                                        
+  (baz))
+--------------------------------------------------------------------------------
+
