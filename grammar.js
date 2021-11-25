@@ -180,9 +180,13 @@ module.exports = grammar({
 		statements:      $ => $._statements,
 		statementsTr:    $ => $._statementsTr,
 
-		asmBody: $ => repeat1(
-			/([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+/,
-		),
+		asmBody: $ => repeat1(choice(
+			///([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+/,
+			$.identifier,       // Identifiers
+			/[0-9a-fA-F]/,      // Numbers
+			/[.,:;+\-*\[\]<>&%$]/, // Punctuation
+			/\([^*]|\)/         // Parentheses that are not comments
+		)),
 
 
 		// EXPRESSIONS ---------------------------------------------------------

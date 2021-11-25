@@ -2,6 +2,7 @@
 (root)                                   @local.scope
 
 (defProc)                                @local.scope
+(lambda)                                 @local.scope
 (interface   (declProc)                  @local.scope)
 (declSection (declProc)                  @local.scope)
 (declClass   (declProc)                  @local.scope)

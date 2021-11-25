@@ -2453,8 +2453,25 @@
     "asmBody": {
       "type": "REPEAT1",
       "content": {
-        "type": "PATTERN",
-        "value": "([a-zA-Z0-9_]+([eE][nN][dD])|[eE][nN][dD][a-zA-Z0-9_]+|([^eE]|[eE][^nN]|[eE][nN][^dD]))+"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[0-9a-fA-F]"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[.,:;+\\-*\\[\\]<>&%$]"
+          },
+          {
+            "type": "PATTERN",
+            "value": "\\([^*]|\\)"
+          }
+        ]
       }
     },
     "_expr": {
