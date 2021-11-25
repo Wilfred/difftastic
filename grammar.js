@@ -100,6 +100,11 @@ module.exports = grammar({
 		// RTTI attributes clash with fpc declaration hints syntax since both
 		// are surrounded by brackets.
 		[ $.declProcFwd ], [ $.declVars], [ $.declConsts ], [ $.declTypes],
+		// `procedure (` could be a declaration of an anonymous procedure or
+		// the call of a function named "procedure" (which doesn't actually
+		// make sense, but for Treesitter it does), so we need another conflict
+		// here.
+		[ $.lambda]
 	],
 	
 	rules: {
@@ -194,6 +199,18 @@ module.exports = grammar({
 			alias($.exprAs, $.exprBinary),
 			$.exprBrackets,
 			$.exprParens, 
+			$.lambda
+		),
+
+		lambda:          $ => seq(
+			choice($.kProcedure, $.kFunction),
+			field('args', optional($.declArgs)),
+			optional(seq(
+				':',
+				field('type', $.type),
+			)),
+			field('local', optional($._definitions)),
+			field('body', choice(tr($, 'block'), tr($, 'asm'))),
 		),
 
 		inherited:       $ => prec.right(seq($.kInherited, optional($.identifier))),
@@ -497,10 +514,10 @@ module.exports = grammar({
 			$.kOf, $.type
 		),
 		declFile:          $ => seq($.kFile,optional(seq($.kOf, $.type))),
-		declString:          $ => seq(
+		declString:          $ => prec.left(seq(
 			$.kString, 
 			optional(seq('[', choice($._expr), ']'))
-		),
+		)),
 
 		declMetaClass:      $ => seq($.kClass, $.kOf, $.typeref),
 
@@ -567,6 +584,7 @@ module.exports = grammar({
 		),
 
 		declProcRef:        $ => prec.right(1,seq(
+			optional(seq($.kReference, $.kTo)),
 			choice($.kProcedure, $.kFunction),
 			field('args', optional($.declArgs)),
 			optional(seq(
@@ -835,6 +853,7 @@ module.exports = grammar({
 		kConstructor:       $ => /[cC][oO][nN][sS][tT][rR][uU][cC][tT][oO][rR]/,
 		kDestructor:        $ => /[dD][eE][sS][tT][rR][uU][cC][tT][oO][rR]/,
 		kOperator:          $ => /[oO][pP][eE][rR][aA][tT][oO][rR]/,
+		kReference:         $ => /[rR][eE][fF][eE][rR][eE][nN][cC][eE]/,
 
 		kPublished:         $ => /[pP][uU][bB][lL][iI][sS][hH][eE][dD]/,
 		kPublic:            $ => /[pP][uU][bB][lL][iI][cC]/,

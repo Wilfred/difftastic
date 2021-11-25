@@ -64,6 +64,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "literalNumber",
           "named": true
         },
@@ -167,6 +171,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -256,6 +264,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -409,6 +421,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "literalNumber",
           "named": true
         },
@@ -507,6 +523,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -671,6 +691,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -849,6 +873,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -1083,6 +1111,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "literalNumber",
           "named": true
         },
@@ -1241,6 +1273,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -1820,6 +1856,14 @@
         {
           "type": "kProcedure",
           "named": true
+        },
+        {
+          "type": "kReference",
+          "named": true
+        },
+        {
+          "type": "kTo",
+          "named": true
         }
       ]
     }
@@ -1913,6 +1957,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -2001,6 +2049,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -2068,6 +2120,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -2162,6 +2218,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -2363,6 +2423,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -2623,6 +2687,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -2955,6 +3023,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "literalNumber",
           "named": true
         },
@@ -3103,6 +3175,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "legacyFormat",
           "named": true
         },
@@ -3175,6 +3251,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -3330,6 +3410,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -3399,6 +3483,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -3487,6 +3575,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -3556,6 +3648,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -3635,6 +3731,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -3704,6 +3804,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -3788,6 +3892,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -3864,6 +3972,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -3927,6 +4039,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -4013,6 +4129,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -4147,6 +4267,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -4261,6 +4385,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -4324,6 +4452,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -4697,6 +4829,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "literalNumber",
           "named": true
         },
@@ -4765,6 +4901,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -4861,6 +5001,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -5083,6 +5227,102 @@
     }
   },
   {
+    "type": "lambda",
+    "named": true,
+    "fields": {
+      "args": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "declArgs",
+            "named": true
+          }
+        ]
+      },
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "asm",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "local": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "blockTr",
+            "named": true
+          },
+          {
+            "type": "declConsts",
+            "named": true
+          },
+          {
+            "type": "declExports",
+            "named": true
+          },
+          {
+            "type": "declLabel",
+            "named": true
+          },
+          {
+            "type": "declProcFwd",
+            "named": true
+          },
+          {
+            "type": "declTypes",
+            "named": true
+          },
+          {
+            "type": "declUses",
+            "named": true
+          },
+          {
+            "type": "declVars",
+            "named": true
+          },
+          {
+            "type": "defProc",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "kFunction",
+          "named": true
+        },
+        {
+          "type": "kProcedure",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "legacyFormat",
     "named": true,
     "fields": {},
@@ -5140,6 +5380,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -5600,6 +5844,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "literalNumber",
           "named": true
         },
@@ -5684,6 +5932,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -5821,6 +6073,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -5900,6 +6156,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -6004,6 +6264,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "literalNumber",
           "named": true
         },
@@ -6086,6 +6350,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -6234,6 +6502,10 @@
           "named": true
         },
         {
+          "type": "lambda",
+          "named": true
+        },
+        {
           "type": "literalNumber",
           "named": true
         },
@@ -6338,6 +6610,10 @@
         },
         {
           "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "lambda",
           "named": true
         },
         {
@@ -6832,6 +7108,10 @@
             "named": true
           },
           {
+            "type": "lambda",
+            "named": true
+          },
+          {
             "type": "literalNumber",
             "named": true
           },
@@ -6925,6 +7205,10 @@
           },
           {
             "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
             "named": true
           },
           {
@@ -7439,6 +7723,10 @@
   },
   {
     "type": "kRecord",
+    "named": true
+  },
+  {
+    "type": "kReference",
     "named": true
   },
   {

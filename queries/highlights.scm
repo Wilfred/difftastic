@@ -52,6 +52,7 @@
 	(kConstructor)
 	(kDestructor)
 	(kOperator)
+	(kReference)
 
 	(kInterface)
 	(kImplementation)
