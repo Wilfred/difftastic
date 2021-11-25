@@ -55,6 +55,7 @@ $ GIT_EXTERNAL_DIFF=difft git show --ext-diff 38805c6a882a9f00615078250ccc8c070c
 
 Difftastic supports the following languages:
 
+* Bash
 * C
 * C++
 * C#

@@ -53,6 +53,11 @@ fn main() {
 
     let parsers = vec![
         TreeSitterParser {
+            name: "tree-sitter-bash".into(),
+            src_dir: "vendor/tree-sitter-bash-src".into(),
+            extra_files: vec!["scanner.cc".into()],
+        },
+        TreeSitterParser {
             name: "tree-sitter-c".into(),
             src_dir: "vendor/tree-sitter-c-src".into(),
             extra_files: vec![],
