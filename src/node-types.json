@@ -816,10 +816,6 @@
           "named": true
         },
         {
-          "type": "kInterface",
-          "named": true
-        },
-        {
           "type": "kName",
           "named": true
         },
@@ -914,6 +910,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "rttiAttributes",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1254,6 +1260,10 @@
           "named": true
         },
         {
+          "type": "rttiAttributes",
+          "named": true
+        },
+        {
           "type": "typeref",
           "named": true
         }
@@ -1372,6 +1382,94 @@
         },
         {
           "type": "typeref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declIntf",
+    "named": true,
+    "fields": {
+      "guid": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "guid",
+            "named": true
+          }
+        ]
+      },
+      "parent": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "typeref",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declConsts",
+          "named": true
+        },
+        {
+          "type": "declField",
+          "named": true
+        },
+        {
+          "type": "declProc",
+          "named": true
+        },
+        {
+          "type": "declProp",
+          "named": true
+        },
+        {
+          "type": "declSection",
+          "named": true
+        },
+        {
+          "type": "declTypes",
+          "named": true
+        },
+        {
+          "type": "declVariant",
+          "named": true
+        },
+        {
+          "type": "declVars",
+          "named": true
+        },
+        {
+          "type": "kEnd",
+          "named": true
+        },
+        {
+          "type": "kInterface",
+          "named": true
+        },
+        {
+          "type": "kPacked",
           "named": true
         }
       ]
@@ -1567,6 +1665,10 @@
         },
         {
           "type": "kProcedure",
+          "named": true
+        },
+        {
+          "type": "rttiAttributes",
           "named": true
         }
       ]
@@ -2098,6 +2200,10 @@
         {
           "type": "kProperty",
           "named": true
+        },
+        {
+          "type": "rttiAttributes",
+          "named": true
         }
       ]
     }
@@ -2319,6 +2425,10 @@
             "named": true
           },
           {
+            "type": "declIntf",
+            "named": true
+          },
+          {
             "type": "kType",
             "named": true
           },
@@ -2339,6 +2449,10 @@
         },
         {
           "type": "kGeneric",
+          "named": true
+        },
+        {
+          "type": "rttiAttributes",
           "named": true
         }
       ]
@@ -2521,6 +2635,10 @@
         },
         {
           "type": "procExternal",
+          "named": true
+        },
+        {
+          "type": "rttiAttributes",
           "named": true
         }
       ]
@@ -4519,6 +4637,77 @@
     }
   },
   {
+    "type": "guid",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "exprBinary",
+          "named": true
+        },
+        {
+          "type": "exprBrackets",
+          "named": true
+        },
+        {
+          "type": "exprCall",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprParens",
+          "named": true
+        },
+        {
+          "type": "exprSubscript",
+          "named": true
+        },
+        {
+          "type": "exprTpl",
+          "named": true
+        },
+        {
+          "type": "exprUnary",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "inherited",
+          "named": true
+        },
+        {
+          "type": "kFalse",
+          "named": true
+        },
+        {
+          "type": "kNil",
+          "named": true
+        },
+        {
+          "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "literalNumber",
+          "named": true
+        },
+        {
+          "type": "literalString",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "if",
     "named": true,
     "fields": {
@@ -5470,6 +5659,10 @@
           "named": true
         },
         {
+          "type": "kDelayed",
+          "named": true
+        },
+        {
           "type": "kExternal",
           "named": true
         },
@@ -5975,6 +6168,77 @@
         },
         {
           "type": "unit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rttiAttributes",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "exprBinary",
+          "named": true
+        },
+        {
+          "type": "exprBrackets",
+          "named": true
+        },
+        {
+          "type": "exprCall",
+          "named": true
+        },
+        {
+          "type": "exprDot",
+          "named": true
+        },
+        {
+          "type": "exprParens",
+          "named": true
+        },
+        {
+          "type": "exprSubscript",
+          "named": true
+        },
+        {
+          "type": "exprTpl",
+          "named": true
+        },
+        {
+          "type": "exprUnary",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "inherited",
+          "named": true
+        },
+        {
+          "type": "kFalse",
+          "named": true
+        },
+        {
+          "type": "kNil",
+          "named": true
+        },
+        {
+          "type": "kTrue",
+          "named": true
+        },
+        {
+          "type": "literalNumber",
+          "named": true
+        },
+        {
+          "type": "literalString",
           "named": true
         }
       ]
@@ -6835,6 +7099,10 @@
   },
   {
     "type": "kDefault",
+    "named": true
+  },
+  {
+    "type": "kDelayed",
     "named": true
   },
   {

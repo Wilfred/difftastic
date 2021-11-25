@@ -1,5 +1,5 @@
 // TODO:
-// - GUIDs
+// - Anonymous procedures
 
 var op = {
 	infix:   (prio, lhs, op, rhs)      => prec.left(prio, seq(
@@ -84,22 +84,31 @@ module.exports = grammar({
 	word: $ => $.identifier,
 
 	conflicts: $ => [ 
+		// "File" can stand on its own or be followed by "of type".
+		// This leads to the following ambiguity:
+		//   kVar  identifier  ':'  kFunction  ':'  kFile  •  kOf  …
+		// It could either be file of <something>, or it could be a
+		// "function of object", returning a file. We need more than one
+		// look-ahead to resolve this.
 		[ $.declFile ],
-		// These conflict rules are only needed because "public" can be a visibility
-		// or an attribute. *sigh*
+		// The following conflict rules are only needed because "public" can be
+		// a visibility or an attribute. *sigh*
 		// We would probably avoid this by having separate decl* clauses for use
 		// inside classes and at unit scope, since the "public" attribute seems to
 		// only be valid for standalone routines.
-		[ $.declProc ], [$.declConst], [$.declVar], [$.declType], [$.declProp] 
+		[ $.declProc ], [$.declConst], [$.declVar], [$.declType], [$.declProp],
+		// RTTI attributes clash with fpc declaration hints syntax since both
+		// are surrounded by brackets.
+		[ $.declProcFwd ], [ $.declVars], [ $.declConsts ], [ $.declTypes],
 	],
 	
 	rules: {
-	  	root:               $ => choice(
-	  		$.program,
-	  		$.library,
-	  		$.unit,
+		root:               $ => choice(
+			$.program,
+			$.library,
+			$.unit,
 			$._definitions // For include files
-	  	),
+		),
 
 		// HIGH LEVEL ----------------------------------------------------------
 
@@ -384,13 +393,15 @@ module.exports = grammar({
 			repeat1($.declType)
 		),
 		declType:          $ => seq(
+			optional($.rttiAttributes),
 			optional($.kGeneric),
 			field('name', $._genericName), $.kEq, 
 			field('type',
 				choice(
 					seq(optional($.kType), $.type),
-					choice($.type/*, $.kClass, $.kInterface*/),
+					choice($.type),
 					$.declClass,
+					$.declIntf,
 					$.declHelper,
 				)
 			),
@@ -417,7 +428,7 @@ module.exports = grammar({
 
 		declClass:          $ => seq(
 			optional($.kPacked),
-			choice($.kClass, $.kRecord, $.kObject, $.kInterface, $.kObjcclass, $.kObjccategory), 
+			choice($.kClass, $.kRecord, $.kObject, $.kObjcclass, $.kObjccategory), 
 			optional(choice(
 				$.kAbstract, $.kSealed, 
 				seq($.kExternal, optional(seq($.kName, $._expr)))
@@ -425,6 +436,16 @@ module.exports = grammar({
 			field('parent', optional(seq('(',delimited($.typeref),')'))), 
 			optional($._declClass)
 		),
+
+		declIntf:          $ => seq(
+			optional($.kPacked),
+			$.kInterface,
+			field('parent', optional(seq('(',delimited($.typeref),')'))), 
+			field('guid', optional($.guid)),
+			optional($._declClass)
+		),
+
+		guid:               $ => prec(1,seq('[', $._ref, ']')),
 
 		declSection:        $ => seq(
 			optional($.kStrict),
@@ -504,6 +525,7 @@ module.exports = grammar({
 		),
 
 		declProc:           $ => seq(
+			optional($.rttiAttributes),
 			choice($._declProc, $._declOperator),
 			repeat($._procAttribute)
 		),
@@ -584,8 +606,17 @@ module.exports = grammar({
 			seq('[', delimited(field('attribute', choice($.procAttribute, $.procExternal))), ']', ';')
 		),
 
+		rttiAttributes: $ => repeat1(seq(
+			// Note: "Identifier:" is for tagging parameters of procedures (Delphi)
+			'[', optional(seq($.identifier, ':')), delimited($._ref), ']'
+		)),
+
 		procExternal: $ => seq(
-			$.kExternal, optional($._expr), choice($.kName, $.kIndex), $._expr, ';'
+			$.kExternal, 
+			optional($._expr), 
+			choice($.kName, $.kIndex), $._expr, 
+			optional($.kDelayed),
+			';'
 		),
 
 		defaultValue:       $ => seq($.kEq, $._initializer),
@@ -597,6 +628,7 @@ module.exports = grammar({
 			repeat1($.declVar)
 		),
 		declVar:           $ => seq(
+			optional($.rttiAttributes),
 			field('name', delimited1($.identifier)),
 			':', 
 			field('type', $.type), 
@@ -615,6 +647,7 @@ module.exports = grammar({
 			repeat1($.declConst)
 		),
 		declConst:         $ => seq(
+			optional($.rttiAttributes),
 			field('name', $.identifier), 
 			optional(seq(':', field('type', $.type))), 
 			field('defaultValue', $.defaultValue),
@@ -623,6 +656,7 @@ module.exports = grammar({
 		),
 
 		declField:          $ =>  seq(
+			optional($.rttiAttributes),
 			field('name', delimited1($.identifier)),
 			':', 
 			field('type', $.type),
@@ -631,6 +665,7 @@ module.exports = grammar({
 		),
 
 		declProp:           $ => seq(
+			optional($.rttiAttributes),
 			optional($.kClass),
 			$.kProperty,
 			field('name', $.identifier),
@@ -855,6 +890,8 @@ module.exports = grammar({
 		kVarargs:           $ => /[vV][aA][rR][aA][rR][gG][sS]/,
 		kWinapi:            $ => /[wW][iI][nN][aA][pP][iI]/,
 		kAlias:             $ => /[aA][lL][iI][aA][sS]/,
+		// Delphi
+		kDelayed:           $ => /[dD][eE][lL][aA][yY][eE][dD]/,
 
 
 		kIfdef:             $ => /[iI][fF][dD][eE][fF]/,

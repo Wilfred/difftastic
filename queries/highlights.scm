@@ -112,6 +112,7 @@
 	(kVarargs)
 	(kWinapi)
 	(kAlias)
+	(kDelayed)
 
 	(kFor)
 	(kTo)
