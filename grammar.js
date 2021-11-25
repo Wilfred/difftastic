@@ -83,12 +83,13 @@ module.exports = grammar({
 
 	word: $ => $.identifier,
 
-	// These conflict rules are only needed because "public" can be a visibility
-	// or an attribute. *sigh*
-	// We would probably avoid this by having separate decl* clauses for use
-	// inside classes and at unit scope, since the "public" attribute seems to
-	// only be valid for standalone routines.
 	conflicts: $ => [ 
+		[ $.declFile ],
+		// These conflict rules are only needed because "public" can be a visibility
+		// or an attribute. *sigh*
+		// We would probably avoid this by having separate decl* clauses for use
+		// inside classes and at unit scope, since the "public" attribute seems to
+		// only be valid for standalone routines.
 		[ $.declProc ], [$.declConst], [$.declVar], [$.declType], [$.declProp] 
 	],
 	
@@ -404,6 +405,7 @@ module.exports = grammar({
 			$.declEnum,
 			$.declSet,
 			$.declArray,
+			$.declFile,
 			$.declString,
 			$.declProcRef,
 		)),
@@ -474,6 +476,7 @@ module.exports = grammar({
 			optional(seq('[', delimited(choice($.range, $._expr)), ']')),
 			$.kOf, $.type
 		),
+		declFile:          $ => seq($.kFile,optional(seq($.kOf, $.type))),
 		declString:          $ => seq(
 			$.kString, 
 			optional(seq('[', choice($._expr), ']'))
@@ -702,6 +705,7 @@ module.exports = grammar({
 		kObjcclass:         $ => /[oO][bB][jJ][cC][cC][lL][aA][sS][sS]/,
 		kObjccategory:      $ => /[oO][bB][jJ][cC][cC][aA][tT][eE][gG][oO][rR][yY]/,
 		kArray:             $ => /[aA][rR][rR][aA][yY]/,
+		kFile:              $ => /[fF][iI][lL][eE]/,
 		kString:            $ => /[sS][tT][rR][iI][nN][gG]/,
 		kSet:               $ => /[sS][eE][tT]/,
 		kOf:                $ => /[oO][fF]/,

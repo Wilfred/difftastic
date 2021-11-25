@@ -4857,6 +4857,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "declFile"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "declString"
                 },
                 {
@@ -4901,6 +4905,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "declArray"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "declFile"
                 },
                 {
                   "type": "SYMBOL",
@@ -4949,6 +4957,10 @@
                         {
                           "type": "SYMBOL",
                           "name": "declArray"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "declFile"
                         },
                         {
                           "type": "SYMBOL",
@@ -5737,6 +5749,36 @@
         {
           "type": "SYMBOL",
           "name": "type"
+        }
+      ]
+    },
+    "declFile": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "kFile"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "kOf"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "type"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -7636,6 +7678,10 @@
       "type": "PATTERN",
       "value": "[aA][rR][rR][aA][yY]"
     },
+    "kFile": {
+      "type": "PATTERN",
+      "value": "[fF][iI][lL][eE]"
+    },
     "kString": {
       "type": "PATTERN",
       "value": "[sS][tT][rR][iI][nN][gG]"
@@ -8128,6 +8174,9 @@
     }
   ],
   "conflicts": [
+    [
+      "declFile"
+    ],
     [
       "declProc"
     ],

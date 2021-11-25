@@ -1158,6 +1158,10 @@
           "named": true
         },
         {
+          "type": "declFile",
+          "named": true
+        },
+        {
           "type": "declMetaClass",
           "named": true
         },
@@ -1247,6 +1251,29 @@
         },
         {
           "type": "typeref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declFile",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "kFile",
+          "named": true
+        },
+        {
+          "type": "kOf",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -5889,6 +5916,10 @@
           "named": true
         },
         {
+          "type": "declFile",
+          "named": true
+        },
+        {
           "type": "declMetaClass",
           "named": true
         },
@@ -6579,6 +6610,10 @@
   },
   {
     "type": "kFdiv",
+    "named": true
+  },
+  {
+    "type": "kFile",
     "named": true
   },
   {

@@ -37,6 +37,7 @@
 	(kObjcclass)
 	(kObjccategory)
 	(kArray)
+	(kFile)
 	(kString)
 	(kSet)
 	(kOf)
