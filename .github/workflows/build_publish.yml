@@ -72,8 +72,8 @@ jobs:
           node --version
           npm --version
 
-      - name: Clean Install
-        run: npm ci
+      - name: Install
+        run: npm install
       - name: Test
         run: npm test
 
