@@ -96,7 +96,7 @@ module.exports = grammar({
 		// We would probably avoid this by having separate decl* clauses for use
 		// inside classes and at unit scope, since the "public" attribute seems to
 		// only be valid for standalone routines.
-		[ $.declProc ], [$.declConst], [$.declVar], [$.declType], [$.declProp],
+		[ $._declProc ], [ $._declOperator], [$.declConst], [$.declVar], [$.declType], [$.declProp],
 		// RTTI attributes clash with fpc declaration hints syntax since both
 		// are surrounded by brackets.
 		[ $.declProcFwd ], [ $.declVars], [ $.declConsts ], [ $.declTypes],
@@ -104,7 +104,7 @@ module.exports = grammar({
 		// the call of a function named "procedure" (which doesn't actually
 		// make sense, but for Treesitter it does), so we need another conflict
 		// here.
-		[ $.lambda]
+		[ $.lambda],
 	],
 	
 	rules: {
@@ -543,12 +543,12 @@ module.exports = grammar({
 			)),
 			field('assign', optional($.defaultValue)),
 			';',
+			repeat($._procAttributeNoExt)
 		),
 
 		declProc:           $ => seq(
 			optional($.rttiAttributes),
 			choice($._declProc, $._declOperator),
-			repeat($._procAttribute)
 		),
 
 		_declOperator:       $ => seq(
@@ -561,6 +561,7 @@ module.exports = grammar({
 			field('type', $.type),
 			field('assign', optional($.defaultValue)),
 			';',
+			repeat($._procAttributeNoExt)
 		),
 		_operatorName: $ => seq(
 			choice(
@@ -580,7 +581,6 @@ module.exports = grammar({
 			$.kIn,
 		),
 
-		// Order of attributes and forward/external is wrong!
 		declProcFwd:        $ => seq(
 			$._declProc,
 			choice(seq($.kForward, ';'), $.procExternal),
@@ -626,6 +626,11 @@ module.exports = grammar({
 			seq(field('attribute', $.procAttribute), ';'),
 			// FPC-specific syntax, e.g. procedure myproc; [public; alias:'bla'; cdecl];
 			seq('[', delimited(field('attribute', choice($.procAttribute, $.procExternal))), ']', ';')
+		),
+		_procAttributeNoExt: $ => choice(
+			seq(field('attribute', $.procAttribute), ';'),
+			// FPC-specific syntax, e.g. procedure myproc; [public; alias:'bla'; cdecl];
+			seq('[', delimited(field('attribute', choice($.procAttribute))), ']', ';')
 		),
 
 		rttiAttributes: $ => repeat1(seq(

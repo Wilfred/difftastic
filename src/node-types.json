@@ -1605,10 +1605,6 @@
           {
             "type": "procAttribute",
             "named": true
-          },
-          {
-            "type": "procExternal",
-            "named": true
           }
         ]
       },
