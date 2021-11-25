@@ -9,7 +9,7 @@ Progress:
   * [x] Indented code blocks
   * [x] Fenced code blocks
   * [x] HTML blocks 
-  * [ ] Link reference definitions
+  * [x] Link reference definitions
   * [x] Paragraphs
   * [x] Blank lines
   * [ ] Tables (extension)

@@ -156,6 +156,8 @@ module.exports = grammar(add_inline_rules({
         $._emphasis_close_underscore,
         $._open_block,
         $._close_block,
+        $._no_indented_chunk,
+        $._trigger_error,
     ],
     // I'm not sure this declaration does anything. TODO: Ask someone if it does
     precedences: $ => [
@@ -168,6 +170,7 @@ module.exports = grammar(add_inline_rules({
     conflicts: $ => [
         [$.link_reference_definition, $._shortcut_link],
         [$._lazy_newline, $._paragraph_end_newline],
+        [$.link_reference_definition],
     ],
 
     rules: {
@@ -210,11 +213,11 @@ module.exports = grammar(add_inline_rules({
             optional(alias($._inline_no_newline, $.heading_content)),
             $._newline
         )),
-        setext_heading: $ => prec.dynamic(1, seq(
+        setext_heading: $ => seq(
             alias($.paragraph, $.heading_content),
             choice($.setext_h1_underline, $.setext_h2_underline),
             $._newline
-        )),
+        ),
         setext_h1_underline: $ => $._setext_h1_underline,
         setext_h2_underline: $ => choice($._setext_h2_underline, $._setext_h2_underline_or_thematic_break),
         thematic_break: $ => seq(choice($._setext_h2_underline_or_thematic_break, $._thematic_break), $._newline),
@@ -301,33 +304,53 @@ module.exports = grammar(add_inline_rules({
         _closing_tag_html_block: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '[ \\t]'),
         _closing_tag_html_block_newline: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '(\n|\r\n?)'),
 
-        link_reference_definition: $ => prec.dynamic(1, prec.right(seq(
+        link_reference_definition: $ => prec.dynamic(1, seq(
             optional($._whitespace),
             $.link_label,
             ':',
             optional(seq(optional($._whitespace), optional(seq($._lazy_newline, optional($._whitespace))))),
             $.link_destination,
-            optional(seq(
-                optional($._whitespace),
-                optional(seq($._lazy_newline, optional($._whitespace))),
+            optional(prec.dynamic(2, seq(
+                choice(
+                    seq($._whitespace, optional(seq($._newline, optional($._whitespace)))),
+                    seq($._newline, optional($._whitespace)),
+                ),
+                optional($._no_indented_chunk),
                 $.link_title
-            )),
-            $._paragraph_end_newline,
-        ))),
-        link_label: $ => seq('[', repeat1(choice($._text_no_bracket, $.backslash_escape, $._lazy_newline)), ']'),
+            ))),
+            $._newline,
+        )),
+        link_label: $ => seq('[', repeat1(choice($._text_no_bracket, $.backslash_escape, $._newline)), ']'),
         link_destination: $ => choice(
-            /<(\\[^\r\n]|[^\r\n<>\\])*>/,
-            /[^<\r\n \t\(\)]([^\r\n \t\(\)]|\(([^\r\n \t\(\)]|\(([^\r\n \t\(\)]|\(([^\r\n \t\(\)])*\))*\))*\))*|\(([^\r\n \t\(\)]|\(([^\r\n \t\(\)]|\(([^\r\n \t\(\)])*\))*\))*\)/,
+            seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
+            seq(
+                choice($._word, punctuation_without($, ['<', '(', ')']), $.backslash_escape, $._link_destination_parenthethis),
+                repeat(choice($._word, punctuation_without($, ['(', ')']), $.backslash_escape, $._link_destination_parenthethis)),
+            )
         ),
+        _link_destination_parenthethis: $ => seq('(', repeat(choice($._word, $.backslash_escape, $._link_destination_parenthethis)), ')'),
         link_title: $ => choice(
-            seq('"', repeat(choice($._text_no_double_quotes, $.backslash_escape, $._lazy_newline)), '"'),
-            seq("'", repeat(choice($._text_no_quotes, $.backslash_escape, $._lazy_newline)), "'"),
-            seq('(', repeat(choice($._text_no_parenthethis, $.backslash_escape)), ')'),
+            seq('"', repeat(choice(
+                $._text_no_double_quotes,
+                $.backslash_escape,
+                seq($._newline, optional(seq($._blank_line, $._trigger_error)))
+            )), '"'),
+            seq("'", repeat(choice(
+                $._text_no_quotes,
+                $.backslash_escape,
+                seq($._newline, optional(seq($._blank_line, $._trigger_error)))
+            )), "'"),
+            seq('(', repeat(choice(
+                $._text_no_parenthethis,
+                $.backslash_escape,
+                seq($._newline, optional(seq($._blank_line, $._trigger_error)))
+            )), ')'),
         ),
         _text_no_bracket: $ => choice($._word, punctuation_without($, ['[', ']']), $._whitespace),
         _text_no_double_quotes: $ => choice($._word, punctuation_without($, ['"']), $._whitespace),
         _text_no_quotes: $ => choice($._word, punctuation_without($, ["'"]), $._whitespace),
         _text_no_parenthethis: $ => choice($._word, punctuation_without($, ['(', ')']), $._whitespace),
+        _text_no_angle: $ => choice($._word, punctuation_without($, ['<', '>']), $._whitespace),
 
         _lazy_newline: $ => prec.right(seq(
             $._newline,

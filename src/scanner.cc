@@ -46,6 +46,8 @@ enum TokenType {
     EMPHASIS_CLOSE_UNDERSCORE,
     OPEN_BLOCK,
     CLOSE_BLOCK,
+    NO_INDENTED_CHUNK,
+    TRIGGER_ERROR,
 };
 
 enum Block : uint8_t {
@@ -256,6 +258,11 @@ struct Scanner {
         /*     std::cerr << BLOCK_NAME[open_blocks[i]] << std::endl; */
         /* } */
 
+        if (valid_symbols[TRIGGER_ERROR]) {
+            lexer->result_symbol = ERROR;
+            return true;
+        }
+
         uint8_t dummy_count = (state & STATE_DUMMY_COUNT) >> 5;
         if (dummy_count == 2 && !valid_symbols[LAZY_CONTINUATION] && matched == open_blocks.size()) {
             state &= ~STATE_MATCHING;
@@ -314,7 +321,7 @@ struct Scanner {
             return false;
         }
         if (!(state & STATE_MATCHING)) {
-            if (valid_symbols[INDENTED_CHUNK_START]) {
+            if (valid_symbols[INDENTED_CHUNK_START] && !valid_symbols[NO_INDENTED_CHUNK]) {
                 if (indentation >= 4 && lexer->lookahead != '\n' && lexer->lookahead != '\r') {
                     // TODO: indented code block can not interrupt paragraph
                     lexer->result_symbol = INDENTED_CHUNK_START;
