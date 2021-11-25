@@ -1076,7 +1076,6 @@ Self-references
             (kwd_symbol))
           (sym_lit))))))
 
-
 ================================================================================
 @ in defun identifiers
 ================================================================================
@@ -1089,3 +1088,24 @@ Self-references
   (baz))
 --------------------------------------------------------------------------------
 
+(source
+  (comment)
+  (list_lit
+    (defun
+      (defun_header
+        (defun_keyword)
+        (sym_lit)
+        (list_lit
+          (sym_lit)))
+      (list_lit
+        (sym_lit))))
+  (comment)
+  (list_lit
+    (defun
+      (defun_header
+        (defun_keyword)
+        (sym_lit)
+        (list_lit
+          (sym_lit)))
+      (list_lit
+        (sym_lit)))))
