@@ -6,6 +6,8 @@ Added Bash and Ruby support.
 
 Updated the C, CSS and JSON parsers to the latest upstream versions.
 
+Expanded filename associations, so difftastic recognises more files.
+
 ## 0.12
 
 ### Display
