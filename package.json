@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-godot-resource",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "tree-sitter parser for godot text resources (tres, tscn)",
   "main": "bindings/node",
   "keywords": [
