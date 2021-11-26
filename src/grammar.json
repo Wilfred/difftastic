@@ -132,44 +132,28 @@
           "value": ";"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "interface"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "implementation"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "initialization"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "finalization"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "interface"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "implementation"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "initialization"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "finalization"
+              }
+            ]
+          }
         },
         {
           "type": "SYMBOL",
@@ -305,7 +289,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "\\(\\*([^*]*[*][^)])*[^*]*\\*\\)"
+                "value": "[(][*]([^*]*[*]+[^)*])*[^*]*[*]+[)]"
               }
             ]
           }

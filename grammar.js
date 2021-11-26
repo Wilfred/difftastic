@@ -133,10 +133,12 @@ module.exports = grammar({
 
 		unit:               $ => seq(
 			$.kUnit, $.moduleName, ';',
-			optional($.interface),
-			$.implementation,
-			optional($.initialization),
-			optional($.finalization),
+			repeat(choice(
+				$.interface,
+				$.implementation,
+				$.initialization,
+				$.finalization,
+			)),
 			$.kEnd, $.kEndDot
 		),
 
