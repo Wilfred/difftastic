@@ -123,6 +123,55 @@
         }
       ]
     },
+    "_block_no_blank_line": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "paragraph"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "setext_heading"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "indented_code_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "atx_heading"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block_quote"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "thematic_break"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tight_list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "loose_list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "fenced_code_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "html_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "link_reference_definition"
+        }
+      ]
+    },
     "_blank_line": {
       "type": "SEQ",
       "members": [
@@ -595,6 +644,41 @@
         ]
       }
     },
+    "_list_item_content_tight": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_block_no_blank_line"
+      }
+    },
+    "_list_item_content_loose": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_list_item_content_tight"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_blank_line"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_block"
+          }
+        }
+      ]
+    },
     "_list_item_plus_tight": {
       "type": "SEQ",
       "members": [
@@ -615,11 +699,8 @@
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content_tight"
         },
         {
           "type": "SYMBOL",
@@ -659,11 +740,8 @@
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content_tight"
         },
         {
           "type": "SYMBOL",
@@ -703,11 +781,8 @@
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content_tight"
         },
         {
           "type": "SYMBOL",
@@ -747,11 +822,8 @@
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content_tight"
         },
         {
           "type": "SYMBOL",
@@ -791,11 +863,8 @@
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content_tight"
         },
         {
           "type": "SYMBOL",
@@ -835,15 +904,12 @@
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content_loose"
         },
         {
           "type": "SYMBOL",
-          "name": "_block_close_loose"
+          "name": "_block_close"
         },
         {
           "type": "CHOICE",
@@ -879,15 +945,12 @@
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content_loose"
         },
         {
           "type": "SYMBOL",
-          "name": "_block_close_loose"
+          "name": "_block_close"
         },
         {
           "type": "CHOICE",
@@ -923,15 +986,12 @@
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content_loose"
         },
         {
           "type": "SYMBOL",
-          "name": "_block_close_loose"
+          "name": "_block_close"
         },
         {
           "type": "CHOICE",
@@ -967,15 +1027,12 @@
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content_loose"
         },
         {
           "type": "SYMBOL",
-          "name": "_block_close_loose"
+          "name": "_block_close"
         },
         {
           "type": "CHOICE",
@@ -1011,15 +1068,12 @@
           ]
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content_loose"
         },
         {
           "type": "SYMBOL",
-          "name": "_block_close_loose"
+          "name": "_block_close"
         },
         {
           "type": "CHOICE",
@@ -7609,6 +7663,16 @@
     [
       {
         "type": "SYMBOL",
+        "name": "setext_heading"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "_block_no_blank_line"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
         "name": "setext_h2_underline"
       },
       {
@@ -7647,10 +7711,6 @@
     {
       "type": "SYMBOL",
       "name": "_block_close"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_block_close_loose"
     },
     {
       "type": "SYMBOL",

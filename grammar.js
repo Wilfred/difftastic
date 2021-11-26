@@ -81,11 +81,6 @@ module.exports = grammar(add_inline_rules({
         // Every block that is not a paragraph and can have multiple lines will start with an opening token
         // like `$._block_quote_start` and close with `$._block_close`
         $._block_close,
-        // The exception to this are list items since we need to differentiate between tight and loose
-        // lists (see https://github.github.com/gfm/#lists) which we can only do at the END of a list
-        // item. If the list item contains empty lines we emit `$._block_close_loose` when it closes
-        // else `$._block_close`
-        $._block_close_loose,
         // Token encountered if we match an open block. For example a '>' at the beginning of a line
         // if we are in an (already open) block quote.
         $._block_continuation,
@@ -164,6 +159,7 @@ module.exports = grammar(add_inline_rules({
         [$._inline_element, $.paragraph],
         [$.tight_list, $.loose_list],
         [$.setext_heading, $._block],
+        [$.setext_heading, $._block_no_blank_line],
         [$.setext_h2_underline, $.thematic_break],
         [$.indented_code_block, $._block],
     ],
@@ -202,6 +198,19 @@ module.exports = grammar(add_inline_rules({
             $.setext_h1_underline,
             $.setext_h2_underline,
         ),
+        _block_no_blank_line: $ => choice(
+            $.paragraph,
+            $.setext_heading,
+            $.indented_code_block,
+            $.atx_heading,
+            $.block_quote,
+            $.thematic_break,
+            $.tight_list,
+            $.loose_list,
+            $.fenced_code_block,
+            $.html_block,
+            $.link_reference_definition,
+        ),
 
         _blank_line: $ => seq($._blank_line_start, $._newline),
         paragraph: $ => seq($._inline, $._paragraph_end_newline),
@@ -237,17 +246,20 @@ module.exports = grammar(add_inline_rules({
             repeat1(alias(choice($._list_item_parenthethis_tight, $._list_item_parenthethis_loose), $.list_item)),
         )),
 
-        _list_item_plus_tight: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_minus_tight: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_star_tight: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_dot_tight: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_parenthethis_tight: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_content_tight: $ => repeat1($._block_no_blank_line),
+        _list_item_content_loose: $ => seq(optional($._list_item_content_tight), $._blank_line, repeat($._block)),
 
-        _list_item_plus_loose: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
-        _list_item_minus_loose: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
-        _list_item_star_loose: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
-        _list_item_dot_loose: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
-        _list_item_parenthethis_loose: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), repeat($._block), $._block_close_loose, optional($._ignore_matching_tokens)),
+        _list_item_plus_tight: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_minus_tight: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_star_tight: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_dot_tight: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_parenthethis_tight: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
+
+        _list_item_plus_loose: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_minus_loose: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_star_loose: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_dot_loose: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_parenthethis_loose: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
 
         fenced_code_block: $ => prec.right(seq(
             choice(

@@ -14,7 +14,6 @@ enum TokenType {
     LINE_ENDING,
     LAZY_CONTINUATION,
     BLOCK_CLOSE,
-    BLOCK_CLOSE_LOOSE,
     BLOCK_CONTINUATION,
     BLOCK_QUOTE_START,
     INDENTED_CHUNK_START,
@@ -55,8 +54,6 @@ enum Block : uint8_t {
     INDENTED_CODE_BLOCK,
     TIGHT_LIST_ITEM = 2,
     TIGHT_LIST_ITEM_MAX_INDENTATION = 8,
-    LOOSE_LIST_ITEM = 9,
-    LOOSE_LIST_ITEM_MAX_INDENTATION = 15,
     FENCED_CODE_BLOCK_TILDE,
     FENCED_CODE_BLOCK_BACKTICK,
     ANONYMOUS
@@ -85,15 +82,11 @@ const char *BLOCK_NAME[] = {
 };
 
 bool is_list_item(Block block) {
-    return block >= TIGHT_LIST_ITEM && block <= LOOSE_LIST_ITEM_MAX_INDENTATION;
+    return block >= TIGHT_LIST_ITEM && block <= TIGHT_LIST_ITEM_MAX_INDENTATION;
 }
 
 uint8_t list_item_indentation(Block block) {
-    if (block <= TIGHT_LIST_ITEM_MAX_INDENTATION) {
-        return block - TIGHT_LIST_ITEM + 2;
-    } else {
-        return block - LOOSE_LIST_ITEM + 2;
-    }
+    return block - TIGHT_LIST_ITEM + 2;
 }
 
 bool is_punctuation(char c) {
@@ -198,13 +191,6 @@ struct Scanner {
             case TIGHT_LIST_ITEM + 4:
             case TIGHT_LIST_ITEM + 5:
             case TIGHT_LIST_ITEM + 6:
-            case LOOSE_LIST_ITEM:
-            case LOOSE_LIST_ITEM + 1:
-            case LOOSE_LIST_ITEM + 2:
-            case LOOSE_LIST_ITEM + 3:
-            case LOOSE_LIST_ITEM + 4:
-            case LOOSE_LIST_ITEM + 5:
-            case LOOSE_LIST_ITEM + 6:
                 if (indentation >= list_item_indentation(open_blocks[matched])) {
                     indentation -= list_item_indentation(open_blocks[matched]);
                     return true;
@@ -310,11 +296,7 @@ struct Scanner {
         if (lexer->eof(lexer)) {
             if (open_blocks.size() > 0) {
                 Block block = open_blocks[open_blocks.size() - 1];
-                if (block >= LOOSE_LIST_ITEM && block <= LOOSE_LIST_ITEM_MAX_INDENTATION) {
-                    lexer->result_symbol = BLOCK_CLOSE_LOOSE;
-                } else {
-                    lexer->result_symbol = BLOCK_CLOSE;
-                }
+                lexer->result_symbol = BLOCK_CLOSE;
                 open_blocks.pop_back();
                 return true;
             }
@@ -339,11 +321,6 @@ struct Scanner {
                         state &= ~STATE_NEED_OPEN_BLOCK;
                         lexer->result_symbol = BLANK_LINE;
                         matched++;
-                        for (size_t i = 0; i < open_blocks.size(); i++) {
-                            if (open_blocks[i] >= TIGHT_LIST_ITEM && open_blocks[i] <= TIGHT_LIST_ITEM_MAX_INDENTATION) {
-                                open_blocks[i] = Block(open_blocks[i] + (LOOSE_LIST_ITEM - TIGHT_LIST_ITEM));
-                            }
-                        }
                         return true;
                     }
                     break;
@@ -815,11 +792,7 @@ struct Scanner {
             }
             if (!valid_symbols[LAZY_CONTINUATION]) {
                 Block block = open_blocks[open_blocks.size() - 1];
-                if (block >= LOOSE_LIST_ITEM && block <= LOOSE_LIST_ITEM_MAX_INDENTATION) {
-                    lexer->result_symbol = BLOCK_CLOSE_LOOSE;
-                } else {
-                    lexer->result_symbol = BLOCK_CLOSE;
-                }
+                lexer->result_symbol = BLOCK_CLOSE;
                 if (block == FENCED_CODE_BLOCK_BACKTICK || block == FENCED_CODE_BLOCK_TILDE) {
                     lexer->mark_end(lexer);
                     indentation = 0;
