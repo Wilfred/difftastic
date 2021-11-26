@@ -276,8 +276,8 @@ module.exports = grammar(add_inline_rules({
             repeat(choice(alias($._list_item_parenthethis_loose, $.list_item), alias($._list_item_parenthethis_half_loose, $.list_item), alias($._list_item_parenthethis_tight, $.list_item)))),
         ),
 
-        _list_item_content_tight: $ => repeat1($._block_no_blank_line),
-        _list_item_content_half_loose: $ => seq(optional($._list_item_content_tight), repeat1($._blank_line)),
+        _list_item_content_tight: $ => prec.right(seq(repeat($._blank_line), repeat1($._block_no_blank_line))),
+        _list_item_content_half_loose: $ => seq($._list_item_content_tight, repeat1($._blank_line)),
         _list_item_content_loose: $ => seq($._list_item_content_half_loose, $._block_no_blank_line, repeat($._block)),
 
         _list_item_plus_tight: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
