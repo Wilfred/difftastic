@@ -371,7 +371,7 @@ module.exports = grammar({
 
 		_definitions:       $ => repeat1($._definition),
 		_definition:        $ => choice(
-			$.declTypes, $.declVars, $.declConsts, $.defProc, $.declProcFwd,
+			$.declTypes, $.declVars, $.declConsts, $.defProc, alias($.declProcFwd, $.declProc),
 			$.declLabel, $.declUses, $.declExports,
 
 			// Not actually valid syntax, but helps the parser recover:
@@ -391,7 +391,7 @@ module.exports = grammar({
 		// DECLARATIONS -------------------------------------------------------
 
 		_declarations:      $ => repeat1(choice(
-			$.declTypes, $.declVars, $.declConsts, $.declProc, $.declProcFwd,
+			$.declTypes, $.declVars, $.declConsts, $.declProc, alias($.declProcFwd, $.declProc),
 			$.declUses, $.declLabel, $.declExports
 		)),
 		_classDeclarations:  $ => repeat1(choice(
@@ -449,7 +449,7 @@ module.exports = grammar({
 
 		declClass:          $ => seq(
 			optional($.kPacked),
-			choice($.kClass, $.kRecord, $.kObject, $.kObjcclass, $.kObjccategory), 
+			choice($.kClass, $.kRecord, $.kObject, $.kObjcclass, $.kObjccategory, $.kObjcprotocol), 
 			optional(choice(
 				$.kAbstract, $.kSealed, 
 				seq($.kExternal, optional(seq($.kName, $._expr)))
@@ -470,7 +470,8 @@ module.exports = grammar({
 
 		declSection:        $ => seq(
 			optional($.kStrict),
-			$._visibility,
+			// Required & optional are for ObjcProtocol
+			choice($._visibility, $.kRequired, $.kOptional),
 			optional($._declFields),
 			optional($._classDeclarations)
 		),
@@ -641,7 +642,7 @@ module.exports = grammar({
 		procExternal: $ => seq(
 			$.kExternal, 
 			optional($._expr), 
-			choice($.kName, $.kIndex), $._expr, 
+			optional(seq(choice($.kName, $.kIndex), $._expr)),
 			optional($.kDelayed),
 			';'
 		),
@@ -797,6 +798,7 @@ module.exports = grammar({
 		kRecord:            $ => /[rR][eE][cC][oO][rR][dD]/,
 		kObjcclass:         $ => /[oO][bB][jJ][cC][cC][lL][aA][sS][sS]/,
 		kObjccategory:      $ => /[oO][bB][jJ][cC][cC][aA][tT][eE][gG][oO][rR][yY]/,
+		kObjcprotocol:      $ => /[oO][bB][jJ][cC][pP][rR][oO][tT][oO][cC][oO][lL]/,
 		kArray:             $ => /[aA][rR][rR][aA][yY]/,
 		kFile:              $ => /[fF][iI][lL][eE]/,
 		kString:            $ => /[sS][tT][rR][iI][nN][gG]/,
@@ -869,6 +871,8 @@ module.exports = grammar({
 		kProtected:         $ => /[pP][rR][oO][tT][eE][cC][tT][eE][dD]/,
 		kPrivate:           $ => /[pP][rR][iI][vV][aA][tT][eE]/,
 		kStrict:            $ => /[sS][tT][rR][iI][cC][tT]/,
+		kRequired:          $ => /[rR][eE][qQ][uU][iI][rR][eE][dD]/,
+		kOptional:          $ => /[oO][pP][tT][iI][oO][nN][aA][lL]/,
 
 		kForward:           $ => /[fF][oO][rR][wW][aA][rR][dD]/,
 

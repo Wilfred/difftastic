@@ -4365,8 +4365,13 @@
           "name": "defProc"
         },
         {
-          "type": "SYMBOL",
-          "name": "declProcFwd"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "declProcFwd"
+          },
+          "named": true,
+          "value": "declProc"
         },
         {
           "type": "SYMBOL",
@@ -4621,8 +4626,13 @@
             "name": "declProc"
           },
           {
-            "type": "SYMBOL",
-            "name": "declProcFwd"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "declProcFwd"
+            },
+            "named": true,
+            "value": "declProc"
           },
           {
             "type": "SYMBOL",
@@ -5256,6 +5266,10 @@
             {
               "type": "SYMBOL",
               "name": "kObjccategory"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "kObjcprotocol"
             }
           ]
         },
@@ -5542,8 +5556,21 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_visibility"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_visibility"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "kRequired"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "kOptional"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -7342,18 +7369,31 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "kName"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "kName"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "kIndex"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_expr"
+                }
+              ]
             },
             {
-              "type": "SYMBOL",
-              "name": "kIndex"
+              "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expr"
         },
         {
           "type": "CHOICE",
@@ -8565,6 +8605,10 @@
       "type": "PATTERN",
       "value": "[oO][bB][jJ][cC][cC][aA][tT][eE][gG][oO][rR][yY]"
     },
+    "kObjcprotocol": {
+      "type": "PATTERN",
+      "value": "[oO][bB][jJ][cC][pP][rR][oO][tT][oO][cC][oO][lL]"
+    },
     "kArray": {
       "type": "PATTERN",
       "value": "[aA][rR][rR][aA][yY]"
@@ -8832,6 +8876,14 @@
     "kStrict": {
       "type": "PATTERN",
       "value": "[sS][tT][rR][iI][cC][tT]"
+    },
+    "kRequired": {
+      "type": "PATTERN",
+      "value": "[rR][eE][qQ][uU][iI][rR][eE][dD]"
+    },
+    "kOptional": {
+      "type": "PATTERN",
+      "value": "[oO][pP][tT][iI][oO][nN][aA][lL]"
     },
     "kForward": {
       "type": "PATTERN",

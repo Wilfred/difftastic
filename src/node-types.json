@@ -866,6 +866,10 @@
           "named": true
         },
         {
+          "type": "kObjcprotocol",
+          "named": true
+        },
+        {
           "type": "kObject",
           "named": true
         },
@@ -1605,6 +1609,10 @@
           {
             "type": "procAttribute",
             "named": true
+          },
+          {
+            "type": "procExternal",
+            "named": true
           }
         ]
       },
@@ -1698,6 +1706,10 @@
           "named": true
         },
         {
+          "type": "kForward",
+          "named": true
+        },
+        {
           "type": "kFunction",
           "named": true
         },
@@ -1710,109 +1722,11 @@
           "named": true
         },
         {
-          "type": "rttiAttributes",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declProcFwd",
-    "named": true,
-    "fields": {
-      "args": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "declArgs",
-            "named": true
-          }
-        ]
-      },
-      "assign": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "defaultValue",
-            "named": true
-          }
-        ]
-      },
-      "attribute": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "procAttribute",
-            "named": true
-          },
-          {
-            "type": "procExternal",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "genericDot",
-            "named": true
-          },
-          {
-            "type": "genericTpl",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "kClass",
-          "named": true
-        },
-        {
-          "type": "kConstructor",
-          "named": true
-        },
-        {
-          "type": "kDestructor",
-          "named": true
-        },
-        {
-          "type": "kForward",
-          "named": true
-        },
-        {
-          "type": "kFunction",
-          "named": true
-        },
-        {
-          "type": "kProcedure",
-          "named": true
-        },
-        {
           "type": "procExternal",
+          "named": true
+        },
+        {
+          "type": "rttiAttributes",
           "named": true
         }
       ]
@@ -2322,6 +2236,10 @@
           "named": true
         },
         {
+          "type": "kOptional",
+          "named": true
+        },
+        {
           "type": "kPrivate",
           "named": true
         },
@@ -2335,6 +2253,10 @@
         },
         {
           "type": "kPublished",
+          "named": true
+        },
+        {
+          "type": "kRequired",
           "named": true
         },
         {
@@ -2927,7 +2849,7 @@
             "named": true
           },
           {
-            "type": "declProcFwd",
+            "type": "declProc",
             "named": true
           },
           {
@@ -5092,7 +5014,7 @@
           "named": true
         },
         {
-          "type": "declProcFwd",
+          "type": "declProc",
           "named": true
         },
         {
@@ -5182,10 +5104,6 @@
         },
         {
           "type": "declProc",
-          "named": true
-        },
-        {
-          "type": "declProcFwd",
           "named": true
         },
         {
@@ -5281,7 +5199,7 @@
             "named": true
           },
           {
-            "type": "declProcFwd",
+            "type": "declProc",
             "named": true
           },
           {
@@ -5432,7 +5350,7 @@
           "named": true
         },
         {
-          "type": "declProcFwd",
+          "type": "declProc",
           "named": true
         },
         {
@@ -5984,7 +5902,7 @@
           "named": true
         },
         {
-          "type": "declProcFwd",
+          "type": "declProc",
           "named": true
         },
         {
@@ -6413,7 +6331,7 @@
           "named": true
         },
         {
-          "type": "declProcFwd",
+          "type": "declProc",
           "named": true
         },
         {
@@ -7648,6 +7566,10 @@
     "named": true
   },
   {
+    "type": "kObjcprotocol",
+    "named": true
+  },
+  {
     "type": "kObject",
     "named": true
   },
@@ -7661,6 +7583,10 @@
   },
   {
     "type": "kOperator",
+    "named": true
+  },
+  {
+    "type": "kOptional",
     "named": true
   },
   {
@@ -7745,6 +7671,10 @@
   },
   {
     "type": "kRepeat",
+    "named": true
+  },
+  {
+    "type": "kRequired",
     "named": true
   },
   {

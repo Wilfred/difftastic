@@ -36,6 +36,7 @@
 	(kRecord)
 	(kObjcclass)
 	(kObjccategory)
+	(kObjcprotocol)
 	(kArray)
 	(kFile)
 	(kString)
@@ -64,6 +65,8 @@
 	(kProtected)
 	(kPrivate)
 	(kStrict)
+	(kRequired)
+	(kOptional)
 
 	(kForward)
 
