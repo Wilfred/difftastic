@@ -148,7 +148,7 @@ module.exports = grammar({
 		comment:            $ => token(choice(
 			seq('//', /.*/),
 			seq('{', /([^$}][^}]*)?/, '}'),
-			seq(/\(\*([^*]*[*][^)])*[^*]*\*\)/)
+			seq(/[(][*]([^*]*[*]+[^)*])*[^*]*[*]+[)]/)
 		)),
 
 		moduleName:         $ => delimited1($.identifier, $.kDot),
