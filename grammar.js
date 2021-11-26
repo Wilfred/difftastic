@@ -231,29 +231,66 @@ module.exports = grammar(add_inline_rules({
         setext_h2_underline: $ => choice($._setext_h2_underline, $._setext_h2_underline_or_thematic_break),
         thematic_break: $ => seq(choice($._setext_h2_underline_or_thematic_break, $._thematic_break), $._newline),
 
-        tight_list: $ => prec.right(choice(
-            repeat1(prec(1, alias($._list_item_plus_tight, $.list_item))),
-            repeat1(prec(1, alias($._list_item_minus_tight, $.list_item))),
-            repeat1(prec(1, alias($._list_item_star_tight, $.list_item))),
-            repeat1(prec(1, alias($._list_item_dot_tight, $.list_item))),
-            repeat1(prec(1, alias($._list_item_parenthethis_tight, $.list_item))),
-        )),
-        loose_list: $ => prec.right(choice(
-            repeat1(alias(choice($._list_item_plus_tight, $._list_item_plus_loose), $.list_item)),
-            repeat1(alias(choice($._list_item_minus_tight, $._list_item_minus_loose), $.list_item)),
-            repeat1(alias(choice($._list_item_star_tight, $._list_item_star_loose), $.list_item)),
-            repeat1(alias(choice($._list_item_dot_tight, $._list_item_dot_loose), $.list_item)),
-            repeat1(alias(choice($._list_item_parenthethis_tight, $._list_item_parenthethis_loose), $.list_item)),
-        )),
+        tight_list: $ => prec.right(choice($._tight_list_plus, $._tight_list_minus, $._tight_list_star, $._tight_list_dot, $._tight_list_parenthethis)),
+        loose_list: $ => prec.right(choice($._loose_list_plus, $._loose_list_minus, $._loose_list_star, $._loose_list_dot, $._loose_list_parenthethis)),
+
+        _tight_list_plus: $ => prec.right(choice(seq(repeat1(alias($._list_item_plus_tight, $.list_item)), optional(alias($._list_item_plus_half_loose, $.list_item))), alias($._list_item_plus_half_loose, $.list_item))),
+        _tight_list_minus: $ => prec.right(choice(seq(repeat1(alias($._list_item_minus_tight, $.list_item)), optional(alias($._list_item_minus_half_loose, $.list_item))), alias($._list_item_minus_half_loose, $.list_item))),
+        _tight_list_star: $ => prec.right(choice(seq(repeat1(alias($._list_item_star_tight, $.list_item)), optional(alias($._list_item_star_half_loose, $.list_item))), alias($._list_item_star_half_loose, $.list_item))),
+        _tight_list_dot: $ => prec.right(choice(seq(repeat1(alias($._list_item_dot_tight, $.list_item)), optional(alias($._list_item_dot_half_loose, $.list_item))), alias($._list_item_dot_half_loose, $.list_item))),
+        _tight_list_parenthethis: $ => prec.right(choice(seq(repeat1(alias($._list_item_parenthethis_tight, $.list_item)), optional(alias($._list_item_parenthethis_half_loose, $.list_item))), alias($._list_item_parenthethis_half_loose, $.list_item))),
+
+        _loose_list_plus: $ => prec.right(seq(
+            choice(
+                seq(optional($._tight_list_plus), alias($._list_item_plus_loose, $.list_item)),
+                seq($._tight_list_plus, alias($._list_item_plus_half_loose, $.list_item)),
+            ),
+            repeat(choice(alias($._list_item_plus_loose, $.list_item), alias($._list_item_plus_half_loose, $.list_item), alias($._list_item_plus_tight, $.list_item)))),
+        ),
+        _loose_list_minus: $ => prec.right(seq(
+            choice(
+                seq(optional($._tight_list_minus), alias($._list_item_minus_loose, $.list_item)),
+                seq($._tight_list_minus, alias($._list_item_minus_half_loose, $.list_item)),
+            ),
+            repeat(choice(alias($._list_item_minus_loose, $.list_item), alias($._list_item_minus_half_loose, $.list_item), alias($._list_item_minus_tight, $.list_item)))),
+        ),
+        _loose_list_star: $ => prec.right(seq(
+            choice(
+                seq(optional($._tight_list_star), alias($._list_item_star_loose, $.list_item)),
+                seq($._tight_list_star, alias($._list_item_star_half_loose, $.list_item)),
+            ),
+            repeat(choice(alias($._list_item_star_loose, $.list_item), alias($._list_item_star_half_loose, $.list_item), alias($._list_item_star_tight, $.list_item)))),
+        ),
+        _loose_list_dot: $ => prec.right(seq(
+            choice(
+                seq(optional($._tight_list_dot), alias($._list_item_dot_loose, $.list_item)),
+                seq($._tight_list_dot, alias($._list_item_dot_half_loose, $.list_item)),
+            ),
+            repeat(choice(alias($._list_item_dot_loose, $.list_item), alias($._list_item_dot_half_loose, $.list_item), alias($._list_item_dot_tight, $.list_item)))),
+        ),
+        _loose_list_parenthethis: $ => prec.right(seq(
+            choice(
+                seq(optional($._tight_list_parenthethis), alias($._list_item_parenthethis_loose, $.list_item)),
+                seq($._tight_list_parenthethis, alias($._list_item_parenthethis_half_loose, $.list_item)),
+            ),
+            repeat(choice(alias($._list_item_parenthethis_loose, $.list_item), alias($._list_item_parenthethis_half_loose, $.list_item), alias($._list_item_parenthethis_tight, $.list_item)))),
+        ),
 
         _list_item_content_tight: $ => repeat1($._block_no_blank_line),
-        _list_item_content_loose: $ => seq(optional($._list_item_content_tight), $._blank_line, repeat($._block)),
+        _list_item_content_half_loose: $ => seq(optional($._list_item_content_tight), repeat1($._blank_line)),
+        _list_item_content_loose: $ => seq($._list_item_content_half_loose, $._block_no_blank_line, repeat($._block)),
 
         _list_item_plus_tight: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_minus_tight: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_star_tight: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_dot_tight: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_parenthethis_tight: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
+
+        _list_item_plus_half_loose: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_minus_half_loose: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_star_half_loose: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_dot_half_loose: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_parenthethis_half_loose: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
 
         _list_item_plus_loose: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_minus_loose: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
