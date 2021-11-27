@@ -60,6 +60,7 @@ Difftastic supports the following languages:
 * C++
 * C#
 * Clojure
+* Common Lisp
 * CSS
 * Elixir
 * Emacs Lisp

@@ -8,6 +8,7 @@ tool that understands syntax. It supports the following languages:
 * C++
 * C#
 * Clojure
+* Common Lisp
 * CSS
 * Elixir
 * Emacs Lisp

@@ -47,6 +47,7 @@ extern "C" {
     fn tree_sitter_c_sharp() -> Language;
     fn tree_sitter_clojure() -> Language;
     fn tree_sitter_cpp() -> Language;
+    fn tree_sitter_commonlisp() -> Language;
     fn tree_sitter_css() -> Language;
     fn tree_sitter_elisp() -> Language;
     fn tree_sitter_elixir() -> Language;
@@ -203,6 +204,13 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             atom_nodes: (vec!["string"]).into_iter().collect(),
             delimiter_tokens: (vec![("{", "}"), ("[", "]")]),
             highlight_queries: include_str!("../vendor/highlights/json.scm"),
+        }),
+        "lisp" | "lsp" | "asd" => Some(TreeSitterConfig {
+            name: "Common Lisp",
+            language: unsafe { tree_sitter_commonlisp() },
+            atom_nodes: (vec!["str_lit"]).into_iter().collect(),
+            delimiter_tokens: (vec![("(", ")")]),
+            highlight_queries: "",
         }),
         "ml" => Some(TreeSitterConfig {
             name: "OCaml",
