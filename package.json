@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-gdscript",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "GDScript grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
