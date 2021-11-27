@@ -246,10 +246,6 @@ impl<'a> Syntax<'a> {
         self.info().num_ancestors.get()
     }
 
-    pub fn change(&'a self) -> Option<ChangeKind<'a>> {
-        self.info().change.get()
-    }
-
     pub fn first_line(&self) -> Option<LineNumber> {
         let position = match self {
             List { open_position, .. } => open_position,
@@ -794,6 +790,12 @@ pub fn zip_repeat_shorter<Tx: Clone, Ty: Clone>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(
 mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
+
+    impl<'a> Syntax<'a> {
+        pub fn change(&'a self) -> Option<ChangeKind<'a>> {
+            self.info().change.get()
+        }
+    }
 
     #[test]
     fn test_comment_and_atom_differ() {
