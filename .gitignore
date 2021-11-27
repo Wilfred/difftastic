@@ -1,5 +1,4 @@
+package-lock.json
 node_modules
 build
-*.log
-/examples/numpy
-.tern-port
+prebuilds
