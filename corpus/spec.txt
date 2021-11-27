@@ -4136,16 +4136,12 @@ Example 261 - https://github.github.com/gfm/#example-261
   (tight_list
     (list_item
       (list_marker_dot)
-      (paragraph
-        
-        ))
+      (paragraph))
     (list_item
       (list_marker_dot))
     (list_item
       (list_marker_dot)
-      (paragraph
-        
-        ))))
+      (paragraph))))
 
 ================================================================================
 Example 262 - https://github.github.com/gfm/#example-262

@@ -54,8 +54,8 @@ enum TokenType {
 enum Block : uint8_t {
     BLOCK_QUOTE,
     INDENTED_CODE_BLOCK,
-    TIGHT_LIST_ITEM = 2,
-    TIGHT_LIST_ITEM_MAX_INDENTATION = 8,
+    LIST_ITEM = 2,
+    LIST_ITEM_MAX_INDENTATION = 8,
     FENCED_CODE_BLOCK,
     ANONYMOUS
 };
@@ -83,11 +83,11 @@ const char *BLOCK_NAME[] = {
 };
 
 bool is_list_item(Block block) {
-    return block >= TIGHT_LIST_ITEM && block <= TIGHT_LIST_ITEM_MAX_INDENTATION;
+    return block >= LIST_ITEM && block <= LIST_ITEM_MAX_INDENTATION;
 }
 
 uint8_t list_item_indentation(Block block) {
-    return block - TIGHT_LIST_ITEM + 2;
+    return block - LIST_ITEM + 2;
 }
 
 bool is_punctuation(char c) {
@@ -185,13 +185,13 @@ struct Scanner {
                     return true;
                 }
                 break;
-            case TIGHT_LIST_ITEM:
-            case TIGHT_LIST_ITEM + 1:
-            case TIGHT_LIST_ITEM + 2:
-            case TIGHT_LIST_ITEM + 3:
-            case TIGHT_LIST_ITEM + 4:
-            case TIGHT_LIST_ITEM + 5:
-            case TIGHT_LIST_ITEM + 6:
+            case LIST_ITEM:
+            case LIST_ITEM + 1:
+            case LIST_ITEM + 2:
+            case LIST_ITEM + 3:
+            case LIST_ITEM + 4:
+            case LIST_ITEM + 5:
+            case LIST_ITEM + 6:
                 if (indentation >= list_item_indentation(open_blocks[matched])) {
                     indentation -= list_item_indentation(open_blocks[matched]);
                     return true;
@@ -424,7 +424,7 @@ struct Scanner {
                                 indentation = extra_indentation;
                                 extra_indentation = temp;
                             }
-                            open_blocks.push_back(Block(TIGHT_LIST_ITEM + extra_indentation));
+                            open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                             matched++;
                             lexer->result_symbol = LIST_MARKER_STAR;
                             return true;
@@ -610,7 +610,7 @@ struct Scanner {
                                 indentation = extra_indentation;
                                 extra_indentation = temp;
                             }
-                            open_blocks.push_back(Block(TIGHT_LIST_ITEM + extra_indentation));
+                            open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                             matched++;
                             lexer->mark_end(lexer);
                             return true;
@@ -650,6 +650,10 @@ struct Scanner {
                                 while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
                                     extra_indentation += advance(lexer, false);
                                 }
+                                bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r';
+                                if (line_end) {
+                                    extra_indentation = 1;
+                                }
                                 if (extra_indentation >= 1) {
                                     if (state & STATE_WAS_LAZY_CONTINUATION) return error(lexer);
                                     state &= ~STATE_NEED_OPEN_BLOCK;
@@ -662,7 +666,7 @@ struct Scanner {
                                         indentation = extra_indentation;
                                         extra_indentation = temp;
                                     }
-                                    open_blocks.push_back(Block(TIGHT_LIST_ITEM + extra_indentation));
+                                    open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                                     matched++;
                                     lexer->mark_end(lexer);
                                     return true;
@@ -728,7 +732,7 @@ struct Scanner {
                                 indentation = extra_indentation;
                                 extra_indentation = temp;
                             }
-                            open_blocks.push_back(Block(TIGHT_LIST_ITEM + extra_indentation));
+                            open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                             matched++;
                             lexer->result_symbol = LIST_MARKER_MINUS;
                             return true;
