@@ -1,0 +1,3 @@
+[submodule "test/Petalisp"]
+	path = test/Petalisp
+	url = https://github.com/marcoheisig/Petalisp.git
