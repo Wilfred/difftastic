@@ -4,7 +4,7 @@ description = "gdscript grammar for the tree-sitter parsing library"
 version = "0.0.1"
 keywords = ["incremental", "parsing", "gdscript"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-gdscript"
+repository = "https://github.com/PrestonKnopp/tree-sitter-gdscript"
 edition = "2018"
 license = "MIT"
 
