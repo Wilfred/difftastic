@@ -120,6 +120,8 @@ module.exports = grammar(add_inline_rules({
         $._fenced_code_block_start_backtick,
         // This token does not actually contain the backticks for reasons to do with lexer->mark_end
         $._fenced_code_block_start_tilde,
+        $._fenced_code_block_end_backtick,
+        $._fenced_code_block_end_tilde,
         // Bad name. Just a whole blank line without the newline. TODO: rename this
         $._blank_line_start,
 
@@ -298,16 +300,23 @@ module.exports = grammar(add_inline_rules({
         _list_item_dot_loose: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_parenthethis_loose: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
 
-        fenced_code_block: $ => prec.right(seq(
-            choice(
-                seq($._fenced_code_block_start_backtick),
-                $._fenced_code_block_start_tilde
+        fenced_code_block: $ => prec.right(choice(
+            seq(
+                $._fenced_code_block_start_backtick,
+                optional($.info_string),
+                $._newline,
+                optional($.code_fence_content),
+                optional(seq($._fenced_code_block_end_backtick, $._close_block, $._newline)),
+                $._block_close,
             ),
-            optional($.info_string),
-            $._newline,
-            optional($.code_fence_content),
-            $._block_close,
-            optional($._newline)
+            seq(
+                $._fenced_code_block_start_tilde,
+                optional($.info_string),
+                $._newline,
+                optional($.code_fence_content),
+                optional(seq($._fenced_code_block_end_tilde, $._close_block, $._newline)),
+                $._block_close,
+            ),
         )),
         code_fence_content: $ => repeat1(choice($._newline, $._text)),
         info_string: $ => repeat1($._text),

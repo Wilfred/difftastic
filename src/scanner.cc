@@ -34,6 +34,8 @@ enum TokenType {
     LIST_MARKER_DOT,
     FENCED_CODE_BLOCK_START_BACKTICK,
     FENCED_CODE_BLOCK_START_TILDE,
+    FENCED_CODE_BLOCK_END_BACKTICK,
+    FENCED_CODE_BLOCK_END_TILDE,
     BLANK_LINE,
     CODE_SPAN_START,
     CODE_SPAN_CLOSE,
@@ -54,8 +56,7 @@ enum Block : uint8_t {
     INDENTED_CODE_BLOCK,
     TIGHT_LIST_ITEM = 2,
     TIGHT_LIST_ITEM_MAX_INDENTATION = 8,
-    FENCED_CODE_BLOCK_TILDE,
-    FENCED_CODE_BLOCK_BACKTICK,
+    FENCED_CODE_BLOCK,
     ANONYMOUS
 };
 
@@ -210,20 +211,7 @@ struct Scanner {
                     return true;
                 }
                 break;
-            case FENCED_CODE_BLOCK_BACKTICK:
-            case FENCED_CODE_BLOCK_TILDE:
-                {
-                    lexer->mark_end(lexer);
-                    size_t level = 0;
-                    while (lexer->lookahead == (block == FENCED_CODE_BLOCK_BACKTICK ? '`' : '~')) {
-                        advance(lexer, false);
-                        level++;
-                    }
-                    if (!(indentation < 4 && level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r'))) {
-                        return true;
-                    }
-                }
-                break;
+            case FENCED_CODE_BLOCK:
             case ANONYMOUS:
                 return true;
         }
@@ -325,13 +313,17 @@ struct Scanner {
                     }
                     break;
                 case '`':
-                    if (valid_symbols[CODE_SPAN_START] || valid_symbols[CODE_SPAN_CLOSE] || valid_symbols[FENCED_CODE_BLOCK_START_BACKTICK]) {
+                    if (valid_symbols[CODE_SPAN_START] || valid_symbols[CODE_SPAN_CLOSE] || valid_symbols[FENCED_CODE_BLOCK_START_BACKTICK] || valid_symbols[FENCED_CODE_BLOCK_END_BACKTICK]) {
                         size_t level = 0;
                         while (lexer->lookahead == '`') {
                             advance(lexer, false);
                             level++;
                         }
                         lexer->mark_end(lexer);
+                        if (valid_symbols[FENCED_CODE_BLOCK_END_BACKTICK] && indentation < 4 && level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
+                            lexer->result_symbol = FENCED_CODE_BLOCK_END_BACKTICK;
+                            return true;
+                        }
                         if (level >= 3) {
                             bool info_string_has_backtick = false;
                             while (lexer->lookahead != '\n' && lexer->lookahead != '\r' && !lexer->eof(lexer)) {
@@ -341,11 +333,11 @@ struct Scanner {
                                 }
                                 advance(lexer, true);
                             }
-                            if (!info_string_has_backtick && valid_symbols[FENCED_CODE_BLOCK_BACKTICK]) {
+                            if (!info_string_has_backtick && valid_symbols[FENCED_CODE_BLOCK]) {
                                 lexer->result_symbol = FENCED_CODE_BLOCK_START_BACKTICK;
                                 if (state & STATE_WAS_LAZY_CONTINUATION) return error(lexer);
                                 state &= ~STATE_NEED_OPEN_BLOCK;
-                                open_blocks.push_back(FENCED_CODE_BLOCK_BACKTICK);
+                                open_blocks.push_back(FENCED_CODE_BLOCK);
                                 code_span_delimiter_length = level;
                                 matched += 2;
                                 indentation = 0;
@@ -536,22 +528,24 @@ struct Scanner {
                     }
                     break;
                 case '~':
-                    if (valid_symbols[FENCED_CODE_BLOCK_START_TILDE]) {
-                        lexer->mark_end(lexer);
+                    if (valid_symbols[FENCED_CODE_BLOCK_START_TILDE] || valid_symbols[FENCED_CODE_BLOCK_END_TILDE]) {
                         size_t level = 0;
                         while (lexer->lookahead == '~') {
                             advance(lexer, false);
                             level++;
                         }
-                        if (level >= 3) {
+                        if (valid_symbols[FENCED_CODE_BLOCK_END_TILDE] && indentation < 4 && level >= code_span_delimiter_length && (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
+                            lexer->result_symbol = FENCED_CODE_BLOCK_END_TILDE;
+                            return true;
+                        }
+                        if (valid_symbols[FENCED_CODE_BLOCK_START_TILDE] && level >= 3) {
                             if (state & STATE_WAS_LAZY_CONTINUATION) return error(lexer);
                             state &= ~STATE_NEED_OPEN_BLOCK;
                             lexer->result_symbol = FENCED_CODE_BLOCK_START_TILDE;
-                            open_blocks.push_back(FENCED_CODE_BLOCK_TILDE);
+                            open_blocks.push_back(FENCED_CODE_BLOCK);
                             code_span_delimiter_length = level;
                             matched += 2;
                             indentation = 0;
-                            lexer->mark_end(lexer);
                             return true;
                         }
                     }
@@ -762,7 +756,7 @@ struct Scanner {
             bool partial_success = false;
             while (matched < open_blocks.size()) {
                 if (matched == open_blocks.size() - 1 && (state & STATE_CLOSE_BLOCK)) {
-                    state &= ~STATE_CLOSE_BLOCK;
+                    if (!partial_success) state &= ~STATE_CLOSE_BLOCK;
                     break;
                 }
                 if (match(lexer, open_blocks[matched])) {
@@ -793,7 +787,7 @@ struct Scanner {
             if (!valid_symbols[LAZY_CONTINUATION]) {
                 Block block = open_blocks[open_blocks.size() - 1];
                 lexer->result_symbol = BLOCK_CLOSE;
-                if (block == FENCED_CODE_BLOCK_BACKTICK || block == FENCED_CODE_BLOCK_TILDE) {
+                if (block == FENCED_CODE_BLOCK) {
                     lexer->mark_end(lexer);
                     indentation = 0;
                 }
