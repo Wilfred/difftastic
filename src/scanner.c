@@ -16,7 +16,7 @@ bool tree_sitter_godot_resource_external_scanner_scan(void *payload, TSLexer *le
       return false;
     }
 
-    if (iswspace(lexer->lookahead)) {
+    while (iswspace(lexer->lookahead)) {
       lexer->advance(lexer, true);
     }
 
