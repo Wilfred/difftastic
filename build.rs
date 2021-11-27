@@ -78,6 +78,11 @@ fn main() {
             extra_files: vec![],
         },
         TreeSitterParser {
+            name: "tree-sitter-commonlisp".into(),
+            src_dir: "vendor/tree-sitter-commonlisp-src".into(),
+            extra_files: vec![],
+        },
+        TreeSitterParser {
             name: "tree-sitter-css".into(),
             src_dir: "vendor/tree-sitter-css-src".into(),
             extra_files: vec!["scanner.c".into()],
