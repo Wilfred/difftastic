@@ -985,22 +985,6 @@
           "named": true
         },
         {
-          "type": "kPrivate",
-          "named": true
-        },
-        {
-          "type": "kProtected",
-          "named": true
-        },
-        {
-          "type": "kPublic",
-          "named": true
-        },
-        {
-          "type": "kPublished",
-          "named": true
-        },
-        {
           "type": "kResourcestring",
           "named": true
         }
@@ -1685,6 +1669,10 @@
           {
             "type": "type",
             "named": true
+          },
+          {
+            "type": "typeref",
+            "named": true
           }
         ]
       }
@@ -1751,7 +1739,7 @@
         "required": false,
         "types": [
           {
-            "type": "type",
+            "type": "typeref",
             "named": true
           }
         ]
@@ -2463,22 +2451,6 @@
           "named": true
         },
         {
-          "type": "kPrivate",
-          "named": true
-        },
-        {
-          "type": "kProtected",
-          "named": true
-        },
-        {
-          "type": "kPublic",
-          "named": true
-        },
-        {
-          "type": "kPublished",
-          "named": true
-        },
-        {
           "type": "kType",
           "named": true
         }
@@ -2663,7 +2635,7 @@
         "required": true,
         "types": [
           {
-            "type": "type",
+            "type": "typeref",
             "named": true
           }
         ]
@@ -2771,22 +2743,6 @@
         },
         {
           "type": "kClass",
-          "named": true
-        },
-        {
-          "type": "kPrivate",
-          "named": true
-        },
-        {
-          "type": "kProtected",
-          "named": true
-        },
-        {
-          "type": "kPublic",
-          "named": true
-        },
-        {
-          "type": "kPublished",
           "named": true
         },
         {
@@ -5225,7 +5181,7 @@
         "required": false,
         "types": [
           {
-            "type": "type",
+            "type": "typeref",
             "named": true
           }
         ]
@@ -6125,85 +6081,85 @@
             "named": true
           }
         ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arrInitializer",
+            "named": true
+          },
+          {
+            "type": "exprBinary",
+            "named": true
+          },
+          {
+            "type": "exprBrackets",
+            "named": true
+          },
+          {
+            "type": "exprCall",
+            "named": true
+          },
+          {
+            "type": "exprDot",
+            "named": true
+          },
+          {
+            "type": "exprParens",
+            "named": true
+          },
+          {
+            "type": "exprSubscript",
+            "named": true
+          },
+          {
+            "type": "exprTpl",
+            "named": true
+          },
+          {
+            "type": "exprUnary",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "inherited",
+            "named": true
+          },
+          {
+            "type": "kFalse",
+            "named": true
+          },
+          {
+            "type": "kNil",
+            "named": true
+          },
+          {
+            "type": "kTrue",
+            "named": true
+          },
+          {
+            "type": "lambda",
+            "named": true
+          },
+          {
+            "type": "literalNumber",
+            "named": true
+          },
+          {
+            "type": "literalString",
+            "named": true
+          },
+          {
+            "type": "recInitializer",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "arrInitializer",
-          "named": true
-        },
-        {
-          "type": "exprBinary",
-          "named": true
-        },
-        {
-          "type": "exprBrackets",
-          "named": true
-        },
-        {
-          "type": "exprCall",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprParens",
-          "named": true
-        },
-        {
-          "type": "exprSubscript",
-          "named": true
-        },
-        {
-          "type": "exprTpl",
-          "named": true
-        },
-        {
-          "type": "exprUnary",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "inherited",
-          "named": true
-        },
-        {
-          "type": "kFalse",
-          "named": true
-        },
-        {
-          "type": "kNil",
-          "named": true
-        },
-        {
-          "type": "kTrue",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "literalNumber",
-          "named": true
-        },
-        {
-          "type": "literalString",
-          "named": true
-        },
-        {
-          "type": "recInitializer",
-          "named": true
-        }
-      ]
     }
   },
   {
