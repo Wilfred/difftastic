@@ -47,10 +47,6 @@ impl TreeSitterParser {
 }
 
 fn main() {
-    // Only rerun if files in the vendor/ directory change.
-    // TODO: use specific source directories instead.
-    println!("cargo:rerun-if-changed=vendor");
-
     let parsers = vec![
         TreeSitterParser {
             name: "tree-sitter-bash".into(),
@@ -158,6 +154,12 @@ fn main() {
             extra_files: vec!["scanner.c".into()],
         },
     ];
+
+    // Only rerun if relevant files in the vendor/ directory change.
+    println!("cargo:rerun-if-changed=vendor/highlights");
+    for parser in &parsers {
+        println!("cargo:rerun-if-changed={}", parser.src_dir);
+    }
 
     parsers.par_iter().for_each(|p| p.build());
 }
