@@ -1,7 +1,7 @@
 {
-  "name": "tree-sitter-quick_check",
+  "name": "tree-sitter-pascal",
   "version": "0.0.0",
-  "description": "Dummy Tree sitter grammar",
+  "description": "Tree sitter grammar for Pascal (Delphi, Freepascal)",
   "main": "bindings/node",
   "repository": null,
   "author": "Benjamin Gray",
