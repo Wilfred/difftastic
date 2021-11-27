@@ -16,3 +16,14 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm test
+      - name: Parse Petalisp
+        run: |
+          git submodule init
+          git submodule update
+          if (( $(node_modules/tree-sitter-cli/tree-sitter parse test/Petalisp/**/*.lisp -q | wc -l) > 2 )); then # There are 2 known failures (strings that are not format strings but use ~X syntax)
+            exit 1 
+          else
+            echo "Successfully parsed Petalisp"
+          fi
+      - name: Run tests
+        run: npm test
