@@ -1,0 +1,171 @@
+=====================================
+Lonely Section
+=====================================
+
+[id]
+
+---
+
+(resource
+  (section (identifier)))
+
+=====================================
+Section with Attributes
+=====================================
+
+[id a=1 b="s"]
+
+---
+
+(resource
+  (section (identifier)
+    (attribute (identifier) (integer))
+    (attribute (identifier) (string))))
+
+=====================================
+Section Properties
+=====================================
+
+[id]
+a = 1
+b = 2
+
+---
+
+(resource
+  (section (identifier)
+    (property (path) (integer))
+    (property (path) (integer))))
+
+=====================================
+Section with Attributes Properties
+=====================================
+
+[id a=1 b="s"]
+a = 1
+b = 2
+
+---
+
+(resource
+  (section (identifier)
+    (attribute (identifier) (integer))
+    (attribute (identifier) (string))
+    (property (path) (integer))
+    (property (path) (integer))))
+
+=====================================
+Dictionary Properties
+=====================================
+
+[id]
+dict = {}
+dict = {
+"a": 1,
+"b": 2
+}
+
+---
+
+(resource
+  (section (identifier)
+    (property (path) (dictionary))
+    (property (path)
+      (dictionary
+        (pair (string) (integer))
+        (pair (string) (integer))))))
+
+=====================================
+Sub Dictionary Properties
+=====================================
+
+[id]
+dict = {
+"a": {
+"b": 1
+}
+}
+
+---
+
+(resource
+  (section (identifier)
+    (property (path)
+      (dictionary
+        (pair
+          (string)
+          (dictionary
+            (pair
+              (string)
+              (integer))))))))
+
+=====================================
+Indented Dictionary Properties
+=====================================
+
+[id]
+dict = {
+  "a": 1,
+  "b": 2
+}
+
+---
+
+(resource
+  (section (identifier)
+    (property (path)
+      (dictionary
+        (pair (string) (integer))
+        (pair (string) (integer))))))
+
+=====================================
+Section with String Attr and Prop
+=====================================
+
+[id a="a/b"]
+dict = {
+"a": true
+}
+
+---
+
+(resource
+  (section (identifier)
+    (attribute (identifier) (string))
+    (property (path)
+      (dictionary
+        (pair (string) (true))))))
+
+=====================================
+Constructor Property
+=====================================
+
+[id a=1.0]
+a = Constructor( 1 )
+
+---
+
+(resource
+  (section
+    (identifier)
+    (attribute (identifier) (float))
+    (property (path)
+      (constructor (identifier)
+        (arguments (integer))))))
+
+=====================================
+Underscore Property
+=====================================
+
+[id]
+__dict__ = {
+"a": true
+}
+
+---
+
+(resource
+  (section (identifier)
+    (property (path)
+      (dictionary
+        (pair (string) (true))))))
