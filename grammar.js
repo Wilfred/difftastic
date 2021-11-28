@@ -274,8 +274,8 @@ module.exports = grammar(clojure, {
 
         array_dimension: _ => prec(100, /\d+[aA]/),
 
-        char_lit: (_, original) =>
-            seq('#', choice(original, /\\[nN]ewline/, /\\[lL]inefeed/, /\\[Ss]pace/, /\\[nN]ull/, /\\[rR]ull/)),
+        char_lit: _ =>
+            seq('#', /\\[^:\f\n\r\t ()\[\]{}"^;`\\,#'\u000B\u001C\u001D\u001E\u001F\u2028\u2029\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200a\u205f\u3000]+/),
 
         vec_lit: $ =>
             prec(PREC.SPECIAL,
