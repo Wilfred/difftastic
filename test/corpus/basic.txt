@@ -1207,13 +1207,75 @@ loop with 2
             (sym_lit)))))))
 
 ================================================================================
+Loop with keywords (TODO: do should not by type of with!)
+================================================================================
+(loop :with b :do
+   (setq b
+         x)
+   )
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (kwd_lit
+            (kwd_symbol))
+          (list_lit
+            (sym_lit)
+            (sym_lit)
+            (sym_lit)))))))
+
+================================================================================
+Loop with keywords 2
+================================================================================
+
+ (loop
+          for id upfrom 0
+          with frame = (nth-frame-list index))
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (for_clause
+          (sym_lit)
+          (for_clause_word)
+          (num_lit)))
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (list_lit
+            (sym_lit)
+            (sym_lit)))))))
+
+================================================================================
+with type should be symbol or list (TODO!!!)
+================================================================================
+(loop :with b :do
+   (setq b x))
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (kwd_lit
+            (kwd_symbol))
+          (list_lit
+            (sym_lit)
+            (sym_lit)
+            (sym_lit)))))))
+
+================================================================================
 Backslashes in strings
 ================================================================================
-  "Returns the arglist of the subform _immediately_ containing
-+CURSOR-MARKER+ in `form'. Notice, however, that +CURSOR-MARKER+ may
-be in a nested arglist \(e.g. `(WITH-OPEN-FILE (<here>'\), and the
-arglist of the appropriate parent form \(WITH-OPEN-FILE\) will be
-returned in that case."
+  " \( '\), \( \) "
 
 --------------------------------------------------------------------------------
 
