@@ -99,10 +99,16 @@ while read line ; do
     cd $tmpdir
     checkout $line
     cd $parser_dir
-    validate $line &
-    pids+=($!)
+    if [ -z "$1" ]; then
+        validate $line &
+        pids+=($!)
+    else
+        validate $line
+    fi
 done <<<"$repos"
 
-for pid in "${pids[@]}" ; do
-    wait $pid
-done
+if [ -z "$1" ]; then
+    for pid in "${pids[@]}" ; do
+        wait $pid
+    done
+fi
