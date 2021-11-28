@@ -2,6 +2,15 @@ Alamofire Alamofire/Alamofire 5.4.4
 lottie-ios airbnb/lottie-ios 3.2.3
 vapor vapor/vapor 3.3.3
 SwiftyJSON SwiftyJSON/SwiftyJSON 5.0.1
+RxSwift ReactiveX/RxSwift 6.2.0 0 9
+RxSwift ReactiveX/RxSwift 6.2.0 1 9
+RxSwift ReactiveX/RxSwift 6.2.0 2 9
+RxSwift ReactiveX/RxSwift 6.2.0 3 9
+RxSwift ReactiveX/RxSwift 6.2.0 4 9
+RxSwift ReactiveX/RxSwift 6.2.0 5 9
+RxSwift ReactiveX/RxSwift 6.2.0 6 9
+RxSwift ReactiveX/RxSwift 6.2.0 7 9
+RxSwift ReactiveX/RxSwift 6.2.0 8 9
 Kingfisher onevcat/Kingfisher 7.1.1
 shadowsocks shadowsocks/ShadowsocksX-NG v1.9.4
 Carthage Carthage/Carthage 0.38.0
