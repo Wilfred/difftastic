@@ -10,7 +10,7 @@
 // hand-written C code into the parser. This parser tries to use this as little as
 // possible, in practice this means using the external scanner to parse:
 //
-// * All container blocks (besides list because they are just multiplse list items)
+// * All container blocks (besides list because they are just multiple list items)
 //   This is needed because at the start of each line we need to match all open blocks
 //   so we need to be able to look back on the parse stack arbitrarily far. Traditional
 //   tree-sitter parsers are not able to do this.
@@ -46,7 +46,7 @@
 // For example in '*foo *bar*' only 'bar' should be emphasized (see the spec for more info).
 // (Links could also have the same problem but I have not yet thought about that)
 //
-// I will try the following tactic: Whenever we encounter a delimiter - lets say a '*' -
+// I implemented the following tactic: Whenever we encounter a delimiter - lets say a '*' -
 // and it is possible that this is a closing delimiter, it has to be a closing delimiter.
 // If it can only be a opening delimiter we split the parser state as before, but as soon
 // as we hit a second opening delimiter (and the previous one has not been closed). We know
@@ -61,24 +61,38 @@ const html_entities = require("./html_entities.json");
 // https://github.github.com/gfm/#ascii-punctuation-character
 const PUNCTUATION_CHARACTERS = '!-/:-@\\[-`\\{-~';
 const PUNCTUATION_CHARACTERS_ARRAY = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'];
+
+
+// Regexes for html tags. A html tag for a html block may not be a '<pre', '<script' or
+// '<style' tag, so we need to deny these names by making a cracy complex regex. 
+// TODO: Inline html should probably not be parsed by a single regex.
 const HTML_OPEN_TAG = /<[a-zA-Z][a-zA-Z0-9\-]*([ \t]+[a-zA-Z_:][a-zA-Z0-9_\.:\-]*[ \t]*=[ \t]*([^ \t\r\n"'=<>`]+|'[^'\r\n]*'|"[^"\r\n]*"))*[ \t]*\/?>/;
 const HTML_CLOSING_TAG = /<\/[a-zA-Z][a-zA-Z0-9\-]*[ \t]*>/;
 const HTML_OPEN_TAG_EXCLUDE = '<' + negative_regex(['pre', 'script', 'style'], '', '0-9\\-') + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>';
 const HTML_CLOSING_TAG_EXCLUDE = '</' + negative_regex(['pre', 'script', 'style'], '', '0-9\\-') + '[ \\t]*>';
 
+// !!!
+// Notice the call to `add_inline_rules` which generates some additional rules related to parsing
+// inline contents in different contexts.
+// !!!
 module.exports = grammar(add_inline_rules({
     name: 'markdown',
 
     // TODO: Sort these tokens in some more sensible manner
     externals: $ => [
+        // This gets emmited to kill invalid parse branches. Concretely this is used to decide the ending
+        // of a paragraph and together with `$._trigger_error` in `$.link_title`.
         $._error,
-        $._dummy,
-        // TOKENS FOR BLOCK STRUCTURE:
-        // Currently we parse this with the external scanner since there seems to be a bug in tree-sitter
-        // with parsing newlines. Also the external parser needs to know about newlines to start matching.
+        // This token is used for handling of newlines in paragraphs to manually trigger a conflict.
+        $._split_token,
+        // This token does not actually contain the newline, but it will always get emitted by the external
+        // scanner if it is valid. Usualy this is the case in `$._newline` after parsing the actual newline
+        // characters.
         $._line_ending,
-        $._lazy_continuation,
-        // Every block that is not a paragraph and can have multiple lines will start with an opening token
+        // This token is used for handling paragraph newlines to signify that this is the parse branch in
+        // which we try to continue the paragraph.
+        $._soft_line_break_marker,
+        // Most blocks that are not paragraphs and can have multiple lines will start with an opening token
         // like `$._block_quote_start` and close with `$._block_close`
         $._block_close,
         // Token encountered if we match an open block. For example a '>' at the beginning of a line
@@ -115,11 +129,12 @@ module.exports = grammar(add_inline_rules({
         $.list_marker_parenthethis,
         $.list_marker_dot,
         // Marks the beginning of a fenced code block (https://github.github.com/gfm/#fenced-code-blocks)
-        // We need to differentiate between backtick and tilde code blocks since info strings for backtick
-        // code blocks are not allowed to contain backticks.
+        // We need to differentiate between backtick and tilde code blocks since they have different closing
+        // tokens.
         $._fenced_code_block_start_backtick,
-        // This token does not actually contain the backticks for reasons to do with lexer->mark_end
         $._fenced_code_block_start_tilde,
+        // Closing backticks or tildas for a fenced code block. They are used to trigger a `$._close_block`
+        // which in turn will trigger a `$._block_close` at the beginning the following line.
         $._fenced_code_block_end_backtick,
         $._fenced_code_block_end_tilde,
         // Bad name. Just a whole blank line without the newline. TODO: rename this
@@ -132,31 +147,35 @@ module.exports = grammar(add_inline_rules({
         $._code_span_start,
         $._code_span_close,
 
-        // Tactic for parsing emphasis:
-        // (See https://github.github.com/gfm/#emphasis-and-strong-emphasis)
-        // Most of this can actually be done by traditional tree-sitter rules, but we need
-        // the help of the external scanner to determine if a marker ('*' or '_')
-        // can open / close emphasis.
-        // Also I don't yet know about the weird "mod 3" stuff in rule 9
-
-        // We need to tell the parse if the last character was a whitespace (or the
+        // For emphasis we need to tell the parse if the last character was a whitespace (or the
         // beginning of a line) or a punctuation. These tokens never actually get emitted.
         $._last_token_whitespace,
         $._last_token_punctuation,
 
-        // The external parser can then decide if any '*' or '_' can open / close emphasis
+        // The external parser can then decide if any '*' or '_' can open / close emphasis.
         // Open should always be valid, but the external scanner will emit a close if it
         // can to be in line with the spec.
         $._emphasis_open_star,
         $._emphasis_open_underscore,
         $._emphasis_close_star,
         $._emphasis_close_underscore,
+
+        // This is used in the case that a start token for a block is not parsed by the external
+        // parser to properly update the currently open blocks in the external parser.
         $._open_block,
+        // Similarly this is used if the closing of a block is not decided by the external parser.
+        // A `$._block_close` will be emitted at the beginning of the next line. Notice that a
+        // `$._block_close` can also get emitted if the parent block closes.
         $._close_block,
+        // This is a workaround so the external parser does not try to open indented blocks when
+        // parsing a link reference definition.
+        // TODO There is probably a better way to do this. Also think about a better way to not open
+        // some blocks directly after paragraphs.
         $._no_indented_chunk,
+        // If this token is valid the external scanner will cause a error to occur to kill the current
+        // parse branch.
         $._trigger_error,
     ],
-    // I'm not sure this declaration does anything. TODO: Ask someone if it does
     precedences: $ => [
         [$._inline_element, $.paragraph],
         [$.tight_list, $.loose_list],
@@ -165,15 +184,19 @@ module.exports = grammar(add_inline_rules({
         [$.setext_h2_underline, $.thematic_break],
         [$.indented_code_block, $._block],
     ],
+    // More conflicts are defined in `add_inline_rules`
     conflicts: $ => [
         [$.link_reference_definition, $._shortcut_link],
-        [$._lazy_newline, $._paragraph_end_newline],
+        [$._soft_line_break, $._paragraph_end_newline],
         [$.link_reference_definition],
     ],
 
     rules: {
         document: $ => seq(optional($._ignore_matching_tokens), repeat($._block)),
 
+        // BLOCK STRUCTURE
+
+        // All blocks. It is important that every block ends with a newline.
         _block: $ => choice(
             $.paragraph,
             $.setext_heading,
@@ -188,6 +211,7 @@ module.exports = grammar(add_inline_rules({
             $.html_block,
             $.link_reference_definition,
         ),
+        // just the blocks that are able to interrupt a paragraph
         _block_interrupt_paragraph: $ => choice(
             $.atx_heading,
             $.block_quote,
@@ -200,6 +224,8 @@ module.exports = grammar(add_inline_rules({
             $.setext_h1_underline,
             $.setext_h2_underline,
         ),
+        // All blocks besides blank lines. This is used to decide if a list is tight
+        // or loose
         _block_no_blank_line: $ => choice(
             $.paragraph,
             $.setext_heading,
@@ -214,7 +240,25 @@ module.exports = grammar(add_inline_rules({
             $.link_reference_definition,
         ),
 
+        // A blank line including the following newline
         _blank_line: $ => seq($._blank_line_start, $._newline),
+
+        // A paragraph. The parsing tactic for deciding when a paragraph ends is as follows:
+        // on every newline inside a paragraph a conflict is triggered manually using
+        // `$._split_token` to split the parse state into two branches.
+        //
+        // One of them - the one that also contains a `$._soft_line_break_marker` will try to
+        // continue the paragraph, but we make sure that the beginning of a new block that can
+        // interrupt a paragraph can also be parsed. If this is the case we know that the paragraph
+        // should have been closed and the external parser will emit an `$._error` to kill the parse
+        // branch.
+        //
+        // The other parse branch consideres the paragraph to be over. It will be killed if no valid new
+        // block is detected before the next newline. (For example it will also be killed if a indented
+        // code block is detected, which cannot interrupt paragraphs).
+        //
+        // Either way, after the next newline only one branch will exist, so the ammount of branches
+        // related to paragraphs ending does not grow.
         paragraph: $ => seq($._inline, $._paragraph_end_newline),
         indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, $._blank_line)))),
         _indented_chunk: $ => seq($._indented_chunk_start, repeat(choice($._text, $._newline)), $._block_close, optional($._ignore_matching_tokens)),
@@ -369,7 +413,7 @@ module.exports = grammar(add_inline_rules({
             optional($._whitespace),
             $.link_label,
             ':',
-            optional(seq(optional($._whitespace), optional(seq($._lazy_newline, optional($._whitespace))))),
+            optional(seq(optional($._whitespace), optional(seq($._soft_line_break, optional($._whitespace))))),
             $.link_destination,
             optional(prec.dynamic(2, seq(
                 choice(
@@ -413,13 +457,13 @@ module.exports = grammar(add_inline_rules({
         _text_no_parenthethis: $ => choice($._word, punctuation_without($, ['(', ')']), $._whitespace),
         _text_no_angle: $ => choice($._word, punctuation_without($, ['<', '>']), $._whitespace),
 
-        _lazy_newline: $ => prec.right(seq(
+        _soft_line_break: $ => prec.right(seq(
             $._newline,
-            repeat(choice($._dummy, $._lazy_continuation)),
-            $._lazy_continuation,
+            repeat(choice($._split_token, $._soft_line_break_marker)),
+            $._soft_line_break_marker,
             optional($._block_interrupt_paragraph), // not actually valid, we will error if it manages to match a block
         )),
-        _paragraph_end_newline: $ => seq($._newline, repeat($._dummy)),
+        _paragraph_end_newline: $ => seq($._newline, repeat($._split_token)),
 
         _shortcut_link: $ => alias($.link_label, $.link_text),
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
@@ -518,7 +562,7 @@ function add_inline_rules(grammar) {
                 ];
                 if (newline) {
                     elements = elements.concat([
-                        $._lazy_newline,
+                        $._soft_line_break,
                     ]);
                 }
                 return choice(...elements);
@@ -563,7 +607,7 @@ function add_inline_rules(grammar) {
         
         grammar.rules['_emphasis_star' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_star, $['_inline' + suffix_newline + '_no_star'], $._emphasis_close_star));
         grammar.rules['_emphasis_underscore' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_underscore, $['_inline' + suffix_newline + '_no_underscore'], $._emphasis_close_underscore));
-        grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(1, seq($._code_span_start, repeat(newline ? choice($._text, $._lazy_newline) : $._text), $._code_span_close));
+        grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(1, seq($._code_span_start, repeat(newline ? choice($._text, $._soft_line_break) : $._text), $._code_span_close));
     }
 
     let old = grammar.conflicts

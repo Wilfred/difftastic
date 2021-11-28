@@ -10,7 +10,7 @@ using std::memcpy;
 
 enum TokenType {
     ERROR,
-    DUMMY,
+    SPLIT_TOKEN,
     LINE_ENDING,
     LAZY_CONTINUATION,
     BLOCK_CLOSE,
@@ -102,7 +102,7 @@ const uint16_t STATE_MATCHING = 0x1 << 0; // TODO: remove this in favor of match
 const uint16_t STATE_WAS_LAZY_CONTINUATION = 0x1 << 1;
 const uint16_t STATE_EMPHASIS_DELIMITER_MOD_3 = 0x3 << 2; // TODO
 const uint16_t STATE_EMPHASIS_DELIMITER_IS_OPEN = 0x1 << 4;
-const uint16_t STATE_DUMMY_COUNT = 0x3 << 5;
+const uint16_t STATE_SPLIT_TOKEN_COUNT = 0x3 << 5;
 const uint16_t STATE_CLOSE_BLOCK = 0x1 << 7;
 const uint16_t STATE_NEED_OPEN_BLOCK = 0x1 << 8;
 
@@ -237,8 +237,8 @@ struct Scanner {
             return true;
         }
 
-        uint8_t dummy_count = (state & STATE_DUMMY_COUNT) >> 5;
-        if (dummy_count == 2 && !valid_symbols[LAZY_CONTINUATION] && matched == open_blocks.size()) {
+        uint8_t split_token_count = (state & STATE_SPLIT_TOKEN_COUNT) >> 5;
+        if (split_token_count == 2 && !valid_symbols[LAZY_CONTINUATION] && matched == open_blocks.size()) {
             state &= ~STATE_MATCHING;
         }
 
@@ -250,7 +250,7 @@ struct Scanner {
             } else {
                 state &= (~STATE_MATCHING);
             }
-            state &= (~STATE_WAS_LAZY_CONTINUATION) & (~STATE_DUMMY_COUNT) & (~STATE_NEED_OPEN_BLOCK);
+            state &= (~STATE_WAS_LAZY_CONTINUATION) & (~STATE_SPLIT_TOKEN_COUNT) & (~STATE_NEED_OPEN_BLOCK);
             indentation = 0;
             column = 0;
             lexer->result_symbol = LINE_ENDING;
@@ -779,13 +779,13 @@ struct Scanner {
                 return true;
             }
 
-            uint8_t dummy_count = (state & STATE_DUMMY_COUNT) >> 5;
-            if (valid_symbols[DUMMY] && dummy_count < 2) {
-                dummy_count++;
-                state &= ~STATE_DUMMY_COUNT;
-                state |= dummy_count << 5;
+            uint8_t split_token_count = (state & STATE_SPLIT_TOKEN_COUNT) >> 5;
+            if (valid_symbols[SPLIT_TOKEN] && split_token_count < 2) {
+                split_token_count++;
+                state &= ~STATE_SPLIT_TOKEN_COUNT;
+                state |= split_token_count << 5;
                 state |= STATE_NEED_OPEN_BLOCK;
-                lexer->result_symbol = DUMMY;
+                lexer->result_symbol = SPLIT_TOKEN;
                 return true;
             }
             if (!valid_symbols[LAZY_CONTINUATION]) {

@@ -4167,16 +4167,8 @@ foo
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph
-    
-    
-    
-    )
-  (paragraph
-    
-    
-    
-    ))
+  (paragraph)
+  (paragraph))
 
 ================================================================================
 Example 264 - https://github.github.com/gfm/#example-264
@@ -4457,16 +4449,12 @@ Example 274 - https://github.github.com/gfm/#example-274
 (document
   (tight_list
     (list_item
-      (list_marker_minus)
-      (paragraph
-        
-        )
+      (list_marker_parenthethis)
+      (paragraph)
       (tight_list
         (list_item
           (list_marker_minus)
-          (paragraph
-            
-            ))))))
+          (paragraph))))))
 
 ================================================================================
 Example 275 - https://github.github.com/gfm/#example-275

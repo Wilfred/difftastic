@@ -4260,7 +4260,7 @@
                         "members": [
                           {
                             "type": "SYMBOL",
-                            "name": "_lazy_newline"
+                            "name": "_soft_line_break"
                           },
                           {
                             "type": "CHOICE",
@@ -5783,7 +5783,7 @@
         }
       ]
     },
-    "_lazy_newline": {
+    "_soft_line_break": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -5800,18 +5800,18 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_dummy"
+                  "name": "_split_token"
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_lazy_continuation"
+                  "name": "_soft_line_break_marker"
                 }
               ]
             }
           },
           {
             "type": "SYMBOL",
-            "name": "_lazy_continuation"
+            "name": "_soft_line_break_marker"
           },
           {
             "type": "CHOICE",
@@ -5839,7 +5839,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_dummy"
+            "name": "_split_token"
           }
         }
       ]
@@ -7589,7 +7589,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_lazy_newline"
+          "name": "_soft_line_break"
         }
       ]
     },
@@ -7852,7 +7852,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_lazy_newline"
+          "name": "_soft_line_break"
         }
       ]
     },
@@ -8111,7 +8111,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_lazy_newline"
+          "name": "_soft_line_break"
         }
       ]
     },
@@ -8372,7 +8372,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_lazy_newline"
+                  "name": "_soft_line_break"
                 }
               ]
             }
@@ -8397,7 +8397,7 @@
       "_shortcut_link"
     ],
     [
-      "_lazy_newline",
+      "_soft_line_break",
       "_paragraph_end_newline"
     ],
     [
@@ -8617,7 +8617,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_dummy"
+      "name": "_split_token"
     },
     {
       "type": "SYMBOL",
@@ -8625,7 +8625,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_lazy_continuation"
+      "name": "_soft_line_break_marker"
     },
     {
       "type": "SYMBOL",
