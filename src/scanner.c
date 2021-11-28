@@ -323,6 +323,10 @@ static enum ParseDirective eat_whitespace(
                 while (lexer->lookahead != '\n') {
                     lexer->advance(lexer, true);
                 }
+            } else if (iswspace(lexer->lookahead)) {
+                // We didn't see any type of comment - in fact, we saw an operator that we don't normally treat as an
+                // operator. Still, this is a reason to stop parsing.
+                return STOP_PARSING_NOTHING_FOUND;
             }
 
             // If we skipped through some comment, we're at whitespace now, so advance.
