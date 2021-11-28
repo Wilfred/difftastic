@@ -152,12 +152,15 @@ module.exports = grammar({
     $._nil_coalescing_operator,
     $._equal_sign,
     $._eq_eq,
+    $._plus_then_ws, // + symbol with whitespace after it
+    $._minus_then_ws, // - symbol with whitespace after it
     $._throws_keyword,
     $._rethrows_keyword,
     $.default_keyword,
     $._where_keyword,
     $._else,
     $._catch,
+    $._as,
     $._as_quest,
     $._as_bang,
   ],
@@ -834,11 +837,12 @@ module.exports = grammar({
 
     _is_operator: ($) => "is",
 
-    _additive_operator: ($) => choice("+", "-"),
+    _additive_operator: ($) =>
+      choice($._plus_then_ws, $._minus_then_ws, "+", "-"),
 
     _multiplicative_operator: ($) => choice("*", "/", "%"),
 
-    _as_operator: ($) => choice("as", $._as_quest, $._as_bang),
+    _as_operator: ($) => choice($._as, $._as_quest, $._as_bang),
 
     _prefix_unary_operator: ($) =>
       prec.right(
@@ -1634,7 +1638,11 @@ function generate_case_pattern($, allows_binding, force) {
 function generate_type_casting_pattern($, allows_binding) {
   return choice(
     seq("is", $._type),
-    seq(generate_pattern_matching_rule($, allows_binding, false), "as", $._type)
+    seq(
+      generate_pattern_matching_rule($, allows_binding, false),
+      $._as,
+      $._type
+    )
   );
 }
 

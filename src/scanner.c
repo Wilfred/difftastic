@@ -16,17 +16,20 @@ enum TokenType {
     NIL_COALESCING_OPERATOR,
     EQUAL_SIGN,
     EQ_EQ,
+    PLUS_THEN_WS,
+    MINUS_THEN_WS,
     THROWS_KEYWORD,
     RETHROWS_KEYWORD,
     DEFAULT_KEYWORD,
     WHERE_KEYWORD,
     ELSE_KEYWORD,
     CATCH_KEYWORD,
+    AS_KEYWORD,
     AS_QUEST,
     AS_BANG
 };
 
-#define CROSS_SEMI_OPERATOR_COUNT 17
+#define CROSS_SEMI_OPERATOR_COUNT 20
 
 const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "->",
@@ -38,14 +41,47 @@ const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "??",
     "=",
     "==",
+    "+",
+    "-",
     "throws",
     "rethrows",
     "default",
     "where",
     "else",
     "catch",
+    "as",
     "as?",
     "as!"
+};
+
+enum IllegalTerminatorGroup {
+    ALPHANUMERIC,
+    OPERATOR_SYMBOLS,
+    OPERATOR_OR_DOT,
+    NON_WHITESPACE
+};
+
+const enum IllegalTerminatorGroup CROSS_SEMI_ILLEGAL_TERMINATORS[CROSS_SEMI_OPERATOR_COUNT] = {
+    OPERATOR_SYMBOLS, // ->
+    OPERATOR_OR_DOT,  // .
+    OPERATOR_OR_DOT,  // ...
+    OPERATOR_OR_DOT,  // ..<
+    OPERATOR_SYMBOLS, // &&
+    OPERATOR_SYMBOLS, // ||
+    OPERATOR_SYMBOLS, // ??
+    OPERATOR_SYMBOLS, // =
+    OPERATOR_SYMBOLS, // ==
+    NON_WHITESPACE,   // +
+    NON_WHITESPACE,   // -
+    ALPHANUMERIC,     // throws
+    ALPHANUMERIC,     // rethrows
+    ALPHANUMERIC,     // default
+    ALPHANUMERIC,     // where
+    ALPHANUMERIC,     // else
+    ALPHANUMERIC,     // catch
+    ALPHANUMERIC,     // as
+    OPERATOR_SYMBOLS, // as?
+    OPERATOR_SYMBOLS  // as!
 };
 
 const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
@@ -58,18 +94,21 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     NIL_COALESCING_OPERATOR,
     EQUAL_SIGN,
     EQ_EQ,
+    PLUS_THEN_WS,
+    MINUS_THEN_WS,
     THROWS_KEYWORD,
     RETHROWS_KEYWORD,
     DEFAULT_KEYWORD,
     WHERE_KEYWORD,
     ELSE_KEYWORD,
     CATCH_KEYWORD,
+    AS_KEYWORD,
     AS_QUEST,
     AS_BANG
 };
 
 #define NON_CONSUMING_CROSS_SEMI_CHAR_COUNT 3
-const char NON_CONSUMING_CROSS_SEMI_CHARS[CROSS_SEMI_OPERATOR_COUNT] = { '?', ':', '{' };
+const char NON_CONSUMING_CROSS_SEMI_CHARS[NON_CONSUMING_CROSS_SEMI_CHAR_COUNT] = { '?', ':', '{' };
 
 /**
  * All possible results of having performed some sort of parsing.
@@ -175,6 +214,8 @@ static bool eat_operators(
             }
 
             if (CROSS_SEMI_OPERATORS[op_idx][str_idx] == '\0') {
+                // Make sure that the operator is allowed to have the next character as its lookahead.
+                enum IllegalTerminatorGroup illegal_terminators = CROSS_SEMI_ILLEGAL_TERMINATORS[op_idx];
                 switch (lexer->lookahead) {
                 // See "Operators":
                 // https://docs.swift.org/swift-book/ReferenceManual/LexicalStructure.html#ID418
@@ -192,10 +233,22 @@ static bool eat_operators(
                 case '^':
                 case '?':
                 case '~':
-                    break;
+                    if (illegal_terminators == OPERATOR_SYMBOLS) {
+                        break;
+                    } // Otherwise, intentionally fall through to the OPERATOR_OR_DOT case
+                case '.':
+                    if (illegal_terminators == OPERATOR_OR_DOT) {
+                        break;
+                    } // Otherwise, fall through to DEFAULT which checks its groups directly
                 default:
-                    // Only match if this is the _end_ of an operator. If it's possible for a custom
-                    // operator to continue from here, don't treat it as a full match.
+                    if (iswalnum(lexer->lookahead) && illegal_terminators == ALPHANUMERIC) {
+                        break;
+                    }
+
+                    if (!iswspace(lexer->lookahead) && illegal_terminators == NON_WHITESPACE) {
+                        break;
+                    }
+
                     full_match = op_idx;
                     if (mark_end) {
                         lexer->mark_end(lexer);
