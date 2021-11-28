@@ -187,6 +187,7 @@ module.exports = grammar(add_inline_rules({
         [$.link_reference_definition, $._shortcut_link],
         [$._soft_line_break, $._paragraph_end_newline],
         [$.link_reference_definition],
+        [$.hard_line_break, $._whitespace],
     ],
 
     rules: {
@@ -476,7 +477,7 @@ module.exports = grammar(add_inline_rules({
 
         _shortcut_link: $ => alias($.link_label, $.link_text),
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
-        hard_line_break: $ => prec.dynamic(1, seq('\\', $._newline)),
+        hard_line_break: $ => prec.dynamic(1, seq(choice('\\', $._whitespace_ge_2), $._soft_line_break)),
         _text: $ => choice($._word, punctuation_without($, []), $._whitespace),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
@@ -547,7 +548,8 @@ module.exports = grammar(add_inline_rules({
             ']]>'
         )),
 
-        _whitespace: $ => seq(/[ \t]+/, optional($._last_token_whitespace)),
+        _whitespace_ge_2: $ => /\t| [ \t]+/,
+        _whitespace: $ => seq(choice($._whitespace_ge_2, / /), optional($._last_token_whitespace)),
         _word: $ => choice($._word_no_digit, $._digits),
         _word_no_digit: $ => RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r0-9]+'),
         _digits: $ => /[0-9]+/,
@@ -570,7 +572,7 @@ function add_inline_rules(grammar) {
             grammar.rules["_inline_element" + suffix] = $ => {
                 let elements = [
                     $.backslash_escape,
-                    // $.hard_line_break,
+                    $.hard_line_break,
                     $['_text_inline' + suffix_delimiter],
                     $.entity_reference,
                     $.numeric_character_reference,
@@ -605,6 +607,7 @@ function add_inline_rules(grammar) {
                 conflicts.push(['_open_tag', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['link_label', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['link_reference_definition', '_text_inline' + suffix_delimiter]);
+                conflicts.push(['hard_line_break', '_text_inline' + suffix_delimiter]);
                 grammar.rules['_text_inline' + suffix_delimiter] = $ => {
                     let elements = [
                         $._word,

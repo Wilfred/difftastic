@@ -207,7 +207,7 @@ struct Scanner {
                     advance(lexer, false);
                     indentation = 0;
                     if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-                        indentation += advance(lexer, true) - 1;
+                        indentation += advance(lexer, false) - 1;
                     }
                     return true;
                 }
@@ -275,7 +275,7 @@ struct Scanner {
         bool parsed_indentation = false;
         for (;;) {
             if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-                indentation += advance(lexer, true);
+                indentation += advance(lexer, false);
                 parsed_indentation = true;
             } else {
                 break;
@@ -332,7 +332,7 @@ struct Scanner {
                                     info_string_has_backtick = true;
                                     break;
                                 }
-                                advance(lexer, true);
+                                advance(lexer, false);
                             }
                             if (!info_string_has_backtick && valid_symbols[FENCED_CODE_BLOCK]) {
                                 lexer->result_symbol = FENCED_CODE_BLOCK_START_BACKTICK;
@@ -520,7 +520,7 @@ struct Scanner {
                         advance(lexer, false);
                         indentation = 0;
                         if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-                            indentation += advance(lexer, true) - 1;
+                            indentation += advance(lexer, false) - 1;
                         }
                         lexer->result_symbol = BLOCK_QUOTE_START;
                         open_blocks.push_back(BLOCK_QUOTE);
@@ -578,7 +578,7 @@ struct Scanner {
                             advance(lexer, false);
                         }
                         while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-                            advance(lexer, true);
+                            advance(lexer, false);
                         }
                         if (lexer->lookahead == '\n' || lexer->lookahead == '\r') {
                             if (state & STATE_WAS_LAZY_CONTINUATION) return error(lexer);

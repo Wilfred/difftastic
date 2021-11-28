@@ -5889,12 +5889,21 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "STRING",
-            "value": "\\"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_whitespace_ge_2"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
-            "name": "_newline"
+            "name": "_soft_line_break"
           }
         ]
       }
@@ -7378,12 +7387,25 @@
         ]
       }
     },
+    "_whitespace_ge_2": {
+      "type": "PATTERN",
+      "value": "\\t| [ \\t]+"
+    },
     "_whitespace": {
       "type": "SEQ",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "[ \\t]+"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_whitespace_ge_2"
+            },
+            {
+              "type": "PATTERN",
+              "value": " "
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -7485,6 +7507,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "hard_line_break"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_text_inline"
         },
         {
@@ -7553,6 +7579,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "hard_line_break"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_text_inline_no_star"
         },
         {
@@ -7618,6 +7648,10 @@
         {
           "type": "SYMBOL",
           "name": "backslash_escape"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hard_line_break"
         },
         {
           "type": "SYMBOL",
@@ -7752,6 +7786,10 @@
         {
           "type": "SYMBOL",
           "name": "backslash_escape"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hard_line_break"
         },
         {
           "type": "SYMBOL",
@@ -8018,6 +8056,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "hard_line_break"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_text_inline_no_star"
         },
         {
@@ -8274,6 +8316,10 @@
         {
           "type": "SYMBOL",
           "name": "backslash_escape"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hard_line_break"
         },
         {
           "type": "SYMBOL",
@@ -8622,6 +8668,10 @@
       "link_reference_definition"
     ],
     [
+      "hard_line_break",
+      "_whitespace"
+    ],
+    [
       "_code_span_no_newline",
       "_text_inline"
     ],
@@ -8702,6 +8752,10 @@
       "_text_inline"
     ],
     [
+      "hard_line_break",
+      "_text_inline"
+    ],
+    [
       "_code_span",
       "_text_inline_no_star"
     ],
@@ -8746,6 +8800,10 @@
       "_text_inline_no_star"
     ],
     [
+      "hard_line_break",
+      "_text_inline_no_star"
+    ],
+    [
       "_code_span",
       "_text_inline_no_underscore"
     ],
@@ -8787,6 +8845,10 @@
     ],
     [
       "link_reference_definition",
+      "_text_inline_no_underscore"
+    ],
+    [
+      "hard_line_break",
       "_text_inline_no_underscore"
     ]
   ],
