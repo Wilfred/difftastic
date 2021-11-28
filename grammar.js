@@ -68,8 +68,9 @@ const PUNCTUATION_CHARACTERS_ARRAY = ['!', '"', '#', '$', '%', '&', "'", '(', ')
 // TODO: Inline html should probably not be parsed by a single regex.
 const HTML_OPEN_TAG = /<[a-zA-Z][a-zA-Z0-9\-]*([ \t]+[a-zA-Z_:][a-zA-Z0-9_\.:\-]*[ \t]*=[ \t]*([^ \t\r\n"'=<>`]+|'[^'\r\n]*'|"[^"\r\n]*"))*[ \t]*\/?>/;
 const HTML_CLOSING_TAG = /<\/[a-zA-Z][a-zA-Z0-9\-]*[ \t]*>/;
-const HTML_OPEN_TAG_EXCLUDE = '<' + negative_regex(['pre', 'script', 'style'], '', '0-9\\-') + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>';
-const HTML_CLOSING_TAG_EXCLUDE = '</' + negative_regex(['pre', 'script', 'style'], '', '0-9\\-') + '[ \\t]*>';
+const EXCULUSION_ARRAY = ['pre', 'script', 'style', 'address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul'];
+const HTML_OPEN_TAG_EXCLUDE = '<' + negative_regex(EXCULUSION_ARRAY, '0-9\\-', true) + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>';
+const HTML_CLOSING_TAG_EXCLUDE = '</' + negative_regex(EXCULUSION_ARRAY, '0-9\\-', true) + '[ \\t]*>';
 
 // !!!
 // Notice the call to `add_inline_rules` which generates some additional rules related to parsing
@@ -163,6 +164,8 @@ module.exports = grammar(add_inline_rules({
         // This is used in the case that a start token for a block is not parsed by the external
         // parser to properly update the currently open blocks in the external parser.
         $._open_block,
+        // This is the same as `$._open_block`, but for blocks that cannot interrupt paragraphs
+        $._open_block_dont_interrupt_paragraph,
         // Similarly this is used if the closing of a block is not decided by the external parser.
         // A `$._block_close` will be emitted at the beginning of the next line. Notice that a
         // `$._block_close` can also get emitted if the parent block closes.
@@ -220,7 +223,14 @@ module.exports = grammar(add_inline_rules({
             $.loose_list,
             $.fenced_code_block,
             $._blank_line,
-            $.html_block,
+            choice( // _html_block_7 cannot interrupt a paragraph
+                $._html_block_1,
+                $._html_block_2,
+                $._html_block_3,
+                $._html_block_4,
+                $._html_block_5,
+                $._html_block_6,
+            ),
             $.setext_h1_underline,
             $.setext_h2_underline,
         ),
@@ -368,31 +378,35 @@ module.exports = grammar(add_inline_rules({
         code_fence_content: $ => repeat1(choice($._newline, $._text)),
         info_string: $ => repeat1($._text),
 
-        _html_block_1: $ => build_html_block($, new RegExp('<' + regex_case_insensitive_list(['script', 'style', 'pre']) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'), new RegExp('</' + regex_case_insensitive_list(['script', 'style', 'pre']) + '>')),
-        _html_block_2: $ => build_html_block($, '<!--', '-->'),
-        _html_block_3: $ => build_html_block($, '<?', '?>'),
-        _html_block_4: $ => build_html_block($, /<![A-Z]+/, '>'),
-        _html_block_5: $ => build_html_block($, '<![CDATA[', ']]>'),
+        _html_block_1: $ => build_html_block($, new RegExp('<' + regex_case_insensitive_list(['script', 'style', 'pre']) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'), new RegExp('</' + regex_case_insensitive_list(['script', 'style', 'pre']) + '>'), true),
+        _html_block_2: $ => build_html_block($, '<!--', '-->', true),
+        _html_block_3: $ => build_html_block($, '<?', '?>', true),
+        _html_block_4: $ => build_html_block($, /<![A-Z]+/, '>', true),
+        _html_block_5: $ => build_html_block($, '<![CDATA[', ']]>', true),
         _html_block_6: $ => choice(
             build_html_block(
                 $,
                 new RegExp('</?' + regex_case_insensitive_list(['address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul']) + '([ \\t>]|/>)'),
-                seq($._newline, $._blank_line)
+                seq($._newline, $._blank_line),
+                true
             ),
             build_html_block_after_newline(
                 $,
                 new RegExp('</?' + regex_case_insensitive_list(['address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul']) + '(\\n|\\r\\n?)'),
+                true
             ),
         ),
         _html_block_7: $ => choice(
             build_html_block(
                 $,
                 choice($._open_tag_html_block, $._closing_tag_html_block),
-                seq($._newline, $._blank_line)
+                seq($._newline, $._blank_line),
+                false
             ),
             build_html_block_after_newline(
                 $,
                 choice($._open_tag_html_block_newline, $._closing_tag_html_block_newline),
+                false
             ),
         ),
         html_block: $ => prec(1, seq(optional($._whitespace), choice(
@@ -633,10 +647,10 @@ function html_entity_regex() {
     return new RegExp(s);
 }
 
-function build_html_block_after_newline($, open) {
+function build_html_block_after_newline($, open, interrupt_paragraph) {
     return seq(
         open,
-        $._open_block,
+        interrupt_paragraph ? $._open_block : $._open_block_dont_interrupt_paragraph,
         $._line_ending,
         optional($._ignore_matching_tokens),
         optional(seq($._blank_line, $._close_block)),
@@ -652,10 +666,10 @@ function build_html_block_after_newline($, open) {
     );
 }
 
-function build_html_block($, open, close) {
+function build_html_block($, open, close, interrupt_paragraph) {
     return seq(
         open,
-        $._open_block,
+        interrupt_paragraph ? $._open_block : $._open_block_dont_interrupt_paragraph,
         repeat(choice(
             $._whitespace,
             $._word,
@@ -681,7 +695,7 @@ function punctuation_without($, chars) {
 }
 
 // used to build a regex that matches anything but pre, script and style
-function negative_regex(ss, classExtraStart, classExtra) {
+function negative_regex(ss, classExtra, isStart) {
     let chars = {};
     let end = true;
     for (let s of ss) {
@@ -695,6 +709,9 @@ function negative_regex(ss, classExtraStart, classExtra) {
         chars[char].push(s);
     }
     let ranges = [['a'.charCodeAt(0), 'z'.charCodeAt(0)]];
+    if (!isStart) {
+        ranges.splice(0, 0, ['0'.charCodeAt(0), '9'.charCodeAt(0)]);
+    }
     for (let char in chars) {
         for (let i = 0; i < ranges.length; i++) {
             let range = ranges[i];
@@ -712,17 +729,30 @@ function negative_regex(ss, classExtraStart, classExtra) {
         }
     }
     let alphabet = ranges.map(x => {
-        if (x[0] == x[1]) {
-            return String.fromCharCode(x[0]);
+        if (x[0] >= 97) { // is letter
+            if (x[0] == x[1]) {
+                return String.fromCharCode(x[0]) + String.fromCharCode(x[0]).toUpperCase();
+            } else {
+                return String.fromCharCode(x[0]) + '-' + String.fromCharCode(x[1]) + String.fromCharCode(x[0]).toUpperCase() + '-' + String.fromCharCode(x[1]).toUpperCase();
+            }
         } else {
-            return String.fromCharCode(x[0]) + '-' + String.fromCharCode(x[1]);
+            if (x[0] == x[1]) {
+                return String.fromCharCode(x[0]);
+            } else {
+                return String.fromCharCode(x[0]) + '-' + String.fromCharCode(x[1]);
+            }
         }
     }).join('');
-    let output = '([' + alphabet + alphabet.toUpperCase() + classExtraStart + '][a-zA-Z' + classExtra + ']*';
+    let output = '([' + alphabet + (isStart ? '' : classExtra) + '][a-zA-Z' + classExtra + ']*';
     if (!end) {
         for (let char in chars) {
             output += '|' + String.fromCharCode(char);
-            output += '|' + String.fromCharCode(char) + negative_regex(chars[char].map(x => x.substring(1)), classExtra, classExtra);
+            let new_ss = chars[char].map(x => x.substring(1)).filter(x => x.length != 0)
+            if (new_ss.length > 0) {
+                output += '|' + String.fromCharCode(char) + negative_regex(new_ss, classExtra, false);
+            } else {
+                output += '[a-zA-Z' + classExtra + ']+';
+            }
         }
     } else {
         output += '|[' + Object.keys(chars).map(x => String.fromCharCode(x)).join('') + '][a-zA-Z' + classExtra + ']+';

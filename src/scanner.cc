@@ -46,6 +46,7 @@ enum TokenType {
     EMPHASIS_CLOSE_STAR,
     EMPHASIS_CLOSE_UNDERSCORE,
     OPEN_BLOCK,
+    OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH,
     CLOSE_BLOCK,
     NO_INDENTED_CHUNK,
     TRIGGER_ERROR,
@@ -257,11 +258,11 @@ struct Scanner {
             return true;
         }
 
-        if (valid_symbols[OPEN_BLOCK]) {
+        if (valid_symbols[OPEN_BLOCK] || valid_symbols[OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH]) {
             if (state & STATE_WAS_LAZY_CONTINUATION) return error(lexer);
-            state &= ~STATE_NEED_OPEN_BLOCK;
+            if (valid_symbols[OPEN_BLOCK]) state &= ~STATE_NEED_OPEN_BLOCK;
             open_blocks.push_back(ANONYMOUS);
-            lexer->result_symbol = OPEN_BLOCK;
+            lexer->result_symbol = valid_symbols[OPEN_BLOCK] ? OPEN_BLOCK : OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH;
             return true;
         }
 

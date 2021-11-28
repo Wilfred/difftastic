@@ -119,10 +119,6 @@
           "named": true
         },
         {
-          "type": "html_block",
-          "named": true
-        },
-        {
           "type": "loose_list",
           "named": true
         },
@@ -237,10 +233,6 @@
           "named": true
         },
         {
-          "type": "html_block",
-          "named": true
-        },
-        {
           "type": "html_tag",
           "named": true
         },
@@ -328,10 +320,6 @@
         },
         {
           "type": "fenced_code_block",
-          "named": true
-        },
-        {
-          "type": "html_block",
           "named": true
         },
         {
@@ -452,10 +440,6 @@
         },
         {
           "type": "fenced_code_block",
-          "named": true
-        },
-        {
-          "type": "html_block",
           "named": true
         },
         {
@@ -647,10 +631,6 @@
         },
         {
           "type": "fenced_code_block",
-          "named": true
-        },
-        {
-          "type": "html_block",
           "named": true
         },
         {
