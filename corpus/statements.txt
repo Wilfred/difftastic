@@ -206,7 +206,7 @@ Weird switch statements
 
 switch something {
     case let .pattern2(_, bound): fallthrough
-    case .ident where someCondition: fallthrough
+    case .ident where someCondition, ident2: fallthrough
     @unknown default: return "Goodbye"
 }
 
@@ -231,6 +231,7 @@ case let .isExecutable(path?):
         (switch_entry
             (switch_pattern (simple_identifier))
             (simple_identifier)
+            (switch_pattern (simple_identifier))
             (statements (simple_identifier)))
         (switch_entry
             (modifiers (attribute (user_type (type_identifier))))
