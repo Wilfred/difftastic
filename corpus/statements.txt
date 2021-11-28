@@ -203,6 +203,8 @@ switch something {
 switch self {
 case .notExecutable(let path?):
     return "File not executable: \(path)"
+case let .isExecutable(path?):
+    return "File is executable: \(path)"
 }
 
 ---
@@ -230,6 +232,10 @@ case .notExecutable(let path?):
             (switch_pattern
                     (simple_identifier)
                     (non_binding_pattern (simple_identifier)))
+            (statements (control_transfer_statement (line_string_literal (interpolated_expression (simple_identifier))))))
+        (switch_entry
+            (switch_pattern
+                (non_binding_pattern (simple_identifier) (simple_identifier)))
             (statements (control_transfer_statement (line_string_literal (interpolated_expression (simple_identifier))))))))
 
 ==================

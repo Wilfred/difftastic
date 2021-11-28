@@ -1665,8 +1665,7 @@ function generate_pattern_matching_rule(
     ? [
         seq(
           binding_pattern_prefix,
-          generate_pattern_matching_rule($, false, false, false),
-          optional($._quest)
+          generate_pattern_matching_rule($, false, false, false)
         ),
       ]
     : [];
@@ -1684,5 +1683,5 @@ function generate_pattern_matching_rule(
     .concat(case_pattern)
     .concat(expression_pattern);
 
-  return choice(...all_patterns);
+  return seq(choice(...all_patterns), optional($._quest));
 }
