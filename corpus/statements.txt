@@ -54,7 +54,7 @@ for case .some(value) in valuesMaybe { }
 for case .some((.some(0), .some(1))) in crazyValues {
 }
 
-for value in values where value.isExcellent() {
+for var value in values where value.isExcellent() {
 }
 
 ---
@@ -82,7 +82,7 @@ for value in values where value.isExcellent() {
         (integer_literal)
         (simple_identifier))
     (for_statement
-        (simple_identifier)
+        (non_binding_pattern (simple_identifier))
         (simple_identifier)
         (where_clause
             (call_expression
