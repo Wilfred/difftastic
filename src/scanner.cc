@@ -30,7 +30,7 @@ enum TokenType {
     LIST_MARKER_MINUS,
     LIST_MARKER_PLUS,
     LIST_MARKER_STAR,
-    LIST_MARKER_PARENTHETHIS,
+    LIST_MARKER_PARENTHESIS,
     LIST_MARKER_DOT,
     FENCED_CODE_BLOCK_START_BACKTICK,
     FENCED_CODE_BLOCK_START_TILDE,
@@ -56,7 +56,7 @@ enum Block : uint8_t {
     BLOCK_QUOTE,
     INDENTED_CODE_BLOCK,
     LIST_ITEM = 2,
-    LIST_ITEM_MAX_INDENTATION = 8,
+    LIST_ITEM_MAX_INDENTATION = 17,
     FENCED_CODE_BLOCK,
     ANONYMOUS
 };
@@ -64,20 +64,22 @@ enum Block : uint8_t {
 const char *BLOCK_NAME[] = {
     "block quote",
     "indented code block",
-    "tight list item 0",
-    "tight list item 1",
-    "tight list item 2",
-    "tight list item 3",
-    "tight list item 4",
-    "tight list item 5",
-    "tight list item 6",
-    "loose list item 0",
-    "loose list item 1",
-    "loose list item 2",
-    "loose list item 3",
-    "loose list item 4",
-    "loose list item 5",
-    "loose list item 6",
+    "list item 0",
+    "list item 1",
+    "list item 2",
+    "list item 3",
+    "list item 4",
+    "list item 5",
+    "list item 6",
+    "list item 7",
+    "list item 8",
+    "list item 9",
+    "list item 10",
+    "list item 11",
+    "list item 12",
+    "list item 13",
+    "list item 14",
+    "list item 15",
     "fenced code block tilde",
     "fenced code block backtick",
     "anonymous",
@@ -193,6 +195,15 @@ struct Scanner {
             case LIST_ITEM + 4:
             case LIST_ITEM + 5:
             case LIST_ITEM + 6:
+            case LIST_ITEM + 7:
+            case LIST_ITEM + 8:
+            case LIST_ITEM + 9:
+            case LIST_ITEM + 10:
+            case LIST_ITEM + 11:
+            case LIST_ITEM + 12:
+            case LIST_ITEM + 13:
+            case LIST_ITEM + 14:
+            case LIST_ITEM + 15:
                 if (indentation >= list_item_indentation(open_blocks[matched])) {
                     indentation -= list_item_indentation(open_blocks[matched]);
                     return true;
@@ -226,12 +237,12 @@ struct Scanner {
 
     bool scan(TSLexer *lexer, const bool *valid_symbols) {
 
-        /* std::cerr << "state " << unsigned(state) << std::endl; */
-        /* std::cerr << "matched " << unsigned(matched) << std::endl; */
-        /* std::cerr << "indentation " << unsigned(indentation) << std::endl; */
-        /* for (size_t i = 0; i < open_blocks.size(); i++) { */
-        /*     std::cerr << BLOCK_NAME[open_blocks[i]] << std::endl; */
-        /* } */
+        std::cerr << "state " << unsigned(state) << std::endl;
+        std::cerr << "matched " << unsigned(matched) << std::endl;
+        std::cerr << "indentation " << unsigned(indentation) << std::endl;
+        for (size_t i = 0; i < open_blocks.size(); i++) {
+            std::cerr << BLOCK_NAME[open_blocks[i]] << std::endl;
+        }
 
         if (valid_symbols[TRIGGER_ERROR]) {
             lexer->result_symbol = ERROR;
@@ -628,7 +639,7 @@ struct Scanner {
                 case '7':
                 case '8':
                 case '9':
-                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_PLUS] || valid_symbols[LIST_MARKER_PARENTHETHIS] || valid_symbols[LIST_MARKER_DOT])) {
+                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_PLUS] || valid_symbols[LIST_MARKER_PARENTHESIS] || valid_symbols[LIST_MARKER_DOT])) {
                         lexer->mark_end(lexer);
                         size_t digits = 0;
                         while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
@@ -644,7 +655,7 @@ struct Scanner {
                             } else if (lexer->lookahead == ')') {
                                 advance(lexer, false);
                                 success = true;
-                                lexer->result_symbol = LIST_MARKER_PARENTHETHIS;
+                                lexer->result_symbol = LIST_MARKER_PARENTHESIS;
                             }
                             if (success) {
                                 size_t extra_indentation = 0;
@@ -667,7 +678,7 @@ struct Scanner {
                                         indentation = extra_indentation;
                                         extra_indentation = temp;
                                     }
-                                    open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
+                                    open_blocks.push_back(Block(LIST_ITEM + extra_indentation + digits));
                                     matched++;
                                     lexer->mark_end(lexer);
                                     return true;
