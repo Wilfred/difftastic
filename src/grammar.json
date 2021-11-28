@@ -3888,140 +3888,177 @@
       }
     },
     "defun_header": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "keyword",
-              "content": {
-                "type": "SYMBOL",
-                "name": "defun_keyword"
-              }
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_gap"
-              }
-            },
-            {
-              "type": "FIELD",
-              "name": "function_name",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_form"
-              }
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "specifier",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "REPEAT",
-                        "content": {
-                          "type": "SYMBOL",
-                          "name": "_gap"
-                        }
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "kwd_lit"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "sym_lit"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_gap"
-              }
-            },
-            {
-              "type": "FIELD",
-              "name": "lambda_list",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "list_lit"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "unquoting_lit"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "keyword",
-              "content": {
-                "type": "ALIAS",
+      "type": "PREC",
+      "value": 5,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "keyword",
                 "content": {
-                  "type": "STRING",
-                  "value": "lambda"
-                },
-                "named": true,
-                "value": "defun_keyword"
-              }
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_gap"
-              }
-            },
-            {
-              "type": "FIELD",
-              "name": "lambda_list",
-              "content": {
+                  "type": "SYMBOL",
+                  "name": "defun_keyword"
+                }
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_gap"
+                }
+              },
+              {
                 "type": "CHOICE",
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "list_lit"
+                    "name": "unquoting_lit"
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "unquoting_lit"
+                    "name": "unquote_splicing_lit"
                   }
                 ]
               }
-            }
-          ]
-        }
-      ]
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "keyword",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "defun_keyword"
+                }
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_gap"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "function_name",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_form"
+                }
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "FIELD",
+                    "name": "specifier",
+                    "content": {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "REPEAT",
+                          "content": {
+                            "type": "SYMBOL",
+                            "name": "_gap"
+                          }
+                        },
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "kwd_lit"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "sym_lit"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_gap"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "lambda_list",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "list_lit"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "unquoting_lit"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "keyword",
+                "content": {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": "lambda"
+                  },
+                  "named": true,
+                  "value": "defun_keyword"
+                }
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_gap"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "lambda_list",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "list_lit"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "unquoting_lit"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
     },
     "array_dimension": {
       "type": "PREC",

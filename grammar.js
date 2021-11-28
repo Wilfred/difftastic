@@ -3,7 +3,7 @@
  * Copyright (C) 2021 Stephan Seitz <stephan.seitz@fau.de>
  * Adapted from tree-sitter-clojure
  *
- * Distributed under terms of the GPLv3 license.
+ * Distributed under terms of the MIT license.
  */
 
 const clojure = require("tree-sitter-clojure/grammar");
@@ -275,7 +275,11 @@ module.exports = grammar(clojure, {
         defun_keyword: _ => prec(10, clSymbol(choice('defun', 'defmacro', 'defgeneric', 'defmethod'))),
 
         defun_header: $ =>
-            choice(
+            prec(PREC.SPECIAL, choice(
+                seq(field('keyword', $.defun_keyword),
+                    repeat($._gap),
+                    choice($.unquoting_lit, $.unquote_splicing_lit)
+                ),
                 seq(field('keyword', $.defun_keyword),
                     repeat($._gap),
                     field('function_name', $._form),
@@ -285,7 +289,7 @@ module.exports = grammar(clojure, {
                 seq(field('keyword', alias('lambda', $.defun_keyword)),
                     repeat($._gap),
                     field('lambda_list', choice($.list_lit, $.unquoting_lit)))
-            ),
+            )),
 
         array_dimension: _ => prec(100, /\d+[aA]/),
 
