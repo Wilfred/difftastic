@@ -15,15 +15,18 @@ enum TokenType {
     DISJUNCTION_OPERATOR,
     NIL_COALESCING_OPERATOR,
     EQUAL_SIGN,
+    EQ_EQ,
     THROWS_KEYWORD,
     RETHROWS_KEYWORD,
     DEFAULT_KEYWORD,
     WHERE_KEYWORD,
     ELSE_KEYWORD,
-    CATCH_KEYWORD
+    CATCH_KEYWORD,
+    AS_QUEST,
+    AS_BANG
 };
 
-#define CROSS_SEMI_OPERATOR_COUNT 14
+#define CROSS_SEMI_OPERATOR_COUNT 18
 
 const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "->",
@@ -34,12 +37,15 @@ const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "||",
     "??",
     "=",
+    "==",
     "throws",
     "rethrows",
     "default",
     "where",
     "else",
-    "catch"
+    "catch",
+    "as?",
+    "as!"
 };
 
 const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
@@ -51,16 +57,19 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     DISJUNCTION_OPERATOR,
     NIL_COALESCING_OPERATOR,
     EQUAL_SIGN,
+    EQ_EQ,
     THROWS_KEYWORD,
     RETHROWS_KEYWORD,
     DEFAULT_KEYWORD,
     WHERE_KEYWORD,
     ELSE_KEYWORD,
-    CATCH_KEYWORD
+    CATCH_KEYWORD,
+    AS_QUEST,
+    AS_BANG
 };
 
 #define NON_CONSUMING_CROSS_SEMI_CHAR_COUNT 3
-const char NON_CONSUMING_CROSS_SEMI_CHARS[CROSS_SEMI_OPERATOR_COUNT] = { '?', ':', '{', '}' };
+const char NON_CONSUMING_CROSS_SEMI_CHARS[CROSS_SEMI_OPERATOR_COUNT] = { '?', ':', '{' };
 
 /**
  * All possible results of having performed some sort of parsing.

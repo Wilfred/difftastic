@@ -679,23 +679,35 @@ SignalProducer<(), CarthageError>.empty
       (simple_identifier))))
 
 ===
-Division will suppress the syntactic significance of a newline
+Suppressing the syntactic significance of a newline
 ===
 
 let _ = (1 + 2)
     / 3
 
+let additionIsSane = (2 + 2)
+    == 4
+
 ---
 
-    (source_file
-      (property_declaration
-        (value_binding_pattern
-          (non_binding_pattern
-            (wildcard_pattern)))
-        (multiplicative_expression
-          (tuple_expression
-            (additive_expression
-              (integer_literal)
-              (integer_literal)))
-          (integer_literal))))
-
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (wildcard_pattern)))
+    (multiplicative_expression
+      (tuple_expression
+        (additive_expression
+          (integer_literal)
+          (integer_literal)))
+      (integer_literal)))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (equality_expression
+      (tuple_expression
+        (additive_expression
+          (integer_literal)
+          (integer_literal)))
+        (integer_literal))))
