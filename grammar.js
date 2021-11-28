@@ -1181,6 +1181,7 @@ module.exports = grammar({
             $.class_body
           ),
           seq(
+            optional("indirect"),
             "enum",
             alias($.simple_identifier, $.type_identifier),
             optional($.type_parameters),
@@ -1288,6 +1289,7 @@ module.exports = grammar({
       prec.left(
         seq(
           optional($.modifiers),
+          optional("indirect"),
           "case",
           sep1(
             seq(
