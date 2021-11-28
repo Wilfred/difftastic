@@ -495,19 +495,19 @@ guard case justIdentifier = bound else { }
 ---
 
 (source_file
-    (guard_expression
+    (guard_statement
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (call_expression (simple_identifier) (call_suffix (value_arguments)))
         (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
-    (guard_expression
+    (guard_statement
         (call_expression (simple_identifier) (call_suffix (value_arguments)))
         (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
-    (guard_expression
+    (guard_statement
         (binding_pattern
             (simple_identifier) (simple_identifier)
             (non_binding_pattern (simple_identifier)))
         (call_expression (simple_identifier) (call_suffix (value_arguments))))
-    (guard_expression (binding_pattern (simple_identifier)) (simple_identifier)))
+    (guard_statement (binding_pattern (simple_identifier)) (simple_identifier)))
 ==================
 Compound guard
 ==================
@@ -519,7 +519,7 @@ guard let something = doThing(), something.isSpecial() else {
 ---
 
 (source_file
-    (guard_expression
+    (guard_statement
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (call_expression (simple_identifier) (call_suffix (value_arguments)))
         (call_expression

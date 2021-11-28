@@ -345,7 +345,7 @@ class SomethingElse: ThingProvider {
                 (type_annotation (user_type (type_identifier)))
                 (computed_property
                     (statements
-                        (guard_expression
+                        (guard_statement
                             (value_binding_pattern (non_binding_pattern (simple_identifier)))
                             (simple_identifier)
                             (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))

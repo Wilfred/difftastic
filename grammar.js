@@ -610,7 +610,6 @@ module.exports = grammar({
         $.dictionary_literal,
         $.self_expression,
         $.super_expression,
-        $.guard_expression,
         $.try_expression,
         $._referenceable_operator,
         $.key_path_expression,
@@ -742,7 +741,7 @@ module.exports = grammar({
         seq($._direct_or_indirect_binding, $._equal_sign, $._expression)
       ),
 
-    guard_expression: ($) =>
+    guard_statement: ($) =>
       prec.right(
         seq(
           "guard",
@@ -905,6 +904,7 @@ module.exports = grammar({
           $.repeat_while_statement,
           $.do_statement,
           $.if_statement,
+          $.guard_statement,
           $.switch_statement
         )
       ),
