@@ -98,6 +98,9 @@ Weird for statements
 for case let fileUrl as URL in directory {
 }
 
+for case let (a, b?) in tuples {
+}
+
 outerLoop: for outerObject in dataArray {
     for innerObject in comparisonArray {
         if outerObject == innerObject {
@@ -115,6 +118,13 @@ outerLoop: for outerObject in dataArray {
             (non_binding_pattern
                 (simple_identifier))
             (user_type (type_identifier)))
+        (simple_identifier))
+    (for_statement
+        (non_binding_pattern
+            (non_binding_pattern
+                (simple_identifier))
+            (non_binding_pattern
+                (simple_identifier)))
         (simple_identifier))
     (statement_label)
     (for_statement
