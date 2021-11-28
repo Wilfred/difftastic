@@ -108,6 +108,9 @@ Class with annotations
 class Test : Protocol {
     @objc(someArgument:)
     dynamic func someFunction(with argument: Int) { }
+
+    @DocumentationAnnotation(help: "Calls this function nicely.")
+    func someFunction(nice argument: Int) { }
 }
 
 ---
@@ -127,6 +130,16 @@ class Test : Protocol {
                         (user_type (type_identifier))
                         (simple_identifier))
                     (property_modifier))
+                    (simple_identifier)
+                    (external_parameter_name)
+                    (parameter (simple_identifier) (user_type (type_identifier)))
+                    (function_body))
+            (function_declaration
+                (modifiers
+                    (attribute
+                        (user_type (type_identifier))
+                        (simple_identifier)
+                        (line_string_literal)))
                     (simple_identifier)
                     (external_parameter_name)
                     (parameter (simple_identifier) (user_type (type_identifier)))
@@ -764,10 +777,15 @@ public extension Foo where T == (arg1: Arg1, arg2: Arg2) { }
 Deprecation
 ============
 class Computer<T> {
-    @available(*, deprecated, message: "See replacement: computeV2`")
+    @available(*, deprecated, message: "See replacement: computeV2")
     func compute() { }
-    @available(*, deprecated, message: "See replacement: computeV2`")
+
+    @available(*, deprecated, message: "See replacement: computeV2")
     var computeResult: T!
+
+    @available(swift 3.0.2)
+    @available(iOS 10.0, macOS 10.12, *)
+    func computeV2() { }
 }
 
 enum ComputeType {
@@ -798,7 +816,19 @@ enum ComputeType {
                     (simple_identifier)
                     (line_string_literal)))
                 (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation (user_type (type_identifier))))))
+                (type_annotation (user_type (type_identifier))))
+            (function_declaration
+                (modifiers
+                    (attribute
+                        (user_type (type_identifier))
+                        (simple_identifier)
+                        (integer_literal) (integer_literal) (integer_literal))
+                    (attribute
+                        (user_type (type_identifier))
+                        (simple_identifier) (integer_literal) (integer_literal)
+                        (simple_identifier) (integer_literal) (integer_literal)))
+                (simple_identifier)
+                (function_body))))
     (class_declaration
         (type_identifier)
         (enum_class_body
