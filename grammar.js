@@ -197,7 +197,7 @@ module.exports = grammar(clojure, {
                 '"',
                 repeat(choice(
                     token.immediate(prec(1, /[^\\~"]+/)),
-                    token.immediate(seq("\\\"")),
+                    token.immediate(seq(/\\./)),
                     $.format_specifier,
                 )),
                 optional('~'),
