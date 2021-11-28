@@ -5908,6 +5908,10 @@
         ]
       }
     },
+    "autolink": {
+      "type": "PATTERN",
+      "value": "<[a-zA-Z][a-zA-Z0-9+\\.\\-]*:[^ \\t\\r\\n<>]*>"
+    },
     "_text": {
       "type": "CHOICE",
       "members": [
@@ -7511,6 +7515,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "autolink"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_text_inline"
         },
         {
@@ -7583,6 +7591,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "autolink"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_text_inline_no_star"
         },
         {
@@ -7652,6 +7664,10 @@
         {
           "type": "SYMBOL",
           "name": "hard_line_break"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "autolink"
         },
         {
           "type": "SYMBOL",
@@ -7790,6 +7806,10 @@
         {
           "type": "SYMBOL",
           "name": "hard_line_break"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "autolink"
         },
         {
           "type": "SYMBOL",
@@ -8060,6 +8080,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "autolink"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_text_inline_no_star"
         },
         {
@@ -8320,6 +8344,10 @@
         {
           "type": "SYMBOL",
           "name": "hard_line_break"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "autolink"
         },
         {
           "type": "SYMBOL",

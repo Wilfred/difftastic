@@ -209,6 +209,10 @@
           "named": true
         },
         {
+          "type": "autolink",
+          "named": true
+        },
+        {
           "type": "backslash_escape",
           "named": true
         },
@@ -343,6 +347,10 @@
       "types": [
         {
           "type": "atx_heading",
+          "named": true
+        },
+        {
+          "type": "autolink",
           "named": true
         },
         {
@@ -661,6 +669,10 @@
           "named": true
         },
         {
+          "type": "autolink",
+          "named": true
+        },
+        {
           "type": "backslash_escape",
           "named": true
         },
@@ -934,6 +946,10 @@
   },
   {
     "type": "atx_h6_marker",
+    "named": true
+  },
+  {
+    "type": "autolink",
     "named": true
   },
   {

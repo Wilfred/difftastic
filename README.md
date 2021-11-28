@@ -25,9 +25,9 @@ Progress:
   * [x] Emphasis and strong emphasis
   * [ ] Links
   * [ ] Images
-  * [ ] Autolinks
+  * [x] Autolinks
   * [x] Raw HTML *in progress*
-  * [ ] Hard line breaks
+  * [x] Hard line breaks
   * [x] Soft line breaks
   * [x] Textual content
 

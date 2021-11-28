@@ -478,6 +478,7 @@ module.exports = grammar(add_inline_rules({
         _shortcut_link: $ => alias($.link_label, $.link_text),
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq(choice('\\', $._whitespace_ge_2), $._soft_line_break)),
+        autolink: $ => /<[a-zA-Z][a-zA-Z0-9+\.\-]*:[^ \t\r\n<>]*>/, // TODO: move this to external scanner because lexer is really inefficient with counting characters for scheme
         _text: $ => choice($._word, punctuation_without($, []), $._whitespace),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
@@ -573,6 +574,7 @@ function add_inline_rules(grammar) {
                 let elements = [
                     $.backslash_escape,
                     $.hard_line_break,
+                    $.autolink,
                     $['_text_inline' + suffix_delimiter],
                     $.entity_reference,
                     $.numeric_character_reference,

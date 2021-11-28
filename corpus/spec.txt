@@ -5516,7 +5516,7 @@ Example 316 - https://github.github.com/gfm/#example-316
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )
     ))
 
@@ -6163,7 +6163,7 @@ Example 356 - https://github.github.com/gfm/#example-356
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )
     
     ))
@@ -9822,7 +9822,7 @@ Example 602 - https://github.github.com/gfm/#example-602
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )))
 
 ================================================================================
@@ -9834,7 +9834,7 @@ Example 603 - https://github.github.com/gfm/#example-603
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )))
 
 ================================================================================
@@ -9846,7 +9846,7 @@ Example 604 - https://github.github.com/gfm/#example-604
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )))
 
 ================================================================================
@@ -9858,7 +9858,7 @@ Example 605 - https://github.github.com/gfm/#example-605
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )))
 
 ================================================================================
@@ -9870,7 +9870,7 @@ Example 606 - https://github.github.com/gfm/#example-606
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )))
 
 ================================================================================
@@ -9882,7 +9882,7 @@ Example 607 - https://github.github.com/gfm/#example-607
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )))
 
 ================================================================================
@@ -9894,7 +9894,7 @@ Example 608 - https://github.github.com/gfm/#example-608
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )))
 
 ================================================================================
@@ -9906,7 +9906,7 @@ Example 609 - https://github.github.com/gfm/#example-609
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )))
 
 ================================================================================
@@ -9929,7 +9929,7 @@ Example 611 - https://github.github.com/gfm/#example-611
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )))
 
 ================================================================================
@@ -9990,7 +9990,7 @@ Example 616 - https://github.github.com/gfm/#example-616
 (document
   (paragraph
     
-    (uri_autolink
+    (autolink
       )
     ))
 
@@ -10025,7 +10025,7 @@ http://example.com
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       )))
 
 ================================================================================
@@ -10172,11 +10172,11 @@ http://commonmark.org
 
 (document
   (paragraph
-    (uri_autolink
+    (autolink
       ))
   (paragraph
     
-    (uri_autolink
+    (autolink
       )
     ))
 
