@@ -119,7 +119,7 @@ module.exports = grammar(clojure, {
     name: 'commonlisp',
 
     extras: ($, original) => [...original, $.block_comment],
-    conflicts: ($, original) => [...original, [$.for_clause], [$.accumulation_clause], [$.loop_macro, $.defun_keyword, $.package_lit]],
+    conflicts: ($, original) => [...original, [$.with_clause], [$.for_clause], [$.accumulation_clause], [$.loop_macro, $.defun_keyword, $.package_lit]],
 
     rules: {
         block_comment: _ => token(seq('#|', repeat(choice(/[^|]/, /\|[^#]/)), '|#')),
@@ -226,7 +226,7 @@ module.exports = grammar(clojure, {
         for_clause: $ => choice(seq(choice(clSymbol('for'), clSymbol('and'), clSymbol('as')), repeat($._gap), field('variable', $._form), optional(field('type', seq(repeat($._gap), $._form))),
             repeat1($._for_part)), clSymbol('and')),
 
-        with_clause: $ => prec.left(seq(clSymbol('with'), repeat($._gap), $._form, optional(field('type', seq(repeat($._gap), $._form))), repeat($._gap), clSymbol("="), repeat($._gap), $._form)),
+        with_clause: $ => seq(clSymbol('with'), repeat($._gap), $._form, optional(field('type', repeat($._gap), $._form)), repeat($._gap), optional(clSymbol("=")), repeat($._gap), optional($._form)),
         do_clause: $ => prec.left(seq(clSymbol('do'), repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
         while_clause: $ => prec.left(seq(choice(clSymbol('while'), clSymbol('until')), repeat($._gap), $._form)),
         repeat_clause: $ => prec.left(seq(clSymbol('repeat'), repeat($._gap), $._form)),

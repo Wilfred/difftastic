@@ -1142,3 +1142,36 @@ Issue #6 (#\Replacement_Character)
 
 (source
   (char_lit))
+
+================================================================================
+loop with
+================================================================================
+(loop with values)
+(loop with values = a)
+(loop with values
+  finally
+  (return values))
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)))))
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (sym_lit)))))
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)))
+      (loop_clause
+        (termination_clause
+          (list_lit
+            (sym_lit)
+            (sym_lit)))))))
