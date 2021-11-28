@@ -26,7 +26,7 @@ enum TokenType {
     AS_BANG
 };
 
-#define CROSS_SEMI_OPERATOR_COUNT 18
+#define CROSS_SEMI_OPERATOR_COUNT 17
 
 const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "->",
