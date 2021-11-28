@@ -30,7 +30,7 @@ enum TokenType {
     LIST_MARKER_MINUS,
     LIST_MARKER_PLUS,
     LIST_MARKER_STAR,
-    LIST_MARKER_parenthesis,
+    LIST_MARKER_PARENTHETHIS,
     LIST_MARKER_DOT,
     FENCED_CODE_BLOCK_START_BACKTICK,
     FENCED_CODE_BLOCK_START_TILDE,
@@ -628,7 +628,7 @@ struct Scanner {
                 case '7':
                 case '8':
                 case '9':
-                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_PLUS] || valid_symbols[LIST_MARKER_parenthesis] || valid_symbols[LIST_MARKER_DOT])) {
+                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_PLUS] || valid_symbols[LIST_MARKER_PARENTHETHIS] || valid_symbols[LIST_MARKER_DOT])) {
                         lexer->mark_end(lexer);
                         size_t digits = 0;
                         while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
@@ -644,7 +644,7 @@ struct Scanner {
                             } else if (lexer->lookahead == ')') {
                                 advance(lexer, false);
                                 success = true;
-                                lexer->result_symbol = LIST_MARKER_parenthesis;
+                                lexer->result_symbol = LIST_MARKER_PARENTHETHIS;
                             }
                             if (success) {
                                 size_t extra_indentation = 0;

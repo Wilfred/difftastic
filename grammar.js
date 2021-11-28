@@ -65,9 +65,6 @@ const PUNCTUATION_CHARACTERS_ARRAY = ['!', '"', '#', '$', '%', '&', "'", '(', ')
 
 // Regexes for html tags. A html tag for a html block may not be a '<pre', '<script' or
 // '<style' tag, so we need to deny these names by making a cracy complex regex. 
-// TODO: Inline html should probably not be parsed by a single regex.
-const HTML_OPEN_TAG = /<[a-zA-Z][a-zA-Z0-9\-]*([ \t]+[a-zA-Z_:][a-zA-Z0-9_\.:\-]*[ \t]*=[ \t]*([^ \t\r\n"'=<>`]+|'[^'\r\n]*'|"[^"\r\n]*"))*[ \t]*\/?>/;
-const HTML_CLOSING_TAG = /<\/[a-zA-Z][a-zA-Z0-9\-]*[ \t]*>/;
 const EXCULUSION_ARRAY = ['pre', 'script', 'style', 'address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul'];
 const HTML_OPEN_TAG_EXCLUDE = '<' + negative_regex(EXCULUSION_ARRAY, '0-9\\-', true) + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>';
 const HTML_CLOSING_TAG_EXCLUDE = '</' + negative_regex(EXCULUSION_ARRAY, '0-9\\-', true) + '[ \\t]*>';
@@ -172,8 +169,6 @@ module.exports = grammar(add_inline_rules({
         $._close_block,
         // This is a workaround so the external parser does not try to open indented blocks when
         // parsing a link reference definition.
-        // TODO There is probably a better way to do this. Also think about a better way to not open
-        // some blocks directly after paragraphs.
         $._no_indented_chunk,
         // If this token is valid the external scanner will cause a error to occur to kill the current
         // parse branch.
@@ -485,9 +480,18 @@ module.exports = grammar(add_inline_rules({
         _text: $ => choice($._word, punctuation_without($, []), $._whitespace),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
+
         html_tag: $ => choice($._open_tag, $._closing_tag, $._html_comment, $._processing_instruction, $._declaration, $._cdata_section),
-        _open_tag: $ => HTML_OPEN_TAG,
-        _closing_tag: $ => HTML_CLOSING_TAG,
+        _open_tag: $ => prec.dynamic(1, seq('<', $._tag_name, repeat($._attribute), optional($._whitespace), optional('/'), '>')),
+        _closing_tag: $ => prec.dynamic(1, seq('<', '/', $._tag_name, optional($._whitespace), '>')),
+        _tag_name: $ => seq($._word_no_digit, repeat(choice($._word_no_digit, $._digits, '-'))),
+        _attribute: $ => seq($._whitespace, $._attribute_name, optional($._whitespace), '=', optional($._whitespace), $._attribute_value),
+        _attribute_name: $ => /[a-zA-Z_:][a-zA-Z0-9_\.:\-]*/,
+        _attribute_value: $ => choice(
+            /[^ \t\r\n"'=<>`]+/,
+            /'[^\r\n']*'/,
+            /"[^\r\n"]*"/,
+        ),
         _html_comment: $ => prec.dynamic(1, seq(
             '<!--',
             optional(choice(
@@ -544,7 +548,9 @@ module.exports = grammar(add_inline_rules({
         )),
 
         _whitespace: $ => seq(/[ \t]+/, optional($._last_token_whitespace)),
-        _word: $ => RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r]+'),
+        _word: $ => choice($._word_no_digit, $._digits),
+        _word_no_digit: $ => RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r0-9]+'),
+        _digits: $ => /[0-9]+/,
         _newline: $ => prec.right(seq(
             token.immediate(/\n|\r\n?/),
             optional($._line_ending),
@@ -595,6 +601,8 @@ function add_inline_rules(grammar) {
                 conflicts.push(['_cdata_section', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['_declaration', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['_processing_instruction', '_text_inline' + suffix_delimiter]);
+                conflicts.push(['_closing_tag', '_text_inline' + suffix_delimiter]);
+                conflicts.push(['_open_tag', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['link_label', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['link_reference_definition', '_text_inline' + suffix_delimiter]);
                 grammar.rules['_text_inline' + suffix_delimiter] = $ => {

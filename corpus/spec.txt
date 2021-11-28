@@ -2327,9 +2327,7 @@ baz
 
 (document
   (paragraph
-    
-    (html_tag)
-    ))
+    (html_tag)))
 
 ================================================================================
 Example 157 - https://github.github.com/gfm/#example-157
@@ -4449,7 +4447,7 @@ Example 274 - https://github.github.com/gfm/#example-274
 (document
   (tight_list
     (list_item
-      (list_marker_parenthethis)
+      (list_marker_parenthesis)
       (paragraph)
       (tight_list
         (list_item
@@ -4467,7 +4465,7 @@ Example 275 - https://github.github.com/gfm/#example-275
 (document
   (tight_list
     (list_item
-      (list_marker_parenthethis)
+      (list_marker_parenthesis)
       (paragraph
         
         )))
@@ -4597,7 +4595,7 @@ Example 282 - https://github.github.com/gfm/#example-282
         )))
   (tight_list
     (list_item
-      (list_marker_parenthethis)
+      (list_marker_parenthesis)
       (paragraph
         
         ))))
