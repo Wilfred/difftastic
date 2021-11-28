@@ -677,3 +677,25 @@ SignalProducer<(), CarthageError>.empty
           (type_identifier))))
     (navigation_suffix
       (simple_identifier))))
+
+===
+Division will suppress the syntactic significance of a newline
+===
+
+let _ = (1 + 2)
+    / 3
+
+---
+
+    (source_file
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (wildcard_pattern)))
+        (multiplicative_expression
+          (tuple_expression
+            (additive_expression
+              (integer_literal)
+              (integer_literal)))
+          (integer_literal))))
+

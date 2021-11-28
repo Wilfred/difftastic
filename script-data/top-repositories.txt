@@ -1,4 +1,5 @@
 Alamofire Alamofire/Alamofire 5.4.4
+Charts danielgindi/Charts v4.0.1
 lottie-ios airbnb/lottie-ios 3.2.3
 vapor vapor/vapor 3.3.3
 SwiftyJSON SwiftyJSON/SwiftyJSON 5.0.1
