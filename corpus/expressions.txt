@@ -682,11 +682,15 @@ SignalProducer<(), CarthageError>.empty
 Suppressing the syntactic significance of a newline
 ===
 
-let _ = (1 + 2)
+let _ = (1+2)
     / 3
 
 let additionIsSane = (2 + 2)
     == 4
+
+let two = 2
+    + 2
+    - 2
 
 ---
 
@@ -710,4 +714,13 @@ let additionIsSane = (2 + 2)
         (additive_expression
           (integer_literal)
           (integer_literal)))
+          (integer_literal)))
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (additive_expression
+          (additive_expression
+            (integer_literal)
+            (integer_literal))
         (integer_literal))))
