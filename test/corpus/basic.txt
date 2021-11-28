@@ -1175,3 +1175,33 @@ loop with
           (list_lit
             (sym_lit)
             (sym_lit)))))))
+
+================================================================================
+loop with 2
+================================================================================
+(loop with consecutive-yields fixnum = 0)
+(loop with consecutive-yields fixnum = 0 do
+ (block block))
+
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (sym_lit)
+          (num_lit)))))
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (sym_lit)
+          (num_lit)))
+      (loop_clause
+        (do_clause
+          (list_lit
+            (sym_lit)
+            (sym_lit)))))))
