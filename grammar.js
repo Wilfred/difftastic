@@ -32,7 +32,6 @@ const PREC = {
   PREFIX: 7,
   COMPARISON: 6,
   POSTFIX: 6,
-  CAPTURE_LIST_ITEM: 6,
   EQUALITY: 5,
   CONJUNCTION: 4,
   DISJUNCTION: 3,
@@ -101,6 +100,11 @@ module.exports = grammar({
     // `+(...)` is ambigously either "call the function produced by a reference to the operator `+`" or "use the unary
     // operator `+` on the result of the parenthetical expression."
     [$._additive_operator, $._prefix_unary_operator],
+
+    // `{ [self, b, c] ...` could be a capture list or an array literal depending on what else happens.
+    [$._capture_list_item, $.self_expression],
+    [$._capture_list_item, $._expression],
+    [$._capture_list_item, $._expression, $._simple_user_type],
   ],
 
   extras: ($) => [
@@ -673,15 +677,12 @@ module.exports = grammar({
     capture_list: ($) => seq("[", sep1($._capture_list_item, ","), "]"),
 
     _capture_list_item: ($) =>
-      prec(
-        PREC.CAPTURE_LIST_ITEM,
-        choice(
-          "self",
-          seq(
-            optional($.ownership_modifier),
-            $.simple_identifier,
-            optional(seq($._equal_sign, $._expression))
-          )
+      choice(
+        "self",
+        seq(
+          optional($.ownership_modifier),
+          $.simple_identifier,
+          optional(seq($._equal_sign, $._expression))
         )
       ),
 
