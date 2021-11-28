@@ -1482,9 +1482,12 @@ module.exports = grammar({
       prec.left(2, generate_pattern_matching_rule($, false, false, true, true)),
 
     _direct_or_indirect_binding: ($) =>
-      choice(
-        seq($.value_binding_pattern, optional($.type_annotation)),
-        seq("case", generate_pattern_matching_rule($, true, false, false))
+      seq(
+        choice(
+          $.value_binding_pattern,
+          seq("case", generate_pattern_matching_rule($, true, false, false))
+        ),
+        optional($.type_annotation)
       ),
 
     wildcard_pattern: ($) => "_",

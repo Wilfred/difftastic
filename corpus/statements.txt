@@ -533,6 +533,31 @@ guard let something = doThing(), something.isSpecial() else {
             (call_suffix (value_arguments)))
         (statements (call_expression (simple_identifier) (call_suffix (value_arguments))))))
 
+===
+Type annotation on `guard case let`
+===
+
+guard case let size: Int = variable.size else {
+    return nil
+}
+
+---
+
+(source_file
+  (guard_statement
+    (binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (type_annotation
+      (user_type
+        (type_identifier)))
+    (navigation_expression
+      (simple_identifier)
+      (navigation_suffix
+        (simple_identifier)))
+    (statements
+      (control_transfer_statement))))
+
 ================
 Availability conditions
 ================
