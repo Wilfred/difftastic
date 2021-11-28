@@ -1205,3 +1205,16 @@ loop with 2
           (list_lit
             (sym_lit)
             (sym_lit)))))))
+
+================================================================================
+Backslashes in strings
+================================================================================
+  "Returns the arglist of the subform _immediately_ containing
++CURSOR-MARKER+ in `form'. Notice, however, that +CURSOR-MARKER+ may
+be in a nested arglist \(e.g. `(WITH-OPEN-FILE (<here>'\), and the
+arglist of the appropriate parent form \(WITH-OPEN-FILE\) will be
+returned in that case."
+
+--------------------------------------------------------------------------------
+
+
