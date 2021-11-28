@@ -151,12 +151,15 @@ module.exports = grammar({
     $._disjunction_operator,
     $._nil_coalescing_operator,
     $._equal_sign,
+    $._eq_eq,
     $._throws_keyword,
     $._rethrows_keyword,
     $.default_keyword,
     $._where_keyword,
     $._else,
     $._catch,
+    $._as_quest,
+    $._as_bang,
   ],
 
   rules: {
@@ -825,7 +828,7 @@ module.exports = grammar({
 
     _assignment_and_operator: ($) => choice("+=", "-=", "*=", "/=", "%=", "="),
 
-    _equality_operator: ($) => choice("!=", "!==", "==", "==="),
+    _equality_operator: ($) => choice("!=", "!==", $._eq_eq, "==="),
 
     _comparison_operator: ($) => choice("<", ">", "<=", ">="),
 
@@ -835,7 +838,7 @@ module.exports = grammar({
 
     _multiplicative_operator: ($) => choice("*", "/", "%"),
 
-    _as_operator: ($) => choice("as", "as?", "as!"),
+    _as_operator: ($) => choice("as", $._as_quest, $._as_bang),
 
     _prefix_unary_operator: ($) =>
       prec.right(
@@ -1219,7 +1222,12 @@ module.exports = grammar({
       ),
 
     equality_constraint: ($) =>
-      seq(repeat($.attribute), $.identifier, choice("=", "=="), $._type),
+      seq(
+        repeat($.attribute),
+        $.identifier,
+        choice($._equal_sign, $._eq_eq),
+        $._type
+      ),
 
     _class_member_declarations: ($) =>
       repeat1(seq($._type_level_declaration, $._semi)),
@@ -1445,7 +1453,7 @@ module.exports = grammar({
                 ":",
                 "*",
                 ",",
-                "=="
+                $._eq_eq
               )
             ),
             ")"
