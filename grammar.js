@@ -1444,17 +1444,18 @@ module.exports = grammar({
         optional(
           seq(
             "(",
-            repeat(
+            sep1(
               choice(
-                $.simple_identifier,
-                $.type_arguments,
-                $._basic_literal,
-                $.key_path_expression,
-                ":",
-                "*",
-                ",",
-                $._eq_eq
-              )
+                // labeled function parameters, used in custom property wrappers
+                seq($.simple_identifier, ":", $._expression),
+                // Unlabeled function parameters, simple identifiers, or `*`
+                $._expression,
+                // References to param names (used in `@objc(foo:bar:)`)
+                repeat1(seq($.simple_identifier, ":")),
+                // Version restrictions (iOS 3.4.5, Swift 5.0.0)
+                seq(repeat1($.simple_identifier), sep1($.integer_literal, "."))
+              ),
+              ","
             ),
             ")"
           )
