@@ -477,6 +477,27 @@ test { (a: Any?) in foo(a) }
                             (value_arguments (value_argument (simple_identifier))))))))))
 
 ===============
+Higher-order functions - pt 11
+===============
+
+types.flatMap { [abc, 1] }
+
+---
+
+    (source_file
+      (call_expression
+        (navigation_expression
+          (simple_identifier)
+          (navigation_suffix
+            (simple_identifier)))
+        (call_suffix
+          (lambda_literal
+            (statements
+              (array_literal
+                (simple_identifier)
+                (integer_literal)))))))
+
+===============
 Function type with wildcard
 ===============
 
