@@ -97,6 +97,10 @@ module.exports = grammar({
     // Custom operators get weird special handling for `<` characters in silly stuff like `func =<<<<T>(...)`
     [$.custom_operator],
     [$._prefix_unary_operator, $._referenceable_operator],
+
+    // `+(...)` is ambigously either "call the function produced by a reference to the operator `+`" or "use the unary
+    // operator `+` on the result of the parenthetical expression."
+    [$._additive_operator, $._prefix_unary_operator],
   ],
 
   extras: ($) => [
@@ -174,7 +178,7 @@ module.exports = grammar({
     simple_identifier: ($) =>
       choice(
         LEXICAL_IDENTIFIER,
-        token(seq("`", LEXICAL_IDENTIFIER, "`")),
+        /`[^\r\n` ]*`/,
         /\$[0-9]+/,
         token(seq("$", LEXICAL_IDENTIFIER))
       ),
@@ -1247,7 +1251,6 @@ module.exports = grammar({
         choice(
           $.simple_identifier,
           $._referenceable_operator,
-          $._additive_operator,
           $._bitwise_binary_operator
         )
       ),
@@ -1256,6 +1259,7 @@ module.exports = grammar({
       choice(
         $.custom_operator,
         $._comparison_operator,
+        $._additive_operator,
         $._multiplicative_operator,
         $._equality_operator,
         $._comparison_operator
