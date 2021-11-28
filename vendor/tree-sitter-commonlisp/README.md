@@ -13,3 +13,5 @@ Macros with special respresentation in syntax tree (when written with lowercase 
 
 - defun and friends (e.g. defmethod)
 - loop macro
+
+This grammar is used in https://github.com/Wilfred/difftastic to generate syntax-ware diffs for Common Lisp.
