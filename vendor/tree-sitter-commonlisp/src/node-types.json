@@ -2218,7 +2218,7 @@
     "fields": {
       "package": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "cl",
@@ -2232,7 +2232,7 @@
       },
       "symbol": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "sym_lit",
