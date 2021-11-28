@@ -114,6 +114,10 @@ function clSymbol(symbol) {
     return seq(optional(seq('cl', ':')), symbol)
 }
 
+function loopSymbol(symbol) {
+    return seq(optional(seq(optional('cl'), ':')), symbol)
+}
+
 function optSeq(...args) {
     return optional(seq(...args))
 }
@@ -123,7 +127,15 @@ module.exports = grammar(clojure, {
     name: 'commonlisp',
 
     extras: ($, original) => [...original, $.block_comment],
-    conflicts: ($, original) => [...original, [$.with_clause, $.package_lit], [$.with_clause], [$.for_clause], [$.accumulation_clause], [$.loop_macro, $.defun_keyword, $.package_lit]],
+    conflicts: ($,
+        original) => [...original,
+        [$.for_clause_word, $.package_lit],
+        [$.with_clause, $.package_lit],
+        [$.with_clause],
+        [$.for_clause],
+        [$.accumulation_clause],
+        [$.loop_macro, $.defun_keyword, $.package_lit]],
+
 
     rules: {
         block_comment: _ => token(seq('#|', repeat(choice(/[^|]/, /\|[^#]/)), '|#')),
@@ -204,7 +216,7 @@ module.exports = grammar(clojure, {
                 '"',
             ),
 
-        for_clause_word: _ => clSymbol(choice(
+        for_clause_word: _ => loopSymbol(choice(
             'in',
             'across',
             'being',
@@ -215,6 +227,7 @@ module.exports = grammar(clojure, {
             'from',
             'to',
             'upto',
+            'upfrom',
             'downto',
             'downfrom',
             'on',
@@ -225,18 +238,16 @@ module.exports = grammar(clojure, {
 
         _for_part: $ => seq(repeat($._gap), $.for_clause_word, repeat($._gap), $._form),
 
-        accumulation_verb: _ => clSymbol(/((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?)/),
-
-        for_clause: $ => choice(seq(choice(clSymbol('for'), clSymbol('and'), clSymbol('as')), repeat($._gap), field('variable', $._form), optional(field('type', seq(repeat($._gap), $._form))),
-            repeat1($._for_part)), clSymbol('and')),
-
-        with_clause: $ => seq(clSymbol('with'), repeat($._gap), choice($._form, seq($._form, repeat($._gap), field('type', $._form))), repeat($._gap), optSeq(clSymbol("="), repeat($._gap)), optSeq($._form, repeat($._gap))),
-        do_clause: $ => prec.left(seq(clSymbol('do'), repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
-        while_clause: $ => prec.left(seq(choice(clSymbol('while'), clSymbol('until')), repeat($._gap), $._form)),
-        repeat_clause: $ => prec.left(seq(clSymbol('repeat'), repeat($._gap), $._form)),
-        condition_clause: $ => prec.left(choice(seq(choice(clSymbol('when'), clSymbol('if'), clSymbol('unless'), clSymbol('always'), clSymbol('thereis'), clSymbol('never')), repeat($._gap), $._form), clSymbol("else"))),
-        accumulation_clause: $ => seq($.accumulation_verb, repeat($._gap), $._form, optional(seq(repeat($._gap), clSymbol('into'), repeat($._gap), $._form))),
-        termination_clause: $ => prec.left(seq(choice(clSymbol('finally'), clSymbol('return'), clSymbol('initially')), repeat($._gap), $._form)),
+        accumulation_verb: _ => loopSymbol(/((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?)/),
+        for_clause: $ => choice(seq(choice(loopSymbol('for'), loopSymbol('and'), loopSymbol('as')), repeat($._gap), field('variable', $._form), optional(field('type', seq(repeat($._gap), $._form))),
+            repeat1($._for_part)), loopSymbol('and')),
+        with_clause: $ => seq(loopSymbol('with'), repeat($._gap), choice($._form, seq($._form, repeat($._gap), field('type', $._form))), repeat($._gap), optSeq(loopSymbol("="), repeat($._gap)), optSeq($._form, repeat($._gap))),
+        do_clause: $ => prec.left(seq(loopSymbol('do'), repeat1(prec.left(seq(repeat($._gap), $._form, repeat($._gap)))))),
+        while_clause: $ => prec.left(seq(choice(loopSymbol('while'), loopSymbol('until')), repeat($._gap), $._form)),
+        repeat_clause: $ => prec.left(seq(loopSymbol('repeat'), repeat($._gap), $._form)),
+        condition_clause: $ => prec.left(choice(seq(choice(loopSymbol('when'), loopSymbol('if'), loopSymbol('unless'), loopSymbol('always'), loopSymbol('thereis'), loopSymbol('never')), repeat($._gap), $._form), loopSymbol("else"))),
+        accumulation_clause: $ => seq($.accumulation_verb, repeat($._gap), $._form, optional(seq(repeat($._gap), loopSymbol('into'), repeat($._gap), $._form))),
+        termination_clause: $ => prec.left(seq(choice(loopSymbol('finally'), loopSymbol('return'), loopSymbol('initially')), repeat($._gap), $._form)),
 
 
         loop_clause: $ =>
