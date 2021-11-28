@@ -775,23 +775,45 @@ Multiple gaps in Loop
                         (sym_lit)))))))))))))
 
 ================================================================================
-Unquoting in defun
+Unquoting in defun 2
 ================================================================================
-
-(defun ,foo ,arguments
-  )
-
+ `((defmacro ,name))
+ `((defmacro ,name))
+ `((defmacro ,name)
+         ,(function-location (macro-function name)))
 --------------------------------------------------------------------------------
 
 (source
-  (list_lit
-    (defun
-      (defun_header
-        (defun_keyword)
-        (unquoting_lit
-          (sym_lit))
-        (unquoting_lit
-          (sym_lit))))))
+  (syn_quoting_lit
+    (list_lit
+      (list_lit
+        (defun
+          (defun_header
+            (defun_keyword)
+            (unquoting_lit
+              (sym_lit)))))))
+  (syn_quoting_lit
+    (list_lit
+      (list_lit
+        (defun
+          (defun_header
+            (defun_keyword)
+            (unquoting_lit
+              (sym_lit)))))))
+  (syn_quoting_lit
+    (list_lit
+      (list_lit
+        (defun
+          (defun_header
+            (defun_keyword)
+            (unquoting_lit
+              (sym_lit)))))
+      (unquoting_lit
+        (list_lit
+          (sym_lit)
+          (list_lit
+            (sym_lit)
+            (sym_lit)))))))
 
 ================================================================================
 Weird quoting

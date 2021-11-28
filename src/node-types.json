@@ -601,7 +601,7 @@
       },
       "lambda_list": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "list_lit",
@@ -656,6 +656,14 @@
         },
         {
           "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
           "named": true
         }
       ]
