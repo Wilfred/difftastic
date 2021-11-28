@@ -119,7 +119,7 @@ module.exports = grammar(clojure, {
     name: 'commonlisp',
 
     extras: ($, original) => [...original, $.block_comment],
-    conflicts: ($, original) => [...original, [$.for_clause], [$.accumulation_clause],],
+    conflicts: ($, original) => [...original, [$.for_clause], [$.accumulation_clause], [$.loop_macro, $.defun_keyword, $.package_lit]],
 
     rules: {
         block_comment: _ => token(seq('#|', repeat(choice(/[^|]/, /\|[^#]/)), '|#')),
@@ -257,7 +257,7 @@ module.exports = grammar(clojure, {
                     repeat(choice($.loop_clause, $._gap)),
                     field('close', ")"))),
 
-        defun_keyword: _ => clSymbol(choice('defun', 'defmacro', 'defgeneric', 'defmethod')),
+        defun_keyword: _ => prec(10, clSymbol(choice('defun', 'defmacro', 'defgeneric', 'defmethod'))),
 
         defun_header: $ =>
             choice(
@@ -294,11 +294,11 @@ module.exports = grammar(clojure, {
                     repeat(choice(field('value', $._form), $._gap)),
                     field('close', ")"))),
 
-        package_lit: $ => prec(PREC.PACKAGE_LIT, seq(
+        package_lit: $ => prec(PREC.PACKAGE_LIT, choice(seq(
             field('package', choice($.sym_lit, 'cl')), // Make optional, instead of keywords?
             choice(':', '::'),
             field('symbol', $.sym_lit)
-        )),
+        ), prec(1, 'cl'))),
 
         _package_lit_without_slash: $ => seq(
             field('package', choice($._sym_lit_without_slash, 'cl')), // Make optional, instead of keywords?
