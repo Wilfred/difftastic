@@ -490,7 +490,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_tight_list_parenthethis"
+            "name": "_tight_list_parenthesis"
           }
         ]
       }
@@ -519,7 +519,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_loose_list_parenthethis"
+            "name": "_loose_list_parenthesis"
           }
         ]
       }
@@ -732,7 +732,7 @@
         ]
       }
     },
-    "_tight_list_parenthethis": {
+    "_tight_list_parenthesis": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -747,7 +747,7 @@
                   "type": "ALIAS",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_list_item_parenthethis_tight"
+                    "name": "_list_item_parenthesis_tight"
                   },
                   "named": true,
                   "value": "list_item"
@@ -760,7 +760,7 @@
                     "type": "ALIAS",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "_list_item_parenthethis_half_loose"
+                      "name": "_list_item_parenthesis_half_loose"
                     },
                     "named": true,
                     "value": "list_item"
@@ -776,7 +776,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_list_item_parenthethis_half_loose"
+              "name": "_list_item_parenthesis_half_loose"
             },
             "named": true,
             "value": "list_item"
@@ -1156,7 +1156,7 @@
         ]
       }
     },
-    "_loose_list_parenthethis": {
+    "_loose_list_parenthesis": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -1173,7 +1173,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "_tight_list_parenthethis"
+                        "name": "_tight_list_parenthesis"
                       },
                       {
                         "type": "BLANK"
@@ -1184,7 +1184,7 @@
                     "type": "ALIAS",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "_list_item_parenthethis_loose"
+                      "name": "_list_item_parenthesis_loose"
                     },
                     "named": true,
                     "value": "list_item"
@@ -1196,13 +1196,13 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_tight_list_parenthethis"
+                    "name": "_tight_list_parenthesis"
                   },
                   {
                     "type": "ALIAS",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "_list_item_parenthethis_half_loose"
+                      "name": "_list_item_parenthesis_half_loose"
                     },
                     "named": true,
                     "value": "list_item"
@@ -1220,7 +1220,7 @@
                   "type": "ALIAS",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_list_item_parenthethis_loose"
+                    "name": "_list_item_parenthesis_loose"
                   },
                   "named": true,
                   "value": "list_item"
@@ -1229,7 +1229,7 @@
                   "type": "ALIAS",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_list_item_parenthethis_half_loose"
+                    "name": "_list_item_parenthesis_half_loose"
                   },
                   "named": true,
                   "value": "list_item"
@@ -1238,7 +1238,7 @@
                   "type": "ALIAS",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_list_item_parenthethis_tight"
+                    "name": "_list_item_parenthesis_tight"
                   },
                   "named": true,
                   "value": "list_item"
@@ -1512,12 +1512,12 @@
         }
       ]
     },
-    "_list_item_parenthethis_tight": {
+    "_list_item_parenthesis_tight": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "list_marker_parenthethis"
+          "name": "list_marker_parenthesis"
         },
         {
           "type": "CHOICE",
@@ -1717,12 +1717,12 @@
         }
       ]
     },
-    "_list_item_parenthethis_half_loose": {
+    "_list_item_parenthesis_half_loose": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "list_marker_parenthethis"
+          "name": "list_marker_parenthesis"
         },
         {
           "type": "CHOICE",
@@ -1922,12 +1922,12 @@
         }
       ]
     },
-    "_list_item_parenthethis_loose": {
+    "_list_item_parenthesis_loose": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "list_marker_parenthethis"
+          "name": "list_marker_parenthesis"
         },
         {
           "type": "CHOICE",
@@ -4640,7 +4640,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_link_destination_parenthethis"
+                  "name": "_link_destination_parenthesis"
                 }
               ]
             },
@@ -4801,7 +4801,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_link_destination_parenthethis"
+                    "name": "_link_destination_parenthesis"
                   }
                 ]
               }
@@ -4810,7 +4810,7 @@
         }
       ]
     },
-    "_link_destination_parenthethis": {
+    "_link_destination_parenthesis": {
       "type": "SEQ",
       "members": [
         {
@@ -4832,7 +4832,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_link_destination_parenthethis"
+                "name": "_link_destination_parenthesis"
               }
             ]
           }
@@ -4978,7 +4978,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "_text_no_parenthethis"
+                    "name": "_text_no_parenthesis"
                   },
                   {
                     "type": "SYMBOL",
@@ -5498,7 +5498,7 @@
         }
       ]
     },
-    "_text_no_parenthethis": {
+    "_text_no_parenthesis": {
       "type": "CHOICE",
       "members": [
         {
@@ -8722,7 +8722,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "list_marker_parenthethis"
+      "name": "list_marker_parenthesis"
     },
     {
       "type": "SYMBOL",

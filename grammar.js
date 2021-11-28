@@ -127,7 +127,7 @@ module.exports = grammar(add_inline_rules({
         $.list_marker_minus,
         $.list_marker_plus,
         $.list_marker_star,
-        $.list_marker_parenthethis,
+        $.list_marker_parenthesis,
         $.list_marker_dot,
         // Marks the beginning of a fenced code block (https://github.github.com/gfm/#fenced-code-blocks)
         // We need to differentiate between backtick and tilde code blocks since they have different closing
@@ -287,14 +287,14 @@ module.exports = grammar(add_inline_rules({
         setext_h2_underline: $ => choice($._setext_h2_underline, $._setext_h2_underline_or_thematic_break),
         thematic_break: $ => seq(choice($._setext_h2_underline_or_thematic_break, $._thematic_break), $._newline),
 
-        tight_list: $ => prec.right(choice($._tight_list_plus, $._tight_list_minus, $._tight_list_star, $._tight_list_dot, $._tight_list_parenthethis)),
-        loose_list: $ => prec.right(choice($._loose_list_plus, $._loose_list_minus, $._loose_list_star, $._loose_list_dot, $._loose_list_parenthethis)),
+        tight_list: $ => prec.right(choice($._tight_list_plus, $._tight_list_minus, $._tight_list_star, $._tight_list_dot, $._tight_list_parenthesis)),
+        loose_list: $ => prec.right(choice($._loose_list_plus, $._loose_list_minus, $._loose_list_star, $._loose_list_dot, $._loose_list_parenthesis)),
 
         _tight_list_plus: $ => prec.right(choice(seq(repeat1(alias($._list_item_plus_tight, $.list_item)), optional(alias($._list_item_plus_half_loose, $.list_item))), alias($._list_item_plus_half_loose, $.list_item))),
         _tight_list_minus: $ => prec.right(choice(seq(repeat1(alias($._list_item_minus_tight, $.list_item)), optional(alias($._list_item_minus_half_loose, $.list_item))), alias($._list_item_minus_half_loose, $.list_item))),
         _tight_list_star: $ => prec.right(choice(seq(repeat1(alias($._list_item_star_tight, $.list_item)), optional(alias($._list_item_star_half_loose, $.list_item))), alias($._list_item_star_half_loose, $.list_item))),
         _tight_list_dot: $ => prec.right(choice(seq(repeat1(alias($._list_item_dot_tight, $.list_item)), optional(alias($._list_item_dot_half_loose, $.list_item))), alias($._list_item_dot_half_loose, $.list_item))),
-        _tight_list_parenthethis: $ => prec.right(choice(seq(repeat1(alias($._list_item_parenthethis_tight, $.list_item)), optional(alias($._list_item_parenthethis_half_loose, $.list_item))), alias($._list_item_parenthethis_half_loose, $.list_item))),
+        _tight_list_parenthesis: $ => prec.right(choice(seq(repeat1(alias($._list_item_parenthesis_tight, $.list_item)), optional(alias($._list_item_parenthesis_half_loose, $.list_item))), alias($._list_item_parenthesis_half_loose, $.list_item))),
 
         _loose_list_plus: $ => prec.right(seq(
             choice(
@@ -324,12 +324,12 @@ module.exports = grammar(add_inline_rules({
             ),
             repeat(choice(alias($._list_item_dot_loose, $.list_item), alias($._list_item_dot_half_loose, $.list_item), alias($._list_item_dot_tight, $.list_item)))),
         ),
-        _loose_list_parenthethis: $ => prec.right(seq(
+        _loose_list_parenthesis: $ => prec.right(seq(
             choice(
-                seq(optional($._tight_list_parenthethis), alias($._list_item_parenthethis_loose, $.list_item)),
-                seq($._tight_list_parenthethis, alias($._list_item_parenthethis_half_loose, $.list_item)),
+                seq(optional($._tight_list_parenthesis), alias($._list_item_parenthesis_loose, $.list_item)),
+                seq($._tight_list_parenthesis, alias($._list_item_parenthesis_half_loose, $.list_item)),
             ),
-            repeat(choice(alias($._list_item_parenthethis_loose, $.list_item), alias($._list_item_parenthethis_half_loose, $.list_item), alias($._list_item_parenthethis_tight, $.list_item)))),
+            repeat(choice(alias($._list_item_parenthesis_loose, $.list_item), alias($._list_item_parenthesis_half_loose, $.list_item), alias($._list_item_parenthesis_tight, $.list_item)))),
         ),
 
         _list_item_content_tight: $ => prec.right(choice(
@@ -343,19 +343,19 @@ module.exports = grammar(add_inline_rules({
         _list_item_minus_tight: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_star_tight: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_dot_tight: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_parenthethis_tight: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_parenthesis_tight: $ => seq($.list_marker_parenthesis, optional($._ignore_matching_tokens), $._list_item_content_tight, $._block_close, optional($._ignore_matching_tokens)),
 
         _list_item_plus_half_loose: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_minus_half_loose: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_star_half_loose: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_dot_half_loose: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_parenthethis_half_loose: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_parenthesis_half_loose: $ => seq($.list_marker_parenthesis, optional($._ignore_matching_tokens), $._list_item_content_half_loose, $._block_close, optional($._ignore_matching_tokens)),
 
         _list_item_plus_loose: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_minus_loose: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_star_loose: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
         _list_item_dot_loose: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_parenthethis_loose: $ => seq($.list_marker_parenthethis, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_parenthesis_loose: $ => seq($.list_marker_parenthesis, optional($._ignore_matching_tokens), $._list_item_content_loose, $._block_close, optional($._ignore_matching_tokens)),
 
         fenced_code_block: $ => prec.right(choice(
             seq(
@@ -443,11 +443,11 @@ module.exports = grammar(add_inline_rules({
         link_destination: $ => choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
             seq(
-                choice($._word, punctuation_without($, ['<', '(', ')']), $.backslash_escape, $._link_destination_parenthethis),
-                repeat(choice($._word, punctuation_without($, ['(', ')']), $.backslash_escape, $._link_destination_parenthethis)),
+                choice($._word, punctuation_without($, ['<', '(', ')']), $.backslash_escape, $._link_destination_parenthesis),
+                repeat(choice($._word, punctuation_without($, ['(', ')']), $.backslash_escape, $._link_destination_parenthesis)),
             )
         ),
-        _link_destination_parenthethis: $ => seq('(', repeat(choice($._word, $.backslash_escape, $._link_destination_parenthethis)), ')'),
+        _link_destination_parenthesis: $ => seq('(', repeat(choice($._word, $.backslash_escape, $._link_destination_parenthesis)), ')'),
         link_title: $ => choice(
             seq('"', repeat(choice(
                 $._text_no_double_quotes,
@@ -460,7 +460,7 @@ module.exports = grammar(add_inline_rules({
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), "'"),
             seq('(', repeat(choice(
-                $._text_no_parenthethis,
+                $._text_no_parenthesis,
                 $.backslash_escape,
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), ')'),
@@ -468,7 +468,7 @@ module.exports = grammar(add_inline_rules({
         _text_no_bracket: $ => choice($._word, punctuation_without($, ['[', ']']), $._whitespace),
         _text_no_double_quotes: $ => choice($._word, punctuation_without($, ['"']), $._whitespace),
         _text_no_quotes: $ => choice($._word, punctuation_without($, ["'"]), $._whitespace),
-        _text_no_parenthethis: $ => choice($._word, punctuation_without($, ['(', ')']), $._whitespace),
+        _text_no_parenthesis: $ => choice($._word, punctuation_without($, ['(', ')']), $._whitespace),
         _text_no_angle: $ => choice($._word, punctuation_without($, ['<', '>']), $._whitespace),
 
         _soft_line_break: $ => prec.right(seq(

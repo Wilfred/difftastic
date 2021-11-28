@@ -548,7 +548,7 @@
           "named": true
         },
         {
-          "type": "list_marker_parenthethis",
+          "type": "list_marker_parenthesis",
           "named": true
         },
         {
@@ -898,7 +898,7 @@
     "named": true
   },
   {
-    "type": "list_marker_parenthethis",
+    "type": "list_marker_parenthesis",
     "named": true
   },
   {
