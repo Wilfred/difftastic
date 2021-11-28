@@ -1641,11 +1641,11 @@ function generate_type_casting_pattern($, allows_binding) {
 function generate_pattern_matching_rule(
   $,
   allows_binding,
-  requires_case_keyword,
+  allows_case_keyword,
   allows_expressions,
   force
 ) {
-  if (!force && !requires_case_keyword) {
+  if (!force && !allows_case_keyword) {
     if (allows_binding && !allows_expressions) {
       return $.binding_pattern;
     }
@@ -1669,8 +1669,8 @@ function generate_pattern_matching_rule(
     generate_type_casting_pattern($, allows_binding),
   ];
 
-  const binding_pattern_prefix = requires_case_keyword
-    ? choice(seq("case", "var"), seq("case", "let"))
+  const binding_pattern_prefix = allows_case_keyword
+    ? seq(optional("case"), choice("var", "let"))
     : choice("var", "let");
 
   const binding_pattern_if_allowed = allows_binding
@@ -1682,7 +1682,7 @@ function generate_pattern_matching_rule(
       ]
     : [];
 
-  const case_pattern = requires_case_keyword
+  const case_pattern = allows_case_keyword
     ? seq("case", generate_case_pattern($, allows_binding))
     : generate_case_pattern($, allows_binding);
 
