@@ -13,15 +13,20 @@ RxSwift ReactiveX/RxSwift 6.2.0 5 9
 RxSwift ReactiveX/RxSwift 6.2.0 6 9
 RxSwift ReactiveX/RxSwift 6.2.0 7 9
 RxSwift ReactiveX/RxSwift 6.2.0 8 9
+HeroTransitions HeroTransitions/Hero 1.6.1
 Kingfisher onevcat/Kingfisher 7.1.1
 shadowsocks shadowsocks/ShadowsocksX-NG v1.9.4
+SnapKit SnapKit/SnapKit 5.0.1
 SwiftLint realm/SwiftLint 0.45.0 0 2
 SwiftLint realm/SwiftLint 0.45.0 1 2
 ClashX yichengchen/clashX 1.72.0
 Carthage Carthage/Carthage 0.38.0
+Rectangle rxhanson/Rectangle v0.49
+PromiseKit mxcl/PromiseKit 6.16.2
 Moya Moya/Moya 15.0.0
 MonitorControl MonitorControl/MonitorControl v4.0.2
 ObjectMapper tristanhimmelman/ObjectMapper 3.5.3
+SkeletonView Juanpe/SkeletonView 1.26.0
 firefox-ios mozilla-mobile/firefox-ios v39.0 0 6
 firefox-ios mozilla-mobile/firefox-ios v39.0 1 6
 firefox-ios mozilla-mobile/firefox-ios v39.0 2 6
