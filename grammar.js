@@ -290,7 +290,7 @@ module.exports = grammar(clojure, {
         array_dimension: _ => prec(100, /\d+[aA]/),
 
         char_lit: _ =>
-            seq('#', /\\[^\f\n\r\t ]+/),
+            seq('#', /\\([^\f\n\r\t ()]+|[()])/),
 
         vec_lit: $ =>
             prec(PREC.SPECIAL,
