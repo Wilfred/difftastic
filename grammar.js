@@ -765,10 +765,16 @@ module.exports = grammar({
       seq(
         optional($.modifiers),
         choice(
-          seq("case", $.switch_pattern, repeat(seq(",", $.switch_pattern))),
+          seq(
+            "case",
+            seq(
+              $.switch_pattern,
+              optional(seq($._where_keyword, $._expression))
+            ),
+            repeat(seq(",", $.switch_pattern))
+          ),
           $.default_keyword
         ),
-        optional(seq($._where_keyword, $._expression)),
         ":",
         $.statements,
         optional("fallthrough")
