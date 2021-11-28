@@ -23,7 +23,12 @@ jobs:
           if (( $(node_modules/tree-sitter-cli/tree-sitter parse test/Petalisp/**/*.lisp -q | wc -l) > 2 )); then # There are 2 known failures (strings that are not format strings but use ~X syntax)
             exit 1 
           else
-            echo "Successfully parsed Petalisp"
+            echo "Successfully parsed Petalisp."
+          fi
+          if (( $(node_modules/tree-sitter-cli/tree-sitter parse test/sly/**/*.lisp -q | wc -l) > 4 )); then # There are 2 known failures (strings that are not format strings but use ~X syntax)
+            exit 1 
+          else
+            echo "Successfully parsed Sly"
           fi
       - name: Run tests
         run: npm test
