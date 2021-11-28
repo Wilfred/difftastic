@@ -1,4 +1,5 @@
 Alamofire Alamofire/Alamofire 5.4.4
+iina iina/iina v1.2.0
 Charts danielgindi/Charts v4.0.1
 lottie-ios airbnb/lottie-ios 3.2.3
 vapor vapor/vapor 3.3.3
@@ -14,8 +15,12 @@ RxSwift ReactiveX/RxSwift 6.2.0 7 9
 RxSwift ReactiveX/RxSwift 6.2.0 8 9
 Kingfisher onevcat/Kingfisher 7.1.1
 shadowsocks shadowsocks/ShadowsocksX-NG v1.9.4
+SwiftLint realm/SwiftLint 0.45.0 0 2
+SwiftLint realm/SwiftLint 0.45.0 1 2
+ClashX yichengchen/clashX 1.72.0
 Carthage Carthage/Carthage 0.38.0
 Moya Moya/Moya 15.0.0
+MonitorControl MonitorControl/MonitorControl v4.0.2
 ObjectMapper tristanhimmelman/ObjectMapper 3.5.3
 firefox-ios mozilla-mobile/firefox-ios v39.0 0 6
 firefox-ios mozilla-mobile/firefox-ios v39.0 1 6
