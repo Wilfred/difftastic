@@ -620,3 +620,27 @@ public init() {
               (type_identifier)))
           (simple_identifier)
           (function_body))))))
+
+===
+Compiler diagnostics
+===
+
+#if SOME_FLAG
+#error("SOME_FLAG must not be enabled!")
+#elseif OTHER_FLAG
+#warning("OTHER_FLAG is deprecated!")
+#else
+#sourceLocation(file: "SomeFile.swift", line: 99)
+#endif
+
+---
+
+(source_file
+  (directive)
+  (diagnostic)
+  (directive)
+  (diagnostic)
+  (directive)
+  (directive)
+  (directive))
+

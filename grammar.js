@@ -111,6 +111,7 @@ module.exports = grammar({
     $.comment,
     $.multiline_comment,
     $.directive,
+    $.diagnostic,
     /\s+/, // Whitespace
   ],
 
@@ -1569,7 +1570,21 @@ module.exports = grammar({
             seq("#if", /.*/),
             seq("#elseif", /.*/),
             seq("#else", /.*/),
-            seq("#endif", /.*/)
+            seq("#endif", /.*/),
+            seq(/#sourceLocation([^\r\n]*)/)
+          )
+        )
+      ),
+
+    diagnostic: ($) =>
+      token(
+        prec(
+          PREC.COMMENT,
+          choice(
+            // Using regexes here, rather than actually validating the string literal, because complex string literals
+            // cannot be used inside `token()` and we need that to ensure we get the right precedence.
+            seq(/#error([^\r\n]*)/),
+            seq(/#warning([^\r\n]*)/)
           )
         )
       ),
