@@ -601,7 +601,7 @@
       },
       "lambda_list": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "list_lit",
@@ -656,6 +656,14 @@
         },
         {
           "type": "dis_expr",
+          "named": true
+        },
+        {
+          "type": "unquote_splicing_lit",
+          "named": true
+        },
+        {
+          "type": "unquoting_lit",
           "named": true
         }
       ]
@@ -4311,15 +4319,7 @@
             "named": true
           },
           {
-            "type": "comment",
-            "named": true
-          },
-          {
             "type": "complex_num_lit",
-            "named": true
-          },
-          {
-            "type": "dis_expr",
             "named": true
           },
           {
@@ -4838,6 +4838,10 @@
   },
   {
     "type": "until",
+    "named": false
+  },
+  {
+    "type": "upfrom",
     "named": false
   },
   {

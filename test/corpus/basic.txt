@@ -612,9 +612,17 @@ Chars
 ================================================================================
 
 #\?
+#\,
+#\-
+#\:
+#\/
 --------------------------------------------------------------------------------
 
 (source
+  (char_lit)
+  (char_lit)
+  (char_lit)
+  (char_lit)
   (char_lit))
 
 ================================================================================
@@ -767,23 +775,45 @@ Multiple gaps in Loop
                         (sym_lit)))))))))))))
 
 ================================================================================
-Unquoting in defun
+Unquoting in defun 2
 ================================================================================
-
-(defun ,foo ,arguments
-  )
-
+ `((defmacro ,name))
+ `((defmacro ,name))
+ `((defmacro ,name)
+         ,(function-location (macro-function name)))
 --------------------------------------------------------------------------------
 
 (source
-  (list_lit
-    (defun
-      (defun_header
-        (defun_keyword)
-        (unquoting_lit
-          (sym_lit))
-        (unquoting_lit
-          (sym_lit))))))
+  (syn_quoting_lit
+    (list_lit
+      (list_lit
+        (defun
+          (defun_header
+            (defun_keyword)
+            (unquoting_lit
+              (sym_lit)))))))
+  (syn_quoting_lit
+    (list_lit
+      (list_lit
+        (defun
+          (defun_header
+            (defun_keyword)
+            (unquoting_lit
+              (sym_lit)))))))
+  (syn_quoting_lit
+    (list_lit
+      (list_lit
+        (defun
+          (defun_header
+            (defun_keyword)
+            (unquoting_lit
+              (sym_lit)))))
+      (unquoting_lit
+        (list_lit
+          (sym_lit)
+          (list_lit
+            (sym_lit)
+            (sym_lit)))))))
 
 ================================================================================
 Weird quoting
@@ -1125,3 +1155,164 @@ Issue #5 (defpackage)
       (kwd_lit
         (kwd_symbol))
       (package_lit))))
+
+================================================================================
+Issue #6 (#\Replacement_Character)
+================================================================================
+#\Replacement_Character
+--------------------------------------------------------------------------------
+
+(source
+  (char_lit))
+
+================================================================================
+loop with
+================================================================================
+(loop with values)
+(loop with values = a)
+(loop with values
+  finally
+  (return values))
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)))))
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (sym_lit)))))
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)))
+      (loop_clause
+        (termination_clause
+          (list_lit
+            (sym_lit)
+            (sym_lit)))))))
+
+================================================================================
+loop with 2
+================================================================================
+(loop with consecutive-yields fixnum = 0)
+(loop with consecutive-yields fixnum = 0 do
+ (block block))
+
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (sym_lit)
+          (num_lit)))))
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (sym_lit)
+          (num_lit)))
+      (loop_clause
+        (do_clause
+          (list_lit
+            (sym_lit)
+            (sym_lit)))))))
+
+================================================================================
+Loop with keywords (TODO: do should not by type of with!)
+================================================================================
+(loop :with b :do
+   (setq b
+         x)
+   )
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (kwd_lit
+            (kwd_symbol))
+          (list_lit
+            (sym_lit)
+            (sym_lit)
+            (sym_lit)))))))
+
+================================================================================
+Loop with keywords 2
+================================================================================
+
+ (loop
+          for id upfrom 0
+          with frame = (nth-frame-list index))
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (for_clause
+          (sym_lit)
+          (for_clause_word)
+          (num_lit)))
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (list_lit
+            (sym_lit)
+            (sym_lit)))))))
+
+================================================================================
+with type should be symbol or list (TODO!!!)
+================================================================================
+(loop :with b :do
+   (setq b x))
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (with_clause
+          (sym_lit)
+          (kwd_lit
+            (kwd_symbol))
+          (list_lit
+            (sym_lit)
+            (sym_lit)
+            (sym_lit)))))))
+
+================================================================================
+Backslashes in strings
+================================================================================
+  " \( '\), \( \) "
+
+--------------------------------------------------------------------------------
+
+(source
+  (str_lit))
+
+================================================================================
+Chars #\(
+================================================================================
+ (write-char #\( stream)
+
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (sym_lit)
+    (char_lit)
+    (sym_lit)))
