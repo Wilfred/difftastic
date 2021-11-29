@@ -9490,6 +9490,7 @@ My ![foo bar](/path/to/train.jpg  "title"   )
 
 (document
   (paragraph
+    (todo)
     
     ))
 
@@ -9502,6 +9503,7 @@ Example 588 - https://github.github.com/gfm/#example-588
 
 (document
   (paragraph
+    (todo)
     ))
 
 ================================================================================
@@ -9513,6 +9515,7 @@ Example 589 - https://github.github.com/gfm/#example-589
 
 (document
   (paragraph
+    (todo)
     ))
 
 ================================================================================
@@ -9708,18 +9711,8 @@ Example 598 - https://github.github.com/gfm/#example-598
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph
-    (image
-      (image_description
-        (link
-          (link_text
-            )))))
-  (paragraph
-    
-    (link
-      (link_text
-        ))
-    ))
+  (paragraph)
+  (paragraph))
 
 ================================================================================
 Example 599 - https://github.github.com/gfm/#example-599
