@@ -1,14 +1,14 @@
 [package]
 name = "tree-sitter-r"
 description = "R grammar for the tree-sitter parsing library"
-version = "0.19.3"
+version = "0.19.4"
 authors = [
     "Jim Hester <jim.hester@rstudio.com>"
 ]
 license = "MIT"
 keywords = ["incremental", "parsing", "R"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-r"
+repository = "https://github.com/r-lib/tree-sitter-r"
 edition = "2018"
 
 build = "bindings/rust/build.rs"
