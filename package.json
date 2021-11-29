@@ -6,8 +6,7 @@
   "scripts": {
     "install": "tree-sitter generate",
     "ci": "prettier --check grammar.js",
-    "test": "tree-sitter test",
-    "top-repos": "./scripts/top-repos.sh"
+    "test": "./scripts/test-with-memcheck.sh --install-valgrind"
   },
   "repository": {
     "type": "git",
