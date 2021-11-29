@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "outDir": "./build",
+        "removeComments": true,
+        "strict": true,
+        "target": "es6"
+    },
+    "include": [
+        "./grammar.ts",
+        "types/*/index.d.ts"
+    ]
+}

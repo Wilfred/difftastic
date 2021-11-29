@@ -19,8 +19,10 @@ has.
 
 With this package checked out, a common workflow for editing the grammar will look something like:
 
-1. Make a change to `grammar.js`.
-2. Run `tree-sitter generate && tree-sitter test` to see whether the change has had impact on existing parsing behavior.
+1. Make a change to `grammar.ts`.
+2. Run `npm install && npm test` to see whether the change has had impact on existing parsing behavior. The default
+`npm test` target requires `valgrind` to be installed; if you do not have it installed, and do not wish to, you can
+substitute `tree-sitter test` directly.
 3. Run `tree-sitter parse` on some real Swift codebase and see whether (or where) it fails.
 4. Use any failures to create new corpus test cases.
 
@@ -85,6 +87,6 @@ If you need a `parser.c`, and you don't care about the tree-sitter version, but 
 allow you to obtain the parser, you can just download one from a recent workflow run in this package. To do so:
 * Go to the [GitHub actions page](https://github.com/alex-pinkus/experimental-tree-sitter-swift/actions) for this
   repository.
-* Click on the appropriate commit.
+* Click on the "Check grammar and style" action for the appropriate commit.
 * Go down to `Artifacts` and click on `generated-parser-src`. All the relevant parser files will be available in your
   download.
