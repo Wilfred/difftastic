@@ -119,26 +119,6 @@
           "named": true
         },
         {
-          "type": "list_marker_dot",
-          "named": true
-        },
-        {
-          "type": "list_marker_minus",
-          "named": true
-        },
-        {
-          "type": "list_marker_parenthesis",
-          "named": true
-        },
-        {
-          "type": "list_marker_plus",
-          "named": true
-        },
-        {
-          "type": "list_marker_star",
-          "named": true
-        },
-        {
           "type": "setext_h1_underline",
           "named": true
         },
@@ -261,26 +241,6 @@
           "named": true
         },
         {
-          "type": "list_marker_dot",
-          "named": true
-        },
-        {
-          "type": "list_marker_minus",
-          "named": true
-        },
-        {
-          "type": "list_marker_parenthesis",
-          "named": true
-        },
-        {
-          "type": "list_marker_plus",
-          "named": true
-        },
-        {
-          "type": "list_marker_star",
-          "named": true
-        },
-        {
           "type": "numeric_character_reference",
           "named": true
         },
@@ -336,26 +296,6 @@
         },
         {
           "type": "fenced_code_block",
-          "named": true
-        },
-        {
-          "type": "list_marker_dot",
-          "named": true
-        },
-        {
-          "type": "list_marker_minus",
-          "named": true
-        },
-        {
-          "type": "list_marker_parenthesis",
-          "named": true
-        },
-        {
-          "type": "list_marker_plus",
-          "named": true
-        },
-        {
-          "type": "list_marker_star",
           "named": true
         },
         {
@@ -423,26 +363,6 @@
         },
         {
           "type": "link",
-          "named": true
-        },
-        {
-          "type": "list_marker_dot",
-          "named": true
-        },
-        {
-          "type": "list_marker_minus",
-          "named": true
-        },
-        {
-          "type": "list_marker_parenthesis",
-          "named": true
-        },
-        {
-          "type": "list_marker_plus",
-          "named": true
-        },
-        {
-          "type": "list_marker_star",
           "named": true
         },
         {
@@ -559,26 +479,6 @@
         },
         {
           "type": "link_title",
-          "named": true
-        },
-        {
-          "type": "list_marker_dot",
-          "named": true
-        },
-        {
-          "type": "list_marker_minus",
-          "named": true
-        },
-        {
-          "type": "list_marker_parenthesis",
-          "named": true
-        },
-        {
-          "type": "list_marker_plus",
-          "named": true
-        },
-        {
-          "type": "list_marker_star",
           "named": true
         },
         {
@@ -702,6 +602,31 @@
     }
   },
   {
+    "type": "list_marker_dot",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "list_marker_minus",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "list_marker_parenthesis",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "list_marker_plus",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "list_marker_star",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "loose_list",
     "named": true,
     "fields": {},
@@ -766,26 +691,6 @@
         },
         {
           "type": "link",
-          "named": true
-        },
-        {
-          "type": "list_marker_dot",
-          "named": true
-        },
-        {
-          "type": "list_marker_minus",
-          "named": true
-        },
-        {
-          "type": "list_marker_parenthesis",
-          "named": true
-        },
-        {
-          "type": "list_marker_plus",
-          "named": true
-        },
-        {
-          "type": "list_marker_star",
           "named": true
         },
         {
@@ -1030,26 +935,6 @@
   },
   {
     "type": "entity_reference",
-    "named": true
-  },
-  {
-    "type": "list_marker_dot",
-    "named": true
-  },
-  {
-    "type": "list_marker_minus",
-    "named": true
-  },
-  {
-    "type": "list_marker_parenthesis",
-    "named": true
-  },
-  {
-    "type": "list_marker_plus",
-    "named": true
-  },
-  {
-    "type": "list_marker_star",
     "named": true
   },
   {
