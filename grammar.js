@@ -400,7 +400,7 @@ module.exports = grammar(add_inline_rules({
             ),
         )),
         code_fence_content: $ => repeat1(choice($._newline, $._text)),
-        info_string: $ => repeat1($._text),
+        info_string: $ => repeat1(choice($._text, $.backslash_escape)),
 
         _html_block_1: $ => build_html_block($, new RegExp('<' + regex_case_insensitive_list(['script', 'style', 'pre']) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'), new RegExp('</' + regex_case_insensitive_list(['script', 'style', 'pre']) + '>'), true),
         _html_block_2: $ => build_html_block($, '<!--', '-->', true),
@@ -512,15 +512,15 @@ module.exports = grammar(add_inline_rules({
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
 
         html_tag: $ => choice($._open_tag, $._closing_tag, $._html_comment, $._processing_instruction, $._declaration, $._cdata_section),
-        _open_tag: $ => prec.dynamic(1, seq('<', $._tag_name, repeat($._attribute), optional($._whitespace), optional('/'), '>')),
-        _closing_tag: $ => prec.dynamic(1, seq('<', '/', $._tag_name, optional($._whitespace), '>')),
+        _open_tag: $ => prec.dynamic(1, seq('<', $._tag_name, repeat($._attribute), repeat(choice($._whitespace, $._soft_line_break)), optional('/'), '>')),
+        _closing_tag: $ => prec.dynamic(1, seq('<', '/', $._tag_name, repeat(choice($._whitespace, $._soft_line_break)), '>')),
         _tag_name: $ => seq($._word_no_digit, repeat(choice($._word_no_digit, $._digits, '-'))),
-        _attribute: $ => seq($._whitespace, $._attribute_name, optional($._whitespace), '=', optional($._whitespace), $._attribute_value),
+        _attribute: $ => seq(repeat1(choice($._whitespace, $._soft_line_break)), $._attribute_name, repeat(choice($._whitespace, $._soft_line_break)), '=', repeat(choice($._whitespace, $._soft_line_break)), $._attribute_value),
         _attribute_name: $ => /[a-zA-Z_:][a-zA-Z0-9_\.:\-]*/,
         _attribute_value: $ => choice(
             /[^ \t\r\n"'=<>`]+/,
-            /'[^\r\n']*'/,
-            /"[^\r\n"]*"/,
+            seq("'", repeat(choice($._word, $._whitespace, $._soft_line_break, punctuation_without($, ["'"]))), "'"),
+            seq('"', repeat(choice($._word, $._whitespace, $._soft_line_break, punctuation_without($, ['"']))), '"'),
         ),
         _html_comment: $ => prec.dynamic(1, seq(
             '<!--',
@@ -662,7 +662,7 @@ function add_inline_rules(grammar) {
         
         grammar.rules['_emphasis_star' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_star, $['_inline' + suffix_newline + '_no_star'], $._emphasis_close_star));
         grammar.rules['_emphasis_underscore' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_underscore, $['_inline' + suffix_newline + '_no_underscore'], $._emphasis_close_underscore));
-        grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(1, seq($._code_span_start, repeat(newline ? choice($._text, $._soft_line_break) : $._text), $._code_span_close));
+        grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(2, seq($._code_span_start, repeat(newline ? choice($._text, $._soft_line_break) : $._text), $._code_span_close));
     }
 
     let old = grammar.conflicts

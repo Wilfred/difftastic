@@ -5602,25 +5602,25 @@ Example 321 - https://github.github.com/gfm/#example-321
 
 (document
   (paragraph
-    (character_reference)
+    (entity_reference)
     
-    (character_reference)
+    (entity_reference)
     
-    (character_reference)
+    (entity_reference)
     
-    (character_reference)
+    (entity_reference)
     
-    (character_reference)
+    (entity_reference)
     
-    (character_reference)
+    (entity_reference)
     
-    (character_reference)
+    (entity_reference)
     
-    (character_reference)
+    (entity_reference)
     
-    (character_reference)
+    (entity_reference)
     
-    (character_reference)
+    (entity_reference)
     ))
 
 ================================================================================
@@ -5632,13 +5632,13 @@ Example 322 - https://github.github.com/gfm/#example-322
 
 (document
   (paragraph
-    (character_reference)
+    (numeric_character_reference)
     
-    (character_reference)
+    (numeric_character_reference)
     
-    (character_reference)
+    (numeric_character_reference)
     
-    (character_reference)
+    (numeric_character_reference)
     ))
 
 ================================================================================
@@ -5650,11 +5650,11 @@ Example 323 - https://github.github.com/gfm/#example-323
 
 (document
   (paragraph
-    (character_reference)
+    (numeric_character_reference)
     
-    (character_reference)
+    (numeric_character_reference)
     
-    (character_reference)
+    (numeric_character_reference)
     ))
 
 ================================================================================
@@ -5727,12 +5727,12 @@ Example 328 - https://github.github.com/gfm/#example-328
         )
       (link_destination
         
-        (character_reference)
-        (character_reference))
+        (entity_reference)
+        (entity_reference))
       (link_title
         
-        (character_reference)
-        (character_reference)))
+        (entity_reference)
+        (entity_reference)))
     ))
 
 ================================================================================
@@ -5755,12 +5755,12 @@ Example 329 - https://github.github.com/gfm/#example-329
       )
     (link_destination
       
-      (character_reference)
-      (character_reference))
+      (entity_reference)
+      (entity_reference))
     (link_title
       
-      (character_reference)
-      (character_reference))))
+      (entity_reference)
+      (entity_reference))))
 
 ================================================================================
 Example 330 - https://github.github.com/gfm/#example-330
@@ -5775,8 +5775,8 @@ foo
   (fenced_code_block
     (info_string
       
-      (character_reference)
-      (character_reference))
+      (entity_reference)
+      (entity_reference))
     (code_fence_content
       
       )))
@@ -5816,9 +5816,9 @@ Example 333 - https://github.github.com/gfm/#example-333
 
 (document
   (paragraph
-    (character_reference)
+    (numeric_character_reference)
     
-    (character_reference)
+    (numeric_character_reference)
     
     (emphasis
       )
@@ -5835,7 +5835,7 @@ Example 334 - https://github.github.com/gfm/#example-334
 
 (document
   (paragraph
-    (character_reference)
+    (numeric_character_reference)
     
     )
   (tight_list
@@ -5855,8 +5855,8 @@ foo&#10;&#10;bar
 (document
   (paragraph
     
-    (character_reference)
-    (character_reference)
+    (numeric_character_reference)
+    (numeric_character_reference)
     
     ))
 
@@ -5869,7 +5869,7 @@ Example 336 - https://github.github.com/gfm/#example-336
 
 (document
   (paragraph
-    (character_reference)
+    (numeric_character_reference)
     
     ))
 
@@ -5886,9 +5886,9 @@ Example 337 - https://github.github.com/gfm/#example-337
       (link_text
         ))
     
-    (character_reference)
+    (entity_reference)
     
-    (character_reference)
+    (entity_reference)
     
     ))
 
@@ -6125,12 +6125,7 @@ Example 354 - https://github.github.com/gfm/#example-354
 
 (document
   (paragraph
-    (html_open_tag
-      (html_tag_name)
-      (html_atrribute
-        (html_attribute_key)
-        (html_attribute_value
-          )))
+    (html_tag)
     
     ))
 
@@ -10235,12 +10230,9 @@ Example 632 - https://github.github.com/gfm/#example-632
 
 (document
   (paragraph
-    (html_open_tag
-      (html_tag_name))
-    (html_open_tag
-      (html_tag_name))
-    (html_open_tag
-      (html_tag_name))))
+    (html_tag)
+    (html_tag)
+    (html_tag)))
 
 ================================================================================
 Example 633 - https://github.github.com/gfm/#example-633
@@ -10251,10 +10243,8 @@ Example 633 - https://github.github.com/gfm/#example-633
 
 (document
   (paragraph
-    (html_self_closing_tag
-      (html_tag_name))
-    (html_self_closing_tag
-      (html_tag_name))))
+    (html_tag)
+    (html_tag)))
 
 ================================================================================
 Example 634 - https://github.github.com/gfm/#example-634
@@ -10266,14 +10256,8 @@ data="foo" >
 
 (document
   (paragraph
-    (html_self_closing_tag
-      (html_tag_name))
-    (html_open_tag
-      (html_tag_name)
-      (html_atrribute
-        (html_attribute_key)
-        (html_attribute_value
-          )))))
+    (html_tag)
+    (html_tag)))
 
 ================================================================================
 Example 635 - https://github.github.com/gfm/#example-635
@@ -10285,22 +10269,7 @@ _boolean zoop:33=zoop:33 />
 
 (document
   (paragraph
-    (html_self_closing_tag
-      (html_tag_name)
-      (html_atrribute
-        (html_attribute_key)
-        (html_attribute_value
-          ))
-      (html_atrribute
-        (html_attribute_key)
-        (html_attribute_value
-          ))
-      (html_atrribute
-        (html_attribute_key))
-      (html_atrribute
-        (html_attribute_key)
-        (html_attribute_value
-          )))))
+    (html_tag)))
 
 ================================================================================
 Example 636 - https://github.github.com/gfm/#example-636
@@ -10312,12 +10281,7 @@ Foo <responsive-image src="foo.jpg" />
 (document
   (paragraph
     
-    (html_self_closing_tag
-      (html_tag_name)
-      (html_atrribute
-        (html_attribute_key)
-        (html_attribute_value
-          )))))
+    (html_tag)))
 
 ================================================================================
 Example 637 - https://github.github.com/gfm/#example-637
@@ -10392,10 +10356,8 @@ Example 642 - https://github.github.com/gfm/#example-642
 
 (document
   (paragraph
-    (html_close_tag
-      (html_tag_name))
-    (html_close_tag
-      (html_tag_name))))
+    (html_tag)
+    (html_tag)))
 
 ================================================================================
 Example 643 - https://github.github.com/gfm/#example-643
@@ -10419,7 +10381,7 @@ comment - with hyphen -->
 (document
   (paragraph
     
-    (html_comment
+    (html_tag
       )))
 
 ================================================================================
@@ -10458,7 +10420,7 @@ foo <?php echo $a; ?>
 (document
   (paragraph
     
-    (html_processing_instruction
+    (html_tag
       )))
 
 ================================================================================
@@ -10471,8 +10433,7 @@ foo <!ELEMENT br EMPTY>
 (document
   (paragraph
     
-    (html_declaration
-      (html_declaration_name)
+    (html_tag
       )))
 
 ================================================================================
@@ -10485,7 +10446,7 @@ foo <![CDATA[>&<]]>
 (document
   (paragraph
     
-    (html_cdata_section
+    (html_tag
       )))
 
 ================================================================================
@@ -10498,12 +10459,7 @@ foo <a href="&ouml;">
 (document
   (paragraph
     
-    (html_open_tag
-      (html_tag_name)
-      (html_atrribute
-        (html_attribute_key)
-        (html_attribute_value
-          )))))
+    (html_tag)))
 
 ================================================================================
 Example 651 - https://github.github.com/gfm/#example-651
@@ -10515,12 +10471,7 @@ foo <a href="\*">
 (document
   (paragraph
     
-    (html_open_tag
-      (html_tag_name)
-      (html_atrribute
-        (html_attribute_key)
-        (html_attribute_value
-          )))))
+    (html_tag)))
 
 ================================================================================
 Example 652 - https://github.github.com/gfm/#example-652
@@ -10536,40 +10487,9 @@ Example 652 - https://github.github.com/gfm/#example-652
     ))
 
 ================================================================================
-Example 653 - https://github.github.com/gfm/#example-653
-================================================================================
-<strong> <title> <style> <em>
-
-<blockquote>
-  <xmp> is disallowed.  <XMP> is also disallowed.
-</blockquote>
-
---------------------------------------------------------------------------------
-
-(document
-  (paragraph
-    (html_open_tag
-      (html_tag_name))
-    
-    (html_open_tag
-      (html_tag_name))
-    
-    (html_open_tag
-      (html_tag_name))
-    
-    (html_open_tag
-      (html_tag_name)))
-  (html_block
-    
-    
-    
-    
-    ))
-
-================================================================================
 Example 654 - https://github.github.com/gfm/#example-654
 ================================================================================
-foo
+foo  
 baz
 
 --------------------------------------------------------------------------------
@@ -10597,7 +10517,7 @@ baz
 ================================================================================
 Example 656 - https://github.github.com/gfm/#example-656
 ================================================================================
-foo
+foo             
 baz
 
 --------------------------------------------------------------------------------
@@ -10611,7 +10531,7 @@ baz
 ================================================================================
 Example 657 - https://github.github.com/gfm/#example-657
 ================================================================================
-foo
+foo  
      bar
 
 --------------------------------------------------------------------------------
@@ -10639,7 +10559,7 @@ foo\
 ================================================================================
 Example 659 - https://github.github.com/gfm/#example-659
 ================================================================================
-*foo
+*foo  
 bar*
 
 --------------------------------------------------------------------------------
@@ -10702,12 +10622,7 @@ bar">
 
 (document
   (paragraph
-    (html_open_tag
-      (html_tag_name)
-      (html_atrribute
-        (html_attribute_key)
-        (html_attribute_value
-          )))))
+    (html_tag)))
 
 ================================================================================
 Example 664 - https://github.github.com/gfm/#example-664
@@ -10719,12 +10634,7 @@ bar">
 
 (document
   (paragraph
-    (html_open_tag
-      (html_tag_name)
-      (html_atrribute
-        (html_attribute_key)
-        (html_attribute_value
-          )))))
+    (html_tag)))
 
 ================================================================================
 Example 665 - https://github.github.com/gfm/#example-665
