@@ -1,0 +1,290 @@
+================================================================================
+attrset typing field
+================================================================================
+
+{
+  a = "foo";
+  b = 42;
+  typing
+  c = {};
+  d = x: x;
+}
+
+--------------------------------------------------------------------------------
+
+(source_expression
+  (attrset
+    (bind
+      (attrpath
+        (attr_identifier))
+      (string))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (integer))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (ERROR
+        (identifier))
+      (attrset))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (function
+        (identifier)
+        (identifier)))))
+
+================================================================================
+attrset typing field following string
+================================================================================
+
+{
+  typing
+  inputs.nixpkgs.url = "github:nixos/nixpkgs";
+  inputs.nixpkgs-21-05.url = "github:nixos/nixpkgs/nixos-21.05";
+}
+
+--------------------------------------------------------------------------------
+
+(source_expression
+  (attrset
+    (ERROR
+      (identifier))
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier)
+        (attr_identifier))
+      (string))
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier)
+        (attr_identifier))
+      (string))))
+
+================================================================================
+attrset typing attrpath
+================================================================================
+
+{
+  a = "foo";
+  b = 42;
+  typing.path
+  c = {};
+  d = x: x;
+}
+
+--------------------------------------------------------------------------------
+
+(source_expression
+  (attrset
+    (bind
+      (attrpath
+        (attr_identifier))
+      (string))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (integer))
+    (bind
+      (attrpath
+        (attr_identifier)
+        (attr_identifier))
+      (ERROR
+        (identifier))
+      (attrset))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (function
+        (identifier)
+        (identifier)))))
+
+================================================================================
+attrset missing value
+================================================================================
+
+{
+  a = "foo";
+  b = 42;
+  typing =
+  c = {};
+  d = x: x;
+}
+
+--------------------------------------------------------------------------------
+
+(source_expression
+  (attrset
+    (bind
+      (attrpath
+        (attr_identifier))
+      (string))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (integer))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (app
+        (identifier)
+        (ERROR)
+        (attrset)))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (function
+        (identifier)
+        (identifier)))))
+
+================================================================================
+bind typing parenthesis
+================================================================================
+
+{
+  a = "foo";
+  b = a: 42;
+  typing = (a:
+  c = {};
+  d = x: x;
+}
+
+--------------------------------------------------------------------------------
+
+(source_expression
+  (attrset
+    (bind
+      (attrpath
+        (attr_identifier))
+      (string))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (function
+        (identifier)
+        (integer)))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (ERROR
+        (function
+          (identifier)
+          (identifier)))
+      (attrset))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (function
+        (identifier)
+        (identifier)))))
+
+================================================================================
+let typing field
+================================================================================
+
+let
+  a = "foo";
+  b = 42;
+  typing
+  c = {};
+  d = x: x;
+in {}
+
+--------------------------------------------------------------------------------
+
+(source_expression
+  (let
+    (bind
+      (attrpath
+        (attr_identifier))
+      (string))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (integer))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (ERROR
+        (identifier))
+      (attrset))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (function
+        (identifier)
+        (identifier)))
+    (attrset)))
+
+================================================================================
+let missing value
+================================================================================
+
+let
+  a = "foo";
+  b = 42;
+  typing =
+  c = {};
+  d = x: x;
+in
+  a
+
+--------------------------------------------------------------------------------
+
+(source_expression
+  (let
+    (bind
+      (attrpath
+        (attr_identifier))
+      (string))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (integer))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (app
+        (identifier)
+        (ERROR)
+        (attrset)))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (function
+        (identifier)
+        (identifier)))
+    (identifier)))
+
+================================================================================
+let missing value (last)
+================================================================================
+
+let
+  a = "foo";
+  b = 42;
+  typing =
+in
+  a + b
+
+--------------------------------------------------------------------------------
+
+(source_expression
+  (let
+    (bind
+      (attrpath
+        (attr_identifier))
+      (string))
+    (bind
+      (attrpath
+        (attr_identifier))
+      (integer))
+    (ERROR
+      (attrpath
+        (attr_identifier)))
+    (binary
+      (identifier)
+      (identifier))))
