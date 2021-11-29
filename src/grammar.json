@@ -7738,10 +7738,28 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
+            "name": "_strong_emphasis_star_no_newline"
+          },
+          "named": true,
+          "value": "strong_emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
             "name": "_emphasis_underscore_no_newline"
           },
           "named": true,
           "value": "emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_strong_emphasis_underscore_no_newline"
+          },
+          "named": true,
+          "value": "strong_emphasis"
         },
         {
           "type": "ALIAS",
@@ -7814,10 +7832,28 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
+            "name": "_strong_emphasis_star_no_newline"
+          },
+          "named": true,
+          "value": "strong_emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
             "name": "_emphasis_underscore_no_newline"
           },
           "named": true,
           "value": "emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_strong_emphasis_underscore_no_newline"
+          },
+          "named": true,
+          "value": "strong_emphasis"
         },
         {
           "type": "ALIAS",
@@ -7890,10 +7926,28 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
+            "name": "_strong_emphasis_star_no_newline"
+          },
+          "named": true,
+          "value": "strong_emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
             "name": "_emphasis_underscore_no_newline"
           },
           "named": true,
           "value": "emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_strong_emphasis_underscore_no_newline"
+          },
+          "named": true,
+          "value": "strong_emphasis"
         },
         {
           "type": "ALIAS",
@@ -7934,6 +7988,27 @@
         ]
       }
     },
+    "_strong_emphasis_star_no_newline": {
+      "type": "PREC_DYNAMIC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_open_star"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_star_no_newline"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_close_star"
+          }
+        ]
+      }
+    },
     "_emphasis_underscore_no_newline": {
       "type": "PREC_DYNAMIC",
       "value": 1,
@@ -7947,6 +8022,27 @@
           {
             "type": "SYMBOL",
             "name": "_inline_no_newline_no_underscore"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_close_underscore"
+          }
+        ]
+      }
+    },
+    "_strong_emphasis_underscore_no_newline": {
+      "type": "PREC_DYNAMIC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_open_underscore"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_underscore_no_newline"
           },
           {
             "type": "SYMBOL",
@@ -8032,10 +8128,28 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
+            "name": "_strong_emphasis_star"
+          },
+          "named": true,
+          "value": "strong_emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
             "name": "_emphasis_underscore"
           },
           "named": true,
           "value": "emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_strong_emphasis_underscore"
+          },
+          "named": true,
+          "value": "strong_emphasis"
         },
         {
           "type": "ALIAS",
@@ -8303,10 +8417,28 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
+            "name": "_strong_emphasis_star"
+          },
+          "named": true,
+          "value": "strong_emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
             "name": "_emphasis_underscore"
           },
           "named": true,
           "value": "emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_strong_emphasis_underscore"
+          },
+          "named": true,
+          "value": "strong_emphasis"
         },
         {
           "type": "ALIAS",
@@ -8570,10 +8702,28 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
+            "name": "_strong_emphasis_star"
+          },
+          "named": true,
+          "value": "strong_emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
             "name": "_emphasis_underscore"
           },
           "named": true,
           "value": "emphasis"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_strong_emphasis_underscore"
+          },
+          "named": true,
+          "value": "strong_emphasis"
         },
         {
           "type": "ALIAS",
@@ -8805,6 +8955,27 @@
         ]
       }
     },
+    "_strong_emphasis_star": {
+      "type": "PREC_DYNAMIC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_open_star"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_star"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_close_star"
+          }
+        ]
+      }
+    },
     "_emphasis_underscore": {
       "type": "PREC_DYNAMIC",
       "value": 1,
@@ -8818,6 +8989,27 @@
           {
             "type": "SYMBOL",
             "name": "_inline_no_underscore"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_close_underscore"
+          }
+        ]
+      }
+    },
+    "_strong_emphasis_underscore": {
+      "type": "PREC_DYNAMIC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_open_underscore"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_emphasis_underscore"
           },
           {
             "type": "SYMBOL",
@@ -8911,7 +9103,17 @@
       "_text_inline"
     ],
     [
+      "_emphasis_star_no_newline",
+      "_strong_emphasis_star_no_newline",
+      "_text_inline"
+    ],
+    [
       "_emphasis_underscore_no_newline",
+      "_text_inline"
+    ],
+    [
+      "_emphasis_underscore_no_newline",
+      "_strong_emphasis_underscore_no_newline",
       "_text_inline"
     ],
     [
@@ -8923,7 +9125,17 @@
       "_text_inline_no_star"
     ],
     [
+      "_emphasis_star_no_newline",
+      "_strong_emphasis_star_no_newline",
+      "_text_inline_no_star"
+    ],
+    [
       "_emphasis_underscore_no_newline",
+      "_text_inline_no_star"
+    ],
+    [
+      "_emphasis_underscore_no_newline",
+      "_strong_emphasis_underscore_no_newline",
       "_text_inline_no_star"
     ],
     [
@@ -8935,7 +9147,17 @@
       "_text_inline_no_underscore"
     ],
     [
+      "_emphasis_star_no_newline",
+      "_strong_emphasis_star_no_newline",
+      "_text_inline_no_underscore"
+    ],
+    [
       "_emphasis_underscore_no_newline",
+      "_text_inline_no_underscore"
+    ],
+    [
+      "_emphasis_underscore_no_newline",
+      "_strong_emphasis_underscore_no_newline",
       "_text_inline_no_underscore"
     ],
     [
@@ -8947,7 +9169,17 @@
       "_text_inline"
     ],
     [
+      "_emphasis_star",
+      "_strong_emphasis_star",
+      "_text_inline"
+    ],
+    [
       "_emphasis_underscore",
+      "_text_inline"
+    ],
+    [
+      "_emphasis_underscore",
+      "_strong_emphasis_underscore",
       "_text_inline"
     ],
     [
@@ -8995,7 +9227,17 @@
       "_text_inline_no_star"
     ],
     [
+      "_emphasis_star",
+      "_strong_emphasis_star",
+      "_text_inline_no_star"
+    ],
+    [
       "_emphasis_underscore",
+      "_text_inline_no_star"
+    ],
+    [
+      "_emphasis_underscore",
+      "_strong_emphasis_underscore",
       "_text_inline_no_star"
     ],
     [
@@ -9043,7 +9285,17 @@
       "_text_inline_no_underscore"
     ],
     [
+      "_emphasis_star",
+      "_strong_emphasis_star",
+      "_text_inline_no_underscore"
+    ],
+    [
       "_emphasis_underscore",
+      "_text_inline_no_underscore"
+    ],
+    [
+      "_emphasis_underscore",
+      "_strong_emphasis_underscore",
       "_text_inline_no_underscore"
     ],
     [
@@ -9132,6 +9384,46 @@
       {
         "type": "SYMBOL",
         "name": "_block"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "_strong_emphasis_star"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "_inline_element_no_star"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "_strong_emphasis_star_no_newline"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "_inline_element_no_newline_no_star"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "_strong_emphasis_underscore"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "_inline_element_no_underscore"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "_strong_emphasis_underscore_no_newline"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "_inline_element_no_newline_no_underscore"
       }
     ]
   ],

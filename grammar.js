@@ -185,6 +185,10 @@ module.exports = grammar(add_inline_rules({
         [$.setext_heading, $._block_no_blank_line],
         [$.setext_h2_underline, $.thematic_break],
         [$.indented_code_block, $._block],
+        [$._strong_emphasis_star, $._inline_element_no_star],
+        [$._strong_emphasis_star_no_newline, $._inline_element_no_newline_no_star],
+        [$._strong_emphasis_underscore, $._inline_element_no_underscore],
+        [$._strong_emphasis_underscore_no_newline, $._inline_element_no_newline_no_underscore],
     ],
     // More conflicts are defined in `add_inline_rules`
     conflicts: $ => [
@@ -609,7 +613,9 @@ function add_inline_rules(grammar) {
                     alias($['_code_span' + suffix_newline], $.code_span),
                     $.html_tag,
                     alias($['_emphasis_star' + suffix_newline], $.emphasis),
+                    alias($['_strong_emphasis_star' + suffix_newline], $.strong_emphasis),
                     alias($['_emphasis_underscore' + suffix_newline], $.emphasis),
+                    alias($['_strong_emphasis_underscore' + suffix_newline], $.strong_emphasis),
                     alias($._shortcut_link, $.link),
                 ];
                 if (newline) {
@@ -623,9 +629,11 @@ function add_inline_rules(grammar) {
             conflicts.push(['_code_span' + suffix_newline, '_text_inline' + suffix_delimiter]);
             if (suffix !== "star") {
                 conflicts.push(['_emphasis_star' + suffix_newline, '_text_inline' + suffix_delimiter]);
+                conflicts.push(['_emphasis_star' + suffix_newline, '_strong_emphasis_star' + suffix_newline, '_text_inline' + suffix_delimiter]);
             }
             if (suffix !== "underscore") {
                 conflicts.push(['_emphasis_underscore' + suffix_newline, '_text_inline' + suffix_delimiter]);
+                conflicts.push(['_emphasis_underscore' + suffix_newline, '_strong_emphasis_underscore' + suffix_newline, '_text_inline' + suffix_delimiter]);
             }
 
             if (newline) {
@@ -661,7 +669,9 @@ function add_inline_rules(grammar) {
         }
         
         grammar.rules['_emphasis_star' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_star, $['_inline' + suffix_newline + '_no_star'], $._emphasis_close_star));
+        grammar.rules['_strong_emphasis_star' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_star, $['_emphasis_star' + suffix_newline], $._emphasis_close_star));
         grammar.rules['_emphasis_underscore' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_underscore, $['_inline' + suffix_newline + '_no_underscore'], $._emphasis_close_underscore));
+        grammar.rules['_strong_emphasis_underscore' + suffix_newline] = $ => prec.dynamic(1, seq($._emphasis_open_underscore, $['_emphasis_underscore' + suffix_newline], $._emphasis_close_underscore));
         grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(2, seq($._code_span_start, repeat(newline ? choice($._text, $._soft_line_break) : $._text), $._code_span_close));
     }
 
