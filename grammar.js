@@ -192,6 +192,11 @@ module.exports = grammar(add_inline_rules({
         [$._soft_line_break, $._paragraph_end_newline],
         [$.link_reference_definition],
         [$.hard_line_break, $._whitespace],
+        [$.loose_list, $._tight_list_plus],
+        [$.loose_list, $._tight_list_minus],
+        [$.loose_list, $._tight_list_star],
+        [$.loose_list, $._tight_list_dot],
+        [$.loose_list, $._tight_list_parenthesis],
     ],
 
     rules: {
@@ -316,55 +321,30 @@ module.exports = grammar(add_inline_rules({
             alias($._list_item_parenthesis_half_loose, $.list_item)
         )),
 
-        _loose_list_plus: $ => prec.right(choice(
-            seq(
-                $._tight_list_plus,
-                repeat1(choice(alias($._list_item_plus_loose, $.list_item), alias($._list_item_plus_half_loose, $.list_item), alias($._list_item_plus_tight, $.list_item))),
-            ),
-            seq(
-                alias($._list_item_plus_loose, $.list_item),
-                repeat(choice(alias($._list_item_plus_loose, $.list_item), alias($._list_item_plus_half_loose, $.list_item), alias($._list_item_plus_tight, $.list_item))),
-            )
+        _loose_list_plus: $ => repeat1(choice(
+            alias($._list_item_plus_loose, $.list_item),
+            alias($._list_item_plus_half_loose, $.list_item),
+            alias($._list_item_plus_tight, $.list_item),
         )),
-        _loose_list_minus: $ => prec.right(choice(
-            seq(
-                $._tight_list_minus,
-                repeat1(choice(alias($._list_item_minus_loose, $.list_item), alias($._list_item_minus_half_loose, $.list_item), alias($._list_item_minus_tight, $.list_item))),
-            ),
-            seq(
-                alias($._list_item_minus_loose, $.list_item),
-                repeat(choice(alias($._list_item_minus_loose, $.list_item), alias($._list_item_minus_half_loose, $.list_item), alias($._list_item_minus_tight, $.list_item))),
-            )
+        _loose_list_minus: $ => repeat1(choice(
+            alias($._list_item_minus_loose, $.list_item),
+            alias($._list_item_minus_half_loose, $.list_item),
+            alias($._list_item_minus_tight, $.list_item),
         )),
-        _loose_list_star: $ => prec.right(choice(
-            seq(
-                $._tight_list_star,
-                repeat1(choice(alias($._list_item_star_loose, $.list_item), alias($._list_item_star_half_loose, $.list_item), alias($._list_item_star_tight, $.list_item))),
-            ),
-            seq(
-                alias($._list_item_star_loose, $.list_item),
-                repeat(choice(alias($._list_item_star_loose, $.list_item), alias($._list_item_star_half_loose, $.list_item), alias($._list_item_star_tight, $.list_item))),
-            )
+        _loose_list_star: $ => repeat1(choice(
+            alias($._list_item_star_loose, $.list_item),
+            alias($._list_item_star_half_loose, $.list_item),
+            alias($._list_item_star_tight, $.list_item),
         )),
-        _loose_list_dot: $ => prec.right(choice(
-            seq(
-                $._tight_list_dot,
-                repeat1(choice(alias($._list_item_dot_loose, $.list_item), alias($._list_item_dot_half_loose, $.list_item), alias($._list_item_dot_tight, $.list_item))),
-            ),
-            seq(
-                alias($._list_item_dot_loose, $.list_item),
-                repeat(choice(alias($._list_item_dot_loose, $.list_item), alias($._list_item_dot_half_loose, $.list_item), alias($._list_item_dot_tight, $.list_item))),
-            )
+        _loose_list_dot: $ => repeat1(choice(
+            alias($._list_item_dot_loose, $.list_item),
+            alias($._list_item_dot_half_loose, $.list_item),
+            alias($._list_item_dot_tight, $.list_item),
         )),
-        _loose_list_parenthesis: $ => prec.right(choice(
-            seq(
-                $._tight_list_parenthesis,
-                repeat1(choice(alias($._list_item_parenthesis_loose, $.list_item), alias($._list_item_parenthesis_half_loose, $.list_item), alias($._list_item_parenthesis_tight, $.list_item))),
-            ),
-            seq(
-                alias($._list_item_parenthesis_loose, $.list_item),
-                repeat(choice(alias($._list_item_parenthesis_loose, $.list_item), alias($._list_item_parenthesis_half_loose, $.list_item), alias($._list_item_parenthesis_tight, $.list_item))),
-            )
+        _loose_list_parenthesis: $ => repeat1(choice(
+            alias($._list_item_parenthesis_loose, $.list_item),
+            alias($._list_item_parenthesis_half_loose, $.list_item),
+            alias($._list_item_parenthesis_tight, $.list_item),
         )),
 
         _list_item_content_tight: $ => prec.right(choice(
@@ -375,7 +355,7 @@ module.exports = grammar(add_inline_rules({
             seq($._blank_line, $._blank_line, $._close_block),
             seq($._list_item_content_tight, repeat1($._blank_line)),
         )),
-        _list_item_content_loose: $ => seq($._list_item_content_half_loose, $._block_no_blank_line, repeat($._block)),
+        _list_item_content_loose: $ => prec.right(seq($._list_item_content_half_loose, $._block_no_blank_line, repeat($._block))),
 
         list_marker_plus: $ => choice($._list_marker_plus, $._list_marker_plus_dont_interrupt),
         list_marker_minus: $ => choice($._list_marker_minus, $._list_marker_minus_dont_interrupt),

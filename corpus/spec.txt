@@ -5262,18 +5262,12 @@ Example 305 - https://github.github.com/gfm/#example-305
   (loose_list
     (list_item
       (list_marker_star)
-      (paragraph
-        
-        )
+      (paragraph)
       (tight_list
         (list_item
           (list_marker_star)
-          (paragraph
-            
-            )))
-      (paragraph
-        
-        ))))
+          (paragraph)))
+      (paragraph))))
 
 ================================================================================
 Example 306 - https://github.github.com/gfm/#example-306
