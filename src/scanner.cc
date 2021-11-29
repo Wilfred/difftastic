@@ -32,6 +32,11 @@ enum TokenType {
     LIST_MARKER_STAR,
     LIST_MARKER_PARENTHESIS,
     LIST_MARKER_DOT,
+    LIST_MARKER_MINUS_DONT_INTERRUPT,
+    LIST_MARKER_PLUS_DONT_INTERRUPT,
+    LIST_MARKER_STAR_DONT_INTERRUPT,
+    LIST_MARKER_PARENTHESIS_DONT_INTERRUPT,
+    LIST_MARKER_DOT_DONT_INTERRUPT,
     FENCED_CODE_BLOCK_START_BACKTICK,
     FENCED_CODE_BLOCK_START_TILDE,
     FENCED_CODE_BLOCK_END_BACKTICK,
@@ -408,8 +413,10 @@ struct Scanner {
                             }
                         }
                         bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r';
+                        bool dont_interrupt = false;
                         if (star_count == 1 && line_end) {
                             extra_indentation = 1;
+                            dont_interrupt = true; // line is empty so don't interrupt paragraphs
                         }
                         bool thematic_break = star_count >= 3 && line_end;
                         bool list_marker_star = star_count >= 1 && extra_indentation >= 1;
@@ -421,9 +428,9 @@ struct Scanner {
                             indentation = 0;
                             matched++;
                             return true;
-                        } else if (valid_symbols[LIST_MARKER_STAR] && list_marker_star) {
+                        } else if ((dont_interrupt ? valid_symbols[LIST_MARKER_STAR_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_STAR]) && list_marker_star) {
                             if (state & STATE_WAS_LAZY_CONTINUATION) return error(lexer);
-                            state &= ~STATE_NEED_OPEN_BLOCK;
+                            if (!dont_interrupt) state &= ~STATE_NEED_OPEN_BLOCK;
                             if (star_count == 1) {
                                 lexer->mark_end(lexer);
                             }
@@ -438,7 +445,7 @@ struct Scanner {
                             }
                             open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                             matched++;
-                            lexer->result_symbol = LIST_MARKER_STAR;
+                            lexer->result_symbol = dont_interrupt ? LIST_MARKER_STAR_DONT_INTERRUPT : LIST_MARKER_STAR;
                             return true;
                         }
                         if (valid_symbols[EMPHASIS_OPEN_STAR] || valid_symbols[EMPHASIS_CLOSE_STAR]) {
@@ -602,17 +609,21 @@ struct Scanner {
                     }
                     break;
                 case '+':
-                    if (indentation <= 3 && valid_symbols[LIST_MARKER_PLUS]) {
-                        lexer->mark_end(lexer);
+                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_PLUS] || valid_symbols[LIST_MARKER_PLUS_DONT_INTERRUPT])) {
                         advance(lexer, false);
                         size_t extra_indentation = 0;
                         while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
                             extra_indentation += advance(lexer, false);
                         }
-                        if (extra_indentation >= 1) {
+                        bool dont_interrupt = false;
+                        if (lexer->lookahead == '\r' || lexer->lookahead == '\n') {
+                            extra_indentation = 1;
+                            dont_interrupt = true;
+                        }
+                        if (extra_indentation >= 1 && (dont_interrupt ? valid_symbols[LIST_MARKER_PLUS_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_PLUS])) {
                             if (state & STATE_WAS_LAZY_CONTINUATION) return error(lexer);
-                            state &= ~STATE_NEED_OPEN_BLOCK;
-                            lexer->result_symbol = LIST_MARKER_PLUS;
+                            if (!dont_interrupt) state &= ~STATE_NEED_OPEN_BLOCK;
+                            lexer->result_symbol = dont_interrupt ? LIST_MARKER_PLUS_DONT_INTERRUPT : LIST_MARKER_PLUS;
                             extra_indentation--;
                             if (extra_indentation <= 3) {
                                 extra_indentation += indentation;
@@ -624,7 +635,6 @@ struct Scanner {
                             }
                             open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                             matched++;
-                            lexer->mark_end(lexer);
                             return true;
                         }
                     }
@@ -639,25 +649,27 @@ struct Scanner {
                 case '7':
                 case '8':
                 case '9':
-                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_PLUS] || valid_symbols[LIST_MARKER_PARENTHESIS] || valid_symbols[LIST_MARKER_DOT])) {
-                        lexer->mark_end(lexer);
-                        size_t digits = 0;
+                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_PARENTHESIS] || valid_symbols[LIST_MARKER_DOT])) {
+                        size_t digits = 1;
+                        advance(lexer, false);
+                        bool dont_interrupt = lexer->lookahead != '1';
                         while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+                            dont_interrupt = true;
                             digits++;
                             advance(lexer, false);
                         }
                         if (digits >= 1 && digits <= 9) {
                             bool success = false;
+                            bool dot = false;
+                            bool parenthesis = false;
                             if (lexer->lookahead == '.') {
                                 advance(lexer, false);
-                                success = true;
-                                lexer->result_symbol = LIST_MARKER_DOT;
+                                dot = true;
                             } else if (lexer->lookahead == ')') {
                                 advance(lexer, false);
-                                success = true;
-                                lexer->result_symbol = LIST_MARKER_PARENTHESIS;
+                                parenthesis = true;
                             }
-                            if (success) {
+                            if (dot || parenthesis) {
                                 size_t extra_indentation = 0;
                                 while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
                                     extra_indentation += advance(lexer, false);
@@ -665,10 +677,13 @@ struct Scanner {
                                 bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r';
                                 if (line_end) {
                                     extra_indentation = 1;
+                                    extra_indentation = 1;
+                                    dont_interrupt = true;
                                 }
-                                if (extra_indentation >= 1) {
+                                if (extra_indentation >= 1 && (dot ? (dont_interrupt ? valid_symbols[LIST_MARKER_DOT_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_DOT]) : (dont_interrupt ? valid_symbols[LIST_MARKER_PARENTHESIS_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_PARENTHESIS]))) {
                                     if (state & STATE_WAS_LAZY_CONTINUATION) return error(lexer);
-                                    state &= ~STATE_NEED_OPEN_BLOCK;
+                                    if (!dont_interrupt) state &= ~STATE_NEED_OPEN_BLOCK;
+                                    lexer->result_symbol = dot ? LIST_MARKER_DOT : LIST_MARKER_PARENTHESIS;
                                     extra_indentation--;
                                     if (extra_indentation <= 3) {
                                         extra_indentation += indentation;
@@ -680,7 +695,6 @@ struct Scanner {
                                     }
                                     open_blocks.push_back(Block(LIST_ITEM + extra_indentation + digits));
                                     matched++;
-                                    lexer->mark_end(lexer);
                                     return true;
                                 }
                             }
@@ -688,7 +702,7 @@ struct Scanner {
                     }
                     break;
                 case '-':
-                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_MINUS] || valid_symbols[SETEXT_H2_UNDERLINE] || valid_symbols[SETEXT_H2_UNDERLINE_OR_THEMATIC_BREAK] || valid_symbols[THEMATIC_BREAK])) { // TODO: thematic_break takes precedence
+                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_MINUS] || valid_symbols[LIST_MARKER_MINUS_DONT_INTERRUPT] || valid_symbols[SETEXT_H2_UNDERLINE] || valid_symbols[SETEXT_H2_UNDERLINE_OR_THEMATIC_BREAK] || valid_symbols[THEMATIC_BREAK])) { // TODO: thematic_break takes precedence
                         lexer->mark_end(lexer);
                         bool whitespace_after_minus = false;
                         bool minus_after_whitespace = false;
@@ -715,8 +729,10 @@ struct Scanner {
                             }
                         }
                         bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r';
+                        bool dont_interrupt = false;
                         if (minus_count == 1 && line_end) {
                             extra_indentation = 1;
+                            dont_interrupt = true;
                         }
                         bool thematic_break = minus_count >= 3 && line_end;
                         bool underline = minus_count >= 1 && !minus_after_whitespace && line_end && matched == open_blocks.size(); // setext heading can not break lazy continuation
@@ -729,9 +745,9 @@ struct Scanner {
                             indentation = 0;
                             matched++;
                             return true;
-                        } else if (valid_symbols[LIST_MARKER_MINUS] && list_marker_minus) {
+                        } else if ((dont_interrupt ? valid_symbols[LIST_MARKER_MINUS_DONT_INTERRUPT] : valid_symbols[LIST_MARKER_MINUS]) && list_marker_minus) {
                             if (state & STATE_WAS_LAZY_CONTINUATION) return error(lexer);
-                            state &= ~STATE_NEED_OPEN_BLOCK;
+                            if (!dont_interrupt) state &= ~STATE_NEED_OPEN_BLOCK;
                             if (minus_count == 1) {
                                 lexer->mark_end(lexer);
                             }
@@ -746,7 +762,7 @@ struct Scanner {
                             }
                             open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                             matched++;
-                            lexer->result_symbol = LIST_MARKER_MINUS;
+                            lexer->result_symbol = dont_interrupt ? LIST_MARKER_MINUS_DONT_INTERRUPT : LIST_MARKER_MINUS;
                             return true;
                         } else if (valid_symbols[SETEXT_H2_UNDERLINE_OR_THEMATIC_BREAK] && thematic_break && underline) {
                             if (state & STATE_WAS_LAZY_CONTINUATION) return error(lexer);
