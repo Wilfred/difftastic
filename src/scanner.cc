@@ -645,8 +645,8 @@ struct Scanner {
                 case '9':
                     if (indentation <= 3 && (valid_symbols[LIST_MARKER_PARENTHESIS] || valid_symbols[LIST_MARKER_DOT])) {
                         size_t digits = 1;
-                        advance(lexer, false);
                         bool dont_interrupt = lexer->lookahead != '1';
+                        advance(lexer, false);
                         while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
                             dont_interrupt = true;
                             digits++;
