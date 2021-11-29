@@ -192,6 +192,8 @@ module.exports = grammar(add_inline_rules({
     ],
     // More conflicts are defined in `add_inline_rules`
     conflicts: $ => [
+        [$.link_destination, $.link_title],
+        [$._link_destination_parenthesis, $.link_title],
         [$.link_reference_definition, $.shortcut_link],
         [$._soft_line_break, $._paragraph_end_newline],
         [$.link_reference_definition],
@@ -201,6 +203,7 @@ module.exports = grammar(add_inline_rules({
         [$.loose_list, $._tight_list_star],
         [$.loose_list, $._tight_list_dot],
         [$.loose_list, $._tight_list_parenthesis],
+        [$.link_text, $.link_label],
     ],
 
     rules: {
@@ -468,38 +471,52 @@ module.exports = grammar(add_inline_rules({
             $._newline,
         )),
 
-        shortcut_link: $ => $.link_label,
+        shortcut_link: $ => prec.dynamic(1, $.link_label), // TODO: no newline
+        inline_link: $ => prec.dynamic(2, seq(
+            $.link_text,
+            '(',
+            optional($._whitespace),
+            optional(choice(
+                seq($.link_destination, optional(seq($._whitespace, $.link_title))),
+                $.link_title,
+            )),
+            optional($._whitespace),
+            ')'
+        )), // TODO: no newline
 
-        link_label: $ => seq('[', repeat1(choice($._text_no_bracket, $.backslash_escape, $._newline)), ']'),
-        link_destination: $ => choice(
+        link_text: $ => seq('[', repeat(choice($._word, $._whitespace, punctuation_without($, ['[', ']']))), ']'), // TODO
+        link_label: $ => seq('[', repeat1(choice($._word, punctuation_without($, ['[', ']']), $._whitespace, $.backslash_escape, $._newline)), ']'),
+        link_destination: $ => prec.dynamic(1, choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
             seq(
                 choice($._word, punctuation_without($, ['<', '(', ')']), $.backslash_escape, $._link_destination_parenthesis),
                 repeat(choice($._word, punctuation_without($, ['(', ')']), $.backslash_escape, $._link_destination_parenthesis)),
             )
-        ),
+        )),
         _link_destination_parenthesis: $ => seq('(', repeat(choice($._word, $.backslash_escape, $._link_destination_parenthesis)), ')'),
         link_title: $ => choice(
             seq('"', repeat(choice(
-                $._text_no_double_quotes,
+                $._word,
+                punctuation_without($, ['"']),
+                $._whitespace,
                 $.backslash_escape,
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), '"'),
             seq("'", repeat(choice(
-                $._text_no_quotes,
+                $._word,
+                punctuation_without($, ["'"]),
+                $._whitespace,
                 $.backslash_escape,
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), "'"),
             seq('(', repeat(choice(
-                $._text_no_parenthesis,
+                $._word,
+                punctuation_without($, ['(', ')']),
+                $._whitespace,
                 $.backslash_escape,
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), ')'),
         ),
-        _text_no_bracket: $ => choice($._word, punctuation_without($, ['[', ']']), $._whitespace),
-        _text_no_double_quotes: $ => choice($._word, punctuation_without($, ['"']), $._whitespace),
-        _text_no_quotes: $ => choice($._word, punctuation_without($, ["'"]), $._whitespace),
-        _text_no_parenthesis: $ => choice($._word, punctuation_without($, ['(', ')']), $._whitespace),
         _text_no_angle: $ => choice($._word, punctuation_without($, ['<', '>']), $._whitespace),
 
         _soft_line_break: $ => prec.right(seq(
@@ -586,7 +603,7 @@ module.exports = grammar(add_inline_rules({
         _whitespace_ge_2: $ => /\t| [ \t]+/,
         _whitespace: $ => seq(choice($._whitespace_ge_2, / /), optional($._last_token_whitespace)),
         _word: $ => choice($._word_no_digit, $._digits),
-        _word_no_digit: $ => RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r0-9]+'),
+        _word_no_digit: $ => token.immediate(new RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r0-9]+')),
         _digits: $ => /[0-9]+/,
         _newline: $ => prec.right(seq(
             token.immediate(/\n|\r\n?/),
@@ -619,6 +636,7 @@ function add_inline_rules(grammar) {
                     alias($['_emphasis_underscore' + suffix_newline], $.emphasis),
                     alias($['_strong_emphasis_underscore' + suffix_newline], $.strong_emphasis),
                     $.shortcut_link,
+                    $.inline_link,
                 ];
                 if (newline) {
                     elements = elements.concat([
@@ -626,7 +644,7 @@ function add_inline_rules(grammar) {
                     ]);
                 }
                 return choice(...elements);
-            }
+            };
             grammar.rules["_inline" + suffix] = $ => repeat1($["_inline_element" + suffix]);
             conflicts.push(['_code_span' + suffix_newline, '_text_inline' + suffix_delimiter]);
             if (suffix !== "star") {
@@ -645,6 +663,8 @@ function add_inline_rules(grammar) {
                 conflicts.push(['_processing_instruction', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['_closing_tag', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['_open_tag', '_text_inline' + suffix_delimiter]);
+                conflicts.push(['link_text', 'link_label', '_text_inline' + suffix_delimiter]);
+                conflicts.push(['link_text', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['link_label', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['link_reference_definition', '_text_inline' + suffix_delimiter]);
                 conflicts.push(['hard_line_break', '_text_inline' + suffix_delimiter]);
