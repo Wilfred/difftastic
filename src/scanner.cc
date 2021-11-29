@@ -246,6 +246,7 @@ struct Scanner {
         /* std::cerr << "state " << unsigned(state) << std::endl; */
         /* std::cerr << "matched " << unsigned(matched) << std::endl; */
         /* std::cerr << "indentation " << unsigned(indentation) << std::endl; */
+        /* std::cerr << "num_emphasis_delimiters_left " << unsigned(num_emphasis_delimiters_left) << std::endl; */
         /* for (size_t i = 0; i < open_blocks.size(); i++) { */
         /*     std::cerr << BLOCK_NAME[open_blocks[i]] << std::endl; */
         /* } */
@@ -453,7 +454,7 @@ struct Scanner {
                             bool next_symbol_punctuation = extra_indentation == 0 && is_punctuation(lexer->lookahead);
                             if (valid_symbols[EMPHASIS_CLOSE_STAR] && !valid_symbols[LAST_TOKEN_WHITESPACE] &&
                                 (!valid_symbols[LAST_TOKEN_PUNCTUATION] || next_symbol_punctuation || next_symbol_whitespace)) {
-                                state &= (!STATE_EMPHASIS_DELIMITER_IS_OPEN);
+                                state &= ~STATE_EMPHASIS_DELIMITER_IS_OPEN;
                                 lexer->result_symbol = EMPHASIS_CLOSE_STAR;
                                 return true;
                             } else if (!next_symbol_whitespace &&
@@ -517,7 +518,7 @@ struct Scanner {
                             bool left_flanking = !next_symbol_whitespace &&
                                 (!next_symbol_punctuation || valid_symbols[LAST_TOKEN_PUNCTUATION] || valid_symbols[LAST_TOKEN_WHITESPACE]);
                             if (valid_symbols[EMPHASIS_CLOSE_UNDERSCORE] && right_flanking && (!left_flanking || next_symbol_punctuation)) {
-                                state &= (~STATE_EMPHASIS_DELIMITER_IS_OPEN);
+                                state &= ~STATE_EMPHASIS_DELIMITER_IS_OPEN;
                                 lexer->result_symbol = EMPHASIS_CLOSE_UNDERSCORE;
                                 return true;
                             } else if (left_flanking && (!right_flanking || valid_symbols[LAST_TOKEN_PUNCTUATION])) {

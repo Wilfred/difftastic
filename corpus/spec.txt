@@ -7817,7 +7817,9 @@ Example 475 - https://github.github.com/gfm/#example-475
 
 (document
   (paragraph
-    ))
+    (strong_emphasis
+      (strong_emphasis
+        (strong_emphasis)))))
 
 ================================================================================
 Example 476 - https://github.github.com/gfm/#example-476
@@ -7828,7 +7830,8 @@ Example 476 - https://github.github.com/gfm/#example-476
 
 (document
   (paragraph
-    ))
+    (emphasis
+      (strong_emphasis))))
 
 ================================================================================
 Example 477 - https://github.github.com/gfm/#example-477
@@ -7839,7 +7842,9 @@ _____foo_____
 
 (document
   (paragraph
-    ))
+    (emphasis
+      (strong_emphasis
+        (strong_emphasis)))))
 
 ================================================================================
 Example 478 - https://github.github.com/gfm/#example-478
@@ -7849,7 +7854,7 @@ Example 478 - https://github.github.com/gfm/#example-478
 --------------------------------------------------------------------------------
 
 (document
-  )
+  (emphasis))
 
 ================================================================================
 Example 479 - https://github.github.com/gfm/#example-479
@@ -7860,7 +7865,8 @@ Example 479 - https://github.github.com/gfm/#example-479
 
 (document
   (paragraph
-    ))
+    (emphasis
+      (strong_emphasis))))
 
 ================================================================================
 Example 480 - https://github.github.com/gfm/#example-480
@@ -7871,8 +7877,7 @@ Example 480 - https://github.github.com/gfm/#example-480
 
 (document
   (paragraph
-    
-    ))
+    (strong_emphasis)))
 
 ================================================================================
 Example 481 - https://github.github.com/gfm/#example-481
@@ -7883,8 +7888,7 @@ Example 481 - https://github.github.com/gfm/#example-481
 
 (document
   (paragraph
-    
-    ))
+    (emphasis)))
 
 ================================================================================
 Example 482 - https://github.github.com/gfm/#example-482
@@ -7895,7 +7899,7 @@ Example 482 - https://github.github.com/gfm/#example-482
 
 (document
   (paragraph
-    
+    (todo)
     ))
 
 ================================================================================
@@ -7907,6 +7911,7 @@ _foo [bar_](/url)
 
 (document
   (paragraph
+    (todo)
     
     ))
 
@@ -7919,6 +7924,7 @@ Example 484 - https://github.github.com/gfm/#example-484
 
 (document
   (paragraph
+    (html_tag)
     
     ))
 
@@ -7931,6 +7937,7 @@ Example 485 - https://github.github.com/gfm/#example-485
 
 (document
   (paragraph
+    (html_tag)
     
     ))
 
@@ -7943,6 +7950,7 @@ __<a href="__">
 
 (document
   (paragraph
+    (html_tag)
     
     ))
 
@@ -7955,7 +7963,8 @@ Example 487 - https://github.github.com/gfm/#example-487
 
 (document
   (paragraph
-    ))
+    (emphasis
+      (code_span))))
 
 ================================================================================
 Example 488 - https://github.github.com/gfm/#example-488
@@ -7966,7 +7975,8 @@ _a `_`_
 
 (document
   (paragraph
-    ))
+    (emphasis
+      (code_span))))
 
 ================================================================================
 Example 489 - https://github.github.com/gfm/#example-489
@@ -7977,8 +7987,7 @@ Example 489 - https://github.github.com/gfm/#example-489
 
 (document
   (paragraph
-    
-    ))
+    (html_tag)))
 
 ================================================================================
 Example 490 - https://github.github.com/gfm/#example-490
@@ -7989,30 +7998,7 @@ __a<http://foo.bar/?q=__>
 
 (document
   (paragraph
-    
-    ))
-
-================================================================================
-Example 491 - https://github.github.com/gfm/#example-491
-================================================================================
-~~Hi~~ Hello, world!
-
---------------------------------------------------------------------------------
-
-(document
-  )
-
-================================================================================
-Example 492 - https://github.github.com/gfm/#example-492
-================================================================================
-This ~~has a
-
-new paragraph~~.
-
---------------------------------------------------------------------------------
-
-(document
-  (paragraph
+    (html_tag)
     ))
 
 ================================================================================
