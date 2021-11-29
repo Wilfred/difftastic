@@ -237,10 +237,6 @@
           "named": true
         },
         {
-          "type": "link",
-          "named": true
-        },
-        {
           "type": "numeric_character_reference",
           "named": true
         },
@@ -250,6 +246,10 @@
         },
         {
           "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "shortcut_link",
           "named": true
         },
         {
@@ -366,10 +366,6 @@
           "named": true
         },
         {
-          "type": "link",
-          "named": true
-        },
-        {
           "type": "numeric_character_reference",
           "named": true
         },
@@ -379,6 +375,10 @@
         },
         {
           "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "shortcut_link",
           "named": true
         },
         {
@@ -447,21 +447,6 @@
       "types": [
         {
           "type": "backslash_escape",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "link",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "link_text",
           "named": true
         }
       ]
@@ -539,21 +524,6 @@
         },
         {
           "type": "thematic_break",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "link_text",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "backslash_escape",
           "named": true
         }
       ]
@@ -738,10 +708,6 @@
           "named": true
         },
         {
-          "type": "link",
-          "named": true
-        },
-        {
           "type": "numeric_character_reference",
           "named": true
         },
@@ -751,6 +717,10 @@
         },
         {
           "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "shortcut_link",
           "named": true
         },
         {
@@ -792,6 +762,21 @@
         },
         {
           "type": "setext_h2_underline",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "shortcut_link",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "link_label",
           "named": true
         }
       ]
@@ -846,10 +831,6 @@
           "named": true
         },
         {
-          "type": "link",
-          "named": true
-        },
-        {
           "type": "numeric_character_reference",
           "named": true
         },
@@ -859,6 +840,10 @@
         },
         {
           "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "shortcut_link",
           "named": true
         },
         {

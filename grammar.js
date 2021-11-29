@@ -192,7 +192,7 @@ module.exports = grammar(add_inline_rules({
     ],
     // More conflicts are defined in `add_inline_rules`
     conflicts: $ => [
-        [$.link_reference_definition, $._shortcut_link],
+        [$.link_reference_definition, $.shortcut_link],
         [$._soft_line_break, $._paragraph_end_newline],
         [$.link_reference_definition],
         [$.hard_line_break, $._whitespace],
@@ -467,6 +467,9 @@ module.exports = grammar(add_inline_rules({
             ))),
             $._newline,
         )),
+
+        shortcut_link: $ => $.link_label,
+
         link_label: $ => seq('[', repeat1(choice($._text_no_bracket, $.backslash_escape, $._newline)), ']'),
         link_destination: $ => choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
@@ -507,7 +510,6 @@ module.exports = grammar(add_inline_rules({
         )),
         _paragraph_end_newline: $ => seq($._newline, repeat($._split_token)),
 
-        _shortcut_link: $ => alias($.link_label, $.link_text),
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq(choice('\\', $._whitespace_ge_2), $._soft_line_break)),
         autolink: $ => /<[a-zA-Z][a-zA-Z0-9+\.\-]*:[^ \t\r\n<>]*>/, // TODO: move this to external scanner because lexer is really inefficient with counting characters for scheme
@@ -616,7 +618,7 @@ function add_inline_rules(grammar) {
                     alias($['_strong_emphasis_star' + suffix_newline], $.strong_emphasis),
                     alias($['_emphasis_underscore' + suffix_newline], $.emphasis),
                     alias($['_strong_emphasis_underscore' + suffix_newline], $.strong_emphasis),
-                    alias($._shortcut_link, $.link),
+                    $.shortcut_link,
                 ];
                 if (newline) {
                     elements = elements.concat([

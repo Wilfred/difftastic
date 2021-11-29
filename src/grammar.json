@@ -4226,6 +4226,10 @@
         ]
       }
     },
+    "shortcut_link": {
+      "type": "SYMBOL",
+      "name": "link_label"
+    },
     "link_label": {
       "type": "SEQ",
       "members": [
@@ -5673,15 +5677,6 @@
           }
         }
       ]
-    },
-    "_shortcut_link": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "link_label"
-      },
-      "named": true,
-      "value": "link_text"
     },
     "backslash_escape": {
       "type": "PATTERN",
@@ -7762,13 +7757,8 @@
           "value": "strong_emphasis"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_shortcut_link"
-          },
-          "named": true,
-          "value": "link"
+          "type": "SYMBOL",
+          "name": "shortcut_link"
         }
       ]
     },
@@ -7856,13 +7846,8 @@
           "value": "strong_emphasis"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_shortcut_link"
-          },
-          "named": true,
-          "value": "link"
+          "type": "SYMBOL",
+          "name": "shortcut_link"
         }
       ]
     },
@@ -7950,13 +7935,8 @@
           "value": "strong_emphasis"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_shortcut_link"
-          },
-          "named": true,
-          "value": "link"
+          "type": "SYMBOL",
+          "name": "shortcut_link"
         }
       ]
     },
@@ -8152,13 +8132,8 @@
           "value": "strong_emphasis"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_shortcut_link"
-          },
-          "named": true,
-          "value": "link"
+          "type": "SYMBOL",
+          "name": "shortcut_link"
         },
         {
           "type": "SYMBOL",
@@ -8441,13 +8416,8 @@
           "value": "strong_emphasis"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_shortcut_link"
-          },
-          "named": true,
-          "value": "link"
+          "type": "SYMBOL",
+          "name": "shortcut_link"
         },
         {
           "type": "SYMBOL",
@@ -8726,13 +8696,8 @@
           "value": "strong_emphasis"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_shortcut_link"
-          },
-          "named": true,
-          "value": "link"
+          "type": "SYMBOL",
+          "name": "shortcut_link"
         },
         {
           "type": "SYMBOL",
@@ -9061,7 +9026,7 @@
   "conflicts": [
     [
       "link_reference_definition",
-      "_shortcut_link"
+      "shortcut_link"
     ],
     [
       "_soft_line_break",
