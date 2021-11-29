@@ -500,7 +500,7 @@ struct Scanner {
                             }
                         }
                         bool line_end = lexer->lookahead == '\n' || lexer->lookahead == '\r';
-                        if (underscore_count >= 3 && line_end) {
+                        if (underscore_count >= 3 && line_end && valid_symbols[THEMATIC_BREAK]) {
                             if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
                             state &= ~STATE_NEED_OPEN_BLOCK;
                             lexer->result_symbol = THEMATIC_BREAK;
