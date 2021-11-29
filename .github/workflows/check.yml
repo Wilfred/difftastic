@@ -28,7 +28,7 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm run ci
-    - run: npm test
+    - run: npm run test-ci
     - name: Publish parser source
       uses: actions/upload-artifact@v2
       with:
