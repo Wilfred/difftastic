@@ -7144,7 +7144,11 @@ Example 511 - https://github.github.com/gfm/#example-511
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination
+        (entity_reference)))))
 
 ================================================================================
 Example 512 - https://github.github.com/gfm/#example-512
@@ -7154,7 +7158,10 @@ Example 512 - https://github.github.com/gfm/#example-512
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination))))
 
 ================================================================================
 Example 513 - https://github.github.com/gfm/#example-513
@@ -7167,11 +7174,15 @@ Example 513 - https://github.github.com/gfm/#example-513
 
 (document
   (paragraph
-    (link
+    (inline_link
       (link_text)
       (link_destination)
       (link_title))
-    (link
+    (inline_link
+      (link_text)
+      (link_destination)
+      (link_title))
+    (inline_link
       (link_text)
       (link_destination)
       (link_title))))
@@ -7184,17 +7195,26 @@ Example 514 - https://github.github.com/gfm/#example-514
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination)
+      (link_title
+        (backslash_escape)
+        (entity_reference)))))
 
 ================================================================================
 Example 515 - https://github.github.com/gfm/#example-515
 ================================================================================
-[link](/url "title")
+[link](/url "title")
 
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination))))
 
 ================================================================================
 Example 516 - https://github.github.com/gfm/#example-516
@@ -7203,7 +7223,10 @@ Example 516 - https://github.github.com/gfm/#example-516
 
 --------------------------------------------------------------------------------
 
-(document)
+(document
+  (paragraph
+    (shortcut_link
+      (link_label))))
 
 ================================================================================
 Example 517 - https://github.github.com/gfm/#example-517
@@ -7213,7 +7236,11 @@ Example 517 - https://github.github.com/gfm/#example-517
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination)
+      (link_title))))
 
 ================================================================================
 Example 518 - https://github.github.com/gfm/#example-518
@@ -7224,7 +7251,11 @@ Example 518 - https://github.github.com/gfm/#example-518
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination)
+      (link_title))))
 
 ================================================================================
 Example 519 - https://github.github.com/gfm/#example-519
@@ -7233,7 +7264,10 @@ Example 519 - https://github.github.com/gfm/#example-519
 
 --------------------------------------------------------------------------------
 
-(document)
+(document
+  (paragraph
+    (shortcut_link
+      (link_label))))
 
 ================================================================================
 Example 520 - https://github.github.com/gfm/#example-520

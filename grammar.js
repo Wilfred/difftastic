@@ -474,7 +474,7 @@ module.exports = grammar(add_inline_rules({
         shortcut_link: $ => prec.dynamic(1, $.link_label), // TODO: no newline
         inline_link: $ => prec.dynamic(2, seq(
             $.link_text,
-            '(',
+            token.immediate('('),
             optional($._whitespace),
             optional(choice(
                 seq($.link_destination, optional(seq($._whitespace, $.link_title))),
@@ -489,8 +489,8 @@ module.exports = grammar(add_inline_rules({
         link_destination: $ => prec.dynamic(1, choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
             seq(
-                choice($._word, punctuation_without($, ['<', '(', ')']), $.backslash_escape, $._link_destination_parenthesis),
-                repeat(choice($._word, punctuation_without($, ['(', ')']), $.backslash_escape, $._link_destination_parenthesis)),
+                choice($._word, punctuation_without($, ['<', '(', ')']), $.backslash_escape, $.entity_reference, $.numeric_character_reference, $._link_destination_parenthesis),
+                repeat(choice($._word, punctuation_without($, ['(', ')']), $.backslash_escape, $.entity_reference, $.numeric_character_reference, $._link_destination_parenthesis)),
             )
         )),
         _link_destination_parenthesis: $ => seq('(', repeat(choice($._word, $.backslash_escape, $._link_destination_parenthesis)), ')'),
@@ -500,6 +500,8 @@ module.exports = grammar(add_inline_rules({
                 punctuation_without($, ['"']),
                 $._whitespace,
                 $.backslash_escape,
+                $.entity_reference,
+                $.numeric_character_reference,
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), '"'),
             seq("'", repeat(choice(
@@ -507,6 +509,8 @@ module.exports = grammar(add_inline_rules({
                 punctuation_without($, ["'"]),
                 $._whitespace,
                 $.backslash_escape,
+                $.entity_reference,
+                $.numeric_character_reference,
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), "'"),
             seq('(', repeat(choice(
@@ -514,6 +518,8 @@ module.exports = grammar(add_inline_rules({
                 punctuation_without($, ['(', ')']),
                 $._whitespace,
                 $.backslash_escape,
+                $.entity_reference,
+                $.numeric_character_reference,
                 seq($._newline, optional(seq($._blank_line, $._trigger_error)))
             )), ')'),
         ),

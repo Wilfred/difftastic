@@ -494,6 +494,14 @@
         {
           "type": "backslash_escape",
           "named": true
+        },
+        {
+          "type": "entity_reference",
+          "named": true
+        },
+        {
+          "type": "numeric_character_reference",
+          "named": true
         }
       ]
     }
@@ -575,6 +583,14 @@
       "types": [
         {
           "type": "backslash_escape",
+          "named": true
+        },
+        {
+          "type": "entity_reference",
+          "named": true
+        },
+        {
+          "type": "numeric_character_reference",
           "named": true
         }
       ]

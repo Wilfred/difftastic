@@ -4245,8 +4245,11 @@
             "name": "link_text"
           },
           {
-            "type": "STRING",
-            "value": "("
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": "("
+            }
           },
           {
             "type": "CHOICE",
@@ -4865,6 +4868,14 @@
                   },
                   {
                     "type": "SYMBOL",
+                    "name": "entity_reference"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "numeric_character_reference"
+                  },
+                  {
+                    "type": "SYMBOL",
                     "name": "_link_destination_parenthesis"
                   }
                 ]
@@ -5023,6 +5034,14 @@
                     {
                       "type": "SYMBOL",
                       "name": "backslash_escape"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "entity_reference"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "numeric_character_reference"
                     },
                     {
                       "type": "SYMBOL",
@@ -5243,6 +5262,14 @@
                     "name": "backslash_escape"
                   },
                   {
+                    "type": "SYMBOL",
+                    "name": "entity_reference"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "numeric_character_reference"
+                  },
+                  {
                     "type": "SEQ",
                     "members": [
                       {
@@ -5452,6 +5479,14 @@
                     "name": "backslash_escape"
                   },
                   {
+                    "type": "SYMBOL",
+                    "name": "entity_reference"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "numeric_character_reference"
+                  },
+                  {
                     "type": "SEQ",
                     "members": [
                       {
@@ -5655,6 +5690,14 @@
                   {
                     "type": "SYMBOL",
                     "name": "backslash_escape"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "entity_reference"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "numeric_character_reference"
                   },
                   {
                     "type": "SEQ",
