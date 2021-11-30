@@ -477,6 +477,10 @@
           "named": true
         },
         {
+          "type": "link_label",
+          "named": true
+        },
+        {
           "type": "link_title",
           "named": true
         },

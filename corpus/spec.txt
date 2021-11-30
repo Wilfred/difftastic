@@ -7376,7 +7376,13 @@ Example 528 - https://github.github.com/gfm/#example-528
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (image
+      (image_description
+        (inline_link
+          (link_text)
+          (link_destination)))
+      (link_destination))))
 
 ================================================================================
 Example 529 - https://github.github.com/gfm/#example-529
@@ -8189,7 +8195,9 @@ Example 581 - https://github.github.com/gfm/#example-581
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph)
+  (paragraph
+    (image
+      (link_label)))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8203,7 +8211,13 @@ Example 582 - https://github.github.com/gfm/#example-582
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (image
+      (image_description
+        (image
+          (image_description)
+          (link_destination)))
+      (link_destination))))
 
 ================================================================================
 Example 583 - https://github.github.com/gfm/#example-583
@@ -8213,7 +8227,13 @@ Example 583 - https://github.github.com/gfm/#example-583
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (image
+      (image_description
+        (inline_link
+          (link_text)
+          (link_destination)))
+      (link_destination))))
 
 ================================================================================
 Example 584 - https://github.github.com/gfm/#example-584
@@ -8255,7 +8275,10 @@ Example 586 - https://github.github.com/gfm/#example-586
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (image
+      (image_description)
+      (link_destination))))
 
 ================================================================================
 Example 587 - https://github.github.com/gfm/#example-587
@@ -8266,7 +8289,10 @@ My ![foo bar](/path/to/train.jpg  "title"   )
 
 (document
   (paragraph
-    (todo)))
+    (image
+      (image_description)
+      (link_destination)
+      (link_title))))
 
 ================================================================================
 Example 588 - https://github.github.com/gfm/#example-588
@@ -8277,7 +8303,9 @@ Example 588 - https://github.github.com/gfm/#example-588
 
 (document
   (paragraph
-    (todo)))
+    (image
+      (image_description)
+      (link_destination))))
 
 ================================================================================
 Example 589 - https://github.github.com/gfm/#example-589
@@ -8288,7 +8316,9 @@ Example 589 - https://github.github.com/gfm/#example-589
 
 (document
   (paragraph
-    (todo)))
+    (image
+      (image_description)
+      (link_destination))))
 
 ================================================================================
 Example 590 - https://github.github.com/gfm/#example-590
@@ -8394,7 +8424,7 @@ Example 595 - https://github.github.com/gfm/#example-595
 (document
   (paragraph
     (image
-      (image_description)))
+      (link_label)))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8412,7 +8442,7 @@ Example 596 - https://github.github.com/gfm/#example-596
 (document
   (paragraph
     (image
-      (image_description)))
+      (link_label)))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8447,8 +8477,12 @@ Example 598 - https://github.github.com/gfm/#example-598
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph)
-  (paragraph))
+  (paragraph
+    (shortcut_link
+      (link_label)))
+  (paragraph
+    (shortcut_link
+      (link_label))))
 
 ================================================================================
 Example 599 - https://github.github.com/gfm/#example-599
@@ -8462,7 +8496,7 @@ Example 599 - https://github.github.com/gfm/#example-599
 (document
   (paragraph
     (image
-      (image_description)))
+      (link_label)))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8497,8 +8531,8 @@ Example 601 - https://github.github.com/gfm/#example-601
 (document
   (paragraph
     (backslash_escape)
-    (link
-      (link_text)))
+    (shortcut_link
+      (link_label)))
   (link_reference_definition
     (link_label)
     (link_destination)

@@ -196,6 +196,9 @@ module.exports = grammar(add_inline_rules({
     ],
     // More conflicts are defined in `add_inline_rules`
     conflicts: $ => [
+        [$.image, $.image_description, $._text_inline],
+        [$.image, $.image_description, $._text_inline_no_star],
+        [$.image, $.image_description, $._text_inline_no_underscore],
         [$.image_description, $._text_inline],
         [$.image_description, $._text_inline_no_star],
         [$.image_description, $._text_inline_no_underscore],
@@ -203,6 +206,10 @@ module.exports = grammar(add_inline_rules({
         [$.link_label, $._open_tag, $._text_inline_no_link],
         [$.link_label, $.hard_line_break, $._text_inline_no_link],
         [$.link_label, $._inline_element_no_link],
+        [$.link_label, $._closing_tag, $._text_inline],
+        [$.link_label, $._open_tag, $._text_inline],
+        [$.link_label, $.hard_line_break, $._text_inline],
+        [$.link_label, $._inline_element],
         [$.link_destination, $.link_title],
         [$._link_destination_parenthesis, $.link_title],
         [$.link_reference_definition, $.shortcut_link],
@@ -497,22 +504,25 @@ module.exports = grammar(add_inline_rules({
             )),
             ')'
         )), // TODO: no newline
-        image: $ => prec.dynamic(2, seq(
-            $.image_description,
-            '(',
-            repeat(choice($._whitespace, $._soft_line_break)),
-            optional(seq(
-                choice(
-                    seq($.link_destination, optional(seq(repeat1(choice($._whitespace, $._soft_line_break)), $.link_title))),
-                    $.link_title,
-                ),
+        image: $ => choice(
+                prec.dynamic(4, seq(
+                $.image_description,
+                '(',
                 repeat(choice($._whitespace, $._soft_line_break)),
+                optional(seq(
+                    choice(
+                        seq($.link_destination, optional(seq(repeat1(choice($._whitespace, $._soft_line_break)), $.link_title))),
+                        $.link_title,
+                    ),
+                    repeat(choice($._whitespace, $._soft_line_break)),
+                )),
+                ')'
             )),
-            ')'
-        )), // TODO: no newline
+            seq('!', prec.dynamic(3, $.link_label)), // TODO: no newline
+        ), // TODO: no newline
 
-        link_text: $ => seq('[', $._inline_no_link, ']'), // TODO
-        image_description: $ => seq('!', '[', $._inline, ']'), // TODO
+        link_text: $ => seq('[', optional($._inline_no_link), ']'),
+        image_description: $ => seq('!', '[', optional($._inline), ']'), // TODO
         link_label: $ => seq('[', repeat1(choice($._word, punctuation_without($, ['[', ']']), $._whitespace, $.backslash_escape, $._newline)), ']'),
         link_destination: $ => prec.dynamic(1, choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
