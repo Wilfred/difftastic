@@ -6786,7 +6786,9 @@ Example 482 - https://github.github.com/gfm/#example-482
 
 (document
   (paragraph
-    (todo)))
+    (inline_link
+      (link_text)
+      (link_destination))))
 
 ================================================================================
 Example 483 - https://github.github.com/gfm/#example-483
@@ -6797,7 +6799,9 @@ _foo [bar_](/url)
 
 (document
   (paragraph
-    (todo)))
+    (inline_link
+      (link_text)
+      (link_destination))))
 
 ================================================================================
 Example 484 - https://github.github.com/gfm/#example-484
