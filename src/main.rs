@@ -321,10 +321,12 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
 /// paths with the all the modified files.  fn
 fn diff_directories(lhs_dir: &str, rhs_dir: &str) {
     for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
-        let lhs_path = entry.path();
+        let lhs_path = dbg!(entry.path());
         if lhs_path.is_dir() {
             continue;
         }
+
+        info!("LHS path is {:?} inside {:?}", lhs_path, lhs_dir);
 
         let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
         let rhs_path = Path::new(rhs_dir).join(rel_path);
