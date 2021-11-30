@@ -7386,7 +7386,10 @@ Example 529 - https://github.github.com/gfm/#example-529
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination))))
 
 ================================================================================
 Example 530 - https://github.github.com/gfm/#example-530
@@ -7396,7 +7399,10 @@ Example 530 - https://github.github.com/gfm/#example-530
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination))))
 
 ================================================================================
 Example 531 - https://github.github.com/gfm/#example-531
@@ -7406,7 +7412,9 @@ Example 531 - https://github.github.com/gfm/#example-531
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (shortcut_link
+      (link_label))))
 
 ================================================================================
 Example 532 - https://github.github.com/gfm/#example-532
@@ -7416,7 +7424,8 @@ Example 532 - https://github.github.com/gfm/#example-532
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (html_tag)))
 
 ================================================================================
 Example 533 - https://github.github.com/gfm/#example-533
@@ -7426,7 +7435,8 @@ Example 533 - https://github.github.com/gfm/#example-533
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (code_span)))
 
 ================================================================================
 Example 534 - https://github.github.com/gfm/#example-534
@@ -7436,7 +7446,8 @@ Example 534 - https://github.github.com/gfm/#example-534
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (autolink)))
 
 ================================================================================
 Example 535 - https://github.github.com/gfm/#example-535
