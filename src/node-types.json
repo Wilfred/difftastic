@@ -533,17 +533,7 @@
   {
     "type": "link_label",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "backslash_escape",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "link_reference_definition",

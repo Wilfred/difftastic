@@ -7289,7 +7289,10 @@ Example 521 - https://github.github.com/gfm/#example-521
 
 --------------------------------------------------------------------------------
 
-(document)
+(document
+  (paragraph
+    (shortcut_link
+      (link_label))))
 
 ================================================================================
 Example 522 - https://github.github.com/gfm/#example-522

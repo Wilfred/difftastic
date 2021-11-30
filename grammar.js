@@ -189,12 +189,16 @@ module.exports = grammar(add_inline_rules({
         [$._strong_emphasis_star_no_newline, $._inline_element_no_newline_no_star],
         [$._strong_emphasis_underscore, $._inline_element_no_underscore],
         [$._strong_emphasis_underscore_no_newline, $._inline_element_no_newline_no_underscore],
+        [$._strong_emphasis_star_no_link, $._inline_element_no_star_no_link],
+        [$._strong_emphasis_star_no_newline_no_link, $._inline_element_no_newline_no_star_no_link],
+        [$._strong_emphasis_underscore_no_link, $._inline_element_no_underscore_no_link],
+        [$._strong_emphasis_underscore_no_newline_no_link, $._inline_element_no_newline_no_underscore_no_link],
     ],
     // More conflicts are defined in `add_inline_rules`
     conflicts: $ => [
-        [$.link_label, $._closing_tag, $._text_inline],
-        [$.link_label, $._open_tag, $._text_inline],
-        [$.link_label, $.hard_line_break, $._text_inline],
+        [$.link_label, $._closing_tag, $._text_inline_no_link],
+        [$.link_label, $._open_tag, $._text_inline_no_link],
+        [$.link_label, $.hard_line_break, $._text_inline_no_link],
         [$.link_label, $._inline_element_no_link],
         [$.link_destination, $.link_title],
         [$._link_destination_parenthesis, $.link_title],
@@ -641,7 +645,7 @@ function add_inline_rules(grammar) {
                         $.backslash_escape,
                         $.hard_line_break,
                         $.autolink,
-                        $['_text_inline' + suffix_delimiter],
+                        $['_text_inline' + suffix_delimiter + suffix_link],
                         $.entity_reference,
                         $.numeric_character_reference,
                         alias($['_code_span' + suffix_newline], $.code_span),
@@ -665,37 +669,35 @@ function add_inline_rules(grammar) {
                     return choice(...elements);
                 };
                 grammar.rules["_inline" + suffix] = $ => repeat1($["_inline_element" + suffix]);
-                if (link) {
-                    conflicts.push(['_code_span' + suffix_newline, '_text_inline' + suffix_delimiter]);
-                }
+                conflicts.push(['_code_span' + suffix_newline, '_text_inline' + suffix_delimiter + suffix_link]);
                 if (delimiter !== "star") {
-                    conflicts.push(['_emphasis_star' + suffix_newline + suffix_link, '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['_emphasis_star' + suffix_newline + suffix_link, '_strong_emphasis_star' + suffix_newline + suffix_link, '_text_inline' + suffix_delimiter]);
+                    conflicts.push(['_emphasis_star' + suffix_newline + suffix_link, '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['_emphasis_star' + suffix_newline + suffix_link, '_strong_emphasis_star' + suffix_newline + suffix_link, '_text_inline' + suffix_delimiter + suffix_link]);
                 }
                 if (delimiter !== false) {
-                    conflicts.push(['_strong_emphasis_' + delimiter + suffix_newline + suffix_link, '_inline_element_no_' + delimiter + suffix_link]);
+                    conflicts.push(['_strong_emphasis_' + delimiter + suffix_newline + suffix_link, '_inline_element_no_' + delimiter]);
                 }
                 if (delimiter !== "underscore") {
-                    conflicts.push(['_emphasis_underscore' + suffix_newline + suffix_link, '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['_emphasis_underscore' + suffix_newline + suffix_link, '_strong_emphasis_underscore' + suffix_newline + suffix_link, '_text_inline' + suffix_delimiter]);
+                    conflicts.push(['_emphasis_underscore' + suffix_newline + suffix_link, '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['_emphasis_underscore' + suffix_newline + suffix_link, '_strong_emphasis_underscore' + suffix_newline + suffix_link, '_text_inline' + suffix_delimiter + suffix_link]);
                 }
 
-                if (newline && link) {
-                    conflicts.push(['_html_comment', '_text_inline' + suffix_delimiter]); // TODO: no_newline
-                    conflicts.push(['_cdata_section', '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['_declaration', '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['_processing_instruction', '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['_closing_tag', '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['_open_tag', '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['link_text', 'link_label', '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['link_text', '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['link_label', '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['link_reference_definition', '_text_inline' + suffix_delimiter]);
-                    conflicts.push(['hard_line_break', '_text_inline' + suffix_delimiter]);
-                    grammar.rules['_text_inline' + suffix_delimiter] = $ => {
+                if (newline) {
+                    conflicts.push(['_html_comment', '_text_inline' + suffix_delimiter + suffix_link]); // TODO: no_newline
+                    conflicts.push(['_cdata_section', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['_declaration', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['_processing_instruction', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['_closing_tag', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['_open_tag', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['link_text', 'link_label', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['link_text', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['link_label', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['link_reference_definition', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['hard_line_break', '_text_inline' + suffix_delimiter + suffix_link]);
+                    grammar.rules['_text_inline' + suffix_delimiter + suffix_link] = $ => {
                         let elements = [
                             $._word,
-                            punctuation_without($, []),
+                            punctuation_without($, link ? [] : ['[', ']']),
                             $._whitespace,
                             $._code_span_start,
                             '<!--',
