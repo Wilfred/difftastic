@@ -9322,12 +9322,7 @@
       }
     }
   },
-  "extras": [
-    {
-      "type": "PATTERN",
-      "value": "\\s"
-    }
-  ],
+  "extras": [],
   "conflicts": [
     [
       "link_destination",

@@ -205,6 +205,7 @@ module.exports = grammar(add_inline_rules({
         [$.loose_list, $._tight_list_parenthesis],
         [$.link_text, $.link_label],
     ],
+    extras: $ => [],
 
     rules: {
         document: $ => seq(optional($._ignore_matching_tokens), repeat($._block)),
