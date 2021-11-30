@@ -7276,7 +7276,11 @@ Example 520 - https://github.github.com/gfm/#example-520
 
 --------------------------------------------------------------------------------
 
-(document)
+(document
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination))))
 
 ================================================================================
 Example 521 - https://github.github.com/gfm/#example-521
