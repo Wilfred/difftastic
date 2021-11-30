@@ -38,7 +38,6 @@ use std::{env, ffi::OsStr, path::Path};
 use typed_arena::Arena;
 use walkdir::WalkDir;
 
-// use crate::*;
 use crate::{
     dijkstra::mark_syntax,
     files::{is_probably_binary, read_or_die},
