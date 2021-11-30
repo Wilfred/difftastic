@@ -4881,7 +4881,7 @@ Example 318 - https://github.github.com/gfm/#example-318
 
 (document
   (paragraph
-    (link
+    (inline_link
       (link_text)
       (link_destination
         (backslash_escape))
@@ -4899,7 +4899,7 @@ Example 319 - https://github.github.com/gfm/#example-319
 
 (document
   (paragraph
-    (link
+    (shortcut_link
       (link_text)))
   (link_reference_definition
     (link_label)
@@ -5024,7 +5024,7 @@ Example 328 - https://github.github.com/gfm/#example-328
 
 (document
   (paragraph
-    (link
+    (inline_link
       (link_text)
       (link_destination
         (entity_reference)
@@ -5044,7 +5044,7 @@ Example 329 - https://github.github.com/gfm/#example-329
 
 (document
   (paragraph
-    (link
+    (shortcut_link
       (link_text)))
   (link_reference_definition
     (link_label)
@@ -5155,7 +5155,7 @@ Example 337 - https://github.github.com/gfm/#example-337
 
 (document
   (paragraph
-    (link
+    (shortcut_link
       (link_text))
     (entity_reference)
     (entity_reference)))
@@ -5443,7 +5443,7 @@ a*"foo"*
 ================================================================================
 Example 363 - https://github.github.com/gfm/#example-363
 ================================================================================
-* a *
+*  a *
 
 --------------------------------------------------------------------------------
 
@@ -5982,7 +5982,7 @@ Example 413 - https://github.github.com/gfm/#example-413
 (document
   (paragraph
     (emphasis
-      (link
+      (inline_link
         (link_text)
         (link_destination)))))
 
@@ -6165,7 +6165,7 @@ Example 428 - https://github.github.com/gfm/#example-428
 (document
   (paragraph
     (emphasis
-      (link
+      (inline_link
         (link_text
           (emphasis))
         (link_destination)))))
@@ -6200,7 +6200,7 @@ Example 431 - https://github.github.com/gfm/#example-431
 (document
   (paragraph
     (strong_emphasis
-      (link
+      (inline_link
         (link_text)
         (link_destination)))))
 
@@ -6336,7 +6336,7 @@ Example 442 - https://github.github.com/gfm/#example-442
 (document
   (paragraph
     (strong_emphasis
-      (link
+      (inline_link
         (link_text
           (emphasis))
         (link_destination)))))
@@ -6869,7 +6869,7 @@ Example 489 - https://github.github.com/gfm/#example-489
 
 (document
   (paragraph
-    (html_tag)))
+    (autolink)))
 
 ================================================================================
 Example 490 - https://github.github.com/gfm/#example-490
@@ -6880,7 +6880,7 @@ __a<http://foo.bar/?q=__>
 
 (document
   (paragraph
-    (html_tag)))
+    (autolink)))
 
 ================================================================================
 Example 493 - https://github.github.com/gfm/#example-493
@@ -7333,7 +7333,12 @@ Example 524 - https://github.github.com/gfm/#example-524
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (inline_link
+    (link_text
+      (emphasis
+        (strong_emphasis)
+        (code_span)))
+    (link_destination)))
 
 ================================================================================
 Example 525 - https://github.github.com/gfm/#example-525
@@ -7343,7 +7348,13 @@ Example 525 - https://github.github.com/gfm/#example-525
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text
+        (image
+          (image_description)
+          (link_destination)))
+      (link_destination))))
 
 ================================================================================
 Example 526 - https://github.github.com/gfm/#example-526
@@ -7489,7 +7500,7 @@ Example 536 - https://github.github.com/gfm/#example-536
 
 (document
   (paragraph
-    (link
+    (full_reference_link
       (link_text)))
   (link_reference_definition
     (link_label)
@@ -7524,7 +7535,13 @@ Example 538 - https://github.github.com/gfm/#example-538
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph)
+  (paragraph
+    (full_reference_link
+      (link_text
+        (emphasis
+          (strong_emphasis)
+          (code_span)))
+      (link_label)))
   (link_reference_definition
     (link_label)
     (link_destination)))
@@ -7601,7 +7618,10 @@ Example 542 - https://github.github.com/gfm/#example-542
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph)
+  (paragraph
+    (full_reference_link
+      (link_text)
+      (link_label)))
   (link_reference_definition
     (link_label)
     (link_destination)))
@@ -7649,7 +7669,8 @@ Example 545 - https://github.github.com/gfm/#example-545
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph)
+  (paragraph
+    (code_span))
   (link_reference_definition
     (link_label)
     (link_destination)))
@@ -7820,8 +7841,12 @@ Example 554 - https://github.github.com/gfm/#example-554
 (document
   (paragraph
     (shortcut_link
+      (link_text))
+    (shortcut_link
       (link_text)))
-  (paragraph))
+  (paragraph
+    (shortcut_link
+      (link_text))))
 
 ================================================================================
 Example 555 - https://github.github.com/gfm/#example-555
@@ -7954,7 +7979,10 @@ Example 562 - https://github.github.com/gfm/#example-562
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph)
+  (paragraph
+    (collapsed_reference_link
+      (link_text
+        (emphasis))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8027,7 +8055,10 @@ Example 566 - https://github.github.com/gfm/#example-566
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph)
+  (paragraph
+    (shortcut_link
+      (link_text
+        (emphasis))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8043,6 +8074,10 @@ Example 567 - https://github.github.com/gfm/#example-567
 --------------------------------------------------------------------------------
 
 (document
+  (paragraph
+    (shortcut_link
+      (link_text
+        (emphasis))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8130,7 +8165,8 @@ Example 572 - https://github.github.com/gfm/#example-572
   (link_reference_definition
     (link_label)
     (link_destination))
-  (paragraph))
+  (shortcut_link
+    (link_text)))
 
 ================================================================================
 Example 573 - https://github.github.com/gfm/#example-573
@@ -8347,7 +8383,10 @@ Example 584 - https://github.github.com/gfm/#example-584
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph)
+  (paragraph
+    (image
+      (image_description
+        (emphasis))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8363,7 +8402,11 @@ Example 585 - https://github.github.com/gfm/#example-585
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph)
+  (paragraph
+    (image
+      (image_description
+        (emphasis))
+      (link_label)))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8758,7 +8801,7 @@ Example 612 - https://github.github.com/gfm/#example-612
 
 (document
   (paragraph
-    (email_autolink)))
+    (autolink)))
 
 ================================================================================
 Example 613 - https://github.github.com/gfm/#example-613
@@ -8769,7 +8812,7 @@ Example 613 - https://github.github.com/gfm/#example-613
 
 (document
   (paragraph
-    (email_autolink)))
+    (autolink)))
 
 ================================================================================
 Example 614 - https://github.github.com/gfm/#example-614
@@ -8800,8 +8843,7 @@ Example 616 - https://github.github.com/gfm/#example-616
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph
-    (autolink)))
+  (paragraph))
 
 ================================================================================
 Example 617 - https://github.github.com/gfm/#example-617

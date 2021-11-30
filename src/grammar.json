@@ -1928,6 +1928,14 @@
           {
             "type": "SYMBOL",
             "name": "backslash_escape"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "entity_reference"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "numeric_character_reference"
           }
         ]
       }
@@ -6120,7 +6128,7 @@
     },
     "autolink": {
       "type": "PATTERN",
-      "value": "<[a-zA-Z][a-zA-Z0-9+\\.\\-]*:[^ \\t\\r\\n<>]*>"
+      "value": "<[a-zA-Z][a-zA-Z0-9+\\.\\-][a-zA-Z0-9+\\.\\-]*:[^ \\t\\r\\n<>]*>"
     },
     "_text": {
       "type": "CHOICE",

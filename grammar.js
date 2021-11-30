@@ -422,7 +422,7 @@ module.exports = grammar(add_inline_rules({
             ),
         )),
         code_fence_content: $ => repeat1(choice($._newline, $._text)),
-        info_string: $ => repeat1(choice($._text, $.backslash_escape)),
+        info_string: $ => repeat1(choice($._text, $.backslash_escape, $.entity_reference, $.numeric_character_reference)),
 
         _html_block_1: $ => build_html_block($, new RegExp('<' + regex_case_insensitive_list(['script', 'style', 'pre']) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'), new RegExp('</' + regex_case_insensitive_list(['script', 'style', 'pre']) + '>'), true),
         _html_block_2: $ => build_html_block($, '<!--', '-->', true),
@@ -579,7 +579,7 @@ module.exports = grammar(add_inline_rules({
 
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq(choice('\\', $._whitespace_ge_2), $._soft_line_break)),
-        autolink: $ => /<[a-zA-Z][a-zA-Z0-9+\.\-]*:[^ \t\r\n<>]*>/, // TODO: move this to external scanner because lexer is really inefficient with counting characters for scheme
+        autolink: $ => /<[a-zA-Z][a-zA-Z0-9+\.\-][a-zA-Z0-9+\.\-]*:[^ \t\r\n<>]*>/, // TODO: move this to external scanner because lexer is really inefficient with counting characters for scheme
         _text: $ => choice($._word, punctuation_without($, []), $._whitespace),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
