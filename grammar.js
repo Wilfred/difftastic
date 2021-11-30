@@ -475,7 +475,7 @@ module.exports = grammar(add_inline_rules({
         shortcut_link: $ => prec.dynamic(1, $.link_label), // TODO: no newline
         inline_link: $ => prec.dynamic(2, seq(
             $.link_text,
-            token.immediate('('),
+            '(',
             optional($._whitespace),
             optional(choice(
                 seq($.link_destination, optional(seq($._whitespace, $.link_title))),
@@ -610,10 +610,10 @@ module.exports = grammar(add_inline_rules({
         _whitespace_ge_2: $ => /\t| [ \t]+/,
         _whitespace: $ => seq(choice($._whitespace_ge_2, / /), optional($._last_token_whitespace)),
         _word: $ => choice($._word_no_digit, $._digits),
-        _word_no_digit: $ => token.immediate(new RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r0-9]+')),
+        _word_no_digit: $ => new RegExp('[^' + PUNCTUATION_CHARACTERS + ' \\t\\n\\r0-9]+'),
         _digits: $ => /[0-9]+/,
         _newline: $ => prec.right(seq(
-            token.immediate(/\n|\r\n?/),
+            /\n|\r\n?/,
             optional($._line_ending),
             optional($._ignore_matching_tokens)
         )),

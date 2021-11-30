@@ -4245,11 +4245,8 @@
             "name": "link_text"
           },
           {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "STRING",
-              "value": "("
-            }
+            "type": "STRING",
+            "value": "("
           },
           {
             "type": "CHOICE",
@@ -7895,11 +7892,8 @@
       ]
     },
     "_word_no_digit": {
-      "type": "IMMEDIATE_TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "[^!-\\/:-@\\[-`\\{-~ \\t\\n\\r0-9]+"
-      }
+      "type": "PATTERN",
+      "value": "[^!-\\/:-@\\[-`\\{-~ \\t\\n\\r0-9]+"
     },
     "_digits": {
       "type": "PATTERN",
@@ -7912,11 +7906,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "\\n|\\r\\n?"
-            }
+            "type": "PATTERN",
+            "value": "\\n|\\r\\n?"
           },
           {
             "type": "CHOICE",
