@@ -196,6 +196,9 @@ module.exports = grammar(add_inline_rules({
     ],
     // More conflicts are defined in `add_inline_rules`
     conflicts: $ => [
+        [$.image_description, $._text_inline],
+        [$.image_description, $._text_inline_no_star],
+        [$.image_description, $._text_inline_no_underscore],
         [$.link_label, $._closing_tag, $._text_inline_no_link],
         [$.link_label, $._open_tag, $._text_inline_no_link],
         [$.link_label, $.hard_line_break, $._text_inline_no_link],
@@ -494,8 +497,22 @@ module.exports = grammar(add_inline_rules({
             )),
             ')'
         )), // TODO: no newline
+        image: $ => prec.dynamic(2, seq(
+            $.image_description,
+            '(',
+            repeat(choice($._whitespace, $._soft_line_break)),
+            optional(seq(
+                choice(
+                    seq($.link_destination, optional(seq(repeat1(choice($._whitespace, $._soft_line_break)), $.link_title))),
+                    $.link_title,
+                ),
+                repeat(choice($._whitespace, $._soft_line_break)),
+            )),
+            ')'
+        )), // TODO: no newline
 
         link_text: $ => seq('[', $._inline_no_link, ']'), // TODO
+        image_description: $ => seq('!', '[', $._inline, ']'), // TODO
         link_label: $ => seq('[', repeat1(choice($._word, punctuation_without($, ['[', ']']), $._whitespace, $.backslash_escape, $._newline)), ']'),
         link_destination: $ => prec.dynamic(1, choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
@@ -654,6 +671,7 @@ function add_inline_rules(grammar) {
                         alias($['_strong_emphasis_star' + suffix_newline + suffix_link], $.strong_emphasis),
                         alias($['_emphasis_underscore' + suffix_newline + suffix_link], $.emphasis),
                         alias($['_strong_emphasis_underscore' + suffix_newline + suffix_link], $.strong_emphasis),
+                        $.image,
                     ];
                     if (newline) {
                         elements = elements.concat([

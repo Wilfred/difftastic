@@ -7302,7 +7302,10 @@ Example 522 - https://github.github.com/gfm/#example-522
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination))))
 
 ================================================================================
 Example 523 - https://github.github.com/gfm/#example-523
@@ -7312,7 +7315,11 @@ Example 523 - https://github.github.com/gfm/#example-523
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (inline_link
+      (link_text
+        (backslash_escape))
+      (link_destination))))
 
 ================================================================================
 Example 524 - https://github.github.com/gfm/#example-524
@@ -7341,7 +7348,11 @@ Example 526 - https://github.github.com/gfm/#example-526
 
 --------------------------------------------------------------------------------
 
-(document)
+(document
+  (paragraph
+    (inline_link
+      (link_text)
+      (link_destination))))
 
 ================================================================================
 Example 527 - https://github.github.com/gfm/#example-527
@@ -7350,7 +7361,12 @@ Example 527 - https://github.github.com/gfm/#example-527
 
 --------------------------------------------------------------------------------
 
-(document)
+(document
+  (paragraph
+    (emphasis
+      (inline_link
+        (link_text)
+        (link_destination)))))
 
 ================================================================================
 Example 528 - https://github.github.com/gfm/#example-528
@@ -8146,7 +8162,11 @@ Example 580 - https://github.github.com/gfm/#example-580
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (image
+      (image_description)
+      (link_destination)
+      (link_title))))
 
 ================================================================================
 Example 581 - https://github.github.com/gfm/#example-581

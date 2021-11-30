@@ -237,6 +237,10 @@
           "named": true
         },
         {
+          "type": "image",
+          "named": true
+        },
+        {
           "type": "inline_link",
           "named": true
         },
@@ -370,6 +374,10 @@
           "named": true
         },
         {
+          "type": "image",
+          "named": true
+        },
+        {
           "type": "inline_link",
           "named": true
         },
@@ -431,6 +439,136 @@
         },
         {
           "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "image",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "atx_heading",
+          "named": true
+        },
+        {
+          "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "image_description",
+          "named": true
+        },
+        {
+          "type": "link_destination",
+          "named": true
+        },
+        {
+          "type": "link_title",
+          "named": true
+        },
+        {
+          "type": "setext_h1_underline",
+          "named": true
+        },
+        {
+          "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "thematic_break",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "image_description",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "atx_heading",
+          "named": true
+        },
+        {
+          "type": "autolink",
+          "named": true
+        },
+        {
+          "type": "backslash_escape",
+          "named": true
+        },
+        {
+          "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "code_span",
+          "named": true
+        },
+        {
+          "type": "emphasis",
+          "named": true
+        },
+        {
+          "type": "entity_reference",
+          "named": true
+        },
+        {
+          "type": "fenced_code_block",
+          "named": true
+        },
+        {
+          "type": "hard_line_break",
+          "named": true
+        },
+        {
+          "type": "html_tag",
+          "named": true
+        },
+        {
+          "type": "image",
+          "named": true
+        },
+        {
+          "type": "inline_link",
+          "named": true
+        },
+        {
+          "type": "numeric_character_reference",
+          "named": true
+        },
+        {
+          "type": "setext_h1_underline",
+          "named": true
+        },
+        {
+          "type": "setext_h2_underline",
+          "named": true
+        },
+        {
+          "type": "shortcut_link",
+          "named": true
+        },
+        {
+          "type": "strong_emphasis",
           "named": true
         },
         {
@@ -533,7 +671,17 @@
   {
     "type": "link_label",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "backslash_escape",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "link_reference_definition",
@@ -628,6 +776,10 @@
         },
         {
           "type": "html_tag",
+          "named": true
+        },
+        {
+          "type": "image",
           "named": true
         },
         {
@@ -840,6 +992,10 @@
           "named": true
         },
         {
+          "type": "image",
+          "named": true
+        },
+        {
           "type": "inline_link",
           "named": true
         },
@@ -964,6 +1120,10 @@
         },
         {
           "type": "html_tag",
+          "named": true
+        },
+        {
+          "type": "image",
           "named": true
         },
         {
