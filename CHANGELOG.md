@@ -8,6 +8,8 @@ Updated the C, CSS and JSON parsers to the latest upstream versions.
 
 Expanded filename associations, so difftastic recognises more files.
 
+Improved word diffing on punctuation in comments.
+
 ## 0.12
 
 ### Display
