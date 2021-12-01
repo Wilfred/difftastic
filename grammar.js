@@ -205,18 +205,20 @@ module.exports = grammar(add_inline_rules({
         [$.link_label, $.hard_line_break, $._text_inline_no_link],
         [$.link_label, $._inline_element_no_link],
         [$.image_description, $._text_inline],
-        [$.image_description, $._text_inline_no_star],
-        [$.image_description, $._text_inline_no_underscore],
+        [$._image_description_non_empty, $._text_inline],
+        [$.image_description, $._image_description_non_empty, $._text_inline],
+        [$.image_description, $._image_description_non_empty, $._text_inline_no_star],
+        [$.image_description, $._image_description_non_empty, $._text_inline_no_underscore],
+        [$._image_shortcut_link, $.image_description],
         [$._image_inline_link, $._image_shortcut_link],
         [$._image_full_reference_link, $._image_collapsed_reference_link, $._image_shortcut_link],
-        [$.shortcut_link, $.inline_link],
-        [$.shortcut_link, $.full_reference_link, $.collapsed_reference_link],
+        [$.shortcut_link, $.link_text],
         [$.link_destination, $.link_title],
         [$._link_destination_parenthesis, $.link_title],
         [$._soft_line_break, $._paragraph_end_newline],
         [$.link_reference_definition],
         [$.hard_line_break, $._whitespace],
-        [$.link_text, $.link_label],
+        [$._link_text_non_empty, $.link_label],
     ],
     extras: $ => [],
 
@@ -410,17 +412,17 @@ module.exports = grammar(add_inline_rules({
             $._newline,
         )),
 
-        shortcut_link: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, $.link_text), // TODO: no newline
-        full_reference_link: $ => prec.dynamic(2 * PRECEDENCE_LEVEL_LINK, seq(
+        shortcut_link: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, alias($._link_text_non_empty, $.link_text)), // TODO: no newline
+        full_reference_link: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, seq(
             $.link_text,
             $.link_label
         )), // TODO: no newline
-        collapsed_reference_link: $ => prec.dynamic(2 * PRECEDENCE_LEVEL_LINK, seq(
+        collapsed_reference_link: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, seq(
             $.link_text,
             '[',
             ']'
         )), // TODO: no newline
-        inline_link: $ => prec.dynamic(2 * PRECEDENCE_LEVEL_LINK, seq(
+        inline_link: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, seq(
             $.link_text,
             '(',
             repeat(choice($._whitespace, $._soft_line_break)),
@@ -434,7 +436,7 @@ module.exports = grammar(add_inline_rules({
             ')'
         )), // TODO: no newline
         image: $ => choice($._image_inline_link, $._image_shortcut_link, $._image_full_reference_link, $._image_collapsed_reference_link), // TODO no newline
-        _image_inline_link: $ => prec.dynamic(4 * PRECEDENCE_LEVEL_LINK, seq(
+        _image_inline_link: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, seq(
             $.image_description,
             '(',
             repeat(choice($._whitespace, $._soft_line_break)),
@@ -447,12 +449,14 @@ module.exports = grammar(add_inline_rules({
             )),
             ')'
         )),
-        _image_shortcut_link: $ => prec.dynamic(3 * PRECEDENCE_LEVEL_LINK, seq($.image_description)),
-        _image_full_reference_link: $ => prec.dynamic(4 * PRECEDENCE_LEVEL_LINK, seq($.image_description, $.link_label)),
-        _image_collapsed_reference_link: $ => prec.dynamic(4 * PRECEDENCE_LEVEL_LINK, seq($.image_description, '[', ']')),
+        _image_shortcut_link: $ => prec.dynamic(3 * PRECEDENCE_LEVEL_LINK, alias($._image_description_non_empty, $.image_description)),
+        _image_full_reference_link: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, seq($.image_description, $.link_label)),
+        _image_collapsed_reference_link: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, seq($.image_description, '[', ']')),
 
-        link_text: $ => seq('[', optional($._inline_no_link), ']'),
-        image_description: $ => seq('!', '[', optional($._inline), ']'), // TODO
+        link_text: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, choice($._link_text_non_empty, seq('[', ']'))),
+        _link_text_non_empty: $ => seq('[', $._inline_no_link, ']'),
+        image_description: $ => prec.dynamic(3 * PRECEDENCE_LEVEL_LINK, choice($._image_description_non_empty, seq('!', '[', ']'))),
+        _image_description_non_empty: $ => seq('!', '[', $._inline, ']'),
         link_label: $ => seq('[', repeat1(choice($._text_inline_no_link, $.backslash_escape, $._newline)), ']'),
         link_destination: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
@@ -503,7 +507,8 @@ module.exports = grammar(add_inline_rules({
 
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq(choice('\\', $._whitespace_ge_2), $._soft_line_break)),
-        autolink: $ => /<[a-zA-Z][a-zA-Z0-9+\.\-][a-zA-Z0-9+\.\-]*:[^ \t\r\n<>]*>/, // TODO: move this to external scanner because lexer is really inefficient with counting characters for scheme
+        uri_autolink: $ => /<[a-zA-Z][a-zA-Z0-9+\.\-][a-zA-Z0-9+\.\-]*:[^ \t\r\n<>]*>/, // TODO: move this to external scanner because lexer is really inefficient with counting characters for scheme
+        email_autolink: $ => /<[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*>/,
         _text: $ => choice($._word, punctuation_without($, []), $._whitespace),
         entity_reference: $ => html_entity_regex(),
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
@@ -601,7 +606,8 @@ function add_inline_rules(grammar) {
                     let elements = [
                         $.backslash_escape,
                         $.hard_line_break,
-                        $.autolink,
+                        $.uri_autolink,
+                        $.email_autolink,
                         $['_text_inline' + suffix_delimiter + suffix_link],
                         $.entity_reference,
                         $.numeric_character_reference,
@@ -649,7 +655,8 @@ function add_inline_rules(grammar) {
                     conflicts.push(['_processing_instruction', '_text_inline' + suffix_delimiter + suffix_link]);
                     conflicts.push(['_closing_tag', '_text_inline' + suffix_delimiter + suffix_link]);
                     conflicts.push(['_open_tag', '_text_inline' + suffix_delimiter + suffix_link]);
-                    conflicts.push(['link_text', 'link_label', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['_link_text_non_empty', 'link_label', '_text_inline' + suffix_delimiter + suffix_link]);
+                    conflicts.push(['_link_text_non_empty', '_text_inline' + suffix_delimiter + suffix_link]);
                     conflicts.push(['link_text', '_text_inline' + suffix_delimiter + suffix_link]);
                     conflicts.push(['link_label', '_text_inline' + suffix_delimiter + suffix_link]);
                     conflicts.push(['link_reference_definition', '_text_inline' + suffix_delimiter + suffix_link]);

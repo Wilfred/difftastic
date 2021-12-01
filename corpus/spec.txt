@@ -4860,7 +4860,7 @@ Example 316 - https://github.github.com/gfm/#example-316
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 317 - https://github.github.com/gfm/#example-317
@@ -5376,7 +5376,7 @@ Example 356 - https://github.github.com/gfm/#example-356
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 357 - https://github.github.com/gfm/#example-357
@@ -6869,7 +6869,7 @@ Example 489 - https://github.github.com/gfm/#example-489
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 490 - https://github.github.com/gfm/#example-490
@@ -6880,7 +6880,7 @@ __a<http://foo.bar/?q=__>
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 493 - https://github.github.com/gfm/#example-493
@@ -7282,9 +7282,8 @@ Example 520 - https://github.github.com/gfm/#example-520
 
 (document
   (paragraph
-    (inline_link
-      (link_text)
-      (link_destination))))
+    (shortcut_link
+      (link_text))))
 
 ================================================================================
 Example 521 - https://github.github.com/gfm/#example-521
@@ -7468,7 +7467,7 @@ Example 534 - https://github.github.com/gfm/#example-534
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 535 - https://github.github.com/gfm/#example-535
@@ -7500,7 +7499,9 @@ Example 536 - https://github.github.com/gfm/#example-536
 
 (document
   (paragraph
-    (full_reference_link
+    (shortcut_link
+      (link_text))
+    (shortcut_link
       (link_text)))
   (link_reference_definition
     (link_label)
@@ -7654,7 +7655,8 @@ Example 544 - https://github.github.com/gfm/#example-544
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph)
+  (paragraph
+    (html_tag))
   (link_reference_definition
     (link_label)
     (link_destination)))
@@ -7686,7 +7688,7 @@ Example 546 - https://github.github.com/gfm/#example-546
 
 (document
   (paragraph
-    (autolink))
+    (uri_autolink))
   (link_reference_definition
     (link_label)
     (link_destination)))
@@ -7841,12 +7843,8 @@ Example 554 - https://github.github.com/gfm/#example-554
 (document
   (paragraph
     (shortcut_link
-      (link_text))
-    (shortcut_link
       (link_text)))
-  (paragraph
-    (shortcut_link
-      (link_text))))
+  (paragraph))
 
 ================================================================================
 Example 555 - https://github.github.com/gfm/#example-555
@@ -8019,8 +8017,6 @@ Example 564 - https://github.github.com/gfm/#example-564
 (document
   (paragraph
     (shortcut_link
-      (link_text))
-    (shortcut_link
       (link_text)))
   (link_reference_definition
     (link_label)
@@ -8165,8 +8161,9 @@ Example 572 - https://github.github.com/gfm/#example-572
   (link_reference_definition
     (link_label)
     (link_destination))
-  (shortcut_link
-    (link_text)))
+  (paragraph
+    (shortcut_link
+      (link_text))))
 
 ================================================================================
 Example 573 - https://github.github.com/gfm/#example-573
@@ -8335,7 +8332,8 @@ Example 581 - https://github.github.com/gfm/#example-581
 (document
   (paragraph
     (image
-      (image_description)))
+      (image_description
+        (emphasis))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8623,8 +8621,10 @@ Example 598 - https://github.github.com/gfm/#example-598
 
 (document
   (paragraph
-    (shortcut_link
-      (link_text)))
+    (image
+      (image_description
+        (shortcut_link
+          (link_text)))))
   (paragraph
     (shortcut_link
       (link_text))))
@@ -8692,7 +8692,7 @@ Example 602 - https://github.github.com/gfm/#example-602
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 603 - https://github.github.com/gfm/#example-603
@@ -8703,7 +8703,7 @@ Example 603 - https://github.github.com/gfm/#example-603
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 604 - https://github.github.com/gfm/#example-604
@@ -8714,7 +8714,7 @@ Example 604 - https://github.github.com/gfm/#example-604
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 605 - https://github.github.com/gfm/#example-605
@@ -8725,7 +8725,7 @@ Example 605 - https://github.github.com/gfm/#example-605
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 606 - https://github.github.com/gfm/#example-606
@@ -8736,7 +8736,7 @@ Example 606 - https://github.github.com/gfm/#example-606
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 607 - https://github.github.com/gfm/#example-607
@@ -8747,7 +8747,7 @@ Example 607 - https://github.github.com/gfm/#example-607
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 608 - https://github.github.com/gfm/#example-608
@@ -8758,7 +8758,7 @@ Example 608 - https://github.github.com/gfm/#example-608
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 609 - https://github.github.com/gfm/#example-609
@@ -8769,7 +8769,7 @@ Example 609 - https://github.github.com/gfm/#example-609
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 610 - https://github.github.com/gfm/#example-610
@@ -8790,7 +8790,7 @@ Example 611 - https://github.github.com/gfm/#example-611
 
 (document
   (paragraph
-    (autolink)))
+    (uri_autolink)))
 
 ================================================================================
 Example 612 - https://github.github.com/gfm/#example-612
@@ -8801,7 +8801,7 @@ Example 612 - https://github.github.com/gfm/#example-612
 
 (document
   (paragraph
-    (autolink)))
+    (email_autolink)))
 
 ================================================================================
 Example 613 - https://github.github.com/gfm/#example-613
@@ -8812,7 +8812,7 @@ Example 613 - https://github.github.com/gfm/#example-613
 
 (document
   (paragraph
-    (autolink)))
+    (email_autolink)))
 
 ================================================================================
 Example 614 - https://github.github.com/gfm/#example-614

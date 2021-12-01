@@ -3321,13 +3321,18 @@
       "type": "PREC_DYNAMIC",
       "value": 10,
       "content": {
-        "type": "SYMBOL",
-        "name": "link_text"
+        "type": "ALIAS",
+        "content": {
+          "type": "SYMBOL",
+          "name": "_link_text_non_empty"
+        },
+        "named": true,
+        "value": "link_text"
       }
     },
     "full_reference_link": {
       "type": "PREC_DYNAMIC",
-      "value": 20,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3344,7 +3349,7 @@
     },
     "collapsed_reference_link": {
       "type": "PREC_DYNAMIC",
-      "value": 20,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3365,7 +3370,7 @@
     },
     "inline_link": {
       "type": "PREC_DYNAMIC",
-      "value": 20,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3503,7 +3508,7 @@
     },
     "_image_inline_link": {
       "type": "PREC_DYNAMIC",
-      "value": 40,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3622,18 +3627,18 @@
       "type": "PREC_DYNAMIC",
       "value": 30,
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "image_description"
-          }
-        ]
+        "type": "ALIAS",
+        "content": {
+          "type": "SYMBOL",
+          "name": "_image_description_non_empty"
+        },
+        "named": true,
+        "value": "image_description"
       }
     },
     "_image_full_reference_link": {
       "type": "PREC_DYNAMIC",
-      "value": 40,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3650,7 +3655,7 @@
     },
     "_image_collapsed_reference_link": {
       "type": "PREC_DYNAMIC",
-      "value": 40,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3670,6 +3675,32 @@
       }
     },
     "link_text": {
+      "type": "PREC_DYNAMIC",
+      "value": 10,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_link_text_non_empty"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "["
+              },
+              {
+                "type": "STRING",
+                "value": "]"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "_link_text_non_empty": {
       "type": "SEQ",
       "members": [
         {
@@ -3677,16 +3708,8 @@
           "value": "["
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_inline_no_link"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_inline_no_link"
         },
         {
           "type": "STRING",
@@ -3695,6 +3718,36 @@
       ]
     },
     "image_description": {
+      "type": "PREC_DYNAMIC",
+      "value": 30,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_image_description_non_empty"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "!"
+              },
+              {
+                "type": "STRING",
+                "value": "["
+              },
+              {
+                "type": "STRING",
+                "value": "]"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "_image_description_non_empty": {
       "type": "SEQ",
       "members": [
         {
@@ -3706,16 +3759,8 @@
           "value": "["
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_inline"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_inline"
         },
         {
           "type": "STRING",
@@ -5063,9 +5108,13 @@
         ]
       }
     },
-    "autolink": {
+    "uri_autolink": {
       "type": "PATTERN",
       "value": "<[a-zA-Z][a-zA-Z0-9+\\.\\-][a-zA-Z0-9+\\.\\-]*:[^ \\t\\r\\n<>]*>"
+    },
+    "email_autolink": {
+      "type": "PATTERN",
+      "value": "<[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*>"
     },
     "_text": {
       "type": "CHOICE",
@@ -7045,7 +7094,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -7345,7 +7398,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -7641,7 +7698,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -7947,7 +8008,7 @@
     },
     "_strong_emphasis_star": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -7989,7 +8050,7 @@
     },
     "_strong_emphasis_underscore": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -8021,7 +8082,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -8297,7 +8362,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -8569,7 +8638,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -8851,7 +8924,7 @@
     },
     "_strong_emphasis_star_no_link": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -8893,7 +8966,7 @@
     },
     "_strong_emphasis_underscore_no_link": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -8958,7 +9031,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -9063,7 +9140,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -9168,7 +9249,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -9283,7 +9368,7 @@
     },
     "_strong_emphasis_star_no_newline": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9325,7 +9410,7 @@
     },
     "_strong_emphasis_underscore_no_newline": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9357,7 +9442,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -9446,7 +9535,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -9535,7 +9628,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "autolink"
+          "name": "uri_autolink"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "email_autolink"
         },
         {
           "type": "SYMBOL",
@@ -9634,7 +9731,7 @@
     },
     "_strong_emphasis_star_no_newline_no_link": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9676,7 +9773,7 @@
     },
     "_strong_emphasis_underscore_no_newline_no_link": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9746,12 +9843,27 @@
       "_text_inline"
     ],
     [
+      "_image_description_non_empty",
+      "_text_inline"
+    ],
+    [
       "image_description",
+      "_image_description_non_empty",
+      "_text_inline"
+    ],
+    [
+      "image_description",
+      "_image_description_non_empty",
       "_text_inline_no_star"
     ],
     [
       "image_description",
+      "_image_description_non_empty",
       "_text_inline_no_underscore"
+    ],
+    [
+      "_image_shortcut_link",
+      "image_description"
     ],
     [
       "_image_inline_link",
@@ -9764,12 +9876,7 @@
     ],
     [
       "shortcut_link",
-      "inline_link"
-    ],
-    [
-      "shortcut_link",
-      "full_reference_link",
-      "collapsed_reference_link"
+      "link_text"
     ],
     [
       "link_destination",
@@ -9791,7 +9898,7 @@
       "_whitespace"
     ],
     [
-      "link_text",
+      "_link_text_non_empty",
       "link_label"
     ],
     [
@@ -9841,8 +9948,12 @@
       "_text_inline"
     ],
     [
-      "link_text",
+      "_link_text_non_empty",
       "link_label",
+      "_text_inline"
+    ],
+    [
+      "_link_text_non_empty",
       "_text_inline"
     ],
     [
@@ -9903,8 +10014,12 @@
       "_text_inline_no_star"
     ],
     [
-      "link_text",
+      "_link_text_non_empty",
       "link_label",
+      "_text_inline_no_star"
+    ],
+    [
+      "_link_text_non_empty",
       "_text_inline_no_star"
     ],
     [
@@ -9965,8 +10080,12 @@
       "_text_inline_no_underscore"
     ],
     [
-      "link_text",
+      "_link_text_non_empty",
       "link_label",
+      "_text_inline_no_underscore"
+    ],
+    [
+      "_link_text_non_empty",
       "_text_inline_no_underscore"
     ],
     [
@@ -10032,8 +10151,12 @@
       "_text_inline_no_link"
     ],
     [
-      "link_text",
+      "_link_text_non_empty",
       "link_label",
+      "_text_inline_no_link"
+    ],
+    [
+      "_link_text_non_empty",
       "_text_inline_no_link"
     ],
     [
@@ -10094,8 +10217,12 @@
       "_text_inline_no_star_no_link"
     ],
     [
-      "link_text",
+      "_link_text_non_empty",
       "link_label",
+      "_text_inline_no_star_no_link"
+    ],
+    [
+      "_link_text_non_empty",
       "_text_inline_no_star_no_link"
     ],
     [
@@ -10156,8 +10283,12 @@
       "_text_inline_no_underscore_no_link"
     ],
     [
-      "link_text",
+      "_link_text_non_empty",
       "link_label",
+      "_text_inline_no_underscore_no_link"
+    ],
+    [
+      "_link_text_non_empty",
       "_text_inline_no_underscore_no_link"
     ],
     [

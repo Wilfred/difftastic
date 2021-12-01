@@ -360,13 +360,15 @@ struct Scanner {
                                 return true;
                             }
                         }
-                        if (level == code_span_delimiter_length && valid_symbols[CODE_SPAN_CLOSE]) {
-                            lexer->result_symbol = CODE_SPAN_CLOSE;
-                            return true;
-                        } else if (valid_symbols[CODE_SPAN_START]) {
-                            code_span_delimiter_length = level;
-                            lexer->result_symbol = CODE_SPAN_START;
-                            return true;
+                        if (indentation == 0) {
+                            if (level == code_span_delimiter_length && valid_symbols[CODE_SPAN_CLOSE]) {
+                                lexer->result_symbol = CODE_SPAN_CLOSE;
+                                return true;
+                            } else if (valid_symbols[CODE_SPAN_START]) {
+                                code_span_delimiter_length = level;
+                                lexer->result_symbol = CODE_SPAN_START;
+                                return true;
+                            }
                         }
                     }
                     break;

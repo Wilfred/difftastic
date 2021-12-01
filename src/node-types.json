@@ -208,10 +208,6 @@
           "named": true
         },
         {
-          "type": "autolink",
-          "named": true
-        },
-        {
           "type": "backslash_escape",
           "named": true
         },
@@ -225,6 +221,10 @@
         },
         {
           "type": "collapsed_reference_link",
+          "named": true
+        },
+        {
+          "type": "email_autolink",
           "named": true
         },
         {
@@ -281,6 +281,10 @@
         },
         {
           "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "uri_autolink",
           "named": true
         }
       ]
@@ -372,10 +376,6 @@
           "named": true
         },
         {
-          "type": "autolink",
-          "named": true
-        },
-        {
           "type": "backslash_escape",
           "named": true
         },
@@ -389,6 +389,10 @@
         },
         {
           "type": "collapsed_reference_link",
+          "named": true
+        },
+        {
+          "type": "email_autolink",
           "named": true
         },
         {
@@ -445,6 +449,10 @@
         },
         {
           "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "uri_autolink",
           "named": true
         }
       ]
@@ -554,10 +562,6 @@
           "named": true
         },
         {
-          "type": "autolink",
-          "named": true
-        },
-        {
           "type": "backslash_escape",
           "named": true
         },
@@ -571,6 +575,10 @@
         },
         {
           "type": "collapsed_reference_link",
+          "named": true
+        },
+        {
+          "type": "email_autolink",
           "named": true
         },
         {
@@ -627,6 +635,10 @@
         },
         {
           "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "uri_autolink",
           "named": true
         }
       ]
@@ -805,10 +817,6 @@
           "named": true
         },
         {
-          "type": "autolink",
-          "named": true
-        },
-        {
           "type": "backslash_escape",
           "named": true
         },
@@ -818,6 +826,10 @@
         },
         {
           "type": "code_span",
+          "named": true
+        },
+        {
+          "type": "email_autolink",
           "named": true
         },
         {
@@ -862,6 +874,10 @@
         },
         {
           "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "uri_autolink",
           "named": true
         }
       ]
@@ -1014,10 +1030,6 @@
           "named": true
         },
         {
-          "type": "autolink",
-          "named": true
-        },
-        {
           "type": "backslash_escape",
           "named": true
         },
@@ -1031,6 +1043,10 @@
         },
         {
           "type": "collapsed_reference_link",
+          "named": true
+        },
+        {
+          "type": "email_autolink",
           "named": true
         },
         {
@@ -1087,6 +1103,10 @@
         },
         {
           "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "uri_autolink",
           "named": true
         }
       ]
@@ -1153,10 +1173,6 @@
           "named": true
         },
         {
-          "type": "autolink",
-          "named": true
-        },
-        {
           "type": "backslash_escape",
           "named": true
         },
@@ -1170,6 +1186,10 @@
         },
         {
           "type": "collapsed_reference_link",
+          "named": true
+        },
+        {
+          "type": "email_autolink",
           "named": true
         },
         {
@@ -1226,6 +1246,10 @@
         },
         {
           "type": "thematic_break",
+          "named": true
+        },
+        {
+          "type": "uri_autolink",
           "named": true
         }
       ]
@@ -1397,11 +1421,11 @@
     "named": true
   },
   {
-    "type": "autolink",
+    "type": "backslash_escape",
     "named": true
   },
   {
-    "type": "backslash_escape",
+    "type": "email_autolink",
     "named": true
   },
   {
@@ -1410,6 +1434,10 @@
   },
   {
     "type": "numeric_character_reference",
+    "named": true
+  },
+  {
+    "type": "uri_autolink",
     "named": true
   },
   {
