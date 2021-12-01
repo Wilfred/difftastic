@@ -116,9 +116,8 @@ module.exports = grammar(add_inline_rules({
         $.atx_h6_marker,
         // Underlines for the 2 different levels of setext headings (https://github.github.com/gfm/#setext-headings)
         // This block does not need a `$._block_close`.
-        $._setext_h1_underline,
-        $._setext_h2_underline,
-        $._setext_h2_underline_or_thematic_break, // TODO: Remove this. We probably don't need it
+        $.setext_h1_underline,
+        $.setext_h2_underline,
         // Just a thematic break (https://github.github.com/gfm/#thematic-breaks)
         // This block does not need a `$._block_close`.
         $._thematic_break,
@@ -187,7 +186,6 @@ module.exports = grammar(add_inline_rules({
     precedences: $ => [
         [$._inline_element, $.paragraph],
         [$.setext_heading, $._block],
-        [$.setext_h2_underline, $.thematic_break],
         [$.indented_code_block, $._block],
         [$._strong_emphasis_star, $._inline_element_no_star],
         [$._strong_emphasis_star_no_newline, $._inline_element_no_newline_no_star],
@@ -300,9 +298,7 @@ module.exports = grammar(add_inline_rules({
             choice($.setext_h1_underline, $.setext_h2_underline),
             $._newline
         ),
-        setext_h1_underline: $ => $._setext_h1_underline,
-        setext_h2_underline: $ => choice($._setext_h2_underline, $._setext_h2_underline_or_thematic_break),
-        thematic_break: $ => seq(choice($._setext_h2_underline_or_thematic_break, $._thematic_break), $._newline),
+        thematic_break: $ => seq($._thematic_break, $._newline),
 
         list: $ => prec.right(choice($._list_plus, $._list_minus, $._list_star, $._list_dot, $._list_parenthesis)),
 
@@ -507,7 +503,7 @@ module.exports = grammar(add_inline_rules({
 
         backslash_escape: $ => new RegExp('\\\\[' + PUNCTUATION_CHARACTERS + ']'),
         hard_line_break: $ => prec.dynamic(1, seq(choice('\\', $._whitespace_ge_2), $._soft_line_break)),
-        uri_autolink: $ => /<[a-zA-Z][a-zA-Z0-9+\.\-][a-zA-Z0-9+\.\-]*:[^ \t\r\n<>]*>/, // TODO: move this to external scanner because lexer is really inefficient with counting characters for scheme
+        uri_autolink: $ => /<[a-zA-Z][a-zA-Z0-9+\.\-][a-zA-Z0-9+\.\-]*:[^ \t\r\n<>]*>/, // TODO: move this to external scanner because lexer is really inefficient with counting characters for scheme (so we can ensure protocol is no longer than 32 chars)
         email_autolink: $ => /<[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*>/,
         _text: $ => choice($._word, punctuation_without($, []), $._whitespace),
         entity_reference: $ => html_entity_regex(),

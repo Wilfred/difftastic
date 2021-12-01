@@ -1113,16 +1113,6 @@
     }
   },
   {
-    "type": "setext_h1_underline",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "setext_h2_underline",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "setext_heading",
     "named": true,
     "fields": {},
@@ -1434,6 +1424,14 @@
   },
   {
     "type": "numeric_character_reference",
+    "named": true
+  },
+  {
+    "type": "setext_h1_underline",
+    "named": true
+  },
+  {
+    "type": "setext_h2_underline",
     "named": true
   },
   {

@@ -391,38 +391,12 @@
         }
       ]
     },
-    "setext_h1_underline": {
-      "type": "SYMBOL",
-      "name": "_setext_h1_underline"
-    },
-    "setext_h2_underline": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_setext_h2_underline"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_setext_h2_underline_or_thematic_break"
-        }
-      ]
-    },
     "thematic_break": {
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_setext_h2_underline_or_thematic_break"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_thematic_break"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_thematic_break"
         },
         {
           "type": "SYMBOL",
@@ -10444,16 +10418,6 @@
     [
       {
         "type": "SYMBOL",
-        "name": "setext_h2_underline"
-      },
-      {
-        "type": "SYMBOL",
-        "name": "thematic_break"
-      }
-    ],
-    [
-      {
-        "type": "SYMBOL",
         "name": "indented_code_block"
       },
       {
@@ -10601,15 +10565,11 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_setext_h1_underline"
+      "name": "setext_h1_underline"
     },
     {
       "type": "SYMBOL",
-      "name": "_setext_h2_underline"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_setext_h2_underline_or_thematic_break"
+      "name": "setext_h2_underline"
     },
     {
       "type": "SYMBOL",

@@ -25,7 +25,6 @@ enum TokenType {
     ATX_H6_MARKER,
     SETEXT_H1_UNDERLINE,
     SETEXT_H2_UNDERLINE,
-    SETEXT_H2_UNDERLINE_OR_THEMATIC_BREAK,
     THEMATIC_BREAK,
     LIST_MARKER_MINUS,
     LIST_MARKER_PLUS,
@@ -99,14 +98,14 @@ uint8_t list_item_indentation(Block block) {
 }
 
 bool is_punctuation(char c) {
-    return (c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c >= '[' && c <= '`') || (c >= '{' && c <= '~'); // TODO: unicode support
+    return (c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c >= '[' && c <= '`') || (c >= '{' && c <= '~');
 }
 
 bool is_whitespace(char c) {
-    return c == ' ' || c == '\t' || c == '\n' || c == '\r'; // TODO: unicode support
+    return c == ' ' || c == '\t' || c == '\n' || c == '\r';
 }
 
-const uint16_t STATE_MATCHING = 0x1 << 0; // TODO: remove this in favor of matched < open_blocks.size()
+const uint16_t STATE_MATCHING = 0x1 << 0;
 const uint16_t STATE_WAS_SOFT_LINE_BREAK = 0x1 << 1;
 const uint16_t STATE_EMPHASIS_DELIMITER_MOD_3 = 0x3 << 2; // TODO
 const uint16_t STATE_EMPHASIS_DELIMITER_IS_OPEN = 0x1 << 4;
@@ -119,11 +118,11 @@ struct Scanner {
 
     vector<Block> open_blocks;
     uint16_t state;
-    uint8_t matched; // TODO size_t
+    uint8_t matched;
     uint8_t indentation; // TODO size_t
     uint8_t column;
-    uint8_t code_span_delimiter_length; // TODO size_t
-    uint8_t num_emphasis_delimiters_left; // TODO ..._left and ..._is_open can be combined to 1 byte
+    uint8_t code_span_delimiter_length;
+    uint8_t num_emphasis_delimiters_left;
 
     Scanner() {
         assert(sizeof(Block) == sizeof(char));
@@ -312,7 +311,6 @@ struct Scanner {
         if (!(state & STATE_MATCHING)) {
             if (valid_symbols[INDENTED_CHUNK_START] && !valid_symbols[NO_INDENTED_CHUNK]) {
                 if (indentation >= 4 && lexer->lookahead != '\n' && lexer->lookahead != '\r') {
-                    // TODO: indented code block can not interrupt paragraph
                     lexer->result_symbol = INDENTED_CHUNK_START;
                     open_blocks.push_back(INDENTED_CODE_BLOCK);
                     indentation -= 4;
@@ -569,7 +567,6 @@ struct Scanner {
                     break;
                 case '#':
                     if (valid_symbols[ATX_H1_MARKER] && indentation <= 3) {
-                        // TODO: assert other atx markers also valid
                         lexer->mark_end(lexer);
                         size_t level = 0;
                         while (lexer->lookahead == '#' && level <= 6) {
@@ -699,7 +696,7 @@ struct Scanner {
                     }
                     break;
                 case '-':
-                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_MINUS] || valid_symbols[LIST_MARKER_MINUS_DONT_INTERRUPT] || valid_symbols[SETEXT_H2_UNDERLINE] || valid_symbols[SETEXT_H2_UNDERLINE_OR_THEMATIC_BREAK] || valid_symbols[THEMATIC_BREAK])) { // TODO: thematic_break takes precedence
+                    if (indentation <= 3 && (valid_symbols[LIST_MARKER_MINUS] || valid_symbols[LIST_MARKER_MINUS_DONT_INTERRUPT] || valid_symbols[SETEXT_H2_UNDERLINE] || valid_symbols[THEMATIC_BREAK])) {
                         lexer->mark_end(lexer);
                         bool whitespace_after_minus = false;
                         bool minus_after_whitespace = false;
@@ -735,7 +732,14 @@ struct Scanner {
                         bool thematic_break = minus_count >= 3 && line_end;
                         bool underline = minus_count >= 1 && !minus_after_whitespace && line_end && matched == open_blocks.size(); // setext heading can not break lazy continuation
                         bool list_marker_minus = minus_count >= 1 && extra_indentation >= 1;
-                        if (valid_symbols[THEMATIC_BREAK] && thematic_break && !underline) { // underline is false if list_marker_minus is true
+                        if (valid_symbols[SETEXT_H2_UNDERLINE] && underline) {
+                            if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
+                            state &= ~STATE_NEED_OPEN_BLOCK;
+                            lexer->result_symbol = SETEXT_H2_UNDERLINE;
+                            lexer->mark_end(lexer);
+                            indentation = 0;
+                            return true;
+                        } else if (valid_symbols[THEMATIC_BREAK] && thematic_break) { // underline is false if list_marker_minus is true
                             if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
                             state &= ~STATE_NEED_OPEN_BLOCK;
                             lexer->result_symbol = THEMATIC_BREAK;
@@ -760,20 +764,6 @@ struct Scanner {
                             }
                             open_blocks.push_back(Block(LIST_ITEM + extra_indentation));
                             lexer->result_symbol = dont_interrupt ? LIST_MARKER_MINUS_DONT_INTERRUPT : LIST_MARKER_MINUS;
-                            return true;
-                        } else if (valid_symbols[SETEXT_H2_UNDERLINE_OR_THEMATIC_BREAK] && thematic_break && underline) {
-                            if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                            state &= ~STATE_NEED_OPEN_BLOCK;
-                            lexer->result_symbol = SETEXT_H2_UNDERLINE_OR_THEMATIC_BREAK;
-                            lexer->mark_end(lexer);
-                            indentation = 0;
-                            return true;
-                        } else if (valid_symbols[SETEXT_H2_UNDERLINE] && underline) {
-                            if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
-                            state &= ~STATE_NEED_OPEN_BLOCK;
-                            lexer->result_symbol = SETEXT_H2_UNDERLINE;
-                            lexer->mark_end(lexer);
-                            indentation = 0;
                             return true;
                         }
                     }
