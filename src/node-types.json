@@ -71,7 +71,7 @@
           "named": true
         },
         {
-          "type": "loose_list",
+          "type": "list",
           "named": true
         },
         {
@@ -84,10 +84,6 @@
         },
         {
           "type": "thematic_break",
-          "named": true
-        },
-        {
-          "type": "tight_list",
           "named": true
         }
       ]
@@ -181,7 +177,7 @@
           "named": true
         },
         {
-          "type": "loose_list",
+          "type": "list",
           "named": true
         },
         {
@@ -194,10 +190,6 @@
         },
         {
           "type": "thematic_break",
-          "named": true
-        },
-        {
-          "type": "tight_list",
           "named": true
         }
       ]
@@ -899,6 +891,21 @@
     }
   },
   {
+    "type": "list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "list_item",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "list_item",
     "named": true,
     "fields": {},
@@ -931,6 +938,10 @@
           "named": true
         },
         {
+          "type": "list",
+          "named": true
+        },
+        {
           "type": "list_marker_dot",
           "named": true
         },
@@ -951,10 +962,6 @@
           "named": true
         },
         {
-          "type": "loose_list",
-          "named": true
-        },
-        {
           "type": "paragraph",
           "named": true
         },
@@ -964,10 +971,6 @@
         },
         {
           "type": "thematic_break",
-          "named": true
-        },
-        {
-          "type": "tight_list",
           "named": true
         }
       ]
@@ -997,21 +1000,6 @@
     "type": "list_marker_star",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "loose_list",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "list_item",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "paragraph",
@@ -1247,21 +1235,6 @@
     "type": "thematic_break",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "tight_list",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "list_item",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "!",

@@ -39,7 +39,7 @@ Example 4 - https://github.github.com/gfm/#example-4
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -55,7 +55,7 @@ Example 5 - https://github.github.com/gfm/#example-5
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -80,7 +80,7 @@ Example 7 - https://github.github.com/gfm/#example-7
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (indented_code_block))))
@@ -106,15 +106,15 @@ Example 9 - https://github.github.com/gfm/#example-9
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph)
-          (tight_list
+          (list
             (list_item
               (list_marker_minus)
               (paragraph))))))))
@@ -150,7 +150,7 @@ Example 12 - https://github.github.com/gfm/#example-12
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -326,12 +326,12 @@ Example 27 - https://github.github.com/gfm/#example-27
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)))
   (thematic_break)
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))))
@@ -375,12 +375,12 @@ Example 30 - https://github.github.com/gfm/#example-30
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_star)
       (paragraph)))
   (thematic_break)
-  (tight_list
+  (list
     (list_item
       (list_marker_star)
       (paragraph))))
@@ -394,7 +394,7 @@ Example 31 - https://github.github.com/gfm/#example-31
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -911,7 +911,7 @@ Example 64 - https://github.github.com/gfm/#example-64
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)))
@@ -985,7 +985,7 @@ Example 69 - https://github.github.com/gfm/#example-69
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)))
@@ -1115,7 +1115,7 @@ Example 78 - https://github.github.com/gfm/#example-78
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -1131,11 +1131,11 @@ Example 79 - https://github.github.com/gfm/#example-79
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph)
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph))))))
@@ -2029,7 +2029,7 @@ Example 144 - https://github.github.com/gfm/#example-144
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (html_block))
@@ -3024,11 +3024,11 @@ Example 213 - https://github.github.com/gfm/#example-213
 
 (document
   (block_quote
-    (tight_list
+    (list
       (list_item
         (list_marker_minus)
         (paragraph))))
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))))
@@ -3293,7 +3293,7 @@ Example 232 - https://github.github.com/gfm/#example-232
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph)
@@ -3311,7 +3311,7 @@ Example 233 - https://github.github.com/gfm/#example-233
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)))
@@ -3327,7 +3327,7 @@ Example 234 - https://github.github.com/gfm/#example-234
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -3343,7 +3343,7 @@ Example 235 - https://github.github.com/gfm/#example-235
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)))
@@ -3359,7 +3359,7 @@ Example 236 - https://github.github.com/gfm/#example-236
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -3377,7 +3377,7 @@ Example 237 - https://github.github.com/gfm/#example-237
 (document
   (block_quote
     (block_quote
-      (loose_list
+      (list
         (list_item
           (list_marker_dot)
           (paragraph)
@@ -3395,7 +3395,7 @@ Example 238 - https://github.github.com/gfm/#example-238
 (document
   (block_quote
     (block_quote
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph)))
@@ -3425,7 +3425,7 @@ Example 240 - https://github.github.com/gfm/#example-240
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -3447,7 +3447,7 @@ Example 241 - https://github.github.com/gfm/#example-241
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph)
@@ -3470,7 +3470,7 @@ Example 242 - https://github.github.com/gfm/#example-242
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -3484,7 +3484,7 @@ Example 243 - https://github.github.com/gfm/#example-243
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph))))
@@ -3507,7 +3507,7 @@ Example 245 - https://github.github.com/gfm/#example-245
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph))))
@@ -3520,7 +3520,7 @@ Example 246 - https://github.github.com/gfm/#example-246
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph))))
@@ -3545,7 +3545,7 @@ Example 248 - https://github.github.com/gfm/#example-248
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -3561,7 +3561,7 @@ Example 249 - https://github.github.com/gfm/#example-249
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph)
@@ -3595,7 +3595,7 @@ Example 251 - https://github.github.com/gfm/#example-251
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (indented_code_block)
@@ -3614,7 +3614,7 @@ Example 252 - https://github.github.com/gfm/#example-252
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (indented_code_block)
@@ -3644,7 +3644,7 @@ Example 254 - https://github.github.com/gfm/#example-254
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)))
@@ -3660,7 +3660,7 @@ Example 255 - https://github.github.com/gfm/#example-255
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -3681,7 +3681,7 @@ Example 256 - https://github.github.com/gfm/#example-256
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -3702,7 +3702,7 @@ Example 257 - https://github.github.com/gfm/#example-257
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))))
@@ -3717,7 +3717,7 @@ Example 258 - https://github.github.com/gfm/#example-258
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)))
   (paragraph))
@@ -3732,7 +3732,7 @@ Example 259 - https://github.github.com/gfm/#example-259
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -3752,7 +3752,7 @@ Example 260 - https://github.github.com/gfm/#example-260
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -3772,7 +3772,7 @@ Example 261 - https://github.github.com/gfm/#example-261
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph))
@@ -3790,7 +3790,7 @@ Example 262 - https://github.github.com/gfm/#example-262
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_star))))
 
@@ -3822,7 +3822,7 @@ Example 264 - https://github.github.com/gfm/#example-264
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph)
@@ -3843,7 +3843,7 @@ Example 265 - https://github.github.com/gfm/#example-265
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph)
@@ -3864,7 +3864,7 @@ Example 266 - https://github.github.com/gfm/#example-266
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph)
@@ -3900,7 +3900,7 @@ with two lines.
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph)
@@ -3917,7 +3917,7 @@ Example 269 - https://github.github.com/gfm/#example-269
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph))))
@@ -3932,7 +3932,7 @@ continued here.
 
 (document
   (block_quote
-    (tight_list
+    (list
       (list_item
         (list_marker_dot)
         (block_quote
@@ -3948,7 +3948,7 @@ Example 271 - https://github.github.com/gfm/#example-271
 
 (document
   (block_quote
-    (tight_list
+    (list
       (list_item
         (list_marker_dot)
         (block_quote
@@ -3965,19 +3965,19 @@ Example 272 - https://github.github.com/gfm/#example-272
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph)
-          (tight_list
+          (list
             (list_item
               (list_marker_minus)
               (paragraph)
-              (tight_list
+              (list
                 (list_item
                   (list_marker_minus)
                   (paragraph))))))))))
@@ -3993,7 +3993,7 @@ Example 273 - https://github.github.com/gfm/#example-273
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4016,11 +4016,11 @@ Example 274 - https://github.github.com/gfm/#example-274
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_parenthesis)
       (paragraph)
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph))))))
@@ -4034,11 +4034,11 @@ Example 275 - https://github.github.com/gfm/#example-275
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_parenthesis)
       (paragraph)))
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))))
@@ -4051,10 +4051,10 @@ Example 276 - https://github.github.com/gfm/#example-276
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph))))))
@@ -4067,13 +4067,13 @@ Example 277 - https://github.github.com/gfm/#example-277
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_dot)
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
-          (tight_list
+          (list
             (list_item
               (list_marker_dot)
               (paragraph))))))))
@@ -4089,7 +4089,7 @@ Example 278 - https://github.github.com/gfm/#example-278
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (atx_heading
@@ -4112,14 +4112,14 @@ Example 281 - https://github.github.com/gfm/#example-281
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
     (list_item
       (list_marker_minus)
       (paragraph)))
-  (tight_list
+  (list
     (list_item
       (list_marker_plus)
       (paragraph))))
@@ -4134,14 +4134,14 @@ Example 282 - https://github.github.com/gfm/#example-282
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph))
     (list_item
       (list_marker_dot)
       (paragraph)))
-  (tight_list
+  (list
     (list_item
       (list_marker_parenthesis)
       (paragraph))))
@@ -4157,7 +4157,7 @@ Foo
 
 (document
   (paragraph)
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4186,7 +4186,7 @@ The number of windows in my house is
 
 (document
   (paragraph)
-  (tight_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph))))
@@ -4204,7 +4204,7 @@ Example 286 - https://github.github.com/gfm/#example-286
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4228,15 +4228,15 @@ Example 287 - https://github.github.com/gfm/#example-287
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph)
-          (loose_list
+          (list
             (list_item
               (list_marker_minus)
               (paragraph)
@@ -4256,7 +4256,7 @@ Example 288 - https://github.github.com/gfm/#example-288
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4264,7 +4264,7 @@ Example 288 - https://github.github.com/gfm/#example-288
       (list_marker_minus)
       (paragraph)))
   (html_block)
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4288,7 +4288,7 @@ Example 289 - https://github.github.com/gfm/#example-289
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -4313,7 +4313,7 @@ Example 290 - https://github.github.com/gfm/#example-290
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4348,7 +4348,7 @@ Example 291 - https://github.github.com/gfm/#example-291
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph))
@@ -4371,7 +4371,7 @@ Example 292 - https://github.github.com/gfm/#example-292
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4397,7 +4397,7 @@ Example 293 - https://github.github.com/gfm/#example-293
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (paragraph))
@@ -4417,7 +4417,7 @@ Example 294 - https://github.github.com/gfm/#example-294
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4439,7 +4439,7 @@ Example 295 - https://github.github.com/gfm/#example-295
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_star)
       (paragraph))
@@ -4461,7 +4461,7 @@ Example 296 - https://github.github.com/gfm/#example-296
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4485,7 +4485,7 @@ Example 297 - https://github.github.com/gfm/#example-297
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4513,7 +4513,7 @@ Example 298 - https://github.github.com/gfm/#example-298
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))
@@ -4537,11 +4537,11 @@ Example 299 - https://github.github.com/gfm/#example-299
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
-      (loose_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph)
@@ -4561,7 +4561,7 @@ Example 300 - https://github.github.com/gfm/#example-300
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_star)
       (paragraph)
@@ -4584,7 +4584,7 @@ Example 301 - https://github.github.com/gfm/#example-301
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
@@ -4604,7 +4604,7 @@ Example 302 - https://github.github.com/gfm/#example-302
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph))))
@@ -4618,11 +4618,11 @@ Example 303 - https://github.github.com/gfm/#example-303
 --------------------------------------------------------------------------------
 
 (document
-  (tight_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph))))))
@@ -4639,7 +4639,7 @@ Example 304 - https://github.github.com/gfm/#example-304
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_dot)
       (fenced_code_block
@@ -4657,11 +4657,11 @@ Example 305 - https://github.github.com/gfm/#example-305
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_star)
       (paragraph)
-      (tight_list
+      (list
         (list_item
           (list_marker_star)
           (paragraph)))
@@ -4681,11 +4681,11 @@ Example 306 - https://github.github.com/gfm/#example-306
 --------------------------------------------------------------------------------
 
 (document
-  (loose_list
+  (list
     (list_item
       (list_marker_minus)
       (paragraph)
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph))
@@ -4695,7 +4695,7 @@ Example 306 - https://github.github.com/gfm/#example-306
     (list_item
       (list_marker_minus)
       (paragraph)
-      (tight_list
+      (list
         (list_item
           (list_marker_minus)
           (paragraph))
@@ -5118,7 +5118,7 @@ Example 334 - https://github.github.com/gfm/#example-334
 (document
   (paragraph
     (numeric_character_reference))
-  (tight_list
+  (list
     (list_item
       (list_marker_star)
       (paragraph))))
