@@ -443,7 +443,7 @@ module.exports = grammar(add_inline_rules({
 
         link_text: $ => seq('[', optional($._inline_no_link), ']'),
         image_description: $ => seq('!', '[', optional($._inline), ']'), // TODO
-        link_label: $ => seq('[', repeat1(choice($._word, punctuation_without($, ['[', ']']), $._whitespace, $.backslash_escape, $._newline)), ']'),
+        link_label: $ => seq('[', repeat1(choice($._text_inline_no_link, $.backslash_escape, $._newline)), ']'),
         link_destination: $ => prec.dynamic(1, choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
             seq(
