@@ -139,7 +139,8 @@ module.exports = grammar({
       $.left_assignment,
       $.left_assignment2,
       $.right_assignment,
-      $.super_assignment
+      $.super_assignment,
+      $.super_right_assignment,
     ),
 
     left_assignment: $ => prec.right(PREC.ASSIGN,
@@ -169,6 +170,13 @@ module.exports = grammar({
         '<<-',
       field('value', $._expression)
     )),
+
+    super_right_assignment: $ => prec.right(PREC.ASSIGN,
+      seq(
+        field('value', $._expression),
+        '->>',
+        field('name', $._expression)
+      )),
 
     right_assignment: $ => prec.left(PREC.ASSIGN,
       seq(

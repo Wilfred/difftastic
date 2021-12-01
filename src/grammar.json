@@ -563,6 +563,10 @@
         {
           "type": "SYMBOL",
           "name": "super_assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "super_right_assignment"
         }
       ]
     },
@@ -674,6 +678,35 @@
           {
             "type": "FIELD",
             "name": "value",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          }
+        ]
+      }
+    },
+    "super_right_assignment": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "value",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "->>"
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
             "content": {
               "type": "SYMBOL",
               "name": "_expression"
