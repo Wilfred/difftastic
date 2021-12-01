@@ -8460,7 +8460,6 @@ Example 589 - https://github.github.com/gfm/#example-589
 (document
   (paragraph
     (image
-      (image_description)
       (link_destination))))
 
 ================================================================================
