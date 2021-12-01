@@ -311,11 +311,16 @@ module.exports = grammar(add_inline_rules({
         list_marker_dot: $ => choice($._list_marker_dot, $._list_marker_dot_dont_interrupt),
         list_marker_parenthesis: $ => choice($._list_marker_parenthesis, $._list_marker_parenthesis_dont_interrupt),
 
-        _list_item_plus: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), repeat1($._block), $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_minus: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), repeat1($._block), $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_star: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), repeat1($._block), $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_dot: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), repeat1($._block), $._block_close, optional($._ignore_matching_tokens)),
-        _list_item_parenthesis: $ => seq($.list_marker_parenthesis, optional($._ignore_matching_tokens), repeat1($._block), $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_plus: $ => seq($.list_marker_plus, optional($._ignore_matching_tokens), $._list_item_content, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_minus: $ => seq($.list_marker_minus, optional($._ignore_matching_tokens), $._list_item_content, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_star: $ => seq($.list_marker_star, optional($._ignore_matching_tokens), $._list_item_content, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_dot: $ => seq($.list_marker_dot, optional($._ignore_matching_tokens), $._list_item_content, $._block_close, optional($._ignore_matching_tokens)),
+        _list_item_parenthesis: $ => seq($.list_marker_parenthesis, optional($._ignore_matching_tokens), $._list_item_content, $._block_close, optional($._ignore_matching_tokens)),
+
+        _list_item_content: $ => choice(
+            prec(1, seq($._blank_line, $._blank_line, $._close_block)),
+            repeat1($._block),
+        ),
 
         fenced_code_block: $ => prec.right(choice(
             seq(

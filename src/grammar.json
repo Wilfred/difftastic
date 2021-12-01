@@ -624,11 +624,8 @@
           ]
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content"
         },
         {
           "type": "SYMBOL",
@@ -668,11 +665,8 @@
           ]
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content"
         },
         {
           "type": "SYMBOL",
@@ -712,11 +706,8 @@
           ]
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content"
         },
         {
           "type": "SYMBOL",
@@ -756,11 +747,8 @@
           ]
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content"
         },
         {
           "type": "SYMBOL",
@@ -800,11 +788,8 @@
           ]
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_block"
-          }
+          "type": "SYMBOL",
+          "name": "_list_item_content"
         },
         {
           "type": "SYMBOL",
@@ -821,6 +806,39 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "_list_item_content": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PREC",
+          "value": 1,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_blank_line"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_blank_line"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_close_block"
+              }
+            ]
+          }
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_block"
+          }
         }
       ]
     },
