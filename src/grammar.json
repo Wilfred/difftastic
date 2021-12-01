@@ -3131,7 +3131,7 @@
     },
     "link_reference_definition": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 10,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3218,7 +3218,7 @@
             "members": [
               {
                 "type": "PREC_DYNAMIC",
-                "value": 2,
+                "value": 20,
                 "content": {
                   "type": "SEQ",
                   "members": [
@@ -3319,7 +3319,7 @@
     },
     "shortcut_link": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 10,
       "content": {
         "type": "SYMBOL",
         "name": "link_text"
@@ -3327,7 +3327,7 @@
     },
     "full_reference_link": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 20,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3344,7 +3344,7 @@
     },
     "collapsed_reference_link": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 20,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3365,7 +3365,7 @@
     },
     "inline_link": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 20,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3503,7 +3503,7 @@
     },
     "_image_inline_link": {
       "type": "PREC_DYNAMIC",
-      "value": 4,
+      "value": 40,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3620,7 +3620,7 @@
     },
     "_image_shortcut_link": {
       "type": "PREC_DYNAMIC",
-      "value": 3,
+      "value": 30,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3633,7 +3633,7 @@
     },
     "_image_full_reference_link": {
       "type": "PREC_DYNAMIC",
-      "value": 4,
+      "value": 40,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3650,7 +3650,7 @@
     },
     "_image_collapsed_reference_link": {
       "type": "PREC_DYNAMIC",
-      "value": 4,
+      "value": 40,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3758,7 +3758,7 @@
     },
     "link_destination": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 10,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -5269,7 +5269,7 @@
     },
     "_open_tag": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 100,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5325,7 +5325,7 @@
     },
     "_closing_tag": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 100,
       "content": {
         "type": "SEQ",
         "members": [
@@ -5831,7 +5831,7 @@
     },
     "_html_comment": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 100,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6344,7 +6344,7 @@
     },
     "_processing_instruction": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 100,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6535,7 +6535,7 @@
     },
     "_declaration": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 100,
       "content": {
         "type": "SEQ",
         "members": [
@@ -6735,7 +6735,7 @@
     },
     "_cdata_section": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 100,
       "content": {
         "type": "SEQ",
         "members": [
@@ -7947,7 +7947,7 @@
     },
     "_strong_emphasis_star": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -7989,7 +7989,7 @@
     },
     "_strong_emphasis_underscore": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -8851,7 +8851,7 @@
     },
     "_strong_emphasis_star_no_link": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -8893,7 +8893,7 @@
     },
     "_strong_emphasis_underscore_no_link": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -8914,7 +8914,7 @@
     },
     "_code_span": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 100,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9283,7 +9283,7 @@
     },
     "_strong_emphasis_star_no_newline": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9325,7 +9325,7 @@
     },
     "_strong_emphasis_underscore_no_newline": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9634,7 +9634,7 @@
     },
     "_strong_emphasis_star_no_newline_no_link": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9676,7 +9676,7 @@
     },
     "_strong_emphasis_underscore_no_newline_no_link": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 2,
       "content": {
         "type": "SEQ",
         "members": [
@@ -9697,7 +9697,7 @@
     },
     "_code_span_no_newline": {
       "type": "PREC_DYNAMIC",
-      "value": 2,
+      "value": 100,
       "content": {
         "type": "SEQ",
         "members": [

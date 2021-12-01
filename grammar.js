@@ -69,6 +69,11 @@ const EXCULUSION_ARRAY = ['pre', 'script', 'style', 'address', 'article', 'aside
 const HTML_OPEN_TAG_EXCLUDE = '<' + negative_regex(EXCULUSION_ARRAY, '0-9\\-', true) + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>';
 const HTML_CLOSING_TAG_EXCLUDE = '</' + negative_regex(EXCULUSION_ARRAY, '0-9\\-', true) + '[ \\t]*>';
 
+const PRECEDENCE_LEVEL_EMPHASIS = 1;
+const PRECEDENCE_LEVEL_LINK = 10;
+const PRECEDENCE_LEVEL_HTML = 100;
+const PRECEDENCE_LEVEL_CODE_SPAN = 100;
+
 // !!!
 // Notice the call to `add_inline_rules` which generates some additional rules related to parsing
 // inline contents in different contexts.
@@ -388,13 +393,13 @@ module.exports = grammar(add_inline_rules({
         _closing_tag_html_block: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '[ \\t]'),
         _closing_tag_html_block_newline: $ => new RegExp(HTML_CLOSING_TAG_EXCLUDE + '(\n|\r\n?)'),
 
-        link_reference_definition: $ => prec.dynamic(1, seq(
+        link_reference_definition: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, seq(
             optional($._whitespace),
             $.link_label,
             ':',
             optional(seq(optional($._whitespace), optional(seq($._soft_line_break, optional($._whitespace))))),
             $.link_destination,
-            optional(prec.dynamic(2, seq(
+            optional(prec.dynamic(2 * PRECEDENCE_LEVEL_LINK, seq(
                 choice(
                     seq($._whitespace, optional(seq($._newline, optional($._whitespace)))),
                     seq($._newline, optional($._whitespace)),
@@ -405,17 +410,17 @@ module.exports = grammar(add_inline_rules({
             $._newline,
         )),
 
-        shortcut_link: $ => prec.dynamic(1, $.link_text), // TODO: no newline
-        full_reference_link: $ => prec.dynamic(2, seq(
+        shortcut_link: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, $.link_text), // TODO: no newline
+        full_reference_link: $ => prec.dynamic(2 * PRECEDENCE_LEVEL_LINK, seq(
             $.link_text,
             $.link_label
         )), // TODO: no newline
-        collapsed_reference_link: $ => prec.dynamic(2, seq(
+        collapsed_reference_link: $ => prec.dynamic(2 * PRECEDENCE_LEVEL_LINK, seq(
             $.link_text,
             '[',
             ']'
         )), // TODO: no newline
-        inline_link: $ => prec.dynamic(2, seq(
+        inline_link: $ => prec.dynamic(2 * PRECEDENCE_LEVEL_LINK, seq(
             $.link_text,
             '(',
             repeat(choice($._whitespace, $._soft_line_break)),
@@ -429,7 +434,7 @@ module.exports = grammar(add_inline_rules({
             ')'
         )), // TODO: no newline
         image: $ => choice($._image_inline_link, $._image_shortcut_link, $._image_full_reference_link, $._image_collapsed_reference_link), // TODO no newline
-        _image_inline_link: $ => prec.dynamic(4, seq(
+        _image_inline_link: $ => prec.dynamic(4 * PRECEDENCE_LEVEL_LINK, seq(
             $.image_description,
             '(',
             repeat(choice($._whitespace, $._soft_line_break)),
@@ -442,14 +447,14 @@ module.exports = grammar(add_inline_rules({
             )),
             ')'
         )),
-        _image_shortcut_link: $ => prec.dynamic(3, seq($.image_description)),
-        _image_full_reference_link: $ => prec.dynamic(4, seq($.image_description, $.link_label)),
-        _image_collapsed_reference_link: $ => prec.dynamic(4, seq($.image_description, '[', ']')),
+        _image_shortcut_link: $ => prec.dynamic(3 * PRECEDENCE_LEVEL_LINK, seq($.image_description)),
+        _image_full_reference_link: $ => prec.dynamic(4 * PRECEDENCE_LEVEL_LINK, seq($.image_description, $.link_label)),
+        _image_collapsed_reference_link: $ => prec.dynamic(4 * PRECEDENCE_LEVEL_LINK, seq($.image_description, '[', ']')),
 
         link_text: $ => seq('[', optional($._inline_no_link), ']'),
         image_description: $ => seq('!', '[', optional($._inline), ']'), // TODO
         link_label: $ => seq('[', repeat1(choice($._text_inline_no_link, $.backslash_escape, $._newline)), ']'),
-        link_destination: $ => prec.dynamic(1, choice(
+        link_destination: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),
             seq(
                 choice($._word, punctuation_without($, ['<', '(', ')']), $.backslash_escape, $.entity_reference, $.numeric_character_reference, $._link_destination_parenthesis),
@@ -504,8 +509,8 @@ module.exports = grammar(add_inline_rules({
         numeric_character_reference: $ => /&#([0-9]{1,7}|[xX][0-9a-fA-F]{1,6});/,
 
         html_tag: $ => choice($._open_tag, $._closing_tag, $._html_comment, $._processing_instruction, $._declaration, $._cdata_section),
-        _open_tag: $ => prec.dynamic(1, seq('<', $._tag_name, repeat($._attribute), repeat(choice($._whitespace, $._soft_line_break)), optional('/'), '>')),
-        _closing_tag: $ => prec.dynamic(1, seq('<', '/', $._tag_name, repeat(choice($._whitespace, $._soft_line_break)), '>')),
+        _open_tag: $ => prec.dynamic(PRECEDENCE_LEVEL_HTML, seq('<', $._tag_name, repeat($._attribute), repeat(choice($._whitespace, $._soft_line_break)), optional('/'), '>')),
+        _closing_tag: $ => prec.dynamic(PRECEDENCE_LEVEL_HTML, seq('<', '/', $._tag_name, repeat(choice($._whitespace, $._soft_line_break)), '>')),
         _tag_name: $ => seq($._word_no_digit, repeat(choice($._word_no_digit, $._digits, '-'))),
         _attribute: $ => seq(repeat1(choice($._whitespace, $._soft_line_break)), $._attribute_name, repeat(choice($._whitespace, $._soft_line_break)), '=', repeat(choice($._whitespace, $._soft_line_break)), $._attribute_value),
         _attribute_name: $ => /[a-zA-Z_:][a-zA-Z0-9_\.:\-]*/,
@@ -514,7 +519,7 @@ module.exports = grammar(add_inline_rules({
             seq("'", repeat(choice($._word, $._whitespace, $._soft_line_break, punctuation_without($, ["'"]))), "'"),
             seq('"', repeat(choice($._word, $._whitespace, $._soft_line_break, punctuation_without($, ['"']))), '"'),
         ),
-        _html_comment: $ => prec.dynamic(1, seq(
+        _html_comment: $ => prec.dynamic(PRECEDENCE_LEVEL_HTML, seq(
             '<!--',
             optional(choice(
                 $._word,
@@ -534,7 +539,7 @@ module.exports = grammar(add_inline_rules({
             ))),
             '-->'
         )),
-        _processing_instruction: $ => prec.dynamic(1, seq(
+        _processing_instruction: $ => prec.dynamic(PRECEDENCE_LEVEL_HTML, seq(
             '<?',
             repeat(prec.right(choice(
                 $._word,
@@ -544,7 +549,7 @@ module.exports = grammar(add_inline_rules({
             ))),
             '?>'
         )),
-        _declaration: $ => prec.dynamic(1, seq(
+        _declaration: $ => prec.dynamic(PRECEDENCE_LEVEL_HTML, seq(
             /<![A-Z]+/,
             choice(
                 $._whitespace,
@@ -558,7 +563,7 @@ module.exports = grammar(add_inline_rules({
             ))),
             '>'
         )),
-        _cdata_section: $ => prec.dynamic(1, seq(
+        _cdata_section: $ => prec.dynamic(PRECEDENCE_LEVEL_HTML, seq(
             '<![CDATA[',
             repeat(prec.right(choice(
                 $._word,
@@ -671,12 +676,12 @@ function add_inline_rules(grammar) {
                 }
             }
             
-            grammar.rules['_emphasis_star' + suffix_newline + suffix_link] = $ => prec.dynamic(1, seq($._emphasis_open_star, $['_inline' + suffix_newline + '_no_star' + suffix_link], $._emphasis_close_star));
-            grammar.rules['_strong_emphasis_star' + suffix_newline + suffix_link] = $ => prec.dynamic(1, seq($._emphasis_open_star, $['_emphasis_star' + suffix_newline + suffix_link], $._emphasis_close_star));
-            grammar.rules['_emphasis_underscore' + suffix_newline + suffix_link] = $ => prec.dynamic(1, seq($._emphasis_open_underscore, $['_inline' + suffix_newline + '_no_underscore' + suffix_link], $._emphasis_close_underscore));
-            grammar.rules['_strong_emphasis_underscore' + suffix_newline + suffix_link] = $ => prec.dynamic(1, seq($._emphasis_open_underscore, $['_emphasis_underscore' + suffix_newline + suffix_link], $._emphasis_close_underscore));
+            grammar.rules['_emphasis_star' + suffix_newline + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq($._emphasis_open_star, $['_inline' + suffix_newline + '_no_star' + suffix_link], $._emphasis_close_star));
+            grammar.rules['_strong_emphasis_star' + suffix_newline + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq($._emphasis_open_star, $['_emphasis_star' + suffix_newline + suffix_link], $._emphasis_close_star));
+            grammar.rules['_emphasis_underscore' + suffix_newline + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq($._emphasis_open_underscore, $['_inline' + suffix_newline + '_no_underscore' + suffix_link], $._emphasis_close_underscore));
+            grammar.rules['_strong_emphasis_underscore' + suffix_newline + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq($._emphasis_open_underscore, $['_emphasis_underscore' + suffix_newline + suffix_link], $._emphasis_close_underscore));
         }
-        grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(2, seq($._code_span_start, repeat(newline ? choice($._text, $._soft_line_break) : $._text), $._code_span_close));
+        grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(PRECEDENCE_LEVEL_CODE_SPAN, seq($._code_span_start, repeat(newline ? choice($._text, $._soft_line_break) : $._text), $._code_span_close));
     }
 
     let old = grammar.conflicts
