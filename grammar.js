@@ -972,7 +972,7 @@ module.exports = grammar({
             seq(
             '"',
             repeat(choice(
-                token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)),
+                $._string_immediate_elt_inside_double_quote,
                 $._escape_sequence
             )),
             '"'
@@ -980,12 +980,18 @@ module.exports = grammar({
             seq(
             "'",
             repeat(choice(
-                token.immediate(prec(PREC.STRING, /[^'\\\n]+|\\\r?\n/)),
+                $._string_immediate_elt_inside_quote,
                 $._escape_sequence
             )),
             "'"
             )
         ),
+	    // We need to name those elts for ocaml-tree-sitter-semgrep.
+        _string_immediate_elt_inside_double_quote: $ =>
+            token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)),
+        _string_immediate_elt_inside_quote: $ =>
+            token.immediate(prec(PREC.STRING, /[^'\\\n]+|\\\r?\n/)),
+
         
 
         // Based on: https://github.com/tree-sitter/tree-sitter-c/blob/master/grammar.js#L965
