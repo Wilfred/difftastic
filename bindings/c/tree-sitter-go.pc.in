@@ -1,0 +1,11 @@
+prefix=@PREFIX@
+libdir=@LIBDIR@
+includedir=@INCLUDEDIR@
+additionallibs=@ADDITIONALLIBS@
+
+Name: tree-sitter-go
+Description: Golang grammar for tree-sitter
+URL: https://github.com/tree-sitter/tree-sitter-go
+Version: @VERSION@
+Libs: -L${libdir} ${additionallibs} -ltree-sitter-go
+Cflags: -I${includedir}
