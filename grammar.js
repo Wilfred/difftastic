@@ -462,7 +462,10 @@ module.exports = grammar({
       $.array_pattern,
       $.find_pattern,
       $.hash_pattern,
+      $.parenthesized_pattern,
     ),
+
+    parenthesized_pattern: $ => seq('(', $._pattern_expr, ')'),
 
     _pattern_value: $ => choice(
       $._pattern_primitive,

@@ -216,6 +216,10 @@
         "named": true
       },
       {
+        "type": "parenthesized_pattern",
+        "named": true
+      },
+      {
         "type": "range",
         "named": true
       },
@@ -2523,6 +2527,21 @@
     }
   },
   {
+    "type": "parenthesized_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_pattern_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "parenthesized_statements",
     "named": true,
     "fields": {},
@@ -3831,11 +3850,11 @@
   },
   {
     "type": "nil",
-    "named": false
+    "named": true
   },
   {
     "type": "nil",
-    "named": true
+    "named": false
   },
   {
     "type": "not",
