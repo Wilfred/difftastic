@@ -24,6 +24,7 @@
 (complex) @number
 
 (string) @string
+(string (escape_sequence) @string.escape)
 
 (comment) @comment
 
