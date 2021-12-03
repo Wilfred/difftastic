@@ -145,7 +145,7 @@ case expr
   in Foo
   in Foo::Bar
   in ::Foo::Bar
-  in nil | self | true | false | __LINE__ | __FILE__ | __ENCODING__
+  in (nil | self | true | false | __LINE__ | __FILE__ | __ENCODING__)
   in -> x { x == 10 }
   in :foo
   in :"foo bar"
@@ -179,14 +179,16 @@ end
      (in_clause (scope_resolution (constant) (constant)))
      (in_clause (scope_resolution (scope_resolution (constant)) (constant)))
      (in_clause 
-       (alternative_pattern 
-         (nil)
-         (self)
-         (true)
-         (false)
-         (line)
-         (file)
-         (encoding)
+       (parenthesized_pattern 
+         (alternative_pattern 
+           (nil)
+           (self)
+           (true)
+           (false)
+           (line)
+           (file)
+           (encoding)
+         )
        )
      )
      (in_clause (lambda (lambda_parameters (identifier)) (block (binary (identifier) (integer)))))

@@ -2465,6 +2465,27 @@
         {
           "type": "SYMBOL",
           "name": "hash_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parenthesized_pattern"
+        }
+      ]
+    },
+    "parenthesized_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_pattern_expr"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
