@@ -6,3 +6,8 @@ package-lock.json
 examples/go
 examples/moby
 target
+
+*.a
+*.dylib
+*.so
+*.o
