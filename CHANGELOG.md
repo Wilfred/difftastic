@@ -8,6 +8,9 @@ Updated the C, CSS and JSON parsers to the latest upstream versions.
 
 Expanded filename associations, so difftastic recognises more files.
 
+Improved parsing for regex and template string literals in JavaScript
+and TypeScript.
+
 Improved word diffing on punctuation in comments.
 
 When logging is enabled (e.g. `RUST_LOG=warn`), difftastic now warns
