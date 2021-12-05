@@ -14,6 +14,11 @@ When logging is enabled (e.g. `RUST_LOG=warn`), difftastic now warns
 on syntax errors. Difftastic is intended to be robust against syntax
 errors, so this is primarily intended for parser debugging.
 
+### Build
+
+Difftastic now requires fewer C compiler flags, so it should build in
+more environments (e.g. compiling with MSVC).
+
 ## 0.12
 
 ### Display
