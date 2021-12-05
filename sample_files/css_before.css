@@ -12,3 +12,7 @@ world */
   color: yellow;
   font-family: "Before";
 }
+
+.another {
+  margin-left: 0.5em;
+}

@@ -136,7 +136,7 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
         "css" => Some(TreeSitterConfig {
             name: "CSS",
             language: unsafe { tree_sitter_css() },
-            atom_nodes: (vec!["integer_value"]).into_iter().collect(),
+            atom_nodes: (vec!["integer_value", "float_value"]).into_iter().collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")")]),
             highlight_queries: include_str!("../vendor/highlights/css.scm"),
         }),
