@@ -117,5 +117,5 @@ $ git tag $VERSION
 $ git push --tags
 ```
 
-You can now increment the version in Cargo.toml and add a new entry
+You can now increment the version in Cargo.toml and add a new entry to
 CHANGELOG.md.
