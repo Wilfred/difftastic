@@ -1,7 +1,7 @@
 //! Implements Dijkstra's algorithm for shortest path, to find an
 //! optimal and readable diff between two ASTs.
 
-use std::cmp::{Ordering, Reverse};
+use std::cmp::Reverse;
 
 use crate::{
     graph::{mark_route, neighbours, Edge, Vertex},
@@ -10,45 +10,6 @@ use crate::{
 use itertools::Itertools;
 use radix_heap::RadixHeapMap;
 use rustc_hash::FxHashMap;
-
-/// A vertex with a distance.
-///
-/// Rust requires that PartialEq, PartialOrd and Ord agree.
-/// <https://doc.rust-lang.org/std/cmp/trait.Ord.html>
-///
-/// We want two nodes of the same distance to be the same as far as
-/// the priority queue is concerned. This differs from the equality
-/// semantics on [`Vertex`] (which should only consider LHS/RHS
-/// syntax).
-///
-/// Defining `OrdVertex` as a separate type allows us different Eq and
-/// Ord behaviour.
-#[derive(Debug)]
-struct OrdVertex<'a> {
-    /// The distance from the start vertex to this vertex.
-    distance: u64,
-    /// The vertex we have just reached.
-    current: Vertex<'a>,
-}
-
-impl<'a> PartialOrd for OrdVertex<'a> {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        Some(self.cmp(other))
-    }
-}
-
-impl<'a> Ord for OrdVertex<'a> {
-    fn cmp(&self, other: &Self) -> Ordering {
-        self.distance.cmp(&other.distance)
-    }
-}
-
-impl<'a> PartialEq for OrdVertex<'a> {
-    fn eq(&self, other: &Self) -> bool {
-        self.distance == other.distance
-    }
-}
-impl<'a> Eq for OrdVertex<'a> {}
 
 type PredecessorInfo<'a> = (u64, Vertex<'a>, Edge);
 
