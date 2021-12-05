@@ -447,6 +447,13 @@ fn syntax_from_cursor<'a>(
 ) -> &'a Syntax<'a> {
     let node = cursor.node();
 
+    if node.is_error() {
+        let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
+        let content = &src[node.start_byte()..node.end_byte()];
+
+        warn!("Tree-sitter syntax error at {:?}: {}", position.get(0), content);
+    }
+
     if config.atom_nodes.contains(node.kind()) {
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
