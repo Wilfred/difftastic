@@ -11,6 +11,8 @@ Expanded filename associations, so difftastic recognises more files.
 Improved parsing for regex and template string literals in JavaScript
 and TypeScript.
 
+Improved parsing for float values in CSS.
+
 Improved word diffing on punctuation in comments.
 
 When logging is enabled (e.g. `RUST_LOG=warn`), difftastic now warns
