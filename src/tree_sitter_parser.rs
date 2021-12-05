@@ -186,7 +186,9 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
         "cjs" | "js" | "jsx" | "mjs" => Some(TreeSitterConfig {
             name: "JavaScript",
             language: unsafe { tree_sitter_javascript() },
-            atom_nodes: (vec!["string", "template_string", "regex"]).into_iter().collect(),
+            atom_nodes: (vec!["string", "template_string", "regex"])
+                .into_iter()
+                .collect(),
             delimiter_tokens: (vec![
                 ("[", "]"),
                 ("(", ")"),
@@ -263,7 +265,9 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
         "ts" => Some(TreeSitterConfig {
             name: "TypeScript",
             language: unsafe { tree_sitter_typescript() },
-            atom_nodes: (vec!["string", "template_string", "regex"]).into_iter().collect(),
+            atom_nodes: (vec!["string", "template_string", "regex"])
+                .into_iter()
+                .collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
             highlight_queries: include_str!("../vendor/highlights/typescript.scm"),
         }),
@@ -451,7 +455,11 @@ fn syntax_from_cursor<'a>(
         let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
         let content = &src[node.start_byte()..node.end_byte()];
 
-        warn!("Tree-sitter syntax error at {:?}: {}", position.get(0), content);
+        warn!(
+            "Tree-sitter syntax error at {:?}: {}",
+            position.get(0),
+            content
+        );
     }
 
     if config.atom_nodes.contains(node.kind()) {
