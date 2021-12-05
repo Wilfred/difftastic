@@ -54,8 +54,8 @@ type PredecessorInfo<'a> = (u64, Vertex<'a>, Edge);
 
 fn shortest_path(start: Vertex) -> Vec<(Edge, Vertex)> {
     // We want to visit nodes with the shortest distance first, but
-    // BinaryHeap is a max-heap. Ensure nodes are wrapped with Reverse
-    // to flip comparisons.
+    // RadixHeapMap is a max-heap. Ensure nodes are wrapped with
+    // Reverse to flip comparisons.
     let mut heap: RadixHeapMap<Reverse<_>, Vertex> = RadixHeapMap::new();
 
     heap.push(Reverse(0), start);
