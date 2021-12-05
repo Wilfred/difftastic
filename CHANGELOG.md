@@ -10,6 +10,10 @@ Expanded filename associations, so difftastic recognises more files.
 
 Improved word diffing on punctuation in comments.
 
+When logging is enabled (e.g. `RUST_LOG=warn`), difftastic now warns
+on syntax errors. Difftastic is intended to be robust against syntax
+errors, so this is primarily intended for parser debugging.
+
 ## 0.12
 
 ### Display
