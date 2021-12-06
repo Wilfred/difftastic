@@ -7,7 +7,7 @@ categories = ["parsing", "text-editors"]
 repository = "https://github.com/theHamsta/tree-sitter-commonlisp"
 edition = "2018"
 authors = ["Stephan Seitz"]
-license = "GPLv3"
+license = "MIT"
 
 build = "bindings/rust/build.rs"
 include = [
