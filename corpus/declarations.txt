@@ -971,6 +971,31 @@ unsafe impl Foo {
 (source_file (impl_item (type_identifier) (declaration_list)))
 
 ===========================================
+Trait impl signature
+===========================================
+
+impl<K: Debug + Ord> Debug for OccupiedError<K>;
+impl<K: Debug + Ord> Display for OccupiedError<K>;
+
+---
+
+(source_file
+  (impl_item
+    (type_parameters
+      (constrained_type_parameter
+        (type_identifier)
+          (trait_bounds (type_identifier) (type_identifier))))
+    (type_identifier)
+    (generic_type (type_identifier) (type_arguments (type_identifier))))
+  (impl_item
+    (type_parameters
+      (constrained_type_parameter
+        (type_identifier)
+        (trait_bounds (type_identifier) (type_identifier))))
+    (type_identifier)
+    (generic_type (type_identifier) (type_arguments (type_identifier)))))
+
+===========================================
 Impls with default functions
 ===========================================
 

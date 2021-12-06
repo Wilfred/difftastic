@@ -464,7 +464,7 @@ module.exports = grammar({
       )),
       field('type', $._type),
       optional($.where_clause),
-      field('body', $.declaration_list)
+      choice(field('body', $.declaration_list), ';')
     ),
 
     trait_item: $ => seq(
