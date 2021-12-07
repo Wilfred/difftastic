@@ -32,7 +32,7 @@ impl TreeSitterParser {
                 .flag_if_supported("-Wno-ignored-qualifiers");
 
             if cfg!(windows) {
-                cpp_build.flag("/std=c++14");
+                cpp_build.flag("/std:c++14");
             } else {
                 cpp_build.flag("--std=c++14");
             }
