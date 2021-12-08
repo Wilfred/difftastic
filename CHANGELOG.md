@@ -4,7 +4,7 @@
 
 Fixed some build issues on Windows.
 
-## 0.13
+## 0.13 (released 4 December 2021)
 
 ### Parsing
 
@@ -30,7 +30,7 @@ errors, so this is primarily intended for parser debugging.
 Difftastic now requires fewer C compiler flags, so it should build in
 more environments (e.g. compiling with MSVC).
 
-## 0.12
+## 0.12 (released 19 November 2021)
 
 ### Display
 
@@ -73,7 +73,7 @@ d72f2e4](https://github.com/tree-sitter/tree-sitter-haskell/commit/d72f2e42c0d5c
 Fixed a bug when diffing multiline comments where unchanged parts were
 not highlighted correctly.
 
-## 0.11
+## 0.11 (released 18 October 2021)
 
 ### Parsing
 
@@ -104,14 +104,14 @@ Characters that don't have a position in the parsed syntax tree are
 now displayed in purple, to make bugs more obvious. Previously they
 were dimmed.
 
-## 0.10.1
+## 0.10.1 (released 28 September 2021)
 
 ### Build
 
 Fix compilation on macOS where the C++ compiler defaulted to a
 version of C++ older than C++14.
 
-## 0.10
+## 0.10 (released 24 September 2021)
 
 ### Parsing
 
@@ -134,7 +134,7 @@ Some additional runtime optimisations.
 
 Added a chapter on difficult cases for tree diff algorithms.
 
-## 0.9
+## 0.9 (released 14 September 2021)
 
 ### Parsing
 
@@ -168,7 +168,7 @@ Difftastic is now a library with a main binary. No APIs are considered
 stable for external usage. This is intended to make benchmarking
 easier.
 
-## 0.8
+## 0.8 (released 5 September 2021)
 
 ### Git integration
 
@@ -210,7 +210,7 @@ rather than crashing.
 Difftastic now has some debugging logs available. `RUST_LOG=trace`
 will show information on the route found during graph solving.
 
-## 0.7
+## 0.7 (released 24 August 2021)
 
 ### Git integration
 
@@ -264,7 +264,7 @@ Removed the `--width` argument.
 Added debug options `--dump-syntax` and `--dump-ts` for viewing parse
 trees. The output of these files may change without notice.
 
-## 0.6
+## 0.6 (released 27 July 2021)
 
 ### Parsing
 
@@ -299,7 +299,7 @@ Removed unused `--inline` and `--context` arguments.
 
 Fixed crash when called with no arguments.
 
-## 0.5
+## 0.5 (released 22 July 2021)
 
 ### Parsing
 
@@ -350,7 +350,7 @@ Improved `--help`.
 
 It's now possible to use `difftastic` with `git diff` and `git show`!
 
-## 0.4
+## 0.4 (released 13 July 2021)
 
 ### Parsing
 
@@ -381,7 +381,7 @@ Fixed a crash when diff context included the first line.
 Fixed a crash when plain text content contained certain non-ASCII
 characters.
 
-## 0.3
+## 0.3 (released 7 July 2021)
 
 Diffs are now displayed with unchanged lines aligned to the other side.
 
@@ -394,7 +394,7 @@ Fixed an issue where the diff calculated may not be minimal.
 
 Fixed a crash on files with no changes.
 
-## 0.2
+## 0.2 (released 4 July 2021)
 
 First version using Dijkstra's algorithm for calculating diffs.
 
