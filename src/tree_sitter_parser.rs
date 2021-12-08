@@ -320,18 +320,25 @@ pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> (tree_sitter::Tree
     (tree, node_keyword_ids)
 }
 
-pub fn print_tree(tree: &tree_sitter::Tree) {
+pub fn print_tree(src: &str, tree: &tree_sitter::Tree) {
     let mut cursor = tree.walk();
-    print_cursor(&mut cursor, 0);
+    print_cursor(src, &mut cursor, 0);
 }
 
-fn print_cursor(cursor: &mut TreeCursor, depth: usize) {
+fn print_cursor(src: &str, cursor: &mut TreeCursor, depth: usize) {
     loop {
         let node = cursor.node();
-        println!("{}{:#?}", "  ".repeat(depth), node);
+        node.end_position();
+
+        if node.child_count() == 0 {
+            let node_src = &src[node.start_byte()..node.end_byte()];
+            println!("{}{:#?} {:?}", "  ".repeat(depth), node, node_src);
+        } else {
+            println!("{}{:#?}", "  ".repeat(depth), node);
+        }
 
         if cursor.goto_first_child() {
-            print_cursor(cursor, depth + 1);
+            print_cursor(src, cursor, depth + 1);
             cursor.goto_parent();
         }
 

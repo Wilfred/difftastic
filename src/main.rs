@@ -189,7 +189,7 @@ fn main() {
                     let bytes = read_or_die(&path);
                     let src = String::from_utf8_lossy(&bytes).to_string();
                     let (tree, _) = tsp::parse_to_tree(&src, &ts_lang);
-                    tsp::print_tree(&tree);
+                    tsp::print_tree(&src, &tree);
                 }
                 None => {
                     println!("No tree-sitter parser for extension: {:?}", extension);
