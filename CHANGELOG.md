@@ -1,6 +1,8 @@
 ## 0.14 (unreleased)
 
-No changes yet.
+### Build
+
+Fixed some build issues on Windows.
 
 ## 0.13
 
