@@ -5,6 +5,7 @@ use std::{
     cmp::max,
     collections::{HashMap, HashSet},
 };
+use terminal_size::terminal_size;
 
 use crate::{
     context::opposite_positions,
@@ -17,8 +18,8 @@ use crate::{
 
 const SPACER: &str = " ";
 
-fn term_width() -> Option<usize> {
-    term_size::dimensions().map(|(w, _)| w)
+fn term_width() -> Option<u16> {
+    terminal_size().map(|(w, _)| w.0)
 }
 
 /// Split `s` by newlines, but guarantees that the output is nonempty.
@@ -238,7 +239,12 @@ pub fn display_hunks(
         let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let widths = Widths::new(term_width().unwrap_or(80), &aligned_lines, lhs_src, rhs_src);
+        let widths = Widths::new(
+            term_width().unwrap_or(80) as usize,
+            &aligned_lines,
+            lhs_src,
+            rhs_src,
+        );
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let (display_lhs_line_num, display_rhs_line_num) = display_line_nums(
                 lhs_line_num,
