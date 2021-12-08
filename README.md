@@ -15,7 +15,7 @@ See [the manual](http://difftastic.wilfred.me.uk/) to get started.
 ## Demo: Wrapping Expressions
 
 Difftastic understands expression nesting. If you wrap an expression
-in an if statement, difftastic understand that the inner values are
+in an if statement, difftastic understands that the inner values are
 unchanged.
 
 ![Elisp screenshot](img/elisp.png)
