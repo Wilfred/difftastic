@@ -1,5 +1,9 @@
 ## 0.14 (unreleased)
 
+### Display
+
+Fixed terminal width calculations on Windows.
+
 ### Build
 
 Fixed some build issues on Windows.
