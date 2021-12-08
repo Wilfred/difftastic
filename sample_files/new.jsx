@@ -4,3 +4,8 @@ ReactDOM.render(
   </h1>,
   document.getElementById("root")
 );
+
+var x = (
+  <p>
+      foo
+  </p>);
