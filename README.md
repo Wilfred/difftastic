@@ -12,9 +12,9 @@ C# grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter) based u
 
 ### Status
 
-Comprehensive support for C# exists with the following exceptions:
+Comprehensive supports C# 1 through 10.0 with the following exceptions:
 
-- [ ] `async`, `var` and `await` cannot be used as identifiers
+- [ ] `async`, `var` and `await` cannot be used as identifiers everywhere they are valid
 
 #### C# 9.0 (complete)
 
