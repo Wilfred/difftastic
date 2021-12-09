@@ -16,19 +16,6 @@ Comprehensive support for C# exists with the following exceptions:
 
 - [ ] `async`, `var` and `await` cannot be used as identifiers
 
-#### C# 8.0 (complete)
-
-- [x] `readonly` members
-- [x] Default interface methods
-- [x] `switch` expressions
-- [x] `switch` property patterns
-- [x] `switch` tuple patterns
-- [x] `static` local functions
-- [x] Nullable reference types
-- [x] Null-forgiving operator
-- [x] Null-coalescing assignment
-- [x] using statement without braces
-
 #### C# 9.0 (complete)
 
 - [x] Covariant returns
@@ -51,7 +38,7 @@ Comprehensive support for C# exists with the following exceptions:
 - [x] Target-typed new
 - [x] Top-level statements
 
-#### C# 10.0
+#### C# 10.0 (complete?)
 
 - [x] global using directives
 - [x] File-scoped namespace declaration
