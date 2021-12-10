@@ -467,26 +467,26 @@ export type SyntaxNode =
 export interface AnonymousFunctionExprNode extends NamedNodeBase {
   type: SyntaxType.AnonymousFunctionExpr;
   exprNode:
-    | AnonymousFunctionExprNode
-    | BinOpExprNode
-    | CaseOfExprNode
-    | CharConstantExprNode
-    | FieldAccessExprNode
-    | FieldAccessorFunctionExprNode
-    | FunctionCallExprNode
-    | GlslCodeExprNode
-    | IfElseExprNode
-    | LetInExprNode
-    | ListExprNode
-    | NegateExprNode
-    | NumberConstantExprNode
-    | OperatorAsFunctionExprNode
-    | ParenthesizedExprNode
-    | RecordExprNode
-    | StringConstantExprNode
-    | TupleExprNode
-    | UnitExprNode
-    | ValueExprNode;
+  | AnonymousFunctionExprNode
+  | BinOpExprNode
+  | CaseOfExprNode
+  | CharConstantExprNode
+  | FieldAccessExprNode
+  | FieldAccessorFunctionExprNode
+  | FunctionCallExprNode
+  | GlslCodeExprNode
+  | IfElseExprNode
+  | LetInExprNode
+  | ListExprNode
+  | NegateExprNode
+  | NumberConstantExprNode
+  | OperatorAsFunctionExprNode
+  | ParenthesizedExprNode
+  | RecordExprNode
+  | StringConstantExprNode
+  | TupleExprNode
+  | UnitExprNode
+  | ValueExprNode;
   paramNodes: PatternNode[];
 }
 
@@ -532,26 +532,26 @@ export interface BlockCommentNode extends NamedNodeBase {
 export interface CaseOfBranchNode extends NamedNodeBase {
   type: SyntaxType.CaseOfBranch;
   exprNode:
-    | AnonymousFunctionExprNode
-    | BinOpExprNode
-    | CaseOfExprNode
-    | CharConstantExprNode
-    | FieldAccessExprNode
-    | FieldAccessorFunctionExprNode
-    | FunctionCallExprNode
-    | GlslCodeExprNode
-    | IfElseExprNode
-    | LetInExprNode
-    | ListExprNode
-    | NegateExprNode
-    | NumberConstantExprNode
-    | OperatorAsFunctionExprNode
-    | ParenthesizedExprNode
-    | RecordExprNode
-    | StringConstantExprNode
-    | TupleExprNode
-    | UnitExprNode
-    | ValueExprNode;
+  | AnonymousFunctionExprNode
+  | BinOpExprNode
+  | CaseOfExprNode
+  | CharConstantExprNode
+  | FieldAccessExprNode
+  | FieldAccessorFunctionExprNode
+  | FunctionCallExprNode
+  | GlslCodeExprNode
+  | IfElseExprNode
+  | LetInExprNode
+  | ListExprNode
+  | NegateExprNode
+  | NumberConstantExprNode
+  | OperatorAsFunctionExprNode
+  | ParenthesizedExprNode
+  | RecordExprNode
+  | StringConstantExprNode
+  | TupleExprNode
+  | UnitExprNode
+  | ValueExprNode;
   patternNode: PatternNode;
 }
 
@@ -559,26 +559,26 @@ export interface CaseOfExprNode extends NamedNodeBase {
   type: SyntaxType.CaseOfExpr;
   branchNodes: CaseOfBranchNode[];
   exprNode:
-    | AnonymousFunctionExprNode
-    | BinOpExprNode
-    | CaseOfExprNode
-    | CharConstantExprNode
-    | FieldAccessExprNode
-    | FieldAccessorFunctionExprNode
-    | FunctionCallExprNode
-    | GlslCodeExprNode
-    | IfElseExprNode
-    | LetInExprNode
-    | ListExprNode
-    | NegateExprNode
-    | NumberConstantExprNode
-    | OperatorAsFunctionExprNode
-    | ParenthesizedExprNode
-    | RecordExprNode
-    | StringConstantExprNode
-    | TupleExprNode
-    | UnitExprNode
-    | ValueExprNode;
+  | AnonymousFunctionExprNode
+  | BinOpExprNode
+  | CaseOfExprNode
+  | CharConstantExprNode
+  | FieldAccessExprNode
+  | FieldAccessorFunctionExprNode
+  | FunctionCallExprNode
+  | GlslCodeExprNode
+  | IfElseExprNode
+  | LetInExprNode
+  | ListExprNode
+  | NegateExprNode
+  | NumberConstantExprNode
+  | OperatorAsFunctionExprNode
+  | ParenthesizedExprNode
+  | RecordExprNode
+  | StringConstantExprNode
+  | TupleExprNode
+  | UnitExprNode
+  | ValueExprNode;
 }
 
 export interface CharConstantExprNode extends NamedNodeBase {
@@ -630,36 +630,36 @@ export interface ExposingListNode extends NamedNodeBase {
 export interface FieldNode extends NamedNodeBase {
   type: SyntaxType.Field;
   expressionNode:
-    | AnonymousFunctionExprNode
-    | BinOpExprNode
-    | CaseOfExprNode
-    | CharConstantExprNode
-    | FieldAccessExprNode
-    | FieldAccessorFunctionExprNode
-    | FunctionCallExprNode
-    | GlslCodeExprNode
-    | IfElseExprNode
-    | LetInExprNode
-    | ListExprNode
-    | NegateExprNode
-    | NumberConstantExprNode
-    | OperatorAsFunctionExprNode
-    | ParenthesizedExprNode
-    | RecordExprNode
-    | StringConstantExprNode
-    | TupleExprNode
-    | UnitExprNode
-    | ValueExprNode;
+  | AnonymousFunctionExprNode
+  | BinOpExprNode
+  | CaseOfExprNode
+  | CharConstantExprNode
+  | FieldAccessExprNode
+  | FieldAccessorFunctionExprNode
+  | FunctionCallExprNode
+  | GlslCodeExprNode
+  | IfElseExprNode
+  | LetInExprNode
+  | ListExprNode
+  | NegateExprNode
+  | NumberConstantExprNode
+  | OperatorAsFunctionExprNode
+  | ParenthesizedExprNode
+  | RecordExprNode
+  | StringConstantExprNode
+  | TupleExprNode
+  | UnitExprNode
+  | ValueExprNode;
   nameNode: LowerCaseIdentifierNode;
 }
 
 export interface FieldAccessExprNode extends NamedNodeBase {
   type: SyntaxType.FieldAccessExpr;
   targetNode:
-    | FieldAccessExprNode
-    | ParenthesizedExprNode
-    | RecordExprNode
-    | ValueExprNode;
+  | FieldAccessExprNode
+  | ParenthesizedExprNode
+  | RecordExprNode
+  | ValueExprNode;
 }
 
 export interface FieldAccessorFunctionExprNode extends NamedNodeBase {
@@ -700,11 +700,11 @@ export interface FunctionCallExprNode extends NamedNodeBase {
     | ValueExprNode
   )[];
   targetNode:
-    | FieldAccessExprNode
-    | FieldAccessorFunctionExprNode
-    | OperatorAsFunctionExprNode
-    | ParenthesizedExprNode
-    | ValueExprNode;
+  | FieldAccessExprNode
+  | FieldAccessorFunctionExprNode
+  | OperatorAsFunctionExprNode
+  | ParenthesizedExprNode
+  | ValueExprNode;
 }
 
 export interface FunctionDeclarationLeftNode extends NamedNodeBase {
@@ -773,26 +773,26 @@ export interface InfixDeclarationNode extends NamedNodeBase {
 export interface LetInExprNode extends NamedNodeBase {
   type: SyntaxType.LetInExpr;
   bodyNode:
-    | AnonymousFunctionExprNode
-    | BinOpExprNode
-    | CaseOfExprNode
-    | CharConstantExprNode
-    | FieldAccessExprNode
-    | FieldAccessorFunctionExprNode
-    | FunctionCallExprNode
-    | GlslCodeExprNode
-    | IfElseExprNode
-    | LetInExprNode
-    | ListExprNode
-    | NegateExprNode
-    | NumberConstantExprNode
-    | OperatorAsFunctionExprNode
-    | ParenthesizedExprNode
-    | RecordExprNode
-    | StringConstantExprNode
-    | TupleExprNode
-    | UnitExprNode
-    | ValueExprNode;
+  | AnonymousFunctionExprNode
+  | BinOpExprNode
+  | CaseOfExprNode
+  | CharConstantExprNode
+  | FieldAccessExprNode
+  | FieldAccessorFunctionExprNode
+  | FunctionCallExprNode
+  | GlslCodeExprNode
+  | IfElseExprNode
+  | LetInExprNode
+  | ListExprNode
+  | NegateExprNode
+  | NumberConstantExprNode
+  | OperatorAsFunctionExprNode
+  | ParenthesizedExprNode
+  | RecordExprNode
+  | StringConstantExprNode
+  | TupleExprNode
+  | UnitExprNode
+  | ValueExprNode;
   valueDeclarationNodes: ValueDeclarationNode[];
 }
 
@@ -869,43 +869,43 @@ export interface OperatorIdentifierNode extends NamedNodeBase {
 export interface ParenthesizedExprNode extends NamedNodeBase {
   type: SyntaxType.ParenthesizedExpr;
   expressionNode:
-    | AnonymousFunctionExprNode
-    | BinOpExprNode
-    | CaseOfExprNode
-    | CharConstantExprNode
-    | FieldAccessExprNode
-    | FieldAccessorFunctionExprNode
-    | FunctionCallExprNode
-    | GlslCodeExprNode
-    | IfElseExprNode
-    | LetInExprNode
-    | ListExprNode
-    | NegateExprNode
-    | NumberConstantExprNode
-    | OperatorAsFunctionExprNode
-    | ParenthesizedExprNode
-    | RecordExprNode
-    | StringConstantExprNode
-    | TupleExprNode
-    | UnitExprNode
-    | ValueExprNode;
+  | AnonymousFunctionExprNode
+  | BinOpExprNode
+  | CaseOfExprNode
+  | CharConstantExprNode
+  | FieldAccessExprNode
+  | FieldAccessorFunctionExprNode
+  | FunctionCallExprNode
+  | GlslCodeExprNode
+  | IfElseExprNode
+  | LetInExprNode
+  | ListExprNode
+  | NegateExprNode
+  | NumberConstantExprNode
+  | OperatorAsFunctionExprNode
+  | ParenthesizedExprNode
+  | RecordExprNode
+  | StringConstantExprNode
+  | TupleExprNode
+  | UnitExprNode
+  | ValueExprNode;
 }
 
 export interface PatternNode extends NamedNodeBase {
   type: SyntaxType.Pattern;
   childNode:
-    | AnythingPatternNode
-    | CharConstantExprNode
-    | ConsPatternNode
-    | ListPatternNode
-    | LowerPatternNode
-    | NumberConstantExprNode
-    | PatternNode
-    | RecordPatternNode
-    | StringConstantExprNode
-    | TuplePatternNode
-    | UnionPatternNode
-    | UnitExprNode;
+  | AnythingPatternNode
+  | CharConstantExprNode
+  | ConsPatternNode
+  | ListPatternNode
+  | LowerPatternNode
+  | NumberConstantExprNode
+  | PatternNode
+  | RecordPatternNode
+  | StringConstantExprNode
+  | TuplePatternNode
+  | UnionPatternNode
+  | UnitExprNode;
   patternAsNode?: LowerPatternNode;
 }
 
@@ -1066,26 +1066,26 @@ export interface UpperCaseQidNode extends NamedNodeBase {
 export interface ValueDeclarationNode extends NamedNodeBase {
   type: SyntaxType.ValueDeclaration;
   bodyNode:
-    | AnonymousFunctionExprNode
-    | BinOpExprNode
-    | CaseOfExprNode
-    | CharConstantExprNode
-    | FieldAccessExprNode
-    | FieldAccessorFunctionExprNode
-    | FunctionCallExprNode
-    | GlslCodeExprNode
-    | IfElseExprNode
-    | LetInExprNode
-    | ListExprNode
-    | NegateExprNode
-    | NumberConstantExprNode
-    | OperatorAsFunctionExprNode
-    | ParenthesizedExprNode
-    | RecordExprNode
-    | StringConstantExprNode
-    | TupleExprNode
-    | UnitExprNode
-    | ValueExprNode;
+  | AnonymousFunctionExprNode
+  | BinOpExprNode
+  | CaseOfExprNode
+  | CharConstantExprNode
+  | FieldAccessExprNode
+  | FieldAccessorFunctionExprNode
+  | FunctionCallExprNode
+  | GlslCodeExprNode
+  | IfElseExprNode
+  | LetInExprNode
+  | ListExprNode
+  | NegateExprNode
+  | NumberConstantExprNode
+  | OperatorAsFunctionExprNode
+  | ParenthesizedExprNode
+  | RecordExprNode
+  | StringConstantExprNode
+  | TupleExprNode
+  | UnitExprNode
+  | ValueExprNode;
   functionDeclarationLeftNode?: FunctionDeclarationLeftNode;
   patternNode?: PatternNode;
 }
