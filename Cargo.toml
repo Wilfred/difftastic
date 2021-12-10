@@ -7,7 +7,7 @@ authors = [
 
 ]
 homepage = "https://tree-sitter.github.io/tree-sitter/"
-repository = "https://github.com/Razzeee/tree-sitter-elm"
+repository = "https://github.com/elm-tooling/tree-sitter-elm"
 keywords = ["elm", "tree", "sitter", "parsing", "incremental"]
 categories = ["parser-implementations", "api-bindings", "text-editors", "parsing"]
 edition = "2018"
@@ -24,11 +24,11 @@ include = [
 # Keep in sync with package.json
 version = "5.3.7"
 
+[lib]
+path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.19.5"
+tree-sitter = "~0.20"
 
 [build-dependencies]
 cc = "1.0"
-[lib]
-path = "bindings/rust/lib.rs"
