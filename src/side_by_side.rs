@@ -4,6 +4,7 @@ use colored::{Color, Colorize};
 use std::{
     cmp::max,
     collections::{HashMap, HashSet},
+    env,
 };
 use terminal_size::terminal_size;
 
@@ -18,8 +19,17 @@ use crate::{
 
 const SPACER: &str = " ";
 
-fn term_width() -> Option<u16> {
-    terminal_size().map(|(w, _)| w.0)
+/// Choose the display width: honour environment variables, then try
+/// to autodetect, or fall back to a sensible default.
+fn display_width() -> usize {
+    // TODO: document in manual.
+    if let Ok(s) = env::var("DFT_WIDTH") {
+        if let Ok(i) = s.parse::<usize>() {
+            return i
+        }
+    }
+
+    terminal_size().map(|(w, _)| w.0 as usize).unwrap_or(80)
 }
 
 /// Split `s` by newlines, but guarantees that the output is nonempty.
@@ -239,12 +249,7 @@ pub fn display_hunks(
         let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let widths = Widths::new(
-            term_width().unwrap_or(80) as usize,
-            &aligned_lines,
-            lhs_src,
-            rhs_src,
-        );
+        let widths = Widths::new(display_width(), &aligned_lines, lhs_src, rhs_src);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let (display_lhs_line_num, display_rhs_line_num) = display_line_nums(
                 lhs_line_num,

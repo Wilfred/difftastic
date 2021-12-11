@@ -2,6 +2,9 @@
 
 ### Display
 
+Display width can now be overridden by setting the environment
+variable DFT_WIDTH.
+
 Fixed terminal width calculations on Windows.
 
 ### Build
