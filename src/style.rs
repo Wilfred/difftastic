@@ -45,9 +45,9 @@ fn split_string(s: &str, max_len: usize) -> Vec<String> {
     let mut res = vec![];
     let mut s = s;
 
-    while s.len() > max_len {
-        res.push(s[..max_len].into());
-        s = &s[max_len..];
+    while codepoint_len(s) > max_len {
+        res.push(substring_by_codepoint(s, 0, max_len).into());
+        s = substring_by_codepoint(s, max_len, codepoint_len(s));
     }
 
     if res.is_empty() || s != "" {
@@ -282,4 +282,20 @@ pub fn header(file_name: &str, hunk_num: usize, hunk_total: usize, language_name
         hunk_total,
         language_name
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use pretty_assertions::assert_eq;
+
+    #[test]
+    fn split_string_simple() {
+        assert_eq!(split_string("fooba", 3), vec!["foo", "ba "]);
+    }
+
+    #[test]
+    fn split_string_unicode() {
+        assert_eq!(split_string("ab📦def", 3), vec!["ab📦", "def"]);
+    }
 }
