@@ -87,6 +87,8 @@ by A* search.
 Display. Difftastic has a side-by-side display which usually works well, but can
 be confusing.
 
+Robustness. Difftastic regularly has releases that fix crashes.
+
 Diff accuracy. Some delimiter moves are currently ignored (see
 [#30](https://github.com/Wilfred/difftastic/issues/30)).
 
