@@ -481,6 +481,7 @@ module.exports = grammar({
     associated_type: $ => seq(
       'type',
       field('name', $._type_identifier),
+      field('type_parameters', optional($.type_parameters)),
       field('bounds', optional($.trait_bounds)),
       ';'
     ),
@@ -786,6 +787,7 @@ module.exports = grammar({
 
     type_binding: $ => seq(
       field('name', $._type_identifier),
+      field('type_arguments', optional($.type_arguments)),
       '=',
       field('type', $._type)
     ),
@@ -1450,7 +1452,7 @@ module.exports = grammar({
     self: $ => 'self',
     super: $ => 'super',
     crate: $ => 'crate',
-    
+
     metavariable: $ => /\$[a-zA-Z_]\w*/
   }
 })
