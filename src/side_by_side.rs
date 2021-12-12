@@ -1,5 +1,6 @@
 //! Side-by-side (two column) display of diffs.
 
+use any_terminal_size::any_terminal_size;
 use colored::{Color, Colorize};
 use std::{
     cmp::max,
@@ -28,7 +29,7 @@ fn display_width() -> usize {
         }
     }
 
-    term_size::dimensions().map(|(w, _)| w).unwrap_or(80)
+    any_terminal_size().map(|(w, _)| w.0 as usize).unwrap_or(80)
 }
 
 /// Split `s` by newlines, but guarantees that the output is nonempty.
