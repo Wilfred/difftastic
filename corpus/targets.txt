@@ -1,0 +1,22 @@
+==============
+Target groups
+==============
+
+if erlang {
+   import b
+}
+
+if javascript {
+   import a
+   import b
+}
+
+---
+
+(source_file
+  (target_group
+    target: (target)
+    body: (import))
+  (target_group
+    target: (target)
+    body: (import)))
