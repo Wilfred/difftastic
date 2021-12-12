@@ -25,7 +25,7 @@ fn display_width() -> usize {
     // TODO: document in manual.
     if let Ok(s) = env::var("DFT_WIDTH") {
         if let Ok(i) = s.parse::<usize>() {
-            return i
+            return i;
         }
     }
 
