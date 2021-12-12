@@ -30,6 +30,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "any_terminal_size"
+version = "0.1.17"
+source = "git+https://github.com/jessesna/any-terminal-size.git#7c4441091faab56742d03d6026766f067844ba78"
+dependencies = [
+ "libc",
+ "scopeguard",
+ "terminal_size",
+ "widestring",
+ "winapi",
+]
+
+[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -154,6 +166,7 @@ checksum = "0e25ea47919b1560c4e3b7fe0aaab9becf5b84a10325ddf7db0f0ba5e1026499"
 name = "difftastic"
 version = "0.14.0"
 dependencies = [
+ "any_terminal_size",
  "atty",
  "cc",
  "clap",
@@ -171,7 +184,6 @@ dependencies = [
  "regex",
  "rustc-hash",
  "strsim 0.10.0",
- "terminal_size",
  "tree-sitter",
  "typed-arena",
  "walkdir",
@@ -506,6 +518,12 @@ dependencies = [
  "winapi",
  "winapi-util",
 ]
+
+[[package]]
+name = "widestring"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "17882f045410753661207383517a6f62ec3dbeb6a4ed2acce01f0728238d1983"
 
 [[package]]
 name = "winapi"
