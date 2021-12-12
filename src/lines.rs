@@ -129,8 +129,8 @@ impl NewlinePositions {
     }
 }
 
-/// Return the length of `s` in codepoints. This ensures that it's
-/// safe to slice `s` at this boundary.
+/// Return the length of `s` in codepoints. This is important when
+/// finding character boundaries for slicing without errors.
 pub fn codepoint_len(s: &str) -> usize {
     s.chars().count()
 }
