@@ -96,6 +96,22 @@ exp(
   [=[
     string
     string
+  ]=],
+  [=[[string]]=],
+  [=[
+    [string]
+  ]=],
+  [=[
+    [string
+  ]=],
+  [=[
+    string]
+  ]=],
+  [=[
+    [[string
+  ]=],
+  [=[
+    string]]
   ]=]
 )
 
@@ -106,6 +122,12 @@ exp(
   (function_call
     name: (identifier)
     arguments: (arguments
+      (string)
+      (string)
+      (string)
+      (string)
+      (string)
+      (string)
       (string)
       (string)
       (string)

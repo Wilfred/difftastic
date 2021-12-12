@@ -17,6 +17,28 @@ print("block comment")
 print("not block comment")
 --]]
 
+--[=[[print("level 1 block comment")]]=]
+
+--[=[
+  [print("level 1 block comment")]
+]=]
+
+--[=[
+  [print("level 1 block comment")
+]=]
+
+--[=[
+  print("level 1 block comment")]
+]=]
+
+--[=[
+  [[print("level 1 block comment")
+]=]
+
+--[=[
+  print("level 1 block comment")]]
+]=]
+
 --[==[
 print("level 2 block comment")
 -- ]==]
@@ -41,6 +63,12 @@ print("not level 2 block comment")
     name: (identifier)
     arguments: (arguments
       (string)))
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
   (comment)
   (comment)
   (comment)

@@ -105,9 +105,9 @@ static bool scan_block_content(TSLexer *lexer) {
       if (scan_block_end(lexer)) {
         return true;
       }
+    } else {
+      consume(lexer);
     }
-
-    consume(lexer);
   }
 
   return false;
