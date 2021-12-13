@@ -31,10 +31,6 @@
         {
           "type": "type_hole",
           "named": true
-        },
-        {
-          "type": "type_var",
-          "named": true
         }
       ]
     }
@@ -75,10 +71,6 @@
           },
           {
             "type": "type_hole",
-            "named": true
-          },
-          {
-            "type": "type_var",
             "named": true
           }
         ]
@@ -239,10 +231,6 @@
           {
             "type": "type_hole",
             "named": true
-          },
-          {
-            "type": "type_var",
-            "named": true
           }
         ]
       },
@@ -301,10 +289,6 @@
         {
           "type": "type_hole",
           "named": true
-        },
-        {
-          "type": "type_var",
-          "named": true
         }
       ]
     }
@@ -335,10 +319,6 @@
         },
         {
           "type": "type_hole",
-          "named": true
-        },
-        {
-          "type": "type_var",
           "named": true
         }
       ]
@@ -468,10 +448,6 @@
         {
           "type": "type_hole",
           "named": true
-        },
-        {
-          "type": "type_var",
-          "named": true
         }
       ]
     }
@@ -503,16 +479,12 @@
         {
           "type": "type_hole",
           "named": true
-        },
-        {
-          "type": "type_var",
-          "named": true
         }
       ]
     }
   },
   {
-    "type": "type_var",
+    "type": "type_hole",
     "named": true,
     "fields": {}
   },
@@ -622,10 +594,6 @@
   },
   {
     "type": "string",
-    "named": true
-  },
-  {
-    "type": "type_hole",
     "named": true
   },
   {

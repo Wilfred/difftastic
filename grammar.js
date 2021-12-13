@@ -69,10 +69,37 @@ module.exports = grammar({
       seq(
         "const",
         field("name", alias($._name, $.identifier)),
-        optional($._type_annotation),
+        optional($._const_type_annotation),
         "=",
         field("value", $._literal)
       ),
+
+    /* Special constant types */
+    _const_type_annotation: ($) => seq(":", field("type", $._const_type)),
+    _const_type: ($) =>
+      choice(
+        $.type_hole,
+        alias($.const_tuple_type, $.tuple_type),
+        alias($.const_fn_type, $.fn_type),
+        alias($.const_type_constructor, $.type_constructor),
+        alias($.const_remote_type_constructor, $.remote_type_constructor)
+      ),
+    const_tuple_type: ($) =>
+      seq("#", "(", optional(series_of($._const_type, ",")), ")"),
+    const_fn_type: ($) =>
+      seq(
+        "fn",
+        "(",
+        series_of(alias($._const_type, $.argument_type), ","),
+        ")",
+        "->",
+        alias($._const_type, $.return_type)
+      ),
+    const_type_constructor: ($) => $._const_type_constructor,
+    const_remote_type_constructor: ($) =>
+      seq($._name, ".", $._const_type_constructor),
+    _const_type_constructor: ($) =>
+      seq($._upname, optional(seq("(", series_of($._const_type, ","), ")"))),
 
     /* Literals */
     _literal: ($) =>
@@ -93,31 +120,8 @@ module.exports = grammar({
     list: ($) => seq("[", series_of($._literal, ","), "]"),
 
     /* Types */
-    _type_annotation: ($) => seq(":", field("type", $._type)),
-    _type: ($) =>
-      choice(
-        alias($._discard_name, $.type_hole),
-        $.tuple_type,
-        $.fn_type,
-        $.type_constructor,
-        $.remote_type_constructor,
-        $.type_var
-      ),
-    tuple_type: ($) => seq("#", "(", optional(series_of($._type, ",")), ")"),
-    fn_type: ($) =>
-      seq(
-        "fn",
-        "(",
-        series_of(alias($._type, $.argument_type), ","),
-        ")",
-        "->",
-        alias($._type, $.return_type)
-      ),
-    type_constructor: ($) => $._type_constructor,
-    remote_type_constructor: ($) => seq($._name, ".", $._type_constructor),
-    _type_constructor: ($) =>
-      seq($._upname, optional(seq("(", series_of($._type, ","), ")"))),
     type_var: ($) => $._name,
+    type_hole: ($) => $._discard_name,
 
     /* Reused types from the Gleam lexer */
     _discard_name: ($) => /_[_0-9a-z]*/,
