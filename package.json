@@ -4,6 +4,7 @@
   "description": "A tree-sitter grammer for the Gleam programming language",
   "main": "bindings/node",
   "scripts": {
+    "generate": "tree-sitter generate",
     "test": "tree-sitter test",
     "format": "prettier --write grammar.js",
     "check-formatted": "prettier --check grammar.js"
