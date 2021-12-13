@@ -31,8 +31,9 @@ dependencies = [
 
 [[package]]
 name = "any_terminal_size"
-version = "0.1.17"
-source = "git+https://github.com/jessesna/any-terminal-size.git#7c4441091faab56742d03d6026766f067844ba78"
+version = "0.1.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e090036a3fe86e4c004ef17a7c19ee019d654a94451a030187c28c8b05a56fe5"
 dependencies = [
  "libc",
  "scopeguard",
