@@ -1,0 +1,79 @@
+==========
+Constants
+==========
+
+const a = "hello"
+const a:Int = 1234
+const a:Float = -1_234.53__23
+const a:#(Int, String) = #(1, "Hello!")
+const a:List(Int) = [1, 2]
+
+---
+
+(source_file
+  (constant
+    name: (identifier)
+    value: (string))
+  (constant
+    name: (identifier)
+    type: (type_constructor)
+    value: (integer))
+  (constant
+    name: (identifier)
+    type: (type_constructor)
+    value: (float))
+  (constant
+    name: (identifier)
+    type: (tuple_type
+      (type_constructor)
+      (type_constructor))
+    value: (tuple
+      (integer)
+      (string)))
+  (constant
+    name: (identifier)
+    type: (type_constructor
+      (type_constructor))
+    value: (list
+      (integer)
+      (integer))))
+
+=================
+Public constants
+=================
+
+pub const a = "hello"
+pub const a:Int = 1234
+pub const a:Float = -1_234.53__23
+pub const a:#(Int, String) = #(1, "Hello!")
+pub const a:List(Int) = [1, 2]
+
+---
+
+(source_file
+  (public_constant
+    name: (identifier)
+    value: (string))
+  (public_constant
+    name: (identifier)
+    type: (type_constructor)
+    value: (integer))
+  (public_constant
+    name: (identifier)
+    type: (type_constructor)
+    value: (float))
+  (public_constant
+    name: (identifier)
+    type: (tuple_type
+      (type_constructor)
+      (type_constructor))
+    value: (tuple
+      (integer)
+      (string)))
+  (public_constant
+    name: (identifier)
+    type: (type_constructor
+      (type_constructor))
+    value: (list
+      (integer)
+      (integer))))
