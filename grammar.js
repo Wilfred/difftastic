@@ -15,11 +15,12 @@ module.exports = grammar({
     _statement: ($) =>
       choice(
         $.import,
-        $.public_constant,
         $.constant,
+        $.public_constant,
         $.external_type,
-        $.external_function
-        /* $._public_extenal_type_or_function, */
+        $.public_external_type,
+        $.external_function,
+        $.public_external_function
         /* $.function, */
         /* $.public_function, */
         /* $.type, */
@@ -175,7 +176,9 @@ module.exports = grammar({
       ),
 
     /* External types */
-    external_type: ($) =>
+    public_external_type: ($) => seq("pub", $._external_type),
+    external_type: ($) => $._external_type,
+    _external_type: ($) =>
       seq(
         "external",
         "type",
@@ -188,7 +191,9 @@ module.exports = grammar({
       series_of(alias($._name, $.external_type_argument), ","),
 
     /* External functions */
-    external_function: ($) =>
+    public_external_function: ($) => seq("pub", $._external_function),
+    external_function: ($) => $._external_function,
+    _external_function: ($) =>
       seq(
         "external",
         "fn",
