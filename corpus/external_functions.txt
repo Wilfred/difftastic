@@ -1,0 +1,45 @@
+===================
+External functions
+===================
+
+external fn read_file(String) -> Result(String, Reason) =
+  "file" "open"
+external fn a(name: String) -> String = "x" "y"
+external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
+
+---
+
+(source_file
+  (external_function
+    name: (function_name)
+    parameters: (external_function_parameters
+      (external_function_parameter
+        type: (type_constructor)))
+    return_type: (type_constructor
+      (type_constructor)
+      (type_constructor))
+    body: (external_function_body
+      (string)
+      (string)))
+  (external_function
+    name: (function_name)
+    parameters: (external_function_parameters
+      (external_function_parameter
+        name: (identifier)
+        type: (type_constructor)))
+    return_type: (type_constructor)
+    body: (external_function_body
+      (string)
+      (string)))
+  (external_function
+    name: (function_name)
+    return_type: (tuple_type
+      (type_constructor
+        (type_constructor))
+      (function_type
+        parameter_types: (function_parameter_types
+          (type_constructor))
+        return_type: (type_constructor)))
+    body: (external_function_body
+      (string)
+      (string))))

@@ -13,10 +13,10 @@ This is, presently, very much a work-in-progress.
 - [x] `import` statements
 - [x] `const` statements
 - [x] `external type` statements
+- [x] `external fn` statements
 
 ## TODO
 
-- [ ] external function statements
 - [ ] public extenal function statements
 - [ ] public external type statements
 - [ ] function statements
