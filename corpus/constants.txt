@@ -7,6 +7,15 @@ const a:Int = 1234
 const a:Float = -1_234.53__23
 const a:#(Int, String) = #(1, "Hello!")
 const a:List(Int) = [1, 2]
+const a = <<3>>
+const a = <<0:4, 1:3, 1:1>>
+const a = <<3:size(8)>>
+const a = <<52:size(4)-unit(4)>>
+const a = <<"Hello Gleam 💫":utf8>>
+const a = Node
+const a = Node()
+const a = Node(name: "Billy", age: 52)
+const a = uri.Uri(host: "github.com")
 
 ---
 
@@ -36,7 +45,64 @@ const a:List(Int) = [1, 2]
       (type_constructor))
     value: (list
       (integer)
-      (integer))))
+      (integer)))
+  (constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer))))
+  (constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (constant_int)))
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (constant_int)))
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (constant_int)))))
+  (constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (bit_string_segment_option_size)))))
+  (constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (bit_string_segment_option_size)
+          (bit_string_segment_option_unit)))))
+  (constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (string)
+        options: (bit_string_segment_options
+          (bit_string_segment_option_utf8)))))
+  (constant
+    name: (identifier)
+    value: (record))
+  (constant
+    name: (identifier)
+    value: (record))
+  (constant
+    name: (identifier)
+    value: (record
+      (record_arg (string))
+      (record_arg (integer))))
+  (constant
+    name: (identifier)
+    value: (remote_record
+      (record_arg (string)))))
 
 =================
 Public constants
@@ -47,6 +113,15 @@ pub const a:Int = 1234
 pub const a:Float = -1_234.53__23
 pub const a:#(Int, String) = #(1, "Hello!")
 pub const a:List(Int) = [1, 2]
+pub const a = <<3>>
+pub const a = <<0:4, 1:3, 1:1>>
+pub const a = <<3:size(8)>>
+pub const a = <<52:size(4)-unit(4)>>
+pub const a = <<"Hello Gleam 💫":utf8>>
+pub const a = Node
+pub const a = Node()
+pub const a = Node(name: "Billy", age: 52)
+pub const a = uri.Uri(host: "github.com")
 
 ---
 
@@ -76,4 +151,61 @@ pub const a:List(Int) = [1, 2]
       (type_constructor))
     value: (list
       (integer)
-      (integer))))
+      (integer)))
+  (public_constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer))))
+  (public_constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (constant_int)))
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (constant_int)))
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (constant_int)))))
+  (public_constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (bit_string_segment_option_size)))))
+  (public_constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (integer)
+        options: (bit_string_segment_options
+          (bit_string_segment_option_size)
+          (bit_string_segment_option_unit)))))
+  (public_constant
+    name: (identifier)
+    value: (bit_string
+      (bit_string_segment
+        value: (string)
+        options: (bit_string_segment_options
+          (bit_string_segment_option_utf8)))))
+  (public_constant
+    name: (identifier)
+    value: (record))
+  (public_constant
+    name: (identifier)
+    value: (record))
+  (public_constant
+    name: (identifier)
+    value: (record
+      (record_arg (string))
+      (record_arg (integer))))
+  (public_constant
+    name: (identifier)
+    value: (remote_record
+      (record_arg (string)))))
