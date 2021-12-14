@@ -17,8 +17,8 @@ module.exports = grammar({
         $.import,
         $.public_constant,
         $.constant,
-        $.external_type
-        /* $.external_function, */
+        $.external_type,
+        $.external_function
         /* $._public_extenal_type_or_function, */
         /* $.function, */
         /* $.public_function, */
@@ -74,7 +74,7 @@ module.exports = grammar({
     _constant: ($) =>
       seq(
         "const",
-        field("name", alias($._name, $.identifier)),
+        field("name", $.identifier),
         optional($._constant_type_annotation),
         "=",
         field("value", $._constant_value)
@@ -169,7 +169,10 @@ module.exports = grammar({
     constant_remote_type_constructor: ($) =>
       seq($._name, ".", $._constant_type_constructor),
     _constant_type_constructor: ($) =>
-      seq($._upname, optional(seq("(", series_of($._constant_type, ","), ")"))),
+      seq(
+        $._upname,
+        optional(seq("(", optional(series_of($._constant_type, ",")), ")"))
+      ),
 
     /* External types */
     external_type: ($) =>
@@ -183,6 +186,29 @@ module.exports = grammar({
       ),
     external_type_arguments: ($) =>
       series_of(alias($._name, $.external_type_argument), ","),
+
+    /* External functions */
+    external_function: ($) =>
+      seq(
+        "external",
+        "fn",
+        field("name", alias($._name, $.function_name)),
+        "(",
+        optional(field("parameters", $.external_function_parameters)),
+        ")",
+        "->",
+        field("return_type", $._type),
+        "=",
+        field("body", $.external_function_body)
+      ),
+    external_function_parameters: ($) =>
+      series_of($.external_function_parameter, ","),
+    external_function_parameter: ($) =>
+      seq(
+        optional(seq(field("name", $.identifier), ":")),
+        field("type", $._type)
+      ),
+    external_function_body: ($) => seq($.string, $.string),
 
     /* Literals */
     _literal: ($) =>
@@ -241,13 +267,42 @@ module.exports = grammar({
       ),
 
     /* Types */
-    type_var: ($) => $._name,
+    _type: ($) =>
+      choice(
+        $.type_hole,
+        $.tuple_type,
+        $.function_type,
+        $.type_constructor,
+        $.remote_type_constructor,
+        $.type_var
+      ),
     type_hole: ($) => $._discard_name,
+    tuple_type: ($) => seq("#", "(", optional(series_of($._type, ",")), ")"),
+    function_type: ($) =>
+      seq(
+        "fn",
+        "(",
+        optional(field("parameter_types", $.function_parameter_types)),
+        ")",
+        "->",
+        field("return_type", $._type)
+      ),
+    function_parameter_types: ($) => series_of($._type, ","),
+    type_constructor: ($) => $._type_constructor,
+    remote_type_constructor: ($) => seq($._name, ".", $._type_constructor),
+    _type_constructor: ($) =>
+      seq(
+        $._upname,
+        optional(seq("(", optional(series_of($._type, ",")), ")"))
+      ),
+    type_var: ($) => $._name,
 
     /* Reused types from the Gleam lexer */
     _discard_name: ($) => /_[_0-9a-z]*/,
     _name: ($) => /[_a-z][_0-9a-z]*/,
     _upname: ($) => /[A-Z][0-9a-zA-Z]*/,
+    // Common alias becomes a real boy
+    identifier: ($) => $._name,
   },
 });
 
