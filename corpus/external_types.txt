@@ -1,0 +1,17 @@
+===============
+External types
+===============
+
+external type IODevice
+external type Map(key, value)
+
+---
+
+(source_file
+  (external_type
+    name: (type_name))
+  (external_type
+    name: (type_name)
+    arguments: (external_type_arguments
+      (external_type_argument)
+      (external_type_argument))))
