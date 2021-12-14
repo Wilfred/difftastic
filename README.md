@@ -14,11 +14,11 @@ This is, presently, very much a work-in-progress.
 - [x] `const` statements
 - [x] `external type` statements
 - [x] `external fn` statements
+- [x] public extenal function statements
+- [x] public external type statements
 
 ## TODO
 
-- [ ] public extenal function statements
-- [ ] public external type statements
 - [ ] function statements
 - [ ] public function statements
 - [ ] type statements
