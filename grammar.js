@@ -16,8 +16,8 @@ module.exports = grammar({
       choice(
         $.import,
         $.public_constant,
-        $.constant
-        /* $.external_type, */
+        $.constant,
+        $.external_type
         /* $.external_function, */
         /* $._public_extenal_type_or_function, */
         /* $.function, */
@@ -170,6 +170,19 @@ module.exports = grammar({
       seq($._name, ".", $._constant_type_constructor),
     _constant_type_constructor: ($) =>
       seq($._upname, optional(seq("(", series_of($._constant_type, ","), ")"))),
+
+    /* External types */
+    external_type: ($) =>
+      seq(
+        "external",
+        "type",
+        field("name", alias($._upname, $.type_name)),
+        optional(
+          field("arguments", seq("(", optional($.external_type_arguments), ")"))
+        )
+      ),
+    external_type_arguments: ($) =>
+      series_of(alias($._name, $.external_type_argument), ","),
 
     /* Literals */
     _literal: ($) =>
