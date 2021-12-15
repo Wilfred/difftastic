@@ -4778,6 +4778,10 @@
             "name": "declProc"
           },
           {
+            "type": "SYMBOL",
+            "name": "declProp"
+          },
+          {
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",

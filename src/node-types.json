@@ -5063,6 +5063,10 @@
           "named": true
         },
         {
+          "type": "declProp",
+          "named": true
+        },
+        {
           "type": "declTypes",
           "named": true
         },

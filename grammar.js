@@ -597,7 +597,7 @@ module.exports = grammar({
 		),
 
 		_declarations:   $ => repeat1(choice(
-			$.declTypes, $.declVars, $.declConsts, $.declProc, 
+			$.declTypes, $.declVars, $.declConsts, $.declProc, $.declProp,
 			alias($.declProcFwd, $.declProc),
 			$.declUses, $.declLabel, $.declExports
 		)),
