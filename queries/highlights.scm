@@ -62,11 +62,11 @@
   (float)
 ] @number
 
-(alias) @type
+(alias) @module
 
 (call
   target: (dot
-    left: (atom) @type))
+    left: (atom) @module))
 
 (char) @constant
 

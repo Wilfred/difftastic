@@ -56,7 +56,10 @@ bool is_inline_whitespace(int32_t c) {
 }
 
 bool is_newline(int32_t c) {
-  return c == '\n';
+  // Note: this implies \r\n is treated as two line breaks,
+  // but in our case it's fine, since multiple line breaks
+  // make no difference
+  return c == '\n' || c == '\r';
 }
 
 bool is_digit(int32_t c) {

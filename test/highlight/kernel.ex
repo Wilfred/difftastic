@@ -139,14 +139,14 @@ end
 
 raise RuntimeError, message: "This is not an error"
 # ^ keyword
-#     ^ type
+#     ^ module
 #                 ^ punctuation.delimiter
 #                   ^ string.special.symbol
 #                            ^ string
 
 import Kernel, except: [spawn: 1, +: 2, /: 2, Unless: 2]
 # ^ keyword
-#      ^ type
+#      ^ module
 #            ^ punctuation.delimiter
 #              ^ string.special.symbol
 #                      ^ punctuation.bracket
@@ -165,11 +165,11 @@ import Kernel, except: [spawn: 1, +: 2, /: 2, Unless: 2]
 
 alias Long.Module.Name, as: N0men123_and4
 # ^ keyword
-#     ^ type
+#     ^ module
 #                     ^ punctuation.delimiter
 #                       ^ string.special.symbol
-#                           ^ type
+#                           ^ module
 
 use Bitwise
 # ^ keyword
-#   ^ type
+#   ^ module
