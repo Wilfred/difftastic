@@ -1,0 +1,59 @@
+==========
+Functions
+==========
+
+fn add(x: Int, y: Int) -> Int {}
+fn twice(f: fn(t) -> t, x: t) -> t {}
+fn inferred_identity(x) {}
+fn replace(
+  in string: String,
+  each pattern: String,
+  with replacement: String
+) {}
+
+---
+
+(source_file
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)
+        type: (type_constructor))
+      (function_parameter
+        name: (identifier)
+        type: (type_constructor)))
+    return_type: (type_constructor))
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)
+        type: (function_type
+          parameter_types: (function_parameter_types
+            (type_var))
+          return_type: (type_var)))
+      (function_parameter
+        name: (identifier)
+        type: (type_var)))
+    return_type: (type_var))
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier))))
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        label: (identifier)
+        name: (identifier)
+        type: (type_constructor))
+      (function_parameter
+        label: (identifier)
+        name: (identifier)
+        type: (type_constructor))
+      (function_parameter
+        label: (identifier)
+        name: (identifier)
+        type: (type_constructor)))))
