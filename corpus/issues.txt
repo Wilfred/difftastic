@@ -1,0 +1,43 @@
+================================================================================
+#17 - Titles not detected after an empty inner list item (bullet point)
+================================================================================
+* a
+  * b
+  *
+
+
+# C
+
+--------------------------------------------------------------------------------
+
+(document
+  (list
+    (list_item
+      (list_marker_star)
+      (paragraph)
+      (list
+        (list_item
+          (list_marker_star)
+          (paragraph))
+        (list_item
+          (list_marker_star)))))
+  (atx_heading
+    (atx_h1_marker)
+    (heading_content)))
+
+================================================================================
+#18 - Error on markdown images
+================================================================================
+![img1](link1)
+![img2](link2)
+
+--------------------------------------------------------------------------------
+
+(document
+  (paragraph
+    (image
+      (image_description)
+      (link_destination))
+    (image
+      (image_description)
+      (link_destination))))

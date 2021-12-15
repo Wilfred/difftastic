@@ -803,6 +803,18 @@
               {
                 "type": "SYMBOL",
                 "name": "_close_block"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_ignore_matching_tokens"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               }
             ]
           }
@@ -9819,6 +9831,11 @@
     [
       "link_label",
       "_inline_element_no_link"
+    ],
+    [
+      "_image_description",
+      "_image_description_non_empty",
+      "_text_inline"
     ],
     [
       "_image_description",

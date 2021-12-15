@@ -323,7 +323,7 @@ module.exports = grammar(add_inline_rules({
         _list_item_parenthesis: $ => seq($.list_marker_parenthesis, optional($._ignore_matching_tokens), $._list_item_content, $._block_close, optional($._ignore_matching_tokens)),
 
         _list_item_content: $ => choice(
-            prec(1, seq($._blank_line, $._blank_line, $._close_block)),
+            prec(1, seq($._blank_line, $._blank_line, $._close_block, optional($._ignore_matching_tokens))),
             repeat1($._block),
         ),
 
