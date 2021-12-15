@@ -20,8 +20,8 @@ module.exports = grammar({
         $.external_type,
         $.public_external_type,
         $.external_function,
-        $.public_external_function
-        /* $.function, */
+        $.public_external_function,
+        $.function
         /* $.public_function, */
         /* $.type, */
         /* $.public_opaque_type, */
@@ -215,6 +215,38 @@ module.exports = grammar({
       ),
     external_function_body: ($) => seq($.string, $.string),
 
+    /* Functions */
+
+    function: ($) =>
+      seq(
+        "fn",
+        field("name", $.identifier),
+        "(",
+        optional(field("parameters", $.function_parameters)),
+        ")",
+        optional(seq("->", field("return_type", $._type))),
+        "{",
+        "}"
+      ),
+    function_parameters: ($) => series_of($.function_parameter, ","),
+    function_parameter: ($) =>
+      seq(
+        choice(
+          $._labelled_discard_param,
+          $._discard_param,
+          $._labelled_name_param,
+          $._name_param
+        ),
+        optional($._type_annotation)
+      ),
+
+    _labelled_discard_param: ($) =>
+      seq(field("label", $.identifier), $._discard_name),
+    _discard_param: ($) => $._discard_name,
+    _labelled_name_param: ($) =>
+      seq(field("label", $.identifier), field("name", $.identifier)),
+    _name_param: ($) => field("name", $.identifier),
+
     /* Literals */
     _literal: ($) =>
       choice(
@@ -281,6 +313,7 @@ module.exports = grammar({
         $.remote_type_constructor,
         $.type_var
       ),
+    _type_annotation: ($) => seq(":", field("type", $._type)),
     type_hole: ($) => $._discard_name,
     tuple_type: ($) => seq("#", "(", optional(series_of($._type, ",")), ")"),
     function_type: ($) =>
