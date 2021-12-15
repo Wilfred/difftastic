@@ -41,6 +41,7 @@
 
 [
  (text)
+ (string)
  (raw_text)
 ] @string
 

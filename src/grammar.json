@@ -1734,7 +1734,7 @@
               "name": "arg0",
               "content": {
                 "type": "SYMBOL",
-                "name": "_conditional_arg_cmp"
+                "name": "_primary"
               }
             },
             {
@@ -1742,63 +1742,8 @@
               "name": "arg1",
               "content": {
                 "type": "SYMBOL",
-                "name": "_conditional_arg_cmp"
+                "name": "_primary"
               }
-            }
-          ]
-        }
-      ]
-    },
-    "_conditional_arg_cmp": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "\""
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_primary"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "STRING",
-              "value": "\""
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "'"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_primary"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "STRING",
-              "value": "'"
             }
           ]
         }
@@ -2972,6 +2917,10 @@
         {
           "type": "SYMBOL",
           "name": "concatenation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
         }
       ]
     },
@@ -3005,6 +2954,92 @@
       "content": {
         "type": "SYMBOL",
         "name": "word"
+      }
+    },
+    "string": {
+      "type": "FIELD",
+      "name": "string",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\""
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_string"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "STRING",
+                "value": "\""
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "'"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_string"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "STRING",
+                "value": "'"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "_string": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_variable"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_function"
+          },
+          {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "([^'\"$\\r\\n\\\\]|\\\\\\\\|\\\\[^\\r\\n])+"
+              }
+            }
+          }
+        ]
       }
     },
     "word": {
@@ -3785,7 +3820,8 @@
     "_order_only_prerequisites",
     "_target_or_pattern_assignment",
     "_primary",
-    "_name"
+    "_name",
+    "_string"
   ],
   "supertypes": []
 }
