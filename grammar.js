@@ -1,57 +1,59 @@
-// Parsing markdown is hard, here's how this parser works:
-// (This is meant to implement the Github flavored markdown spec https://github.github.com/gfm/)
+// This is meant to implement the CommonMark spec https://spec.commonmark.org/.
+// To understand how this parser works it is useful to at least skim the specification. I will
+// sometimes refer to the Github falvored markdown spec (https://github.github.com/gfm/) instead,
+// which is just an extension of the CommonMark spec. Also it is important to understand
+// tree-sitters "conflicts".
 //
-// A markdown has a double tree structure. On the top level there are blocks, like
-// lists, block quotes, paragraphs, ..., then some of these blocks can contain inline
-// elements like emphasis, links, backslash escapes, ...
+// All code for this parser can be found in this file and in src/scanner.cc.
 //
-// Markdown can not be parsed by a traditional tree-sitter parser, but tree-sitter
-// offers to use an external "scanner" (or lexer, see src/scanner.cc) to inject some
-// hand-written C code into the parser. This parser tries to use this as little as
-// possible, in practice this means using the external scanner to parse:
+// There are 2 types of elements to parse: inline elments and block elements. Block elements
+// can contain other blocks and inline elements. Inline elements can contain other inline
+// elements.
 //
-// * All container blocks (besides list because they are just multiple list items)
-//   This is needed because at the start of each line we need to match all open blocks
-//   so we need to be able to look back on the parse stack arbitrarily far. Traditional
-//   tree-sitter parsers are not able to do this.
+// Each block element always spans a range of lines. A block can only end at the end of a line.
+// Block structure can also always be determined by just the beginning of the line. To this
+// first all open blocks get "matched" meaning that any tokens needed to keep a block open get
+// parsed e.g. the ">" for block quotes. If matching fails that does not automatically mean
+// that the block closes on this line. It could also be a lazy continuation. After matching new
+// blocks can be opened. More documentation about the matching process can be found in the
+// external scanner.
 //
-// * Some leaf blocks
-//   The design of this parser has actually changed so that most leaf blocks _could_
-//   be parsed by traditional rules, but in the initial version they were not and it
-//   would take a lot of time to implement this
+// Lazy continuations can happen after any newline while in a paragraph and the following line
+// can be interpreted as part of the paragraph. E.g. 
 //
-// * Code spans
-//   Code span delimiters have an arbitrary ammount of backticks ('`'), which must
-//   match between opening and closing delimiters. Maybe this would be possible to
-//   do as an traditional tree-sitter rule, but it would be VERY ugly.
+// > foo
+// bar
 //
-// * Emphasis delimiters
-//   Parsing of emphasis delimiters depends on the character before and after a run
-//   of '*'s or '_'s, so we need more context than tree-sitter rules offer.
+// Is just one paragraph inside a block quote. In essence this means that to check if a newline
+// can be a lazy continuation we need to check if it starts with a token that can open a new block
+// If yes then it cannot be a lazy continuation as in
 //
-// Matching is done in 2 stages: First we try to match all open blocks, if we don't
-// manage to do so and cannot emit a lazy continuation (since we are not in a paragraph)
-// we close all unmatched blocks.
-// If we can emit a lazy continuation we still need to split the parser state to check
-// that the line does not start with a new block.
+// > foo
+// # bar
 //
-// A lot of inlines work like this: If we match an opening token, like a '`' or '<!--'
-// this could either be text or the start of a new inline. Because of this we have to 
-// split the parser state (meaning we purposefully introduce a conflict between
-// $._text_inline and the inline).
-// This could be error prone as new blocks that start in a potential inline might not
-// get matched so we have to be very carefull with dynamic precedence.
+// otherwise it can be. This is done by intentionally triggering a "conflict" so the parser gets
+// split into two versions. Version 1 (see `$._soft_line_break`) assumes that the newline was a
+// lazy continuation. It still tries to match new blocks. If it manages to we know that the newline
+// was not a lazy continuation, so we trigger an error such that the parser version gets canceled.
 //
-// Emphasis is not yet implemented but it will be a bit more complicated.
-// For example in '*foo *bar*' only 'bar' should be emphasized (see the spec for more info).
-// (Links could also have the same problem but I have not yet thought about that)
+// Version 2 (see `$._paragraph_end_newline`) assumes that the newline was not a lazy continuation
+// and closes the paragraph. If it does not open a new block until the next newline we trigger an
+// error, since the newline was actually a lazy continuation.
 //
-// I implemented the following tactic: Whenever we encounter a delimiter - lets say a '*' -
-// and it is possible that this is a closing delimiter, it has to be a closing delimiter.
-// If it can only be a opening delimiter we split the parser state as before, but as soon
-// as we hit a second opening delimiter (and the previous one has not been closed). We know
-// that this second delimiter MUST be part of a complete emphasis, if the first delimiter
-// is part of a complete emphasis.
+//
+//
+// The logic for inline structure is mostly independent of block structure. Most inline elements
+// are easier to parse and do not require the external scanner or conflicts. The exception are
+// inline elements that can contain other inline elements like emphasis and links. For this we
+// first match the opening delimiter. We then need to split the parser state into 2 versions as
+// we do not know yet if there is a closing delimiter, and if not we need to treat this opening
+// delimiter as normal text. This is a very straightforward usage of tree-sitter conflicts, it
+// just requires some fine tuning in dynamic precedences (see the `PRECEDENCE_LEVEL_...` constants
+// below).
+//
+// Delimiters for emphasis need the external parser, since wether a `*` can open or close emphasis
+// depends on the characters around the star. Normal tree-sitter rules can not provide this kind of
+// lookahead.
 
 // A file with all html entities, should be kept up to date with
 // https://html.spec.whatwg.org/multipage/entities.json
@@ -63,12 +65,14 @@ const PUNCTUATION_CHARACTERS = '!-/:-@\\[-`\\{-~';
 const PUNCTUATION_CHARACTERS_ARRAY = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'];
 
 
-// Regexes for html tags. A html tag for a html block may not be a '<pre', '<script' or
-// '<style' tag, so we need to deny these names by making a cracy complex regex. 
+// Regexes for html tags. A html tag for a html block (rule 7 in the spec) may not have a tag name
+// in EXCULUSION_ARRAY.
 const EXCULUSION_ARRAY = ['pre', 'script', 'style', 'address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul'];
 const HTML_OPEN_TAG_EXCLUDE = '<' + negative_regex(EXCULUSION_ARRAY, '0-9\\-', true) + '([ \\t]+[a-zA-Z_:][a-zA-Z0-9_\\.:\\-]*[ \\t]*=[ \\t]*([^ \\t\\r\\n"\'=<>`]+|\'[^\'\\r\\n]*\'|"[^"\\r\\n]*"))*[ \\t]*/?>';
 const HTML_CLOSING_TAG_EXCLUDE = '</' + negative_regex(EXCULUSION_ARRAY, '0-9\\-', true) + '[ \\t]*>';
 
+// Precedence levels for different types of inline elements. Ideally n * PRECEDENCE_LEVEL_LINK should
+// for example alwys be larger than PRECEDENCE_LEVEL_EMPHASIS. The exact value is not very important.
 const PRECEDENCE_LEVEL_EMPHASIS = 1;
 const PRECEDENCE_LEVEL_LINK = 10;
 const PRECEDENCE_LEVEL_HTML = 100;
@@ -202,8 +206,6 @@ module.exports = grammar(add_inline_rules({
         [$.link_label, $._open_tag, $._text_inline_no_link],
         [$.link_label, $.hard_line_break, $._text_inline_no_link],
         [$.link_label, $._inline_element_no_link],
-        [$._image_description, $._text_inline],
-        [$._image_description_non_empty, $._text_inline],
         [$._image_description, $._image_description_non_empty, $._text_inline],
         [$._image_description, $._image_description_non_empty, $._text_inline_no_star],
         [$._image_description, $._image_description_non_empty, $._text_inline_no_underscore],
@@ -451,8 +453,8 @@ module.exports = grammar(add_inline_rules({
 
         _link_text: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, choice($._link_text_non_empty, seq('[', ']'))),
         _link_text_non_empty: $ => seq('[', alias($._inline_no_link, $.link_text), ']'),
-        _image_description: $ => prec.dynamic(3 * PRECEDENCE_LEVEL_LINK, choice($._image_description_non_empty, seq('!', '[', ']'))),
-        _image_description_non_empty: $ => seq('!', '[', alias($._inline, $.image_description), ']'),
+        _image_description: $ => prec.dynamic(3 * PRECEDENCE_LEVEL_LINK, choice($._image_description_non_empty, seq('!', '[', prec(1, ']')))),
+        _image_description_non_empty: $ => seq('!', '[', alias($._inline, $.image_description), prec(1, ']')),
         link_label: $ => seq('[', repeat1(choice($._text_inline_no_link, $.backslash_escape, $._newline)), ']'),
         link_destination: $ => prec.dynamic(PRECEDENCE_LEVEL_LINK, choice(
             seq('<', repeat(choice($._text_no_angle, $.backslash_escape)), '>'),

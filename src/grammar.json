@@ -3708,8 +3708,12 @@
                 "value": "["
               },
               {
-                "type": "STRING",
-                "value": "]"
+                "type": "PREC",
+                "value": 1,
+                "content": {
+                  "type": "STRING",
+                  "value": "]"
+                }
               }
             ]
           }
@@ -3737,8 +3741,12 @@
           "value": "image_description"
         },
         {
-          "type": "STRING",
-          "value": "]"
+          "type": "PREC",
+          "value": 1,
+          "content": {
+            "type": "STRING",
+            "value": "]"
+          }
         }
       ]
     },
@@ -9811,19 +9819,6 @@
     [
       "link_label",
       "_inline_element_no_link"
-    ],
-    [
-      "_image_description",
-      "_text_inline"
-    ],
-    [
-      "_image_description_non_empty",
-      "_text_inline"
-    ],
-    [
-      "_image_description",
-      "_image_description_non_empty",
-      "_text_inline"
     ],
     [
       "_image_description",
