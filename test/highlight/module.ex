@@ -1,7 +1,7 @@
 defmodule Long.Module.Name do
 # ^ keyword
-#         ^ type
-#             ^ type
+#         ^ module
+#             ^ module
 #                          ^ keyword
 
   @moduledoc "Simple doc"
@@ -80,7 +80,7 @@ defmodule Long.Module.Name do
   # ^ attribute
   #     ^ variable
   #          ^ operator
-  #             ^ type
+  #             ^ module
   #                   ^ operator
   #                    ^ function
   #                     ^ punctuation.bracket
@@ -256,7 +256,7 @@ defmodule Long.Module.Name do
   #                      ^ punctuation.bracket
   #                       ^ punctuation.delimiter
   #                         ^ string.special.symbol
-  #                             ^ type
+  #                             ^ module
 
   defmacro meta_function(name) do
   # ^ keyword
@@ -297,7 +297,7 @@ end
 
 defprotocol Useless do
 # ^ keyword
-#           ^ type
+#           ^ module
 #                   ^ keyword
   def func(this)
   # ^ keyword
@@ -310,10 +310,10 @@ end
 
 defimpl Useless, for: Atom do
 # ^ keyword
-#       ^ type
+#       ^ module
 #              ^ punctuation.delimiter
 #                ^ string.special.symbol
-#                     ^ type
+#                     ^ module
 #                           ^ keyword
 end
 # <- keyword

@@ -1,5 +1,5 @@
 Path.expand("..", __DIR__)
-# ^ type
+# ^ module
 #   ^ operator
 #    ^ function
 #          ^ punctuation.bracket
@@ -35,7 +35,7 @@ hd([1,2])
 #       ^ punctuation.bracket
 
 Kernel.spawn(fn -> :ok end)
-# ^ type
+# ^ module
 #     ^ operator
 #      ^ function
 #           ^ punctuation.bracket
@@ -46,12 +46,12 @@ Kernel.spawn(fn -> :ok end)
 #                         ^ punctuation.bracket
 
 IO.ANSI.black
-# ^ type
+# ^ module
 #      ^ operator
 #       ^ function
 
 Kernel.-(number)
-# ^ type
+# ^ module
 #     ^ operator
 #      ^ operator
 #       ^ punctuation.bracket
@@ -59,7 +59,7 @@ Kernel.-(number)
 #              ^ punctuation.bracket
 
 Enum.map([1, 2], fn x ->
-# ^ type
+# ^ module
 #   ^ operator
 #    ^ function
 #       ^ punctuation.bracket
@@ -81,7 +81,7 @@ end)
 #  ^ punctuation.bracket
 
 :erlang.abs(-1)
-# ^ type
+# ^ module
 #      ^ operator
 #       ^ function
 #          ^ punctuation.bracket

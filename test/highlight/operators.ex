@@ -75,10 +75,10 @@ y = true and false
 "hello" |> String.upcase |> String.downcase()
 # ^ string
 #       ^ operator
-#          ^ type
+#          ^ module
 #                ^ operator
 #                 ^ function
 #                        ^ operator
-#                           ^ type
+#                           ^ module
 #                                 ^ operator
 #                                  ^ function

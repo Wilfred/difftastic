@@ -43,7 +43,7 @@ end
 
 &Set.put(&1, &2)
 # <- operator
-# ^ type
+# ^ module
 #   ^ operator
 #    ^ function
 #       ^ punctuation.bracket
@@ -55,7 +55,7 @@ end
 &( Set.put(&1, &1) )
 #<- operator
 #^ punctuation.bracket
-#  ^ type
+#  ^ module
 #     ^ operator
 #      ^ function
 #         ^ punctuation.bracket

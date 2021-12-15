@@ -160,8 +160,8 @@
 
 %Long.Module.Name{name: "Silly"}
 # <- punctuation
-# ^ type
-#    ^ type
+# ^ module
+#    ^ module
 #                ^ punctuation.bracket
 #                 ^ string.special.symbol
 #                       ^ string
@@ -169,7 +169,7 @@
 
 %Long.Module.Name{s | height: {192, :cm}}
 # <- punctuation
-# ^ type
+# ^ module
 #                ^ punctuation.bracket
 #                 ^ variable
 #                   ^ operator
@@ -185,7 +185,7 @@
 # ^ string
 #   ^ punctuation.special
 #     ^ punctuation
-#      ^ type
+#      ^ module
 #                      ^ punctuation.bracket
 #                       ^ variable
 #                         ^ operator

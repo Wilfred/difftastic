@@ -5,7 +5,7 @@ _018OP
 # ^ comment.unused
 
 A__0
-# ^ type
+# ^ module
 
 __MODULE__ ; __STACKTRACE__
 # ^ constant.builtin
