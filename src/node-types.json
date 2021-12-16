@@ -179,6 +179,10 @@
           "named": true
         },
         {
+          "type": "string",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -760,6 +764,10 @@
             "named": true
           },
           {
+            "type": "string",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -780,17 +788,9 @@
     "named": true,
     "fields": {
       "arg0": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "'",
-            "named": false
-          },
           {
             "type": "archive",
             "named": true
@@ -809,6 +809,10 @@
           },
           {
             "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
             "named": true
           },
           {
@@ -826,17 +830,9 @@
         ]
       },
       "arg1": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "'",
-            "named": false
-          },
           {
             "type": "archive",
             "named": true
@@ -855,6 +851,10 @@
           },
           {
             "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
             "named": true
           },
           {
@@ -902,6 +902,10 @@
             "named": true
           },
           {
+            "type": "string",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -922,17 +926,9 @@
     "named": true,
     "fields": {
       "arg0": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "'",
-            "named": false
-          },
           {
             "type": "archive",
             "named": true
@@ -951,6 +947,10 @@
           },
           {
             "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
             "named": true
           },
           {
@@ -968,17 +968,9 @@
         ]
       },
       "arg1": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": "'",
-            "named": false
-          },
           {
             "type": "archive",
             "named": true
@@ -997,6 +989,10 @@
           },
           {
             "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
             "named": true
           },
           {
@@ -1057,6 +1053,10 @@
         },
         {
           "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -1201,6 +1201,10 @@
           "named": true
         },
         {
+          "type": "string",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -1244,6 +1248,10 @@
           "named": true
         },
         {
+          "type": "string",
+          "named": true
+        },
+        {
           "type": "substitution_reference",
           "named": true
         },
@@ -1284,6 +1292,10 @@
         },
         {
           "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -1548,6 +1560,46 @@
     }
   },
   {
+    "type": "string",
+    "named": true,
+    "fields": {
+      "string": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": "'",
+            "named": false
+          },
+          {
+            "type": "automatic_variable",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "substitution_reference",
+            "named": true
+          },
+          {
+            "type": "variable_reference",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "substitution_reference",
     "named": true,
     "fields": {
@@ -1573,6 +1625,10 @@
           },
           {
             "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
             "named": true
           },
           {
@@ -1614,6 +1670,10 @@
             "named": true
           },
           {
+            "type": "string",
+            "named": true
+          },
+          {
             "type": "substitution_reference",
             "named": true
           },
@@ -1649,6 +1709,10 @@
           },
           {
             "type": "shell_function",
+            "named": true
+          },
+          {
+            "type": "string",
             "named": true
           },
           {
@@ -1693,6 +1757,10 @@
         },
         {
           "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -1865,6 +1933,10 @@
         },
         {
           "type": "shell_function",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {

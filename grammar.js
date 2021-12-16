@@ -62,6 +62,7 @@ module.exports = grammar({
 
         $._primary,
         $._name,
+        $._string,
     ],
 
     extras: $ => [
@@ -375,7 +376,6 @@ module.exports = grammar({
         ),
 
         _conditional_args_cmp: $ => choice(
-            // (arg0,arg1)
             seq(
                 '(',
                 optional(field('arg0', $._primary)),
@@ -383,20 +383,12 @@ module.exports = grammar({
                 optional(field('arg1', $._primary)),
                 ')'
             ),
-            // 'arg0' 'arg1'
-            // "arg0" "arg1"
-            // 'arg0' 'arg1'
-            // 'arg0' "arg1"
             seq(
-                field('arg0', $._conditional_arg_cmp),
-                field('arg1', $._conditional_arg_cmp),
+                field('arg0', $._primary),
+                field('arg1', $._primary),
             ),
         ),
 
-        _conditional_arg_cmp: $ => choice(
-            seq('"', optional($._primary), '"'),
-            seq("'", optional($._primary), "'"),
-        ),
         // }}}
         // Variables {{{
         _variable: $ => choice(
@@ -507,6 +499,7 @@ module.exports = grammar({
             $._variable,
             $._function,
             $.concatenation,
+            $.string,
         ),
 
         concatenation: $ => prec.right(seq(
@@ -516,6 +509,17 @@ module.exports = grammar({
         // }}}
         // Names {{{
         _name: $ => field('name',$.word),
+
+        string: $ => field('string',choice(
+            seq('"', optional($._string), '"'),
+            seq("'", optional($._string), "'"),
+        )),
+
+        _string: $ => repeat1(choice(
+            $._variable,
+            $._function,
+            token(prec(-1,/([^'"$\r\n\\]|\\\\|\\[^\r\n])+/)),
+        )),
 
         word: $ => token(repeat1(choice(
             new RegExp ('['+CHARSET+']'),
