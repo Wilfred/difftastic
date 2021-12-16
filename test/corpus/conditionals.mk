@@ -1,7 +1,7 @@
 =======================================
 Conditionals, ifeq, ifneq, ifdef, ifdef
 =======================================
-ifeq (arg0, arg1)
+ifeq ("string $(sort 1 2 3)", 'string ${VAR}')
 endif
 
 ifneq (arg0, arg1)
@@ -18,8 +18,13 @@ endif
 (makefile
   (conditional
     condition: (ifeq_directive
-      arg0: (word)
-      arg1: (word)))
+			arg0: (string
+				string: (function_call
+					(arguments
+						argument: (text))))
+			arg1: (string
+				string: (variable_reference
+					(word)))))
   (conditional
     condition: (ifneq_directive
       arg0: (word)
@@ -56,8 +61,8 @@ endif
 (makefile
   (conditional
     condition: (ifeq_directive
-      arg0: (word)
-      arg1: (word))))
+      arg0: (string)
+      arg1: (string))))
 
 ========================================
 Conditionals, double quote, double quote
@@ -70,8 +75,8 @@ endif
 (makefile
   (conditional
     condition: (ifeq_directive
-      arg0: (word)
-      arg1: (word))))
+      arg0: (string)
+      arg1: (string))))
 
 ========================================
 Conditionals, double quote, single quote
@@ -84,8 +89,8 @@ endif
 (makefile
   (conditional
     condition: (ifeq_directive
-      arg0: (word)
-      arg1: (word))))
+      arg0: (string)
+      arg1: (string))))
 
 ========================================
 Conditionals, single quote, double quote
@@ -98,8 +103,8 @@ endif
 (makefile
   (conditional
     condition: (ifeq_directive
-      arg0: (word)
-      arg1: (word))))
+      arg0: (string)
+      arg1: (string))))
 
 ======================================
 Conditionals, else
