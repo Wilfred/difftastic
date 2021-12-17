@@ -19,11 +19,11 @@ fn replace(
     parameters: (function_parameters
       (function_parameter
         name: (identifier)
-        type: (type_constructor))
+        type: (type))
       (function_parameter
         name: (identifier)
-        type: (type_constructor)))
-    return_type: (type_constructor))
+        type: (type)))
+    return_type: (type))
   (function
     name: (identifier)
     parameters: (function_parameters
@@ -48,12 +48,12 @@ fn replace(
       (function_parameter
         label: (identifier)
         name: (identifier)
-        type: (type_constructor))
+        type: (type))
       (function_parameter
         label: (identifier)
         name: (identifier)
-        type: (type_constructor))
+        type: (type))
       (function_parameter
         label: (identifier)
         name: (identifier)
-        type: (type_constructor)))))
+        type: (type)))))

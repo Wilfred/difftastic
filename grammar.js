@@ -161,19 +161,28 @@ module.exports = grammar({
       choice(
         $.type_hole,
         alias($.constant_tuple_type, $.tuple_type),
-        alias($.constant_type_constructor, $.type_constructor),
-        alias($.constant_remote_type_constructor, $.remote_type_constructor)
+        $._constant_type_name,
+        $._constant_remote_type_name
       ),
     constant_tuple_type: ($) =>
       seq("#", "(", optional(series_of($._constant_type, ",")), ")"),
-    constant_type_constructor: ($) => $._constant_type_constructor,
-    constant_remote_type_constructor: ($) =>
-      seq($._name, ".", $._constant_type_constructor),
-    _constant_type_constructor: ($) =>
-      seq(
-        $._upname,
-        optional(seq("(", optional(series_of($._constant_type, ",")), ")"))
+    _constant_type_name: ($) =>
+      choice(
+        alias($.constant_type_constructor, $.type_constructor),
+        alias($.constant_type, $.type)
       ),
+    _constant_remote_type_name: ($) =>
+      seq(
+        $._name,
+        ".",
+        choice(
+          alias($.constant_type_constructor, $.remote_type_constructor),
+          alias($.constant_type, $.remote_type)
+        )
+      ),
+    constant_type_constructor: ($) =>
+      seq($._upname, "(", optional(series_of($._constant_type, ",")), ")"),
+    constant_type: ($) => $._upname,
 
     /* External types */
     public_external_type: ($) => seq("pub", $._external_type),
@@ -309,8 +318,8 @@ module.exports = grammar({
         $.type_hole,
         $.tuple_type,
         $.function_type,
-        $.type_constructor,
-        $.remote_type_constructor,
+        $._type_name,
+        $._remote_type_name,
         $.type_var
       ),
     _type_annotation: ($) => seq(":", field("type", $._type)),
@@ -326,13 +335,19 @@ module.exports = grammar({
         field("return_type", $._type)
       ),
     function_parameter_types: ($) => series_of($._type, ","),
-    type_constructor: ($) => $._type_constructor,
-    remote_type_constructor: ($) => seq($._name, ".", $._type_constructor),
-    _type_constructor: ($) =>
+    _type_name: ($) => choice($.type_constructor, $.type),
+    _remote_type_name: ($) =>
       seq(
-        $._upname,
-        optional(seq("(", optional(series_of($._type, ",")), ")"))
+        $._name,
+        ".",
+        choice(
+          alias($.type_constructor, $.remote_type_constructor),
+          alias($.type, $.remote_type)
+        )
       ),
+    type_constructor: ($) =>
+      seq($._upname, seq("(", optional(series_of($._type, ",")), ")")),
+    type: ($) => $._upname,
     type_var: ($) => $._name,
 
     /* Common alias becomes a real boy */
