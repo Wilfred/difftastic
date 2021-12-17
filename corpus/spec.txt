@@ -1597,7 +1597,8 @@ end
 
 (document
   (fenced_code_block
-    (info_string)
+    (info_string
+      (language))
     (code_fence_content)))
 
 ================================================================================
@@ -1613,7 +1614,8 @@ end
 
 (document
   (fenced_code_block
-    (info_string)
+    (info_string
+      (language))
     (code_fence_content)))
 
 ================================================================================
@@ -1626,7 +1628,8 @@ Example 114 - https://github.github.com/gfm/#example-114
 
 (document
   (fenced_code_block
-    (info_string)))
+    (info_string
+      (language))))
 
 ================================================================================
 Example 115 - https://github.github.com/gfm/#example-115
@@ -1651,7 +1654,8 @@ foo
 
 (document
   (fenced_code_block
-    (info_string)
+    (info_string
+      (language))
     (code_fence_content)))
 
 ================================================================================
@@ -4920,7 +4924,8 @@ foo
 (document
   (fenced_code_block
     (info_string
-      (backslash_escape))
+      (language
+        (backslash_escape)))
     (code_fence_content)))
 
 ================================================================================
@@ -5067,8 +5072,9 @@ foo
 (document
   (fenced_code_block
     (info_string
-      (entity_reference)
-      (entity_reference))
+      (language
+        (entity_reference)
+        (entity_reference)))
     (code_fence_content)))
 
 ================================================================================

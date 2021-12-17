@@ -666,6 +666,10 @@
           "named": true
         },
         {
+          "type": "language",
+          "named": true
+        },
+        {
           "type": "numeric_character_reference",
           "named": true
         }
@@ -714,6 +718,29 @@
         },
         {
           "type": "thematic_break",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "language",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "backslash_escape",
+          "named": true
+        },
+        {
+          "type": "entity_reference",
+          "named": true
+        },
+        {
+          "type": "numeric_character_reference",
           "named": true
         }
       ]

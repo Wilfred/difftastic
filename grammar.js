@@ -188,6 +188,7 @@ module.exports = grammar(add_inline_rules({
         $._trigger_error,
     ],
     precedences: $ => [
+        [$.fenced_code_block, $._text],
         [$._inline_element, $.paragraph],
         [$.setext_heading, $._block],
         [$.indented_code_block, $._block],
@@ -330,6 +331,7 @@ module.exports = grammar(add_inline_rules({
         fenced_code_block: $ => prec.right(choice(
             seq(
                 $._fenced_code_block_start_backtick,
+                optional($._whitespace),
                 optional($.info_string),
                 $._newline,
                 optional($.code_fence_content),
@@ -338,6 +340,7 @@ module.exports = grammar(add_inline_rules({
             ),
             seq(
                 $._fenced_code_block_start_tilde,
+                optional($._whitespace),
                 optional($.info_string),
                 $._newline,
                 optional($.code_fence_content),
@@ -346,7 +349,11 @@ module.exports = grammar(add_inline_rules({
             ),
         )),
         code_fence_content: $ => repeat1(choice($._newline, $._text)),
-        info_string: $ => repeat1(choice($._text, $.backslash_escape, $.entity_reference, $.numeric_character_reference)),
+        info_string: $ => choice(
+            seq($.language, repeat(choice($._text, $.backslash_escape, $.entity_reference, $.numeric_character_reference))),
+            repeat1(choice($._text, $.backslash_escape, $.entity_reference, $.numeric_character_reference)),
+        ),
+        language: $ => prec.right(repeat1(prec(1, choice($._word, punctuation_without($, []), $.backslash_escape, $.entity_reference, $.numeric_character_reference)))), 
 
         _html_block_1: $ => build_html_block($, new RegExp('<' + regex_case_insensitive_list(['script', 'style', 'pre']) + '([\\r\\n]|[ \\t>][^<\\r\\n]*(\\n|\\r\\n?)?)'), new RegExp('</' + regex_case_insensitive_list(['script', 'style', 'pre']) + '>'), true),
         _html_block_2: $ => build_html_block($, '<!--', '-->', true),
