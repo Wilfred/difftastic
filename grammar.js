@@ -335,12 +335,12 @@ module.exports = grammar({
       ),
     type_var: ($) => $._name,
 
+    /* Common alias becomes a real boy */
+    identifier: ($) => $._name,
     /* Reused types from the Gleam lexer */
     _discard_name: ($) => /_[_0-9a-z]*/,
     _name: ($) => /[_a-z][_0-9a-z]*/,
     _upname: ($) => /[A-Z][0-9a-zA-Z]*/,
-    // Common alias becomes a real boy
-    identifier: ($) => $._name,
   },
 });
 
