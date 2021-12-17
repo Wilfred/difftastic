@@ -92,8 +92,9 @@ module.exports = grammar({
         alias($._constant_remote_record, $.remote_record)
       ),
     _constant_tuple: ($) =>
-      seq("#", "(", series_of($._constant_value, ","), ")"),
-    _constant_list: ($) => seq("[", series_of($._constant_value, ","), "]"),
+      seq("#", "(", optional(series_of($._constant_value, ",")), ")"),
+    _constant_list: ($) =>
+      seq("[", optional(series_of($._constant_value, ",")), "]"),
     _constant_bit_string: ($) =>
       seq(
         "<<",
@@ -191,13 +192,21 @@ module.exports = grammar({
       seq(
         "external",
         "type",
-        field("name", alias($._upname, $.type_name)),
-        optional(
-          field("arguments", seq("(", optional($.external_type_arguments), ")"))
+        choice($.type, alias($.external_type_constructor, $.type_constructor))
+      ),
+    // TODO: Is this actually any different from the module type constructors?
+    external_type_constructor: ($) =>
+      seq(
+        $._upname,
+        seq(
+          "(",
+          optional(
+            series_of(alias($.external_type_argument, $.type_argument), ",")
+          ),
+          ")"
         )
       ),
-    external_type_arguments: ($) =>
-      series_of(alias($._name, $.external_type_argument), ","),
+    external_type_argument: ($) => $._name,
 
     /* External functions */
     public_external_function: ($) => seq("pub", $._external_function),
@@ -207,16 +216,27 @@ module.exports = grammar({
         "external",
         "fn",
         field("name", alias($._name, $.function_name)),
-        "(",
-        optional(field("parameters", $.external_function_parameters)),
-        ")",
+        field(
+          "parameters",
+          alias($.external_function_parameters, $.function_parameters)
+        ),
         "->",
         field("return_type", $._type),
         "=",
         field("body", $.external_function_body)
       ),
+    // TODO: Different from module function parameters?
     external_function_parameters: ($) =>
-      series_of($.external_function_parameter, ","),
+      seq(
+        "(",
+        optional(
+          series_of(
+            alias($.external_function_parameter, $.function_parameter),
+            ","
+          )
+        ),
+        ")"
+      ),
     external_function_parameter: ($) =>
       seq(
         optional(seq(field("name", $.identifier), ":")),
@@ -230,14 +250,13 @@ module.exports = grammar({
       seq(
         "fn",
         field("name", $.identifier),
-        "(",
         optional(field("parameters", $.function_parameters)),
-        ")",
         optional(seq("->", field("return_type", $._type))),
         "{",
         "}"
       ),
-    function_parameters: ($) => series_of($.function_parameter, ","),
+    function_parameters: ($) =>
+      seq("(", optional(series_of($.function_parameter, ",")), ")"),
     function_parameter: ($) =>
       seq(
         choice(
@@ -271,8 +290,8 @@ module.exports = grammar({
     string: ($) => /\"(?:\\[efnrt\"\\]|[^\"])*\"/,
     float: ($) => /-?[0-9_]+\.[0-9_]+/,
     integer: ($) => /-?[0-9_]+/,
-    tuple: ($) => seq("#", "(", series_of($._literal, ","), ")"),
-    list: ($) => seq("[", series_of($._literal, ","), "]"),
+    tuple: ($) => seq("#", "(", optional(series_of($._literal, ",")), ")"),
+    list: ($) => seq("[", optional(series_of($._literal, ",")), "]"),
     bit_string: ($) =>
       seq("<<", optional(series_of($.bit_string_segment, ",")), ">>"),
     bit_string_segment: ($) =>
@@ -328,13 +347,12 @@ module.exports = grammar({
     function_type: ($) =>
       seq(
         "fn",
-        "(",
         optional(field("parameter_types", $.function_parameter_types)),
-        ")",
         "->",
         field("return_type", $._type)
       ),
-    function_parameter_types: ($) => series_of($._type, ","),
+    function_parameter_types: ($) =>
+      seq("(", optional(series_of($._type, ",")), ")"),
     _type_name: ($) => choice($.type_constructor, $.type),
     _remote_type_name: ($) =>
       seq(
