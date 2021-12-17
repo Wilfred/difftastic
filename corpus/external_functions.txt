@@ -14,10 +14,10 @@ external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
     name: (function_name)
     parameters: (external_function_parameters
       (external_function_parameter
-        type: (type_constructor)))
+        type: (type)))
     return_type: (type_constructor
-      (type_constructor)
-      (type_constructor))
+      (type)
+      (type))
     body: (external_function_body
       (string)
       (string)))
@@ -26,8 +26,8 @@ external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
     parameters: (external_function_parameters
       (external_function_parameter
         name: (identifier)
-        type: (type_constructor)))
-    return_type: (type_constructor)
+        type: (type)))
+    return_type: (type)
     body: (external_function_body
       (string)
       (string)))
@@ -35,11 +35,11 @@ external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
     name: (function_name)
     return_type: (tuple_type
       (type_constructor
-        (type_constructor))
+        (type))
       (function_type
         parameter_types: (function_parameter_types
-          (type_constructor))
-        return_type: (type_constructor)))
+          (type))
+        return_type: (type)))
     body: (external_function_body
       (string)
       (string))))
@@ -60,10 +60,10 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
     name: (function_name)
     parameters: (external_function_parameters
       (external_function_parameter
-        type: (type_constructor)))
+        type: (type)))
     return_type: (type_constructor
-      (type_constructor)
-      (type_constructor))
+      (type)
+      (type))
     body: (external_function_body
       (string)
       (string)))
@@ -72,8 +72,8 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
     parameters: (external_function_parameters
       (external_function_parameter
         name: (identifier)
-        type: (type_constructor)))
-    return_type: (type_constructor)
+        type: (type)))
+    return_type: (type)
     body: (external_function_body
       (string)
       (string)))
@@ -81,11 +81,11 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
     name: (function_name)
     return_type: (tuple_type
       (type_constructor
-        (type_constructor))
+        (type))
       (function_type
         parameter_types: (function_parameter_types
-          (type_constructor))
-        return_type: (type_constructor)))
+          (type))
+        return_type: (type)))
     body: (external_function_body
       (string)
       (string))))
