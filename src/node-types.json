@@ -387,10 +387,10 @@
       },
       "parameters": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
-            "type": "external_function_parameters",
+            "type": "function_parameters",
             "named": true
           }
         ]
@@ -455,122 +455,19 @@
     }
   },
   {
-    "type": "external_function_parameter",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "remote_type",
-            "named": true
-          },
-          {
-            "type": "remote_type_constructor",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_constructor",
-            "named": true
-          },
-          {
-            "type": "type_hole",
-            "named": true
-          },
-          {
-            "type": "type_var",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "external_function_parameters",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "external_function_parameter",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "external_type",
     "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "external_type_arguments",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type_name",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "external_type_arguments",
-    "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "external_type_argument",
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_constructor",
           "named": true
         }
       ]
@@ -718,7 +615,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "function_type",
@@ -761,7 +658,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "function_parameter",
@@ -875,7 +772,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bit_string",
@@ -1031,10 +928,10 @@
       },
       "parameters": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
-            "type": "external_function_parameters",
+            "type": "function_parameters",
             "named": true
           }
         ]
@@ -1086,35 +983,20 @@
   {
     "type": "public_external_type",
     "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "external_type_arguments",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type_name",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_constructor",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1350,7 +1232,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bit_string",
@@ -1436,6 +1318,11 @@
     "fields": {}
   },
   {
+    "type": "type_argument",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "type_constructor",
     "named": true,
     "fields": {},
@@ -1461,6 +1348,10 @@
         },
         {
           "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_argument",
           "named": true
         },
         {
@@ -1649,10 +1540,6 @@
     "named": false
   },
   {
-    "type": "external_type_argument",
-    "named": true
-  },
-  {
     "type": "float",
     "named": true
   },
@@ -1699,10 +1586,6 @@
   {
     "type": "type",
     "named": false
-  },
-  {
-    "type": "type_name",
-    "named": true
   },
   {
     "type": "unit",
