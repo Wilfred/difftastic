@@ -262,26 +262,41 @@ pub fn display_hunks(
             );
 
             if no_lhs_changes {
-                let rhs_line = &rhs_colored_lines[rhs_line_num.expect("Should have RHS line").0];
-                if same_lines {
-                    // Don't print the line numbers in two columns if
-                    // they're all the same.
-                    out_lines.push(format!("{}{}", display_rhs_line_num, rhs_line));
-                } else {
-                    out_lines.push(format!(
-                        "{}{}{}",
-                        display_lhs_line_num, display_rhs_line_num, rhs_line
-                    ));
+                match rhs_line_num {
+                    Some(rhs_line_num) => {
+                        let rhs_line = &rhs_colored_lines[rhs_line_num.0];
+                        if same_lines {
+                            out_lines.push(format!("{}{}", display_rhs_line_num, rhs_line));
+                        } else {
+                            out_lines.push(format!(
+                                "{}{}{}",
+                                display_lhs_line_num, display_rhs_line_num, rhs_line
+                            ));
+                        }
+                    }
+                    None => {
+                        // We didn't have any changed RHS lines in the
+                        // hunk, but we had some contextual lines that
+                        // only occurred on the LHS (e.g. extra newlines).
+                        out_lines.push(format!("{}{}", display_rhs_line_num, display_rhs_line_num));
+                    }
                 }
             } else if no_rhs_changes {
-                let lhs_line = &lhs_colored_lines[lhs_line_num.expect("Should have LHS line").0];
-                if same_lines {
-                    out_lines.push(format!("{}{}", display_lhs_line_num, lhs_line));
-                } else {
-                    out_lines.push(format!(
-                        "{}{}{}",
-                        display_lhs_line_num, display_rhs_line_num, lhs_line
-                    ));
+                match lhs_line_num {
+                    Some(lhs_line_num) => {
+                        let lhs_line = &lhs_colored_lines[lhs_line_num.0];
+                        if same_lines {
+                            out_lines.push(format!("{}{}", display_lhs_line_num, lhs_line));
+                        } else {
+                            out_lines.push(format!(
+                                "{}{}{}",
+                                display_lhs_line_num, display_rhs_line_num, lhs_line
+                            ));
+                        }
+                    }
+                    None => {
+                        out_lines.push(format!("{}{}", display_lhs_line_num, display_rhs_line_num));
+                    }
                 }
             } else {
                 let lhs_line = match lhs_line_num {
