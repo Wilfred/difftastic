@@ -6,7 +6,6 @@ use std::{
     collections::{HashMap, HashSet},
     env,
 };
-use terminal_size::terminal_size;
 
 use crate::{
     context::opposite_positions,
@@ -29,7 +28,7 @@ fn display_width() -> usize {
         }
     }
 
-    terminal_size().map(|(w, _)| w.0 as usize).unwrap_or(80)
+    term_size::dimensions().map(|(w, _)| w).unwrap_or(80)
 }
 
 /// Split `s` by newlines, but guarantees that the output is nonempty.
