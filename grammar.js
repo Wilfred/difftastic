@@ -568,7 +568,7 @@ module.exports = grammar({
 		_definition:     $ => choice(
 			$.declTypes, $.declVars, $.declConsts, $.defProc, 
 			alias($.declProcFwd, $.declProc),
-			$.declLabel, $.declUses, $.declExports,
+			$.declLabels, $.declUses, $.declExports,
 
 			// Not actually valid syntax, but helps the parser recover:
 			prec(-1,$.blockTr)
@@ -599,7 +599,7 @@ module.exports = grammar({
 		_declarations:   $ => repeat1(choice(
 			$.declTypes, $.declVars, $.declConsts, $.declProc, $.declProp,
 			alias($.declProcFwd, $.declProc),
-			$.declUses, $.declLabel, $.declExports
+			$.declUses, $.declLabels, $.declExports
 		)),
 		_classDeclarations: $ => repeat1(choice(
 			$.declTypes, $.declVars, $.declConsts, $.declProc, $.declProp
@@ -675,7 +675,8 @@ module.exports = grammar({
 			repeat($._procAttribute)
 		),
 
-		declLabel:       $ => seq($.kLabel, field('name', delimited1($.identifier)), ';'),
+		declLabels:       $ => seq($.kLabel, delimited1($.declLabel), ';'),
+		declLabel:       $ => field('name', $.identifier),
 
 		declExport:      $ => seq($._genericName, repeat(seq(choice($.kName, $.kIndex), $._expr))),
 

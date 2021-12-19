@@ -4473,7 +4473,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "declLabel"
+          "name": "declLabels"
         },
         {
           "type": "SYMBOL",
@@ -4796,7 +4796,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "declLabel"
+            "name": "declLabels"
           },
           {
             "type": "SYMBOL",
@@ -5366,7 +5366,7 @@
         }
       ]
     },
-    "declLabel": {
+    "declLabels": {
       "type": "SEQ",
       "members": [
         {
@@ -5374,47 +5374,51 @@
           "name": "kLabel"
         },
         {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "REPEAT1",
-                    "content": {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "identifier"
-                        },
-                        {
-                          "type": "STRING",
-                          "value": ","
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "BLANK"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "declLabel"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      }
+                    ]
                   }
-                ]
-              },
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              }
-            ]
-          }
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "declLabel"
+            }
+          ]
         },
         {
           "type": "STRING",
           "value": ";"
         }
       ]
+    },
+    "declLabel": {
+      "type": "FIELD",
+      "name": "name",
+      "content": {
+        "type": "SYMBOL",
+        "name": "identifier"
+      }
     },
     "declExport": {
       "type": "SEQ",

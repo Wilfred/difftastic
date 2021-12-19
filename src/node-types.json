@@ -1514,24 +1514,29 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
           {
             "type": "identifier",
             "named": true
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "declLabels",
+    "named": true,
+    "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "declLabel",
+          "named": true
+        },
         {
           "type": "kLabel",
           "named": true
@@ -2801,7 +2806,7 @@
             "named": true
           },
           {
-            "type": "declLabel",
+            "type": "declLabels",
             "named": true
           },
           {
@@ -4966,7 +4971,7 @@
           "named": true
         },
         {
-          "type": "declLabel",
+          "type": "declLabels",
           "named": true
         },
         {
@@ -5055,7 +5060,7 @@
           "named": true
         },
         {
-          "type": "declLabel",
+          "type": "declLabels",
           "named": true
         },
         {
@@ -5155,7 +5160,7 @@
             "named": true
           },
           {
-            "type": "declLabel",
+            "type": "declLabels",
             "named": true
           },
           {
@@ -5306,7 +5311,7 @@
           "named": true
         },
         {
-          "type": "declLabel",
+          "type": "declLabels",
           "named": true
         },
         {
@@ -5858,7 +5863,7 @@
           "named": true
         },
         {
-          "type": "declLabel",
+          "type": "declLabels",
           "named": true
         },
         {
@@ -6287,7 +6292,7 @@
           "named": true
         },
         {
-          "type": "declLabel",
+          "type": "declLabels",
           "named": true
         },
         {
