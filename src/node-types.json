@@ -20,85 +20,6 @@
     }
   },
   {
-    "type": "bit_string_named_segment_option",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "bit_string_segment_option_big",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_binary",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_bit_string",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_float",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_int",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_little",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_native",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_signed",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_unit",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_unsigned",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf16",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf16_codepoint",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf32",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf32_codepoint",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf8",
-          "named": true
-        },
-        {
-          "type": "bit_string_segment_option_utf8_codepoint",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "bit_string_segment",
     "named": true,
     "fields": {
@@ -118,7 +39,7 @@
       },
       "value": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "bit_string",
@@ -154,40 +75,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "bit_string_named_segment_option",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "size",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -267,7 +154,7 @@
           "named": true
         },
         {
-          "type": "constant_int",
+          "type": "integer",
           "named": true
         }
       ]
@@ -360,6 +247,26 @@
         ]
       }
     }
+  },
+  {
+    "type": "constructor_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "pattern_constructor_args",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "discard_var",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "external_function",
@@ -597,6 +504,48 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constructor_pattern",
+          "named": true
+        },
+        {
+          "type": "discard_var",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "pattern_assign",
+          "named": true
+        },
+        {
+          "type": "remote_constructor_pattern",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "var",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -873,6 +822,64 @@
     "fields": {}
   },
   {
+    "type": "pattern_constructor_args",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "pattern_constructor_named_arg",
+          "named": true
+        },
+        {
+          "type": "pattern_constructor_unnamed_arg",
+          "named": true
+        },
+        {
+          "type": "pattern_spread",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pattern_constructor_named_arg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pattern_constructor_unnamed_arg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "pattern_constructor_args",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pattern_spread",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "public_constant",
     "named": true,
     "fields": {
@@ -1116,6 +1123,21 @@
     }
   },
   {
+    "type": "remote_constructor_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "pattern_constructor_args",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "remote_record",
     "named": true,
     "fields": {},
@@ -1297,6 +1319,14 @@
           "named": true
         },
         {
+          "type": "constructor_pattern",
+          "named": true
+        },
+        {
+          "type": "discard_var",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -1309,7 +1339,15 @@
           "named": true
         },
         {
+          "type": "pattern_assign",
+          "named": true
+        },
+        {
           "type": "record",
+          "named": true
+        },
+        {
+          "type": "remote_constructor_pattern",
           "named": true
         },
         {
@@ -1322,6 +1360,10 @@
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "var",
           "named": true
         }
       ]
@@ -1454,6 +1496,11 @@
     }
   },
   {
+    "type": "var",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "#",
     "named": false
   },
@@ -1479,6 +1526,10 @@
   },
   {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": "..",
     "named": false
   },
   {
@@ -1586,10 +1637,6 @@
     "named": false
   },
   {
-    "type": "constant_int",
-    "named": true
-  },
-  {
     "type": "erlang",
     "named": false
   },
@@ -1626,12 +1673,12 @@
     "named": false
   },
   {
-    "type": "pub",
-    "named": false
+    "type": "pattern_assign",
+    "named": true
   },
   {
-    "type": "size",
-    "named": true
+    "type": "pub",
+    "named": false
   },
   {
     "type": "size",
@@ -1640,10 +1687,6 @@
   {
     "type": "string",
     "named": true
-  },
-  {
-    "type": "todo",
-    "named": false
   },
   {
     "type": "try",
