@@ -253,6 +253,7 @@ module.exports = grammar({
         optional(field("parameters", $.function_parameters)),
         optional(seq("->", field("return_type", $._type))),
         "{",
+        alias($._expression_seq, $.function_body),
         "}"
       ),
     function_parameters: ($) =>
@@ -267,31 +268,90 @@ module.exports = grammar({
         ),
         optional($._type_annotation)
       ),
-
     _labelled_discard_param: ($) =>
       seq(field("label", $.identifier), $._discard_name),
     _discard_param: ($) => $._discard_name,
     _labelled_name_param: ($) =>
       seq(field("label", $.identifier), field("name", $.identifier)),
     _name_param: ($) => field("name", $.identifier),
+    // This method diverges from the parser's `parse_expression_seq` somewhat.
+    // The parser considers all expressions after a `try` to be part of its AST
+    // node, namely the "then" section. Gleam code like this:
+    //
+    //    try int_a = parse(a)
+    //    try int_b = parse(b)
+    //    Ok(int_a + int_b)
+    //
+    // is parsed as:
+    //
+    // (try
+    //   pattern: (pattern)
+    //   value: (call (identifier))
+    //   then: (try
+    //     pattern: (pattern)
+    //     value: (call (identifier))
+    //     then: (type_constructor (...))))
+    //
+    // This makes sense for the parser, but (IMO) would be more confusing for
+    // users and tooling which don't think about `try`s as having a "then". Thus,
+    // `try`s are essentially treated the same as any other expression.
+    _expression_seq: ($) =>
+      repeat1(
+        choice(
+          seq(
+            "try",
+            $._pattern,
+            optional($._type_annotation),
+            "=",
+            $._expression
+          ),
+          $._expression
+        )
+      ),
+    _pattern: ($) =>
+      seq(
+        choice(
+          $.var,
+          $.discard_var,
+          $.remote_constructor_pattern,
+          $.constructor_pattern,
+          $.string,
+          $.integer,
+          $.float,
+          $.constructor_tuple,
+          $.constructor_bitstring,
+          $.constructor_list
+        ),
+        optional(seq("as", alias($._name, $.pattern_assign)))
+      ),
+    _expression: ($) => "todo",
+    var: ($) => $._name,
+    discard_var: ($) => $._discard_name,
+    remote_constructor_pattern: ($) => seq($._name, $._constructor_pattern),
+    constructor_pattern: ($) => $._constructor_pattern,
+    _constructor_pattern: ($) =>
+      seq($._upname, optional($.pattern_constructor_args)),
+    pattern_constructor_args: ($) =>
+      seq(
+        "(",
+        optional(series_of($._pattern_constructor_arg, ",")),
+        optional($.pattern_spread),
+        ")"
+      ),
+    _pattern_constructor_arg: ($) =>
+      choice(
+        $.pattern_constructor_named_arg,
+        alias($.constructor_pattern, $.pattern_constructor_unnamed_arg)
+      ),
+
+    pattern_constructor_named_arg: ($) =>
+      seq($._name, ":", $.constructor_pattern),
+    pattern_spread: ($) => seq("..", optional(",")),
 
     /* Literals */
-    _literal: ($) =>
-      choice(
-        $.string,
-        $.float,
-        $.integer,
-        $.tuple,
-        $.list
-        // $.bit_string,
-        // $.record,
-        // $.remote_record
-      ),
     string: ($) => /\"(?:\\[efnrt\"\\]|[^\"])*\"/,
     float: ($) => /-?[0-9_]+\.[0-9_]+/,
     integer: ($) => /-?[0-9_]+/,
-    tuple: ($) => seq("#", "(", optional(series_of($._literal, ",")), ")"),
-    list: ($) => seq("[", optional(series_of($._literal, ",")), "]"),
     bit_string: ($) =>
       seq("<<", optional(series_of($.bit_string_segment, ",")), ">>"),
     bit_string_segment: ($) =>

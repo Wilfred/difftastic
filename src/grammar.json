@@ -1485,6 +1485,15 @@
           "value": "{"
         },
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression_seq"
+          },
+          "named": true,
+          "value": "function_body"
+        },
+        {
           "type": "STRING",
           "value": "}"
         }
@@ -1623,6 +1632,63 @@
         "type": "SYMBOL",
         "name": "identifier"
       }
+    },
+    "_expression_seq": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "try"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_pattern"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_type_annotation"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": "="
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_expression_seq"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        }
+      ]
+    },
+    "_pattern": {
+      "type": "STRING",
+      "value": "todo"
+    },
+    "_expression": {
+      "type": "STRING",
+      "value": "todo"
     },
     "_literal": {
       "type": "CHOICE",
