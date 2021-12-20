@@ -95,50 +95,7 @@ module.exports = grammar({
       seq("#", "(", optional(series_of($._constant_value, ",")), ")"),
     _constant_list: ($) =>
       seq("[", optional(series_of($._constant_value, ",")), "]"),
-    _constant_bit_string: ($) =>
-      seq(
-        "<<",
-        optional(
-          series_of(
-            alias($._constant_bit_string_segment, $.bit_string_segment),
-            ","
-          )
-        ),
-        ">>"
-      ),
-    _constant_bit_string_segment: ($) =>
-      seq(
-        field("value", $._constant_value),
-        optional(
-          field(
-            "options",
-            seq(
-              ":",
-              alias(
-                $._constant_bit_string_segment_options,
-                $.bit_string_segment_options
-              )
-            )
-          )
-        )
-      ),
-    // This is not an actual node in the Gleam AST. It only exists to allow me
-    // to group the segment options together into their own list.
-    _constant_bit_string_segment_options: ($) =>
-      series_of($._constant_bit_string_segment_option, "-"),
-    _constant_bit_string_segment_option: ($) =>
-      choice(
-        $._constant_bit_string_named_segment_option,
-        alias($.integer, $.constant_int)
-      ),
-    _constant_bit_string_named_segment_option: ($) =>
-      choice(
-        $._bit_string_segment_option_unit,
-        $._constant_bit_string_segment_option_size,
-        $._bit_string_segment_option_literal
-      ),
-    _constant_bit_string_segment_option_size: ($) =>
-      seq("size", "(", alias($.integer, $.bit_string_segment_option_size), ")"),
+    ...bit_string_rules("constant", "_constant_value", "integer"),
     _constant_record: ($) =>
       seq(
         $._upname,
@@ -343,7 +300,6 @@ module.exports = grammar({
         $.pattern_constructor_named_arg,
         alias($.constructor_pattern, $.pattern_constructor_unnamed_arg)
       ),
-
     pattern_constructor_named_arg: ($) =>
       seq($._name, ":", $.constructor_pattern),
     pattern_spread: ($) => seq("..", optional(",")),
@@ -352,24 +308,8 @@ module.exports = grammar({
     string: ($) => /\"(?:\\[efnrt\"\\]|[^\"])*\"/,
     float: ($) => /-?[0-9_]+\.[0-9_]+/,
     integer: ($) => /-?[0-9_]+/,
-    bit_string: ($) =>
-      seq("<<", optional(series_of($.bit_string_segment, ",")), ">>"),
-    bit_string_segment: ($) =>
-      seq(
-        $._literal,
-        optional(seq(":", series_of($._bit_string_segment_option, "-")))
-      ),
-    _bit_string_segment_option: ($) =>
-      choice($.bit_string_named_segment_option, alias($.integer, $.size)),
-    bit_string_named_segment_option: ($) =>
-      choice(
-        $._bit_string_segment_option_unit,
-        $._bit_string_segment_option_size,
-        $._bit_string_segment_option_literal
-      ),
     _bit_string_segment_option_unit: ($) =>
       seq("unit", "(", alias($.integer, $.bit_string_segment_option_unit), ")"),
-    _bit_string_segment_option_size: ($) => seq("size", "(", $.integer, ")"),
     _bit_string_segment_option_literal: ($) =>
       choice(
         alias("binary", $.bit_string_segment_option_binary),
@@ -436,6 +376,61 @@ module.exports = grammar({
     _upname: ($) => /[A-Z][0-9a-zA-Z]*/,
   },
 });
+
+function bit_string_rules(name, value_parser, arg_parser) {
+  return {
+    [`_${name}_bit_string`]: ($) =>
+      seq(
+        "<<",
+        optional(
+          series_of(
+            alias($[`${name}_bit_string_segment`], $.bit_string_segment),
+            ","
+          )
+        ),
+        ">>"
+      ),
+    [`${name}_bit_string_segment`]: ($) =>
+      seq(
+        field("value", $[value_parser]),
+        optional(
+          field(
+            "options",
+            seq(
+              ":",
+              alias(
+                $[`${name}_bit_string_segment_options`],
+                $.bit_string_segment_options
+              )
+            )
+          )
+        )
+      ),
+    ...bit_string_segment_options(name, arg_parser),
+  };
+}
+
+function bit_string_segment_options(name, arg_parser) {
+  return {
+    [`${name}_bit_string_segment_options`]: ($) =>
+      series_of($[`_${name}_bit_string_segment_option`], "-"),
+    [`_${name}_bit_string_segment_option`]: ($) =>
+      choice($[`_${name}_bit_string_named_segment_option`], $.integer),
+    [`_${name}_bit_string_named_segment_option`]: ($) =>
+      choice(
+        $._bit_string_segment_option_unit,
+        $[`_${name}_bit_string_segment_option_size`],
+        $._bit_string_segment_option_literal
+      ),
+    [`_${name}_bit_string_segment_option_size`]: ($) =>
+      seq(
+        "size",
+        "(",
+        alias($[arg_parser], $.bit_string_segment_option_size),
+        ")"
+      ),
+  };
+}
 
 // Shamelessly stolen "sep1" from tree-sitter-elixir, renamed to match a similar
 // function in the Gleam parser.
