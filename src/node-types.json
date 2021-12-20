@@ -301,6 +301,42 @@
       "required": true,
       "types": [
         {
+          "type": "asm",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
           "type": "kBegin",
           "named": true
         },
@@ -313,7 +349,27 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
           "type": "statement",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -328,6 +384,42 @@
       "required": true,
       "types": [
         {
+          "type": "asm",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
           "type": "kBegin",
           "named": true
         },
@@ -340,7 +432,27 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
           "type": "statement",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -354,6 +466,22 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "asm",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
         {
           "type": "caseCase",
           "named": true
@@ -391,7 +519,27 @@
           "named": true
         },
         {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
           "named": true
         },
         {
@@ -443,7 +591,27 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
           "type": "statement",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -454,11 +622,71 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "asm",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "foreach",
+            "named": true
+          },
+          {
+            "type": "goto",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "ifElse",
+            "named": true
+          },
+          {
+            "type": "raise",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
             "type": "statement",
+            "named": true
+          },
+          {
+            "type": "try",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -1158,7 +1386,7 @@
       },
       "name": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": ",",
@@ -1172,7 +1400,7 @@
       },
       "type": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "type",
@@ -1182,123 +1410,11 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "arrInitializer",
-          "named": true
-        },
-        {
-          "type": "declArray",
-          "named": true
-        },
-        {
-          "type": "declEnum",
-          "named": true
-        },
-        {
-          "type": "declFile",
-          "named": true
-        },
-        {
-          "type": "declMetaClass",
-          "named": true
-        },
-        {
-          "type": "declProcRef",
-          "named": true
-        },
-        {
-          "type": "declSet",
-          "named": true
-        },
-        {
-          "type": "declString",
-          "named": true
-        },
-        {
-          "type": "exprBinary",
-          "named": true
-        },
-        {
-          "type": "exprBrackets",
-          "named": true
-        },
-        {
-          "type": "exprCall",
-          "named": true
-        },
-        {
-          "type": "exprDot",
-          "named": true
-        },
-        {
-          "type": "exprParens",
-          "named": true
-        },
-        {
-          "type": "exprSubscript",
-          "named": true
-        },
-        {
-          "type": "exprTpl",
-          "named": true
-        },
-        {
-          "type": "exprUnary",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "inherited",
-          "named": true
-        },
-        {
-          "type": "kEq",
-          "named": true
-        },
-        {
-          "type": "kFalse",
-          "named": true
-        },
-        {
-          "type": "kNil",
-          "named": true
-        },
-        {
-          "type": "kTrue",
-          "named": true
-        },
-        {
-          "type": "lambda",
-          "named": true
-        },
-        {
-          "type": "literalNumber",
-          "named": true
-        },
-        {
-          "type": "literalString",
-          "named": true
-        },
-        {
-          "type": "pp",
-          "named": true
-        },
-        {
-          "type": "recInitializer",
-          "named": true
-        },
-        {
           "type": "rttiAttributes",
-          "named": true
-        },
-        {
-          "type": "typeref",
           "named": true
         }
       ]
@@ -2678,57 +2794,11 @@
           "named": true
         },
         {
-          "type": "declVariant",
+          "type": "declField",
           "named": true
         },
         {
-          "type": "declVariantField",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "declVariantField",
-    "named": true,
-    "fields": {
-      "defaultValue": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "declField",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "declField",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "declField",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "declField",
+          "type": "declVariant",
           "named": true
         }
       ]
@@ -2939,11 +3009,67 @@
       "required": true,
       "types": [
         {
+          "type": "asm",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
           "type": "kElse",
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
           "type": "statement",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -2954,11 +3080,71 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "asm",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "foreach",
+            "named": true
+          },
+          {
+            "type": "goto",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "ifElse",
+            "named": true
+          },
+          {
+            "type": "raise",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
             "type": "statement",
+            "named": true
+          },
+          {
+            "type": "try",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -4071,6 +4257,42 @@
       "required": true,
       "types": [
         {
+          "type": "asm",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
           "type": "kFinalization",
           "named": true
         },
@@ -4079,7 +4301,27 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
           "type": "statement",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -4090,11 +4332,71 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "asm",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "foreach",
+            "named": true
+          },
+          {
+            "type": "goto",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "ifElse",
+            "named": true
+          },
+          {
+            "type": "raise",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
             "type": "statement",
+            "named": true
+          },
+          {
+            "type": "try",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -4208,11 +4510,71 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "asm",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "foreach",
+            "named": true
+          },
+          {
+            "type": "goto",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "ifElse",
+            "named": true
+          },
+          {
+            "type": "raise",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
             "type": "statement",
+            "named": true
+          },
+          {
+            "type": "try",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -4647,11 +5009,11 @@
       "required": true,
       "types": [
         {
-          "type": "kGoto",
+          "type": "identifier",
           "named": true
         },
         {
-          "type": "label",
+          "type": "kGoto",
           "named": true
         }
       ]
@@ -4807,11 +5169,71 @@
         ]
       },
       "then": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "asm",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "foreach",
+            "named": true
+          },
+          {
+            "type": "goto",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "ifElse",
+            "named": true
+          },
+          {
+            "type": "raise",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
             "type": "statement",
+            "named": true
+          },
+          {
+            "type": "try",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -4907,11 +5329,71 @@
         ]
       },
       "else": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "asm",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "foreach",
+            "named": true
+          },
+          {
+            "type": "goto",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "ifElse",
+            "named": true
+          },
+          {
+            "type": "raise",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
             "type": "statement",
+            "named": true
+          },
+          {
+            "type": "try",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -4921,11 +5403,63 @@
         "required": false,
         "types": [
           {
+            "type": "asm",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "foreach",
+            "named": true
+          },
+          {
+            "type": "goto",
+            "named": true
+          },
+          {
             "type": "if",
             "named": true
           },
           {
+            "type": "ifElse",
+            "named": true
+          },
+          {
+            "type": "raise",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
             "type": "statement",
+            "named": true
+          },
+          {
+            "type": "try",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -5029,6 +5563,42 @@
       "required": true,
       "types": [
         {
+          "type": "asm",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
           "type": "kInitialization",
           "named": true
         },
@@ -5037,7 +5607,27 @@
           "named": true
         },
         {
+          "type": "raise",
+          "named": true
+        },
+        {
+          "type": "repeat",
+          "named": true
+        },
+        {
           "type": "statement",
+          "named": true
+        },
+        {
+          "type": "try",
+          "named": true
+        },
+        {
+          "type": "while",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -5106,7 +5696,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "identifier",
@@ -6411,24 +7001,8 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
-        {
-          "type": "asm",
-          "named": true
-        },
-        {
-          "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
         {
           "type": "exprBinary",
           "named": true
@@ -6462,27 +7036,7 @@
           "named": true
         },
         {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "foreach",
-          "named": true
-        },
-        {
-          "type": "goto",
-          "named": true
-        },
-        {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "ifElse",
           "named": true
         },
         {
@@ -6512,6 +7066,57 @@
         {
           "type": "literalString",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statements",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "asm",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "foreach",
+          "named": true
+        },
+        {
+          "type": "goto",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "ifElse",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
         },
         {
           "type": "raise",
@@ -6519,6 +7124,10 @@
         },
         {
           "type": "repeat",
+          "named": true
+        },
+        {
+          "type": "statement",
           "named": true
         },
         {
@@ -6531,25 +7140,6 @@
         },
         {
           "type": "with",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "statements",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "statement",
           "named": true
         }
       ]
@@ -6931,11 +7521,71 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "asm",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "foreach",
+            "named": true
+          },
+          {
+            "type": "goto",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "ifElse",
+            "named": true
+          },
+          {
+            "type": "raise",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
             "type": "statement",
+            "named": true
+          },
+          {
+            "type": "try",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -7031,11 +7681,71 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
+            "type": "asm",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "foreach",
+            "named": true
+          },
+          {
+            "type": "goto",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "ifElse",
+            "named": true
+          },
+          {
+            "type": "raise",
+            "named": true
+          },
+          {
+            "type": "repeat",
+            "named": true
+          },
+          {
             "type": "statement",
+            "named": true
+          },
+          {
+            "type": "try",
+            "named": true
+          },
+          {
+            "type": "while",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
