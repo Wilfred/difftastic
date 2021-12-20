@@ -252,18 +252,14 @@ module.exports = grammar({
     // This makes sense for the parser, but (IMO) would be more confusing for
     // users and tooling which don't think about `try`s as having a "then". Thus,
     // `try`s are essentially treated the same as any other expression.
-    _expression_seq: ($) =>
-      repeat1(
-        choice(
-          seq(
-            "try",
-            $._pattern,
-            optional($._type_annotation),
-            "=",
-            $._expression
-          ),
-          $._expression
-        )
+    _expression_seq: ($) => repeat1(choice($.try, $._expression)),
+    try: ($) =>
+      seq(
+        "try",
+        field("pattern", $._pattern),
+        optional($._type_annotation),
+        "=",
+        field("value", $._expression)
       ),
     _pattern: ($) =>
       seq(
@@ -275,16 +271,17 @@ module.exports = grammar({
           $.string,
           $.integer,
           $.float,
-          $.constructor_tuple,
-          $.constructor_bitstring,
-          $.constructor_list
+          $.tuple_pattern,
+          alias($._pattern_bit_string, $.bit_string_pattern),
+          $.list_pattern
         ),
-        optional(seq("as", alias($._name, $.pattern_assign)))
+        optional(field("assign", seq("as", alias($._name, $.pattern_assign))))
       ),
     _expression: ($) => "todo",
     var: ($) => $._name,
     discard_var: ($) => $._discard_name,
-    remote_constructor_pattern: ($) => seq($._name, $._constructor_pattern),
+    remote_constructor_pattern: ($) =>
+      seq($._name, ".", $._constructor_pattern),
     constructor_pattern: ($) => $._constructor_pattern,
     _constructor_pattern: ($) =>
       seq($._upname, optional($.pattern_constructor_args)),
@@ -303,6 +300,25 @@ module.exports = grammar({
     pattern_constructor_named_arg: ($) =>
       seq($._name, ":", $.constructor_pattern),
     pattern_spread: ($) => seq("..", optional(",")),
+    tuple_pattern: ($) =>
+      seq("#", "(", optional(series_of($._pattern, ",")), ")"),
+    // The Gleam parser has a special catch for nested bitstrings here, which
+    // is interesting as the same error does not exist on constants. Anyhow, I
+    // wasn't really sure how to implement that easily here, and so didn't.
+    ...bit_string_rules(
+      "pattern",
+      "_pattern",
+      "_pattern_bit_string_segment_arg"
+    ),
+    _pattern_bit_string_segment_arg: ($) => choice($.var, $.integer),
+    list_pattern: ($) =>
+      seq(
+        "[",
+        optional(series_of($._pattern, ",")),
+        optional($.list_pattern_tail),
+        "]"
+      ),
+    list_pattern_tail: ($) => seq("..", choice($.var, $.discard_var)),
 
     /* Literals */
     string: ($) => /\"(?:\\[efnrt\"\\]|[^\"])*\"/,

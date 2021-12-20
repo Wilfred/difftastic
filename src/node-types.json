@@ -20,9 +20,38 @@
     }
   },
   {
+    "type": "bit_string_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bit_string_segment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "bit_string_segment",
     "named": true,
     "fields": {
+      "assign": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "pattern_assign",
+            "named": true
+          }
+        ]
+      },
       "options": {
         "multiple": true,
         "required": false,
@@ -38,11 +67,27 @@
         ]
       },
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
+            "type": "as",
+            "named": false
+          },
+          {
             "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "bit_string_pattern",
+            "named": true
+          },
+          {
+            "type": "constructor_pattern",
+            "named": true
+          },
+          {
+            "type": "discard_var",
             "named": true
           },
           {
@@ -58,7 +103,19 @@
             "named": true
           },
           {
+            "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "pattern_assign",
+            "named": true
+          },
+          {
             "type": "record",
+            "named": true
+          },
+          {
+            "type": "remote_constructor_pattern",
             "named": true
           },
           {
@@ -72,9 +129,36 @@
           {
             "type": "tuple",
             "named": true
+          },
+          {
+            "type": "tuple_pattern",
+            "named": true
+          },
+          {
+            "type": "var",
+            "named": true
           }
         ]
       }
+    }
+  },
+  {
+    "type": "bit_string_segment_option_size",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "var",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -461,88 +545,13 @@
   {
     "type": "function_body",
     "named": true,
-    "fields": {
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "remote_type",
-            "named": true
-          },
-          {
-            "type": "remote_type_constructor",
-            "named": true
-          },
-          {
-            "type": "tuple_type",
-            "named": true
-          },
-          {
-            "type": "type",
-            "named": true
-          },
-          {
-            "type": "type_constructor",
-            "named": true
-          },
-          {
-            "type": "type_hole",
-            "named": true
-          },
-          {
-            "type": "type_var",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "constructor_pattern",
-          "named": true
-        },
-        {
-          "type": "discard_var",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "pattern_assign",
-          "named": true
-        },
-        {
-          "type": "remote_constructor_pattern",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "var",
+          "type": "try",
           "named": true
         }
       ]
@@ -811,6 +820,95 @@
         },
         {
           "type": "tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list_pattern",
+    "named": true,
+    "fields": {
+      "assign": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "pattern_assign",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bit_string_pattern",
+          "named": true
+        },
+        {
+          "type": "constructor_pattern",
+          "named": true
+        },
+        {
+          "type": "discard_var",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "list_pattern",
+          "named": true
+        },
+        {
+          "type": "list_pattern_tail",
+          "named": true
+        },
+        {
+          "type": "remote_constructor_pattern",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple_pattern",
+          "named": true
+        },
+        {
+          "type": "var",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list_pattern_tail",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "discard_var",
+          "named": true
+        },
+        {
+          "type": "var",
           "named": true
         }
       ]
@@ -1307,6 +1405,122 @@
     }
   },
   {
+    "type": "try",
+    "named": true,
+    "fields": {
+      "assign": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "pattern_assign",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "bit_string_pattern",
+            "named": true
+          },
+          {
+            "type": "constructor_pattern",
+            "named": true
+          },
+          {
+            "type": "discard_var",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "pattern_assign",
+            "named": true
+          },
+          {
+            "type": "remote_constructor_pattern",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
+            "named": true
+          },
+          {
+            "type": "var",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "remote_type",
+            "named": true
+          },
+          {
+            "type": "remote_type_constructor",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_constructor",
+            "named": true
+          },
+          {
+            "type": "type_hole",
+            "named": true
+          },
+          {
+            "type": "type_var",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "tuple",
     "named": true,
     "fields": {},
@@ -1316,6 +1530,64 @@
       "types": [
         {
           "type": "bit_string",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "remote_record",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tuple_pattern",
+    "named": true,
+    "fields": {
+      "assign": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "pattern_assign",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bit_string_pattern",
           "named": true
         },
         {
@@ -1335,15 +1607,7 @@
           "named": true
         },
         {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "pattern_assign",
-          "named": true
-        },
-        {
-          "type": "record",
+          "type": "list_pattern",
           "named": true
         },
         {
@@ -1351,15 +1615,11 @@
           "named": true
         },
         {
-          "type": "remote_record",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         },
         {
-          "type": "tuple",
+          "type": "tuple_pattern",
           "named": true
         },
         {
@@ -1594,10 +1854,6 @@
   },
   {
     "type": "bit_string_segment_option_signed",
-    "named": true
-  },
-  {
-    "type": "bit_string_segment_option_size",
     "named": true
   },
   {
