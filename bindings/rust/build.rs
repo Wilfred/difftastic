@@ -25,6 +25,7 @@ fn main() {
     // If your language uses an external scanner written in C++,
     // then include this block of code:
 
+    /*
     let mut cpp_config = cc::Build::new();
     cpp_config.cpp(true);
     cpp_config.include(&src_dir);
@@ -35,4 +36,5 @@ fn main() {
     cpp_config.file(&scanner_path);
     cpp_config.compile("scanner");
     println!("cargo:rerun-if-changed={}", scanner_path.to_str().unwrap());
+    */
 }
