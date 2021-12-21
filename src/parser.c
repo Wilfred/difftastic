@@ -5,7 +5,7 @@
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #endif
 
-#define LANGUAGE_VERSION 12
+#define LANGUAGE_VERSION 13
 #define STATE_COUNT 78
 #define LARGE_STATE_COUNT 2
 #define SYMBOL_COUNT 37
@@ -14,6 +14,7 @@
 #define EXTERNAL_TOKEN_COUNT 1
 #define FIELD_COUNT 0
 #define MAX_ALIAS_SEQUENCE_LENGTH 5
+#define PRODUCTION_ID_COUNT 1
 
 enum {
   sym__identifier = 1,
@@ -54,7 +55,7 @@ enum {
   aux_sym_arguments_repeat1 = 36,
 };
 
-static const char *ts_symbol_names[] = {
+static const char * const ts_symbol_names[] = {
   [ts_builtin_sym_end] = "end",
   [sym__identifier] = "_identifier",
   [sym_comment] = "comment",
@@ -94,7 +95,7 @@ static const char *ts_symbol_names[] = {
   [aux_sym_arguments_repeat1] = "arguments_repeat1",
 };
 
-static TSSymbol ts_symbol_map[] = {
+static const TSSymbol ts_symbol_map[] = {
   [ts_builtin_sym_end] = ts_builtin_sym_end,
   [sym__identifier] = sym__identifier,
   [sym_comment] = sym_comment,
@@ -285,11 +286,11 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   },
 };
 
-static TSSymbol ts_alias_sequences[1][MAX_ALIAS_SEQUENCE_LENGTH] = {
+static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE_LENGTH] = {
   [0] = {0},
 };
 
-static uint16_t ts_non_terminal_alias_map[] = {
+static const uint16_t ts_non_terminal_alias_map[] = {
   0,
 };
 
@@ -612,7 +613,7 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
   }
 }
 
-static TSLexMode ts_lex_modes[STATE_COUNT] = {
+static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [0] = {.lex_state = 0, .external_lex_state = 1},
   [1] = {.lex_state = 17},
   [2] = {.lex_state = 0, .external_lex_state = 1},
@@ -697,17 +698,17 @@ enum {
   ts_external_token_string = 0,
 };
 
-static TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
+static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
   [ts_external_token_string] = sym_string,
 };
 
-static bool ts_external_scanner_states[2][EXTERNAL_TOKEN_COUNT] = {
+static const bool ts_external_scanner_states[2][EXTERNAL_TOKEN_COUNT] = {
   [1] = {
     [ts_external_token_string] = true,
   },
 };
 
-static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
+static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [0] = {
     [ts_builtin_sym_end] = ACTIONS(1),
     [sym__identifier] = ACTIONS(1),
@@ -741,7 +742,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   },
 };
 
-static uint16_t ts_small_parse_table[] = {
+static const uint16_t ts_small_parse_table[] = {
   [0] = 10,
     ACTIONS(3), 1,
       sym_comment,
@@ -1568,7 +1569,7 @@ static uint16_t ts_small_parse_table[] = {
       anon_sym_EQ,
 };
 
-static uint32_t ts_small_parse_table_map[] = {
+static const uint32_t ts_small_parse_table_map[] = {
   [SMALL_STATE(2)] = 0,
   [SMALL_STATE(3)] = 38,
   [SMALL_STATE(4)] = 76,
@@ -1647,7 +1648,7 @@ static uint32_t ts_small_parse_table_map[] = {
   [SMALL_STATE(77)] = 1102,
 };
 
-static TSParseActionEntry ts_parse_actions[] = {
+static const TSParseActionEntry ts_parse_actions[] = {
   [0] = {.entry = {.count = 0, .reusable = false}},
   [1] = {.entry = {.count = 1, .reusable = false}}, RECOVER(),
   [3] = {.entry = {.count = 1, .reusable = true}}, SHIFT_EXTRA(),
@@ -1760,24 +1761,32 @@ void tree_sitter_godot_resource_external_scanner_deserialize(void *, const char 
 #endif
 
 extern const TSLanguage *tree_sitter_godot_resource(void) {
-  static TSLanguage language = {
+  static const TSLanguage language = {
     .version = LANGUAGE_VERSION,
     .symbol_count = SYMBOL_COUNT,
     .alias_count = ALIAS_COUNT,
     .token_count = TOKEN_COUNT,
     .external_token_count = EXTERNAL_TOKEN_COUNT,
+    .state_count = STATE_COUNT,
+    .large_state_count = LARGE_STATE_COUNT,
+    .production_id_count = PRODUCTION_ID_COUNT,
+    .field_count = FIELD_COUNT,
+    .max_alias_sequence_length = MAX_ALIAS_SEQUENCE_LENGTH,
+    .parse_table = &ts_parse_table[0][0],
+    .small_parse_table = ts_small_parse_table,
+    .small_parse_table_map = ts_small_parse_table_map,
+    .parse_actions = ts_parse_actions,
     .symbol_names = ts_symbol_names,
     .symbol_metadata = ts_symbol_metadata,
-    .parse_table = (const uint16_t *)ts_parse_table,
-    .parse_actions = ts_parse_actions,
+    .public_symbol_map = ts_symbol_map,
+    .alias_map = ts_non_terminal_alias_map,
+    .alias_sequences = &ts_alias_sequences[0][0],
     .lex_modes = ts_lex_modes,
-    .alias_sequences = (const TSSymbol *)ts_alias_sequences,
-    .max_alias_sequence_length = MAX_ALIAS_SEQUENCE_LENGTH,
     .lex_fn = ts_lex,
     .keyword_lex_fn = ts_lex_keywords,
     .keyword_capture_token = sym__identifier,
     .external_scanner = {
-      (const bool *)ts_external_scanner_states,
+      &ts_external_scanner_states[0][0],
       ts_external_scanner_symbol_map,
       tree_sitter_godot_resource_external_scanner_create,
       tree_sitter_godot_resource_external_scanner_destroy,
@@ -1785,13 +1794,6 @@ extern const TSLanguage *tree_sitter_godot_resource(void) {
       tree_sitter_godot_resource_external_scanner_serialize,
       tree_sitter_godot_resource_external_scanner_deserialize,
     },
-    .field_count = FIELD_COUNT,
-    .large_state_count = LARGE_STATE_COUNT,
-    .small_parse_table = (const uint16_t *)ts_small_parse_table,
-    .small_parse_table_map = (const uint32_t *)ts_small_parse_table_map,
-    .public_symbol_map = ts_symbol_map,
-    .alias_map = ts_non_terminal_alias_map,
-    .state_count = STATE_COUNT,
   };
   return &language;
 }
