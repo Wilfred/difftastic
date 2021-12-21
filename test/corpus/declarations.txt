@@ -660,3 +660,66 @@ type
           (type (typeref (identifier))))
         (kEnd)))))
 
+===
+Inline type declarations
+===
+
+var
+  a: array of b;
+  a: string[b];
+  a: file of b;
+  a: file;
+  a: set of b;
+  a: set of (b, c);
+
+procedure a(b: array of c; d: array of const; var e: string[4]);
+begin
+end;
+
+---
+
+(root
+  (declVars (kVar)
+    (declVar
+      (identifier)
+      (type (declArray (kArray) (kOf) (type (typeref (identifier))))))
+    (declVar
+      (identifier)
+      (type (declString (kString) (identifier))))
+    (declVar
+      (identifier)
+      (type (declFile (kFile) (kOf) (type (typeref (identifier))))))
+    (declVar
+      (identifier)
+      (type (declFile (kFile))))
+    (declVar
+      (identifier)
+      (type (declSet (kSet) (kOf) (type (typeref (identifier))))))
+    (declVar
+      (identifier)
+      (type
+        (declSet
+          (kSet)
+          (kOf)
+          (type
+            (declEnum
+              (declEnumValue
+                (identifier))
+              (declEnumValue
+                (identifier))))))))
+  (defProc
+    (declProc (kProcedure) (identifier)
+      (declArgs
+        (declArg
+          (identifier)
+          (type (declArray (kArray) (kOf) (type (typeref (identifier))))))
+        (declArg
+          (identifier)
+          (type (declArray (kArray) (kOf) (type (typeref (identifier))))))
+        (declArg
+          (kVar)
+          (identifier)
+          (type (declString (kString) (literalNumber))))))
+    (block
+      (kBegin)
+      (kEnd))))
