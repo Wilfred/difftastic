@@ -1,0 +1,327 @@
+===
+Program 1 - Empty
+===
+
+program a;
+begin
+end.
+
+---
+
+(root
+  (program (kProgram) (moduleName (identifier))
+    (block
+      (kBegin)
+      (kEnd))
+    (kEndDot)))
+
+
+===
+Program 2 - Variables
+===
+
+program a;
+var
+  b: c;
+begin
+end.
+
+---
+
+(root
+  (program (kProgram) (moduleName (identifier))
+    (declVars (kVar)
+      (declVar (identifier) (type (typeref (identifier)))))
+    (block
+      (kBegin)
+      (kEnd))
+    (kEndDot)))
+
+
+===
+Program 3 - Subroutines
+===
+
+program a;
+var
+  b: c;
+
+procedure d;
+begin
+end;
+
+begin
+  d;
+end.
+
+---
+
+(root
+  (program
+    (kProgram)
+    (moduleName
+      (identifier))
+    (declVars
+      (kVar)
+      (declVar
+        (identifier)
+        (type
+          (typeref
+            (identifier)))))
+    (defProc
+      (declProc
+        (kProcedure)
+        (identifier))
+      (block
+        (kBegin)
+        (kEnd)))
+    (block
+      (kBegin)
+      (statement
+        (identifier))
+      (kEnd))
+    (kEndDot)))
+
+
+===
+Library 1 - Empty
+===
+
+library a;
+end.
+
+---
+
+(root
+  (library (kLibrary) (moduleName (identifier))
+    (kEnd)
+    (kEndDot)))
+
+===
+Library 2 - Main Function
+===
+
+library a;
+begin
+end.
+
+---
+
+(root
+  (library (kLibrary) (moduleName (identifier))
+    (block
+      (kBegin)
+      (kEnd))
+    (kEndDot)))
+
+
+===
+Unit 1 - Empty
+===
+
+unit a;
+interface
+implementation
+end.
+
+---
+
+(root
+  (unit (kUnit) (moduleName (identifier))
+    (interface (kInterface))
+    (implementation (kImplementation))
+    (kEnd)
+    (kEndDot)))
+
+===
+Unit 2 - All sections
+===
+
+unit a;
+interface
+implementation
+initialization
+finalization
+end.
+
+---
+
+(root
+  (unit (kUnit) (moduleName (identifier))
+    (interface (kInterface))
+    (implementation (kImplementation))
+    (initialization (kInitialization))
+    (finalization (kFinalization))
+    (kEnd)
+    (kEndDot)))
+
+===
+Unit 3 - Routines
+===
+
+unit a;
+
+interface
+
+  procedure a;
+  function b: c;
+
+implementation
+
+  procedure d; forward;
+
+  procedure a;
+  begin
+    d;
+  end;
+
+  function b: c;
+  begin
+  end;
+
+  procedure d;
+  begin
+  end;
+
+end.
+
+---
+
+(root
+  (unit (kUnit) (moduleName (identifier))
+    (interface (kInterface)
+      (declProc (kProcedure) (identifier))
+      (declProc (kFunction) (identifier) (typeref (identifier))))
+    (implementation (kImplementation)
+      (declProc (kProcedure) (identifier) (kForward))
+      (defProc
+        (declProc (kProcedure) (identifier))
+        (block
+          (kBegin)
+          (statement (identifier))
+          (kEnd)))
+      (defProc
+        (declProc (kFunction) (identifier) (typeref (identifier)))
+        (block
+          (kBegin)
+          (kEnd)))
+      (defProc
+        (declProc (kProcedure) (identifier))
+        (block
+          (kBegin)
+          (kEnd))))
+    (kEnd)
+    (kEndDot)))
+
+
+===
+Unit 4 - Namespaces
+===
+
+unit a.b.c;
+
+interface
+
+uses
+  d.e.f, g, h;
+
+implementation
+
+uses
+  i, j.h;
+
+end.
+
+---
+
+(root
+  (unit (kUnit)
+    (moduleName
+      (identifier)
+      (kDot)
+      (identifier)
+      (kDot)
+      (identifier))
+    (interface (kInterface)
+      (declUses (kUses)
+        (moduleName
+          (identifier)
+          (kDot)
+          (identifier)
+          (kDot)
+          (identifier))
+        (moduleName
+          (identifier))
+        (moduleName
+          (identifier))))
+    (implementation (kImplementation)
+      (declUses (kUses)
+        (moduleName
+          (identifier))
+        (moduleName
+          (identifier)
+          (kDot)
+          (identifier))))
+    (kEnd)
+    (kEndDot)))
+
+
+===
+Unit 5 - Classes
+===
+
+unit a;
+
+interface
+
+type
+  b = class
+    procedure c;
+    class procedure d;
+  end;
+
+implementation
+
+procedure b.c;
+begin
+end;
+
+class procedure b.d;
+begin
+end;
+
+end.
+
+---
+
+(root
+  (unit (kUnit) (moduleName (identifier))
+    (interface (kInterface)
+      (declTypes (kType)
+        (declType (identifier) (kEq)
+          (declClass (kClass)
+            (declProc (kProcedure) (identifier))
+            (declProc (kClass) (kProcedure) (identifier))
+            (kEnd)))))
+    (implementation (kImplementation)
+      (defProc
+        (declProc (kProcedure)
+          (genericDot
+            (identifier)
+            (kDot)
+            (identifier)))
+        (block
+          (kBegin)
+          (kEnd)))
+      (defProc
+        (declProc (kClass) (kProcedure)
+          (genericDot
+            (identifier)
+            (kDot)
+            (identifier)))
+        (block
+          (kBegin)
+          (kEnd))))
+    (kEnd)
+    (kEndDot)))
+
