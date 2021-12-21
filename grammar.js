@@ -278,6 +278,35 @@ module.exports = grammar({
         optional(field("assign", seq("as", alias($._name, $.pattern_assign))))
       ),
     _expression: ($) => "todo",
+    // The way that this function is written in the Gleam parser is essentially
+    // incompatible with tree-sitter. It first parses some base expression,
+    // then potentially parses field access, record updates, or function calls
+    // as an extension of that base expression that was previously parsed.
+    // tree-sitter provides no facility to amend a node that was already
+    // successfully parsed.
+    //
+    // Also, I was surprised to learn that "." isn't treated as an operator by
+    // the parser. I believe that treating "." as a high-precedence,
+    // left-associative operator will allow me to chain together tuple
+    // accesses, field accesses, etc in the desirable fashion.
+    //
+    // Also, this new approach featuring explicit rules for tuple access, etc
+    // opens the door to more strict parser checks, e.g. ensuring we're not
+    // performing tuple access on an integer. It would be more work, though, so
+    // we'll see how I'm feeling tomorrow.
+    _expression_unit: ($) =>
+      choice(
+        $.string,
+        $.integer,
+        $.float,
+        $.var,
+        alias($._upname, $.record)
+        // TODO: Finish base expression parsing*
+        //       * Considering record update and function call as base exprs
+        // TODO: Consider "." a high-precedence, left-associative operator used
+        //       for tuple access, field access, constructor access, record
+        //       update, and function call.
+      ),
     var: ($) => $._name,
     discard_var: ($) => $._discard_name,
     remote_constructor_pattern: ($) =>
