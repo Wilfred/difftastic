@@ -42,9 +42,9 @@ const op = {
 	))
 }
 
-function delimited1(rule, delimiter = ',') {
+function delimited1(rule, delimiter = ',', precedence=0) {
 	return seq(
-		optional(repeat1(seq(rule, delimiter))),
+		optional(repeat1(prec(precedence,seq(rule, delimiter)))),
 		rule
 	);
 }
@@ -378,7 +378,25 @@ module.exports = grammar({
 		),
 
 		_ref:            $ => choice(
-			$.identifier, $._literal,  $.inherited, $.exprDot,
+			...enable_if(templates && fpc,
+				// TODO: Ideally, the kSpecialize should be part of exprTpl,
+				// but for some reason this leads to a rule conflict, so for
+				// now we just put it here.
+				//
+				// Also, we have to write the rule in this weird weird way,
+				// because if we just do
+				//
+				//   seq(optional($.kSpecialize), $.identifier)
+				//
+				// then we can't have a standalone identifier named
+				// "specialize". (Bug in tree-sitter?)
+				prec.left(choice(
+					seq($.kSpecialize, $.identifier),
+					seq(alias($.kSpecialize, $.identifier)),
+				))
+			),
+			$.identifier,
+            $._literal,  $.inherited, $.exprDot,
 			$.exprBrackets, $.exprParens, $.exprSubscript, $.exprCall,
 			alias($.exprDeref, $.exprUnary),
 			alias($.exprAs, $.exprBinary),
@@ -446,7 +464,7 @@ module.exports = grammar({
 		// template. Then the existing node is simply "renamed". Because of
 		// this, we can't have an extra node in only one of the branches.
 		//
-		exprTpl:         $ => op.args(5, $._ref, $.kLt, delimited1($._expr),  $.kGt),
+		exprTpl:         $ => op.args(5, $._ref, $.kLt, delimited1($._expr, ',', 5),  $.kGt),
 		exprSubscript:   $ => op.args(5, $._ref, '[',   $.exprArgs,  ']'  ),
 		exprCall:        $ => op.args(5, $._ref, '(',   optional($.exprArgs), ')'  ),
 
@@ -834,6 +852,7 @@ module.exports = grammar({
 		// Stuff for procedure / function / operator declarations
 
 		_declProc:       $ => seq(
+			...enable_if(fpc, optional($.kGeneric)),
 			optional($.kClass),
 			choice($.kProcedure, $.kFunction, $.kConstructor, $.kDestructor),
 			field('name', $._genericName),
