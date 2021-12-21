@@ -929,7 +929,7 @@ module.exports = grammar({
 		_procAttributeNoExt: $ => /*pp($,*/ choice(
 			seq(field('attribute', $.procAttribute), ';'),
 			// FPC-specific syntax, e.g. procedure myproc; [public; alias:'bla'; cdecl];
-			...enable_if(fpc, seq('[', delimited(field('attribute', choice($.procAttribute))), ']', ';'))
+			...enable_if(fpc, seq('[', delimited(field('attribute', choice($.procAttribute)), ';'), ']', ';'))
 		)/*)*/,
 
 		procAttribute:   $ => choice(

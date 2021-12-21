@@ -7955,7 +7955,7 @@
                                 },
                                 {
                                   "type": "STRING",
-                                  "value": ","
+                                  "value": ";"
                                 }
                               ]
                             }
