@@ -595,6 +595,10 @@ module.exports = grammar({
 			alias($.declProcFwd, $.declProc),
 			$.declLabels, $.declUses, $.declExports,
 
+			// Include files may consist solely of preprocessor directives
+			// (e.g. to include other files)
+			$.pp,
+
 			// Not actually valid syntax, but helps the parser recover:
 			prec(-1,$.blockTr)
 		),

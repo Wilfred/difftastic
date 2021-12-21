@@ -2928,6 +2928,10 @@
           {
             "type": "defProc",
             "named": true
+          },
+          {
+            "type": "pp",
+            "named": true
           }
         ]
       }
@@ -5539,6 +5543,10 @@
         {
           "type": "kImplementation",
           "named": true
+        },
+        {
+          "type": "pp",
+          "named": true
         }
       ]
     }
@@ -5780,6 +5788,10 @@
           {
             "type": "defProc",
             "named": true
+          },
+          {
+            "type": "pp",
+            "named": true
           }
         ]
       },
@@ -5950,6 +5962,10 @@
         },
         {
           "type": "moduleName",
+          "named": true
+        },
+        {
+          "type": "pp",
           "named": true
         }
       ]
@@ -6507,6 +6523,10 @@
         {
           "type": "moduleName",
           "named": true
+        },
+        {
+          "type": "pp",
+          "named": true
         }
       ]
     }
@@ -6943,6 +6963,10 @@
         },
         {
           "type": "library",
+          "named": true
+        },
+        {
+          "type": "pp",
           "named": true
         },
         {
