@@ -4467,7 +4467,7 @@
           "type": "IMMEDIATE_TOKEN",
           "content": {
             "type": "PATTERN",
-            "value": "-?[0-9]+"
+            "value": "[-+]?[0-9]+"
           }
         },
         {
@@ -4484,7 +4484,7 @@
       "value": 10,
       "content": {
         "type": "PATTERN",
-        "value": "-?[0-9]*\\.?[0-9]+(e[+-]?[0-9]+)?"
+        "value": "[-+]?[0-9]*\\.?[0-9]+(e[+-]?[0-9]+)?"
       }
     },
     "range": {

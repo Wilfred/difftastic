@@ -578,10 +578,10 @@ module.exports = grammar({
 		literalChar:     $ => seq('#', $._literalInt),
 		literalNumber:   $ => choice($._literalInt, $._literalFloat),
 		_literalInt:     $ => choice(
-			token.immediate(/-?[0-9]+/),
+			token.immediate(/[-+]?[0-9]+/),
 			token.immediate(/\$[a-fA-F0-9]+/)
 		),
-		_literalFloat:   $ => prec(10, /-?[0-9]*\.?[0-9]+(e[+-]?[0-9]+)?/),
+		_literalFloat:   $ => prec(10, /[-+]?[0-9]*\.?[0-9]+(e[+-]?[0-9]+)?/),
 
 		range:           $ => seq(
 			$._expr, '..', $._expr

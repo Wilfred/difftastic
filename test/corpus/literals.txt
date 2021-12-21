@@ -1,0 +1,176 @@
+===
+Integers
+===
+
+const
+  a = 1234567890;
+  b = +123;
+  c = -123;
+  d = $123abc;
+
+---
+
+(root
+  (declConsts (kConst)
+    (declConst (identifier) (defaultValue (kEq) (literalNumber)))
+    (declConst (identifier) (defaultValue (kEq) (literalNumber)))
+    (declConst (identifier) (defaultValue (kEq) (literalNumber)))
+    (declConst (identifier) (defaultValue (kEq) (literalNumber)))))
+
+
+===
+Floating point numbers
+===
+
+const
+  a = 1.234567890;
+  b = 1234567890.0;
+  c = -1.2;
+  d = +1.2;
+  e = 1.2e3;
+  f = 1.2e-3;
+  g = .123;
+
+---
+
+(root
+  (declConsts (kConst)
+    (declConst (identifier)
+      (defaultValue (kEq) (literalNumber)))
+    (declConst (identifier)
+      (defaultValue (kEq) (literalNumber)))
+    (declConst (identifier)
+      (defaultValue (kEq) (literalNumber)))
+    (declConst (identifier)
+      (defaultValue (kEq) (literalNumber)))
+    (declConst (identifier)
+      (defaultValue (kEq) (literalNumber)))
+    (declConst (identifier)
+      (defaultValue (kEq) (literalNumber)))
+    (declConst (identifier)
+      (defaultValue (kEq) (literalNumber)))))
+
+===
+Strings
+===
+
+const
+  a = 'Hello World';
+  b = #123;
+  c = #13#10;
+  d = 'Hello'#13#10'World';
+  e = 'Hello'#$0c#$0a'World'#13#10;
+
+===
+Array initializer
+===
+
+const
+  a: array of integer = (1, 2, 3, 4, 5);
+  a: array[0..2, 0..2] of integer = 
+    (
+      (1, 2, 3),
+      (4, 5, 6),
+      (7, 8, 9)
+    );
+
+---
+
+(root
+  (declConsts (kConst)
+    (declConst (identifier)
+      (type (declArray (kArray) (kOf) (type (typeref (identifier)))))
+      (defaultValue (kEq)
+        (arrInitializer
+          (literalNumber)
+          (literalNumber)
+          (literalNumber)
+          (literalNumber)
+          (literalNumber))))
+    (declConst (identifier)
+      (type
+        (declArray (kArray)
+          (range (literalNumber) (literalNumber))
+          (range (literalNumber) (literalNumber))
+          (kOf)
+          (type (typeref (identifier)))))
+      (defaultValue (kEq)
+        (arrInitializer
+          (arrInitializer
+            (literalNumber)
+            (literalNumber)
+            (literalNumber))
+          (arrInitializer
+            (literalNumber)
+            (literalNumber)
+            (literalNumber))
+          (arrInitializer
+            (literalNumber)
+            (literalNumber)
+            (literalNumber)))))))
+
+
+===
+Record initializer
+===
+
+const
+  a: TMyRec = (a: 1; b: 2; c: (d: 3; e: 4); 567);
+
+---
+
+(root
+  (declConsts (kConst)
+    (declConst (identifier) (type (typeref (identifier)))
+      (defaultValue (kEq)
+        (recInitializer
+          (recInitializerField (identifier) (literalNumber))
+          (recInitializerField (identifier) (literalNumber))
+          (recInitializerField (identifier)
+            (recInitializer
+              (recInitializerField (identifier) (literalNumber))
+              (recInitializerField (identifier) (literalNumber))))
+          (recInitializerField (literalNumber)))))))
+
+===
+Sets
+===
+
+const
+  a = [0..9, 'a'..'f', 'A'..'F'];
+
+---
+
+(root
+  (declConsts (kConst)
+    (declConst (identifier)
+      (defaultValue (kEq)
+        (exprBrackets
+          (range (literalNumber) (literalNumber))
+          (range (literalString) (literalString))
+          (range (literalString) (literalString)))))))
+
+===
+Constant expression
+===
+
+const
+  a = +1.2 + 3.4;
+  a = +1.2 + +3.4;
+
+---
+
+(root
+  (declConsts (kConst)
+    (declConst (identifier)
+      (defaultValue (kEq)
+        (exprBinary
+          (literalNumber)
+          (kAdd)
+          (literalNumber))))
+    (declConst (identifier)
+      (defaultValue (kEq)
+        (exprBinary
+          (literalNumber)
+          (kAdd)
+          (literalNumber))))))
