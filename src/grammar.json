@@ -1774,6 +1774,36 @@
       "type": "STRING",
       "value": "todo"
     },
+    "_expression_unit": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "integer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "float"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "var"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_upname"
+          },
+          "named": true,
+          "value": "record"
+        }
+      ]
+    },
     "var": {
       "type": "SYMBOL",
       "name": "_name"
