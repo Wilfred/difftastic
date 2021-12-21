@@ -859,15 +859,14 @@ module.exports = grammar({
 			';',
 			repeat($._procAttributeNoExt)
 		),
+
+		operatorDot:     $ => op.infix(0, $._genericName, $.kDot, $.operatorName),
 		_operatorName:   $ => seq(
 			choice(
 				$._genericName,
 				...enable_if(fpc,
 					$.operatorName,
-					alias(
-						op.infix(0, $._genericName, $.kDot, $.operatorName),
-						$.genericDot
-					)
+					alias($.operatorDot, $.genericDot)
 				)
 			)
 		),

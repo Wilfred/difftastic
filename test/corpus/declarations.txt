@@ -252,6 +252,10 @@ type
   a = interface
   end;
 
+  a = interface
+    ['3d298d62-6d73-46a9-8267-24e4b3176cec']
+  end;
+
 ---
 
 (root
@@ -259,7 +263,9 @@ type
     (declType (identifier) (kEq) (declClass (kClass) (kEnd)))
     (declType (identifier) (kEq) (declClass (kRecord) (kEnd)))
     (declType (identifier) (kEq) (declClass (kObject) (kEnd)))
-    (declType (identifier) (kEq) (declIntf (kInterface) (kEnd)))))
+    (declType (identifier) (kEq) (declIntf (kInterface) (kEnd)))
+    (declType (identifier) (kEq) (declIntf (kInterface) (guid (literalString)) (kEnd)))))
+
 
 ===
 Inheritance
@@ -375,6 +381,69 @@ type
         (declSection (kProtected))
         (declSection (kPublic))
         (declSection (kPublished))
+        (kEnd)))))
+
+===
+Nested declarations
+===
+
+type
+  a = class
+  type
+    b = class
+    end;
+    c = d;
+  var
+    e: f;
+  const
+    g = h;
+  public
+    constructor i;
+  end;
+
+---
+
+(root
+  (declTypes (kType)
+    (declType (identifier) (kEq)
+      (declClass (kClass)
+        (declTypes (kType)
+          (declType (identifier) (kEq)
+            (declClass
+              (kClass)
+              (kEnd)))
+          (declType (identifier) (kEq)
+            (type (typeref (identifier)))))
+        (declVars (kVar)
+          (declVar (identifier) (type (typeref (identifier)))))
+        (declConsts (kConst)
+          (declConst (identifier) (defaultValue (kEq) (identifier))))
+        (declSection (kPublic)
+          (declProc (kConstructor) (identifier)))
+        (kEnd)))))
+
+===
+Class members
+===
+
+type
+  a = class
+    class procedure b;
+    class var
+      c: d;
+      e: f;
+  end;
+
+---
+
+(root
+  (declTypes (kType)
+    (declType (identifier) (kEq)
+      (declClass (kClass)
+        (declProc (kClass) (kProcedure) (identifier))
+        (declVars (kClass) (kVar)
+          (declVar (identifier) (type (typeref (identifier))))
+          (declVar (identifier) (type (typeref (identifier)))))
         (kEnd)))))
 
 ===
@@ -557,5 +626,37 @@ type
                 (declField
                   (identifier)
                   (type (typeref (identifier))))))))
+        (kEnd)))))
+
+===
+Operator overloads
+===
+
+type
+  a = record
+    operator +(b, c: a): a;
+    operator Subtract(b, c: a): a;
+  end;
+
+---
+
+(root
+  (declTypes (kType)
+    (declType (identifier) (kEq)
+      (declClass (kRecord)
+        (declProc (kOperator) (operatorName (kAdd))
+          (declArgs
+            (declArg
+              (identifier)
+              (identifier)
+              (type (typeref (identifier)))))
+          (type (typeref (identifier))))
+        (declProc (kOperator) (identifier)
+          (declArgs
+            (declArg
+              (identifier)
+              (identifier)
+              (type (typeref (identifier)))))
+          (type (typeref (identifier))))
         (kEnd)))))
 

@@ -1,0 +1,348 @@
+===
+Arguments
+===
+
+procedure a;
+begin
+end;
+
+procedure a(b: c);
+begin
+end;
+
+procedure a(b, c: d);
+begin
+end;
+
+procedure a(b, c: d; e, f: g);
+begin
+end;
+
+procedure a(var b: c; const d: e; out f: g);
+begin
+end;
+
+procedure a(var b; const b; out c);
+begin
+end;
+
+procedure a(var b, c: d; const e, f);
+begin
+end;
+
+function a: b;
+begin
+end;
+
+function a(b: c): d;
+begin
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (block (kBegin) (kEnd)))
+  (defProc
+    (declProc (kProcedure) (identifier)
+      (declArgs
+        (declArg
+          (identifier)
+          (type (typeref (identifier))))))
+    (block (kBegin) (kEnd)))
+  (defProc
+    (declProc (kProcedure) (identifier)
+      (declArgs
+        (declArg
+          (identifier)
+          (identifier)
+          (type (typeref (identifier))))))
+    (block (kBegin) (kEnd)))
+  (defProc
+    (declProc (kProcedure) (identifier)
+      (declArgs
+        (declArg
+          (identifier)
+          (identifier)
+          (type (typeref (identifier))))
+        (declArg
+          (identifier)
+          (identifier)
+          (type (typeref (identifier))))))
+    (block (kBegin) (kEnd)))
+  (defProc
+    (declProc (kProcedure) (identifier)
+      (declArgs
+        (declArg (kVar)
+          (identifier)
+          (type (typeref (identifier))))
+        (declArg (kConst)
+          (identifier)
+          (type (typeref (identifier))))
+        (declArg
+          (kOut)
+          (identifier)
+          (type (typeref (identifier))))))
+    (block (kBegin) (kEnd)))
+  (defProc
+    (declProc (kProcedure) (identifier)
+      (declArgs
+        (declArg (kVar) (identifier))
+        (declArg (kConst) (identifier))
+        (declArg (kOut) (identifier))))
+    (block (kBegin) (kEnd)))
+  (defProc
+    (declProc (kProcedure) (identifier)
+      (declArgs
+        (declArg (kVar)
+          (identifier)
+          (identifier)
+          (type (typeref (identifier))))
+        (declArg (kConst)
+          (identifier)
+          (identifier))))
+    (block (kBegin) (kEnd)))
+  (defProc
+    (declProc (kFunction) (identifier)
+      (typeref (identifier)))
+    (block (kBegin) (kEnd)))
+  (defProc
+    (declProc (kFunction) (identifier)
+      (declArgs
+        (declArg
+          (identifier)
+          (type (typeref (identifier)))))
+      (typeref (identifier)))
+    (block (kBegin) (kEnd))))
+
+===
+Methods
+===
+
+procedure a.b;
+begin
+end;
+
+procedure a.b(c: d);
+begin
+end;
+
+procedure a.b.c;
+begin
+end;
+
+constructor a.b;
+begin
+end;
+
+destructor a.b;
+begin
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure)
+      (genericDot
+        (identifier)
+        (kDot)
+        (identifier)))
+    (block (kBegin) (kEnd)))
+  (defProc
+    (declProc
+      (kProcedure)
+      (genericDot
+        (identifier)
+        (kDot)
+        (identifier))
+      (declArgs
+        (declArg
+          (identifier)
+          (type (typeref (identifier))))))
+    (block (kBegin) (kEnd)))
+  (defProc
+    (declProc (kProcedure)
+      (genericDot
+        (genericDot
+          (identifier)
+          (kDot)
+          (identifier))
+        (kDot)
+        (identifier)))
+    (block (kBegin) (kEnd)))
+    (defProc
+      (declProc (kConstructor)
+        (genericDot
+          (identifier)
+          (kDot)
+          (identifier)))
+      (block (kBegin) (kEnd)))
+    (defProc
+      (declProc (kDestructor)
+        (genericDot
+          (identifier)
+          (kDot)
+          (identifier)))
+      (block (kBegin) (kEnd))))
+
+===
+Operators
+===
+
+operator a.+(b, c: d): e;
+begin
+end;
+
+operator a.sub(b, c: d): e;
+begin
+end;
+
+operator a.b.c.+(d, e: f): g;
+begin
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kOperator)
+      (genericDot
+        (identifier)
+        (kDot)
+        (operatorName (kAdd)))
+      (declArgs
+        (declArg
+          (identifier)
+          (identifier)
+          (type (typeref (identifier)))))
+      (type (typeref (identifier))))
+    (block
+      (kBegin)
+      (kEnd)))
+  (defProc
+    (declProc (kOperator)
+      (genericDot
+        (identifier)
+        (kDot)
+        (identifier))
+      (declArgs
+        (declArg
+          (identifier)
+          (identifier)
+          (type (typeref (identifier)))))
+      (type (typeref (identifier))))
+    (block
+      (kBegin)
+      (kEnd)))
+  (defProc
+    (declProc (kOperator)
+      (genericDot
+        (genericDot
+          (genericDot
+            (identifier)
+            (kDot)
+            (identifier))
+          (kDot)
+          (identifier))
+        (kDot)
+        (operatorName (kAdd)))
+      (declArgs
+        (declArg
+          (identifier)
+          (identifier)
+          (type (typeref (identifier)))))
+      (type (typeref (identifier))))
+    (block
+      (kBegin)
+      (kEnd))))
+
+
+===
+Locals
+===
+
+procedure a;
+type
+  b = c;
+var
+  d: e;
+const
+  f = g;
+begin
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (declTypes (kType)
+      (declType (identifier) (kEq) (type (typeref (identifier)))))
+    (declVars (kVar)
+      (declVar (identifier) (type (typeref (identifier)))))
+    (declConsts (kConst)
+      (declConst (identifier) (defaultValue (kEq) (identifier))))
+    (block
+      (kBegin)
+      (kEnd))))
+
+
+===
+Nested routines
+===
+
+procedure a;
+  function b: c;
+    procedure d;
+    begin
+    end;
+  begin
+  end;
+begin
+end;
+
+function a: b;
+  var c: d;
+  procedure e;
+  var
+    f: g;
+  begin
+  end;
+begin
+end;
+
+---
+
+(root
+  (defProc
+    (declProc (kProcedure) (identifier))
+    (defProc
+      (declProc (kFunction) (identifier) (typeref (identifier)))
+      (defProc
+        (declProc (kProcedure) (identifier))
+        (block
+          (kBegin)
+          (kEnd)))
+      (block
+        (kBegin)
+        (kEnd)))
+    (block
+      (kBegin)
+      (kEnd)))
+  (defProc
+    (declProc (kFunction) (identifier) (typeref (identifier)))
+    (declVars (kVar)
+      (declVar (identifier) (type (typeref (identifier)))))
+    (defProc
+      (declProc (kProcedure) (identifier))
+      (declVars (kVar)
+        (declVar (identifier) (type (typeref (identifier)))))
+      (block
+        (kBegin)
+        (kEnd)))
+    (block
+      (kBegin)
+      (kEnd))))
+

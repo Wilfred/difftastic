@@ -1721,18 +1721,8 @@
           }
         ]
       },
-      "lhs": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "genericDot",
-            "named": true
-          }
-        ]
-      },
       "name": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1753,32 +1743,12 @@
           }
         ]
       },
-      "operator": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "genericDot",
-            "named": true
-          }
-        ]
-      },
       "resultName": {
         "multiple": false,
         "required": false,
         "types": [
           {
             "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "rhs": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "genericDot",
             "named": true
           }
         ]
@@ -4804,7 +4774,7 @@
     "fields": {
       "lhs": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "genericDot",
@@ -4822,7 +4792,7 @@
       },
       "operator": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "kDot",
@@ -4832,7 +4802,7 @@
       },
       "rhs": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "genericDot",
@@ -4845,111 +4815,13 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "operatorName",
+            "named": true
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "genericDot",
-          "named": true
-        },
-        {
-          "type": "genericTpl",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "kAdd",
-          "named": true
-        },
-        {
-          "type": "kAnd",
-          "named": true
-        },
-        {
-          "type": "kAssign",
-          "named": true
-        },
-        {
-          "type": "kDiv",
-          "named": true
-        },
-        {
-          "type": "kDot",
-          "named": true
-        },
-        {
-          "type": "kEq",
-          "named": true
-        },
-        {
-          "type": "kFdiv",
-          "named": true
-        },
-        {
-          "type": "kGt",
-          "named": true
-        },
-        {
-          "type": "kGte",
-          "named": true
-        },
-        {
-          "type": "kIn",
-          "named": true
-        },
-        {
-          "type": "kLt",
-          "named": true
-        },
-        {
-          "type": "kLte",
-          "named": true
-        },
-        {
-          "type": "kMod",
-          "named": true
-        },
-        {
-          "type": "kMul",
-          "named": true
-        },
-        {
-          "type": "kNeq",
-          "named": true
-        },
-        {
-          "type": "kNot",
-          "named": true
-        },
-        {
-          "type": "kOr",
-          "named": true
-        },
-        {
-          "type": "kShl",
-          "named": true
-        },
-        {
-          "type": "kShr",
-          "named": true
-        },
-        {
-          "type": "kSub",
-          "named": true
-        },
-        {
-          "type": "kXor",
-          "named": true
-        }
-      ]
     }
   },
   {

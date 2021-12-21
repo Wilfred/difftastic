@@ -7244,6 +7244,39 @@
         }
       ]
     },
+    "operatorDot": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "lhs",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_genericName"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "SYMBOL",
+              "name": "kDot"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "rhs",
+            "content": {
+              "type": "SYMBOL",
+              "name": "operatorName"
+            }
+          }
+        ]
+      }
+    },
     "_operatorName": {
       "type": "SEQ",
       "members": [
@@ -7261,37 +7294,8 @@
             {
               "type": "ALIAS",
               "content": {
-                "type": "PREC_LEFT",
-                "value": 0,
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "FIELD",
-                      "name": "lhs",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "_genericName"
-                      }
-                    },
-                    {
-                      "type": "FIELD",
-                      "name": "operator",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "kDot"
-                      }
-                    },
-                    {
-                      "type": "FIELD",
-                      "name": "rhs",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "operatorName"
-                      }
-                    }
-                  ]
-                }
+                "type": "SYMBOL",
+                "name": "operatorDot"
               },
               "named": true,
               "value": "genericDot"
