@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-pascal",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Tree sitter grammar for Pascal (Delphi, Freepascal)",
   "main": "bindings/node",
   "repository": null,
