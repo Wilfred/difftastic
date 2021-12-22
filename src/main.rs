@@ -15,6 +15,7 @@ mod lines;
 mod positions;
 mod side_by_side;
 mod style;
+mod summary;
 mod syntax;
 mod tree_sitter_parser;
 
@@ -35,6 +36,7 @@ static GLOBAL: MiMalloc = MiMalloc;
 use atty::Stream;
 use clap::{crate_version, App, AppSettings, Arg};
 use std::{env, ffi::OsStr, path::Path};
+use summary::DiffResult;
 use typed_arena::Arena;
 use walkdir::WalkDir;
 
@@ -219,9 +221,12 @@ fn main() {
             rhs_path,
         } => {
             if Path::new(&lhs_path).is_dir() && Path::new(&rhs_path).is_dir() {
-                diff_directories(&lhs_path, &rhs_path);
+                for diff_result in diff_directories(&lhs_path, &rhs_path) {
+                    print_diff_result(&diff_result);
+                }
             } else {
-                diff_file(&display_path, &lhs_path, &rhs_path);
+                let diff_result = diff_file(&display_path, &lhs_path, &rhs_path);
+                print_diff_result(&diff_result);
             }
         }
     };
@@ -229,15 +234,22 @@ fn main() {
 
 /// Print a diff between two files.
 // TODO: prefer PathBuf to &str for paths.
-fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
+fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) -> DiffResult {
     let lhs_bytes = read_or_die(lhs_path);
     let rhs_bytes = read_or_die(rhs_path);
 
     let lhs_binary = is_probably_binary(&lhs_bytes);
     let rhs_binary = is_probably_binary(&rhs_bytes);
     if lhs_binary || rhs_binary {
-        print!("{}", style::header(display_path, 1, 1, "binary"));
-        return;
+        return DiffResult {
+            path: display_path.into(),
+            language: None,
+            binary: true,
+            lhs_src: "".into(),
+            rhs_src: "".into(),
+            lhs_positions: vec![],
+            rhs_positions: vec![],
+        };
     }
 
     // TODO: don't replace tab characters inside string literals.
@@ -255,12 +267,12 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     let arena = Arena::new();
     let (lang_name, lhs, rhs) = match ts_lang {
         Some(ts_lang) => (
-            ts_lang.name,
+            Some(ts_lang.name.into()),
             tsp::parse(&arena, &lhs_src, &ts_lang),
             tsp::parse(&arena, &rhs_src, &ts_lang),
         ),
         None => (
-            "text",
+            None,
             line_parser::parse(&arena, &lhs_src),
             line_parser::parse(&arena, &rhs_src),
         ),
@@ -272,45 +284,14 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
     let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
     let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
 
-    let hunks = matched_pos_to_hunks(&lhs_positions, &rhs_positions);
-    let hunks = merge_adjacent(
-        &hunks,
-        &lhs_positions,
-        &rhs_positions,
-        lhs_src.max_line(),
-        rhs_src.max_line(),
-    );
-
-    if hunks.is_empty() {
-        println!("{}", style::header(display_path, 1, 1, lang_name));
-        if lang_name == "text" {
-            println!("No changes.\n");
-        } else {
-            println!("No syntactic changes.\n");
-        }
-        return;
-    }
-
-    if env::var("INLINE").is_ok() {
-        println!("{}", style::header(display_path, 1, 1, lang_name));
-
-        println!(
-            "{}",
-            inline::display(&lhs_src, &rhs_src, &lhs_positions, &rhs_positions, &hunks)
-        );
-    } else {
-        println!(
-            "{}",
-            side_by_side::display_hunks(
-                &hunks,
-                display_path,
-                lang_name,
-                &lhs_src,
-                &rhs_src,
-                &lhs_positions,
-                &rhs_positions,
-            )
-        );
+    DiffResult {
+        path: display_path.into(),
+        language: lang_name,
+        binary: false,
+        lhs_src,
+        rhs_src,
+        lhs_positions,
+        rhs_positions,
     }
 }
 
@@ -319,7 +300,8 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) {
 ///
 /// When more than one file is modified, the hg extdiff extension passes directory
 /// paths with the all the modified files.  fn
-fn diff_directories(lhs_dir: &str, rhs_dir: &str) {
+fn diff_directories(lhs_dir: &str, rhs_dir: &str) -> Vec<DiffResult> {
+    let mut res = vec![];
     for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
         let lhs_path = entry.path();
         if lhs_path.is_dir() {
@@ -331,10 +313,66 @@ fn diff_directories(lhs_dir: &str, rhs_dir: &str) {
         let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
         let rhs_path = Path::new(rhs_dir).join(rel_path);
 
-        diff_file(
+        res.push(diff_file(
             &rel_path.to_string_lossy(),
             &lhs_path.to_string_lossy(),
             &rhs_path.to_string_lossy(),
+        ));
+    }
+    res
+}
+
+fn print_diff_result(summary: &DiffResult) {
+    if summary.binary {
+        print!("{}", style::header(&summary.path, 1, 1, "binary"));
+        return;
+    }
+
+    let hunks = matched_pos_to_hunks(&summary.lhs_positions, &summary.rhs_positions);
+    let hunks = merge_adjacent(
+        &hunks,
+        &summary.lhs_positions,
+        &summary.rhs_positions,
+        summary.lhs_src.max_line(),
+        summary.rhs_src.max_line(),
+    );
+
+    let lang_name = summary.language.clone().unwrap_or_else(|| "text".into());
+    if hunks.is_empty() {
+        println!("{}", style::header(&summary.path, 1, 1, &lang_name));
+        if lang_name == "text" {
+            println!("No changes.\n");
+        } else {
+            println!("No syntactic changes.\n");
+        }
+        return;
+    }
+
+    if env::var("INLINE").is_ok() {
+        println!("{}", style::header(&summary.path, 1, 1, &lang_name));
+
+        println!(
+            "{}",
+            inline::display(
+                &summary.lhs_src,
+                &summary.rhs_src,
+                &summary.lhs_positions,
+                &summary.rhs_positions,
+                &hunks
+            )
+        );
+    } else {
+        println!(
+            "{}",
+            side_by_side::display_hunks(
+                &hunks,
+                &summary.path,
+                &lang_name,
+                &summary.lhs_src,
+                &summary.rhs_src,
+                &summary.lhs_positions,
+                &summary.rhs_positions,
+            )
         );
     }
 }
