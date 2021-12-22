@@ -13,3 +13,4 @@
 /src/node-types.json
 /src/parser.c
 /src/tree_sitter/parser.h
+/src/typescript-scanner.h
