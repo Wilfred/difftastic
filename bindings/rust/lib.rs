@@ -1,4 +1,4 @@
-//! This crate provides qmljs language support for the [tree-sitter][] parsing library.
+//! This crate provides QML language support for the [tree-sitter][] parsing library.
 //!
 //! Typically, you will use the [language][language func] function to add this language to a
 //! tree-sitter [Parser][], and then use the parser to parse some code:
@@ -6,7 +6,7 @@
 //! ```
 //! let code = "";
 //! let mut parser = tree_sitter::Parser::new();
-//! parser.set_language(tree_sitter_qmljs::language()).expect("Error loading qmljs grammar");
+//! parser.set_language(tree_sitter_qmljs::language()).expect("Error loading QML grammar");
 //! let tree = parser.parse(code, None).unwrap();
 //! ```
 //!
@@ -47,6 +47,6 @@ mod tests {
         let mut parser = tree_sitter::Parser::new();
         parser
             .set_language(super::language())
-            .expect("Error loading qmljs language");
+            .expect("Error loading QML language");
     }
 }
