@@ -1,0 +1,31 @@
+================================================================================
+Pragma and imports
+================================================================================
+
+pragma Singleton
+pragma ListPropertyAssignBehavior: Append
+
+--------------------------------------------------------------------------------
+
+(program
+  headers: (ui_header_item_list
+    (ui_pragma
+      name: (identifier))
+    (ui_pragma
+      name: (identifier)
+      value: (identifier))))
+
+================================================================================
+Shebang
+================================================================================
+
+#!/usr/bin/env qml
+pragma Singleton
+
+--------------------------------------------------------------------------------
+
+(program
+  (hash_bang_line)
+  (ui_header_item_list
+    (ui_pragma
+      (identifier))))
