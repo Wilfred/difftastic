@@ -4,6 +4,7 @@ TREE_SITTER = node_modules/.bin/tree-sitter
 help:
 	@echo 'Make targets:'
 	@echo '  generate   - generate parser sources'
+	@echo '  tests      - run all tests'
 
 .PHONY: generate
 generate:
@@ -12,3 +13,7 @@ generate:
 
 src/typescript-scanner.h: node_modules/tree-sitter-typescript/common/scanner.h
 	cp $< $@
+
+.PHONY: tests
+tests:
+	$(TREE_SITTER) test $(TESTFLAGS)
