@@ -2,7 +2,7 @@
   "name": "tree-sitter-qmljs",
   "version": "0.0.0",
   "description": "QML grammar for the tree-sitter parsing library",
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "test": "tree-sitter test"
   },
