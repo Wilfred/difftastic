@@ -1,0 +1,24 @@
+{
+  "name": "tree-sitter-qmljs",
+  "version": "0.0.0",
+  "description": "QML grammar for the tree-sitter parsing library",
+  "main": "index.js",
+  "scripts": {
+    "test": "tree-sitter test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuja/tree-sitter-qmljs.git"
+  },
+  "keywords": [
+    "parser",
+    "tree-sitter",
+    "qml"
+  ],
+  "author": "Yuya Nishihara",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuja/tree-sitter-qmljs/issues"
+  },
+  "homepage": "https://github.com/yuja/tree-sitter-qmljs#readme"
+}
