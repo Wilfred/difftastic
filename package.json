@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/yuja/tree-sitter-qmljs/issues"
   },
-  "homepage": "https://github.com/yuja/tree-sitter-qmljs#readme"
+  "homepage": "https://github.com/yuja/tree-sitter-qmljs#readme",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.1"
+  }
 }
