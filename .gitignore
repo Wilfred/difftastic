@@ -7,3 +7,9 @@
 /node_modules/
 /package-lock.json
 /target/
+
+# Workaround for https://github.com/tree-sitter/tree-sitter/issues/730
+/src/grammar.json
+/src/node-types.json
+/src/parser.c
+/src/tree_sitter/parser.h
