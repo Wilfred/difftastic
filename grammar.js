@@ -396,7 +396,7 @@ module.exports = grammar({
 				))
 			),
 			$.identifier,
-            $._literal,  $.inherited, $.exprDot,
+			$._literal,  $.inherited, $.exprDot,
 			$.exprBrackets, $.exprParens, $.exprSubscript, $.exprCall,
 			alias($.exprDeref, $.exprUnary),
 			alias($.exprAs, $.exprBinary),
@@ -1182,7 +1182,7 @@ module.exports = grammar({
 		kIfndef:           $ => /[iI][fF][nN][dD][eE][fF]/,
 		kEndif:            $ => /[eE][nN][dD][iI][fF]/,
 		
-    	identifier:        $ => /[&]?[a-zA-Z_]+[0-9_a-zA-Z]*/,
+		identifier:        $ => /[&]?[a-zA-Z_]+[0-9_a-zA-Z]*/,
 
 	  	_space:            $ => /[\s\r\n\t]+/,
 		pp:                $ => /\{\$[^}]*\}/,
