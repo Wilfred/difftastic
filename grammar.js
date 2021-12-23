@@ -10,6 +10,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   inline: ($, original) => original.concat([
     $._ui_root_member,
     $._ui_object_member,
+    $._ui_binding_value,
     $._ui_script_statement,
     $._ui_qualified_id,
     $._ui_simple_qualified_id,
@@ -106,11 +107,9 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     _ui_object_member: $ => choice(
       $.ui_object_definition,
+      $.ui_binding,
       // TODO:
-      // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead T_LBRACKET UiArrayMemberList T_RBRACKET;
-      // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead UiQualifiedId UiObjectInitializer;
       // UiObjectMember: UiQualifiedId T_ON UiQualifiedId  UiObjectInitializer;
-      $.ui_script_binding,
       // UiObjectMember: T_SIGNAL T_IDENTIFIER T_LPAREN UiParameterListOpt T_RPAREN Semicolon;
       // UiObjectMember: T_SIGNAL T_IDENTIFIER Semicolon;
       // UiObjectMember: UiObjectMemberListPropertyNoInitialiser;
@@ -139,10 +138,17 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       // UiObjectMember: T_COMPONENT T_IDENTIFIER T_COLON UiObjectDefinition;
     ),
 
-    ui_script_binding: $ => seq(
-      field('id', $._ui_qualified_id),
+    ui_binding: $ => seq(
+      field('name', $._ui_qualified_id),
       ':',
-      field('statement', $._ui_script_statement),
+      field('value', $._ui_binding_value),
+    ),
+
+    _ui_binding_value: $ => choice(
+      // TODO:
+      // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead T_LBRACKET UiArrayMemberList T_RBRACKET;
+      // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead UiQualifiedId UiObjectInitializer;
+      $._ui_script_statement,
     ),
 
     _ui_script_statement: $ => choice(

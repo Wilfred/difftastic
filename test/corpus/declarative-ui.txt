@@ -137,23 +137,23 @@ MyItem {
   root: (ui_object_definition
     type_name: (identifier)
     initializer: (ui_object_initializer
-      (ui_script_binding
-        id: (identifier)
-        statement: (expression_statement
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
           (identifier)))
-      (ui_script_binding
-        id: (identifier)
-        statement: (empty_statement))
-      (ui_script_binding
-        id: (identifier)
-        statement: (with_statement
+      (ui_binding
+        name: (identifier)
+        value: (empty_statement))
+      (ui_binding
+        name: (identifier)
+        value: (with_statement
           object: (parenthesized_expression
             (identifier))
           body: (expression_statement
             (identifier))))
-      (ui_script_binding
-        id: (identifier)
-        statement: (if_statement
+      (ui_binding
+        name: (identifier)
+        value: (if_statement
           condition: (parenthesized_expression
             (identifier))
           consequence: (expression_statement
@@ -161,18 +161,18 @@ MyItem {
           alternative: (else_clause
             (expression_statement
               (false)))))
-      (ui_script_binding
-        id: (identifier)
-        statement: (switch_statement
+      (ui_binding
+        name: (identifier)
+        value: (switch_statement
           value: (parenthesized_expression
             (identifier))
           body: (switch_body
             (switch_default
               body: (return_statement
                 (undefined))))))
-      (ui_script_binding
-        id: (identifier)
-        statement: (expression_statement
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
           (object
             (pair
               key: (property_identifier)
@@ -180,38 +180,38 @@ MyItem {
             (pair
               key: (property_identifier)
               value: (true)))))
-      (ui_script_binding
-        id: (identifier)
-        statement: (expression_statement
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
           (member_expression
             object: (identifier)
             property: (property_identifier))))
-      (ui_script_binding
-        id: (ui_qualified_id
+      (ui_binding
+        name: (ui_qualified_id
           (identifier)
           (identifier))
-        statement: (expression_statement
+        value: (expression_statement
           (parenthesized_expression
             (true))))
-      (ui_script_binding
-        id: (identifier)
-        statement: (expression_statement
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
           (function
             parameters: (formal_parameters
               (required_parameter
                 pattern: (identifier)))
             body: (statement_block))))
-      (ui_script_binding
-        id: (identifier)
-        statement: (expression_statement
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
           (arrow_function
             parameters: (formal_parameters
               (required_parameter
                 pattern: (identifier)))
             body: (statement_block))))
-      (ui_script_binding
-        id: (identifier)
-        statement: (try_statement
+      (ui_binding
+        name: (identifier)
+        value: (try_statement
           body: (statement_block
             (expression_statement
               (call_expression
