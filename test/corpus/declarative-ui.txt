@@ -112,6 +112,34 @@ Item {
         initializer: (ui_object_initializer)))))
 
 ================================================================================
+Object on bindings
+================================================================================
+
+MyItem {
+    Behavior on value {}
+    Qualified.Object on qualified.prop {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_object_definition_binding
+        type_name: (identifier)
+        name: (identifier)
+        initializer: (ui_object_initializer))
+      (ui_object_definition_binding
+        type_name: (ui_qualified_id
+          (identifier)
+          (identifier))
+        name: (ui_qualified_id
+          (identifier)
+          (identifier))
+        initializer: (ui_object_initializer)))))
+
+================================================================================
 Object/Array bindings
 ================================================================================
 

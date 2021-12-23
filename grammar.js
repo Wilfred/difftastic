@@ -111,9 +111,9 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     _ui_object_member: $ => choice(
       $.ui_object_definition,
+      $.ui_object_definition_binding,
       $.ui_binding,
       // TODO:
-      // UiObjectMember: UiQualifiedId T_ON UiQualifiedId  UiObjectInitializer;
       // UiObjectMember: T_SIGNAL T_IDENTIFIER T_LPAREN UiParameterListOpt T_RPAREN Semicolon;
       // UiObjectMember: T_SIGNAL T_IDENTIFIER Semicolon;
       // UiObjectMember: UiObjectMemberListPropertyNoInitialiser;
@@ -140,6 +140,13 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       // UiObjectMember: VariableStatement;
       // UiObjectMember: T_ENUM T_IDENTIFIER T_LBRACE EnumMemberList T_RBRACE;
       // UiObjectMember: T_COMPONENT T_IDENTIFIER T_COLON UiObjectDefinition;
+    ),
+
+    ui_object_definition_binding: $ => seq(
+      field('type_name', $._ui_qualified_id),
+      'on',
+      field('name', $._ui_qualified_id),
+      field('initializer', $.ui_object_initializer),
     ),
 
     ui_binding: $ => seq(
