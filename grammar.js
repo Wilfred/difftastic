@@ -8,6 +8,9 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   name: 'qmljs',
 
   inline: ($, original) => original.concat([
+    $._ui_root_member,
+    $._ui_qualified_id,
+    $._ui_simple_qualified_id,
     $._qml_identifier,
   ]),
 
@@ -17,7 +20,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     program: $ => seq(
       optional($.hash_bang_line),
       optional(field('headers', $.ui_header_item_list)),
-      // TODO: UiRootMember
+      field('root', $._ui_root_member),
       optional(seq('\0', $.statement)),  // TODO: remove
     ),
 
@@ -62,6 +65,42 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
         ),
       );
     },
+
+    _ui_root_member: $ => choice(
+      $.ui_object_definition,
+      $.ui_annotated_object,
+    ),
+
+    ui_object_definition: $ => seq(
+      field('type_name', $._ui_qualified_id),
+      field('initializer', $.ui_object_initializer),
+    ),
+
+    ui_annotated_object: $ => seq(
+      field('annotations', $.ui_annotation_list),
+      field('definition', $.ui_object_definition),
+    ),
+
+    ui_annotation_list: $ => repeat1($.ui_annotation),
+
+    ui_annotation: $ => seq(
+      '@',
+      field('type_name', $._ui_simple_qualified_id),
+      field('initializer', $.ui_object_initializer),
+    ),
+
+    ui_object_initializer: $ => seq(
+      '{',
+      // TODO: UiObjectMemberList
+      '}',
+    ),
+
+    _ui_qualified_id: $ => choice(
+      $.identifier,
+      $.nested_identifier,
+    ),
+
+    _ui_simple_qualified_id: $ => $._ui_qualified_id,  // TODO
 
     _qml_identifier: $ => $.identifier,  // TODO
   },

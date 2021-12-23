@@ -11,6 +11,8 @@ import QtQuick3D 1.15
 import "path"
 import "script.js" as Script
 
+Item {}
+
 --------------------------------------------------------------------------------
 
 (program
@@ -47,19 +49,58 @@ import "script.js" as Script
     (ui_import
       uri: (string
         (string_fragment))
-      id: (identifier))))
+      id: (identifier)))
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer)))
 
 ================================================================================
 Shebang
 ================================================================================
 
 #!/usr/bin/env qml
-pragma Singleton
+import QtQml
+
+OtObject {}
 
 --------------------------------------------------------------------------------
 
 (program
   (hash_bang_line)
   (ui_header_item_list
-    (ui_pragma
-      (identifier))))
+    (ui_import
+      (ui_import_uri
+        (identifier))))
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer)))
+
+================================================================================
+Annotations
+================================================================================
+
+import QtQml
+
+@Foo {}
+@Bar {}
+QtObject {
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  headers: (ui_header_item_list
+    (ui_import
+      uri: (ui_import_uri
+        (identifier))))
+  root: (ui_annotated_object
+    annotations: (ui_annotation_list
+      (ui_annotation
+        type_name: (identifier)
+        initializer: (ui_object_initializer))
+      (ui_annotation
+        type_name: (identifier)
+        initializer: (ui_object_initializer)))
+    definition: (ui_object_definition
+      type_name: (identifier)
+      initializer: (ui_object_initializer))))
