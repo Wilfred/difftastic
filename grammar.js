@@ -17,6 +17,10 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     $._qml_identifier,
   ]),
 
+  conflicts: ($, original) => original.concat([
+    [$.ui_qualified_id, $.primary_expression],  // [Qualified.Obj {}] vs [member.expr]
+  ]),
+
   rules: {
     // should be 'ui_program' per naming convention, but we need to override the
     // start rule of the javascript/typescript grammar.
@@ -145,10 +149,16 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     ),
 
     _ui_binding_value: $ => choice(
+      $.ui_object_array,
       // TODO:
-      // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead T_LBRACKET UiArrayMemberList T_RBRACKET;
       // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead UiQualifiedId UiObjectInitializer;
       $._ui_script_statement,
+    ),
+
+    ui_object_array: $ => seq(
+      '[',
+      sep1($.ui_object_definition, ','),  // UiArrayMemberList
+      ']',
     ),
 
     _ui_script_statement: $ => choice(

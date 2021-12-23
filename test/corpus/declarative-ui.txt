@@ -112,6 +112,60 @@ Item {
         initializer: (ui_object_initializer)))))
 
 ================================================================================
+Array bindings
+================================================================================
+
+MyItem {
+    array0: []  // is actually a script binding
+    array1: [expr]
+    arrayN: [member.expr, expr]
+    objArray1: [Element {}]
+    objArrayN: [Qualified.Element {}, Element {}]
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (array)
+          (comment)))
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (array
+            (identifier))))
+      (ui_binding
+        name: (identifier)
+        value: (expression_statement
+          (array
+            (member_expression
+              object: (identifier)
+              property: (property_identifier))
+            (identifier))))
+      (ui_binding
+        name: (identifier)
+        value: (ui_object_array
+          (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer))))
+      (ui_binding
+        name: (identifier)
+        value: (ui_object_array
+          (ui_object_definition
+            type_name: (ui_qualified_id
+              (identifier)
+              (identifier))
+            initializer: (ui_object_initializer))
+          (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer)))))))
+
+================================================================================
 Script bindings
 ================================================================================
 
