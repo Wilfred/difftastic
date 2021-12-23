@@ -10,6 +10,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   inline: ($, original) => original.concat([
     $._ui_root_member,
     $._ui_object_member,
+    $._ui_script_statement,
     $._ui_qualified_id,
     $._ui_simple_qualified_id,
     $._qml_identifier,
@@ -110,7 +111,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead T_LBRACKET UiArrayMemberList T_RBRACKET;
       // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead UiQualifiedId UiObjectInitializer;
       // UiObjectMember: UiQualifiedId T_ON UiQualifiedId  UiObjectInitializer;
-      // UiObjectMember: UiQualifiedId T_COLON UiScriptStatement;
+      $.ui_script_binding,
       // UiObjectMember: T_SIGNAL T_IDENTIFIER T_LPAREN UiParameterListOpt T_RPAREN Semicolon;
       // UiObjectMember: T_SIGNAL T_IDENTIFIER Semicolon;
       // UiObjectMember: UiObjectMemberListPropertyNoInitialiser;
@@ -137,6 +138,22 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       // UiObjectMember: VariableStatement;
       // UiObjectMember: T_ENUM T_IDENTIFIER T_LBRACE EnumMemberList T_RBRACE;
       // UiObjectMember: T_COMPONENT T_IDENTIFIER T_COLON UiObjectDefinition;
+    ),
+
+    ui_script_binding: $ => seq(
+      field('id', $._ui_qualified_id),
+      ':',
+      field('statement', $._ui_script_statement),
+    ),
+
+    _ui_script_statement: $ => choice(
+      $.statement_block,
+      $.empty_statement,
+      $.expression_statement,
+      $.if_statement,
+      $.with_statement,
+      $.switch_statement,
+      $.try_statement,
     ),
 
     _ui_qualified_id: $ => choice(

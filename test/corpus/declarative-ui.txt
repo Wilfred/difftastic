@@ -112,6 +112,109 @@ Item {
         initializer: (ui_object_initializer)))))
 
 ================================================================================
+Script bindings
+================================================================================
+
+MyItem {
+    id: root
+    emptySt: ;
+    withSt: with (Math) PI
+    ifSt: if(x) true; else false;
+    switchSt: switch (y) {
+    default: return undefined;
+    }
+    objectLit: {foo: false, bar: true}
+    paren.expr: (true)
+    onFunction: function(a) {}
+    onArrow: (b) => {}
+    onTrySt: try { foo(); } catch (error) {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_script_binding
+        id: (identifier)
+        statement: (expression_statement
+          (identifier)))
+      (ui_script_binding
+        id: (identifier)
+        statement: (empty_statement))
+      (ui_script_binding
+        id: (identifier)
+        statement: (with_statement
+          object: (parenthesized_expression
+            (identifier))
+          body: (expression_statement
+            (identifier))))
+      (ui_script_binding
+        id: (identifier)
+        statement: (if_statement
+          condition: (parenthesized_expression
+            (identifier))
+          consequence: (expression_statement
+            (true))
+          alternative: (else_clause
+            (expression_statement
+              (false)))))
+      (ui_script_binding
+        id: (identifier)
+        statement: (switch_statement
+          value: (parenthesized_expression
+            (identifier))
+          body: (switch_body
+            (switch_default
+              body: (return_statement
+                (undefined))))))
+      (ui_script_binding
+        id: (identifier)
+        statement: (expression_statement
+          (object
+            (pair
+              key: (property_identifier)
+              value: (false))
+            (pair
+              key: (property_identifier)
+              value: (true)))))
+      (ui_script_binding
+        id: (nested_identifier
+          (identifier)
+          (identifier))
+        statement: (expression_statement
+          (parenthesized_expression
+            (true))))
+      (ui_script_binding
+        id: (identifier)
+        statement: (expression_statement
+          (function
+            parameters: (formal_parameters
+              (required_parameter
+                pattern: (identifier)))
+            body: (statement_block))))
+      (ui_script_binding
+        id: (identifier)
+        statement: (expression_statement
+          (arrow_function
+            parameters: (formal_parameters
+              (required_parameter
+                pattern: (identifier)))
+            body: (statement_block))))
+      (ui_script_binding
+        id: (identifier)
+        statement: (try_statement
+          body: (statement_block
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                arguments: (arguments))))
+          handler: (catch_clause
+            parameter: (identifier)
+            body: (statement_block)))))))
+
+================================================================================
 Annotations
 ================================================================================
 
