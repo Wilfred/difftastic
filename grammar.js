@@ -150,8 +150,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     _ui_binding_value: $ => choice(
       $.ui_object_array,
-      // TODO:
-      // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead UiQualifiedId UiObjectInitializer;
+      $.ui_object_definition,
       $._ui_script_statement,
     ),
 

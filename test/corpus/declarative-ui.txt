@@ -112,7 +112,7 @@ Item {
         initializer: (ui_object_initializer)))))
 
 ================================================================================
-Array bindings
+Object/Array bindings
 ================================================================================
 
 MyItem {
@@ -121,6 +121,8 @@ MyItem {
     arrayN: [member.expr, expr]
     objArray1: [Element {}]
     objArrayN: [Qualified.Element {}, Element {}]
+    object: Object {}
+    qualifiedObject: Qualified.Object {}
 }
 
 --------------------------------------------------------------------------------
@@ -163,7 +165,19 @@ MyItem {
             initializer: (ui_object_initializer))
           (ui_object_definition
             type_name: (identifier)
-            initializer: (ui_object_initializer)))))))
+            initializer: (ui_object_initializer))))
+      (ui_binding
+        name: (identifier)
+        value: (ui_object_definition
+          type_name: (identifier)
+          initializer: (ui_object_initializer)))
+      (ui_binding
+        name: (identifier)
+        value: (ui_object_definition
+          type_name: (ui_qualified_id
+            (identifier)
+            (identifier))
+          initializer: (ui_object_initializer))))))
 
 ================================================================================
 Script bindings
