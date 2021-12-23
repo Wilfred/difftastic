@@ -14,6 +14,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     $._ui_script_statement,
     $._ui_qualified_id,
     $._ui_simple_qualified_id,
+    $._ui_property_type,
     $._qml_identifier,
   ]),
 
@@ -113,9 +114,8 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       $.ui_object_definition,
       $.ui_object_definition_binding,
       $.ui_binding,
+      $.ui_signal,
       // TODO:
-      // UiObjectMember: T_SIGNAL T_IDENTIFIER T_LPAREN UiParameterListOpt T_RPAREN Semicolon;
-      // UiObjectMember: T_SIGNAL T_IDENTIFIER Semicolon;
       // UiObjectMember: UiObjectMemberListPropertyNoInitialiser;
       // UiObjectMember: T_READONLY UiObjectMemberListPropertyNoInitialiser;
       // UiObjectMember: UiObjectMemberPropertyNoInitialiser;
@@ -177,6 +177,31 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       $.try_statement,
     ),
 
+    ui_signal: $ => seq(
+      'signal',
+      field('name', $.identifier),
+      optional(field('parameters', $.ui_signal_parameters)),
+      $._semicolon,
+    ),
+
+    ui_signal_parameters: $ => seq(
+      '(',
+      sep($.ui_signal_parameter, ','),
+      ')',
+    ),
+
+    ui_signal_parameter: $ => choice(
+      seq(
+        field('name', $._qml_identifier),
+        ':',
+        field('type', $._ui_property_type),
+      ),
+      seq(
+        field('type', $._ui_property_type),
+        field('name', $._qml_identifier),
+      ),
+    ),
+
     _ui_qualified_id: $ => choice(
       $.identifier,
       $.ui_qualified_id,
@@ -190,9 +215,15 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     _ui_simple_qualified_id: $ => $._ui_qualified_id,  // TODO
 
+    _ui_property_type: $ => $._ui_qualified_id,  // TODO
+
     _qml_identifier: $ => $.identifier,  // TODO
   },
 });
+
+function sep(rule, sep) {
+  return optional(sep1(rule, sep));
+}
 
 function sep1(rule, sep) {
   return seq(rule, repeat(seq(sep, rule)));

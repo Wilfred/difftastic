@@ -318,6 +318,61 @@ MyItem {
             body: (statement_block)))))))
 
 ================================================================================
+Signals
+================================================================================
+
+MyItem {
+    signal sigNoArg
+    signal sig0()
+    signal sig1(var name)
+    signal sig2(name0: var, int name1)
+    signal sig3(name0: qualified.type0, qualified.type1 name1, name2: Type2)
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_signal
+        name: (identifier))
+      (ui_signal
+        name: (identifier)
+        parameters: (ui_signal_parameters))
+      (ui_signal
+        name: (identifier)
+        parameters: (ui_signal_parameters
+          (ui_signal_parameter
+            type: (identifier)
+            name: (identifier))))
+      (ui_signal
+        name: (identifier)
+        parameters: (ui_signal_parameters
+          (ui_signal_parameter
+            name: (identifier)
+            type: (identifier))
+          (ui_signal_parameter
+            type: (identifier)
+            name: (identifier))))
+      (ui_signal
+        name: (identifier)
+        parameters: (ui_signal_parameters
+          (ui_signal_parameter
+            name: (identifier)
+            type: (ui_qualified_id
+              (identifier)
+              (identifier)))
+          (ui_signal_parameter
+            type: (ui_qualified_id
+              (identifier)
+              (identifier))
+            name: (identifier))
+          (ui_signal_parameter
+            name: (identifier)
+            type: (identifier)))))))
+
+================================================================================
 Annotations
 ================================================================================
 
