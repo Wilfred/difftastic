@@ -23,7 +23,6 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       optional($.hash_bang_line),
       optional(field('headers', $.ui_header_item_list)),
       field('root', $._ui_root_member),
-      optional(seq('\0', $.statement)),  // TODO: remove
     ),
 
     ui_header_item_list: $ => repeat1(choice(
