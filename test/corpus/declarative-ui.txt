@@ -4,6 +4,12 @@ Pragma and imports
 
 pragma Singleton
 pragma ListPropertyAssignBehavior: Append
+import QtQuick
+import Qt.labs.platform as Platform
+import QtQuick.Controls 2
+import QtQuick3D 1.15
+import "path"
+import "script.js" as Script
 
 --------------------------------------------------------------------------------
 
@@ -13,7 +19,35 @@ pragma ListPropertyAssignBehavior: Append
       name: (identifier))
     (ui_pragma
       name: (identifier)
-      value: (identifier))))
+      value: (identifier))
+    (ui_import
+      uri: (ui_import_uri
+        (identifier)))
+    (ui_import
+      uri: (ui_import_uri
+        (identifier)
+        (identifier)
+        (identifier))
+      id: (identifier))
+    (ui_import
+      uri: (ui_import_uri
+        (identifier)
+        (identifier))
+      version: (ui_version_specifier
+        major: (number)))
+    (ui_import
+      uri: (ui_import_uri
+        (identifier))
+      version: (ui_version_specifier
+        major: (number)
+        minor: (number)))
+    (ui_import
+      uri: (string
+        (string_fragment)))
+    (ui_import
+      uri: (string
+        (string_fragment))
+      id: (identifier))))
 
 ================================================================================
 Shebang
