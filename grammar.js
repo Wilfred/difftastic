@@ -157,7 +157,13 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     _ui_qualified_id: $ => choice(
       $.identifier,
-      $.nested_identifier,
+      $.ui_qualified_id,
+    ),
+
+    ui_qualified_id: $ => seq(
+      choice($.identifier, $.ui_qualified_id),
+      '.',
+      $.identifier,
     ),
 
     _ui_simple_qualified_id: $ => $._ui_qualified_id,  // TODO

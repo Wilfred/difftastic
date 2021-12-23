@@ -106,7 +106,7 @@ Item {
         type_name: (identifier)
         initializer: (ui_object_initializer))
       (ui_object_definition
-        type_name: (nested_identifier
+        type_name: (ui_qualified_id
           (identifier)
           (identifier))
         initializer: (ui_object_initializer)))))
@@ -124,6 +124,7 @@ MyItem {
     default: return undefined;
     }
     objectLit: {foo: false, bar: true}
+    memberExpr: member.expr
     paren.expr: (true)
     onFunction: function(a) {}
     onArrow: (b) => {}
@@ -180,7 +181,13 @@ MyItem {
               key: (property_identifier)
               value: (true)))))
       (ui_script_binding
-        id: (nested_identifier
+        id: (identifier)
+        statement: (expression_statement
+          (member_expression
+            object: (identifier)
+            property: (property_identifier))))
+      (ui_script_binding
+        id: (ui_qualified_id
           (identifier)
           (identifier))
         statement: (expression_statement
