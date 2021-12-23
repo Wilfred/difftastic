@@ -9,6 +9,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
   inline: ($, original) => original.concat([
     $._ui_root_member,
+    $._ui_object_member,
     $._ui_qualified_id,
     $._ui_simple_qualified_id,
     $._qml_identifier,
@@ -91,8 +92,51 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_object_initializer: $ => seq(
       '{',
-      // TODO: UiObjectMemberList
+      repeat(choice(
+        $._ui_object_member,
+        $.ui_annotated_object_member,
+      )),
       '}',
+    ),
+
+    ui_annotated_object_member: $ => seq(
+      field('annotations', $.ui_annotation_list),
+      field('definition', $._ui_object_member),
+    ),
+
+    _ui_object_member: $ => choice(
+      $.ui_object_definition,
+      // TODO:
+      // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead T_LBRACKET UiArrayMemberList T_RBRACKET;
+      // UiObjectMember: UiQualifiedId T_COLON ExpressionStatementLookahead UiQualifiedId UiObjectInitializer;
+      // UiObjectMember: UiQualifiedId T_ON UiQualifiedId  UiObjectInitializer;
+      // UiObjectMember: UiQualifiedId T_COLON UiScriptStatement;
+      // UiObjectMember: T_SIGNAL T_IDENTIFIER T_LPAREN UiParameterListOpt T_RPAREN Semicolon;
+      // UiObjectMember: T_SIGNAL T_IDENTIFIER Semicolon;
+      // UiObjectMember: UiObjectMemberListPropertyNoInitialiser;
+      // UiObjectMember: T_READONLY UiObjectMemberListPropertyNoInitialiser;
+      // UiObjectMember: UiObjectMemberPropertyNoInitialiser;
+      // UiObjectMember: T_DEFAULT UiObjectMemberPropertyNoInitialiser;
+      // UiObjectMember: T_REQUIRED UiObjectMemberListPropertyNoInitialiser;
+      // UiObjectMember: T_DEFAULT T_REQUIRED UiObjectMemberListPropertyNoInitialiser;
+      // UiObjectMember: T_REQUIRED T_DEFAULT UiObjectMemberListPropertyNoInitialiser;
+      // UiObjectMember: T_DEFAULT UiObjectMemberListPropertyNoInitialiser;
+      // UiObjectMember: T_DEFAULT T_REQUIRED UiObjectMemberPropertyNoInitialiser;
+      // UiObjectMember: T_REQUIRED T_DEFAULT UiObjectMemberPropertyNoInitialiser;
+      // UiObjectMember: UiRequired;
+      // UiObjectMember: T_REQUIRED UiObjectMemberPropertyNoInitialiser;
+      // UiObjectMember: UiObjectMemberWithScriptStatement;
+      // UiObjectMember: T_READONLY UiObjectMemberWithScriptStatement;
+      // UiObjectMember: T_DEFAULT UiObjectMemberWithScriptStatement;
+      // UiObjectMember: UiObjectMemberWithArray;
+      // UiObjectMember: T_READONLY UiObjectMemberWithArray;
+      // UiObjectMember: UiObjectMemberExpressionStatementLookahead;
+      // UiObjectMember: T_READONLY UiObjectMemberExpressionStatementLookahead;
+      // UiObjectMember: GeneratorDeclaration;
+      // UiObjectMember: FunctionDeclarationWithTypes;
+      // UiObjectMember: VariableStatement;
+      // UiObjectMember: T_ENUM T_IDENTIFIER T_LBRACE EnumMemberList T_RBRACE;
+      // UiObjectMember: T_COMPONENT T_IDENTIFIER T_COLON UiObjectDefinition;
     ),
 
     _ui_qualified_id: $ => choice(

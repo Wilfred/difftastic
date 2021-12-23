@@ -76,6 +76,42 @@ OtObject {}
     (ui_object_initializer)))
 
 ================================================================================
+Nested objects
+================================================================================
+
+import QtQuick
+import QtQuick.Controls as C
+
+Item {
+    Rectangle {}
+    C.Button {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  headers: (ui_header_item_list
+    (ui_import
+      uri: (ui_import_uri
+        (identifier)))
+    (ui_import
+      uri: (ui_import_uri
+        (identifier)
+        (identifier))
+      id: (identifier)))
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer))
+      (ui_object_definition
+        type_name: (nested_identifier
+          (identifier)
+          (identifier))
+        initializer: (ui_object_initializer)))))
+
+================================================================================
 Annotations
 ================================================================================
 
@@ -84,6 +120,9 @@ import QtQml
 @Foo {}
 @Bar {}
 QtObject {
+    @Foo {}
+    @Bar {}
+    OtObject {}
 }
 
 --------------------------------------------------------------------------------
@@ -103,4 +142,15 @@ QtObject {
         initializer: (ui_object_initializer)))
     definition: (ui_object_definition
       type_name: (identifier)
-      initializer: (ui_object_initializer))))
+      initializer: (ui_object_initializer
+        (ui_annotated_object_member
+          annotations: (ui_annotation_list
+            (ui_annotation
+              type_name: (identifier)
+              initializer: (ui_object_initializer))
+            (ui_annotation
+              type_name: (identifier)
+              initializer: (ui_object_initializer)))
+          definition: (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer)))))))
