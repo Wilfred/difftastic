@@ -23,8 +23,7 @@ update msg =
     (of)))
 
 ================================================================================
-Case without branches directly on file end without comment before update
-Hangs in v4.5.0
+Case without branches directly on file end without comment before update - Hangs in v4.5.0
 ================================================================================
 
 update msg =
