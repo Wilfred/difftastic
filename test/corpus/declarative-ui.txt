@@ -548,6 +548,52 @@ MyItem {
             type: (identifier)))))))
 
 ================================================================================
+Functions
+================================================================================
+
+MyItem {
+    function fun() {
+    }
+
+    function typedFun(param: string) : Qualified.Object {
+    }
+
+    function* gen() {
+        yield 0;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (function_declaration
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (statement_block))
+      (function_declaration
+        name: (identifier)
+        parameters: (formal_parameters
+          (required_parameter
+            pattern: (identifier)
+            type: (type_annotation
+              (predefined_type))))
+        return_type: (type_annotation
+          (nested_type_identifier
+            module: (identifier)
+            name: (type_identifier)))
+        body: (statement_block))
+      (generator_function_declaration
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (statement_block
+          (expression_statement
+            (yield_expression
+              (number))))))))
+
+================================================================================
 Annotations
 ================================================================================
 
