@@ -118,3 +118,56 @@ QtObject {
             (identifier)
             (ui_object_initializer))))
       (ERROR))))
+
+================================================================================
+Weird object pattern
+================================================================================
+
+// Found in
+// qtdeclarative/tests/auto/quickcontrols2/controls/data/tst_scrollbar.qml
+//
+// This appears not accepted by Chrome/Firefox, but QML parser doesn't report
+// any error.
+Control {
+    id: control
+    function func() {
+        var p0 = { x = control.leftPadding, y = control.height/2 };
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (identifier)))
+      (function_declaration
+        (identifier)
+        (formal_parameters)
+        (statement_block
+          (variable_declaration
+            (variable_declarator
+              (identifier))
+            (ERROR
+              (object_pattern
+                (object_assignment_pattern
+                  (shorthand_property_identifier_pattern)
+                  (member_expression
+                    (identifier)
+                    (property_identifier)))
+                (object_assignment_pattern
+                  (shorthand_property_identifier_pattern)
+                  (binary_expression
+                    (member_expression
+                      (identifier)
+                      (property_identifier))
+                    (number)))))))))))
