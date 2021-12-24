@@ -28,5 +28,25 @@
     "tree-sitter-cli": "^0.20.1",
     "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#fdeb68ac8d2bd5a78b943528bb68ceda3aade2eb",
     "tree-sitter-typescript": "github:tree-sitter/tree-sitter-typescript#111b07762e86efab9a918b7c721f720c37e76b0a"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.qml",
+      "file-types": [
+        "qml"
+      ],
+      "highlights": [
+        "node_modules/tree-sitter-typescript/queries/highlights.scm",
+        "node_modules/tree-sitter-javascript/queries/highlights.scm"
+      ],
+      "locals": [
+        "node_modules/tree-sitter-typescript/queries/locals.scm",
+        "node_modules/tree-sitter-javascript/queries/locals.scm"
+      ],
+      "tags": [
+        "node_modules/tree-sitter-typescript/queries/tags.scm",
+        "node_modules/tree-sitter-javascript/queries/tags.scm"
+      ]
+    }
+  ]
 }
