@@ -670,6 +670,10 @@ MyItem {
     NumberAnimation {
         property: "foo"
     }
+
+    Component {
+        id: component
+    }
 }
 
 --------------------------------------------------------------------------------
@@ -690,7 +694,14 @@ MyItem {
             name: (identifier)
             value: (expression_statement
               (string
-                (string_fragment)))))))))
+                (string_fragment))))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (identifier))))))))
 
 ================================================================================
 Annotations

@@ -302,6 +302,17 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
         'component',
       ), $.identifier),
     ),
+
+    // teach JavaScript/TypeScript grammar about QML keywords.
+    _reserved_identifier: ($, original) => choice(
+      original,
+      'property',
+      'signal',
+      'readonly',
+      'on',
+      'required',
+      'component',
+    ),
   },
 });
 
