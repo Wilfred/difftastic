@@ -11,6 +11,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     $._ui_root_member,
     $._ui_object_member,
     $._ui_binding_value,
+    $._ui_property_value,
     $._ui_script_statement,
     $._ui_qualified_id,
     $._ui_simple_qualified_id,
@@ -150,7 +151,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       choice(
         seq(
           ':',
-          field('value', $._ui_binding_value),
+          field('value', $._ui_property_value),
         ),
         $._semicolon,
       ),
@@ -174,6 +175,14 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     _ui_binding_value: $ => choice(
       $.ui_object_array,
       $.ui_object_definition,
+      $._ui_script_statement,
+    ),
+
+    // similar to $._ui_binding_value, but optional semicolon is also allowed
+    // for array/object.
+    _ui_property_value: $=> choice(
+      seq($.ui_object_array, $._semicolon),  // UiObjectMemberWithArray
+      seq($.ui_object_definition, $._semicolon),  // UiObjectMemberExpressionStatementLookahead
       $._ui_script_statement,
     ),
 
