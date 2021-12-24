@@ -58,3 +58,5 @@ debug = false
 [[bin]]
 name = "difft"
 path = "src/main.rs"
+
+[features]

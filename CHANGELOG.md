@@ -7,6 +7,9 @@ variable DFT_WIDTH.
 
 Fixed terminal width calculations on Windows.
 
+Fixed crash when only one side has changes, but the other side has
+additional blank lines.
+
 Fixed crash on displaying unicode characters on line boundaries.
 
 ### Build
