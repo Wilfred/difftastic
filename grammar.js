@@ -272,7 +272,18 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       $.identifier,
       alias(choice(
         'property',
-        // TODO
+        'signal',
+        'readonly',
+        'on',
+        'get',
+        'set',
+        'from',
+        'static',
+        'of',
+        'as',
+        'required',
+        'component',
+        // TODO: maybe need to include $._reserved_identifier?
       ), $.identifier),
     ),
 
@@ -280,7 +291,15 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       $.identifier,
       alias(choice(
         'property',
-        // TODO
+        'signal',
+        'readonly',
+        'on',
+        'get',
+        'set',
+        'from',
+        'of',
+        'required',
+        'component',
       ), $.identifier),
     ),
   },
