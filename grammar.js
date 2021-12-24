@@ -15,6 +15,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     $._ui_qualified_id,
     $._ui_simple_qualified_id,
     $._ui_property_type,
+    $._js_identifier,
     $._qml_identifier,
   ]),
 
@@ -253,19 +254,27 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     ),
 
     _ui_qualified_id: $ => choice(
-      $.identifier,
+      $._js_identifier,
       $.ui_qualified_id,
     ),
 
     ui_qualified_id: $ => seq(
-      choice($.identifier, $.ui_qualified_id),
+      choice($._js_identifier, $.ui_qualified_id),
       '.',
-      $.identifier,
+      $._js_identifier,
     ),
 
     _ui_simple_qualified_id: $ => $._ui_qualified_id,  // TODO
 
     _ui_property_type: $ => $._ui_qualified_id,  // TODO
+
+    _js_identifier: $ => choice(
+      $.identifier,
+      alias(choice(
+        'property',
+        // TODO
+      ), $.identifier),
+    ),
 
     _qml_identifier: $ => choice(
       $.identifier,

@@ -666,6 +666,10 @@ MyItem {
     NumberAnimation {
         required property
     }
+
+    NumberAnimation {
+        property: "foo"
+    }
 }
 
 --------------------------------------------------------------------------------
@@ -678,7 +682,15 @@ MyItem {
         type_name: (identifier)
         initializer: (ui_object_initializer
           (ui_required
-            name: (identifier)))))))
+            name: (identifier))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment)))))))))
 
 ================================================================================
 Annotations
