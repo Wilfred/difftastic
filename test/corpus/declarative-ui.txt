@@ -601,6 +601,39 @@ MyItem {
           name: (identifier))))))
 
 ================================================================================
+Enum
+================================================================================
+
+MyItem {
+    enum Foo {
+        Foo0
+    }
+
+    enum Bar {
+        Bar0 = 0,
+        Bar1
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (enum_declaration
+        name: (identifier)
+        body: (enum_body
+          name: (identifier)))
+      (enum_declaration
+        name: (identifier)
+        body: (enum_body
+          (enum_assignment
+            name: (identifier)
+            value: (number))
+          name: (identifier))))))
+
+================================================================================
 Annotations
 ================================================================================
 

@@ -120,8 +120,8 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       $.generator_function_declaration,
       $.function_declaration,
       $.variable_declaration,
+      alias($._qml_enum_declaration, $.enum_declaration),
       // TODO:
-      // UiObjectMember: T_ENUM T_IDENTIFIER T_LBRACE EnumMemberList T_RBRACE;
       // UiObjectMember: T_COMPONENT T_IDENTIFIER T_COLON UiObjectDefinition;
     ),
 
@@ -221,6 +221,28 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
         field('type', $._ui_property_type),
         field('name', $._qml_identifier),
       ),
+    ),
+
+    // QML enum can be considered a restricted form of the TypeScript enum.
+    _qml_enum_declaration: $ => seq(
+      'enum',
+      field('name', $.identifier),
+      field('body', alias($._qml_enum_body, $.enum_body)),
+    ),
+
+    _qml_enum_body: $ => seq(
+      '{',
+      sep1(choice(
+        field('name', $.identifier),
+        alias($._qml_enum_assignment, $.enum_assignment),
+      ), ','),
+      '}',
+    ),
+
+    _qml_enum_assignment: $ => seq(
+      field('name', $.identifier),
+      '=',
+      field('value', $.number),
     ),
 
     _ui_qualified_id: $ => choice(
