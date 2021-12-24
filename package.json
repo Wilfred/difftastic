@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@asgerf/dts-tree-sitter": "^0.1.0",
-    "prebuild": "^11.0.0",
+    "prebuild": "^10.0.1",
     "tree-sitter-cli": "^0.20.1"
   },
   "scripts": {
