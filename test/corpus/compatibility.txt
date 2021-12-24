@@ -1,0 +1,34 @@
+================================================================================
+Compatibility semicolon
+================================================================================
+
+// qtdeclarative/tests/auto/qml/qqmlecmascript/data/compatibilitySemicolon.qml
+QtObject {
+    function code() {
+        // Not correct according to ECMA 5.1, but JSC and V8 accept the following:
+        do {
+            ;
+        } while (false) true
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (function_declaration
+        (identifier)
+        (formal_parameters)
+        (statement_block
+          (comment)
+          (do_statement
+            (statement_block
+              (empty_statement))
+            (parenthesized_expression
+              (false))
+            (MISSING ";"))
+          (expression_statement
+            (true)))))))
