@@ -548,7 +548,7 @@ MyItem {
             type: (identifier)))))))
 
 ================================================================================
-Functions
+JavaScript/TypeScript declarations
 ================================================================================
 
 MyItem {
@@ -561,6 +561,9 @@ MyItem {
     function* gen() {
         yield 0;
     }
+
+    // This can't be mapped to IR, but the parser somehow accepts it.
+    var v
 }
 
 --------------------------------------------------------------------------------
@@ -591,7 +594,11 @@ MyItem {
         body: (statement_block
           (expression_statement
             (yield_expression
-              (number))))))))
+              (number)))))
+      (comment)
+      (variable_declaration
+        (variable_declarator
+          name: (identifier))))))
 
 ================================================================================
 Annotations

@@ -119,8 +119,8 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       $.ui_signal,
       $.generator_function_declaration,
       $.function_declaration,
+      $.variable_declaration,
       // TODO:
-      // UiObjectMember: VariableStatement;
       // UiObjectMember: T_ENUM T_IDENTIFIER T_LBRACE EnumMemberList T_RBRACE;
       // UiObjectMember: T_COMPONENT T_IDENTIFIER T_COLON UiObjectDefinition;
     ),
