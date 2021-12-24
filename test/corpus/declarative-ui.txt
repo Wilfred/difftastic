@@ -318,6 +318,177 @@ MyItem {
             body: (statement_block)))))))
 
 ================================================================================
+Property declarations
+================================================================================
+
+MyItem {
+    property var varProp
+    property var varPropWithScriptStatement: if (0) 1; else 2
+    readonly property var readonlyVarPropWithScriptStatement: (0 ? 1 : 2)
+    required property var requiredVarProp
+    required default property var requiredDefaultVarProp
+    default property var defaultVarProp
+    default property var defaultVarPropWithScriptStatement: 123
+    default required property var defaultRequiredVarProp
+
+    property QtObject objectPropWithDefinition: QtObject {}
+    readonly property QtObject readonlyObjectPropWithDefinition: QtObject {}
+
+    property list<Rectangle> listProp
+    property list<Rectangle> listPropWithArray: [Rectangle {}, Rectangle {}]
+    readonly property list<Rectangle> readonlyListProp
+    readonly property list<Rectangle> readonlyListPropWithArray: [Rectangle {}]
+    required property list<Rectangle> requiredProp
+    required default property list<Rectangle> requiredDefaultListProp
+    default property list<Rectangle> defaultListProp
+    default required property list<Rectangle> defaultRequiredListProp
+
+    property Qualified.Object qualifiedObjectProp: Qualified.Object {}
+    property list<Qualified.Object> qualifiedArrayProp: [Qualified.Object {}]
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_property
+        type: (identifier)
+        name: (identifier))
+      (ui_property
+        type: (identifier)
+        name: (identifier)
+        value: (if_statement
+          condition: (parenthesized_expression
+            (number))
+          consequence: (expression_statement
+            (number))
+          alternative: (else_clause
+            (expression_statement
+              (number)))))
+      (ui_property
+        (ui_property_modifier)
+        type: (identifier)
+        name: (identifier)
+        value: (expression_statement
+          (parenthesized_expression
+            (ternary_expression
+              condition: (number)
+              consequence: (number)
+              alternative: (number)))))
+      (ui_property
+        (ui_property_modifier)
+        type: (identifier)
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        (ui_property_modifier)
+        type: (identifier)
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        type: (identifier)
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        type: (identifier)
+        name: (identifier)
+        value: (expression_statement
+          (number)))
+      (ui_property
+        (ui_property_modifier)
+        (ui_property_modifier)
+        type: (identifier)
+        name: (identifier))
+      (ui_property
+        type: (identifier)
+        name: (identifier)
+        value: (ui_object_definition
+          type_name: (identifier)
+          initializer: (ui_object_initializer)))
+      (ui_property
+        (ui_property_modifier)
+        type: (identifier)
+        name: (identifier)
+        value: (ui_object_definition
+          type_name: (identifier)
+          initializer: (ui_object_initializer)))
+      (ui_property
+        type: (ui_list_property_type
+          (identifier))
+        name: (identifier))
+      (ui_property
+        type: (ui_list_property_type
+          (identifier))
+        name: (identifier)
+        value: (ui_object_array
+          (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer))
+          (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer))))
+      (ui_property
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (identifier))
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (identifier))
+        name: (identifier)
+        value: (ui_object_array
+          (ui_object_definition
+            type_name: (identifier)
+            initializer: (ui_object_initializer))))
+      (ui_property
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (identifier))
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (identifier))
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (identifier))
+        name: (identifier))
+      (ui_property
+        (ui_property_modifier)
+        (ui_property_modifier)
+        type: (ui_list_property_type
+          (identifier))
+        name: (identifier))
+      (ui_property
+        type: (ui_qualified_id
+          (identifier)
+          (identifier))
+        name: (identifier)
+        value: (ui_object_definition
+          type_name: (ui_qualified_id
+            (identifier)
+            (identifier))
+          initializer: (ui_object_initializer)))
+      (ui_property
+        type: (ui_list_property_type
+          (ui_qualified_id
+            (identifier)
+            (identifier)))
+        name: (identifier)
+        value: (ui_object_array
+          (ui_object_definition
+            type_name: (ui_qualified_id
+              (identifier)
+              (identifier))
+            initializer: (ui_object_initializer)))))))
+
+================================================================================
 Signals
 ================================================================================
 

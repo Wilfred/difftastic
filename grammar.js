@@ -114,27 +114,10 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       $.ui_object_definition,
       $.ui_object_definition_binding,
       $.ui_binding,
+      $.ui_property,
       $.ui_signal,
       // TODO:
-      // UiObjectMember: UiObjectMemberListPropertyNoInitialiser;
-      // UiObjectMember: T_READONLY UiObjectMemberListPropertyNoInitialiser;
-      // UiObjectMember: UiObjectMemberPropertyNoInitialiser;
-      // UiObjectMember: T_DEFAULT UiObjectMemberPropertyNoInitialiser;
-      // UiObjectMember: T_REQUIRED UiObjectMemberListPropertyNoInitialiser;
-      // UiObjectMember: T_DEFAULT T_REQUIRED UiObjectMemberListPropertyNoInitialiser;
-      // UiObjectMember: T_REQUIRED T_DEFAULT UiObjectMemberListPropertyNoInitialiser;
-      // UiObjectMember: T_DEFAULT UiObjectMemberListPropertyNoInitialiser;
-      // UiObjectMember: T_DEFAULT T_REQUIRED UiObjectMemberPropertyNoInitialiser;
-      // UiObjectMember: T_REQUIRED T_DEFAULT UiObjectMemberPropertyNoInitialiser;
       // UiObjectMember: UiRequired;
-      // UiObjectMember: T_REQUIRED UiObjectMemberPropertyNoInitialiser;
-      // UiObjectMember: UiObjectMemberWithScriptStatement;
-      // UiObjectMember: T_READONLY UiObjectMemberWithScriptStatement;
-      // UiObjectMember: T_DEFAULT UiObjectMemberWithScriptStatement;
-      // UiObjectMember: UiObjectMemberWithArray;
-      // UiObjectMember: T_READONLY UiObjectMemberWithArray;
-      // UiObjectMember: UiObjectMemberExpressionStatementLookahead;
-      // UiObjectMember: T_READONLY UiObjectMemberExpressionStatementLookahead;
       // UiObjectMember: GeneratorDeclaration;
       // UiObjectMember: FunctionDeclarationWithTypes;
       // UiObjectMember: VariableStatement;
@@ -153,6 +136,38 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       field('name', $._ui_qualified_id),
       ':',
       field('value', $._ui_binding_value),
+    ),
+
+    // This is a general (or relaxed) form of the property declaration. Some
+    // combinations (e.g. required with value) can be rejected by qqmljs.g, but
+    // copying that wouldn't make sense. It's rather restricted by a code model.
+    ui_property: $ => seq(
+      repeat($.ui_property_modifier),
+      'property',
+      field('type', choice($._ui_property_type, $.ui_list_property_type)),
+      field('name', $._qml_identifier),
+      choice(
+        seq(
+          ':',
+          field('value', $._ui_binding_value),
+        ),
+        $._semicolon,
+      ),
+    ),
+
+    // "T_IDENTIFIER T_LT UiPropertyType T_GT", but only "list" is allowed as
+    // a property type modifier.
+    ui_list_property_type: $ => seq(
+      'list',
+      '<',
+      $._ui_property_type,
+      '>',
+    ),
+
+    ui_property_modifier: $ => choice(
+      'default',
+      'readonly',
+      'required',
     ),
 
     _ui_binding_value: $ => choice(
