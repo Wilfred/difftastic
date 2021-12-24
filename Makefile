@@ -26,4 +26,6 @@ fetch-examples:
 
 .PHONY: parse-examples
 parse-examples:
-	$(TREE_SITTER) parse -q 'examples/**/*.qml'
+	cat examples/known-failures.txt \
+		| sed 's|^|!examples/|' \
+		| xargs $(TREE_SITTER) parse -q 'examples/**/*.qml'
