@@ -19,6 +19,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   ]),
 
   conflicts: ($, original) => original.concat([
+    [$.ui_property_modifier, $.ui_required],  // required property name vs required property
     [$.ui_qualified_id, $.primary_expression],  // [Qualified.Obj {}] vs [member.expr]
   ]),
 
@@ -266,7 +267,13 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     _ui_property_type: $ => $._ui_qualified_id,  // TODO
 
-    _qml_identifier: $ => $.identifier,  // TODO
+    _qml_identifier: $ => choice(
+      $.identifier,
+      alias(choice(
+        'property',
+        // TODO
+      ), $.identifier),
+    ),
   },
 });
 

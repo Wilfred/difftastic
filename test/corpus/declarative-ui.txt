@@ -659,6 +659,28 @@ MyItem {
           name: (identifier))))))
 
 ================================================================================
+Reserved words as identifiers
+================================================================================
+
+MyItem {
+    NumberAnimation {
+        required property
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_required
+            name: (identifier)))))))
+
+================================================================================
 Annotations
 ================================================================================
 
