@@ -115,9 +115,9 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       $.ui_object_definition_binding,
       $.ui_binding,
       $.ui_property,
+      $.ui_required,
       $.ui_signal,
       // TODO:
-      // UiObjectMember: UiRequired;
       // UiObjectMember: GeneratorDeclaration;
       // UiObjectMember: FunctionDeclarationWithTypes;
       // UiObjectMember: VariableStatement;
@@ -190,6 +190,12 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       $.with_statement,
       $.switch_statement,
       $.try_statement,
+    ),
+
+    ui_required: $ => seq(
+      'required',
+      field('name', $._qml_identifier),
+      $._semicolon,
     ),
 
     ui_signal: $ => seq(

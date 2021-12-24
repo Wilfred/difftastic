@@ -345,6 +345,8 @@ MyItem {
 
     property Qualified.Object qualifiedObjectProp: Qualified.Object {}
     property list<Qualified.Object> qualifiedArrayProp: [Qualified.Object {}]
+
+    required width
 }
 
 --------------------------------------------------------------------------------
@@ -486,7 +488,9 @@ MyItem {
             type_name: (ui_qualified_id
               (identifier)
               (identifier))
-            initializer: (ui_object_initializer)))))))
+            initializer: (ui_object_initializer))))
+      (ui_required
+        name: (identifier)))))
 
 ================================================================================
 Signals
