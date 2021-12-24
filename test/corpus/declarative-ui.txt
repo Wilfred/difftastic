@@ -548,6 +548,31 @@ MyItem {
             type: (identifier)))))))
 
 ================================================================================
+Inline component
+================================================================================
+
+MyItem {
+    component RedRect : Rectangle { color: "red" }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_inline_component
+        name: (identifier)
+        component: (ui_object_definition
+          type_name: (identifier)
+          initializer: (ui_object_initializer
+            (ui_binding
+              name: (identifier)
+              value: (expression_statement
+                (string
+                  (string_fragment))))))))))
+
+================================================================================
 JavaScript/TypeScript declarations
 ================================================================================
 
