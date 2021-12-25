@@ -16,40 +16,39 @@ Item {}
 --------------------------------------------------------------------------------
 
 (program
-  headers: (ui_header_item_list
-    (ui_pragma
-      name: (identifier))
-    (ui_pragma
-      name: (identifier)
-      value: (identifier))
-    (ui_import
-      uri: (ui_import_uri
-        (identifier)))
-    (ui_import
-      uri: (ui_import_uri
-        (identifier)
-        (identifier)
-        (identifier))
-      id: (identifier))
-    (ui_import
-      uri: (ui_import_uri
-        (identifier)
-        (identifier))
-      version: (ui_version_specifier
-        major: (number)))
-    (ui_import
-      uri: (ui_import_uri
-        (identifier))
-      version: (ui_version_specifier
-        major: (number)
-        minor: (number)))
-    (ui_import
-      uri: (string
-        (string_fragment)))
-    (ui_import
-      uri: (string
-        (string_fragment))
-      id: (identifier)))
+  (ui_pragma
+    name: (identifier))
+  (ui_pragma
+    name: (identifier)
+    value: (identifier))
+  (ui_import
+    uri: (ui_import_uri
+      (identifier)))
+  (ui_import
+    uri: (ui_import_uri
+      (identifier)
+      (identifier)
+      (identifier))
+    id: (identifier))
+  (ui_import
+    uri: (ui_import_uri
+      (identifier)
+      (identifier))
+    version: (ui_version_specifier
+      major: (number)))
+  (ui_import
+    uri: (ui_import_uri
+      (identifier))
+    version: (ui_version_specifier
+      major: (number)
+      minor: (number)))
+  (ui_import
+    uri: (string
+      (string_fragment)))
+  (ui_import
+    uri: (string
+      (string_fragment))
+    id: (identifier))
   root: (ui_object_definition
     type_name: (identifier)
     initializer: (ui_object_initializer)))
@@ -67,10 +66,9 @@ OtObject {}
 
 (program
   (hash_bang_line)
-  (ui_header_item_list
-    (ui_import
-      (ui_import_uri
-        (identifier))))
+  (ui_import
+    (ui_import_uri
+      (identifier)))
   (ui_object_definition
     (identifier)
     (ui_object_initializer)))
@@ -90,15 +88,14 @@ Item {
 --------------------------------------------------------------------------------
 
 (program
-  headers: (ui_header_item_list
-    (ui_import
-      uri: (ui_import_uri
-        (identifier)))
-    (ui_import
-      uri: (ui_import_uri
-        (identifier)
-        (identifier))
-      id: (identifier)))
+  (ui_import
+    uri: (ui_import_uri
+      (identifier)))
+  (ui_import
+    uri: (ui_import_uri
+      (identifier)
+      (identifier))
+    id: (identifier))
   root: (ui_object_definition
     type_name: (identifier)
     initializer: (ui_object_initializer
@@ -724,10 +721,9 @@ QtObject {
 --------------------------------------------------------------------------------
 
 (program
-  headers: (ui_header_item_list
-    (ui_import
-      uri: (ui_import_uri
-        (identifier))))
+  (ui_import
+    uri: (ui_import_uri
+      (identifier)))
   root: (ui_annotated_object
     annotations: (ui_annotation_list
       (ui_annotation

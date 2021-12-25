@@ -30,14 +30,12 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     // start rule of the javascript/typescript grammar.
     program: $ => seq(
       optional($.hash_bang_line),
-      optional(field('headers', $.ui_header_item_list)),
+      repeat(choice(
+        $.ui_pragma,
+        $.ui_import,
+      )),
       field('root', $._ui_root_member),
     ),
-
-    ui_header_item_list: $ => repeat1(choice(
-      $.ui_pragma,
-      $.ui_import,
-    )),
 
     ui_pragma: $ => seq(
       'pragma',
