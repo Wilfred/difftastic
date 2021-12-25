@@ -319,6 +319,38 @@ MyItem {
             body: (statement_block)))))))
 
 ================================================================================
+Grouped binding notation
+================================================================================
+
+// This is grammatically ambiguous and parsed as an object definition.
+// See IRBuilder::visit(QQmlJS::AST::UiObjectDefinition *node) for details.
+Button {
+    icon { source: "foo.png"; color: "transparent" }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (comment)
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment)))))))))
+
+================================================================================
 Property declarations
 ================================================================================
 
