@@ -725,24 +725,22 @@ QtObject {
     uri: (ui_import_uri
       (identifier)))
   root: (ui_annotated_object
-    annotations: (ui_annotation_list
-      (ui_annotation
-        type_name: (identifier)
-        initializer: (ui_object_initializer))
-      (ui_annotation
-        type_name: (identifier)
-        initializer: (ui_object_initializer)))
+    annotation: (ui_annotation
+      type_name: (identifier)
+      initializer: (ui_object_initializer))
+    annotation: (ui_annotation
+      type_name: (identifier)
+      initializer: (ui_object_initializer))
     definition: (ui_object_definition
       type_name: (identifier)
       initializer: (ui_object_initializer
         (ui_annotated_object_member
-          annotations: (ui_annotation_list
-            (ui_annotation
-              type_name: (identifier)
-              initializer: (ui_object_initializer))
-            (ui_annotation
-              type_name: (identifier)
-              initializer: (ui_object_initializer)))
+          annotation: (ui_annotation
+            type_name: (identifier)
+            initializer: (ui_object_initializer))
+          annotation: (ui_annotation
+            type_name: (identifier)
+            initializer: (ui_object_initializer))
           definition: (ui_object_definition
             type_name: (identifier)
             initializer: (ui_object_initializer)))))))

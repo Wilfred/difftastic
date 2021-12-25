@@ -85,11 +85,9 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     ),
 
     ui_annotated_object: $ => seq(
-      field('annotations', $.ui_annotation_list),
+      repeat1(field('annotation', $.ui_annotation)),
       field('definition', $.ui_object_definition),
     ),
-
-    ui_annotation_list: $ => repeat1($.ui_annotation),
 
     ui_annotation: $ => seq(
       '@',
@@ -107,7 +105,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     ),
 
     ui_annotated_object_member: $ => seq(
-      field('annotations', $.ui_annotation_list),
+      repeat1(field('annotation', $.ui_annotation)),
       field('definition', $._ui_object_member),
     ),
 
