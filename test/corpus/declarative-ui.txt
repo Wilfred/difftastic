@@ -222,6 +222,7 @@ MyItem {
     objectLit: {foo: false, bar: true}
     memberExpr: member.expr
     paren.expr: (true)
+    onBlock: {}
     onFunction: function(a) {}
     onArrow: (b) => {}
     onTrySt: try { foo(); } catch (error) {}
@@ -289,6 +290,9 @@ MyItem {
         value: (expression_statement
           (parenthesized_expression
             (true))))
+      (ui_binding
+        name: (identifier)
+        value: (statement_block))
       (ui_binding
         name: (identifier)
         value: (expression_statement
