@@ -7,6 +7,11 @@
 module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   name: 'qmljs',
 
+  supertypes: ($, original) => original.concat([
+    $._ui_object_member,
+    $._ui_script_statement,
+  ]),
+
   inline: ($, original) => original.concat([
     $._ui_root_member,
     $._ui_object_member,
