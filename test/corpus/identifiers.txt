@@ -1,0 +1,108 @@
+================================================================================
+Non-ascii type names
+================================================================================
+
+// qtdeclarative/tests/auto/qml/qqmllanguage/data/i18nNameSpace.qml
+OtObject {
+    Áâãäå {}
+    Áâãäå.Áâãäå {}
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (ui_object_definition
+        (ui_qualified_id
+          (identifier)
+          (identifier))
+        (ui_object_initializer)))))
+
+================================================================================
+Escaped type names
+================================================================================
+
+OtObject {
+    \u0041lice {}     // "A"lice
+    B\u006f {}        // B"o"b
+    \u{00043}arol {}  // "C"arol
+    \u004audy {}      // "J"udy
+    \u005A {}         // "Z"
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer))
+      (comment))))
+
+================================================================================
+Escaped property names
+================================================================================
+
+OtObject {
+    \u0061lice: "alice"
+    b\u006Fb: "bob"
+    \u{00063}arol: "carol"
+    \u006Audy: "judy"
+    \u007a: "z"
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (ui_object_definition
+    (identifier)
+    (ui_object_initializer
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment))))
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment))))
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment))))
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment))))
+      (ui_binding
+        (identifier)
+        (expression_statement
+          (string
+            (string_fragment)))))))
