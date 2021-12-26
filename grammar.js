@@ -51,7 +51,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_import: $ => seq(
       'import',
-      field('uri', choice($.string, $.ui_import_uri)),  // ImportId
+      field('uri', choice($.string, $._ui_qualified_id)),  // ImportId
       optional(field('version', $.ui_version_specifier)),
       optional(seq(
         'as',
@@ -59,10 +59,6 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       )),
       $._semicolon,
     ),
-
-    // This is UiQualifiedId tree in qqmljs.g, but a flattened dotted name
-    // seems more appropriate.
-    ui_import_uri: $ => sep1($.identifier, '.'),
 
     ui_version_specifier: $ => {
       const version_number = alias(/\d+/, $.number);
