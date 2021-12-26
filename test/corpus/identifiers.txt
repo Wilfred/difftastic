@@ -1,4 +1,49 @@
 ================================================================================
+Reserved words as identifiers
+================================================================================
+
+MyItem {
+    NumberAnimation {
+        required property
+    }
+
+    NumberAnimation {
+        property: "foo"
+    }
+
+    Component {
+        id: component
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_required
+            name: (identifier))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))))
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (identifier))))))))
+
+================================================================================
 Non-ascii type names
 ================================================================================
 
