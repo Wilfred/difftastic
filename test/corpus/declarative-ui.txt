@@ -22,32 +22,32 @@ Item {}
     name: (identifier)
     value: (identifier))
   (ui_import
-    uri: (identifier))
+    source: (identifier))
   (ui_import
-    uri: (nested_identifier
+    source: (nested_identifier
       (nested_identifier
         (identifier)
         (identifier))
       (identifier))
-    id: (identifier))
+    alias: (identifier))
   (ui_import
-    uri: (nested_identifier
+    source: (nested_identifier
       (identifier)
       (identifier))
     version: (ui_version_specifier
       major: (number)))
   (ui_import
-    uri: (identifier)
+    source: (identifier)
     version: (ui_version_specifier
       major: (number)
       minor: (number)))
   (ui_import
-    uri: (string
+    source: (string
       (string_fragment)))
   (ui_import
-    uri: (string
+    source: (string
       (string_fragment))
-    id: (identifier))
+    alias: (identifier))
   root: (ui_object_definition
     type_name: (identifier)
     initializer: (ui_object_initializer)))
@@ -87,12 +87,12 @@ Item {
 
 (program
   (ui_import
-    uri: (identifier))
+    source: (identifier))
   (ui_import
-    uri: (nested_identifier
+    source: (nested_identifier
       (identifier)
       (identifier))
-    id: (identifier))
+    alias: (identifier))
   root: (ui_object_definition
     type_name: (identifier)
     initializer: (ui_object_initializer
@@ -706,7 +706,7 @@ QtObject {
 
 (program
   (ui_import
-    uri: (identifier))
+    source: (identifier))
   root: (ui_annotated_object
     annotation: (ui_annotation
       type_name: (identifier)

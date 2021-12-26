@@ -51,11 +51,11 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_import: $ => seq(
       'import',
-      field('uri', choice($.string, $._ui_qualified_id)),  // ImportId
+      field('source', choice($.string, $._ui_qualified_id)),  // ImportId
       optional(field('version', $.ui_version_specifier)),
       optional(seq(
         'as',
-        field('id', $._ui_identifier),  // QmlIdentifier
+        field('alias', $._ui_identifier),  // QmlIdentifier
       )),
       $._semicolon,
     ),
