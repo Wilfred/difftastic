@@ -18,20 +18,20 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "headers",
-              "content": {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
                 "type": "SYMBOL",
-                "name": "ui_header_item_list"
+                "name": "ui_pragma"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ui_import"
               }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+            ]
+          }
         },
         {
           "type": "FIELD",
@@ -6820,6 +6820,14 @@
         {
           "type": "STRING",
           "value": "component"
+        },
+        {
+          "type": "STRING",
+          "value": "from"
+        },
+        {
+          "type": "STRING",
+          "value": "of"
         }
       ]
     },
@@ -10183,22 +10191,6 @@
       "named": true,
       "value": "type_identifier"
     },
-    "ui_header_item_list": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "ui_pragma"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "ui_import"
-          }
-        ]
-      }
-    },
     "ui_pragma": {
       "type": "SEQ",
       "members": [
@@ -10254,7 +10246,7 @@
         },
         {
           "type": "FIELD",
-          "name": "uri",
+          "name": "source",
           "content": {
             "type": "CHOICE",
             "members": [
@@ -10264,7 +10256,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "ui_import_uri"
+                "name": "_ui_qualified_id"
               }
             ]
           }
@@ -10297,10 +10289,10 @@
                 },
                 {
                   "type": "FIELD",
-                  "name": "id",
+                  "name": "alias",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_qml_identifier"
+                    "name": "_ui_identifier"
                   }
                 }
               ]
@@ -10313,31 +10305,6 @@
         {
           "type": "SYMBOL",
           "name": "_semicolon"
-        }
-      ]
-    },
-    "ui_import_uri": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "."
-              },
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              }
-            ]
-          }
         }
       ]
     },
@@ -10432,11 +10399,14 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "FIELD",
-          "name": "annotations",
+          "type": "REPEAT1",
           "content": {
-            "type": "SYMBOL",
-            "name": "ui_annotation_list"
+            "type": "FIELD",
+            "name": "annotation",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ui_annotation"
+            }
           }
         },
         {
@@ -10448,13 +10418,6 @@
           }
         }
       ]
-    },
-    "ui_annotation_list": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "SYMBOL",
-        "name": "ui_annotation"
-      }
     },
     "ui_annotation": {
       "type": "SEQ",
@@ -10468,7 +10431,7 @@
           "name": "type_name",
           "content": {
             "type": "SYMBOL",
-            "name": "_ui_simple_qualified_id"
+            "name": "_ui_qualified_id"
           }
         },
         {
@@ -10514,11 +10477,14 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "FIELD",
-          "name": "annotations",
+          "type": "REPEAT1",
           "content": {
-            "type": "SYMBOL",
-            "name": "ui_annotation_list"
+            "type": "FIELD",
+            "name": "annotation",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ui_annotation"
+            }
           }
         },
         {
@@ -10665,7 +10631,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_ui_property_type"
+                "name": "_ui_qualified_id"
               },
               {
                 "type": "SYMBOL",
@@ -10679,7 +10645,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "_qml_identifier"
+            "name": "_ui_identifier"
           }
         },
         {
@@ -10723,7 +10689,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_ui_property_type"
+          "name": "_ui_qualified_id"
         },
         {
           "type": "STRING",
@@ -10883,7 +10849,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "_qml_identifier"
+            "name": "_ui_identifier"
           }
         },
         {
@@ -10986,7 +10952,7 @@
               "name": "name",
               "content": {
                 "type": "SYMBOL",
-                "name": "_qml_identifier"
+                "name": "_ui_identifier"
               }
             },
             {
@@ -10998,7 +10964,7 @@
               "name": "type",
               "content": {
                 "type": "SYMBOL",
-                "name": "_ui_property_type"
+                "name": "_ui_qualified_id"
               }
             }
           ]
@@ -11011,7 +10977,7 @@
               "name": "type",
               "content": {
                 "type": "SYMBOL",
-                "name": "_ui_property_type"
+                "name": "_ui_qualified_id"
               }
             },
             {
@@ -11019,7 +10985,7 @@
               "name": "name",
               "content": {
                 "type": "SYMBOL",
-                "name": "_qml_identifier"
+                "name": "_ui_identifier"
               }
             }
           ]
@@ -11189,29 +11155,43 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_js_identifier"
+          "name": "_ui_identifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "ui_qualified_id"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ui_nested_identifier"
+          },
+          "named": true,
+          "value": "nested_identifier"
         }
       ]
     },
-    "ui_qualified_id": {
+    "_ui_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_reserved_identifier"
+          },
+          "named": true,
+          "value": "identifier"
+        }
+      ]
+    },
+    "ui_nested_identifier": {
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_js_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "ui_qualified_id"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_ui_qualified_id"
         },
         {
           "type": "STRING",
@@ -11219,141 +11199,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_js_identifier"
-        }
-      ]
-    },
-    "_ui_simple_qualified_id": {
-      "type": "SYMBOL",
-      "name": "_ui_qualified_id"
-    },
-    "_ui_property_type": {
-      "type": "SYMBOL",
-      "name": "_ui_qualified_id"
-    },
-    "_js_identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
           "name": "identifier"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "property"
-              },
-              {
-                "type": "STRING",
-                "value": "signal"
-              },
-              {
-                "type": "STRING",
-                "value": "readonly"
-              },
-              {
-                "type": "STRING",
-                "value": "on"
-              },
-              {
-                "type": "STRING",
-                "value": "get"
-              },
-              {
-                "type": "STRING",
-                "value": "set"
-              },
-              {
-                "type": "STRING",
-                "value": "from"
-              },
-              {
-                "type": "STRING",
-                "value": "static"
-              },
-              {
-                "type": "STRING",
-                "value": "of"
-              },
-              {
-                "type": "STRING",
-                "value": "as"
-              },
-              {
-                "type": "STRING",
-                "value": "required"
-              },
-              {
-                "type": "STRING",
-                "value": "component"
-              }
-            ]
-          },
-          "named": true,
-          "value": "identifier"
-        }
-      ]
-    },
-    "_qml_identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "property"
-              },
-              {
-                "type": "STRING",
-                "value": "signal"
-              },
-              {
-                "type": "STRING",
-                "value": "readonly"
-              },
-              {
-                "type": "STRING",
-                "value": "on"
-              },
-              {
-                "type": "STRING",
-                "value": "get"
-              },
-              {
-                "type": "STRING",
-                "value": "set"
-              },
-              {
-                "type": "STRING",
-                "value": "from"
-              },
-              {
-                "type": "STRING",
-                "value": "of"
-              },
-              {
-                "type": "STRING",
-                "value": "required"
-              },
-              {
-                "type": "STRING",
-                "value": "component"
-              }
-            ]
-          },
-          "named": true,
-          "value": "identifier"
         }
       ]
     }
@@ -11659,7 +11505,7 @@
       "ui_required"
     ],
     [
-      "ui_qualified_id",
+      "ui_nested_identifier",
       "primary_expression"
     ]
   ],
@@ -12180,10 +12026,7 @@
     "_ui_property_value",
     "_ui_script_statement",
     "_ui_qualified_id",
-    "_ui_simple_qualified_id",
-    "_ui_property_type",
-    "_js_identifier",
-    "_qml_identifier"
+    "_ui_identifier"
   ],
   "supertypes": [
     "statement",
@@ -12191,7 +12034,9 @@
     "expression",
     "primary_expression",
     "pattern",
-    "_primary_type"
+    "_primary_type",
+    "_ui_object_member",
+    "_ui_script_statement"
   ]
 }
 
