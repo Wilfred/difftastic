@@ -322,6 +322,9 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       'on',
       'required',
       'component',
+      // not QML keywords, but qmljs.g accepts them as JS expressions:
+      'from',
+      'of',
     ),
   },
 });

@@ -335,7 +335,7 @@ MyItem {
     QtObject { id: component }
     QtObject { id: declare }
     QtObject { id: false }
-    // qml accepts this: QtObject { id: from }
+    QtObject { id: from }
     QtObject { id: get }
     QtObject { id: module }
     QtObject { id: namespace }
@@ -343,7 +343,7 @@ MyItem {
     QtObject { id: null }
     QtObject { id: number }
     QtObject { id: object }
-    // qml accepts this: QtObject { id: of }
+    QtObject { id: of }
     QtObject { id: on }
     QtObject { id: override }
     QtObject { id: property }
@@ -404,7 +404,13 @@ MyItem {
             (identifier)
             (expression_statement
               (false)))))
-      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
       (ui_object_definition
         (identifier)
         (ui_object_initializer
@@ -454,7 +460,13 @@ MyItem {
             (identifier)
             (expression_statement
               (identifier)))))
-      (comment)
+      (ui_object_definition
+        (identifier)
+        (ui_object_initializer
+          (ui_binding
+            (identifier)
+            (expression_statement
+              (identifier)))))
       (ui_object_definition
         (identifier)
         (ui_object_initializer
