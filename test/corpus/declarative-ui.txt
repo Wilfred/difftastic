@@ -103,7 +103,7 @@ Item {
         type_name: (identifier)
         initializer: (ui_object_initializer))
       (ui_object_definition
-        type_name: (ui_qualified_id
+        type_name: (nested_identifier
           (identifier)
           (identifier))
         initializer: (ui_object_initializer)))))
@@ -128,10 +128,10 @@ MyItem {
         name: (identifier)
         initializer: (ui_object_initializer))
       (ui_object_definition_binding
-        type_name: (ui_qualified_id
+        type_name: (nested_identifier
           (identifier)
           (identifier))
-        name: (ui_qualified_id
+        name: (nested_identifier
           (identifier)
           (identifier))
         initializer: (ui_object_initializer)))))
@@ -184,7 +184,7 @@ MyItem {
         name: (identifier)
         value: (ui_object_array
           (ui_object_definition
-            type_name: (ui_qualified_id
+            type_name: (nested_identifier
               (identifier)
               (identifier))
             initializer: (ui_object_initializer))
@@ -199,7 +199,7 @@ MyItem {
       (ui_binding
         name: (identifier)
         value: (ui_object_definition
-          type_name: (ui_qualified_id
+          type_name: (nested_identifier
             (identifier)
             (identifier))
           initializer: (ui_object_initializer))))))
@@ -281,7 +281,7 @@ MyItem {
             object: (identifier)
             property: (property_identifier))))
       (ui_binding
-        name: (ui_qualified_id
+        name: (nested_identifier
           (identifier)
           (identifier))
         value: (expression_statement
@@ -501,24 +501,24 @@ MyItem {
           (identifier))
         name: (identifier))
       (ui_property
-        type: (ui_qualified_id
+        type: (nested_identifier
           (identifier)
           (identifier))
         name: (identifier)
         value: (ui_object_definition
-          type_name: (ui_qualified_id
+          type_name: (nested_identifier
             (identifier)
             (identifier))
           initializer: (ui_object_initializer)))
       (ui_property
         type: (ui_list_property_type
-          (ui_qualified_id
+          (nested_identifier
             (identifier)
             (identifier)))
         name: (identifier)
         value: (ui_object_array
           (ui_object_definition
-            type_name: (ui_qualified_id
+            type_name: (nested_identifier
               (identifier)
               (identifier))
             initializer: (ui_object_initializer))))
@@ -568,11 +568,11 @@ MyItem {
         parameters: (ui_signal_parameters
           (ui_signal_parameter
             name: (identifier)
-            type: (ui_qualified_id
+            type: (nested_identifier
               (identifier)
               (identifier)))
           (ui_signal_parameter
-            type: (ui_qualified_id
+            type: (nested_identifier
               (identifier)
               (identifier))
             name: (identifier))

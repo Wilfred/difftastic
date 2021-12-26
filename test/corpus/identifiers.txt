@@ -601,7 +601,7 @@ OtObject {
         (identifier)
         (ui_object_initializer))
       (ui_object_definition
-        (ui_qualified_id
+        (nested_identifier
           (identifier)
           (identifier))
         (ui_object_initializer)))))

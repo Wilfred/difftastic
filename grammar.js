@@ -24,7 +24,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
   conflicts: ($, original) => original.concat([
     [$.ui_property_modifier, $.ui_required],  // required property name vs required property
-    [$.ui_qualified_id, $.primary_expression],  // [Qualified.Obj {}] vs [member.expr]
+    [$.ui_nested_identifier, $.primary_expression],  // Nested.Obj {} vs member.expr
   ]),
 
   rules: {
@@ -266,7 +266,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     // MemberExpression -> reparseAsQualifiedId()
     _ui_qualified_id: $ => choice(
       $._ui_identifier,
-      $.ui_qualified_id,
+      alias($.ui_nested_identifier, $.nested_identifier),
     ),
 
     _ui_identifier: $ => choice(
@@ -274,7 +274,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       alias($._reserved_identifier, $.identifier),
     ),
 
-    ui_qualified_id: $ => seq(
+    ui_nested_identifier: $ => seq(
       $._ui_qualified_id,
       '.',
       $.identifier,

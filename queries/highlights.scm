@@ -3,7 +3,7 @@
 (ui_binding
   name: (identifier) @property)
 (ui_binding
-  name: (ui_qualified_id
+  name: (nested_identifier
          (identifier) @property))
 
 (ui_property
