@@ -184,8 +184,8 @@ fn main() {
 
     match parse_args() {
         Mode::DumpTreeSitter { path } => {
-            let extension = Path::new(&path).extension();
-            let extension = extension.unwrap_or_else(|| OsStr::new(""));
+            let path = Path::new(&path);
+            let extension = path.extension().unwrap_or_else(|| OsStr::new(""));
             match tsp::from_extension(extension) {
                 Some(ts_lang) => {
                     let bytes = read_or_die(&path);
@@ -199,8 +199,8 @@ fn main() {
             }
         }
         Mode::DumpSyntax { path } => {
-            let extension = Path::new(&path).extension();
-            let extension = extension.unwrap_or_else(|| OsStr::new(""));
+            let path = Path::new(&path);
+            let extension = path.extension().unwrap_or_else(|| OsStr::new(""));
             match tsp::from_extension(extension) {
                 Some(ts_lang) => {
                     let bytes = read_or_die(&path);
@@ -220,7 +220,10 @@ fn main() {
             lhs_path,
             rhs_path,
         } => {
-            if Path::new(&lhs_path).is_dir() && Path::new(&rhs_path).is_dir() {
+            let lhs_path = Path::new(&lhs_path);
+            let rhs_path = Path::new(&rhs_path);
+
+            if lhs_path.is_dir() && rhs_path.is_dir() {
                 for diff_result in diff_directories(&lhs_path, &rhs_path) {
                     print_diff_result(&diff_result);
                 }
@@ -233,8 +236,7 @@ fn main() {
 }
 
 /// Print a diff between two files.
-// TODO: prefer PathBuf to &str for paths.
-fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) -> DiffResult {
+fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult {
     let lhs_bytes = read_or_die(lhs_path);
     let rhs_bytes = read_or_die(rhs_path);
 
@@ -300,7 +302,7 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) -> DiffResult {
 ///
 /// When more than one file is modified, the hg extdiff extension passes directory
 /// paths with the all the modified files.  fn
-fn diff_directories(lhs_dir: &str, rhs_dir: &str) -> Vec<DiffResult> {
+fn diff_directories(lhs_dir: &Path, rhs_dir: &Path) -> Vec<DiffResult> {
     let mut res = vec![];
     for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
         let lhs_path = entry.path();
@@ -313,11 +315,7 @@ fn diff_directories(lhs_dir: &str, rhs_dir: &str) -> Vec<DiffResult> {
         let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
         let rhs_path = Path::new(rhs_dir).join(rel_path);
 
-        res.push(diff_file(
-            &rel_path.to_string_lossy(),
-            &lhs_path.to_string_lossy(),
-            &rhs_path.to_string_lossy(),
-        ));
+        res.push(diff_file(&rel_path.to_string_lossy(), &lhs_path, &rhs_path));
     }
     res
 }
