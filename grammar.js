@@ -7,6 +7,11 @@
 module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   name: 'qmljs',
 
+  supertypes: ($, original) => original.concat([
+    $._ui_object_member,
+    $._ui_script_statement,
+  ]),
+
   inline: ($, original) => original.concat([
     $._ui_root_member,
     $._ui_object_member,
@@ -14,15 +19,12 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     $._ui_property_value,
     $._ui_script_statement,
     $._ui_qualified_id,
-    $._ui_simple_qualified_id,
-    $._ui_property_type,
-    $._js_identifier,
-    $._qml_identifier,
+    $._ui_identifier,
   ]),
 
   conflicts: ($, original) => original.concat([
     [$.ui_property_modifier, $.ui_required],  // required property name vs required property
-    [$.ui_qualified_id, $.primary_expression],  // [Qualified.Obj {}] vs [member.expr]
+    [$.ui_nested_identifier, $.primary_expression],  // Nested.Obj {} vs member.expr
   ]),
 
   rules: {
@@ -30,14 +32,12 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     // start rule of the javascript/typescript grammar.
     program: $ => seq(
       optional($.hash_bang_line),
-      optional(field('headers', $.ui_header_item_list)),
+      repeat(choice(
+        $.ui_pragma,
+        $.ui_import,
+      )),
       field('root', $._ui_root_member),
     ),
-
-    ui_header_item_list: $ => repeat1(choice(
-      $.ui_pragma,
-      $.ui_import,
-    )),
 
     ui_pragma: $ => seq(
       'pragma',
@@ -51,18 +51,14 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_import: $ => seq(
       'import',
-      field('uri', choice($.string, $.ui_import_uri)),  // ImportId
+      field('source', choice($.string, $._ui_qualified_id)),  // ImportId
       optional(field('version', $.ui_version_specifier)),
       optional(seq(
         'as',
-        field('id', $._qml_identifier),
+        field('alias', $._ui_identifier),  // QmlIdentifier
       )),
       $._semicolon,
     ),
-
-    // This is UiQualifiedId tree in qqmljs.g, but a flattened dotted name
-    // seems more appropriate.
-    ui_import_uri: $ => sep1($.identifier, '.'),
 
     ui_version_specifier: $ => {
       const version_number = alias(/\d+/, $.number);
@@ -87,15 +83,13 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     ),
 
     ui_annotated_object: $ => seq(
-      field('annotations', $.ui_annotation_list),
+      repeat1(field('annotation', $.ui_annotation)),
       field('definition', $.ui_object_definition),
     ),
 
-    ui_annotation_list: $ => repeat1($.ui_annotation),
-
     ui_annotation: $ => seq(
       '@',
-      field('type_name', $._ui_simple_qualified_id),
+      field('type_name', $._ui_qualified_id),  // UiSimpleQualifiedId
       field('initializer', $.ui_object_initializer),
     ),
 
@@ -109,7 +103,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     ),
 
     ui_annotated_object_member: $ => seq(
-      field('annotations', $.ui_annotation_list),
+      repeat1(field('annotation', $.ui_annotation)),
       field('definition', $._ui_object_member),
     ),
 
@@ -146,8 +140,11 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     ui_property: $ => seq(
       repeat($.ui_property_modifier),
       'property',
-      field('type', choice($._ui_property_type, $.ui_list_property_type)),
-      field('name', $._qml_identifier),
+      field('type', choice(
+        $._ui_qualified_id,  // UiPropertyType
+        $.ui_list_property_type,
+      )),
+      field('name', $._ui_identifier),  // QmlIdentifier
       choice(
         seq(
           ':',
@@ -162,7 +159,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     ui_list_property_type: $ => seq(
       'list',
       '<',
-      $._ui_property_type,
+      $._ui_qualified_id,  // UiPropertyType
       '>',
     ),
 
@@ -204,7 +201,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_required: $ => seq(
       'required',
-      field('name', $._qml_identifier),
+      field('name', $._ui_identifier),  // QmlIdentifier
       $._semicolon,
     ),
 
@@ -223,13 +220,13 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_signal_parameter: $ => choice(
       seq(
-        field('name', $._qml_identifier),
+        field('name', $._ui_identifier),  // QmlIdentifier
         ':',
-        field('type', $._ui_property_type),
+        field('type', $._ui_qualified_id),  // UiPropertyType
       ),
       seq(
-        field('type', $._ui_property_type),
-        field('name', $._qml_identifier),
+        field('type', $._ui_qualified_id),  // UiPropertyType
+        field('name', $._ui_identifier),  // QmlIdentifier
       ),
     ),
 
@@ -262,54 +259,21 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       field('value', $.number),
     ),
 
+    // MemberExpression -> reparseAsQualifiedId()
     _ui_qualified_id: $ => choice(
-      $._js_identifier,
-      $.ui_qualified_id,
+      $._ui_identifier,
+      alias($.ui_nested_identifier, $.nested_identifier),
     ),
 
-    ui_qualified_id: $ => seq(
-      choice($._js_identifier, $.ui_qualified_id),
+    _ui_identifier: $ => choice(
+      $.identifier,
+      alias($._reserved_identifier, $.identifier),
+    ),
+
+    ui_nested_identifier: $ => seq(
+      $._ui_qualified_id,
       '.',
-      $._js_identifier,
-    ),
-
-    _ui_simple_qualified_id: $ => $._ui_qualified_id,  // TODO
-
-    _ui_property_type: $ => $._ui_qualified_id,  // TODO
-
-    _js_identifier: $ => choice(
       $.identifier,
-      alias(choice(
-        'property',
-        'signal',
-        'readonly',
-        'on',
-        'get',
-        'set',
-        'from',
-        'static',
-        'of',
-        'as',
-        'required',
-        'component',
-        // TODO: maybe need to include $._reserved_identifier?
-      ), $.identifier),
-    ),
-
-    _qml_identifier: $ => choice(
-      $.identifier,
-      alias(choice(
-        'property',
-        'signal',
-        'readonly',
-        'on',
-        'get',
-        'set',
-        'from',
-        'of',
-        'required',
-        'component',
-      ), $.identifier),
     ),
 
     // teach JavaScript/TypeScript grammar about QML keywords.
@@ -321,6 +285,9 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       'on',
       'required',
       'component',
+      // not QML keywords, but qmljs.g accepts them as JS expressions:
+      'from',
+      'of',
     ),
   },
 });

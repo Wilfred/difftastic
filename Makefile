@@ -1,3 +1,4 @@
+JQ = jq
 TREE_SITTER = node_modules/.bin/tree-sitter
 
 .PHONY: help
@@ -13,8 +14,20 @@ generate:
 	$(MAKE) src/typescript-scanner.h
 	$(TREE_SITTER) generate
 
-src/typescript-scanner.h: node_modules/tree-sitter-typescript/common/scanner.h
-	cp $< $@
+src/typescript-scanner.h: \
+ node_modules/tree-sitter-typescript/common/scanner.h \
+ node_modules/tree-sitter-typescript/LICENSE \
+ package.json
+	( \
+		echo '/*'; \
+		echo 'Source:'; \
+		$(JQ) -r '.devDependencies["tree-sitter-typescript"]' package.json; \
+		echo; \
+		cat node_modules/tree-sitter-typescript/LICENSE; \
+		echo '*/'; \
+		echo; \
+		cat $<; \
+	) > $@
 
 .PHONY: tests
 tests:

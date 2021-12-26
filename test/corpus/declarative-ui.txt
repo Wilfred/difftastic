@@ -16,40 +16,38 @@ Item {}
 --------------------------------------------------------------------------------
 
 (program
-  headers: (ui_header_item_list
-    (ui_pragma
-      name: (identifier))
-    (ui_pragma
-      name: (identifier)
-      value: (identifier))
-    (ui_import
-      uri: (ui_import_uri
-        (identifier)))
-    (ui_import
-      uri: (ui_import_uri
-        (identifier)
+  (ui_pragma
+    name: (identifier))
+  (ui_pragma
+    name: (identifier)
+    value: (identifier))
+  (ui_import
+    source: (identifier))
+  (ui_import
+    source: (nested_identifier
+      (nested_identifier
         (identifier)
         (identifier))
-      id: (identifier))
-    (ui_import
-      uri: (ui_import_uri
-        (identifier)
-        (identifier))
-      version: (ui_version_specifier
-        major: (number)))
-    (ui_import
-      uri: (ui_import_uri
-        (identifier))
-      version: (ui_version_specifier
-        major: (number)
-        minor: (number)))
-    (ui_import
-      uri: (string
-        (string_fragment)))
-    (ui_import
-      uri: (string
-        (string_fragment))
-      id: (identifier)))
+      (identifier))
+    alias: (identifier))
+  (ui_import
+    source: (nested_identifier
+      (identifier)
+      (identifier))
+    version: (ui_version_specifier
+      major: (number)))
+  (ui_import
+    source: (identifier)
+    version: (ui_version_specifier
+      major: (number)
+      minor: (number)))
+  (ui_import
+    source: (string
+      (string_fragment)))
+  (ui_import
+    source: (string
+      (string_fragment))
+    alias: (identifier))
   root: (ui_object_definition
     type_name: (identifier)
     initializer: (ui_object_initializer)))
@@ -67,10 +65,8 @@ OtObject {}
 
 (program
   (hash_bang_line)
-  (ui_header_item_list
-    (ui_import
-      (ui_import_uri
-        (identifier))))
+  (ui_import
+    (identifier))
   (ui_object_definition
     (identifier)
     (ui_object_initializer)))
@@ -90,15 +86,13 @@ Item {
 --------------------------------------------------------------------------------
 
 (program
-  headers: (ui_header_item_list
-    (ui_import
-      uri: (ui_import_uri
-        (identifier)))
-    (ui_import
-      uri: (ui_import_uri
-        (identifier)
-        (identifier))
-      id: (identifier)))
+  (ui_import
+    source: (identifier))
+  (ui_import
+    source: (nested_identifier
+      (identifier)
+      (identifier))
+    alias: (identifier))
   root: (ui_object_definition
     type_name: (identifier)
     initializer: (ui_object_initializer
@@ -106,7 +100,7 @@ Item {
         type_name: (identifier)
         initializer: (ui_object_initializer))
       (ui_object_definition
-        type_name: (ui_qualified_id
+        type_name: (nested_identifier
           (identifier)
           (identifier))
         initializer: (ui_object_initializer)))))
@@ -131,10 +125,10 @@ MyItem {
         name: (identifier)
         initializer: (ui_object_initializer))
       (ui_object_definition_binding
-        type_name: (ui_qualified_id
+        type_name: (nested_identifier
           (identifier)
           (identifier))
-        name: (ui_qualified_id
+        name: (nested_identifier
           (identifier)
           (identifier))
         initializer: (ui_object_initializer)))))
@@ -187,7 +181,7 @@ MyItem {
         name: (identifier)
         value: (ui_object_array
           (ui_object_definition
-            type_name: (ui_qualified_id
+            type_name: (nested_identifier
               (identifier)
               (identifier))
             initializer: (ui_object_initializer))
@@ -202,7 +196,7 @@ MyItem {
       (ui_binding
         name: (identifier)
         value: (ui_object_definition
-          type_name: (ui_qualified_id
+          type_name: (nested_identifier
             (identifier)
             (identifier))
           initializer: (ui_object_initializer))))))
@@ -222,6 +216,7 @@ MyItem {
     objectLit: {foo: false, bar: true}
     memberExpr: member.expr
     paren.expr: (true)
+    onBlock: {}
     onFunction: function(a) {}
     onArrow: (b) => {}
     onTrySt: try { foo(); } catch (error) {}
@@ -283,12 +278,15 @@ MyItem {
             object: (identifier)
             property: (property_identifier))))
       (ui_binding
-        name: (ui_qualified_id
+        name: (nested_identifier
           (identifier)
           (identifier))
         value: (expression_statement
           (parenthesized_expression
             (true))))
+      (ui_binding
+        name: (identifier)
+        value: (statement_block))
       (ui_binding
         name: (identifier)
         value: (expression_statement
@@ -316,6 +314,38 @@ MyItem {
           handler: (catch_clause
             parameter: (identifier)
             body: (statement_block)))))))
+
+================================================================================
+Grouped binding notation
+================================================================================
+
+// This is grammatically ambiguous and parsed as an object definition.
+// See IRBuilder::visit(QQmlJS::AST::UiObjectDefinition *node) for details.
+Button {
+    icon { source: "foo.png"; color: "transparent" }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (comment)
+  (comment)
+  root: (ui_object_definition
+    type_name: (identifier)
+    initializer: (ui_object_initializer
+      (ui_object_definition
+        type_name: (identifier)
+        initializer: (ui_object_initializer
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment))))
+          (ui_binding
+            name: (identifier)
+            value: (expression_statement
+              (string
+                (string_fragment)))))))))
 
 ================================================================================
 Property declarations
@@ -468,24 +498,24 @@ MyItem {
           (identifier))
         name: (identifier))
       (ui_property
-        type: (ui_qualified_id
+        type: (nested_identifier
           (identifier)
           (identifier))
         name: (identifier)
         value: (ui_object_definition
-          type_name: (ui_qualified_id
+          type_name: (nested_identifier
             (identifier)
             (identifier))
           initializer: (ui_object_initializer)))
       (ui_property
         type: (ui_list_property_type
-          (ui_qualified_id
+          (nested_identifier
             (identifier)
             (identifier)))
         name: (identifier)
         value: (ui_object_array
           (ui_object_definition
-            type_name: (ui_qualified_id
+            type_name: (nested_identifier
               (identifier)
               (identifier))
             initializer: (ui_object_initializer))))
@@ -535,11 +565,11 @@ MyItem {
         parameters: (ui_signal_parameters
           (ui_signal_parameter
             name: (identifier)
-            type: (ui_qualified_id
+            type: (nested_identifier
               (identifier)
               (identifier)))
           (ui_signal_parameter
-            type: (ui_qualified_id
+            type: (nested_identifier
               (identifier)
               (identifier))
             name: (identifier))
@@ -659,51 +689,6 @@ MyItem {
           name: (identifier))))))
 
 ================================================================================
-Reserved words as identifiers
-================================================================================
-
-MyItem {
-    NumberAnimation {
-        required property
-    }
-
-    NumberAnimation {
-        property: "foo"
-    }
-
-    Component {
-        id: component
-    }
-}
-
---------------------------------------------------------------------------------
-
-(program
-  root: (ui_object_definition
-    type_name: (identifier)
-    initializer: (ui_object_initializer
-      (ui_object_definition
-        type_name: (identifier)
-        initializer: (ui_object_initializer
-          (ui_required
-            name: (identifier))))
-      (ui_object_definition
-        type_name: (identifier)
-        initializer: (ui_object_initializer
-          (ui_binding
-            name: (identifier)
-            value: (expression_statement
-              (string
-                (string_fragment))))))
-      (ui_object_definition
-        type_name: (identifier)
-        initializer: (ui_object_initializer
-          (ui_binding
-            name: (identifier)
-            value: (expression_statement
-              (identifier))))))))
-
-================================================================================
 Annotations
 ================================================================================
 
@@ -720,29 +705,25 @@ QtObject {
 --------------------------------------------------------------------------------
 
 (program
-  headers: (ui_header_item_list
-    (ui_import
-      uri: (ui_import_uri
-        (identifier))))
+  (ui_import
+    source: (identifier))
   root: (ui_annotated_object
-    annotations: (ui_annotation_list
-      (ui_annotation
-        type_name: (identifier)
-        initializer: (ui_object_initializer))
-      (ui_annotation
-        type_name: (identifier)
-        initializer: (ui_object_initializer)))
+    annotation: (ui_annotation
+      type_name: (identifier)
+      initializer: (ui_object_initializer))
+    annotation: (ui_annotation
+      type_name: (identifier)
+      initializer: (ui_object_initializer))
     definition: (ui_object_definition
       type_name: (identifier)
       initializer: (ui_object_initializer
         (ui_annotated_object_member
-          annotations: (ui_annotation_list
-            (ui_annotation
-              type_name: (identifier)
-              initializer: (ui_object_initializer))
-            (ui_annotation
-              type_name: (identifier)
-              initializer: (ui_object_initializer)))
+          annotation: (ui_annotation
+            type_name: (identifier)
+            initializer: (ui_object_initializer))
+          annotation: (ui_annotation
+            type_name: (identifier)
+            initializer: (ui_object_initializer))
           definition: (ui_object_definition
             type_name: (identifier)
             initializer: (ui_object_initializer)))))))
