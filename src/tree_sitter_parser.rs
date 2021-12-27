@@ -1,7 +1,8 @@
 //! Load and configure parsers written with tree-sitter.
 
-use std::{borrow::Borrow, collections::HashSet, ffi::OsStr};
+use std::collections::HashSet;
 
+use crate::guess_language as guess;
 use tree_sitter as ts;
 use typed_arena::Arena;
 
@@ -65,22 +66,17 @@ extern "C" {
     fn tree_sitter_typescript() -> ts::Language;
 }
 
-pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
-    // TODO: find a nice way to extract name and extension information
-    // from the package.json in these parsers.
-    // TODO: consider using
-    // https://github.com/github/linguist/blob/master/lib/linguist/languages.yml
-    // as a source of extensions.
-    // TODO: support files without extensions, such as .bashrc.
-    match extension.to_string_lossy().borrow() {
-        "bash" | "sh" => Some(TreeSitterConfig {
+pub fn from_language(language: guess::Language) -> TreeSitterConfig {
+    use guess::Language::*;
+    match language {
+        Bash => TreeSitterConfig {
             name: "Bash",
             language: unsafe { tree_sitter_bash() },
             atom_nodes: (vec!["string", "raw_string"]).into_iter().collect(),
             delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("[", "]")]),
             highlight_queries: include_str!("../vendor/highlights/bash.scm"),
-        }),
-        "c" => Some(TreeSitterConfig {
+        },
+        C => TreeSitterConfig {
             name: "C",
             language: unsafe { tree_sitter_c() },
             atom_nodes: (vec!["string_literal", "char_literal"])
@@ -88,14 +84,8 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 .collect(),
             delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("[", "]")]),
             highlight_queries: include_str!("../vendor/highlights/c.scm"),
-        }),
-        // Treat .h as C++ rather than C. This is an arbitrary choice,
-        // but C++ is more widely used than C according to
-        // https://madnight.github.io/githut/
-        //
-        // TODO: allow users to override the association between
-        // extensions and parses.
-        "cc" | "cpp" | "h" | "hh" | "hpp" | "cxx" => Some(TreeSitterConfig {
+        },
+        CPlusPlus => TreeSitterConfig {
             name: "C++",
             language: unsafe { tree_sitter_cpp() },
             // The C++ grammar extends the C grammar, so the node
@@ -108,19 +98,17 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 include_str!("../vendor/highlights/c.scm"),
                 include_str!("../vendor/highlights/cpp.scm")
             ),
-        }),
-        "bb" | "boot" | "clj" | "cljc" | "clje" | "cljs" | "cljx" | "edn" | "joke" | "joker" => {
-            Some(TreeSitterConfig {
-                name: "Clojure",
-                language: unsafe { tree_sitter_clojure() },
-                atom_nodes: (vec![]).into_iter().collect(),
-                delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")])
-                    .into_iter()
-                    .collect(),
-                highlight_queries: "",
-            })
-        }
-        "cs" => Some(TreeSitterConfig {
+        },
+        Clojure => TreeSitterConfig {
+            name: "Clojure",
+            language: unsafe { tree_sitter_clojure() },
+            atom_nodes: (vec![]).into_iter().collect(),
+            delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")])
+                .into_iter()
+                .collect(),
+            highlight_queries: "",
+        },
+        CSharp => TreeSitterConfig {
             name: "C#",
             language: unsafe { tree_sitter_c_sharp() },
             atom_nodes: (vec![
@@ -132,15 +120,15 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
             .collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")")]),
             highlight_queries: include_str!("../vendor/highlights/c-sharp.scm"),
-        }),
-        "css" => Some(TreeSitterConfig {
+        },
+        Css => TreeSitterConfig {
             name: "CSS",
             language: unsafe { tree_sitter_css() },
             atom_nodes: (vec!["integer_value", "float_value"]).into_iter().collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")")]),
             highlight_queries: include_str!("../vendor/highlights/css.scm"),
-        }),
-        "el" | ".emacs" => Some(TreeSitterConfig {
+        },
+        EmacsLisp => TreeSitterConfig {
             name: "Emacs Lisp",
             language: unsafe { tree_sitter_elisp() },
             atom_nodes: (vec![]).into_iter().collect(),
@@ -148,8 +136,8 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 .into_iter()
                 .collect(),
             highlight_queries: include_str!("../vendor/highlights/elisp.scm"),
-        }),
-        "ex" | "exs" => Some(TreeSitterConfig {
+        },
+        Elixir => TreeSitterConfig {
             name: "Elixir",
             language: unsafe { tree_sitter_elixir() },
             atom_nodes: (vec!["string", "heredoc"]).into_iter().collect(),
@@ -157,8 +145,8 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 .into_iter()
                 .collect(),
             highlight_queries: include_str!("../vendor/highlights/elixir.scm"),
-        }),
-        "go" => Some(TreeSitterConfig {
+        },
+        Go => TreeSitterConfig {
             name: "Go",
             language: unsafe { tree_sitter_go() },
             atom_nodes: (vec!["interpreted_string_literal", "raw_string_literal"])
@@ -168,22 +156,22 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 .into_iter()
                 .collect(),
             highlight_queries: include_str!("../vendor/highlights/go.scm"),
-        }),
-        "hs" => Some(TreeSitterConfig {
+        },
+        Haskell => TreeSitterConfig {
             name: "Haskell",
             language: unsafe { tree_sitter_haskell() },
             atom_nodes: (vec![]).into_iter().collect(),
             delimiter_tokens: (vec![("[", "]"), ("(", ")")]),
             highlight_queries: include_str!("../vendor/highlights/haskell.scm"),
-        }),
-        "java" => Some(TreeSitterConfig {
+        },
+        Java => TreeSitterConfig {
             name: "Java",
             language: unsafe { tree_sitter_java() },
             atom_nodes: (vec![]).into_iter().collect(),
             delimiter_tokens: (vec![("(", ")"), ("{", "}")]),
             highlight_queries: include_str!("../vendor/highlights/java.scm"),
-        }),
-        "cjs" | "js" | "jsx" | "mjs" => Some(TreeSitterConfig {
+        },
+        JavaScript | Jsx => TreeSitterConfig {
             name: "JavaScript",
             language: unsafe { tree_sitter_javascript() },
             atom_nodes: (vec!["string", "template_string", "regex"])
@@ -199,44 +187,44 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 ("<", ">"),
             ]),
             highlight_queries: include_str!("../vendor/highlights/javascript.scm"),
-        }),
-        "json" => Some(TreeSitterConfig {
+        },
+        Json => TreeSitterConfig {
             name: "JSON",
             language: unsafe { tree_sitter_json() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
             delimiter_tokens: (vec![("{", "}"), ("[", "]")]),
             highlight_queries: include_str!("../vendor/highlights/json.scm"),
-        }),
-        "lisp" | "lsp" | "asd" => Some(TreeSitterConfig {
+        },
+        CommonLisp => TreeSitterConfig {
             name: "Common Lisp",
             language: unsafe { tree_sitter_commonlisp() },
             atom_nodes: (vec!["str_lit"]).into_iter().collect(),
             delimiter_tokens: (vec![("(", ")")]),
             highlight_queries: "",
-        }),
-        "ml" => Some(TreeSitterConfig {
+        },
+        OCaml => TreeSitterConfig {
             name: "OCaml",
             language: unsafe { tree_sitter_ocaml() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
             // TODO: begin/end and object/end.
             delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
             highlight_queries: include_str!("../vendor/highlights/ocaml.scm"),
-        }),
-        "mli" => Some(TreeSitterConfig {
+        },
+        OCamlInterface => TreeSitterConfig {
             name: "OCaml Interface",
             language: unsafe { tree_sitter_ocaml_interface() },
             atom_nodes: (vec!["character", "string"]).into_iter().collect(),
             delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
             highlight_queries: include_str!("../vendor/highlights/ocaml.scm"),
-        }),
-        "py" | "py3" | "pyi" | "TARGETS" | "BUCK" | "bzl" => Some(TreeSitterConfig {
+        },
+        Python => TreeSitterConfig {
             name: "Python",
             language: unsafe { tree_sitter_python() },
             atom_nodes: (vec!["string"]).into_iter().collect(),
             delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
             highlight_queries: include_str!("../vendor/highlights/python.scm"),
-        }),
-        "rb" | "spec" | "rake" => Some(TreeSitterConfig {
+        },
+        Ruby => TreeSitterConfig {
             name: "Ruby",
             language: unsafe { tree_sitter_ruby() },
             atom_nodes: (vec!["string", "heredoc_body", "regex"])
@@ -252,8 +240,8 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 ("class", "end"),
             ]),
             highlight_queries: include_str!("../vendor/highlights/ruby.scm"),
-        }),
-        "rs" => Some(TreeSitterConfig {
+        },
+        Rust => TreeSitterConfig {
             name: "Rust",
             language: unsafe { tree_sitter_rust() },
             atom_nodes: (vec!["char_literal", "string_literal"])
@@ -261,8 +249,8 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 .collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("|", "|")]),
             highlight_queries: include_str!("../vendor/highlights/rust.scm"),
-        }),
-        "ts" => Some(TreeSitterConfig {
+        },
+        TypeScript => TreeSitterConfig {
             name: "TypeScript",
             language: unsafe { tree_sitter_typescript() },
             atom_nodes: (vec!["string", "template_string", "regex"])
@@ -270,15 +258,14 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
                 .collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
             highlight_queries: include_str!("../vendor/highlights/typescript.scm"),
-        }),
-        "tsx" => Some(TreeSitterConfig {
+        },
+        Tsx => TreeSitterConfig {
             name: "TypeScript TSX",
             language: unsafe { tree_sitter_tsx() },
             atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
             delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]"), ("<", ">")]),
             highlight_queries: include_str!("../vendor/highlights/typescript.scm"),
-        }),
-        _ => None,
+        },
     }
 }
 
@@ -639,7 +626,7 @@ mod tests {
     #[test]
     fn test_parse() {
         let arena = Arena::new();
-        let css_config = from_extension(OsStr::new("css")).unwrap();
+        let css_config = from_language(guess::Language::Css);
         parse(&arena, ".foo {}", &css_config);
     }
 }

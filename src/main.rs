@@ -8,6 +8,7 @@ mod context;
 mod dijkstra;
 mod files;
 mod graph;
+mod guess_language;
 mod hunks;
 mod inline;
 mod line_parser;
@@ -23,6 +24,7 @@ mod tree_sitter_parser;
 extern crate log;
 
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
+use guess_language::guess;
 use log::info;
 use mimalloc::MiMalloc;
 
@@ -35,7 +37,7 @@ static GLOBAL: MiMalloc = MiMalloc;
 
 use atty::Stream;
 use clap::{crate_version, App, AppSettings, Arg};
-use std::{env, ffi::OsStr, path::Path};
+use std::{env, path::Path};
 use summary::DiffResult;
 use typed_arena::Arena;
 use walkdir::WalkDir;
@@ -185,10 +187,10 @@ fn main() {
     match parse_args() {
         Mode::DumpTreeSitter { path } => {
             let path = Path::new(&path);
-            let extension = path.extension().unwrap_or_else(|| OsStr::new(""));
-            match tsp::from_extension(extension) {
-                Some(ts_lang) => {
-                    let bytes = read_or_die(&path);
+            match guess(path) {
+                Some(lang) => {
+                    let ts_lang = tsp::from_language(lang);
+                    let bytes = read_or_die(path);
                     let src = String::from_utf8_lossy(&bytes).to_string();
                     let (tree, _) = tsp::parse_to_tree(&src, &ts_lang);
                     tsp::print_tree(&src, &tree);
@@ -200,11 +202,13 @@ fn main() {
         }
         Mode::DumpSyntax { path } => {
             let path = Path::new(&path);
-            let extension = path.extension().unwrap_or_else(|| OsStr::new(""));
-            match tsp::from_extension(extension) {
-                Some(ts_lang) => {
-                    let bytes = read_or_die(&path);
+
+            match guess(path) {
+                Some(lang) => {
+                    let ts_lang = tsp::from_language(lang);
+                    let bytes = read_or_die(path);
                     let src = String::from_utf8_lossy(&bytes).to_string();
+
                     let arena = Arena::new();
                     let ast = tsp::parse(&arena, &src, &ts_lang);
                     init_info(&ast, &[]);
@@ -262,9 +266,9 @@ fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult
         .to_string()
         .replace("\t", "    ");
 
-    let extension = Path::new(&display_path).extension();
-    let extension = extension.unwrap_or_else(|| OsStr::new(""));
-    let ts_lang = tsp::from_extension(extension);
+    // TODO: take a Path directly instead.
+    let path = Path::new(&display_path);
+    let ts_lang = guess(path).map(tsp::from_language);
 
     let arena = Arena::new();
     let (lang_name, lhs, rhs) = match ts_lang {
