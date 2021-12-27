@@ -1,0 +1,94 @@
+================================================================================
+Top level sections
+================================================================================
+
+\begin{document}
+
+1
+
+\section{Foo}
+
+2
+
+\section{Bar}
+
+3
+
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (environment
+    (begin
+      (command_name)
+      (curly_group_key
+        (key
+          (word))))
+    (text
+      (word))
+    (section
+      (command_name)
+      (curly_group
+        (text
+          (word)))
+      (text
+        (word)))
+    (section
+      (command_name)
+      (curly_group
+        (text
+          (word)))
+      (text
+        (word)))
+    (end
+      (command_name)
+      (curly_group_key
+        (key
+          (word))))))
+
+================================================================================
+Nested sections
+================================================================================
+
+1
+
+\part{\Foo}
+
+2
+
+\chapter{Bar}
+
+3
+
+\chapter{{Baz}}
+
+4
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word))
+  (part
+    (command_name)
+    (curly_group
+      (command
+        (command_name)))
+    (text
+      (word))
+    (chapter
+      (command_name)
+      (curly_group
+        (text
+          (word)))
+      (text
+        (word)))
+    (chapter
+      (command_name)
+      (curly_group
+        (curly_group
+          (text
+            (word))))
+      (text
+        (word)))))

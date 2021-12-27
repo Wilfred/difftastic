@@ -1,0 +1,202 @@
+================================================================================
+Simple environment
+================================================================================
+
+\begin{document}
+
+Hello World!
+
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (environment
+    (begin
+      (command_name)
+      (curly_group_key
+        (key
+          (word))))
+    (text
+      (word)
+      (word))
+    (end
+      (command_name)
+      (curly_group_key
+        (key
+          (word))))))
+
+================================================================================
+Environment with options
+================================================================================
+
+\begin{document}[foo bar]
+
+Hello World!
+
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (environment
+    (begin
+      (command_name)
+      (curly_group_key
+        (key
+          (word)))
+      (brack_group
+        (text
+          (word)
+          (word))))
+    (text
+      (word)
+      (word))
+    (end
+      (command_name)
+      (curly_group_key
+        (key
+          (word))))))
+
+================================================================================
+Environment with nested options
+================================================================================
+
+\begin{document}[foo [bar] (baz)]
+
+Hello World!
+
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (environment
+    (begin
+      (command_name)
+      (curly_group_key
+        (key
+          (word)))
+      (brack_group
+        (text
+          (word))
+        (brack_group
+          (text
+            (word)))
+        (text
+          (word))))
+    (text
+      (word)
+      (word))
+    (end
+      (command_name)
+      (curly_group_key
+        (key
+          (word))))))
+
+================================================================================
+Environment with escaped options
+================================================================================
+
+\begin{document}[{[}{]}]
+
+Hello World!
+
+\end{document}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (environment
+    (begin
+      (command_name)
+      (curly_group_key
+        (key
+          (word)))
+      (brack_group
+        (curly_group)
+        (curly_group)))
+    (text
+      (word)
+      (word))
+    (end
+      (command_name)
+      (curly_group_key
+        (key
+          (word))))))
+
+================================================================================
+Comment environment
+================================================================================
+
+Foo
+
+\begin{comment}
+
+\begin{document}
+
+Hello World
+
+\end{document}
+
+\end{comment}
+
+Bar
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word))
+  (environment
+    (begin
+      (command_name)
+      (curly_group_key
+        (key
+          (word))))
+    (comment)
+    (end
+      (command_name)
+      (curly_group_key
+        (key
+          (word)))))
+  (text
+    (word)))
+
+================================================================================
+Verbatim environment
+================================================================================
+
+Foo
+
+\begin{verbatim}
+
+\begin{document}
+
+Hello World
+
+\end{document}
+
+\end{verbatim}
+
+Bar
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (text
+    (word))
+  (environment
+    (begin
+      (command_name)
+      (curly_group_key
+        (key
+          (word))))
+    (comment)
+    (end
+      (command_name)
+      (curly_group_key
+        (key
+          (word)))))
+  (text
+    (word)))

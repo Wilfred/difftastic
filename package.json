@@ -1,15 +1,16 @@
 {
   "name": "tree-sitter-latex",
   "version": "0.1.0",
-  "description": "Tree-sitter Grammar for LaTeX",
+  "description": "LaTeX grammar for the tree-sitter parsing library",
   "main": "bindings/node",
   "scripts": {
-    "build": "tree-sitter generate",
-    "test": "tree-sitter test"
+    "generate": "tree-sitter generate",
+    "test": "tree-sitter test",
+    "test:update": "tree-sitter test --update"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/latex-lsp/tree-sitter-latex.git"
+    "url": "git+https://github.com/latex-lsp/texlab.git"
   },
   "keywords": [
     "tree-sitter",
@@ -19,13 +20,14 @@
   "author": "Patrick Förster <patrick.foerster@outlook.de>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/latex-lsp/tree-sitter-latex/issues"
+    "url": "https://github.com/latex-lsp/texlab/issues"
   },
-  "homepage": "https://github.com/latex-lsp/tree-sitter-latex#readme",
+  "homepage": "https://github.com/latex-lsp/texlab#readme",
   "dependencies": {
-    "nan": "^2.14.2"
+    "nan": "^2.15.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "0.19.4"
+    "prettier": "^2.5.1",
+    "tree-sitter-cli": "0.20.1"
   }
 }
