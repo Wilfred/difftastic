@@ -224,11 +224,11 @@ fn main() {
             let rhs_path = Path::new(&rhs_path);
 
             if lhs_path.is_dir() && rhs_path.is_dir() {
-                for diff_result in diff_directories(&lhs_path, &rhs_path) {
+                for diff_result in diff_directories(lhs_path, rhs_path) {
                     print_diff_result(&diff_result);
                 }
             } else {
-                let diff_result = diff_file(&display_path, &lhs_path, &rhs_path);
+                let diff_result = diff_file(&display_path, lhs_path, rhs_path);
                 print_diff_result(&diff_result);
             }
         }
