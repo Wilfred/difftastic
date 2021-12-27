@@ -301,7 +301,7 @@ fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult
 /// pairwise.
 ///
 /// When more than one file is modified, the hg extdiff extension passes directory
-/// paths with the all the modified files.  fn
+/// paths with the all the modified files.
 fn diff_directories(lhs_dir: &Path, rhs_dir: &Path) -> Vec<DiffResult> {
     let mut res = vec![];
     for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
