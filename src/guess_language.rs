@@ -33,8 +33,25 @@ pub enum Language {
 use Language::*;
 
 pub fn guess(path: &Path) -> Option<Language> {
+    if let Some(lang) = from_name(path) {
+        return Some(lang);
+    }
+
     match path.extension() {
         Some(extension) => from_extension(extension),
+        None => None,
+    }
+}
+
+fn from_name(path: &Path) -> Option<Language> {
+    match path.file_name() {
+        Some(name) => match name.to_string_lossy().borrow() {
+            ".bashrc" | ".bash_profile" | ".profile" => Some(Bash),
+            ".emacs" | "_emacs" | "Cask" => Some(EmacsLisp),
+            "TARGETS" | "BUCK" | "DEPS" => Some(Python),
+            "Gemfile" | "Rakefile" => Some(Ruby),
+            _ => None,
+        },
         None => None,
     }
 }
@@ -61,7 +78,7 @@ fn from_extension(extension: &OsStr) -> Option<Language> {
         }
         "cs" => Some(CSharp),
         "css" => Some(Css),
-        "el" | ".emacs" => Some(EmacsLisp),
+        "el" => Some(EmacsLisp),
         "ex" | "exs" => Some(Elixir),
         "go" => Some(Go),
         "hs" => Some(Haskell),
@@ -72,8 +89,8 @@ fn from_extension(extension: &OsStr) -> Option<Language> {
         "lisp" | "lsp" | "asd" => Some(CommonLisp),
         "ml" => Some(OCaml),
         "mli" => Some(OCamlInterface),
-        "py" | "py3" | "pyi" | "TARGETS" | "BUCK" | "bzl" => Some(Python),
-        "rb" | "spec" | "rake" => Some(Ruby),
+        "py" | "py3" | "pyi" | "bzl" => Some(Python),
+        "rb" | "builder" | "spec" | "rake" => Some(Ruby),
         "rs" => Some(Rust),
         "ts" => Some(TypeScript),
         "tsx" => Some(Tsx),
@@ -90,5 +107,11 @@ mod tests {
     fn test_guess_by_extension() {
         let path = Path::new("foo.el");
         assert_eq!(guess(path), Some(EmacsLisp));
+    }
+
+    #[test]
+    fn test_guess_by_whole_name() {
+        let path = Path::new("foo/.bashrc");
+        assert_eq!(guess(path), Some(Bash));
     }
 }
