@@ -79,6 +79,31 @@ getFirstMatch state =
               (lower_case_identifier))))))))
 
 ================================================================================
+Type with non english characters
+================================================================================
+
+type Color
+    = Color赤
+    | Color緑
+    | Color青
+
+
+
+--------------------------------------------------------------------------------
+
+(file
+  (type_declaration
+    (type)
+    (upper_case_identifier)
+    (eq)
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier))
+    (union_variant
+      (upper_case_identifier))))
+
+================================================================================
 Negate
 ================================================================================
 
