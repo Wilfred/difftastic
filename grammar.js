@@ -672,11 +672,22 @@ module.exports = grammar({
       ),
 
     _call_arguments_without_parentheses: ($) =>
-      // Right precedence, because `fun1 fun2 x, y` is `fun1(fun2(x, y))`
-      prec.right(
-        choice(
-          seq(sep1($._expression, ","), optional(seq(",", $.keywords))),
-          $.keywords
+      // In stab clauses a newline can either separate multiple body expressions
+      // or multiple stab clauses, this falls under the $.body conflict. Given a
+      // multiline stab clause with trailing identifier like `1 -> 1 \n x \n 2 -> x`,
+      // there are two matching interpretations:
+      //   * `x` as identifier and `2` as stab argument
+      //   * `x 2` call as stab argument
+      // Similarly for `Mod.fun` or `mod.fun` the newline should terminate the call.
+      // Consequently, we reject the second interpretation using dynamic precedence
+      prec.dynamic(
+        -1,
+        // Right precedence, because `fun1 fun2 x, y` is `fun1(fun2(x, y))`
+        prec.right(
+          choice(
+            seq(sep1($._expression, ","), optional(seq(",", $.keywords))),
+            $.keywords
+          )
         )
       ),
 
