@@ -2,7 +2,7 @@
 
 use std::{borrow::Borrow, collections::HashSet, ffi::OsStr};
 
-use tree_sitter::{Language, Parser, Query, QueryCursor, TreeCursor};
+use tree_sitter as ts;
 use typed_arena::Arena;
 
 use crate::{
@@ -16,7 +16,7 @@ pub struct TreeSitterConfig {
     pub name: &'static str,
 
     /// The tree-sitter language parser.
-    pub language: Language,
+    pub language: ts::Language,
 
     /// Tree-sitter nodes that we treat as indivisible atoms.
     ///
@@ -42,27 +42,27 @@ pub struct TreeSitterConfig {
 }
 
 extern "C" {
-    fn tree_sitter_bash() -> Language;
-    fn tree_sitter_c() -> Language;
-    fn tree_sitter_c_sharp() -> Language;
-    fn tree_sitter_clojure() -> Language;
-    fn tree_sitter_cpp() -> Language;
-    fn tree_sitter_commonlisp() -> Language;
-    fn tree_sitter_css() -> Language;
-    fn tree_sitter_elisp() -> Language;
-    fn tree_sitter_elixir() -> Language;
-    fn tree_sitter_go() -> Language;
-    fn tree_sitter_haskell() -> Language;
-    fn tree_sitter_java() -> Language;
-    fn tree_sitter_javascript() -> Language;
-    fn tree_sitter_json() -> Language;
-    fn tree_sitter_ocaml() -> Language;
-    fn tree_sitter_ocaml_interface() -> Language;
-    fn tree_sitter_python() -> Language;
-    fn tree_sitter_ruby() -> Language;
-    fn tree_sitter_rust() -> Language;
-    fn tree_sitter_tsx() -> Language;
-    fn tree_sitter_typescript() -> Language;
+    fn tree_sitter_bash() -> ts::Language;
+    fn tree_sitter_c() -> ts::Language;
+    fn tree_sitter_c_sharp() -> ts::Language;
+    fn tree_sitter_clojure() -> ts::Language;
+    fn tree_sitter_cpp() -> ts::Language;
+    fn tree_sitter_commonlisp() -> ts::Language;
+    fn tree_sitter_css() -> ts::Language;
+    fn tree_sitter_elisp() -> ts::Language;
+    fn tree_sitter_elixir() -> ts::Language;
+    fn tree_sitter_go() -> ts::Language;
+    fn tree_sitter_haskell() -> ts::Language;
+    fn tree_sitter_java() -> ts::Language;
+    fn tree_sitter_javascript() -> ts::Language;
+    fn tree_sitter_json() -> ts::Language;
+    fn tree_sitter_ocaml() -> ts::Language;
+    fn tree_sitter_ocaml_interface() -> ts::Language;
+    fn tree_sitter_python() -> ts::Language;
+    fn tree_sitter_ruby() -> ts::Language;
+    fn tree_sitter_rust() -> ts::Language;
+    fn tree_sitter_tsx() -> ts::Language;
+    fn tree_sitter_typescript() -> ts::Language;
 }
 
 pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
@@ -284,14 +284,14 @@ pub fn from_extension(extension: &OsStr) -> Option<TreeSitterConfig> {
 
 /// Parse `src` with tree-sitter.
 pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> (tree_sitter::Tree, HashSet<usize>) {
-    let mut parser = Parser::new();
+    let mut parser = ts::Parser::new();
     parser
         .set_language(config.language)
         .expect("Incompatible tree-sitter version");
 
     let tree = parser.parse(src, None).unwrap();
 
-    let query = Query::new(config.language, config.highlight_queries).unwrap();
+    let query = ts::Query::new(config.language, config.highlight_queries).unwrap();
 
     let mut node_keyword_ids = HashSet::new();
 
@@ -306,7 +306,7 @@ pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> (tree_sitter::Tree
         keyword_ish_ids.push(idx);
     }
 
-    let mut qc = QueryCursor::new();
+    let mut qc = ts::QueryCursor::new();
     let q_matches = qc.matches(&query, tree.root_node(), src.as_bytes());
 
     for m in q_matches {
@@ -325,7 +325,7 @@ pub fn print_tree(src: &str, tree: &tree_sitter::Tree) {
     print_cursor(src, &mut cursor, 0);
 }
 
-fn print_cursor(src: &str, cursor: &mut TreeCursor, depth: usize) {
+fn print_cursor(src: &str, cursor: &mut ts::TreeCursor, depth: usize) {
     loop {
         let node = cursor.node();
         node.end_position();
@@ -366,7 +366,7 @@ pub fn parse<'a>(
     all_syntaxes_from_cursor(arena, src, &nl_pos, &mut cursor, config, &keyword_ids)
 }
 
-fn child_tokens<'a>(src: &'a str, cursor: &mut TreeCursor) -> Vec<Option<&'a str>> {
+fn child_tokens<'a>(src: &'a str, cursor: &mut ts::TreeCursor) -> Vec<Option<&'a str>> {
     let mut tokens = vec![];
 
     cursor.goto_first_child();
@@ -394,7 +394,7 @@ fn child_tokens<'a>(src: &'a str, cursor: &mut TreeCursor) -> Vec<Option<&'a str
 /// their indexes if so.
 fn find_delim_positions(
     src: &str,
-    cursor: &mut TreeCursor,
+    cursor: &mut ts::TreeCursor,
     lang_delims: &[(&str, &str)],
 ) -> Option<(usize, usize)> {
     let tokens = child_tokens(src, cursor);
@@ -422,7 +422,7 @@ fn all_syntaxes_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
     nl_pos: &NewlinePositions,
-    cursor: &mut TreeCursor,
+    cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     keyword_ids: &HashSet<usize>,
 ) -> Vec<&'a Syntax<'a>> {
@@ -452,7 +452,7 @@ fn syntax_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
     nl_pos: &NewlinePositions,
-    cursor: &mut TreeCursor,
+    cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     keyword_ids: &HashSet<usize>,
 ) -> &'a Syntax<'a> {
@@ -486,7 +486,7 @@ fn list_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
     nl_pos: &NewlinePositions,
-    cursor: &mut TreeCursor,
+    cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     keyword_ids: &HashSet<usize>,
 ) -> &'a Syntax<'a> {
@@ -611,7 +611,7 @@ fn atom_from_cursor<'a>(
     arena: &'a Arena<Syntax<'a>>,
     src: &str,
     nl_pos: &NewlinePositions,
-    cursor: &mut TreeCursor,
+    cursor: &mut ts::TreeCursor,
     keyword_ids: &HashSet<usize>,
 ) -> &'a Syntax<'a> {
     let node = cursor.node();
