@@ -575,6 +575,114 @@ fun do->end
     (do_block
       (stab_clause))))
 
+
+=====================================
+stab clause / edge cases / trailing call in multiline clause
+=====================================
+
+fun do
+  1 ->
+    1
+    x
+
+  1 ->
+    1
+end
+
+fun do
+  1 ->
+    1
+    Mod.fun
+
+  1 ->
+    1
+end
+
+fun do
+  1 ->
+    1
+    mod.fun
+
+  1 ->
+    1
+end
+
+fun do
+  1 ->
+    1
+
+  x 1 ->
+    1
+end
+
+---
+
+(source
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (integer))
+        (body
+          (integer)
+          (identifier)))
+      (stab_clause
+        (arguments
+          (integer))
+        (body
+          (integer)))))
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (integer))
+        (body
+          (integer)
+          (call
+            (dot
+              (alias)
+              (identifier)))))
+      (stab_clause
+        (arguments
+          (integer))
+        (body
+          (integer)))))
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (integer))
+        (body
+          (integer)
+          (call
+            (dot
+              (identifier)
+              (identifier)))))
+      (stab_clause
+        (arguments
+          (integer))
+        (body
+          (integer)))))
+  (call
+    (identifier)
+    (do_block
+      (stab_clause
+        (arguments
+          (integer))
+        (body
+          (integer)))
+      (stab_clause
+        (arguments
+          (call
+            (identifier)
+            (arguments
+              (integer))))
+        (body
+          (integer))))))
+
 =====================================
 pattern matching
 =====================================
