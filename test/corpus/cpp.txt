@@ -88,3 +88,5 @@ cpp: incomplete #if/#else
 a = a
 
 ---
+
+(haskell (cpp) (ERROR (empty_file)) (empty_file))
