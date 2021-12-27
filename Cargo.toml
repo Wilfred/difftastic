@@ -7,6 +7,8 @@ categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-latex"
 edition = "2018"
 license = "MIT"
+authors = ["Patrick Förster <patrick.foerster@outlook.de>"]
+readme = "README.md"
 
 build = "bindings/rust/build.rs"
 include = [
