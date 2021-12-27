@@ -4,6 +4,7 @@ use std::{borrow::Borrow, ffi::OsStr, path::Path};
 
 /// Languages supported by difftastic. Each language here has a
 /// corresponding tree-sitter parser.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Language {
     Bash,
     C,
@@ -77,5 +78,17 @@ fn from_extension(extension: &OsStr) -> Option<Language> {
         "ts" => Some(TypeScript),
         "tsx" => Some(Tsx),
         _ => None,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use pretty_assertions::assert_eq;
+
+    #[test]
+    fn test_guess_by_extension() {
+        let path = Path::new("foo.el");
+        assert_eq!(guess(path), Some(EmacsLisp));
     }
 }
