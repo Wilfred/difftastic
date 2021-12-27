@@ -1,5 +1,9 @@
 ## 0.14 (unreleased)
 
+### Parsing
+
+Improved language detection for whole file names without an extension.
+
 ### Display
 
 Display width can now be overridden by setting the environment
