@@ -852,9 +852,14 @@ Parser finish(const Sym s, string desc) {
 }
 
 /**
- * Parser that terminates the execution unsuccessfully;
+ * Parser that terminates the execution unsuccessfully.
  */
 Parser fail = ::const_<State>(result::fail);
+
+/**
+ * Parser that does nothing, causing the next parser to be executed.
+ */
+Parser cont = ::const_<State>(result::cont);
 
 CharParser as_char_parser(CharParser p) { return p; }
 CharParser as_char_parser(Parser p) { return ::const_<uint32_t>(p); }
@@ -869,7 +874,7 @@ CharParser as_char_parser(Result r) { return ::const_<uint32_t>(::const_<State>(
  *
  * iff(cond::after_error)(fail)
  */
-Modifier iff(Condition c) { return [=](Parser next) { return either(c, next, const_<State>(result::cont)); }; }
+Modifier iff(Condition c) { return [=](Parser next) { return either(c, next, cont); }; }
 
 /**
  * Require a plain `bool` to be true for the next parser to be executed.
@@ -1240,6 +1245,33 @@ Parser inline_comment =
  */
 Symbolic read_symop(State & state) { return symbolic::symop(cond::read_string(cond::symbolic)(state))(state); }
 
+Parser symop_marked(Symbolic type) {
+  switch (type) {
+    case Symbolic::invalid:
+      return fail;
+    case Symbolic::star:
+    case Symbolic::modifier:
+      return sym(Sym::tyconsym)(fail);
+    case Symbolic::tilde:
+    case Symbolic::minus:
+      return finish_if_valid(Sym::tyconsym, "symop") + fail;
+    case Symbolic::implicit:
+      return fail;
+    case Symbolic::splice:
+      return splice;
+    case Symbolic::strict:
+      return finish_if_valid(Sym::strict, "strict");
+    case Symbolic::comment:
+      return inline_comment;
+    case Symbolic::con:
+      return finish_if_valid(Sym::consym, "symop") + fail;
+    case Symbolic::unboxed_tuple_close:
+      return unboxed_tuple_close;
+    default:
+      return cont;
+  }
+}
+
 /**
  * Map a `Symbolic` variant to the appropriate symbol, focusing on operators and their edge cases.
  *
@@ -1262,17 +1294,7 @@ Parser symop(Symbolic type) {
       fail
     ) +
     mark("symop") +
-    when(type == Symbolic::invalid)(fail) +
-    sym(Sym::tyconsym)(
-      when(type == Symbolic::star || type == Symbolic::modifier)(fail) +
-      when(type == Symbolic::tilde || type == Symbolic::minus)(finish(Sym::tyconsym, "symop"))
-    ) +
-    when(type == Symbolic::minus || type == Symbolic::implicit || type == Symbolic::tilde)(fail) +
-    when(type == Symbolic::splice)(splice) +
-    when(type == Symbolic::strict)(finish_if_valid(Sym::strict, "strict")) +
-    when(type == Symbolic::comment)(inline_comment) +
-    when(type == Symbolic::con)(finish_if_valid(Sym::consym, "symop") + fail) +
-    when(type == Symbolic::unboxed_tuple_close)(unboxed_tuple_close) +
+    symop_marked(type) +
     finish_if_valid(Sym::tyconsym, "symop") +
     finish_if_valid(Sym::varsym, "symop") +
     fail
