@@ -17,6 +17,9 @@ examples_to_parse=$(
   done
 )
 
+# ensure the scanner was recompiled
+tree-sitter test -f 'just compile it' >/dev/null
+
 start=$(date '+%s.%N')
 echo $examples_to_parse | xargs -n 2000 tree-sitter parse -q
 end=$(date '+%s.%N')

@@ -803,7 +803,7 @@ template<class A> function<Parser(function<Parser(A)>)> with(function<A(State &)
 /**
  * Variant of `with` that discards the left operand's result. (>>)
  *
- * Semantics are "execute the right parser if the left parser doesn't fail".
+ * Semantics are "execute the right parser if the left parser doesn't finish".
  */
 Parser operator+(Parser fa, Parser fb) {
   return [=](State & state) {
