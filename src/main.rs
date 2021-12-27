@@ -194,7 +194,7 @@ fn main() {
                     tsp::print_tree(&src, &tree);
                 }
                 None => {
-                    println!("No tree-sitter parser for extension: {:?}", extension);
+                    eprintln!("No tree-sitter parser for file: {:?}", path);
                 }
             }
         }
@@ -211,7 +211,7 @@ fn main() {
                     println!("{:#?}", ast);
                 }
                 None => {
-                    println!("No tree-sitter parser for extension: {:?}", extension);
+                    eprintln!("No tree-sitter parser for file: {:?}", path);
                 }
             }
         }
