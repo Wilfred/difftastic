@@ -423,7 +423,7 @@ Condition seq(const string & s) {
   return [=](State & state) { return all_of(s.begin(), s.end(), [&](auto a) { return consume(a)(state); }); };
 }
 
-function<void(State &)> read_while(Peek pred) {
+function<void(State &)> consume_while(Peek pred) {
   return [=](State & state) {
     while (true) {
       if (state::eof(state)) break;
@@ -433,8 +433,6 @@ function<void(State &)> read_while(Peek pred) {
     }
   };
 }
-
-function<void(State &)> consume_while(Peek pred) { return read_while(pred); }
 
 // TODO this breaks if the target sequence has a repetition of its prefix
 function<void(State &)> consume_until(string target) {
@@ -448,14 +446,14 @@ function<void(State &)> consume_until(string target) {
       }
       else return true;
     };
-    return read_while(check)(state);
+    return consume_while(check)(state);
   };
 }
 
 function<u32string(State &)> read_string(Peek pred) {
   return [=](State & state) {
     u32string s;
-    read_while([&](uint32_t c) {
+    consume_while([&](uint32_t c) {
         auto res = pred(c);
         if (res) s += static_cast<uint32_t>(c);
         return res;
@@ -1116,7 +1114,8 @@ Parser cpp_consume =
  * and `#endif`.
  */
 Parser cpp_workaround =
-  consume('#')(seq("el")(consume_until("#endif") + finish(Sym::cpp, "cpp-else")) +
+  consume('#')(
+    seq("el")(consume_until("#endif") + eof + finish(Sym::cpp, "cpp-else")) +
     cpp_consume +
     mark("cpp_workaround") +
     finish(Sym::cpp, "cpp")
