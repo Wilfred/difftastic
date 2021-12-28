@@ -55,7 +55,7 @@ QtObject {
     (identifier)
     (ui_object_initializer
       (ui_property
-        (identifier)
+        (type_identifier)
         (identifier)
         (expression_statement
           (object
@@ -66,7 +66,8 @@ QtObject {
                 (string_fragment))))))
       (ui_property
         (ui_list_property_type
-          (identifier))
+          (type_identifier)
+          (type_identifier))
         (identifier)
         (ui_object_array
           (ui_object_definition
@@ -84,7 +85,7 @@ QtObject {
                 (expression_statement
                   (identifier)))))))
       (ui_property
-        (identifier)
+        (type_identifier)
         (identifier)
         (ui_object_definition
           (identifier)

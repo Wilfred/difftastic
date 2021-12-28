@@ -41,6 +41,7 @@
         "node_modules/tree-sitter-javascript/queries/highlights.scm"
       ],
       "locals": [
+        "queries/locals.scm",
         "node_modules/tree-sitter-typescript/queries/locals.scm",
         "node_modules/tree-sitter-javascript/queries/locals.scm"
       ],
