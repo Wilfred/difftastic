@@ -110,6 +110,9 @@ module.exports = grammar({
     // ambiguity between simple identifier 'set/get' with actual setter/getter functions.
     [$.setter, $.simple_identifier],
     [$.getter, $.simple_identifier],
+
+    // ambiguity between parameter modifiers in anonymous functions
+    [$.parameter_modifiers, $._type_modifier],
   ],
 
   externals: $ => [
@@ -785,7 +788,8 @@ module.exports = grammar({
     anonymous_function: $ => seq(
       "fun",
       optional(seq(sep1($._simple_user_type, "."), ".")), // TODO
-      "(", ")",
+      $._function_value_parameters,
+      optional(seq(":", $._type)),
       optional($.function_body)
     ),
 
