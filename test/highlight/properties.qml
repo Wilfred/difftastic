@@ -3,6 +3,7 @@ import QtQuick
 Item {
     id: root
     // <- property
+    //  ^ variable.parameter
 
     property MyItem myItem: MyItem {}
     // <- keyword
@@ -52,5 +53,13 @@ Item {
         required property
         // <- keyword
         //       ^ property
+    }
+
+    x: 123
+    // ^ number
+
+    Rectangle {
+        anchors.fill: root
+        //            ^ variable.parameter
     }
 }

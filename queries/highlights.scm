@@ -21,6 +21,12 @@
     (nested_identifier (identifier) @property)
   ])
 
+; locals query appears not working unless id: <ref> isn't a parameter.
+(ui_binding
+  name: (identifier) @property
+  (#match? @property "^id$")
+  value: (expression_statement (identifier) @variable.parameter))
+
 (ui_property
   name: (identifier) @property)
 

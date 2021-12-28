@@ -10,7 +10,7 @@ Item {
     Component {
         // <- type
         id: component
-        //  ^ variable
+        //  ^ variable.parameter
         Item {}
     }
 
