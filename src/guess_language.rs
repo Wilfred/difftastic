@@ -1,4 +1,14 @@
 //! Guess which programming language a file is written in.
+//!
+//! This is heavily based on GitHub's
+//! [linguist](https://github.com/github/linguist/blob/master/docs/how-linguist-works.md),
+//! particularly its
+//! [languages.yml](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml).
+//!
+//! Difftastic does not reuse languages.yml directly, for
+//! implementation simplicity and to avoid parsing very large files
+//! (e.g. package.lock) that can't be handled in a reasonable time
+//! yet.
 
 use std::{borrow::Borrow, ffi::OsStr, path::Path};
 
