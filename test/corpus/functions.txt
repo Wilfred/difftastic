@@ -171,3 +171,106 @@ fun test() {
                 (simple_identifier))
               (value_argument
                 (simple_identifier)))))))))
+
+==================
+Anonymus function
+==================
+
+fun()
+val anon = fun()
+
+---
+
+(source_file
+  (anonymous_function)
+  (property_declaration
+    (variable_declaration
+      (simple_identifier))
+    (anonymous_function)))
+
+==================
+Anonymus function with parameters
+==================
+
+fun(x: Int)
+val anon = fun(x: Int)
+
+---
+
+(source_file
+  (anonymous_function
+    (parameter
+      (simple_identifier)
+      (user_type
+        (type_identifier))))
+  (property_declaration
+    (variable_declaration
+      (simple_identifier))
+    (anonymous_function
+      (parameter
+        (simple_identifier)
+        (user_type
+          (type_identifier))))))
+
+==================
+Anonymus function with return type
+==================
+
+fun(): Int
+val anon = fun(): Int
+
+---
+
+(source_file
+  (anonymous_function
+    (user_type
+      (type_identifier)))
+  (property_declaration
+    (variable_declaration
+      (simple_identifier))
+    (anonymous_function
+      (user_type
+        (type_identifier)))))
+
+==================
+Anonymus function with body
+==================
+
+fun() = true
+fun() { assert(true) }
+val anon = fun() = true
+val anon = fun() { assert(true) }
+
+---
+
+(source_file
+  (anonymous_function
+    (function_body
+      (boolean_literal)))
+  (anonymous_function
+    (function_body
+      (statements
+        (call_expression
+          (simple_identifier)
+          (call_suffix
+            (value_arguments
+              (value_argument
+                (boolean_literal))))))))
+  (property_declaration
+    (variable_declaration
+      (simple_identifier))
+    (anonymous_function
+      (function_body
+        (boolean_literal))))
+  (property_declaration
+    (variable_declaration
+      (simple_identifier))
+    (anonymous_function
+      (function_body
+        (statements
+          (call_expression
+            (simple_identifier)
+            (call_suffix
+              (value_arguments
+                (value_argument
+                  (boolean_literal))))))))))
