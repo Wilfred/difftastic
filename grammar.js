@@ -15,6 +15,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   inline: ($, original) => original.concat([
     $._ui_root_member,
     $._ui_object_member,
+    $._ui_property_type,
     $._ui_binding_value,
     $._ui_property_value,
     $._ui_script_statement,
@@ -51,11 +52,15 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_import: $ => seq(
       'import',
-      field('source', choice($.string, $._ui_qualified_id)),  // ImportId
+      field('source', choice(
+        $.string,
+        $.identifier,
+        $.nested_identifier,
+      )),  // ImportId
       optional(field('version', $.ui_version_specifier)),
       optional(seq(
         'as',
-        field('alias', $._ui_identifier),  // QmlIdentifier
+        field('alias', $.identifier),  // QmlIdentifier
       )),
       $._semicolon,
     ),
@@ -89,7 +94,10 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_annotation: $ => seq(
       '@',
-      field('type_name', $._ui_qualified_id),  // UiSimpleQualifiedId
+      field('type_name', choice(
+        $.identifier,
+        $.nested_identifier,
+      )),  // UiSimpleQualifiedId
       field('initializer', $.ui_object_initializer),
     ),
 
@@ -141,7 +149,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       repeat($.ui_property_modifier),
       'property',
       field('type', choice(
-        $._ui_qualified_id,  // UiPropertyType
+        $._ui_property_type,
         $.ui_list_property_type,
       )),
       field('name', $._ui_identifier),  // QmlIdentifier
@@ -154,12 +162,17 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       ),
     ),
 
+    _ui_property_type: $ => choice(
+      $.identifier,
+      $.nested_identifier,
+    ),
+
     // "T_IDENTIFIER T_LT UiPropertyType T_GT", but only "list" is allowed as
     // a property type modifier.
     ui_list_property_type: $ => seq(
       'list',
       '<',
-      $._ui_qualified_id,  // UiPropertyType
+      $._ui_property_type,
       '>',
     ),
 
@@ -220,13 +233,13 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
 
     ui_signal_parameter: $ => choice(
       seq(
-        field('name', $._ui_identifier),  // QmlIdentifier
+        field('name', $.identifier),  // QmlIdentifier
         ':',
-        field('type', $._ui_qualified_id),  // UiPropertyType
+        field('type', $._ui_property_type),
       ),
       seq(
-        field('type', $._ui_qualified_id),  // UiPropertyType
-        field('name', $._ui_identifier),  // QmlIdentifier
+        field('type', $._ui_property_type),
+        field('name', $.identifier),  // QmlIdentifier
       ),
     ),
 

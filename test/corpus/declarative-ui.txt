@@ -530,7 +530,7 @@ MyItem {
     signal sigNoArg
     signal sig0()
     signal sig1(var name)
-    signal sig2(name0: var, int name1)
+    signal sig2(name0: var, int name1, string name2)
     signal sig3(name0: qualified.type0, qualified.type1 name1, name2: Type2)
 }
 
@@ -557,6 +557,9 @@ MyItem {
           (ui_signal_parameter
             name: (identifier)
             type: (identifier))
+          (ui_signal_parameter
+            type: (identifier)
+            name: (identifier))
           (ui_signal_parameter
             type: (identifier)
             name: (identifier))))
