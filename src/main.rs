@@ -187,11 +187,11 @@ fn main() {
     match parse_args() {
         Mode::DumpTreeSitter { path } => {
             let path = Path::new(&path);
-            match guess(path) {
+            let bytes = read_or_die(path);
+            let src = String::from_utf8_lossy(&bytes).to_string();
+            match guess(path, &src) {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
-                    let bytes = read_or_die(path);
-                    let src = String::from_utf8_lossy(&bytes).to_string();
                     let (tree, _) = tsp::parse_to_tree(&src, &ts_lang);
                     tsp::print_tree(&src, &tree);
                 }
@@ -202,13 +202,12 @@ fn main() {
         }
         Mode::DumpSyntax { path } => {
             let path = Path::new(&path);
+            let bytes = read_or_die(path);
+            let src = String::from_utf8_lossy(&bytes).to_string();
 
-            match guess(path) {
+            match guess(path, &src) {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
-                    let bytes = read_or_die(path);
-                    let src = String::from_utf8_lossy(&bytes).to_string();
-
                     let arena = Arena::new();
                     let ast = tsp::parse(&arena, &src, &ts_lang);
                     init_info(&ast, &[]);
