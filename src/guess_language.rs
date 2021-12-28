@@ -10,6 +10,8 @@
 //! (e.g. package.lock) that can't be handled in a reasonable time
 //! yet.
 
+use lazy_static::lazy_static;
+use regex::Regex;
 use std::{borrow::Borrow, ffi::OsStr, path::Path};
 
 /// Languages supported by difftastic. Each language here has a
@@ -42,7 +44,10 @@ pub enum Language {
 
 use Language::*;
 
-pub fn guess(path: &Path) -> Option<Language> {
+pub fn guess(path: &Path, src: &str) -> Option<Language> {
+    if let Some(lang) = from_shebang(src) {
+        return Some(lang);
+    }
     if let Some(lang) = from_name(path) {
         return Some(lang);
     }
@@ -51,6 +56,36 @@ pub fn guess(path: &Path) -> Option<Language> {
         Some(extension) => from_extension(extension),
         None => None,
     }
+}
+
+/// Try to guess the language based on a shebang present in the source.
+fn from_shebang(src: &str) -> Option<Language> {
+    lazy_static! {
+        static ref RE: Regex = Regex::new(r"#!(?:/usr/bin/env )?([^ ]+)").unwrap();
+    }
+    if let Some(first_line) = src.lines().next() {
+        if let Some(cap) = RE.captures(first_line) {
+            let interpreter_path = Path::new(&cap[1]);
+            if let Some(name) = interpreter_path.file_name() {
+                match name.to_string_lossy().borrow() {
+                    "bash" | "dash" | "sh" | "rc" | "zsh" => return Some(Bash),
+                    "tcc" => return Some(C),
+                    "lisp" | "sbc" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
+                    "elixir" => return Some(Elixir),
+                    "runghc" | "runhaskell" | "runhugs" => return Some(Haskell),
+                    "chakra" | "d8" | "gjs" | "js" | "node" | "nodejs" | "qjs" | "rhino" | "v8"
+                    | "v8-shell" => return Some(JavaScript),
+                    "ocaml" | "ocamlrun" | "ocamlscript" => return Some(OCaml),
+                    "python" | "python2" | "python3" => return Some(Python),
+                    "ruby" | "macruby" | "rake" | "jruby" | "rbx" => return Some(Ruby),
+                    "deno" | "ts-node" => return Some(TypeScript),
+                    _ => {}
+                }
+            }
+        };
+    }
+
+    None
 }
 
 fn from_name(path: &Path) -> Option<Language> {
@@ -116,12 +151,24 @@ mod tests {
     #[test]
     fn test_guess_by_extension() {
         let path = Path::new("foo.el");
-        assert_eq!(guess(path), Some(EmacsLisp));
+        assert_eq!(guess(path, ""), Some(EmacsLisp));
     }
 
     #[test]
     fn test_guess_by_whole_name() {
         let path = Path::new("foo/.bashrc");
-        assert_eq!(guess(path), Some(Bash));
+        assert_eq!(guess(path, ""), Some(Bash));
+    }
+
+    #[test]
+    fn test_guess_by_shebang() {
+        let path = Path::new("foo");
+        assert_eq!(guess(path, "#!/bin/bash"), Some(Bash));
+    }
+
+    #[test]
+    fn test_guess_by_env_shebang() {
+        let path = Path::new("foo");
+        assert_eq!(guess(path, "#!/usr/bin/env python"), Some(Python));
     }
 }

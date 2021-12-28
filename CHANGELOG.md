@@ -2,7 +2,8 @@
 
 ### Parsing
 
-Improved language detection for whole file names without an extension.
+Improved language detection if a file has a recognised filename
+(e.g. `Rakefile`) or a shebang (e.g. `#!/usr/bin/env node`).
 
 ### Display
 
