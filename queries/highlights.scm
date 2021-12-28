@@ -7,7 +7,6 @@
          (identifier) @property))
 
 (ui_property
-  type: (identifier) @type
   name: (identifier) @property)
 
 ; Keywords

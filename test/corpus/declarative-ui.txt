@@ -386,10 +386,10 @@ MyItem {
     type_name: (identifier)
     initializer: (ui_object_initializer
       (ui_property
-        type: (identifier)
+        type: (type_identifier)
         name: (identifier))
       (ui_property
-        type: (identifier)
+        type: (type_identifier)
         name: (identifier)
         value: (if_statement
           condition: (parenthesized_expression
@@ -401,7 +401,7 @@ MyItem {
               (number)))))
       (ui_property
         (ui_property_modifier)
-        type: (identifier)
+        type: (type_identifier)
         name: (identifier)
         value: (expression_statement
           (parenthesized_expression
@@ -411,48 +411,50 @@ MyItem {
               alternative: (number)))))
       (ui_property
         (ui_property_modifier)
-        type: (identifier)
+        type: (type_identifier)
         name: (identifier))
       (ui_property
         (ui_property_modifier)
         (ui_property_modifier)
-        type: (identifier)
+        type: (type_identifier)
         name: (identifier))
       (ui_property
         (ui_property_modifier)
-        type: (identifier)
+        type: (type_identifier)
         name: (identifier))
       (ui_property
         (ui_property_modifier)
-        type: (identifier)
+        type: (type_identifier)
         name: (identifier)
         value: (expression_statement
           (number)))
       (ui_property
         (ui_property_modifier)
         (ui_property_modifier)
-        type: (identifier)
+        type: (type_identifier)
         name: (identifier))
       (ui_property
-        type: (identifier)
+        type: (type_identifier)
         name: (identifier)
         value: (ui_object_definition
           type_name: (identifier)
           initializer: (ui_object_initializer)))
       (ui_property
         (ui_property_modifier)
-        type: (identifier)
+        type: (type_identifier)
         name: (identifier)
         value: (ui_object_definition
           type_name: (identifier)
           initializer: (ui_object_initializer)))
       (ui_property
         type: (ui_list_property_type
-          (identifier))
+          (type_identifier)
+          (type_identifier))
         name: (identifier))
       (ui_property
         type: (ui_list_property_type
-          (identifier))
+          (type_identifier)
+          (type_identifier))
         name: (identifier)
         value: (ui_object_array
           (ui_object_definition
@@ -464,12 +466,14 @@ MyItem {
       (ui_property
         (ui_property_modifier)
         type: (ui_list_property_type
-          (identifier))
+          (type_identifier)
+          (type_identifier))
         name: (identifier))
       (ui_property
         (ui_property_modifier)
         type: (ui_list_property_type
-          (identifier))
+          (type_identifier)
+          (type_identifier))
         name: (identifier)
         value: (ui_object_array
           (ui_object_definition
@@ -478,29 +482,33 @@ MyItem {
       (ui_property
         (ui_property_modifier)
         type: (ui_list_property_type
-          (identifier))
+          (type_identifier)
+          (type_identifier))
         name: (identifier))
       (ui_property
         (ui_property_modifier)
         (ui_property_modifier)
         type: (ui_list_property_type
-          (identifier))
+          (type_identifier)
+          (type_identifier))
         name: (identifier))
       (ui_property
         (ui_property_modifier)
         type: (ui_list_property_type
-          (identifier))
+          (type_identifier)
+          (type_identifier))
         name: (identifier))
       (ui_property
         (ui_property_modifier)
         (ui_property_modifier)
         type: (ui_list_property_type
-          (identifier))
+          (type_identifier)
+          (type_identifier))
         name: (identifier))
       (ui_property
-        type: (nested_identifier
-          (identifier)
-          (identifier))
+        type: (nested_type_identifier
+          module: (identifier)
+          name: (type_identifier))
         name: (identifier)
         value: (ui_object_definition
           type_name: (nested_identifier
@@ -509,9 +517,10 @@ MyItem {
           initializer: (ui_object_initializer)))
       (ui_property
         type: (ui_list_property_type
-          (nested_identifier
-            (identifier)
-            (identifier)))
+          (type_identifier)
+          (nested_type_identifier
+            module: (identifier)
+            name: (type_identifier)))
         name: (identifier)
         value: (ui_object_array
           (ui_object_definition
@@ -549,36 +558,36 @@ MyItem {
         name: (identifier)
         parameters: (ui_signal_parameters
           (ui_signal_parameter
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))))
       (ui_signal
         name: (identifier)
         parameters: (ui_signal_parameters
           (ui_signal_parameter
             name: (identifier)
-            type: (identifier))
+            type: (type_identifier))
           (ui_signal_parameter
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_signal_parameter
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))))
       (ui_signal
         name: (identifier)
         parameters: (ui_signal_parameters
           (ui_signal_parameter
             name: (identifier)
-            type: (nested_identifier
-              (identifier)
-              (identifier)))
+            type: (nested_type_identifier
+              module: (identifier)
+              name: (type_identifier)))
           (ui_signal_parameter
-            type: (nested_identifier
-              (identifier)
-              (identifier))
+            type: (nested_type_identifier
+              module: (identifier)
+              name: (type_identifier))
             name: (identifier))
           (ui_signal_parameter
             name: (identifier)
-            type: (identifier)))))))
+            type: (type_identifier)))))))
 
 ================================================================================
 Inline component

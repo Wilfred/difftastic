@@ -163,14 +163,14 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
     ),
 
     _ui_property_type: $ => choice(
-      $.identifier,
-      $.nested_identifier,
+      $._type_identifier,
+      $.nested_type_identifier,
     ),
 
     // "T_IDENTIFIER T_LT UiPropertyType T_GT", but only "list" is allowed as
     // a property type modifier.
     ui_list_property_type: $ => seq(
-      'list',
+      alias('list', $.type_identifier),
       '<',
       $._ui_property_type,
       '>',

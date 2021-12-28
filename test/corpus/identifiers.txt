@@ -118,76 +118,76 @@ MyItem {
         type_name: (identifier)
         initializer: (ui_object_initializer
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))
           (ui_property
-            type: (identifier)
+            type: (type_identifier)
             name: (identifier))))
       (ui_object_definition
         type_name: (identifier)
