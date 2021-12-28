@@ -267,8 +267,15 @@ fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult
 
     // TODO: take a Path directly instead.
     let path = Path::new(&display_path);
-    // TODO: Prefer rhs_src if it's a new file.
-    let ts_lang = guess(path, &lhs_src).map(tsp::from_language);
+
+    // Take the longer of the two files when guessing language. This
+    // is useful when we've added or removed a whole file.
+    let guess_src = if lhs_src.len() > rhs_src.len() {
+        &lhs_src
+    } else {
+        &rhs_src
+    };
+    let ts_lang = guess(path, guess_src).map(tsp::from_language);
 
     let arena = Arena::new();
     let (lang_name, lhs, rhs) = match ts_lang {
