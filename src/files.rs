@@ -1,20 +1,24 @@
 //! File reading utilities.
 
-use std::fs;
+use std::{fs, path::Path};
 
-pub fn read_or_die(path: &str) -> Vec<u8> {
+pub fn read_or_die(path: &Path) -> Vec<u8> {
     match fs::read(path) {
         Ok(src) => src,
         Err(e) => {
             match e.kind() {
                 std::io::ErrorKind::NotFound => {
-                    eprintln!("No such file: {}", path);
+                    eprintln!("No such file: {}", path.display());
                 }
                 std::io::ErrorKind::PermissionDenied => {
-                    eprintln!("Permission denied when reading file: {}", path);
+                    eprintln!("Permission denied when reading file: {}", path.display());
                 }
                 _ => {
-                    eprintln!("Could not read file: {} (error {:?})", path, e.kind());
+                    eprintln!(
+                        "Could not read file: {} (error {:?})",
+                        path.display(),
+                        e.kind()
+                    );
                 }
             };
             std::process::exit(1);

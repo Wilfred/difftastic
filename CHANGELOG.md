@@ -1,4 +1,11 @@
-## 0.14 (unreleased)
+## 0.15 (unreleased)
+
+## 0.14 (released 27 December 2021)
+
+### Parsing
+
+Improved language detection if a file has a recognised filename
+(e.g. `Rakefile`) or a shebang (e.g. `#!/usr/bin/env node`).
 
 ### Display
 

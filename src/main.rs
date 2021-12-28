@@ -8,6 +8,7 @@ mod context;
 mod dijkstra;
 mod files;
 mod graph;
+mod guess_language;
 mod hunks;
 mod inline;
 mod line_parser;
@@ -23,6 +24,7 @@ mod tree_sitter_parser;
 extern crate log;
 
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
+use guess_language::guess;
 use log::info;
 use mimalloc::MiMalloc;
 
@@ -35,7 +37,7 @@ static GLOBAL: MiMalloc = MiMalloc;
 
 use atty::Stream;
 use clap::{crate_version, App, AppSettings, Arg};
-use std::{env, ffi::OsStr, path::Path};
+use std::{env, path::Path};
 use summary::DiffResult;
 use typed_arena::Arena;
 use walkdir::WalkDir;
@@ -184,34 +186,35 @@ fn main() {
 
     match parse_args() {
         Mode::DumpTreeSitter { path } => {
-            let extension = Path::new(&path).extension();
-            let extension = extension.unwrap_or_else(|| OsStr::new(""));
-            match tsp::from_extension(extension) {
-                Some(ts_lang) => {
-                    let bytes = read_or_die(&path);
-                    let src = String::from_utf8_lossy(&bytes).to_string();
+            let path = Path::new(&path);
+            let bytes = read_or_die(path);
+            let src = String::from_utf8_lossy(&bytes).to_string();
+            match guess(path, &src) {
+                Some(lang) => {
+                    let ts_lang = tsp::from_language(lang);
                     let (tree, _) = tsp::parse_to_tree(&src, &ts_lang);
                     tsp::print_tree(&src, &tree);
                 }
                 None => {
-                    println!("No tree-sitter parser for extension: {:?}", extension);
+                    eprintln!("No tree-sitter parser for file: {:?}", path);
                 }
             }
         }
         Mode::DumpSyntax { path } => {
-            let extension = Path::new(&path).extension();
-            let extension = extension.unwrap_or_else(|| OsStr::new(""));
-            match tsp::from_extension(extension) {
-                Some(ts_lang) => {
-                    let bytes = read_or_die(&path);
-                    let src = String::from_utf8_lossy(&bytes).to_string();
+            let path = Path::new(&path);
+            let bytes = read_or_die(path);
+            let src = String::from_utf8_lossy(&bytes).to_string();
+
+            match guess(path, &src) {
+                Some(lang) => {
+                    let ts_lang = tsp::from_language(lang);
                     let arena = Arena::new();
                     let ast = tsp::parse(&arena, &src, &ts_lang);
                     init_info(&ast, &[]);
                     println!("{:#?}", ast);
                 }
                 None => {
-                    println!("No tree-sitter parser for extension: {:?}", extension);
+                    eprintln!("No tree-sitter parser for file: {:?}", path);
                 }
             }
         }
@@ -220,12 +223,15 @@ fn main() {
             lhs_path,
             rhs_path,
         } => {
-            if Path::new(&lhs_path).is_dir() && Path::new(&rhs_path).is_dir() {
-                for diff_result in diff_directories(&lhs_path, &rhs_path) {
+            let lhs_path = Path::new(&lhs_path);
+            let rhs_path = Path::new(&rhs_path);
+
+            if lhs_path.is_dir() && rhs_path.is_dir() {
+                for diff_result in diff_directories(lhs_path, rhs_path) {
                     print_diff_result(&diff_result);
                 }
             } else {
-                let diff_result = diff_file(&display_path, &lhs_path, &rhs_path);
+                let diff_result = diff_file(&display_path, lhs_path, rhs_path);
                 print_diff_result(&diff_result);
             }
         }
@@ -233,8 +239,7 @@ fn main() {
 }
 
 /// Print a diff between two files.
-// TODO: prefer PathBuf to &str for paths.
-fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) -> DiffResult {
+fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult {
     let lhs_bytes = read_or_die(lhs_path);
     let rhs_bytes = read_or_die(rhs_path);
 
@@ -260,9 +265,17 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) -> DiffResult {
         .to_string()
         .replace("\t", "    ");
 
-    let extension = Path::new(&display_path).extension();
-    let extension = extension.unwrap_or_else(|| OsStr::new(""));
-    let ts_lang = tsp::from_extension(extension);
+    // TODO: take a Path directly instead.
+    let path = Path::new(&display_path);
+
+    // Take the longer of the two files when guessing language. This
+    // is useful when we've added or removed a whole file.
+    let guess_src = if lhs_src.len() > rhs_src.len() {
+        &lhs_src
+    } else {
+        &rhs_src
+    };
+    let ts_lang = guess(path, guess_src).map(tsp::from_language);
 
     let arena = Arena::new();
     let (lang_name, lhs, rhs) = match ts_lang {
@@ -299,8 +312,8 @@ fn diff_file(display_path: &str, lhs_path: &str, rhs_path: &str) -> DiffResult {
 /// pairwise.
 ///
 /// When more than one file is modified, the hg extdiff extension passes directory
-/// paths with the all the modified files.  fn
-fn diff_directories(lhs_dir: &str, rhs_dir: &str) -> Vec<DiffResult> {
+/// paths with the all the modified files.
+fn diff_directories(lhs_dir: &Path, rhs_dir: &Path) -> Vec<DiffResult> {
     let mut res = vec![];
     for entry in WalkDir::new(lhs_dir).into_iter().filter_map(Result::ok) {
         let lhs_path = entry.path();
@@ -313,11 +326,7 @@ fn diff_directories(lhs_dir: &str, rhs_dir: &str) -> Vec<DiffResult> {
         let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
         let rhs_path = Path::new(rhs_dir).join(rel_path);
 
-        res.push(diff_file(
-            &rel_path.to_string_lossy(),
-            &lhs_path.to_string_lossy(),
-            &rhs_path.to_string_lossy(),
-        ));
+        res.push(diff_file(&rel_path.to_string_lossy(), &lhs_path, &rhs_path));
     }
     res
 }
