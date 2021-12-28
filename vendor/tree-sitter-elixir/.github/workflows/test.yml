@@ -1,0 +1,32 @@
+name: Test
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Check formatting
+        run: npm run format-check
+      # Ensure the generated parser is up to date
+      - run: npx tree-sitter generate
+      - name: Run Tree-sitter tests
+        run: npx tree-sitter test
+      - name: Run integration tests
+        run: scripts/integration_test.sh
