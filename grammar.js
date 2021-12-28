@@ -908,7 +908,7 @@ module.exports = grammar({
 
     _in_operator: $ => choice("in", "!in"),
 
-    _is_operator: $ => choice("is", $._not_is),
+    _is_operator: $ => choice("is", "!is"),
 
     _additive_operator: $ => choice("+", "-"),
 
@@ -920,13 +920,12 @@ module.exports = grammar({
 
     _postfix_unary_operator: $ => choice("++", "--", "!!"),
 
-    _member_access_operator: $ => choice(".", $._safe_nav, "::"),
-
-    _safe_nav: $ => "?.",      // TODO: '?' and '.' should actually be separate tokens
-                               //       but produce an LR(1) conflict that way, however.
-                               //       ('as' expression with '?' produces conflict). Also
-                               //       does it seem to be very uncommon to write the safe
-                               //       navigation operator 'split up' in Kotlin.
+    // TODO: '?' and '.' should actually be separate tokens
+    //       but produce an LR(1) conflict that way, however.
+    //       ('as' expression with '?' produces conflict). Also
+    //       does it seem to be very uncommon to write the safe
+    //       navigation operator 'split up' in Kotlin.
+    _member_access_operator: $ => choice(".", "?.", "::"),
 
     _indexing_suffix: $ => seq(
       '[',
@@ -1121,10 +1120,6 @@ module.exports = grammar({
     _this_at: $ => seq("this@", $._lexical_identifier),
 
     _super_at: $ => seq("super@", $._lexical_identifier),
-
-    _not_is: $ => "!is",
-
-    _not_in: $ => "!in",
 
     // ==========
     // Literals
