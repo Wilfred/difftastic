@@ -22,9 +22,9 @@ dependencies = [
 
 [[package]]
 name = "any_terminal_size"
-version = "0.1.20"
+version = "0.1.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4597392658284da2ad3e57f0e6deb57fc444c18627577b73d82f94248b403271"
+checksum = "4381128c41b91a94820060f44e19f59dd78117b8cb0ce53025fc6a611a136f75"
 dependencies = [
  "libc",
  "scopeguard",

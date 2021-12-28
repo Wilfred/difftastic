@@ -38,7 +38,7 @@ pretty_env_logger = "0.4.0"
 mimalloc = { version = "0.1.26", default-features = false }
 radix-heap = "0.4.1"
 walkdir = "2.3.2"
-any_terminal_size = "0.1.20"
+any_terminal_size = "0.1.21"
 
 [dev-dependencies]
 pretty_assertions = "1.0.0"
