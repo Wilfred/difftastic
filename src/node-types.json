@@ -6039,15 +6039,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "nested_type_identifier",
           "named": true
         },
         {
-          "type": "nested_identifier",
+          "type": "type_identifier",
           "named": true
         }
       ]
@@ -6206,11 +6206,11 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "nested_type_identifier",
             "named": true
           },
           {
-            "type": "nested_identifier",
+            "type": "type_identifier",
             "named": true
           },
           {
@@ -6319,11 +6319,11 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "nested_type_identifier",
             "named": true
           },
           {
-            "type": "nested_identifier",
+            "type": "type_identifier",
             "named": true
           }
         ]
@@ -7029,10 +7029,6 @@
     "named": false
   },
   {
-    "type": "list",
-    "named": false
-  },
-  {
     "type": "module",
     "named": false
   },
@@ -7054,11 +7050,11 @@
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "object",
