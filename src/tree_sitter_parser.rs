@@ -108,6 +108,13 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                 .collect(),
             highlight_queries: "",
         },
+        CommonLisp => TreeSitterConfig {
+            name: "Common Lisp",
+            language: unsafe { tree_sitter_commonlisp() },
+            atom_nodes: (vec!["str_lit"]).into_iter().collect(),
+            delimiter_tokens: (vec![("(", ")")]),
+            highlight_queries: "",
+        },
         CSharp => TreeSitterConfig {
             name: "C#",
             language: unsafe { tree_sitter_c_sharp() },
@@ -194,13 +201,6 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             atom_nodes: (vec!["string"]).into_iter().collect(),
             delimiter_tokens: (vec![("{", "}"), ("[", "]")]),
             highlight_queries: include_str!("../vendor/highlights/json.scm"),
-        },
-        CommonLisp => TreeSitterConfig {
-            name: "Common Lisp",
-            language: unsafe { tree_sitter_commonlisp() },
-            atom_nodes: (vec!["str_lit"]).into_iter().collect(),
-            delimiter_tokens: (vec![("(", ")")]),
-            highlight_queries: "",
         },
         OCaml => TreeSitterConfig {
             name: "OCaml",
