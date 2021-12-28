@@ -49,8 +49,9 @@ $ ln -s tree-sitter-java/src tree-sitter-java-src
 ```
 
 You can now add the parser to build by including the directory in
-`build.rs`. You will also need to update `tree_sitter_parser.rs` to
-configure the file extensions, atoms and delimiters.
+`build.rs`. You will also need to update `guess_language.rs` to
+configure the file extensions, and `tree_sitter_parser.rs` to
+configure atoms and delimiters.
 
 To add syntax highlighting to the package, you'll also need a symlink
 to the `highlights.scm`, if available.
