@@ -121,6 +121,7 @@ fn from_extension(extension: &OsStr) -> Option<Language> {
         "bb" | "boot" | "clj" | "cljc" | "clje" | "cljs" | "cljx" | "edn" | "joke" | "joker" => {
             Some(Clojure)
         }
+        "lisp" | "lsp" | "asd" => Some(CommonLisp),
         "cs" => Some(CSharp),
         "css" => Some(Css),
         "el" => Some(EmacsLisp),
@@ -131,7 +132,6 @@ fn from_extension(extension: &OsStr) -> Option<Language> {
         "cjs" | "js" | "mjs" => Some(JavaScript),
         "jsx" => Some(Jsx),
         "json" => Some(Json),
-        "lisp" | "lsp" | "asd" => Some(CommonLisp),
         "ml" => Some(OCaml),
         "mli" => Some(OCamlInterface),
         "py" | "py3" | "pyi" | "bzl" => Some(Python),
