@@ -107,13 +107,18 @@ assertEquals("\u214E\uA7B5\u2CEF", "\u2132\uA7B4\u2CEF".lowercase())
     (call_suffix
       (value_arguments
         (value_argument
-          (line_string_literal))
+          (line_string_literal
+            (character_escape_seq)
+            (character_escape_seq)
+            (character_escape_seq)))
         (value_argument
           (call_expression
             (navigation_expression
-              (line_string_literal)
+              (line_string_literal
+                (character_escape_seq)
+                (character_escape_seq)
+                (character_escape_seq))
               (navigation_suffix
                 (simple_identifier)))
             (call_suffix
               (value_arguments))))))))
-

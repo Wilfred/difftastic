@@ -750,7 +750,7 @@ module.exports = grammar({
 
     _line_string_content: $ => choice(
       $._line_str_text,
-      $._line_str_escaped_char
+      $.character_escape_seq
     ),
 
     line_string_expression: $ => seq("${", $._expression, "}"),
@@ -1157,10 +1157,14 @@ module.exports = grammar({
 
     character_literal: $ => seq(
       "'",
-      choice($._escape_seq, /[^\n\r'\\]/),
+      choice($.character_escape_seq, /[^\n\r'\\]/),
       "'"
     ),
 
+    character_escape_seq: $ => choice(
+      $._uni_character_literal,
+      $._escaped_identifier
+    ),
 
     // ==========
     // Identifiers
@@ -1182,21 +1186,11 @@ module.exports = grammar({
 
     _escaped_identifier: $ => /\\[tbrn'"\\$]/,
 
-    _escape_seq: $ => choice(
-      $._uni_character_literal,
-      $._escaped_identifier
-    ),
-
     // ==========
     // Strings
     // ==========
 
     _line_str_text: $ => /[^\\"$]+/,
-
-    _line_str_escaped_char: $ => choice(
-      $._escaped_identifier,
-      $._uni_character_literal
-    ),
 
     _multi_line_str_text: $ => /[^"$]+/
   }
