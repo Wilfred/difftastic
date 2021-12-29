@@ -1,5 +1,10 @@
 ## 0.15 (unreleased)
 
+### Parsing
+
+Moved to the [official Elixir
+parser](https://github.com/elixir-lang/tree-sitter-elixir).
+
 ## 0.14 (released 27 December 2021)
 
 ### Parsing
