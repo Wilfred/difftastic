@@ -343,7 +343,7 @@ module.exports = grammar({
     argument: ($) =>
       seq(
         optional(seq(field("label", $.identifier), ":")),
-        choice(alias($.discard_var, $.hole), $._expression)
+        field("value", choice(alias($.discard_var, $.hole), $._expression))
       ),
     todo: ($) =>
       seq("todo", optional(seq("(", field("message", $.string), ")"))),
@@ -354,7 +354,7 @@ module.exports = grammar({
         optional(
           seq(
             series_of($._expression, ","),
-            optional(seq("..", field("spread", $._expression)))
+            optional(seq(",", "..", field("spread", $._expression)))
           )
         ),
         "]"
@@ -375,18 +375,20 @@ module.exports = grammar({
     case: ($) =>
       seq(
         "case",
-        field("subjects", series_of($._expression, ",")),
+        field("subjects", $.case_subjects),
         "{",
-        series_of($.case_clause, ""),
+        repeat1($.case_clause),
         "}"
       ),
+    case_subjects: ($) => seq(series_of($._expression, ",")),
     case_clause: ($) =>
       seq(
-        field("patterns", series_of($.case_clause_pattern, "|")),
+        field("patterns", $.case_clause_patterns),
         optional(field("guard", $.case_clause_guard)),
         "->",
         $._expression
       ),
+    case_clause_patterns: ($) => seq(series_of($.case_clause_pattern, "|")),
     case_clause_pattern: ($) => series_of($._pattern, ","),
     case_clause_guard: ($) => seq("if", $._case_clause_guard_expression),
     _case_clause_guard_expression: ($) =>
