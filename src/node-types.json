@@ -478,6 +478,11 @@
     }
   },
   {
+    "type": "bit_string_segment_option_unit",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "bit_string_segment_options",
     "named": true,
     "fields": {},
@@ -1598,6 +1603,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "integer",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "list",
@@ -2996,10 +3006,6 @@
     "named": true
   },
   {
-    "type": "bit_string_segment_option_unit",
-    "named": true
-  },
-  {
     "type": "bit_string_segment_option_unsigned",
     "named": true
   },
@@ -3062,10 +3068,6 @@
   {
     "type": "import",
     "named": false
-  },
-  {
-    "type": "integer",
-    "named": true
   },
   {
     "type": "javascript",

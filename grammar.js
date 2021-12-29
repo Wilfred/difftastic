@@ -571,7 +571,12 @@ module.exports = grammar({
     /* Literals */
     string: ($) => /\"(?:\\[efnrt\"\\]|[^\"])*\"/,
     float: ($) => /-?[0-9_]+\.[0-9_]+/,
-    integer: ($) => /-?[0-9_]+/,
+    integer: ($) =>
+      seq(optional("-"), choice($._hex, $._decimal, $._octal, $._binary)),
+    _hex: ($) => /0[xX][0-9a-fA-F_]+/,
+    _decimal: ($) => /[0-9][0-9_]*/,
+    _octal: ($) => /0[oO][0-7_]+/,
+    _binary: ($) => /0[bB][0-1_]+/,
     _bit_string_segment_option_unit: ($) =>
       seq("unit", "(", alias($.integer, $.bit_string_segment_option_unit), ")"),
     _bit_string_segment_option_literal: ($) =>

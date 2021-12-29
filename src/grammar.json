@@ -3957,8 +3957,58 @@
       "value": "-?[0-9_]+\\.[0-9_]+"
     },
     "integer": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "-"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_hex"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_decimal"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_octal"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_binary"
+            }
+          ]
+        }
+      ]
+    },
+    "_hex": {
       "type": "PATTERN",
-      "value": "-?[0-9_]+"
+      "value": "0[xX][0-9a-fA-F_]+"
+    },
+    "_decimal": {
+      "type": "PATTERN",
+      "value": "[0-9][0-9_]*"
+    },
+    "_octal": {
+      "type": "PATTERN",
+      "value": "0[oO][0-7_]+"
+    },
+    "_binary": {
+      "type": "PATTERN",
+      "value": "0[bB][0-1_]+"
     },
     "_bit_string_segment_option_unit": {
       "type": "SEQ",
