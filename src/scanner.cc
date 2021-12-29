@@ -9,10 +9,7 @@ using std::vector;
 using std::memcpy;
 
 enum TokenType {
-    ERROR,
-    SPLIT_TOKEN,
     LINE_ENDING,
-    SOFT_LINE_BREAK_MARKER,
     BLOCK_CLOSE,
     BLOCK_CONTINUATION,
     BLOCK_QUOTE_START,
@@ -38,22 +35,25 @@ enum TokenType {
     LIST_MARKER_DOT_DONT_INTERRUPT,
     FENCED_CODE_BLOCK_START_BACKTICK,
     FENCED_CODE_BLOCK_START_TILDE,
+    BLANK_LINE_START,
     FENCED_CODE_BLOCK_END_BACKTICK,
     FENCED_CODE_BLOCK_END_TILDE,
-    BLANK_LINE,
-    CODE_SPAN_START,
-    CODE_SPAN_CLOSE,
-    LAST_TOKEN_WHITESPACE,
-    LAST_TOKEN_PUNCTUATION,
-    EMPHASIS_OPEN_STAR,
-    EMPHASIS_OPEN_UNDERSCORE,
-    EMPHASIS_CLOSE_STAR,
-    EMPHASIS_CLOSE_UNDERSCORE,
     OPEN_BLOCK,
     OPEN_BLOCK_DONT_INTERRUPT_PARAGRAPH,
     CLOSE_BLOCK,
     NO_INDENTED_CHUNK,
+    SPLIT_TOKEN,
+    SOFT_LINE_BREAK_MARKER,
+    ERROR,
     TRIGGER_ERROR,
+    CODE_SPAN_START,
+    CODE_SPAN_CLOSE,
+    EMPHASIS_OPEN_STAR,
+    EMPHASIS_OPEN_UNDERSCORE,
+    EMPHASIS_CLOSE_STAR,
+    EMPHASIS_CLOSE_UNDERSCORE,
+    LAST_TOKEN_WHITESPACE,
+    LAST_TOKEN_PUNCTUATION,
 };
 
 enum Block : uint8_t {
@@ -320,10 +320,10 @@ struct Scanner {
             switch (lexer->lookahead) {
                 case '\r':
                 case '\n':
-                    if (valid_symbols[BLANK_LINE]) {
+                    if (valid_symbols[BLANK_LINE_START]) {
                         if (state & STATE_WAS_SOFT_LINE_BREAK) return error(lexer);
                         state &= ~STATE_NEED_OPEN_BLOCK;
-                        lexer->result_symbol = BLANK_LINE;
+                        lexer->result_symbol = BLANK_LINE_START;
                         return true;
                     }
                     break;
