@@ -5,6 +5,8 @@
 Moved to the [official Elixir
 parser](https://github.com/elixir-lang/tree-sitter-elixir).
 
+Fixed a parsing performance regression introduced in 0.13.
+
 ## 0.14 (released 27 December 2021)
 
 ### Parsing
