@@ -325,6 +325,120 @@ fn foob(x, y) {
               (discard_var)))
           (record))))))
 
+=====
+Cases
+=====
+
+fn trial(x, y) {
+  case x {
+    1 -> 2
+    2 -> 3
+    _ -> 4
+  }
+
+  case y {
+    #(z, _) | #(_, z) if z.1 == 5 -> True
+    #(_, z) if z.2 >= 4 < 5 || z.1 > 6 -> True
+  }
+
+  case #(x, y) {
+    #(1, 2) -> #(3, 4)
+    _ -> #(5, 6)
+  }
+}
+
+---
+
+(source_file
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier))
+      (function_parameter
+        name: (identifier)))
+    (function_body
+      (case
+        subjects: (case_subjects
+          (var))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (integer)))
+          (integer))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (integer)))
+          (integer))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (discard_var)))
+          (integer)))
+      (case
+        subjects: (case_subjects
+          (var))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (tuple_pattern
+                (var)
+                (discard_var)))
+            (case_clause_pattern
+              (tuple_pattern
+                (discard_var)
+                (var))))
+          guard: (case_clause_guard
+            (binop
+              (tuple_access
+                tuple: (var)
+                index: (integer))
+              (integer)))
+          (record))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (tuple_pattern
+                (discard_var)
+                (var))))
+          guard: (case_clause_guard
+            (binop
+              (binop
+                (binop
+                  (tuple_access
+                    tuple: (var)
+                    index: (integer))
+                  (integer))
+                (integer))
+              (binop
+                (tuple_access
+                  tuple: (var)
+                  index: (integer))
+                (integer))))
+          (record)))
+      (case
+        subjects: (case_subjects
+          (tuple
+            (var)
+            (var)))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (tuple_pattern
+                (integer)
+                (integer))))
+          (tuple
+            (integer)
+            (integer)))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (discard_var)))
+          (tuple
+            (integer)
+            (integer)))))))
+
 ============
 Try Patterns
 ============
