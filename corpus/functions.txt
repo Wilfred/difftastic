@@ -1,15 +1,146 @@
-==========
-Functions
-==========
+=================
+Function Examples
+=================
 
-fn add(x: Int, y: Int) -> Int {}
-fn twice(f: fn(t) -> t, x: t) -> t {}
-fn inferred_identity(x) {}
+fn add(x: Int, y: Int) -> Int {
+  x + y
+}
+fn twice(f: fn(t) -> t, x: t) -> t {
+  f(f(x))
+}
+fn inferred_identity(x) {
+  x
+}
 fn replace(
   in string: String,
   each pattern: String,
   with replacement: String
-) {}
+) {
+  string.replace(in: in, each: each, with: with)
+}
+
+---
+
+(source_file
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)
+        type: (type))
+      (function_parameter
+        name: (identifier)
+        type: (type)))
+    return_type: (type)
+    (function_body
+      (binop
+        (var)
+        (var))))
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)
+        type: (function_type
+          parameter_types: (function_parameter_types
+            (type_var))
+          return_type: (type_var)))
+      (function_parameter
+        name: (identifier)
+        type: (type_var)))
+    return_type: (type_var)
+    (function_body
+      (function_call
+        name: (identifier)
+        (arguments
+          (argument
+            (function_call
+              name: (identifier)
+              (arguments
+                (argument
+                  (var)))))))))
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)))
+    (function_body
+      (var)))
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        label: (identifier)
+        name: (identifier)
+        type: (type))
+      (function_parameter
+        label: (identifier)
+        name: (identifier)
+        type: (type))
+      (function_parameter
+        label: (identifier)
+        name: (identifier)
+        type: (type)))
+    (function_body
+      (function_call
+        module: (identifier)
+        name: (identifier)
+        (arguments
+          (argument
+            label: (identifier)
+            (var))
+          (argument
+            label: (identifier)
+            (var))
+          (argument
+            label: (identifier)
+            (var)))))))
+
+==========================
+Complex binary expressions
+==========================
+
+fn complicated(x, y) {
+  x > y && x >= y || x + y |> fun() < x * y + 1
+}
+
+---
+
+(source_file
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier))
+      (function_parameter
+        name: (identifier)))
+    (function_body
+      (binop
+        (binop
+          (binop
+            (var)
+            (var))
+          (binop
+            (var)
+            (var)))
+        (binop
+          (binop
+            (binop
+              (var)
+              (var))
+            (function_call
+              name: (identifier)))
+          (binop
+            (binop
+              (var)
+              (var))
+            (integer)))))))
+
+
+============
+Try Patterns
+============
+
 fn try_try_again(x, y) -> Int {
   try int_x = todo
   try _who_cares = todo
@@ -29,50 +160,6 @@ fn try_try_again(x, y) -> Int {
   (function
     name: (identifier)
     parameters: (function_parameters
-      (function_parameter
-        name: (identifier)
-        type: (type))
-      (function_parameter
-        name: (identifier)
-        type: (type)))
-    return_type: (type))
-  (function
-    name: (identifier)
-    parameters: (function_parameters
-      (function_parameter
-        name: (identifier)
-        type: (function_type
-          parameter_types: (function_parameter_types
-            (type_var))
-          return_type: (type_var)))
-      (function_parameter
-        name: (identifier)
-        type: (type_var)))
-    return_type: (type_var)
-    (function_body))
-  (function
-    name: (identifier)
-    parameters: (function_parameters
-      (function_parameter
-        name: (identifier))))
-  (function
-    name: (identifier)
-    parameters: (function_parameters
-      (function_parameter
-        label: (identifier)
-        name: (identifier)
-        type: (type))
-      (function_parameter
-        label: (identifier)
-        name: (identifier)
-        type: (type))
-      (function_parameter
-        label: (identifier)
-        name: (identifier)
-        type: (type))))
-  (function
-    name: (identifier)
-    parameters: (function_parameters
       (function_parameter 
         name: (identifier))
       (function_parameter
@@ -80,24 +167,32 @@ fn try_try_again(x, y) -> Int {
     return_type: (type)
     (function_body
       (try
-        pattern: (var))
+        pattern: (var)
+        value: (todo))
       (try
-        pattern: (discard_var))
+        pattern: (discard_var)
+        value: (todo))
       (try
         pattern: (remote_constructor_pattern
-          (pattern_constructor_args)))
+          (pattern_constructor_args))
+        value: (todo))
       (try
-        pattern: (constructor_pattern))
+        pattern: (constructor_pattern)
+        value: (todo))
       (try
-        pattern: (string))
+        pattern: (string)
+        value: (todo))
       (try
-        pattern: (integer))
+        pattern: (integer)
+        value: (todo))
       (try
-        pattern: (float))
+        pattern: (float)
+        value: (todo))
       (try
         pattern: (tuple_pattern
           (var)
-          (var)))
+          (var))
+        value: (todo))
       (try
         pattern: (bit_string_pattern
           (bit_string_segment
@@ -108,8 +203,10 @@ fn try_try_again(x, y) -> Int {
             value: (var)
             options: (bit_string_segment_options
               (bit_string_segment_option_size
-                (integer))))))
+                (integer)))))
+        value: (todo))
       (try
         pattern: (list_pattern
           (var)
-          (var))))))
+          (var))
+        value: (todo)))))

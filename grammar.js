@@ -202,19 +202,19 @@ module.exports = grammar({
     external_function_body: ($) => seq($.string, $.string),
 
     /* Functions */
-
     function: ($) =>
       seq(
         "fn",
         field("name", $.identifier),
+        "(",
         optional(field("parameters", $.function_parameters)),
+        ")",
         optional(seq("->", field("return_type", $._type))),
         "{",
         alias($._expression_seq, $.function_body),
         "}"
       ),
-    function_parameters: ($) =>
-      seq("(", optional(series_of($.function_parameter, ",")), ")"),
+    function_parameters: ($) => series_of($.function_parameter, ","),
     function_parameter: ($) =>
       seq(
         choice(
@@ -252,7 +252,7 @@ module.exports = grammar({
     // This makes sense for the parser, but (IMO) would be more confusing for
     // users and tooling which don't think about `try`s as having a "then". Thus,
     // `try`s are essentially treated the same as any other expression.
-    _expression_seq: ($) => repeat1(choice($.try, $._expression)),
+    _expression_seq: ($) => repeat1(choice($._expression, $.try)),
     try: ($) =>
       seq(
         "try",
@@ -261,23 +261,32 @@ module.exports = grammar({
         "=",
         field("value", $._expression)
       ),
-    _pattern: ($) =>
-      seq(
-        choice(
-          $.var,
-          $.discard_var,
-          $.remote_constructor_pattern,
-          $.constructor_pattern,
-          $.string,
-          $.integer,
-          $.float,
-          $.tuple_pattern,
-          alias($._pattern_bit_string, $.bit_string_pattern),
-          $.list_pattern
-        ),
-        optional(field("assign", seq("as", alias($._name, $.pattern_assign))))
+    _expression: ($) => choice($._expression_unit, $.binop),
+    binop: ($) =>
+      choice(
+        prec.left(1, seq($._expression, "||", $._expression)),
+        prec.left(2, seq($._expression, "&&", $._expression)),
+        prec.left(3, seq($._expression, "==", $._expression)),
+        prec.left(3, seq($._expression, "!=", $._expression)),
+        prec.left(4, seq($._expression, "<", $._expression)),
+        prec.left(4, seq($._expression, "<=", $._expression)),
+        prec.left(4, seq($._expression, "<.", $._expression)),
+        prec.left(4, seq($._expression, "<=.", $._expression)),
+        prec.left(4, seq($._expression, ">", $._expression)),
+        prec.left(4, seq($._expression, ">=", $._expression)),
+        prec.left(4, seq($._expression, ">.", $._expression)),
+        prec.left(4, seq($._expression, ">=.", $._expression)),
+        prec.left(5, seq($._expression, "|>", $._expression)),
+        prec.left(6, seq($._expression, "+", $._expression)),
+        prec.left(6, seq($._expression, "+.", $._expression)),
+        prec.left(6, seq($._expression, "-", $._expression)),
+        prec.left(6, seq($._expression, "-.", $._expression)),
+        prec.left(7, seq($._expression, "*", $._expression)),
+        prec.left(7, seq($._expression, "*.", $._expression)),
+        prec.left(7, seq($._expression, "/", $._expression)),
+        prec.left(7, seq($._expression, "/.", $._expression)),
+        prec.left(7, seq($._expression, "%", $._expression))
       ),
-    _expression: ($) => "todo",
     // The way that this function is written in the Gleam parser is essentially
     // incompatible with tree-sitter. It first parses some base expression,
     // then potentially parses field access, record updates, or function calls
@@ -299,13 +308,221 @@ module.exports = grammar({
         $.string,
         $.integer,
         $.float,
+        $.record,
+        $.remote_record,
         $.var,
-        alias($._upname, $.record)
-        // TODO: Finish base expression parsing*
-        //       * Considering record update and function call as base exprs
+        $.function_call,
+        $.todo,
+        $.tuple,
+        $.list,
+        alias($._expression_bit_string, $.bit_string),
+        $.anonymous_function,
+        $.expression_group,
+        $.case
+        // TODO: Finish base expression parsing
         // TODO: Consider "." a high-precedence, left-associative operator used
         //       for tuple access, field access, constructor access, record
         //       update, and function call.
+        //
+        // $.let,
+        // $.assert,
+        // $.tuple_access,
+        // $.field_access,
+        // $.record_update,
+      ),
+    record: ($) =>
+      seq($._upname, optional(seq("(", optional($.arguments), ")"))),
+    remote_record: ($) => seq(field("module", $.identifier), ".", $.record),
+    function_call: ($) =>
+      seq(
+        optional(seq(field("module", $.identifier), ".")),
+        field("name", $.identifier),
+        seq("(", optional($.arguments), ")")
+      ),
+    arguments: ($) => series_of($.argument, ","),
+    argument: ($) =>
+      seq(
+        optional(seq(field("label", $.identifier), ":")),
+        choice(alias($.discard_var, $.hole), $._expression)
+      ),
+    todo: ($) =>
+      seq("todo", optional(seq("(", field("message", $.string), ")"))),
+    tuple: ($) => seq("#", "(", optional(series_of($._expression, ",")), ")"),
+    list: ($) =>
+      seq(
+        "[",
+        optional(
+          seq(
+            series_of($._expression, ","),
+            optional(seq("..", field("spread", $._expression)))
+          )
+        ),
+        "]"
+      ),
+    ...bit_string_rules("expression", "_expression_unit", "_expression"),
+    anonymous_function: ($) =>
+      seq(
+        "fn",
+        "(",
+        optional(field("parameters", $.function_parameters)),
+        ")",
+        optional(seq("->", field("return_type", $._type))),
+        "{",
+        alias($._expression_seq, $.function_body),
+        "}"
+      ),
+    expression_group: ($) => seq("{", $._expression_seq, "}"),
+    case: ($) =>
+      seq(
+        "case",
+        field("subjects", series_of($._expression, ",")),
+        "{",
+        series_of($.case_clause, ""),
+        "}"
+      ),
+    case_clause: ($) =>
+      seq(
+        field("patterns", series_of($.case_clause_pattern, "|")),
+        optional(field("guard", $.case_clause_guard)),
+        "->",
+        $._expression
+      ),
+    case_clause_pattern: ($) => series_of($._pattern, ","),
+    case_clause_guard: ($) => seq("if", $._case_clause_guard_expression),
+    _case_clause_guard_expression: ($) =>
+      choice(
+        $._case_clause_guard_unit,
+        alias($._case_clause_guard_binop, $.binop)
+      ),
+    _case_clause_guard_binop: ($) =>
+      choice(
+        prec.left(
+          1,
+          seq(
+            $._case_clause_guard_expression,
+            "||",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          2,
+          seq(
+            $._case_clause_guard_expression,
+            "&&",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          3,
+          seq(
+            $._case_clause_guard_expression,
+            "==",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          3,
+          seq(
+            $._case_clause_guard_expression,
+            "!=",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          4,
+          seq(
+            $._case_clause_guard_expression,
+            "<",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          4,
+          seq(
+            $._case_clause_guard_expression,
+            "<=",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          4,
+          seq(
+            $._case_clause_guard_expression,
+            "<.",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          4,
+          seq(
+            $._case_clause_guard_expression,
+            "<=.",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          4,
+          seq(
+            $._case_clause_guard_expression,
+            ">",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          4,
+          seq(
+            $._case_clause_guard_expression,
+            ">=",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          4,
+          seq(
+            $._case_clause_guard_expression,
+            ">.",
+            $._case_clause_guard_expression
+          )
+        ),
+        prec.left(
+          4,
+          seq(
+            $._case_clause_guard_expression,
+            ">=.",
+            $._case_clause_guard_expression
+          )
+        )
+      ),
+    _case_clause_guard_unit: ($) =>
+      choice(
+        $.var,
+        prec(1, alias($._case_clause_tuple_access, $.tuple_access)),
+        seq("{", $._case_clause_guard_expression, "}"),
+        $._constant_value
+      ),
+    // Somehow writing alias($._name, $.var) vs just $.var solves a precedence
+    // issue with tree-sitter
+    _case_clause_tuple_access: ($) =>
+      seq(
+        field("tuple", alias($._name, $.var)),
+        ".",
+        field("index", $.integer)
+      ),
+    _pattern: ($) =>
+      seq(
+        choice(
+          $.var,
+          $.discard_var,
+          $.remote_constructor_pattern,
+          $.constructor_pattern,
+          $.string,
+          $.integer,
+          $.float,
+          $.tuple_pattern,
+          alias($._pattern_bit_string, $.bit_string_pattern),
+          $.list_pattern
+        ),
+        optional(field("assign", seq("as", alias($._name, $.pattern_assign))))
       ),
     var: ($) => $._name,
     discard_var: ($) => $._discard_name,
