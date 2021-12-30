@@ -159,7 +159,7 @@ line-based diffs. Line-diffs struggle if there are a small number of
 common lines. The more precise, granular behaviour of tree diffs makes
 this problem much more common though.
 
-## Similar Comments
+## Matching Substrings In Comments
 
 ```
 // Before
@@ -171,9 +171,9 @@ foobar();
 foobaz();
 ```
 
-`foobar` and `foobaz` are completely different, and should never be
-matched up. For comments, we'd rather match up comments that are
-textually similar.
+`foobar` and `foobaz` are completely different, and their common
+prefix `fooba` should not be matched up. However, matching common
+prefixes or suffixes for comments is desirable.
 
 ## Multiline Comments
 
