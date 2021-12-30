@@ -397,4 +397,10 @@ mod tests {
         assert_eq!(widths.lhs_line_nums, 2);
         assert_eq!(widths.rhs_line_nums, 3);
     }
+
+    #[test]
+    fn test_display_width() {
+        // Basic smoke test.
+        assert!(display_width() > 10);
+    }
 }
