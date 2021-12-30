@@ -193,6 +193,30 @@ fn lines_with_novel(
     (lhs_lines_with_novel, rhs_lines_with_novel)
 }
 
+/// Calculate positions of highlights on both sides. This includes
+/// both syntax highlighting and added/removed content highlighting.
+fn highlight_positions(
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+) -> (
+    HashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
+    HashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
+) {
+    let mut lhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = HashMap::new();
+    for (span, style) in color_positions(true, lhs_mps) {
+        let styles = lhs_styles.entry(span.line).or_insert_with(Vec::new);
+        styles.push((span, style));
+    }
+
+    let mut rhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = HashMap::new();
+    for (span, style) in color_positions(false, rhs_mps) {
+        let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
+        styles.push((span, style));
+    }
+
+    (lhs_styles, rhs_styles)
+}
+
 pub fn display_hunks(
     hunks: &[Hunk],
     display_path: &str,
@@ -217,18 +241,7 @@ pub fn display_hunks(
         return display_single_column(display_path, lang_name, &lhs_colored_src, Color::BrightRed);
     }
 
-    let mut lhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = HashMap::new();
-    for (span, style) in color_positions(true, lhs_mps) {
-        let styles = lhs_styles.entry(span.line).or_insert_with(Vec::new);
-        styles.push((span, style));
-    }
-
-    let mut rhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = HashMap::new();
-    for (span, style) in color_positions(false, rhs_mps) {
-        let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
-        styles.push((span, style));
-    }
-
+    let (lhs_highlights, rhs_highlights) = highlight_positions(lhs_mps, rhs_mps);
     let lhs_lines = split_lines_nonempty(lhs_src);
     let rhs_lines = split_lines_nonempty(rhs_src);
     let lhs_colored_lines = split_lines_nonempty(&lhs_colored_src);
@@ -311,7 +324,7 @@ pub fn display_hunks(
                     Some(lhs_line_num) => split_and_apply(
                         &lhs_lines[lhs_line_num.0],
                         widths.lhs_content,
-                        lhs_styles.get(&lhs_line_num).unwrap_or(&vec![]),
+                        lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
                     ),
                     None => vec![" ".repeat(widths.lhs_content)],
                 };
@@ -319,7 +332,7 @@ pub fn display_hunks(
                     Some(rhs_line_num) => split_and_apply(
                         &rhs_lines[rhs_line_num.0],
                         widths.rhs_content,
-                        rhs_styles.get(&rhs_line_num).unwrap_or(&vec![]),
+                        rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
                     ),
                     None => vec!["".into()],
                 };
