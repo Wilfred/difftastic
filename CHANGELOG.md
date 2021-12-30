@@ -5,6 +5,8 @@
 Moved to the [official Elixir
 parser](https://github.com/elixir-lang/tree-sitter-elixir).
 
+Updated the Bash parser to the latest upstream version.
+
 Fixed a parsing performance regression introduced in 0.13.
 
 ### Display
