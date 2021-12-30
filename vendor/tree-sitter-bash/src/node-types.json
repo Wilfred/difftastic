@@ -639,6 +639,10 @@
           "named": true
         },
         {
+          "type": "expansion_flags",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -656,6 +660,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "expansion_flags",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "file_redirect",
