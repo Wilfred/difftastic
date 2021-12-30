@@ -5,7 +5,7 @@ difficult cases observed during development.
 
 Not all of these cases work well in difftastic yet.
 
-## Adding delimiters
+## Adding Delimiters
 
 ```
 ;; Before
@@ -139,7 +139,7 @@ foo(789);
 Do we consider `foo(123)` or `foo(456)` to match with `foo(789)`?
 Difftastic prefers `foo(456)` by preferring nodes at the same nesting depth.
 
-## Replacements
+## Replacements With Minor Similarities
 
 ```
 // Before
