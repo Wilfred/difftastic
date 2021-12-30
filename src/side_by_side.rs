@@ -403,4 +403,11 @@ mod tests {
         // Basic smoke test.
         assert!(display_width() > 10);
     }
+
+    #[test]
+    fn test_display_single_column() {
+        // Basic smoke test.
+        let res = display_single_column("foo.py", "Python", "print(123)\n", Color::Green);
+        assert!(res.len() > 10);
+    }
 }
