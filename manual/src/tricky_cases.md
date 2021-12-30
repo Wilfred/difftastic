@@ -232,6 +232,61 @@ Syntactic diffing can ignore whitespace changes, but it has to assume
 punctuation is meaningful. This can lead to punctuation changes being
 highlighted, which may be quite far from the relevant content change.
 
+## Novel Blank Lines
+
+Blank lines are challenging for syntactic diffs. We are comparing
+syntactic tokens, so we don't see blank lines.
+
+```
+// Before
+A
+B
+
+// After
+A
+
+B
+```
+
+Generally we want syntactic diffing to ignore blank lines. In this
+first example, this should show no changes.
+
+This is occasionally problematic, as it can hide accidental code
+reformatting.
+
+```
+// Before
+A
+B
+
+// After
+A
+X
+
+Y
+B
+```
+
+In this second example, we've inserted X and Y and a blank line. We
+want to highlight the blank line as an addition.
+
+```
+// Before
+A
+
+
+B
+
+// After
+A
+X
+B
+```
+
+In this third example, the syntactic diffing only sees an
+addition. From the user's perspective, there has also been a removal
+of two blank lines.
+
 ## Invalid Syntax
 
 There's no guarantee that the input we're given is valid syntax. Even
