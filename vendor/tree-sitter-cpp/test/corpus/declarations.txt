@@ -33,6 +33,45 @@ namespace A::B::inline C::D { }
     body: (declaration_list)))
 
 =========================================
+Namespace alias definitions
+=========================================
+
+namespace A = B;
+namespace C = ::D;
+namespace fs = std::filesystem;
+namespace bfs = ::boost::filesystem;
+namespace literals = std::chono::literals;
+
+---
+
+(translation_unit
+  (namespace_alias_definition
+    name: (identifier)
+    (identifier))
+  (namespace_alias_definition
+    name: (identifier)
+    (qualified_identifier
+      name: (identifier)))
+  (namespace_alias_definition
+    name: (identifier)
+    (qualified_identifier
+      scope: (namespace_identifier)
+      name: (identifier)))
+  (namespace_alias_definition
+    name: (identifier)
+    (qualified_identifier
+      name: (qualified_identifier
+        scope: (namespace_identifier)
+        name: (identifier))))
+  (namespace_alias_definition
+    name: (identifier)
+    (qualified_identifier
+      scope: (namespace_identifier)
+      name: (qualified_identifier
+        scope: (namespace_identifier)
+        name: (identifier)))))
+
+=========================================
 Using declarations
 =========================================
 
@@ -50,17 +89,18 @@ using a = typename b<T>::c;
 
 (translation_unit
   (using_declaration (identifier))
-  (using_declaration (scoped_identifier (identifier)))
-  (using_declaration (scoped_identifier (namespace_identifier) (identifier)))
+  (using_declaration (qualified_identifier (identifier)))
+  (using_declaration (qualified_identifier (namespace_identifier) (identifier)))
   (using_declaration
-    (scoped_identifier
-      (scoped_namespace_identifier
-        (scoped_namespace_identifier (namespace_identifier))
-        (namespace_identifier))
-      (identifier)))
+    (qualified_identifier
+      (qualified_identifier
+        (namespace_identifier)
+        (qualified_identifier
+            (namespace_identifier)
+            (identifier)))))
   (alias_declaration
     (type_identifier)
-    (type_descriptor (scoped_type_identifier (namespace_identifier) (type_identifier))))
+    (type_descriptor (qualified_identifier (namespace_identifier) (type_identifier))))
   (using_declaration (identifier))
   (template_declaration
     (template_parameter_list
@@ -69,7 +109,7 @@ using a = typename b<T>::c;
       (type_identifier)
       (type_descriptor
         (dependent_type
-          (scoped_type_identifier
+          (qualified_identifier
             (template_type (type_identifier) (template_argument_list (type_descriptor (type_identifier))))
             (type_identifier)))))))
 
@@ -207,6 +247,8 @@ class A {
   void b();
   virtual void foo() {}
   virtual void bar();
+  inline virtual void foo() override;
+  virtual inline void foo() final;
 };
 
 ---
@@ -233,7 +275,17 @@ class A {
         (primitive_type)
         (function_declarator
           (field_identifier)
-          (parameter_list))))))
+          (parameter_list)))
+      (field_declaration
+        (storage_class_specifier)
+        (virtual_function_specifier)
+        (primitive_type)
+        (function_declarator (field_identifier) (parameter_list) (virtual_specifier)))
+      (field_declaration
+        (virtual_function_specifier)
+        (storage_class_specifier)
+        (primitive_type)
+        (function_declarator (field_identifier) (parameter_list) (virtual_specifier))))))
 
 =========================================
 Constructor and destructor declarations
@@ -250,6 +302,7 @@ class C {
   [[deprecated]] C();
   template <typename T>
   C(T t);
+  C() : NS::Base<C>() {}
   ~C();
 };
 
@@ -269,6 +322,16 @@ class C {
       (function_declarator (identifier) (parameter_list)))
     (template_declaration (template_parameter_list (type_parameter_declaration (type_identifier)))
       (declaration (function_declarator (identifier) (parameter_list (parameter_declaration (type_identifier) (identifier))))))
+    (function_definition (function_declarator (identifier) (parameter_list))
+      (field_initializer_list
+        (field_initializer
+          (qualified_identifier
+            (namespace_identifier) 
+            (template_method
+              (field_identifier)
+              (template_argument_list (type_descriptor (type_identifier)))))
+          (argument_list)))
+      (compound_statement))
     (declaration (function_declarator (destructor_name (identifier)) (parameter_list))))))
 
 =========================================
@@ -291,7 +354,7 @@ class C : C::D, public E {
   (class_specifier
     (type_identifier)
     (base_class_clause
-      (scoped_type_identifier (namespace_identifier) (type_identifier))
+      (qualified_identifier (namespace_identifier) (type_identifier))
       (type_identifier))
     (field_declaration_list)))
 
@@ -421,6 +484,10 @@ inline int g();
 [[aaa]]
 int f() { }
 
+class [[gnu::visibility("default")]] A {};
+struct [[gnu::visibility("default")]] A {};
+union [[gnu::visibility("default")]] A {};
+
 ---
 
 (translation_unit
@@ -446,14 +513,27 @@ int f() { }
     (function_declarator (identifier) (parameter_list)))
   (function_definition
     (attribute_declaration (attribute (identifier)))
-    (primitive_type) (function_declarator (identifier) (parameter_list)) (compound_statement)))
+    (primitive_type) (function_declarator (identifier) (parameter_list)) (compound_statement))
+  (class_specifier
+    (attribute_declaration (attribute (identifier) (identifier) (argument_list (string_literal))))
+    (type_identifier)
+    (field_declaration_list))
+  (struct_specifier
+    (attribute_declaration (attribute (identifier) (identifier) (argument_list (string_literal))))
+    (type_identifier)
+    (field_declaration_list))
+  (union_specifier
+    (attribute_declaration (attribute (identifier) (identifier) (argument_list (string_literal))))
+    (type_identifier)
+    (field_declaration_list)))
 
 =========================================
 Operator overload declarations
 =========================================
 
 ostream &operator<<(ostream &, const A &a);
-
+Foo operator "" _foo(const char* s);
+std::string_view operator ""s_v(const char* s);
 bool A::operator!=(const A &other) const;
 
 bool A::operator ==(const A &other) const;
@@ -474,16 +554,28 @@ void * A::operator delete   [](void * p);
           (parameter_declaration (type_identifier) (abstract_reference_declarator))
           (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier)))))))
   (declaration
+    (type_identifier)
+    (function_declarator
+      (operator_name (identifier))
+      (parameter_list
+        (parameter_declaration (type_qualifier) (primitive_type) (pointer_declarator (identifier))))))
+  (declaration
+    (qualified_identifier (namespace_identifier) (type_identifier))
+    (function_declarator
+      (operator_name (identifier))
+      (parameter_list
+        (parameter_declaration (type_qualifier) (primitive_type) (pointer_declarator (identifier))))))
+  (declaration
     (primitive_type)
     (function_declarator
-      (scoped_identifier (namespace_identifier) (operator_name))
+      (qualified_identifier (namespace_identifier) (operator_name))
       (parameter_list
         (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier))))
       (type_qualifier)))
   (declaration
     (primitive_type)
     (function_declarator
-      (scoped_identifier (namespace_identifier) (operator_name))
+      (qualified_identifier (namespace_identifier) (operator_name))
       (parameter_list
         (parameter_declaration (type_qualifier) (type_identifier) (reference_declarator (identifier))))
       (type_qualifier)))
@@ -491,13 +583,13 @@ void * A::operator delete   [](void * p);
      (primitive_type)
      (pointer_declarator
        (function_declarator
-         (scoped_identifier (namespace_identifier) (operator_name))
+         (qualified_identifier (namespace_identifier) (operator_name))
          (parameter_list (parameter_declaration (primitive_type) (identifier))))))
    (declaration
      (primitive_type)
      (pointer_declarator
        (function_declarator
-         (scoped_identifier (namespace_identifier) (operator_name))
+         (qualified_identifier (namespace_identifier) (operator_name))
          (parameter_list (parameter_declaration (primitive_type) (pointer_declarator (identifier))))))))
 
 =========================================
@@ -551,7 +643,7 @@ void A<T>::foo(U&) {}
       (type_parameter_declaration (type_identifier)))
     (function_definition
       (function_declarator
-        (scoped_identifier
+        (qualified_identifier
           (template_type
             (type_identifier)
             (template_argument_list (type_descriptor (type_identifier))))
@@ -572,7 +664,7 @@ void A<T>::foo(U&) {}
       (function_definition
         (primitive_type)
         (function_declarator
-          (scoped_identifier
+          (qualified_identifier
             (template_type
               (type_identifier)
               (template_argument_list (type_descriptor (type_identifier))))
@@ -659,9 +751,11 @@ struct foo::bar<T> {};
   (template_declaration
     (template_parameter_list)
     (struct_specifier
-      (template_type
-        (scoped_type_identifier (namespace_identifier) (type_identifier))
-        (template_argument_list (type_descriptor (type_identifier))))
+      (qualified_identifier
+        (namespace_identifier)
+        (template_type
+          (type_identifier)
+          (template_argument_list (type_descriptor (type_identifier)))))
       (field_declaration_list))))
 
 ====================================================
@@ -732,12 +826,12 @@ class Y
     parameters: (template_parameter_list
       (optional_type_parameter_declaration
         name: (type_identifier)
-        default_type: (template_type
-          name: (scoped_type_identifier
-            namespace: (namespace_identifier)
-            name: (type_identifier))
-          arguments: (template_argument_list
-            (type_descriptor type: (primitive_type))))))
+        default_type: (qualified_identifier
+            scope: (namespace_identifier)
+            name: (template_type
+              name: (type_identifier)
+              arguments: (template_argument_list
+                (type_descriptor type: (primitive_type)))))))
     (class_specifier
       name: (type_identifier)
       body: (field_declaration_list)))
@@ -765,32 +859,32 @@ class X
     parameters: (template_parameter_list
       (type_parameter_declaration (type_identifier))
       (optional_parameter_declaration
-        type: (dependent_type (scoped_type_identifier
-          namespace: (template_type
-            name: (scoped_type_identifier
-              namespace: (namespace_identifier)
-              name: (type_identifier))
-            arguments: (template_argument_list
-              (binary_expression
-                left: (unary_expression
-                  argument: (compound_literal_expression
-                    type: (template_type
-                      name: (type_identifier)
-                      arguments: (template_argument_list (type_descriptor type: (type_identifier))))
-                    value: (initializer_list)))
-                right: (parenthesized_expression
-                  (binary_expression
-                    left: (compound_literal_expression
+        type: (dependent_type (qualified_identifier
+          scope: (namespace_identifier)
+          name:  (qualified_identifier
+            scope: (template_type
+              name: (type_identifier)
+              arguments: (template_argument_list
+                (binary_expression
+                  left: (unary_expression
+                    argument: (compound_literal_expression
                       type: (template_type
                         name: (type_identifier)
                         arguments: (template_argument_list (type_descriptor type: (type_identifier))))
-                      value: (initializer_list))
-                    right: (compound_literal_expression
-                      type: (template_type
-                        name: (type_identifier)
-                        arguments: (template_argument_list (type_descriptor type: (type_identifier))))
-                      value: (initializer_list)))))))
-          name: (type_identifier)))
+                      value: (initializer_list)))
+                  right: (parenthesized_expression
+                    (binary_expression
+                      left: (compound_literal_expression
+                        type: (template_type
+                          name: (type_identifier)
+                          arguments: (template_argument_list (type_descriptor type: (type_identifier))))
+                        value: (initializer_list))
+                      right: (compound_literal_expression
+                        type: (template_type
+                          name: (type_identifier)
+                          arguments: (template_argument_list (type_descriptor type: (type_identifier))))
+                        value: (initializer_list)))))))
+        name: (type_identifier))))
       default_value: (number_literal)))
     (class_specifier
       name: (type_identifier)
@@ -834,7 +928,7 @@ template A<int, bool>::A(char *, size_t);
 (translation_unit
   (template_instantiation
     (function_declarator
-      (scoped_identifier
+      (qualified_identifier
         (template_type
           (type_identifier)
           (template_argument_list
@@ -880,8 +974,8 @@ int main() {
           declarator: (reference_declarator
             (structured_binding_declarator (identifier) (identifier)))
           value: (call_expression
-            function: (scoped_identifier
-              namespace: (namespace_identifier)
+            function: (qualified_identifier
+              scope: (namespace_identifier)
               name: (identifier))
             arguments: (argument_list (identifier)))))
       (declaration
@@ -973,7 +1067,7 @@ class TT {
         (template_declaration
           (template_parameter_list
             (variadic_parameter_declaration
-              (scoped_type_identifier
+              (qualified_identifier
                 (namespace_identifier)
                 (type_identifier))
               (variadic_declarator)))
@@ -1004,8 +1098,8 @@ enum struct Foo : char { };
   (enum_specifier (type_identifier) (type_identifier) (enumerator_list))
   (enum_specifier (type_identifier) (sized_type_specifier (primitive_type)) (enumerator_list))
   (enum_specifier (enumerator_list (enumerator (identifier)) (enumerator (identifier))))
-  (enum_specifier (type_identifier) (scoped_type_identifier (namespace_identifier) (type_identifier)) (enumerator_list))
-  (enum_specifier (scoped_type_identifier (namespace_identifier) (type_identifier)) (scoped_type_identifier (namespace_identifier) (type_identifier)) (enumerator_list))
+  (enum_specifier (type_identifier) (qualified_identifier (namespace_identifier) (type_identifier)) (enumerator_list))
+  (enum_specifier (qualified_identifier (namespace_identifier) (type_identifier)) (qualified_identifier (namespace_identifier) (type_identifier)) (enumerator_list))
   (enum_specifier (type_identifier))
   (enum_specifier (type_identifier) (type_identifier) (enumerator_list)))
 
@@ -1037,15 +1131,14 @@ static_assert(true, R"FOO(string)FOO");
       (static_assert_declaration
         condition: (false))))
   (static_assert_declaration
-    condition: (scoped_identifier
-    namespace: (template_type
-      name: (scoped_type_identifier
-      namespace: (namespace_identifier)
-      name: (type_identifier))
-      arguments: (template_argument_list
-      (type_descriptor
-        type: (type_identifier))))
-    name: (identifier)))
+    condition: (qualified_identifier
+      scope: (namespace_identifier)
+      name: (qualified_identifier
+        scope: (template_type
+          name: (type_identifier)
+          arguments: (template_argument_list
+            (type_descriptor type: (type_identifier))))
+        name: (identifier))))
   (static_assert_declaration
     condition: (true)
     message: (concatenated_string (string_literal) (string_literal)))
@@ -1095,9 +1188,13 @@ operator T*();
     (virtual_function_specifier)
     (operator_cast (type_identifier) (abstract_function_declarator (parameter_list))) (number_literal))
   (declaration
-    (operator_cast
-      (scoped_namespace_identifier (namespace_identifier) (namespace_identifier))
-      (type_identifier) (abstract_function_declarator (parameter_list))))
+    (qualified_identifier
+      (namespace_identifier)
+      (qualified_identifier
+        (namespace_identifier)
+        (operator_cast
+          (type_identifier)
+          (abstract_function_declarator (parameter_list))))))
   (template_declaration
     (template_parameter_list (type_parameter_declaration (type_identifier)))
     (declaration (operator_cast
@@ -1106,6 +1203,68 @@ operator T*();
   (declaration
     (attribute_declaration (attribute (identifier)))
     (operator_cast (primitive_type) (abstract_pointer_declarator (abstract_function_declarator (parameter_list))))))
+
+=========================================
+Class scope cast operator overload declarations
+=========================================
+
+class A {
+  operator int() const {}
+  explicit operator int*() const;
+  operator arr_t*();
+  operator B&();
+  operator auto() const;
+  virtual operator A() = 0;
+  A::B::operator C();
+  template <typename T>
+  operator T*();
+  [[nodiscard]] operator char *();
+};
+
+---
+
+(translation_unit
+  (class_specifier (type_identifier) (field_declaration_list
+    (function_definition
+      (operator_cast
+        (primitive_type)
+        (abstract_function_declarator (parameter_list) (type_qualifier)))
+      (compound_statement))
+    (declaration
+      (explicit_function_specifier)
+      (operator_cast
+        (primitive_type)
+        (abstract_pointer_declarator (abstract_function_declarator (parameter_list) (type_qualifier)))))
+    (declaration
+      (operator_cast
+        (type_identifier)
+        (abstract_pointer_declarator (abstract_function_declarator (parameter_list)))))
+    (declaration (operator_cast
+      (type_identifier)
+      (abstract_reference_declarator (abstract_function_declarator (parameter_list)))))
+    (declaration
+      (operator_cast
+        (auto)
+        (abstract_function_declarator (parameter_list) (type_qualifier))))
+    (declaration
+      (virtual_function_specifier)
+      (operator_cast (type_identifier) (abstract_function_declarator (parameter_list))) (number_literal))
+    (declaration
+      (qualified_identifier
+        (namespace_identifier)
+        (qualified_identifier
+          (namespace_identifier)
+          (operator_cast
+            (type_identifier)
+            (abstract_function_declarator (parameter_list))))))
+    (template_declaration
+      (template_parameter_list (type_parameter_declaration (type_identifier)))
+      (declaration (operator_cast
+        (type_identifier)
+        (abstract_pointer_declarator (abstract_function_declarator (parameter_list))))))
+    (declaration
+      (attribute_declaration (attribute (identifier)))
+      (operator_cast (primitive_type) (abstract_pointer_declarator (abstract_function_declarator (parameter_list))))))))
 
 =========================
 Function declarations
@@ -1149,3 +1308,91 @@ thread_local int c;
   (declaration (storage_class_specifier) (primitive_type) (identifier))
   (declaration (storage_class_specifier) (primitive_type) (identifier))
   (declaration (storage_class_specifier) (primitive_type) (identifier)))
+
+=========================
+Ref-qualifiers
+=========================
+
+class C
+{
+  void f() &;
+  void f() && noexcept;
+  void f() & {}
+  void f() & noexcept {}
+};
+
+void C::f() &;
+void C::f() & noexcept;
+void C::f() && {}
+void C::f() & noexcept {}
+
+---
+
+(translation_unit
+  (class_specifier
+    (type_identifier)
+    (field_declaration_list
+      (field_declaration
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list)
+          (ref_qualifier)))
+      (field_declaration
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list)
+          (ref_qualifier)
+          (noexcept)))
+      (function_definition
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list)
+          (ref_qualifier))
+        (compound_statement))
+      (function_definition
+        (primitive_type)
+        (function_declarator
+          (field_identifier)
+          (parameter_list)
+          (ref_qualifier)
+          (noexcept))
+        (compound_statement))))
+  (declaration
+    (primitive_type)
+    (function_declarator
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
+      (parameter_list)
+      (ref_qualifier)))
+  (declaration
+    (primitive_type)
+    (function_declarator
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
+      (parameter_list)
+      (ref_qualifier)
+      (noexcept)))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
+      (parameter_list)
+      (ref_qualifier))
+    (compound_statement))
+  (function_definition
+    (primitive_type)
+    (function_declarator
+      (qualified_identifier
+        (namespace_identifier)
+        (identifier))
+      (parameter_list)
+      (ref_qualifier)
+      (noexcept))
+    (compound_statement)))

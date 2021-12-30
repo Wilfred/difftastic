@@ -11,13 +11,13 @@ int T::foo() const { return 0; }
   (function_definition
     (primitive_type)
     (function_declarator
-      (scoped_identifier (namespace_identifier) (identifier))
+      (qualified_identifier (namespace_identifier) (identifier))
       (parameter_list))
     (compound_statement (return_statement (number_literal))))
   (function_definition
     (primitive_type)
     (function_declarator
-      (scoped_identifier (namespace_identifier) (identifier))
+      (qualified_identifier (namespace_identifier) (identifier))
       (parameter_list)
       (type_qualifier))
     (compound_statement (return_statement (number_literal)))))
@@ -32,23 +32,36 @@ T::T() : f1(0), f2(1, 2) {
   puts("HI");
 }
 
+T::T() : Base<T>() {}
+
 ---
 
 (translation_unit
   (function_definition
     (function_declarator
-      (scoped_identifier (namespace_identifier) (identifier))
+      (qualified_identifier (namespace_identifier) (identifier))
       (parameter_list))
     (compound_statement))
   (function_definition
     (function_declarator
-      (scoped_identifier (namespace_identifier) (identifier))
+      (qualified_identifier (namespace_identifier) (identifier))
       (parameter_list))
     (field_initializer_list
       (field_initializer (field_identifier) (argument_list (number_literal)))
       (field_initializer (field_identifier) (argument_list (number_literal) (number_literal))))
     (compound_statement
-      (expression_statement (call_expression (identifier) (argument_list (string_literal)))))))
+      (expression_statement (call_expression (identifier) (argument_list (string_literal))))))
+  (function_definition
+    (function_declarator
+      (qualified_identifier (namespace_identifier) (identifier))
+      (parameter_list))
+    (field_initializer_list
+      (field_initializer
+        (template_method
+          (field_identifier)
+          (template_argument_list (type_descriptor (type_identifier))))
+        (argument_list)))
+    (compound_statement)))
 
 =====================================
 Explicit constructor definitions
@@ -160,5 +173,5 @@ T::~T() {}
     (compound_statement))
   (function_definition
     (function_declarator
-      (scoped_identifier (namespace_identifier) (destructor_name (identifier))) (parameter_list))
+      (qualified_identifier (namespace_identifier) (destructor_name (identifier))) (parameter_list))
     (compound_statement)))
