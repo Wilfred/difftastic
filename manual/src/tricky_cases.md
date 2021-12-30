@@ -210,6 +210,28 @@ The inner content has changed from `jumps * over` to `immediately *
 jumps over`. However, the `*` is decorative and we don't care that
 it's moved.
 
+## Autoformatter Punctuation
+
+```
+// Before
+foo("looooong", "also looooong");
+
+// Before
+foo(
+  "looooong",
+  "novel",
+  "also looooong",
+);
+```
+
+Autoformatters (e.g. [prettier](https://prettier.io/)) will sometimes
+add or remove punctuation when formatting. Commas and parentheses are
+the most common.
+
+Syntactic diffing can ignore whitespace changes, but it has to assume
+punctuation is meaningful. This can lead to punctuation changes being
+highlighted, which may be quite far from the relevant content change.
+
 ## Invalid Syntax
 
 There's no guarantee that the input we're given is valid syntax. Even
