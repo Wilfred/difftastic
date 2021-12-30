@@ -175,6 +175,24 @@ impl Widths {
     }
 }
 
+fn lines_with_novel(
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+) -> (HashSet<LineNumber>, HashSet<LineNumber>) {
+    let lhs_lines_with_novel: HashSet<LineNumber> = lhs_mps
+        .iter()
+        .filter(|mp| mp.kind.is_change())
+        .map(|mp| mp.pos.line)
+        .collect();
+    let rhs_lines_with_novel: HashSet<LineNumber> = rhs_mps
+        .iter()
+        .filter(|mp| mp.kind.is_change())
+        .map(|mp| mp.pos.line)
+        .collect();
+
+    (lhs_lines_with_novel, rhs_lines_with_novel)
+}
+
 pub fn display_hunks(
     hunks: &[Hunk],
     display_path: &str,
@@ -216,16 +234,7 @@ pub fn display_hunks(
     let lhs_colored_lines = split_lines_nonempty(&lhs_colored_src);
     let rhs_colored_lines = split_lines_nonempty(&rhs_colored_src);
 
-    let lhs_lines_with_novel: HashSet<LineNumber> = lhs_mps
-        .iter()
-        .filter(|mp| mp.kind.is_change())
-        .map(|mp| mp.pos.line)
-        .collect();
-    let rhs_lines_with_novel: HashSet<LineNumber> = rhs_mps
-        .iter()
-        .filter(|mp| mp.kind.is_change())
-        .map(|mp| mp.pos.line)
-        .collect();
+    let (lhs_lines_with_novel, rhs_lines_with_novel) = lines_with_novel(lhs_mps, rhs_mps);
 
     let mut prev_lhs_line_num = None;
     let mut prev_rhs_line_num = None;
