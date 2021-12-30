@@ -259,3 +259,53 @@ int b;
   (declaration (primitive_type) (identifier))
   (comment)
   (declaration (primitive_type) (identifier)))
+
+============================================
+Attributes
+============================================
+
+void f() {
+  [[a]] switch (b) {
+   [[c]] case 1: {}
+   case 2:
+     [[fallthrough]];
+   default:
+  }
+  [[a]] while (true) {}
+  [[a]] if (true) {}
+  [[a]] for (;;) {}
+  [[a]] return;
+  [[a]] a;
+  [[a]];
+  [[a]] label: {}
+  [[a]] goto label;
+}
+
+---
+
+(translation_unit
+  (function_definition (primitive_type)
+    (function_declarator (identifier) (parameter_list))
+      (compound_statement
+        (attributed_statement
+          (attribute_declaration (attribute (identifier)))
+          (switch_statement
+            (parenthesized_expression (identifier))
+            (compound_statement
+              (attributed_statement
+                (attribute_declaration (attribute (identifier)))
+                (case_statement (number_literal) (compound_statement)))
+              (case_statement (number_literal)
+                (attributed_statement
+                  (attribute_declaration (attribute (identifier)))
+                  (expression_statement)))
+              (case_statement))))
+        (attributed_statement (attribute_declaration (attribute (identifier))) (while_statement (parenthesized_expression (true)) (compound_statement)))
+        (attributed_statement (attribute_declaration (attribute (identifier))) (if_statement (parenthesized_expression (true)) (compound_statement)))
+        (attributed_statement (attribute_declaration (attribute (identifier))) (for_statement (compound_statement)))
+        (attributed_statement (attribute_declaration (attribute (identifier))) (return_statement))
+        (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement (identifier)))
+        (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement))
+        (attributed_statement (attribute_declaration (attribute (identifier))) (labeled_statement (statement_identifier) (compound_statement)))
+        (attributed_statement (attribute_declaration (attribute (identifier))) (goto_statement (statement_identifier))))))
+
