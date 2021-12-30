@@ -210,6 +210,32 @@ The inner content has changed from `jumps * over` to `immediately *
 jumps over`. However, the `*` is decorative and we don't care that
 it's moved.
 
+## Small Changes To Large Strings
+
+```
+// Before
+"""A very long string
+with lots of words about
+lots of stuff."""
+
+// After
+"""A very long string
+with lots of NOVEL words about
+lots of stuff."""
+```
+
+It would be correct to higlight the entire string literal as being
+removed and replaced with a new string literal. However, this makes it
+hard to see what's actually changed.
+
+It's clear that variable names should be treated atomically, and
+comments are safe to show subword changes. It's not clear how to
+handle a small change in a 20 line string literal.
+
+It's tempting to split strings on spaces and diff that, but users
+still want to know when whitespace changes inside strings. `" "` and
+`"  "` are not the same.
+
 ## Autoformatter Punctuation
 
 ```
