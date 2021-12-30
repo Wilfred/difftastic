@@ -87,15 +87,15 @@ fn display_line_nums(
     lhs_line_num: Option<LineNumber>,
     rhs_line_num: Option<LineNumber>,
     widths: &Widths,
-    lhs_lines_with_novel: &HashSet<LineNumber>,
-    rhs_lines_with_novel: &HashSet<LineNumber>,
+    lhs_has_novel: bool,
+    rhs_has_novel: bool,
     prev_lhs_line_num: Option<LineNumber>,
     prev_rhs_line_num: Option<LineNumber>,
 ) -> (String, String) {
     let display_lhs_line_num: String = match lhs_line_num {
         Some(line_num) => {
             let s = format_line_num_padded(line_num, widths.lhs_line_nums);
-            if lhs_lines_with_novel.contains(&line_num) {
+            if lhs_has_novel {
                 s.bright_red().to_string()
             } else {
                 s
@@ -109,7 +109,7 @@ fn display_line_nums(
     let display_rhs_line_num: String = match rhs_line_num {
         Some(line_num) => {
             let s = format_line_num_padded(line_num, widths.rhs_line_nums);
-            if rhs_lines_with_novel.contains(&line_num) {
+            if rhs_has_novel {
                 s.bright_green().to_string()
             } else {
                 s
@@ -217,6 +217,30 @@ fn highlight_positions(
     (lhs_styles, rhs_styles)
 }
 
+fn highlight_as_novel(
+    line_num: Option<LineNumber>,
+    lines: &[String],
+    opposite_line_num: Option<LineNumber>,
+    lines_with_novel: &HashSet<LineNumber>,
+) -> bool {
+    if let Some(line_num) = line_num {
+        // If this line contains any novel tokens, highlight it.
+        if lines_with_novel.contains(&line_num) {
+            return true;
+        }
+
+        let line_content = lines.get(line_num.0);
+        // If this is a blank line without a corresponding line on the
+        // other side, highlight it too. This helps highlight novel
+        // blank lines.
+        if line_content == Some(&"".into()) && opposite_line_num.is_none() {
+            return true;
+        }
+    }
+
+    false
+}
+
 pub fn display_hunks(
     hunks: &[Hunk],
     display_path: &str,
@@ -272,12 +296,25 @@ pub fn display_hunks(
 
         let widths = Widths::new(display_width(), &aligned_lines, lhs_src, rhs_src);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
+            let lhs_line_novel = highlight_as_novel(
+                lhs_line_num,
+                &lhs_lines,
+                rhs_line_num,
+                &lhs_lines_with_novel,
+            );
+            let rhs_line_novel = highlight_as_novel(
+                rhs_line_num,
+                &rhs_lines,
+                lhs_line_num,
+                &rhs_lines_with_novel,
+            );
+
             let (display_lhs_line_num, display_rhs_line_num) = display_line_nums(
                 lhs_line_num,
                 rhs_line_num,
                 &widths,
-                &lhs_lines_with_novel,
-                &rhs_lines_with_novel,
+                lhs_line_novel,
+                rhs_line_novel,
                 prev_lhs_line_num,
                 prev_rhs_line_num,
             );

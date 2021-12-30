@@ -7,6 +7,10 @@ parser](https://github.com/elixir-lang/tree-sitter-elixir).
 
 Fixed a parsing performance regression introduced in 0.13.
 
+### Display
+
+Improved highlighting heuristics for added/removed blank lines.
+
 ## 0.14 (released 27 December 2021)
 
 ### Parsing
