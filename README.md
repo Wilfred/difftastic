@@ -17,12 +17,12 @@ This is, presently, very much a work-in-progress.
   - [x] `external fn` statements
   - [x] `pub extenal fn` statements
   - [x] `pub external type` statements
+  - [x] `fn` statements
+  - [x] `pub fn` statements
 
 ## TODO
 
 - [ ] Parsing
-  - [ ] function statements
-  - [ ] public function statements
   - [ ] type statements
   - [ ] public opaque type statements
   - [ ] public type statements

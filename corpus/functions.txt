@@ -1,5 +1,5 @@
 =================
-Function Examples
+Function examples
 =================
 
 fn add(x: Int, y: Int) -> Int {
@@ -33,7 +33,7 @@ fn replace(
         type: (type)))
     return_type: (type)
     (function_body
-      (binop
+      (binary_expression
         (var)
         (var))))
   (function
@@ -51,11 +51,11 @@ fn replace(
     return_type: (type_var)
     (function_body
       (function_call
-        name: (identifier)
+        (var)
         (arguments
           (argument
             value: (function_call
-              name: (identifier)
+              (var)
               (arguments
                 (argument
                   value: (var)))))))))
@@ -83,8 +83,9 @@ fn replace(
         type: (type)))
     (function_body
       (function_call
-        module: (identifier)
-        name: (identifier)
+        (field_access
+          record: (var)
+          field: (identifier))
         (arguments
           (argument
             label: (identifier)
@@ -96,48 +97,107 @@ fn replace(
             label: (identifier)
             value: (var)))))))
 
-==========================
-Complex binary expressions
-==========================
+========================
+Public function examples
+========================
 
-fn complicated(x, y) {
-  x > y && x >= y || x + y |> fun() < x * y + 1
+pub fn add(x: Int, y: Int) -> Int {
+  x + y
+}
+pub fn twice(f: fn(t) -> t, x: t) -> t {
+  f(f(x))
+}
+pub fn inferred_identity(x) {
+  x
+}
+pub fn replace(
+  in string: String,
+  each pattern: String,
+  with replacement: String
+) {
+  string.replace(in: in, each: each, with: with)
 }
 
 ---
 
 (source_file
-  (function
+  (public_function
     name: (identifier)
     parameters: (function_parameters
       (function_parameter
-        name: (identifier))
+        name: (identifier)
+        type: (type))
+      (function_parameter
+        name: (identifier)
+        type: (type)))
+    return_type: (type)
+    (function_body
+      (binary_expression
+        (var)
+        (var))))
+  (public_function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)
+        type: (function_type
+          parameter_types: (function_parameter_types
+            (type_var))
+          return_type: (type_var)))
+      (function_parameter
+        name: (identifier)
+        type: (type_var)))
+    return_type: (type_var)
+    (function_body
+      (function_call
+        (var)
+        (arguments
+          (argument
+            value: (function_call
+              (var)
+              (arguments
+                (argument
+                  value: (var)))))))))
+  (public_function
+    name: (identifier)
+    parameters: (function_parameters
       (function_parameter
         name: (identifier)))
     (function_body
-      (binop
-        (binop
-          (binop
-            (var)
-            (var))
-          (binop
-            (var)
-            (var)))
-        (binop
-          (binop
-            (binop
-              (var)
-              (var))
-            (function_call
-              name: (identifier)))
-          (binop
-            (binop
-              (var)
-              (var))
-            (integer)))))))
+      (var)))
+  (public_function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        label: (identifier)
+        name: (identifier)
+        type: (type))
+      (function_parameter
+        label: (identifier)
+        name: (identifier)
+        type: (type))
+      (function_parameter
+        label: (identifier)
+        name: (identifier)
+        type: (type)))
+    (function_body
+      (function_call
+        (field_access
+          record: (var)
+          field: (identifier))
+        (arguments
+          (argument
+            label: (identifier)
+            value: (var))
+          (argument
+            label: (identifier)
+            value: (var))
+          (argument
+            label: (identifier)
+            value: (var)))))))
 
 ===============
-Basic Functions
+Basic functions
 ===============
 
 fn str() {
@@ -188,6 +248,32 @@ fn foob(x, y) {
     _else -> False
   }
 }
+fn assignment() {
+  let x = {
+    1 + 1
+    "Hello, World!"
+  }
+  let y = x
+  let #(x, _) = #(1, 2)
+}
+fn assertations() {
+  assert x = {
+    1 + 1
+    "Hello, World!"
+  }
+  assert y = x
+  assert #(x, _) = #(1, 2)
+}
+fn update(x) {
+  Cat(..x, name: "Nubi", cuteness: 1000 + 1001)
+  animals.Dog(..myfun(), name: "Rey", cuteness: 1950)
+}
+fn tuple_access(x) {
+  x.1
+}
+fn field_access(x) {
+  x.name
+}
 
 ---
 
@@ -233,7 +319,7 @@ fn foob(x, y) {
     name: (identifier)
     (function_body
       (function_call
-        name: (identifier))))
+        (var))))
   (function
     name: (identifier)
     (function_body
@@ -287,14 +373,14 @@ fn foob(x, y) {
             name: (identifier)
             type: (type)))
         (function_body
-          (binop
+          (binary_expression
             (var)
             (var))))))
   (function
     name: (identifier)
     (function_body
       (expression_group
-        (binop
+        (binary_expression
           (integer)
           (integer))
         (string))))
@@ -323,7 +409,95 @@ fn foob(x, y) {
           patterns: (case_clause_patterns
             (case_clause_pattern
               (discard_var)))
-          (record))))))
+          (record)))))
+  (function
+    name: (identifier)
+    (function_body
+      (let
+        pattern: (var)
+        value: (expression_group
+          (binary_expression
+            (integer)
+            (integer))
+          (string)))
+      (let
+        pattern: (var)
+        value: (var))
+      (let
+        pattern: (tuple_pattern
+          (var)
+          (discard_var))
+        value: (tuple
+          (integer)
+          (integer)))))
+  (function
+    name: (identifier)
+    (function_body
+      (assert
+        pattern: (var)
+        value: (expression_group
+          (binary_expression
+            (integer)
+            (integer))
+          (string)))
+      (assert
+        pattern: (var)
+        value: (var))
+      (assert
+        pattern: (tuple_pattern
+          (var)
+          (discard_var))
+        value: (tuple
+          (integer)
+          (integer)))))
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)))
+    (function_body
+      (record_update
+        constructor: (record)
+        spread: (var)
+        arguments: (record_update_arguments
+          (record_update_argument
+            label: (identifier)
+            value: (string))
+          (record_update_argument
+            label: (identifier)
+            value: (binary_expression
+              (integer)
+              (integer)))))
+      (record_update
+        constructor: (remote_record
+          module: (identifier))
+        spread: (function_call
+          (var))
+        arguments: (record_update_arguments
+          (record_update_argument
+            label: (identifier)
+            value: (string))
+          (record_update_argument
+            label: (identifier)
+            value: (integer))))))
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)))
+    (function_body
+      (tuple_access
+        tuple: (var)
+        index: (integer))))
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)))
+    (function_body
+      (field_access
+        record: (var)
+        field: (identifier)))))
 
 =====
 Cases
@@ -390,7 +564,7 @@ fn trial(x, y) {
                 (discard_var)
                 (var))))
           guard: (case_clause_guard
-            (binop
+            (binary_expression
               (tuple_access
                 tuple: (var)
                 index: (integer))
@@ -403,15 +577,15 @@ fn trial(x, y) {
                 (discard_var)
                 (var))))
           guard: (case_clause_guard
-            (binop
-              (binop
-                (binop
+            (binary_expression
+              (binary_expression
+                (binary_expression
                   (tuple_access
                     tuple: (var)
                     index: (integer))
                   (integer))
                 (integer))
-              (binop
+              (binary_expression
                 (tuple_access
                   tuple: (var)
                   index: (integer))
@@ -440,7 +614,7 @@ fn trial(x, y) {
             (integer)))))))
 
 ============
-Try Patterns
+Try patterns
 ============
 
 fn try_try_again(x, y) -> Int {
@@ -512,3 +686,193 @@ fn try_try_again(x, y) -> Int {
           (var)
           (var))
         value: (todo)))))
+
+==========================
+Complex binary expressions
+==========================
+
+fn complicated(x, y) {
+  x > y && x >= y || x + y |> fun() < x * y + 1
+}
+
+---
+
+(source_file
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier))
+      (function_parameter
+        name: (identifier)))
+    (function_body
+      (binary_expression
+        (binary_expression
+          (binary_expression
+            (var)
+            (var))
+          (binary_expression
+            (var)
+            (var)))
+        (binary_expression
+          (binary_expression
+            (binary_expression
+              (var)
+              (var))
+            (function_call
+              (var)))
+          (binary_expression
+            (binary_expression
+              (var)
+              (var))
+            (integer)))))))
+
+=========================================
+Complex nesting of field and tuple access
+=========================================
+
+fn complex_data_fun(x, y) {
+  y.barbaz.2.thing
+  x.1.qux.10
+  x.2.foobar.1("Hello", 1)
+  y.quux.2.quuz(12.34, "a")
+}
+
+---
+
+(source_file
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier))
+      (function_parameter
+        name: (identifier)))
+    (function_body
+      (field_access
+        record: (tuple_access
+          tuple: (field_access
+            record: (var)
+            field: (identifier))
+          index: (integer))
+        field: (identifier))
+      (tuple_access
+        tuple: (field_access
+          record: (tuple_access
+            tuple: (var)
+            index: (integer))
+          field: (identifier))
+        index: (integer))
+      (function_call
+        (tuple_access
+          tuple: (field_access
+            record: (tuple_access
+              tuple: (var)
+              index: (integer))
+            field: (identifier))
+          index: (integer))
+        (arguments
+          (argument
+            value: (string))
+          (argument
+            value: (integer))))
+      (function_call
+        (field_access
+          record: (tuple_access
+            tuple: (field_access
+              record: (var)
+              field: (identifier))
+            index: (integer))
+          field: (identifier))
+        (arguments
+          (argument
+            value: (float))
+          (argument
+            value: (string)))))))
+
+============================
+Unusual function invocations
+============================
+
+fn weird(x) {
+  x(name: "Nubi")
+  fn (x) { x + 1 }(3)
+  {
+    let fun = fn (x) { x + 1 }
+  }(3)
+  case 5 {
+    5 -> fn (x) { x + 1 }
+  }(3)
+  returns_fun(1)(5)
+}
+
+---
+
+(source_file
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)))
+    (function_body
+      (function_call
+        (var)
+        (arguments
+          (argument
+            label: (identifier)
+            value: (string))))
+      (function_call
+        (anonymous_function
+          parameters: (function_parameters
+            (function_parameter
+              name: (identifier)))
+          (function_body
+            (binary_expression
+              (var)
+              (integer))))
+        (arguments
+          (argument
+            value: (integer))))
+      (function_call
+        (expression_group
+          (let
+            pattern: (var)
+            value: (anonymous_function
+              parameters: (function_parameters
+                (function_parameter
+                  name: (identifier)))
+              (function_body
+                (binary_expression
+                  (var)
+                  (integer))))))
+        (arguments
+          (argument
+            value: (integer))))
+      (function_call
+        (case
+          subjects: (case_subjects
+            (integer))
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (integer)))
+            (anonymous_function
+              parameters: (function_parameters
+                (function_parameter
+                  name: (identifier)))
+              (function_body
+                (binary_expression
+                  (var)
+                  (integer))))))
+        (arguments
+          (argument
+            value: (integer))))
+      (function_call
+        (function_call
+          (var)
+          (arguments
+            (argument
+              value: (integer))))
+        (arguments
+          (argument
+            value: (integer)))))))

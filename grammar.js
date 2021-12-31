@@ -3,6 +3,12 @@ const NEWLINE = /\r?\n/;
 module.exports = grammar({
   name: "gleam",
   extras: ($) => [";", NEWLINE, /\s/],
+  conflicts: ($) => [
+    [$.record, $._record_update_record],
+    [$.record, $._record_update_remote_record],
+    [$.var, $.identifier],
+    [$._maybe_record_expression, $._maybe_tuple_expression],
+  ],
   rules: {
     /* General rules */
     source_file: ($) =>
@@ -21,8 +27,8 @@ module.exports = grammar({
         $.public_external_type,
         $.external_function,
         $.public_external_function,
-        $.function
-        /* $.public_function, */
+        $.function,
+        $.public_function
         /* $.type, */
         /* $.public_opaque_type, */
         /* $.public_type */
@@ -202,7 +208,8 @@ module.exports = grammar({
     external_function_body: ($) => seq($.string, $.string),
 
     /* Functions */
-    function: ($) =>
+    function: ($) => $._function,
+    _function: ($) =>
       seq(
         "fn",
         field("name", $.identifier),
@@ -261,8 +268,8 @@ module.exports = grammar({
         "=",
         field("value", $._expression)
       ),
-    _expression: ($) => choice($._expression_unit, $.binop),
-    binop: ($) =>
+    _expression: ($) => choice($._expression_unit, $.binary_expression),
+    binary_expression: ($) =>
       choice(
         prec.left(1, seq($._expression, "||", $._expression)),
         prec.left(2, seq($._expression, "&&", $._expression)),
@@ -289,62 +296,39 @@ module.exports = grammar({
       ),
     // The way that this function is written in the Gleam parser is essentially
     // incompatible with tree-sitter. It first parses some base expression,
-    // then potentially parses field access, record updates, or function calls
-    // as an extension of that base expression that was previously parsed.
-    // tree-sitter provides no facility to amend a node that was already
-    // successfully parsed.
-    //
-    // Also, I was surprised to learn that "." isn't treated as an operator by
-    // the parser. I believe that treating "." as a high-precedence,
-    // left-associative operator will allow me to chain together tuple
-    // accesses, field accesses, etc in the desirable fashion.
-    //
-    // Also, this new approach featuring explicit rules for tuple access, etc
-    // opens the door to more strict parser checks, e.g. ensuring we're not
-    // performing tuple access on an integer. It would be more work, though, so
-    // we'll see how I'm feeling tomorrow.
+    // then potentially parses tuple access, field access, record updates, or
+    // function calls as an extension of that base expression that was
+    // previously parsed. tree-sitter provides no facility to amend a node that
+    // was already successfully parsed. Therefore, tuple access, field access,
+    // record updates, and function calls must be parsed as alternatives to the
+    // expressions they build upon rather than extensions thereof.
     _expression_unit: ($) =>
       choice(
         $.string,
         $.integer,
         $.float,
+        // If we decide that record constructors (value constructors) are
+        // actually functions, this will require a refactor.
         $.record,
         $.remote_record,
         $.var,
-        $.function_call,
         $.todo,
         $.tuple,
         $.list,
         alias($._expression_bit_string, $.bit_string),
         $.anonymous_function,
         $.expression_group,
-        $.case
-        // TODO: Finish base expression parsing
-        // TODO: Consider "." a high-precedence, left-associative operator used
-        //       for tuple access, field access, constructor access, record
-        //       update, and function call.
-        //
-        // $.let,
-        // $.assert,
-        // $.tuple_access,
-        // $.field_access,
-        // $.record_update,
+        $.case,
+        $.let,
+        $.assert,
+        $.record_update,
+        $.tuple_access,
+        $.field_access,
+        $.function_call
       ),
     record: ($) =>
       seq($._upname, optional(seq("(", optional($.arguments), ")"))),
     remote_record: ($) => seq(field("module", $.identifier), ".", $.record),
-    function_call: ($) =>
-      seq(
-        optional(seq(field("module", $.identifier), ".")),
-        field("name", $.identifier),
-        seq("(", optional($.arguments), ")")
-      ),
-    arguments: ($) => series_of($.argument, ","),
-    argument: ($) =>
-      seq(
-        optional(seq(field("label", $.identifier), ":")),
-        field("value", choice(alias($.discard_var, $.hole), $._expression))
-      ),
     todo: ($) =>
       seq("todo", optional(seq("(", field("message", $.string), ")"))),
     tuple: ($) => seq("#", "(", optional(series_of($._expression, ",")), ")"),
@@ -394,9 +378,9 @@ module.exports = grammar({
     _case_clause_guard_expression: ($) =>
       choice(
         $._case_clause_guard_unit,
-        alias($._case_clause_guard_binop, $.binop)
+        alias($._case_clause_guard_binary_expression, $.binary_expression)
       ),
-    _case_clause_guard_binop: ($) =>
+    _case_clause_guard_binary_expression: ($) =>
       choice(
         prec.left(
           1,
@@ -510,6 +494,107 @@ module.exports = grammar({
         ".",
         field("index", $.integer)
       ),
+    let: ($) => seq("let", $._assignment),
+    assert: ($) => seq("assert", $._assignment),
+    _assignment: ($) =>
+      seq(
+        field("pattern", $._pattern),
+        optional($._type_annotation),
+        "=",
+        field("value", $._expression)
+      ),
+    record_update: ($) =>
+      seq(
+        field(
+          "constructor",
+          choice(
+            alias($._record_update_record, $.record),
+            alias($._record_update_remote_record, $.remote_record)
+          )
+        ),
+        "(",
+        "..",
+        field("spread", $._expression),
+        ",",
+        field("arguments", $.record_update_arguments),
+        ")"
+      ),
+    _record_update_record: ($) => $._upname,
+    _record_update_remote_record: ($) =>
+      seq(field("module", $.identifier), ".", $._upname),
+    record_update_arguments: ($) => series_of($.record_update_argument, ","),
+    record_update_argument: ($) =>
+      seq(field("label", $.identifier), ":", field("value", $._expression)),
+    // As with other AST nodes in this section, `_maybe_record_expression`,
+    // `_maybe_tuple_expression`, and `_maybe_function_expresssion` have no
+    // corollaries in the Gleam parser. These anonymous AST node denote any
+    // expression whose return type could be a record, tuple, or function,
+    // respectively.
+    //
+    // `let` and `assert` are exempted because in order to parse correctly,
+    // they would have to be wrapped in an expression group anyways.
+    _maybe_tuple_expression: ($) =>
+      choice(
+        $.var,
+        $.function_call,
+        $.tuple,
+        $.expression_group,
+        $.case,
+        $.field_access,
+        $.tuple_access
+      ),
+    tuple_access: ($) =>
+      prec.left(
+        seq(
+          field("tuple", $._maybe_tuple_expression),
+          ".",
+          field("index", $.integer)
+        )
+      ),
+    _maybe_record_expression: ($) =>
+      choice(
+        $.record,
+        $.remote_record,
+        $.var,
+        $.function_call,
+        $.expression_group,
+        $.case,
+        $.record_update,
+        $.field_access,
+        $.tuple_access
+      ),
+    field_access: ($) =>
+      prec.left(
+        seq(
+          field("record", $._maybe_record_expression),
+          ".",
+          field("field", $.identifier)
+        )
+      ),
+    // Local functions will be denoted as "var". There's certainly an academic
+    // debate to be had as to whether local functions _are_ variables, but
+    // from syntax alone it is impossible to know whether a given identifier is
+    // a variable or a function.
+    // For similar reasons, remote functions (e.g. int.to_string) is parsed as
+    // a field access (accessing field to_string on record int).
+    _maybe_function_expression: ($) =>
+      choice(
+        $.var,
+        $.anonymous_function,
+        $.expression_group,
+        $.case,
+        $.tuple_access,
+        $.field_access,
+        $.function_call
+      ),
+    arguments: ($) => series_of($.argument, ","),
+    argument: ($) =>
+      seq(
+        optional(seq(field("label", $.identifier), ":")),
+        field("value", choice(alias($.discard_var, $.hole), $._expression))
+      ),
+    function_call: ($) =>
+      seq($._maybe_function_expression, seq("(", optional($.arguments), ")")),
     _pattern: ($) =>
       seq(
         choice(
@@ -567,6 +652,9 @@ module.exports = grammar({
         "]"
       ),
     list_pattern_tail: ($) => seq("..", choice($.var, $.discard_var)),
+
+    /* Public functions */
+    public_function: ($) => seq("pub", $._function),
 
     /* Literals */
     string: ($) => /\"(?:\\[efnrt\"\\]|[^\"])*\"/,
@@ -646,6 +734,8 @@ module.exports = grammar({
   },
 });
 
+// This function and the following function are vaguely congruent with the
+// `parse_bit_string_segment` function of the Gleam parser.
 function bit_string_rules(name, value_parser, arg_parser) {
   return {
     [`_${name}_bit_string`]: ($) =>
