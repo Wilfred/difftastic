@@ -3,4 +3,3 @@ RxSwift/RxExample/RxExample/Examples/GitHubSearchRepositories/GitHubSearchReposi
 RxSwift/Rx.playground/Pages/Transforming_Operators.xcplaygroundpage/Contents.swift
 SwiftLint/Source/SwiftLintFramework/Extensions/String+SwiftLint.swift
 GRDB/GRDB/Core/Row.swift
-GRDB/GRDB/Core/Statement.swift

@@ -1399,8 +1399,12 @@ module.exports = grammar({
         $._type
       ),
 
+    _class_member_separator: ($) => choice($._semi, $.multiline_comment),
     _class_member_declarations: ($) =>
-      seq(sep1($._type_level_declaration, $._semi), optional($._semi)),
+      seq(
+        sep1($._type_level_declaration, $._class_member_separator),
+        optional($._class_member_separator)
+      ),
 
     _function_value_parameters: ($) =>
       seq("(", optional(sep1($._function_value_parameter, ",")), ")"),
