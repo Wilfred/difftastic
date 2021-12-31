@@ -229,12 +229,11 @@ fn highlight_as_novel(
             return true;
         }
 
-        let line_content = lines.get(line_num.0);
+        let line_content = lines.get(line_num.0).map(|s| str::trim(s));
         // If this is a blank line without a corresponding line on the
         // other side, highlight it too. This helps highlight novel
         // blank lines.
-        // TODO: consider whitespace-only lines here too.
-        if line_content == Some(&"".into()) && opposite_line_num.is_none() {
+        if line_content == Some("") && opposite_line_num.is_none() {
             return true;
         }
     }
