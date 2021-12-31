@@ -1,13 +1,7 @@
 # experimental-tree-sitter-swift
 
 This contains an experimental [`tree-sitter`](https://tree-sitter.github.io/tree-sitter) grammar for the Swift
-programming language. The grammar can generate a parser that is able to parse most basic Swift code.
-
-There are some known correctness issues in code that the generated parser claims to successfully parse, which are found
-under the label [ast-incorrect](https://github.com/alex-pinkus/experimental-tree-sitter-swift/labels/ast-incorrect). The
-parser was built with a priority on _generating an AST without errors_, with the correctness of the syntax tree taking
-second priority. If you'd like to use it for your use cases, and the correctness issues prevent you from doing so, pull
-requests are welcomed.
+programming language.
 
 ## Getting started
 
