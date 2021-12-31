@@ -34,3 +34,8 @@ firefox-ios mozilla-mobile/firefox-ios v39.0 3 6
 firefox-ios mozilla-mobile/firefox-ios v39.0 4 6
 firefox-ios mozilla-mobile/firefox-ios v39.0 5 6
 AudioKit AudioKit/AudioKit 5.3.0
+Starscream daltoniam/Starscream 4.0.4
+MessageKit MessageKit/MessageKit 3.7.0
+Swinject Swinject/Swinject 2.8.1
+GRDB groue/GRDB.swift v5.17.0 0 2
+GRDB groue/GRDB.swift v5.17.0 1 2
