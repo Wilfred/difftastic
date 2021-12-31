@@ -364,6 +364,48 @@ class SomethingElse: ThingProvider {
                             (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
                         (control_transfer_statement (simple_identifier)))))
             (function_declaration (simple_identifier) (function_body)))))
+
+===
+Class declaration without any newlines
+===
+
+class Dog { let noise: String = "bark" }
+class Cat { let noise: String = "meow"; let claws: String = "retractable" }
+
+---
+
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (line_string_literal))))
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (line_string_literal))
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (line_string_literal)))))
+
 ===
 Protocol composition types
 ===
