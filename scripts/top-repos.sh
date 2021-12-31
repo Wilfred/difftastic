@@ -3,35 +3,16 @@
 set -e
 
 parser_dir="$(pwd)"
-known_failures="$parser_dir/script-data/known_failures.txt"
+
+. $parser_dir/scripts/common.sh
+
 if [ -z "$1" ]; then
-  repos=$(cat $parser_dir/script-data/top-repositories.txt)
+  repos=$(cat $top_repositories)
   echo "Running on all top repositories."
 else
-  repos=$(sed "$1q;d" $parser_dir/script-data/top-repositories.txt)
+  repos=$(sed "$1q;d" $top_repositories)
   echo "Running on single repository $repos."
 fi
-
-# Run all this logic in a temporary directory that we delete on exit
-tmpdir="$(mktemp -d -t top-10-XXXXXX)"
-trap 'rm -rf "$tmpdir"' EXIT
-
-# Function to check out a git repository at a given tag.
-#
-# We use tags so that the source code is deterministic - tags are immutable and reasonable people
-# don't delete and recreate them. The tree-sitter-python script this is based on uses raw SHA hashes
-# for this, but that would require us to checkout the code at HEAD first and switch to the code at
-# the given hash. Using tags means we can do this in one command and include `--depth 1` to reduce
-# the number of extra objects we have to fetch.
-function checkout() {
-  repo=$1; url=$2; tag=$3
-
-  if [ ! -d "$repo" ]; then
-    git clone --quiet --branch $tag --depth 1 "https://github.com/$url" "$repo" >/dev/null 2>/dev/null
-
-    echo "Cloned repository into $(pwd)/$repo"
-  fi
-}
 
 # Function to validate that a passed-in git repository can be parsed using this parser.
 #
@@ -50,7 +31,7 @@ function validate() {
 
   # Find the start and end of this section based on the passed-in `part` and `total`.
   all_files=$data_dir/all_files.txt
-  find "$tmpdir/$repo" -name *.swift -not -path '*/Pods/*' > $all_files
+  swift_files_under "$tmpdir/$repo" > $all_files
   file_count=$(wc -l < $all_files | tr -d ' ')
 
   one_past_the_end=$((file_count + 1))
@@ -98,6 +79,7 @@ fi
 while read line ; do
     cd $tmpdir
     checkout $line
+
     cd $parser_dir
     if [ -z "$1" ]; then
         validate $line &
