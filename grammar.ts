@@ -48,7 +48,15 @@ const EXPRESSION_PREC_LIST = [
     "expr",
     "ty",
   ],
-  ["call", "ternary", "try", "call_suffix", "range_suffix", "ternary_suffix"],
+  [
+    "call",
+    "ternary",
+    "try",
+    "call_suffix",
+    "range_suffix",
+    "ternary_suffix",
+    "await",
+  ],
   ["assignment", "comment", "lambda"],
 ] as const;
 
@@ -140,6 +148,10 @@ module.exports = grammar({
     [$.try_expression, $._unary_expression],
     [$.try_expression, $._expression],
 
+    // await {expression} has the same special cases as `try`.
+    [$.await_expression, $._unary_expression],
+    [$.await_expression, $._expression],
+
     // In a computed property, when you see an @attribute, it's not yet clear if that's going to be for a
     // locally-declared class or a getter / setter specifier.
     [
@@ -209,6 +221,7 @@ module.exports = grammar({
     $._as,
     $._as_quest,
     $._as_bang,
+    $.async_modifier,
   ],
 
   rules: {
@@ -397,6 +410,7 @@ module.exports = grammar({
     function_type: ($) =>
       seq(
         $.tuple_type,
+        optional($.async_modifier),
         optional($.throws_modifier),
         $._arrow_operator,
         $._type
@@ -679,6 +693,22 @@ module.exports = grammar({
         )
       ),
 
+    await_expression: ($) =>
+      prec.right(
+        PRECS.await,
+        seq(
+          $._await_operator,
+          choice(
+            // Prefer direct calls over indirect (same as with `try`).
+            prec.right(-2, $._expression),
+            prec.left(0, $.call_expression),
+            // Special case ternary to `await` the whole thing (same as with `try`).
+            prec.dynamic(1, prec.left(-1, $.ternary_expression))
+          )
+        )
+      ),
+    _await_operator: ($) => "await",
+
     ternary_expression: ($) =>
       prec.right(
         PRECS.ternary,
@@ -719,6 +749,7 @@ module.exports = grammar({
         $.self_expression,
         $.super_expression,
         $.try_expression,
+        $.await_expression,
         $._referenceable_operator,
         $.key_path_expression,
         $.key_path_string_expression,
@@ -808,6 +839,7 @@ module.exports = grammar({
             $.lambda_function_type_parameters,
             seq("(", optional($.lambda_function_type_parameters), ")")
           ),
+          optional($.async_modifier),
           optional($.throws_modifier),
           optional(
             seq($._arrow_operator, $._possibly_implicitly_unwrapped_type)
@@ -1036,6 +1068,8 @@ module.exports = grammar({
         PRECS.loop,
         seq(
           "for",
+          optional($._try_operator),
+          optional($._await_operator),
           generate_pattern_matching_rule($, true, true, false),
           optional($.type_annotation),
           "in",
@@ -1269,6 +1303,7 @@ module.exports = grammar({
           ),
           optional($.type_parameters),
           $._function_value_parameters,
+          optional($.async_modifier),
           optional($.throws_modifier),
           optional(
             seq($._arrow_operator, $._possibly_implicitly_unwrapped_type)

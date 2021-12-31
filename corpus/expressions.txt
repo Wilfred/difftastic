@@ -803,3 +803,79 @@ try foo() ? 1 : 0
       (call_expression (simple_identifier) (call_suffix (value_arguments)))
       (integer_literal)
       (integer_literal))))
+
+===
+Simple await
+===
+
+await foo()
+
+---
+
+(source_file
+  (await_expression
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments)))))
+
+===
+try await
+===
+
+try await foo()
+await try foo()
+
+---
+
+(source_file
+  (try_expression
+    (await_expression
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments)))))
+  (await_expression
+    (try_expression
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments))))))
+
+
+===
+Await and ternary
+===
+
+await foo() ? 1 : 0
+
+---
+
+(source_file
+  (await_expression
+    (ternary_expression
+      (call_expression (simple_identifier) (call_suffix (value_arguments)))
+      (integer_literal)
+      (integer_literal))))
+
+===
+for try await
+===
+
+for try await value in values {
+    print(value)
+}
+
+---
+
+(source_file
+  (for_statement
+    (simple_identifier)
+    (simple_identifier)
+    (statements
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments
+            (value_argument
+              (simple_identifier))))))))

@@ -26,10 +26,11 @@ enum TokenType {
     CATCH_KEYWORD,
     AS_KEYWORD,
     AS_QUEST,
-    AS_BANG
+    AS_BANG,
+    ASYNC_KEYWORD
 };
 
-#define CROSS_SEMI_OPERATOR_COUNT 20
+#define CROSS_SEMI_OPERATOR_COUNT 21
 
 const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "->",
@@ -51,7 +52,8 @@ const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "catch",
     "as",
     "as?",
-    "as!"
+    "as!",
+    "async"
 };
 
 enum IllegalTerminatorGroup {
@@ -81,7 +83,8 @@ const enum IllegalTerminatorGroup CROSS_SEMI_ILLEGAL_TERMINATORS[CROSS_SEMI_OPER
     ALPHANUMERIC,     // catch
     ALPHANUMERIC,     // as
     OPERATOR_SYMBOLS, // as?
-    OPERATOR_SYMBOLS  // as!
+    OPERATOR_SYMBOLS, // as!
+    ALPHANUMERIC      // async
 };
 
 const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
@@ -104,7 +107,8 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     CATCH_KEYWORD,
     AS_KEYWORD,
     AS_QUEST,
-    AS_BANG
+    AS_BANG,
+    ASYNC_KEYWORD
 };
 
 #define NON_CONSUMING_CROSS_SEMI_CHAR_COUNT 3

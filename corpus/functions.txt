@@ -307,6 +307,35 @@ func iCanDoBetter()
                 (control_transfer_statement (prefix_expression (integer_literal)))))))
 
 
+==================
+Async functions
+==================
+
+func eventually() async -> Int { return -1 }
+func maybe()
+    async
+    throws
+    -> Int { return -2 }
+
+---
+
+(source_file
+    (function_declaration
+        (simple_identifier)
+                (async_modifier)
+        (user_type (type_identifier))
+        (function_body
+            (statements
+                (control_transfer_statement (prefix_expression (integer_literal))))))
+    (function_declaration
+        (simple_identifier)
+        (async_modifier)
+        (throws_modifier)
+        (user_type (type_identifier))
+        (function_body
+            (statements
+                (control_transfer_statement (prefix_expression (integer_literal)))))))
+
 
 ==================
 Higher-order functions - pt 1
