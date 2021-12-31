@@ -198,6 +198,10 @@ public func ??<V : Value>(optional: Expression<V?>, defaultValue: V) -> Expressi
     return Expression(optional.inner() ?? defaultValue)
 }
 
+public prefix func ! (value: Wrapped<F>) -> Bool {
+    return false
+}
+
 ---
 
 (source_file
@@ -236,7 +240,20 @@ public func ??<V : Value>(optional: Expression<V?>, defaultValue: V) -> Expressi
                                                 (simple_identifier)
                                                 (navigation_suffix (simple_identifier)))
                                             (call_suffix (value_arguments)))
-                                        (simple_identifier)))))))))))
+                                        (simple_identifier))))))))))
+      (function_declaration
+        (modifiers (visibility_modifier) (function_modifier))
+        (parameter
+          (simple_identifier)
+          (user_type
+            (type_identifier)
+            (type_arguments (user_type (type_identifier)))))
+        (user_type (type_identifier))
+        (function_body
+          (statements
+            (control_transfer_statement
+              (boolean_literal))))))
+
 
 ==================
 Custom operators

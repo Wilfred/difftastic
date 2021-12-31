@@ -1442,7 +1442,11 @@ module.exports = grammar({
         $._additive_operator,
         $._multiplicative_operator,
         $._equality_operator,
-        $._comparison_operator
+        $._comparison_operator,
+        "++",
+        "--",
+        "!",
+        "~"
       ),
 
     throws_modifier: ($) => choice($._throws_keyword, $._rethrows_keyword),
