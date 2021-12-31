@@ -64,6 +64,20 @@ Multiline
     (line_string_literal) (multi_line_string_literal) (comment))
 
 ==================
+Custom interpolation
+==================
+"Hi, I'm \(format: age)"
+
+---
+
+(source_file
+  (line_string_literal
+    (interpolated_expression
+      (simple_identifier)
+      (simple_identifier))))
+
+
+==================
 Strings with newline escaping
 ==================
 
@@ -233,11 +247,13 @@ extension URL {
                 (raw_str_part)
                 (raw_str_interpolation
                     (raw_str_interpolation_start)
-                    (simple_identifier))
+                    (interpolated_expression
+                        (simple_identifier)))
                 (raw_str_part)
                 (raw_str_interpolation
                     (raw_str_interpolation_start)
-                    (simple_identifier))
+                    (interpolated_expression
+                        (simple_identifier)))
                 (raw_str_end_part)))))))))
 
 ==================
@@ -262,7 +278,8 @@ let _ = ##"\##(a)\#(b)\##(c)\#(d)"# ##"##
             (raw_str_part)
             (raw_str_interpolation
                 (raw_str_interpolation_start)
-                (simple_identifier)
+                (interpolated_expression
+                    (simple_identifier))
                 (multiline_comment))
             (raw_str_end_part))))))
   (property_declaration
@@ -273,7 +290,8 @@ let _ = ##"\##(a)\#(b)\##(c)\#(d)"# ##"##
       (raw_str_part)
       (raw_str_interpolation
           (raw_str_interpolation_start)
-          (simple_identifier))
+          (interpolated_expression
+              (simple_identifier)))
       (raw_str_end_part)))
   (property_declaration
     (value_binding_pattern
@@ -289,11 +307,13 @@ let _ = ##"\##(a)\#(b)\##(c)\#(d)"# ##"##
       (raw_str_part)
       (raw_str_interpolation
           (raw_str_interpolation_start)
-          (simple_identifier))
+          (interpolated_expression
+              (simple_identifier)))
       (raw_str_part)
       (raw_str_interpolation
           (raw_str_interpolation_start)
-          (simple_identifier))
+          (interpolated_expression
+              (simple_identifier)))
       (raw_str_end_part))))
 
 ===

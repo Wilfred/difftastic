@@ -317,15 +317,17 @@ module.exports = grammar({
       ),
 
     raw_str_interpolation: ($) =>
-      seq($.raw_str_interpolation_start, $._expression, ")"),
+      seq($.raw_str_interpolation_start, $._interpolation_contents, ")"),
 
     raw_str_interpolation_start: ($) => /\\#*\(/,
 
     _multi_line_string_content: ($) =>
       choice($._multi_line_str_text, $._escaped_identifier, '"'),
 
-    _interpolation: ($) =>
-      seq("\\(", alias($._expression, $.interpolated_expression), ")"),
+    _interpolation: ($) => seq("\\(", $._interpolation_contents, ")"),
+
+    _interpolation_contents: ($) =>
+      sep1(alias($.value_argument, $.interpolated_expression), ","),
 
     _escaped_identifier: ($) => /\\[0\\tnr"'\n]/,
 
