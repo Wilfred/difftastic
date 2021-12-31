@@ -1048,3 +1048,24 @@ public var someVar: String {
         (getter_specifier)
         (statements
             (line_string_literal))))))
+
+===
+Annotations on inheritance
+===
+
+extension TrustMe: @unchecked Sendable { }
+
+---
+
+(source_file
+  (class_declaration
+    (identifier
+      (simple_identifier))
+    (attribute
+      (user_type
+        (type_identifier)))
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body)))
+

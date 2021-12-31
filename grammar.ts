@@ -1360,7 +1360,7 @@ module.exports = grammar({
     class_body: ($) => seq("{", optional($._class_member_declarations), "}"),
 
     _inheritance_specifiers: ($) =>
-      prec.left(sep1($.inheritance_specifier, choice(",", "&"))),
+      prec.left(sep1($._annotated_inheritance_specifier, choice(",", "&"))),
 
     inheritance_specifier: ($) =>
       prec.left(choice($.user_type, $.function_type)),
