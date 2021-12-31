@@ -163,6 +163,14 @@ module.exports = grammar({
       $.computed_modify,
       $.computed_setter,
     ],
+    // In a lambda literal's capture list, same problem with class attributes vs capture specifier attributes.
+    [
+      $.capture_list,
+      $._local_property_declaration,
+      $._local_typealias_declaration,
+      $._local_function_declaration,
+      $._local_class_declaration,
+    ],
   ],
 
   extras: ($) => [
@@ -816,7 +824,8 @@ module.exports = grammar({
         )
       ),
 
-    capture_list: ($) => seq("[", sep1($._capture_list_item, ","), "]"),
+    capture_list: ($) =>
+      seq(repeat($.attribute), "[", sep1($._capture_list_item, ","), "]"),
 
     _capture_list_item: ($) =>
       choice(
