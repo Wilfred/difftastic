@@ -22,3 +22,19 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: ./scripts/top-repos.sh ${{matrix.repo}}
+  badge_gen:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - id: parse_rate
+        run: echo "##[set-output name=parse_rate;]$(./scripts/calculate-parse-rate.sh)"
+      - name: BYOB
+        if: ${{ github.event_name == 'push' }}
+        uses: RubbaBoy/BYOB@v1.3.0
+        with:
+            NAME: parse_rate
+            LABEL: 'Parse rate'
+            STATUS: ${{ steps.parse_rate.outputs.parse_rate }}
+            COLOR: blue
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

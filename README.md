@@ -1,3 +1,5 @@
+![Parse rate badge](https://byob.yarr.is/alex-pinkus/experimental-tree-sitter-swift/parse_rate)
+
 # experimental-tree-sitter-swift
 
 This contains an experimental [`tree-sitter`](https://tree-sitter.github.io/tree-sitter) grammar for the Swift
