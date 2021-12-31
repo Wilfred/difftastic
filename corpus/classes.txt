@@ -960,3 +960,91 @@ let result = greet("me") as P1 & P2
         (type_identifier))
       (user_type
         (type_identifier)))))
+===
+Modify declarations
+===
+public final class Foo {
+    private var inner: T
+
+    public var wrappedValue: T {
+        get {
+            return value
+        }
+        _modify {
+            yield &value
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (visibility_modifier)
+      (inheritance_modifier))
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (modifiers
+          (visibility_modifier))
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (property_declaration
+        (modifiers
+          (visibility_modifier))
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (computed_getter
+            (getter_specifier)
+            (statements
+              (control_transfer_statement
+                (simple_identifier))))
+          (computed_modify
+            (modify_specifier)
+            (statements
+              (control_transfer_statement
+                (prefix_expression
+                  (simple_identifier))))))))))
+
+===
+Attributes on computed property declarations
+===
+
+public var someVar: String {
+    @inline(__always)
+    get {
+        "Hello"
+    }
+}
+
+---
+
+(source_file
+  (property_declaration
+    (modifiers
+      (visibility_modifier))
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (type_annotation
+      (user_type
+        (type_identifier)))
+    (computed_property
+      (computed_getter
+        (attribute
+          (user_type
+            (type_identifier))
+          (simple_identifier))
+        (getter_specifier)
+        (statements
+            (line_string_literal))))))

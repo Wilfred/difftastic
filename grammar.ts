@@ -139,6 +139,18 @@ module.exports = grammar({
     // all the options and pick the best one that doesn't error out.
     [$.try_expression, $._unary_expression],
     [$.try_expression, $._expression],
+
+    // In a computed property, when you see an @attribute, it's not yet clear if that's going to be for a
+    // locally-declared class or a getter / setter specifier.
+    [
+      $._local_property_declaration,
+      $._local_typealias_declaration,
+      $._local_function_declaration,
+      $._local_class_declaration,
+      $.computed_getter,
+      $.computed_modify,
+      $.computed_setter,
+    ],
   ],
 
   extras: ($) => [
@@ -1057,14 +1069,15 @@ module.exports = grammar({
         prec.right(PRECS.control_transfer, $._throw_statement),
         prec.right(
           PRECS.control_transfer,
-          seq($._return_continue_break, optional($._expression))
+          seq($._optionally_valueful_control_keyword, optional($._expression))
         )
       ),
 
     _throw_statement: ($) => seq($.throw_keyword, $._expression),
     throw_keyword: ($) => "throw",
 
-    _return_continue_break: ($) => choice("return", "continue", "break"),
+    _optionally_valueful_control_keyword: ($) =>
+      choice("return", "continue", "break", "yield"),
 
     assignment: ($) =>
       prec.left(
@@ -1471,7 +1484,9 @@ module.exports = grammar({
           "{",
           choice(
             optional($.statements),
-            repeat(choice($.computed_getter, $.computed_setter))
+            repeat(
+              choice($.computed_getter, $.computed_setter, $.computed_modify)
+            )
           ),
           "}"
         )
@@ -1482,15 +1497,21 @@ module.exports = grammar({
         "{",
         choice(
           optional($.statements),
-          repeat(choice($.computed_getter, $.computed_setter))
+          repeat(
+            choice($.computed_getter, $.computed_setter, $.computed_modify)
+          )
         ),
         "}"
       ),
 
-    computed_getter: ($) => seq($.getter_specifier, optional($._block)),
+    computed_getter: ($) =>
+      seq(repeat($.attribute), $.getter_specifier, optional($._block)),
+    computed_modify: ($) =>
+      seq(repeat($.attribute), $.modify_specifier, optional($._block)),
 
     computed_setter: ($) =>
       seq(
+        repeat($.attribute),
         $.setter_specifier,
         optional(seq("(", $.simple_identifier, ")")),
         optional($._block)
@@ -1498,6 +1519,7 @@ module.exports = grammar({
 
     getter_specifier: ($) => seq(optional($.mutation_modifier), "get"),
     setter_specifier: ($) => seq(optional($.mutation_modifier), "set"),
+    modify_specifier: ($) => seq(optional($.mutation_modifier), "_modify"),
 
     operator_declaration: ($) =>
       seq(
