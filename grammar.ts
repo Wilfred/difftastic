@@ -668,7 +668,11 @@ module.exports = grammar({
             prec.right(-2, $._expression),
             prec.left(0, $.call_expression),
             // Similarly special case the ternary expression, where `try` may come earlier than it is actually needed.
-            prec.left(-1, $.ternary_expression)
+            // When the parser just encounters some identifier after a `try`, it should prefer the `call_expression` (so
+            // this should be lower in priority than that), but when we encounter an ambiguous expression that might be
+            // either `try (foo() ? ...)` or `(try foo()) ? ...`, we should prefer the former. We accomplish that by
+            // giving it a _static precedence_ of -1 but a _dynamic precedence_ of 1.
+            prec.dynamic(1, prec.left(-1, $.ternary_expression))
           )
         )
       ),
