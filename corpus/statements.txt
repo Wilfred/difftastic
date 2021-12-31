@@ -377,7 +377,7 @@ func doSomething() {
     if let a = try? Foo.getValue("key") {
         return a
     }
-    return default
+    return defaultValue
 }
 
 ---
@@ -391,16 +391,16 @@ func doSomething() {
               (value_binding_pattern
                 (non_binding_pattern
                   (simple_identifier)))
-              (call_expression
-                (try_expression
+              (try_expression
+                (call_expression
                   (navigation_expression
                     (simple_identifier)
                     (navigation_suffix
-                      (simple_identifier))))
-                (call_suffix
-                  (value_arguments
-                    (value_argument
-                      (line_string_literal)))))
+                      (simple_identifier)))
+                  (call_suffix
+                     (value_arguments
+                       (value_argument
+                         (line_string_literal))))))
               (statements
                 (control_transfer_statement
                   (simple_identifier))))

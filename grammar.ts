@@ -22,25 +22,46 @@
  * SOFTWARE.
  */
 
-const PREC = {
-  NAVIGATION: 13,
-  MULTIPLICATIVE: 12,
-  ADDITIVE: 11,
-  INFIX: 9,
-  NIL_COALESCING: 8,
-  CHECK: 7,
-  PREFIX: 7,
-  COMPARISON: 6,
-  POSTFIX: 6,
-  EQUALITY: 5,
-  CONJUNCTION: 4,
-  DISJUNCTION: 3,
-  RANGE: 2,
-  BLOCK: 1,
-  ASSIGNMENT: -1,
-  COMMENT: -1,
-  LAMBDA_LITERAL: -1,
-};
+const EXPR_PREC_START = 11;
+const EXPRESSION_PREC_LIST = [
+  ["multiplication"],
+  ["addition"],
+  ["infix_operations"],
+  ["nil_coalescing"],
+  ["check", "prefix_operations"],
+  ["comparison", "postfix_operations"],
+  ["equality"],
+  ["conjunction"],
+  ["disjunction"],
+  ["block"],
+  ["loop", "keypath"],
+  ["control_transfer"], // 0
+  [
+    "as",
+    "tuple",
+    "if",
+    "switch",
+    "do",
+    "fully_open_range",
+    "range",
+    "navigation",
+    "expr",
+    "ty",
+  ],
+  ["call", "ternary", "try", "call_suffix", "range_suffix", "ternary_suffix"],
+  ["assignment", "comment", "lambda"],
+] as const;
+
+type ExprPrecedences = typeof EXPRESSION_PREC_LIST[number][number];
+type PrecedenceMap = { [keys in ExprPrecedences]: number };
+
+const PRECS: PrecedenceMap = Object.fromEntries(
+  EXPRESSION_PREC_LIST.flatMap((it, index) => {
+    return it.map((exprType) => {
+      return [exprType, EXPR_PREC_START - index];
+    });
+  })
+) as PrecedenceMap;
 
 const DEC_DIGITS = token(sep1(/[0-9]+/, /_+/));
 const HEX_DIGITS = token(sep1(/[0-9a-fA-F]+/, /_+/));
@@ -105,6 +126,19 @@ module.exports = grammar({
     [$._capture_list_item, $.self_expression],
     [$._capture_list_item, $._expression],
     [$._capture_list_item, $._expression, $._simple_user_type],
+    [$._primary_expression, $._capture_list_item],
+
+    // a ? b : c () could be calling c(), or it could be calling a function that's produced by the result of
+    // `(a ? b : c)`. We have a small hack to force it to be the former of these by intentionally introducing a
+    // conflict.
+    [$.call_suffix, $.expr_hack_at_ternary_call_suffix],
+
+    // try {expression} is a bit magic and applies quite broadly: `try foo()` and `try foo { }` show that this is right
+    // associative, and `try foo ? bar() : baz` even more so. But it doesn't always win: something like
+    // `if try foo { } ...` should award its braces to the `if`. In order to make this actually happen, we need to parse
+    // all the options and pick the best one that doesn't error out.
+    [$.try_expression, $._unary_expression],
+    [$.try_expression, $._expression],
   ],
 
   extras: ($) => [
@@ -182,7 +216,7 @@ module.exports = grammar({
     // Lexical Structure - https://docs.swift.org/swift-book/ReferenceManual/LexicalStructure.html
     ////////////////////////////////
 
-    comment: ($) => token(prec(PREC.COMMENT, seq("//", /.*/))),
+    comment: ($) => token(prec(PRECS.comment, seq("//", /.*/))),
 
     // Identifiers
 
@@ -295,10 +329,14 @@ module.exports = grammar({
       seq($._type, optional(token.immediate("!"))),
 
     _type: ($) =>
-      prec.right(seq(optional($.type_modifiers), $._unannotated_type)),
+      prec.right(
+        PRECS.ty,
+        seq(optional($.type_modifiers), $._unannotated_type)
+      ),
 
     _unannotated_type: ($) =>
       prec.right(
+        PRECS.ty,
         choice(
           $.user_type,
           $.tuple_type,
@@ -317,6 +355,7 @@ module.exports = grammar({
 
     _simple_user_type: ($) =>
       prec.right(
+        PRECS.ty,
         seq(
           alias($.simple_identifier, $.type_identifier),
           optional($.type_arguments)
@@ -326,14 +365,20 @@ module.exports = grammar({
     tuple_type: ($) => seq("(", optional(sep1($._tuple_type_item, ",")), ")"),
 
     _tuple_type_item: ($) =>
-      seq(
-        optional($._tuple_type_item_identifier),
-        optional($.parameter_modifiers),
-        $._type
+      prec(
+        PRECS.expr,
+        seq(
+          optional($._tuple_type_item_identifier),
+          optional($.parameter_modifiers),
+          $._type
+        )
       ),
 
     _tuple_type_item_identifier: ($) =>
-      seq(optional($.wildcard_pattern), $.simple_identifier, ":"),
+      prec(
+        PRECS.expr,
+        seq(optional($.wildcard_pattern), $.simple_identifier, ":")
+      ),
 
     function_type: ($) =>
       seq(
@@ -376,14 +421,17 @@ module.exports = grammar({
     ////////////////////////////////
 
     _expression: ($) =>
-      choice(
-        $.simple_identifier,
-        $._unary_expression,
-        $._binary_expression,
-        $.ternary_expression,
-        $._primary_expression,
-        $.assignment,
-        seq($._expression, $._immediate_quest)
+      prec(
+        PRECS.expr,
+        choice(
+          $.simple_identifier,
+          $._unary_expression,
+          $._binary_expression,
+          $.ternary_expression,
+          $._primary_expression,
+          $.assignment,
+          seq($._expression, $._immediate_quest)
+        )
       ),
 
     // Unary expressions
@@ -402,24 +450,23 @@ module.exports = grammar({
       ),
 
     postfix_expression: ($) =>
-      prec.left(PREC.POSTFIX, seq($._expression, $._postfix_unary_operator)),
-
-    call_expression: ($) => prec.left(seq($._expression, $.call_suffix)),
+      prec.left(
+        PRECS.postfix_operations,
+        seq($._expression, $._postfix_unary_operator)
+      ),
 
     constructor_expression: ($) =>
-      prec.left(
+      prec(
+        PRECS.call,
         seq(
           choice($.array_type, $.dictionary_type, $.user_type),
           $.constructor_suffix
         )
       ),
 
-    indexing_expression: ($) =>
-      prec.left(PREC.POSTFIX, seq($._expression, $.indexing_suffix)),
-
     navigation_expression: ($) =>
       prec.left(
-        PREC.NAVIGATION,
+        PRECS.navigation,
         seq(
           choice($._navigable_type_expression, $._expression),
           $.navigation_suffix
@@ -429,34 +476,34 @@ module.exports = grammar({
     _navigable_type_expression: ($) =>
       choice($.user_type, $.array_type, $.dictionary_type),
 
-    // XXX precedence for ranges isn't right
     open_start_range_expression: ($) =>
-      prec.left(
-        PREC.RANGE,
+      prec.right(
+        PRECS.range,
         seq(
           choice($._open_ended_range_operator, $._three_dot_operator),
-          $._expression
+          prec.right(PRECS.range_suffix, $._expression)
         )
       ),
 
     open_end_range_expression: ($) =>
-      prec.left(PREC.RANGE, seq($._expression, $._three_dot_operator)),
+      prec.right(PRECS.range, seq($._expression, $._three_dot_operator)),
 
     prefix_expression: ($) =>
-      prec.right(PREC.PREFIX, seq($._prefix_unary_operator, $._expression)),
+      prec.left(
+        PRECS.prefix_operations,
+        seq($._prefix_unary_operator, $._expression)
+      ),
 
     as_expression: ($) =>
-      prec.left(seq($._expression, $._as_operator, $._type)),
+      prec.left(PRECS.as, seq($._expression, $._as_operator, $._type)),
 
     selector_expression: ($) =>
-      prec.left(
-        seq(
-          "#selector",
-          "(",
-          optional(choice("getter:", "setter:")),
-          $._expression,
-          ")"
-        )
+      seq(
+        "#selector",
+        "(",
+        optional(choice("getter:", "setter:")),
+        $._expression,
+        ")"
       ),
 
     // Binary expressions
@@ -479,19 +526,19 @@ module.exports = grammar({
 
     multiplicative_expression: ($) =>
       prec.left(
-        PREC.MULTIPLICATIVE,
+        PRECS.multiplication,
         seq($._expression, $._multiplicative_operator, $._expression)
       ),
 
     additive_expression: ($) =>
       prec.left(
-        PREC.ADDITIVE,
+        PRECS.addition,
         seq($._expression, $._additive_operator, $._expression)
       ),
 
     range_expression: ($) =>
-      prec.left(
-        PREC.RANGE,
+      prec.right(
+        PRECS.range,
         seq(
           $._expression,
           choice($._open_ended_range_operator, $._three_dot_operator),
@@ -501,37 +548,37 @@ module.exports = grammar({
 
     infix_expression: ($) =>
       prec.left(
-        PREC.INFIX,
+        PRECS.infix_operations,
         seq($._expression, $.custom_operator, $._expression)
       ),
 
     nil_coalescing_expression: ($) =>
-      prec.left(
-        PREC.NIL_COALESCING,
+      prec.right(
+        PRECS.nil_coalescing,
         seq($._expression, $._nil_coalescing_operator, $._expression)
       ),
 
     check_expression: ($) =>
-      prec.left(PREC.CHECK, seq($._expression, $._is_operator, $._type)),
+      prec.left(PRECS.check, seq($._expression, $._is_operator, $._type)),
 
     comparison_expression: ($) =>
       prec.left(seq($._expression, $._comparison_operator, $._expression)),
 
     equality_expression: ($) =>
       prec.left(
-        PREC.EQUALITY,
+        PRECS.equality,
         seq($._expression, $._equality_operator, $._expression)
       ),
 
     conjunction_expression: ($) =>
       prec.left(
-        PREC.CONJUNCTION,
+        PRECS.conjunction,
         seq($._expression, $._conjunction_operator, $._expression)
       ),
 
     disjunction_expression: ($) =>
       prec.left(
-        PREC.DISJUNCTION,
+        PRECS.disjunction,
         seq($._expression, $._disjunction_operator, $._expression)
       ),
 
@@ -547,7 +594,7 @@ module.exports = grammar({
     navigation_suffix: ($) =>
       seq(
         $._navigation_operator,
-        choice($.simple_identifier, $.tuple_expression, $.integer_literal)
+        choice($.simple_identifier, $.integer_literal)
       ),
 
     // `!.` should just be the result of a postfix `!` before navigation, but it gets parsed as a
@@ -555,29 +602,25 @@ module.exports = grammar({
     _navigation_operator: ($) => choice($._dot_operator, "!."),
 
     call_suffix: ($) =>
-      prec.left(
+      prec(
+        PRECS.call_suffix,
         seq(
           choice(
             $.value_arguments,
-            sep1($._annotated_lambda, seq($.simple_identifier, ":"))
+            sep1($.lambda_literal, seq($.simple_identifier, ":"))
           )
         )
       ),
 
     constructor_suffix: ($) =>
-      prec.left(
+      prec(
+        PRECS.call_suffix,
         seq(
           choice(
             seq("(", optional(sep1($.value_argument, ",")), ")"),
-            $._annotated_lambda
+            $.lambda_literal
           )
         )
-      ),
-
-    _annotated_lambda: ($) =>
-      seq(
-        // repeat($.attribute),
-        $.lambda_literal
       ),
 
     type_arguments: ($) => prec.left(seq("<", sep1($._type, ","), ">")),
@@ -601,16 +644,56 @@ module.exports = grammar({
         )
       ),
 
-    ternary_expression: ($) =>
-      prec.left(
-        seq($._expression, $._quest, $._expression, ":", $._expression)
+    try_expression: ($) =>
+      prec.right(
+        PRECS.try,
+        seq(
+          $._try_operator,
+          choice(
+            // Prefer direct calls, e.g. `try foo()`, over indirect like `try a ? b() : c`. This allows us to have
+            // left associativity for the direct calls, which is technically wrong but is the only way to resolve the
+            // ambiguity of `if foo { ... }` in the correct direction.
+            prec.right(-2, $._expression),
+            prec.left(0, $.call_expression),
+            // Similarly special case the ternary expression, where `try` may come earlier than it is actually needed.
+            prec.left(-1, $.ternary_expression)
+          )
+        )
       ),
+
+    ternary_expression: ($) =>
+      prec.right(
+        PRECS.ternary,
+        seq(
+          $._expression,
+          $._quest,
+          $._expression,
+          ":",
+          prec.left(
+            PRECS.ternary_suffix,
+            choice(
+              $._expression,
+              alias($.expr_hack_at_ternary_call, $.call_expression)
+            )
+          )
+        )
+      ),
+
+    expr_hack_at_ternary_call: ($) =>
+      seq(
+        $._expression,
+        alias($.expr_hack_at_ternary_call_suffix, $.call_suffix)
+      ),
+    expr_hack_at_ternary_call_suffix: ($) =>
+      prec(PRECS.call_suffix, $.value_arguments),
+
+    call_expression: ($) => prec(PRECS.call, seq($._expression, $.call_suffix)),
 
     _primary_expression: ($) =>
       choice(
         $.tuple_expression,
         $._basic_literal,
-        $._function_literal,
+        $.lambda_literal,
         $._special_literal,
         $._playground_literal,
         $.array_literal,
@@ -621,11 +704,15 @@ module.exports = grammar({
         $._referenceable_operator,
         $.key_path_expression,
         $.key_path_string_expression,
-        alias($._three_dot_operator, $.fully_open_range)
+        prec.right(
+          PRECS.fully_open_range,
+          alias($._three_dot_operator, $.fully_open_range)
+        )
       ),
 
     tuple_expression: ($) =>
-      prec.left(
+      prec.right(
+        PRECS.tuple,
         seq(
           "(",
           sep1(
@@ -669,11 +756,11 @@ module.exports = grammar({
       ),
 
     lambda_literal: ($) =>
-      prec(
-        PREC.LAMBDA_LITERAL,
+      prec.left(
+        PRECS.lambda,
         seq(
           "{",
-          optional($.capture_list),
+          prec(PRECS.expr, optional($.capture_list)),
           optional(seq(optional($.lambda_function_type), "in")),
           optional($.statements),
           "}"
@@ -684,44 +771,49 @@ module.exports = grammar({
 
     _capture_list_item: ($) =>
       choice(
-        "self",
-        seq(
-          optional($.ownership_modifier),
-          $.simple_identifier,
-          optional(seq($._equal_sign, $._expression))
+        $.self_expression,
+        prec(
+          PRECS.expr,
+          seq(
+            optional($.ownership_modifier),
+            $.simple_identifier,
+            optional(seq($._equal_sign, $._expression))
+          )
         )
       ),
 
     lambda_function_type: ($) =>
-      seq(
-        choice(
-          $.lambda_function_type_parameters,
-          seq("(", optional($.lambda_function_type_parameters), ")")
-        ),
-        optional($.throws_modifier),
-        optional(seq($._arrow_operator, $._possibly_implicitly_unwrapped_type))
+      prec(
+        PRECS.expr,
+        seq(
+          choice(
+            $.lambda_function_type_parameters,
+            seq("(", optional($.lambda_function_type_parameters), ")")
+          ),
+          optional($.throws_modifier),
+          optional(
+            seq($._arrow_operator, $._possibly_implicitly_unwrapped_type)
+          )
+        )
       ),
 
     lambda_function_type_parameters: ($) => sep1($._lambda_parameter, ","),
 
     _lambda_parameter: ($) =>
-      prec.left(
-        seq(
-          choice(
-            $.self_expression,
+      choice(
+        $.self_expression,
+        prec(PRECS.expr, $.simple_identifier),
+        prec(
+          PRECS.expr,
+          seq(
+            optional($.simple_identifier),
             $.simple_identifier,
-            seq(
-              optional($.simple_identifier),
-              $.simple_identifier,
-              ":",
-              optional($.parameter_modifiers),
-              $._possibly_implicitly_unwrapped_type
-            )
+            ":",
+            optional($.parameter_modifiers),
+            $._possibly_implicitly_unwrapped_type
           )
         )
       ),
-
-    _function_literal: ($) => $.lambda_literal,
 
     self_expression: ($) => "self",
 
@@ -731,25 +823,24 @@ module.exports = grammar({
 
     if_statement: ($) =>
       prec.right(
+        PRECS.if,
         seq(
           "if",
-          sep1(prec.left($._if_condition_sequence_item), ","),
-          choice($._block, seq($._block, $._else, $._else_options))
+          sep1($._if_condition_sequence_item, ","),
+          $._block,
+          optional(seq($._else, $._else_options))
         )
       ),
 
     _if_condition_sequence_item: ($) =>
-      prec.left(
-        choice($._if_let_binding, $._expression, $.availability_condition)
-      ),
+      choice($._if_let_binding, $._expression, $.availability_condition),
 
     _if_let_binding: ($) =>
-      prec.left(
-        seq($._direct_or_indirect_binding, $._equal_sign, $._expression)
-      ),
+      seq($._direct_or_indirect_binding, $._equal_sign, $._expression),
 
     guard_statement: ($) =>
       prec.right(
+        PRECS.if,
         seq(
           "guard",
           sep1(prec.left($._if_condition_sequence_item), ","),
@@ -759,7 +850,10 @@ module.exports = grammar({
       ),
 
     switch_statement: ($) =>
-      seq("switch", $._expression, "{", repeat($.switch_entry), "}"),
+      prec.right(
+        PRECS.switch,
+        seq("switch", $._expression, "{", repeat($.switch_entry), "}")
+      ),
 
     switch_entry: ($) =>
       seq(
@@ -782,7 +876,8 @@ module.exports = grammar({
 
     switch_pattern: ($) => generate_pattern_matching_rule($, true, false, true),
 
-    do_statement: ($) => seq("do", $._block, repeat($.catch_block)),
+    do_statement: ($) =>
+      prec.right(PRECS.do, seq("do", $._block, repeat($.catch_block))),
 
     catch_block: ($) =>
       seq(
@@ -794,17 +889,9 @@ module.exports = grammar({
 
     where_clause: ($) => prec.left(seq($._where_keyword, $._expression)),
 
-    try_expression: ($) =>
-      prec.left(
-        seq(
-          // XXX associativity or precedence seems wrong here
-          $._try_operator,
-          $._expression
-        )
-      ),
-
     key_path_expression: ($) =>
-      prec.left(
+      prec.right(
+        PRECS.keypath,
         seq(
           "\\",
           optional(
@@ -884,6 +971,7 @@ module.exports = grammar({
 
     statements: ($) =>
       prec.left(
+        // Left precedence is required in switch statements
         seq(
           $._local_statement,
           repeat(seq($._semi, $._local_statement)),
@@ -907,7 +995,7 @@ module.exports = grammar({
         $._throw_statement
       ),
 
-    _block: ($) => prec(PREC.BLOCK, seq("{", optional($.statements), "}")),
+    _block: ($) => prec(PRECS.block, seq("{", optional($.statements), "}")),
 
     _labeled_statement: ($) =>
       seq(
@@ -926,7 +1014,8 @@ module.exports = grammar({
     statement_label: ($) => token(/[a-zA-Z_][a-zA-Z_0-9]*:/),
 
     for_statement: ($) =>
-      prec.right(
+      prec(
+        PRECS.loop,
         seq(
           "for",
           generate_pattern_matching_rule($, true, true, false),
@@ -939,16 +1028,20 @@ module.exports = grammar({
       ),
 
     while_statement: ($) =>
-      seq(
-        "while",
-        sep1(prec.left($._if_condition_sequence_item), ","),
-        "{",
-        optional($.statements),
-        "}"
+      prec(
+        PRECS.loop,
+        seq(
+          "while",
+          sep1(prec.left($._if_condition_sequence_item), ","),
+          "{",
+          optional($.statements),
+          "}"
+        )
       ),
 
     repeat_while_statement: ($) =>
-      prec.right(
+      prec(
+        PRECS.loop,
         seq(
           "repeat",
           "{",
@@ -961,8 +1054,11 @@ module.exports = grammar({
 
     control_transfer_statement: ($) =>
       choice(
-        prec.right($._throw_statement),
-        prec.right(seq($._return_continue_break, optional($._expression)))
+        prec.right(PRECS.control_transfer, $._throw_statement),
+        prec.right(
+          PRECS.control_transfer,
+          seq($._return_continue_break, optional($._expression))
+        )
       ),
 
     _throw_statement: ($) => seq($.throw_keyword, $._expression),
@@ -972,7 +1068,7 @@ module.exports = grammar({
 
     assignment: ($) =>
       prec.left(
-        PREC.ASSIGNMENT,
+        PRECS.assignment,
         seq(
           $.directly_assignable_expression,
           $._assignment_and_operator,
@@ -1292,25 +1388,20 @@ module.exports = grammar({
       seq("{", repeat(choice($.enum_entry, $._type_level_declaration)), "}"),
 
     enum_entry: ($) =>
-      prec.left(
-        seq(
-          optional($.modifiers),
-          optional("indirect"),
-          "case",
-          sep1(
-            seq(
-              $.simple_identifier,
-              optional(
-                choice(
-                  $.enum_type_parameters,
-                  seq($._equal_sign, $._expression)
-                )
-              )
-            ),
-            ","
+      seq(
+        optional($.modifiers),
+        optional("indirect"),
+        "case",
+        sep1(
+          seq(
+            $.simple_identifier,
+            optional(
+              choice($.enum_type_parameters, seq($._equal_sign, $._expression))
+            )
           ),
-          optional(";")
-        )
+          ","
+        ),
+        optional(";")
       ),
 
     enum_type_parameters: ($) =>
@@ -1589,7 +1680,7 @@ module.exports = grammar({
     directive: ($) =>
       token(
         prec(
-          PREC.COMMENT,
+          PRECS.comment,
           choice(
             seq("#if", /.*/),
             seq("#elseif", /.*/),
@@ -1603,7 +1694,7 @@ module.exports = grammar({
     diagnostic: ($) =>
       token(
         prec(
-          PREC.COMMENT,
+          PRECS.comment,
           choice(
             // Using regexes here, rather than actually validating the string literal, because complex string literals
             // cannot be used inside `token()` and we need that to ensure we get the right precedence.

@@ -105,6 +105,46 @@ someVeryLongFunctionCall()
             (simple_identifier)
             (call_suffix (value_arguments)))
         (simple_identifier)))
+===
+Ternary within another expression
+===
+
+if a ? b : c == d {
+}
+
+---
+
+(source_file
+  (if_statement
+    (ternary_expression
+      (simple_identifier)
+      (simple_identifier)
+      (equality_expression
+        (simple_identifier)
+        (simple_identifier)))))
+
+===
+Ternary with a function at the end
+===
+
+foo() ? bar() : baz()
+
+---
+
+(source_file
+  (ternary_expression
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments)))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments)))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments)))))
 
 ==================
 Multiple expressions on one line using semicolons
@@ -409,14 +449,10 @@ let result: MyEnumType = condition ? .someEnumCase : .someOtherEnum
             (prefix_expression (simple_identifier)))))
 
 ======
-Range expression
+Range expression in indexing
 ======
 
 string[..<string.index(before: string.endIndex)]
-
-for i in 0 ..< something.count {
-    // Do something
-}
 
 ---
 
@@ -426,13 +462,26 @@ for i in 0 ..< something.count {
         (call_suffix
             (value_arguments
                 (value_argument
-                    (call_expression
-                        (open_start_range_expression (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier))))
-                        (call_suffix
-                            (value_arguments
-                                (value_argument
-                                    (simple_identifier)
-                                    (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))))))))))
+                    (open_start_range_expression
+                        (call_expression
+                            (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
+                            (call_suffix
+                                (value_arguments
+                                    (value_argument
+                                        (simple_identifier)
+                                        (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))))))))))))
+
+======
+Range expression in loop
+======
+
+for i in 0 ..< something.count {
+    // Do something
+}
+
+---
+
+(source_file
     (for_statement
         (simple_identifier)
         (range_expression
@@ -724,3 +773,33 @@ let two = 2
             (integer_literal)
             (integer_literal))
         (integer_literal))))
+
+===
+Simple try
+===
+
+try foo()
+
+---
+
+(source_file
+  (try_expression
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments)))))
+
+===
+Try and ternary
+===
+
+try foo() ? 1 : 0
+
+---
+
+(source_file
+  (try_expression
+    (ternary_expression
+      (call_expression (simple_identifier) (call_suffix (value_arguments)))
+      (integer_literal)
+      (integer_literal))))
