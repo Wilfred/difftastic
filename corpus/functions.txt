@@ -429,7 +429,7 @@ test { (a: inout Int) in }
 Higher-order functions - pt 6
 ==================
 
-test { [weak self, otherSelf] (a) in }
+test { @Special [weak self, otherSelf] (a) in }
 
 ---
 (source_file
@@ -437,7 +437,11 @@ test { [weak self, otherSelf] (a) in }
         (simple_identifier)
         (call_suffix
             (lambda_literal
-                (capture_list (ownership_modifier) (simple_identifier) (simple_identifier))
+                (capture_list
+                    (attribute (user_type (type_identifier)))
+                    (ownership_modifier)
+                    (simple_identifier)
+                    (simple_identifier))
                 (lambda_function_type (lambda_function_type_parameters (simple_identifier)))))))
 
 ==================
