@@ -45,6 +45,8 @@ Class with methods and expressions
 ==================
 
 class Strings {
+    /// Some awesome docummentation!
+    /// Yay
     func aString() -> String { return "Hello World!" }
 
     func anotherString() -> String { return "Hello" + " " + "World" }
@@ -55,6 +57,8 @@ class Strings {
 (source_file
     (class_declaration (type_identifier)
         (class_body
+            (comment)
+            (comment)
             (function_declaration
                 (simple_identifier)
                 (user_type (type_identifier))
@@ -77,7 +81,7 @@ Class with modifiers
 internal open class Test {
     private(set) var isRunning: Bool
     internal(set) var isFailed: Bool
-    private final func test() { }
+    /* some comment */ private final func test() { }
 }
 
 ---
@@ -95,6 +99,7 @@ internal open class Test {
                 (modifiers (visibility_modifier))
                 (value_binding_pattern (non_binding_pattern (simple_identifier)))
                 (type_annotation (user_type (type_identifier))))
+            (multiline_comment)
             (function_declaration
                 (modifiers (visibility_modifier) (inheritance_modifier))
                 (simple_identifier)
