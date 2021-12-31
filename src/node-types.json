@@ -95,7 +95,11 @@
             "named": true
           },
           {
-            "type": "binop",
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -108,6 +112,10 @@
           },
           {
             "type": "expression_group",
+            "named": true
+          },
+          {
+            "type": "field_access",
             "named": true
           },
           {
@@ -127,11 +135,19 @@
             "named": true
           },
           {
+            "type": "let",
+            "named": true
+          },
+          {
             "type": "list",
             "named": true
           },
           {
             "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
             "named": true
           },
           {
@@ -148,6 +164,10 @@
           },
           {
             "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
             "named": true
           },
           {
@@ -174,7 +194,209 @@
     }
   },
   {
-    "type": "binop",
+    "type": "assert",
+    "named": true,
+    "fields": {
+      "assign": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "pattern_assign",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "bit_string_pattern",
+            "named": true
+          },
+          {
+            "type": "constructor_pattern",
+            "named": true
+          },
+          {
+            "type": "discard_var",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "pattern_assign",
+            "named": true
+          },
+          {
+            "type": "remote_constructor_pattern",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
+            "named": true
+          },
+          {
+            "type": "var",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "remote_type",
+            "named": true
+          },
+          {
+            "type": "remote_type_constructor",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_constructor",
+            "named": true
+          },
+          {
+            "type": "type_hole",
+            "named": true
+          },
+          {
+            "type": "type_var",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "expression_group",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "let",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "remote_record",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "todo",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          },
+          {
+            "type": "var",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "binary_expression",
     "named": true,
     "fields": {},
     "children": {
@@ -186,7 +408,11 @@
           "named": true
         },
         {
-          "type": "binop",
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -202,6 +428,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -214,11 +444,19 @@
           "named": true
         },
         {
+          "type": "let",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
         {
           "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
           "named": true
         },
         {
@@ -323,6 +561,10 @@
             "named": false
           },
           {
+            "type": "assert",
+            "named": true
+          },
+          {
             "type": "bit_string",
             "named": true
           },
@@ -347,6 +589,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "float",
             "named": true
           },
@@ -356,6 +602,10 @@
           },
           {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "let",
             "named": true
           },
           {
@@ -372,6 +622,10 @@
           },
           {
             "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
             "named": true
           },
           {
@@ -392,6 +646,10 @@
           },
           {
             "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
             "named": true
           },
           {
@@ -419,7 +677,11 @@
           "named": true
         },
         {
-          "type": "binop",
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -435,6 +697,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -447,11 +713,19 @@
           "named": true
         },
         {
+          "type": "let",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
         {
           "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
           "named": true
         },
         {
@@ -468,6 +742,10 @@
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
           "named": true
         },
         {
@@ -625,7 +903,11 @@
           "named": true
         },
         {
-          "type": "binop",
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -641,6 +923,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -653,11 +939,19 @@
           "named": true
         },
         {
+          "type": "let",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
         {
           "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
           "named": true
         },
         {
@@ -677,6 +971,10 @@
           "named": true
         },
         {
+          "type": "tuple_access",
+          "named": true
+        },
+        {
           "type": "var",
           "named": true
         }
@@ -692,7 +990,7 @@
       "required": true,
       "types": [
         {
-          "type": "binop",
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -832,7 +1130,11 @@
           "named": true
         },
         {
-          "type": "binop",
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -848,6 +1150,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -860,11 +1166,19 @@
           "named": true
         },
         {
+          "type": "let",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
         {
           "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
           "named": true
         },
         {
@@ -881,6 +1195,10 @@
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
           "named": true
         },
         {
@@ -1011,7 +1329,11 @@
           "named": true
         },
         {
-          "type": "binop",
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -1027,6 +1349,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -1039,11 +1365,19 @@
           "named": true
         },
         {
+          "type": "let",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
         {
           "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
           "named": true
         },
         {
@@ -1064,6 +1398,10 @@
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
           "named": true
         },
         {
@@ -1186,6 +1524,64 @@
     }
   },
   {
+    "type": "field_access",
+    "named": true,
+    "fields": {
+      "field": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "record": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "expression_group",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "remote_record",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          },
+          {
+            "type": "var",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "function",
     "named": true,
     "fields": {
@@ -1276,7 +1672,11 @@
           "named": true
         },
         {
-          "type": "binop",
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -1292,6 +1692,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -1304,11 +1708,19 @@
           "named": true
         },
         {
+          "type": "let",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
         {
           "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
           "named": true
         },
         {
@@ -1332,6 +1744,10 @@
           "named": true
         },
         {
+          "type": "tuple_access",
+          "named": true
+        },
+        {
           "type": "var",
           "named": true
         }
@@ -1341,34 +1757,41 @@
   {
     "type": "function_call",
     "named": true,
-    "fields": {
-      "module": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
+          "type": "anonymous_function",
+          "named": true
+        },
+        {
           "type": "arguments",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "expression_group",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
+          "named": true
+        },
+        {
+          "type": "var",
           "named": true
         }
       ]
@@ -1610,19 +2033,133 @@
     "fields": {}
   },
   {
-    "type": "list",
+    "type": "let",
     "named": true,
     "fields": {
-      "spread": {
-        "multiple": false,
+      "assign": {
+        "multiple": true,
         "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "pattern_assign",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "bit_string_pattern",
+            "named": true
+          },
+          {
+            "type": "constructor_pattern",
+            "named": true
+          },
+          {
+            "type": "discard_var",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "pattern_assign",
+            "named": true
+          },
+          {
+            "type": "remote_constructor_pattern",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
+            "named": true
+          },
+          {
+            "type": "var",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "remote_type",
+            "named": true
+          },
+          {
+            "type": "remote_type_constructor",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_constructor",
+            "named": true
+          },
+          {
+            "type": "type_hole",
+            "named": true
+          },
+          {
+            "type": "type_var",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
         "types": [
           {
             "type": "anonymous_function",
             "named": true
           },
           {
-            "type": "binop",
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -1638,6 +2175,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "float",
             "named": true
           },
@@ -1650,11 +2191,19 @@
             "named": true
           },
           {
+            "type": "let",
+            "named": true
+          },
+          {
             "type": "list",
             "named": true
           },
           {
             "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
             "named": true
           },
           {
@@ -1674,6 +2223,102 @@
             "named": true
           },
           {
+            "type": "tuple_access",
+            "named": true
+          },
+          {
+            "type": "var",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "list",
+    "named": true,
+    "fields": {
+      "spread": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "expression_group",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "let",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "remote_record",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "todo",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          },
+          {
             "type": "var",
             "named": true
           }
@@ -1689,7 +2334,11 @@
           "named": true
         },
         {
-          "type": "binop",
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -1705,6 +2354,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -1717,11 +2370,19 @@
           "named": true
         },
         {
+          "type": "let",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
         {
           "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
           "named": true
         },
         {
@@ -1738,6 +2399,10 @@
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
           "named": true
         },
         {
@@ -2085,6 +2750,84 @@
     }
   },
   {
+    "type": "public_function",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "function_parameters",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "remote_type",
+            "named": true
+          },
+          {
+            "type": "remote_type_constructor",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "type_constructor",
+            "named": true
+          },
+          {
+            "type": "type_hole",
+            "named": true
+          },
+          {
+            "type": "type_var",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "function_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "record",
     "named": true,
     "fields": {},
@@ -2141,6 +2884,239 @@
         },
         {
           "type": "tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "record_update",
+    "named": true,
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "record_update_arguments",
+            "named": true
+          }
+        ]
+      },
+      "constructor": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "remote_record",
+            "named": true
+          }
+        ]
+      },
+      "spread": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "expression_group",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "let",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "remote_record",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "todo",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          },
+          {
+            "type": "var",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "record_update_argument",
+    "named": true,
+    "fields": {
+      "label": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bit_string",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "expression_group",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "let",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "remote_record",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "todo",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          },
+          {
+            "type": "var",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "record_update_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "record_update_argument",
           "named": true
         }
       ]
@@ -2280,6 +3256,10 @@
           "named": true
         },
         {
+          "type": "public_function",
+          "named": true
+        },
+        {
           "type": "target_group",
           "named": true
         }
@@ -2340,6 +3320,10 @@
         },
         {
           "type": "public_external_type",
+          "named": true
+        },
+        {
+          "type": "public_function",
           "named": true
         }
       ]
@@ -2484,7 +3468,11 @@
             "named": true
           },
           {
-            "type": "binop",
+            "type": "assert",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
             "named": true
           },
           {
@@ -2500,6 +3488,10 @@
             "named": true
           },
           {
+            "type": "field_access",
+            "named": true
+          },
+          {
             "type": "float",
             "named": true
           },
@@ -2512,11 +3504,19 @@
             "named": true
           },
           {
+            "type": "let",
+            "named": true
+          },
+          {
             "type": "list",
             "named": true
           },
           {
             "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
             "named": true
           },
           {
@@ -2533,6 +3533,10 @@
           },
           {
             "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
             "named": true
           },
           {
@@ -2556,7 +3560,11 @@
           "named": true
         },
         {
-          "type": "binop",
+          "type": "assert",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
           "named": true
         },
         {
@@ -2572,6 +3580,10 @@
           "named": true
         },
         {
+          "type": "field_access",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -2584,11 +3596,19 @@
           "named": true
         },
         {
+          "type": "let",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
         {
           "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
           "named": true
         },
         {
@@ -2605,6 +3625,10 @@
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "tuple_access",
           "named": true
         },
         {
@@ -2632,6 +3656,30 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "expression_group",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          },
           {
             "type": "var",
             "named": true
@@ -2974,6 +4022,10 @@
     "named": false
   },
   {
+    "type": "assert",
+    "named": false
+  },
+  {
     "type": "bit_string_segment_option_big",
     "named": true
   },
@@ -3071,6 +4123,10 @@
   },
   {
     "type": "javascript",
+    "named": false
+  },
+  {
+    "type": "let",
     "named": false
   },
   {
