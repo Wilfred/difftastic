@@ -3,13 +3,17 @@ Value specification
 ==============================
 
 val x : t
+val x : 'a . 'a
 
 ---
 
 (compilation_unit
   (value_specification
     (value_name)
-    (type_constructor_path (type_constructor))))
+    (type_constructor_path (type_constructor)))
+  (value_specification
+    (value_name)
+    (polymorphic_type (type_variable) (type_variable))))
 
 ==============================
 Include
