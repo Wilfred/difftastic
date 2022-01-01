@@ -30,4 +30,4 @@ total=$((parsed+skipped))
 percent=$(bc -l <<< "100*$parsed/$total")
 duration=$(bc -l <<< "$end - $start")
 
-printf "Successfully parsed %.2f%% of '$name' in %.2fs (%d of %d files)\n" $percent $duration $parsed $total
+printf "Successfully parsed %.2f%% of '$name' in %.4fs (%d of %d files)\n" $percent $duration $parsed $total
