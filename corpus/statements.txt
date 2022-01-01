@@ -85,6 +85,7 @@ for var value in values where value.isExcellent() {
         (non_binding_pattern (simple_identifier))
         (simple_identifier)
         (where_clause
+            (where_keyword)
             (call_expression
                 (navigation_expression
                     (simple_identifier)
@@ -189,16 +190,16 @@ switch something {
         (simple_identifier)
         (switch_entry
             (switch_pattern (simple_identifier))
-            (statements (control_transfer_statement (line_string_literal))))
+            (statements (control_transfer_statement (line_string_literal (line_str_text)))))
         (switch_entry
             (switch_pattern (simple_identifier))
-            (statements (control_transfer_statement (line_string_literal))))
+            (statements (control_transfer_statement (line_string_literal (line_str_text)))))
         (switch_entry
-            (switch_pattern (line_string_literal))
-            (statements (control_transfer_statement (line_string_literal))))
+            (switch_pattern (line_string_literal (line_str_text)))
+            (statements (control_transfer_statement (line_string_literal (line_str_text)))))
         (switch_entry
             (default_keyword)
-            (statements (control_transfer_statement (line_string_literal))))))
+            (statements (control_transfer_statement (line_string_literal (line_str_text)))))))
 
 ==================
 Weird switch statements
@@ -230,24 +231,25 @@ case let .isExecutable(path?):
             (statements (simple_identifier)))
         (switch_entry
             (switch_pattern (simple_identifier))
+            (where_keyword)
             (simple_identifier)
             (switch_pattern (simple_identifier))
             (statements (simple_identifier)))
         (switch_entry
             (modifiers (attribute (user_type (type_identifier))))
             (default_keyword)
-            (statements (control_transfer_statement (line_string_literal)))))
+            (statements (control_transfer_statement (line_string_literal (line_str_text))))))
     (switch_statement
         (self_expression)
         (switch_entry
             (switch_pattern
                     (simple_identifier)
                     (non_binding_pattern (simple_identifier)))
-            (statements (control_transfer_statement (line_string_literal (interpolated_expression (simple_identifier))))))
+            (statements (control_transfer_statement (line_string_literal (line_str_text) (interpolated_expression (simple_identifier))))))
         (switch_entry
             (switch_pattern
                 (non_binding_pattern (simple_identifier) (simple_identifier)))
-            (statements (control_transfer_statement (line_string_literal (interpolated_expression (simple_identifier))))))))
+            (statements (control_transfer_statement (line_string_literal (line_str_text) (interpolated_expression (simple_identifier))))))))
 
 ==================
 Imports
@@ -294,38 +296,44 @@ do {
                 (value_binding_pattern (non_binding_pattern (simple_identifier)))
                 (integer_literal)))
         (catch_block
+            (catch_keyword)
             (binding_pattern
                 (binding_pattern
                     (non_binding_pattern
                         (simple_identifier)))
                     (user_type (type_identifier))))
         (catch_block
+            (catch_keyword)
             (binding_pattern
                 (user_type (type_identifier))
                 (simple_identifier)))
         (catch_block
+            (catch_keyword)
             (binding_pattern
                 (binding_pattern
                     (non_binding_pattern
                         (simple_identifier)))
                     (user_type (type_identifier)))
             (where_clause
+                (where_keyword)
                 (equality_expression
                     (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
                     (integer_literal))))
         (catch_block
+            (catch_keyword)
             (binding_pattern
                 (non_binding_pattern
                     (user_type (type_identifier))
                     (simple_identifier)
                     (simple_identifier))))
         (catch_block
+            (catch_keyword)
             (binding_pattern
                 (user_type (type_identifier))
                 (simple_identifier)
                 (simple_identifier)
                 (non_binding_pattern (simple_identifier))))
-        (catch_block))
+        (catch_block (catch_keyword)))
     (do_statement
         (statements
             (property_declaration
@@ -400,7 +408,7 @@ func doSomething() {
                   (call_suffix
                      (value_arguments
                        (value_argument
-                         (line_string_literal))))))
+                         (line_string_literal (line_str_text)))))))
               (statements
                 (control_transfer_statement
                   (simple_identifier))))
@@ -459,9 +467,11 @@ else if let cPrime = c {
     (if_statement
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (simple_identifier)
+        (else)
         (if_statement (value_binding_pattern (non_binding_pattern (simple_identifier))) (simple_identifier)))
     (if_statement
         (equality_expression (simple_identifier) (simple_identifier))
+        (else)
         (if_statement
             (value_binding_pattern (non_binding_pattern (simple_identifier)))
             (simple_identifier))))
@@ -489,6 +499,7 @@ else if bar {
         (integer_literal)))
     (comment)
     (comment)
+    (else)
     (if_statement
       (simple_identifier))))
 
@@ -515,16 +526,18 @@ guard case justIdentifier = bound else { }
     (guard_statement
         (value_binding_pattern (non_binding_pattern (simple_identifier)))
         (call_expression (simple_identifier) (call_suffix (value_arguments)))
+        (else)
         (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
     (guard_statement
         (call_expression (simple_identifier) (call_suffix (value_arguments)))
+        (else)
         (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
     (guard_statement
         (binding_pattern
             (simple_identifier) (simple_identifier)
             (non_binding_pattern (simple_identifier)))
-        (call_expression (simple_identifier) (call_suffix (value_arguments))))
-    (guard_statement (binding_pattern (simple_identifier)) (simple_identifier)))
+        (call_expression (simple_identifier) (call_suffix (value_arguments))) (else))
+    (guard_statement (binding_pattern (simple_identifier)) (simple_identifier) (else)))
 ==================
 Compound guard
 ==================
@@ -542,6 +555,7 @@ guard let something = doThing(), something.isSpecial() else {
         (call_expression
             (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
             (call_suffix (value_arguments)))
+        (else)
         (statements (call_expression (simple_identifier) (call_suffix (value_arguments))))))
 
 ===
@@ -566,6 +580,7 @@ guard case let size: Int = variable.size else {
       (simple_identifier)
       (navigation_suffix
         (simple_identifier)))
+    (else)
     (statements
       (control_transfer_statement))))
 
@@ -593,6 +608,7 @@ if #available(macOS 10.12.0, *) {
         (identifier (simple_identifier))
         (integer_literal) (integer_literal) (integer_literal))
         (statements (control_transfer_statement (integer_literal)))
+        (else)
         (statements (control_transfer_statement (integer_literal)))))
 
 

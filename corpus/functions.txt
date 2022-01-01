@@ -163,9 +163,9 @@ func returnGetsImplicitlyUnwrapped() -> String! {
             (statements
                 (control_transfer_statement
                     (dictionary_literal
-                        (line_string_literal) (integer_literal)
-                        (line_string_literal) (integer_literal)
-                        (line_string_literal) (integer_literal))))))
+                        (line_string_literal (line_str_text)) (integer_literal)
+                        (line_string_literal (line_str_text)) (integer_literal)
+                        (line_string_literal (line_str_text)) (integer_literal))))))
     (function_declaration
         (simple_identifier)
         (user_type (type_identifier))
@@ -294,7 +294,7 @@ let messageCoerced = error ??? "nil"
     (infix_expression
       (simple_identifier)
       (custom_operator)
-      (line_string_literal))))
+      (line_string_literal (line_str_text)))))
 
 ==================
 Functions that throw
@@ -310,14 +310,14 @@ func iCanDoBetter()
 (source_file
     (function_declaration
         (simple_identifier)
-                (throws_modifier)
+                (throws)
         (user_type (type_identifier))
         (function_body
             (statements
                 (control_transfer_statement (prefix_expression (integer_literal))))))
     (function_declaration
         (simple_identifier)
-        (throws_modifier)
+        (throws)
         (user_type (type_identifier))
         (function_body
             (statements
@@ -339,15 +339,15 @@ func maybe()
 (source_file
     (function_declaration
         (simple_identifier)
-                (async_modifier)
+                (async)
         (user_type (type_identifier))
         (function_body
             (statements
                 (control_transfer_statement (prefix_expression (integer_literal))))))
     (function_declaration
         (simple_identifier)
-        (async_modifier)
-        (throws_modifier)
+        (async)
+        (throws)
         (user_type (type_identifier))
         (function_body
             (statements
@@ -371,7 +371,7 @@ func test(i: Int = 0, block: (Int) throws -> Void) {}
             (function_type
             (tuple_type
                 (user_type (type_identifier)))
-            (throws_modifier)
+            (throws)
             (user_type (type_identifier))))
         (function_body)))
 
@@ -566,7 +566,7 @@ private lazy var onCatClosure: (_ cat: Cat) throws -> Void = { _ in
                     (wildcard_pattern)
                     (simple_identifier)
                     (user_type (type_identifier)))
-                (throws_modifier)
+                (throws)
                 (user_type (type_identifier))))
         (lambda_literal
             (lambda_function_type (lambda_function_type_parameters (simple_identifier))))))

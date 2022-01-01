@@ -64,15 +64,15 @@ class Strings {
                 (user_type (type_identifier))
                 (function_body
                     (statements
-                        (control_transfer_statement (line_string_literal)))))
+                        (control_transfer_statement (line_string_literal (line_str_text))))))
             (function_declaration (simple_identifier) (user_type (type_identifier)) (function_body
                 (statements
                     (control_transfer_statement
                         (additive_expression
                             (additive_expression
-                                (line_string_literal)
-                                (line_string_literal))
-                            (line_string_literal)))))))))
+                                (line_string_literal (line_str_text))
+                                (line_string_literal (line_str_text)))
+                            (line_string_literal (line_str_text))))))))))
 
 ==================
 Class with modifiers
@@ -144,7 +144,7 @@ class Test : Protocol {
                     (attribute
                         (user_type (type_identifier))
                         (simple_identifier)
-                        (line_string_literal)))
+                        (line_string_literal (line_str_text))))
                     (simple_identifier)
                     (external_parameter_name)
                     (parameter (simple_identifier) (user_type (type_identifier)))
@@ -250,6 +250,7 @@ class Subscriptable {
             (user_type
               (type_identifier))
             (type_constraints
+              (where_keyword)
               (type_constraint
                 (inheritance_constraint
                   (identifier
@@ -366,6 +367,7 @@ class SomethingElse: ThingProvider {
                         (guard_statement
                             (value_binding_pattern (non_binding_pattern (simple_identifier)))
                             (simple_identifier)
+                            (else)
                             (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
                         (control_transfer_statement (simple_identifier)))))
             (function_declaration (simple_identifier) (function_body)))))
@@ -390,7 +392,7 @@ class Cat { let noise: String = "meow"; let claws: String = "retractable" }
         (type_annotation
           (user_type
             (type_identifier)))
-        (line_string_literal))))
+        (line_string_literal (line_str_text)))))
   (class_declaration
     (type_identifier)
     (class_body
@@ -401,7 +403,7 @@ class Cat { let noise: String = "meow"; let claws: String = "retractable" }
         (type_annotation
           (user_type
             (type_identifier)))
-        (line_string_literal))
+        (line_string_literal (line_str_text)))
       (property_declaration
         (value_binding_pattern
           (non_binding_pattern
@@ -409,7 +411,7 @@ class Cat { let noise: String = "meow"; let claws: String = "retractable" }
         (type_annotation
           (user_type
             (type_identifier)))
-        (line_string_literal)))))
+        (line_string_literal (line_str_text))))))
 
 ===
 Protocol composition types
@@ -498,6 +500,7 @@ protocol Wrapper {
                 (simple_identifier)
                 (optional_type (user_type (type_identifier) (type_identifier)))
                 (type_constraints
+                    (where_keyword)
                     (type_constraint
                         (inheritance_constraint
                             (identifier
@@ -519,6 +522,7 @@ protocol Wrapper {
                 (type_identifier)
                 (user_type (type_identifier))
                 (type_constraints
+                    (where_keyword)
                     (type_constraint
                         (equality_constraint
                             (identifier (simple_identifier) (simple_identifier))
@@ -724,7 +728,7 @@ enum CStyle {
                 (type_annotation (user_type (type_identifier)))
                 (call_expression
                     (prefix_expression (simple_identifier))
-                    (call_suffix (value_arguments (value_argument (line_string_literal))))))
+                    (call_suffix (value_arguments (value_argument (line_string_literal (line_str_text)))))))
             (enum_entry
                 (simple_identifier)
                 (enum_type_parameters (simple_identifier) (user_type (type_identifier))))
@@ -755,7 +759,7 @@ enum CStyle {
                 (simple_identifier)
                 (function_body
                     (statements
-                        (control_transfer_statement (line_string_literal)))))))
+                        (control_transfer_statement (line_string_literal (line_str_text))))))))
     (class_declaration
         (type_identifier)
         (enum_class_body
@@ -788,15 +792,16 @@ public extension Foo where T == (arg1: Arg1, arg2: Arg2) { }
         (property_declaration
             (modifiers (property_modifier))
             (value_binding_pattern (non_binding_pattern (simple_identifier)))
-            (line_string_literal))
+            (line_string_literal (line_str_text)))
         (property_declaration
             (modifiers (property_modifier))
             (value_binding_pattern (non_binding_pattern (simple_identifier)))
             (type_annotation (user_type (type_identifier)))
-            (line_string_literal)))) 
+            (line_string_literal (line_str_text))))) 
     (class_declaration
         (identifier (simple_identifier))
         (type_constraints
+            (where_keyword)
             (type_constraint
                 (inheritance_constraint
                     (identifier (simple_identifier))
@@ -810,6 +815,7 @@ public extension Foo where T == (arg1: Arg1, arg2: Arg2) { }
         (modifiers (visibility_modifier))
         (identifier (simple_identifier))
         (type_constraints
+            (where_keyword)
             (type_constraint
                 (equality_constraint
                     (identifier (simple_identifier))
@@ -853,7 +859,7 @@ enum ComputeType {
                     (user_type (type_identifier))
                     (simple_identifier)
                     (simple_identifier)
-                    (line_string_literal)))
+                    (line_string_literal (line_str_text))))
                 (simple_identifier)
                 (function_body))
             (property_declaration
@@ -861,7 +867,7 @@ enum ComputeType {
                     (user_type (type_identifier))
                     (simple_identifier)
                     (simple_identifier)
-                    (line_string_literal)))
+                    (line_string_literal (line_str_text))))
                 (value_binding_pattern (non_binding_pattern (simple_identifier)))
                 (type_annotation (user_type (type_identifier))))
             (function_declaration
@@ -885,7 +891,7 @@ enum ComputeType {
                     (user_type (type_identifier))
                     (simple_identifier)
                     (simple_identifier)
-                    (line_string_literal)))
+                    (line_string_literal (line_str_text))))
                 (simple_identifier)))))
 
 ===
@@ -920,7 +926,7 @@ let result: HasGeneric<P1 & P2> = HasGeneric<P1 & P2>(t: "Hello")
       (constructor_suffix
         (value_argument
           (simple_identifier)
-          (line_string_literal))))))
+          (line_string_literal (line_str_text)))))))
 
 
 ===
@@ -942,6 +948,7 @@ func iterate<S>(h: S) where S : Sequence, S.Element == P1 & P2 { }
       (user_type
         (type_identifier)))
     (type_constraints
+      (where_keyword)
       (type_constraint
         (inheritance_constraint
           (identifier
@@ -1002,7 +1009,8 @@ let result = greet("me") as P1 & P2
         (call_suffix
           (value_arguments
             (value_argument
-              (line_string_literal)))))
+              (line_string_literal (line_str_text))))))
+      (as_operator)
       (user_type
         (type_identifier))
       (user_type
@@ -1094,7 +1102,7 @@ public var someVar: String {
           (simple_identifier))
         (getter_specifier)
         (statements
-            (line_string_literal))))))
+            (line_string_literal (line_str_text)))))))
 
 ===
 Annotations on inheritance

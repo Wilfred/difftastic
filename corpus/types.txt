@@ -11,12 +11,15 @@ something as! A
 (source_file 
     (as_expression
         (simple_identifier)
+        (as_operator)
         (user_type (type_identifier)))
     (as_expression
         (simple_identifier)
+        (as_operator)
         (user_type (type_identifier)))
     (as_expression
         (simple_identifier)
+        (as_operator)
         (user_type (type_identifier))))
 
 ==================
@@ -30,6 +33,7 @@ something as Some.NestedType
 (source_file
     (as_expression
         (simple_identifier)
+        (as_operator)
         (user_type (type_identifier) (type_identifier))))
 
 ==================
@@ -43,6 +47,7 @@ somethingElse as A.Deeply.Nested.Type
 (source_file
     (as_expression
         (simple_identifier)
+        (as_operator)
         (user_type
             (type_identifier)
             (type_identifier)
@@ -61,11 +66,13 @@ something as Generic<A, Type>
 (source_file
     (as_expression
         (simple_identifier)
+        (as_operator)
         (user_type (type_identifier)
             (type_arguments
                 (user_type (type_identifier)))))
     (as_expression
         (simple_identifier)
+        (as_operator)
         (user_type (type_identifier)
             (type_arguments
                 (user_type (type_identifier))
@@ -84,16 +91,19 @@ configurator as (inout Config) -> Unit
 (source_file
     (as_expression
         (simple_identifier)
+        (as_operator)
         (function_type
             (tuple_type)
             (user_type (type_identifier))))
     (as_expression
         (simple_identifier)
+        (as_operator)
         (function_type
             (tuple_type (user_type (type_identifier)))
             (user_type (type_identifier))))
     (as_expression
         (simple_identifier)
+        (as_operator)
         (function_type
             (tuple_type
                 (parameter_modifiers (parameter_modifier))
@@ -112,6 +122,7 @@ b as (Nested.Type, (Int)) -> Unit
 (source_file
     (as_expression
         (simple_identifier)
+        (as_operator)
         (function_type
             (tuple_type
                 (user_type (type_identifier))
@@ -122,6 +133,7 @@ b as (Nested.Type, (Int)) -> Unit
             (user_type (type_identifier))))
     (as_expression
         (simple_identifier)
+        (as_operator)
         (function_type
             (tuple_type
                 (user_type (type_identifier) (type_identifier))
@@ -141,6 +153,7 @@ let c: (third: C, fourth: D)
 (source_file
     (as_expression
         (simple_identifier)
+        (as_operator)
         (function_type
             (tuple_type
                 (simple_identifier)
@@ -227,6 +240,7 @@ protocol GetType {
     (navigation_expression
       (as_expression
         (simple_identifier)
+        (as_operator)
         (array_type
           (user_type
             (type_identifier))))
