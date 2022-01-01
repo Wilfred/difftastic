@@ -1,0 +1,61 @@
+========================================================================
+Test an empty class
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration))
+
+
+
+========================================================================
+Test a class with source file
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source "SourceFile.java"
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration))
+
+
+
+========================================================================
+Test a class that implements an interface
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.implements LD/EF;
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration)
+  (implements_declaration
+    (class_identifier)))

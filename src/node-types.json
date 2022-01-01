@@ -1,0 +1,763 @@
+[
+  {
+    "type": "access_modifiers",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "annotation_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "annotation_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_declaration",
+          "named": true
+        },
+        {
+          "type": "annotation_property",
+          "named": true
+        },
+        {
+          "type": "end_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "annotation_property",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "annotation_key",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "annotation_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "annotation_value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "array_data_declaration",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "array_type",
+    "named": true,
+    "fields": {
+      "element_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "class_identifier",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "catch_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "catchall_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifiers",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_definition",
+          "named": true
+        },
+        {
+          "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "field_declaration",
+          "named": true
+        },
+        {
+          "type": "field_definition",
+          "named": true
+        },
+        {
+          "type": "implements_declaration",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "source_declaration",
+          "named": true
+        },
+        {
+          "type": "super_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "end_field",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "end_method",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "field_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifiers",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_definition",
+          "named": true
+        },
+        {
+          "type": "end_field",
+          "named": true
+        },
+        {
+          "type": "field_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "primitive_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "implements_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "line_declaration",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "list",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "locals_declaration",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "method_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_modifiers",
+          "named": true
+        },
+        {
+          "type": "method_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "method_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_definition",
+          "named": true
+        },
+        {
+          "type": "array_data_declaration",
+          "named": true
+        },
+        {
+          "type": "catch_declaration",
+          "named": true
+        },
+        {
+          "type": "catchall_declaration",
+          "named": true
+        },
+        {
+          "type": "end_method",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "line_declaration",
+          "named": true
+        },
+        {
+          "type": "locals_declaration",
+          "named": true
+        },
+        {
+          "type": "method_declaration",
+          "named": true
+        },
+        {
+          "type": "packed_switch_declaration",
+          "named": true
+        },
+        {
+          "type": "param_declaration",
+          "named": true
+        },
+        {
+          "type": "sparse_switch_declaration",
+          "named": true
+        },
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "method_identifier",
+    "named": true,
+    "fields": {
+      "parameter": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "class_identifier",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "class_identifier",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "packed_switch_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "param_declaration",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "primitive_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "source_declaration",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "sparse_switch_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "statement_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "super_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  },
+  {
+    "type": "..",
+    "named": false
+  },
+  {
+    "type": ".annotation",
+    "named": false
+  },
+  {
+    "type": ".array-data",
+    "named": false
+  },
+  {
+    "type": ".catch",
+    "named": false
+  },
+  {
+    "type": ".catchall",
+    "named": false
+  },
+  {
+    "type": ".class",
+    "named": false
+  },
+  {
+    "type": ".end array-data",
+    "named": false
+  },
+  {
+    "type": ".end method",
+    "named": false
+  },
+  {
+    "type": ".end packed-switch",
+    "named": false
+  },
+  {
+    "type": ".end sparse-switch",
+    "named": false
+  },
+  {
+    "type": ".field",
+    "named": false
+  },
+  {
+    "type": ".implements",
+    "named": false
+  },
+  {
+    "type": ".line",
+    "named": false
+  },
+  {
+    "type": ".locals",
+    "named": false
+  },
+  {
+    "type": ".method",
+    "named": false
+  },
+  {
+    "type": ".packed-switch",
+    "named": false
+  },
+  {
+    "type": ".param",
+    "named": false
+  },
+  {
+    "type": ".source",
+    "named": false
+  },
+  {
+    "type": ".sparse-switch",
+    "named": false
+  },
+  {
+    "type": ".super",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "<init>",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "B",
+    "named": false
+  },
+  {
+    "type": "C",
+    "named": false
+  },
+  {
+    "type": "D",
+    "named": false
+  },
+  {
+    "type": "F",
+    "named": false
+  },
+  {
+    "type": "I",
+    "named": false
+  },
+  {
+    "type": "J",
+    "named": false
+  },
+  {
+    "type": "S",
+    "named": false
+  },
+  {
+    "type": "V",
+    "named": false
+  },
+  {
+    "type": "Z",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "abstract",
+    "named": false
+  },
+  {
+    "type": "annotation_key",
+    "named": true
+  },
+  {
+    "type": "bridge",
+    "named": false
+  },
+  {
+    "type": "build",
+    "named": false
+  },
+  {
+    "type": "class_identifier",
+    "named": true
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "constructor",
+    "named": false
+  },
+  {
+    "type": "end_annotation",
+    "named": true
+  },
+  {
+    "type": "final",
+    "named": false
+  },
+  {
+    "type": "interface",
+    "named": false
+  },
+  {
+    "type": "label",
+    "named": true
+  },
+  {
+    "type": "native",
+    "named": false
+  },
+  {
+    "type": "private",
+    "named": false
+  },
+  {
+    "type": "protected",
+    "named": false
+  },
+  {
+    "type": "public",
+    "named": false
+  },
+  {
+    "type": "runtime",
+    "named": false
+  },
+  {
+    "type": "statement_name",
+    "named": true
+  },
+  {
+    "type": "static",
+    "named": false
+  },
+  {
+    "type": "synchronized",
+    "named": false
+  },
+  {
+    "type": "synthetic",
+    "named": false
+  },
+  {
+    "type": "system",
+    "named": false
+  },
+  {
+    "type": "transient",
+    "named": false
+  },
+  {
+    "type": "volatile",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]

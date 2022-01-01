@@ -1,0 +1,101 @@
+========================================================================
+Test an empty interface
+========================================================================
+
+.class public interface abstract LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration))
+
+
+
+========================================================================
+Test an empty interface that extends another interface
+========================================================================
+
+.class public interface abstract LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.implements LD/EF;
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration)
+  (implements_declaration
+    (class_identifier)))
+
+
+
+========================================================================
+Test an interface with one method
+========================================================================
+
+.class public interface abstract LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public abstract action()V
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration)
+  (method_definition
+    (method_declaration
+      (access_modifiers)
+      (method_identifier
+        return_type: (primitive_type)))
+    (end_method)))
+
+
+
+========================================================================
+Test an interface with one method with parameters and return value
+========================================================================
+
+.class public interface abstract LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public abstract action(LD/EF;I)LD/EF;
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration)
+  (method_definition
+    (method_declaration
+      (access_modifiers)
+      (method_identifier
+        parameter: (class_identifier)
+        parameter: (primitive_type)
+        return_type: (class_identifier)))
+    (end_method)))

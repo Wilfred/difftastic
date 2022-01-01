@@ -1,0 +1,23 @@
+{
+  "name": "tree-sitter-smali",
+  "version": "0.0.1",
+  "description": "Smali grammar for tree sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "Yotam Nachum",
+  "license": "ISC",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.1"
+  },
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test && script/parse-examples"
+  },
+  "repository": "https://git.sr.ht/~yotam/tree-sitter-smali",
+}
