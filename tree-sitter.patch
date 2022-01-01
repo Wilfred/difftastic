@@ -1,0 +1,12 @@
+--- a/lib/binding_web/exports.json
++++ b/lib/binding_web/exports.json
+@@ -3,6 +3,9 @@
+   "_free",
+   "_malloc",
+
++  "__ZNSt3__25ctypeIcE2idE",
++  "__ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE25__init_copy_ctor_externalEPKcm",
++
+   "__ZNKSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4copyEPcmm",
+   "__ZNKSt3__220__vector_base_commonILb1EE20__throw_length_errorEv",
+   "__ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEPKcm",

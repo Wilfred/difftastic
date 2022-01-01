@@ -19,7 +19,8 @@
   },
   "scripts": {
     "test": "tree-sitter test",
-    "examples": "script/parse-examples"
+    "examples": "script/parse-examples",
+    "examples-wasm": "script/parse-examples wasm"
   },
   "tree-sitter": [
     {

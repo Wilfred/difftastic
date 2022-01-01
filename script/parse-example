@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
+# Usage: script/parse-examples [repo_name] [native|wasm]
+
+# Exit immediately if a command exits with a non-zero status.
 set -e
 
-name=$1
-root=$(dirname $(dirname $(realpath "$0")))
-cd $root
+# Change directory to project root.
+cd "$(dirname "$0")/.."
 
+# Get the repository name
+name=$1
 repo=examples/$name
+
+# Parse examples in 'native' or 'wasm' mode.
+mode=${2:-native}
 
 known_failures=$(cat "script/known-failures-$name.txt")
 examples_to_parse=$(
@@ -17,11 +24,21 @@ examples_to_parse=$(
   done
 )
 
-# ensure the scanner was recompiled
-tree-sitter test -f 'just compile it' >/dev/null
+if [ "$mode" == "native" ]; then
+  # Ensure the scanner was recompiled
+  tree-sitter test -f 'just compile it' >/dev/null
+elif [ "$mode" == "wasm" ]; then
+  # Ensure tree-sitter-haskell.wasm was compiled
+  make node_modules/web-tree-sitter
+  make tree-sitter-haskell.wasm
+fi
 
 start=$(date '+%s.%N')
-echo $examples_to_parse | xargs -n 2000 tree-sitter parse -q
+if [ "$mode" == "native" ]; then
+  echo $examples_to_parse | xargs -n 2000 tree-sitter parse -q
+elif [ "$mode" == "wasm" ]; then
+  echo $examples_to_parse | xargs -n 2000 ./script/tree-sitter-parse.js
+fi
 end=$(date '+%s.%N')
 
 skipped=$( echo $known_failures | wc -w )
