@@ -77,6 +77,10 @@
       "required": false,
       "types": [
         {
+          "type": "enum_reference",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         }
@@ -203,6 +207,21 @@
         },
         {
           "type": "super_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_reference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "field_identifier",
           "named": true
         }
       ]
@@ -552,6 +571,10 @@
   },
   {
     "type": ".end sparse-switch",
+    "named": false
+  },
+  {
+    "type": ".enum",
     "named": false
   },
   {

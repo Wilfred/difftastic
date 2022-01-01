@@ -307,6 +307,10 @@
         {
           "type": "SYMBOL",
           "name": "list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "enum_reference"
         }
       ]
     },
@@ -799,6 +803,19 @@
           }
         ]
       }
+    },
+    "enum_reference": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ".enum"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "field_identifier"
+        }
+      ]
     },
     "list": {
       "type": "SEQ",
