@@ -305,6 +305,14 @@
           "value": "-?0x[\\da-f]+"
         },
         {
+          "type": "PATTERN",
+          "value": "\".*\""
+        },
+        {
+          "type": "SYMBOL",
+          "name": "class_identifier"
+        },
+        {
           "type": "SYMBOL",
           "name": "list"
         },
@@ -859,6 +867,30 @@
                   {
                     "type": "PATTERN",
                     "value": "\".*\""
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "class_identifier"
                   },
                   {
                     "type": "CHOICE",

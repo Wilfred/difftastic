@@ -81,7 +81,7 @@ module.exports = grammar({
     annotation_declaration: $ => seq('.annotation', choice('system', 'build', 'runtime'), $.class_identifier),
     annotation_property: $ => seq(field('key', $.annotation_key), '=', field('value', $.annotation_value)),
     annotation_key: _ => /\w+/,
-    annotation_value: $ => choice(HEX_DIGITS, $.list, $.enum_reference),
+    annotation_value: $ => choice(HEX_DIGITS, STRING, $.class_identifier, $.list, $.enum_reference),
     end_annotation: _ => '.end annotation',
 
     // code lines
@@ -128,10 +128,11 @@ module.exports = grammar({
     access_modifiers: _ => repeat1(choice(...modifiers)),
     comment: _ => token(seq('#', /.*/)),
     enum_reference: $ => seq('.enum', $.field_identifier),
-    list: _ => seq('{', 
+    list: $ => seq('{',
         choice(
           repeat(seq(HEX_DIGITS, optional(','))),
           repeat(seq(STRING, optional(','))),
+          repeat(seq($.class_identifier, optional(','))),
         ),
     '}')
   }

@@ -77,6 +77,10 @@
       "required": false,
       "types": [
         {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
           "type": "enum_reference",
           "named": true
         },
@@ -315,7 +319,17 @@
   {
     "type": "list",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "locals_declaration",
