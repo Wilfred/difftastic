@@ -61,7 +61,7 @@ module.exports = grammar({
       $.end_field
     ),
     field_declaration: $ => seq('.field', $.access_modifiers, $.field_identifier),
-    end_field: _ => '.end method',
+    end_field: _ => '.end field',
 
     // method related
     method_definition: $ => seq(

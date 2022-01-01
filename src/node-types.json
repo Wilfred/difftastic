@@ -209,16 +209,6 @@
     }
   },
   {
-    "type": "end_field",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "end_method",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "field_declaration",
     "named": true,
     "fields": {},
@@ -557,10 +547,6 @@
     "named": false
   },
   {
-    "type": ".end method",
-    "named": false
-  },
-  {
     "type": ".end packed-switch",
     "named": false
   },
@@ -690,6 +676,14 @@
   },
   {
     "type": "end_annotation",
+    "named": true
+  },
+  {
+    "type": "end_field",
+    "named": true
+  },
+  {
+    "type": "end_method",
     "named": true
   },
   {

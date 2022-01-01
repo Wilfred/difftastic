@@ -163,7 +163,7 @@
     },
     "end_field": {
       "type": "STRING",
-      "value": ".end method"
+      "value": ".end field"
     },
     "method_definition": {
       "type": "SEQ",
