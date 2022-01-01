@@ -490,6 +490,33 @@ for i in 0 ..< something.count {
                 (navigation_suffix (simple_identifier))))
             (comment)))
 
+===
+Range with force unwrapped contents
+===
+
+_ = contents[Int(prefix)!...]
+
+---
+
+(source_file
+  (assignment
+    (directly_assignable_expression
+      (simple_identifier))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments
+          (value_argument
+            (open_end_range_expression
+              (postfix_expression
+                (call_expression
+                  (simple_identifier)
+                  (call_suffix
+                    (value_arguments
+                      (value_argument
+                        (simple_identifier)))))))))))))
+
+
 ============
 Split nullable navigation expression
 ============
@@ -677,10 +704,11 @@ print(thing.maybeGreeting!.definitely)
       (value_arguments
         (value_argument
           (navigation_expression
-            (navigation_expression
-              (simple_identifier)
+            (postfix_expression
+              (navigation_expression
+                (simple_identifier)
               (navigation_suffix
-                (simple_identifier)))
+                (simple_identifier))))
             (navigation_suffix
               (simple_identifier))))))))
 
@@ -879,3 +907,22 @@ for try await value in values {
           (value_arguments
             (value_argument
               (simple_identifier))))))))
+
+===
+Negation at the start of a line
+===
+
+
+let a = false
+
+!a
+
+---
+
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (boolean_literal))
+  (simple_identifier))

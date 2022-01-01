@@ -220,6 +220,7 @@ module.exports = grammar({
     $._eq_eq,
     $._plus_then_ws, // + symbol with whitespace after it
     $._minus_then_ws, // - symbol with whitespace after it
+    $._bang,
     $._throws_keyword,
     $._rethrows_keyword,
     $.default_keyword,
@@ -628,14 +629,7 @@ module.exports = grammar({
     indexing_suffix: ($) => seq("[", sep1($._expression, ","), "]"),
 
     navigation_suffix: ($) =>
-      seq(
-        $._navigation_operator,
-        choice($.simple_identifier, $.integer_literal)
-      ),
-
-    // `!.` should just be the result of a postfix `!` before navigation, but it gets parsed as a
-    // custom infix operator instead.
-    _navigation_operator: ($) => choice($._dot_operator, "!."),
+      seq($._dot_operator, choice($.simple_identifier, $.integer_literal)),
 
     call_suffix: ($) =>
       prec(
@@ -974,7 +968,7 @@ module.exports = grammar({
     _key_path_postfixes: ($) =>
       choice(
         "?",
-        "!",
+        $._bang,
         "self",
         seq("[", optional(sep1($.value_argument, ",")), "]")
       ),
@@ -1003,7 +997,7 @@ module.exports = grammar({
           "--",
           "-",
           "+",
-          "!",
+          $._bang,
           "&",
           "~",
           $._dot_operator,
@@ -1013,7 +1007,7 @@ module.exports = grammar({
 
     _bitwise_binary_operator: ($) => choice("&", "|", "^", "<<", ">>"),
 
-    _postfix_unary_operator: ($) => choice("++", "--", "!"),
+    _postfix_unary_operator: ($) => choice("++", "--", $._bang),
 
     directly_assignable_expression: ($) =>
       choice(
@@ -1427,7 +1421,7 @@ module.exports = grammar({
       ),
 
     _constructor_function_decl: ($) =>
-      seq("init", optional(choice($._quest, "!"))),
+      seq("init", optional(choice($._quest, $._bang))),
 
     _non_constructor_function_decl: ($) =>
       seq(
@@ -1449,7 +1443,7 @@ module.exports = grammar({
         $._comparison_operator,
         "++",
         "--",
-        "!",
+        $._bang,
         "~"
       ),
 

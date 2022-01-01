@@ -18,6 +18,7 @@ enum TokenType {
     EQ_EQ,
     PLUS_THEN_WS,
     MINUS_THEN_WS,
+    BANG,
     THROWS_KEYWORD,
     RETHROWS_KEYWORD,
     DEFAULT_KEYWORD,
@@ -30,9 +31,9 @@ enum TokenType {
     ASYNC_KEYWORD
 };
 
-#define CROSS_SEMI_OPERATOR_COUNT 21
+#define OPERATOR_COUNT 22
 
-const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
+const char* OPERATORS[OPERATOR_COUNT] = {
     "->",
     ".",
     "...",
@@ -44,6 +45,7 @@ const char* CROSS_SEMI_OPERATORS[CROSS_SEMI_OPERATOR_COUNT] = {
     "==",
     "+",
     "-",
+    "!",
     "throws",
     "rethrows",
     "default",
@@ -63,7 +65,7 @@ enum IllegalTerminatorGroup {
     NON_WHITESPACE
 };
 
-const enum IllegalTerminatorGroup CROSS_SEMI_ILLEGAL_TERMINATORS[CROSS_SEMI_OPERATOR_COUNT] = {
+const enum IllegalTerminatorGroup OP_ILLEGAL_TERMINATORS[OPERATOR_COUNT] = {
     OPERATOR_SYMBOLS, // ->
     OPERATOR_OR_DOT,  // .
     OPERATOR_OR_DOT,  // ...
@@ -75,6 +77,7 @@ const enum IllegalTerminatorGroup CROSS_SEMI_ILLEGAL_TERMINATORS[CROSS_SEMI_OPER
     OPERATOR_SYMBOLS, // ==
     NON_WHITESPACE,   // +
     NON_WHITESPACE,   // -
+    OPERATOR_SYMBOLS, // !
     ALPHANUMERIC,     // throws
     ALPHANUMERIC,     // rethrows
     ALPHANUMERIC,     // default
@@ -87,7 +90,7 @@ const enum IllegalTerminatorGroup CROSS_SEMI_ILLEGAL_TERMINATORS[CROSS_SEMI_OPER
     ALPHANUMERIC      // async
 };
 
-const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
+const enum TokenType OP_SYMBOLS[OPERATOR_COUNT] = {
     ARROW_OPERATOR,
     DOT_OPERATOR,
     THREE_DOT_OPERATOR,
@@ -99,6 +102,7 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     EQ_EQ,
     PLUS_THEN_WS,
     MINUS_THEN_WS,
+    BANG,
     THROWS_KEYWORD,
     RETHROWS_KEYWORD,
     DEFAULT_KEYWORD,
@@ -110,6 +114,36 @@ const enum TokenType CROSS_SEMI_SYMBOLS[CROSS_SEMI_OPERATOR_COUNT] = {
     AS_BANG,
     ASYNC_KEYWORD
 };
+
+bool is_cross_semi_token(enum TokenType op) {
+    switch(op) {
+    case ARROW_OPERATOR:
+    case DOT_OPERATOR:
+    case THREE_DOT_OPERATOR:
+    case OPEN_ENDED_RANGE_OPERATOR:
+    case CONJUNCTION_OPERATOR:
+    case DISJUNCTION_OPERATOR:
+    case NIL_COALESCING_OPERATOR:
+    case EQUAL_SIGN:
+    case EQ_EQ:
+    case PLUS_THEN_WS:
+    case MINUS_THEN_WS:
+    case THROWS_KEYWORD:
+    case RETHROWS_KEYWORD:
+    case DEFAULT_KEYWORD:
+    case WHERE_KEYWORD:
+    case ELSE_KEYWORD:
+    case CATCH_KEYWORD:
+    case AS_KEYWORD:
+    case AS_QUEST:
+    case AS_BANG:
+    case ASYNC_KEYWORD:
+        return true;
+    case BANG:
+    default:
+        return false;
+    }
+}
 
 #define NON_CONSUMING_CROSS_SEMI_CHAR_COUNT 3
 const char NON_CONSUMING_CROSS_SEMI_CHARS[NON_CONSUMING_CROSS_SEMI_CHAR_COUNT] = { '?', ':', '{' };
@@ -188,7 +222,7 @@ static bool should_treat_as_wspace(int32_t character) {
 
 static int32_t encountered_op_count(bool *encountered_operator) {
     int32_t encountered = 0;
-    for (int op_idx = 0; op_idx < CROSS_SEMI_OPERATOR_COUNT; op_idx++) {
+    for (int op_idx = 0; op_idx < OPERATOR_COUNT; op_idx++) {
         if (encountered_operator[op_idx]) {
             encountered++;
         }
@@ -203,23 +237,23 @@ static bool eat_operators(
     bool mark_end,
     enum TokenType *symbol_result
 ) {
-    bool possible_operators[CROSS_SEMI_OPERATOR_COUNT];
-    for (int op_idx = 0; op_idx < CROSS_SEMI_OPERATOR_COUNT; op_idx++) {
-        possible_operators[op_idx] = valid_symbols[CROSS_SEMI_SYMBOLS[op_idx]];
+    bool possible_operators[OPERATOR_COUNT];
+    for (int op_idx = 0; op_idx < OPERATOR_COUNT; op_idx++) {
+        possible_operators[op_idx] = valid_symbols[OP_SYMBOLS[op_idx]];
     }
 
     int32_t str_idx = 0;
     int32_t full_match = -1;
     int32_t encountered_count;
     while(true) {
-        for (int op_idx = 0; op_idx < CROSS_SEMI_OPERATOR_COUNT; op_idx++) {
+        for (int op_idx = 0; op_idx < OPERATOR_COUNT; op_idx++) {
             if (!possible_operators[op_idx]) {
                 continue;
             }
 
-            if (CROSS_SEMI_OPERATORS[op_idx][str_idx] == '\0') {
+            if (OPERATORS[op_idx][str_idx] == '\0') {
                 // Make sure that the operator is allowed to have the next character as its lookahead.
-                enum IllegalTerminatorGroup illegal_terminators = CROSS_SEMI_ILLEGAL_TERMINATORS[op_idx];
+                enum IllegalTerminatorGroup illegal_terminators = OP_ILLEGAL_TERMINATORS[op_idx];
                 switch (lexer->lookahead) {
                 // See "Operators":
                 // https://docs.swift.org/swift-book/ReferenceManual/LexicalStructure.html#ID418
@@ -263,7 +297,7 @@ static bool eat_operators(
                 continue;
             }
 
-            if (CROSS_SEMI_OPERATORS[op_idx][str_idx] != lexer->lookahead) {
+            if (OPERATORS[op_idx][str_idx] != lexer->lookahead) {
                 possible_operators[op_idx] = false;
                 continue;
             }
@@ -278,7 +312,7 @@ static bool eat_operators(
     }
 
     if (full_match != -1) {
-        *symbol_result = CROSS_SEMI_SYMBOLS[full_match];
+        *symbol_result = OP_SYMBOLS[full_match];
         return true;
     }
 
@@ -549,7 +583,7 @@ bool tree_sitter_swift_external_scanner_scan(
                             &operator_result
                         );
 
-    if (saw_operator) {
+    if (saw_operator && (!has_ws_result || is_cross_semi_token(operator_result))) {
         lexer->result_symbol = operator_result;
         return true;
     }
