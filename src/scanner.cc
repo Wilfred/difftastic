@@ -403,11 +403,14 @@ static bool is_newline_where(uint32_t indent, State &state) {
     && PEEK == 'w';
 }
 
+#define NEWLINE_CASES \
+  case '\n': \
+  case '\r': \
+  case '\f'
+
 static bool newline(uint32_t c) {
   switch (c) {
-    case '\n':
-    case '\r':
-    case '\f':
+    NEWLINE_CASES:
       return true;
     default:
       return false;
@@ -1047,9 +1050,18 @@ static Result unboxed_tuple_close(State &state) {
  * Consume all characters up to the end of line and succeed with `Sym::commment`.
  */
 static Result inline_comment(State &state) {
-  while (!cond::newline(PEEK)) {
-    S_ADVANCE;
+  for (;;) {
+    switch (PEEK) {
+      NEWLINE_CASES:
+      case 0: 
+        goto inline_comment_after_skip;
+      default:
+        S_ADVANCE;
+        break;
+    }
   }
+
+inline_comment_after_skip:
   state::mark("inline_comment", state);
   return finish(Sym::comment, "inline_comment");
 }
