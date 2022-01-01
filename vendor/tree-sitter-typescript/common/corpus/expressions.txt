@@ -9,7 +9,7 @@ T as {} & { [t: T]: T } & { [g: G]: G }
 ---
 
 (program
-  (expression_statement (as_expression (identifier) (template_string)))
+  (expression_statement (as_expression (identifier) (template_literal_type)))
   (expression_statement
     (as_expression
       (identifier)

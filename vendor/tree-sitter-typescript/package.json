@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-typescript",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "Typescript grammar for tree-sitter",
   "keywords": [
     "parser",
@@ -18,18 +18,18 @@
   },
   "main": "./bindings/node",
   "devDependencies": {
-    "tree-sitter-cli": "^0.19.1",
-    "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#2c5b138"
+    "tree-sitter-cli": "^0.20.0",
+    "tree-sitter-javascript": "github:tree-sitter/tree-sitter-javascript#fdeb68a"
   },
   "scripts": {
     "build": "npm run build-typescript && npm run build-tsx",
-    "build-typescript": "cd typescript && tree-sitter generate",
-    "build-tsx": "cd tsx && tree-sitter generate",
+    "build-typescript": "cd typescript && npx tree-sitter generate --no-bindings",
+    "build-tsx": "cd tsx && npx tree-sitter generate --no-bindings",
     "test-load": "node -e \"console.log(require('./typescript').name, require('./tsx').name)\"",
     "test": "npm run test-typescript && npm run test-tsx && npm run test-load && script/parse-examples",
-    "test-typescript": "cd typescript && tree-sitter test",
-    "test-tsx": "cd tsx && tree-sitter test",
-    "test-windows": "pushd typescript && tree-sitter test && popd && pushd tsx && tree-sitter test"
+    "test-typescript": "cd typescript && npx tree-sitter test",
+    "test-tsx": "cd tsx && npx tree-sitter test",
+    "test-windows": "pushd typescript && npx tree-sitter test && popd && pushd tsx && npx tree-sitter test"
   },
   "tree-sitter": [
     {
