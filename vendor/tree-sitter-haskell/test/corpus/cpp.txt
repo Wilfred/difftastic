@@ -77,3 +77,16 @@ instance A where
   (cpp)
   (function (variable) (exp_name (variable)))
   (cpp)))
+
+================================================================================
+cpp: incomplete #if/#else
+================================================================================
+
+#if a
+#else
+
+a = a
+
+---
+
+(haskell (cpp) (ERROR (empty_file)) (empty_file))
