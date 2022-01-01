@@ -22,6 +22,8 @@ const PREC = {
   call: 20,
 }
 
+const SEMICOLON = ';'
+
 module.exports = grammar({
   name: 'python',
 
@@ -78,12 +80,8 @@ module.exports = grammar({
     // Simple statements
 
     _simple_statements: $ => seq(
-      $._simple_statement,
-      optional(repeat(seq(
-        $._semicolon,
-        $._simple_statement
-      ))),
-      optional($._semicolon),
+      sep1($._simple_statement, SEMICOLON),
+      optional(SEMICOLON),
       $._newline
     ),
 
@@ -867,7 +865,7 @@ module.exports = grammar({
 
     string: $ => seq(
       alias($._string_start, '"'),
-      repeat(choice($.interpolation, $.escape_sequence, $._not_escape_sequence, $._string_content)),
+      repeat(choice($.interpolation, $._escape_interpolation, $.escape_sequence, $._not_escape_sequence, $._string_content)),
       alias($._string_end, '"')
     ),
 
@@ -878,6 +876,8 @@ module.exports = grammar({
       optional($.format_specifier),
       '}'
     ),
+
+    _escape_interpolation: $ => choice('{{', '}}'),
 
     escape_sequence: $ => token(prec(1, seq(
       '\\',
@@ -966,8 +966,6 @@ module.exports = grammar({
     )),
 
     comment: $ => token(seq('#', /.*/)),
-
-    _semicolon: $ => ';'
   }
 })
 
