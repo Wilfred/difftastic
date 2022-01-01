@@ -16,29 +16,30 @@ function clone_repo {
   fi
 
   pushd "$path" > /dev/null
-  if [ "$(git rev-parse HEAD)" != "$sha"  ]; then
-    echo "Updating $owner/$name to $sha"
+  head=$(git rev-parse HEAD)
+  if [ "$head" != "$sha"  ]; then
+    echo "Updating $owner/$name from $head to $sha"
     git fetch
     git reset --hard $sha
   fi
   popd > /dev/null
 }
 
-clone_repo 0install 0install 5555f2e456c59a1e640cc096781a832956045d28
-clone_repo BinaryAnalysisPlatform bap 40efc122b6fc3bb9de45aa482372437cd70d731d
+clone_repo 0install 0install 3411b55158e4896018d14946ab8a9f4522bc84b1
+clone_repo BinaryAnalysisPlatform bap ea79178856512355f1789183a0dcfac7d2e830ed
 clone_repo dbuenzli cmdliner db4d02a9eb47b5c43127a67cb121004b03ea3719
-clone_repo facebook flow 824fc9779b90e1ec4cdb1b540917968119a561f6
-clone_repo facebook pyre-check 71baba79031d6a6b5447174faebd625029d72792
-clone_repo garrigue lablgtk 034d4fbb1f09431048dd4231bf2ba9c69db59e6a
-clone_repo janestreet base 7bc01b2b9895dd6638702437605c53cd255096c4
-clone_repo mirage ocaml-cohttp c3a59cd11fae2ccf084fbfc3eb02b75773511d25
-clone_repo ocaml dune a8c6ed8bb27af690955e51eabbef0382b7e2d41e
-clone_repo ocaml merlin 2a0dd5c16178efcc4b8132e3c3b3c2a6cc7b13ea
-clone_repo ocaml ocaml 2ea972b151ae16261a701b63177c5592df45425a
-clone_repo ocaml opam 5b5be7b96ac4150ba1471c130d697e2e992763e6
-clone_repo ocsigen js_of_ocaml c97f2543ff7bfa6c8fe683cca7beec884b38f918
-clone_repo ocsigen lwt c5f895e35a38df2d06f19fd23bf553129b9e95b3
-clone_repo owlbarn owl b8110574cb9d9b9e9d4a9bdf2743b86ab39549e3
+clone_repo facebook flow fef70240a1358704d14810032eaddd2a7b161aaa
+clone_repo facebook pyre-check 50fd4352a53ff3d020308eaacb2d7801c672d719
+clone_repo garrigue lablgtk 61e524bb6141d07f1fb46e00a48009eb49bfcca2
+clone_repo janestreet base e8e658eded12b085bcca890dc035ffbe09460aec
+clone_repo mirage ocaml-cohttp bc6191afb140279c222f33c8a5e7c7eb5d08e618
+clone_repo ocaml dune d6e490c24dfb4607080b6a41930bb9d378bc2a43
+clone_repo ocaml merlin 5ca4857302c2d2d329fd01d0db6a22fa5922b42a
+clone_repo ocaml ocaml 90c1365901d22826e419129428a94515ca2b5af1
+clone_repo ocaml opam 598d9691faa29e5876fd6db8d656c8d41ce78896
+clone_repo ocsigen js_of_ocaml 69c904855b1f2099bdd7506e6cc075f3568f4b25
+clone_repo ocsigen lwt f843bd81de08a0a27fd9908e960b0c3e8b2bc6b5
+clone_repo owlbarn owl e5c440bba643c291ed2df29c3c8e990d7875bb94
 
 known_failures="$(cat script/known_failures.txt)"
 

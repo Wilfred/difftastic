@@ -345,7 +345,7 @@ Function application
 
 f x;;
 f x x;;
-f ~x ?x:x;;
+f ~x ?x:x ~(x:x);;
 
 ---
 
@@ -365,7 +365,10 @@ f ~x ?x:x;;
       (labeled_argument (label_name))
       (labeled_argument
         (label_name)
-        (value_path (value_name))))))
+        (value_path (value_name)))
+      (labeled_argument
+        (label_name)
+        (type_constructor_path (type_constructor))))))
 
 ===========================
 Operators
