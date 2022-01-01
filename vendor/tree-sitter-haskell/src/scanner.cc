@@ -7,6 +7,9 @@
 #include <string>
 #include <iterator>
 
+// short circuit
+#define SHORT_SCANNER if (res.finished) return res;
+
 using namespace std;
 
 /**
@@ -423,7 +426,7 @@ Condition seq(const string & s) {
   return [=](State & state) { return all_of(s.begin(), s.end(), [&](auto a) { return consume(a)(state); }); };
 }
 
-function<void(State &)> read_while(Peek pred) {
+function<void(State &)> consume_while(Peek pred) {
   return [=](State & state) {
     while (true) {
       if (state::eof(state)) break;
@@ -433,8 +436,6 @@ function<void(State &)> read_while(Peek pred) {
     }
   };
 }
-
-function<void(State &)> consume_while(Peek pred) { return read_while(pred); }
 
 // TODO this breaks if the target sequence has a repetition of its prefix
 function<void(State &)> consume_until(string target) {
@@ -448,14 +449,14 @@ function<void(State &)> consume_until(string target) {
       }
       else return true;
     };
-    return read_while(check)(state);
+    return consume_while(check)(state);
   };
 }
 
 function<u32string(State &)> read_string(Peek pred) {
   return [=](State & state) {
     u32string s;
-    read_while([&](uint32_t c) {
+    consume_while([&](uint32_t c) {
         auto res = pred(c);
         if (res) s += static_cast<uint32_t>(c);
         return res;
@@ -519,6 +520,9 @@ Condition same_indent(uint32_t indent) { return check_indent([=](auto i) { retur
  * Require that the current line's indent is smaller than the containing layout's, so the layout may be ended.
  */
 Condition smaller_indent(uint32_t indent) { return check_indent([=](auto i) { return indent < i; }); }
+bool smaller_indent_v2(uint32_t indent, State &state) {
+  return indent_exists(state) && indent < state.indents.back();
+}
 
 Condition indent_lesseq(uint32_t indent) { return check_indent([=](auto i) { return indent <= i; }); }
 
@@ -555,28 +559,34 @@ Condition column(uint32_t col) {
  */
 bool after_error(State & state) { return syms::all(state.symbols); }
 
+#define SYMBOLICS_WITHOUT_BAR \
+    case '!': \
+    case '#': \
+    case '$': \
+    case '%': \
+    case '&': \
+    case '*': \
+    case '+': \
+    case '.': \
+    case '/': \
+    case '<': \
+    case '>': \
+    case '?': \
+    case '^': \
+    case ':': \
+    case '=': \
+    case '-': \
+    case '~': \
+    case '@': \
+    case '\\'
+
+#define SYMBOLIC_CASES \
+    SYMBOLICS_WITHOUT_BAR: \
+    case '|'
+
 bool symbolic(uint32_t c) {
   switch (c) {
-    case '!':
-    case '#':
-    case '$':
-    case '%':
-    case '&':
-    case '*':
-    case '+':
-    case '.':
-    case '/':
-    case '<':
-    case '>':
-    case '?':
-    case '^':
-    case ':':
-    case '=':
-    case '|':
-    case '-':
-    case '~':
-    case '@':
-    case '\\':
+    SYMBOLIC_CASES:
       return true;
     default:
       return false;
@@ -757,6 +767,19 @@ Result fail = finish(Sym::fail);
 
 }
 
+
+namespace util {
+
+void mark(string marked_by, State &state) {
+  if (debug) {
+    state.marked = state::column(state);
+    state.marked_by = marked_by;
+  }
+  state.lexer->mark_end(state.lexer);
+}
+
+}
+
 // --------------------------------------------------------------------------------------------------------
 // Parser
 // --------------------------------------------------------------------------------------------------------
@@ -767,6 +790,7 @@ namespace parser {
  * The main function shape for all parser combinators.
  */
 typedef function<Result(State&)> Parser;
+typedef Result (*NewParser)(State&);
 
 /**
  * Parsers that depend on the next character.
@@ -805,7 +829,7 @@ template<class A> function<Parser(function<Parser(A)>)> with(function<A(State &)
 /**
  * Variant of `with` that discards the left operand's result. (>>)
  *
- * Semantics are "execute the right parser if the left parser doesn't fail".
+ * Semantics are "execute the right parser if the left parser doesn't finish".
  */
 Parser operator+(Parser fa, Parser fb) {
   return [=](State & state) {
@@ -846,17 +870,26 @@ Parser effect(Effect eff) {
 /**
  * Parser that terminates the execution with the successful detection of the given symbol.
  */
+Result finish_v2(const Sym s, string desc) {
+  logger << "finish: " << desc << nl;
+  return result::finish(s);
+}
 Parser finish(const Sym s, string desc) {
   return [=](auto _) {
-    logger << "finish: " << desc << nl;
-    return result::finish(s);
+    return finish_v2(s, desc);
   };
 }
 
+
 /**
- * Parser that terminates the execution unsuccessfully;
+ * Parser that terminates the execution unsuccessfully.
  */
 Parser fail = ::const_<State>(result::fail);
+
+/**
+ * Parser that does nothing, causing the next parser to be executed.
+ */
+Parser cont = ::const_<State>(result::cont);
 
 CharParser as_char_parser(CharParser p) { return p; }
 CharParser as_char_parser(Parser p) { return ::const_<uint32_t>(p); }
@@ -871,7 +904,7 @@ CharParser as_char_parser(Result r) { return ::const_<uint32_t>(::const_<State>(
  *
  * iff(cond::after_error)(fail)
  */
-Modifier iff(Condition c) { return [=](Parser next) { return either(c, next, const_<State>(result::cont)); }; }
+Modifier iff(Condition c) { return [=](Parser next) { return either(c, next, cont); }; }
 
 /**
  * Require a plain `bool` to be true for the next parser to be executed.
@@ -1000,6 +1033,13 @@ Parser push(uint16_t ind) { return effect([=](State & state) {
 /**
  * Remove one level of indentation from the stack, caused by the end of a layout.
  */
+void pop_v2(State &state) {
+  if (cond::indent_exists(state)) {
+    logger("pop");
+    state.indents.pop_back();
+  }
+}
+
 Parser pop =
   iff(cond::indent_exists)(effect([](State & state) {
     logger("pop");
@@ -1073,15 +1113,23 @@ Parser eof = peek(0)(sym(Sym::empty)(finish(Sym::empty, "eof")) + end_or_semicol
  *
  * If there is a `module` declaration, this will be handled by the grammar.
  */
-Parser initialize(uint32_t column) {
-  return
-    iff(cond::uninitialized)(
-        mark("initialize") + token("module")(fail) + push(column) + finish(Sym::indent, "init")
-    );
+Result initialize(uint32_t column, State &state) {
+  if (cond::uninitialized(state)) {
+    util::mark("initialize", state);
+    Result res = token("module")(fail)(state);
+    SHORT_SCANNER;
+    return (push(column) + finish(Sym::indent, "init"))(state);
+  }
+  return result::cont;
 }
 
-Parser initialize_init =
-  iff(cond::uninitialized)(with(state::column)([](auto col) { return when(col == 0)(initialize(col)); }));
+Result initialize_init(State &state) {
+  if (cond::uninitialized(state)) {
+    uint32_t col = state::column(state);
+    if (col == 0) return initialize(col, state);
+  };
+  return result::cont;
+}
 
 /**
  * If a dot is neither preceded nor succeded by whitespace, it may be parsed as a qualified module dot.
@@ -1115,12 +1163,14 @@ Parser cpp_consume =
  * This is a workaround for the problem described in `cpp`. It will simply consume all code between `#else` or `#elif`
  * and `#endif`.
  */
-Parser cpp_workaround =
-  consume('#')(seq("el")(consume_until("#endif") + finish(Sym::cpp, "cpp-else")) +
+Result cpp_workaround(State &state) {
+  return consume('#')(
+    seq("el")(consume_until("#endif") + eof + finish(Sym::cpp, "cpp-else")) +
     cpp_consume +
     mark("cpp_workaround") +
     finish(Sym::cpp, "cpp")
-  );
+  )(state);
+}
 
 /**
  * If the current column i 0, a cpp directive may begin.
@@ -1241,6 +1291,33 @@ Parser inline_comment =
  */
 Symbolic read_symop(State & state) { return symbolic::symop(cond::read_string(cond::symbolic)(state))(state); }
 
+Parser symop_marked(Symbolic type) {
+  switch (type) {
+    case Symbolic::invalid:
+      return fail;
+    case Symbolic::star:
+    case Symbolic::modifier:
+      return sym(Sym::tyconsym)(fail);
+    case Symbolic::tilde:
+    case Symbolic::minus:
+      return finish_if_valid(Sym::tyconsym, "symop") + fail;
+    case Symbolic::implicit:
+      return fail;
+    case Symbolic::splice:
+      return splice;
+    case Symbolic::strict:
+      return finish_if_valid(Sym::strict, "strict");
+    case Symbolic::comment:
+      return inline_comment;
+    case Symbolic::con:
+      return finish_if_valid(Sym::consym, "symop") + fail;
+    case Symbolic::unboxed_tuple_close:
+      return unboxed_tuple_close;
+    default:
+      return cont;
+  }
+}
+
 /**
  * Map a `Symbolic` variant to the appropriate symbol, focusing on operators and their edge cases.
  *
@@ -1263,17 +1340,7 @@ Parser symop(Symbolic type) {
       fail
     ) +
     mark("symop") +
-    when(type == Symbolic::invalid)(fail) +
-    sym(Sym::tyconsym)(
-      when(type == Symbolic::star || type == Symbolic::modifier)(fail) +
-      when(type == Symbolic::tilde || type == Symbolic::minus)(finish(Sym::tyconsym, "symop"))
-    ) +
-    when(type == Symbolic::minus || type == Symbolic::implicit || type == Symbolic::tilde)(fail) +
-    when(type == Symbolic::splice)(splice) +
-    when(type == Symbolic::strict)(finish_if_valid(Sym::strict, "strict")) +
-    when(type == Symbolic::comment)(inline_comment) +
-    when(type == Symbolic::con)(finish_if_valid(Sym::consym, "symop") + fail) +
-    when(type == Symbolic::unboxed_tuple_close)(unboxed_tuple_close) +
+    symop_marked(type) +
     finish_if_valid(Sym::tyconsym, "symop") +
     finish_if_valid(Sym::varsym, "symop") +
     fail
@@ -1343,7 +1410,22 @@ Parser brace = seq("{-")(peeks(not_(cond::eq('#')))(multiline_comment(1))) + fai
 /**
  * Parse either inline or block comments.
  */
-Parser comment = peek('-')(minus + fail) + peek('{')(brace);
+Result comment(State &state) {
+  switch (state::next_char(state)) {
+    case '-': {
+      Result res = minus(state);
+      SHORT_SCANNER;
+      return result::fail;
+    }
+    case '{': {
+      Result res = brace(state);
+      SHORT_SCANNER;
+      return result::fail;
+    }
+  }
+  return result::cont;
+}
+// Parser minus = seq("--")(consume_while(cond::eq('-')) + peeks(cond::symbolic)(fail) + inline_comment);
 
 /**
  * `case` can open a layout in a list:
@@ -1356,13 +1438,29 @@ Parser comment = peek('-')(minus + fail) + peek('{')(brace);
  * Because commas can also occur in class layouts at the top level, e.g. in fixity decls, the comma rule has to be
  * parsed here as well.
  */
-Parser close_layout_in_list =
-  peek(']')(layout_end("bracket")) +
-  consume(',')(
-    sym(Sym::comma)(mark("comma") + finish(Sym::comma, "comma")) +
-    layout_end("comma") +
-    fail
-  );
+Result close_layout_in_list(State &state) {
+  switch (state::next_char(state)) {
+    case ']': {
+      if (state.symbols[Sym::end]) {
+        pop_v2(state);
+        return finish_v2(Sym::end, "bracket");
+      }
+      break;
+    }
+    case ',': {
+      state::advance(state);
+      if (state.symbols[Sym::comma]) {
+        util::mark("comma", state);
+        return finish_v2(Sym::comma, "comma");
+      }
+      Result res = layout_end("comma")(state);
+      SHORT_SCANNER;
+      return result::fail;
+    }
+  }
+  return result::cont;
+}
+
 
 /**
  * Parse special tokens before the first newline that can't be reliably detected by tree-sitter:
@@ -1375,17 +1473,55 @@ Parser close_layout_in_list =
  *   - '[' can be a list or a quasiquote
  *   - '|' in a quasiquote, since it can be followed by symbolic operator characters, which would be consumed
  */
-Parser inline_tokens =
-  peek('w')(where + fail) +
-  peek('i')(in + fail) +
-  peek('e')(else_ + fail) +
-  peek(')')(layout_end(")") + fail) +
-  sym(Sym::qq_start)(peek('[')(qq_start + fail)) +
-  sym(Sym::qq_bar)(consume('|')(mark("qq_bar") + finish(Sym::qq_bar, "qq_bar"))) +
-  peeks(cond::symbolic)(with(read_symop)(symop)) +
-  comment +
-  close_layout_in_list
-  ;
+Result inline_tokens(State &state) {
+  switch (state::next_char(state)) {
+    case 'w': {
+      Result res = where(state);
+      SHORT_SCANNER;
+      return result::fail;
+    }
+    case 'i': {
+      Result res = in(state);
+      SHORT_SCANNER;
+      return result::fail;
+    }
+    case 'e': {
+      Result res = else_(state);
+      SHORT_SCANNER;
+      return result::fail;
+    }
+    case ')': {
+      Result res = layout_end(")")(state);
+      SHORT_SCANNER;
+      return result::fail;
+    }
+    // TODO(414owen) does this clash with inline comments '--'?
+    // I'm not sure why there's a `Symbolic::comment` and a `Sym::comment`...
+    SYMBOLICS_WITHOUT_BAR: {
+      return with(read_symop)(symop)(state);
+    }
+    case '|': {
+      if (state.symbols[Sym::qq_bar]) {
+        state::advance(state);
+        util::mark("qq_bar", state);
+        return result::finish(Sym::qq_bar);
+      }
+      return with(read_symop)(symop)(state);
+    }
+    case '[': {
+      if (state.symbols[Sym::qq_start]) {
+        Result res = qq_start(state);
+        SHORT_SCANNER;
+      }
+      return result::fail;
+    }
+    // '-' case covered by symop
+    case '{':
+      Result res = comment(state);
+      SHORT_SCANNER;
+  }
+  return close_layout_in_list(state);
+}
 
 /**
  * If the symbol `Sym::start` is valid, starting a new layout is almost always indicated.
@@ -1399,13 +1535,16 @@ Parser inline_tokens =
  *
  * This pushes the indentation of the first non-whitespace character onto the stack.
  */
-Parser layout_start(uint32_t column) {
-  return sym(Sym::start)(
-    peek('{')(brace) +
-    peek('-')(minus) +
-    push(column) +
-    finish(Sym::start, "layout_start")
-  );
+Result layout_start(uint32_t column, State &state) {
+  if (state.symbols[Sym::start]) {
+    return (
+      peek('{')(brace) +
+      peek('-')(minus) +
+      push(column) +
+      finish(Sym::start, "layout_start")
+    )(state);
+  }
+  return result::cont;
 }
 
 /**
@@ -1423,51 +1562,60 @@ Parser layout_start(uint32_t column) {
  * Here, when the inner `do`'s  layout is ended, the next step is started at `f`, but the outer `do`'s layout expects a
  * semicolon. Since `f` is on the same indent as the outer `do`'s layout, this parser matches.
  */
-Parser post_end_semicolon(uint32_t column) {
-  return sym(Sym::semicolon)(iff(cond::indent_lesseq(column))(finish(Sym::semicolon, "post_end_semicolon")));
+Result post_end_semicolon(uint32_t column, State &state) {
+  return sym(Sym::semicolon)(iff(cond::indent_lesseq(column))(finish(Sym::semicolon, "post_end_semicolon")))(state);
 }
 
 /**
  * Like `post_end_semicolon`, but for layout end.
  */
-Parser repeat_end(uint32_t column) {
-  return sym(Sym::end)(iff(cond::smaller_indent(column))(layout_end("repeat_end")));
+Result repeat_end(uint32_t column, State &state) {
+  if (state.symbols[Sym::end] && cond::smaller_indent_v2(column, state)) {
+    return layout_end("repeat_end")(state);
+  } else {
+    return result::cont;
+  }
 }
 
 /**
  * Rules that decide based on the indent of the next line.
  */
-Parser newline_indent(uint32_t indent) {
+Result newline_indent(uint32_t indent, State &state) {
+  // TODO(414owen): fix
   return
-    dedent(indent) +
+    (dedent(indent) +
     close_layout_in_list +
-    newline_semicolon(indent);
+    newline_semicolon(indent))(state);
 }
 
 /**
  * Rules that decide based on the first token on the next line.
  */
-Parser newline_token(uint32_t indent) {
+Result newline_token(uint32_t indent, State &state) {
+  // TODO(414owen): fix
   return
-    peeks(cond::symbolic | cond::ticked)(with(read_symop)(newline_infix(indent)) + fail) +
+    (peeks(cond::symbolic | cond::ticked)(with(read_symop)(newline_infix(indent)) + fail) +
     newline_where(indent) +
     peek('i')(in)
-    ;
+    )(state);
 }
 
 /**
  * To be called after parsing a newline, with the indent of the next line as argument.
  */
-Parser newline(uint32_t indent) {
-  return
-    eof +
-    initialize(indent) +
-    cpp_workaround +
-    comment +
-    mark("newline") +
-    newline_token(indent) +
-    newline_indent(indent)
-    ;
+Result newline(uint32_t indent, State &state) {
+  Result res = eof(state);
+  SHORT_SCANNER;
+  res = initialize(indent, state);
+  SHORT_SCANNER;
+  res = cpp_workaround(state);
+  SHORT_SCANNER;
+  res = comment(state);
+  SHORT_SCANNER;
+  util::mark("newline", state);
+  res = newline_token(indent, state);
+  SHORT_SCANNER;
+  return newline_indent(indent, state);
 }
 
 /**
@@ -1479,13 +1627,14 @@ Parser newline(uint32_t indent) {
  *   - Tokens `where`, `in`, `$`, `)`, `]`, `,`
  *   - comments
  */
-Parser immediate(uint32_t column) {
-  return
-    layout_start(column) +
-    post_end_semicolon(column) +
-    repeat_end(column) +
-    inline_tokens
-    ;
+Result immediate(uint32_t column, State &state) {
+  auto res = layout_start(column, state);
+  SHORT_SCANNER;
+  res = post_end_semicolon(column, state);
+  SHORT_SCANNER;
+  res = repeat_end(column, state);
+  SHORT_SCANNER;
+  return inline_tokens(state);
 }
 
 /**
@@ -1497,32 +1646,47 @@ Parser immediate(uint32_t column) {
  *   - cpp
  *   - quasiquote body, which overrides everything
  */
-Parser init =
-  eof +
-  iff(cond::after_error)(fail) +
-  initialize_init +
-  dot +
-  cpp_init +
-  sym(Sym::qq_body)(qq_body)
-;
+Result init(State &state) {
+  auto res =  eof(state);
+  SHORT_SCANNER;
+  res = iff(cond::after_error)(fail)(state);
+  SHORT_SCANNER;
+  res = initialize_init(state);
+  SHORT_SCANNER;
+  res = dot(state);
+  SHORT_SCANNER;
+  res = cpp_init(state);
+  SHORT_SCANNER;
+  if (state.symbols[Sym::qq_body]) {
+    return qq_body(state);
+  }
+  return result::cont;
+}
 
 /**
  * The main parser checks whether the first non-space character is a newline and delegates accordingly.
  */
-Parser main =
-  skipspace +
-  eof +
-  mark("main") +
-  either(
-    cond::skips(cond::newline),
-    with(count_indent)(newline),
-    with(state::column)(immediate)
-  );
+Result main(State &state) {
+  auto res = skipspace(state);
+  SHORT_SCANNER;
+  res = eof(state);
+  SHORT_SCANNER;
+  util::mark("main", state);
+  if (cond::skips(cond::newline)(state)) {
+    auto indent = count_indent(state);
+    return newline(indent, state);
+  }
+  auto col = state::column(state);
+  return immediate(col, state);
+}
 
 /**
  * The entry point to the parser.
  */
-Parser all = init + main;
+Result all(State &state) {
+  auto res = init(state);
+  return res.finished ? res : main(state);
+}
 
 }
 
@@ -1562,7 +1726,7 @@ void debug_lookahead(State & state) {
   *
   * If the `debug_next_token` flag is set, the next token will be printed.
   */
-bool eval(logic::Parser chk, State & state) {
+bool eval(parser::NewParser chk, State & state) {
   auto result = chk(state);
   if (debug_next_token) debug_lookahead(state);
   if (result.finished && result.sym != Sym::fail) {
