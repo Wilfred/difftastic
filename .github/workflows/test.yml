@@ -22,6 +22,7 @@ jobs:
       - run: npm run examples
         env:
           CXX: g++-9
+      - run: npm run examples-wasm
   # build-mac:
   #   runs-on: macos-latest
   #   steps:

@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 
+# Usage: script/parse-examples [native|wasm]
+
+# Exit immediately if a command exits with a non-zero status.
 set -e
 
+# Parse examples in 'native' or 'wasm' mode.
+mode=${1:-native}
+
+# Change directory to project root.
 cd "$(dirname "$0")/.."
 
+# Clone a GitHub repository to the examples directory
 # clone_repo OWNER NAME SHA
 function clone_repo {
   owner=$1
@@ -28,5 +36,5 @@ clone_repo github semantic b162132339622fe1e80e243f630fe092d5c0cbe1
 clone_repo haskell haskell-language-server d397ef491ef1689d43028f4d3d01a42118292235
 
 for name in effects postgrest ivory polysemy semantic haskell-language-server; do
-  script/parse-example $name
+  script/parse-example $name $mode
 done
