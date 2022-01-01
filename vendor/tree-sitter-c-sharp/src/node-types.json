@@ -4263,11 +4263,6 @@
     }
   },
   {
-    "type": "parameter_modifier",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "parenthesized_expression",
     "named": true,
     "fields": {},
@@ -6489,6 +6484,10 @@
   {
     "type": "param",
     "named": false
+  },
+  {
+    "type": "parameter_modifier",
+    "named": true
   },
   {
     "type": "params",

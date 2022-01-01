@@ -647,6 +647,32 @@ void a() {
                   (integer_literal))))))))))
 
 ============================
+Lambda expression with ref modifier
+============================
+
+MyIntDelegate a = (ref int i) => i + 1;
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (identifier)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (lambda_expression
+              (parameter_list
+                (parameter
+                  (parameter_modifier)
+                  (predefined_type)
+                  (identifier)))
+              (binary_expression
+                (identifier)
+                (integer_literal)))))))))
+
+============================
 Invocation expressions
 ============================
 
@@ -2237,3 +2263,31 @@ var a = 3..4 as Range;
                 (integer_literal)
                 (integer_literal))
               (identifier))))))))
+
+=====================================
+Precedence between is and comparison operators
+=====================================
+
+var allowedValuesList = someObj is null
+    ? default
+    : new object();
+
+---
+
+(compilation_unit
+  (global_statement
+    (local_declaration_statement
+      (variable_declaration
+        (implicit_type)
+        (variable_declarator
+          (identifier)
+          (equals_value_clause
+            (conditional_expression
+              (is_pattern_expression
+                (identifier)
+                (constant_pattern
+                  (null_literal)))
+              (default_expression)
+              (object_creation_expression
+                (predefined_type)
+                (argument_list)))))))))
