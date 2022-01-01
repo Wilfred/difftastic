@@ -5,7 +5,8 @@
 Moved to the [official Elixir
 parser](https://github.com/elixir-lang/tree-sitter-elixir).
 
-Updated the Bash, C, C++ and C# parsers to the latest upstream version.
+Updated the Bash, C, C++, C# and Haskell parsers to the latest
+upstream version.
 
 Fixed a parsing performance regression introduced in 0.13.
 
