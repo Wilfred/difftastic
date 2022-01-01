@@ -2,7 +2,10 @@ enum Material {
   //  ^ type
   DENIM,
   // ^ constant
-  CANVAS
+  CANVAS,
+  // ^ constant
+  SPANDEX_3_PERCENT
+  // ^ constant
 }
 
 class Person {
