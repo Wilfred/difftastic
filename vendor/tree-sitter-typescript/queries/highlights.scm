@@ -17,8 +17,7 @@
 
 ; Keywords
 
-[
-  "abstract"
+[ "abstract"
   "declare"
   "enum"
   "export"
@@ -31,4 +30,5 @@
   "public"
   "type"
   "readonly"
+  "override"
 ] @keyword
