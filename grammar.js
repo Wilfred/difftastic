@@ -66,7 +66,7 @@ module.exports = grammar({
     // method related
     method_definition: $ => seq(
       $.method_declaration,
-      repeat($._code_line),
+      alias(repeat($._code_line), $.code_block),
       $.end_method
     ),
     method_declaration: $ => seq('.method', $.access_modifiers, optional('constructor'), $.method_identifier),
@@ -118,7 +118,7 @@ module.exports = grammar({
     // identifiers
     class_identifier: _ => /L[\w\d\/\$]+;/,
     field_identifier: $ => seq(/[\w]+/, ':', $._type),
-    method_identifier: $ => seq(choice('<init>', /[\w\d_]+/), '(', field('parameter', repeat($._type)), ')', field('return_type', $._type)),
+    method_identifier: $ => seq(choice('<init>', /[\w\d_]+/), field('parameters', $.parameters), field('return_type', $._type)),
 
     // types
     _type: $ => choice($.primitive_type, $.class_identifier, $.array_type),
@@ -134,6 +134,7 @@ module.exports = grammar({
           repeat(seq(STRING, optional(','))),
           repeat(seq($.class_identifier, optional(','))),
         ),
-    '}')
+    '}'),
+    parameters: $ => seq('(', repeat($._type), ')')
   }
 });

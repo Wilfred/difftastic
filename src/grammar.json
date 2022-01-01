@@ -173,11 +173,16 @@
           "name": "method_declaration"
         },
         {
-          "type": "REPEAT",
+          "type": "ALIAS",
           "content": {
-            "type": "SYMBOL",
-            "name": "_code_line"
-          }
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_code_line"
+            }
+          },
+          "named": true,
+          "value": "code_block"
         },
         {
           "type": "SYMBOL",
@@ -633,23 +638,12 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "("
-        },
-        {
           "type": "FIELD",
-          "name": "parameter",
+          "name": "parameters",
           "content": {
-            "type": "REPEAT",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_type"
-            }
+            "type": "SYMBOL",
+            "name": "parameters"
           }
-        },
-        {
-          "type": "STRING",
-          "value": ")"
         },
         {
           "type": "FIELD",
@@ -912,6 +906,26 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "parameters": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_type"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     }
