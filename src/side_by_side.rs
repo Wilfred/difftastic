@@ -265,6 +265,7 @@ pub fn display_hunks(
         return display_single_column(display_path, lang_name, &lhs_colored_src, Color::BrightRed);
     }
 
+    // TODO: this is largely duplicating the `apply_colors` logic.
     let (lhs_highlights, rhs_highlights) = highlight_positions(lhs_mps, rhs_mps);
     let lhs_lines = split_lines_nonempty(lhs_src);
     let rhs_lines = split_lines_nonempty(rhs_src);
