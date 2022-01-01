@@ -160,20 +160,51 @@ Format strings
 
 # nested!
 f"a {b(f'c {e} d')} e"
+f"""a"{b}c"""
+f"""a""{b}c"""
 f"a {{}} e"
+f"a {b}}}"
+f"a {{{b}"
+f"a {{b}}"
+f"a {{{b}}}"
 
 ---
 
 (module
   (comment)
-  (expression_statement (string
-    (interpolation
-      (call
-        (identifier)
-        (argument_list
-          (string (interpolation
-            (identifier))))))))
-  (expression_statement (string)))
+  (expression_statement
+    (string
+      (interpolation
+        (call
+          (identifier)
+          (argument_list
+            (string
+              (interpolation
+                (identifier))))))))
+  (expression_statement
+    (string
+      (interpolation
+        (identifier))))
+  (expression_statement
+    (string
+      (interpolation
+        (identifier))))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string
+      (interpolation
+        (identifier))))
+  (expression_statement
+    (string
+      (interpolation
+        (identifier))))
+  (expression_statement
+    (string))
+  (expression_statement
+    (string
+      (interpolation
+        (identifier)))))
 
 ======================================
 Format strings with format specifiers
