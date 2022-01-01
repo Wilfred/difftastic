@@ -1,14 +1,15 @@
 [package]
 name = "tree-sitter-c-sharp"
 description = "C# grammar for the tree-sitter parsing library"
-version = "0.19.0"
+version = "0.19.1"
 authors = [
+    "Damien Guard <damieng@gmail.com>",
     "Max Brunsfeld <maxbrunsfeld@gmail.com>",
+    "Martin Midtgaard <martin.midtgaard@gmail.com>",
+    "Sjoerd Langkemper <sjoerd-github@linuxonly.nl>",
+    "Patrick Thomson <patrickt@github.com>",
     "Noelle Caldwell <noelle.caldwell@microsoft.com>",
     "Douglas Creager <dcreager@dcreager.net>",
-    "Damien Guard <damieng@gmail.com>",
-    "Martin Midtgaard <martin.midtgaard@gmail.com>",
-    "Patrick Thomson <patrickt@github.com>",
 ]
 license = "MIT"
 readme = "bindings/rust/README.md"

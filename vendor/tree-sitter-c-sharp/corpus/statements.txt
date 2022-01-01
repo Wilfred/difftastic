@@ -1092,6 +1092,65 @@ class A {
             (return_statement))))))))
 
 =====================================
+Using statement with compound variable declaration
+=====================================
+
+class A {
+  void Sample() {
+    using (Stream a = File.OpenRead("a"), b = new BinaryReader(a)) {
+      return;
+    } 
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list (method_declaration
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block
+        (using_statement
+          (variable_declaration (identifier)
+            (variable_declarator (identifier)
+              (equals_value_clause
+                (invocation_expression
+                (member_access_expression (identifier) (identifier)) (argument_list (argument (string_literal)))))) 
+            (variable_declarator (identifier)
+              (equals_value_clause
+                (object_creation_expression (identifier) (argument_list (argument (identifier)))))))
+          (block (return_statement))))))))
+
+=====================================
+Using statement without brackets
+=====================================
+
+class A {
+  void Sample() {
+    using var a = new A();
+  }
+}
+
+---
+
+(compilation_unit
+  (class_declaration
+    (identifier)
+    (declaration_list (method_declaration
+      (void_keyword)
+      (identifier)
+      (parameter_list)
+      (block
+        (local_declaration_statement
+          (variable_declaration (implicit_type)
+            (variable_declarator (identifier)
+              (equals_value_clause
+                (object_creation_expression (identifier) (argument_list)))))))))))
+
+=====================================
 Using statement with explicit local variable
 =====================================
 
