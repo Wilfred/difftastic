@@ -19,5 +19,5 @@
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && script/parse-examples"
   },
-  "repository": "https://git.sr.ht/~yotam/tree-sitter-smali",
+  "repository": "https://git.sr.ht/~yotam/tree-sitter-smali"
 }
