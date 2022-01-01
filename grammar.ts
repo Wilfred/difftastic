@@ -224,13 +224,13 @@ module.exports = grammar({
     $._throws_keyword,
     $._rethrows_keyword,
     $.default_keyword,
-    $._where_keyword,
-    $._else,
-    $._catch,
+    $.where_keyword,
+    $.else,
+    $.catch_keyword,
     $._as,
     $._as_quest,
     $._as_bang,
-    $.async_modifier,
+    $.async,
   ],
 
   rules: {
@@ -309,12 +309,11 @@ module.exports = grammar({
     line_string_literal: ($) =>
       seq('"', repeat(choice($._line_string_content, $._interpolation)), '"'),
 
-    _line_string_content: ($) =>
-      choice($._line_str_text, $._line_str_escaped_char),
+    _line_string_content: ($) => choice($.line_str_text, $.str_escaped_char),
 
-    _line_str_text: ($) => /[^\\"]+/,
+    line_str_text: ($) => /[^\\"]+/,
 
-    _line_str_escaped_char: ($) =>
+    str_escaped_char: ($) =>
       choice($._escaped_identifier, $._uni_character_literal),
 
     _uni_character_literal: ($) => seq("\\", "u", /\{[0-9a-fA-F]+\}/),
@@ -344,7 +343,7 @@ module.exports = grammar({
     raw_str_interpolation_start: ($) => /\\#*\(/,
 
     _multi_line_string_content: ($) =>
-      choice($._multi_line_str_text, $._escaped_identifier, '"'),
+      choice($.multi_line_str_text, $.str_escaped_char, '"'),
 
     _interpolation: ($) => seq("\\(", $._interpolation_contents, ")"),
 
@@ -353,7 +352,7 @@ module.exports = grammar({
 
     _escaped_identifier: ($) => /\\[0\\tnr"'\n]/,
 
-    _multi_line_str_text: ($) => /[^\\"]+/,
+    multi_line_str_text: ($) => /[^\\"]+/,
 
     ////////////////////////////////
     // Types - https://docs.swift.org/swift-book/ReferenceManual/Types.html
@@ -419,8 +418,8 @@ module.exports = grammar({
     function_type: ($) =>
       seq(
         $.tuple_type,
-        optional($.async_modifier),
-        optional($.throws_modifier),
+        optional($.async),
+        optional($.throws),
         $._arrow_operator,
         $._type
       ),
@@ -532,7 +531,7 @@ module.exports = grammar({
       ),
 
     as_expression: ($) =>
-      prec.left(PRECS.as, seq($._expression, $._as_operator, $._type)),
+      prec.left(PRECS.as, seq($._expression, $.as_operator, $._type)),
 
     selector_expression: ($) =>
       seq(
@@ -842,8 +841,8 @@ module.exports = grammar({
             $.lambda_function_type_parameters,
             seq("(", optional($.lambda_function_type_parameters), ")")
           ),
-          optional($.async_modifier),
-          optional($.throws_modifier),
+          optional($.async),
+          optional($.throws),
           optional(
             seq($._arrow_operator, $._possibly_implicitly_unwrapped_type)
           )
@@ -881,7 +880,7 @@ module.exports = grammar({
           "if",
           sep1($._if_condition_sequence_item, ","),
           $._block,
-          optional(seq($._else, $._else_options))
+          optional(seq($.else, $._else_options))
         )
       ),
 
@@ -897,7 +896,7 @@ module.exports = grammar({
         seq(
           "guard",
           sep1(prec.left($._if_condition_sequence_item), ","),
-          $._else,
+          $.else,
           $._block
         )
       ),
@@ -916,7 +915,7 @@ module.exports = grammar({
             "case",
             seq(
               $.switch_pattern,
-              optional(seq($._where_keyword, $._expression))
+              optional(seq($.where_keyword, $._expression))
             ),
             repeat(seq(",", $.switch_pattern))
           ),
@@ -934,13 +933,13 @@ module.exports = grammar({
 
     catch_block: ($) =>
       seq(
-        $._catch,
+        $.catch_keyword,
         optional(generate_pattern_matching_rule($, true, false)),
         optional($.where_clause),
         $._block
       ),
 
-    where_clause: ($) => prec.left(seq($._where_keyword, $._expression)),
+    where_clause: ($) => prec.left(seq($.where_keyword, $._expression)),
 
     key_path_expression: ($) =>
       prec.right(
@@ -988,7 +987,7 @@ module.exports = grammar({
 
     _multiplicative_operator: ($) => choice("*", "/", "%"),
 
-    _as_operator: ($) => choice($._as, $._as_quest, $._as_bang),
+    as_operator: ($) => choice($._as, $._as_quest, $._as_bang),
 
     _prefix_unary_operator: ($) =>
       prec.right(
@@ -1073,10 +1072,10 @@ module.exports = grammar({
           "for",
           optional($._try_operator),
           optional($._await_operator),
-          generate_pattern_matching_rule($, true, true, false),
+          field("item", generate_pattern_matching_rule($, true, true, false)),
           optional($.type_annotation),
           "in",
-          $._expression,
+          field("collection", $._expression),
           optional($.where_clause),
           $._block
         )
@@ -1306,8 +1305,8 @@ module.exports = grammar({
           ),
           optional($.type_parameters),
           $._function_value_parameters,
-          optional($.async_modifier),
-          optional($.throws_modifier),
+          optional($.async),
+          optional($.throws),
           optional(
             seq($._arrow_operator, $._possibly_implicitly_unwrapped_type)
           ),
@@ -1372,7 +1371,7 @@ module.exports = grammar({
       ),
 
     type_constraints: ($) =>
-      prec.right(seq($._where_keyword, sep1($.type_constraint, ","))),
+      prec.right(seq($.where_keyword, sep1($.type_constraint, ","))),
 
     type_constraint: ($) =>
       choice($.inheritance_constraint, $.equality_constraint),
@@ -1426,10 +1425,13 @@ module.exports = grammar({
     _non_constructor_function_decl: ($) =>
       seq(
         "func",
-        choice(
-          $.simple_identifier,
-          $._referenceable_operator,
-          $._bitwise_binary_operator
+        field(
+          "name",
+          choice(
+            $.simple_identifier,
+            $._referenceable_operator,
+            $._bitwise_binary_operator
+          )
         )
       ),
 
@@ -1447,7 +1449,7 @@ module.exports = grammar({
         "~"
       ),
 
-    throws_modifier: ($) => choice($._throws_keyword, $._rethrows_keyword),
+    throws: ($) => choice($._throws_keyword, $._rethrows_keyword),
 
     enum_class_body: ($) =>
       seq("{", repeat(choice($.enum_entry, $._type_level_declaration)), "}"),

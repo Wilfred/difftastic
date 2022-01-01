@@ -319,14 +319,14 @@ something.hello?("world")
 (source_file
     (call_expression (simple_identifier)
         (call_suffix (value_arguments
-            (value_argument (line_string_literal)))))
+            (value_argument (line_string_literal (line_str_text))))))
     (call_expression (simple_identifier)
         (call_suffix (value_arguments
             (value_argument (integer_literal))
             (value_argument (integer_literal)))))
     (call_expression
         (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
-        (call_suffix (value_arguments (value_argument (line_string_literal))))))
+        (call_suffix (value_arguments (value_argument (line_string_literal (line_str_text)))))))
 
 ==================
 Constructor calls

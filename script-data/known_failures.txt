@@ -1,5 +1,4 @@
 firefox-ios/Shared/Functions.swift
 RxSwift/RxExample/RxExample/Examples/GitHubSearchRepositories/GitHubSearchRepositories.swift
 RxSwift/Rx.playground/Pages/Transforming_Operators.xcplaygroundpage/Contents.swift
-SwiftLint/Source/SwiftLintFramework/Extensions/String+SwiftLint.swift
 GRDB/GRDB/Core/Row.swift

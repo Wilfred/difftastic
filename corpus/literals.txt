@@ -35,9 +35,12 @@ string.
 ---
 
 (source_file
-    (line_string_literal)
-    (multi_line_string_literal)
-    (line_string_literal))
+    (line_string_literal (line_str_text))
+    (multi_line_string_literal
+        (multi_line_str_text)
+        (multi_line_str_text)
+        (multi_line_str_text))
+    (line_string_literal (line_str_text)))
 
 ==================
 String interpolation
@@ -58,10 +61,17 @@ Multiline
 ---
 
 (source_file
-    (line_string_literal (interpolated_expression (line_string_literal)))
+    (line_string_literal
+        (line_str_text)
+        (interpolated_expression (line_string_literal (line_str_text)))
+        (line_str_text))
     (multi_line_string_literal
-        (interpolated_expression (multi_line_string_literal)))
-    (line_string_literal) (multi_line_string_literal) (comment))
+        (multi_line_str_text)
+        (interpolated_expression (multi_line_string_literal (multi_line_str_text)))
+        (multi_line_str_text))
+    (line_string_literal (line_str_text))
+    (multi_line_string_literal (multi_line_str_text))
+    (comment))
 
 ==================
 Custom interpolation
@@ -72,6 +82,7 @@ Custom interpolation
 
 (source_file
   (line_string_literal
+    (line_str_text)
     (interpolated_expression
       (simple_identifier)
       (simple_identifier))))
@@ -88,7 +99,11 @@ This is a string that acts as though it \
 
 ---
 
-(source_file (multi_line_string_literal))
+(source_file
+  (multi_line_string_literal
+    (multi_line_str_text)
+    (str_escaped_char)
+    (multi_line_str_text)))
 
 ==================
 Integer literals
@@ -149,10 +164,10 @@ let numerals = [1: "I", 4: "IV", 5: "V", 10: "X"]
         (value_binding_pattern
             (non_binding_pattern (simple_identifier)))
         (dictionary_literal
-            (integer_literal) (line_string_literal)
-            (integer_literal) (line_string_literal)
-            (integer_literal) (line_string_literal)
-            (integer_literal) (line_string_literal))))
+            (integer_literal) (line_string_literal (line_str_text))
+            (integer_literal) (line_string_literal (line_str_text))
+            (integer_literal) (line_string_literal (line_str_text))
+            (integer_literal) (line_string_literal (line_str_text)))))
 =====
 Trailing commas
 =====
@@ -168,13 +183,13 @@ Trailing commas
 
 (source_file
     (dictionary_literal
-        (line_string_literal)
+        (line_string_literal (line_str_text))
         (call_expression
             (navigation_expression
                 (simple_identifier)
                 (navigation_suffix (simple_identifier)))
             (call_suffix (value_arguments)))
-        (line_string_literal)
+        (line_string_literal (line_str_text))
         (boolean_literal))
     (array_literal
         (integer_literal) (integer_literal) (integer_literal) (integer_literal) (integer_literal)))
@@ -331,17 +346,17 @@ let infinity = "\u{221E}"
     (value_binding_pattern
       (non_binding_pattern
         (simple_identifier)))
-    (line_string_literal))
+    (line_string_literal (str_escaped_char)))
   (property_declaration
     (value_binding_pattern
       (non_binding_pattern
         (simple_identifier)))
-    (line_string_literal))
+    (line_string_literal (line_str_text) (str_escaped_char)))
   (property_declaration
     (value_binding_pattern
       (non_binding_pattern
         (simple_identifier)))
-    (line_string_literal)))
+    (line_string_literal (str_escaped_char))))
 
 ===
 Playground literals
@@ -357,5 +372,5 @@ let playgroundLiteral = #imageLiteral(resourceName: "heart")
       (non_binding_pattern
         (simple_identifier)))
     (simple_identifier)
-    (line_string_literal)))
+    (line_string_literal (line_str_text))))
 
