@@ -131,6 +131,8 @@ impl Edge {
             // novel rather than marking 90% of the children as
             // novel. This stops us matching up completely unrelated trees.
             NovelTreeLHS { num_descendants } | NovelTreeRHS { num_descendants } => {
+                // TODO: this crashes on debug builds if we have less
+                // than 20 descendants.
                 300 + (*num_descendants as u64 - 10)
                     * NovelDelimiterLHS { contiguous: false }.cost()
             }
