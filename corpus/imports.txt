@@ -56,9 +56,10 @@ import a/.{b, d}
         name: (type_identifier)
         alias: (type_identifier))))
   (import
-    module: (module)
-    (ERROR)
-    (unqualified_import)))
+    module: (module))
+  (ERROR
+    (UNEXPECTED ',')
+    (UNEXPECTED 'd')))
 
 ================
 Aliased imports
