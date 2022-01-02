@@ -3,6 +3,10 @@ Constants
 ==========
 
 const a = "hello"
+const a = 1_234
+const a = 0b110
+const a = 0o7224
+const a = 0xBEef
 const a: Int = 1234
 const a: Float = -1_234.53__23
 const a: #(Int, String) = #(1, "Hello!")
@@ -27,6 +31,18 @@ const a: option.Option(String) = option.Some("Hello, World!")
   (constant
     name: (identifier)
     value: (string))
+  (constant
+    name: (identifier)
+    value: (integer))
+  (constant
+    name: (identifier)
+    value: (integer))
+  (constant
+    name: (identifier)
+    value: (integer))
+  (constant
+    name: (identifier)
+    value: (integer))
   (constant
     name: (identifier)
     type: (type
