@@ -4,7 +4,6 @@ module.exports = grammar({
   name: "gleam",
   extras: ($) => [";", NEWLINE, /\s/],
   conflicts: ($) => [
-    [$.record, $.record_name],
     [$.var, $.identifier],
     [$._maybe_record_expression, $._maybe_tuple_expression],
   ],
@@ -65,8 +64,8 @@ module.exports = grammar({
           optional(seq("as", field("alias", $.identifier)))
         ),
         seq(
-          field("name", $.record_name),
-          optional(seq("as", field("alias", $.record_name)))
+          field("name", $.type_identifier),
+          optional(seq("as", field("alias", $.type_identifier)))
         )
       ),
 
@@ -86,40 +85,33 @@ module.exports = grammar({
         $.string,
         $.float,
         $.integer,
-        alias($._constant_tuple, $.tuple),
-        alias($._constant_list, $.list),
+        alias($.constant_tuple, $.tuple),
+        alias($.constant_list, $.list),
         alias($._constant_bit_string, $.bit_string),
-        alias($._constant_record, $.record),
-        alias($._constant_remote_record, $.remote_record)
+        alias($.constant_record, $.record)
       ),
-    _constant_tuple: ($) =>
+    constant_tuple: ($) =>
       seq("#", "(", optional(series_of($._constant_value, ",")), ")"),
-    _constant_list: ($) =>
+    constant_list: ($) =>
       seq("[", optional(series_of($._constant_value, ",")), "]"),
     ...bit_string_rules("constant", "_constant_value", "integer"),
-    _constant_record: ($) =>
+    constant_record: ($) =>
       seq(
-        $.record_name,
-        optional(alias($._constant_record_arguments, $.arguments))
+        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        optional(
+          field("arguments", alias($.constant_record_arguments, $.arguments))
+        )
       ),
-    _constant_record_arguments: ($) =>
+    constant_record_arguments: ($) =>
       seq(
         "(",
-        optional(
-          series_of(alias($._constant_record_argument, $.argument), ",")
-        ),
+        optional(series_of(alias($.constant_record_argument, $.argument), ",")),
         ")"
       ),
-    _constant_record_argument: ($) =>
+    constant_record_argument: ($) =>
       seq(
         optional(seq(field("label", $.identifier), ":")),
         field("value", $._constant_value)
-      ),
-    _constant_remote_record: ($) =>
-      seq(
-        field("module", alias($._name, $.identifier)),
-        ".",
-        $._constant_record
       ),
 
     /* Special constant types */
@@ -129,16 +121,17 @@ module.exports = grammar({
       choice(
         $.type_hole,
         alias($.constant_tuple_type, $.tuple_type),
-        alias($.constant_type, $.type),
-        alias($.constant_remote_type, $.remote_type)
+        alias($.constant_type, $.type)
       ),
     _constant_type_annotation: ($) => seq(":", field("type", $._constant_type)),
     constant_tuple_type: ($) =>
       seq("#", "(", optional(series_of($._constant_type, ",")), ")"),
     constant_type: ($) =>
       seq(
-        $._upname,
-        optional(alias($.constant_type_arguments, $.type_arguments))
+        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        optional(
+          field("arguments", alias($.constant_type_arguments, $.type_arguments))
+        )
       ),
     constant_type_arguments: ($) =>
       seq(
@@ -149,9 +142,6 @@ module.exports = grammar({
         ")"
       ),
     constant_type_argument: ($) => $._constant_type,
-
-    constant_remote_type: ($) =>
-      seq(field("module", $.identifier), ".", alias($.constant_type, $.type)),
 
     /* External types */
     public_external_type: ($) => seq("pub", $._external_type),
@@ -165,7 +155,7 @@ module.exports = grammar({
       seq(
         "external",
         "fn",
-        field("name", alias($._name, $.function_name)),
+        field("name", $.identifier),
         "(",
         optional(
           field(
@@ -296,7 +286,6 @@ module.exports = grammar({
         // If we decide that record constructors (value constructors) are
         // actually functions, this will require a refactor.
         $.record,
-        $.remote_record,
         $.var,
         $.todo,
         $.tuple,
@@ -312,8 +301,11 @@ module.exports = grammar({
         $.field_access,
         $.function_call
       ),
-    record: ($) => seq(alias($._upname, $.record_name), optional($.arguments)),
-    remote_record: ($) => seq(field("module", $.identifier), ".", $.record),
+    record: ($) =>
+      seq(
+        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        field("arguments", optional($.arguments))
+      ),
     todo: ($) =>
       seq("todo", optional(seq("(", field("message", $.string), ")"))),
     tuple: ($) => seq("#", "(", optional(series_of($._expression, ",")), ")"),
@@ -471,14 +463,8 @@ module.exports = grammar({
         seq("{", $._case_clause_guard_expression, "}"),
         $._constant_value
       ),
-    // Somehow writing alias($._name, $.var) vs just $.var solves a precedence
-    // issue with tree-sitter
     _case_clause_tuple_access: ($) =>
-      seq(
-        field("tuple", alias($._name, $.var)),
-        ".",
-        field("index", $.integer)
-      ),
+      seq(field("tuple", $.var), ".", field("index", $.integer)),
     let: ($) => seq("let", $._assignment),
     assert: ($) => seq("assert", $._assignment),
     _assignment: ($) =>
@@ -490,7 +476,10 @@ module.exports = grammar({
       ),
     record_update: ($) =>
       seq(
-        field("constructor", choice($.record_name, $.remote_record_name)),
+        field(
+          "constructor",
+          choice($.type_identifier, $.remote_type_identifier)
+        ),
         "(",
         "..",
         field("spread", $._expression),
@@ -530,7 +519,6 @@ module.exports = grammar({
     _maybe_record_expression: ($) =>
       choice(
         $.record,
-        $.remote_record,
         $.var,
         $.function_call,
         $.expression_group,
@@ -577,7 +565,6 @@ module.exports = grammar({
         choice(
           $.var,
           $.discard_var,
-          $.remote_constructor_pattern,
           $.constructor_pattern,
           $.string,
           $.integer,
@@ -586,28 +573,29 @@ module.exports = grammar({
           alias($._pattern_bit_string, $.bit_string_pattern),
           $.list_pattern
         ),
-        optional(field("assign", seq("as", alias($._name, $.pattern_assign))))
+        optional(field("assign", seq("as", $.pattern_assign)))
       ),
+    pattern_assign: ($) => $._name,
     var: ($) => $._name,
     discard_var: ($) => $._discard_name,
-    remote_constructor_pattern: ($) =>
-      seq($._name, ".", $._constructor_pattern),
-    constructor_pattern: ($) => $._constructor_pattern,
-    _constructor_pattern: ($) =>
-      seq($._upname, optional($.pattern_constructor_args)),
-    pattern_constructor_args: ($) =>
+    constructor_pattern: ($) =>
+      seq(
+        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        optional(field("arguments", $.pattern_constructor_arguments))
+      ),
+    pattern_constructor_arguments: ($) =>
       seq(
         "(",
-        optional(series_of($._pattern_constructor_arg, ",")),
+        optional(series_of($._pattern_constructor_argument, ",")),
         optional($.pattern_spread),
         ")"
       ),
-    _pattern_constructor_arg: ($) =>
+    _pattern_constructor_argument: ($) =>
       choice(
-        $.pattern_constructor_named_arg,
-        alias($.constructor_pattern, $.pattern_constructor_unnamed_arg)
+        $.pattern_constructor_named_argument,
+        alias($.constructor_pattern, $.pattern_constructor_unnamed_argument)
       ),
-    pattern_constructor_named_arg: ($) =>
+    pattern_constructor_named_argument: ($) =>
       seq($._name, ":", $.constructor_pattern),
     pattern_spread: ($) => seq("..", optional(",")),
     tuple_pattern: ($) =>
@@ -618,9 +606,9 @@ module.exports = grammar({
     ...bit_string_rules(
       "pattern",
       "_pattern",
-      "_pattern_bit_string_segment_arg"
+      "_pattern_bit_string_segment_argument"
     ),
-    _pattern_bit_string_segment_arg: ($) => choice($.var, $.integer),
+    _pattern_bit_string_segment_argument: ($) => choice($.var, $.integer),
     list_pattern: ($) =>
       seq(
         "[",
@@ -644,11 +632,11 @@ module.exports = grammar({
     type_constructors: ($) => repeat1($.type_constructor),
     type_constructor: ($) =>
       seq(
-        $._upname,
-        optional(seq("(", optional($.type_constructor_arguments), ")"))
+        field("name", $.type_identifier),
+        optional(field("arguments", $.type_constructor_arguments))
       ),
     type_constructor_arguments: ($) =>
-      series_of($.type_constructor_argument, ","),
+      seq("(", optional(series_of($.type_constructor_argument, ",")), ")"),
     type_constructor_argument: ($) =>
       seq(
         optional(seq(field("label", $.identifier), ":")),
@@ -696,14 +684,7 @@ module.exports = grammar({
 
     /* Types */
     _type: ($) =>
-      choice(
-        $.type_hole,
-        $.tuple_type,
-        $.function_type,
-        $.type,
-        $.remote_type,
-        $.type_var
-      ),
+      choice($.type_hole, $.tuple_type, $.function_type, $.type, $.type_var),
     _type_annotation: ($) => seq(":", field("type", $._type)),
     type_hole: ($) => $._discard_name,
     // If you're wondering why there isn't a `list_type` here, the answer is
@@ -720,29 +701,34 @@ module.exports = grammar({
     function_parameter_types: ($) =>
       seq("(", optional(series_of($._type, ",")), ")"),
     // "type" is a somewhat ambiguous name, but it refers to a concrete type
-    // such as `Bool` or `List(Int)` or even `List(#(Int, String))`.
-    type: ($) => seq($._upname, field("arguments", optional($.type_arguments))),
+    // such as `Bool` or `List(Int)` or even `result.Result(#(Int, Int), Nil)`.
+    type: ($) =>
+      seq(
+        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        field("arguments", optional($.type_arguments))
+      ),
     type_arguments: ($) =>
       seq("(", optional(series_of($.type_argument, ",")), ")"),
     type_argument: ($) => $._type,
-    remote_type: ($) => seq(field("module", $.identifier), ".", $.type),
     type_var: ($) => $._name,
 
-    // "type_name" referes essentially to the declaration of a type. The type
+    // "type_name" essentially refers to the declaration of a type. The type
     // parameters are part of the "name." Bit odd, but 🤷
     // e.g. MyType(a, b)
-    type_name: ($) => seq($._upname, optional($.type_parameters)),
+    type_name: ($) =>
+      seq(
+        field("name", choice($.type_identifier, $.remote_type_identifier)),
+        optional(field("parameters", $.type_parameters))
+      ),
     type_parameters: ($) =>
       seq("(", optional(series_of($.type_parameter, ",")), ")"),
     type_parameter: ($) => $._name,
-    remote_type_name: ($) =>
-      seq(field("module", $.identifier), ".", $.type_name),
 
     /* Shared AST nodes */
     identifier: ($) => $._name,
-    record_name: ($) => $._upname,
-    remote_record_name: ($) =>
-      seq(field("module", $.identifier), ".", $.record_name),
+    type_identifier: ($) => $._upname,
+    remote_type_identifier: ($) =>
+      seq(field("module", $.identifier), ".", field("name", $.type_identifier)),
 
     /* Reused types from the Gleam lexer */
     _discard_name: ($) => /_[_0-9a-z]*/,

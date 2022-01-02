@@ -11,40 +11,50 @@ external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
 
 (source_file
   (external_function
-    name: (function_name)
+    name: (identifier)
     parameters: (function_parameters
       (function_parameter
-        type: (type)))
+        type: (type
+          name: (type_identifier))))
     return_type: (type
+      name: (type_identifier)
       arguments: (type_arguments
         (type_argument
-          (type))
+          (type
+            name: (type_identifier)))
         (type_argument
-          (type))))
+          (type
+            name: (type_identifier)))))
     body: (external_function_body
       (string)
       (string)))
   (external_function
-    name: (function_name)
+    name: (identifier)
     parameters: (function_parameters
       (function_parameter
         name: (identifier)
-        type: (type)))
-    return_type: (type)
+        type: (type
+          name: (type_identifier))))
+    return_type: (type
+      name: (type_identifier))
     body: (external_function_body
       (string)
       (string)))
   (external_function
-    name: (function_name)
+    name: (identifier)
     return_type: (tuple_type
       (type
+        name: (type_identifier)
         arguments: (type_arguments
           (type_argument
-            (type))))
+            (type
+              name: (type_identifier)))))
       (function_type
         parameter_types: (function_parameter_types
-          (type))
-        return_type: (type)))
+          (type
+            name: (type_identifier)))
+        return_type: (type
+          name: (type_identifier))))
     body: (external_function_body
       (string)
       (string))))
@@ -62,40 +72,50 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
 
 (source_file
   (public_external_function
-    name: (function_name)
+    name: (identifier)
     parameters: (function_parameters
       (function_parameter
-        type: (type)))
+        type: (type
+          name: (type_identifier))))
     return_type: (type
+      name: (type_identifier)
       arguments: (type_arguments
         (type_argument
-          (type))
+          (type
+            name: (type_identifier)))
         (type_argument
-          (type))))
+          (type
+            name: (type_identifier)))))
     body: (external_function_body
       (string)
       (string)))
   (public_external_function
-    name: (function_name)
+    name: (identifier)
     parameters: (function_parameters
       (function_parameter
         name: (identifier)
-        type: (type)))
-    return_type: (type)
+        type: (type
+          name: (type_identifier))))
+    return_type: (type
+      name: (type_identifier))
     body: (external_function_body
       (string)
       (string)))
   (public_external_function
-    name: (function_name)
+    name: (identifier)
     return_type: (tuple_type
       (type
+        name: (type_identifier)
         arguments: (type_arguments
           (type_argument
-            (type))))
+            (type
+              name: (type_identifier)))))
       (function_type
         parameter_types: (function_parameter_types
-          (type))
-        return_type: (type)))
+          (type
+            name: (type_identifier)))
+        return_type: (type
+          name: (type_identifier))))
     body: (external_function_body
       (string)
       (string))))

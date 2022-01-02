@@ -11,35 +11,45 @@ type NamedBox(inner_type) { Box(String, inner: inner_type) }
 
 (source_file
   (type_definition
-    (type_name)
-    (type_constructors
-      (type_constructor)))
-  (type_definition
-    (type_name)
+    (type_name
+      name: (type_identifier))
     (type_constructors
       (type_constructor
-        (type_constructor_arguments
-          (type_constructor_argument
-            value: (type))))))
+        name: (type_identifier))))
   (type_definition
     (type_name
-      (type_parameters
+      name: (type_identifier))
+    (type_constructors
+      (type_constructor
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
+          (type_constructor_argument
+            value: (type
+              name: (type_identifier)))))))
+  (type_definition
+    (type_name
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)))
     (type_constructors
       (type_constructor
-        (type_constructor_arguments
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
           (type_constructor_argument
             label: (identifier)
             value: (type_var))))))
   (type_definition
     (type_name
-      (type_parameters
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)))
     (type_constructors
       (type_constructor
-        (type_constructor_arguments
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
           (type_constructor_argument
-            value: (type))
+            value: (type
+              name: (type_identifier)))
           (type_constructor_argument
             label: (identifier)
             value: (type_var)))))))
@@ -71,48 +81,65 @@ type Boring {
 
 (source_file
   (type_definition
-    (type_name)
+    (type_name
+      name: (type_identifier))
     (type_constructors
       (type_constructor
-        (type_constructor_arguments
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
           (type_constructor_argument
             label: (identifier)
-            value: (type))
+            value: (type
+              name: (type_identifier)))
           (type_constructor_argument
             label: (identifier)
-            value: (type))))))
+            value: (type
+              name: (type_identifier)))))))
   (type_definition
     (type_name
-      (type_parameters
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)
         (type_parameter)))
     (type_constructors
       (type_constructor
-        (type_constructor_arguments
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
           (type_constructor_argument
             label: (identifier)
-            value: (type))
+            value: (type
+              name: (type_identifier)))
           (type_constructor_argument
             label: (identifier)
-            value: (type))))
+            value: (type
+              name: (type_identifier)))))
       (type_constructor
-        (type_constructor_arguments
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
           (type_constructor_argument
             label: (identifier)
-            value: (type))
+            value: (type
+              name: (type_identifier)))
           (type_constructor_argument
             label: (identifier)
-            value: (type))))))
+            value: (type
+              name: (type_identifier)))))))
   (type_definition
-    (type_name)
+    (type_name
+      name: (type_identifier))
     (type_constructors
-      (type_constructor)
-      (type_constructor)
-      (type_constructor)))
+      (type_constructor
+        name: (type_identifier))
+      (type_constructor
+        name: (type_identifier))
+      (type_constructor
+        name: (type_identifier))))
   (type_definition
-    (type_name)
+    (type_name
+      name: (type_identifier))
     (type_constructors
-      (type_constructor))))
+      (type_constructor
+        name: (type_identifier)))))
 
 ==============================
 Public custom type definitions
@@ -128,26 +155,33 @@ pub type Animal(name, cuteness) {
 (source_file
   (public_type_definition
     (type_name
-      (type_parameters
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)
         (type_parameter)))
     (type_constructors
       (type_constructor
-        (type_constructor_arguments
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
           (type_constructor_argument
             label: (identifier)
-            value: (type))
+            value: (type
+              name: (type_identifier)))
           (type_constructor_argument
             label: (identifier)
-            value: (type))))
+            value: (type
+              name: (type_identifier)))))
       (type_constructor
-        (type_constructor_arguments
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
           (type_constructor_argument
             label: (identifier)
-            value: (type))
+            value: (type
+              name: (type_identifier)))
           (type_constructor_argument
             label: (identifier)
-            value: (type)))))))
+            value: (type
+              name: (type_identifier))))))))
 
 =====================================
 Public opaque custom type definitions
@@ -163,23 +197,30 @@ pub opaque type Animal(name, cuteness) {
 (source_file
   (public_opaque_type_definition
     (type_name
-      (type_parameters
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)
         (type_parameter)))
     (type_constructors
       (type_constructor
-        (type_constructor_arguments
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
           (type_constructor_argument
             label: (identifier)
-            value: (type))
+            value: (type
+              name: (type_identifier)))
           (type_constructor_argument
             label: (identifier)
-            value: (type))))
+            value: (type
+              name: (type_identifier)))))
       (type_constructor
-        (type_constructor_arguments
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
           (type_constructor_argument
             label: (identifier)
-            value: (type))
+            value: (type
+              name: (type_identifier)))
           (type_constructor_argument
             label: (identifier)
-            value: (type)))))))
+            value: (type
+              name: (type_identifier))))))))

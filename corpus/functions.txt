@@ -27,11 +27,14 @@ fn replace(
     parameters: (function_parameters
       (function_parameter
         name: (identifier)
-        type: (type))
+        type: (type
+          name: (type_identifier)))
       (function_parameter
         name: (identifier)
-        type: (type)))
-    return_type: (type)
+        type: (type
+          name: (type_identifier))))
+    return_type: (type
+      name: (type_identifier))
     (function_body
       (binary_expression
         (var)
@@ -72,15 +75,18 @@ fn replace(
       (function_parameter
         label: (identifier)
         name: (identifier)
-        type: (type))
+        type: (type
+          name: (type_identifier)))
       (function_parameter
         label: (identifier)
         name: (identifier)
-        type: (type))
+        type: (type
+          name: (type_identifier)))
       (function_parameter
         label: (identifier)
         name: (identifier)
-        type: (type)))
+        type: (type
+          name: (type_identifier))))
     (function_body
       (function_call
         (field_access
@@ -126,11 +132,14 @@ pub fn replace(
     parameters: (function_parameters
       (function_parameter
         name: (identifier)
-        type: (type))
+        type: (type
+          name: (type_identifier)))
       (function_parameter
         name: (identifier)
-        type: (type)))
-    return_type: (type)
+        type: (type
+          name: (type_identifier))))
+    return_type: (type
+      name: (type_identifier))
     (function_body
       (binary_expression
         (var)
@@ -171,15 +180,18 @@ pub fn replace(
       (function_parameter
         label: (identifier)
         name: (identifier)
-        type: (type))
+        type: (type
+          name: (type_identifier)))
       (function_parameter
         label: (identifier)
         name: (identifier)
-        type: (type))
+        type: (type
+          name: (type_identifier)))
       (function_parameter
         label: (identifier)
         name: (identifier)
-        type: (type)))
+        type: (type
+          name: (type_identifier))))
     (function_body
       (function_call
         (field_access
@@ -294,22 +306,22 @@ fn field_access(x) {
     name: (identifier)
     (function_body
       (record
-        (record_name)
-        (arguments
+        name: (type_identifier)
+        arguments: (arguments
           (argument
             label: (identifier)
             value: (string))))))
   (function
     name: (identifier)
     (function_body
-      (remote_record
-        module: (identifier)
-        (record
-          (record_name)
-          (arguments
-             (argument
-               label: (identifier)
-               value: (string)))))))
+      (record
+        name: (remote_type_identifier
+          module: (identifier)
+          name: (type_identifier))
+        arguments: (arguments
+           (argument
+             label: (identifier)
+             value: (string))))))
   (function
     name: (identifier)
     parameters: (function_parameters
@@ -374,7 +386,8 @@ fn field_access(x) {
           (function_parameter
             label: (identifier)
             name: (identifier)
-            type: (type)))
+            type: (type
+              name: (type_identifier))))
         (function_body
           (binary_expression
             (var)
@@ -408,13 +421,13 @@ fn field_access(x) {
               (integer)
               (integer)))
           (record
-            (record_name)))
+            name: (type_identifier)))
         (case_clause
           patterns: (case_clause_patterns
             (case_clause_pattern
               (discard_var)))
           (record
-            (record_name))))))
+            name: (type_identifier))))))
   (function
     name: (identifier)
     (function_body
@@ -462,7 +475,7 @@ fn field_access(x) {
         name: (identifier)))
     (function_body
       (record_update
-        constructor: (record_name)
+        constructor: (type_identifier)
         spread: (var)
         arguments: (record_update_arguments
           (record_update_argument
@@ -474,9 +487,9 @@ fn field_access(x) {
               (integer)
               (integer)))))
       (record_update
-        constructor: (remote_record_name
+        constructor: (remote_type_identifier
           module: (identifier)
-          (record_name))
+          name: (type_identifier))
         spread: (function_call
           (var)
           (arguments))
@@ -577,7 +590,7 @@ fn trial(x, y) {
                 index: (integer))
               (integer)))
           (record
-            (record_name)))
+            name: (type_identifier)))
         (case_clause
           patterns: (case_clause_patterns
             (case_clause_pattern
@@ -599,7 +612,7 @@ fn trial(x, y) {
                   index: (integer))
                 (integer))))
           (record
-            (record_name))))
+            name: (type_identifier))))
       (case
         subjects: (case_subjects
           (tuple
@@ -649,7 +662,8 @@ fn try_try_again(x, y) -> Int {
         name: (identifier))
       (function_parameter
         name: (identifier)))
-    return_type: (type)
+    return_type: (type
+      name: (type_identifier))
     (function_body
       (try
         pattern: (var)
@@ -658,11 +672,15 @@ fn try_try_again(x, y) -> Int {
         pattern: (discard_var)
         value: (todo))
       (try
-        pattern: (remote_constructor_pattern
-          (pattern_constructor_args))
+        pattern: (constructor_pattern
+          name: (remote_type_identifier
+            module: (identifier)
+            name: (type_identifier))
+          arguments: (pattern_constructor_arguments))
         value: (todo))
       (try
-        pattern: (constructor_pattern)
+        pattern: (constructor_pattern
+          name: (type_identifier))
         value: (todo))
       (try
         pattern: (string)

@@ -53,8 +53,8 @@ import a/.{b, d}
       (unqualified_import
         name: (identifier))
       (unqualified_import
-        name: (record_name)
-        alias: (record_name))))
+        name: (type_identifier)
+        alias: (type_identifier))))
   (import
     module: (module)
     (ERROR)
@@ -88,8 +88,8 @@ import animal.{Cat as kitty}
     module: (module)
     imports: (unqualified_imports
       (unqualified_import
-        name: (record_name)
-        alias: (record_name)))
+        name: (type_identifier)
+        alias: (type_identifier)))
     alias: (identifier))
   (ERROR
     (module))
@@ -97,6 +97,6 @@ import animal.{Cat as kitty}
     module: (module)
     imports: (unqualified_imports
       (unqualified_import
-        name: (record_name))
+        name: (type_identifier))
       (ERROR
         (UNEXPECTED 'k')))))

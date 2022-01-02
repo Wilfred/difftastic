@@ -11,25 +11,32 @@ type NamedBox(a) = #(String, a)
 
 (source_file
   (type_alias
-    (type_name)
+    (type_name
+      name: (type_identifier))
     (type
-      (type_arguments
+      name: (type_identifier)
+      arguments: (type_arguments
         (type_argument
           (tuple_type
-            (type)
-            (type))))))
+            (type
+              name: (type_identifier))
+            (type
+              name: (type_identifier)))))))
   (type_alias
     (type_name
-      (type_parameters
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)))
     (tuple_type
       (type_var)))
   (type_alias
     (type_name
-      (type_parameters
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)))
     (tuple_type
-      (type)
+      (type
+        name: (type_identifier))
       (type_var))))
 
 ===================
@@ -45,25 +52,32 @@ pub type NamedBox(a) = #(String, a)
 
 (source_file
   (public_type_alias
-    (type_name)
+    (type_name
+      name: (type_identifier))
     (type
-      (type_arguments
+      name: (type_identifier)
+      arguments: (type_arguments
         (type_argument
           (tuple_type
-            (type)
-            (type))))))
+            (type
+              name: (type_identifier))
+            (type
+              name: (type_identifier)))))))
   (public_type_alias
     (type_name
-      (type_parameters
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)))
     (tuple_type
       (type_var)))
   (public_type_alias
     (type_name
-      (type_parameters
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)))
     (tuple_type
-      (type)
+      (type
+        name: (type_identifier))
       (type_var))))
 
 ==========================
@@ -79,23 +93,30 @@ pub opaque type NamedBox(a) = #(String, a)
 
 (source_file
   (public_opaque_type_alias
-    (type_name)
+    (type_name
+      name: (type_identifier))
     (type
-      (type_arguments
+      name: (type_identifier)
+      arguments: (type_arguments
         (type_argument
           (tuple_type
-            (type)
-            (type))))))
+            (type
+              name: (type_identifier))
+            (type
+              name: (type_identifier)))))))
   (public_opaque_type_alias
     (type_name
-      (type_parameters
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)))
     (tuple_type
       (type_var)))
   (public_opaque_type_alias
     (type_name
-      (type_parameters
+      name: (type_identifier)
+      parameters: (type_parameters
         (type_parameter)))
     (tuple_type
-      (type)
+      (type
+        name: (type_identifier))
       (type_var))))
