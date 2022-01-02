@@ -255,7 +255,7 @@ func g1[T, U any, V interface{}, W Foo[Bar[T]]](a Foo[T]) {}
             (generic_type
               (type_identifier)
               (type_arguments (type_identifier)))))))
-    (parameter_list 
+    (parameter_list
       (parameter_declaration
         (identifier)
         (generic_type
