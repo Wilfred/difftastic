@@ -76,6 +76,11 @@ type s3 struct {
   h int `json:"h"`
 }
 
+type g1 struct {
+    normal Array[T]
+    nested Array[Array[T]]
+}
+
 ---
 
 (source_file
@@ -107,7 +112,27 @@ type s3 struct {
         (field_declaration
           (field_identifier)
           (type_identifier)
-          (raw_string_literal)))))))
+          (raw_string_literal))))))
+  (type_declaration
+    (type_spec
+      (type_identifier)
+      (struct_type
+        (field_declaration_list
+          (field_declaration
+            (field_identifier)
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier))))
+          (field_declaration              
+            (field_identifier)            
+            (generic_type                 
+              (type_identifier)           
+              (type_arguments             
+                (generic_type             
+                  (type_identifier)       
+                  (type_arguments         
+                    (type_identifier)))))))))))
 
 ============================================
 Interface types
