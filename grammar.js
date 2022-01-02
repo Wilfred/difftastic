@@ -82,6 +82,8 @@ module.exports = grammar({
   conflicts: $ => [
     [$._simple_type, $._expression],
     [$.qualified_type, $._expression],
+    [$.generic_type, $._expression],
+    [$._simple_type, $.generic_type],
     [$.func_literal, $.function_type],
     [$.function_type],
     [$.parameter_declaration, $._simple_type],
@@ -265,6 +267,7 @@ module.exports = grammar({
 
     _simple_type: $ => choice(
       prec.dynamic(-1, $._type_identifier),
+      $.generic_type,
       $.qualified_type,
       $.pointer_type,
       $.struct_type,
@@ -274,6 +277,18 @@ module.exports = grammar({
       $.map_type,
       $.channel_type,
       $.function_type
+    ),
+
+    generic_type: $ => seq(
+      field("type", $._type_identifier),
+      field("type_arguments", $.type_arguments),
+    ),
+
+    type_arguments: $ => seq(
+      '[',
+       commaSep1($._type),
+       optional(','),
+      ']'
     ),
 
     pointer_type: $ => prec(PREC.unary, seq('*', $._type)),
