@@ -2,7 +2,14 @@ const NEWLINE = /\r?\n/;
 
 module.exports = grammar({
   name: "gleam",
-  extras: ($) => [";", NEWLINE, /\s/],
+  extras: ($) => [
+    ";",
+    NEWLINE,
+    /\s/,
+    $.module_comment,
+    $.statement_comment,
+    $.comment,
+  ],
   conflicts: ($) => [
     [$.var, $.identifier],
     [$._maybe_record_expression, $._maybe_tuple_expression],
@@ -34,6 +41,11 @@ module.exports = grammar({
         $.public_type_alias,
         $.public_opaque_type_alias
       ),
+
+    /* Comments */
+    module_comment: ($) => token(seq("////", /.*/)),
+    statement_comment: ($) => token(seq("///", /.*/)),
+    comment: ($) => token(seq("//", /.*/)),
 
     /* Target groups */
     target_group: ($) =>

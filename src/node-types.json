@@ -4104,6 +4104,10 @@
     "named": false
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "const",
     "named": false
   },
@@ -4140,6 +4144,10 @@
     "named": false
   },
   {
+    "type": "module_comment",
+    "named": true
+  },
+  {
     "type": "opaque",
     "named": false
   },
@@ -4150,6 +4158,10 @@
   {
     "type": "size",
     "named": false
+  },
+  {
+    "type": "statement_comment",
+    "named": true
   },
   {
     "type": "string",
