@@ -29,17 +29,21 @@ const a: option.Option(String) = option.Some("Hello, World!")
     value: (string))
   (constant
     name: (identifier)
-    type: (type)
+    type: (type
+      name: (type_identifier))
     value: (integer))
   (constant
     name: (identifier)
-    type: (type)
+    type: (type
+      name: (type_identifier))
     value: (float))
   (constant
     name: (identifier)
     type: (tuple_type
-      (type)
-      (type))
+      (type
+        name: (type_identifier))
+      (type
+        name: (type_identifier)))
     value: (tuple
       (integer)
       (string)))
@@ -50,16 +54,19 @@ const a: option.Option(String) = option.Some("Hello, World!")
   (constant
     name: (identifier)
     type: (type
-      (type_arguments
+      name: (type_identifier)
+      arguments: (type_arguments
         (type_argument
-          (type))))
+          (type
+            name: (type_identifier)))))
     value: (list
       (integer)
       (integer)))
   (constant
     name: (identifier)
     type: (type
-      (type_arguments
+      name: (type_identifier)
+      arguments: (type_arguments
         (type_argument
           (type_hole))))
     value: (list))
@@ -108,17 +115,17 @@ const a: option.Option(String) = option.Some("Hello, World!")
   (constant
     name: (identifier)
     value: (record
-      (record_name)))
+      name: (type_identifier)))
   (constant
     name: (identifier)
     value: (record
-      (record_name)
-      (arguments)))
+      name: (type_identifier)
+      arguments: (arguments)))
   (constant
     name: (identifier)
     value: (record
-      (record_name)
-      (arguments
+      name: (type_identifier)
+      arguments: (arguments
         (argument
           value: (string))
         (argument
@@ -126,8 +133,8 @@ const a: option.Option(String) = option.Some("Hello, World!")
   (constant
     name: (identifier)
     value: (record
-      (record_name)
-      (arguments
+      name: (type_identifier)
+      arguments: (arguments
         (argument
           label: (identifier)
           value: (string))
@@ -136,25 +143,29 @@ const a: option.Option(String) = option.Some("Hello, World!")
           value: (integer)))))
   (constant
     name: (identifier)
-    value: (remote_record
-      module: (identifier)
-      (record_name)
-      (arguments
+    value: (record
+      name: (remote_type_identifier
+        module: (identifier)
+        name: (type_identifier))
+      arguments: (arguments
         (argument
           label: (identifier)
           value: (string)))))
   (constant
     name: (identifier)
-    type: (remote_type
-      module: (identifier)
-      (type
-        (type_arguments
-          (type_argument
-            (type)))))
-    value: (remote_record
-      module: (identifier)
-      (record_name)
-      (arguments
+    type: (type
+      name: (remote_type_identifier
+        module: (identifier)
+        name: (type_identifier))
+      arguments: (type_arguments
+        (type_argument
+          (type
+            name: (type_identifier)))))
+    value: (record
+      name: (remote_type_identifier
+        module: (identifier)
+        name: (type_identifier))
+      arguments: (arguments
         (argument
           value: (string))))))
 
@@ -188,17 +199,21 @@ pub const a = uri.Uri(host: "github.com")
     value: (string))
   (public_constant
     name: (identifier)
-    type: (type)
+    type: (type
+      name: (type_identifier))
     value: (integer))
   (public_constant
     name: (identifier)
-    type: (type)
+    type: (type
+      name: (type_identifier))
     value: (float))
   (public_constant
     name: (identifier)
     type: (tuple_type
-      (type)
-      (type))
+      (type
+        name: (type_identifier))
+      (type
+        name: (type_identifier)))
     value: (tuple
       (integer)
       (string)))
@@ -209,16 +224,19 @@ pub const a = uri.Uri(host: "github.com")
   (public_constant
     name: (identifier)
     type: (type
-      (type_arguments
+      name: (type_identifier)
+      arguments: (type_arguments
         (type_argument
-          (type))))
+          (type
+            name: (type_identifier)))))
     value: (list
       (integer)
       (integer)))
   (public_constant
     name: (identifier)
     type: (type
-      (type_arguments
+      name: (type_identifier)
+      arguments: (type_arguments
         (type_argument
           (type_hole))))
     value: (list))
@@ -267,17 +285,17 @@ pub const a = uri.Uri(host: "github.com")
   (public_constant
     name: (identifier)
     value: (record
-      (record_name)))
+      name: (type_identifier)))
   (public_constant
     name: (identifier)
     value: (record
-      (record_name)
-      (arguments)))
+      name: (type_identifier)
+      arguments: (arguments)))
   (public_constant
     name: (identifier)
     value: (record
-      (record_name)
-      (arguments
+      name: (type_identifier)
+      arguments: (arguments
         (argument
           value: (string))
         (argument
@@ -285,8 +303,8 @@ pub const a = uri.Uri(host: "github.com")
   (public_constant
     name: (identifier)
     value: (record
-      (record_name)
-      (arguments
+      name: (type_identifier)
+      arguments: (arguments
         (argument
           label: (identifier)
           value: (string))
@@ -295,10 +313,11 @@ pub const a = uri.Uri(host: "github.com")
           value: (integer)))))
   (public_constant
     name: (identifier)
-    value: (remote_record
-      module: (identifier)
-      (record_name)
-      (arguments
+    value: (record
+      name: (remote_type_identifier
+        module: (identifier)
+        name: (type_identifier))
+      arguments: (arguments
         (argument
           label: (identifier)
           value: (string))))))
