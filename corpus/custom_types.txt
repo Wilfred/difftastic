@@ -23,7 +23,8 @@ type NamedBox(inner_type) { Box(String, inner: inner_type) }
             value: (type))))))
   (type_definition
     (type_name
-      (type_parameter))
+      (type_parameters
+        (type_parameter)))
     (type_constructors
       (type_constructor
         (type_constructor_arguments
@@ -32,7 +33,8 @@ type NamedBox(inner_type) { Box(String, inner: inner_type) }
             value: (type_var))))))
   (type_definition
     (type_name
-      (type_parameter))
+      (type_parameters
+        (type_parameter)))
     (type_constructors
       (type_constructor
         (type_constructor_arguments
@@ -81,8 +83,9 @@ type Boring {
             value: (type))))))
   (type_definition
     (type_name
-      (type_parameter)
-      (type_parameter))
+      (type_parameters
+        (type_parameter)
+        (type_parameter)))
     (type_constructors
       (type_constructor
         (type_constructor_arguments
@@ -125,8 +128,9 @@ pub type Animal(name, cuteness) {
 (source_file
   (public_type_definition
     (type_name
-      (type_parameter)
-      (type_parameter))
+      (type_parameters
+        (type_parameter)
+        (type_parameter)))
     (type_constructors
       (type_constructor
         (type_constructor_arguments
@@ -159,8 +163,9 @@ pub opaque type Animal(name, cuteness) {
 (source_file
   (public_opaque_type_definition
     (type_name
-      (type_parameter)
-      (type_parameter))
+      (type_parameters
+        (type_parameter)
+        (type_parameter)))
     (type_constructors
       (type_constructor
         (type_constructor_arguments

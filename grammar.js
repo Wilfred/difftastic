@@ -4,8 +4,7 @@ module.exports = grammar({
   name: "gleam",
   extras: ($) => [";", NEWLINE, /\s/],
   conflicts: ($) => [
-    [$.record, $._record_update_record],
-    [$.record, $._record_update_remote_record],
+    [$.record, $.record_name],
     [$.var, $.identifier],
     [$._maybe_record_expression, $._maybe_tuple_expression],
   ],
@@ -53,30 +52,23 @@ module.exports = grammar({
       seq(
         "import",
         field("module", $.module),
-        optional(
-          seq(
-            ".",
-            "{",
-            $.unqualified_import,
-            repeat(seq(",", $.unqualified_import)),
-            "}"
-          )
-        ),
-        optional(seq("as", field("alias", $.alias)))
+        optional(seq(".", field("imports", $.unqualified_imports))),
+        optional(seq("as", field("alias", $.identifier)))
       ),
-    module: ($) => seq($._name, repeat(seq("/", $._name))),
+    module: ($) => series_of($._name, "/"),
+    unqualified_imports: ($) =>
+      seq("{", series_of($.unqualified_import, ","), "}"),
     unqualified_import: ($) =>
       choice(
         seq(
-          $._name,
-          optional(seq("as", field("alias", alias($._name, $.alias))))
+          field("name", $.identifier),
+          optional(seq("as", field("alias", $.identifier)))
         ),
         seq(
-          $._upname,
-          optional(seq("as", field("alias", alias($._upname, $.alias))))
+          field("name", $.record_name),
+          optional(seq("as", field("alias", $.record_name)))
         )
       ),
-    alias: ($) => $._name,
 
     /* Constant statements */
     public_constant: ($) => seq("pub", $._constant),
@@ -107,7 +99,7 @@ module.exports = grammar({
     ...bit_string_rules("constant", "_constant_value", "integer"),
     _constant_record: ($) =>
       seq(
-        $._upname,
+        $.record_name,
         optional(alias($._constant_record_arguments, $.arguments))
       ),
     _constant_record_arguments: ($) =>
@@ -146,10 +138,20 @@ module.exports = grammar({
     constant_type: ($) =>
       seq(
         $._upname,
-        optional(seq("(", optional(series_of($._constant_type, ",")), ")"))
+        optional(alias($.constant_type_arguments, $.type_arguments))
       ),
+    constant_type_arguments: ($) =>
+      seq(
+        "(",
+        optional(
+          series_of(alias($.constant_type_argument, $.type_argument), ",")
+        ),
+        ")"
+      ),
+    constant_type_argument: ($) => $._constant_type,
+
     constant_remote_type: ($) =>
-      seq(field("module", $._name), ".", alias($.constant_type, $.type)),
+      seq(field("module", $.identifier), ".", alias($.constant_type, $.type)),
 
     /* External types */
     public_external_type: ($) => seq("pub", $._external_type),
@@ -238,7 +240,7 @@ module.exports = grammar({
     //   then: (try
     //     pattern: (pattern)
     //     value: (call (identifier))
-    //     then: (type_constructor (...))))
+    //     then: (record (...))))
     //
     // This makes sense for the parser, but (IMO) would be more confusing for
     // users and tooling which don't think about `try`s as having a "then". Thus,
@@ -310,8 +312,7 @@ module.exports = grammar({
         $.field_access,
         $.function_call
       ),
-    record: ($) =>
-      seq($._upname, optional(seq("(", optional($.arguments), ")"))),
+    record: ($) => seq(alias($._upname, $.record_name), optional($.arguments)),
     remote_record: ($) => seq(field("module", $.identifier), ".", $.record),
     todo: ($) =>
       seq("todo", optional(seq("(", field("message", $.string), ")"))),
@@ -489,13 +490,7 @@ module.exports = grammar({
       ),
     record_update: ($) =>
       seq(
-        field(
-          "constructor",
-          choice(
-            alias($._record_update_record, $.record),
-            alias($._record_update_remote_record, $.remote_record)
-          )
-        ),
+        field("constructor", choice($.record_name, $.remote_record_name)),
         "(",
         "..",
         field("spread", $._expression),
@@ -503,9 +498,6 @@ module.exports = grammar({
         field("arguments", $.record_update_arguments),
         ")"
       ),
-    _record_update_record: ($) => $._upname,
-    _record_update_remote_record: ($) =>
-      seq(field("module", $.identifier), ".", $._upname),
     record_update_arguments: ($) => series_of($.record_update_argument, ","),
     record_update_argument: ($) =>
       seq(field("label", $.identifier), ":", field("value", $._expression)),
@@ -573,14 +565,13 @@ module.exports = grammar({
       ),
     // Interestingly, the code that parses function arguments also parses
     // record arguments, hence the ambiguous name.
-    arguments: ($) => series_of($.argument, ","),
+    arguments: ($) => seq("(", optional(series_of($.argument, ",")), ")"),
     argument: ($) =>
       seq(
         optional(seq(field("label", $.identifier), ":")),
         field("value", choice(alias($.discard_var, $.hole), $._expression))
       ),
-    function_call: ($) =>
-      seq($._maybe_function_expression, seq("(", optional($.arguments), ")")),
+    function_call: ($) => seq($._maybe_function_expression, $.arguments),
     _pattern: ($) =>
       seq(
         choice(
@@ -714,13 +705,6 @@ module.exports = grammar({
         $.type_var
       ),
     _type_annotation: ($) => seq(":", field("type", $._type)),
-    // The type parameters are part of the "name." Bit odd, but 🤷
-    type_name: ($) =>
-      seq(
-        $._upname,
-        optional(seq("(", optional(series_of($.type_parameter, ",")), ")"))
-      ),
-    type_parameter: ($) => $._name,
     type_hole: ($) => $._discard_name,
     // If you're wondering why there isn't a `list_type` here, the answer is
     // that the "type" form for lists is `List`, which is identical to
@@ -737,16 +721,29 @@ module.exports = grammar({
       seq("(", optional(series_of($._type, ",")), ")"),
     // "type" is a somewhat ambiguous name, but it refers to a concrete type
     // such as `Bool` or `List(Int)` or even `List(#(Int, String))`.
-    type: ($) =>
-      seq(
-        $._upname,
-        optional(seq("(", optional(series_of($._type, ",")), ")"))
-      ),
-    remote_type: ($) => seq(field("module", $._name), ".", $.type),
+    type: ($) => seq($._upname, field("arguments", optional($.type_arguments))),
+    type_arguments: ($) =>
+      seq("(", optional(series_of($.type_argument, ",")), ")"),
+    type_argument: ($) => $._type,
+    remote_type: ($) => seq(field("module", $.identifier), ".", $.type),
     type_var: ($) => $._name,
 
-    /* Common alias becomes a real boy */
+    // "type_name" referes essentially to the declaration of a type. The type
+    // parameters are part of the "name." Bit odd, but 🤷
+    // e.g. MyType(a, b)
+    type_name: ($) => seq($._upname, optional($.type_parameters)),
+    type_parameters: ($) =>
+      seq("(", optional(series_of($.type_parameter, ",")), ")"),
+    type_parameter: ($) => $._name,
+    remote_type_name: ($) =>
+      seq(field("module", $.identifier), ".", $.type_name),
+
+    /* Shared AST nodes */
     identifier: ($) => $._name,
+    record_name: ($) => $._upname,
+    remote_record_name: ($) =>
+      seq(field("module", $.identifier), ".", $.record_name),
+
     /* Reused types from the Gleam lexer */
     _discard_name: ($) => /_[_0-9a-z]*/,
     _name: ($) => /[_a-z][_0-9a-z]*/,
