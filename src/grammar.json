@@ -1485,7 +1485,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_labelled_discard_param"
+              "name": "_labeled_discard_param"
             },
             {
               "type": "SYMBOL",
@@ -1493,7 +1493,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_labelled_name_param"
+              "name": "_labeled_name_param"
             },
             {
               "type": "SYMBOL",
@@ -1515,7 +1515,7 @@
         }
       ]
     },
-    "_labelled_discard_param": {
+    "_labeled_discard_param": {
       "type": "SEQ",
       "members": [
         {
@@ -1536,7 +1536,7 @@
       "type": "SYMBOL",
       "name": "_discard_name"
     },
-    "_labelled_name_param": {
+    "_labeled_name_param": {
       "type": "SEQ",
       "members": [
         {
