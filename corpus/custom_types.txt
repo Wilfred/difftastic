@@ -62,9 +62,14 @@ type Cat {
   Cat(name: String, cuteness: Int)
 }
 
-type Animal(name, cuteness) {
+type Animal() {
   Cat(name: String, cuteness: Int)
   Dog(name: String, cuteness: Int)
+}
+
+type Result(success_type, failure_type) {
+  Ok(success_type)
+  Error(failure_type)
 }
 
 type Ord {
@@ -98,9 +103,7 @@ type Boring {
   (type_definition
     (type_name
       name: (type_identifier)
-      parameters: (type_parameters
-        (type_parameter)
-        (type_parameter)))
+      parameters: (type_parameters))
     (type_constructors
       (type_constructor
         name: (type_identifier)
@@ -124,6 +127,23 @@ type Boring {
             label: (identifier)
             value: (type
               name: (type_identifier)))))))
+  (type_definition
+    (type_name
+      name: (type_identifier)
+      parameters: (type_parameters
+        (type_parameter)
+        (type_parameter)))
+    (type_constructors
+      (type_constructor
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
+          (type_constructor_argument
+            value: (type_var))))
+      (type_constructor
+        name: (type_identifier)
+        arguments: (type_constructor_arguments
+          (type_constructor_argument
+            value: (type_var))))))
   (type_definition
     (type_name
       name: (type_identifier))
