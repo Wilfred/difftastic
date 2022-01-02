@@ -45,6 +45,7 @@ use walkdir::WalkDir;
 use crate::{
     dijkstra::mark_syntax,
     files::{is_probably_binary, read_or_die},
+    line_parser as lp,
     lines::MaxLine,
     syntax::{change_positions, init_info},
     tree_sitter_parser as tsp,
@@ -277,25 +278,25 @@ fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult
     };
     let ts_lang = guess(path, guess_src).map(tsp::from_language);
 
-    let arena = Arena::new();
-    let (lang_name, lhs, rhs) = match ts_lang {
-        Some(ts_lang) => (
-            Some(ts_lang.name.into()),
-            tsp::parse(&arena, &lhs_src, &ts_lang),
-            tsp::parse(&arena, &rhs_src, &ts_lang),
-        ),
-        None => (
-            None,
-            line_parser::parse(&arena, &lhs_src),
-            line_parser::parse(&arena, &rhs_src),
-        ),
+    let (lang_name, lhs_positions, rhs_positions) = match ts_lang {
+        Some(ts_lang) => {
+            let arena = Arena::new();
+            let lhs = tsp::parse(&arena, &lhs_src, &ts_lang);
+            let rhs = tsp::parse(&arena, &rhs_src, &ts_lang);
+
+            init_info(&lhs, &rhs);
+            mark_syntax(lhs.get(0).copied(), rhs.get(0).copied());
+
+            let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
+            let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
+            (Some(ts_lang.name.into()), lhs_positions, rhs_positions)
+        }
+        None => {
+            let lhs_positions = lp::change_positions(&lhs_src, &rhs_src);
+            let rhs_positions = lp::change_positions(&rhs_src, &lhs_src);
+            (None, lhs_positions, rhs_positions)
+        }
     };
-
-    init_info(&lhs, &rhs);
-    mark_syntax(lhs.get(0).copied(), rhs.get(0).copied());
-
-    let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
-    let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
 
     DiffResult {
         path: display_path.into(),
