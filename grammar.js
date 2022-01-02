@@ -108,19 +108,27 @@ module.exports = grammar({
     _constant_record: ($) =>
       seq(
         $._upname,
-        optional(
-          seq(
-            "(",
-            optional(
-              series_of(alias($._constant_record_arg, $.record_arg), ",")
-            ),
-            ")"
-          )
-        )
+        optional(alias($._constant_record_arguments, $.arguments))
       ),
-    _constant_record_arg: ($) =>
-      seq($._name, optional(seq(":", $._constant_value))),
-    _constant_remote_record: ($) => seq($._name, ".", $._constant_record),
+    _constant_record_arguments: ($) =>
+      seq(
+        "(",
+        optional(
+          series_of(alias($._constant_record_argument, $.argument), ",")
+        ),
+        ")"
+      ),
+    _constant_record_argument: ($) =>
+      seq(
+        optional(seq(field("label", $.identifier), ":")),
+        field("value", $._constant_value)
+      ),
+    _constant_remote_record: ($) =>
+      seq(
+        field("module", alias($._name, $.identifier)),
+        ".",
+        $._constant_record
+      ),
 
     /* Special constant types */
     // Versions of $._type, $._type_annotation, etc, that have constraints
