@@ -514,7 +514,8 @@ _ = contents[Int(prefix)!...]
                   (call_suffix
                     (value_arguments
                       (value_argument
-                        (simple_identifier)))))))))))))
+                        (simple_identifier)))))
+                (bang)))))))))
 
 
 ============
@@ -708,7 +709,8 @@ print(thing.maybeGreeting!.definitely)
               (navigation_expression
                 (simple_identifier)
               (navigation_suffix
-                (simple_identifier))))
+                (simple_identifier)))
+              (bang))
             (navigation_suffix
               (simple_identifier))))))))
 

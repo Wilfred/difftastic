@@ -243,6 +243,7 @@ public prefix func ! (value: Wrapped<F>) -> Bool {
                                         (simple_identifier))))))))))
       (function_declaration
         (modifiers (visibility_modifier) (function_modifier))
+        (bang)
         (parameter
           (simple_identifier)
           (user_type

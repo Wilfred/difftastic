@@ -648,6 +648,7 @@ class Test {
                             (call_suffix (value_arguments (value_argument (integer_literal)) (value_argument (integer_literal))))))))
             (function_declaration
               (modifiers (member_modifier))
+              (bang)
               (external_parameter_name)
               (parameter (simple_identifier) (user_type (type_identifier)))
               (function_body
