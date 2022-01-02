@@ -172,7 +172,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "argument",
@@ -2800,58 +2800,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "arguments",
-          "named": true
-        },
-        {
-          "type": "record_arg",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "record_arg",
-    "named": true,
-    "fields": {},
-    "children": {
       "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "bit_string",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "record",
-          "named": true
-        },
-        {
-          "type": "remote_record",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
+          "type": "arguments",
           "named": true
         }
       ]
@@ -3111,7 +3064,7 @@
     "fields": {
       "module": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "identifier",
@@ -3121,15 +3074,15 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "record",
+          "type": "arguments",
           "named": true
         },
         {
-          "type": "record_arg",
+          "type": "record",
           "named": true
         }
       ]
