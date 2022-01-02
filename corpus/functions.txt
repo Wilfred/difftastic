@@ -35,7 +35,7 @@ fn replace(
           name: (type_identifier))))
     return_type: (type
       name: (type_identifier))
-    (function_body
+    body: (function_body
       (binary_expression
         (var)
         (var))))
@@ -52,7 +52,7 @@ fn replace(
         name: (identifier)
         type: (type_var)))
     return_type: (type_var)
-    (function_body
+    body: (function_body
       (function_call
         (var)
         (arguments
@@ -67,7 +67,7 @@ fn replace(
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (var)))
   (function
     name: (identifier)
@@ -87,7 +87,7 @@ fn replace(
         name: (identifier)
         type: (type
           name: (type_identifier))))
-    (function_body
+    body: (function_body
       (function_call
         (field_access
           record: (var)
@@ -140,7 +140,7 @@ pub fn replace(
           name: (type_identifier))))
     return_type: (type
       name: (type_identifier))
-    (function_body
+    body: (function_body
       (binary_expression
         (var)
         (var))))
@@ -157,7 +157,7 @@ pub fn replace(
         name: (identifier)
         type: (type_var)))
     return_type: (type_var)
-    (function_body
+    body: (function_body
       (function_call
         (var)
         (arguments
@@ -172,7 +172,7 @@ pub fn replace(
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (var)))
   (public_function
     name: (identifier)
@@ -192,7 +192,7 @@ pub fn replace(
         name: (identifier)
         type: (type
           name: (type_identifier))))
-    (function_body
+    body: (function_body
       (function_call
         (field_access
           record: (var)
@@ -292,19 +292,19 @@ fn field_access(x) {
 (source_file
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (string)))
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (integer)))
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (float)))
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (record
         name: (type_identifier)
         arguments: (arguments
@@ -313,7 +313,7 @@ fn field_access(x) {
             value: (string))))))
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (record
         name: (remote_type_identifier
           module: (identifier)
@@ -327,17 +327,17 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (var)))
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (function_call
         (var)
         (arguments))))
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (todo
         message: (string))))
   (function
@@ -345,7 +345,7 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (tuple
         (var)
         (integer))))
@@ -354,14 +354,14 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (list
         (integer)
         (integer)
         spread: (var))))
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (bit_string
         (bit_string_segment
           value: (integer)
@@ -380,7 +380,7 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (anonymous_function
         parameters: (function_parameters
           (function_parameter
@@ -388,13 +388,13 @@ fn field_access(x) {
             name: (identifier)
             type: (type
               name: (type_identifier))))
-        (function_body
+        body: (function_body
           (binary_expression
             (var)
             (var))))))
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (expression_group
         (binary_expression
           (integer)
@@ -407,7 +407,7 @@ fn field_access(x) {
         name: (identifier))
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (case
         subjects: (case_subjects
           (var)
@@ -430,7 +430,7 @@ fn field_access(x) {
             name: (type_identifier))))))
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (let
         pattern: (var)
         value: (expression_group
@@ -450,7 +450,7 @@ fn field_access(x) {
           (integer)))))
   (function
     name: (identifier)
-    (function_body
+    body: (function_body
       (assert
         pattern: (var)
         value: (expression_group
@@ -473,7 +473,7 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (record_update
         constructor: (type_identifier)
         spread: (var)
@@ -505,7 +505,7 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (tuple_access
         tuple: (var)
         index: (integer))))
@@ -514,7 +514,7 @@ fn field_access(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (field_access
         record: (var)
         field: (identifier)))))
@@ -551,7 +551,7 @@ fn trial(x, y) {
         name: (identifier))
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (case
         subjects: (case_subjects
           (var))
@@ -664,7 +664,7 @@ fn try_try_again(x, y) -> Int {
         name: (identifier)))
     return_type: (type
       name: (type_identifier))
-    (function_body
+    body: (function_body
       (try
         pattern: (var)
         value: (todo))
@@ -732,7 +732,7 @@ fn complicated(x, y) {
         name: (identifier))
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (binary_expression
         (binary_expression
           (binary_expression
@@ -776,7 +776,7 @@ fn complex_data_fun(x, y) {
         name: (identifier))
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (field_access
         record: (tuple_access
           tuple: (field_access
@@ -842,7 +842,7 @@ fn weird(x) {
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
-    (function_body
+    body: (function_body
       (function_call
         (var)
         (arguments
@@ -854,7 +854,7 @@ fn weird(x) {
           parameters: (function_parameters
             (function_parameter
               name: (identifier)))
-          (function_body
+          body: (function_body
             (binary_expression
               (var)
               (integer))))
@@ -869,7 +869,7 @@ fn weird(x) {
               parameters: (function_parameters
                 (function_parameter
                   name: (identifier)))
-              (function_body
+              body: (function_body
                 (binary_expression
                   (var)
                   (integer))))))
@@ -888,7 +888,7 @@ fn weird(x) {
               parameters: (function_parameters
                 (function_parameter
                   name: (identifier)))
-              (function_body
+              body: (function_body
                 (binary_expression
                   (var)
                   (integer))))))

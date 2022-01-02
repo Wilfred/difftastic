@@ -1438,13 +1438,17 @@
           "value": "{"
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "body",
           "content": {
-            "type": "SYMBOL",
-            "name": "_expression_seq"
-          },
-          "named": true,
-          "value": "function_body"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression_seq"
+            },
+            "named": true,
+            "value": "function_body"
+          }
         },
         {
           "type": "STRING",
@@ -2631,13 +2635,17 @@
           "value": "{"
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "body",
           "content": {
-            "type": "SYMBOL",
-            "name": "_expression_seq"
-          },
-          "named": true,
-          "value": "function_body"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression_seq"
+            },
+            "named": true,
+            "value": "function_body"
+          }
         },
         {
           "type": "STRING",
