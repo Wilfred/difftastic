@@ -1,4 +1,7 @@
 ![Parse rate badge](https://byob.yarr.is/alex-pinkus/experimental-tree-sitter-swift/parse_rate)
+[![Crates.io badge](https://byob.yarr.is/alex-pinkus/experimental-tree-sitter-swift/crates_io_version)](https://crates.io/crates/experimental-tree-sitter-swift)
+[![NPM badge](https://byob.yarr.is/alex-pinkus/experimental-tree-sitter-swift/npm_version)](https://www.npmjs.com/package/experimental-tree-sitter-swift)
+[![Build](https://github.com/alex-pinkus/experimental-tree-sitter-swift/actions/workflows/top-repos.yml/badge.svg)](https://github.com/alex-pinkus/experimental-tree-sitter-swift/actions/workflows/top-repos.yml)
 
 # experimental-tree-sitter-swift
 
