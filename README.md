@@ -20,7 +20,6 @@ codebase.
 - [ ] Parsing
   - [ ] Verify the generated ASTs for consistency, usability
 - [ ] Testing
-  - [ ] Fix failing error case test
   - [ ] Add more error case tests
 - [ ] Queries
   - [ ] Syntax highlighting queries
