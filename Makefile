@@ -26,7 +26,7 @@ tree-sitter-haskell.wasm: src/parser.c src/scanner.cc
 	emcc                                             \
 		-o tree-sitter-haskell.wasm                    \
 		-Os                                            \
-		-std=c++11                                     \
+		-std=c++03                                     \
 		-s WASM=1                                      \
 		-s SIDE_MODULE=1                               \
 		-s TOTAL_MEMORY=33554432                       \
