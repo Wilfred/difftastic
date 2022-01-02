@@ -1,4 +1,4 @@
-name: Parse popular Swift repositories
+name: Parse top repositories
 
 on:
   push:
