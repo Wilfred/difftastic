@@ -740,6 +740,7 @@ module.exports = grammar({
         $.implicit_length_array_type,
         $.struct_type,
         $._type_identifier,
+        $.generic_type,
         $.qualified_type
       )),
       field('body', $.literal_value)
