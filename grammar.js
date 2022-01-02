@@ -170,7 +170,7 @@ module.exports = grammar({
         field("body", $.external_function_body)
       ),
     // Different from module function parameters in that module function
-    // parameters may be labelled whereas external function parameters cannot.
+    // parameters may be labeled whereas external function parameters cannot.
     external_function_parameters: ($) =>
       series_of(
         alias($.external_function_parameter, $.function_parameter),
@@ -201,17 +201,17 @@ module.exports = grammar({
     function_parameter: ($) =>
       seq(
         choice(
-          $._labelled_discard_param,
+          $._labeled_discard_param,
           $._discard_param,
-          $._labelled_name_param,
+          $._labeled_name_param,
           $._name_param
         ),
         optional($._type_annotation)
       ),
-    _labelled_discard_param: ($) =>
+    _labeled_discard_param: ($) =>
       seq(field("label", $.identifier), $._discard_name),
     _discard_param: ($) => $._discard_name,
-    _labelled_name_param: ($) =>
+    _labeled_name_param: ($) =>
       seq(field("label", $.identifier), field("name", $.identifier)),
     _name_param: ($) => field("name", $.identifier),
     // This method diverges from the parser's `parse_expression_seq` somewhat.
