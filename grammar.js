@@ -194,7 +194,7 @@ module.exports = grammar({
         ")",
         optional(seq("->", field("return_type", $._type))),
         "{",
-        alias($._expression_seq, $.function_body),
+        field("body", alias($._expression_seq, $.function_body)),
         "}"
       ),
     function_parameters: ($) => series_of($.function_parameter, ","),
@@ -329,7 +329,7 @@ module.exports = grammar({
         ")",
         optional(seq("->", field("return_type", $._type))),
         "{",
-        alias($._expression_seq, $.function_body),
+        field("body", alias($._expression_seq, $.function_body)),
         "}"
       ),
     expression_group: ($) => seq("{", $._expression_seq, "}"),
