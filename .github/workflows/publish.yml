@@ -1,0 +1,24 @@
+name: NPM publish
+
+on:
+  workflow_run:
+    workflows: ["Parse popular Swift repositories"]
+    types:
+      - completed
+
+jobs:
+  publish:
+    if: ${{ github.ref == 'refs/head/main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm run test-ci
+      - run: npm run bindings
+      - run: cd ./test-npm-package && npm test; cd ..
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}

@@ -1,4 +1,4 @@
-/node_modules
+node_modules
 /src/*
 !/src/scanner.c
 *.swp
