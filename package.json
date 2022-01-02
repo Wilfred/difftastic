@@ -2,12 +2,13 @@
   "name": "experimental-tree-sitter-swift",
   "version": "0.0.1",
   "description": "An experimental tree-sitter grammar for the Swift programming language.",
-  "main": "grammar.js",
+  "main": "bindings/node/index.js",
   "scripts": {
     "install": "tsc && tree-sitter generate",
     "ci": "prettier --check grammar.ts types/*/*.d.ts",
     "test-ci": "./scripts/test-with-memcheck.sh --install-valgrind",
-    "test": "./scripts/test-with-memcheck.sh"
+    "test": "./scripts/test-with-memcheck.sh",
+    "bindings": "node-gyp configure && node-gyp build"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.10",
+    "node-gyp": "^8.4.1",
     "prettier": "2.3.2",
     "tree-sitter-cli": "^0.20.0",
     "typescript": "^4.5.2"
