@@ -200,6 +200,7 @@ module.exports = grammar({
     function_declaration: $ => prec.right(1, seq(
       'func',
       field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter_list)),
       field('parameters', $.parameter_list),
       field('result', optional(choice($.parameter_list, $._simple_type))),
       field('body', optional($.block))

@@ -200,6 +200,7 @@ func f1() {}
 func f2(a File, b, c, d Thing) int {}
 func f2() (File, Thing) {}
 func f2() (result int, err error) {}
+func g1[T, U any, V interface{}, W Foo[Bar[T]]](a Foo[T]) {}
 
 ---
 
@@ -235,6 +236,31 @@ func f2() (result int, err error) {}
     (parameter_list
       (parameter_declaration (identifier) (type_identifier))
       (parameter_declaration (identifier) (type_identifier)))
+    (block))
+  (function_declaration
+    (identifier)
+    (type_parameter_list
+      (parameter_declaration
+        (identifier)
+        (identifier)
+        (type_identifier))
+      (parameter_declaration
+        (identifier)
+        (interface_type (method_spec_list)))
+      (parameter_declaration
+        (identifier)
+        (generic_type
+          (type_identifier)
+          (type_arguments
+            (generic_type
+              (type_identifier)
+              (type_arguments (type_identifier)))))))
+    (parameter_list 
+      (parameter_declaration
+        (identifier)
+        (generic_type
+          (type_identifier)
+          (type_arguments (type_identifier)))))
     (block)))
 
 ============================================
