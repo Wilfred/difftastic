@@ -24,3 +24,6 @@ tree-sitter = "~0.20.0"
 
 [build-dependencies]
 cc = "1.0"
+
+[dev-dependencies]
+anyhow = "1.0"

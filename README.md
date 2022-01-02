@@ -7,11 +7,51 @@ programming language.
 
 ## Getting started
 
-This grammar is structured similarly to any other tree-sitter grammar. As with most grammars, you can use the cli to
-generate or test the parser, and to parse any arbitrary code. An overview of the CLI tool can be found
-[here](https://tree-sitter.github.io/tree-sitter/creating-parsers#tool-overview). A moderate amount of work has gone
-into building out a corpus, but the corpus mostly encodes the current state of the parser, including a few bugs that it
-has.
+To use this parser to parse Swift code, you'll want to depend on either the Rust crate or the NPM package.
+
+### Rust
+To use the Rust crate, you'll add this to your `Cargo.toml`:
+```
+tree-sitter = "0.20.0"
+experimental-tree-sitter-swift = "=0.0.1"
+```
+
+Then you can use a `tree-sitter` parser with the language declared here:
+
+```
+let mut parser = tree_sitter::Parser::new();
+parser.set_language(experimental_tree_sitter_swift::language())?;
+
+// ...
+
+let tree = parser.parse(&my_source_code, None)
+    .ok_or_else(|| /* error handling code */)?;
+```
+
+### Javascript
+
+To use this from NPM, you'll add similar dependencies to `package.json`:
+```
+"dependencies: {
+  "experimental-tree-sitter-swift": "0.0.1",
+  "tree-sitter": "^0.20.0"
+}
+```
+
+Your usage of the parser will look like:
+```
+const Parser = require("tree-sitter");
+const Swift = require("experimental-tree-sitter-swift");
+
+const parser = new Parser();
+parser.setLanguage(Swift);
+
+// ...
+
+const tree = parser.parse(mySourceCode);
+```
+
+### Editing the grammar
 
 With this package checked out, a common workflow for editing the grammar will look something like:
 
