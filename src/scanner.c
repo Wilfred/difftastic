@@ -146,7 +146,7 @@ bool is_cross_semi_token(enum TokenType op) {
 }
 
 #define NON_CONSUMING_CROSS_SEMI_CHAR_COUNT 3
-const char NON_CONSUMING_CROSS_SEMI_CHARS[NON_CONSUMING_CROSS_SEMI_CHAR_COUNT] = { '?', ':', '{' };
+const uint32_t NON_CONSUMING_CROSS_SEMI_CHARS[NON_CONSUMING_CROSS_SEMI_CHAR_COUNT] = { '?', ':', '{' };
 
 /**
  * All possible results of having performed some sort of parsing.
@@ -244,7 +244,6 @@ static bool eat_operators(
 
     int32_t str_idx = 0;
     int32_t full_match = -1;
-    int32_t encountered_count;
     while(true) {
         for (int op_idx = 0; op_idx < OPERATOR_COUNT; op_idx++) {
             if (!possible_operators[op_idx]) {
@@ -274,10 +273,12 @@ static bool eat_operators(
                     if (illegal_terminators == OPERATOR_SYMBOLS) {
                         break;
                     } // Otherwise, intentionally fall through to the OPERATOR_OR_DOT case
+                // fall through
                 case '.':
                     if (illegal_terminators == OPERATOR_OR_DOT) {
                         break;
                     } // Otherwise, fall through to DEFAULT which checks its groups directly
+                // fall through
                 default:
                     if (iswalnum(lexer->lookahead) && illegal_terminators == ALPHANUMERIC) {
                         break;
