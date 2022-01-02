@@ -102,7 +102,7 @@ impl Edge {
     pub fn cost(&self) -> u64 {
         match self {
             // Matching nodes is always best.
-            UnchangedNode { depth_difference } => min(40, *depth_difference as u64),
+            UnchangedNode { depth_difference } => min(40, *depth_difference as u64 + 1),
             // Matching an outer delimiter is good.
             UnchangedDelimiter { depth_difference } => 100 + min(40, *depth_difference as u64),
 
