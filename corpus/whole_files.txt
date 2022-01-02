@@ -58,28 +58,29 @@ if javascript {
       (case
         subjects: (case_subjects
           (var))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (constructor_pattern
-                name: (type_identifier))))
-          (var))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (constructor_pattern
-                name: (type_identifier))))
-          (function_call
-            (field_access
-              record: (var)
-              field: (identifier))
-            (arguments
-              (argument
-                value: (var))
-              (argument
-                value: (string))
-              (argument
-                value: (string))))))))
+        clauses: (case_clauses
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (constructor_pattern
+                  name: (type_identifier))))
+            value: (var))
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (constructor_pattern
+                  name: (type_identifier))))
+            value: (function_call
+              (field_access
+                record: (var)
+                field: (identifier))
+              (arguments
+                (argument
+                  value: (var))
+                (argument
+                  value: (string))
+                (argument
+                  value: (string)))))))))
   (target_group
     target: (target)
     (external_function
@@ -180,17 +181,18 @@ pub fn negate(bool: Bool) -> Bool {
       (case
         subjects: (case_subjects
           (var))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (constructor_pattern
-                name: (type_identifier))))
-          value: (record
-            name: (type_identifier)))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (constructor_pattern
-                name: (type_identifier))))
-          value: (record
-            name: (type_identifier)))))))
+        clauses: (case_clauses
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (constructor_pattern
+                  name: (type_identifier))))
+            value: (record
+              name: (type_identifier)))
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (constructor_pattern
+                  name: (type_identifier))))
+            value: (record
+              name: (type_identifier))))))))

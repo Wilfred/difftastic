@@ -412,22 +412,23 @@ fn field_access(x) {
         subjects: (case_subjects
           (var)
           (var))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (integer)
-              (integer))
-            (case_clause_pattern
-              (integer)
-              (integer)))
-          (record
-            name: (type_identifier)))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (discard_var)))
-          (record
-            name: (type_identifier))))))
+        clauses: (case_clauses
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (integer)
+                (integer))
+              (case_clause_pattern
+                (integer)
+                (integer)))
+            value: (record
+              name: (type_identifier)))
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (discard_var)))
+            value: (record
+              name: (type_identifier)))))))
   (function
     name: (identifier)
     body: (function_body
@@ -555,85 +556,88 @@ fn trial(x, y) {
       (case
         subjects: (case_subjects
           (var))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (integer)))
-          (integer))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (integer)))
-          (integer))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (discard_var)))
-          (integer)))
+        clauses: (case_clauses
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (integer)))
+            value: (integer))
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (integer)))
+            value: (integer))
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (discard_var)))
+            value: (integer))))
       (case
         subjects: (case_subjects
           (var))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (tuple_pattern
-                (var)
-                (discard_var)))
-            (case_clause_pattern
-              (tuple_pattern
-                (discard_var)
-                (var))))
-          guard: (case_clause_guard
-            (binary_expression
-              (tuple_access
-                tuple: (var)
-                index: (integer))
-              (integer)))
-          (record
-            name: (type_identifier)))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (tuple_pattern
-                (discard_var)
-                (var))))
-          guard: (case_clause_guard
-            (binary_expression
-              (binary_expression
-                (binary_expression
-                  (tuple_access
-                    tuple: (var)
-                    index: (integer))
-                  (integer))
-                (integer))
+        clauses: (case_clauses
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (tuple_pattern
+                  (var)
+                  (discard_var)))
+              (case_clause_pattern
+                (tuple_pattern
+                  (discard_var)
+                  (var))))
+            guard: (case_clause_guard
               (binary_expression
                 (tuple_access
                   tuple: (var)
                   index: (integer))
-                (integer))))
-          (record
-            name: (type_identifier))))
+                (integer)))
+            value: (record
+              name: (type_identifier)))
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (tuple_pattern
+                  (discard_var)
+                  (var))))
+            guard: (case_clause_guard
+              (binary_expression
+                (binary_expression
+                  (binary_expression
+                    (tuple_access
+                      tuple: (var)
+                      index: (integer))
+                    (integer))
+                  (integer))
+                (binary_expression
+                  (tuple_access
+                    tuple: (var)
+                    index: (integer))
+                  (integer))))
+            value: (record
+              name: (type_identifier)))))
       (case
         subjects: (case_subjects
           (tuple
             (var)
             (var)))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (tuple_pattern
-                (integer)
-                (integer))))
-          (tuple
-            (integer)
-            (integer)))
-        (case_clause
-          patterns: (case_clause_patterns
-            (case_clause_pattern
-              (discard_var)))
-          (tuple
-            (integer)
-            (integer)))))))
+        clauses: (case_clauses
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (tuple_pattern
+                  (integer)
+                  (integer))))
+            value: (tuple
+              (integer)
+              (integer)))
+          (case_clause
+            patterns: (case_clause_patterns
+              (case_clause_pattern
+                (discard_var)))
+            value: (tuple
+              (integer)
+              (integer))))))))
 
 ============
 Try patterns
@@ -880,18 +884,19 @@ fn weird(x) {
         (case
           subjects: (case_subjects
             (integer))
-          (case_clause
-            patterns: (case_clause_patterns
-              (case_clause_pattern
-                (integer)))
-            (anonymous_function
-              parameters: (function_parameters
-                (function_parameter
-                  name: (identifier)))
-              body: (function_body
-                (binary_expression
-                  (var)
-                  (integer))))))
+          clauses: (case_clauses
+            (case_clause
+              patterns: (case_clause_patterns
+                (case_clause_pattern
+                  (integer)))
+              value: (anonymous_function
+                parameters: (function_parameters
+                  (function_parameter
+                    name: (identifier)))
+                body: (function_body
+                  (binary_expression
+                    (var)
+                    (integer)))))))
         (arguments
           (argument
             value: (integer))))
