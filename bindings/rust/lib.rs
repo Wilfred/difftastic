@@ -42,11 +42,29 @@ pub const NODE_TYPES: &'static str = include_str!("../../src/node-types.json");
 
 #[cfg(test)]
 mod tests {
+    use anyhow::{anyhow, Result};
+
     #[test]
-    fn test_can_load_grammar() {
+    fn test_can_load_grammar() -> Result<()> {
         let mut parser = tree_sitter::Parser::new();
-        parser
-            .set_language(super::language())
-            .expect("Error loading swift language");
+        parser.set_language(super::language())?;
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_can_parse_basic_file() -> Result<()> {
+        let mut parser = tree_sitter::Parser::new();
+        parser.set_language(super::language())?;
+
+        let tree = parser.parse("_ = \"Hello!\"\n", None)
+            .ok_or_else(|| anyhow!("Unable to parse!"))?;
+
+        assert_eq!(
+            "(source_file (assignment (directly_assignable_expression (simple_identifier)) (line_string_literal (line_str_text))))",
+            tree.root_node().to_sexp(),
+        );
+
+        Ok(())
     }
 }
