@@ -1,0 +1,196 @@
+================================
+Excerpt from stdlib's base.gleam
+================================
+
+import gleam/bit_string
+import gleam/string
+
+/// Encodes a BitString into a base 64 encoded string.
+///
+pub fn encode64(input: BitString, padding: Bool) -> String {
+  let encoded = do_encode64(input)
+  case padding {
+    True -> encoded
+    False -> string.replace(encoded, "=", "")
+  }
+}
+
+if erlang {
+  external fn do_encode64(BitString) -> String =
+    "base64" "encode"
+}
+
+if javascript {
+  external fn do_encode64(BitString) -> String =
+    "../gleam_stdlib.mjs" "encode64"
+}
+
+---
+
+(source_file
+  (import 
+    module: (module))
+  (import 
+    module: (module))
+  (statement_comment)
+  (statement_comment)
+  (public_function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)
+        type: (type
+          name: (type_identifier)))
+      (function_parameter
+        name: (identifier)
+        type: (type
+          name: (type_identifier))))
+    return_type: (type
+      name: (type_identifier))
+    body: (function_body
+      (let
+        pattern: (var)
+        value: (function_call
+          (var)
+          (arguments
+            (argument
+              value: (var)))))
+      (case
+        subjects: (case_subjects
+          (var))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (constructor_pattern
+                name: (type_identifier))))
+          (var))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (constructor_pattern
+                name: (type_identifier))))
+          (function_call
+            (field_access
+              record: (var)
+              field: (identifier))
+            (arguments
+              (argument
+                value: (var))
+              (argument
+                value: (string))
+              (argument
+                value: (string))))))))
+  (target_group
+    target: (target)
+    (external_function
+      name: (identifier)
+      parameters: (function_parameters
+        (function_parameter
+          type: (type
+            name: (type_identifier))))
+      return_type: (type
+        name: (type_identifier))
+      body: (external_function_body
+        (string)
+        (string))))
+  (target_group
+    target: (target)
+    (external_function
+      name: (identifier)
+      parameters: (function_parameters
+        (function_parameter
+          type: (type
+            name: (type_identifier))))
+      return_type: (type
+        name: (type_identifier))
+      body: (external_function_body
+        (string)
+        (string)))))
+
+================================
+Excerpt from stdlib's bool.gleam
+================================
+
+//// A type with two possible values, `True` and `False`. Used to indicate whether
+//// things are... true or false!
+////
+//// Often is it clearer and offers more type safety to define a custom type
+//// than to use `Bool`. For example, rather than having a `is_teacher: Bool`
+//// field consider having a `role: SchoolRole` field where `SchoolRole` is a custom
+//// type that can be either `Student` or `Teacher`.
+
+import gleam/order.{Order}
+
+/// Returns the opposite bool value.
+///
+/// This is the same as the `!` or `not` operators in some other languages.
+///
+/// ## Examples
+///
+///    > negate(True)
+///    False
+///
+///    > negate(False)
+///    True
+///
+pub fn negate(bool: Bool) -> Bool {
+  case bool {
+    True -> False
+    False -> True
+  }
+}
+
+---
+
+(source_file
+  (module_comment)
+  (module_comment)
+  (module_comment)
+  (module_comment)
+  (module_comment)
+  (module_comment)
+  (module_comment)
+  (import
+    module: (module)
+    imports: (unqualified_imports
+      (unqualified_import
+        name: (type_identifier))))
+  (statement_comment)
+  (statement_comment)
+  (statement_comment)
+  (statement_comment)
+  (statement_comment)
+  (statement_comment)
+  (statement_comment)
+  (statement_comment)
+  (statement_comment)
+  (statement_comment)
+  (statement_comment)
+  (statement_comment)
+  (public_function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)
+        type: (type
+          name: (type_identifier))))
+    return_type: (type
+      name: (type_identifier))
+    body: (function_body
+      (case
+        subjects: (case_subjects
+          (var))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (constructor_pattern
+                name: (type_identifier))))
+          value: (record
+            name: (type_identifier)))
+        (case_clause
+          patterns: (case_clause_patterns
+            (case_clause_pattern
+              (constructor_pattern
+                name: (type_identifier))))
+          value: (record
+            name: (type_identifier)))))))
