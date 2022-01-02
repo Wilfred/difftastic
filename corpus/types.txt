@@ -126,14 +126,14 @@ type g2[T, U any, V interface{}, W Foo[Bar[T]]] struct {}
               (type_identifier)
               (type_arguments
                 (type_identifier))))
-          (field_declaration              
-            (field_identifier)            
-            (generic_type                 
-              (type_identifier)           
-              (type_arguments             
-                (generic_type             
-                  (type_identifier)       
-                  (type_arguments         
+          (field_declaration
+            (field_identifier)
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (generic_type
+                  (type_identifier)
+                  (type_arguments
                     (type_identifier))))))))))
   (type_declaration
     (type_spec
