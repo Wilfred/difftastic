@@ -81,6 +81,8 @@ type g1 struct {
     nested Array[Array[T]]
 }
 
+type g2[T, U any, V interface{}, W Foo[Bar[T]]] struct {}
+
 ---
 
 (source_file
@@ -132,7 +134,27 @@ type g1 struct {
                 (generic_type             
                   (type_identifier)       
                   (type_arguments         
-                    (type_identifier)))))))))))
+                    (type_identifier))))))))))
+  (type_declaration
+    (type_spec
+      (type_identifier)
+      (type_parameter_list
+        (parameter_declaration
+          (identifier)
+          (identifier)
+          (type_identifier))
+        (parameter_declaration
+          (identifier)
+          (interface_type (method_spec_list)))
+        (parameter_declaration
+          (identifier)
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (generic_type
+                (type_identifier)
+                (type_arguments (type_identifier)))))))
+      (struct_type (field_declaration_list)))))
 
 ============================================
 Interface types

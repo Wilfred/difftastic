@@ -84,6 +84,10 @@ module.exports = grammar({
     [$.qualified_type, $._expression],
     [$.generic_type, $._expression],
     [$._simple_type, $.generic_type],
+    [$.parameter_declaration, $.type_arguments],
+    [$.parameter_declaration, $._simple_type, $._expression],
+    [$.parameter_declaration, $.generic_type, $._expression],
+    [$.parameter_declaration, $._expression],
     [$.func_literal, $.function_type],
     [$.function_type],
     [$.parameter_declaration, $._simple_type],
@@ -210,6 +214,13 @@ module.exports = grammar({
       field('body', optional($.block))
     )),
 
+    type_parameter_list: $ => seq(
+      '[',
+      commaSep1($.parameter_declaration),
+      optional(','),
+      ']'
+    ),
+
     parameter_list: $ => seq(
       '(',
       optional(seq(
@@ -251,6 +262,7 @@ module.exports = grammar({
 
     type_spec: $ => seq(
       field('name', $._type_identifier),
+      field('type_parameters', optional($.type_parameter_list)),
       field('type', $._type)
     ),
 
