@@ -1,0 +1,180 @@
+===========================
+Parser example custom types
+===========================
+
+type A { A }
+type A { A(String) }
+type Box(inner_type) { Box(inner: inner_type) }
+type NamedBox(inner_type) { Box(String, inner: inner_type) }
+
+---
+
+(source_file
+  (type_definition
+    (type_name)
+    (type_constructors
+      (type_constructor)))
+  (type_definition
+    (type_name)
+    (type_constructors
+      (type_constructor
+        (type_constructor_arguments
+          (type_constructor_argument
+            value: (type))))))
+  (type_definition
+    (type_name
+      (type_parameter))
+    (type_constructors
+      (type_constructor
+        (type_constructor_arguments
+          (type_constructor_argument
+            label: (identifier)
+            value: (type_var))))))
+  (type_definition
+    (type_name
+      (type_parameter))
+    (type_constructors
+      (type_constructor
+        (type_constructor_arguments
+          (type_constructor_argument
+            value: (type))
+          (type_constructor_argument
+            label: (identifier)
+            value: (type_var)))))))
+
+==========================
+Other custom type examples
+==========================
+
+type Cat {
+  Cat(name: String, cuteness: Int)
+}
+
+type Animal(name, cuteness) {
+  Cat(name: String, cuteness: Int)
+  Dog(name: String, cuteness: Int)
+}
+
+type Ord {
+  LT
+  EQ
+  GT
+}
+
+type Boring {
+  Boring
+}
+
+---
+
+(source_file
+  (type_definition
+    (type_name)
+    (type_constructors
+      (type_constructor
+        (type_constructor_arguments
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))))))
+  (type_definition
+    (type_name
+      (type_parameter)
+      (type_parameter))
+    (type_constructors
+      (type_constructor
+        (type_constructor_arguments
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))))
+      (type_constructor
+        (type_constructor_arguments
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))))))
+  (type_definition
+    (type_name)
+    (type_constructors
+      (type_constructor)
+      (type_constructor)
+      (type_constructor)))
+  (type_definition
+    (type_name)
+    (type_constructors
+      (type_constructor))))
+
+==============================
+Public custom type definitions
+==============================
+
+pub type Animal(name, cuteness) {
+  Cat(name: String, cuteness: Int)
+  Dog(name: String, cuteness: Int)
+}
+
+---
+
+(source_file
+  (public_type_definition
+    (type_name
+      (type_parameter)
+      (type_parameter))
+    (type_constructors
+      (type_constructor
+        (type_constructor_arguments
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))))
+      (type_constructor
+        (type_constructor_arguments
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))
+          (type_constructor_argument
+            label: (identifier)
+            value: (type)))))))
+
+=====================================
+Public opaque custom type definitions
+=====================================
+
+pub opaque type Animal(name, cuteness) {
+  Cat(name: String, cuteness: Int)
+  Dog(name: String, cuteness: Int)
+}
+
+---
+
+(source_file
+  (public_opaque_type_definition
+    (type_name
+      (type_parameter)
+      (type_parameter))
+    (type_constructors
+      (type_constructor
+        (type_constructor_arguments
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))))
+      (type_constructor
+        (type_constructor_arguments
+          (type_constructor_argument
+            label: (identifier)
+            value: (type))
+          (type_constructor_argument
+            label: (identifier)
+            value: (type)))))))

@@ -1,0 +1,89 @@
+============
+Type aliases
+============
+
+type Headers =
+  List(#(String, String))
+type Box(a) = #(a)
+type NamedBox(a) = #(String, a)
+
+---
+
+(source_file
+  (type_alias
+    (type_name)
+    (type
+      (tuple_type
+        (type)
+        (type))))
+  (type_alias
+    (type_name
+      (type_parameter))
+    (tuple_type
+      (type_var)))
+  (type_alias
+    (type_name
+      (type_parameter))
+    (tuple_type
+      (type)
+      (type_var))))
+
+===================
+Public type aliases
+===================
+
+pub type Headers =
+  List(#(String, String))
+pub type Box(a) = #(a)
+pub type NamedBox(a) = #(String, a)
+
+---
+
+(source_file
+  (public_type_alias
+    (type_name)
+    (type
+      (tuple_type
+        (type)
+        (type))))
+  (public_type_alias
+    (type_name
+      (type_parameter))
+    (tuple_type
+      (type_var)))
+  (public_type_alias
+    (type_name
+      (type_parameter))
+    (tuple_type
+      (type)
+      (type_var))))
+
+==========================
+Public opaque type aliases
+==========================
+
+pub opaque type Headers =
+  List(#(String, String))
+pub opaque type Box(a) = #(a)
+pub opaque type NamedBox(a) = #(String, a)
+
+---
+
+(source_file
+  (public_opaque_type_alias
+    (type_name)
+    (type
+      (tuple_type
+        (type)
+        (type))))
+  (public_opaque_type_alias
+    (type_name
+      (type_parameter))
+    (tuple_type
+      (type_var)))
+  (public_opaque_type_alias
+    (type_name
+      (type_parameter))
+    (tuple_type
+      (type)
+      (type_var))))

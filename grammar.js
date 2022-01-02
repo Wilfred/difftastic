@@ -28,10 +28,13 @@ module.exports = grammar({
         $.external_function,
         $.public_external_function,
         $.function,
-        $.public_function
-        /* $.type, */
-        /* $.public_opaque_type, */
-        /* $.public_type */
+        $.public_function,
+        $.type_definition,
+        $.public_type_definition,
+        $.public_opaque_type_definition,
+        $.type_alias,
+        $.public_type_alias,
+        $.public_opaque_type_alias
       ),
 
     /* Target groups */
@@ -630,6 +633,35 @@ module.exports = grammar({
 
     /* Public functions */
     public_function: ($) => seq("pub", $._function),
+
+    /* Custom type definitions */
+    type_definition: ($) => seq("type", $._custom_type_definition),
+    public_type_definition: ($) =>
+      seq("pub", "type", $._custom_type_definition),
+    public_opaque_type_definition: ($) =>
+      seq("pub", "opaque", "type", $._custom_type_definition),
+    _custom_type_definition: ($) =>
+      seq($.type_name, "{", $.type_constructors, "}"),
+    type_constructors: ($) => repeat1($.type_constructor),
+    type_constructor: ($) =>
+      seq(
+        $._upname,
+        optional(seq("(", optional($.type_constructor_arguments), ")"))
+      ),
+    type_constructor_arguments: ($) =>
+      series_of($.type_constructor_argument, ","),
+    type_constructor_argument: ($) =>
+      seq(
+        optional(seq(field("label", $.identifier), ":")),
+        field("value", $._type)
+      ),
+
+    /* Type aliases */
+    type_alias: ($) => seq("type", $._type_alias),
+    public_type_alias: ($) => seq("pub", "type", $._type_alias),
+    public_opaque_type_alias: ($) =>
+      seq("pub", "opaque", "type", $._type_alias),
+    _type_alias: ($) => seq($.type_name, "=", $._type),
 
     /* Literals */
     string: ($) => /\"(?:\\[efnrt\"\\]|[^\"])*\"/,

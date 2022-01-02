@@ -6,25 +6,21 @@ A [tree-sitter] grammar for the [Gleam programming language]
 [tree-sitter]: http://tree-sitter.github.io
 [Gleam programming language]: https://gleam.run
 
-This is, presently, very much a work-in-progress.
+This grammar is able to parse the entire Gleam language. It is largely based
+on the Gleam parser itself, and deviations from that are noted throughout the
+codebase.
 
 ## DONE
 
 - [x] Parsing
-  - [x] `import` statements
-  - [x] `const` statements
-  - [x] `external type` statements
-  - [x] `external fn` statements
-  - [x] `pub extenal fn` statements
-  - [x] `pub external type` statements
-  - [x] `fn` statements
-  - [x] `pub fn` statements
+  - [x] Add ability to parse all language constructs
 
 ## TODO
 
 - [ ] Parsing
-  - [ ] type statements
-  - [ ] public opaque type statements
-  - [ ] public type statements
+  - [ ] Verify the generated ASTs for consistency, usability
+- [ ] Testing
+  - [ ] Fix failing error case test
+  - [ ] Add more error case tests
 - [ ] Queries
   - [ ] Syntax highlighting queries
