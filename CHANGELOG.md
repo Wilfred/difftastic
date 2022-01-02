@@ -295,7 +295,7 @@ delimiter over a delimiter that gave contiguous changes.
 Removed the `--width` argument.
 
 Added debug options `--dump-syntax` and `--dump-ts` for viewing parse
-trees. The output of these files may change without notice.
+trees. The output of these options may change without notice.
 
 ## 0.6 (released 27 July 2021)
 
