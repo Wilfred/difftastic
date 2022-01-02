@@ -70,6 +70,8 @@ impl NewlinePositions {
     /// Convert to single-line spans. If the original span crosses a
     /// newline, the vec will contain multiple items.
     pub fn from_offsets(&self, region_start: usize, region_end: usize) -> Vec<SingleLineSpan> {
+        assert!(region_start <= region_end);
+
         let mut res = vec![];
         for (line_num, line_start) in self.positions.iter().enumerate() {
             let line_end = match self.positions.get(line_num + 1) {
@@ -108,6 +110,8 @@ impl NewlinePositions {
         region_start: usize,
         region_end: usize,
     ) -> Vec<SingleLineSpan> {
+        assert!(region_start <= region_end);
+
         let mut res = vec![];
         for pos in self.from_offsets(region_start, region_end) {
             if pos.line.0 == 0 {
