@@ -2738,10 +2738,11 @@
           "value": "{"
         },
         {
-          "type": "REPEAT1",
+          "type": "FIELD",
+          "name": "clauses",
           "content": {
             "type": "SYMBOL",
-            "name": "case_clause"
+            "name": "case_clauses"
           }
         },
         {
@@ -2780,6 +2781,13 @@
         }
       ]
     },
+    "case_clauses": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "case_clause"
+      }
+    },
     "case_clause": {
       "type": "SEQ",
       "members": [
@@ -2812,8 +2820,12 @@
           "value": "->"
         },
         {
-          "type": "SYMBOL",
-          "name": "_expression"
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
         }
       ]
     },
