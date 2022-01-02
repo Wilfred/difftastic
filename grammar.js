@@ -360,18 +360,30 @@ module.exports = grammar({
 
     interface_type: $ => seq(
       'interface',
-      $.method_spec_list
-    ),
-
-    method_spec_list: $ => seq(
       '{',
       optional(seq(
-        choice($._type_identifier, $.qualified_type, $.method_spec),
-        repeat(seq(terminator, choice($._type_identifier, $.qualified_type, $.method_spec))),
+        $._interface_body,
+        repeat(seq(terminator, $._interface_body)),
         optional(terminator)
       )),
       '}'
     ),
+
+    _interface_body: $ => choice(
+       $.method_spec, $.interface_type_name, $.constraint_elem
+    ),
+
+    interface_type_name: $ => choice($._type_identifier, $.qualified_type),
+
+    constraint_elem: $ => seq(
+      $.constraint_term,
+      repeat(seq('|', $.constraint_term))
+    ),
+
+    constraint_term: $ => prec(-1, seq(
+      optional('~'),
+      $._type_identifier,
+    )),
 
     method_spec: $ => seq(
       field('name', $._field_identifier),
