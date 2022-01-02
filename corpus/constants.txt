@@ -19,6 +19,7 @@ const a = Node()
 const a = Cat("Ginny", 1950)
 const a = Person(name: "Billy", age: 52)
 const a = uri.Uri(host: "github.com")
+const a: option.Option(String) = option.Some("Hello, World!")
 
 ---
 
@@ -49,14 +50,18 @@ const a = uri.Uri(host: "github.com")
   (constant
     name: (identifier)
     type: (type
-      (type))
+      (type_arguments
+        (type_argument
+          (type))))
     value: (list
       (integer)
       (integer)))
   (constant
     name: (identifier)
     type: (type
-      (type_hole))
+      (type_arguments
+        (type_argument
+          (type_hole))))
     value: (list))
   (constant
     name: (identifier)
@@ -102,14 +107,17 @@ const a = uri.Uri(host: "github.com")
           (bit_string_segment_option_utf8)))))
   (constant
     name: (identifier)
-    value: (record))
+    value: (record
+      (record_name)))
   (constant
     name: (identifier)
     value: (record
+      (record_name)
       (arguments)))
   (constant
     name: (identifier)
     value: (record
+      (record_name)
       (arguments
         (argument
           value: (string))
@@ -118,6 +126,7 @@ const a = uri.Uri(host: "github.com")
   (constant
     name: (identifier)
     value: (record
+      (record_name)
       (arguments
         (argument
           label: (identifier)
@@ -129,9 +138,24 @@ const a = uri.Uri(host: "github.com")
     name: (identifier)
     value: (remote_record
       module: (identifier)
+      (record_name)
       (arguments
         (argument
           label: (identifier)
+          value: (string)))))
+  (constant
+    name: (identifier)
+    type: (remote_type
+      module: (identifier)
+      (type
+        (type_arguments
+          (type_argument
+            (type)))))
+    value: (remote_record
+      module: (identifier)
+      (record_name)
+      (arguments
+        (argument
           value: (string))))))
 
 =================
@@ -185,14 +209,18 @@ pub const a = uri.Uri(host: "github.com")
   (public_constant
     name: (identifier)
     type: (type
-      (type))
+      (type_arguments
+        (type_argument
+          (type))))
     value: (list
       (integer)
       (integer)))
   (public_constant
     name: (identifier)
     type: (type
-      (type_hole))
+      (type_arguments
+        (type_argument
+          (type_hole))))
     value: (list))
   (public_constant
     name: (identifier)
@@ -238,14 +266,17 @@ pub const a = uri.Uri(host: "github.com")
           (bit_string_segment_option_utf8)))))
   (public_constant
     name: (identifier)
-    value: (record))
+    value: (record
+      (record_name)))
   (public_constant
     name: (identifier)
     value: (record
+      (record_name)
       (arguments)))
   (public_constant
     name: (identifier)
     value: (record
+      (record_name)
       (arguments
         (argument
           value: (string))
@@ -254,6 +285,7 @@ pub const a = uri.Uri(host: "github.com")
   (public_constant
     name: (identifier)
     value: (record
+      (record_name)
       (arguments
         (argument
           label: (identifier)
@@ -265,6 +297,7 @@ pub const a = uri.Uri(host: "github.com")
     name: (identifier)
     value: (remote_record
       module: (identifier)
+      (record_name)
       (arguments
         (argument
           label: (identifier)

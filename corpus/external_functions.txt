@@ -16,8 +16,11 @@ external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
       (function_parameter
         type: (type)))
     return_type: (type
-      (type)
-      (type))
+      arguments: (type_arguments
+        (type_argument
+          (type))
+        (type_argument
+          (type))))
     body: (external_function_body
       (string)
       (string)))
@@ -35,7 +38,9 @@ external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
     name: (function_name)
     return_type: (tuple_type
       (type
-        (type))
+        arguments: (type_arguments
+          (type_argument
+            (type))))
       (function_type
         parameter_types: (function_parameter_types
           (type))
@@ -62,8 +67,11 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
       (function_parameter
         type: (type)))
     return_type: (type
-      (type)
-      (type))
+      arguments: (type_arguments
+        (type_argument
+          (type))
+        (type_argument
+          (type))))
     body: (external_function_body
       (string)
       (string)))
@@ -81,7 +89,9 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
     name: (function_name)
     return_type: (tuple_type
       (type
-        (type))
+        arguments: (type_arguments
+          (type_argument
+            (type))))
       (function_type
         parameter_types: (function_parameter_types
           (type))

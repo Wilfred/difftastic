@@ -294,6 +294,7 @@ fn field_access(x) {
     name: (identifier)
     (function_body
       (record
+        (record_name)
         (arguments
           (argument
             label: (identifier)
@@ -304,6 +305,7 @@ fn field_access(x) {
       (remote_record
         module: (identifier)
         (record
+          (record_name)
           (arguments
              (argument
                label: (identifier)
@@ -319,7 +321,8 @@ fn field_access(x) {
     name: (identifier)
     (function_body
       (function_call
-        (var))))
+        (var)
+        (arguments))))
   (function
     name: (identifier)
     (function_body
@@ -404,12 +407,14 @@ fn field_access(x) {
             (case_clause_pattern
               (integer)
               (integer)))
-          (record))
+          (record
+            (record_name)))
         (case_clause
           patterns: (case_clause_patterns
             (case_clause_pattern
               (discard_var)))
-          (record)))))
+          (record
+            (record_name))))))
   (function
     name: (identifier)
     (function_body
@@ -457,7 +462,7 @@ fn field_access(x) {
         name: (identifier)))
     (function_body
       (record_update
-        constructor: (record)
+        constructor: (record_name)
         spread: (var)
         arguments: (record_update_arguments
           (record_update_argument
@@ -469,10 +474,12 @@ fn field_access(x) {
               (integer)
               (integer)))))
       (record_update
-        constructor: (remote_record
-          module: (identifier))
+        constructor: (remote_record_name
+          module: (identifier)
+          (record_name))
         spread: (function_call
-          (var))
+          (var)
+          (arguments))
         arguments: (record_update_arguments
           (record_update_argument
             label: (identifier)
@@ -569,7 +576,8 @@ fn trial(x, y) {
                 tuple: (var)
                 index: (integer))
               (integer)))
-          (record))
+          (record
+            (record_name)))
         (case_clause
           patterns: (case_clause_patterns
             (case_clause_pattern
@@ -590,7 +598,8 @@ fn trial(x, y) {
                   tuple: (var)
                   index: (integer))
                 (integer))))
-          (record)))
+          (record
+            (record_name))))
       (case
         subjects: (case_subjects
           (tuple
@@ -720,7 +729,8 @@ fn complicated(x, y) {
               (var)
               (var))
             (function_call
-              (var)))
+              (var)
+              (arguments)))
           (binary_expression
             (binary_expression
               (var)

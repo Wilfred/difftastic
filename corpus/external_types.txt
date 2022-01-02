@@ -12,11 +12,13 @@ external type Map(key, value)
   (external_type
     (type_name))
   (external_type
-    (type_name))
+    (type_name
+      (type_parameters)))
   (external_type
     (type_name
-      (type_parameter)
-      (type_parameter))))
+      (type_parameters
+        (type_parameter)
+        (type_parameter)))))
 
 ======================
 Public external types
@@ -32,8 +34,10 @@ pub external type Map(key, value)
   (public_external_type
     (type_name))
   (public_external_type
-    (type_name))
+    (type_name
+      (type_parameters)))
   (public_external_type
     (type_name
-      (type_parameter)
-      (type_parameter))))
+      (type_parameters
+        (type_parameter)
+        (type_parameter)))))

@@ -13,17 +13,21 @@ type NamedBox(a) = #(String, a)
   (type_alias
     (type_name)
     (type
-      (tuple_type
-        (type)
-        (type))))
+      (type_arguments
+        (type_argument
+          (tuple_type
+            (type)
+            (type))))))
   (type_alias
     (type_name
-      (type_parameter))
+      (type_parameters
+        (type_parameter)))
     (tuple_type
       (type_var)))
   (type_alias
     (type_name
-      (type_parameter))
+      (type_parameters
+        (type_parameter)))
     (tuple_type
       (type)
       (type_var))))
@@ -43,17 +47,21 @@ pub type NamedBox(a) = #(String, a)
   (public_type_alias
     (type_name)
     (type
-      (tuple_type
-        (type)
-        (type))))
+      (type_arguments
+        (type_argument
+          (tuple_type
+            (type)
+            (type))))))
   (public_type_alias
     (type_name
-      (type_parameter))
+      (type_parameters
+        (type_parameter)))
     (tuple_type
       (type_var)))
   (public_type_alias
     (type_name
-      (type_parameter))
+      (type_parameters
+        (type_parameter)))
     (tuple_type
       (type)
       (type_var))))
@@ -73,17 +81,21 @@ pub opaque type NamedBox(a) = #(String, a)
   (public_opaque_type_alias
     (type_name)
     (type
-      (tuple_type
-        (type)
-        (type))))
+      (type_arguments
+        (type_argument
+          (tuple_type
+            (type)
+            (type))))))
   (public_opaque_type_alias
     (type_name
-      (type_parameter))
+      (type_parameters
+        (type_parameter)))
     (tuple_type
       (type_var)))
   (public_opaque_type_alias
     (type_name
-      (type_parameter))
+      (type_parameters
+        (type_parameter)))
     (tuple_type
       (type)
       (type_var))))

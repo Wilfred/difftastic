@@ -1,10 +1,5 @@
 [
   {
-    "type": "alias",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "anonymous_function",
     "named": true,
     "fields": {
@@ -1904,7 +1899,17 @@
         "required": false,
         "types": [
           {
-            "type": "alias",
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "imports": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "unqualified_imports",
             "named": true
           }
         ]
@@ -1919,16 +1924,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "unqualified_import",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2800,15 +2795,24 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "arguments",
           "named": true
+        },
+        {
+          "type": "record_name",
+          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "record_name",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "record_update",
@@ -2829,11 +2833,11 @@
         "required": true,
         "types": [
           {
-            "type": "record",
+            "type": "record_name",
             "named": true
           },
           {
-            "type": "remote_record",
+            "type": "remote_record_name",
             "named": true
           }
         ]
@@ -3074,8 +3078,8 @@
       }
     },
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "arguments",
@@ -3084,6 +3088,36 @@
         {
           "type": "record",
           "named": true
+        },
+        {
+          "type": "record_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "remote_record_name",
+    "named": true,
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "record_name",
+          "named": true
         }
       ]
     }
@@ -3091,7 +3125,18 @@
   {
     "type": "remote_type",
     "named": true,
-    "fields": {},
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -3716,33 +3761,24 @@
   {
     "type": "type",
     "named": true,
-    "fields": {},
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_arguments",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "remote_type",
-          "named": true
-        },
-        {
-          "type": "tuple_type",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "type_hole",
-          "named": true
-        },
-        {
-          "type": "type_var",
+          "type": "type_arguments",
           "named": true
         }
       ]
@@ -3782,6 +3818,56 @@
         },
         {
           "type": "type_var",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "remote_type",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_hole",
+          "named": true
+        },
+        {
+          "type": "type_var",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "type_argument",
           "named": true
         }
       ]
@@ -3907,11 +3993,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "type_parameter",
+          "type": "type_parameters",
           "named": true
         }
       ]
@@ -3921,6 +4007,21 @@
     "type": "type_parameter",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "type_parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "type_parameter",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "type_var",
@@ -3936,11 +4037,44 @@
         "required": false,
         "types": [
           {
-            "type": "alias",
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "record_name",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "record_name",
             "named": true
           }
         ]
       }
+    }
+  },
+  {
+    "type": "unqualified_imports",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "unqualified_import",
+          "named": true
+        }
+      ]
     }
   },
   {
