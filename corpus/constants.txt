@@ -47,14 +47,14 @@ const a = uri.Uri(host: "github.com")
     value: (tuple))
   (constant
     name: (identifier)
-    type: (type_constructor
+    type: (type
       (type))
     value: (list
       (integer)
       (integer)))
   (constant
     name: (identifier)
-    type: (type_constructor
+    type: (type
       (type_hole))
     value: (list))
   (constant
@@ -164,14 +164,14 @@ pub const a = uri.Uri(host: "github.com")
     value: (tuple))
   (public_constant
     name: (identifier)
-    type: (type_constructor
+    type: (type
       (type))
     value: (list
       (integer)
       (integer)))
   (public_constant
     name: (identifier)
-    type: (type_constructor
+    type: (type
       (type_hole))
     value: (list))
   (public_constant

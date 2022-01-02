@@ -120,56 +120,30 @@ module.exports = grammar({
     _constant_remote_record: ($) => seq($._name, ".", $._constant_record),
 
     /* Special constant types */
-    _constant_type_annotation: ($) => seq(":", field("type", $._constant_type)),
+    // Versions of $._type, $._type_annotation, etc, that have constraints
+    // specific to constants.
     _constant_type: ($) =>
       choice(
         $.type_hole,
         alias($.constant_tuple_type, $.tuple_type),
-        $._constant_type_name,
-        $._constant_remote_type_name
+        alias($.constant_type, $.type),
+        alias($.constant_remote_type, $.remote_type)
       ),
+    _constant_type_annotation: ($) => seq(":", field("type", $._constant_type)),
     constant_tuple_type: ($) =>
       seq("#", "(", optional(series_of($._constant_type, ",")), ")"),
-    _constant_type_name: ($) =>
-      choice(
-        alias($.constant_type_constructor, $.type_constructor),
-        alias($.constant_type, $.type)
-      ),
-    _constant_remote_type_name: ($) =>
+    constant_type: ($) =>
       seq(
-        $._name,
-        ".",
-        choice(
-          alias($.constant_type_constructor, $.remote_type_constructor),
-          alias($.constant_type, $.remote_type)
-        )
+        $._upname,
+        optional(seq("(", optional(series_of($._constant_type, ",")), ")"))
       ),
-    constant_type_constructor: ($) =>
-      seq($._upname, "(", optional(series_of($._constant_type, ",")), ")"),
-    constant_type: ($) => $._upname,
+    constant_remote_type: ($) =>
+      seq(field("module", $._name), ".", alias($.constant_type, $.type)),
 
     /* External types */
     public_external_type: ($) => seq("pub", $._external_type),
     external_type: ($) => $._external_type,
-    _external_type: ($) =>
-      seq(
-        "external",
-        "type",
-        choice($.type, alias($.external_type_constructor, $.type_constructor))
-      ),
-    // TODO: Is this actually any different from the module type constructors?
-    external_type_constructor: ($) =>
-      seq(
-        $._upname,
-        seq(
-          "(",
-          optional(
-            series_of(alias($.external_type_argument, $.type_argument), ",")
-          ),
-          ")"
-        )
-      ),
-    external_type_argument: ($) => $._name,
+    _external_type: ($) => seq("external", "type", $.type_name),
 
     /* External functions */
     public_external_function: ($) => seq("pub", $._external_function),
@@ -179,26 +153,25 @@ module.exports = grammar({
         "external",
         "fn",
         field("name", alias($._name, $.function_name)),
-        field(
-          "parameters",
-          alias($.external_function_parameters, $.function_parameters)
+        "(",
+        optional(
+          field(
+            "parameters",
+            alias($.external_function_parameters, $.function_parameters)
+          )
         ),
+        ")",
         "->",
         field("return_type", $._type),
         "=",
         field("body", $.external_function_body)
       ),
-    // TODO: Different from module function parameters?
+    // Different from module function parameters in that module function
+    // parameters may be labelled whereas external function parameters cannot.
     external_function_parameters: ($) =>
-      seq(
-        "(",
-        optional(
-          series_of(
-            alias($.external_function_parameter, $.function_parameter),
-            ","
-          )
-        ),
-        ")"
+      series_of(
+        alias($.external_function_parameter, $.function_parameter),
+        ","
       ),
     external_function_parameter: ($) =>
       seq(
@@ -587,6 +560,8 @@ module.exports = grammar({
         $.field_access,
         $.function_call
       ),
+    // Interestingly, the code that parses function arguments also parses
+    // record arguments, hence the ambiguous name.
     arguments: ($) => series_of($.argument, ","),
     argument: ($) =>
       seq(
@@ -694,12 +669,22 @@ module.exports = grammar({
         $.type_hole,
         $.tuple_type,
         $.function_type,
-        $._type_name,
-        $._remote_type_name,
+        $.type,
+        $.remote_type,
         $.type_var
       ),
     _type_annotation: ($) => seq(":", field("type", $._type)),
+    // The type parameters are part of the "name." Bit odd, but 🤷
+    type_name: ($) =>
+      seq(
+        $._upname,
+        optional(seq("(", optional(series_of($.type_parameter, ",")), ")"))
+      ),
+    type_parameter: ($) => $._name,
     type_hole: ($) => $._discard_name,
+    // If you're wondering why there isn't a `list_type` here, the answer is
+    // that the "type" form for lists is `List`, which is identical to
+    // user-defined types etc and thus is not parsed specially.
     tuple_type: ($) => seq("#", "(", optional(series_of($._type, ",")), ")"),
     function_type: ($) =>
       seq(
@@ -710,19 +695,14 @@ module.exports = grammar({
       ),
     function_parameter_types: ($) =>
       seq("(", optional(series_of($._type, ",")), ")"),
-    _type_name: ($) => choice($.type_constructor, $.type),
-    _remote_type_name: ($) =>
+    // "type" is a somewhat ambiguous name, but it refers to a concrete type
+    // such as `Bool` or `List(Int)` or even `List(#(Int, String))`.
+    type: ($) =>
       seq(
-        $._name,
-        ".",
-        choice(
-          alias($.type_constructor, $.remote_type_constructor),
-          alias($.type, $.remote_type)
-        )
+        $._upname,
+        optional(seq("(", optional(series_of($._type, ",")), ")"))
       ),
-    type_constructor: ($) =>
-      seq($._upname, seq("(", optional(series_of($._type, ",")), ")")),
-    type: ($) => $._upname,
+    remote_type: ($) => seq(field("module", $._name), ".", $.type),
     type_var: ($) => $._name,
 
     /* Common alias becomes a real boy */

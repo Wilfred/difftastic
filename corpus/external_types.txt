@@ -10,13 +10,13 @@ external type Map(key, value)
 
 (source_file
   (external_type
-    (type))
+    (type_name))
   (external_type
-    (type_constructor))
+    (type_name))
   (external_type
-    (type_constructor
-      (type_argument)
-      (type_argument))))
+    (type_name
+      (type_parameter)
+      (type_parameter))))
 
 ======================
 Public external types
@@ -30,10 +30,10 @@ pub external type Map(key, value)
 
 (source_file
   (public_external_type
-    (type))
+    (type_name))
   (public_external_type
-    (type_constructor))
+    (type_name))
   (public_external_type
-    (type_constructor
-      (type_argument)
-      (type_argument))))
+    (type_name
+      (type_parameter)
+      (type_parameter))))
