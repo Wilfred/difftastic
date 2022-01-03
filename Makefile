@@ -23,20 +23,4 @@ node_modules/web-tree-sitter:
 # build web version of tree-sitter-haskell
 # NOTE: requires patched version of web-tree-sitter
 tree-sitter-haskell.wasm: src/parser.c src/scanner.cc
-	emcc                                             \
-		-o tree-sitter-haskell.wasm                    \
-		-Os                                            \
-		-std=c++03                                     \
-		-s WASM=1                                      \
-		-s SIDE_MODULE=1                               \
-		-s TOTAL_MEMORY=33554432                       \
-		-s NODEJS_CATCH_EXIT=0                         \
-		-s EXPORTED_FUNCTIONS=["_tree_sitter_haskell"] \
-		-fno-exceptions                                \
-		-Wno-reorder-init-list                         \
-		-Wno-c99-designator                            \
-		-I src                                         \
-		-xc++                                          \
-		src/scanner.cc                                 \
-		src/parser.c
-
+	npx tree-sitter build-wasm
