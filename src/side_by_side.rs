@@ -33,21 +33,15 @@ fn display_width() -> usize {
     term_size::dimensions().map(|(w, _)| w).unwrap_or(80)
 }
 
-/// Split `s` by newlines, but guarantees that the output is nonempty.
-/// An empty string is considered as a single line of length zero.
-fn split_lines_nonempty(s: &str) -> Vec<String> {
-    if s.is_empty() {
-        return vec!["".into()];
-    }
-
+/// Split `s` by newlines. Always returns a non-empty vec.
+///
+/// This differs from `str::lines`, which considers `""` to be zero
+/// lines and `"foo\n"` to be one line.
+fn split_on_newlines(s: &str) -> Vec<String> {
     lazy_static! {
         static ref RE: Regex = Regex::new("(?m)([^\n]*)$").unwrap();
     }
-    let mut lines = vec![];
-    for line_capture in RE.captures_iter(s) {
-        lines.push(line_capture[1].into());
-    }
-    lines
+    RE.captures_iter(s).map(|cap| cap[1].into()).collect()
 }
 
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
@@ -144,8 +138,8 @@ impl Widths {
         lhs_src: &str,
         rhs_src: &str,
     ) -> Self {
-        let lhs_lines = split_lines_nonempty(lhs_src);
-        let rhs_lines = split_lines_nonempty(rhs_src);
+        let lhs_lines = split_on_newlines(lhs_src);
+        let rhs_lines = split_on_newlines(rhs_src);
 
         let mut lhs_max_line: LineNumber = 1.into();
         let mut rhs_max_line: LineNumber = 1.into();
@@ -272,10 +266,10 @@ pub fn display_hunks(
 
     // TODO: this is largely duplicating the `apply_colors` logic.
     let (lhs_highlights, rhs_highlights) = highlight_positions(lhs_mps, rhs_mps);
-    let lhs_lines = split_lines_nonempty(lhs_src);
-    let rhs_lines = split_lines_nonempty(rhs_src);
-    let lhs_colored_lines = split_lines_nonempty(&lhs_colored_src);
-    let rhs_colored_lines = split_lines_nonempty(&rhs_colored_src);
+    let lhs_lines = split_on_newlines(lhs_src);
+    let rhs_lines = split_on_newlines(rhs_src);
+    let lhs_colored_lines = split_on_newlines(&lhs_colored_src);
+    let rhs_colored_lines = split_on_newlines(&rhs_colored_src);
 
     let (lhs_lines_with_novel, rhs_lines_with_novel) = lines_with_novel(lhs_mps, rhs_mps);
 
@@ -469,21 +463,21 @@ mod tests {
 
     #[test]
     fn test_split_line_empty() {
-        assert_eq!(split_lines_nonempty(""), vec![""]);
+        assert_eq!(split_on_newlines(""), vec![""]);
     }
 
     #[test]
     fn test_split_line_single() {
-        assert_eq!(split_lines_nonempty("foo"), vec!["foo"]);
+        assert_eq!(split_on_newlines("foo"), vec!["foo"]);
     }
 
     #[test]
     fn test_split_line_with_newline() {
-        assert_eq!(split_lines_nonempty("foo\nbar"), vec!["foo", "bar"]);
+        assert_eq!(split_on_newlines("foo\nbar"), vec!["foo", "bar"]);
     }
 
     #[test]
     fn test_split_line_with_trailing_newline() {
-        assert_eq!(split_lines_nonempty("foo\nbar\n"), vec!["foo", "bar", ""]);
+        assert_eq!(split_on_newlines("foo\nbar\n"), vec!["foo", "bar", ""]);
     }
 }
