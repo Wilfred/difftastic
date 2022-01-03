@@ -457,9 +457,11 @@ fn ensure_contiguous(
 
 /// Fill matched pairs from `start` to end.
 ///
+/// ```text
 /// 10 20
 /// 11 25
 /// 17 31
+/// ```
 ///
 /// Pairs are monotonically increasing, but may have gaps.
 ///
@@ -697,6 +699,7 @@ mod tests {
 
     /// Simulate a simple diff:
     ///
+    /// ```text
     /// // Old
     /// A
     /// B
@@ -705,6 +708,7 @@ mod tests {
     /// A
     /// x
     /// B
+    /// ```
     #[test]
     fn test_aligned_lines_from_hunk() {
         let hunk = Hunk {
