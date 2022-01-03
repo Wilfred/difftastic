@@ -60,9 +60,7 @@ bool scan_for_word(TSLexer *lexer, char* word, unsigned len) {
     return false;
 }
 
-bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
-                                                  const bool *valid_symbols) {
-  if (!valid_symbols[AUTOMATIC_SEMICOLON]) return false;
+bool scan_automatic_semicolon(TSLexer *lexer) {
   lexer->result_symbol = AUTOMATIC_SEMICOLON;
   lexer->mark_end(lexer);
 
@@ -96,4 +94,12 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
   }
 
   return true;
+}
+
+bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
+                                                  const bool *valid_symbols) {
+  if (valid_symbols[AUTOMATIC_SEMICOLON])
+    return scan_automatic_semicolon(lexer);
+
+  return false;
 }
