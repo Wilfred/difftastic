@@ -597,6 +597,7 @@ module.exports = grammar({
       repeat($.attribute_list),
       repeat($.modifier),
       'record',
+      optional('class'),
       field('name', $.identifier),
       field('type_parameters', optional($.type_parameter_list)),
       field('parameters', optional($.parameter_list)),
@@ -957,22 +958,22 @@ module.exports = grammar({
 
     //We may need to expand this list if more things can be evaluated at compile time
     constant_pattern: $ => choice(
-        $.binary_expression,
-        $.default_expression,
-        $.interpolated_string_expression,
-        $.parenthesized_expression,
-        $.postfix_unary_expression,
-        $.prefix_unary_expression,
-        $.size_of_expression,
-        $.tuple_expression,
-        $.type_of_expression,
-        $.member_access_expression,
-        $.invocation_expression,
-        $.cast_expression,
-  
-        $._simple_name,
-        $._literal
-      ),
+      $.binary_expression,
+      $.default_expression,
+      $.interpolated_string_expression,
+      $.parenthesized_expression,
+      $.postfix_unary_expression,
+      $.prefix_unary_expression,
+      $.size_of_expression,
+      $.tuple_expression,
+      $.type_of_expression,
+      $.member_access_expression,
+      $.invocation_expression,
+      $.cast_expression,
+
+      $._simple_name,
+      $._literal
+    ),
 
     declaration_pattern: $ => seq(
       field('type', $._type),
@@ -1010,7 +1011,7 @@ module.exports = grammar({
       optional(seq($.subpattern, ',', commaSep1($.subpattern))),// we really should allow single sub patterns, but that causes conficts, and will rarely be used
       ')',
     )),
-    
+
     expression_colon: $ => seq($._expression, ':'),
 
     subpattern: $ => seq(
