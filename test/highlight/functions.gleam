@@ -21,7 +21,7 @@ pub fn replace(
 ) -> String {
   // <- punctuation.delimeter
   // ^ type
-  //        ^ punctuation.bracket 
+  //        ^ punctuation.bracket
   string.replace(in: string, each: pattern, with: replacement)
   // <- variable
   //     ^ property

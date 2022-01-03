@@ -662,7 +662,7 @@ fn try_try_again(x, y) -> Int {
   (function
     name: (identifier)
     parameters: (function_parameters
-      (function_parameter 
+      (function_parameter
         name: (identifier))
       (function_parameter
         name: (identifier)))

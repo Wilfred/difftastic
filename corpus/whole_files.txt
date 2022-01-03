@@ -28,9 +28,9 @@ if javascript {
 ---
 
 (source_file
-  (import 
+  (import
     module: (module))
-  (import 
+  (import
     module: (module))
   (statement_comment)
   (statement_comment)
