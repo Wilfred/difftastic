@@ -576,8 +576,8 @@ module.exports = grammar({
     _pattern: ($) =>
       seq(
         choice(
-          $.var,
-          $.discard_var,
+          $.identifier,
+          $.discard,
           $.constructor_pattern,
           $.string,
           $.integer,
@@ -586,9 +586,8 @@ module.exports = grammar({
           alias($._pattern_bit_string, $.bit_string_pattern),
           $.list_pattern
         ),
-        optional(field("assign", seq("as", $.pattern_assign)))
+        optional(field("assign", seq("as", $.var)))
       ),
-    pattern_assign: ($) => $._name,
     var: ($) => $._name,
     discard_var: ($) => $._discard_name,
     constructor_pattern: ($) =>
