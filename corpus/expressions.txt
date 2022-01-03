@@ -1,91 +1,121 @@
-==================
+================================================================================
 Multiplication expression
-==================
+================================================================================
 
 45 * 3
 
----
+--------------------------------------------------------------------------------
 
-(source_file (multiplicative_expression (integer_literal) (integer_literal)))
+(source_file
+  (multiplicative_expression
+    (integer_literal)
+    (integer_literal)))
 
-==================
+================================================================================
 Subtraction expression
-==================
+================================================================================
 
 45 - 3
 
----
+--------------------------------------------------------------------------------
 
-(source_file (additive_expression (integer_literal) (integer_literal)))
+(source_file
+  (additive_expression
+    (integer_literal)
+    (integer_literal)))
 
-==================
+================================================================================
 Nil-coalescing expression
-==================
+================================================================================
 
 a ?? 0
 
----
+--------------------------------------------------------------------------------
 
-(source_file (nil_coalescing_expression (simple_identifier) (integer_literal)))
+(source_file
+  (nil_coalescing_expression
+    (simple_identifier)
+    (integer_literal)))
 
-==================
+================================================================================
 Comparison
-==================
+================================================================================
 
 a < b
 
----
+--------------------------------------------------------------------------------
 
-(source_file (comparison_expression (simple_identifier) (simple_identifier)))
+(source_file
+  (comparison_expression
+    (simple_identifier)
+    (simple_identifier)))
 
-==================
+================================================================================
 Conjunction
-==================
+================================================================================
 
 a && b
 
 a
     && b
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (conjunction_expression (simple_identifier) (simple_identifier))
-    (conjunction_expression (simple_identifier) (simple_identifier)))
+  (conjunction_expression
+    (simple_identifier)
+    (simple_identifier))
+  (conjunction_expression
+    (simple_identifier)
+    (simple_identifier)))
 
-==================
+================================================================================
 Bitwise operations
-==================
+================================================================================
 
 a & b
 a | b
 a << b
 a >> b
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (bitwise_operation (simple_identifier) (simple_identifier))
-    (bitwise_operation (simple_identifier) (simple_identifier))
-    (bitwise_operation (simple_identifier) (simple_identifier))
-    (bitwise_operation (simple_identifier) (simple_identifier))) 
+  (bitwise_operation
+    (simple_identifier)
+    (simple_identifier))
+  (bitwise_operation
+    (simple_identifier)
+    (simple_identifier))
+  (bitwise_operation
+    (simple_identifier)
+    (simple_identifier))
+  (bitwise_operation
+    (simple_identifier)
+    (simple_identifier)))
 
-==================
+================================================================================
 Tuple access operator
-==================
+================================================================================
 
 event.0
 possibleEvent?.0
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (navigation_expression (simple_identifier) (navigation_suffix (integer_literal)))
-    (navigation_expression (simple_identifier) (navigation_suffix (integer_literal))))
+  (navigation_expression
+    (simple_identifier)
+    (navigation_suffix
+      (integer_literal)))
+  (navigation_expression
+    (simple_identifier)
+    (navigation_suffix
+      (integer_literal))))
 
-==================
+================================================================================
 Ternary expression
-==================
+================================================================================
 
 a ? b : c
 
@@ -93,26 +123,32 @@ someVeryLongFunctionCall()
     ? doSomethingHere()
     : fallback
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (ternary_expression (simple_identifier) (simple_identifier) (simple_identifier))
-    (ternary_expression
-        (call_expression
-            (simple_identifier)
-            (call_suffix (value_arguments)))
-        (call_expression
-            (simple_identifier)
-            (call_suffix (value_arguments)))
-        (simple_identifier)))
-===
+  (ternary_expression
+    (simple_identifier)
+    (simple_identifier)
+    (simple_identifier))
+  (ternary_expression
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments)))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments)))
+    (simple_identifier)))
+
+================================================================================
 Ternary within another expression
-===
+================================================================================
 
 if a ? b : c == d {
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (if_statement
@@ -123,13 +159,13 @@ if a ? b : c == d {
         (simple_identifier)
         (simple_identifier)))))
 
-===
+================================================================================
 Ternary with a function at the end
-===
+================================================================================
 
 foo() ? bar() : baz()
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (ternary_expression
@@ -146,27 +182,27 @@ foo() ? bar() : baz()
       (call_suffix
         (value_arguments)))))
 
-==================
+================================================================================
 Multiple expressions on one line using semicolons
-==================
+================================================================================
 
 print(a); throw b
 
----
+--------------------------------------------------------------------------------
 
-    (source_file
-      (call_expression
-        (simple_identifier)
-        (call_suffix
-          (value_arguments
-            (value_argument
-              (simple_identifier)))))
-      (throw_keyword)
-      (simple_identifier))
+(source_file
+  (call_expression
+    (simple_identifier)
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (simple_identifier)))))
+  (throw_keyword)
+  (simple_identifier))
 
-==================
+================================================================================
 Indexing
-==================
+================================================================================
 
 let b = maybeNil?[2]
 a[2] = b
@@ -174,192 +210,265 @@ let c = array[safe: index]
 let d = weirdType[indexesByField, and: anotherField]
 let e = array[...]
 
----
+--------------------------------------------------------------------------------
 
- (source_file
-    (property_declaration
-        (value_binding_pattern
-            (non_binding_pattern (simple_identifier)))
-        (call_expression (simple_identifier) (call_suffix (value_arguments (value_argument (integer_literal))))))
-    (assignment
-        (directly_assignable_expression
-            (call_expression (simple_identifier) (call_suffix (value_arguments (value_argument (integer_literal))))))
-        (simple_identifier))
-    (property_declaration
-        (value_binding_pattern
-            (non_binding_pattern (simple_identifier)))
-        (call_expression
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments
+          (value_argument
+            (integer_literal))))))
+  (assignment
+    (directly_assignable_expression
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments
+            (value_argument
+              (integer_literal))))))
+    (simple_identifier))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments
+          (value_argument
             (simple_identifier)
-                (call_suffix (value_arguments (value_argument (simple_identifier) (simple_identifier))))))
-    (property_declaration
-        (value_binding_pattern
-            (non_binding_pattern (simple_identifier)))
-        (call_expression
+            (simple_identifier))))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments
+          (value_argument
+            (simple_identifier))
+          (value_argument
             (simple_identifier)
-            (call_suffix
-                (value_arguments
-                    (value_argument (simple_identifier))
-                    (value_argument (simple_identifier) (simple_identifier))))))
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (call_expression
-            (simple_identifier)
-            (call_suffix
-                (value_arguments
-                    (value_argument (fully_open_range)))))))
+            (simple_identifier))))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments
+          (value_argument
+            (fully_open_range)))))))
 
-==================
+================================================================================
 Assigning to self
-==================
+================================================================================
 
 self = .enumCase
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (assignment
-        (directly_assignable_expression (self_expression))
-        (prefix_expression (simple_identifier))))
+  (assignment
+    (directly_assignable_expression
+      (self_expression))
+    (prefix_expression
+      (simple_identifier))))
 
-==================
+================================================================================
 Assignment
-==================
+================================================================================
 
 let one = 1
 var two: Int = 2
 _ = someCall()
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (integer_literal))
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (type_annotation (user_type (type_identifier)))
-        (integer_literal))
-    (assignment
-        (directly_assignable_expression (simple_identifier))
-        (call_expression (simple_identifier) (call_suffix (value_arguments)))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (integer_literal))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (type_annotation
+      (user_type
+        (type_identifier)))
+    (integer_literal))
+  (assignment
+    (directly_assignable_expression
+      (simple_identifier))
+    (call_expression
+      (simple_identifier)
+      (call_suffix
+        (value_arguments)))))
 
-==================
+================================================================================
 Destructuring assignment
-==================
+================================================================================
 
 (lhs, rhs) = someOperation
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (assignment
-        (directly_assignable_expression (tuple_expression (simple_identifier) (simple_identifier)))
+  (assignment
+    (directly_assignable_expression
+      (tuple_expression
+        (simple_identifier)
         (simple_identifier)))
+    (simple_identifier)))
 
-==================
+================================================================================
 Implicit member expression
-==================
+================================================================================
 
 let a: SomeClass = .someInstance
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (type_annotation (user_type (type_identifier)))
-        (prefix_expression (simple_identifier))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (type_annotation
+      (user_type
+        (type_identifier)))
+    (prefix_expression
+      (simple_identifier))))
 
-==================
+================================================================================
 Tuple expressions
-==================
+================================================================================
 
 func math() {
     let a: (Int, Int) = (1, 2)
     return (lhs: 3, rhs: 4)
 }
 
----
+--------------------------------------------------------------------------------
 
-    (source_file
-      (function_declaration
-        (simple_identifier)
-        (function_body
-          (statements
-            (property_declaration
-              (value_binding_pattern
-                (non_binding_pattern
-                  (simple_identifier)))
-              (type_annotation
-                (tuple_type
-                  (user_type
-                    (type_identifier))
-                  (user_type
-                    (type_identifier))))
-              (tuple_expression
-                (integer_literal)
-                (integer_literal)))
-            (control_transfer_statement
-              (tuple_expression
-                (simple_identifier)
-                (integer_literal)
-                (simple_identifier)
-                (integer_literal)))))))
+(source_file
+  (function_declaration
+    (simple_identifier)
+    (function_body
+      (statements
+        (property_declaration
+          (value_binding_pattern
+            (non_binding_pattern
+              (simple_identifier)))
+          (type_annotation
+            (tuple_type
+              (tuple_type_item
+                (user_type
+                  (type_identifier)))
+              (tuple_type_item
+                (user_type
+                  (type_identifier)))))
+          (tuple_expression
+            (integer_literal)
+            (integer_literal)))
+        (control_transfer_statement
+          (tuple_expression
+            (simple_identifier)
+            (integer_literal)
+            (simple_identifier)
+            (integer_literal)))))))
 
-==================
+================================================================================
 Function calls
-==================
+================================================================================
 
 print("Hello World!")
 sum(1, 2)
 something.hello?("world")
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (call_expression (simple_identifier)
-        (call_suffix (value_arguments
-            (value_argument (line_string_literal (line_str_text))))))
-    (call_expression (simple_identifier)
-        (call_suffix (value_arguments
-            (value_argument (integer_literal))
-            (value_argument (integer_literal)))))
-    (call_expression
-        (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
-        (call_suffix (value_arguments (value_argument (line_string_literal (line_str_text)))))))
+  (call_expression
+    (simple_identifier)
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (line_string_literal
+            (line_str_text))))))
+  (call_expression
+    (simple_identifier)
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (integer_literal))
+        (value_argument
+          (integer_literal)))))
+  (call_expression
+    (navigation_expression
+      (simple_identifier)
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (line_string_literal
+            (line_str_text)))))))
 
-==================
+================================================================================
 Constructor calls
-==================
+================================================================================
 
 var result = Set<String>()
 var result2 = [String: [Complex<[String: Any]>]]()
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (constructor_expression
-            (user_type (type_identifier) (type_arguments (user_type (type_identifier))))
-            (constructor_suffix)))
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (constructor_expression
-            (dictionary_type
-                (user_type (type_identifier))
-                (array_type
-                    (user_type
-                        (type_identifier)
-                        (type_arguments
-                            (dictionary_type
-                                (user_type (type_identifier))
-                                (user_type (type_identifier)))))))
-            (constructor_suffix))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (constructor_expression
+      (user_type
+        (type_identifier)
+        (type_arguments
+          (user_type
+            (type_identifier))))
+      (constructor_suffix
+        (value_arguments))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (constructor_expression
+      (dictionary_type
+        (user_type
+          (type_identifier))
+        (array_type
+          (user_type
+            (type_identifier)
+            (type_arguments
+              (dictionary_type
+                (user_type
+                  (type_identifier))
+                (user_type
+                  (type_identifier)))))))
+      (constructor_suffix
+        (value_arguments)))))
 
-==================
+================================================================================
 Inout functions
-==================
+================================================================================
 
 func modifyThis(_ toModify: inout [String: String]) {
 }
@@ -367,136 +476,191 @@ func modifyThis(_ toModify: inout [String: String]) {
 var this = [:]
 modifyThis(&this)
 
----
+--------------------------------------------------------------------------------
+
 (source_file
-    (function_declaration
-        (simple_identifier)
-        (external_parameter_name)
-        (parameter (simple_identifier)
-            (parameter_modifiers (parameter_modifier))
-            (dictionary_type (user_type (type_identifier)) (user_type (type_identifier))))
-        (function_body))
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (dictionary_literal))
-    (call_expression
-        (simple_identifier)
-        (call_suffix (value_arguments (value_argument (prefix_expression (simple_identifier)))))))
+  (function_declaration
+    (simple_identifier)
+    (parameter
+      (simple_identifier)
+      (simple_identifier)
+      (parameter_modifiers
+        (parameter_modifier))
+      (dictionary_type
+        (user_type
+          (type_identifier))
+        (user_type
+          (type_identifier))))
+    (function_body))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (dictionary_literal))
+  (call_expression
+    (simple_identifier)
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (prefix_expression
+            (simple_identifier)))))))
 
-
-==================
+================================================================================
 Selectors
-==================
+================================================================================
 
 let selector = #selector(self.foo(parameter:))
 let getterSelector = #selector(getter: self.bar)
 let setterSelector = #selector(setter: self.bar)
 
----
-(source_file
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (selector_expression
-            (call_expression
-                (navigation_expression
-                (self_expression)
-                (navigation_suffix (simple_identifier)))
-                (call_suffix (value_arguments (value_argument (simple_identifier)))))))
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (selector_expression (navigation_expression (self_expression) (navigation_suffix (simple_identifier)))))
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (selector_expression (navigation_expression (self_expression) (navigation_suffix (simple_identifier))))))
+--------------------------------------------------------------------------------
 
-==================
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (selector_expression
+      (call_expression
+        (navigation_expression
+          (self_expression)
+          (navigation_suffix
+            (simple_identifier)))
+        (call_suffix
+          (value_arguments
+            (value_argument
+              (simple_identifier)))))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (selector_expression
+      (navigation_expression
+        (self_expression)
+        (navigation_suffix
+          (simple_identifier)))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (selector_expression
+      (navigation_expression
+        (self_expression)
+        (navigation_suffix
+          (simple_identifier))))))
+
+================================================================================
 Function references
-==================
+================================================================================
 
 self.foo(parameter:)
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (call_expression
-        (navigation_expression
-            (self_expression)
-            (navigation_suffix (simple_identifier)))
-        (call_suffix (value_arguments (value_argument (simple_identifier))))))
+  (call_expression
+    (navigation_expression
+      (self_expression)
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (simple_identifier))))))
 
-======
+================================================================================
 Complex ternary expression
-======
+================================================================================
 
 let availableRules = (context == nil) ? [.noContextRule] : []
 let result: MyEnumType = condition ? .someEnumCase : .someOtherEnum
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (ternary_expression
-            (tuple_expression (equality_expression (simple_identifier)))
-            (array_literal (prefix_expression (simple_identifier)))
-            (array_literal)))
-    (property_declaration
-        (value_binding_pattern (non_binding_pattern (simple_identifier)))
-        (type_annotation (user_type (type_identifier)))
-        (ternary_expression
-            (simple_identifier)
-            (prefix_expression (simple_identifier))
-            (prefix_expression (simple_identifier)))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (ternary_expression
+      (tuple_expression
+        (equality_expression
+          (simple_identifier)))
+      (array_literal
+        (prefix_expression
+          (simple_identifier)))
+      (array_literal)))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (type_annotation
+      (user_type
+        (type_identifier)))
+    (ternary_expression
+      (simple_identifier)
+      (prefix_expression
+        (simple_identifier))
+      (prefix_expression
+        (simple_identifier)))))
 
-======
+================================================================================
 Range expression in indexing
-======
+================================================================================
 
 string[..<string.index(before: string.endIndex)]
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (call_expression
-        (simple_identifier)
-        (call_suffix
-            (value_arguments
-                (value_argument
-                    (open_start_range_expression
-                        (call_expression
-                            (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
-                            (call_suffix
-                                (value_arguments
-                                    (value_argument
-                                        (simple_identifier)
-                                        (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))))))))))))
+  (call_expression
+    (simple_identifier)
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (open_start_range_expression
+            (call_expression
+              (navigation_expression
+                (simple_identifier)
+                (navigation_suffix
+                  (simple_identifier)))
+              (call_suffix
+                (value_arguments
+                  (value_argument
+                    (simple_identifier)
+                    (navigation_expression
+                      (simple_identifier)
+                      (navigation_suffix
+                        (simple_identifier)))))))))))))
 
-======
+================================================================================
 Range expression in loop
-======
+================================================================================
 
 for i in 0 ..< something.count {
     // Do something
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (for_statement
+  (for_statement
+    (simple_identifier)
+    (range_expression
+      (integer_literal)
+      (navigation_expression
         (simple_identifier)
-        (range_expression
-            (integer_literal)
-            (navigation_expression (simple_identifier)
-                (navigation_suffix (simple_identifier))))
-            (comment)))
+        (navigation_suffix
+          (simple_identifier))))
+    (comment)))
 
-===
+================================================================================
 Range with force unwrapped contents
-===
+================================================================================
 
 _ = contents[Int(prefix)!...]
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (assignment
@@ -517,32 +681,41 @@ _ = contents[Int(prefix)!...]
                         (simple_identifier)))))
                 (bang)))))))))
 
-
-============
+================================================================================
 Split nullable navigation expression
-============
+================================================================================
 
 foo.doSomething(a)?
     .andThen(b)
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (call_expression
+  (call_expression
+    (navigation_expression
+      (call_expression
         (navigation_expression
-            (call_expression
-                (navigation_expression (simple_identifier) (navigation_suffix (simple_identifier)))
-                (call_suffix (value_arguments (value_argument (simple_identifier)))))
-            (navigation_suffix (simple_identifier)))
-        (call_suffix (value_arguments (value_argument (simple_identifier))))))
+          (simple_identifier)
+          (navigation_suffix
+            (simple_identifier)))
+        (call_suffix
+          (value_arguments
+            (value_argument
+              (simple_identifier)))))
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (value_arguments
+        (value_argument
+          (simple_identifier))))))
 
-===
+================================================================================
 Property wrapper projections
-===
+================================================================================
 
 Image.url(url, isLoaded: $done)
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (call_expression
@@ -558,9 +731,9 @@ Image.url(url, isLoaded: $done)
           (simple_identifier)
           (simple_identifier))))))
 
-===
+================================================================================
 Key-path expressions
-===
+================================================================================
 
 let pathToProperty = \SomeStructure.someValue
 
@@ -575,7 +748,7 @@ let nestedKeyPath = \OuterStructure.outer.someValue
 
 let keyPathStringExpression = #keyPath(someProperty)
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (property_declaration
@@ -615,8 +788,10 @@ let keyPathStringExpression = #keyPath(someProperty)
       (lambda_literal
         (lambda_function_type
           (lambda_function_type_parameters
-            (simple_identifier)
-            (simple_identifier)))
+            (lambda_parameter
+              (simple_identifier))
+            (lambda_parameter
+              (simple_identifier))))
         (comment))))
   (assignment
     (directly_assignable_expression
@@ -647,20 +822,20 @@ let keyPathStringExpression = #keyPath(someProperty)
           (simple_identifier)))
       (navigation_suffix
         (simple_identifier))))
-      (property_declaration
-        (value_binding_pattern
-          (non_binding_pattern
-            (simple_identifier)))
-        (key_path_string_expression
-          (simple_identifier))))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (key_path_string_expression
+      (simple_identifier))))
 
-===
+================================================================================
 Tuple expression in function
-===
+================================================================================
 
 trimPathAtLengths(positions: [(start: start, end: end)])
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (call_expression
@@ -676,14 +851,14 @@ trimPathAtLengths(positions: [(start: start, end: end)])
               (simple_identifier)
               (simple_identifier))))))))
 
-===
+================================================================================
 Navigation expressions
-===
+================================================================================
 
 _ = self.foo.bar.baz
 print(thing.maybeGreeting!.definitely)
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (assignment
@@ -708,19 +883,19 @@ print(thing.maybeGreeting!.definitely)
             (postfix_expression
               (navigation_expression
                 (simple_identifier)
-              (navigation_suffix
-                (simple_identifier)))
+                (navigation_suffix
+                  (simple_identifier)))
               (bang))
             (navigation_suffix
               (simple_identifier))))))))
 
-===
+================================================================================
 Check expression
-===
+================================================================================
 
 checkThat(dict is Dictionary<Foo, Bar>)
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (call_expression
@@ -738,13 +913,13 @@ checkThat(dict is Dictionary<Foo, Bar>)
                 (user_type
                   (type_identifier))))))))))
 
-===
+================================================================================
 Navigation expression involving explicit type parameters
-===
+================================================================================
 
 SignalProducer<(), CarthageError>.empty
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (navigation_expression
@@ -757,9 +932,9 @@ SignalProducer<(), CarthageError>.empty
     (navigation_suffix
       (simple_identifier))))
 
-===
+================================================================================
 Suppressing the syntactic significance of a newline
-===
+================================================================================
 
 let _ = (1+2)
     / 3
@@ -771,7 +946,7 @@ let two = 2
     + 2
     - 2
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (property_declaration
@@ -793,24 +968,24 @@ let two = 2
         (additive_expression
           (integer_literal)
           (integer_literal)))
-          (integer_literal)))
-      (property_declaration
-        (value_binding_pattern
-          (non_binding_pattern
-            (simple_identifier)))
-        (additive_expression
-          (additive_expression
-            (integer_literal)
-            (integer_literal))
-        (integer_literal))))
+      (integer_literal)))
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (additive_expression
+      (additive_expression
+        (integer_literal)
+        (integer_literal))
+      (integer_literal))))
 
-===
+================================================================================
 Simple try
-===
+================================================================================
 
 try foo()
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (try_expression
@@ -819,28 +994,31 @@ try foo()
       (call_suffix
         (value_arguments)))))
 
-===
+================================================================================
 Try and ternary
-===
+================================================================================
 
 try foo() ? 1 : 0
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (try_expression
     (ternary_expression
-      (call_expression (simple_identifier) (call_suffix (value_arguments)))
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments)))
       (integer_literal)
       (integer_literal))))
 
-===
+================================================================================
 Simple await
-===
+================================================================================
 
 await foo()
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (await_expression
@@ -849,14 +1027,14 @@ await foo()
       (call_suffix
         (value_arguments)))))
 
-===
+================================================================================
 try await
-===
+================================================================================
 
 try await foo()
 await try foo()
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (try_expression
@@ -872,31 +1050,33 @@ await try foo()
         (call_suffix
           (value_arguments))))))
 
-
-===
+================================================================================
 Await and ternary
-===
+================================================================================
 
 await foo() ? 1 : 0
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (await_expression
     (ternary_expression
-      (call_expression (simple_identifier) (call_suffix (value_arguments)))
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments)))
       (integer_literal)
       (integer_literal))))
 
-===
+================================================================================
 for try await
-===
+================================================================================
 
 for try await value in values {
     print(value)
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (for_statement
@@ -910,16 +1090,16 @@ for try await value in values {
             (value_argument
               (simple_identifier))))))))
 
-===
+================================================================================
 Negation at the start of a line
-===
+================================================================================
 
 
 let a = false
 
 !a
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (property_declaration

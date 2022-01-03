@@ -17,11 +17,11 @@
 
 (function_declaration (simple_identifier) @function.method)
 (function_declaration ["init" @constructor])
-(external_parameter_name) @parameter
 (throws) @keyword
 (async) @keyword
 (where_keyword) @keyword
-(parameter (simple_identifier) @parameter)
+(parameter external_name: (simple_identifier) @parameter)
+(parameter name: (simple_identifier) @parameter)
 (type_parameter (type_identifier) @parameter)
 (inheritance_constraint (identifier (simple_identifier) @parameter))
 (equality_constraint (identifier (simple_identifier) @parameter))
