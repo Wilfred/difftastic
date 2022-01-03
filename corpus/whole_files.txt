@@ -49,34 +49,34 @@ if javascript {
       name: (type_identifier))
     body: (function_body
       (let
-        pattern: (var)
+        pattern: (identifier)
         value: (function_call
-          (var)
-          (arguments
+          function: (identifier)
+          arguments: (arguments
             (argument
-              value: (var)))))
+              value: (identifier)))))
       (case
         subjects: (case_subjects
-          (var))
+          (identifier))
         clauses: (case_clauses
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (constructor_pattern
                   name: (type_identifier))))
-            value: (var))
+            value: (identifier))
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (constructor_pattern
                   name: (type_identifier))))
             value: (function_call
-              (field_access
-                record: (var)
+              function: (field_access
+                record: (identifier)
                 field: (identifier))
-              (arguments
+              arguments: (arguments
                 (argument
-                  value: (var))
+                  value: (identifier))
                 (argument
                   value: (string))
                 (argument
@@ -180,7 +180,7 @@ pub fn negate(bool: Bool) -> Bool {
     body: (function_body
       (case
         subjects: (case_subjects
-          (var))
+          (identifier))
         clauses: (case_clauses
           (case_clause
             patterns: (case_clause_patterns
