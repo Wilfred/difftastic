@@ -426,7 +426,7 @@ fn field_access(x) {
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
-                (discard_var)))
+                (discard)))
             value: (record
               name: (type_identifier)))))))
   (function
@@ -445,7 +445,7 @@ fn field_access(x) {
       (let
         pattern: (tuple_pattern
           (var)
-          (discard_var))
+          (discard))
         value: (tuple
           (integer)
           (integer)))))
@@ -465,7 +465,7 @@ fn field_access(x) {
       (assert
         pattern: (tuple_pattern
           (var)
-          (discard_var))
+          (discard))
         value: (tuple
           (integer)
           (integer)))))
@@ -570,7 +570,7 @@ fn trial(x, y) {
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
-                (discard_var)))
+                (discard)))
             value: (integer))))
       (case
         subjects: (case_subjects
@@ -581,10 +581,10 @@ fn trial(x, y) {
               (case_clause_pattern
                 (tuple_pattern
                   (var)
-                  (discard_var)))
+                  (discard)))
               (case_clause_pattern
                 (tuple_pattern
-                  (discard_var)
+                  (discard)
                   (var))))
             guard: (case_clause_guard
               (binary_expression
@@ -598,7 +598,7 @@ fn trial(x, y) {
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (tuple_pattern
-                  (discard_var)
+                  (discard)
                   (var))))
             guard: (case_clause_guard
               (binary_expression
@@ -634,7 +634,7 @@ fn trial(x, y) {
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
-                (discard_var)))
+                (discard)))
             value: (tuple
               (integer)
               (integer))))))))
@@ -673,7 +673,7 @@ fn try_try_again(x, y) -> Int {
         pattern: (var)
         value: (todo))
       (try
-        pattern: (discard_var)
+        pattern: (discard)
         value: (todo))
       (try
         pattern: (constructor_pattern
