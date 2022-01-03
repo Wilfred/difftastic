@@ -1,10 +1,8 @@
 # tree-sitter-haskell
 
-[![build](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/ci.yml)
+[![CI](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/ci.yml)
 
 Haskell grammar for [tree-sitter].
-
-**Note** This grammar needs at least tree-sitter 0.19.4.
 
 # References
 
@@ -21,7 +19,7 @@ local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.haskell = {
   install_info = {
     url = "~/path/to/tree-sitter-haskell",
-    files = {"src/parser.c", "src/scanner.cc"}
+    files = {"src/parser.c", "src/scanner.c"}
   }
 }
 EOF
