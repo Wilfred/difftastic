@@ -22,5 +22,18 @@ node_modules/web-tree-sitter:
 
 # build web version of tree-sitter-haskell
 # NOTE: requires patched version of web-tree-sitter
-tree-sitter-haskell.wasm: src/parser.c src/scanner.cc
+tree-sitter-haskell.wasm: src/parser.c src/scanner.c
 	npx tree-sitter build-wasm
+
+CC := cc
+OURCFLAGS := -shared -fPIC -g -O0 -I src
+
+clean:
+	rm -f debug *.o *.a
+
+debug.so: src/parser.c src/scanner.c
+	$(CC) $(CFLAGS) -o parser.o  $(OURCFLAGS) src/parser.c
+	$(CC) $(CFLAGS) -o scanner.o $(OURCFLAGS) src/scanner.c
+	$(CC) $(CFLAGS) -o debug.so $(OURCFLAGS) $(PWD)/scanner.o $(PWD)/parser.o
+	rm -f $(HOME)/.cache/tree-sitter/lib/haskell.so
+	cp $(PWD)/debug.so $(HOME)/.cache/tree-sitter/lib/haskell.so
