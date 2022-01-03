@@ -29,8 +29,8 @@ if [ "$mode" == "native" ]; then
   tree-sitter test -f 'just compile it' >/dev/null
 elif [ "$mode" == "wasm" ]; then
   # Ensure tree-sitter-haskell.wasm was compiled
-  make node_modules/web-tree-sitter
-  make tree-sitter-haskell.wasm
+  make node_modules/web-tree-sitter -s
+  make tree-sitter-haskell.wasm -s
 fi
 
 start=$(date '+%s.%N')
