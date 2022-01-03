@@ -37,8 +37,8 @@ fn replace(
       name: (type_identifier))
     body: (function_body
       (binary_expression
-        (var)
-        (var))))
+        (identifier)
+        (identifier))))
   (function
     name: (identifier)
     parameters: (function_parameters
@@ -54,21 +54,21 @@ fn replace(
     return_type: (type_var)
     body: (function_body
       (function_call
-        (var)
-        (arguments
+        function: (identifier)
+        arguments: (arguments
           (argument
             value: (function_call
-              (var)
-              (arguments
+              function: (identifier)
+              arguments: (arguments
                 (argument
-                  value: (var)))))))))
+                  value: (identifier)))))))))
   (function
     name: (identifier)
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
     body: (function_body
-      (var)))
+      (identifier)))
   (function
     name: (identifier)
     parameters: (function_parameters
@@ -89,19 +89,19 @@ fn replace(
           name: (type_identifier))))
     body: (function_body
       (function_call
-        (field_access
-          record: (var)
+        function: (field_access
+          record: (identifier)
           field: (identifier))
-        (arguments
+        arguments: (arguments
           (argument
             label: (identifier)
-            value: (var))
+            value: (identifier))
           (argument
             label: (identifier)
-            value: (var))
+            value: (identifier))
           (argument
             label: (identifier)
-            value: (var)))))))
+            value: (identifier)))))))
 
 ========================
 Public function examples
@@ -142,8 +142,8 @@ pub fn replace(
       name: (type_identifier))
     body: (function_body
       (binary_expression
-        (var)
-        (var))))
+        (identifier)
+        (identifier))))
   (public_function
     name: (identifier)
     parameters: (function_parameters
@@ -159,21 +159,21 @@ pub fn replace(
     return_type: (type_var)
     body: (function_body
       (function_call
-        (var)
-        (arguments
+        function: (identifier)
+        arguments: (arguments
           (argument
             value: (function_call
-              (var)
-              (arguments
+              function: (identifier)
+              arguments: (arguments
                 (argument
-                  value: (var)))))))))
+                  value: (identifier)))))))))
   (public_function
     name: (identifier)
     parameters: (function_parameters
       (function_parameter
         name: (identifier)))
     body: (function_body
-      (var)))
+      (identifier)))
   (public_function
     name: (identifier)
     parameters: (function_parameters
@@ -194,19 +194,19 @@ pub fn replace(
           name: (type_identifier))))
     body: (function_body
       (function_call
-        (field_access
-          record: (var)
+        function: (field_access
+          record: (identifier)
           field: (identifier))
-        (arguments
+        arguments: (arguments
           (argument
             label: (identifier)
-            value: (var))
+            value: (identifier))
           (argument
             label: (identifier)
-            value: (var))
+            value: (identifier))
           (argument
             label: (identifier)
-            value: (var)))))))
+            value: (identifier)))))))
 
 ===============
 Basic functions
@@ -328,13 +328,13 @@ fn field_access(x) {
       (function_parameter
         name: (identifier)))
     body: (function_body
-      (var)))
+      (identifier)))
   (function
     name: (identifier)
     body: (function_body
       (function_call
-        (var)
-        (arguments))))
+        function: (identifier)
+        arguments: (arguments))))
   (function
     name: (identifier)
     body: (function_body
@@ -347,7 +347,7 @@ fn field_access(x) {
         name: (identifier)))
     body: (function_body
       (tuple
-        (var)
+        (identifier)
         (integer))))
   (function
     name: (identifier)
@@ -358,7 +358,7 @@ fn field_access(x) {
       (list
         (integer)
         (integer)
-        spread: (var))))
+        spread: (identifier))))
   (function
     name: (identifier)
     body: (function_body
@@ -390,8 +390,8 @@ fn field_access(x) {
               name: (type_identifier))))
         body: (function_body
           (binary_expression
-            (var)
-            (var))))))
+            (identifier)
+            (identifier))))))
   (function
     name: (identifier)
     body: (function_body
@@ -410,8 +410,8 @@ fn field_access(x) {
     body: (function_body
       (case
         subjects: (case_subjects
-          (var)
-          (var))
+          (identifier)
+          (identifier))
         clauses: (case_clauses
           (case_clause
             patterns: (case_clause_patterns
@@ -433,18 +433,18 @@ fn field_access(x) {
     name: (identifier)
     body: (function_body
       (let
-        pattern: (var)
+        pattern: (identifier)
         value: (expression_group
           (binary_expression
             (integer)
             (integer))
           (string)))
       (let
-        pattern: (var)
-        value: (var))
+        pattern: (identifier)
+        value: (identifier))
       (let
         pattern: (tuple_pattern
-          (var)
+          (identifier)
           (discard))
         value: (tuple
           (integer)
@@ -453,18 +453,18 @@ fn field_access(x) {
     name: (identifier)
     body: (function_body
       (assert
-        pattern: (var)
+        pattern: (identifier)
         value: (expression_group
           (binary_expression
             (integer)
             (integer))
           (string)))
       (assert
-        pattern: (var)
-        value: (var))
+        pattern: (identifier)
+        value: (identifier))
       (assert
         pattern: (tuple_pattern
-          (var)
+          (identifier)
           (discard))
         value: (tuple
           (integer)
@@ -477,7 +477,7 @@ fn field_access(x) {
     body: (function_body
       (record_update
         constructor: (type_identifier)
-        spread: (var)
+        spread: (identifier)
         arguments: (record_update_arguments
           (record_update_argument
             label: (identifier)
@@ -492,8 +492,8 @@ fn field_access(x) {
           module: (identifier)
           name: (type_identifier))
         spread: (function_call
-          (var)
-          (arguments))
+          function: (identifier)
+          arguments: (arguments))
         arguments: (record_update_arguments
           (record_update_argument
             label: (identifier)
@@ -508,7 +508,7 @@ fn field_access(x) {
         name: (identifier)))
     body: (function_body
       (tuple_access
-        tuple: (var)
+        tuple: (identifier)
         index: (integer))))
   (function
     name: (identifier)
@@ -517,7 +517,7 @@ fn field_access(x) {
         name: (identifier)))
     body: (function_body
       (field_access
-        record: (var)
+        record: (identifier)
         field: (identifier)))))
 
 =====
@@ -555,7 +555,7 @@ fn trial(x, y) {
     body: (function_body
       (case
         subjects: (case_subjects
-          (var))
+          (identifier))
         clauses: (case_clauses
           (case_clause
             patterns: (case_clause_patterns
@@ -574,22 +574,22 @@ fn trial(x, y) {
             value: (integer))))
       (case
         subjects: (case_subjects
-          (var))
+          (identifier))
         clauses: (case_clauses
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
                 (tuple_pattern
-                  (var)
+                  (identifier)
                   (discard)))
               (case_clause_pattern
                 (tuple_pattern
                   (discard)
-                  (var))))
+                  (identifier))))
             guard: (case_clause_guard
               (binary_expression
                 (tuple_access
-                  tuple: (var)
+                  tuple: (identifier)
                   index: (integer))
                 (integer)))
             value: (record
@@ -599,19 +599,19 @@ fn trial(x, y) {
               (case_clause_pattern
                 (tuple_pattern
                   (discard)
-                  (var))))
+                  (identifier))))
             guard: (case_clause_guard
               (binary_expression
                 (binary_expression
                   (binary_expression
                     (tuple_access
-                      tuple: (var)
+                      tuple: (identifier)
                       index: (integer))
                     (integer))
                   (integer))
                 (binary_expression
                   (tuple_access
-                    tuple: (var)
+                    tuple: (identifier)
                     index: (integer))
                   (integer))))
             value: (record
@@ -619,8 +619,8 @@ fn trial(x, y) {
       (case
         subjects: (case_subjects
           (tuple
-            (var)
-            (var)))
+            (identifier)
+            (identifier)))
         clauses: (case_clauses
           (case_clause
             patterns: (case_clause_patterns
@@ -670,7 +670,7 @@ fn try_try_again(x, y) -> Int {
       name: (type_identifier))
     body: (function_body
       (try
-        pattern: (var)
+        pattern: (identifier)
         value: (todo))
       (try
         pattern: (discard)
@@ -697,25 +697,25 @@ fn try_try_again(x, y) -> Int {
         value: (todo))
       (try
         pattern: (tuple_pattern
-          (var)
-          (var))
+          (identifier)
+          (identifier))
         value: (todo))
       (try
         pattern: (bit_string_pattern
           (bit_string_segment
-            value: (var)
+            value: (identifier)
             options: (bit_string_segment_options
               (bit_string_segment_option_utf8)))
           (bit_string_segment
-            value: (var)
+            value: (identifier)
             options: (bit_string_segment_options
               (bit_string_segment_option_size
                 (integer)))))
         value: (todo))
       (try
         pattern: (list_pattern
-          (var)
-          (var))
+          (identifier)
+          (identifier))
         value: (todo)))))
 
 ==========================
@@ -740,23 +740,23 @@ fn complicated(x, y) {
       (binary_expression
         (binary_expression
           (binary_expression
-            (var)
-            (var))
+            (identifier)
+            (identifier))
           (binary_expression
-            (var)
-            (var)))
+            (identifier)
+            (identifier)))
         (binary_expression
           (binary_expression
             (binary_expression
-              (var)
-              (var))
+              (identifier)
+              (identifier))
             (function_call
-              (var)
-              (arguments)))
+              function: (identifier)
+              arguments: (arguments)))
           (binary_expression
             (binary_expression
-              (var)
-              (var))
+              (identifier)
+              (identifier))
             (integer)))))))
 
 =========================================
@@ -784,39 +784,39 @@ fn complex_data_fun(x, y) {
       (field_access
         record: (tuple_access
           tuple: (field_access
-            record: (var)
+            record: (identifier)
             field: (identifier))
           index: (integer))
         field: (identifier))
       (tuple_access
         tuple: (field_access
           record: (tuple_access
-            tuple: (var)
+            tuple: (identifier)
             index: (integer))
           field: (identifier))
         index: (integer))
       (function_call
-        (tuple_access
+        function: (tuple_access
           tuple: (field_access
             record: (tuple_access
-              tuple: (var)
+              tuple: (identifier)
               index: (integer))
             field: (identifier))
           index: (integer))
-        (arguments
+        arguments: (arguments
           (argument
             value: (string))
           (argument
             value: (integer))))
       (function_call
-        (field_access
+        function: (field_access
           record: (tuple_access
             tuple: (field_access
-              record: (var)
+              record: (identifier)
               field: (identifier))
             index: (integer))
           field: (identifier))
-        (arguments
+        arguments: (arguments
           (argument
             value: (float))
           (argument
@@ -848,40 +848,40 @@ fn weird(x) {
         name: (identifier)))
     body: (function_body
       (function_call
-        (var)
-        (arguments
+        function: (identifier)
+        arguments: (arguments
           (argument
             label: (identifier)
             value: (string))))
       (function_call
-        (anonymous_function
+        function: (anonymous_function
           parameters: (function_parameters
             (function_parameter
               name: (identifier)))
           body: (function_body
             (binary_expression
-              (var)
+              (identifier)
               (integer))))
-        (arguments
+        arguments: (arguments
           (argument
             value: (integer))))
       (function_call
-        (expression_group
+        function: (expression_group
           (let
-            pattern: (var)
+            pattern: (identifier)
             value: (anonymous_function
               parameters: (function_parameters
                 (function_parameter
                   name: (identifier)))
               body: (function_body
                 (binary_expression
-                  (var)
+                  (identifier)
                   (integer))))))
-        (arguments
+        arguments: (arguments
           (argument
             value: (integer))))
       (function_call
-        (case
+        function: (case
           subjects: (case_subjects
             (integer))
           clauses: (case_clauses
@@ -895,17 +895,48 @@ fn weird(x) {
                     name: (identifier)))
                 body: (function_body
                   (binary_expression
-                    (var)
+                    (identifier)
                     (integer)))))))
-        (arguments
+        arguments: (arguments
           (argument
             value: (integer))))
       (function_call
-        (function_call
-          (var)
-          (arguments
+        function: (function_call
+          function: (identifier)
+          arguments: (arguments
             (argument
               value: (integer))))
-        (arguments
+        arguments: (arguments
           (argument
             value: (integer)))))))
+
+=========================
+Various discard variables
+=========================
+
+fn ignores(foo, _bar) {
+  let _baz = 4
+  qux(foo, _hole)
+}
+
+---
+
+(source_file
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier))
+      (function_parameter
+        name: (discard)))
+    body: (function_body
+      (let
+        pattern: (discard)
+        value: (integer))
+      (function_call
+        function: (identifier)
+        arguments: (arguments
+          (argument
+            value: (identifier))
+          (argument
+            value: (hole)))))))

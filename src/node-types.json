@@ -110,6 +110,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "integer",
             "named": true
           },
@@ -144,10 +148,6 @@
           {
             "type": "tuple_access",
             "named": true
-          },
-          {
-            "type": "var",
-            "named": true
           }
         ]
       }
@@ -181,7 +181,7 @@
             "named": false
           },
           {
-            "type": "pattern_assign",
+            "type": "identifier",
             "named": true
           }
         ]
@@ -203,11 +203,15 @@
             "named": true
           },
           {
-            "type": "discard_var",
+            "type": "discard",
             "named": true
           },
           {
             "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           },
           {
@@ -219,19 +223,11 @@
             "named": true
           },
           {
-            "type": "pattern_assign",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
           {
             "type": "tuple_pattern",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -303,6 +299,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "integer",
             "named": true
           },
@@ -336,10 +336,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -391,6 +387,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -424,10 +424,6 @@
         },
         {
           "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "var",
           "named": true
         }
       ]
@@ -476,7 +472,7 @@
             "named": false
           },
           {
-            "type": "pattern_assign",
+            "type": "identifier",
             "named": true
           }
         ]
@@ -528,7 +524,7 @@
             "named": true
           },
           {
-            "type": "discard_var",
+            "type": "discard",
             "named": true
           },
           {
@@ -548,6 +544,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "integer",
             "named": true
           },
@@ -561,10 +561,6 @@
           },
           {
             "type": "list_pattern",
-            "named": true
-          },
-          {
-            "type": "pattern_assign",
             "named": true
           },
           {
@@ -593,10 +589,6 @@
           },
           {
             "type": "tuple_pattern",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -648,6 +640,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -681,10 +677,6 @@
         },
         {
           "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "var",
           "named": true
         }
       ]
@@ -869,6 +861,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "integer",
             "named": true
           },
@@ -903,10 +899,6 @@
           {
             "type": "tuple_access",
             "named": true
-          },
-          {
-            "type": "var",
-            "named": true
           }
         ]
       }
@@ -933,6 +925,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -955,10 +951,6 @@
         {
           "type": "tuple_access",
           "named": true
-        },
-        {
-          "type": "var",
-          "named": true
         }
       ]
     }
@@ -976,7 +968,7 @@
             "named": false
           },
           {
-            "type": "pattern_assign",
+            "type": "identifier",
             "named": true
           }
         ]
@@ -995,11 +987,15 @@
           "named": true
         },
         {
-          "type": "discard_var",
+          "type": "discard",
           "named": true
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -1016,10 +1012,6 @@
         },
         {
           "type": "tuple_pattern",
-          "named": true
-        },
-        {
-          "type": "var",
           "named": true
         }
       ]
@@ -1100,6 +1092,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -1133,10 +1129,6 @@
         },
         {
           "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "var",
           "named": true
         }
       ]
@@ -1241,7 +1233,7 @@
     }
   },
   {
-    "type": "discard_var",
+    "type": "discard",
     "named": true,
     "fields": {}
   },
@@ -1290,6 +1282,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -1327,10 +1323,6 @@
         },
         {
           "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "var",
           "named": true
         }
       ]
@@ -1463,6 +1455,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -1472,10 +1468,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -1589,6 +1581,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -1627,10 +1623,6 @@
         {
           "type": "tuple_access",
           "named": true
-        },
-        {
-          "type": "var",
-          "named": true
         }
       ]
     }
@@ -1638,44 +1630,51 @@
   {
     "type": "function_call",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "anonymous_function",
-          "named": true
-        },
-        {
-          "type": "arguments",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "expression_group",
-          "named": true
-        },
-        {
-          "type": "field_access",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "var",
-          "named": true
-        }
-      ]
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arguments",
+            "named": true
+          }
+        ]
+      },
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "anonymous_function",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "expression_group",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "tuple_access",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1696,6 +1695,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "discard",
+            "named": true
+          },
           {
             "type": "identifier",
             "named": true
@@ -1882,7 +1885,7 @@
             "named": false
           },
           {
-            "type": "pattern_assign",
+            "type": "identifier",
             "named": true
           }
         ]
@@ -1904,11 +1907,15 @@
             "named": true
           },
           {
-            "type": "discard_var",
+            "type": "discard",
             "named": true
           },
           {
             "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           },
           {
@@ -1920,19 +1927,11 @@
             "named": true
           },
           {
-            "type": "pattern_assign",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
           {
             "type": "tuple_pattern",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -2004,6 +2003,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "integer",
             "named": true
           },
@@ -2037,10 +2040,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -2092,6 +2091,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "integer",
             "named": true
           },
@@ -2125,10 +2128,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -2175,6 +2174,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -2209,10 +2212,6 @@
         {
           "type": "tuple_access",
           "named": true
-        },
-        {
-          "type": "var",
-          "named": true
         }
       ]
     }
@@ -2230,7 +2229,7 @@
             "named": false
           },
           {
-            "type": "pattern_assign",
+            "type": "identifier",
             "named": true
           }
         ]
@@ -2249,11 +2248,15 @@
           "named": true
         },
         {
-          "type": "discard_var",
+          "type": "discard",
           "named": true
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -2275,10 +2278,6 @@
         {
           "type": "tuple_pattern",
           "named": true
-        },
-        {
-          "type": "var",
-          "named": true
         }
       ]
     }
@@ -2292,11 +2291,11 @@
       "required": true,
       "types": [
         {
-          "type": "discard_var",
+          "type": "discard",
           "named": true
         },
         {
-          "type": "var",
+          "type": "identifier",
           "named": true
         }
       ]
@@ -2304,11 +2303,6 @@
   },
   {
     "type": "module",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "pattern_assign",
     "named": true,
     "fields": {}
   },
@@ -2799,6 +2793,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "integer",
             "named": true
           },
@@ -2832,10 +2830,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -2897,6 +2891,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "integer",
             "named": true
           },
@@ -2930,10 +2928,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -3172,7 +3166,7 @@
             "named": false
           },
           {
-            "type": "pattern_assign",
+            "type": "identifier",
             "named": true
           }
         ]
@@ -3194,11 +3188,15 @@
             "named": true
           },
           {
-            "type": "discard_var",
+            "type": "discard",
             "named": true
           },
           {
             "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           },
           {
@@ -3210,19 +3208,11 @@
             "named": true
           },
           {
-            "type": "pattern_assign",
-            "named": true
-          },
-          {
             "type": "string",
             "named": true
           },
           {
             "type": "tuple_pattern",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -3294,6 +3284,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "integer",
             "named": true
           },
@@ -3327,10 +3321,6 @@
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -3382,6 +3372,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -3415,10 +3409,6 @@
         },
         {
           "type": "tuple_access",
-          "named": true
-        },
-        {
-          "type": "var",
           "named": true
         }
       ]
@@ -3459,15 +3449,15 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "tuple",
             "named": true
           },
           {
             "type": "tuple_access",
-            "named": true
-          },
-          {
-            "type": "var",
             "named": true
           }
         ]
@@ -3487,7 +3477,7 @@
             "named": false
           },
           {
-            "type": "pattern_assign",
+            "type": "identifier",
             "named": true
           }
         ]
@@ -3506,11 +3496,15 @@
           "named": true
         },
         {
-          "type": "discard_var",
+          "type": "discard",
           "named": true
         },
         {
           "type": "float",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -3527,10 +3521,6 @@
         },
         {
           "type": "tuple_pattern",
-          "named": true
-        },
-        {
-          "type": "var",
           "named": true
         }
       ]
@@ -3908,11 +3898,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "var",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "!=",

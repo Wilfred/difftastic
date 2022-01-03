@@ -11,8 +11,12 @@ module.exports = grammar({
     $.comment,
   ],
   conflicts: ($) => [
-    [$.var, $.identifier],
     [$._maybe_record_expression, $._maybe_tuple_expression],
+    [
+      $._maybe_record_expression,
+      $._maybe_tuple_expression,
+      $.remote_type_identifier,
+    ],
   ],
   rules: {
     /* General rules */
@@ -298,7 +302,7 @@ module.exports = grammar({
         // If we decide that record constructors (value constructors) are
         // actually functions, this will require a refactor.
         $.record,
-        $.var,
+        $.identifier,
         $.todo,
         $.tuple,
         $.list,
@@ -471,13 +475,13 @@ module.exports = grammar({
       ),
     _case_clause_guard_unit: ($) =>
       choice(
-        $.var,
+        $.identifier,
         prec(1, alias($._case_clause_tuple_access, $.tuple_access)),
         seq("{", $._case_clause_guard_expression, "}"),
         $._constant_value
       ),
     _case_clause_tuple_access: ($) =>
-      seq(field("tuple", $.var), ".", field("index", $.integer)),
+      seq(field("tuple", $.identifier), ".", field("index", $.integer)),
     let: ($) => seq("let", $._assignment),
     assert: ($) => seq("assert", $._assignment),
     _assignment: ($) =>
@@ -513,7 +517,7 @@ module.exports = grammar({
     // they would have to be wrapped in an expression group anyways.
     _maybe_tuple_expression: ($) =>
       choice(
-        $.var,
+        $.identifier,
         $.function_call,
         $.tuple,
         $.expression_group,
@@ -532,7 +536,7 @@ module.exports = grammar({
     _maybe_record_expression: ($) =>
       choice(
         $.record,
-        $.var,
+        $.identifier,
         $.function_call,
         $.expression_group,
         $.case,
@@ -556,7 +560,7 @@ module.exports = grammar({
     // a field access (accessing field to_string on record int).
     _maybe_function_expression: ($) =>
       choice(
-        $.var,
+        $.identifier,
         $.anonymous_function,
         $.expression_group,
         $.case,
@@ -570,9 +574,14 @@ module.exports = grammar({
     argument: ($) =>
       seq(
         optional(seq(field("label", $.identifier), ":")),
-        field("value", choice(alias($.discard_var, $.hole), $._expression))
+        field("value", choice($.hole, $._expression))
       ),
-    function_call: ($) => seq($._maybe_function_expression, $.arguments),
+    hole: ($) => $._discard_name,
+    function_call: ($) =>
+      seq(
+        field("function", $._maybe_function_expression),
+        field("arguments", $.arguments)
+      ),
     _pattern: ($) =>
       seq(
         choice(
@@ -586,10 +595,9 @@ module.exports = grammar({
           alias($._pattern_bit_string, $.bit_string_pattern),
           $.list_pattern
         ),
-        optional(field("assign", seq("as", $.var)))
+        optional(field("assign", seq("as", $.identifier)))
       ),
     var: ($) => $._name,
-    discard_var: ($) => $._discard_name,
     constructor_pattern: ($) =>
       seq(
         field("name", choice($.type_identifier, $.remote_type_identifier)),
@@ -620,7 +628,8 @@ module.exports = grammar({
       "_pattern",
       "_pattern_bit_string_segment_argument"
     ),
-    _pattern_bit_string_segment_argument: ($) => choice($.var, $.integer),
+    _pattern_bit_string_segment_argument: ($) =>
+      choice($.identifier, $.integer),
     list_pattern: ($) =>
       seq(
         "[",
@@ -628,7 +637,7 @@ module.exports = grammar({
         optional($.list_pattern_tail),
         "]"
       ),
-    list_pattern_tail: ($) => seq("..", choice($.var, $.discard_var)),
+    list_pattern_tail: ($) => seq("..", choice($.identifier, $.discard)),
 
     /* Public functions */
     public_function: ($) => seq("pub", $._function),
