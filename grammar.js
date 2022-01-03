@@ -221,8 +221,8 @@ module.exports = grammar({
         optional($._type_annotation)
       ),
     _labeled_discard_param: ($) =>
-      seq(field("label", $.identifier), $._discard_name),
-    _discard_param: ($) => $._discard_name,
+      seq(field("label", $.identifier), field("name", $.discard)),
+    _discard_param: ($) => field("name", $.discard),
     _labeled_name_param: ($) =>
       seq(field("label", $.identifier), field("name", $.identifier)),
     _name_param: ($) => field("name", $.identifier),
@@ -739,6 +739,7 @@ module.exports = grammar({
 
     /* Shared AST nodes */
     identifier: ($) => $._name,
+    discard: ($) => $._discard_name,
     type_identifier: ($) => $._upname,
     remote_type_identifier: ($) =>
       seq(field("module", $.identifier), ".", field("name", $.type_identifier)),
