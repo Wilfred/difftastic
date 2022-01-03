@@ -5,10 +5,13 @@
 /// If we exceed this, the lines are stored in separate hunks.
 const MAX_DISTANCE: usize = 4;
 
-use std::collections::{HashMap, HashSet};
+use std::{
+    collections::{HashMap, HashSet},
+    iter::FromIterator,
+};
 
 use crate::{
-    context::{add_context, calculate_context, opposite_positions},
+    context::{add_context, calculate_context, flip_tuples, opposite_positions},
     lines::LineNumber,
     syntax::{zip_pad_shorter, MatchedPos},
 };
@@ -601,6 +604,72 @@ fn compact_gaps(
     res
 }
 
+/// Return the smallest item in `item_set` that is greater than `value`.
+///
+/// If `value` is None, just return the smallest value.
+fn first_greater<T: Copy + Ord>(item_set: &HashSet<T>, value: Option<T>) -> Option<T> {
+    let mut items = Vec::from_iter(item_set.iter().copied());
+    items.sort_unstable();
+
+    match value {
+        Some(value) => {
+            for item in items {
+                if item > value {
+                    return Some(item);
+                }
+            }
+
+            None
+        }
+        None => items.first().copied(),
+    }
+}
+
+/// Return all the matched lines, starting from `lhs_start`, up to
+/// `end` or the end of the whole file.
+fn fill_matched_lines(
+    lhs_start: LineNumber,
+    max_lhs_src_line: LineNumber,
+    end: (Option<LineNumber>, Option<LineNumber>),
+    matched_rhs_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
+) -> Vec<(LineNumber, LineNumber)> {
+    let (lhs_end, rhs_end) = end;
+
+    let mut lhs_num = lhs_start;
+    let mut rhs_num: Option<LineNumber> = None;
+
+    let mut res = vec![];
+    loop {
+        if lhs_num > max_lhs_src_line {
+            break;
+        }
+
+        if let Some(lhs_end) = lhs_end {
+            if lhs_num >= lhs_end {
+                break;
+            }
+        }
+
+        if let Some(rhs_line_set) = matched_rhs_lines.get(&lhs_num) {
+            rhs_num = first_greater(rhs_line_set, rhs_num);
+
+            if let Some(rhs_num) = rhs_num {
+                if let Some(rhs_end) = rhs_end {
+                    if rhs_num >= rhs_end {
+                        break;
+                    }
+                }
+
+                res.push((lhs_num, rhs_num));
+            }
+        }
+
+        lhs_num = (lhs_num.0 + 1).into();
+    }
+
+    res
+}
+
 pub fn aligned_lines_from_hunk(
     hunk: &Hunk,
     lhs_mps: &[MatchedPos],
@@ -624,7 +693,9 @@ pub fn aligned_lines_from_hunk(
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     res.extend(before_context);
 
+    let matched_lhs_lines = opposite_positions(rhs_mps);
     let matched_rhs_lines = opposite_positions(lhs_mps);
+
     if let (Some(start_pair), Some(end_pair)) = (start_pair, end_pair) {
         // Fill lines between.
         let aligned_between = fill_aligned(start_pair, end_pair, &matched_rhs_lines);
@@ -633,10 +704,29 @@ pub fn aligned_lines_from_hunk(
 
         res.extend(aligned_between.iter().map(|(x, y)| (Some(*x), Some(*y))));
     } else {
-        // We weren't able to find both a start pair and an end pair,
-        // so we can't fill between. Use the hunk lines as-is.
-        res.extend(hunk_lines);
-    }
+        // TODO: this is a more general case of the `fill_aligned`
+        // situation, so make this the only case.
+        let first_novel = hunk_lines[0];
+        let hunk_end = *hunk_lines.last().expect("Hunk lines should be non-empty");
+
+        let aligned_between = match first_novel {
+            (Some(lhs_start), _) => fill_matched_lines(
+                lhs_start,
+                max_lhs_src_line,
+                hunk_end,
+                &matched_rhs_lines,
+            ),
+            (_, Some(rhs_start)) => flip_tuples(&fill_matched_lines(
+                rhs_start,
+                max_rhs_src_line,
+                hunk_end,
+                &matched_lhs_lines,
+            )),
+            (None, None) => unreachable!(),
+        };
+        res.extend(aligned_between.iter().map(|(x, y)| (Some(*x), Some(*y))));
+        res.push(hunk_end);
+    };
 
     res.extend(after_context);
 
@@ -842,6 +932,167 @@ mod tests {
                 (Some(0.into()), Some(0.into())),
                 (None, Some(1.into())),
                 (Some(1.into()), Some(2.into()))
+            ]
+        );
+    }
+
+    /// Simulate a simple diff:
+    ///
+    /// ```text
+    /// // Old
+    /// A
+    /// B
+    ///
+    /// // New
+    /// A
+    /// x
+    /// B
+    /// y
+    /// ```
+    #[test]
+    fn test_aligned_lines_trailing_novel() {
+        let hunk = Hunk {
+            lines: vec![(None, Some(1.into())), (None, Some(3.into()))],
+        };
+
+        let lhs_mps = vec![
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: (
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                    opposite_pos: (
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: (
+                        vec![SingleLineSpan {
+                            line: 1.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                    opposite_pos: (
+                        vec![SingleLineSpan {
+                            line: 2.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                },
+                pos: SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+        ];
+
+        let rhs_mps = vec![
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: (
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                    opposite_pos: (
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                },
+                pos: SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: (
+                        vec![SingleLineSpan {
+                            line: 2.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                    opposite_pos: (
+                        vec![SingleLineSpan {
+                            line: 1.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                },
+                pos: SingleLineSpan {
+                    line: 2.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                },
+                pos: SingleLineSpan {
+                    line: 3.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+        ];
+
+        let res = aligned_lines_from_hunk(&hunk, &lhs_mps, &rhs_mps, 1.into(), 3.into());
+        assert_eq!(
+            res,
+            vec![
+                (Some(0.into()), Some(0.into())),
+                (None, Some(1.into())),
+                (Some(1.into()), Some(2.into())),
+                (None, Some(3.into())),
             ]
         );
     }

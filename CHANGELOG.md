@@ -14,6 +14,9 @@ Fixed a parsing performance regression introduced in 0.13.
 
 Improved highlighting heuristics for added/removed blank lines.
 
+Fixed an alignment bug where the last line being novel would lead to
+poor alignment of unchanged lines.
+
 ## 0.14 (released 27 December 2021)
 
 ### Parsing
