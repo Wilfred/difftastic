@@ -1,6 +1,8 @@
 //! Side-by-side (two column) display of diffs.
 
 use colored::{Color, Colorize};
+use lazy_static::lazy_static;
+use regex::Regex;
 use std::{
     cmp::max,
     collections::{HashMap, HashSet},
@@ -38,9 +40,12 @@ fn split_lines_nonempty(s: &str) -> Vec<String> {
         return vec!["".into()];
     }
 
+    lazy_static! {
+        static ref RE: Regex = Regex::new("(?m)([^\n]*)$").unwrap();
+    }
     let mut lines = vec![];
-    for line in s.lines() {
-        lines.push(line.into());
+    for line_capture in RE.captures_iter(s) {
+        lines.push(line_capture[1].into());
     }
     lines
 }
@@ -460,5 +465,25 @@ mod tests {
         // Basic smoke test.
         let res = display_single_column("foo.py", "Python", "print(123)\n", Color::Green);
         assert!(res.len() > 10);
+    }
+
+    #[test]
+    fn test_split_line_empty() {
+        assert_eq!(split_lines_nonempty(""), vec![""]);
+    }
+
+    #[test]
+    fn test_split_line_single() {
+        assert_eq!(split_lines_nonempty("foo"), vec!["foo"]);
+    }
+
+    #[test]
+    fn test_split_line_with_newline() {
+        assert_eq!(split_lines_nonempty("foo\nbar"), vec!["foo", "bar"]);
+    }
+
+    #[test]
+    fn test_split_line_with_trailing_newline() {
+        assert_eq!(split_lines_nonempty("foo\nbar\n"), vec!["foo", "bar", ""]);
     }
 }
