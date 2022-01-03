@@ -200,16 +200,16 @@ mod tests {
         assert_eq!(
             line_spans,
             vec![
-                (SingleLineSpan {
+                SingleLineSpan {
                     line: 1.into(),
                     start_col: 1,
                     end_col: 3
-                }),
-                (SingleLineSpan {
+                },
+                SingleLineSpan {
                     line: 2.into(),
                     start_col: 0,
                     end_col: 2
-                })
+                }
             ]
         );
     }
