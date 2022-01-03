@@ -1,10 +1,10 @@
 # tree-sitter-haskell
 
-[![Test the grammar](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/test.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/test.yml)
+[![build](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/ci.yml/badge.svg)](https://github.com/tree-sitter/tree-sitter-haskell/actions/workflows/ci.yml)
 
 Haskell grammar for [tree-sitter].
 
-**Note** This grammar needs at least tree-sitter `0.19.4` and C++-14.
+**Note** This grammar needs at least tree-sitter 0.19.4.
 
 # References
 
@@ -27,50 +27,6 @@ parser_config.haskell = {
 EOF
 ```
 
-Depending on what compilers are installed in your system, it may be necessary to force `nvim-treesitter` to use a
-specific one to satisfy the C++-14 requirement (see
-[this issue](https://github.com/tree-sitter/tree-sitter-haskell/issues/34) for more info):
-
-```vim
-lua require'nvim-treesitter.install'.compilers = { "clang" }
-" or
-lua require'nvim-treesitter.install'.compilers = { "clang++" }
-```
-
-or
-
-```vim
-lua require'nvim-treesitter.install'.compilers = { "gcc" }
-```
-
-## Building on MacOS
-
-If you get loads of C++ errors when building the parser, a workaround might be to install GCC with `homebrew`, in
-addition to selecting `gcc` as the compiler used by tree-sitter, as described for Neovim in the previous section.
-
-First, run this command in a terminal:
-
-```shell
-$ brew install gcc
-```
-
-This may not be enough, since `clang` might still be used by default.
-You can find out whether the `gcc` executable is linked to something else with:
-
-```shell
-$ ls -l $(which gcc)
-```
-
-If this doesn't point to something like `gcc-11`, you can remove it (if it is a symlink) and/or link the real `gcc-N`
-binary to a `bin` directory that's at the head of your `$PATH`, something like:
-
-```shell
-ln -sf /opt/homebrew/bin/gcc-11 /usr/local/bin/gcc
-```
-or this for earlier versions of homebrew.
-```shell
-ln -sf /usr/local/bin/gcc-11 /usr/local/bin/gcc
-```
 
 # Supported Language Extensions
 

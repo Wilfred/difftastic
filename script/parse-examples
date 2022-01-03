@@ -20,12 +20,13 @@ function clone_repo {
 
   path=examples/$name
   if [ ! -d "$path" ]; then
-    git clone "https://github.com/$owner/$name" "$path"
+    git clone "https://github.com/$owner/$name" "$path" --quiet
   fi
 
-  pushd "$path" && git fetch
-  git reset --hard $sha
-  popd
+  pushd "$path" >/dev/null
+  git fetch --quiet
+  git reset --hard $sha --quiet
+  popd >/dev/null
 }
 
 clone_repo joshvera effects 08f5f36f2600362685af593f4b327e933b60bf97
@@ -36,5 +37,5 @@ clone_repo github semantic b162132339622fe1e80e243f630fe092d5c0cbe1
 clone_repo haskell haskell-language-server d397ef491ef1689d43028f4d3d01a42118292235
 
 for name in effects postgrest ivory polysemy semantic haskell-language-server; do
-  script/parse-example $name $mode
+  script/parse-example "$name" "$mode"
 done
