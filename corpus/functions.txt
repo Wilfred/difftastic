@@ -16,7 +16,7 @@ fn replace(
   each pattern: String,
   with replacement: String
 ) {
-  string.replace(in: in, each: each, with: with)
+  string.replace(in: string, each: pattern, with: replacement)
 }
 
 ---
