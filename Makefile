@@ -37,8 +37,8 @@ clean:
 	rm -f debug *.o *.a
 
 debug.so: src/parser.c src/scanner.c
-	$(CC) $(CFLAGS) -o parser.o  $(OURCFLAGS) src/parser.c
-	$(CC) $(CFLAGS) -o scanner.o $(OURCFLAGS) src/scanner.c
-	$(CC) $(CFLAGS) -o debug.so $(OURCFLAGS) $(PWD)/scanner.o $(PWD)/parser.o
+	$(CC) $(OURCFLAGS) $(CFLAGS) -o parser.o src/parser.c
+	$(CC) $(OURCFLAGS) $(CFLAGS) -o scanner.o src/scanner.c
+	$(CC) $(OURCFLAGS) $(CFLAGS) -o debug.so $(PWD)/scanner.o $(PWD)/parser.o
 	rm -f $(HOME)/.cache/tree-sitter/lib/haskell.so
 	cp $(PWD)/debug.so $(HOME)/.cache/tree-sitter/lib/haskell.so
