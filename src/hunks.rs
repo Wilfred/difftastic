@@ -646,8 +646,9 @@ mod tests {
     use super::*;
     use crate::{
         positions::SingleLineSpan,
-        syntax::{MatchKind, TokenKind},
+        syntax::{AtomKind, MatchKind, TokenKind},
     };
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_sorted_novel_positions_simple() {
@@ -692,5 +693,152 @@ mod tests {
         let res = sorted_novel_positions(&lhs_mps, &[]);
 
         assert_eq!(res, vec![(Side::LHS, novel_mp)]);
+    }
+
+    /// Simulate a simple diff:
+    ///
+    /// // Old
+    /// A
+    /// B
+    ///
+    /// // New
+    /// A
+    /// x
+    /// B
+    #[test]
+    fn test_aligned_lines_from_hunk() {
+        let hunk = Hunk {
+            lines: vec![(None, Some(1.into()))],
+        };
+
+        let lhs_mps = vec![
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: (
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                    opposite_pos: (
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: (
+                        vec![SingleLineSpan {
+                            line: 1.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                    opposite_pos: (
+                        vec![SingleLineSpan {
+                            line: 2.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                },
+                pos: SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+        ];
+
+        let rhs_mps = vec![
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: (
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                    opposite_pos: (
+                        vec![SingleLineSpan {
+                            line: 0.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                },
+                pos: SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Atom(AtomKind::Normal),
+                    self_pos: (
+                        vec![SingleLineSpan {
+                            line: 2.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                    opposite_pos: (
+                        vec![SingleLineSpan {
+                            line: 1.into(),
+                            start_col: 0,
+                            end_col: 1,
+                        }],
+                        vec![],
+                    ),
+                },
+                pos: SingleLineSpan {
+                    line: 2.into(),
+                    start_col: 0,
+                    end_col: 1,
+                },
+            },
+        ];
+
+        let res = aligned_lines_from_hunk(&hunk, &lhs_mps, &rhs_mps, 1.into(), 2.into());
+        assert_eq!(
+            res,
+            vec![
+                (Some(0.into()), Some(0.into())),
+                (None, Some(1.into())),
+                (Some(1.into()), Some(2.into()))
+            ]
+        );
     }
 }
