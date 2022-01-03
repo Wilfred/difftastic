@@ -251,11 +251,6 @@ static uint32_t column(State *state) {
 }
 
 /**
- * Move the parser position one character to the right, treating the consumed character as whitespace.
- */
-static void skip(State *state) { state->lexer->advance(state->lexer, true); }
-
-/**
  * Instruct the lexer that the current position is the end of the potentially detected symbol, causing the next run to
  * be started after this character in the success case.
  *
@@ -819,7 +814,7 @@ static Result dot(State *state) {
  *
  * Since they can contain escaped newlines, they have to be consumed, after which the parser recurses.
  */
-static Result cpp_consume(State *state) {
+static void cpp_consume(State *state) {
   for (;;) {
     while (PEEK != 0 && !is_newline(PEEK) && PEEK != '\\') S_ADVANCE;
     if (PEEK == '\\') {
@@ -827,7 +822,7 @@ static Result cpp_consume(State *state) {
       S_ADVANCE;
       continue;
     }
-    return res_cont;
+    return;
   }
 }
 
@@ -850,7 +845,7 @@ static Result cpp_workaround(State *state) {
       }
       return finish(CPP, "cpp-else");
     }
-    Result res = cpp_consume(state);
+    cpp_consume(state);
     MARK("cpp_workaround", false, state);
     return finish(CPP, "cpp");
   }
