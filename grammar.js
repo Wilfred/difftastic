@@ -114,6 +114,7 @@ module.exports = grammar({
 
   externals: $ => [
     $._automatic_semicolon,
+    $._import_list_delimiter,
   ],
 
   extras: $ => [
@@ -137,7 +138,7 @@ module.exports = grammar({
       optional($.shebang_line),
       repeat($.file_annotation),
       optional($.package_header),
-      repeat($.import_header),
+      repeat($.import_list),
       repeat(seq($._statement, $._semi))
     ),
 
@@ -153,6 +154,11 @@ module.exports = grammar({
     ),
 
     package_header: $ => seq("package", $.identifier, $._semi),
+
+    import_list: $ => seq(
+      repeat1($.import_header),
+      $._import_list_delimiter
+    ),
 
     import_header: $ => seq(
       "import",
