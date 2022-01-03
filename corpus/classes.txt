@@ -1,17 +1,19 @@
-==================
+================================================================================
 Classes
-==================
+================================================================================
 
 class Empty {}
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration (type_identifier) (class_body)))
- 
-==================
+  (class_declaration
+    (type_identifier)
+    (class_body)))
+
+================================================================================
 Class with methods
-==================
+================================================================================
 
 class HelloWorld {
     func a() {}
@@ -19,30 +21,38 @@ class HelloWorld {
     func b() {}
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration (type_identifier)
-        (class_body
-            (function_declaration (simple_identifier) (function_body))
-            (function_declaration (simple_identifier) (function_body)))))
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (function_declaration
+        (simple_identifier)
+        (function_body))
+      (function_declaration
+        (simple_identifier)
+        (function_body)))))
 
-==================
+================================================================================
 Generic class
-==================
+================================================================================
 
 class Container<T> {}
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration (type_identifier)
-        (type_parameters (type_parameter (type_identifier)))
-        (class_body)))
+  (class_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (class_body)))
 
-==================
+================================================================================
 Class with methods and expressions
-==================
+================================================================================
 
 class Strings {
     /// Some awesome docummentation!
@@ -52,31 +62,42 @@ class Strings {
     func anotherString() -> String { return "Hello" + " " + "World" }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration (type_identifier)
-        (class_body
-            (comment)
-            (comment)
-            (function_declaration
-                (simple_identifier)
-                (user_type (type_identifier))
-                (function_body
-                    (statements
-                        (control_transfer_statement (line_string_literal (line_str_text))))))
-            (function_declaration (simple_identifier) (user_type (type_identifier)) (function_body
-                (statements
-                    (control_transfer_statement
-                        (additive_expression
-                            (additive_expression
-                                (line_string_literal (line_str_text))
-                                (line_string_literal (line_str_text)))
-                            (line_string_literal (line_str_text))))))))))
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (comment)
+      (comment)
+      (function_declaration
+        (simple_identifier)
+        (user_type
+          (type_identifier))
+        (function_body
+          (statements
+            (control_transfer_statement
+              (line_string_literal
+                (line_str_text))))))
+      (function_declaration
+        (simple_identifier)
+        (user_type
+          (type_identifier))
+        (function_body
+          (statements
+            (control_transfer_statement
+              (additive_expression
+                (additive_expression
+                  (line_string_literal
+                    (line_str_text))
+                  (line_string_literal
+                    (line_str_text)))
+                (line_string_literal
+                  (line_str_text))))))))))
 
-==================
+================================================================================
 Class with modifiers
-==================
+================================================================================
 
 internal open class Test {
     private(set) var isRunning: Bool
@@ -84,30 +105,44 @@ internal open class Test {
     /* some comment */ private final func test() { }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration
-        (modifiers (visibility_modifier) (visibility_modifier))
-        (type_identifier)
-        (class_body
-            (property_declaration
-                (modifiers (visibility_modifier))
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation (user_type (type_identifier))))
-            (property_declaration
-                (modifiers (visibility_modifier))
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation (user_type (type_identifier))))
-            (multiline_comment)
-            (function_declaration
-                (modifiers (visibility_modifier) (inheritance_modifier))
-                (simple_identifier)
-                (function_body)))))
+  (class_declaration
+    (modifiers
+      (visibility_modifier)
+      (visibility_modifier))
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (modifiers
+          (visibility_modifier))
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (property_declaration
+        (modifiers
+          (visibility_modifier))
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (multiline_comment)
+      (function_declaration
+        (modifiers
+          (visibility_modifier)
+          (inheritance_modifier))
+        (simple_identifier)
+        (function_body)))))
 
-==================
+================================================================================
 Class with annotations
-==================
+================================================================================
 
 @objc(Test)
 class Test : Protocol {
@@ -118,41 +153,53 @@ class Test : Protocol {
     func someFunction(nice argument: Int) { }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration
+  (class_declaration
+    (modifiers
+      (attribute
+        (user_type
+          (type_identifier))
+        (simple_identifier)))
+    (type_identifier)
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body
+      (function_declaration
         (modifiers
-            (attribute
-                (user_type (type_identifier))
-                (simple_identifier)))
-        (type_identifier)
-        (inheritance_specifier (user_type (type_identifier)))
-        (class_body
-            (function_declaration
-                (modifiers
-                    (attribute
-                        (user_type (type_identifier))
-                        (simple_identifier))
-                    (property_modifier))
-                    (simple_identifier)
-                    (external_parameter_name)
-                    (parameter (simple_identifier) (user_type (type_identifier)))
-                    (function_body))
-            (function_declaration
-                (modifiers
-                    (attribute
-                        (user_type (type_identifier))
-                        (simple_identifier)
-                        (line_string_literal (line_str_text))))
-                    (simple_identifier)
-                    (external_parameter_name)
-                    (parameter (simple_identifier) (user_type (type_identifier)))
-                    (function_body)))))
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier))
+          (property_modifier))
+        (simple_identifier)
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (function_body))
+      (function_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (line_string_literal
+              (line_str_text))))
+        (simple_identifier)
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (function_body)))))
 
-==================
+================================================================================
 Class with subscript
-==================
+================================================================================
 
 class RequestManager {
     open subscript(task: Task) -> Request? {
@@ -171,54 +218,79 @@ class GenericSubscript {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration
-        (type_identifier)
-        (class_body
-            (subscript_declaration
-                (modifiers (visibility_modifier))
-                (parameter (simple_identifier) (user_type (type_identifier)))
-                (optional_type (user_type (type_identifier)))
-                (computed_getter
-                    (getter_specifier)
-                    (statements
-                        (control_transfer_statement
-                            (call_expression (simple_identifier)
-                                (call_suffix
-                                    (value_arguments
-                                        (value_argument
-                                            (navigation_expression
-                                                (simple_identifier)
-                                                (navigation_suffix (simple_identifier))))))))))
-                (computed_setter
-                    (setter_specifier)
-                    (statements
-                        (assignment
-                            (directly_assignable_expression
-                                (call_expression
-                                    (simple_identifier)
-                                    (call_suffix
-                                        (value_arguments
-                                            (value_argument
-                                                (navigation_expression
-                                                (simple_identifier)
-                                                (navigation_suffix (simple_identifier))))))))
-                            (simple_identifier)))))))
-    (class_declaration
-        (type_identifier)
-        (class_body
-            (subscript_declaration
-                (modifiers (visibility_modifier))
-                (type_parameters (type_parameter (type_identifier)))
-                (external_parameter_name)
-                (parameter (simple_identifier) (user_type (type_identifier) (type_arguments (user_type (type_identifier)))))
-                (user_type (type_identifier) (type_arguments (user_type (type_identifier))))
-                (statements (control_transfer_statement (simple_identifier)))))))
-===
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (subscript_declaration
+        (modifiers
+          (visibility_modifier))
+        (parameter
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (optional_type
+          (user_type
+            (type_identifier)))
+        (computed_getter
+          (getter_specifier)
+          (statements
+            (control_transfer_statement
+              (call_expression
+                (simple_identifier)
+                (call_suffix
+                  (value_arguments
+                    (value_argument
+                      (navigation_expression
+                        (simple_identifier)
+                        (navigation_suffix
+                          (simple_identifier))))))))))
+        (computed_setter
+          (setter_specifier)
+          (statements
+            (assignment
+              (directly_assignable_expression
+                (call_expression
+                  (simple_identifier)
+                  (call_suffix
+                    (value_arguments
+                      (value_argument
+                        (navigation_expression
+                          (simple_identifier)
+                          (navigation_suffix
+                            (simple_identifier))))))))
+              (simple_identifier)))))))
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (subscript_declaration
+        (modifiers
+          (visibility_modifier))
+        (type_parameters
+          (type_parameter
+            (type_identifier)))
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)
+            (type_arguments
+              (user_type
+                (type_identifier)))))
+        (user_type
+          (type_identifier)
+          (type_arguments
+            (user_type
+              (type_identifier))))
+        (statements
+          (control_transfer_statement
+            (simple_identifier)))))))
+
+================================================================================
 Subscript with multiple arguments
-===
+================================================================================
 
 class Subscriptable {
     public subscript<D>(_ value: D, arg2: Arg2) -> D where D: Decodable {
@@ -226,65 +298,71 @@ class Subscriptable {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
-    (source_file
-      (class_declaration
-        (type_identifier)
-        (class_body
-          (subscript_declaration
-            (modifiers
-              (visibility_modifier))
-            (type_parameters
-              (type_parameter
-                (type_identifier)))
-            (external_parameter_name)
-            (parameter
-              (simple_identifier)
+(source_file
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (subscript_declaration
+        (modifiers
+          (visibility_modifier))
+        (type_parameters
+          (type_parameter
+            (type_identifier)))
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (parameter
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (user_type
+          (type_identifier))
+        (type_constraints
+          (where_keyword)
+          (type_constraint
+            (inheritance_constraint
+              (identifier
+                (simple_identifier))
               (user_type
-                (type_identifier)))
-            (parameter
-              (simple_identifier)
-              (user_type
-                (type_identifier)))
-            (user_type
-              (type_identifier))
-            (type_constraints
-              (where_keyword)
-              (type_constraint
-                (inheritance_constraint
-                  (identifier
-                    (simple_identifier))
-                  (user_type
-                    (type_identifier)))))
-            (statements
-              (control_transfer_statement
-                (simple_identifier)))))))
+                (type_identifier)))))
+        (statements
+          (control_transfer_statement
+            (simple_identifier)))))))
 
-==================
+================================================================================
 Inheritance
-==================
+================================================================================
 
 class A : B {}
 
 class D : Protocol1 & Protocol2 { }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration
-        (type_identifier)
-        (inheritance_specifier (user_type (type_identifier)))
-        (class_body))
-    (class_declaration
-        (type_identifier)
-        (inheritance_specifier (user_type (type_identifier)))
-        (inheritance_specifier (user_type (type_identifier)))
-        (class_body)))
+  (class_declaration
+    (type_identifier)
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body))
+  (class_declaration
+    (type_identifier)
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body)))
 
-==================
+================================================================================
 Properties
-==================
+================================================================================
 
 class Something {
     let u: Int = 4
@@ -312,74 +390,123 @@ class SomethingElse: ThingProvider {
     class func nothing() { }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration
-        (type_identifier)
-        (class_body
-            (property_declaration
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation
-                    (user_type (type_identifier)))
-                (integer_literal))
-            (property_declaration
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation
-                    (optional_type (user_type (type_identifier)))))
-            (property_declaration
-                (modifiers (property_behavior_modifier))
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation
-                (user_type (type_identifier)))
-                (simple_identifier))
-            (property_declaration
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation
-                    (user_type (type_identifier)))
-                (computed_property (statements (simple_identifier))))
-            (property_declaration
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation
-                    (user_type (type_identifier)))
-                    (computed_property
-                        (computed_getter (getter_specifier) (statements (simple_identifier)))
-                        (computed_setter (setter_specifier) (simple_identifier))))
-            (property_declaration
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation (user_type (type_identifier)))
-                (computed_property
-                    (computed_getter (getter_specifier) (statements (simple_identifier)))
-                    (computed_setter
-                        (setter_specifier)
-                        (statements
-                            (control_transfer_statement
-                                (assignment (directly_assignable_expression (simple_identifier)) (simple_identifier)))))))))
-    (class_declaration
-        (type_identifier)
-        (inheritance_specifier (user_type (type_identifier)))
-        (class_body
-            (property_declaration
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation (user_type (type_identifier)))
-                (computed_property
-                    (statements
-                        (guard_statement
-                            (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                            (simple_identifier)
-                            (else)
-                            (statements (call_expression (simple_identifier) (call_suffix (value_arguments)))))
-                        (control_transfer_statement (simple_identifier)))))
-            (function_declaration (simple_identifier) (function_body)))))
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (integer_literal))
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (optional_type
+            (user_type
+              (type_identifier)))))
+      (property_declaration
+        (modifiers
+          (property_behavior_modifier))
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (simple_identifier))
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (statements
+            (simple_identifier))))
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (computed_getter
+            (getter_specifier)
+            (statements
+              (simple_identifier)))
+          (computed_setter
+            (setter_specifier)
+            (simple_identifier))))
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (computed_getter
+            (getter_specifier)
+            (statements
+              (simple_identifier)))
+          (computed_setter
+            (setter_specifier)
+            (statements
+              (control_transfer_statement
+                (assignment
+                  (directly_assignable_expression
+                    (simple_identifier))
+                  (simple_identifier)))))))))
+  (class_declaration
+    (type_identifier)
+    (inheritance_specifier
+      (user_type
+        (type_identifier)))
+    (class_body
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (computed_property
+          (statements
+            (guard_statement
+              (value_binding_pattern
+                (non_binding_pattern
+                  (simple_identifier)))
+              (simple_identifier)
+              (else)
+              (statements
+                (call_expression
+                  (simple_identifier)
+                  (call_suffix
+                    (value_arguments)))))
+            (control_transfer_statement
+              (simple_identifier)))))
+      (function_declaration
+        (simple_identifier)
+        (function_body)))))
 
-===
+================================================================================
 Class declaration without any newlines
-===
+================================================================================
 
 class Dog { let noise: String = "bark" }
 class Cat { let noise: String = "meow"; let claws: String = "retractable" }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
@@ -392,7 +519,8 @@ class Cat { let noise: String = "meow"; let claws: String = "retractable" }
         (type_annotation
           (user_type
             (type_identifier)))
-        (line_string_literal (line_str_text)))))
+        (line_string_literal
+          (line_str_text)))))
   (class_declaration
     (type_identifier)
     (class_body
@@ -403,7 +531,8 @@ class Cat { let noise: String = "meow"; let claws: String = "retractable" }
         (type_annotation
           (user_type
             (type_identifier)))
-        (line_string_literal (line_str_text)))
+        (line_string_literal
+          (line_str_text)))
       (property_declaration
         (value_binding_pattern
           (non_binding_pattern
@@ -411,36 +540,37 @@ class Cat { let noise: String = "meow"; let claws: String = "retractable" }
         (type_annotation
           (user_type
             (type_identifier)))
-        (line_string_literal (line_str_text))))))
+        (line_string_literal
+          (line_str_text))))))
 
-===
+================================================================================
 Protocol composition types
-===
+================================================================================
 
 var propertyMap: NodePropertyMap & KeypathSearchable {
   return transformProperties
 }
 
----
+--------------------------------------------------------------------------------
 
-    (source_file
-      (property_declaration
-        (value_binding_pattern
-          (non_binding_pattern
-            (simple_identifier)))
-        (type_annotation
-          (user_type
-            (type_identifier))
-          (user_type
-            (type_identifier)))
-        (computed_property
-          (statements
-            (control_transfer_statement
-              (simple_identifier))))))
+(source_file
+  (property_declaration
+    (value_binding_pattern
+      (non_binding_pattern
+        (simple_identifier)))
+    (type_annotation
+      (user_type
+        (type_identifier))
+      (user_type
+        (type_identifier)))
+    (computed_property
+      (statements
+        (control_transfer_statement
+          (simple_identifier))))))
 
-==================
+================================================================================
 Structs
-==================
+================================================================================
 
 struct Adder {
     var value: Int
@@ -450,27 +580,33 @@ struct Adder {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration
-        (type_identifier)
-        (class_body
-            (property_declaration
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation
-                    (user_type (type_identifier))))
-            (function_declaration
-                (modifiers (mutation_modifier))
-                (simple_identifier)
-                (function_body
-                    (statements
-                        (assignment
-                            (directly_assignable_expression (simple_identifier))
-                            (integer_literal))))))))
-==================
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (function_declaration
+        (modifiers
+          (mutation_modifier))
+        (simple_identifier)
+        (function_body
+          (statements
+            (assignment
+              (directly_assignable_expression
+                (simple_identifier))
+              (integer_literal))))))))
+
+================================================================================
 Protocols
-==================
+================================================================================
 
 protocol Fallible {
     associatedtype FailureType: Error
@@ -488,55 +624,76 @@ protocol Wrapper {
     associatedtype Wrapped: Fallible where Wrapped.FailureType == NSError
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (protocol_declaration
+  (protocol_declaration
+    (type_identifier)
+    (protocol_body
+      (associatedtype_declaration
         (type_identifier)
-        (protocol_body
-            (associatedtype_declaration (type_identifier) (user_type (type_identifier)))
-            (associatedtype_declaration (type_identifier) (user_type (type_identifier)))
-            (protocol_function_declaration
+        (user_type
+          (type_identifier)))
+      (associatedtype_declaration
+        (type_identifier)
+        (user_type
+          (type_identifier)))
+      (protocol_function_declaration
+        (simple_identifier)
+        (optional_type
+          (user_type
+            (type_identifier)
+            (type_identifier)))
+        (type_constraints
+          (where_keyword)
+          (type_constraint
+            (inheritance_constraint
+              (identifier
                 (simple_identifier)
-                (optional_type (user_type (type_identifier) (type_identifier)))
-                (type_constraints
-                    (where_keyword)
-                    (type_constraint
-                        (inheritance_constraint
-                            (identifier
-                                  (simple_identifier)
-                                  (simple_identifier))
-                            (user_type (type_identifier))))))))
-    (protocol_declaration
-        (modifiers (visibility_modifier))
+                (simple_identifier))
+              (user_type
+                (type_identifier))))))))
+  (protocol_declaration
+    (modifiers
+      (visibility_modifier))
+    (type_identifier)
+    (protocol_body
+      (protocol_property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (protocol_property_requirements
+          (getter_specifier
+            (mutation_modifier))))))
+  (protocol_declaration
+    (type_identifier)
+    (protocol_body
+      (associatedtype_declaration
         (type_identifier)
-        (protocol_body
-            (protocol_property_declaration
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation (user_type (type_identifier)))
-                (protocol_property_requirements (getter_specifier (mutation_modifier))))))
-    (protocol_declaration
-        (type_identifier)
-        (protocol_body
-            (associatedtype_declaration
-                (type_identifier)
-                (user_type (type_identifier))
-                (type_constraints
-                    (where_keyword)
-                    (type_constraint
-                        (equality_constraint
-                            (identifier (simple_identifier) (simple_identifier))
-                            (user_type (type_identifier)))))))))
+        (user_type
+          (type_identifier))
+        (type_constraints
+          (where_keyword)
+          (type_constraint
+            (equality_constraint
+              (identifier
+                (simple_identifier)
+                (simple_identifier))
+              (user_type
+                (type_identifier)))))))))
 
-===
+================================================================================
 Protocol with subscript
-===
+================================================================================
 
 public protocol Indexable {
     subscript(index: Int) -> T? { get }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (protocol_declaration
@@ -555,15 +712,15 @@ public protocol Indexable {
         (computed_getter
           (getter_specifier))))))
 
-===
+================================================================================
 Typealias
-===
+================================================================================
 
 class SomeClassWithAlias: NSObject {
     typealias ProtocolComposition = Protocol1 & Protocol2
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
@@ -579,9 +736,9 @@ class SomeClassWithAlias: NSObject {
         (user_type
           (type_identifier))))))
 
-==================
+================================================================================
 Special constructors
-==================
+================================================================================
 
 class Test {
     let a: Int
@@ -605,61 +762,116 @@ class Test {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration
-        (type_identifier)
-        (class_body
-            (property_declaration
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation (user_type (type_identifier))))
-            (property_declaration
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation (user_type (type_identifier))))
-            (function_declaration
-                (external_parameter_name)
-                (parameter (simple_identifier) (user_type (type_identifier)))
-                (external_parameter_name)
-                (parameter (simple_identifier) (user_type (type_identifier)))
-                (function_body (statements
-                    (assignment
-                        (directly_assignable_expression
-                        (navigation_expression (self_expression) (navigation_suffix (simple_identifier))))
-                        (simple_identifier))
-                    (assignment
-                        (directly_assignable_expression
-                        (navigation_expression (self_expression) (navigation_suffix (simple_identifier))))
-                        (simple_identifier)))))
-            (function_declaration
-                (modifiers (member_modifier) (member_modifier))
-                (function_body
-                    (statements
-                        (call_expression
-                            (navigation_expression (self_expression) (navigation_suffix (simple_identifier)))
-                            (call_suffix (value_arguments (value_argument (integer_literal)) (value_argument (integer_literal))))))))
-            (function_declaration
-                (modifiers (member_modifier))
-                (parameter (simple_identifier) (user_type (type_identifier)))
-                (function_body
-                    (statements
-                        (call_expression
-                            (navigation_expression (self_expression) (navigation_suffix (simple_identifier)))
-                            (call_suffix (value_arguments (value_argument (integer_literal)) (value_argument (integer_literal))))))))
-            (function_declaration
-              (modifiers (member_modifier))
-              (bang)
-              (external_parameter_name)
-              (parameter (simple_identifier) (user_type (type_identifier)))
-              (function_body
-                (statements
-                  (call_expression
-                    (navigation_expression (self_expression) (navigation_suffix (simple_identifier)))
-                    (call_suffix (value_arguments (value_argument (simple_identifier)) (value_argument (simple_identifier)))))))))))
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (property_declaration
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (function_declaration
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (function_body
+          (statements
+            (assignment
+              (directly_assignable_expression
+                (navigation_expression
+                  (self_expression)
+                  (navigation_suffix
+                    (simple_identifier))))
+              (simple_identifier))
+            (assignment
+              (directly_assignable_expression
+                (navigation_expression
+                  (self_expression)
+                  (navigation_suffix
+                    (simple_identifier))))
+              (simple_identifier)))))
+      (function_declaration
+        (modifiers
+          (member_modifier)
+          (member_modifier))
+        (function_body
+          (statements
+            (call_expression
+              (navigation_expression
+                (self_expression)
+                (navigation_suffix
+                  (simple_identifier)))
+              (call_suffix
+                (value_arguments
+                  (value_argument
+                    (integer_literal))
+                  (value_argument
+                    (integer_literal))))))))
+      (function_declaration
+        (modifiers
+          (member_modifier))
+        (parameter
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (function_body
+          (statements
+            (call_expression
+              (navigation_expression
+                (self_expression)
+                (navigation_suffix
+                  (simple_identifier)))
+              (call_suffix
+                (value_arguments
+                  (value_argument
+                    (integer_literal))
+                  (value_argument
+                    (integer_literal))))))))
+      (function_declaration
+        (modifiers
+          (member_modifier))
+        (bang)
+        (parameter
+          (simple_identifier)
+          (simple_identifier)
+          (user_type
+            (type_identifier)))
+        (function_body
+          (statements
+            (call_expression
+              (navigation_expression
+                (self_expression)
+                (navigation_suffix
+                  (simple_identifier)))
+              (call_suffix
+                (value_arguments
+                  (value_argument
+                    (simple_identifier))
+                  (value_argument
+                    (simple_identifier)))))))))))
 
-==================
+================================================================================
 Deinit
-==================
+================================================================================
 
 class Expensive {
     deinit {
@@ -667,19 +879,25 @@ class Expensive {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration
-        (type_identifier)
-        (class_body
-            (deinit_declaration
-                (function_body
-                    (statements (call_expression (simple_identifier) (call_suffix (value_arguments (value_argument (self_expression))))))))))) 
+  (class_declaration
+    (type_identifier)
+    (class_body
+      (deinit_declaration
+        (function_body
+          (statements
+            (call_expression
+              (simple_identifier)
+              (call_suffix
+                (value_arguments
+                  (value_argument
+                    (self_expression)))))))))))
 
-==================
+================================================================================
 Enum classes
-==================
+================================================================================
 
 enum Suit {
     case diamonds
@@ -706,74 +924,110 @@ enum CStyle {
     case three = 3
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration
-        (type_identifier)
-        (enum_class_body
-            (enum_entry
-                (simple_identifier))
-            (enum_entry
-                (simple_identifier))
-            (enum_entry
-                (simple_identifier))
-            (enum_entry
-                (simple_identifier))))
-    (class_declaration
-        (type_identifier)
-        (enum_class_body
-            (property_declaration
-                (modifiers (property_modifier))
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation (user_type (type_identifier)))
-                (call_expression
-                    (prefix_expression (simple_identifier))
-                    (call_suffix (value_arguments (value_argument (line_string_literal (line_str_text)))))))
-            (enum_entry
-                (simple_identifier)
-                (enum_type_parameters (simple_identifier) (user_type (type_identifier))))
-            (enum_entry
-                (simple_identifier)
-                (enum_type_parameters (simple_identifier) (user_type (type_identifier))))
-            (enum_entry
-                (simple_identifier)
-                (enum_type_parameters (simple_identifier) (user_type (type_identifier))))
-            (enum_entry
-                (simple_identifier)
-                (simple_identifier)
-                (simple_identifier)
-                (enum_type_parameters (user_type (type_identifier))))
-            (enum_entry
-                (simple_identifier)
-                (enum_type_parameters
-                    (user_type
-                        (type_identifier)
-                        (type_arguments
-                            (user_type (type_identifier))
-                            (user_type (type_identifier))
-                            (user_type (type_identifier))))
-                    (wildcard_pattern)
-                    (simple_identifier)
-                    (dictionary_type (user_type (type_identifier)) (user_type (type_identifier))) (dictionary_literal)))
-            (function_declaration
-                (simple_identifier)
-                (function_body
-                    (statements
-                        (control_transfer_statement (line_string_literal (line_str_text))))))))
-    (class_declaration
-        (type_identifier)
-        (enum_class_body
-            (enum_entry (simple_identifier) (integer_literal))
-            (enum_entry
-                (simple_identifier) (integer_literal)
-                (simple_identifier) (integer_literal))
-            (enum_entry (simple_identifier) (integer_literal)))))
+  (class_declaration
+    (type_identifier)
+    (enum_class_body
+      (enum_entry
+        (simple_identifier))
+      (enum_entry
+        (simple_identifier))
+      (enum_entry
+        (simple_identifier))
+      (enum_entry
+        (simple_identifier))))
+  (class_declaration
+    (type_identifier)
+    (enum_class_body
+      (property_declaration
+        (modifiers
+          (property_modifier))
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (call_expression
+          (prefix_expression
+            (simple_identifier))
+          (call_suffix
+            (value_arguments
+              (value_argument
+                (line_string_literal
+                  (line_str_text)))))))
+      (enum_entry
+        (simple_identifier)
+        (enum_type_parameters
+          (simple_identifier)
+          (user_type
+            (type_identifier))))
+      (enum_entry
+        (simple_identifier)
+        (enum_type_parameters
+          (simple_identifier)
+          (user_type
+            (type_identifier))))
+      (enum_entry
+        (simple_identifier)
+        (enum_type_parameters
+          (simple_identifier)
+          (user_type
+            (type_identifier))))
+      (enum_entry
+        (simple_identifier)
+        (simple_identifier)
+        (simple_identifier)
+        (enum_type_parameters
+          (user_type
+            (type_identifier))))
+      (enum_entry
+        (simple_identifier)
+        (enum_type_parameters
+          (user_type
+            (type_identifier)
+            (type_arguments
+              (user_type
+                (type_identifier))
+              (user_type
+                (type_identifier))
+              (user_type
+                (type_identifier))))
+          (wildcard_pattern)
+          (simple_identifier)
+          (dictionary_type
+            (user_type
+              (type_identifier))
+            (user_type
+              (type_identifier)))
+          (dictionary_literal)))
+      (function_declaration
+        (simple_identifier)
+        (function_body
+          (statements
+            (control_transfer_statement
+              (line_string_literal
+                (line_str_text))))))))
+  (class_declaration
+    (type_identifier)
+    (enum_class_body
+      (enum_entry
+        (simple_identifier)
+        (integer_literal))
+      (enum_entry
+        (simple_identifier)
+        (integer_literal)
+        (simple_identifier)
+        (integer_literal))
+      (enum_entry
+        (simple_identifier)
+        (integer_literal)))))
 
-
-==================
+================================================================================
 Extensions
-==================
+================================================================================
 
 extension Foo.Bar {
     static let baz = "1"
@@ -784,52 +1038,77 @@ extension SpecialDecorator where Self: Decorator, Self.DecoratedType == SpecialT
 
 public extension Foo where T == (arg1: Arg1, arg2: Arg2) { }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
-    (class_declaration
-        (identifier (simple_identifier) (simple_identifier))
+  (class_declaration
+    (user_type
+      (type_identifier)
+      (type_identifier))
     (class_body
-        (property_declaration
-            (modifiers (property_modifier))
-            (value_binding_pattern (non_binding_pattern (simple_identifier)))
-            (line_string_literal (line_str_text)))
-        (property_declaration
-            (modifiers (property_modifier))
-            (value_binding_pattern (non_binding_pattern (simple_identifier)))
-            (type_annotation (user_type (type_identifier)))
-            (line_string_literal (line_str_text))))) 
-    (class_declaration
-        (identifier (simple_identifier))
-        (type_constraints
-            (where_keyword)
-            (type_constraint
-                (inheritance_constraint
-                    (identifier (simple_identifier))
-                (user_type (type_identifier))))
-            (type_constraint
-                (equality_constraint
-                    (identifier (simple_identifier) (simple_identifier))
-                    (user_type (type_identifier)))))
-        (class_body))
-    (class_declaration
-        (modifiers (visibility_modifier))
-        (identifier (simple_identifier))
-        (type_constraints
-            (where_keyword)
-            (type_constraint
-                (equality_constraint
-                    (identifier (simple_identifier))
-                    (tuple_type
-                        (simple_identifier)
-                        (user_type (type_identifier))
-                        (simple_identifier)
-                        (user_type (type_identifier))))))
-        (class_body)))
+      (property_declaration
+        (modifiers
+          (property_modifier))
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (line_string_literal
+          (line_str_text)))
+      (property_declaration
+        (modifiers
+          (property_modifier))
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier)))
+        (line_string_literal
+          (line_str_text)))))
+  (class_declaration
+    (user_type
+      (type_identifier))
+    (type_constraints
+      (where_keyword)
+      (type_constraint
+        (inheritance_constraint
+          (identifier
+            (simple_identifier))
+          (user_type
+            (type_identifier))))
+      (type_constraint
+        (equality_constraint
+          (identifier
+            (simple_identifier)
+            (simple_identifier))
+          (user_type
+            (type_identifier)))))
+    (class_body))
+  (class_declaration
+    (modifiers
+      (visibility_modifier))
+    (user_type
+      (type_identifier))
+    (type_constraints
+      (where_keyword)
+      (type_constraint
+        (equality_constraint
+          (identifier
+            (simple_identifier))
+          (tuple_type
+            (tuple_type_item
+              (simple_identifier)
+              (user_type
+                (type_identifier)))
+            (tuple_type_item
+              (simple_identifier)
+              (user_type
+                (type_identifier)))))))
+    (class_body)))
 
-============
+================================================================================
 Deprecation
-============
+================================================================================
 class Computer<T> {
     @available(*, deprecated, message: "See replacement: computeV2")
     func compute() { }
@@ -849,59 +1128,84 @@ enum ComputeType {
     case v1
 }
 
----
-(source_file
-    (class_declaration
-        (type_identifier)
-        (type_parameters (type_parameter (type_identifier)))
-        (class_body
-            (function_declaration
-                (modifiers (attribute
-                    (user_type (type_identifier))
-                    (simple_identifier)
-                    (simple_identifier)
-                    (line_string_literal (line_str_text))))
-                (simple_identifier)
-                (function_body))
-            (property_declaration
-                (modifiers (attribute
-                    (user_type (type_identifier))
-                    (simple_identifier)
-                    (simple_identifier)
-                    (line_string_literal (line_str_text))))
-                (value_binding_pattern (non_binding_pattern (simple_identifier)))
-                (type_annotation (user_type (type_identifier))))
-            (function_declaration
-                (modifiers
-                    (attribute
-                        (user_type (type_identifier))
-                        (simple_identifier)
-                        (integer_literal) (integer_literal) (integer_literal))
-                    (attribute
-                        (user_type (type_identifier))
-                        (simple_identifier) (integer_literal) (integer_literal)
-                        (simple_identifier) (integer_literal) (integer_literal)))
-                (simple_identifier)
-                (function_body))))
-    (class_declaration
-        (type_identifier)
-        (enum_class_body
-            (enum_entry (simple_identifier))
-            (enum_entry
-                (modifiers (attribute
-                    (user_type (type_identifier))
-                    (simple_identifier)
-                    (simple_identifier)
-                    (line_string_literal (line_str_text))))
-                (simple_identifier)))))
+--------------------------------------------------------------------------------
 
-===
+(source_file
+  (class_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (class_body
+      (function_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (simple_identifier)
+            (line_string_literal
+              (line_str_text))))
+        (simple_identifier)
+        (function_body))
+      (property_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (simple_identifier)
+            (line_string_literal
+              (line_str_text))))
+        (value_binding_pattern
+          (non_binding_pattern
+            (simple_identifier)))
+        (type_annotation
+          (user_type
+            (type_identifier))))
+      (function_declaration
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (integer_literal)
+            (integer_literal)
+            (integer_literal))
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (integer_literal)
+            (integer_literal)
+            (simple_identifier)
+            (integer_literal)
+            (integer_literal)))
+        (simple_identifier)
+        (function_body))))
+  (class_declaration
+    (type_identifier)
+    (enum_class_body
+      (enum_entry
+        (simple_identifier))
+      (enum_entry
+        (modifiers
+          (attribute
+            (user_type
+              (type_identifier))
+            (simple_identifier)
+            (simple_identifier)
+            (line_string_literal
+              (line_str_text))))
+        (simple_identifier)))))
+
+================================================================================
 Protocol composition - generic type specifiers
-===
+================================================================================
 
 let result: HasGeneric<P1 & P2> = HasGeneric<P1 & P2>(t: "Hello")
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (property_declaration
@@ -925,18 +1229,19 @@ let result: HasGeneric<P1 & P2> = HasGeneric<P1 & P2>(t: "Hello")
           (user_type
             (type_identifier))))
       (constructor_suffix
-        (value_argument
-          (simple_identifier)
-          (line_string_literal (line_str_text)))))))
+        (value_arguments
+          (value_argument
+            (simple_identifier)
+            (line_string_literal
+              (line_str_text))))))))
 
-
-===
+================================================================================
 Protocol composition - where clauses
-===
+================================================================================
 
 func iterate<S>(h: S) where S : Sequence, S.Element == P1 & P2 { }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (function_declaration
@@ -967,16 +1272,15 @@ func iterate<S>(h: S) where S : Sequence, S.Element == P1 & P2 { }
             (type_identifier)))))
     (function_body)))
 
-
-===
+================================================================================
 Protocol composition - enum declarations
-===
+================================================================================
 
 enum Foo {
   case bar(P1 & P2)
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
@@ -990,14 +1294,13 @@ enum Foo {
           (user_type
             (type_identifier)))))))
 
-
-===
+================================================================================
 Protocol composition in as expressions
-===
+================================================================================
 
 let result = greet("me") as P1 & P2
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (property_declaration
@@ -1010,15 +1313,17 @@ let result = greet("me") as P1 & P2
         (call_suffix
           (value_arguments
             (value_argument
-              (line_string_literal (line_str_text))))))
+              (line_string_literal
+                (line_str_text))))))
       (as_operator)
       (user_type
         (type_identifier))
       (user_type
         (type_identifier)))))
-===
+
+================================================================================
 Modify declarations
-===
+================================================================================
 public final class Foo {
     private var inner: T
 
@@ -1032,7 +1337,7 @@ public final class Foo {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
@@ -1072,9 +1377,9 @@ public final class Foo {
                 (prefix_expression
                   (simple_identifier))))))))))
 
-===
+================================================================================
 Attributes on computed property declarations
-===
+================================================================================
 
 public var someVar: String {
     @inline(__always)
@@ -1083,7 +1388,7 @@ public var someVar: String {
     }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (property_declaration
@@ -1103,20 +1408,21 @@ public var someVar: String {
           (simple_identifier))
         (getter_specifier)
         (statements
-            (line_string_literal (line_str_text)))))))
+          (line_string_literal
+            (line_str_text)))))))
 
-===
+================================================================================
 Annotations on inheritance
-===
+================================================================================
 
 extension TrustMe: @unchecked Sendable { }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (class_declaration
-    (identifier
-      (simple_identifier))
+    (user_type
+      (type_identifier))
     (attribute
       (user_type
         (type_identifier)))
@@ -1124,4 +1430,3 @@ extension TrustMe: @unchecked Sendable { }
       (user_type
         (type_identifier)))
     (class_body)))
-
