@@ -241,19 +241,19 @@ void debug_state(State *state) {
  * These functions provide the basic interface to the lexer.
  * They are not defined as members for easier composition.
  */
-static inline bool is_eof(State *state) { return state->lexer->eof(state->lexer); }
+static bool is_eof(State *state) { return state->lexer->eof(state->lexer); }
 
 /**
  * The parser's position in the current line.
  */
-static inline uint32_t column(State *state) {
+static uint32_t column(State *state) {
   return is_eof(state) ? 0 : state->lexer->get_column(state->lexer);
 }
 
 /**
  * Move the parser position one character to the right, treating the consumed character as whitespace.
  */
-static inline void skip(State *state) { state->lexer->advance(state->lexer, true); }
+static void skip(State *state) { state->lexer->advance(state->lexer, true); }
 
 /**
  * Instruct the lexer that the current position is the end of the potentially detected symbol, causing the next run to
@@ -262,15 +262,19 @@ static inline void skip(State *state) { state->lexer->advance(state->lexer, true
  * This is useful if the validity of the detected symbol depends on what follows, e.g. in the case of a layout end
  * before a `where` token.
  */
-static inline void debug_mark(char *marked_by, bool needs_free, State *state) {
+
+// Only use string literals we actually need
 #ifdef DEBUG
+static void MARK(char *marked_by, bool needs_free, State *state) {
   state->marked = column(state);
   if (state->needs_free) free(state->marked_by);
   state->marked_by = marked_by;
   state->needs_free = needs_free;
-#endif
   state->lexer->mark_end(state->lexer);
 }
+#else
+#define MARK(s, nf, state) state->lexer->mark_end(state->lexer);
+#endif
 
 
 // --------------------------------------------------------------------------------------------------------
@@ -318,7 +322,7 @@ static void consume_until(char *target, State *state) {
       char *prefix = "consume_until ";
       char *mark_target = calloc(strlen(prefix) + strlen(target) + 1, 1);
       sprintf(mark_target, "%s%s", prefix, target);
-      debug_mark(mark_target, true, state);
+      MARK(mark_target, true, state);
 #else
       state->lexer->mark_end(state->lexer);
 #endif
@@ -354,7 +358,7 @@ static wchar_vec read_string(bool (*cond)(uint32_t), State *state) {
 /**
  * Require that the next character is whitespace (space or newline) without advancing the parser.
  */
-static inline bool isws(uint32_t c) {
+static bool isws(uint32_t c) {
   switch (c) {
     WS_CASES: return true;
     default: return false;
@@ -390,7 +394,7 @@ static bool token(const char *restrict s, State *state) {
  * Require that the stack of layout indentations is not empty.
  * This is mostly used for safety.
  */
-static inline bool indent_exists(State *state) { return state->indents->len != 0; };
+static bool indent_exists(State *state) { return state->indents->len != 0; };
 
 /**
  * Require that the current line's indent is greater or equal than the containing layout's, so the current layout is
@@ -510,7 +514,7 @@ static bool valid_symop_two_chars(uint32_t first_char, uint32_t second_char) {
   }
 }
 
-static bool valid_splice(State *state) {
+static  bool valid_splice(State *state) {
   return varid_start_char(PEEK) || PEEK == '(';
 }
 
@@ -635,12 +639,10 @@ static Result res_fail = {.sym = FAIL, .finished = true};
 // Parser
 // --------------------------------------------------------------------------------------------------------
 
-typedef Result (*NewParser)(State *);
-
 /**
  * Parser that terminates the execution with the successful detection of the given symbol.
  */
-static inline Result finish(const Sym s, char *restrict desc) {
+static Result finish(const Sym s, char *restrict desc) {
   DEBUG_PRINTF("finish: %s\n", desc);
   return res_finish(s);
 }
@@ -648,14 +650,14 @@ static inline Result finish(const Sym s, char *restrict desc) {
 /**
  * Parser that terminates the execution with the successful detection of the given symbol, but only if it is expected.
  */
-static inline Result finish_if_valid(const Sym s, char *restrict desc, State *state) {
+static Result finish_if_valid(const Sym s, char *restrict desc, State *state) {
   return SYM(s) ? finish(s, desc) : res_cont;
 }
 
 /**
  * Add one level of indentation to the stack, caused by starting a layout.
  */
-static inline void push(uint16_t ind, State *state) {
+static void push(uint16_t ind, State *state) {
   DEBUG_PRINTF("push: %d\n", ind);
   VEC_PUSH(state->indents, ind);
 }
@@ -663,7 +665,7 @@ static inline void push(uint16_t ind, State *state) {
 /**
  * Remove one level of indentation from the stack, caused by the end of a layout.
  */
-static inline void pop(State *state) {
+static void pop(State *state) {
   if (indent_exists(state)) {
     DEBUG_PRINTF("pop");
     VEC_POP(state->indents);
@@ -724,19 +726,23 @@ static Result end_or_semicolon(char *desc, State *state) {
 static uint32_t count_indent(State *state) {
   uint32_t indent = 0;
   for (;;) {
-    // TODO(414owen) make switch
-    if (is_newline(PEEK)) {
-      S_ADVANCE;
-      indent = 0;
-    } else if (PEEK == ' ') {
-      S_ADVANCE;
-      indent++;
-    } else if (PEEK == '\t') {
-      S_ADVANCE;
-      indent += 8;
-    } else break;
+    switch (PEEK) {
+      NEWLINE_CASES:
+        S_ADVANCE;
+        indent = 0;
+        break;
+      case ' ':
+        S_ADVANCE;
+        indent++;
+        break;
+      case '\t':
+        S_ADVANCE;
+        indent += 8;
+        break;
+      default:
+        return indent;
+    }
   }
-  return indent;
 }
 
 /**
@@ -748,9 +754,6 @@ static uint32_t count_indent(State *state) {
  *    layout end rule has been parsed.
  * If those cases do not apply, parsing fails.
  */
-
-// TODO(414owen) this was a lot faster when it was inlined
-// We should figure out why. Maybe insert it in hot code paths?
 static Result eof(State *state) {
   if (is_eof(state)) {
     if (SYM(EMPTY)) {
@@ -771,7 +774,7 @@ static Result eof(State *state) {
  */
 static Result initialize(uint32_t column, State *state) {
   if (uninitialized(state)) {
-    debug_mark("initialize", false, state);
+    MARK("initialize", false, state);
     bool match = token("module", state);
     if (match) return res_fail;
     push(column, state);
@@ -803,7 +806,7 @@ static Result dot(State *state) {
     if (PEEK == '.') {
       S_ADVANCE;
       if (SYM(VARSYM) && iswspace(PEEK)) return finish(VARSYM, "dot");
-      debug_mark("dot", false, state);
+      MARK("dot", false, state);
       return finish(DOT, "dot");
     }
   }
@@ -817,13 +820,15 @@ static Result dot(State *state) {
  * Since they can contain escaped newlines, they have to be consumed, after which the parser recurses.
  */
 static Result cpp_consume(State *state) {
-  while (PEEK != 0 && !is_newline(PEEK) && PEEK != '\\') S_ADVANCE;
-  if (PEEK == '\\') {
-    S_ADVANCE;
-    S_ADVANCE;
-    return cpp_consume(state);
+  for (;;) {
+    while (PEEK != 0 && !is_newline(PEEK) && PEEK != '\\') S_ADVANCE;
+    if (PEEK == '\\') {
+      S_ADVANCE;
+      S_ADVANCE;
+      continue;
+    }
+    return res_cont;
   }
-  return res_cont;
 }
 
 
@@ -846,8 +851,7 @@ static Result cpp_workaround(State *state) {
       return finish(CPP, "cpp-else");
     }
     Result res = cpp_consume(state);
-    SHORT_SCANNER; // TODO(414owen): this might not be needed?
-    debug_mark("cpp_workaround", false, state);
+    MARK("cpp_workaround", false, state);
     return finish(CPP, "cpp");
   }
   return res_cont;
@@ -879,7 +883,7 @@ static Result dedent(uint32_t indent, State *state) {
  */
 static Result newline_where(uint32_t indent, State *state) {
   if (is_newline_where(indent, state)) {
-    debug_mark("newline_where", false, state);
+    MARK("newline_where", false, state);
     if (token("where", state)) {
       return end_or_semicolon("newline_where", state);
     }
@@ -910,9 +914,7 @@ static Result newline_semicolon(uint32_t indent, State *state) {
  * The same applies for `infix` functions.
  */
 static bool end_on_infix(uint32_t indent, Symbolic type, State *state) {
-  return indent_lesseq(indent, state)
-    && (expression_op(type)
-        || PEEK == '`');
+  return indent_lesseq(indent, state) && (expression_op(type) || PEEK == '`');
 }
 
 /**
@@ -933,7 +935,7 @@ static Result newline_infix(uint32_t indent, Symbolic type, State *state) {
 static Result where(State *state) {
   if (token("where", state)) {
     if (SYM(WHERE)) {
-      debug_mark("where", false, state);
+      MARK("where", false, state);
       return finish(WHERE, "where");
     }
     return layout_end("where", state);
@@ -946,7 +948,7 @@ static Result where(State *state) {
  */
 static Result in(State *state) {
   if (SYM(IN) && token("in", state)) {
-    debug_mark("in", false, state);
+    MARK("in", false, state);
     pop(state);
     return finish(IN, "in");
   }
@@ -957,10 +959,7 @@ static Result in(State *state) {
  * An `else` token may end a layout opened in the body of a `then`.
  */
 static Result else_(State *state) {
-  if (token("else", state)) {
-    return end_or_semicolon("else", state);
-  }
-  return res_cont;
+  return token("else", state) ? end_or_semicolon("else", state) : res_cont;
 }
 
 /**
@@ -968,39 +967,34 @@ static Result else_(State *state) {
  * whitespace in between
  */
 static Result qq_start(State *state) {
-  S_ADVANCE;
-  debug_mark("qq_start", false, state);
-  while (quoter_char(PEEK)) {
-    S_ADVANCE;
-  }
-  if (PEEK == '|') {
-    return finish(QQ_START, "qq_start");
-  }
+  MARK("qq_start", false, state);
+  while (quoter_char(PEEK)) S_ADVANCE;
+  if (PEEK == '|') return finish(QQ_START, "qq_start");
   return res_cont;
 }
 
 static Result qq_body(State *state) {
-  if (PEEK == 0) {
-    Result res = eof(state);
-    SHORT_SCANNER;
-    return res_fail;
-  }
-  debug_mark("qq_body", false, state);
-  if (PEEK == '\\') {
-    S_ADVANCE;
-    S_ADVANCE;
-  } else {
-    if (PEEK == '|') {
-      S_ADVANCE;
-      if (PEEK == ']') {
-        S_ADVANCE;
-        return finish(QQ_BODY, "qq_body");
-      }
+  for (;;) {
+    if (PEEK == 0) {
+      Result res = eof(state);
+      SHORT_SCANNER;
+      return res_fail;
     }
-    S_ADVANCE;
+    MARK("qq_body", false, state);
+    if (PEEK == '\\') {
+      S_ADVANCE;
+      S_ADVANCE;
+    } else {
+      if (PEEK == '|') {
+        S_ADVANCE;
+        if (PEEK == ']') {
+          S_ADVANCE;
+          return finish(QQ_BODY, "qq_body");
+        }
+      }
+      S_ADVANCE;
+    }
   }
-  // TODO(414owen): make non-recursive
-  return qq_body(state);
 }
 
 /**
@@ -1009,7 +1003,7 @@ static Result qq_body(State *state) {
 static Result splice(State *state) {
   uint32_t c = PEEK;
   if ((varid_start_char(c) || c == '(') && state->symbols[SPLICE]) {
-    debug_mark("splice", false, state);
+    MARK("splice", false, state);
     return finish(SPLICE, "splice");
   }
   return res_cont;
@@ -1019,7 +1013,7 @@ static Result unboxed_tuple_close(State *state) {
   if (state->symbols[UNBOXED_TUPLE_CLOSE]) {
     if (PEEK == ')') {
       S_ADVANCE;
-      debug_mark("unboxed_tuple_close", false, state);
+      MARK("unboxed_tuple_close", false, state);
       return finish(UNBOXED_TUPLE_CLOSE, "unboxed_tuple_close");
     }
   }
@@ -1043,7 +1037,7 @@ static Result inline_comment(State *state) {
   }
 
 inline_comment_after_skip:
-  debug_mark("inline_comment", false, state);
+  MARK("inline_comment", false, state);
   return finish(COMMENT, "inline_comment");
 }
 
@@ -1105,19 +1099,19 @@ static Result symop_marked(Symbolic type, State *state) {
  *  - Leadering `:` is a `CONSYM`
  *
  * Otherwise succeed with `TYCONSYM` or `VARSYM` if they are valid.
- typedef */
+ */
 
 static Result symop(Symbolic type, State *state) {
   if (type == S_BAR) {
     if (SYM(BAR)) {
-      debug_mark("bar", false, state);
+      MARK("bar", false, state);
       return finish(BAR, "bar");
     }
     Result res = layout_end("bar", state);
     SHORT_SCANNER;
     return res_fail;
   }
-  debug_mark("symop", false, state);
+  MARK("symop", false, state);
   Result res = symop_marked(type, state);
   SHORT_SCANNER;
   res = finish_if_valid(TYCONSYM, "symop", state);
@@ -1147,65 +1141,45 @@ static Result minus(State *state) {
  * Succeed for a comment.
  */
 static Result multiline_comment_success(State *state) {
-  debug_mark("multiline_comment", false, state);
+  MARK("multiline_comment", false, state);
   return finish(COMMENT, "multiline_comment");
-}
-
-static Result multiline_comment(uint16_t, State *);
-
-/**
- * Mutually recursive with `multiline_comment`.
- *
- * Since {- -} comments can be nested arbitrarily, this has to keep track of how many have been openend, so that the
- * outermost comment isn't closed prematurely.
- *
- * This part looks for the comment markers at the current position and recurses with an adjusted nesting level.
- */
-static Result nested_comment(uint16_t level, State *state) {
-  switch (PEEK) {
-    case 0: {
-      Result res = eof(state);
-      SHORT_SCANNER;
-      return res_fail;
-    }
-    case '{':
-      S_ADVANCE;
-      if (PEEK == '-') {
-        S_ADVANCE;
-        return multiline_comment(level + 1, state);
-      }
-      break;
-    case '-':
-      S_ADVANCE;
-      if (PEEK == '}') {
-        S_ADVANCE;
-        if (level <= 1) return multiline_comment_success(state);
-        return multiline_comment(level - 1, state);
-      }
-      break;
-    default:
-      break;
-  }
-  return multiline_comment(level, state);
 }
 
 /**
  * See `nested_comment`.
  *
- * This part consumes all characters until the next potential comment marker to call `nested_comment`, or eof.
+ * Since {- -} comments can be nested arbitrarily, this has to keep track of how many have been openend, so that the
+ * outermost comment isn't closed prematurely.
  */
-
-// TODO(414owen): this probably shouldn't be recursive, some people like putting
-// lots of dashes in comments...
-static Result multiline_comment(uint16_t level, State *state) {
-  uint32_t next = PEEK;
-  while (next != '-' && next != '{' && next != 0) {
-    S_ADVANCE;
-    next = PEEK;
+static Result multiline_comment(State *state) {
+  uint16_t level = 0;
+  for (;;) {
+    switch (PEEK) {
+      case '{':
+        S_ADVANCE;
+        if (PEEK == '-') {
+          S_ADVANCE;
+          level++;
+        }
+        break;
+      case '-':
+        S_ADVANCE;
+        if (PEEK == '}') {
+          S_ADVANCE;
+          if (level == 0) return multiline_comment_success(state);
+          level--;
+        }
+        break;
+      case 0: {
+        Result res = eof(state);
+        SHORT_SCANNER;
+        return res_fail;
+      }
+      default:
+        S_ADVANCE;
+        break;
+    }
   }
-  Result res = nested_comment(level, state);
-  SHORT_SCANNER;
-  return res_fail;
 }
 
 /**
@@ -1218,7 +1192,7 @@ static Result brace(State *state) {
   if (PEEK != '-') return res_fail;
   S_ADVANCE;
   if (PEEK == '#') return res_fail;
-  return multiline_comment(1, state);
+  return multiline_comment(state);
 }
 
 /**
@@ -1263,7 +1237,7 @@ static Result close_layout_in_list(State *state) {
     case ',': {
       S_ADVANCE;
       if (state->symbols[COMMA]) {
-        debug_mark("comma", false, state);
+        MARK("comma", false, state);
         return finish(COMMA, "comma");
       }
       Result res = layout_end("comma", state);
@@ -1316,7 +1290,7 @@ static Result inline_tokens(State *state) {
     case '|': {
       if (state->symbols[QQ_BAR]) {
         S_ADVANCE;
-        debug_mark("qq_bar", false, state);
+        MARK("qq_bar", false, state);
         return res_finish(QQ_BAR);
       }
       Symbolic s = read_symop(state);
@@ -1324,6 +1298,7 @@ static Result inline_tokens(State *state) {
     }
     case '[': {
       if (state->symbols[QQ_START]) {
+        S_ADVANCE;
         Result res = qq_start(state);
         SHORT_SCANNER;
       }
@@ -1418,13 +1393,14 @@ static Result newline_indent(uint32_t indent, State *state) {
  * Rules that decide based on the first token on the next line.
  */
 static Result newline_token(uint32_t indent, State *state) {
-  // TODO(414owen): fix
-  // TODO Convert to switch
-  if (symbolic(PEEK) || PEEK == '`') {
-    Symbolic s = read_symop(state);
-    Result res = newline_infix(indent, s, state);
-    SHORT_SCANNER;
-    return res_fail;
+  switch (PEEK) {
+    SYMBOLIC_CASES:
+    case '`': {
+      Symbolic s = read_symop(state);
+      Result res = newline_infix(indent, s, state);
+      SHORT_SCANNER;
+      return res_fail;
+    }
   }
   Result res = newline_where(indent, state);
   SHORT_SCANNER;
@@ -1444,7 +1420,7 @@ static Result newline(uint32_t indent, State *state) {
   SHORT_SCANNER;
   res = comment(state);
   SHORT_SCANNER;
-  debug_mark("newline", false, state);
+  MARK("newline", false, state);
   res = newline_token(indent, state);
   SHORT_SCANNER;
   return newline_indent(indent, state);
@@ -1502,7 +1478,7 @@ static Result scan_main(State *state) {
   skipspace(state);
   Result res = eof(state);
   SHORT_SCANNER;
-  debug_mark("main", false, state);
+  MARK("main", false, state);
   if (is_newline(PEEK)) {
     S_ADVANCE;
     uint32_t indent = count_indent(state);
@@ -1517,7 +1493,8 @@ static Result scan_main(State *state) {
  */
 static Result scan_all(State *state) {
   Result res = init(state);
-  return res.finished ? res : scan_main(state);
+  SHORT_SCANNER;
+  return scan_main(state);
 }
 
 // --------------------------------------------------------------------------------------------------------
