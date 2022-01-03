@@ -42,4 +42,4 @@ to add it to this list and send a PR! ✨
 ## TODO
 
 - [ ] Add more error case tests?
-- [ ] Have an issue? Let me know! Please [open an issue](https://github.com/J3RN/tree-sitter-gleam/issues/new) 
+- [ ] Have an issue? Let me know! Please [open an issue](https://github.com/J3RN/tree-sitter-gleam/issues/new) 💁
