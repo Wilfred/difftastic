@@ -21,7 +21,10 @@
 // short circuit
 #define SHORT_SCANNER if (res.finished) return res;
 #define PEEK state->lexer->lookahead
+// Move the parser position one character to the right.
 #define S_ADVANCE state->lexer->advance(state->lexer, false)
+// Move the parser position one character to the right, treating the consumed character as whitespace.
+#define S_SKIP state->lexer->advance(state->lexer, true)
 #define SYM(s) (state->symbols[s])
 
 #ifdef DEBUG
@@ -675,7 +678,7 @@ static void skipspace(State *state) {
     switch (PEEK) {
       case ' ':
       case '\t':
-        S_ADVANCE;
+        S_SKIP;
         break;
       default:
         return;
@@ -723,15 +726,15 @@ static uint32_t count_indent(State *state) {
   for (;;) {
     switch (PEEK) {
       NEWLINE_CASES:
-        S_ADVANCE;
+        S_SKIP;
         indent = 0;
         break;
       case ' ':
-        S_ADVANCE;
+        S_SKIP;
         indent++;
         break;
       case '\t':
-        S_ADVANCE;
+        S_SKIP;
         indent += 8;
         break;
       default:
@@ -1475,7 +1478,7 @@ static Result scan_main(State *state) {
   SHORT_SCANNER;
   MARK("main", false, state);
   if (is_newline(PEEK)) {
-    S_ADVANCE;
+    S_SKIP;
     uint32_t indent = count_indent(state);
     return newline(indent, state);
   }
