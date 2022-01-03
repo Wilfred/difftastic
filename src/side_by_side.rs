@@ -10,7 +10,6 @@ use std::{
 };
 
 use crate::{
-    context::opposite_positions,
     hunks::{aligned_lines_from_hunk, Hunk},
     lines::{codepoint_len, format_line_num, LineNumber, MaxLine},
     positions::SingleLineSpan,
@@ -281,14 +280,12 @@ pub fn display_hunks(
     for (i, hunk) in hunks.iter().enumerate() {
         out_lines.push(style::header(display_path, i + 1, hunks.len(), lang_name));
 
-        let matched_rhs_lines = opposite_positions(lhs_mps);
         let aligned_lines = aligned_lines_from_hunk(
             hunk,
             lhs_mps,
             rhs_mps,
             lhs_src.max_line(),
             rhs_src.max_line(),
-            &matched_rhs_lines,
         );
         let no_lhs_changes = hunk.lines.iter().all(|(l, _)| l.is_none());
         let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());

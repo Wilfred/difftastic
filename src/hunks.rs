@@ -8,7 +8,7 @@ const MAX_DISTANCE: usize = 4;
 use std::collections::{HashMap, HashSet};
 
 use crate::{
-    context::{add_context, calculate_context},
+    context::{add_context, calculate_context, opposite_positions},
     lines::LineNumber,
     syntax::{zip_pad_shorter, MatchedPos},
 };
@@ -605,7 +605,6 @@ pub fn aligned_lines_from_hunk(
     rhs_mps: &[MatchedPos],
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
-    matched_rhs_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let hunk_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = hunk.lines.clone();
 
@@ -622,9 +621,11 @@ pub fn aligned_lines_from_hunk(
 
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     res.extend(before_context);
+
+    let matched_rhs_lines = opposite_positions(lhs_mps);
     if let (Some(start_pair), Some(end_pair)) = (start_pair, end_pair) {
         // Fill lines between.
-        let aligned_between = fill_aligned(start_pair, end_pair, matched_rhs_lines);
+        let aligned_between = fill_aligned(start_pair, end_pair, &matched_rhs_lines);
 
         // TODO: align based on blank lines too.
 
