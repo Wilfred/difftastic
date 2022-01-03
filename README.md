@@ -36,14 +36,10 @@ to add it to this list and send a PR! ✨
 
 ## DONE
 
-- [x] Parsing
-  - [x] Add ability to parse all language constructs
+- [x] Add ability to parse all language constructs
+- [x] Syntax highlighting queries
 
 ## TODO
 
-- [ ] Parsing
-  - [ ] Verify the generated ASTs for consistency, usability
-- [ ] Testing
-  - [ ] Add more error case tests
-- [ ] Queries
-  - [ ] Syntax highlighting queries
+- [ ] Add more error case tests?
+- [ ] Have an issue? Let me know! Please [open an issue](https://github.com/J3RN/tree-sitter-gleam/issues/new) 
