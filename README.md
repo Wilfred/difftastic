@@ -3,7 +3,7 @@ tree-sitter-gleam
 
 A [tree-sitter] grammar for the [Gleam programming language]
 
-[tree-sitter]: http://tree-sitter.github.io
+[tree-sitter]: https://tree-sitter.github.io
 [Gleam programming language]: https://gleam.run
 
 This grammar is able to parse the entire Gleam language. It is largely based
@@ -34,12 +34,23 @@ This is not a comprehensive list. If you find a node confusing, search for it
 in `grammar.js`, as it might have an explanatory comment. Either way, feel free
 to add it to this list and send a PR! ✨
 
-## DONE
+To-do List
+----------
 
 - [x] Add ability to parse all language constructs
 - [x] Syntax highlighting queries
-
-## TODO
-
 - [ ] Add more error case tests?
-- [ ] Have an issue? Let me know! Please [open an issue](https://github.com/J3RN/tree-sitter-gleam/issues/new) 💁
+- [ ] Have an issue? Let me know! Please [open an issue] 💁
+
+[open an issue]: https://github.com/J3RN/tree-sitter-gleam/issues/new
+
+Style
+-----
+
+To prevent headaches from stylistic differences, I request that you please
+follow these style suggestions. 🙏
+
+- Remove all non-mandatory trailing whitespace
+- Ensure a final newline is present at the end of all files (this is the default
+  in Vim, Emacs)
+- Format JavaScript by running `npm run format`
