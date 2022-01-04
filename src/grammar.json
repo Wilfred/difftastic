@@ -634,11 +634,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[\\w]+"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
+          "value": "[\\w\\d]+:"
         },
         {
           "type": "SYMBOL",

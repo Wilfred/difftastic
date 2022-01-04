@@ -799,10 +799,6 @@
     "named": false
   },
   {
-    "type": ":",
-    "named": false
-  },
-  {
     "type": "<init>",
     "named": false
   },
