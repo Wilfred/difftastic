@@ -435,12 +435,14 @@ module.exports = grammar({
     list: $ =>
       seq(
         "{",
-        choice(
-          repeat(seq($.number_literal, optional(","))),
-          repeat(seq($.string_literal, optional(","))),
-          repeat(seq($._identifier, optional(","))),
-          repeat(seq($.variable, optional(","))),
-          repeat(seq($.parameter, optional(",")))
+        commaSep(
+          choice(
+            $.number_literal,
+            $.string_literal,
+            $._identifier,
+            $.variable,
+            $.parameter
+          )
         ),
         "}"
       ),
