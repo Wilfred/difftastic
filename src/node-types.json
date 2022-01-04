@@ -656,6 +656,29 @@
     "fields": {}
   },
   {
+    "type": "range",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "parameter",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "source_declaration",
     "named": true,
     "fields": {},
@@ -739,6 +762,10 @@
         },
         {
           "type": "parameter",
+          "named": true
+        },
+        {
+          "type": "range",
           "named": true
         },
         {

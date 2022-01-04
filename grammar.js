@@ -342,6 +342,7 @@ module.exports = grammar({
       choice(
         $.list,
         $.label,
+        $.range,
         $.variable,
         $.parameter,
         $.array_type,
@@ -445,6 +446,14 @@ module.exports = grammar({
             $.parameter
           )
         ),
+        "}"
+      ),
+    range: $ =>
+      seq(
+        "{",
+        choice($.variable, $.parameter, $.number_literal),
+        "..",
+        choice($.variable, $.parameter, $.number_literal),
         "}"
       ),
 
