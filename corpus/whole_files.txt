@@ -196,3 +196,117 @@ pub fn negate(bool: Bool) -> Bool {
                   name: (type_identifier))))
             value: (record
               name: (type_identifier))))))))
+
+===============
+Trailing commas
+===============
+
+import animal.{Cat,}
+
+const foo: #(Int,) = #(1,)
+const bar = [1,]
+const cat:Cat(String,) = Cat(name: "Nubi",)
+
+type Thing {
+  First(name: String,)
+}
+
+external fn foo(String,) -> String = "foo" "bar"
+
+fn foo(a,) {
+  myfun(a,)
+  let Cat(name: name,) = Cat(..a, name: "George",)
+  let #(a) = #(a,)
+  let [x,] = [1,]
+}
+
+---
+
+(source_file
+  (import
+    (module)
+    (unqualified_imports
+      (unqualified_import
+        (type_identifier))))
+  (constant
+    (identifier)
+    (tuple_type
+      (type
+        (type_identifier)))
+    (tuple
+      (integer)))
+  (constant
+    (identifier)
+    (list
+      (integer)))
+  (constant
+    (identifier)
+    (type
+      (type_identifier)
+      (type_arguments
+        (type_argument
+          (type
+            (type_identifier)))))
+    (record
+      (type_identifier)
+      (arguments
+        (argument
+          (identifier)
+          (string)))))
+  (type_definition
+    (type_name
+      (type_identifier))
+    (type_constructors
+      (type_constructor
+        (type_identifier)
+        (type_constructor_arguments
+          (type_constructor_argument
+            (identifier)
+            (type
+              (type_identifier)))))))
+  (external_function
+    (identifier)
+    (function_parameters
+      (function_parameter
+        (type
+          (type_identifier))))
+    (type
+      (type_identifier))
+    (external_function_body
+      (string)
+      (string)))
+  (function
+    (identifier)
+    (function_parameters
+      (function_parameter
+        (identifier)))
+    (function_body
+      (function_call
+        (identifier)
+        (arguments
+          (argument
+            (identifier))))
+      (let
+        (constructor_pattern
+          (type_identifier)
+          (pattern_constructor_arguments
+            (pattern_constructor_argument
+              (identifier)
+              (identifier))))
+        (record_update
+          (type_identifier)
+          (identifier)
+          (record_update_arguments
+            (record_update_argument
+              (identifier)
+              (string)))))
+      (let
+        (tuple_pattern
+          (identifier))
+        (tuple
+          (identifier)))
+      (let
+        (list_pattern
+          (identifier))
+        (list
+          (integer))))))

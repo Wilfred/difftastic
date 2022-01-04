@@ -17,6 +17,7 @@ module.exports = grammar({
       $._maybe_tuple_expression,
       $.remote_type_identifier,
     ],
+    [$.case_subjects],
   ],
   rules: {
     /* General rules */
@@ -59,7 +60,7 @@ module.exports = grammar({
         optional(seq(".", field("imports", $.unqualified_imports))),
         optional(seq("as", field("alias", $.identifier)))
       ),
-    module: ($) => series_of($._name, "/"),
+    module: ($) => seq($._name, repeat(seq("/", $._name))),
     unqualified_imports: ($) =>
       seq("{", optional(series_of($.unqualified_import, ",")), "}"),
     unqualified_import: ($) =>
@@ -320,8 +321,10 @@ module.exports = grammar({
         "[",
         optional(
           seq(
-            series_of($._expression, ","),
-            optional(seq(",", "..", field("spread", $._expression)))
+            $._expression,
+            optional(repeat(seq(",", $._expression))),
+            optional(","),
+            optional(seq("..", field("spread", $._expression)))
           )
         ),
         "]"
@@ -354,7 +357,13 @@ module.exports = grammar({
         "->",
         field("value", $._expression)
       ),
+    // Technically the Gleam parser does support something like this:
+    //   1 | | 5 -> True
+    // However, that will cause an error further into the compiler. That format
+    // is not supported by this function.
     case_clause_patterns: ($) => seq(series_of($.case_clause_pattern, "|")),
+    // The issue above comes from the fact that the parser equivalent of this
+    // function supports 0 patterns. This function does not.
     case_clause_pattern: ($) => series_of($._pattern, ","),
     case_clause_guard: ($) => seq("if", $._case_clause_guard_expression),
     _case_clause_guard_expression: ($) =>
@@ -594,17 +603,15 @@ module.exports = grammar({
     pattern_constructor_arguments: ($) =>
       seq(
         "(",
-        optional(series_of($._pattern_constructor_argument, ",")),
+        optional(series_of($.pattern_constructor_argument, ",")),
         optional($.pattern_spread),
         ")"
       ),
-    _pattern_constructor_argument: ($) =>
-      choice(
-        $.pattern_constructor_named_argument,
-        alias($.constructor_pattern, $.pattern_constructor_unnamed_argument)
+    pattern_constructor_argument: ($) =>
+      seq(
+        optional(seq(field("name", $.identifier), ":")),
+        field("pattern", $._pattern)
       ),
-    pattern_constructor_named_argument: ($) =>
-      seq($._name, ":", $.constructor_pattern),
     pattern_spread: ($) => seq("..", optional(",")),
     tuple_pattern: ($) =>
       seq("#", "(", optional(series_of($._pattern, ",")), ")"),
@@ -808,5 +815,5 @@ function bit_string_segment_options(name, arg_parser) {
 // function in the Gleam parser.
 // https://github.com/elixir-lang/tree-sitter-elixir/blob/de3ec57591aebf451e710fc9c984cf601258baf5/grammar.js#L817-L819
 function series_of(rule, separator) {
-  return seq(rule, repeat(seq(separator, rule)));
+  return seq(rule, repeat(seq(separator, rule)), optional(separator));
 }
