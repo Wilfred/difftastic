@@ -587,8 +587,6 @@ module.exports = function defineGrammar(dialect) {
 
       _type: $ => choice(
         $._primary_type,
-        $.union_type,
-        $.intersection_type,
         $.function_type,
         $.readonly_type,
         $.constructor_type,
