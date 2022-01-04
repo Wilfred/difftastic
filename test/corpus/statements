@@ -1,12 +1,13 @@
 ========================================================================
-Test an empty method
+Test empty statement
 ========================================================================
 
-.class public LA/BC;
+.class public interface abstract LA/BC;
 .super Ljava/lang/Object;
 .source ""
 
 .method public empty()V
+	return-void
 .end method
 
 ---
@@ -24,19 +25,24 @@ Test an empty method
       (access_modifiers)
       (method_identifier
         return_type: (primitive_type)))
+    (code_block
+      (statement
+        (opcode)))
     (end_method)))
 
 
 
 ========================================================================
-Test a method with one primitive parameter
+Test statements with variable and number literal arguments
 ========================================================================
 
-.class public LA/BC;
+.class public interface abstract LA/BC;
 .super Ljava/lang/Object;
 .source ""
 
-.method public empty(I)V
+.method public static main([Ljava/lang/String;)I
+	const v0, 0x0
+	return v0
 .end method
 
 ---
@@ -54,40 +60,15 @@ Test a method with one primitive parameter
       (access_modifiers)
       (method_identifier
         parameters: (parameters
-          (primitive_type))
+        (array_type
+          element_type: (class_identifier)))
         return_type: (primitive_type)))
-    (end_method)))
-
-
-
-========================================================================
-Test a method with multiple primitive parameter
-========================================================================
-
-.class public LA/BC;
-.super Ljava/lang/Object;
-.source ""
-
-.method public empty(IZJ)V
-.end method
-
----
-
-(class_definition
-  (class_declaration
-    (access_modifiers)
-    (class_identifier))
-  (super_declaration
-    (class_identifier))
-  (source_declaration
-    (string_literal))
-  (method_definition
-    (method_declaration
-      (access_modifiers)
-      (method_identifier
-        parameters: (parameters
-					(primitive_type)
-					(primitive_type)
-					(primitive_type))
-        return_type: (primitive_type)))
+    (code_block
+      (statement
+        (opcode)
+        (variable)
+        (number_literal))
+      (statement
+        (opcode)
+        (variable)))
     (end_method)))

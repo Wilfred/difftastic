@@ -69,7 +69,6 @@ Test an interface with one method
     (method_declaration
       (access_modifiers)
       (method_identifier
-        parameters: (parameters)
         return_type: (primitive_type)))
     (end_method)))
 

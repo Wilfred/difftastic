@@ -361,17 +361,1000 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "statement_name"
+          "name": "opcode"
         },
         {
-          "type": "PATTERN",
-          "value": ".*"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_statement_argument"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "_statement_argument"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "\n"
         }
       ]
     },
-    "statement_name": {
-      "type": "PATTERN",
-      "value": "[\\w\\d\\/-]+"
+    "opcode": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "nop"
+        },
+        {
+          "type": "STRING",
+          "value": "move"
+        },
+        {
+          "type": "STRING",
+          "value": "move/from16"
+        },
+        {
+          "type": "STRING",
+          "value": "move/16"
+        },
+        {
+          "type": "STRING",
+          "value": "move-wide"
+        },
+        {
+          "type": "STRING",
+          "value": "move-wide/from16"
+        },
+        {
+          "type": "STRING",
+          "value": "move-wide/16"
+        },
+        {
+          "type": "STRING",
+          "value": "move-object"
+        },
+        {
+          "type": "STRING",
+          "value": "move-object/from16"
+        },
+        {
+          "type": "STRING",
+          "value": "move-object/16"
+        },
+        {
+          "type": "STRING",
+          "value": "move-result"
+        },
+        {
+          "type": "STRING",
+          "value": "move-result-wide"
+        },
+        {
+          "type": "STRING",
+          "value": "move-result-object"
+        },
+        {
+          "type": "STRING",
+          "value": "move-exception"
+        },
+        {
+          "type": "STRING",
+          "value": "return-void"
+        },
+        {
+          "type": "STRING",
+          "value": "return"
+        },
+        {
+          "type": "STRING",
+          "value": "return-wide"
+        },
+        {
+          "type": "STRING",
+          "value": "return-object"
+        },
+        {
+          "type": "STRING",
+          "value": "const/4"
+        },
+        {
+          "type": "STRING",
+          "value": "const/16"
+        },
+        {
+          "type": "STRING",
+          "value": "const"
+        },
+        {
+          "type": "STRING",
+          "value": "const/high16"
+        },
+        {
+          "type": "STRING",
+          "value": "const-wide/16"
+        },
+        {
+          "type": "STRING",
+          "value": "const-wide/32"
+        },
+        {
+          "type": "STRING",
+          "value": "const-wide"
+        },
+        {
+          "type": "STRING",
+          "value": "const-wide/high16"
+        },
+        {
+          "type": "STRING",
+          "value": "const-string"
+        },
+        {
+          "type": "STRING",
+          "value": "const-string-jumbo"
+        },
+        {
+          "type": "STRING",
+          "value": "const-class"
+        },
+        {
+          "type": "STRING",
+          "value": "monitor-enter"
+        },
+        {
+          "type": "STRING",
+          "value": "monitor-exit"
+        },
+        {
+          "type": "STRING",
+          "value": "check-cast"
+        },
+        {
+          "type": "STRING",
+          "value": "instance-of"
+        },
+        {
+          "type": "STRING",
+          "value": "array-length"
+        },
+        {
+          "type": "STRING",
+          "value": "new-instance"
+        },
+        {
+          "type": "STRING",
+          "value": "new-array"
+        },
+        {
+          "type": "STRING",
+          "value": "filled-new-array"
+        },
+        {
+          "type": "STRING",
+          "value": "filled-new-array-range"
+        },
+        {
+          "type": "STRING",
+          "value": "fill-array-data"
+        },
+        {
+          "type": "STRING",
+          "value": "throw"
+        },
+        {
+          "type": "STRING",
+          "value": "goto"
+        },
+        {
+          "type": "STRING",
+          "value": "goto/16"
+        },
+        {
+          "type": "STRING",
+          "value": "goto/32"
+        },
+        {
+          "type": "STRING",
+          "value": "packed-switch"
+        },
+        {
+          "type": "STRING",
+          "value": "sparse-switch"
+        },
+        {
+          "type": "STRING",
+          "value": "cmpl-float"
+        },
+        {
+          "type": "STRING",
+          "value": "cmpg-float"
+        },
+        {
+          "type": "STRING",
+          "value": "cmpl-double"
+        },
+        {
+          "type": "STRING",
+          "value": "cmpg-double"
+        },
+        {
+          "type": "STRING",
+          "value": "cmp-long"
+        },
+        {
+          "type": "STRING",
+          "value": "if-eq"
+        },
+        {
+          "type": "STRING",
+          "value": "if-ne"
+        },
+        {
+          "type": "STRING",
+          "value": "if-lt"
+        },
+        {
+          "type": "STRING",
+          "value": "if-ge"
+        },
+        {
+          "type": "STRING",
+          "value": "if-gt"
+        },
+        {
+          "type": "STRING",
+          "value": "if-le"
+        },
+        {
+          "type": "STRING",
+          "value": "if-eqz"
+        },
+        {
+          "type": "STRING",
+          "value": "if-nez"
+        },
+        {
+          "type": "STRING",
+          "value": "if-ltz"
+        },
+        {
+          "type": "STRING",
+          "value": "if-gez"
+        },
+        {
+          "type": "STRING",
+          "value": "if-gtz"
+        },
+        {
+          "type": "STRING",
+          "value": "if-lez"
+        },
+        {
+          "type": "STRING",
+          "value": "aget"
+        },
+        {
+          "type": "STRING",
+          "value": "aget-wide"
+        },
+        {
+          "type": "STRING",
+          "value": "aget-object"
+        },
+        {
+          "type": "STRING",
+          "value": "aget-boolean"
+        },
+        {
+          "type": "STRING",
+          "value": "aget-byte"
+        },
+        {
+          "type": "STRING",
+          "value": "aget-char"
+        },
+        {
+          "type": "STRING",
+          "value": "aget-short"
+        },
+        {
+          "type": "STRING",
+          "value": "aput"
+        },
+        {
+          "type": "STRING",
+          "value": "aput-wide"
+        },
+        {
+          "type": "STRING",
+          "value": "aput-object"
+        },
+        {
+          "type": "STRING",
+          "value": "aput-boolean"
+        },
+        {
+          "type": "STRING",
+          "value": "aput-byte"
+        },
+        {
+          "type": "STRING",
+          "value": "aput-char"
+        },
+        {
+          "type": "STRING",
+          "value": "aput-short"
+        },
+        {
+          "type": "STRING",
+          "value": "iget"
+        },
+        {
+          "type": "STRING",
+          "value": "iget-wide"
+        },
+        {
+          "type": "STRING",
+          "value": "iget-object"
+        },
+        {
+          "type": "STRING",
+          "value": "iget-boolean"
+        },
+        {
+          "type": "STRING",
+          "value": "iget-byte"
+        },
+        {
+          "type": "STRING",
+          "value": "iget-char"
+        },
+        {
+          "type": "STRING",
+          "value": "iget-short"
+        },
+        {
+          "type": "STRING",
+          "value": "iput"
+        },
+        {
+          "type": "STRING",
+          "value": "iput-wide"
+        },
+        {
+          "type": "STRING",
+          "value": "iput-object"
+        },
+        {
+          "type": "STRING",
+          "value": "iput-boolean"
+        },
+        {
+          "type": "STRING",
+          "value": "iput-byte"
+        },
+        {
+          "type": "STRING",
+          "value": "iput-char"
+        },
+        {
+          "type": "STRING",
+          "value": "iput-short"
+        },
+        {
+          "type": "STRING",
+          "value": "sget"
+        },
+        {
+          "type": "STRING",
+          "value": "sget-wide"
+        },
+        {
+          "type": "STRING",
+          "value": "sget-object"
+        },
+        {
+          "type": "STRING",
+          "value": "sget-boolean"
+        },
+        {
+          "type": "STRING",
+          "value": "sget-byte"
+        },
+        {
+          "type": "STRING",
+          "value": "sget-char"
+        },
+        {
+          "type": "STRING",
+          "value": "sget-short"
+        },
+        {
+          "type": "STRING",
+          "value": "sput"
+        },
+        {
+          "type": "STRING",
+          "value": "sput-wide"
+        },
+        {
+          "type": "STRING",
+          "value": "sput-object"
+        },
+        {
+          "type": "STRING",
+          "value": "sput-boolean"
+        },
+        {
+          "type": "STRING",
+          "value": "sput-byte"
+        },
+        {
+          "type": "STRING",
+          "value": "sput-char"
+        },
+        {
+          "type": "STRING",
+          "value": "sput-short"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-virtual"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-super"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-direct"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-static"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-interface"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-virtual/range"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-super/range"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-direct/range"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-static/range"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-interface-range"
+        },
+        {
+          "type": "STRING",
+          "value": "neg-int"
+        },
+        {
+          "type": "STRING",
+          "value": "not-int"
+        },
+        {
+          "type": "STRING",
+          "value": "neg-long"
+        },
+        {
+          "type": "STRING",
+          "value": "not-long"
+        },
+        {
+          "type": "STRING",
+          "value": "neg-float"
+        },
+        {
+          "type": "STRING",
+          "value": "neg-double"
+        },
+        {
+          "type": "STRING",
+          "value": "int-to-long"
+        },
+        {
+          "type": "STRING",
+          "value": "int-to-float"
+        },
+        {
+          "type": "STRING",
+          "value": "int-to-double"
+        },
+        {
+          "type": "STRING",
+          "value": "long-to-int"
+        },
+        {
+          "type": "STRING",
+          "value": "long-to-float"
+        },
+        {
+          "type": "STRING",
+          "value": "long-to-double"
+        },
+        {
+          "type": "STRING",
+          "value": "float-to-int"
+        },
+        {
+          "type": "STRING",
+          "value": "float-to-long"
+        },
+        {
+          "type": "STRING",
+          "value": "float-to-double"
+        },
+        {
+          "type": "STRING",
+          "value": "double-to-int"
+        },
+        {
+          "type": "STRING",
+          "value": "double-to-long"
+        },
+        {
+          "type": "STRING",
+          "value": "double-to-float"
+        },
+        {
+          "type": "STRING",
+          "value": "int-to-byte"
+        },
+        {
+          "type": "STRING",
+          "value": "int-to-char"
+        },
+        {
+          "type": "STRING",
+          "value": "int-to-short"
+        },
+        {
+          "type": "STRING",
+          "value": "add-int"
+        },
+        {
+          "type": "STRING",
+          "value": "sub-int"
+        },
+        {
+          "type": "STRING",
+          "value": "mul-int"
+        },
+        {
+          "type": "STRING",
+          "value": "div-int"
+        },
+        {
+          "type": "STRING",
+          "value": "rem-int"
+        },
+        {
+          "type": "STRING",
+          "value": "and-int"
+        },
+        {
+          "type": "STRING",
+          "value": "or-int"
+        },
+        {
+          "type": "STRING",
+          "value": "xor-int"
+        },
+        {
+          "type": "STRING",
+          "value": "shl-int"
+        },
+        {
+          "type": "STRING",
+          "value": "shr-int"
+        },
+        {
+          "type": "STRING",
+          "value": "ushr-int"
+        },
+        {
+          "type": "STRING",
+          "value": "add-long"
+        },
+        {
+          "type": "STRING",
+          "value": "sub-long"
+        },
+        {
+          "type": "STRING",
+          "value": "mul-long"
+        },
+        {
+          "type": "STRING",
+          "value": "div-long"
+        },
+        {
+          "type": "STRING",
+          "value": "rem-long"
+        },
+        {
+          "type": "STRING",
+          "value": "and-long"
+        },
+        {
+          "type": "STRING",
+          "value": "or-long"
+        },
+        {
+          "type": "STRING",
+          "value": "xor-long"
+        },
+        {
+          "type": "STRING",
+          "value": "shl-long"
+        },
+        {
+          "type": "STRING",
+          "value": "shr-long"
+        },
+        {
+          "type": "STRING",
+          "value": "ushr-long"
+        },
+        {
+          "type": "STRING",
+          "value": "add-float"
+        },
+        {
+          "type": "STRING",
+          "value": "sub-float"
+        },
+        {
+          "type": "STRING",
+          "value": "mul-float"
+        },
+        {
+          "type": "STRING",
+          "value": "div-float"
+        },
+        {
+          "type": "STRING",
+          "value": "rem-float"
+        },
+        {
+          "type": "STRING",
+          "value": "add-double"
+        },
+        {
+          "type": "STRING",
+          "value": "sub-double"
+        },
+        {
+          "type": "STRING",
+          "value": "mul-double"
+        },
+        {
+          "type": "STRING",
+          "value": "div-double"
+        },
+        {
+          "type": "STRING",
+          "value": "rem-double"
+        },
+        {
+          "type": "STRING",
+          "value": "add-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "sub-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "mul-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "div-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "rem-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "and-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "or-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "xor-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "shl-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "shr-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "ushr-int/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "add-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "sub-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "mul-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "div-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "rem-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "and-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "or-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "xor-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "shl-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "shr-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "ushr-long/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "add-float/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "sub-float/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "mul-float/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "div-float/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "rem-float/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "add-double/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "sub-double/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "mul-double/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "div-double/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "rem-double/2addr"
+        },
+        {
+          "type": "STRING",
+          "value": "add-int/lit16"
+        },
+        {
+          "type": "STRING",
+          "value": "sub-int/lit16"
+        },
+        {
+          "type": "STRING",
+          "value": "mul-int/lit16"
+        },
+        {
+          "type": "STRING",
+          "value": "div-int/lit16"
+        },
+        {
+          "type": "STRING",
+          "value": "rem-int/lit16"
+        },
+        {
+          "type": "STRING",
+          "value": "and-int/lit16"
+        },
+        {
+          "type": "STRING",
+          "value": "or-int/lit16"
+        },
+        {
+          "type": "STRING",
+          "value": "xor-int/lit16"
+        },
+        {
+          "type": "STRING",
+          "value": "add-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "sub-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "mul-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "div-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "rem-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "and-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "or-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "xor-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "shl-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "shr-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "ushr-int/lit8"
+        },
+        {
+          "type": "STRING",
+          "value": "execute-inline"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-direct-empty"
+        },
+        {
+          "type": "STRING",
+          "value": "iget-quick"
+        },
+        {
+          "type": "STRING",
+          "value": "iget-wide-quick"
+        },
+        {
+          "type": "STRING",
+          "value": "iget-object-quick"
+        },
+        {
+          "type": "STRING",
+          "value": "iput-quick"
+        },
+        {
+          "type": "STRING",
+          "value": "iput-wide-quick"
+        },
+        {
+          "type": "STRING",
+          "value": "iput-object-quick"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-virtual-quick"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-virtual-quick/range"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-super-quick"
+        },
+        {
+          "type": "STRING",
+          "value": "invoke-super-quick/range"
+        }
+      ]
+    },
+    "_statement_argument": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "variable"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parameter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "number_literal"
+        }
+      ]
     },
     "_declaration": {
       "type": "CHOICE",
@@ -650,11 +1633,11 @@
           "members": [
             {
               "type": "STRING",
-              "value": "<init>"
+              "value": "<init>("
             },
             {
               "type": "PATTERN",
-              "value": "[\\w\\d]+"
+              "value": "[\\w\\d]+\\("
             }
           ]
         },
@@ -662,9 +1645,21 @@
           "type": "FIELD",
           "name": "parameters",
           "content": {
-            "type": "SYMBOL",
-            "name": "parameters"
+            "type": "ALIAS",
+            "content": {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_type"
+              }
+            },
+            "named": true,
+            "value": "parameters"
           }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         },
         {
           "type": "FIELD",
@@ -1017,26 +2012,6 @@
         {
           "type": "STRING",
           "value": "}"
-        }
-      ]
-    },
-    "parameters": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_type"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": ")"
         }
       ]
     },
