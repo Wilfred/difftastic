@@ -12,8 +12,8 @@
   "resolved" "https://registry.npmjs.org/tree-sitter-cli/-/tree-sitter-cli-0.20.0.tgz"
   "version" "0.20.0"
 
-"tree-sitter-javascript@github:tree-sitter/tree-sitter-javascript#2c5b138":
-  "resolved" "git+ssh://git@github.com/tree-sitter/tree-sitter-javascript.git#2c5b138ea488259dbf11a34595042eb261965259"
-  "version" "0.19.0"
+"tree-sitter-javascript@github:tree-sitter/tree-sitter-javascript#fdeb68a":
+  "resolved" "git+ssh://git@github.com/tree-sitter/tree-sitter-javascript.git#fdeb68ac8d2bd5a78b943528bb68ceda3aade2eb"
+  "version" "0.20.0"
   dependencies:
     "nan" "^2.12.1"

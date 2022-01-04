@@ -1102,6 +1102,7 @@ type A<B, C> = B extends C
     : never
   : never
 type Trim<S extends string> = S extends `${infer R}` ? Trim<R>  : S;
+type A = `${true & ('foo' | false)}`;
 ---
 (program
   (type_alias_declaration
@@ -1189,7 +1190,22 @@ type Trim<S extends string> = S extends `${infer R}` ? Trim<R>  : S;
         (type_identifier)
         (type_arguments
           (type_identifier)))
-      (type_identifier))))
+      (type_identifier)))
+  (type_alias_declaration
+    (type_identifier)
+    (template_literal_type
+      (template_type
+        (intersection_type
+          (literal_type
+            (true))
+          (parenthesized_type
+            (union_type
+              (literal_type
+                (string
+                  (string_fragment)))
+              (literal_type
+                (false)))))))))
+
 ==================================
 Mapped type 'as' clauses
 ==================================
