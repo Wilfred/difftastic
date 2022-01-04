@@ -951,3 +951,33 @@ fn ignores(foo, _bar) {
             value: (identifier))
           (argument
             value: (hole)))))))
+
+===========
+Weird lists
+===========
+
+fn lists(x) {
+  []
+  [1,]
+  [1 ..x]
+  [1,..x]
+}
+
+---
+
+(source_file
+  (function
+    name: (identifier)
+    parameters: (function_parameters
+      (function_parameter
+        name: (identifier)))
+    body: (function_body
+      (list)
+      (list
+        (integer))
+      (list
+        (integer)
+        spread: (identifier))
+      (list
+        (integer)
+        spread: (identifier)))))
