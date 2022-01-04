@@ -718,6 +718,10 @@
           "named": true
         },
         {
+          "type": "label",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },

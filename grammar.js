@@ -341,6 +341,7 @@ module.exports = grammar({
     _statement_argument: $ =>
       choice(
         $.list,
+        $.label,
         $.variable,
         $.parameter,
         $.array_type,

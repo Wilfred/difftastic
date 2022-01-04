@@ -1324,6 +1324,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "label"
+        },
+        {
+          "type": "SYMBOL",
           "name": "variable"
         },
         {
