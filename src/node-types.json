@@ -352,6 +352,44 @@
     }
   },
   {
+    "type": "full_field_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "full_method_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        },
+        {
+          "type": "method_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "implements_declaration",
     "named": true,
     "fields": {},
