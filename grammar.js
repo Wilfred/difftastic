@@ -161,14 +161,10 @@ module.exports = grammar({
         "external",
         "fn",
         field("name", $.identifier),
-        "(",
-        optional(
-          field(
-            "parameters",
-            alias($.external_function_parameters, $.function_parameters)
-          )
+        field(
+          "parameters",
+          alias($.external_function_parameters, $.function_parameters)
         ),
-        ")",
         "->",
         field("return_type", $._type),
         "=",
@@ -177,9 +173,15 @@ module.exports = grammar({
     // Different from module function parameters in that module function
     // parameters may be labeled whereas external function parameters cannot.
     external_function_parameters: ($) =>
-      series_of(
-        alias($.external_function_parameter, $.function_parameter),
-        ","
+      seq(
+        "(",
+        optional(
+          series_of(
+            alias($.external_function_parameter, $.function_parameter),
+            ","
+          )
+        ),
+        ")"
       ),
     external_function_parameter: ($) =>
       seq(
@@ -194,15 +196,14 @@ module.exports = grammar({
       seq(
         "fn",
         field("name", $.identifier),
-        "(",
-        optional(field("parameters", $.function_parameters)),
-        ")",
+        field("parameters", $.function_parameters),
         optional(seq("->", field("return_type", $._type))),
         "{",
         field("body", alias($._expression_seq, $.function_body)),
         "}"
       ),
-    function_parameters: ($) => series_of($.function_parameter, ","),
+    function_parameters: ($) =>
+      seq("(", optional(series_of($.function_parameter, ",")), ")"),
     function_parameter: ($) =>
       seq(
         choice(
@@ -329,9 +330,7 @@ module.exports = grammar({
     anonymous_function: ($) =>
       seq(
         "fn",
-        "(",
-        optional(field("parameters", $.function_parameters)),
-        ")",
+        field("parameters", $.function_parameters),
         optional(seq("->", field("return_type", $._type))),
         "{",
         field("body", alias($._expression_seq, $.function_body)),

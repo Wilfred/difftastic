@@ -42,6 +42,7 @@ external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
       (string)))
   (external_function
     name: (identifier)
+    parameters: (function_parameters)
     return_type: (tuple_type
       (type
         name: (type_identifier)
@@ -103,6 +104,7 @@ pub external fn a() -> #(List(Int), fn(Int) -> String) = "x" "y"
       (string)))
   (public_external_function
     name: (identifier)
+    parameters: (function_parameters)
     return_type: (tuple_type
       (type
         name: (type_identifier)
