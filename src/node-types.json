@@ -848,6 +848,10 @@
     "named": false
   },
   {
+    "type": "<clinit>(",
+    "named": false
+  },
+  {
     "type": "<init>(",
     "named": false
   },

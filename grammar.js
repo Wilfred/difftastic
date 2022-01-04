@@ -413,7 +413,7 @@ module.exports = grammar({
     field_identifier: $ => seq(/[\w\d]+:/, $._type),
     method_identifier: $ =>
       seq(
-        choice("<init>(", /[\w\d]+\(/),
+        choice("<clinit>(", "<init>(", /[\w\d]+\(/),
         field("parameters", alias(repeat($._type), $.parameters)),
         ")",
         field("return_type", $._type)

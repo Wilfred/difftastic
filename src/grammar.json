@@ -1633,6 +1633,10 @@
           "members": [
             {
               "type": "STRING",
+              "value": "<clinit>("
+            },
+            {
+              "type": "STRING",
               "value": "<init>("
             },
             {
