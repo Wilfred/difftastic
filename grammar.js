@@ -343,6 +343,7 @@ module.exports = grammar({
         $.list,
         $.variable,
         $.parameter,
+        $.array_type,
         $._identifier,
         $.string_literal,
         $.number_literal

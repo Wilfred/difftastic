@@ -1332,6 +1332,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "array_type"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_identifier"
         },
         {
