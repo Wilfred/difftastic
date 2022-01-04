@@ -9,6 +9,56 @@ Multiplication expression
 (source_file (multiplicative_expression (integer_literal) (integer_literal)))
 
 ==================
+Safe Navigation
+==================
+
+a?.bar()
+a? .bar()
+a? . bar()
+a?
+  .bar()
+a ? . bar()
+
+---
+
+(source_file
+  (call_expression
+    (navigation_expression
+      (simple_identifier)
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (value_arguments)))
+  (call_expression
+    (navigation_expression
+      (simple_identifier)
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (value_arguments)))
+  (call_expression
+    (navigation_expression
+      (simple_identifier)
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (value_arguments)))
+  (call_expression
+    (navigation_expression
+      (simple_identifier)
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (value_arguments)))
+  (call_expression
+    (navigation_expression
+      (simple_identifier)
+      (navigation_suffix
+        (simple_identifier)))
+    (call_suffix
+      (value_arguments))))
+
+==================
 Function calls
 ==================
 
