@@ -20,13 +20,8 @@ module.exports = grammar({
   ],
   rules: {
     /* General rules */
-    source_file: ($) =>
-      optional(
-        seq(
-          series_of(choice($.target_group, $._statement), NEWLINE),
-          optional(NEWLINE)
-        )
-      ),
+    source_file: ($) => repeat(choice($.target_group, $._statement)),
+
     _statement: ($) =>
       choice(
         $.import,
@@ -53,13 +48,7 @@ module.exports = grammar({
 
     /* Target groups */
     target_group: ($) =>
-      seq(
-        "if",
-        field("target", $.target),
-        "{",
-        optional(seq(series_of($._statement, NEWLINE), optional(NEWLINE))),
-        "}"
-      ),
+      seq("if", field("target", $.target), "{", repeat($._statement), "}"),
     target: ($) => choice("erlang", "javascript"),
 
     /* Import statements */
