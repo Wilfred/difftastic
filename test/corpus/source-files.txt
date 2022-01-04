@@ -61,8 +61,7 @@ import java.io.Path import java.io.Files
     (identifier
       (simple_identifier)
       (simple_identifier)
-      (simple_identifier))
-    (MISSING _automatic_semicolon))
+      (simple_identifier)))
   (import_header
     (identifier
       (simple_identifier)
