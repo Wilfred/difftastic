@@ -53,12 +53,12 @@ static bool scan_whitespace_and_comments(TSLexer *lexer) {
 }
 
 bool scan_for_word(TSLexer *lexer, char* word, unsigned len) {
-    advance(lexer);
+    skip(lexer);
     for (unsigned i = 0; i < len; i++) {
-      if (lexer->lookahead != word[i]) return true;
-      advance(lexer);
+      if (lexer->lookahead != word[i]) return false;
+      skip(lexer);
     }
-    return false;
+    return true;
 }
 
 bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
@@ -109,8 +109,9 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
 
   if (sameline) {
     switch (lexer->lookahead) {
+      // Don't insert a semicolon before an else
       case 'e':
-        return scan_for_word(lexer, "lse", 3);
+        return !scan_for_word(lexer, "lse", 3);
 
       case 'i':
         return scan_for_word(lexer, "mport", 5);
@@ -161,9 +162,9 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
       skip(lexer);
       return lexer->lookahead != '=';
 
-    // specific to Kotlin
-    case 'e': // ex: else on next line after 'if' control body
-      return scan_for_word(lexer, "lse", 3);
+    // Don't insert a semicolon before an else
+    case 'e':
+      return !scan_for_word(lexer, "lse", 3);
 
     // Don't insert a semicolon before `in` or `instanceof`, but do insert one
     // before an identifier or an import.
@@ -176,7 +177,7 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
       if (!iswalpha(lexer->lookahead))
         return false;
 
-      return scan_for_word(lexer, "stanceof", 8);
+      return !scan_for_word(lexer, "stanceof", 8);
 
       case ';':
         advance(lexer);
