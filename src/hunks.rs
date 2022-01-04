@@ -710,12 +710,9 @@ pub fn aligned_lines_from_hunk(
         let hunk_end = *hunk_lines.last().expect("Hunk lines should be non-empty");
 
         let aligned_between = match first_novel {
-            (Some(lhs_start), _) => fill_matched_lines(
-                lhs_start,
-                max_lhs_src_line,
-                hunk_end,
-                &matched_rhs_lines,
-            ),
+            (Some(lhs_start), _) => {
+                fill_matched_lines(lhs_start, max_lhs_src_line, hunk_end, &matched_rhs_lines)
+            }
             (_, Some(rhs_start)) => flip_tuples(&fill_matched_lines(
                 rhs_start,
                 max_rhs_src_line,
