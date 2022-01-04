@@ -20,7 +20,6 @@ jobs:
           node-version: 16
       - run: npm install
       - run: npm run test-ci
-      - run: npm run bindings
       - run: cd ./test-npm-package && npm test; cd ..
       - uses: JS-DevTools/npm-publish@v1
         id: npm_publish
