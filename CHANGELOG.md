@@ -17,6 +17,8 @@ Improved highlighting heuristics for added/removed blank lines.
 Fixed an alignment bug where the last line being novel would lead to
 poor alignment of unchanged lines.
 
+Fixed minor formatting issues when reporting that a file is binary.
+
 ## 0.14 (released 27 December 2021)
 
 ### Parsing
