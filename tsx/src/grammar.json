@@ -8349,14 +8349,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "union_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "intersection_type"
-        },
-        {
-          "type": "SYMBOL",
           "name": "function_type"
         },
         {
