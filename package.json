@@ -1,7 +1,7 @@
 {
   "name": "tree-sitter-gleam",
   "version": "0.1.0",
-  "description": "A tree-sitter grammer for the Gleam programming language",
+  "description": "A tree-sitter grammar for the Gleam programming language",
   "main": "bindings/node",
   "scripts": {
     "generate": "tree-sitter generate",
