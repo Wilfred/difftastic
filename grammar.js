@@ -790,13 +790,13 @@ module.exports = grammar({
       $.multi_variable_declaration
     ),
 
-    anonymous_function: $ => seq(
+    anonymous_function: $ => prec.right(seq(
       "fun",
       optional(seq(sep1($._simple_user_type, "."), ".")), // TODO
       $._function_value_parameters,
       optional(seq(":", $._type)),
       optional($.function_body)
-    ),
+    )),
 
     _function_literal: $ => choice(
       $.lambda_literal,
