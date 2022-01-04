@@ -118,6 +118,7 @@ module.exports = grammar({
   externals: $ => [
     $._automatic_semicolon,
     $._import_list_delimiter,
+    $.safe_nav,
   ],
 
   extras: $ => [
@@ -928,12 +929,7 @@ module.exports = grammar({
 
     _postfix_unary_operator: $ => choice("++", "--", "!!"),
 
-    // TODO: '?' and '.' should actually be separate tokens
-    //       but produce an LR(1) conflict that way, however.
-    //       ('as' expression with '?' produces conflict). Also
-    //       does it seem to be very uncommon to write the safe
-    //       navigation operator 'split up' in Kotlin.
-    _member_access_operator: $ => choice(".", "?.", "::"),
+    _member_access_operator: $ => choice(".", "::", alias($.safe_nav, '?.')),
 
     _indexing_suffix: $ => seq(
       '[',

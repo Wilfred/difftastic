@@ -6,6 +6,7 @@
 enum TokenType {
   AUTOMATIC_SEMICOLON,
   IMPORT_LIST_DELIMITER,
+  SAFE_NAV,
 };
 
 void *tree_sitter_kotlin_external_scanner_create() { return NULL; }
@@ -188,6 +189,30 @@ bool scan_automatic_semicolon(TSLexer *lexer) {
   }
 }
 
+bool scan_safe_nav(TSLexer *lexer) {
+  lexer->result_symbol = SAFE_NAV;
+  lexer->mark_end(lexer);
+
+  // skip white space
+  if (!scan_whitespace_and_comments(lexer))
+    return false;
+
+  if (lexer->lookahead != '?')
+    return false;
+
+  advance(lexer);
+
+  if (!scan_whitespace_and_comments(lexer))
+    return false;
+
+  if (lexer->lookahead != '.')
+    return false;
+
+  advance(lexer);
+  lexer->mark_end(lexer);
+  return true;
+}
+
 bool scan_line_sep(TSLexer *lexer) {
   // Line Seps: [ CR, LF, CRLF ]
   int state = 0;
@@ -264,8 +289,17 @@ bool scan_import_list_delimiter(TSLexer *lexer) {
 
 bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
-  if (valid_symbols[AUTOMATIC_SEMICOLON])
-    return scan_automatic_semicolon(lexer);
+  if (valid_symbols[AUTOMATIC_SEMICOLON]) {
+    bool ret = scan_automatic_semicolon(lexer);
+    if (!ret && valid_symbols[SAFE_NAV] && lexer->lookahead == '?')
+      return scan_safe_nav(lexer);
+
+    return ret;
+  }
+
+  if (valid_symbols[SAFE_NAV]) {
+    return scan_safe_nav(lexer);
+  }
 
   if (valid_symbols[IMPORT_LIST_DELIMITER])
     return scan_import_list_delimiter(lexer);
