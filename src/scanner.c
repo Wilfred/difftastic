@@ -5,6 +5,7 @@
 
 enum TokenType {
   AUTOMATIC_SEMICOLON,
+  IMPORT_LIST_DELIMITER,
 };
 
 void *tree_sitter_kotlin_external_scanner_create() { return NULL; }
@@ -61,9 +62,7 @@ bool scan_for_word(TSLexer *lexer, char* word, unsigned len) {
     return true;
 }
 
-bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
-                                                  const bool *valid_symbols) {
-  if (!valid_symbols[AUTOMATIC_SEMICOLON]) return false;
+bool scan_automatic_semicolon(TSLexer *lexer) {
   lexer->result_symbol = AUTOMATIC_SEMICOLON;
   lexer->mark_end(lexer);
 
@@ -187,4 +186,89 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
     default:
       return true;
   }
+}
+
+bool scan_line_sep(TSLexer *lexer) {
+  // Line Seps: [ CR, LF, CRLF ]
+  int state = 0;
+  while (true) {
+    switch(lexer->lookahead) {
+      case  ' ':
+      case '\t':
+      case '\v':
+        // Skip whitespace
+        advance(lexer);
+        break;
+
+      case '\n':
+        advance(lexer);
+        return true;
+
+      case '\r':
+        if (state == 1)
+          return true;
+
+        state = 1;
+        advance(lexer);
+        break;
+
+      default:
+        // We read a CR
+        if (state == 1)
+          return true;
+
+        return false;
+    }
+  }
+}
+
+bool scan_import_list_delimiter(TSLexer *lexer) {
+  // Import lists are terminated either by an empty line or a non import statement
+  lexer->result_symbol = IMPORT_LIST_DELIMITER;
+  lexer->mark_end(lexer);
+
+  // if eof; return true
+  if (lexer->eof(lexer))
+    return true;
+
+  // Scan for the first line seperator
+  if (!scan_line_sep(lexer))
+    return false;
+
+  // if line.sep line.sep; return true
+  if (scan_line_sep(lexer)) {
+    lexer->mark_end(lexer);
+    return true;
+  }
+
+  // if line.sep [^import]; return true
+  while (true) {
+    switch (lexer->lookahead) {
+      case  ' ':
+      case '\t':
+      case '\v':
+        // Skip whitespace
+        advance(lexer);
+        break;
+
+      case 'i':
+        return !scan_for_word(lexer, "mport", 5);
+
+      default:
+        return true;
+    }
+
+    return false;
+  }
+}
+
+bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
+                                                  const bool *valid_symbols) {
+  if (valid_symbols[AUTOMATIC_SEMICOLON])
+    return scan_automatic_semicolon(lexer);
+
+  if (valid_symbols[IMPORT_LIST_DELIMITER])
+    return scan_import_list_delimiter(lexer);
+
+  return false;
 }
