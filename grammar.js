@@ -115,7 +115,7 @@ module.exports = grammar({
     _identifier: $ => choice($.class_identifier, $.field_identifier, $.full_field_identifier, $.method_identifier, $.full_method_identifier),
     class_identifier: _ => /L[\w\d\/\$]+;/,
     field_identifier: $ => seq(/[\w\d]+:/, $._type),
-    method_identifier: $ => seq(choice('<init>', /[\w\d_]+/), field('parameters', $.parameters), field('return_type', $._type)),
+    method_identifier: $ => seq(choice('<init>', /[\w\d]+/), field('parameters', $.parameters), field('return_type', $._type)),
     full_field_identifier: $ => seq($.class_identifier, '->', $.field_identifier),
     full_method_identifier: $ => seq($.class_identifier, '->', $.method_identifier),
 
