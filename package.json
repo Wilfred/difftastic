@@ -7,7 +7,8 @@
     "generate": "tree-sitter generate",
     "test": "tree-sitter test",
     "format": "prettier --write grammar.js",
-    "check-formatted": "prettier --check grammar.js"
+    "check-formatted": "prettier --check grammar.js",
+    "build-wasm": "tree-sitter build-wasm"
   },
   "repository": {
     "type": "git",
