@@ -202,18 +202,6 @@
           "name": "access_modifiers"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "constructor"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
           "type": "SYMBOL",
           "name": "method_identifier"
         }
@@ -1840,6 +1828,14 @@
           {
             "type": "STRING",
             "value": "synthetic"
+          },
+          {
+            "type": "STRING",
+            "value": "enum"
+          },
+          {
+            "type": "STRING",
+            "value": "constructor"
           }
         ]
       }

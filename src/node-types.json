@@ -1184,6 +1184,10 @@
     "named": true
   },
   {
+    "type": "enum",
+    "named": false
+  },
+  {
     "type": "execute-inline",
     "named": false
   },

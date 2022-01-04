@@ -12,6 +12,8 @@ const modifiers = [
   "abstract",
   "bridge",
   "synthetic",
+  "enum",
+  "constructor",
 ];
 
 const primitives = ["V", "Z", "B", "S", "C", "I", "J", "F", "D"];
@@ -295,12 +297,7 @@ module.exports = grammar({
         $.end_method
       ),
     method_declaration: $ =>
-      seq(
-        ".method",
-        $.access_modifiers,
-        optional("constructor"),
-        $.method_identifier
-      ),
+      seq(".method", $.access_modifiers, $.method_identifier),
     end_method: _ => ".end method",
 
     // annotation related
