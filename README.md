@@ -10,6 +10,29 @@ This grammar is able to parse the entire Gleam language. It is largely based
 on the Gleam parser itself, and deviations from that are noted throughout the
 codebase.
 
+Usage
+-----
+
+tree-sitter-gleam, as with all tree-sitter grammars, is of limited utility on
+its own. Instead, tree-sitter-gleam is best used as a Gleam parser that can be
+embedded in other projects. An example of such a project is
+[tree-sitter-gleam-rust-example].
+
+However, [tree-sitter-cli] can be used with this grammar to show generated parse
+trees and syntax highlighting for a given Gleam file.
+
+1. [Install tree-sitter-cli]
+2. Create a `tree-sitters` directory in your home directory.
+3. Clone this repository (or symlink it) into the new `~/tree-sitters/` directory.
+4. Run `tree-sitter parse path/to/file.gleam` to be shown the parse tree for the
+   file.
+5. Run `tree-sitter highlight path/to/file.gleam` to be shown the file with
+   syntax highlighting applied.
+
+[tree-sitter-gleam-rust-example]: https://github.com/J3RN/tree-sitter-gleam-rust-example
+[tree-sitter-cli]: https://github.com/tree-sitter/tree-sitter/blob/master/cli/README.md
+[Install tree-sitter-cli]: https://github.com/tree-sitter/tree-sitter/blob/master/cli/README.md#installation
+
 Various Gotchas
 ---------------
 
