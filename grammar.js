@@ -324,6 +324,7 @@ module.exports = grammar({
       choice(
         $.number_literal,
         $.string_literal,
+        $.null_literal,
         $.class_identifier,
         $.list,
         $.enum_reference
@@ -460,5 +461,6 @@ module.exports = grammar({
     // literals
     number_literal: _ => choice(/-?0x[\da-f]+/, /-?\d+/),
     string_literal: _ => /".*"/,
+    null_literal: _ => "null",
   },
 });

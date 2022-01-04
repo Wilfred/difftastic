@@ -303,6 +303,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "null_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "class_identifier"
         },
         {
@@ -2062,6 +2066,10 @@
     "string_literal": {
       "type": "PATTERN",
       "value": "\".*\""
+    },
+    "null_literal": {
+      "type": "STRING",
+      "value": "null"
     }
   },
   "extras": [
