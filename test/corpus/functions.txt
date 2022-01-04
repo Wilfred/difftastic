@@ -173,7 +173,7 @@ fun test() {
                 (simple_identifier)))))))))
 
 ==================
-Anonymus function
+Anonymous function
 ==================
 
 fun()
@@ -189,7 +189,7 @@ val anon = fun()
     (anonymous_function)))
 
 ==================
-Anonymus function with parameters
+Anonymous function with parameters
 ==================
 
 fun(x: Int)
@@ -213,7 +213,7 @@ val anon = fun(x: Int)
           (type_identifier))))))
 
 ==================
-Anonymus function with return type
+Anonymous function with return type
 ==================
 
 fun(): Int
@@ -233,7 +233,7 @@ val anon = fun(): Int
         (type_identifier)))))
 
 ==================
-Anonymus function with body
+Anonymous function with body
 ==================
 
 fun() = true
