@@ -14,6 +14,8 @@ const modifiers = [
   "synthetic",
   "enum",
   "constructor",
+  "varargs",
+  "declared-synchronized",
 ];
 
 const primitives = ["V", "Z", "B", "S", "C", "I", "J", "F", "D"];

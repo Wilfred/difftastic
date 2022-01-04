@@ -1167,6 +1167,10 @@
     "named": false
   },
   {
+    "type": "declared-synchronized",
+    "named": false
+  },
+  {
     "type": "div-double",
     "named": false
   },
@@ -1948,6 +1952,10 @@
   },
   {
     "type": "ushr-long/2addr",
+    "named": false
+  },
+  {
+    "type": "varargs",
     "named": false
   },
   {

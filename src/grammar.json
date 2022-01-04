@@ -1870,6 +1870,14 @@
           {
             "type": "STRING",
             "value": "constructor"
+          },
+          {
+            "type": "STRING",
+            "value": "varargs"
+          },
+          {
+            "type": "STRING",
+            "value": "declared-synchronized"
           }
         ]
       }
