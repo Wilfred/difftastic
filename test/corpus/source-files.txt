@@ -47,3 +47,24 @@ Multiple file annotations
         (value_argument
           (callable_reference
             (type_identifier)))))))
+
+===================
+Multiple Imports On A Single Line
+===================
+
+import java.io.Path import java.io.Files
+
+---
+
+(source_file
+  (import_header
+    (identifier
+      (simple_identifier)
+      (simple_identifier)
+      (simple_identifier))
+    (MISSING _automatic_semicolon))
+  (import_header
+    (identifier
+      (simple_identifier)
+      (simple_identifier)
+      (simple_identifier))))
