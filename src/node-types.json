@@ -85,7 +85,23 @@
           "named": true
         },
         {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "full_field_identifier",
+          "named": true
+        },
+        {
+          "type": "full_method_identifier",
+          "named": true
+        },
+        {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "method_identifier",
           "named": true
         },
         {

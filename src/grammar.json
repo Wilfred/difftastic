@@ -307,7 +307,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "class_identifier"
+          "name": "_identifier"
         },
         {
           "type": "SYMBOL",

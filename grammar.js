@@ -327,7 +327,7 @@ module.exports = grammar({
         $.number_literal,
         $.string_literal,
         $.null_literal,
-        $.class_identifier,
+        $._identifier,
         $.list,
         $.enum_reference
       ),
