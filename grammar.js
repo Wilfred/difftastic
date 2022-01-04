@@ -575,7 +575,7 @@ module.exports = grammar({
 
     // See also https://github.com/tree-sitter/tree-sitter/issues/160
     // generic EOF/newline token
-    _semi: $ => choice($._automatic_semicolon, ';'),
+    _semi: $ => $._automatic_semicolon,
 
     assignment: $ => choice(
       prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, $._assignment_and_operator, $._expression)),
