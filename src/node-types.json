@@ -476,6 +476,10 @@
         {
           "type": "string_literal",
           "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
         }
       ]
     }
@@ -949,6 +953,10 @@
   {
     "type": "transient",
     "named": false
+  },
+  {
+    "type": "variable",
+    "named": true
   },
   {
     "type": "volatile",

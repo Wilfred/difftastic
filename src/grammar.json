@@ -874,6 +874,10 @@
         }
       ]
     },
+    "variable": {
+      "type": "PATTERN",
+      "value": "v\\d+"
+    },
     "parameter": {
       "type": "PATTERN",
       "value": "p\\d+"
@@ -944,6 +948,30 @@
                   {
                     "type": "SYMBOL",
                     "name": "_identifier"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "variable"
                   },
                   {
                     "type": "CHOICE",
