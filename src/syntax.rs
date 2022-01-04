@@ -489,11 +489,8 @@ pub enum TokenKind {
 pub enum MatchKind {
     Unchanged {
         highlight: TokenKind,
-        self_pos: (Vec<SingleLineSpan>, Vec<SingleLineSpan>),
-        // If it's a matched atom, only use the first vec. If it'a
-        // matched delimiter pair, use both vecs.
-        // TODO: better data type.
-        opposite_pos: (Vec<SingleLineSpan>, Vec<SingleLineSpan>),
+        self_pos: Vec<SingleLineSpan>,
+        opposite_pos: Vec<SingleLineSpan>,
     },
     Novel {
         highlight: TokenKind,
@@ -508,7 +505,7 @@ pub enum MatchKind {
 impl MatchKind {
     pub fn first_opposite_span(&self) -> Option<SingleLineSpan> {
         match self {
-            MatchKind::Unchanged { opposite_pos, .. } => opposite_pos.0.first().copied(),
+            MatchKind::Unchanged { opposite_pos, .. } => opposite_pos.first().copied(),
             MatchKind::UnchangedCommentPart { opposite_pos, .. } => opposite_pos.first().copied(),
             MatchKind::Novel { .. } => None,
             MatchKind::ChangedCommentPart {} => None,
@@ -604,7 +601,8 @@ impl MatchedPos {
     fn new(
         ck: ChangeKind,
         highlight: TokenKind,
-        pos: (&[SingleLineSpan], &[SingleLineSpan]),
+        pos: &[SingleLineSpan],
+        is_close: bool,
     ) -> Vec<Self> {
         let kind = match ck {
             ReplacedComment(this, opposite) => {
@@ -621,8 +619,8 @@ impl MatchedPos {
 
                 return split_comment_words(
                     this_content,
-                    // TODO: handle the whole pos.0 here.
-                    pos.0[0],
+                    // TODO: handle the whole pos here.
+                    pos[0],
                     opposite_content,
                     opposite_pos[0],
                 );
@@ -633,13 +631,19 @@ impl MatchedPos {
                         open_position,
                         close_position,
                         ..
-                    } => (open_position.clone(), close_position.clone()),
-                    Atom { position, .. } => (position.clone(), position.clone()),
+                    } => {
+                        if is_close {
+                            close_position.clone()
+                        } else {
+                            open_position.clone()
+                        }
+                    }
+                    Atom { position, .. } => position.clone(),
                 };
 
                 MatchKind::Unchanged {
                     highlight,
-                    self_pos: (pos.0.to_vec(), pos.1.to_vec()),
+                    self_pos: pos.to_vec(),
                     opposite_pos,
                 }
             }
@@ -649,7 +653,7 @@ impl MatchedPos {
         // Create a MatchedPos for every line that `pos` covers.
         // TODO: what about opposite pos?
         let mut res = vec![];
-        for line_pos in pos.0 {
+        for line_pos in pos {
             // Don't create a MatchedPos for empty positions. This
             // occurs when we have lists with empty open/close
             // delimiter positions, such as the top-level list of syntax items.
@@ -704,7 +708,8 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
-                    (open_position, close_position),
+                    open_position,
+                    false,
                 ));
 
                 change_positions_(nl_pos, opposite_nl_pos, children, positions);
@@ -712,9 +717,8 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
-                    // TODO: use open position here too (currently
-                    // breaks display).
-                    (close_position, close_position),
+                    close_position,
+                    true,
                 ));
             }
             Atom {
@@ -730,7 +734,8 @@ fn change_positions_<'a>(
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Atom(*kind),
-                    (position, &[]),
+                    position,
+                    false,
                 ));
             }
         }

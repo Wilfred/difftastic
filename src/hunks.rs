@@ -754,22 +754,16 @@ mod tests {
         let matched_mp = MatchedPos {
             kind: MatchKind::Unchanged {
                 highlight: TokenKind::Delimiter,
-                self_pos: (
-                    vec![SingleLineSpan {
-                        line: 1.into(),
-                        start_col: 1,
-                        end_col: 2,
-                    }],
-                    vec![],
-                ),
-                opposite_pos: (
-                    vec![SingleLineSpan {
-                        line: 2.into(),
-                        start_col: 1,
-                        end_col: 2,
-                    }],
-                    vec![],
-                ),
+                self_pos: vec![SingleLineSpan {
+                    line: 1.into(),
+                    start_col: 1,
+                    end_col: 2,
+                }],
+                opposite_pos: vec![SingleLineSpan {
+                    line: 2.into(),
+                    start_col: 1,
+                    end_col: 2,
+                }],
             },
             pos: SingleLineSpan {
                 line: 1.into(),
@@ -806,22 +800,16 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::Unchanged {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: (
-                        vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
-                    opposite_pos: (
-                        vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
+                    self_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
                 },
                 pos: SingleLineSpan {
                     line: 0.into(),
@@ -832,22 +820,16 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::Unchanged {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: (
-                        vec![SingleLineSpan {
-                            line: 1.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
-                    opposite_pos: (
-                        vec![SingleLineSpan {
-                            line: 2.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
+                    self_pos: vec![SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 2.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
                 },
                 pos: SingleLineSpan {
                     line: 1.into(),
@@ -861,22 +843,16 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::Unchanged {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: (
-                        vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
-                    opposite_pos: (
-                        vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
+                    self_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
                 },
                 pos: SingleLineSpan {
                     line: 0.into(),
@@ -897,22 +873,16 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::Unchanged {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: (
-                        vec![SingleLineSpan {
-                            line: 2.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
-                    opposite_pos: (
-                        vec![SingleLineSpan {
-                            line: 1.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
+                    self_pos: vec![SingleLineSpan {
+                        line: 2.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
                 },
                 pos: SingleLineSpan {
                     line: 2.into(),
@@ -956,22 +926,16 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::Unchanged {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: (
-                        vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
-                    opposite_pos: (
-                        vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
+                    self_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
                 },
                 pos: SingleLineSpan {
                     line: 0.into(),
@@ -982,22 +946,16 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::Unchanged {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: (
-                        vec![SingleLineSpan {
-                            line: 1.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
-                    opposite_pos: (
-                        vec![SingleLineSpan {
-                            line: 2.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
+                    self_pos: vec![SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 2.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
                 },
                 pos: SingleLineSpan {
                     line: 1.into(),
@@ -1011,22 +969,16 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::Unchanged {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: (
-                        vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
-                    opposite_pos: (
-                        vec![SingleLineSpan {
-                            line: 0.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
+                    self_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 0.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
                 },
                 pos: SingleLineSpan {
                     line: 0.into(),
@@ -1047,22 +999,16 @@ mod tests {
             MatchedPos {
                 kind: MatchKind::Unchanged {
                     highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: (
-                        vec![SingleLineSpan {
-                            line: 2.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
-                    opposite_pos: (
-                        vec![SingleLineSpan {
-                            line: 1.into(),
-                            start_col: 0,
-                            end_col: 1,
-                        }],
-                        vec![],
-                    ),
+                    self_pos: vec![SingleLineSpan {
+                        line: 2.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
+                    opposite_pos: vec![SingleLineSpan {
+                        line: 1.into(),
+                        start_col: 0,
+                        end_col: 1,
+                    }],
                 },
                 pos: SingleLineSpan {
                     line: 2.into(),
