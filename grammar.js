@@ -1,7 +1,3 @@
-const STRING = /".*"/;
-const DECIMAL_DIGITS = /-?\d+/;
-const HEX_DIGITS = /-?0x[\da-f]+/;
-
 const modifiers = [
   'public',
   'private',
@@ -143,7 +139,7 @@ module.exports = grammar({
     parameters: $ => seq('(', repeat($._type), ')'),
 
     // literals
-    number_literal: _ => choice(HEX_DIGITS, DECIMAL_DIGITS),
-    string_literal: _ => STRING,
+    number_literal: _ => choice(/-?0x[\da-f]+/, /-?\d+/),
+    string_literal: _ => /".*"/,
   }
 });
