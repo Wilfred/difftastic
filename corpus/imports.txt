@@ -68,6 +68,7 @@ Aliased imports
 import a/b.{c as d} as e
 import animal/cat as kitty
 import animal.{Cat as Kitty} as a
+import animal.{}
 
 import animal/cat as Kitty
 import animal.{Cat as kitty}
@@ -92,8 +93,12 @@ import animal.{Cat as kitty}
         name: (type_identifier)
         alias: (type_identifier)))
     alias: (identifier))
-  (ERROR
-    (module))
+  (import
+    module: (module)
+    imports: (unqualified_imports))
+  (import
+    module: (module))
+  (ERROR)
   (import
     module: (module)
     imports: (unqualified_imports

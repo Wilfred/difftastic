@@ -61,7 +61,7 @@ module.exports = grammar({
       ),
     module: ($) => series_of($._name, "/"),
     unqualified_imports: ($) =>
-      seq("{", series_of($.unqualified_import, ","), "}"),
+      seq("{", optional(series_of($.unqualified_import, ",")), "}"),
     unqualified_import: ($) =>
       choice(
         seq(
