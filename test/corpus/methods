@@ -91,3 +91,68 @@ Test a method with multiple primitive parameter
 					(primitive_type))
         return_type: (primitive_type)))
     (end_method)))
+
+
+
+========================================================================
+Test a method with an object parameter
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public static foo(Ljava/lang/String;)V
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration
+    (string_literal))
+  (method_definition
+    (method_declaration
+      (access_modifiers)
+      (method_identifier
+        parameters: (parameters
+          (class_identifier))
+        return_type: (primitive_type)))
+    (end_method)))
+
+
+
+========================================================================
+Test a method with an array parameter
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public static foo([Ljava/lang/String;)V
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration
+    (string_literal))
+  (method_definition
+    (method_declaration
+      (access_modifiers)
+      (method_identifier
+        parameters: (parameters
+          (array_type
+            element_type: (class_identifier)))
+        return_type: (primitive_type)))
+    (end_method)))
