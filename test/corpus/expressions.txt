@@ -210,4 +210,71 @@ foo.forEach { (index, value) -> 2 }
           (statements
             (integer_literal)))))))
 
+==================
+Multiple Statements on a Single Line
+==================
 
+fun main() { val temp = b.y; b.y = b.z; b.z = temp }
+
+when (dir) {
+  1 -> { val temp = b.y; b.y = b.z; b.z = temp }
+}
+---
+
+(source_file
+  (function_declaration
+    (simple_identifier)
+    (function_body
+      (statements
+        (property_declaration
+          (variable_declaration
+            (simple_identifier))
+          (navigation_expression
+            (simple_identifier)
+            (navigation_suffix
+              (simple_identifier))))
+        (assignment
+          (directly_assignable_expression
+            (simple_identifier)
+            (navigation_suffix
+              (simple_identifier)))
+          (navigation_expression
+            (simple_identifier)
+            (navigation_suffix
+              (simple_identifier))))
+        (assignment
+          (directly_assignable_expression
+            (simple_identifier)
+            (navigation_suffix
+              (simple_identifier)))
+          (simple_identifier)))))
+  (when_expression
+    (when_subject
+      (simple_identifier))
+    (when_entry
+      (when_condition
+        (integer_literal))
+      (control_structure_body
+        (statements
+          (property_declaration
+            (variable_declaration
+              (simple_identifier))
+            (navigation_expression
+              (simple_identifier)
+              (navigation_suffix
+                (simple_identifier))))
+          (assignment
+            (directly_assignable_expression
+              (simple_identifier)
+              (navigation_suffix
+                (simple_identifier)))
+            (navigation_expression
+              (simple_identifier)
+              (navigation_suffix
+                (simple_identifier))))
+          (assignment
+            (directly_assignable_expression
+              (simple_identifier)
+              (navigation_suffix
+                (simple_identifier)))
+            (simple_identifier)))))))

@@ -173,3 +173,23 @@ else boo()
         (simple_identifier)
         (call_suffix
           (value_arguments))))))
+
+==================
+Else after newline
+==================
+
+if (!foo) 3 else boo()
+
+---
+
+(source_file
+  (if_expression
+    (prefix_expression
+      (simple_identifier))
+    (control_structure_body
+      (integer_literal))
+    (control_structure_body
+      (call_expression
+        (simple_identifier)
+        (call_suffix
+          (value_arguments))))))

@@ -166,7 +166,7 @@ module.exports = grammar({
 
     import_alias: $ => seq("as", alias($.simple_identifier, $.type_identifier)),
 
-    top_level_object: $ => seq($._declaration, optional($._semis)),
+    top_level_object: $ => seq($._declaration, optional($._semi)),
 
     type_alias: $ => seq(
       optional($.modifiers),
@@ -290,7 +290,7 @@ module.exports = grammar({
     // Class members
     // ==========
 
-    _class_member_declarations: $ => repeat1(seq($._class_member_declaration, $._semis)),
+    _class_member_declarations: $ => repeat1(seq($._class_member_declaration, $._semi)),
 
     _class_member_declaration: $ => choice(
       $._declaration,
@@ -517,8 +517,8 @@ module.exports = grammar({
 
     statements: $ => seq(
       $._statement,
-      repeat(seq($._semis, $._statement)),
-      optional($._semis),
+      repeat(seq($._semi, $._statement)),
+      optional($._semi),
     ),
 
     _statement: $ => choice(
@@ -578,9 +578,7 @@ module.exports = grammar({
 
     // See also https://github.com/tree-sitter/tree-sitter/issues/160
     // generic EOF/newline token
-    _semi: $ => choice($._automatic_semicolon, ';'),
-
-    _semis: $ => choice($._automatic_semicolon, ';'),
+    _semi: $ => $._automatic_semicolon,
 
     assignment: $ => choice(
       prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, $._assignment_and_operator, $._expression)),
@@ -652,7 +650,7 @@ module.exports = grammar({
     elvis_expression: $ => prec.left(PREC.ELVIS, seq($._expression, "?:", $._expression)),
 
     check_expression: $ => prec.left(PREC.CHECK, seq($._expression, choice(
-      seq($._in_operator, $._expression), 
+      seq($._in_operator, $._expression),
       seq($._is_operator, $._type)))),
 
     comparison_expression: $ => prec.left(PREC.COMPARISON, seq($._expression, $._comparison_operator, $._expression)),
@@ -781,7 +779,7 @@ module.exports = grammar({
     lambda_parameters: $ => sep1($._lambda_parameter, ","),
 
     _lambda_parameter: $ => choice(
-      $.variable_declaration, 
+      $.variable_declaration,
       $.multi_variable_declaration
     ),
 
