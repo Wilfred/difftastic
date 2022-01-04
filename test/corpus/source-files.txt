@@ -48,6 +48,47 @@ Multiple file annotations
           (callable_reference
             (type_identifier)))))))
 
+==================
+Imports
+==================
+
+import java.util.Scanner
+import java.util.StringBuilder
+
+import java.io.Path
+import java.io.Files
+fun main() {
+}
+
+---
+
+(source_file
+  (import_list
+    (import_header
+      (identifier
+        (simple_identifier)
+        (simple_identifier)
+        (simple_identifier)))
+    (import_header
+      (identifier
+        (simple_identifier)
+        (simple_identifier)
+        (simple_identifier))))
+  (import_list
+    (import_header
+      (identifier
+        (simple_identifier)
+        (simple_identifier)
+        (simple_identifier)))
+    (import_header
+      (identifier
+        (simple_identifier)
+        (simple_identifier)
+        (simple_identifier))))
+  (function_declaration
+    (simple_identifier)
+    (function_body)))
+
 ===================
 Multiple Imports On A Single Line
 ===================
@@ -57,13 +98,14 @@ import java.io.Path import java.io.Files
 ---
 
 (source_file
-  (import_header
-    (identifier
-      (simple_identifier)
-      (simple_identifier)
-      (simple_identifier)))
-  (import_header
-    (identifier
-      (simple_identifier)
-      (simple_identifier)
-      (simple_identifier))))
+  (import_list
+    (import_header
+      (identifier
+        (simple_identifier)
+        (simple_identifier)
+        (simple_identifier)))
+    (import_header
+      (identifier
+        (simple_identifier)
+        (simple_identifier)
+        (simple_identifier)))))
