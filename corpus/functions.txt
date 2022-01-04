@@ -292,18 +292,22 @@ fn field_access(x) {
 (source_file
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (string)))
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (integer)))
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (float)))
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (record
         name: (type_identifier)
@@ -313,6 +317,7 @@ fn field_access(x) {
             value: (string))))))
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (record
         name: (remote_type_identifier
@@ -331,12 +336,14 @@ fn field_access(x) {
       (identifier)))
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (function_call
         function: (identifier)
         arguments: (arguments))))
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (todo
         message: (string))))
@@ -361,6 +368,7 @@ fn field_access(x) {
         spread: (identifier))))
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (bit_string
         (bit_string_segment
@@ -394,6 +402,7 @@ fn field_access(x) {
             (identifier))))))
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (expression_group
         (binary_expression
@@ -431,6 +440,7 @@ fn field_access(x) {
               name: (type_identifier)))))))
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (let
         pattern: (identifier)
@@ -451,6 +461,7 @@ fn field_access(x) {
           (integer)))))
   (function
     name: (identifier)
+    parameters: (function_parameters)
     body: (function_body
       (assert
         pattern: (identifier)
