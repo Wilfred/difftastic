@@ -24,11 +24,7 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<Lin
                 opposite_pos,
                 ..
             } => {
-                for (self_span, opposite_span) in zip_repeat_shorter(&self_pos.0, &opposite_pos.0) {
-                    let opposite_lines = res.entry(self_span.line).or_insert_with(HashSet::new);
-                    opposite_lines.insert(opposite_span.line);
-                }
-                for (self_span, opposite_span) in zip_repeat_shorter(&self_pos.1, &opposite_pos.1) {
+                for (self_span, opposite_span) in zip_repeat_shorter(&self_pos, &opposite_pos) {
                     let opposite_lines = res.entry(self_span.line).or_insert_with(HashSet::new);
                     opposite_lines.insert(opposite_span.line);
                 }
