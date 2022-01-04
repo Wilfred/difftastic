@@ -1,0 +1,94 @@
+========================================================================
+Test an empty method
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public empty()V
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration
+    (string_literal))
+  (method_definition
+    (method_declaration
+      (access_modifiers)
+      (method_identifier
+        parameters: (parameters)
+        return_type: (primitive_type)))
+    (end_method)))
+
+
+
+========================================================================
+Test a method with one primitive parameter
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public empty(I)V
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration
+    (string_literal))
+  (method_definition
+    (method_declaration
+      (access_modifiers)
+      (method_identifier
+        parameters: (parameters
+					(primitive_type))
+        return_type: (primitive_type)))
+    (end_method)))
+
+
+
+========================================================================
+Test a method with multiple primitive parameter
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public empty(IZJ)V
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration
+    (string_literal))
+  (method_definition
+    (method_declaration
+      (access_modifiers)
+      (method_identifier
+        parameters: (parameters
+					(primitive_type)
+					(primitive_type)
+					(primitive_type))
+        return_type: (primitive_type)))
+    (end_method)))
