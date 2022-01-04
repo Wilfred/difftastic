@@ -333,7 +333,7 @@ fn diff_directories(lhs_dir: &Path, rhs_dir: &Path) -> Vec<DiffResult> {
 
 fn print_diff_result(summary: &DiffResult) {
     if summary.binary {
-        print!("{}", style::header(&summary.path, 1, 1, "binary"));
+        println!("{}", style::header(&summary.path, 1, 1, "binary"));
         return;
     }
 
