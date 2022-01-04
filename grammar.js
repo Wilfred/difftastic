@@ -417,9 +417,9 @@ module.exports = grammar({
         field("return_type", $._type)
       ),
     full_field_identifier: $ =>
-      seq($.class_identifier, "->", $.field_identifier),
+      seq(choice($.class_identifier, $.array_type), "->", $.field_identifier),
     full_method_identifier: $ =>
-      seq($.class_identifier, "->", $.method_identifier),
+      seq(choice($.class_identifier, $.array_type), "->", $.method_identifier),
 
     // types
     _type: $ => choice($.primitive_type, $.class_identifier, $.array_type),

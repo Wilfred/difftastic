@@ -378,6 +378,10 @@
       "required": true,
       "types": [
         {
+          "type": "array_type",
+          "named": true
+        },
+        {
           "type": "class_identifier",
           "named": true
         },
@@ -396,6 +400,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
         {
           "type": "class_identifier",
           "named": true

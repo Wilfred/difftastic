@@ -1671,8 +1671,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "class_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "class_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "array_type"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -1688,8 +1697,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "class_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "class_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "array_type"
+            }
+          ]
         },
         {
           "type": "STRING",
