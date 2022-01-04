@@ -14,7 +14,8 @@ Test an empty interface
     (class_identifier))
   (super_declaration
     (class_identifier))
-  (source_declaration))
+  (source_declaration
+    (string_literal)))
 
 
 
@@ -36,7 +37,8 @@ Test an empty interface that extends another interface
     (class_identifier))
   (super_declaration
     (class_identifier))
-  (source_declaration)
+  (source_declaration
+    (string_literal))
   (implements_declaration
     (class_identifier)))
 
@@ -61,7 +63,8 @@ Test an interface with one method
     (class_identifier))
   (super_declaration
     (class_identifier))
-  (source_declaration)
+  (source_declaration
+    (string_literal))
   (method_definition
     (method_declaration
       (access_modifiers)
@@ -91,7 +94,8 @@ Test an interface with one method with parameters and return value
     (class_identifier))
   (super_declaration
     (class_identifier))
-  (source_declaration)
+  (source_declaration
+    (string_literal))
   (method_definition
     (method_declaration
       (access_modifiers)

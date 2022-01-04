@@ -52,7 +52,7 @@ module.exports = grammar({
     // class related
     class_declaration: $ => seq('.class', $.access_modifiers, $.class_identifier),
     super_declaration: $ => seq('.super', $.class_identifier),
-    source_declaration: _ => seq('.source', STRING),
+    source_declaration: $ => seq('.source', $.string_literal),
     implements_declaration: $ => seq('.implements', $.class_identifier),
 
     field_definition: $ => seq(
@@ -81,7 +81,7 @@ module.exports = grammar({
     annotation_declaration: $ => seq('.annotation', choice('system', 'build', 'runtime'), $.class_identifier),
     annotation_property: $ => seq(field('key', $.annotation_key), '=', field('value', $.annotation_value)),
     annotation_key: _ => /\w+/,
-    annotation_value: $ => choice(HEX_DIGITS, STRING, $.class_identifier, $.list, $.enum_reference),
+    annotation_value: $ => choice($.number_literal, $.string_literal, $.class_identifier, $.list, $.enum_reference),
     end_annotation: _ => '.end annotation',
 
     // code lines
@@ -94,24 +94,24 @@ module.exports = grammar({
 
     // code declarations
     _declaration: $ => choice($.line_declaration, $.locals_declaration, $.param_declaration, $.catch_declaration, $.catchall_declaration, $.packed_switch_declaration, $.sparse_switch_declaration, $.array_data_declaration),
-    line_declaration: _ => seq('.line', /\d+/),
-    locals_declaration: _ => seq('.locals', /\d+/),
-    param_declaration: _ => seq('.param', /p\d+/),
+    line_declaration: $ => seq('.line', $.number_literal),
+    locals_declaration: $ => seq('.locals', $.number_literal),
+    param_declaration: $ => seq('.param', $.parameter),
     catch_declaration: $ => seq('.catch', $.class_identifier, '{', $.label, '..', $.label, '}', $.label),
     catchall_declaration: $ => seq('.catchall', '{', $.label, '..', $.label, '}', $.label),
     packed_switch_declaration: $ => seq(
-      '.packed-switch', HEX_DIGITS,
+      '.packed-switch', $.number_literal,
       repeat($.label),
       '.end packed-switch'
     ),
     sparse_switch_declaration: $ => seq(
       '.sparse-switch',
-      repeat(seq(HEX_DIGITS, '->', $.label)),
+      repeat(seq($.number_literal, '->', $.label)),
       '.end sparse-switch'
     ),
-    array_data_declaration: _ => seq(
-      '.array-data', DECIMAL_DIGITS,
-      repeat(HEX_DIGITS),
+    array_data_declaration: $ => seq(
+      '.array-data', $.number_literal,
+      repeat($.number_literal),
       '.end array-data'
     ),
 
@@ -131,13 +131,19 @@ module.exports = grammar({
     access_modifiers: _ => repeat1(choice(...modifiers)),
     comment: _ => token(seq('#', /.*/)),
     enum_reference: $ => seq('.enum', $.field_identifier),
+    parameter: _ => /p\d+/,
     list: $ => seq('{',
         choice(
-          repeat(seq(HEX_DIGITS, optional(','))),
-          repeat(seq(STRING, optional(','))),
-          repeat(seq($.class_identifier, optional(','))),
+          repeat(seq($.number_literal, optional(','))),
+          repeat(seq($.string_literal, optional(','))),
+          repeat(seq($._identifier, optional(','))),
+          repeat(seq($.parameter, optional(','))),
         ),
     '}'),
-    parameters: $ => seq('(', repeat($._type), ')')
+    parameters: $ => seq('(', repeat($._type), ')'),
+
+    // literals
+    number_literal: _ => choice(HEX_DIGITS, DECIMAL_DIGITS),
+    string_literal: _ => STRING,
   }
 });

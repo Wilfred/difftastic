@@ -74,7 +74,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "class_identifier",
@@ -87,6 +87,14 @@
         {
           "type": "list",
           "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
         }
       ]
     }
@@ -94,7 +102,17 @@
   {
     "type": "array_data_declaration",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "number_literal",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "array_type",
@@ -407,7 +425,17 @@
   {
     "type": "line_declaration",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "number_literal",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "list",
@@ -420,6 +448,34 @@
         {
           "type": "class_identifier",
           "named": true
+        },
+        {
+          "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "full_field_identifier",
+          "named": true
+        },
+        {
+          "type": "full_method_identifier",
+          "named": true
+        },
+        {
+          "type": "method_identifier",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "parameter",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
         }
       ]
     }
@@ -427,7 +483,17 @@
   {
     "type": "locals_declaration",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "number_literal",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "method_declaration",
@@ -506,15 +572,24 @@
     }
   },
   {
+    "type": "number_literal",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "packed_switch_declaration",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "label",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         }
       ]
@@ -523,7 +598,17 @@
   {
     "type": "param_declaration",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "parameter",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "parameters",
@@ -556,7 +641,17 @@
   {
     "type": "source_declaration",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "sparse_switch_declaration",
@@ -568,6 +663,10 @@
       "types": [
         {
           "type": "label",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         }
       ]
@@ -808,6 +907,10 @@
     "named": false
   },
   {
+    "type": "parameter",
+    "named": true
+  },
+  {
     "type": "private",
     "named": false
   },
@@ -830,6 +933,10 @@
   {
     "type": "static",
     "named": false
+  },
+  {
+    "type": "string_literal",
+    "named": true
   },
   {
     "type": "synchronized",

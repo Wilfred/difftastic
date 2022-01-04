@@ -14,7 +14,8 @@ Test an empty class
     (class_identifier))
   (super_declaration
     (class_identifier))
-  (source_declaration))
+  (source_declaration
+    (string_literal)))
 
 
 
@@ -34,7 +35,8 @@ Test a class with source file
     (class_identifier))
   (super_declaration
     (class_identifier))
-  (source_declaration))
+  (source_declaration
+    (string_literal)))
 
 
 
@@ -56,6 +58,7 @@ Test a class that implements an interface
     (class_identifier))
   (super_declaration
     (class_identifier))
-  (source_declaration)
+  (source_declaration
+    (string_literal))
   (implements_declaration
     (class_identifier)))
