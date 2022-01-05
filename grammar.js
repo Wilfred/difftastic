@@ -490,7 +490,8 @@ module.exports = grammar({
             $._identifier,
             $.variable,
             $.parameter,
-            $.enum_reference
+            $.enum_reference,
+            $.subannotation_definition
           )
         ),
         "}"

@@ -547,6 +547,10 @@
           "named": true
         },
         {
+          "type": "subannotation_definition",
+          "named": true
+        },
+        {
           "type": "variable",
           "named": true
         }

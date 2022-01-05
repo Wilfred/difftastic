@@ -2122,6 +2122,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "enum_reference"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "subannotation_definition"
                     }
                   ]
                 },
@@ -2164,6 +2168,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "enum_reference"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "subannotation_definition"
                           }
                         ]
                       }
