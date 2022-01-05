@@ -286,7 +286,7 @@ module.exports = grammar({
     implements_declaration: $ => seq(".implements", $.class_identifier),
 
     field_definition: $ =>
-      seq($.field_declaration, optional($.annotation_definition), $.end_field),
+      seq($.field_declaration, repeat($.annotation_definition), $.end_field),
     field_declaration: $ =>
       seq(".field", $.access_modifiers, $.field_identifier),
     end_field: _ => ".end field",
@@ -337,7 +337,7 @@ module.exports = grammar({
       prec.right(
         seq(
           $.param_declaration,
-          optional(seq(optional($.annotation_definition), $.end_param))
+          optional(seq(repeat($.annotation_definition), $.end_param))
         )
       ),
     param_declaration: $ => seq(".param", $.parameter),

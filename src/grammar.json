@@ -127,16 +127,11 @@
           "name": "field_declaration"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "annotation_definition"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "annotation_definition"
+          }
         },
         {
           "type": "SYMBOL",
@@ -340,16 +335,11 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "annotation_definition"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "annotation_definition"
+                    }
                   },
                   {
                     "type": "SYMBOL",
