@@ -60,6 +60,7 @@
   "|"
   "|="
   "||"
+  "~"
 ] @operator
 
 ; Keywords
