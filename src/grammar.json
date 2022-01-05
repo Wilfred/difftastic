@@ -2063,7 +2063,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "-?0x[\\da-f]+"
+          "value": "-?0[xX][\\da-fA-F]+(L|s|t)?"
         },
         {
           "type": "PATTERN",

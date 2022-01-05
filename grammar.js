@@ -461,7 +461,7 @@ module.exports = grammar({
       ),
 
     // literals
-    number_literal: _ => choice(/-?0x[\da-f]+/, /-?\d+/),
+    number_literal: _ => choice(/-?0[xX][\da-fA-F]+(L|s|t)?/, /-?\d+/),
     string_literal: _ => /".*"/,
     null_literal: _ => "null",
   },
