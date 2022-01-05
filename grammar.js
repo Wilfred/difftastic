@@ -668,6 +668,7 @@ module.exports = grammar({
       ),
       seq(
         field('function', $._expression),
+        field('type_arguments', optional($.type_arguments)),
         field('arguments', $.argument_list)
       )
     )),
