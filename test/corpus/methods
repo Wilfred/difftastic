@@ -29,6 +29,35 @@ Test an empty method
 
 
 ========================================================================
+Test a method with no modifiers
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method empty()V
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration
+    (string_literal))
+  (method_definition
+    (method_declaration
+      (method_identifier
+        return_type: (primitive_type)))
+    (end_method)))
+
+
+
+========================================================================
 Test a method with one primitive parameter
 ========================================================================
 

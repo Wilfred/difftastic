@@ -231,8 +231,16 @@
           "value": ".method"
         },
         {
-          "type": "SYMBOL",
-          "name": "access_modifiers"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "access_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",

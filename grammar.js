@@ -317,7 +317,7 @@ module.exports = grammar({
         $.end_method
       ),
     method_declaration: $ =>
-      seq(".method", $.access_modifiers, $.method_identifier),
+      seq(".method", optional($.access_modifiers), $.method_identifier),
     end_method: _ => ".end method",
 
     // annotation related
