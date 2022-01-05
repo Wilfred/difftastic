@@ -1914,6 +1914,10 @@
           {
             "type": "STRING",
             "value": "declared-synchronized"
+          },
+          {
+            "type": "STRING",
+            "value": "annotation"
           }
         ]
       }

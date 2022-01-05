@@ -16,6 +16,7 @@ const modifiers = [
   "constructor",
   "varargs",
   "declared-synchronized",
+  "annotation",
 ];
 
 const primitives = ["V", "Z", "B", "S", "C", "I", "J", "F", "D"];

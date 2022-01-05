@@ -1082,6 +1082,10 @@
     "named": false
   },
   {
+    "type": "annotation",
+    "named": false
+  },
+  {
     "type": "annotation_key",
     "named": true
   },
