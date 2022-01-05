@@ -692,19 +692,19 @@ fn change_positions_<'a>(
     positions: &mut Vec<MatchedPos>,
 ) {
     for node in nodes {
+        let change = node
+            .info()
+            .change
+            .get()
+            .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
+
         match node {
             List {
-                info,
                 open_position,
                 children,
                 close_position,
                 ..
             } => {
-                let change = info
-                    .change
-                    .get()
-                    .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
-
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Delimiter,
@@ -721,16 +721,7 @@ fn change_positions_<'a>(
                     true,
                 ));
             }
-            Atom {
-                info,
-                position,
-                kind,
-                ..
-            } => {
-                let change = info
-                    .change
-                    .get()
-                    .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
+            Atom { position, kind, .. } => {
                 positions.extend(MatchedPos::new(
                     change,
                     TokenKind::Atom(*kind),
