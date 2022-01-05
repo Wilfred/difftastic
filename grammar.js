@@ -82,6 +82,12 @@ module.exports = grammar({
   conflicts: $ => [
     [$._simple_type, $._expression],
     [$.qualified_type, $._expression],
+    [$.generic_type, $._expression],
+    [$.generic_type, $._simple_type],
+    [$.parameter_declaration, $.type_arguments],
+    [$.parameter_declaration, $._simple_type, $._expression],
+    [$.parameter_declaration, $.generic_type, $._expression],
+    [$.parameter_declaration, $._expression],
     [$.func_literal, $.function_type],
     [$.function_type],
     [$.parameter_declaration, $._simple_type],
@@ -194,6 +200,7 @@ module.exports = grammar({
     function_declaration: $ => prec.right(1, seq(
       'func',
       field('name', $.identifier),
+      field('type_parameters', optional($.type_parameter_list)),
       field('parameters', $.parameter_list),
       field('result', optional(choice($.parameter_list, $._simple_type))),
       field('body', optional($.block))
@@ -207,6 +214,13 @@ module.exports = grammar({
       field('result', optional(choice($.parameter_list, $._simple_type))),
       field('body', optional($.block))
     )),
+
+    type_parameter_list: $ => seq(
+      '[',
+      commaSep1($.parameter_declaration),
+      optional(','),
+      ']'
+    ),
 
     parameter_list: $ => seq(
       '(',
@@ -249,6 +263,7 @@ module.exports = grammar({
 
     type_spec: $ => seq(
       field('name', $._type_identifier),
+      field('type_parameters', optional($.type_parameter_list)),
       field('type', $._type)
     ),
 
@@ -265,6 +280,7 @@ module.exports = grammar({
 
     _simple_type: $ => choice(
       prec.dynamic(-1, $._type_identifier),
+      $.generic_type,
       $.qualified_type,
       $.pointer_type,
       $.struct_type,
@@ -274,6 +290,18 @@ module.exports = grammar({
       $.map_type,
       $.channel_type,
       $.function_type
+    ),
+
+    generic_type: $ => seq(
+      field("type", $._type_identifier),
+      field("type_arguments", $.type_arguments),
+    ),
+
+    type_arguments: $ => seq(
+      '[',
+       commaSep1($._type),
+       optional(','),
+      ']'
     ),
 
     pointer_type: $ => prec(PREC.unary, seq('*', $._type)),
@@ -332,18 +360,30 @@ module.exports = grammar({
 
     interface_type: $ => seq(
       'interface',
-      $.method_spec_list
-    ),
-
-    method_spec_list: $ => seq(
       '{',
       optional(seq(
-        choice($._type_identifier, $.qualified_type, $.method_spec),
-        repeat(seq(terminator, choice($._type_identifier, $.qualified_type, $.method_spec))),
+        $._interface_body,
+        repeat(seq(terminator, $._interface_body)),
         optional(terminator)
       )),
       '}'
     ),
+
+    _interface_body: $ => choice(
+       $.method_spec, $.interface_type_name, $.constraint_elem
+    ),
+
+    interface_type_name: $ => choice($._type_identifier, $.qualified_type),
+
+    constraint_elem: $ => seq(
+      $.constraint_term,
+      repeat(seq('|', $.constraint_term))
+    ),
+
+    constraint_term: $ => prec(-1, seq(
+      optional('~'),
+      $._type_identifier,
+    )),
 
     method_spec: $ => seq(
       field('name', $._field_identifier),
@@ -712,6 +752,7 @@ module.exports = grammar({
         $.implicit_length_array_type,
         $.struct_type,
         $._type_identifier,
+        $.generic_type,
         $.qualified_type
       )),
       field('body', $.literal_value)
