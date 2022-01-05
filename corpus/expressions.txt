@@ -7,6 +7,9 @@ package main
 func main() {
   a(b, c...)
 
+  a[b](c)
+  a[b, c](d)
+
   a(
     b,
     c,
@@ -28,6 +31,15 @@ func main() {
       (argument_list
         (identifier)
         (variadic_argument (identifier))))
+    (call_expression
+      (index_expression (identifier) (identifier))
+      (argument_list (identifier)))
+    (call_expression
+      (identifier)
+      (type_arguments
+        (type_identifier)
+        (type_identifier))
+      (argument_list (identifier)))
     (call_expression
       (identifier)
       (argument_list (identifier) (identifier)))
