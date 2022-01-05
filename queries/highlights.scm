@@ -112,6 +112,7 @@
   (true)
   (false)
   (nil)
+  (iota)
 ] @constant.builtin
 
 (comment) @comment

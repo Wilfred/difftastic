@@ -48,6 +48,10 @@
         "named": true
       },
       {
+        "type": "iota",
+        "named": true
+      },
+      {
         "type": "nil",
         "named": true
       },
@@ -2624,6 +2628,10 @@
   {
     "type": "interface",
     "named": false
+  },
+  {
+    "type": "iota",
+    "named": true
   },
   {
     "type": "label_name",
