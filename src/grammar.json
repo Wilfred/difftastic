@@ -2969,6 +2969,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "iota"
+        },
+        {
+          "type": "SYMBOL",
           "name": "parenthesized_expression"
         }
       ]
@@ -6437,6 +6441,10 @@
     "false": {
       "type": "STRING",
       "value": "false"
+    },
+    "iota": {
+      "type": "STRING",
+      "value": "iota"
     },
     "comment": {
       "type": "TOKEN",

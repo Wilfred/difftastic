@@ -90,7 +90,7 @@ const (
   (const_declaration
     (const_spec
       (identifier)
-      (expression_list (identifier)))
+      (expression_list (iota)))
     (const_spec
       (identifier))
     (const_spec
