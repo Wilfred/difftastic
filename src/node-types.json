@@ -140,6 +140,10 @@
         "named": true
       },
       {
+        "type": "generic_type",
+        "named": true
+      },
+      {
         "type": "interface_type",
         "named": true
       },
@@ -627,6 +631,10 @@
             "named": true
           },
           {
+            "type": "generic_type",
+            "named": true
+          },
+          {
             "type": "implicit_length_array_type",
             "named": true
           },
@@ -707,6 +715,36 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "constraint_elem",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constraint_term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "constraint_term",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type_identifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1108,6 +1146,16 @@
             "named": true
           }
         ]
+      },
+      "type_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_parameter_list",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -1135,6 +1183,32 @@
           },
           {
             "type": "parameter_list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "generic_type",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
+      "type_arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_arguments",
             "named": true
           }
         ]
@@ -1355,11 +1429,38 @@
     "named": true,
     "fields": {},
     "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constraint_elem",
+          "named": true
+        },
+        {
+          "type": "interface_type_name",
+          "named": true
+        },
+        {
+          "type": "method_spec",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interface_type_name",
+    "named": true,
+    "fields": {},
+    "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "method_spec_list",
+          "type": "qualified_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
@@ -1572,29 +1673,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "method_spec_list",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "method_spec",
-          "named": true
-        },
-        {
-          "type": "qualified_type",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2031,6 +2109,21 @@
     }
   },
   {
+    "type": "type_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_assertion_expression",
     "named": true,
     "fields": {
@@ -2132,6 +2225,21 @@
     }
   },
   {
+    "type": "type_parameter_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "parameter_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_spec",
     "named": true,
     "fields": {
@@ -2151,6 +2259,16 @@
         "types": [
           {
             "type": "_type",
+            "named": true
+          }
+        ]
+      },
+      "type_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_parameter_list",
             "named": true
           }
         ]
@@ -2715,6 +2833,10 @@
   },
   {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]

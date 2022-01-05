@@ -76,6 +76,13 @@ type s3 struct {
   h int `json:"h"`
 }
 
+type g1 struct {
+    normal Array[T]
+    nested Array[Array[T]]
+}
+
+type g2[T, U any, V interface{}, W Foo[Bar[T]]] struct {}
+
 ---
 
 (source_file
@@ -107,7 +114,47 @@ type s3 struct {
         (field_declaration
           (field_identifier)
           (type_identifier)
-          (raw_string_literal)))))))
+          (raw_string_literal))))))
+  (type_declaration
+    (type_spec
+      (type_identifier)
+      (struct_type
+        (field_declaration_list
+          (field_declaration
+            (field_identifier)
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (type_identifier))))
+          (field_declaration
+            (field_identifier)
+            (generic_type
+              (type_identifier)
+              (type_arguments
+                (generic_type
+                  (type_identifier)
+                  (type_arguments
+                    (type_identifier))))))))))
+  (type_declaration
+    (type_spec
+      (type_identifier)
+      (type_parameter_list
+        (parameter_declaration
+          (identifier)
+          (identifier)
+          (type_identifier))
+        (parameter_declaration
+          (identifier)
+          (interface_type))
+        (parameter_declaration
+          (identifier)
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (generic_type
+                (type_identifier)
+                (type_arguments (type_identifier)))))))
+      (struct_type (field_declaration_list)))))
 
 ============================================
 Interface types
@@ -126,22 +173,26 @@ type i2 interface {
   OtherMethod(int, ...bool) bool
 }
 
+type SignedInteger interface {
+  int | int8 | ~uint | ~uint8
+}
+
 ---
 
 (source_file
   (package_clause (package_identifier))
   (type_declaration (type_spec
     (type_identifier)
-    (interface_type (method_spec_list))))
+    (interface_type)))
   (type_declaration (type_spec
     (type_identifier)
-    (interface_type (method_spec_list
+    (interface_type (interface_type_name
       (qualified_type (package_identifier) (type_identifier))))))
   (type_declaration (type_spec
     (type_identifier)
-    (interface_type (method_spec_list
-      (type_identifier)
-      (qualified_type (package_identifier) (type_identifier))
+    (interface_type
+      (interface_type_name (type_identifier))
+      (interface_type_name (qualified_type (package_identifier) (type_identifier)))
       (method_spec
         (field_identifier)
         (parameter_list (parameter_declaration (identifier) (type_identifier)))
@@ -150,7 +201,14 @@ type i2 interface {
         (field_identifier)
           (parameter_list
             (parameter_declaration (type_identifier))
-            (variadic_parameter_declaration (type_identifier))) (type_identifier)))))))
+            (variadic_parameter_declaration (type_identifier))) (type_identifier)))))
+  (type_declaration (type_spec
+    (type_identifier)
+    (interface_type (constraint_elem
+      (constraint_term (type_identifier))
+      (constraint_term (type_identifier))
+      (constraint_term (type_identifier))
+      (constraint_term (type_identifier)))))))
 
 ============================================
 Map types

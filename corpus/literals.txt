@@ -266,6 +266,8 @@ const s2 = struct{i int;}{i: 5}
 
 const s3 = time.Time{}
 
+const g1 = Foo[float64, Bar[int]] { }
+
 ---
 
 (source_file
@@ -288,6 +290,15 @@ const s3 = time.Time{}
     (identifier)
     (expression_list (composite_literal
       (qualified_type (package_identifier) (type_identifier))
+      (literal_value)))))
+  (const_declaration (const_spec
+    (identifier)
+    (expression_list (composite_literal
+      (generic_type
+        (type_identifier)
+        (type_arguments (type_identifier)
+          (generic_type (type_identifier)
+            (type_arguments (type_identifier)))))
       (literal_value))))))
 
 ============================================
