@@ -1768,7 +1768,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[\\w\\d]+:"
+          "value": "[\\w\\d\\$]+:"
         },
         {
           "type": "SYMBOL",

@@ -454,7 +454,7 @@ module.exports = grammar({
         $.full_method_identifier
       ),
     class_identifier: _ => /L[\w\d\/\$]+;/,
-    field_identifier: $ => seq(/[\w\d]+:/, $._type),
+    field_identifier: $ => seq(/[\w\d\$]+:/, $._type),
     method_identifier: $ =>
       seq(
         choice("<clinit>(", "<init>(", /[\w\d\$]+\(/),
