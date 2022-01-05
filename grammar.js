@@ -134,7 +134,7 @@ const opcodes = [
   "invoke-super/range",
   "invoke-direct/range",
   "invoke-static/range",
-  "invoke-interface-range",
+  "invoke-interface/range",
   "neg-int",
   "not-int",
   "neg-long",

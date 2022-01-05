@@ -1462,7 +1462,7 @@
     "named": false
   },
   {
-    "type": "invoke-interface-range",
+    "type": "invoke-interface/range",
     "named": false
   },
   {

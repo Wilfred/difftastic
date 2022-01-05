@@ -910,7 +910,7 @@
         },
         {
           "type": "STRING",
-          "value": "invoke-interface-range"
+          "value": "invoke-interface/range"
         },
         {
           "type": "STRING",
