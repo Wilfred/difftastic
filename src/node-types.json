@@ -1884,6 +1884,14 @@
     "named": false
   },
   {
+    "type": "rsub-int",
+    "named": false
+  },
+  {
+    "type": "rsub-int/lit8",
+    "named": false
+  },
+  {
     "type": "runtime",
     "named": false
   },

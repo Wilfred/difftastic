@@ -1440,6 +1440,14 @@
         {
           "type": "STRING",
           "value": "invoke-super-quick/range"
+        },
+        {
+          "type": "STRING",
+          "value": "rsub-int"
+        },
+        {
+          "type": "STRING",
+          "value": "rsub-int/lit8"
         }
       ]
     },

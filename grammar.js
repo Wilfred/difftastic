@@ -252,6 +252,8 @@ const opcodes = [
   "invoke-virtual-quick/range",
   "invoke-super-quick",
   "invoke-super-quick/range",
+  "rsub-int",
+  "rsub-int/lit8",
 ];
 
 function commaSep1(rule) {
