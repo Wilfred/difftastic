@@ -596,7 +596,7 @@
         },
         {
           "type": "STRING",
-          "value": "filled-new-array-range"
+          "value": "filled-new-array/range"
         },
         {
           "type": "STRING",

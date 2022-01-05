@@ -1294,7 +1294,7 @@
     "named": false
   },
   {
-    "type": "filled-new-array-range",
+    "type": "filled-new-array/range",
     "named": false
   },
   {

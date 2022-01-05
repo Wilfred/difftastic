@@ -58,7 +58,7 @@ const opcodes = [
   "new-instance",
   "new-array",
   "filled-new-array",
-  "filled-new-array-range",
+  "filled-new-array/range",
   "fill-array-data",
   "throw",
   "goto",
