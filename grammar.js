@@ -293,8 +293,8 @@ module.exports = grammar({
     ),
 
     generic_type: $ => seq(
-      field("type", $._type_identifier),
-      field("type_arguments", $.type_arguments),
+      field('type', $._type_identifier),
+      field('type_arguments', $.type_arguments),
     ),
 
     type_arguments: $ => seq(
