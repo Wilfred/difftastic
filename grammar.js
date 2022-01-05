@@ -296,7 +296,15 @@ module.exports = grammar({
         $.access_modifiers,
         $.field_identifier,
         optional(
-          seq("=", choice($.string_literal, $.number_literal, $.null_literal))
+          seq(
+            "=",
+            choice(
+              $.string_literal,
+              $.number_literal,
+              $.null_literal,
+              $.boolean_literal
+            )
+          )
         )
       ),
     end_field: _ => ".end field",
@@ -336,6 +344,7 @@ module.exports = grammar({
       choice(
         $.number_literal,
         $.string_literal,
+        $.boolean_literal,
         $.null_literal,
         $._identifier,
         $.list,
@@ -380,9 +389,11 @@ module.exports = grammar({
         $.parameter,
         $.array_type,
         $._identifier,
+        $.null_literal,
         $.primitive_type,
         $.string_literal,
-        $.number_literal
+        $.number_literal,
+        $.boolean_literal
       ),
 
     // code declarations
@@ -475,6 +486,7 @@ module.exports = grammar({
           choice(
             $.number_literal,
             $.string_literal,
+            $.boolean_literal,
             $._identifier,
             $.variable,
             $.parameter,
@@ -495,6 +507,7 @@ module.exports = grammar({
     // literals
     number_literal: _ => choice(/-?0[xX][\da-fA-F]+(L|s|t)?/, /-?\d+/),
     string_literal: _ => /".*"/,
+    boolean_literal: _ => choice("true", "false"),
     null_literal: _ => "null",
   },
 });

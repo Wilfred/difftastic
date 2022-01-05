@@ -178,6 +178,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "null_literal"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "boolean_literal"
                     }
                   ]
                 }
@@ -329,6 +333,10 @@
         {
           "type": "SYMBOL",
           "name": "string_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "boolean_literal"
         },
         {
           "type": "SYMBOL",
@@ -1484,6 +1492,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "null_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "primitive_type"
         },
         {
@@ -1493,6 +1505,10 @@
         {
           "type": "SYMBOL",
           "name": "number_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "boolean_literal"
         }
       ]
     },
@@ -2081,6 +2097,10 @@
                     },
                     {
                       "type": "SYMBOL",
+                      "name": "boolean_literal"
+                    },
+                    {
+                      "type": "SYMBOL",
                       "name": "_identifier"
                     },
                     {
@@ -2116,6 +2136,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "string_literal"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "boolean_literal"
                           },
                           {
                             "type": "SYMBOL",
@@ -2218,6 +2242,19 @@
     "string_literal": {
       "type": "PATTERN",
       "value": "\".*\""
+    },
+    "boolean_literal": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "false"
+        }
+      ]
     },
     "null_literal": {
       "type": "STRING",

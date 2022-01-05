@@ -77,6 +77,10 @@
       "required": true,
       "types": [
         {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
           "type": "class_identifier",
           "named": true
         },
@@ -161,6 +165,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "boolean_literal",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "catch_declaration",
@@ -345,6 +354,10 @@
           "named": true
         },
         {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
           "type": "field_identifier",
           "named": true
         },
@@ -493,6 +506,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
         {
           "type": "class_identifier",
           "named": true
@@ -792,6 +809,10 @@
           "named": true
         },
         {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
           "type": "class_identifier",
           "named": true
         },
@@ -817,6 +838,10 @@
         },
         {
           "type": "method_identifier",
+          "named": true
+        },
+        {
+          "type": "null_literal",
           "named": true
         },
         {
@@ -1361,6 +1386,10 @@
   },
   {
     "type": "execute-inline",
+    "named": false
+  },
+  {
+    "type": "false",
     "named": false
   },
   {
@@ -2061,6 +2090,10 @@
   },
   {
     "type": "transient",
+    "named": false
+  },
+  {
+    "type": "true",
     "named": false
   },
   {
