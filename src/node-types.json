@@ -347,6 +347,18 @@
         {
           "type": "field_identifier",
           "named": true
+        },
+        {
+          "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
         }
       ]
     }

@@ -289,7 +289,14 @@ module.exports = grammar({
     field_definition: $ =>
       seq($.field_declaration, repeat($.annotation_definition), $.end_field),
     field_declaration: $ =>
-      seq(".field", $.access_modifiers, $.field_identifier),
+      seq(
+        ".field",
+        $.access_modifiers,
+        $.field_identifier,
+        optional(
+          seq("=", choice($.string_literal, $.number_literal, $.null_literal))
+        )
+      ),
     end_field: _ => ".end field",
 
     // method related
