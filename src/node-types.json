@@ -486,6 +486,10 @@
           "named": true
         },
         {
+          "type": "enum_reference",
+          "named": true
+        },
+        {
           "type": "field_identifier",
           "named": true
         },

@@ -2044,6 +2044,10 @@
                     {
                       "type": "SYMBOL",
                       "name": "parameter"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "enum_reference"
                     }
                   ]
                 },
@@ -2078,6 +2082,10 @@
                           {
                             "type": "SYMBOL",
                             "name": "parameter"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "enum_reference"
                           }
                         ]
                       }
