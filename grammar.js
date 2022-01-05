@@ -330,9 +330,19 @@ module.exports = grammar({
         $.null_literal,
         $._identifier,
         $.list,
-        $.enum_reference
+        $.enum_reference,
+        $.subannotation_definition
       ),
     end_annotation: _ => ".end annotation",
+
+    subannotation_definition: $ =>
+      seq(
+        $.subannotation_declaration,
+        repeat($.annotation_property),
+        $.end_subannotation
+      ),
+    subannotation_declaration: $ => seq(".subannotation", $.class_identifier),
+    end_subannotation: _ => ".end subannotation",
 
     param_definition: $ =>
       prec.right(

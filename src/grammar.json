@@ -311,12 +311,53 @@
         {
           "type": "SYMBOL",
           "name": "enum_reference"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "subannotation_definition"
         }
       ]
     },
     "end_annotation": {
       "type": "STRING",
       "value": ".end annotation"
+    },
+    "subannotation_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "subannotation_declaration"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "annotation_property"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "end_subannotation"
+        }
+      ]
+    },
+    "subannotation_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ".subannotation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "class_identifier"
+        }
+      ]
+    },
+    "end_subannotation": {
+      "type": "STRING",
+      "value": ".end subannotation"
     },
     "param_definition": {
       "type": "PREC_RIGHT",

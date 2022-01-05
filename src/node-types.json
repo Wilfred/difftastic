@@ -115,6 +115,10 @@
         {
           "type": "string_literal",
           "named": true
+        },
+        {
+          "type": "subannotation_definition",
+          "named": true
         }
       ]
     }
@@ -823,6 +827,44 @@
     }
   },
   {
+    "type": "subannotation_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subannotation_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_property",
+          "named": true
+        },
+        {
+          "type": "end_subannotation",
+          "named": true
+        },
+        {
+          "type": "subannotation_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "super_declaration",
     "named": true,
     "fields": {},
@@ -927,6 +969,10 @@
   },
   {
     "type": ".sparse-switch",
+    "named": false
+  },
+  {
+    "type": ".subannotation",
     "named": false
   },
   {
@@ -1279,6 +1325,10 @@
   },
   {
     "type": "end_param",
+    "named": true
+  },
+  {
+    "type": "end_subannotation",
     "named": true
   },
   {
