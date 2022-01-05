@@ -820,6 +820,10 @@
           "named": true
         },
         {
+          "type": "primitive_type",
+          "named": true
+        },
+        {
           "type": "range",
           "named": true
         },
