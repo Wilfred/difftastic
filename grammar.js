@@ -506,7 +506,8 @@ module.exports = grammar({
       ),
 
     // literals
-    number_literal: _ => choice(/-?0[xX][\da-fA-F]+(L|s|t)?/, /-?\d+/),
+    number_literal: _ =>
+      choice(/-?0[xX][\da-fA-F]+(L|s|t)?/, /-?\d+(\.\d+)?(f)?/),
     string_literal: _ => /".*"/,
     boolean_literal: _ => choice("true", "false"),
     null_literal: _ => "null",
