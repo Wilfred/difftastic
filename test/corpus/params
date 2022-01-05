@@ -1,0 +1,112 @@
+========================================================================
+Test a simple param
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public simple()V
+	.param p1
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration
+    (string_literal))
+  (method_definition
+    (method_declaration
+      (access_modifiers)
+      (method_identifier
+        return_type: (primitive_type)))
+    (code_block
+      (param_definition
+        (param_declaration
+          (parameter))))
+    (end_method)))
+
+
+
+========================================================================
+Test a simple param block
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public simple()V
+	.param p1
+  .end param
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration
+    (string_literal))
+  (method_definition
+    (method_declaration
+      (access_modifiers)
+      (method_identifier
+        return_type: (primitive_type)))
+    (code_block
+      (param_definition
+        (param_declaration
+          (parameter))
+        (end_param)))
+    (end_method)))
+
+
+
+========================================================================
+Test a param block with an empty annotation
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.method public simple()V
+	.param p1
+    .annotation build Landroidx/annotation/RecentlyNonNull;
+    .end annotation
+  .end param
+.end method
+
+---
+
+(class_definition
+  (class_declaration
+    (access_modifiers)
+    (class_identifier))
+  (super_declaration
+    (class_identifier))
+  (source_declaration
+    (string_literal))
+  (method_definition
+    (method_declaration
+      (access_modifiers)
+      (method_identifier
+        return_type: (primitive_type)))
+    (code_block
+      (param_definition
+        (param_declaration
+          (parameter))
+        (annotation_definition
+          (annotation_declaration
+            (class_identifier))
+          (end_annotation))
+        (end_param)))
+    (end_method)))

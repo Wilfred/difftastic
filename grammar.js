@@ -333,6 +333,16 @@ module.exports = grammar({
       ),
     end_annotation: _ => ".end annotation",
 
+    param_definition: $ =>
+      prec.right(
+        seq(
+          $.param_declaration,
+          optional(seq(optional($.annotation_definition), $.end_param))
+        )
+      ),
+    param_declaration: $ => seq(".param", $.parameter),
+    end_param: _ => ".end param",
+
     // code lines
     _code_line: $ =>
       choice($.label, $._declaration, $.annotation_definition, $.statement),
@@ -359,7 +369,7 @@ module.exports = grammar({
       choice(
         $.line_declaration,
         $.locals_declaration,
-        $.param_declaration,
+        $.param_definition,
         $.catch_declaration,
         $.catchall_declaration,
         $.packed_switch_declaration,
@@ -368,7 +378,6 @@ module.exports = grammar({
       ),
     line_declaration: $ => seq(".line", $.number_literal),
     locals_declaration: $ => seq(".locals", $.number_literal),
-    param_declaration: $ => seq(".param", $.parameter),
     catch_declaration: $ =>
       seq(
         ".catch",

@@ -323,6 +323,65 @@
       "type": "STRING",
       "value": ".end annotation"
     },
+    "param_definition": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "param_declaration"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "annotation_definition"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "end_param"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "param_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ".param"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parameter"
+        }
+      ]
+    },
+    "end_param": {
+      "type": "STRING",
+      "value": ".end param"
+    },
     "_code_line": {
       "type": "CHOICE",
       "members": [
@@ -1373,7 +1432,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "param_declaration"
+          "name": "param_definition"
         },
         {
           "type": "SYMBOL",
@@ -1420,19 +1479,6 @@
         {
           "type": "SYMBOL",
           "name": "number_literal"
-        }
-      ]
-    },
-    "param_declaration": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": ".param"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "parameter"
         }
       ]
     },

@@ -295,7 +295,7 @@
           "named": true
         },
         {
-          "type": "param_declaration",
+          "type": "param_definition",
           "named": true
         },
         {
@@ -642,6 +642,29 @@
       "types": [
         {
           "type": "parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "param_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_definition",
+          "named": true
+        },
+        {
+          "type": "end_param",
+          "named": true
+        },
+        {
+          "type": "param_declaration",
           "named": true
         }
       ]
@@ -1248,6 +1271,10 @@
   },
   {
     "type": "end_method",
+    "named": true
+  },
+  {
+    "type": "end_param",
     "named": true
   },
   {
