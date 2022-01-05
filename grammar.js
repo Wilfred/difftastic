@@ -295,17 +295,7 @@ module.exports = grammar({
         ".field",
         $.access_modifiers,
         $.field_identifier,
-        optional(
-          seq(
-            "=",
-            choice(
-              $.string_literal,
-              $.number_literal,
-              $.null_literal,
-              $.boolean_literal
-            )
-          )
-        )
+        optional(seq("=", $._literal))
       ),
     end_field: _ => ".end field",
 
@@ -342,10 +332,7 @@ module.exports = grammar({
     annotation_key: _ => /\w+/,
     annotation_value: $ =>
       choice(
-        $.number_literal,
-        $.string_literal,
-        $.boolean_literal,
-        $.null_literal,
+        $._literal,
         $._identifier,
         $.list,
         $.enum_reference,
@@ -389,11 +376,8 @@ module.exports = grammar({
         $.parameter,
         $.array_type,
         $._identifier,
-        $.null_literal,
         $.primitive_type,
-        $.string_literal,
-        $.number_literal,
-        $.boolean_literal
+        $._literal
       ),
 
     // code declarations
@@ -484,9 +468,7 @@ module.exports = grammar({
         "{",
         commaSep(
           choice(
-            $.number_literal,
-            $.string_literal,
-            $.boolean_literal,
+            $._literal,
             $._identifier,
             $.variable,
             $.parameter,
@@ -506,6 +488,13 @@ module.exports = grammar({
       ),
 
     // literals
+    _literal: $ =>
+      choice(
+        $.number_literal,
+        $.string_literal,
+        $.boolean_literal,
+        $.null_literal
+      ),
     number_literal: _ =>
       choice(/-?0[xX][\da-fA-F]+(L|s|t)?/, /-?\d+(\.\d+)?(f)?/),
     string_literal: _ => /".*"/,

@@ -535,6 +535,10 @@
           "named": true
         },
         {
+          "type": "null_literal",
+          "named": true
+        },
+        {
           "type": "number_literal",
           "named": true
         },
