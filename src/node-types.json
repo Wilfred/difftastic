@@ -324,6 +324,10 @@
         {
           "type": "field_identifier",
           "named": true
+        },
+        {
+          "type": "full_field_identifier",
+          "named": true
         }
       ]
     }

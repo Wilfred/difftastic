@@ -453,7 +453,8 @@ module.exports = grammar({
 
     access_modifiers: _ => repeat1(choice(...modifiers)),
     comment: _ => token(seq("#", /.*/)),
-    enum_reference: $ => seq(".enum", $.field_identifier),
+    enum_reference: $ =>
+      seq(".enum", choice($.field_identifier, $.full_field_identifier)),
 
     variable: _ => /v\d+/,
     parameter: _ => /p\d+/,

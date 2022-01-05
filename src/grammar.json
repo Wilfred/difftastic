@@ -1987,8 +1987,17 @@
           "value": ".enum"
         },
         {
-          "type": "SYMBOL",
-          "name": "field_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "field_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "full_field_identifier"
+            }
+          ]
         }
       ]
     },
