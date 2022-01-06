@@ -184,3 +184,47 @@ This is checked heuristically, probably unreliably.
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
 [ref]: https://www.haskell.org/onlinereport/haskell2010/haskellch10.html
 [ext]: https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/table.html
+
+# Testing
+
+**Requires**: `tree-sitter(-cli)`
+
+## Run test corpus
+
+These are stored in `./tests/corpus/`
+
+```
+$ tree-sitter test
+```
+
+## Test parsing an example codebase
+
+**Requires**: `bc`  
+This will print the percentage of the codebase parsed, and the time taken
+
+```
+$ ./script/parse-examples             # this clones all repos
+$ ./script/parse-example <example>    # where <example> is a project under ./examples/
+```
+
+## Enable scanner debug output
+
+To get an extra-verbose scanner, unoptimized, with debug symbols:
+
+```
+$ CFLAGS='-DDEBUG' make debug.so
+$ cp debug.so $HOME/.cache/tree-sitter/lib/haskell.so    # So `tree-sitter-cli` uses our binary
+$ tree-sitter test
+$ ./script/parse-example <example>
+```
+
+If you want to debug the scanner with `gdb`, you can
+`b tree_sitter_haskell_external_scanner_scan` with `tree-sitter test`.
+
+## Create visual graph of parser steps
+
+**Requires**: `graphviz`
+
+```
+$ tree-sitter parse -D test/Basic.hs    # Produces log.html
+```
