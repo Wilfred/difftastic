@@ -25,6 +25,8 @@ poor alignment of unchanged lines.
 
 Fixed minor formatting issues when reporting that a file is binary.
 
+Improved display performance on large files.
+
 ## 0.14 (released 27 December 2021)
 
 ### Parsing

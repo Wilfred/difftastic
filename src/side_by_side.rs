@@ -134,12 +134,9 @@ impl Widths {
     fn new(
         terminal_width: usize,
         line_nums: &[(Option<LineNumber>, Option<LineNumber>)],
-        lhs_src: &str,
-        rhs_src: &str,
+        lhs_lines: &[String],
+        rhs_lines: &[String],
     ) -> Self {
-        let lhs_lines = split_on_newlines(lhs_src);
-        let rhs_lines = split_on_newlines(rhs_src);
-
         let mut lhs_max_line: LineNumber = 1.into();
         let mut rhs_max_line: LineNumber = 1.into();
         let mut lhs_max_content = 1;
@@ -291,7 +288,7 @@ pub fn display_hunks(
         let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let widths = Widths::new(display_width(), &aligned_lines, lhs_src, rhs_src);
+        let widths = Widths::new(display_width(), &aligned_lines, &lhs_lines, &rhs_lines);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
                 lhs_line_num,
@@ -437,8 +434,8 @@ mod tests {
         let widths = Widths::new(
             80,
             &line_nums,
-            "foo\nbar\n",
-            "x\nx\nx\nx\nx\nx\nx\nx\nx\nx\nx\n",
+            &split_on_newlines("foo\nbar\n"),
+            &split_on_newlines("x\nx\nx\nx\nx\nx\nx\nx\nx\nx\nx\n"),
         );
 
         assert_eq!(widths.lhs_line_nums, 2);
