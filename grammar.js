@@ -293,16 +293,16 @@ module.exports = grammar({
     ),
 
     generic_type: $ => seq(
-      field("type", $._type_identifier),
-      field("type_arguments", $.type_arguments),
+      field('type', $._type_identifier),
+      field('type_arguments', $.type_arguments),
     ),
 
-    type_arguments: $ => seq(
+    type_arguments: $ => prec.dynamic(2, seq(
       '[',
        commaSep1($._type),
        optional(','),
       ']'
-    ),
+    )),
 
     pointer_type: $ => prec(PREC.unary, seq('*', $._type)),
 
@@ -668,6 +668,7 @@ module.exports = grammar({
       ),
       seq(
         field('function', $._expression),
+        field('type_arguments', optional($.type_arguments)),
         field('arguments', $.argument_list)
       )
     )),
