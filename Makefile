@@ -40,5 +40,8 @@ debug.so: src/parser.c src/scanner.c
 	$(CC) $(OURCFLAGS) $(CFLAGS) -o parser.o src/parser.c
 	$(CC) $(OURCFLAGS) $(CFLAGS) -o scanner.o src/scanner.c
 	$(CC) $(OURCFLAGS) $(CFLAGS) -o debug.so $(PWD)/scanner.o $(PWD)/parser.o
-	rm -f $(HOME)/.cache/tree-sitter/lib/haskell.so
-	cp $(PWD)/debug.so $(HOME)/.cache/tree-sitter/lib/haskell.so
+	@echo ""
+	@echo "-----------"
+	@echo ""
+	@echo "To use the debug build with tree-sitter on linux, run:"
+	@echo "cp debug.so $HOME/.cache/tree-sitter/lib/haskell.so"
