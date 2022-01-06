@@ -197,14 +197,19 @@ fn highlight_positions(
     HashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
     HashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
 ) {
-    let mut lhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = HashMap::new();
-    for (span, style) in color_positions(true, lhs_mps) {
+    let lhs_positions = color_positions(true, lhs_mps);
+    // Preallocate the hashmap assuming the average line will have 2 items on it.
+    let mut lhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
+        HashMap::with_capacity(lhs_positions.len() / 2);
+    for (span, style) in lhs_positions {
         let styles = lhs_styles.entry(span.line).or_insert_with(Vec::new);
         styles.push((span, style));
     }
 
-    let mut rhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> = HashMap::new();
-    for (span, style) in color_positions(false, rhs_mps) {
+    let rhs_positions = color_positions(false, rhs_mps);
+    let mut rhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
+        HashMap::with_capacity(rhs_positions.len() / 2);
+    for (span, style) in rhs_positions {
         let styles = rhs_styles.entry(span.line).or_insert_with(Vec::new);
         styles.push((span, style));
     }
