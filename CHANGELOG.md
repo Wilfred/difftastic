@@ -10,6 +10,12 @@ TypeScript parsers to the latest upstream version.
 
 Fixed a parsing performance regression introduced in 0.13.
 
+### Diffing
+
+Text diffing now has a standalone implementation rather than reusing
+structural diff logic. This is signficantly faster and highlighted
+better.
+
 ### Display
 
 Improved highlighting heuristics for added/removed blank lines.
