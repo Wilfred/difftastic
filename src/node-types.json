@@ -199,10 +199,6 @@
             "named": true
           },
           {
-            "type": "constructor_pattern",
-            "named": true
-          },
-          {
             "type": "discard",
             "named": true
           },
@@ -220,6 +216,10 @@
           },
           {
             "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "record_pattern",
             "named": true
           },
           {
@@ -520,10 +520,6 @@
             "named": true
           },
           {
-            "type": "constructor_pattern",
-            "named": true
-          },
-          {
             "type": "discard",
             "named": true
           },
@@ -565,6 +561,10 @@
           },
           {
             "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_pattern",
             "named": true
           },
           {
@@ -983,10 +983,6 @@
           "named": true
         },
         {
-          "type": "constructor_pattern",
-          "named": true
-        },
-        {
           "type": "discard",
           "named": true
         },
@@ -1004,6 +1000,10 @@
         },
         {
           "type": "list_pattern",
+          "named": true
+        },
+        {
+          "type": "record_pattern",
           "named": true
         },
         {
@@ -1196,36 +1196,6 @@
           },
           {
             "type": "tuple",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "constructor_pattern",
-    "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "pattern_constructor_arguments",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "remote_type_identifier",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
             "named": true
           }
         ]
@@ -1903,10 +1873,6 @@
             "named": true
           },
           {
-            "type": "constructor_pattern",
-            "named": true
-          },
-          {
             "type": "discard",
             "named": true
           },
@@ -1924,6 +1890,10 @@
           },
           {
             "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "record_pattern",
             "named": true
           },
           {
@@ -2244,10 +2214,6 @@
           "named": true
         },
         {
-          "type": "constructor_pattern",
-          "named": true
-        },
-        {
           "type": "discard",
           "named": true
         },
@@ -2269,6 +2235,10 @@
         },
         {
           "type": "list_pattern_tail",
+          "named": true
+        },
+        {
+          "type": "record_pattern",
           "named": true
         },
         {
@@ -2305,101 +2275,6 @@
     "type": "module",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "pattern_constructor_argument",
-    "named": true,
-    "fields": {
-      "assign": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "as",
-            "named": false
-          },
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "pattern": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "as",
-            "named": false
-          },
-          {
-            "type": "bit_string_pattern",
-            "named": true
-          },
-          {
-            "type": "constructor_pattern",
-            "named": true
-          },
-          {
-            "type": "discard",
-            "named": true
-          },
-          {
-            "type": "float",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "list_pattern",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "tuple_pattern",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "pattern_constructor_arguments",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "pattern_constructor_argument",
-          "named": true
-        },
-        {
-          "type": "pattern_spread",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "pattern_spread",
@@ -2749,6 +2624,131 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "record_pattern",
+    "named": true,
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "record_pattern_arguments",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "remote_type_identifier",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "record_pattern_argument",
+    "named": true,
+    "fields": {
+      "assign": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "pattern": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "as",
+            "named": false
+          },
+          {
+            "type": "bit_string_pattern",
+            "named": true
+          },
+          {
+            "type": "discard",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "record_pattern",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple_pattern",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "record_pattern_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "pattern_spread",
+          "named": true
+        },
+        {
+          "type": "record_pattern_argument",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3211,10 +3211,6 @@
             "named": true
           },
           {
-            "type": "constructor_pattern",
-            "named": true
-          },
-          {
             "type": "discard",
             "named": true
           },
@@ -3232,6 +3228,10 @@
           },
           {
             "type": "list_pattern",
+            "named": true
+          },
+          {
+            "type": "record_pattern",
             "named": true
           },
           {
@@ -3519,10 +3519,6 @@
           "named": true
         },
         {
-          "type": "constructor_pattern",
-          "named": true
-        },
-        {
           "type": "discard",
           "named": true
         },
@@ -3540,6 +3536,10 @@
         },
         {
           "type": "list_pattern",
+          "named": true
+        },
+        {
+          "type": "record_pattern",
           "named": true
         },
         {
