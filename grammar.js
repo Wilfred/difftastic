@@ -842,6 +842,7 @@ module.exports = grammar({
       $.range_expression,
       $.call_expression,
       $.return_expression,
+      $.yield_expression,
       $._literal,
       prec.left($.identifier),
       alias(choice(...primitive_types), $.identifier),
@@ -986,6 +987,11 @@ module.exports = grammar({
     return_expression: $ => choice(
       prec.left(seq('return', $._expression)),
       prec(-1, 'return'),
+    ),
+
+    yield_expression: $ => choice(
+      prec.left(seq('yield', $._expression)),
+      prec(-1, 'yield'),
     ),
 
     call_expression: $ => prec(PREC.call, seq(

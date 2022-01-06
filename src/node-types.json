@@ -248,6 +248,10 @@
       {
         "type": "while_let_expression",
         "named": true
+      },
+      {
+        "type": "yield_expression",
+        "named": true
       }
     ]
   },
@@ -4533,6 +4537,21 @@
     }
   },
   {
+    "type": "yield_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "!",
     "named": false
   },
@@ -4986,6 +5005,10 @@
   },
   {
     "type": "while",
+    "named": false
+  },
+  {
+    "type": "yield",
     "named": false
   },
   {
