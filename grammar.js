@@ -608,7 +608,7 @@ module.exports = grammar({
       ),
     pattern_constructor_argument: ($) =>
       seq(
-        optional(seq(field("name", $.identifier), ":")),
+        optional(seq(field("label", $.identifier), ":")),
         field("pattern", $._pattern)
       ),
     pattern_spread: ($) => seq("..", optional(",")),
