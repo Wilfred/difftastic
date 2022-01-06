@@ -32,3 +32,14 @@ pub fn replace(
   //                                        ^ property
   //                                              ^ variable
 }
+
+fn trial(uri) {
+  case uri {
+    Uri(scheme: None) -> True
+    // <- type
+    //  ^ property
+    //          ^ type
+    //                   ^ type
+    _ -> False
+  }
+}

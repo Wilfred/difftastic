@@ -35,6 +35,8 @@
   label: (identifier) @property)
 (type_constructor_argument
   label: (identifier) @property)
+(record_pattern_argument
+  label: (identifier) @property)
 
 ; Type names
 (remote_type_identifier) @type
