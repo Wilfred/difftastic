@@ -2308,20 +2308,20 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "arguments",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "arguments",
+              "content": {
                 "type": "SYMBOL",
                 "name": "arguments"
-              },
-              {
-                "type": "BLANK"
               }
-            ]
-          }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -3844,7 +3844,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "constructor_pattern"
+              "name": "record_pattern"
             },
             {
               "type": "SYMBOL",
@@ -3904,11 +3904,7 @@
         }
       ]
     },
-    "var": {
-      "type": "SYMBOL",
-      "name": "_name"
-    },
-    "constructor_pattern": {
+    "record_pattern": {
       "type": "SEQ",
       "members": [
         {
@@ -3936,7 +3932,7 @@
               "name": "arguments",
               "content": {
                 "type": "SYMBOL",
-                "name": "pattern_constructor_arguments"
+                "name": "record_pattern_arguments"
               }
             },
             {
@@ -3946,7 +3942,7 @@
         }
       ]
     },
-    "pattern_constructor_arguments": {
+    "record_pattern_arguments": {
       "type": "SEQ",
       "members": [
         {
@@ -3961,7 +3957,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "pattern_constructor_argument"
+                  "name": "record_pattern_argument"
                 },
                 {
                   "type": "REPEAT",
@@ -3974,7 +3970,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "pattern_constructor_argument"
+                        "name": "record_pattern_argument"
                       }
                     ]
                   }
@@ -4016,7 +4012,7 @@
         }
       ]
     },
-    "pattern_constructor_argument": {
+    "record_pattern_argument": {
       "type": "SEQ",
       "members": [
         {
@@ -4027,7 +4023,7 @@
               "members": [
                 {
                   "type": "FIELD",
-                  "name": "name",
+                  "name": "label",
                   "content": {
                     "type": "SYMBOL",
                     "name": "identifier"
@@ -5201,20 +5197,20 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "arguments",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "arguments",
+              "content": {
                 "type": "SYMBOL",
                 "name": "type_arguments"
-              },
-              {
-                "type": "BLANK"
               }
-            ]
-          }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

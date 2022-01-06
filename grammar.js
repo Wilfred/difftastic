@@ -584,7 +584,7 @@ module.exports = grammar({
         choice(
           $.identifier,
           $.discard,
-          $.constructor_pattern,
+          $.record_pattern,
           $.string,
           $.integer,
           $.float,
@@ -594,19 +594,19 @@ module.exports = grammar({
         ),
         optional(field("assign", seq("as", $.identifier)))
       ),
-    constructor_pattern: ($) =>
+    record_pattern: ($) =>
       seq(
         field("name", choice($.type_identifier, $.remote_type_identifier)),
-        optional(field("arguments", $.pattern_constructor_arguments))
+        optional(field("arguments", $.record_pattern_arguments))
       ),
-    pattern_constructor_arguments: ($) =>
+    record_pattern_arguments: ($) =>
       seq(
         "(",
-        optional(series_of($.pattern_constructor_argument, ",")),
+        optional(series_of($.record_pattern_argument, ",")),
         optional($.pattern_spread),
         ")"
       ),
-    pattern_constructor_argument: ($) =>
+    record_pattern_argument: ($) =>
       seq(
         optional(seq(field("label", $.identifier), ":")),
         field("pattern", $._pattern)

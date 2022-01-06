@@ -62,13 +62,13 @@ if javascript {
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
-                (constructor_pattern
+                (record_pattern
                   name: (type_identifier))))
             value: (identifier))
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
-                (constructor_pattern
+                (record_pattern
                   name: (type_identifier))))
             value: (function_call
               function: (field_access
@@ -185,14 +185,14 @@ pub fn negate(bool: Bool) -> Bool {
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
-                (constructor_pattern
+                (record_pattern
                   name: (type_identifier))))
             value: (record
               name: (type_identifier)))
           (case_clause
             patterns: (case_clause_patterns
               (case_clause_pattern
-                (constructor_pattern
+                (record_pattern
                   name: (type_identifier))))
             value: (record
               name: (type_identifier))))))))
@@ -287,10 +287,10 @@ fn foo(a,) {
           (argument
             (identifier))))
       (let
-        (constructor_pattern
+        (record_pattern
           (type_identifier)
-          (pattern_constructor_arguments
-            (pattern_constructor_argument
+          (record_pattern_arguments
+            (record_pattern_argument
               (identifier)
               (identifier))))
         (record_update
