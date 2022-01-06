@@ -97,6 +97,9 @@
   "do"
   "mdo"
   "rec"
+  "infix"
+  "infixl"
+  "infixr"
 ] @keyword
 
 
