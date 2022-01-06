@@ -594,7 +594,6 @@ module.exports = grammar({
         ),
         optional(field("assign", seq("as", $.identifier)))
       ),
-    var: ($) => $._name,
     constructor_pattern: ($) =>
       seq(
         field("name", choice($.type_identifier, $.remote_type_identifier)),
