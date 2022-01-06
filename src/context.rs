@@ -14,6 +14,7 @@ use crate::{
 /// or end of the file.
 const MAX_PADDING: usize = 3;
 
+// TODO: use FxHashMap here.
 pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
     let mut res: HashMap<LineNumber, HashSet<LineNumber>> = HashMap::new();
 
