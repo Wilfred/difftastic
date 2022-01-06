@@ -311,7 +311,7 @@ module.exports = grammar({
     record: ($) =>
       seq(
         field("name", choice($.type_identifier, $.remote_type_identifier)),
-        field("arguments", optional($.arguments))
+        optional(field("arguments", $.arguments))
       ),
     todo: ($) =>
       seq("todo", optional(seq("(", field("message", $.string), ")"))),
@@ -721,7 +721,7 @@ module.exports = grammar({
     type: ($) =>
       seq(
         field("name", choice($.type_identifier, $.remote_type_identifier)),
-        field("arguments", optional($.type_arguments))
+        optional(field("arguments", $.type_arguments))
       ),
     type_arguments: ($) =>
       seq("(", optional(series_of($.type_argument, ",")), ")"),
