@@ -7,9 +7,6 @@ package main
 func main() {
   a(b, c...)
 
-  a[b](c)
-  a[b, c](d)
-
   a(
     b,
     c,
@@ -31,15 +28,6 @@ func main() {
       (argument_list
         (identifier)
         (variadic_argument (identifier))))
-    (call_expression
-      (index_expression (identifier) (identifier))
-      (argument_list (identifier)))
-    (call_expression
-      (identifier)
-      (type_arguments
-        (type_identifier)
-        (type_identifier))
-      (argument_list (identifier)))
     (call_expression
       (identifier)
       (argument_list (identifier) (identifier)))
@@ -66,6 +54,38 @@ func main() {
       (call_expression (identifier) (argument_list
         (call_expression (identifier) (argument_list
           (identifier))))))))))
+
+============================================
+Generic call expressions
+============================================
+
+package main
+
+func main() {
+  a[b](c)
+  a[b, c](d)
+  a[b[c], d](e[f])
+}
+
+---
+
+(source_file
+  (package_clause (package_identifier))
+  (function_declaration (identifier) (parameter_list) (block
+    (call_expression
+      (identifier)
+      (type_arguments (type_identifier))
+      (argument_list (identifier)))
+    (call_expression
+      (identifier)
+      (type_arguments (type_identifier) (type_identifier))
+      (argument_list (identifier)))
+    (call_expression
+      (identifier)
+      (type_arguments 
+        (generic_type (type_identifier) (type_arguments (type_identifier)))
+        (type_identifier))
+      (argument_list (index_expression (identifier) (identifier)))))))
 
 ============================================
 Calls to 'make' and 'new'

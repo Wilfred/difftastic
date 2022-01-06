@@ -297,12 +297,12 @@ module.exports = grammar({
       field('type_arguments', $.type_arguments),
     ),
 
-    type_arguments: $ => seq(
+    type_arguments: $ => prec.dynamic(2, seq(
       '[',
        commaSep1($._type),
        optional(','),
       ']'
-    ),
+    )),
 
     pointer_type: $ => prec(PREC.unary, seq('*', $._type)),
 
