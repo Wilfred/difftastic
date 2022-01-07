@@ -1,5 +1,9 @@
 ## 0.16 (unreleased)
 
+### Integration
+
+Fixed a crash when on Mercurial diffs when a whole file has been removed.
+
 ## 0.15 (released 6 January 2022)
 
 ### Parsing

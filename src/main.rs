@@ -24,6 +24,7 @@ mod tree_sitter_parser;
 extern crate log;
 
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
+use files::read_files_or_die;
 use guess_language::guess;
 use log::info;
 use mimalloc::MiMalloc;
@@ -241,8 +242,7 @@ fn main() {
 
 /// Print a diff between two files.
 fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult {
-    let lhs_bytes = read_or_die(lhs_path);
-    let rhs_bytes = read_or_die(rhs_path);
+    let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path);
 
     let lhs_binary = is_probably_binary(&lhs_bytes);
     let rhs_binary = is_probably_binary(&rhs_bytes);
