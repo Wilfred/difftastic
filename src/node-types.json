@@ -5,22 +5,7 @@
     "fields": {}
   },
   {
-    "type": "annotation_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "class_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "annotation_definition",
+    "type": "annotation_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -28,15 +13,15 @@
       "required": true,
       "types": [
         {
-          "type": "annotation_declaration",
-          "named": true
-        },
-        {
           "type": "annotation_property",
           "named": true
         },
         {
           "type": "end_annotation",
+          "named": true
+        },
+        {
+          "type": "start_annotation",
           "named": true
         }
       ]
@@ -128,7 +113,7 @@
     }
   },
   {
-    "type": "array_data_declaration",
+    "type": "array_data_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -172,7 +157,7 @@
     "fields": {}
   },
   {
-    "type": "catch_declaration",
+    "type": "catch_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -191,7 +176,7 @@
     }
   },
   {
-    "type": "catchall_declaration",
+    "type": "catchall_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -206,7 +191,46 @@
     }
   },
   {
-    "type": "class_declaration",
+    "type": "class_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_directive",
+          "named": true
+        },
+        {
+          "type": "class_directive",
+          "named": true
+        },
+        {
+          "type": "field_definition",
+          "named": true
+        },
+        {
+          "type": "implements_directive",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "source_directive",
+          "named": true
+        },
+        {
+          "type": "super_directive",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -225,45 +249,6 @@
     }
   },
   {
-    "type": "class_definition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "annotation_definition",
-          "named": true
-        },
-        {
-          "type": "class_declaration",
-          "named": true
-        },
-        {
-          "type": "field_definition",
-          "named": true
-        },
-        {
-          "type": "implements_declaration",
-          "named": true
-        },
-        {
-          "type": "method_definition",
-          "named": true
-        },
-        {
-          "type": "source_declaration",
-          "named": true
-        },
-        {
-          "type": "super_declaration",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "code_block",
     "named": true,
     "fields": {},
@@ -272,19 +257,19 @@
       "required": true,
       "types": [
         {
-          "type": "annotation_definition",
+          "type": "annotation_directive",
           "named": true
         },
         {
-          "type": "array_data_declaration",
+          "type": "array_data_directive",
           "named": true
         },
         {
-          "type": "catch_declaration",
+          "type": "catch_directive",
           "named": true
         },
         {
-          "type": "catchall_declaration",
+          "type": "catchall_directive",
           "named": true
         },
         {
@@ -292,27 +277,27 @@
           "named": true
         },
         {
-          "type": "line_declaration",
+          "type": "line_directive",
           "named": true
         },
         {
-          "type": "locals_declaration",
+          "type": "locals_directive",
           "named": true
         },
         {
-          "type": "packed_switch_declaration",
+          "type": "packed_switch_directive",
           "named": true
         },
         {
-          "type": "param_definition",
+          "type": "param_directive",
           "named": true
         },
         {
-          "type": "registers_declaration",
+          "type": "registers_directive",
           "named": true
         },
         {
-          "type": "sparse_switch_declaration",
+          "type": "sparse_switch_directive",
           "named": true
         },
         {
@@ -385,7 +370,7 @@
       "required": true,
       "types": [
         {
-          "type": "annotation_definition",
+          "type": "annotation_directive",
           "named": true
         },
         {
@@ -469,7 +454,7 @@
     }
   },
   {
-    "type": "implements_declaration",
+    "type": "implements_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -484,7 +469,7 @@
     }
   },
   {
-    "type": "line_declaration",
+    "type": "line_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -562,7 +547,7 @@
     }
   },
   {
-    "type": "locals_declaration",
+    "type": "locals_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -663,7 +648,7 @@
     "fields": {}
   },
   {
-    "type": "packed_switch_declaration",
+    "type": "packed_switch_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -682,22 +667,7 @@
     }
   },
   {
-    "type": "param_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "parameter",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "param_definition",
+    "type": "param_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -705,7 +675,7 @@
       "required": true,
       "types": [
         {
-          "type": "annotation_definition",
+          "type": "annotation_directive",
           "named": true
         },
         {
@@ -713,7 +683,7 @@
           "named": true
         },
         {
-          "type": "param_declaration",
+          "type": "start_param",
           "named": true
         }
       ]
@@ -771,7 +741,7 @@
     }
   },
   {
-    "type": "registers_declaration",
+    "type": "registers_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -786,7 +756,7 @@
     }
   },
   {
-    "type": "source_declaration",
+    "type": "source_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -801,7 +771,7 @@
     }
   },
   {
-    "type": "sparse_switch_declaration",
+    "type": "sparse_switch_directive",
     "named": true,
     "fields": {},
     "children": {
@@ -814,6 +784,36 @@
         },
         {
           "type": "number_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "start_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "class_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "start_param",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "parameter",
           "named": true
         }
       ]
@@ -937,7 +937,7 @@
     }
   },
   {
-    "type": "super_declaration",
+    "type": "super_directive",
     "named": true,
     "fields": {},
     "children": {

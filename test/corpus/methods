@@ -12,12 +12,12 @@ Test an empty method
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration
@@ -42,12 +42,12 @@ Test a method with no modifiers
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration
@@ -71,12 +71,12 @@ Test a method with one primitive parameter
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration
@@ -103,12 +103,12 @@ Test a method with multiple primitive parameter
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration
@@ -137,12 +137,12 @@ Test a method with an object parameter
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration
@@ -169,12 +169,12 @@ Test a method with an array parameter
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration

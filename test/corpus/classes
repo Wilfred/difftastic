@@ -9,12 +9,12 @@ Test an empty class
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal)))
 
 
@@ -30,12 +30,12 @@ Test a class with source file
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal)))
 
 
@@ -53,12 +53,40 @@ Test a class that implements an interface
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
-  (implements_declaration
+  (implements_directive
+    (class_identifier)))
+
+
+
+========================================================================
+Test a class that implements multiple interfaces
+========================================================================
+
+.class public LA/BC;
+.super Ljava/lang/Object;
+.source ""
+
+.implements LD/EF;
+.implements LG/HI;
+
+---
+
+(class_definition
+  (class_directive
+    (access_modifiers)
+    (class_identifier))
+  (super_directive
+    (class_identifier))
+  (source_directive
+    (string_literal))
+  (implements_directive
+    (class_identifier))
+  (implements_directive
     (class_identifier)))

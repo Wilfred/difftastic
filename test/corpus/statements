@@ -13,12 +13,12 @@ Test empty statement
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration
@@ -48,12 +48,12 @@ Test statements with variable and number literal arguments
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration

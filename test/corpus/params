@@ -13,12 +13,12 @@ Test a simple param
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration
@@ -26,8 +26,8 @@ Test a simple param
       (method_identifier
         return_type: (primitive_type)))
     (code_block
-      (param_definition
-        (param_declaration
+      (param_directive
+        (start_param
           (parameter))))
     (end_method)))
 
@@ -49,12 +49,12 @@ Test a simple param block
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration
@@ -62,8 +62,8 @@ Test a simple param block
       (method_identifier
         return_type: (primitive_type)))
     (code_block
-      (param_definition
-        (param_declaration
+      (param_directive
+        (start_param
           (parameter))
         (end_param)))
     (end_method)))
@@ -88,12 +88,12 @@ Test a param block with an empty annotation
 ---
 
 (class_definition
-  (class_declaration
+  (class_directive
     (access_modifiers)
     (class_identifier))
-  (super_declaration
+  (super_directive
     (class_identifier))
-  (source_declaration
+  (source_directive
     (string_literal))
   (method_definition
     (method_declaration
@@ -101,11 +101,11 @@ Test a param block with an empty annotation
       (method_identifier
         return_type: (primitive_type)))
     (code_block
-      (param_definition
-        (param_declaration
+      (param_directive
+        (start_param
           (parameter))
-        (annotation_definition
-          (annotation_declaration
+        (annotation_directive
+          (start_annotation
             (class_identifier))
           (end_annotation))
         (end_param)))

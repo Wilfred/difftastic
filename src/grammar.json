@@ -6,18 +6,18 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "class_declaration"
+          "name": "class_directive"
         },
         {
           "type": "SYMBOL",
-          "name": "super_declaration"
+          "name": "super_directive"
         },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "source_declaration"
+              "name": "source_directive"
             },
             {
               "type": "BLANK"
@@ -28,14 +28,14 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "implements_declaration"
+            "name": "implements_directive"
           }
         },
         {
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "annotation_definition"
+            "name": "annotation_directive"
           }
         },
         {
@@ -54,7 +54,7 @@
         }
       ]
     },
-    "class_declaration": {
+    "class_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -71,7 +71,7 @@
         }
       ]
     },
-    "super_declaration": {
+    "super_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -84,7 +84,7 @@
         }
       ]
     },
-    "source_declaration": {
+    "source_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -97,7 +97,7 @@
         }
       ]
     },
-    "implements_declaration": {
+    "implements_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -127,7 +127,7 @@
                   "type": "REPEAT",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "annotation_definition"
+                    "name": "annotation_directive"
                   }
                 },
                 {
@@ -239,12 +239,12 @@
       "type": "STRING",
       "value": ".end method"
     },
-    "annotation_definition": {
+    "annotation_directive": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "annotation_declaration"
+          "name": "start_annotation"
         },
         {
           "type": "REPEAT",
@@ -259,7 +259,7 @@
         }
       ]
     },
-    "annotation_declaration": {
+    "start_annotation": {
       "type": "SEQ",
       "members": [
         {
@@ -384,7 +384,7 @@
       "type": "STRING",
       "value": ".end subannotation"
     },
-    "param_definition": {
+    "param_directive": {
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
@@ -392,7 +392,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "param_declaration"
+            "name": "start_param"
           },
           {
             "type": "CHOICE",
@@ -404,7 +404,7 @@
                     "type": "REPEAT",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "annotation_definition"
+                      "name": "annotation_directive"
                     }
                   },
                   {
@@ -421,7 +421,7 @@
         ]
       }
     },
-    "param_declaration": {
+    "start_param": {
       "type": "SEQ",
       "members": [
         {
@@ -447,11 +447,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_declaration"
+          "name": "_directive"
         },
         {
           "type": "SYMBOL",
-          "name": "annotation_definition"
+          "name": "annotation_directive"
         },
         {
           "type": "SYMBOL",
@@ -1483,48 +1483,48 @@
         }
       ]
     },
-    "_declaration": {
+    "_directive": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "line_declaration"
+          "name": "line_directive"
         },
         {
           "type": "SYMBOL",
-          "name": "locals_declaration"
+          "name": "locals_directive"
         },
         {
           "type": "SYMBOL",
-          "name": "registers_declaration"
+          "name": "registers_directive"
         },
         {
           "type": "SYMBOL",
-          "name": "param_definition"
+          "name": "param_directive"
         },
         {
           "type": "SYMBOL",
-          "name": "catch_declaration"
+          "name": "catch_directive"
         },
         {
           "type": "SYMBOL",
-          "name": "catchall_declaration"
+          "name": "catchall_directive"
         },
         {
           "type": "SYMBOL",
-          "name": "packed_switch_declaration"
+          "name": "packed_switch_directive"
         },
         {
           "type": "SYMBOL",
-          "name": "sparse_switch_declaration"
+          "name": "sparse_switch_directive"
         },
         {
           "type": "SYMBOL",
-          "name": "array_data_declaration"
+          "name": "array_data_directive"
         }
       ]
     },
-    "line_declaration": {
+    "line_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -1537,7 +1537,7 @@
         }
       ]
     },
-    "locals_declaration": {
+    "locals_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -1550,7 +1550,7 @@
         }
       ]
     },
-    "registers_declaration": {
+    "registers_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -1563,7 +1563,7 @@
         }
       ]
     },
-    "catch_declaration": {
+    "catch_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -1600,7 +1600,7 @@
         }
       ]
     },
-    "catchall_declaration": {
+    "catchall_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -1633,7 +1633,7 @@
         }
       ]
     },
-    "packed_switch_declaration": {
+    "packed_switch_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -1657,7 +1657,7 @@
         }
       ]
     },
-    "sparse_switch_declaration": {
+    "sparse_switch_directive": {
       "type": "SEQ",
       "members": [
         {
@@ -1690,7 +1690,7 @@
         }
       ]
     },
-    "array_data_declaration": {
+    "array_data_directive": {
       "type": "SEQ",
       "members": [
         {

@@ -272,24 +272,26 @@ module.exports = grammar({
   rules: {
     class_definition: $ =>
       seq(
-        $.class_declaration,
-        $.super_declaration,
-        optional($.source_declaration),
-        repeat($.implements_declaration),
-        repeat($.annotation_definition),
+        $.class_directive,
+        $.super_directive,
+        optional($.source_directive),
+        repeat($.implements_directive),
+        repeat($.annotation_directive),
         repeat($.field_definition),
         repeat($.method_definition)
       ),
 
     // class related
-    class_declaration: $ =>
-      seq(".class", $.access_modifiers, $.class_identifier),
-    super_declaration: $ => seq(".super", $.class_identifier),
-    source_declaration: $ => seq(".source", $.string_literal),
-    implements_declaration: $ => seq(".implements", $.class_identifier),
+    class_directive: $ => seq(".class", $.access_modifiers, $.class_identifier),
+    super_directive: $ => seq(".super", $.class_identifier),
+    source_directive: $ => seq(".source", $.string_literal),
+    implements_directive: $ => seq(".implements", $.class_identifier),
 
     field_definition: $ =>
-      seq($.field_declaration, optional(seq(repeat($.annotation_definition), $.end_field))),
+      seq(
+        $.field_declaration,
+        optional(seq(repeat($.annotation_directive), $.end_field))
+      ),
     field_declaration: $ =>
       seq(
         ".field",
@@ -311,13 +313,9 @@ module.exports = grammar({
     end_method: _ => ".end method",
 
     // annotation related
-    annotation_definition: $ =>
-      seq(
-        $.annotation_declaration,
-        repeat($.annotation_property),
-        $.end_annotation
-      ),
-    annotation_declaration: $ =>
+    annotation_directive: $ =>
+      seq($.start_annotation, repeat($.annotation_property), $.end_annotation),
+    start_annotation: $ =>
       seq(
         ".annotation",
         choice("system", "build", "runtime"),
@@ -349,19 +347,19 @@ module.exports = grammar({
     subannotation_declaration: $ => seq(".subannotation", $.class_identifier),
     end_subannotation: _ => ".end subannotation",
 
-    param_definition: $ =>
+    param_directive: $ =>
       prec.right(
         seq(
-          $.param_declaration,
-          optional(seq(repeat($.annotation_definition), $.end_param))
+          $.start_param,
+          optional(seq(repeat($.annotation_directive), $.end_param))
         )
       ),
-    param_declaration: $ => seq(".param", $.parameter),
+    start_param: $ => seq(".param", $.parameter),
     end_param: _ => ".end param",
 
     // code lines
     _code_line: $ =>
-      choice($.label, $._declaration, $.annotation_definition, $.statement),
+      choice($.label, $._directive, $.annotation_directive, $.statement),
     label: _ => /:[\w\d]+/,
 
     // statement
@@ -381,22 +379,22 @@ module.exports = grammar({
       ),
 
     // code declarations
-    _declaration: $ =>
+    _directive: $ =>
       choice(
-        $.line_declaration,
-        $.locals_declaration,
-        $.registers_declaration,
-        $.param_definition,
-        $.catch_declaration,
-        $.catchall_declaration,
-        $.packed_switch_declaration,
-        $.sparse_switch_declaration,
-        $.array_data_declaration
+        $.line_directive,
+        $.locals_directive,
+        $.registers_directive,
+        $.param_directive,
+        $.catch_directive,
+        $.catchall_directive,
+        $.packed_switch_directive,
+        $.sparse_switch_directive,
+        $.array_data_directive
       ),
-    line_declaration: $ => seq(".line", $.number_literal),
-    locals_declaration: $ => seq(".locals", $.number_literal),
-    registers_declaration: $ => seq(".registers", $.number_literal),
-    catch_declaration: $ =>
+    line_directive: $ => seq(".line", $.number_literal),
+    locals_directive: $ => seq(".locals", $.number_literal),
+    registers_directive: $ => seq(".registers", $.number_literal),
+    catch_directive: $ =>
       seq(
         ".catch",
         $.class_identifier,
@@ -407,22 +405,22 @@ module.exports = grammar({
         "}",
         $.label
       ),
-    catchall_declaration: $ =>
+    catchall_directive: $ =>
       seq(".catchall", "{", $.label, "..", $.label, "}", $.label),
-    packed_switch_declaration: $ =>
+    packed_switch_directive: $ =>
       seq(
         ".packed-switch",
         $.number_literal,
         repeat($.label),
         ".end packed-switch"
       ),
-    sparse_switch_declaration: $ =>
+    sparse_switch_directive: $ =>
       seq(
         ".sparse-switch",
         repeat(seq($.number_literal, "->", $.label)),
         ".end sparse-switch"
       ),
-    array_data_declaration: $ =>
+    array_data_directive: $ =>
       seq(
         ".array-data",
         $.number_literal,
