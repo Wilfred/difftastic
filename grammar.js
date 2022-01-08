@@ -62,19 +62,6 @@ const GRAPHIC_CHARACTER = [
   ...OTHER_SPECIAL_CHARARACTER
 ];
 
-const BASE_SPECIFIER = [
-  ['[uUsS]?[bB]', '[0-1]'],
-  ['[uUsS]?[oO]', '[0-7]'],
-  ['[dD]', '[0-9]'],
-  ['[uUsS]?[xX]', '[0-9a-fA-F]'],
-];
-
-const ILLEGAL_BIT_VALUE = [
-  UNDERLINE,
-  DOUBLE_QUOTE,
-  ...SPACE_CHARACTER,
-];
-
 const RANGE_ATTRIBUTE_DESIGNATOR = [
   'range',
   'reverse_range'
@@ -3026,23 +3013,16 @@ module.exports = grammar({
     ),
 
     basic_identifier: $ => token(seq(
-      choice(
-        ...LOWER_CASE_LETTER,
-        ...UPPER_CASE_LETTER
-      ),
+      /[a-zA-Z]/,
       repeat(seq(
-        optional(UNDERLINE),
-        choice(
-          ...LOWER_CASE_LETTER,
-          ...UPPER_CASE_LETTER,
-          ...DIGIT
-        ),
-      )),
+        optional('_'),
+        /[a-zA-Z0-9]/
+      ))
     )),
 
     extended_identifier: $ => token(seq(
       '\\',
-      repeat1(choice(...GRAPHIC_CHARACTER.filter(c => c !== '\\'), '\\\\')),
+      /(\\\\|[^\r\n\\])*/,
       '\\',
     )),
     // }}}
@@ -3263,7 +3243,6 @@ module.exports = grammar({
       $.PSL_Clocked_SERE,
       alias(
         choice(
-          $.PSL_Compound_SERE_Or,
           $.PSL_Compound_SERE_And,
           $.PSL_Compound_SERE_Within
         ),
