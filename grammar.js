@@ -461,8 +461,11 @@ module.exports = grammar({
     enum_reference: $ =>
       seq(".enum", choice($.field_identifier, $.full_field_identifier)),
 
+    // special symbols
     variable: _ => /v\d+/,
     parameter: _ => /p\d+/,
+
+    // lists
     list: $ =>
       seq(
         "{",
