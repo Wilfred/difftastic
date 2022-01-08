@@ -38,19 +38,19 @@
 
 #define next()                       \
   {                                  \
-    print("next %s\n", str(peek())); \
+    print("next %s\n", str(peek()).c_str()); \
     lexer->advance(lexer, false);    \
   }
 
 #define skip()                       \
   {                                  \
-    print("skip %s\n", str(peek())); \
+    print("skip %s\n", str(peek()).c_str()); \
     lexer->advance(lexer, true);     \
   }
 
 #define stop()                       \
   {                                  \
-    print("stop %s\n", str(peek())); \
+    print("stop %s\n", str(peek()).c_str()); \
     lexer->mark_end(lexer);          \
   }
 
@@ -84,7 +84,7 @@ const char *TokenTypes[] = {
     "HEREDOC_END",            //
 };
 
-static const char *str(int32_t chr) {
+static string str(int32_t chr) {
   switch (chr) {
     case '\n':
       return "\\n";
@@ -103,7 +103,7 @@ static const char *str(int32_t chr) {
 
       string str;
       str += chr;
-      return str.c_str();
+      return str;
   }
 }
 
