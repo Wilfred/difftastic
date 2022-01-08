@@ -41,17 +41,8 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "field_declaration"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "field_definition"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "field_definition"
           }
         },
         {
@@ -127,15 +118,28 @@
           "name": "field_declaration"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "annotation_definition"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "end_field"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "annotation_definition"
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "end_field"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

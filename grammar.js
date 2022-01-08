@@ -277,7 +277,7 @@ module.exports = grammar({
         optional($.source_declaration),
         repeat($.implements_declaration),
         repeat($.annotation_definition),
-        repeat(choice($.field_declaration, $.field_definition)),
+        repeat($.field_definition),
         repeat($.method_definition)
       ),
 
@@ -289,7 +289,7 @@ module.exports = grammar({
     implements_declaration: $ => seq(".implements", $.class_identifier),
 
     field_definition: $ =>
-      seq($.field_declaration, repeat($.annotation_definition), $.end_field),
+      seq($.field_declaration, optional(seq(repeat($.annotation_definition), $.end_field))),
     field_declaration: $ =>
       seq(
         ".field",

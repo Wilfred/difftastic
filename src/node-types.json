@@ -241,10 +241,6 @@
           "named": true
         },
         {
-          "type": "field_declaration",
-          "named": true
-        },
-        {
           "type": "field_definition",
           "named": true
         },
