@@ -308,6 +308,10 @@
           "named": true
         },
         {
+          "type": "registers_declaration",
+          "named": true
+        },
+        {
           "type": "sparse_switch_declaration",
           "named": true
         },
@@ -767,6 +771,21 @@
     }
   },
   {
+    "type": "registers_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "number_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "source_declaration",
     "named": true,
     "fields": {},
@@ -1014,6 +1033,10 @@
   },
   {
     "type": ".param",
+    "named": false
+  },
+  {
+    "type": ".registers",
     "named": false
   },
   {

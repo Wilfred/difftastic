@@ -1496,6 +1496,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "registers_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "param_definition"
         },
         {
@@ -1539,6 +1543,19 @@
         {
           "type": "STRING",
           "value": ".locals"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "number_literal"
+        }
+      ]
+    },
+    "registers_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ".registers"
         },
         {
           "type": "SYMBOL",

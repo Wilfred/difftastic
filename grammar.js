@@ -385,6 +385,7 @@ module.exports = grammar({
       choice(
         $.line_declaration,
         $.locals_declaration,
+        $.registers_declaration,
         $.param_definition,
         $.catch_declaration,
         $.catchall_declaration,
@@ -394,6 +395,7 @@ module.exports = grammar({
       ),
     line_declaration: $ => seq(".line", $.number_literal),
     locals_declaration: $ => seq(".locals", $.number_literal),
+    registers_declaration: $ => seq(".registers", $.number_literal),
     catch_declaration: $ =>
       seq(
         ".catch",
