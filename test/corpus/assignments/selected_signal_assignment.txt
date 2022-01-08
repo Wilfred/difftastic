@@ -1,6 +1,6 @@
-===========================================
+================================================================================
 Selected waveform assignment - Minimal
-===========================================
+================================================================================
 with expr select
     t <= w when true;
 
@@ -14,7 +14,7 @@ with expr select?
 L2:
 with expr select?
     t <= w when true;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (selected_concurrent_signal_assignment
@@ -70,9 +70,9 @@ with expr select?
         (simple_expression
           (simple_name))))))
 
-===========================================
+================================================================================
 Selected waveform assignment - Delay mechanism
-===========================================
+================================================================================
 with expr select
     t <= transport w when true;
 
@@ -81,7 +81,7 @@ with expr select
 
 with expr select
     t <= reject 10 ns inertial w when true;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (selected_concurrent_signal_assignment
@@ -120,8 +120,7 @@ with expr select
       (inertial
         reject: (time_expression
           (physical_literal
-            (integer_decimal
-              (integer))
+            (integer_decimal)
             unit: (simple_name)))))
     (selected_waveforms
       (waveforms
@@ -132,13 +131,13 @@ with expr select
         (simple_expression
           (simple_name))))))
 
-===========================================
+================================================================================
 Selected waveforms I
-===========================================
+================================================================================
 with expr select
     t <= w1 when true,
          w2 when false;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (selected_concurrent_signal_assignment
@@ -162,13 +161,13 @@ with expr select
           (simple_expression
             (simple_name)))))))
 
-===========================================
+================================================================================
 Selected waveforms II
-===========================================
+================================================================================
 with expr select
     t <= w1 when cond1 | cond2,
          w3 when others;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (selected_concurrent_signal_assignment
@@ -193,13 +192,13 @@ with expr select
         (choices
           (others))))))
 
-===========================================
+================================================================================
 Selected waveforms III
-===========================================
+================================================================================
 with expr select
     t <= w1 after 10 ns when cond1,
          w2 when others;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (selected_concurrent_signal_assignment
@@ -213,8 +212,7 @@ with expr select
             (simple_name))
           (time_expression
             (physical_literal
-              (integer_decimal
-                (integer))
+              (integer_decimal)
               unit: (simple_name)))))
       (choices
         (simple_expression
@@ -227,9 +225,9 @@ with expr select
         (choices
           (others))))))
 
-===========================================
+================================================================================
 Selected force assignment
-===========================================
+================================================================================
 with expr select
     t <= force     w when true;
 
@@ -238,7 +236,7 @@ with expr select
 
 with expr select
     t <= force out w when true;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (selected_force_assignment
@@ -274,12 +272,12 @@ with expr select
         (simple_expression
           (simple_name))))))
 
-===========================================
+================================================================================
 Guarded assignment
-===========================================
+================================================================================
 with expr select
     t <= guarded w when cond;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (selected_concurrent_signal_assignment
@@ -295,9 +293,9 @@ with expr select
         (simple_expression
           (simple_name))))))
 
-===========================================
+================================================================================
 Guarded assignment - Delay mechanism
-===========================================
+================================================================================
 with expr select
     t <= guarded transport w when cond;
 
@@ -306,7 +304,7 @@ with expr select
 
 with expr select
     t <= guarded reject 10 ns inertial w when cond;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (selected_concurrent_signal_assignment
@@ -345,8 +343,7 @@ with expr select
       (inertial
         reject: (time_expression
           (physical_literal
-            (integer_decimal
-              (integer))
+            (integer_decimal)
             unit: (simple_name)))))
     (selected_waveforms
       (waveforms

@@ -1,9 +1,9 @@
-======================================
+================================================================================
 Enumeration type - Minimal
-======================================
+================================================================================
 type enum_t is ('a');
 type enum_t is (foo);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -15,11 +15,11 @@ type enum_t is (foo);
     (enumeration_type_definition
       literal: (identifier))))
 
-======================================
+================================================================================
 Enumeration type - Character type
-======================================
+================================================================================
 type enum_t is ('a', foo, bar);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -29,11 +29,11 @@ type enum_t is ('a', foo, bar);
       literal: (identifier)
       literal: (identifier))))
 
-======================================
+================================================================================
 Integer type definition
-======================================
+================================================================================
 type int_t is range 0 to 255;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -41,17 +41,15 @@ type int_t is range 0 to 255;
     (numeric_type_definition
       (ascending_range
         low: (simple_expression
-          (integer_decimal
-            (integer)))
+          (integer_decimal))
         high: (simple_expression
-          (integer_decimal
-            (integer)))))))
+          (integer_decimal))))))
 
-======================================
+================================================================================
 Floating type definition
-======================================
+================================================================================
 type float_t is range 2.0 to 8.0;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -59,22 +57,18 @@ type float_t is range 2.0 to 8.0;
     (numeric_type_definition
       (ascending_range
         low: (simple_expression
-          (real_decimal
-            (integer)
-            (integer)))
+          (real_decimal))
         high: (simple_expression
-          (real_decimal
-            (integer)
-            (integer)))))))
+          (real_decimal))))))
 
-======================================
+================================================================================
 Physical type definition - Minimal
-======================================
+================================================================================
 type phy_t is range l to h
     units
         p;
     end units;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -87,17 +81,17 @@ type phy_t is range l to h
           high: (simple_expression
             (simple_name))))
       (primary_unit_declaration
-       name: (identifier)))))
+        name: (identifier)))))
 
-======================================
+================================================================================
 Physical type definition
-======================================
+================================================================================
 type phy_t is range l to h
     units
         p;
         a = p;
     end units;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -110,15 +104,15 @@ type phy_t is range l to h
           high: (simple_expression
             (simple_name))))
       (primary_unit_declaration
-       name: (identifier))
+        name: (identifier))
       (secondary_unit_declaration
-       name: (identifier)
+        name: (identifier)
         (physical_literal
           unit: (simple_name))))))
 
-======================================
+================================================================================
 Physical type definition - LRM
-======================================
+================================================================================
 type byte_t is range 0 to 1E16
     units
         B;
@@ -132,7 +126,7 @@ type byte_t is range 0 to 1E16
         MiB = 1024 KiB;
         GiB = 1024 MiB;
     end units;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -141,55 +135,45 @@ type byte_t is range 0 to 1E16
       (range_constraint
         (ascending_range
           low: (simple_expression
-            (integer_decimal
-              (integer)))
+            (integer_decimal))
           high: (simple_expression
-            (integer_decimal
-              (integer)
-              (exponent)))))
+            (integer_decimal))))
       (primary_unit_declaration
-       name: (identifier))
+        name: (identifier))
       (comment)
       (secondary_unit_declaration
-       name: (identifier)
+        name: (identifier)
         (physical_literal
-          (integer_decimal
-            (integer))
+          (integer_decimal)
           unit: (simple_name)))
       (secondary_unit_declaration
-       name: (identifier)
+        name: (identifier)
         (physical_literal
-          (integer_decimal
-            (integer))
+          (integer_decimal)
           unit: (simple_name)))
       (secondary_unit_declaration
-       name: (identifier)
+        name: (identifier)
         (physical_literal
-          (integer_decimal
-            (integer))
+          (integer_decimal)
           unit: (simple_name)))
       (secondary_unit_declaration
-       name: (identifier)
+        name: (identifier)
         (physical_literal
-          (integer_decimal
-            (integer))
+          (integer_decimal)
           unit: (simple_name)))
       (comment)
       (secondary_unit_declaration
-       name: (identifier)
+        name: (identifier)
         (physical_literal
-          (integer_decimal
-            (integer))
+          (integer_decimal)
           unit: (simple_name)))
       (secondary_unit_declaration
-       name: (identifier)
+        name: (identifier)
         (physical_literal
-          (integer_decimal
-            (integer))
+          (integer_decimal)
           unit: (simple_name)))
       (secondary_unit_declaration
-       name: (identifier)
+        name: (identifier)
         (physical_literal
-          (integer_decimal
-            (integer))
+          (integer_decimal)
           unit: (simple_name))))))

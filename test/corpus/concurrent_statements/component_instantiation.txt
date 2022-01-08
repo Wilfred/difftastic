@@ -1,92 +1,99 @@
-===============================
+================================================================================
 Minimal (ambigous)
-===============================
+================================================================================
 L1: unit;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (procedure_call_statement
-    (label (identifier))
+    (label
+      (identifier))
     procedure: (simple_name)))
 
-===============================
+================================================================================
 Minimal (ambigous) - II
-===============================
+================================================================================
 L1: pkg.unit;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (procedure_call_statement
-    (label (identifier))
+    (label
+      (identifier))
     procedure: (selected_name
       prefix: (simple_name)
       suffix: (simple_name))))
 
-===============================
+================================================================================
 Instantiation unit - Component
-===============================
+================================================================================
 L1: component unit;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (component_instantiation
       component: (simple_name))))
 
-===============================
+================================================================================
 Instantiation unit - Entity I
-===============================
+================================================================================
 L1: entity lib.e;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (entity_instantiation
       entity: (selected_name
         prefix: (simple_name)
         suffix: (simple_name)))))
 
-===============================
+================================================================================
 Instantiation unit - Entity II
-===============================
+================================================================================
 L1: entity lib.e(rtl);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (entity_instantiation
       entity: (selected_name
         prefix: (simple_name)
         suffix: (simple_name))
       architecture: (simple_name))))
 
-===================================
+================================================================================
 Instantiation unit - Configuration
-===================================
+================================================================================
 L1: configuration lib.cfg;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (configuration_instantiation
       configuration: (selected_name
         prefix: (simple_name)
         suffix: (simple_name)))))
 
-===================================
+================================================================================
 Generic map aspect - Simple name
-===================================
+================================================================================
 L1: unit
 generic map (a,b,c);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (component_instantiation
       component: (simple_name))
     (component_map_aspect
@@ -102,16 +109,17 @@ generic map (a,b,c);
             actual_part: (expression
               (simple_name))))))))
 
-===================================
+================================================================================
 Generic map aspect - Expanded name
-===================================
+================================================================================
 L1: pkg.unit
 generic map (a,b,c);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (component_instantiation
       component: (selected_name
         prefix: (simple_name)
@@ -129,17 +137,17 @@ generic map (a,b,c);
             actual_part: (expression
               (simple_name))))))))
 
-
-===================================
+================================================================================
 Port map aspect - Simple name
-===================================
+================================================================================
 L1: unit
 port map (a,b,c);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (component_instantiation
       component: (simple_name))
     (component_map_aspect
@@ -155,16 +163,17 @@ port map (a,b,c);
             actual_part: (expression
               (simple_name))))))))
 
-===================================
+================================================================================
 Port map aspect - Expanded name
-===================================
+================================================================================
 L1: pkg.unit
 port map (a,b,c);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (component_instantiation
       component: (selected_name
         prefix: (simple_name)
@@ -182,18 +191,18 @@ port map (a,b,c);
             actual_part: (expression
               (simple_name))))))))
 
-
-=========================================
+================================================================================
 Generic and port map aspect - Simple name
-=========================================
+================================================================================
 L1: unit
 generic map (a,b,c)
    port map (open,a);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (component_instantiation
       component: (simple_name))
     (component_map_aspect
@@ -216,17 +225,18 @@ generic map (a,b,c)
             actual_part: (expression
               (simple_name))))))))
 
-============================================
+================================================================================
 Generic and port map aspect - Expanded name
-============================================
+================================================================================
 L1: pkg.unit
 generic map (a,b,c)
    port map (open,a);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (component_instantiation
       component: (selected_name
         prefix: (simple_name)
@@ -251,16 +261,17 @@ generic map (a,b,c)
             actual_part: (expression
               (simple_name))))))))
 
-===================================
+================================================================================
 Type declaration
-===================================
+================================================================================
 L1: unit
 generic map (integer range 0 to 7);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (component_instantiation
       component: (simple_name))
     (component_map_aspect
@@ -273,22 +284,21 @@ generic map (integer range 0 to 7);
               (range_constraint
                 (ascending_range
                   low: (simple_expression
-                    (integer_decimal
-                      (integer)))
+                    (integer_decimal))
                   high: (simple_expression
-                    (integer_decimal
-                      (integer))))))))))))
+                    (integer_decimal)))))))))))
 
-===================================
+================================================================================
 Selected name on port map aspect
-===================================
+================================================================================
 L1: unit
 port map (a.b => c);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
-    (label (identifier))
+    (label
+      (identifier))
     (component_instantiation
       component: (simple_name))
     (component_map_aspect
@@ -301,13 +311,13 @@ port map (a.b => c);
             actual_part: (expression
               (simple_name))))))))
 
-====================================
+================================================================================
 LINT: Component instantiation - Semicolon
-====================================
+================================================================================
 l : c
 generic map (k); -- here
 port map (s);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (component_instantiation_statement
@@ -329,9 +339,9 @@ port map (s);
             actual_part: (expression
               (simple_name))))))))
 
-====================================
+================================================================================
 LINT: Component instantiation - Headers
-====================================
+================================================================================
 -- Illegal
 l : c
 generic (k:t)
@@ -351,7 +361,7 @@ port map (s);
 l : c
 port map (s)
 generic map (s);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (comment)
@@ -426,4 +436,3 @@ generic map (s);
           (positional_association_element
             actual_part: (expression
               (simple_name))))))))
-

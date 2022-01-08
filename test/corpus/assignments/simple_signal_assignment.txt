@@ -1,9 +1,9 @@
-===========================================
+================================================================================
 Simple waveform assignment - Minimal
-===========================================
+================================================================================
 t <= w;
 L: t <= w;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (simple_concurrent_signal_assignment
@@ -21,13 +21,13 @@ L: t <= w;
         (expression
           (simple_name))))))
 
-===========================================
+================================================================================
 Simple waveform assignment - Delay mechanism
-===========================================
+================================================================================
 t <= transport w;
 t <= inertial w;
 t <= reject 10 ns inertial w;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (simple_concurrent_signal_assignment
@@ -52,21 +52,20 @@ t <= reject 10 ns inertial w;
       (inertial
         reject: (time_expression
           (physical_literal
-            (integer_decimal
-              (integer))
+            (integer_decimal)
             unit: (simple_name)))))
     (waveforms
       (waveform_element
         (expression
           (simple_name))))))
 
-===========================================
+================================================================================
 Waveform element
-===========================================
+================================================================================
 t <= val;
 t <= val after 42 ns;
 t <= null after 42 ns;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (simple_concurrent_signal_assignment
@@ -83,8 +82,7 @@ t <= null after 42 ns;
           (simple_name))
         (time_expression
           (physical_literal
-            (integer_decimal
-              (integer))
+            (integer_decimal)
             unit: (simple_name))))))
   (simple_concurrent_signal_assignment
     target: (simple_name)
@@ -94,18 +92,17 @@ t <= null after 42 ns;
           (null))
         (time_expression
           (physical_literal
-            (integer_decimal
-              (integer))
+            (integer_decimal)
             unit: (simple_name)))))))
 
-===========================================
+================================================================================
 Waveforms
-===========================================
+================================================================================
 t <= unaffected;
 t <= val1 after 10 ns,
      val2 after 20 ns,
      null;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (simple_concurrent_signal_assignment
@@ -120,28 +117,26 @@ t <= val1 after 10 ns,
           (simple_name))
         (time_expression
           (physical_literal
-            (integer_decimal
-              (integer))
+            (integer_decimal)
             unit: (simple_name))))
       (waveform_element
         (expression
           (simple_name))
         (time_expression
           (physical_literal
-            (integer_decimal
-              (integer))
+            (integer_decimal)
             unit: (simple_name))))
       (waveform_element
         (expression
           (null))))))
 
-===========================================
+================================================================================
 Simple force assignment
-===========================================
+================================================================================
 t <= force     expr;
 t <= force in  expr;
 t <= force out expr;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (simple_force_assignment
@@ -159,13 +154,13 @@ t <= force out expr;
     (expression
       (simple_name))))
 
-===========================================
+================================================================================
 Simple release assignment
-===========================================
+================================================================================
 t <= release;
 t <= release in;
 t <= release out;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (simple_release_assignment
@@ -177,11 +172,11 @@ t <= release out;
     target: (simple_name)
     (force_mode)))
 
-===========================================
+================================================================================
 Guarded assignment
-===========================================
+================================================================================
 t <= guarded w;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (simple_concurrent_signal_assignment

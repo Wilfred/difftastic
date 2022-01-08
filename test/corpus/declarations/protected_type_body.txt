@@ -1,6 +1,6 @@
-=================================
+================================================================================
 Minimal
-=================================
+================================================================================
 type t is
     protected body
     end protected body;
@@ -8,7 +8,7 @@ type t is
 type t is
     protected body
     end protected body t;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -19,9 +19,9 @@ type t is
     (protected_type_body
       at_end: (simple_name))))
 
-=================================
+================================================================================
 LRM I (Simplified)
-=================================
+================================================================================
 type SharedCounter is protected body
 
    variable counter: Integer := 0;
@@ -32,7 +32,7 @@ type SharedCounter is protected body
    end procedure increment;
 
 end protected body SharedCounter;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -46,8 +46,7 @@ end protected body SharedCounter;
             (type_mark
               (simple_name)))
           (default_expression
-            (integer_decimal
-              (integer))))
+            (integer_decimal)))
         (procedure_body
           designator: (identifier)
           (procedure_parameter_clause
@@ -58,8 +57,7 @@ end protected body SharedCounter;
                 (type_mark
                   (simple_name)))
               (default_expression
-                (integer_decimal
-                  (integer)))))
+                (integer_decimal))))
           (sequence_of_statements
             (simple_variable_assignment
               target: (simple_name)

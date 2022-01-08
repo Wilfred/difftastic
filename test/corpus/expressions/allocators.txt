@@ -1,8 +1,8 @@
-=========================================
+================================================================================
 Minimal [LRM]
-=========================================
+================================================================================
 assert new Node;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (assertion_statement
@@ -12,12 +12,12 @@ assert new Node;
           (type_mark
             (simple_name)))))))
 
-=========================================
+================================================================================
 Qualified expression I [LRM]
-=========================================
+================================================================================
 assert new Node'(Delay => 5 ns,
                 \Next\ => Stack);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (assertion_statement
@@ -33,8 +33,7 @@ assert new Node'(Delay => 5 ns,
                   (simple_name)))
               (expression
                 (physical_literal
-                  (integer_decimal
-                    (integer))
+                  (integer_decimal)
                   unit: (simple_name))))
             (named_element_association
               (choices
@@ -43,11 +42,11 @@ assert new Node'(Delay => 5 ns,
               (expression
                 (simple_name)))))))))
 
-=========================================
+================================================================================
 Qualified expression II [LRM]
-=========================================
+================================================================================
 assert new CELL'(0, null, null);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (assertion_statement
@@ -59,8 +58,7 @@ assert new CELL'(0, null, null);
           (aggregate
             (positional_element_association
               (expression
-                (integer_decimal
-                  (integer))))
+                (integer_decimal)))
             (positional_element_association
               (expression
                 (null)))
@@ -68,12 +66,12 @@ assert new CELL'(0, null, null);
               (expression
                 (null)))))))))
 
-=========================================
+================================================================================
 Subtype indication LRM - I
-=========================================
+================================================================================
 assert new String;
 assert new String (1 to 10);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (assertion_statement
@@ -92,17 +90,15 @@ assert new String (1 to 10);
             (index_constraint
               (ascending_range
                 low: (simple_expression
-                  (integer_decimal
-                    (integer)))
+                  (integer_decimal))
                 high: (simple_expression
-                  (integer_decimal
-                    (integer)))))))))))
+                  (integer_decimal))))))))))
 
-=========================================
+================================================================================
 Subtype indication - LRM II
-=========================================
+================================================================================
 assert new bit_vector (1 to index);
----
+--------------------------------------------------------------------------------
 
 (design_file
   (assertion_statement
@@ -115,7 +111,6 @@ assert new bit_vector (1 to index);
             (index_constraint
               (ascending_range
                 low: (simple_expression
-                  (integer_decimal
-                    (integer)))
+                  (integer_decimal))
                 high: (simple_expression
                   (simple_name))))))))))

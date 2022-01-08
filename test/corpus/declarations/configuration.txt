@@ -1,6 +1,6 @@
-=====================================
+================================================================================
 Minimal
-=====================================
+================================================================================
 configuration cfg of ent is
 end;
 
@@ -9,7 +9,7 @@ end configuration;
 
 configuration cfg of ent is
 end configuration cfg;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (design_unit
@@ -26,12 +26,12 @@ end configuration cfg;
       entity: (simple_name)
       at_end: (simple_name))))
 
-=====================================
+================================================================================
 Expanded name
-=====================================
+================================================================================
 configuration cfg of lib.ent is
 end;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (design_unit
@@ -41,9 +41,9 @@ end;
         prefix: (simple_name)
         suffix: (simple_name)))))
 
-=====================================
+================================================================================
 Block configuration - Minimal
-=====================================
+================================================================================
 configuration cfg of ent is
     for arch
     end for;
@@ -63,7 +63,7 @@ configuration cfg of ent is
     for gen(1+1)
     end for;
 end;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (design_unit
@@ -92,11 +92,9 @@ end;
             label: (simple_name)
             specification: (ascending_range
               low: (simple_expression
-                (integer_decimal
-                  (integer)))
+                (integer_decimal))
               high: (simple_expression
-                (integer_decimal
-                  (integer)))))))))
+                (integer_decimal))))))))
   (design_unit
     (configuration_declaration
       name: (identifier)
@@ -107,14 +105,12 @@ end;
             label: (simple_name)
             specification: (expression
               (simple_expression
-                (integer_decimal
-                  (integer))
-                (integer_decimal
-                  (integer))))))))))
+                (integer_decimal)
+                (integer_decimal)))))))))
 
-=====================================
+================================================================================
 LRM 3.4.1
-=====================================
+================================================================================
 library TTL, Work;
 configuration V4_27_87 of Processor is
    use Work.all;
@@ -130,7 +126,7 @@ configuration V4_27_87 of Processor is
       end for;
    end for;
 end configuration V4_27_87;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (design_unit

@@ -1,8 +1,8 @@
-===============================
+================================================================================
 Minimal
-===============================
+================================================================================
 disconnect s : t after 10 ns;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (disconnection_specification
@@ -13,17 +13,16 @@ disconnect s : t after 10 ns;
         (simple_name)))
     (time_expression
       (physical_literal
-        (integer_decimal
-          (integer))
+        (integer_decimal)
         unit: (simple_name)))))
 
-===============================
+================================================================================
 Signal list - Multiple signals
-===============================
+================================================================================
 disconnect all    : t after 10 ns;
 disconnect others : t after 10 ns;
 disconnect s1, s2 : t after 10 ns;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (disconnection_specification
@@ -34,8 +33,7 @@ disconnect s1, s2 : t after 10 ns;
         (simple_name)))
     (time_expression
       (physical_literal
-        (integer_decimal
-          (integer))
+        (integer_decimal)
         unit: (simple_name))))
   (disconnection_specification
     (guarded_signal_specification
@@ -45,8 +43,7 @@ disconnect s1, s2 : t after 10 ns;
         (simple_name)))
     (time_expression
       (physical_literal
-        (integer_decimal
-          (integer))
+        (integer_decimal)
         unit: (simple_name))))
   (disconnection_specification
     (guarded_signal_specification
@@ -57,6 +54,5 @@ disconnect s1, s2 : t after 10 ns;
         (simple_name)))
     (time_expression
       (physical_literal
-        (integer_decimal
-          (integer))
+        (integer_decimal)
         unit: (simple_name)))))

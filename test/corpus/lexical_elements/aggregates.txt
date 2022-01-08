@@ -278,8 +278,7 @@ assert (t'reverse_range(1)=>a);
               prefix: (simple_name)
               designator: (predefined_designator)
               (expression
-                (integer_decimal
-                  (integer)))))
+                (integer_decimal))))
           (expression
             (simple_name))))))
   (assertion_statement
@@ -291,7 +290,6 @@ assert (t'reverse_range(1)=>a);
               prefix: (simple_name)
               designator: (predefined_designator)
               (expression
-                (integer_decimal
-                  (integer)))))
+                (integer_decimal))))
           (expression
             (simple_name)))))))

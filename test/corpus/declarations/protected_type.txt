@@ -1,6 +1,6 @@
-=================================
+================================================================================
 Minimal
-=================================
+================================================================================
 type t is
     protected
     end protected;
@@ -8,7 +8,7 @@ type t is
 type t is
     protected
     end protected t;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -19,15 +19,15 @@ type t is
     (protected_type_declaration
       at_end: (simple_name))))
 
-=================================
+================================================================================
 LRM I
-=================================
+================================================================================
 type SharedCounter is protected
    procedure increment (N: Integer := 1);
    procedure decrement (N: Integer := 1);
    impure function value return Integer;
 end protected SharedCounter;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (full_type_declaration
@@ -44,8 +44,7 @@ end protected SharedCounter;
                 (type_mark
                   (simple_name)))
               (default_expression
-                (integer_decimal
-                  (integer))))))
+                (integer_decimal)))))
         (procedure_declaration
           designator: (identifier)
           (procedure_parameter_clause
@@ -56,8 +55,7 @@ end protected SharedCounter;
                 (type_mark
                   (simple_name)))
               (default_expression
-                (integer_decimal
-                  (integer))))))
+                (integer_decimal)))))
         (function_declaration
           designator: (identifier)
           (return

@@ -51,8 +51,7 @@ report """";
 (design_file
   (report_statement
     (string_expression
-      (string_literal
-        (escape_sequence)))))
+      (string_literal))))
 
 ==============================================================
 Underscore
