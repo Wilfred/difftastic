@@ -303,10 +303,13 @@ Export assignments
 ==================================
 
 export = Linter;
+export = {};
 
 ---
 
-(program (export_statement (identifier)))
+(program
+  (export_statement (identifier))
+  (export_statement (object)))
 
 ==================================
 Import aliases
