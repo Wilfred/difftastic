@@ -70,6 +70,7 @@ Example 6 - https://github.github.com/gfm/#example-6
 
 (document
   (block_quote
+    (block_quote_marker)
     (indented_code_block)))
 
 ================================================================================
@@ -886,6 +887,7 @@ Example 62 - https://github.github.com/gfm/#example-62
 
 (document
   (block_quote
+    (block_quote_marker)
     (paragraph))
   (thematic_break))
 
@@ -900,6 +902,7 @@ bar
 
 (document
   (block_quote
+    (block_quote_marker)
     (paragraph)))
 
 ================================================================================
@@ -1013,6 +1016,7 @@ Example 71 - https://github.github.com/gfm/#example-71
 
 (document
   (block_quote
+    (block_quote_marker)
     (paragraph))
   (thematic_break))
 
@@ -1396,7 +1400,9 @@ bbb
 
 (document
   (block_quote
+    (block_quote_marker)
     (fenced_code_block
+      (block_quote_marker)
       (code_fence_content)))
   (paragraph))
 
@@ -2021,7 +2027,9 @@ bar
 
 (document
   (block_quote
-    (html_block))
+    (block_quote_marker)
+    (html_block
+      (block_quote_marker)))
   (paragraph))
 
 ================================================================================
@@ -2692,6 +2700,7 @@ Example 183 - https://github.github.com/gfm/#example-183
     (link_label)
     (link_destination))
   (block_quote
+    (block_quote_marker)
     (paragraph)))
 
 ================================================================================
@@ -2780,6 +2789,7 @@ Example 187 - https://github.github.com/gfm/#example-187
     (shortcut_link
       (link_text)))
   (block_quote
+    (block_quote_marker)
     (link_reference_definition
       (link_label)
       (link_destination))))
@@ -2927,10 +2937,13 @@ Example 206 - https://github.github.com/gfm/#example-206
 
 (document
   (block_quote
+    (block_quote_marker)
     (atx_heading
       (atx_h1_marker)
-      (heading_content))
-    (paragraph)))
+      (heading_content)
+      (block_quote_marker))
+    (paragraph
+      (block_quote_marker))))
 
 ================================================================================
 Example 207 - https://github.github.com/gfm/#example-207
@@ -2943,10 +2956,13 @@ Example 207 - https://github.github.com/gfm/#example-207
 
 (document
   (block_quote
+    (block_quote_marker)
     (atx_heading
       (atx_h1_marker)
-      (heading_content))
-    (paragraph)))
+      (heading_content)
+      (block_quote_marker))
+    (paragraph
+      (block_quote_marker))))
 
 ================================================================================
 Example 208 - https://github.github.com/gfm/#example-208
@@ -2959,10 +2975,13 @@ Example 208 - https://github.github.com/gfm/#example-208
 
 (document
   (block_quote
+    (block_quote_marker)
     (atx_heading
       (atx_h1_marker)
-      (heading_content))
-    (paragraph)))
+      (heading_content)
+      (block_quote_marker))
+    (paragraph
+      (block_quote_marker))))
 
 ================================================================================
 Example 209 - https://github.github.com/gfm/#example-209
@@ -2987,9 +3006,11 @@ baz
 
 (document
   (block_quote
+    (block_quote_marker)
     (atx_heading
       (atx_h1_marker)
-      (heading_content))
+      (heading_content)
+      (block_quote_marker))
     (paragraph)))
 
 ================================================================================
@@ -3003,7 +3024,9 @@ baz
 
 (document
   (block_quote
-    (paragraph)))
+    (block_quote_marker)
+    (paragraph
+      (block_quote_marker))))
 
 ================================================================================
 Example 212 - https://github.github.com/gfm/#example-212
@@ -3015,6 +3038,7 @@ Example 212 - https://github.github.com/gfm/#example-212
 
 (document
   (block_quote
+    (block_quote_marker)
     (paragraph))
   (thematic_break))
 
@@ -3028,6 +3052,7 @@ Example 213 - https://github.github.com/gfm/#example-213
 
 (document
   (block_quote
+    (block_quote_marker)
     (list
       (list_item
         (list_marker_minus)
@@ -3047,6 +3072,7 @@ Example 214 - https://github.github.com/gfm/#example-214
 
 (document
   (block_quote
+    (block_quote_marker)
     (indented_code_block))
   (indented_code_block))
 
@@ -3061,6 +3087,7 @@ foo
 
 (document
   (block_quote
+    (block_quote_marker)
     (fenced_code_block))
   (paragraph)
   (fenced_code_block))
@@ -3075,6 +3102,7 @@ Example 216 - https://github.github.com/gfm/#example-216
 
 (document
   (block_quote
+    (block_quote_marker)
     (paragraph)))
 
 ================================================================================
@@ -3085,7 +3113,8 @@ Example 217 - https://github.github.com/gfm/#example-217
 --------------------------------------------------------------------------------
 
 (document
-  (block_quote))
+  (block_quote
+    (block_quote_marker)))
 
 ================================================================================
 Example 218 - https://github.github.com/gfm/#example-218
@@ -3097,7 +3126,10 @@ Example 218 - https://github.github.com/gfm/#example-218
 --------------------------------------------------------------------------------
 
 (document
-  (block_quote))
+  (block_quote
+    (block_quote_marker)
+    (block_quote_marker)
+    (block_quote_marker)))
 
 ================================================================================
 Example 219 - https://github.github.com/gfm/#example-219
@@ -3110,7 +3142,10 @@ Example 219 - https://github.github.com/gfm/#example-219
 
 (document
   (block_quote
-    (paragraph)))
+    (block_quote_marker)
+    (block_quote_marker)
+    (paragraph
+      (block_quote_marker))))
 
 ================================================================================
 Example 220 - https://github.github.com/gfm/#example-220
@@ -3123,8 +3158,10 @@ Example 220 - https://github.github.com/gfm/#example-220
 
 (document
   (block_quote
+    (block_quote_marker)
     (paragraph))
   (block_quote
+    (block_quote_marker)
     (paragraph)))
 
 ================================================================================
@@ -3137,7 +3174,9 @@ Example 221 - https://github.github.com/gfm/#example-221
 
 (document
   (block_quote
-    (paragraph)))
+    (block_quote_marker)
+    (paragraph
+      (block_quote_marker))))
 
 ================================================================================
 Example 222 - https://github.github.com/gfm/#example-222
@@ -3150,7 +3189,10 @@ Example 222 - https://github.github.com/gfm/#example-222
 
 (document
   (block_quote
-    (paragraph)
+    (block_quote_marker)
+    (paragraph
+      (block_quote_marker))
+    (block_quote_marker)
     (paragraph)))
 
 ================================================================================
@@ -3164,6 +3206,7 @@ foo
 (document
   (paragraph)
   (block_quote
+    (block_quote_marker)
     (paragraph)))
 
 ================================================================================
@@ -3177,9 +3220,11 @@ Example 224 - https://github.github.com/gfm/#example-224
 
 (document
   (block_quote
+    (block_quote_marker)
     (paragraph))
   (thematic_break)
   (block_quote
+    (block_quote_marker)
     (paragraph)))
 
 ================================================================================
@@ -3192,6 +3237,7 @@ baz
 
 (document
   (block_quote
+    (block_quote_marker)
     (paragraph)))
 
 ================================================================================
@@ -3205,6 +3251,7 @@ baz
 
 (document
   (block_quote
+    (block_quote_marker)
     (paragraph))
   (paragraph))
 
@@ -3219,7 +3266,9 @@ baz
 
 (document
   (block_quote
-    (paragraph))
+    (block_quote_marker)
+    (paragraph
+      (block_quote_marker)))
   (paragraph))
 
 ================================================================================
@@ -3232,8 +3281,11 @@ bar
 
 (document
   (block_quote
+    (block_quote_marker)
     (block_quote
+      (block_quote_marker)
       (block_quote
+        (block_quote_marker)
         (paragraph)))))
 
 ================================================================================
@@ -3247,9 +3299,15 @@ Example 229 - https://github.github.com/gfm/#example-229
 
 (document
   (block_quote
+    (block_quote_marker)
     (block_quote
+      (block_quote_marker)
       (block_quote
-        (paragraph)))))
+        (block_quote_marker)
+        (paragraph
+          (block_quote_marker)
+          (block_quote_marker)
+          (block_quote_marker))))))
 
 ================================================================================
 Example 230 - https://github.github.com/gfm/#example-230
@@ -3262,8 +3320,10 @@ Example 230 - https://github.github.com/gfm/#example-230
 
 (document
   (block_quote
+    (block_quote_marker)
     (indented_code_block))
   (block_quote
+    (block_quote_marker)
     (paragraph)))
 
 ================================================================================
@@ -3282,6 +3342,7 @@ with two lines.
   (paragraph)
   (indented_code_block)
   (block_quote
+    (block_quote_marker)
     (paragraph)))
 
 ================================================================================
@@ -3303,6 +3364,7 @@ Example 232 - https://github.github.com/gfm/#example-232
       (paragraph)
       (indented_code_block)
       (block_quote
+        (block_quote_marker)
         (paragraph)))))
 
 ================================================================================
@@ -3380,11 +3442,17 @@ Example 237 - https://github.github.com/gfm/#example-237
 
 (document
   (block_quote
+    (block_quote_marker)
     (block_quote
+      (block_quote_marker)
       (list
         (list_item
           (list_marker_dot)
-          (paragraph)
+          (paragraph
+            (block_quote_marker)
+            (block_quote_marker))
+          (block_quote_marker)
+          (block_quote_marker)
           (paragraph))))))
 
 ================================================================================
@@ -3398,11 +3466,17 @@ Example 238 - https://github.github.com/gfm/#example-238
 
 (document
   (block_quote
+    (block_quote_marker)
     (block_quote
+      (block_quote_marker)
       (list
         (list_item
           (list_marker_minus)
-          (paragraph)))
+          (paragraph
+            (block_quote_marker)
+            (block_quote_marker))
+          (block_quote_marker)
+          (block_quote_marker)))
       (paragraph))))
 
 ================================================================================
@@ -3459,6 +3533,7 @@ Example 241 - https://github.github.com/gfm/#example-241
         (code_fence_content))
       (paragraph)
       (block_quote
+        (block_quote_marker)
         (paragraph)))))
 
 ================================================================================
@@ -3832,6 +3907,7 @@ Example 264 - https://github.github.com/gfm/#example-264
       (paragraph)
       (indented_code_block)
       (block_quote
+        (block_quote_marker)
         (paragraph)))))
 
 ================================================================================
@@ -3853,6 +3929,7 @@ Example 265 - https://github.github.com/gfm/#example-265
       (paragraph)
       (indented_code_block)
       (block_quote
+        (block_quote_marker)
         (paragraph)))))
 
 ================================================================================
@@ -3874,6 +3951,7 @@ Example 266 - https://github.github.com/gfm/#example-266
       (paragraph)
       (indented_code_block)
       (block_quote
+        (block_quote_marker)
         (paragraph)))))
 
 ================================================================================
@@ -3910,6 +3988,7 @@ with two lines.
       (paragraph)
       (indented_code_block)
       (block_quote
+        (block_quote_marker)
         (paragraph)))))
 
 ================================================================================
@@ -3936,10 +4015,12 @@ continued here.
 
 (document
   (block_quote
+    (block_quote_marker)
     (list
       (list_item
         (list_marker_dot)
         (block_quote
+          (block_quote_marker)
           (paragraph))))))
 
 ================================================================================
@@ -3952,11 +4033,14 @@ Example 271 - https://github.github.com/gfm/#example-271
 
 (document
   (block_quote
+    (block_quote_marker)
     (list
       (list_item
         (list_marker_dot)
         (block_quote
-          (paragraph))))))
+          (block_quote_marker)
+          (paragraph
+            (block_quote_marker)))))))
 
 ================================================================================
 Example 272 - https://github.github.com/gfm/#example-272
@@ -4570,7 +4654,9 @@ Example 300 - https://github.github.com/gfm/#example-300
       (list_marker_star)
       (paragraph)
       (block_quote
-        (paragraph)))
+        (block_quote_marker)
+        (paragraph
+          (block_quote_marker))))
     (list_item
       (list_marker_star)
       (paragraph))))
@@ -4593,6 +4679,7 @@ Example 301 - https://github.github.com/gfm/#example-301
       (list_marker_minus)
       (paragraph)
       (block_quote
+        (block_quote_marker)
         (paragraph))
       (fenced_code_block
         (code_fence_content)))

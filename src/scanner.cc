@@ -15,6 +15,7 @@ enum TokenType {
     SOFT_LINE_BREAK_MARKER,
     BLOCK_CLOSE,
     BLOCK_CONTINUATION,
+    BLOCK_QUOTE_CONTINUATION,
     BLOCK_QUOTE_START,
     INDENTED_CHUNK_START,
     ATX_H1_MARKER,
@@ -776,19 +777,31 @@ struct Scanner {
                     if (!partial_success) state &= ~STATE_CLOSE_BLOCK;
                     break;
                 }
+                // If next block is a block quote and we have already matched stuff then return as
+                // every continuation for block quotes should be its own token.
+                if (open_blocks[matched] == BLOCK_QUOTE && partial_success) {
+                    break;
+                }
                 if (match(lexer, open_blocks[matched])) {
                     partial_success = true;
                     matched++;
+                    // Return after every block quote continuation
+                    if (open_blocks[matched - 1] == BLOCK_QUOTE) {
+                        break;
+                    }
                 } else {
                     break;
                 }
             }
             if (partial_success) {
-                /* assert(valid_symbols[BLOCK_CONTINUATION]); */
                 if (!valid_symbols[SOFT_LINE_BREAK_MARKER] && matched == open_blocks.size()) {
                     state &= (~STATE_MATCHING);
                 }
-                lexer->result_symbol = BLOCK_CONTINUATION;
+                if (open_blocks[matched - 1] == BLOCK_QUOTE) {
+                    lexer->result_symbol = BLOCK_QUOTE_CONTINUATION;
+                } else {
+                    lexer->result_symbol = BLOCK_CONTINUATION;
+                }
                 return true;
             }
 

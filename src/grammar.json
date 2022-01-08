@@ -261,8 +261,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_block_quote_start"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_block_quote_start"
+          },
+          "named": true,
+          "value": "block_quote_marker"
         },
         {
           "type": "CHOICE",
@@ -7313,6 +7318,15 @@
             "name": "_block_continuation"
           },
           {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_block_quote_continuation"
+            },
+            "named": true,
+            "value": "block_quote_marker"
+          },
+          {
             "type": "SYMBOL",
             "name": "_last_token_whitespace"
           }
@@ -10796,6 +10810,10 @@
     {
       "type": "SYMBOL",
       "name": "_block_continuation"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_block_quote_continuation"
     },
     {
       "type": "SYMBOL",

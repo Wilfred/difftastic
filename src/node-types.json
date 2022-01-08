@@ -32,6 +32,10 @@
           "named": true
         },
         {
+          "type": "block_quote_marker",
+          "named": true
+        },
+        {
           "type": "heading_content",
           "named": true
         }
@@ -44,7 +48,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "atx_heading",
@@ -52,6 +56,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -92,7 +100,17 @@
   {
     "type": "code_fence_content",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block_quote_marker",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "code_span",
@@ -108,6 +126,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -158,6 +180,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -213,6 +239,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -299,6 +329,10 @@
       "required": false,
       "types": [
         {
+          "type": "block_quote_marker",
+          "named": true
+        },
+        {
           "type": "code_fence_content",
           "named": true
         },
@@ -333,7 +367,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -342,6 +376,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -381,6 +419,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -461,7 +503,17 @@
   {
     "type": "html_block",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block_quote_marker",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "html_tag",
@@ -477,6 +529,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -512,6 +568,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -567,6 +627,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -647,7 +711,17 @@
   {
     "type": "indented_code_block",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block_quote_marker",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "info_string",
@@ -690,6 +764,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -780,6 +858,10 @@
         {
           "type": "backslash_escape",
           "named": true
+        },
+        {
+          "type": "block_quote_marker",
+          "named": true
         }
       ]
     }
@@ -798,6 +880,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -849,6 +935,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -923,6 +1013,10 @@
           "named": true
         },
         {
+          "type": "block_quote_marker",
+          "named": true
+        },
+        {
           "type": "entity_reference",
           "named": true
         },
@@ -962,6 +1056,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -1065,6 +1163,10 @@
           "named": true
         },
         {
+          "type": "block_quote_marker",
+          "named": true
+        },
+        {
           "type": "code_span",
           "named": true
         },
@@ -1148,6 +1250,10 @@
       "required": true,
       "types": [
         {
+          "type": "block_quote_marker",
+          "named": true
+        },
+        {
           "type": "heading_content",
           "named": true
         },
@@ -1195,6 +1301,10 @@
         },
         {
           "type": "block_quote",
+          "named": true
+        },
+        {
+          "type": "block_quote_marker",
           "named": true
         },
         {
@@ -1275,7 +1385,17 @@
   {
     "type": "thematic_break",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block_quote_marker",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "!",
@@ -1439,6 +1559,10 @@
   },
   {
     "type": "backslash_escape",
+    "named": true
+  },
+  {
+    "type": "block_quote_marker",
     "named": true
   },
   {

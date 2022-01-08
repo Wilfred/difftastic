@@ -105,6 +105,7 @@ module.exports = grammar(add_inline_rules({
         // Token encountered if we match an open block. For example a '>' at the beginning of a line
         // if we are in an (already open) block quote.
         $._block_continuation,
+        $._block_quote_continuation,
         // Start token for a block quote (https://github.github.com/gfm/#block-quotes)
         $._block_quote_start,
         // Start token for an indented chunk which is part of an indented code block
@@ -290,7 +291,7 @@ module.exports = grammar(add_inline_rules({
         paragraph: $ => seq($._inline, $._paragraph_end_newline),
         indented_code_block: $ => prec.right(seq($._indented_chunk, repeat(choice($._indented_chunk, $._blank_line)))),
         _indented_chunk: $ => seq($._indented_chunk_start, repeat(choice($._text, $._newline)), $._block_close, optional($._ignore_matching_tokens)),
-        block_quote: $ => seq($._block_quote_start, optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
+        block_quote: $ => seq(alias($._block_quote_start, $.block_quote_marker), optional($._ignore_matching_tokens), repeat($._block), $._block_close, optional($._ignore_matching_tokens)),
         atx_heading: $ => prec(1, seq(
             choice($.atx_h1_marker, $.atx_h2_marker, $.atx_h3_marker, $.atx_h4_marker, $.atx_h5_marker, $.atx_h6_marker),
             optional(alias($._inline_no_newline, $.heading_content)),
@@ -594,7 +595,7 @@ module.exports = grammar(add_inline_rules({
             optional($._line_ending),
             optional($._ignore_matching_tokens)
         )),
-        _ignore_matching_tokens: $ => repeat1(choice($._block_continuation, $._last_token_whitespace)),
+        _ignore_matching_tokens: $ => repeat1(choice($._block_continuation, alias($._block_quote_continuation, $.block_quote_marker), $._last_token_whitespace)),
     },
 }));
 
