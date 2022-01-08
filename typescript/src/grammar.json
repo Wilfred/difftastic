@@ -207,6 +207,10 @@
             {
               "type": "SYMBOL",
               "name": "export_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_semicolon"
             }
           ]
         },
@@ -223,7 +227,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "expression"
             },
             {
               "type": "SYMBOL",

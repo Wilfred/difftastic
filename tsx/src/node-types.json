@@ -2037,6 +2037,10 @@
           "named": true
         },
         {
+          "type": "expression",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
