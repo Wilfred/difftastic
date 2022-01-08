@@ -128,6 +128,9 @@ a..b;
 1..(1);
 (1)..1;
 (1)..(1);
+1..{1};
+for i in 1.. {
+}
 
 ---
 
@@ -146,7 +149,16 @@ a..b;
     (integer_literal))
   (range_expression
     (parenthesized_expression (integer_literal))
-    (parenthesized_expression (integer_literal))))
+    (parenthesized_expression (integer_literal)))
+  (range_expression
+    (integer_literal)
+    (block
+      (integer_literal)))
+  (for_expression
+    (identifier)
+    (range_expression
+      (integer_literal))
+    (block)))
 
 ============================================
 Assignment expressions
