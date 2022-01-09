@@ -1,67 +1,11 @@
-const PREC = { // {{{
+const PREC = {
   CONSTANT_INTERFACE: 3,
   VARIABLE_INTERFACE: 2,
   SIGNAL_INTERFACE: 1,
   ILLEGAL_INTERFACE: -3,
 };
-// }}}
-// 15.2 Character set {{{
-const LOWER_CASE_LETTER = [
-  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-  'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'ß', 'à', 'á', 'â',
-  'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ñ',
-  'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ'
-];
 
-const UPPER_CASE_LETTER = [
-  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-  'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'À', 'Á', 'Â', 'Ã',
-  'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò',
-  'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'Þ',
-];
-
-const DIGIT = [
-  '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-];
-
-const SPECIAL_CHARACTER = [
-  '"', '#', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<',
-  '=', '>', '?', '@', '[', ']', '_', '`', '|'
-];
-
-const OTHER_SPECIAL_CHARARACTER = [
-  '!', '$', '%', '\\', '^', '{', '}', '', '~', '¡', '¢', '£', '¤', '¥', '¦',
-  '§', '¨', '©', 'ª', '«', '¬', '®', '¯', '°', '±', '²', '³', '´', 'µ', '¶',
-  '·', '¸', '¹', 'º', '»', '¼', '½', '¾', '¿', '×', '÷', '-'
-];
-
-// named characters
-const HT = '\t'; // HORIZONTAL TAB
-const VT = '\v'; // VERTICAL TAB
-const CR = '\r'; // CARRIAGE RETURN
-const LF = '\n'; // LINE FEED
-const FF = '\f'; // FORM FEED
-const SPACE = ' ';
-const NBSP = ' ';
-const UNDERLINE = '_';
-const DOUBLE_QUOTE = '"';
-
-const FORMAT_EFFECTOR = [HT, VT, CR, LF, FF];
-const SPACE_CHARACTER = [SPACE, NBSP];
-
-const BASIC_GRAPHIC_CHARACTER = [
-  ...UPPER_CASE_LETTER,
-  ...DIGIT,
-  ...SPECIAL_CHARACTER,
-  ...SPACE_CHARACTER
-];
-
-const GRAPHIC_CHARACTER = [
-  ...BASIC_GRAPHIC_CHARACTER,
-  ...LOWER_CASE_LETTER,
-  ...OTHER_SPECIAL_CHARARACTER
-];
-
+// 15.2 Character set
 const RANGE_ATTRIBUTE_DESIGNATOR = [
   'range',
   'reverse_range'
@@ -127,7 +71,6 @@ const EXPONENT = seq(
   repeat(/[0-9_]/),
 );
 
-// }}}
 module.exports = grammar({
   name: 'vhdl',
 
@@ -136,7 +79,7 @@ module.exports = grammar({
   extras: $ => [ // {{{
     $.comment,
     $.tool_directive,
-    $._separator
+    /\s/,
   ], // }}}
   inline: $ => [ // {{{
     $._entity_name, // 3.2
@@ -2970,7 +2913,7 @@ module.exports = grammar({
       ';'
     ),
 
-    logical_name_list: $ => sepBy1(',', $._simple_name),
+    logical_name_list: $ => sepBy1(',', field('library',$._simple_name)),
     // }}}
     // 13.3 Context declarations {{{
     context_declaration: $ => seq(
@@ -3004,7 +2947,6 @@ module.exports = grammar({
     context_list: $ => sepBy1(',', $.selected_name),
     // }}}
     // 15.3 Separators {{{
-    _separator: $ => token(choice(...FORMAT_EFFECTOR, ...SPACE_CHARACTER)),
     // }}}
     // 15.4 Identifiers {{{
     _identifier: $ => choice(
