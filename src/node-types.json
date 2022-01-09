@@ -1106,10 +1106,6 @@
           {
             "type": "within",
             "named": false
-          },
-          {
-            "type": "|",
-            "named": false
           }
         ]
       }
@@ -4257,76 +4253,6 @@
     }
   },
   {
-    "type": "base",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "based_integer",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "base",
-          "named": true
-        },
-        {
-          "type": "based_literal",
-          "named": true
-        },
-        {
-          "type": "exponent",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "based_literal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "illegal",
-          "named": true
-        },
-        {
-          "type": "separator",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "based_real",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "base",
-          "named": true
-        },
-        {
-          "type": "based_literal",
-          "named": true
-        },
-        {
-          "type": "exponent",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "binding_indication",
     "named": true,
     "fields": {},
@@ -4372,52 +4298,7 @@
   {
     "type": "bit_string_literal",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "base_specifier",
-          "named": true
-        },
-        {
-          "type": "bit_value",
-          "named": true
-        },
-        {
-          "type": "length",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "bit_value",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "dont_care",
-          "named": true
-        },
-        {
-          "type": "illegal",
-          "named": true
-        },
-        {
-          "type": "separator",
-          "named": true
-        },
-        {
-          "type": "unresolved",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "block_configuration",
@@ -4713,11 +4594,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "comment",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "component_configuration",
@@ -8927,11 +8803,6 @@
     }
   },
   {
-    "type": "illegal",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "incomplete_type_declaration",
     "named": true,
     "fields": {
@@ -9192,40 +9063,6 @@
     }
   },
   {
-    "type": "integer",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "separator",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "integer_decimal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "exponent",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "interface_subprogram_default",
     "named": true,
     "fields": {},
@@ -9270,21 +9107,6 @@
         },
         {
           "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "length",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "separator",
           "named": true
         }
       ]
@@ -9486,20 +9308,21 @@
   {
     "type": "logical_name_list",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "extended_simple_name",
-          "named": true
-        },
-        {
-          "type": "simple_name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "library": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "extended_simple_name",
+            "named": true
+          },
+          {
+            "type": "simple_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -9739,17 +9562,7 @@
   {
     "type": "operator_symbol",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "escape_sequence",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "others",
@@ -10972,25 +10785,6 @@
     }
   },
   {
-    "type": "real_decimal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "exponent",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "record_constraint",
     "named": true,
     "fields": {},
@@ -11309,10 +11103,6 @@
         "required": true,
         "types": [
           {
-            "type": "!=",
-            "named": false
-          },
-          {
             "type": "/=",
             "named": false
           },
@@ -11326,10 +11116,6 @@
           },
           {
             "type": "=",
-            "named": false
-          },
-          {
-            "type": "==",
             "named": false
           },
           {
@@ -12128,11 +11914,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "separator",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "sequence_of_statements",
@@ -13612,17 +13393,7 @@
   {
     "type": "string_literal",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "escape_sequence",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "subprogram_header",
@@ -14065,11 +13836,6 @@
     }
   },
   {
-    "type": "tool_directive",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "transport",
     "named": true,
     "fields": {}
@@ -14340,15 +14106,7 @@
     "named": false
   },
   {
-    "type": "!=",
-    "named": false
-  },
-  {
     "type": "\"",
-    "named": false
-  },
-  {
-    "type": "#",
     "named": false
   },
   {
@@ -14380,10 +14138,6 @@
     "named": false
   },
   {
-    "type": "*/",
-    "named": false
-  },
-  {
     "type": "+",
     "named": false
   },
@@ -14393,10 +14147,6 @@
   },
   {
     "type": "-",
-    "named": false
-  },
-  {
-    "type": "--",
     "named": false
   },
   {
@@ -14412,51 +14162,7 @@
     "named": false
   },
   {
-    "type": "/*",
-    "named": false
-  },
-  {
     "type": "/=",
-    "named": false
-  },
-  {
-    "type": "0",
-    "named": false
-  },
-  {
-    "type": "1",
-    "named": false
-  },
-  {
-    "type": "2",
-    "named": false
-  },
-  {
-    "type": "3",
-    "named": false
-  },
-  {
-    "type": "4",
-    "named": false
-  },
-  {
-    "type": "5",
-    "named": false
-  },
-  {
-    "type": "6",
-    "named": false
-  },
-  {
-    "type": "7",
-    "named": false
-  },
-  {
-    "type": "8",
-    "named": false
-  },
-  {
-    "type": "9",
     "named": false
   },
   {
@@ -14489,10 +14195,6 @@
   },
   {
     "type": "=",
-    "named": false
-  },
-  {
-    "type": "==",
     "named": false
   },
   {
@@ -14561,10 +14263,6 @@
   },
   {
     "type": "_",
-    "named": false
-  },
-  {
-    "type": "`",
     "named": false
   },
   {
@@ -14644,7 +14342,11 @@
     "named": false
   },
   {
-    "type": "base_specifier",
+    "type": "based_integer",
+    "named": true
+  },
+  {
+    "type": "based_real",
     "named": true
   },
   {
@@ -14692,6 +14394,10 @@
     "named": false
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "component",
     "named": false
   },
@@ -14736,10 +14442,6 @@
     "named": false
   },
   {
-    "type": "dont_care",
-    "named": true
-  },
-  {
     "type": "downto",
     "named": false
   },
@@ -14776,10 +14478,6 @@
     "named": false
   },
   {
-    "type": "escape_sequence",
-    "named": true
-  },
-  {
     "type": "event",
     "named": false
   },
@@ -14790,10 +14488,6 @@
   {
     "type": "exit",
     "named": false
-  },
-  {
-    "type": "exponent",
-    "named": true
   },
   {
     "type": "extended_identifier",
@@ -14890,6 +14584,10 @@
   {
     "type": "instance_name",
     "named": false
+  },
+  {
+    "type": "integer_decimal",
+    "named": true
   },
   {
     "type": "is",
@@ -15108,6 +14806,10 @@
     "named": false
   },
   {
+    "type": "real_decimal",
+    "named": true
+  },
+  {
     "type": "record",
     "named": false
   },
@@ -15252,6 +14954,10 @@
     "named": false
   },
   {
+    "type": "tool_directive",
+    "named": true
+  },
+  {
     "type": "transaction",
     "named": false
   },
@@ -15274,10 +14980,6 @@
   {
     "type": "units",
     "named": false
-  },
-  {
-    "type": "unresolved",
-    "named": true
   },
   {
     "type": "until",

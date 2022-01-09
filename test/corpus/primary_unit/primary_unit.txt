@@ -1,11 +1,11 @@
-========================================
+================================================================================
 Minimal
-========================================
+================================================================================
 library ieee;
 
 entity e is
 end entity;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (design_unit
@@ -16,14 +16,14 @@ end entity;
     (entity_declaration
       (identifier))))
 
-========================================
+================================================================================
 Logical name list
-========================================
+================================================================================
 library work, ieee;
 
 entity e is
 end entity;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (design_unit
@@ -35,16 +35,16 @@ end entity;
     (entity_declaration
       (identifier))))
 
-========================================
+================================================================================
 Context declaration - LRM
-========================================
+================================================================================
 context project_context is
    library project_lib;
    use project_lib.project_defs.all;
    library IP_lib;
    context IP_lib.IP_context;
 end context project_context;
----
+--------------------------------------------------------------------------------
 
 (design_file
   (design_unit
@@ -53,7 +53,7 @@ end context project_context;
       (context_clause
         (library_clause
           (logical_name_list
-            (simple_name)))
+            library: (simple_name)))
         (use_clause
           (selected_name
             prefix: (selected_name
@@ -62,7 +62,7 @@ end context project_context;
             suffix: (all)))
         (library_clause
           (logical_name_list
-            (simple_name)))
+            library: (simple_name)))
         (context_reference
           (context_list
             (selected_name
