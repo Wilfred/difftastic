@@ -9,5 +9,6 @@
 - [Diffing](./diffing.md)
   - [Tricky Cases](./tricky_cases.md)
 - [Contributing](./contributing.md)
+- [Glossary](./glossary.md)
 - [Alternative Projects](./alternative_projects.md)
   - [Tree Diffing](./tree_diffing.md)
