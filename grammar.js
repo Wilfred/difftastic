@@ -1665,7 +1665,8 @@ module.exports = grammar({
       $.array_variable,
       alias($.hash_ref_in_interpolation, $.arrow_notation),
       // $.hash_access_variable,
-      alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable),
+      // alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable),
+      $.scalar_variable,
       $._special_variable,
     ),
 
@@ -1687,6 +1688,7 @@ module.exports = grammar({
     scalar_variable: $ => choice(
       /\$\#_?[a-zA-Z0-9_]+/,          // length of an array
       /\$[A-Z^_?\\]/,                 // checkout https://perldoc.perl.org/perldata#Identifier-parsing
+      /\$\{_?[a-zA-Z0-9_]+\}/,        // need to name this. eg print "${key}"
       /\$_?[a-zA-Z0-9_]+/,
     ),
 
