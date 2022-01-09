@@ -4940,6 +4940,10 @@
     "named": false
   },
   {
+    "type": "doc_comment",
+    "named": true
+  },
+  {
     "type": "dyn",
     "named": false
   },
