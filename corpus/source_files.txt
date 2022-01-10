@@ -55,36 +55,6 @@ Line comments
 (source_file
   (line_comment))
 
-============================================
-Doc comments
-============================================
-
-/// Doc
-/// Comment
-// / Now a line comment (note the space separating the third slash)
-
-/// Doc
-/// Comment
-//// Four slashes makes the line a normal comment
-/// Doc comment got interrupted by the line above
-
-//! Inner doc comment line 1
-//! Inner doc comment line 2
-/// This is different doc comment since the line starts differently
-//! Back to inner doc comment
-
-----
-
-(source_file
-  (doc_comment)
-  (line_comment)
-  (doc_comment)
-  (line_comment)
-  (doc_comment)
-  (doc_comment)
-  (doc_comment)
-  (doc_comment))
-
 =====================================
 Greek letters in identifiers
 =====================================
