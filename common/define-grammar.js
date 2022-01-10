@@ -479,6 +479,8 @@ module.exports = function defineGrammar(dialect) {
 
       _module: $ => prec.right(seq(
         field('name', choice($.string, $.identifier, $.nested_identifier)),
+        // On .d.ts files "declare module foo" desugars to "declare module foo {}",
+        // hence why it is optional here
         field('body', optional($.statement_block))
       )),
 
