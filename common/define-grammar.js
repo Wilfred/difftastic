@@ -273,8 +273,8 @@ module.exports = function defineGrammar(dialect) {
 
       export_statement: ($, previous) => choice(
         previous,
-        seq('export', 'type', $.export_clause),
-        seq('export', '=', $.identifier, $._semicolon),
+        seq('export', 'type', $.export_clause, $._semicolon),
+        seq('export', '=', $.expression, $._semicolon),
         seq('export', 'as', 'namespace', $.identifier, $._semicolon),
       ),
 
