@@ -2,7 +2,7 @@
 // https://code.qt.io/cgit/qt/qtdeclarative.git/tree/src/qml/
 //   compiler/qqmlirbuilder.cpp
 //   parser/{qqmljs.g,qqmljsast_p.h,qqmljslexer.cpp}
-// 3d23912b0e9710dad7ecaf238690e4a7d253534d
+// 0d799cc0ddf851c64c15441f4774784e3179d1f2
 
 module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
   name: 'qmljs',
@@ -142,9 +142,7 @@ module.exports = grammar(require('tree-sitter-typescript/typescript/grammar'), {
       field('value', $._ui_binding_value),
     ),
 
-    // This is a general (or relaxed) form of the property declaration. Some
-    // combinations (e.g. required with value) can be rejected by qqmljs.g, but
-    // copying that wouldn't make sense. It's rather restricted by a code model.
+    // Duplicated modifiers are rejected by qqmljs.g, but we don't check for that.
     ui_property: $ => seq(
       repeat($.ui_property_modifier),
       'property',
