@@ -2179,6 +2179,10 @@
           },
           {
             "type": "STRING",
+            "value": "anyopaque"
+          },
+          {
+            "type": "STRING",
             "value": "noreturn"
           },
           {
@@ -2232,10 +2236,6 @@
           {
             "type": "STRING",
             "value": "c_longdouble"
-          },
-          {
-            "type": "STRING",
-            "value": "c_void"
           },
           {
             "type": "PATTERN",
