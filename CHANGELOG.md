@@ -1,5 +1,10 @@
 ## 0.16 (unreleased)
 
+### Parsing
+
+Whitespace in JSX is parsed more closely to React's whitespace
+trimming rules.
+
 ### Integration
 
 Fixed a crash when on Mercurial diffs when a whole file has been removed.
