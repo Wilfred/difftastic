@@ -10,10 +10,10 @@ Test an empty class
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal)))
 
@@ -31,10 +31,10 @@ Test a class with source file
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal)))
 
@@ -54,14 +54,14 @@ Test a class that implements an interface
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal))
   (implements_directive
-    (class_identifier)))
+    identifier: (class_identifier)))
 
 
 
@@ -80,13 +80,13 @@ Test a class that implements multiple interfaces
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal))
   (implements_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (implements_directive
-    (class_identifier)))
+    identifier: (class_identifier)))

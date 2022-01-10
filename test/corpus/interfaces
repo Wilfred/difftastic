@@ -10,10 +10,10 @@ Test an empty interface
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal)))
 
@@ -33,14 +33,14 @@ Test an empty interface that extends another interface
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal))
   (implements_directive
-    (class_identifier)))
+    identifier: (class_identifier)))
 
 
 
@@ -59,16 +59,16 @@ Test an interface with one method
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal))
   (method_definition
     (method_declaration
-      (access_modifiers)
-      (method_identifier
+      modifiers: (access_modifiers)
+      identifier: (method_identifier
         return_type: (primitive_type)))
     (end_method)))
 
@@ -89,16 +89,16 @@ Test an interface with one method with parameters and return value
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal))
   (method_definition
     (method_declaration
-      (access_modifiers)
-      (method_identifier
+      modifiers: (access_modifiers)
+      identifier: (method_identifier
         parameters: (parameters
         (class_identifier)
         (primitive_type))

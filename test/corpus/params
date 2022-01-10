@@ -14,21 +14,21 @@ Test a simple param
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal))
   (method_definition
     (method_declaration
-      (access_modifiers)
-      (method_identifier
+      modifiers: (access_modifiers)
+      identifier: (method_identifier
         return_type: (primitive_type)))
     (code_block
       (param_directive
         (start_param
-          (parameter))))
+          parameter: (parameter))))
     (end_method)))
 
 
@@ -50,21 +50,21 @@ Test a simple param block
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal))
   (method_definition
     (method_declaration
-      (access_modifiers)
-      (method_identifier
+      modifiers: (access_modifiers)
+      identifier: (method_identifier
         return_type: (primitive_type)))
     (code_block
       (param_directive
         (start_param
-          (parameter))
+          parameter: (parameter))
         (end_param)))
     (end_method)))
 
@@ -89,24 +89,25 @@ Test a param block with an empty annotation
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal))
   (method_definition
     (method_declaration
-      (access_modifiers)
-      (method_identifier
+      modifiers: (access_modifiers)
+      identifier: (method_identifier
         return_type: (primitive_type)))
     (code_block
       (param_directive
         (start_param
-          (parameter))
+          parameter: (parameter))
         (annotation_directive
           (start_annotation
-            (class_identifier))
+            visibility: (annotation_visibility)
+            identifier: (class_identifier))
           (end_annotation))
         (end_param)))
     (end_method)))

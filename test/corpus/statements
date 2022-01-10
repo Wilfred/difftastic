@@ -14,20 +14,20 @@ Test empty statement
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal))
   (method_definition
     (method_declaration
-      (access_modifiers)
-      (method_identifier
+      modifiers: (access_modifiers)
+      identifier: (method_identifier
         return_type: (primitive_type)))
     (code_block
       (statement
-        (opcode)))
+        opcode: (opcode)))
     (end_method)))
 
 
@@ -49,26 +49,26 @@ Test statements with variable and number literal arguments
 
 (class_definition
   (class_directive
-    (access_modifiers)
-    (class_identifier))
+    modifiers: (access_modifiers)
+    identifier: (class_identifier))
   (super_directive
-    (class_identifier))
+    identifier: (class_identifier))
   (source_directive
     (string_literal))
   (method_definition
     (method_declaration
-      (access_modifiers)
-      (method_identifier
+      modifiers: (access_modifiers)
+      identifier: (method_identifier
         parameters: (parameters
         (array_type
           element_type: (class_identifier)))
         return_type: (primitive_type)))
     (code_block
       (statement
-        (opcode)
-        (variable)
-        (number_literal))
+        opcode: (opcode)
+        argument: (variable)
+        argument: (number_literal))
       (statement
-        (opcode)
-        (variable)))
+        opcode: (opcode)
+        argument: (variable)))
     (end_method)))

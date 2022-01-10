@@ -282,10 +282,17 @@ module.exports = grammar({
       ),
 
     // class related
-    class_directive: $ => seq(".class", $.access_modifiers, $.class_identifier),
-    super_directive: $ => seq(".super", $.class_identifier),
+    class_directive: $ =>
+      seq(
+        ".class",
+        field("modifiers", $.access_modifiers),
+        field("identifier", $.class_identifier)
+      ),
+    super_directive: $ =>
+      seq(".super", field("identifier", $.class_identifier)),
     source_directive: $ => seq(".source", $.string_literal),
-    implements_directive: $ => seq(".implements", $.class_identifier),
+    implements_directive: $ =>
+      seq(".implements", field("identifier", $.class_identifier)),
 
     field_definition: $ =>
       seq(
@@ -295,8 +302,8 @@ module.exports = grammar({
     field_declaration: $ =>
       seq(
         ".field",
-        $.access_modifiers,
-        $.field_identifier,
+        field("modifiers", $.access_modifiers),
+        field("identifier", $.field_identifier),
         optional(seq("=", $._literal))
       ),
     end_field: _ => ".end field",
@@ -309,7 +316,11 @@ module.exports = grammar({
         $.end_method
       ),
     method_declaration: $ =>
-      seq(".method", optional($.access_modifiers), $.method_identifier),
+      seq(
+        ".method",
+        optional(field("modifiers", $.access_modifiers)),
+        field("identifier", $.method_identifier)
+      ),
     end_method: _ => ".end method",
 
     // annotation related
@@ -318,9 +329,10 @@ module.exports = grammar({
     start_annotation: $ =>
       seq(
         ".annotation",
-        choice("system", "build", "runtime"),
-        $.class_identifier
+        field("visibility", $.annotation_visibility),
+        field("identifier", $.class_identifier)
       ),
+    annotation_visibility: _ => choice("system", "build", "runtime"),
     annotation_property: $ =>
       seq(
         field("key", $.annotation_key),
@@ -344,7 +356,8 @@ module.exports = grammar({
         repeat($.annotation_property),
         $.end_subannotation
       ),
-    subannotation_declaration: $ => seq(".subannotation", $.class_identifier),
+    subannotation_declaration: $ =>
+      seq(".subannotation", field("identifier", $.class_identifier)),
     end_subannotation: _ => ".end subannotation",
 
     param_directive: $ =>
@@ -354,7 +367,7 @@ module.exports = grammar({
           optional(seq(repeat($.annotation_directive), $.end_param))
         )
       ),
-    start_param: $ => seq(".param", $.parameter),
+    start_param: $ => seq(".param", field("parameter", $.parameter)),
     end_param: _ => ".end param",
 
     // code lines
@@ -363,7 +376,12 @@ module.exports = grammar({
     label: _ => /:[\w\d]+/,
 
     // statement
-    statement: $ => seq($.opcode, commaSep($._statement_argument), "\n"),
+    statement: $ =>
+      seq(
+        field("opcode", $.opcode),
+        field("argument", commaSep($._statement_argument)),
+        "\n"
+      ),
     opcode: _ => choice(...opcodes),
     _statement_argument: $ =>
       choice(
@@ -423,8 +441,8 @@ module.exports = grammar({
     array_data_directive: $ =>
       seq(
         ".array-data",
-        $.number_literal,
-        repeat($.number_literal),
+        field("element_width", $.number_literal),
+        field("value", repeat($.number_literal)),
         ".end array-data"
       ),
 
@@ -459,7 +477,10 @@ module.exports = grammar({
     access_modifiers: _ => repeat1(choice(...modifiers)),
     comment: _ => token(seq("#", /.*/)),
     enum_reference: $ =>
-      seq(".enum", choice($.field_identifier, $.full_field_identifier)),
+      seq(
+        ".enum",
+        field("identifier", choice($.field_identifier, $.full_field_identifier))
+      ),
 
     // special symbols
     variable: _ => /v\d+/,
@@ -484,9 +505,9 @@ module.exports = grammar({
     range: $ =>
       seq(
         "{",
-        choice($.variable, $.parameter, $.number_literal),
+        field("start", choice($.variable, $.parameter, $.number_literal)),
         "..",
-        choice($.variable, $.parameter, $.number_literal),
+        field("end", choice($.variable, $.parameter, $.number_literal)),
         "}"
       ),
 
