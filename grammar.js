@@ -455,7 +455,7 @@ module.exports = grammar({
         $.method_identifier,
         $.full_method_identifier
       ),
-    class_identifier: _ => /L[\w\d\/\$]+;/,
+    class_identifier: _ => /L[^;]+;/,
     field_identifier: $ => seq(/[\w\d\$]+:/, $._type),
     method_identifier: $ =>
       seq(

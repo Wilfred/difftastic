@@ -1809,7 +1809,7 @@
     },
     "class_identifier": {
       "type": "PATTERN",
-      "value": "L[\\w\\d\\/\\$]+;"
+      "value": "L[^;]+;"
     },
     "field_identifier": {
       "type": "SEQ",
