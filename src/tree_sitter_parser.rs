@@ -603,7 +603,16 @@ fn atom_from_cursor<'a>(
 ) -> &'a Syntax<'a> {
     let node = cursor.node();
     let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
-    let content = &src[node.start_byte()..node.end_byte()];
+    let mut content = &src[node.start_byte()..node.end_byte()];
+
+    // JSX trims whitespace at the beginning and end of text nodes.
+    // TODO: match the exact trimming behaviour used in React.
+    //
+    // https://reactjs.org/blog/2014/02/20/react-v0.9.html#jsx-whitespace
+    // https://github.com/facebook/react/pull/480
+    if node.kind() == "jsx_text" {
+        content = content.trim();
+    }
 
     let highlight = if node.is_extra() {
         AtomKind::Comment
