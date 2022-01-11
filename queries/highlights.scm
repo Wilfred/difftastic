@@ -17,6 +17,8 @@
 
 ; Types
 
+(type_identifier) @type
+
 (interface_declaration
   name: (identifier) @type)
 (class_declaration
@@ -30,11 +32,15 @@
 ((scoped_identifier
   scope: (identifier) @type)
  (#match? @type "^[A-Z]"))
+((method_invocation
+  object: (identifier) @type)
+ (#match? @type "^[A-Z]"))
+((method_reference
+  . (identifier) @type)
+ (#match? @type "^[A-Z]"))
 
 (constructor_declaration
   name: (identifier) @type)
-
-(type_identifier) @type
 
 [
   (boolean_type)
