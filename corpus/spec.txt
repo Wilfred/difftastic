@@ -315,7 +315,9 @@ Example 26 - https://github.github.com/gfm/#example-26
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 27 - https://github.github.com/gfm/#example-27
@@ -480,7 +482,9 @@ Example 36 - https://github.github.com/gfm/#example-36
   (atx_heading
     (atx_h1_marker)
     (heading_content
-      (emphasis)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
       (backslash_escape)
       (backslash_escape))))
 
@@ -692,11 +696,15 @@ Foo *bar*
 (document
   (setext_heading
     (heading_content
-      (emphasis))
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)))
     (setext_h1_underline))
   (setext_heading
     (heading_content
-      (emphasis))
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)))
     (setext_h2_underline)))
 
 ================================================================================
@@ -711,7 +719,9 @@ baz*
 (document
   (setext_heading
     (heading_content
-      (emphasis))
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)))
     (setext_h1_underline)))
 
 ================================================================================
@@ -726,7 +736,9 @@ baz*
 (document
   (setext_heading
     (heading_content
-      (emphasis))
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)))
     (setext_h1_underline)))
 
 ================================================================================
@@ -1279,7 +1291,9 @@ Example 89 - https://github.github.com/gfm/#example-89
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 90 - https://github.github.com/gfm/#example-90
@@ -1293,7 +1307,9 @@ Example 90 - https://github.github.com/gfm/#example-90
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 91 - https://github.github.com/gfm/#example-91
@@ -1306,7 +1322,9 @@ foo
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 92 - https://github.github.com/gfm/#example-92
@@ -1320,7 +1338,9 @@ aaa
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 93 - https://github.github.com/gfm/#example-93
@@ -1334,7 +1354,9 @@ aaa
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 94 - https://github.github.com/gfm/#example-94
@@ -1348,7 +1370,9 @@ aaa
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 95 - https://github.github.com/gfm/#example-95
@@ -1362,7 +1386,9 @@ aaa
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 96 - https://github.github.com/gfm/#example-96
@@ -1372,7 +1398,8 @@ Example 96 - https://github.github.com/gfm/#example-96
 --------------------------------------------------------------------------------
 
 (document
-  (fenced_code_block))
+  (fenced_code_block
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 97 - https://github.github.com/gfm/#example-97
@@ -1386,6 +1413,7 @@ aaa
 
 (document
   (fenced_code_block
+    (fenced_code_block_delimiter)
     (code_fence_content)))
 
 ================================================================================
@@ -1402,6 +1430,7 @@ bbb
   (block_quote
     (block_quote_marker)
     (fenced_code_block
+      (fenced_code_block_delimiter)
       (block_quote_marker)
       (code_fence_content)))
   (paragraph))
@@ -1418,7 +1447,9 @@ Example 99 - https://github.github.com/gfm/#example-99
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 100 - https://github.github.com/gfm/#example-100
@@ -1429,7 +1460,9 @@ Example 100 - https://github.github.com/gfm/#example-100
 --------------------------------------------------------------------------------
 
 (document
-  (fenced_code_block))
+  (fenced_code_block
+    (fenced_code_block_delimiter)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 101 - https://github.github.com/gfm/#example-101
@@ -1443,7 +1476,9 @@ aaa
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 102 - https://github.github.com/gfm/#example-102
@@ -1458,7 +1493,9 @@ aaa
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 103 - https://github.github.com/gfm/#example-103
@@ -1473,7 +1510,9 @@ Example 103 - https://github.github.com/gfm/#example-103
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 104 - https://github.github.com/gfm/#example-104
@@ -1498,7 +1537,9 @@ aaa
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 106 - https://github.github.com/gfm/#example-106
@@ -1511,7 +1552,9 @@ aaa
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 107 - https://github.github.com/gfm/#example-107
@@ -1524,6 +1567,7 @@ aaa
 
 (document
   (fenced_code_block
+    (fenced_code_block_delimiter)
     (code_fence_content)))
 
 ================================================================================
@@ -1536,7 +1580,9 @@ aaa
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 109 - https://github.github.com/gfm/#example-109
@@ -1549,6 +1595,7 @@ aaa
 
 (document
   (fenced_code_block
+    (fenced_code_block_delimiter)
     (code_fence_content)))
 
 ================================================================================
@@ -1565,7 +1612,9 @@ baz
 (document
   (paragraph)
   (fenced_code_block
-    (code_fence_content))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter))
   (paragraph))
 
 ================================================================================
@@ -1585,7 +1634,9 @@ bar
     (heading_content)
     (setext_h2_underline))
   (fenced_code_block
-    (code_fence_content))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter))
   (atx_heading
     (atx_h1_marker)
     (heading_content)))
@@ -1603,9 +1654,11 @@ end
 
 (document
   (fenced_code_block
+    (fenced_code_block_delimiter)
     (info_string
       (language))
-    (code_fence_content)))
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 113 - https://github.github.com/gfm/#example-113
@@ -1620,9 +1673,11 @@ end
 
 (document
   (fenced_code_block
+    (fenced_code_block_delimiter)
     (info_string
       (language))
-    (code_fence_content)))
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 114 - https://github.github.com/gfm/#example-114
@@ -1634,8 +1689,10 @@ Example 114 - https://github.github.com/gfm/#example-114
 
 (document
   (fenced_code_block
+    (fenced_code_block_delimiter)
     (info_string
-      (language))))
+      (language))
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 115 - https://github.github.com/gfm/#example-115
@@ -1647,7 +1704,9 @@ foo
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 116 - https://github.github.com/gfm/#example-116
@@ -1660,9 +1719,11 @@ foo
 
 (document
   (fenced_code_block
+    (fenced_code_block_delimiter)
     (info_string
       (language))
-    (code_fence_content)))
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 117 - https://github.github.com/gfm/#example-117
@@ -1675,7 +1736,9 @@ Example 117 - https://github.github.com/gfm/#example-117
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 118 - https://github.github.com/gfm/#example-118
@@ -1693,7 +1756,9 @@ _world_.
 (document
   (html_block)
   (paragraph
-    (emphasis)
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))
     (html_tag))
   (html_block))
 
@@ -1753,7 +1818,9 @@ Example 122 - https://github.github.com/gfm/#example-122
 (document
   (html_block)
   (paragraph
-    (emphasis))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)))
   (html_block))
 
 ================================================================================
@@ -1793,7 +1860,9 @@ Example 125 - https://github.github.com/gfm/#example-125
 (document
   (html_block)
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 126 - https://github.github.com/gfm/#example-126
@@ -1936,7 +2005,9 @@ Example 137 - https://github.github.com/gfm/#example-137
 (document
   (html_block)
   (paragraph
-    (emphasis))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)))
   (html_block))
 
 ================================================================================
@@ -1949,7 +2020,9 @@ Example 138 - https://github.github.com/gfm/#example-138
 (document
   (paragraph
     (html_tag)
-    (emphasis)
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))
     (html_tag)))
 
 ================================================================================
@@ -2060,7 +2133,9 @@ Example 145 - https://github.github.com/gfm/#example-145
 (document
   (html_block)
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 146 - https://github.github.com/gfm/#example-146
@@ -2073,7 +2148,9 @@ Example 146 - https://github.github.com/gfm/#example-146
 (document
   (html_block)
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 147 - https://github.github.com/gfm/#example-147
@@ -2231,7 +2308,9 @@ Example 157 - https://github.github.com/gfm/#example-157
 (document
   (html_block)
   (paragraph
-    (emphasis))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)))
   (html_block))
 
 ================================================================================
@@ -2658,7 +2737,9 @@ Example 181 - https://github.github.com/gfm/#example-181
 
 (document
   (fenced_code_block
-    (code_fence_content))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter))
   (paragraph
     (shortcut_link
       (link_text))))
@@ -3088,9 +3169,11 @@ foo
 (document
   (block_quote
     (block_quote_marker)
-    (fenced_code_block))
+    (fenced_code_block
+      (fenced_code_block_delimiter)))
   (paragraph)
-  (fenced_code_block))
+  (fenced_code_block
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 216 - https://github.github.com/gfm/#example-216
@@ -3530,7 +3613,9 @@ Example 241 - https://github.github.com/gfm/#example-241
       (list_marker_dot)
       (paragraph)
       (fenced_code_block
-        (code_fence_content))
+        (fenced_code_block_delimiter)
+        (code_fence_content)
+        (fenced_code_block_delimiter))
       (paragraph)
       (block_quote
         (block_quote_marker)
@@ -3767,7 +3852,9 @@ Example 256 - https://github.github.com/gfm/#example-256
     (list_item
       (list_marker_minus)
       (fenced_code_block
-        (code_fence_content)))
+        (fenced_code_block_delimiter)
+        (code_fence_content)
+        (fenced_code_block_delimiter)))
     (list_item
       (list_marker_minus)
       (indented_code_block))))
@@ -4608,7 +4695,9 @@ Example 298 - https://github.github.com/gfm/#example-298
     (list_item
       (list_marker_minus)
       (fenced_code_block
-        (code_fence_content)))
+        (fenced_code_block_delimiter)
+        (code_fence_content)
+        (fenced_code_block_delimiter)))
     (list_item
       (list_marker_minus)
       (paragraph))))
@@ -4682,7 +4771,9 @@ Example 301 - https://github.github.com/gfm/#example-301
         (block_quote_marker)
         (paragraph))
       (fenced_code_block
-        (code_fence_content)))
+        (fenced_code_block_delimiter)
+        (code_fence_content)
+        (fenced_code_block_delimiter)))
     (list_item
       (list_marker_minus)
       (paragraph))))
@@ -4734,7 +4825,9 @@ Example 304 - https://github.github.com/gfm/#example-304
     (list_item
       (list_marker_dot)
       (fenced_code_block
-        (code_fence_content))
+        (fenced_code_block_delimiter)
+        (code_fence_content)
+        (fenced_code_block_delimiter))
       (paragraph))))
 
 ================================================================================
@@ -4803,7 +4896,9 @@ Example 307 - https://github.github.com/gfm/#example-307
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 308 - https://github.github.com/gfm/#example-308
@@ -4894,7 +4989,9 @@ Example 311 - https://github.github.com/gfm/#example-311
 (document
   (paragraph
     (backslash_escape)
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 312 - https://github.github.com/gfm/#example-312
@@ -4917,7 +5014,9 @@ Example 313 - https://github.github.com/gfm/#example-313
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 314 - https://github.github.com/gfm/#example-314
@@ -4940,7 +5039,9 @@ Example 315 - https://github.github.com/gfm/#example-315
 
 (document
   (fenced_code_block
-    (code_fence_content)))
+    (fenced_code_block_delimiter)
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 316 - https://github.github.com/gfm/#example-316
@@ -5010,10 +5111,12 @@ foo
 
 (document
   (fenced_code_block
+    (fenced_code_block_delimiter)
     (info_string
       (language
         (backslash_escape)))
-    (code_fence_content)))
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 321 - https://github.github.com/gfm/#example-321
@@ -5158,11 +5261,13 @@ foo
 
 (document
   (fenced_code_block
+    (fenced_code_block_delimiter)
     (info_string
       (language
         (entity_reference)
         (entity_reference)))
-    (code_fence_content)))
+    (code_fence_content)
+    (fenced_code_block_delimiter)))
 
 ================================================================================
 Example 331 - https://github.github.com/gfm/#example-331
@@ -5173,7 +5278,9 @@ Example 331 - https://github.github.com/gfm/#example-331
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 332 - https://github.github.com/gfm/#example-332
@@ -5197,7 +5304,9 @@ Example 333 - https://github.github.com/gfm/#example-333
   (paragraph
     (numeric_character_reference)
     (numeric_character_reference)
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 334 - https://github.github.com/gfm/#example-334
@@ -5262,7 +5371,9 @@ Example 338 - https://github.github.com/gfm/#example-338
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 339 - https://github.github.com/gfm/#example-339
@@ -5273,7 +5384,9 @@ Example 339 - https://github.github.com/gfm/#example-339
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 340 - https://github.github.com/gfm/#example-340
@@ -5284,7 +5397,9 @@ Example 340 - https://github.github.com/gfm/#example-340
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 341 - https://github.github.com/gfm/#example-341
@@ -5295,7 +5410,9 @@ Example 341 - https://github.github.com/gfm/#example-341
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 342 - https://github.github.com/gfm/#example-342
@@ -5306,7 +5423,9 @@ Example 342 - https://github.github.com/gfm/#example-342
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 343 - https://github.github.com/gfm/#example-343
@@ -5317,7 +5436,9 @@ Example 343 - https://github.github.com/gfm/#example-343
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 344 - https://github.github.com/gfm/#example-344
@@ -5329,8 +5450,12 @@ Example 344 - https://github.github.com/gfm/#example-344
 
 (document
   (paragraph
-    (code_span)
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 345 - https://github.github.com/gfm/#example-345
@@ -5345,7 +5470,9 @@ baz
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 346 - https://github.github.com/gfm/#example-346
@@ -5358,7 +5485,9 @@ foo
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 347 - https://github.github.com/gfm/#example-347
@@ -5370,7 +5499,9 @@ baz`
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 348 - https://github.github.com/gfm/#example-348
@@ -5381,7 +5512,9 @@ Example 348 - https://github.github.com/gfm/#example-348
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 349 - https://github.github.com/gfm/#example-349
@@ -5392,7 +5525,9 @@ Example 349 - https://github.github.com/gfm/#example-349
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 350 - https://github.github.com/gfm/#example-350
@@ -5403,7 +5538,9 @@ Example 350 - https://github.github.com/gfm/#example-350
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 351 - https://github.github.com/gfm/#example-351
@@ -5414,7 +5551,9 @@ Example 351 - https://github.github.com/gfm/#example-351
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 352 - https://github.github.com/gfm/#example-352
@@ -5425,7 +5564,9 @@ Example 352 - https://github.github.com/gfm/#example-352
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 353 - https://github.github.com/gfm/#example-353
@@ -5436,7 +5577,9 @@ Example 353 - https://github.github.com/gfm/#example-353
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 354 - https://github.github.com/gfm/#example-354
@@ -5500,7 +5643,9 @@ Example 359 - https://github.github.com/gfm/#example-359
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 360 - https://github.github.com/gfm/#example-360
@@ -5511,7 +5656,9 @@ Example 360 - https://github.github.com/gfm/#example-360
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 361 - https://github.github.com/gfm/#example-361
@@ -5552,7 +5699,9 @@ foo*bar*
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 365 - https://github.github.com/gfm/#example-365
@@ -5563,7 +5712,9 @@ Example 365 - https://github.github.com/gfm/#example-365
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 366 - https://github.github.com/gfm/#example-366
@@ -5574,7 +5725,9 @@ _foo bar_
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 367 - https://github.github.com/gfm/#example-367
@@ -5645,7 +5798,9 @@ foo-_(bar)_
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 374 - https://github.github.com/gfm/#example-374
@@ -5698,7 +5853,11 @@ Example 378 - https://github.github.com/gfm/#example-378
 (document
   (paragraph
     (emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 379 - https://github.github.com/gfm/#example-379
@@ -5709,7 +5868,9 @@ Example 379 - https://github.github.com/gfm/#example-379
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 380 - https://github.github.com/gfm/#example-380
@@ -5741,7 +5902,11 @@ _(_foo_)_
 (document
   (paragraph
     (emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 383 - https://github.github.com/gfm/#example-383
@@ -5772,7 +5937,9 @@ _foo_bar_baz_
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 386 - https://github.github.com/gfm/#example-386
@@ -5783,7 +5950,9 @@ _(bar)_.
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 387 - https://github.github.com/gfm/#example-387
@@ -5794,7 +5963,11 @@ Example 387 - https://github.github.com/gfm/#example-387
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 388 - https://github.github.com/gfm/#example-388
@@ -5825,7 +5998,11 @@ foo**bar**
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 391 - https://github.github.com/gfm/#example-391
@@ -5836,7 +6013,11 @@ __foo bar__
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 392 - https://github.github.com/gfm/#example-392
@@ -5909,7 +6090,15 @@ __foo, __bar__, baz__
 (document
   (paragraph
     (strong_emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 399 - https://github.github.com/gfm/#example-399
@@ -5920,7 +6109,11 @@ foo-__(bar)__
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 400 - https://github.github.com/gfm/#example-400
@@ -5952,7 +6145,13 @@ Example 402 - https://github.github.com/gfm/#example-402
 (document
   (paragraph
     (emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 403 - https://github.github.com/gfm/#example-403
@@ -5965,8 +6164,16 @@ Example 403 - https://github.github.com/gfm/#example-403
 (document
   (paragraph
     (strong_emphasis
-      (emphasis)
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 404 - https://github.github.com/gfm/#example-404
@@ -5978,7 +6185,13 @@ Example 404 - https://github.github.com/gfm/#example-404
 (document
   (paragraph
     (strong_emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 405 - https://github.github.com/gfm/#example-405
@@ -5989,7 +6202,11 @@ Example 405 - https://github.github.com/gfm/#example-405
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 406 - https://github.github.com/gfm/#example-406
@@ -6021,7 +6238,13 @@ _(__foo__)_
 (document
   (paragraph
     (emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 409 - https://github.github.com/gfm/#example-409
@@ -6063,7 +6286,11 @@ __(bar)__.
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 413 - https://github.github.com/gfm/#example-413
@@ -6075,9 +6302,11 @@ Example 413 - https://github.github.com/gfm/#example-413
 (document
   (paragraph
     (emphasis
+      (emphasis_delimiter)
       (inline_link
         (link_text)
-        (link_destination)))))
+        (link_destination))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 414 - https://github.github.com/gfm/#example-414
@@ -6089,7 +6318,9 @@ bar*
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 415 - https://github.github.com/gfm/#example-415
@@ -6101,7 +6332,13 @@ _foo __bar__ baz_
 (document
   (paragraph
     (emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 416 - https://github.github.com/gfm/#example-416
@@ -6113,7 +6350,11 @@ _foo _bar_ baz_
 (document
   (paragraph
     (emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 417 - https://github.github.com/gfm/#example-417
@@ -6125,7 +6366,11 @@ __foo_ bar_
 (document
   (paragraph
     (emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 418 - https://github.github.com/gfm/#example-418
@@ -6137,7 +6382,11 @@ Example 418 - https://github.github.com/gfm/#example-418
 (document
   (paragraph
     (emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 419 - https://github.github.com/gfm/#example-419
@@ -6149,7 +6398,13 @@ Example 419 - https://github.github.com/gfm/#example-419
 (document
   (paragraph
     (emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 420 - https://github.github.com/gfm/#example-420
@@ -6184,7 +6439,13 @@ Example 422 - https://github.github.com/gfm/#example-422
 (document
   (paragraph
     (emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 423 - https://github.github.com/gfm/#example-423
@@ -6196,7 +6457,13 @@ Example 423 - https://github.github.com/gfm/#example-423
 (document
   (paragraph
     (emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 424 - https://github.github.com/gfm/#example-424
@@ -6220,7 +6487,13 @@ foo***bar***baz
 (document
   (paragraph
     (emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 426 - https://github.github.com/gfm/#example-426
@@ -6232,8 +6505,20 @@ foo******bar*********baz
 (document
   (paragraph
     (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
       (strong_emphasis
-        (strong_emphasis)))))
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (strong_emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)
+          (emphasis_delimiter)
+          (emphasis_delimiter))
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 427 - https://github.github.com/gfm/#example-427
@@ -6245,8 +6530,16 @@ Example 427 - https://github.github.com/gfm/#example-427
 (document
   (paragraph
     (emphasis
+      (emphasis_delimiter)
       (strong_emphasis
-        (emphasis)))))
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter))
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 428 - https://github.github.com/gfm/#example-428
@@ -6258,10 +6551,14 @@ Example 428 - https://github.github.com/gfm/#example-428
 (document
   (paragraph
     (emphasis
+      (emphasis_delimiter)
       (inline_link
         (link_text
-          (emphasis))
-        (link_destination)))))
+          (emphasis
+            (emphasis_delimiter)
+            (emphasis_delimiter)))
+        (link_destination))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 429 - https://github.github.com/gfm/#example-429
@@ -6293,9 +6590,13 @@ Example 431 - https://github.github.com/gfm/#example-431
 (document
   (paragraph
     (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
       (inline_link
         (link_text)
-        (link_destination)))))
+        (link_destination))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 432 - https://github.github.com/gfm/#example-432
@@ -6307,7 +6608,11 @@ bar**
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 433 - https://github.github.com/gfm/#example-433
@@ -6319,7 +6624,13 @@ __foo _bar_ baz__
 (document
   (paragraph
     (strong_emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 434 - https://github.github.com/gfm/#example-434
@@ -6331,7 +6642,15 @@ __foo __bar__ baz__
 (document
   (paragraph
     (strong_emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 435 - https://github.github.com/gfm/#example-435
@@ -6343,7 +6662,15 @@ ____foo__ bar__
 (document
   (paragraph
     (strong_emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 436 - https://github.github.com/gfm/#example-436
@@ -6355,7 +6682,15 @@ Example 436 - https://github.github.com/gfm/#example-436
 (document
   (paragraph
     (strong_emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 437 - https://github.github.com/gfm/#example-437
@@ -6367,7 +6702,13 @@ Example 437 - https://github.github.com/gfm/#example-437
 (document
   (paragraph
     (strong_emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 438 - https://github.github.com/gfm/#example-438
@@ -6391,7 +6732,13 @@ Example 439 - https://github.github.com/gfm/#example-439
 (document
   (paragraph
     (strong_emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 440 - https://github.github.com/gfm/#example-440
@@ -6403,7 +6750,13 @@ Example 440 - https://github.github.com/gfm/#example-440
 (document
   (paragraph
     (strong_emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 441 - https://github.github.com/gfm/#example-441
@@ -6416,8 +6769,18 @@ bim* bop**
 (document
   (paragraph
     (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
       (emphasis
-        (strong_emphasis)))))
+        (emphasis_delimiter)
+        (strong_emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)
+          (emphasis_delimiter)
+          (emphasis_delimiter))
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 442 - https://github.github.com/gfm/#example-442
@@ -6429,10 +6792,16 @@ Example 442 - https://github.github.com/gfm/#example-442
 (document
   (paragraph
     (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
       (inline_link
         (link_text
-          (emphasis))
-        (link_destination)))))
+          (emphasis
+            (emphasis_delimiter)
+            (emphasis_delimiter)))
+        (link_destination))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 443 - https://github.github.com/gfm/#example-443
@@ -6474,7 +6843,9 @@ foo *\**
 (document
   (paragraph
     (emphasis
-      (backslash_escape))))
+      (emphasis_delimiter)
+      (backslash_escape)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 447 - https://github.github.com/gfm/#example-447
@@ -6485,7 +6856,9 @@ foo *_*
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 448 - https://github.github.com/gfm/#example-448
@@ -6507,7 +6880,11 @@ foo **\***
 (document
   (paragraph
     (strong_emphasis
-      (backslash_escape))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (backslash_escape)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 450 - https://github.github.com/gfm/#example-450
@@ -6518,7 +6895,11 @@ foo **_**
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 451 - https://github.github.com/gfm/#example-451
@@ -6529,7 +6910,9 @@ Example 451 - https://github.github.com/gfm/#example-451
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 452 - https://github.github.com/gfm/#example-452
@@ -6540,7 +6923,9 @@ Example 452 - https://github.github.com/gfm/#example-452
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 453 - https://github.github.com/gfm/#example-453
@@ -6551,7 +6936,11 @@ Example 453 - https://github.github.com/gfm/#example-453
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 454 - https://github.github.com/gfm/#example-454
@@ -6562,7 +6951,9 @@ Example 454 - https://github.github.com/gfm/#example-454
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 455 - https://github.github.com/gfm/#example-455
@@ -6573,7 +6964,11 @@ Example 455 - https://github.github.com/gfm/#example-455
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 456 - https://github.github.com/gfm/#example-456
@@ -6584,7 +6979,9 @@ Example 456 - https://github.github.com/gfm/#example-456
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 457 - https://github.github.com/gfm/#example-457
@@ -6606,7 +7003,9 @@ foo _\__
 (document
   (paragraph
     (emphasis
-      (backslash_escape))))
+      (emphasis_delimiter)
+      (backslash_escape)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 459 - https://github.github.com/gfm/#example-459
@@ -6617,7 +7016,9 @@ foo _*_
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 460 - https://github.github.com/gfm/#example-460
@@ -6639,7 +7040,11 @@ foo __\___
 (document
   (paragraph
     (strong_emphasis
-      (backslash_escape))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (backslash_escape)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 462 - https://github.github.com/gfm/#example-462
@@ -6650,7 +7055,11 @@ foo __*__
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 463 - https://github.github.com/gfm/#example-463
@@ -6661,7 +7070,9 @@ __foo_
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 464 - https://github.github.com/gfm/#example-464
@@ -6672,7 +7083,9 @@ _foo__
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 465 - https://github.github.com/gfm/#example-465
@@ -6683,7 +7096,11 @@ ___foo__
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 466 - https://github.github.com/gfm/#example-466
@@ -6694,7 +7111,9 @@ ____foo_
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 467 - https://github.github.com/gfm/#example-467
@@ -6705,7 +7124,11 @@ __foo___
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 468 - https://github.github.com/gfm/#example-468
@@ -6716,7 +7139,9 @@ _foo____
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 469 - https://github.github.com/gfm/#example-469
@@ -6727,7 +7152,11 @@ Example 469 - https://github.github.com/gfm/#example-469
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 470 - https://github.github.com/gfm/#example-470
@@ -6750,7 +7179,11 @@ __foo__
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 472 - https://github.github.com/gfm/#example-472
@@ -6762,7 +7195,11 @@ _*foo*_
 (document
   (paragraph
     (emphasis
-      (emphasis))))
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 473 - https://github.github.com/gfm/#example-473
@@ -6774,7 +7211,15 @@ Example 473 - https://github.github.com/gfm/#example-473
 (document
   (paragraph
     (strong_emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 474 - https://github.github.com/gfm/#example-474
@@ -6786,7 +7231,15 @@ ____foo____
 (document
   (paragraph
     (strong_emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 475 - https://github.github.com/gfm/#example-475
@@ -6798,8 +7251,20 @@ Example 475 - https://github.github.com/gfm/#example-475
 (document
   (paragraph
     (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
       (strong_emphasis
-        (strong_emphasis)))))
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (strong_emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)
+          (emphasis_delimiter)
+          (emphasis_delimiter))
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 476 - https://github.github.com/gfm/#example-476
@@ -6811,7 +7276,13 @@ Example 476 - https://github.github.com/gfm/#example-476
 (document
   (paragraph
     (emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 477 - https://github.github.com/gfm/#example-477
@@ -6823,8 +7294,18 @@ _____foo_____
 (document
   (paragraph
     (emphasis
+      (emphasis_delimiter)
       (strong_emphasis
-        (strong_emphasis)))))
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (strong_emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)
+          (emphasis_delimiter)
+          (emphasis_delimiter))
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 478 - https://github.github.com/gfm/#example-478
@@ -6846,7 +7327,13 @@ Example 479 - https://github.github.com/gfm/#example-479
 (document
   (paragraph
     (emphasis
-      (strong_emphasis))))
+      (emphasis_delimiter)
+      (strong_emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 480 - https://github.github.com/gfm/#example-480
@@ -6857,7 +7344,11 @@ Example 480 - https://github.github.com/gfm/#example-480
 
 (document
   (paragraph
-    (strong_emphasis)))
+    (strong_emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 481 - https://github.github.com/gfm/#example-481
@@ -6868,7 +7359,9 @@ Example 481 - https://github.github.com/gfm/#example-481
 
 (document
   (paragraph
-    (emphasis)))
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 482 - https://github.github.com/gfm/#example-482
@@ -7471,9 +7964,11 @@ Example 527 - https://github.github.com/gfm/#example-527
 (document
   (paragraph
     (emphasis
+      (emphasis_delimiter)
       (inline_link
         (link_text)
-        (link_destination)))))
+        (link_destination))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 528 - https://github.github.com/gfm/#example-528
@@ -7549,7 +8044,9 @@ Example 533 - https://github.github.com/gfm/#example-533
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 534 - https://github.github.com/gfm/#example-534
@@ -7693,9 +8190,11 @@ Example 541 - https://github.github.com/gfm/#example-541
 (document
   (paragraph
     (emphasis
+      (emphasis_delimiter)
       (full_reference_link
         (link_text)
-        (link_label)))
+        (link_label))
+      (emphasis_delimiter))
     (shortcut_link
       (link_text)))
   (link_reference_definition
@@ -7765,7 +8264,9 @@ Example 545 - https://github.github.com/gfm/#example-545
 
 (document
   (paragraph
-    (code_span))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter)))
   (link_reference_definition
     (link_label)
     (link_destination)))
@@ -8073,7 +8574,9 @@ Example 562 - https://github.github.com/gfm/#example-562
   (paragraph
     (collapsed_reference_link
       (link_text
-        (emphasis))))
+        (emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8147,7 +8650,9 @@ Example 566 - https://github.github.com/gfm/#example-566
   (paragraph
     (shortcut_link
       (link_text
-        (emphasis))))
+        (emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8166,7 +8671,9 @@ Example 567 - https://github.github.com/gfm/#example-567
   (paragraph
     (shortcut_link
       (link_text
-        (emphasis))))
+        (emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8426,7 +8933,9 @@ Example 581 - https://github.github.com/gfm/#example-581
   (paragraph
     (image
       (image_description
-        (emphasis))))
+        (emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8477,7 +8986,9 @@ Example 584 - https://github.github.com/gfm/#example-584
   (paragraph
     (image
       (image_description
-        (emphasis))))
+        (emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8496,7 +9007,9 @@ Example 585 - https://github.github.com/gfm/#example-585
   (paragraph
     (image
       (image_description
-        (emphasis))
+        (emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)))
       (link_label)))
   (link_reference_definition
     (link_label)
@@ -8622,7 +9135,9 @@ Example 593 - https://github.github.com/gfm/#example-593
   (paragraph
     (image
       (image_description
-        (emphasis))))
+        (emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -8696,7 +9211,9 @@ Example 597 - https://github.github.com/gfm/#example-597
   (paragraph
     (image
       (image_description
-        (emphasis))))
+        (emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)))))
   (link_reference_definition
     (link_label)
     (link_destination)
@@ -9285,7 +9802,9 @@ bar*
 (document
   (paragraph
     (emphasis
-      (hard_line_break))))
+      (emphasis_delimiter)
+      (hard_line_break)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 660 - https://github.github.com/gfm/#example-660
@@ -9298,7 +9817,9 @@ bar*
 (document
   (paragraph
     (emphasis
-      (hard_line_break))))
+      (emphasis_delimiter)
+      (hard_line_break)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 661 - https://github.github.com/gfm/#example-661
@@ -9310,7 +9831,9 @@ span`
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 662 - https://github.github.com/gfm/#example-662
@@ -9322,7 +9845,9 @@ span`
 
 (document
   (paragraph
-    (code_span)))
+    (code_span
+      (code_span_delimiter)
+      (code_span_delimiter))))
 
 ================================================================================
 Example 663 - https://github.github.com/gfm/#example-663
