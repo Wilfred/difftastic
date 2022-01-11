@@ -3295,15 +3295,15 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "marker_annotation",
           "named": true
         },
         {
           "type": "type_bound",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
