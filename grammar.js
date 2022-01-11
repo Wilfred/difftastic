@@ -82,7 +82,7 @@ module.exports = grammar({
     part: $ =>
       prec.right(
         seq(
-          field('command', choice('\\part', '\\part*')),
+          field('command', choice('\\part', '\\part*', '\\addpart', '\\addpart*')),
           field('text', $.brace_group),
           field(
             'child',
@@ -105,7 +105,7 @@ module.exports = grammar({
     chapter: $ =>
       prec.right(
         seq(
-          field('command', choice('\\chapter', '\\chapter*')),
+          field('command', choice('\\chapter', '\\chapter*', '\\addchap', '\\addchap*')),
           field('text', $.brace_group),
           field(
             'child',
@@ -127,7 +127,7 @@ module.exports = grammar({
     section: $ =>
       prec.right(
         seq(
-          field('command', choice('\\section', '\\section*')),
+          field('command', choice('\\section', '\\section*', '\\addsec', '\\addsec*')),
           field('text', $.brace_group),
           field(
             'child',

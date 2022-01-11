@@ -1006,6 +1006,14 @@
         "required": true,
         "types": [
           {
+            "type": "\\addchap",
+            "named": false
+          },
+          {
+            "type": "\\addchap*",
+            "named": false
+          },
+          {
             "type": "\\chapter",
             "named": false
           },
@@ -4253,6 +4261,14 @@
         "required": true,
         "types": [
           {
+            "type": "\\addpart",
+            "named": false
+          },
+          {
+            "type": "\\addpart*",
+            "named": false
+          },
+          {
             "type": "\\part",
             "named": false
           },
@@ -4486,6 +4502,14 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "\\addsec",
+            "named": false
+          },
+          {
+            "type": "\\addsec*",
+            "named": false
+          },
           {
             "type": "\\section",
             "named": false
@@ -5671,6 +5695,30 @@
   },
   {
     "type": "\\addbibresource",
+    "named": false
+  },
+  {
+    "type": "\\addchap",
+    "named": false
+  },
+  {
+    "type": "\\addchap*",
+    "named": false
+  },
+  {
+    "type": "\\addpart",
+    "named": false
+  },
+  {
+    "type": "\\addpart*",
+    "named": false
+  },
+  {
+    "type": "\\addsec",
+    "named": false
+  },
+  {
+    "type": "\\addsec*",
     "named": false
   },
   {
