@@ -1,8 +1,8 @@
 name: Build/test
 on:
+  pull_request:
   push:
-    branches:
-      - "**"
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
