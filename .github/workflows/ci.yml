@@ -5,7 +5,7 @@ on:
       - "**"
   push:
     branches:
-      - "**"
+      - "master"
 jobs:
   test:
     runs-on: ${{ matrix.os }}
