@@ -234,6 +234,14 @@
                 {
                   "type": "STRING",
                   "value": "\\part*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\addpart"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\addpart*"
                 }
               ]
             }
@@ -312,6 +320,14 @@
                 {
                   "type": "STRING",
                   "value": "\\chapter*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\addchap"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\addchap*"
                 }
               ]
             }
@@ -386,6 +402,14 @@
                 {
                   "type": "STRING",
                   "value": "\\section*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\addsec"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\\addsec*"
                 }
               ]
             }
