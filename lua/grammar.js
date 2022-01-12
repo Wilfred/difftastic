@@ -20,6 +20,9 @@ const list_seq = (rule, separator, trailing_separator = false) =>
 
 const optional_block = ($) => alias(optional($._block), $.block);
 
+// namelist ::= Name {',' Name}
+const name_list = ($) => list_seq(field('name', $.identifier), ',');
+
 module.exports = grammar({
   name: 'lua',
 
@@ -259,7 +262,7 @@ module.exports = grammar({
         alias($._variable_assignment_explist, $.expression_list)
       ),
     // namelist ::= Name {',' Name}
-    _name_list: ($) => list_seq(field('name', $.identifier), ','),
+    _name_list: ($) => name_list($),
 
     // explist ::= exp {',' exp}
     _expression_list: ($) => list_seq($.expression, ','),
@@ -354,10 +357,7 @@ module.exports = grammar({
     // parlist ::= namelist [',' '...'] | '...'
     _parameter_list: ($) =>
       choice(
-        seq(
-          list_seq($.identifier, ','),
-          optional(seq(',', $.vararg_expression))
-        ),
+        seq(name_list($), optional(seq(',', $.vararg_expression))),
         $.vararg_expression
       ),
 

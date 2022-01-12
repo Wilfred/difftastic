@@ -202,7 +202,7 @@ end
     (expression_list
       value: (function_definition
         parameters: (parameters
-          (identifier)
+          name: (identifier)
           (vararg_expression))
         body: (block
           (function_call
