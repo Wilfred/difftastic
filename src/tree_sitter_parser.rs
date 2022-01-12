@@ -72,7 +72,9 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Bash => TreeSitterConfig {
             name: "Bash",
             language: unsafe { tree_sitter_bash() },
-            atom_nodes: (vec!["string", "raw_string"]).into_iter().collect(),
+            atom_nodes: (vec!["string", "raw_string", "heredoc_body"])
+                .into_iter()
+                .collect(),
             delimiter_tokens: (vec![("(", ")"), ("{", "}"), ("[", "]")]),
             highlight_queries: include_str!("../vendor/highlights/bash.scm"),
         },
