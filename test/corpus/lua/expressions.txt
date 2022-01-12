@@ -194,7 +194,8 @@ end
           (vararg_expression))
         body: (block
           (return_statement
-            (vararg_expression))))))
+            (expression_list
+              (vararg_expression)))))))
   (assignment_statement
     (variable_list
       name: (identifier))
@@ -209,7 +210,8 @@ end
             arguments: (arguments
               (vararg_expression)))
           (return_statement
-            (identifier)))))))
+            (expression_list
+              (identifier))))))))
 
 ================================================================================
 variable ::: identifier

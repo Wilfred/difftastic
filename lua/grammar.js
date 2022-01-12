@@ -94,7 +94,11 @@ module.exports = grammar({
 
     // retstat ::= return [explist] [';']
     return_statement: ($) =>
-      seq('return', optional($._expression_list), optional(';')),
+      seq(
+        'return',
+        optional(alias($._expression_list, $.expression_list)),
+        optional(';')
+      ),
 
     // ';'
     empty_statement: (_) => ';',

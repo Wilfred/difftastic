@@ -151,8 +151,13 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_expression_list"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_expression_list"
+              },
+              "named": true,
+              "value": "expression_list"
             },
             {
               "type": "BLANK"

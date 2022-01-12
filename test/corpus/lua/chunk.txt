@@ -27,4 +27,5 @@ return 42
 
 (chunk
   (return_statement
-    (number)))
+    (expression_list
+      (number))))

@@ -174,9 +174,10 @@ do end
         name: (identifier)
         arguments: (arguments))
       (return_statement
-        (function_call
-          name: (identifier)
-          arguments: (arguments)))))
+        (expression_list
+          (function_call
+            name: (identifier)
+            arguments: (arguments))))))
   (do_statement))
 
 ================================================================================
