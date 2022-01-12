@@ -183,7 +183,7 @@ module.exports = grammar({
     // namelist in explist
     for_generic_clause: ($) =>
       seq(
-        alias($._variable_declaration_namelist, $.variable_list),
+        alias($._name_list, $.variable_list),
         'in',
         alias($._expression_list, $.expression_list)
       ),
@@ -248,19 +248,18 @@ module.exports = grammar({
       seq(
         'local',
         choice(
-          alias($._variable_declaration_namelist, $.variable_list),
+          alias($._name_list, $.variable_list),
           alias($._local_variable_assignment, $.assignment_statement)
         )
       ),
     _local_variable_assignment: ($) =>
       seq(
-        alias($._variable_declaration_namelist, $.variable_list),
+        alias($._name_list, $.variable_list),
         '=',
         alias($._variable_assignment_explist, $.expression_list)
       ),
     // namelist ::= Name {',' Name}
-    _variable_declaration_namelist: ($) =>
-      list_seq(field('name', $.identifier), ','),
+    _name_list: ($) => list_seq(field('name', $.identifier), ','),
 
     // explist ::= exp {',' exp}
     _expression_list: ($) => list_seq($.expression, ','),

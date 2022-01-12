@@ -638,7 +638,7 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_variable_declaration_namelist"
+            "name": "_name_list"
           },
           "named": true,
           "value": "variable_list"
@@ -896,7 +896,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
-                "name": "_variable_declaration_namelist"
+                "name": "_name_list"
               },
               "named": true,
               "value": "variable_list"
@@ -921,7 +921,7 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_variable_declaration_namelist"
+            "name": "_name_list"
           },
           "named": true,
           "value": "variable_list"
@@ -941,7 +941,7 @@
         }
       ]
     },
-    "_variable_declaration_namelist": {
+    "_name_list": {
       "type": "SEQ",
       "members": [
         {
