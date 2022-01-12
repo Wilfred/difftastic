@@ -31,7 +31,8 @@ module.exports = grammar({
   name: 'java',
 
   extras: $ => [
-    $.comment,
+    $.line_comment,
+    $.block_comment,
     /\s/
   ],
 
@@ -44,6 +45,7 @@ module.exports = grammar({
     $._type,
     $._simple_type,
     $._unannotated_type,
+    $.comment,
   ],
 
   inline: $ => [
@@ -1081,14 +1083,20 @@ module.exports = grammar({
     identifier: $ => /[\p{L}_$][\p{L}\p{Nd}_$]*/,
 
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
-    comment: $ => token(prec(PREC.COMMENT, choice(
-      seq('//', /.*/),
+    comment: $ => choice(
+      $.line_comment,
+      $.block_comment,
+    ),
+
+    line_comment: $ => token(prec(PREC.COMMENT, seq('//', /[^\n]*/))),
+
+    block_comment: $ => token(prec(PREC.COMMENT,
       seq(
         '/*',
         /[^*]*\*+([^/*][^*]*\*+)*/,
         '/'
       )
-    ))),
+    )),
   }
 });
 

@@ -80,7 +80,10 @@
   (null_literal)
 ] @constant.builtin
 
-(comment) @comment
+[
+  (line_comment)
+  (block_comment)
+] @comment
 
 ; Keywords
 

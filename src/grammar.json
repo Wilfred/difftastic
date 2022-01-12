@@ -6726,42 +6726,57 @@
       "value": "[\\p{L}_$][\\p{L}\\p{Nd}_$]*"
     },
     "comment": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "line_comment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block_comment"
+        }
+      ]
+    },
+    "line_comment": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",
         "value": 0,
         "content": {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "//"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": ".*"
-                }
-              ]
+              "type": "STRING",
+              "value": "//"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "/*"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "/"
-                }
-              ]
+              "type": "PATTERN",
+              "value": "[^\\n]*"
+            }
+          ]
+        }
+      }
+    },
+    "block_comment": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 0,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "/*"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+            },
+            {
+              "type": "STRING",
+              "value": "/"
             }
           ]
         }
@@ -6771,7 +6786,11 @@
   "extras": [
     {
       "type": "SYMBOL",
-      "name": "comment"
+      "name": "line_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "block_comment"
     },
     {
       "type": "PATTERN",
@@ -6838,7 +6857,8 @@
     "_literal",
     "_type",
     "_simple_type",
-    "_unannotated_type"
+    "_unannotated_type",
+    "comment"
   ]
 }
 

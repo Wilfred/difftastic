@@ -112,6 +112,20 @@
     ]
   },
   {
+    "type": "comment",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "block_comment",
+        "named": true
+      },
+      {
+        "type": "line_comment",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "declaration",
     "named": true,
     "subtypes": [
@@ -3678,6 +3692,10 @@
     "named": true
   },
   {
+    "type": "block_comment",
+    "named": true
+  },
+  {
     "type": "boolean_type",
     "named": true
   },
@@ -3708,10 +3726,6 @@
   {
     "type": "class",
     "named": false
-  },
-  {
-    "type": "comment",
-    "named": true
   },
   {
     "type": "continue",
@@ -3808,6 +3822,10 @@
   {
     "type": "interface",
     "named": false
+  },
+  {
+    "type": "line_comment",
+    "named": true
   },
   {
     "type": "long",
