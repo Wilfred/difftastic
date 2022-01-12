@@ -425,7 +425,7 @@ class Beyonce {
           (formal_parameter (integral_type) (identifier))
           (formal_parameter (floating_point_type) (identifier))
           (formal_parameter (floating_point_type) (identifier)))
-        (block (comment))))))
+        (block (line_comment))))))
 
 ========================
 constructor declaration

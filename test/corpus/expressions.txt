@@ -873,7 +873,7 @@ class Test {
             type: (integral_type)
             name: (identifier)))
         body: (block
-          (comment)
+          (line_comment)
           (local_variable_declaration
             type: (integral_type)
             declarator: (variable_declarator
@@ -930,7 +930,7 @@ class Box <T> {
           (expression_statement (assignment_expression
             (identifier)
               (identifier)))))
-      (comment))))
+      (line_comment))))
 
 ==================================
 wildcard
