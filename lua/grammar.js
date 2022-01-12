@@ -181,7 +181,7 @@ module.exports = grammar({
       seq(
         alias($._variable_declaration_namelist, $.variable_list),
         'in',
-        alias($._variable_assignment_explist, $.expression_list)
+        alias($._expression_list, $.expression_list)
       ),
     // Name '=' exp ',' exp [',' exp]
     for_numeric_clause: ($) =>

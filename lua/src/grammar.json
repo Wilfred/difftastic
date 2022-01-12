@@ -646,7 +646,7 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_variable_assignment_explist"
+            "name": "_expression_list"
           },
           "named": true,
           "value": "expression_list"

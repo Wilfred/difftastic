@@ -131,7 +131,7 @@ end
         name: (identifier)
         name: (identifier))
       (expression_list
-        value: (function_call
+        (function_call
           name: (identifier)
           arguments: (arguments
             (identifier)))))
@@ -318,7 +318,7 @@ for i in ipairs(iv) do end
         name: (identifier)
         name: (identifier))
       (expression_list
-        value: (function_call
+        (function_call
           name: (identifier)
           arguments: (arguments
             (identifier)))))
@@ -333,7 +333,7 @@ for i in ipairs(iv) do end
       (variable_list
         name: (identifier))
       (expression_list
-        value: (function_call
+        (function_call
           name: (identifier)
           arguments: (arguments
             (identifier)))))))
