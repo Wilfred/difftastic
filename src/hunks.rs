@@ -187,7 +187,7 @@ pub fn merge_adjacent(
     res
 }
 
-fn line_close(
+fn lines_are_close(
     max_lhs: Option<LineNumber>,
     max_rhs: Option<LineNumber>,
     line: (Option<LineNumber>, Option<LineNumber>),
@@ -269,7 +269,7 @@ fn lines_to_hunks(lines: &[(Option<LineNumber>, Option<LineNumber>)]) -> Vec<Hun
     for line in enforce_increasing(lines) {
         let (lhs_line, rhs_line) = line;
 
-        if current_hunk_lines.is_empty() || line_close(max_lhs_line, max_rhs_line, line) {
+        if current_hunk_lines.is_empty() || lines_are_close(max_lhs_line, max_rhs_line, line) {
             current_hunk_lines.push(line);
         } else {
             hunks.push(Hunk {
