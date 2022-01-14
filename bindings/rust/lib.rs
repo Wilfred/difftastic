@@ -6,7 +6,7 @@
 //! ```
 //! let code = "";
 //! let mut parser = tree_sitter::Parser::new();
-//! parser.set_language(experimental_tree_sitter_swift::language()).expect("Error loading swift grammar");
+//! parser.set_language(tree_sitter_swift::language()).expect("Error loading swift grammar");
 //! let tree = parser.parse(code, None).unwrap();
 //! ```
 //!

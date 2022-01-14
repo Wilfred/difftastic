@@ -1,10 +1,10 @@
 [package]
-name = "experimental-tree-sitter-swift"
+name = "tree-sitter-swift"
 description = "swift grammar for the tree-sitter parsing library"
-version = "0.0.3"
+version = "0.1.0"
 keywords = ["incremental", "parsing", "swift"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/alex-pinkus/experimental-tree-sitter-swift"
+repository = "https://github.com/alex-pinkus/tree-sitter-swift"
 edition = "2018"
 license = "MIT"
 

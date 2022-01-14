@@ -1,7 +1,7 @@
 {
-  "name": "experimental-tree-sitter-swift",
-  "version": "0.0.3",
-  "description": "An experimental tree-sitter grammar for the Swift programming language.",
+  "name": "tree-sitter-swift",
+  "version": "0.1.0",
+  "description": "A tree-sitter grammar for the Swift programming language.",
   "main": "bindings/node/index.js",
   "scripts": {
     "install": "tsc && tree-sitter generate ./build/grammar.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alex-pinkus/experimental-tree-sitter-swift.git"
+    "url": "git+https://github.com/alex-pinkus/tree-sitter-swift.git"
   },
   "keywords": [
     "parser",
@@ -21,9 +21,9 @@
   "author": "Alex Pinkus <alex.pinkus@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alex-pinkus/experimental-tree-sitter-swift/issues"
+    "url": "https://github.com/alex-pinkus/tree-sitter-swift/issues"
   },
-  "homepage": "https://github.com/alex-pinkus/experimental-tree-sitter-swift#readme",
+  "homepage": "https://github.com/alex-pinkus/tree-sitter-swift#readme",
   "dependencies": {
     "@types/node": "^16.11.10",
     "nan": "^2.15.0",

@@ -1,5 +1,5 @@
 const Parser = require("tree-sitter");
-const Swift = require("experimental-tree-sitter-swift");
+const Swift = require("tree-sitter-swift");
 
 const parser = new Parser();
 parser.setLanguage(Swift);
