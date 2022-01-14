@@ -24,13 +24,20 @@ pub fn replace(
   //        ^ punctuation.bracket
   string.replace(in: original, each: pattern, with: replacement)
   // <- module
-  //        ^ property
+  //        ^ function
   //              ^ property
   //                  ^ variable.parameter
   //                            ^ property
   //                                  ^ variable.parameter
   //                                           ^ property
   //                                                 ^ variable.parameter
+  original
+  // ^ variable.parameter
+  |> string.replace(pattern, replacement)
+  // ^ module
+  //        ^ function
+  //                ^ variable.parameter
+  //                         ^ variable.parameter
 }
 
 fn trial(uri) {
