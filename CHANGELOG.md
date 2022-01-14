@@ -12,7 +12,12 @@ Improved language detection for files with bash/sh syntax.
 
 ### Integration
 
-Fixed a crash when on Mercurial diffs when a whole file has been removed.
+Fixed a crash when on Mercurial diffs when a whole file has been
+removed.
+
+### Display
+
+Improved display performance when there are a large number of hunks.
 
 ## 0.15 (released 6 January 2022)
 

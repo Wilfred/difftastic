@@ -24,6 +24,7 @@ mod tree_sitter_parser;
 extern crate log;
 
 use crate::hunks::{matched_pos_to_hunks, merge_adjacent};
+use context::opposite_positions;
 use files::read_files_or_die;
 use guess_language::guess;
 use log::info;
@@ -338,11 +339,15 @@ fn print_diff_result(summary: &DiffResult) {
         return;
     }
 
+    let opposite_to_lhs = opposite_positions(&summary.lhs_positions);
+    let opposite_to_rhs = opposite_positions(&summary.rhs_positions);
+
+
     let hunks = matched_pos_to_hunks(&summary.lhs_positions, &summary.rhs_positions);
     let hunks = merge_adjacent(
         &hunks,
-        &summary.lhs_positions,
-        &summary.rhs_positions,
+        &opposite_to_lhs,
+        &opposite_to_rhs,
         summary.lhs_src.max_line(),
         summary.rhs_src.max_line(),
     );

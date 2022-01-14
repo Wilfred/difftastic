@@ -14,7 +14,7 @@ use crate::{
     lines::{codepoint_len, format_line_num, LineNumber, MaxLine},
     positions::SingleLineSpan,
     style::{self, apply_colors, color_positions, split_and_apply, Style},
-    syntax::{zip_pad_shorter, MatchedPos},
+    syntax::{zip_pad_shorter, MatchedPos}, context::opposite_positions,
 };
 
 const SPACER: &str = " ";
@@ -250,6 +250,9 @@ pub fn display_hunks(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> String {
+    let opposite_to_lhs = opposite_positions(lhs_mps);
+    let opposite_to_rhs = opposite_positions(rhs_mps);
+
     let lhs_colored_src = apply_colors(lhs_src, true, lhs_mps);
     let rhs_colored_src = apply_colors(rhs_src, false, rhs_mps);
 
@@ -284,8 +287,8 @@ pub fn display_hunks(
 
         let aligned_lines = aligned_lines_from_hunk(
             hunk,
-            lhs_mps,
-            rhs_mps,
+            &opposite_to_lhs,
+            &opposite_to_rhs,
             lhs_src.max_line(),
             rhs_src.max_line(),
         );
