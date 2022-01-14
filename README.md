@@ -17,4 +17,4 @@ The [external scanner](/src/scanner.c) was based on these repositories:
 
 ## License
 
-Licensed under the MIT License. Check the [LICENSE](/LICENSE) file for details.
+Licensed under the MIT License. Check the [LICENSE](/LICENSE.md) file for details.
