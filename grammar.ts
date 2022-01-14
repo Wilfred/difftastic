@@ -307,7 +307,11 @@ module.exports = grammar({
       ),
 
     line_string_literal: ($) =>
-      seq('"', repeat(choice($._line_string_content, $._interpolation)), '"'),
+      seq(
+        '"',
+        repeat(choice(field("text", $._line_string_content), $._interpolation)),
+        '"'
+      ),
 
     _line_string_content: ($) => choice($.line_str_text, $.str_escaped_char),
 
@@ -321,7 +325,9 @@ module.exports = grammar({
     multi_line_string_literal: ($) =>
       seq(
         '"""',
-        repeat(choice($._multi_line_string_content, $._interpolation)),
+        repeat(
+          choice(field("text", $._multi_line_string_content), $._interpolation)
+        ),
         '"""'
       ),
 
@@ -329,12 +335,12 @@ module.exports = grammar({
       seq(
         repeat(
           seq(
-            $.raw_str_part,
-            $.raw_str_interpolation,
+            field("text", $.raw_str_part),
+            field("interpolation", $.raw_str_interpolation),
             optional($.raw_str_continuing_indicator)
           )
         ),
-        $.raw_str_end_part
+        field("text", $.raw_str_end_part)
       ),
 
     raw_str_interpolation: ($) =>
@@ -348,7 +354,13 @@ module.exports = grammar({
     _interpolation: ($) => seq("\\(", $._interpolation_contents, ")"),
 
     _interpolation_contents: ($) =>
-      sep1(alias($.value_argument, $.interpolated_expression), ","),
+      sep1(
+        field(
+          "interpolation",
+          alias($.value_argument, $.interpolated_expression)
+        ),
+        ","
+      ),
 
     _escaped_identifier: ($) => /\\[0\\tnr"'\n]/,
 
@@ -367,7 +379,7 @@ module.exports = grammar({
     _type: ($) =>
       prec.right(
         PRECS.ty,
-        seq(optional($.type_modifiers), $._unannotated_type)
+        seq(optional($.type_modifiers), field("name", $._unannotated_type))
       ),
 
     _unannotated_type: ($) =>
@@ -382,7 +394,7 @@ module.exports = grammar({
           $.optional_type,
           $.metatype,
           $.opaque_type,
-          $._protocol_composition_type
+          $.protocol_composition_type
         )
       ),
 
@@ -454,7 +466,7 @@ module.exports = grammar({
 
     opaque_type: ($) => seq("some", $.user_type),
 
-    _protocol_composition_type: ($) =>
+    protocol_composition_type: ($) =>
       prec.right(
         seq(
           $._unannotated_type,
@@ -533,12 +545,15 @@ module.exports = grammar({
         PRECS.range,
         seq(
           choice($._open_ended_range_operator, $._three_dot_operator),
-          prec.right(PRECS.range_suffix, $._expression)
+          prec.right(PRECS.range_suffix, field("end", $._expression))
         )
       ),
 
     open_end_range_expression: ($) =>
-      prec.right(PRECS.range, seq($._expression, $._three_dot_operator)),
+      prec.right(
+        PRECS.range,
+        seq(field("start", $._expression), $._three_dot_operator)
+      ),
 
     prefix_expression: ($) =>
       prec.left(
@@ -585,70 +600,123 @@ module.exports = grammar({
     multiplicative_expression: ($) =>
       prec.left(
         PRECS.multiplication,
-        seq($._expression, $._multiplicative_operator, $._expression)
+        seq(
+          field("lhs", $._expression),
+          field("op", $._multiplicative_operator),
+          field("rhs", $._expression)
+        )
       ),
 
     additive_expression: ($) =>
       prec.left(
         PRECS.addition,
-        seq($._expression, $._additive_operator, $._expression)
+        seq(
+          field("lhs", $._expression),
+          field("op", $._additive_operator),
+          field("rhs", $._expression)
+        )
       ),
 
     range_expression: ($) =>
       prec.right(
         PRECS.range,
         seq(
-          $._expression,
-          choice($._open_ended_range_operator, $._three_dot_operator),
-          $._expression
+          field("start", $._expression),
+          field(
+            "op",
+            choice($._open_ended_range_operator, $._three_dot_operator)
+          ),
+          field("end", $._expression)
         )
       ),
 
     infix_expression: ($) =>
       prec.left(
         PRECS.infix_operations,
-        seq($._expression, $.custom_operator, $._expression)
+        seq(
+          field("lhs", $._expression),
+          field("op", $.custom_operator),
+          field("rhs", $._expression)
+        )
       ),
 
     nil_coalescing_expression: ($) =>
       prec.right(
         PRECS.nil_coalescing,
-        seq($._expression, $._nil_coalescing_operator, $._expression)
+        seq(
+          field("value", $._expression),
+          $._nil_coalescing_operator,
+          field("if_nil", $._expression)
+        )
       ),
 
     check_expression: ($) =>
-      prec.left(PRECS.check, seq($._expression, $._is_operator, $._type)),
+      prec.left(
+        PRECS.check,
+        seq(
+          field("target", $._expression),
+          field("op", $._is_operator),
+          field("type", $._type)
+        )
+      ),
 
     comparison_expression: ($) =>
-      prec.left(seq($._expression, $._comparison_operator, $._expression)),
+      prec.left(
+        seq(
+          field("lhs", $._expression),
+          field("op", $._comparison_operator),
+          field("rhs", $._expression)
+        )
+      ),
 
     equality_expression: ($) =>
       prec.left(
         PRECS.equality,
-        seq($._expression, $._equality_operator, $._expression)
+        seq(
+          field("lhs", $._expression),
+          field("op", $._equality_operator),
+          field("rhs", $._expression)
+        )
       ),
 
     conjunction_expression: ($) =>
       prec.left(
         PRECS.conjunction,
-        seq($._expression, $._conjunction_operator, $._expression)
+        seq(
+          field("lhs", $._expression),
+          field("op", $._conjunction_operator),
+          field("rhs", $._expression)
+        )
       ),
 
     disjunction_expression: ($) =>
       prec.left(
         PRECS.disjunction,
-        seq($._expression, $._disjunction_operator, $._expression)
+        seq(
+          field("lhs", $._expression),
+          field("op", $._disjunction_operator),
+          field("rhs", $._expression)
+        )
       ),
 
     bitwise_operation: ($) =>
-      prec.left(seq($._expression, $._bitwise_binary_operator, $._expression)),
+      prec.left(
+        seq(
+          field("lhs", $._expression),
+          field("op", $._bitwise_binary_operator),
+          field("rhs", $._expression)
+        )
+      ),
 
     custom_operator: ($) => seq(CUSTOM_OPERATORS, optional("<")),
 
     // Suffixes
 
     navigation_suffix: ($) =>
-      seq($._dot, choice($.simple_identifier, $.integer_literal)),
+      seq(
+        $._dot,
+        field("suffix", choice($.simple_identifier, $.integer_literal))
+      ),
 
     call_suffix: ($) =>
       prec(
@@ -656,7 +724,7 @@ module.exports = grammar({
         seq(
           choice(
             $.value_arguments,
-            sep1($.lambda_literal, seq($.simple_identifier, ":"))
+            sep1($.lambda_literal, seq(field("name", $.simple_identifier), ":"))
           )
         )
       ),
@@ -856,8 +924,8 @@ module.exports = grammar({
         PRECS.lambda,
         seq(
           "{",
-          prec(PRECS.expr, optional($.capture_list)),
-          optional(seq(optional($.lambda_function_type), "in")),
+          prec(PRECS.expr, optional(field("captures", $.capture_list))),
+          optional(seq(optional(field("type", $.lambda_function_type)), "in")),
           optional($.statements),
           "}"
         )
@@ -868,7 +936,7 @@ module.exports = grammar({
 
     capture_list_item: ($) =>
       choice(
-        $.self_expression,
+        field("name", $.self_expression),
         prec(
           PRECS.expr,
           seq(
@@ -989,7 +1057,10 @@ module.exports = grammar({
     catch_block: ($) =>
       seq(
         $.catch_keyword,
-        optional(generate_pattern_matching_rule($, true, false)),
+        field(
+          "error",
+          optional(generate_pattern_matching_rule($, true, false))
+        ),
         optional($.where_clause),
         $._block
       ),
