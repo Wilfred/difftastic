@@ -19,6 +19,7 @@
  (#is-not? local))
 
 ; Functions
+(unqualified_import (identifier) @function)
 (function
   name: (identifier) @function)
 (public_function
