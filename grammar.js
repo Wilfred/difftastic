@@ -631,7 +631,7 @@ module.exports = grammar({
         optional($.list_pattern_tail),
         "]"
       ),
-    list_pattern_tail: ($) => seq("..", choice($.identifier, $.discard)),
+    list_pattern_tail: ($) => seq("..", optional(choice($.identifier, $.discard))),
 
     /* Public functions */
     public_function: ($) => seq("pub", $._function),

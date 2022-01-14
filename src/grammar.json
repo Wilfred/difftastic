@@ -4431,12 +4431,20 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "identifier"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "discard"
+                }
+              ]
             },
             {
-              "type": "SYMBOL",
-              "name": "discard"
+              "type": "BLANK"
             }
           ]
         }
