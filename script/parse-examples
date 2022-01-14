@@ -4,13 +4,6 @@ set -euo pipefail
 
 cd "$(dirname "${0}")/.."
 
-declare language="all"
-
-if test -n "${1}"; then
-  language="${1}";
-  shift;
-fi
-
 checkout_repo() {
   local -r path="${1}"
   local -r repo="${2}"
@@ -38,16 +31,14 @@ checkout_repo() {
 
 checkout_repo "./examples/luvit" "luvit/luvit" "9841bc17aaab32fa63e11063cf68f82da615eefd"
 
-lua_parse_examples() {
+parse_examples() {
   local -r known_failures="$(cat script/known_failures.txt)"
 
-  pushd "./lua" >/dev/null
-
   tree-sitter parse --quiet \
-    "../examples/luvit/**/*.lua" \
+    "./examples/luvit/**/*.lua" \
     $(for file in ${known_failures}; do echo "!${file}"; done)
 
-  declare -r example_count=$(find ../examples -name "*.lua" | wc -l)
+  declare -r example_count=$(find ./examples -name "*.lua" | wc -l)
   declare -r failure_count=$(wc -w <<< "${known_failures}")
   declare -r success_count=$(( ${example_count} - ${failure_count} ))
   declare -r success_percent=$(bc -l <<< "100*${success_count}/${example_count}")
@@ -55,13 +46,6 @@ lua_parse_examples() {
   printf \
     "[Lua] Successfully parsed %d of %d example files (%.1f%%)\n" \
     ${success_count} ${example_count} ${success_percent}
-
-  popd >/dev/null
 }
 
-case "${language}" in
-  lua) lua_parse_examples;;
-  all)
-    lua_parse_examples
-    ;;
-esac
+parse_examples
