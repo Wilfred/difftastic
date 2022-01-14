@@ -3,11 +3,11 @@ pub fn replace(
   // <- keyword
   //   ^ function
   //          ^ punctuation.bracket
-  in string: String,
+  in original: String,
   // <- property
   // ^ variable.parameter
-  //         ^ type
-  //               ^ punctuation.delimeter
+  //            ^ type
+  //                 ^ punctuation.delimeter
   each pattern: String,
   // <- property
   //   ^ variable.parameter
@@ -22,15 +22,15 @@ pub fn replace(
   // <- punctuation.delimeter
   // ^ type
   //        ^ punctuation.bracket
-  string.replace(in: string, each: pattern, with: replacement)
-  // <- variable
-  //     ^ property
-  //             ^ property
-  //                 ^ variable
-  //                         ^ property
-  //                               ^ variable
-  //                                        ^ property
-  //                                              ^ variable
+  string.replace(in: original, each: pattern, with: replacement)
+  // <- module
+  //        ^ property
+  //              ^ property
+  //                  ^ variable.parameter
+  //                            ^ property
+  //                                  ^ variable.parameter
+  //                                           ^ property
+  //                                                 ^ variable.parameter
 }
 
 fn trial(uri) {
