@@ -50,3 +50,19 @@ fn trial(uri) {
     _ -> False
   }
 }
+
+fn myfun(argument) {
+  let local_fun = fn(x) { x + 1 }
+
+  argument
+  // ^ variable.parameter
+  |> local_fun
+  // ^ variable
+  |> module_fun
+  // ^ function
+
+  module_fun(local_fun(argument))
+  // ^ function
+  //         ^ variable
+  //                   ^ variable.parameter
+}
