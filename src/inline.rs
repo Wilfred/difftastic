@@ -1,7 +1,7 @@
 //! Inline, or "unified" diff display.
 
 use crate::{
-    context::calculate_context,
+    context::{calculate_context, opposite_positions},
     hunks::Hunk,
     lines::{format_line_num, MaxLine},
     style::apply_colors,
@@ -24,12 +24,15 @@ pub fn display(
 
     let mut res = String::new();
 
+    let opposite_to_lhs = opposite_positions(lhs_positions);
+    let opposite_to_rhs = opposite_positions(rhs_positions);
+
     for hunk in hunks {
         let hunk_lines = hunk.lines.clone();
         let (before_lines, after_lines) = calculate_context(
             &hunk_lines,
-            lhs_positions,
-            rhs_positions,
+            &opposite_to_lhs,
+            &opposite_to_rhs,
             // TODO: repeatedly calculating the maximum is wasteful.
             lhs_src.max_line(),
             rhs_src.max_line(),

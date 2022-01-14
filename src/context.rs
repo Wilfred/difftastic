@@ -150,7 +150,7 @@ pub fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx)> {
 /// 122    91 (closest match)
 fn after_with_opposites(
     after_lines: &[LineNumber],
-    opposite_lines: HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
     prev_max_opposite: Option<LineNumber>,
     max_opposite: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
@@ -196,17 +196,14 @@ fn after_with_opposites(
 
 pub fn calculate_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    lhs_mps: &[MatchedPos],
-    rhs_mps: &[MatchedPos],
+    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> (
     Vec<(Option<LineNumber>, Option<LineNumber>)>,
     Vec<(Option<LineNumber>, Option<LineNumber>)>,
 ) {
-    let opposite_to_lhs = opposite_positions(lhs_mps);
-    let opposite_to_rhs = opposite_positions(rhs_mps);
-
     let before_lines: Vec<_> = match lines.first() {
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
@@ -266,13 +263,18 @@ pub fn calculate_context(
 
 pub fn add_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    lhs_mps: &[MatchedPos],
-    rhs_mps: &[MatchedPos],
+    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let (before_lines, after_lines) =
-        calculate_context(lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
+    let (before_lines, after_lines) = calculate_context(
+        lines,
+        opposite_to_lhs,
+        opposite_to_rhs,
+        max_lhs_src_line,
+        max_rhs_src_line,
+    );
 
     before_lines
         .into_iter()

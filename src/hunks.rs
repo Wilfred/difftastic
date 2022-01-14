@@ -11,7 +11,7 @@ use std::{
 };
 
 use crate::{
-    context::{add_context, calculate_context, flip_tuples, opposite_positions},
+    context::{add_context, calculate_context, flip_tuples},
     lines::LineNumber,
     syntax::{zip_pad_shorter, MatchedPos},
 };
@@ -127,8 +127,8 @@ fn extract_lines(hunk: &Hunk) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
 
 pub fn merge_adjacent(
     hunks: &[Hunk],
-    lhs_mps: &[MatchedPos],
-    rhs_mps: &[MatchedPos],
+    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> Vec<Hunk> {
@@ -143,8 +143,13 @@ pub fn merge_adjacent(
         let mut rhs_lines: HashSet<LineNumber> = HashSet::new();
 
         let lines = extract_lines(hunk);
-        let contextual_lines =
-            add_context(&lines, lhs_mps, rhs_mps, max_lhs_src_line, max_rhs_src_line);
+        let contextual_lines = add_context(
+            &lines,
+            opposite_to_lhs,
+            opposite_to_rhs,
+            max_lhs_src_line,
+            max_rhs_src_line,
+        );
         for (lhs_line, rhs_line) in contextual_lines {
             if let Some(lhs_line) = lhs_line {
                 lhs_lines.insert(lhs_line);
@@ -672,8 +677,8 @@ fn fill_matched_lines(
 
 pub fn aligned_lines_from_hunk(
     hunk: &Hunk,
-    lhs_mps: &[MatchedPos],
-    rhs_mps: &[MatchedPos],
+    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
@@ -681,8 +686,8 @@ pub fn aligned_lines_from_hunk(
 
     let (before_context, after_context) = calculate_context(
         &hunk_lines,
-        lhs_mps,
-        rhs_mps,
+        opposite_to_lhs,
+        opposite_to_rhs,
         max_lhs_src_line,
         max_rhs_src_line,
     );
@@ -693,12 +698,9 @@ pub fn aligned_lines_from_hunk(
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     res.extend(before_context);
 
-    let matched_lhs_lines = opposite_positions(rhs_mps);
-    let matched_rhs_lines = opposite_positions(lhs_mps);
-
     if let (Some(start_pair), Some(end_pair)) = (start_pair, end_pair) {
         // Fill lines between.
-        let aligned_between = fill_aligned(start_pair, end_pair, &matched_rhs_lines);
+        let aligned_between = fill_aligned(start_pair, end_pair, &opposite_to_rhs);
 
         // TODO: align based on blank lines too.
 
@@ -711,13 +713,13 @@ pub fn aligned_lines_from_hunk(
 
         let aligned_between = match first_novel {
             (Some(lhs_start), _) => {
-                fill_matched_lines(lhs_start, max_lhs_src_line, hunk_end, &matched_rhs_lines)
+                fill_matched_lines(lhs_start, max_lhs_src_line, hunk_end, opposite_to_lhs)
             }
             (_, Some(rhs_start)) => flip_tuples(&fill_matched_lines(
                 rhs_start,
                 max_rhs_src_line,
                 hunk_end,
-                &matched_lhs_lines,
+                opposite_to_rhs,
             )),
             (None, None) => unreachable!(),
         };
@@ -735,7 +737,7 @@ mod tests {
     use super::*;
     use crate::{
         positions::SingleLineSpan,
-        syntax::{AtomKind, MatchKind, TokenKind},
+        syntax::{AtomKind, MatchKind, TokenKind}, context::opposite_positions,
     };
     use pretty_assertions::assert_eq;
 
@@ -892,7 +894,18 @@ mod tests {
             },
         ];
 
-        let res = aligned_lines_from_hunk(&hunk, &lhs_mps, &rhs_mps, 1.into(), 2.into());
+        // TODO: Just build a HashMap diretly instead of positions
+        // first for this test.
+        let opposite_to_lhs = opposite_positions(&lhs_mps);
+        let opposite_to_rhs = opposite_positions(&rhs_mps);
+
+        let res = aligned_lines_from_hunk(
+            &hunk,
+            &opposite_to_lhs,
+            &opposite_to_rhs,
+            1.into(),
+            2.into(),
+        );
         assert_eq!(
             res,
             vec![
@@ -1028,7 +1041,18 @@ mod tests {
             },
         ];
 
-        let res = aligned_lines_from_hunk(&hunk, &lhs_mps, &rhs_mps, 1.into(), 3.into());
+        // TODO: Just build a HashMap diretly instead of positions
+        // first for this test.
+        let opposite_to_lhs = opposite_positions(&lhs_mps);
+        let opposite_to_rhs = opposite_positions(&rhs_mps);
+
+        let res = aligned_lines_from_hunk(
+            &hunk,
+            &opposite_to_lhs,
+            &opposite_to_rhs,
+            1.into(),
+            3.into(),
+        );
         assert_eq!(
             res,
             vec![
