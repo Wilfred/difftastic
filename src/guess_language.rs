@@ -68,7 +68,9 @@ fn from_shebang(src: &str) -> Option<Language> {
             let interpreter_path = Path::new(&cap[1]);
             if let Some(name) = interpreter_path.file_name() {
                 match name.to_string_lossy().borrow() {
-                    "bash" | "dash" | "sh" | "rc" | "zsh" => return Some(Bash),
+                    "ash" | "bash" | "dash" | "ksh" | "mksh" | "pdksh" | "rc" | "sh" | "zsh" => {
+                        return Some(Bash)
+                    }
                     "tcc" => return Some(C),
                     "lisp" | "sbc" | "ccl" | "clisp" | "ecl" => return Some(CommonLisp),
                     "elixir" => return Some(Elixir),
@@ -91,7 +93,12 @@ fn from_shebang(src: &str) -> Option<Language> {
 fn from_name(path: &Path) -> Option<Language> {
     match path.file_name() {
         Some(name) => match name.to_string_lossy().borrow() {
-            ".bashrc" | ".bash_profile" | ".profile" => Some(Bash),
+            ".bash_aliases" | ".bash_history" | ".bash_logout" | ".bash_profile" | ".bashrc"
+            | ".cshrc" | ".env" | ".env.example" | ".flaskenv" | ".kshrc" | ".login"
+            | ".profile" | ".zlogin" | ".zlogout" | ".zprofile" | ".zshenv" | ".zshrc" | "9fs"
+            | "PKGBUILD" | "bash_aliases" | "bash_logout" | "bash_profile" | "bashrc" | "cshrc"
+            | "gradlew" | "kshrc" | "login" | "man" | "profile" | "zlogin" | "zlogout"
+            | "zprofile" | "zshenv" | "zshrc" => Some(Bash),
             ".emacs" | "_emacs" | "Cask" => Some(EmacsLisp),
             "TARGETS" | "BUCK" | "DEPS" => Some(Python),
             "Gemfile" | "Rakefile" => Some(Ruby),
@@ -103,7 +110,8 @@ fn from_name(path: &Path) -> Option<Language> {
 
 fn from_extension(extension: &OsStr) -> Option<Language> {
     match extension.to_string_lossy().borrow() {
-        "bash" | "sh" => Some(Bash),
+        "sh" | "bash" | "bats" | "cgi" | "command" | "env" | "fcgi" | "ksh" | "sh.in" | "tmux"
+        | "tool" | "zsh" => Some(Bash),
         "c" => Some(C),
         // Treat .h as C++ rather than C. This is an arbitrary choice,
         // but C++ is more widely used than C according to

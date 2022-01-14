@@ -8,6 +8,8 @@ trimming rules.
 Fixed parsing of heredocs in shell scripts. They are now treated as
 string literals.
 
+Improved language detection for files with bash/sh syntax.
+
 ### Integration
 
 Fixed a crash when on Mercurial diffs when a whole file has been removed.
