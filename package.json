@@ -1,6 +1,6 @@
 {
   "name": "experimental-tree-sitter-swift",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An experimental tree-sitter grammar for the Swift programming language.",
   "main": "bindings/node/index.js",
   "scripts": {

@@ -782,10 +782,11 @@ func multipleType() -> Foo & Bar { return Foo() }
           (line_string_literal)))))
   (function_declaration
     (simple_identifier)
-    (user_type
-      (type_identifier))
-    (user_type
-      (type_identifier))
+    (protocol_composition_type
+      (user_type
+        (type_identifier))
+      (user_type
+        (type_identifier)))
     (function_body
       (statements
         (control_transfer_statement

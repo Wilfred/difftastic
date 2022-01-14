@@ -20,6 +20,6 @@ console.log(tree.rootNode.toString());
 const assert = require("assert");
 const smallTree = parser.parse(`_ = "Hello!"\n`);
 assert.equal(
-  `(source_file (assignment target: (directly_assignable_expression (simple_identifier)) result: (line_string_literal (line_str_text))))`,
+  `(source_file (assignment target: (directly_assignable_expression (simple_identifier)) result: (line_string_literal text: (line_str_text))))`,
   smallTree.rootNode.toString()
 );

@@ -61,7 +61,7 @@ mod tests {
             .ok_or_else(|| anyhow!("Unable to parse!"))?;
 
         assert_eq!(
-            "(source_file (assignment target: (directly_assignable_expression (simple_identifier)) result: (line_string_literal (line_str_text))))",
+            "(source_file (assignment target: (directly_assignable_expression (simple_identifier)) result: (line_string_literal text: (line_str_text))))",
             tree.root_node().to_sexp(),
         );
 

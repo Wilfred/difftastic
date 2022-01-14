@@ -559,10 +559,11 @@ var propertyMap: NodePropertyMap & KeypathSearchable {
       (non_binding_pattern
         (simple_identifier)))
     (type_annotation
-      (user_type
-        (type_identifier))
-      (user_type
-        (type_identifier)))
+      (protocol_composition_type
+        (user_type
+          (type_identifier))
+        (user_type
+          (type_identifier))))
     (computed_property
       (statements
         (control_transfer_statement
@@ -731,10 +732,11 @@ class SomeClassWithAlias: NSObject {
     (class_body
       (typealias_declaration
         (type_identifier)
-        (user_type
-          (type_identifier))
-        (user_type
-          (type_identifier))))))
+        (protocol_composition_type
+          (user_type
+            (type_identifier))
+          (user_type
+            (type_identifier)))))))
 
 ================================================================================
 Special constructors
@@ -1216,18 +1218,20 @@ let result: HasGeneric<P1 & P2> = HasGeneric<P1 & P2>(t: "Hello")
       (user_type
         (type_identifier)
         (type_arguments
-          (user_type
-            (type_identifier))
-          (user_type
-            (type_identifier)))))
+          (protocol_composition_type
+            (user_type
+              (type_identifier))
+            (user_type
+              (type_identifier))))))
     (constructor_expression
       (user_type
         (type_identifier)
         (type_arguments
-          (user_type
-            (type_identifier))
-          (user_type
-            (type_identifier))))
+          (protocol_composition_type
+            (user_type
+              (type_identifier))
+            (user_type
+              (type_identifier)))))
       (constructor_suffix
         (value_arguments
           (value_argument
@@ -1266,10 +1270,11 @@ func iterate<S>(h: S) where S : Sequence, S.Element == P1 & P2 { }
           (identifier
             (simple_identifier)
             (simple_identifier))
-          (user_type
-            (type_identifier))
-          (user_type
-            (type_identifier)))))
+          (protocol_composition_type
+            (user_type
+              (type_identifier))
+            (user_type
+              (type_identifier))))))
     (function_body)))
 
 ================================================================================
@@ -1289,10 +1294,11 @@ enum Foo {
       (enum_entry
         (simple_identifier)
         (enum_type_parameters
-          (user_type
-            (type_identifier))
-          (user_type
-            (type_identifier)))))))
+          (protocol_composition_type
+            (user_type
+              (type_identifier))
+            (user_type
+              (type_identifier))))))))
 
 ================================================================================
 Protocol composition in as expressions
@@ -1316,10 +1322,11 @@ let result = greet("me") as P1 & P2
               (line_string_literal
                 (line_str_text))))))
       (as_operator)
-      (user_type
-        (type_identifier))
-      (user_type
-        (type_identifier)))))
+      (protocol_composition_type
+        (user_type
+          (type_identifier))
+        (user_type
+          (type_identifier))))))
 
 ================================================================================
 Modify declarations
