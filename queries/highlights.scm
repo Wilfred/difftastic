@@ -29,6 +29,10 @@
   name: (identifier) @function)
 (function_parameter
   name: (identifier) @variable.parameter)
+((function_call function: (identifier) @function)
+ (#is-not? local))
+((binary_expression "|>" (identifier) @function)
+ (#is-not? local))
 
 ; "Properties"
 ; Assumed to be intended to refer to a name for a field; something that comes
