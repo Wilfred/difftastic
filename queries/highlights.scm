@@ -129,4 +129,4 @@
   "="
   "->"
   ".."
-] @punctuation.delimeter
+] @punctuation.delimiter
