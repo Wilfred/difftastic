@@ -342,7 +342,6 @@ fn print_diff_result(summary: &DiffResult) {
     let opposite_to_lhs = opposite_positions(&summary.lhs_positions);
     let opposite_to_rhs = opposite_positions(&summary.rhs_positions);
 
-
     let hunks = matched_pos_to_hunks(&summary.lhs_positions, &summary.rhs_positions);
     let hunks = merge_adjacent(
         &hunks,
