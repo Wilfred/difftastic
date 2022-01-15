@@ -207,7 +207,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         OCaml => TreeSitterConfig {
             name: "OCaml",
             language: unsafe { tree_sitter_ocaml() },
-            atom_nodes: (vec!["character", "string", "type_variable"])
+            atom_nodes: (vec!["character", "string", "tag", "type_variable"])
                 .into_iter()
                 .collect(),
             // TODO: begin/end and object/end.
