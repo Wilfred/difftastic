@@ -180,6 +180,19 @@ impl<'a> Syntax<'a> {
         close_content: &str,
         close_position: Vec<SingleLineSpan>,
     ) -> &'a Syntax<'a> {
+        // Don't bother creating a list if we have no open/close and
+        // there's only one child. This occurs in small files with
+        // thorough tree-sitter parsers: you get parse trees like:
+        //
+        // (compilation-unit (top-level-def (function ...)))
+        //
+        // This is a small performance win as it makes the difftastic
+        // syntax tree smaller. It also really helps when looking at
+        // debug output for small inputs.
+        if children.len() == 1 && open_content.is_empty() && close_content.is_empty() {
+            return children[0];
+        }
+
         let mut num_descendants = 0;
         for child in &children {
             num_descendants += match child {
@@ -808,6 +821,22 @@ mod tests {
         init_info(&[comment], &[atom]);
 
         assert_ne!(comment, atom);
+    }
+
+    #[test]
+    fn test_flatten_trivial_list() {
+        let pos = vec![SingleLineSpan {
+            line: 0.into(),
+            start_col: 2,
+            end_col: 3,
+        }];
+
+        let arena = Arena::new();
+        let atom = Syntax::new_atom(&arena, pos, "foo", AtomKind::Normal);
+
+        let trivial_list = Syntax::new_list(&arena, "", vec![], vec![atom], "", vec![]);
+
+        assert!(matches!(trivial_list, Atom { .. }));
     }
 
     #[test]
