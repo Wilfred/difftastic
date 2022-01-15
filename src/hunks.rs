@@ -736,8 +736,9 @@ pub fn aligned_lines_from_hunk(
 mod tests {
     use super::*;
     use crate::{
+        context::opposite_positions,
         positions::SingleLineSpan,
-        syntax::{AtomKind, MatchKind, TokenKind}, context::opposite_positions,
+        syntax::{AtomKind, MatchKind, TokenKind},
     };
     use pretty_assertions::assert_eq;
 

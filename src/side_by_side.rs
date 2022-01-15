@@ -10,11 +10,12 @@ use std::{
 };
 
 use crate::{
+    context::opposite_positions,
     hunks::{aligned_lines_from_hunk, Hunk},
     lines::{codepoint_len, format_line_num, LineNumber, MaxLine},
     positions::SingleLineSpan,
     style::{self, apply_colors, color_positions, split_and_apply, Style},
-    syntax::{zip_pad_shorter, MatchedPos}, context::opposite_positions,
+    syntax::{zip_pad_shorter, MatchedPos},
 };
 
 const SPACER: &str = " ";
