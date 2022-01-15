@@ -606,10 +606,10 @@ fn trial(x, y, z) {
                   (identifier))))
             guard: (case_clause_guard
               (binary_expression
-                (tuple_access
+                left: (tuple_access
                   tuple: (identifier)
                   index: (integer))
-                (integer)))
+                right: (integer)))
             value: (record
               name: (type_identifier)))
           (case_clause
@@ -620,18 +620,18 @@ fn trial(x, y, z) {
                   (identifier))))
             guard: (case_clause_guard
               (binary_expression
-                (binary_expression
-                  (binary_expression
-                    (tuple_access
+                left: (binary_expression
+                  left: (binary_expression
+                    left: (tuple_access
                       tuple: (identifier)
                       index: (integer))
-                    (integer))
-                  (integer))
-                (binary_expression
-                  (tuple_access
+                    right: (integer))
+                  right: (integer))
+                right: (binary_expression
+                  left: (tuple_access
                     tuple: (identifier)
                     index: (integer))
-                  (integer))))
+                  right: (integer))))
             value: (record
               name: (type_identifier)))))
       (case

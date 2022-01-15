@@ -254,28 +254,28 @@ module.exports = grammar({
     _expression: ($) => choice($._expression_unit, $.binary_expression),
     binary_expression: ($) =>
       choice(
-        binaryExpr($, prec.left, 1, "||"),
-        binaryExpr($, prec.left, 2, "&&"),
-        binaryExpr($, prec.left, 3, "=="),
-        binaryExpr($, prec.left, 3, "!="),
-        binaryExpr($, prec.left, 4, "<"),
-        binaryExpr($, prec.left, 4, "<="),
-        binaryExpr($, prec.left, 4, "<."),
-        binaryExpr($, prec.left, 4, "<=."),
-        binaryExpr($, prec.left, 4, ">"),
-        binaryExpr($, prec.left, 4, ">="),
-        binaryExpr($, prec.left, 4, ">."),
-        binaryExpr($, prec.left, 4, ">=."),
-        binaryExpr($, prec.left, 5, "|>"),
-        binaryExpr($, prec.left, 6, "+"),
-        binaryExpr($, prec.left, 6, "+."),
-        binaryExpr($, prec.left, 6, "-"),
-        binaryExpr($, prec.left, 6, "-."),
-        binaryExpr($, prec.left, 7, "*"),
-        binaryExpr($, prec.left, 7, "*."),
-        binaryExpr($, prec.left, 7, "/"),
-        binaryExpr($, prec.left, 7, "/."),
-        binaryExpr($, prec.left, 7, "%")
+        binaryExpr(prec.left, 1, "||", $._expression),
+        binaryExpr(prec.left, 2, "&&", $._expression),
+        binaryExpr(prec.left, 3, "==", $._expression),
+        binaryExpr(prec.left, 3, "!=", $._expression),
+        binaryExpr(prec.left, 4, "<", $._expression),
+        binaryExpr(prec.left, 4, "<=", $._expression),
+        binaryExpr(prec.left, 4, "<.", $._expression),
+        binaryExpr(prec.left, 4, "<=.", $._expression),
+        binaryExpr(prec.left, 4, ">", $._expression),
+        binaryExpr(prec.left, 4, ">=", $._expression),
+        binaryExpr(prec.left, 4, ">.", $._expression),
+        binaryExpr(prec.left, 4, ">=.", $._expression),
+        binaryExpr(prec.left, 5, "|>", $._expression),
+        binaryExpr(prec.left, 6, "+", $._expression),
+        binaryExpr(prec.left, 6, "+.", $._expression),
+        binaryExpr(prec.left, 6, "-", $._expression),
+        binaryExpr(prec.left, 6, "-.", $._expression),
+        binaryExpr(prec.left, 7, "*", $._expression),
+        binaryExpr(prec.left, 7, "*.", $._expression),
+        binaryExpr(prec.left, 7, "/", $._expression),
+        binaryExpr(prec.left, 7, "/.", $._expression),
+        binaryExpr(prec.left, 7, "%", $._expression)
       ),
     // The way that this function is written in the Gleam parser is essentially
     // incompatible with tree-sitter. It first parses some base expression,
@@ -373,102 +373,18 @@ module.exports = grammar({
       ),
     _case_clause_guard_binary_expression: ($) =>
       choice(
-        prec.left(
-          1,
-          seq(
-            $._case_clause_guard_expression,
-            "||",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          2,
-          seq(
-            $._case_clause_guard_expression,
-            "&&",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          3,
-          seq(
-            $._case_clause_guard_expression,
-            "==",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          3,
-          seq(
-            $._case_clause_guard_expression,
-            "!=",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          4,
-          seq(
-            $._case_clause_guard_expression,
-            "<",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          4,
-          seq(
-            $._case_clause_guard_expression,
-            "<=",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          4,
-          seq(
-            $._case_clause_guard_expression,
-            "<.",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          4,
-          seq(
-            $._case_clause_guard_expression,
-            "<=.",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          4,
-          seq(
-            $._case_clause_guard_expression,
-            ">",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          4,
-          seq(
-            $._case_clause_guard_expression,
-            ">=",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          4,
-          seq(
-            $._case_clause_guard_expression,
-            ">.",
-            $._case_clause_guard_expression
-          )
-        ),
-        prec.left(
-          4,
-          seq(
-            $._case_clause_guard_expression,
-            ">=.",
-            $._case_clause_guard_expression
-          )
-        )
+        binaryExpr(prec.left, 1, "||", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 2, "&&", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 3, "==", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 3, "!=", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 4, "<", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 4, "<=", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 4, "<.", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 4, "<=.", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 4, ">", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 4, ">=", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 4, ">.", $._case_clause_guard_expression),
+        binaryExpr(prec.left, 4, ">=.", $._case_clause_guard_expression)
       ),
     _case_clause_guard_unit: ($) =>
       choice(
@@ -822,13 +738,9 @@ function series_of(rule, separator) {
 
 // A binary expression with a left-hand side, infix operator, and then right-hand-side
 // https://github.com/elixir-lang/tree-sitter-elixir/blob/de20391afe5cb03ef1e8a8e43167e7b58cc52869/grammar.js#L850-L859
-function binaryExpr($, assoc, precedence, operator) {
+function binaryExpr(assoc, precedence, operator, expr) {
   return assoc(
     precedence,
-    seq(
-      field("left", $._expression),
-      field("operator", operator),
-      field("right", $._expression)
-    )
+    seq(field("left", expr), field("operator", operator), field("right", expr))
   );
 }
