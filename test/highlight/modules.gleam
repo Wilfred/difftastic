@@ -35,6 +35,6 @@ fn pipe_operator_case(string: String) {
 fn remote_type_case() {
   gleam.Ok(1)
   // <- module
-  //   ^ punctuation.delimeter
+  //   ^ punctuation.delimiter
   //     ^ type
 }

@@ -7,19 +7,19 @@ pub fn replace(
   // <- property
   // ^ variable.parameter
   //            ^ type
-  //                 ^ punctuation.delimeter
+  //                 ^ punctuation.delimiter
   each pattern: String,
   // <- property
   //   ^ variable.parameter
   //             ^ type
-  //                  ^ punctuation.delimeter
+  //                  ^ punctuation.delimiter
   with replacement: String,
   // <- property
   //   ^ variable.parameter
   //                ^ type
-  //                      ^ punctuation.delimeter
+  //                      ^ punctuation.delimiter
 ) -> String {
-  // <- punctuation.delimeter
+  // <- punctuation.delimiter
   // ^ type
   //        ^ punctuation.bracket
   string.replace(in: original, each: pattern, with: replacement)
