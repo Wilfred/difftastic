@@ -549,12 +549,14 @@ module.exports = grammar({
           field("field", $.identifier)
         )
       ),
-    // Local functions will be denoted as "var". There's certainly an academic
-    // debate to be had as to whether local functions _are_ variables, but
-    // from syntax alone it is impossible to know whether a given identifier is
-    // a variable or a function.
-    // For similar reasons, remote functions (e.g. int.to_string) is parsed as
-    // a field access (accessing field to_string on record int).
+    // Remote functions (e.g. int.to_string) is parsed as a field access
+    // (accessing field to_string on record int) as it is impossible for the
+    // parser to determine with int is a module (and thus to_string a member
+    // function) or a local variable containing a record (and thus to_string is
+    // a field of that record).
+    // Similarly, the function name in local function calls (e.g. foo(arg)) is
+    // parsed as an $.identifier which is used to refer to both local variables
+    // and module functions, embodying the same ambiguity.
     _maybe_function_expression: ($) =>
       choice(
         $.identifier,
