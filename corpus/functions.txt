@@ -1,6 +1,6 @@
-=================
+================================================================================
 Function examples
-=================
+================================================================================
 
 fn add(x: Int, y: Int) -> Int {
   x + y
@@ -19,7 +19,7 @@ fn replace(
   string.replace(in: string, each: pattern, with: replacement)
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (function
@@ -37,8 +37,8 @@ fn replace(
       name: (type_identifier))
     body: (function_body
       (binary_expression
-        (identifier)
-        (identifier))))
+        left: (identifier)
+        right: (identifier))))
   (function
     name: (identifier)
     parameters: (function_parameters
@@ -103,9 +103,9 @@ fn replace(
             label: (identifier)
             value: (identifier)))))))
 
-========================
+================================================================================
 Public function examples
-========================
+================================================================================
 
 pub fn add(x: Int, y: Int) -> Int {
   x + y
@@ -124,7 +124,7 @@ pub fn replace(
   string.replace(in: in, each: each, with: with)
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (public_function
@@ -142,8 +142,8 @@ pub fn replace(
       name: (type_identifier))
     body: (function_body
       (binary_expression
-        (identifier)
-        (identifier))))
+        left: (identifier)
+        right: (identifier))))
   (public_function
     name: (identifier)
     parameters: (function_parameters
@@ -208,9 +208,9 @@ pub fn replace(
             label: (identifier)
             value: (identifier)))))))
 
-===============
+================================================================================
 Basic functions
-===============
+================================================================================
 
 fn str() {
   "Hello, World!"
@@ -287,7 +287,7 @@ fn field_access(x) {
   x.name
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (function
@@ -324,9 +324,9 @@ fn field_access(x) {
           module: (identifier)
           name: (type_identifier))
         arguments: (arguments
-           (argument
-             label: (identifier)
-             value: (string))))))
+          (argument
+            label: (identifier)
+            value: (string))))))
   (function
     name: (identifier)
     parameters: (function_parameters
@@ -398,16 +398,16 @@ fn field_access(x) {
               name: (type_identifier))))
         body: (function_body
           (binary_expression
-            (identifier)
-            (identifier))))))
+            left: (identifier)
+            right: (identifier))))))
   (function
     name: (identifier)
     parameters: (function_parameters)
     body: (function_body
       (expression_group
         (binary_expression
-          (integer)
-          (integer))
+          left: (integer)
+          right: (integer))
         (string))))
   (function
     name: (identifier)
@@ -446,8 +446,8 @@ fn field_access(x) {
         pattern: (identifier)
         value: (expression_group
           (binary_expression
-            (integer)
-            (integer))
+            left: (integer)
+            right: (integer))
           (string)))
       (let
         pattern: (identifier)
@@ -467,8 +467,8 @@ fn field_access(x) {
         pattern: (identifier)
         value: (expression_group
           (binary_expression
-            (integer)
-            (integer))
+            left: (integer)
+            right: (integer))
           (string)))
       (assert
         pattern: (identifier)
@@ -496,8 +496,8 @@ fn field_access(x) {
           (record_update_argument
             label: (identifier)
             value: (binary_expression
-              (integer)
-              (integer)))))
+              left: (integer)
+              right: (integer)))))
       (record_update
         constructor: (remote_type_identifier
           module: (identifier)
@@ -531,9 +531,9 @@ fn field_access(x) {
         record: (identifier)
         field: (identifier)))))
 
-=====
+================================================================================
 Cases
-=====
+================================================================================
 
 fn trial(x, y, z) {
   case x {
@@ -558,7 +558,7 @@ fn trial(x, y, z) {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (function
@@ -683,9 +683,9 @@ fn trial(x, y, z) {
             value: (record
               name: (type_identifier))))))))
 
-============
+================================================================================
 Try patterns
-============
+================================================================================
 
 fn try_try_again(x, y) -> Int {
   try int_x = todo
@@ -700,7 +700,7 @@ fn try_try_again(x, y) -> Int {
   try [a, b] = todo
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (function
@@ -762,15 +762,15 @@ fn try_try_again(x, y) -> Int {
           (identifier))
         value: (todo)))))
 
-==========================
+================================================================================
 Complex binary expressions
-==========================
+================================================================================
 
 fn complicated(x, y) {
   x > y && x >= y || x + y |> fun() < x * y + 1
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (function
@@ -782,30 +782,30 @@ fn complicated(x, y) {
         name: (identifier)))
     body: (function_body
       (binary_expression
-        (binary_expression
-          (binary_expression
-            (identifier)
-            (identifier))
-          (binary_expression
-            (identifier)
-            (identifier)))
-        (binary_expression
-          (binary_expression
-            (binary_expression
-              (identifier)
-              (identifier))
-            (function_call
+        left: (binary_expression
+          left: (binary_expression
+            left: (identifier)
+            right: (identifier))
+          right: (binary_expression
+            left: (identifier)
+            right: (identifier)))
+        right: (binary_expression
+          left: (binary_expression
+            left: (binary_expression
+              left: (identifier)
+              right: (identifier))
+            right: (function_call
               function: (identifier)
               arguments: (arguments)))
-          (binary_expression
-            (binary_expression
-              (identifier)
-              (identifier))
-            (integer)))))))
+          right: (binary_expression
+            left: (binary_expression
+              left: (identifier)
+              right: (identifier))
+            right: (integer)))))))
 
-=========================================
+================================================================================
 Complex nesting of field and tuple access
-=========================================
+================================================================================
 
 fn complex_data_fun(x, y) {
   y.barbaz.2.thing
@@ -814,7 +814,7 @@ fn complex_data_fun(x, y) {
   y.quux.2.quuz(12.34, "a")
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (function
@@ -866,9 +866,9 @@ fn complex_data_fun(x, y) {
           (argument
             value: (string)))))))
 
-============================
+================================================================================
 Unusual function invocations
-============================
+================================================================================
 
 fn weird(x) {
   x(name: "Nubi")
@@ -882,7 +882,7 @@ fn weird(x) {
   returns_fun(1)(5)
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (function
@@ -904,8 +904,8 @@ fn weird(x) {
               name: (identifier)))
           body: (function_body
             (binary_expression
-              (identifier)
-              (integer))))
+              left: (identifier)
+              right: (integer))))
         arguments: (arguments
           (argument
             value: (integer))))
@@ -919,8 +919,8 @@ fn weird(x) {
                   name: (identifier)))
               body: (function_body
                 (binary_expression
-                  (identifier)
-                  (integer))))))
+                  left: (identifier)
+                  right: (integer))))))
         arguments: (arguments
           (argument
             value: (integer))))
@@ -939,8 +939,8 @@ fn weird(x) {
                     name: (identifier)))
                 body: (function_body
                   (binary_expression
-                    (identifier)
-                    (integer)))))))
+                    left: (identifier)
+                    right: (integer)))))))
         arguments: (arguments
           (argument
             value: (integer))))
@@ -954,16 +954,16 @@ fn weird(x) {
           (argument
             value: (integer)))))))
 
-=========================
+================================================================================
 Various discard variables
-=========================
+================================================================================
 
 fn ignores(foo, _bar) {
   let _baz = 4
   qux(foo, _hole)
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (function
@@ -985,9 +985,9 @@ fn ignores(foo, _bar) {
           (argument
             value: (hole)))))))
 
-===========
+================================================================================
 Weird lists
-===========
+================================================================================
 
 fn lists(x) {
   []
@@ -996,7 +996,7 @@ fn lists(x) {
   [1,..x]
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (function

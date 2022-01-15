@@ -14,8 +14,11 @@
 ((function_call function: (field_access record: (identifier) @module
                                         field: (identifier) @function))
  (#is-not? local))
-((binary_expression "|>" (field_access record: (identifier) @module
-                                       field: (identifier) @function))
+((binary_expression
+   operator: "|>"
+   right: (field_access
+     record: (identifier) @module
+     field: (identifier) @function))
  (#is-not? local))
 
 ; Functions
@@ -30,9 +33,12 @@
   name: (identifier) @function)
 (function_parameter
   name: (identifier) @variable.parameter)
-((function_call function: (identifier) @function)
+((function_call
+   function: (identifier) @function)
  (#is-not? local))
-((binary_expression "|>" (identifier) @function)
+((binary_expression
+   operator: "|>"
+   right: (identifier) @function)
  (#is-not? local))
 
 ; "Properties"
@@ -68,29 +74,8 @@
 (discard) @comment.unused
 
 ; Operators
-(binary_expression "*" @operator)
-(binary_expression "||" @operator)
-(binary_expression "&&" @operator)
-(binary_expression "==" @operator)
-(binary_expression "!=" @operator)
-(binary_expression "<" @operator)
-(binary_expression "<." @operator)
-(binary_expression "<=" @operator)
-(binary_expression "<=." @operator)
-(binary_expression ">" @operator)
-(binary_expression ">." @operator)
-(binary_expression ">=" @operator)
-(binary_expression ">=." @operator)
-(binary_expression "|>" @operator)
-(binary_expression "+" @operator)
-(binary_expression "+." @operator)
-(binary_expression "-" @operator)
-(binary_expression "-." @operator)
-(binary_expression "*" @operator)
-(binary_expression "*." @operator)
-(binary_expression "/" @operator)
-(binary_expression "/." @operator)
-(binary_expression "%" @operator)
+(binary_expression
+  operator: _ @operator)
 
 ; Keywords
 [
