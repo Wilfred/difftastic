@@ -48,6 +48,7 @@ fn trial(uri) {
     //          ^ type
     //                   ^ type
     _ -> False
+    // <- comment.unused
   }
 }
 
