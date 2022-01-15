@@ -8,6 +8,8 @@ trimming rules.
 Fixed parsing of heredocs in shell scripts. They are now treated as
 string literals.
 
+Fixed parsing of type variables in OCaml.
+
 Improved language detection for files with bash/sh syntax.
 
 ### Integration
