@@ -254,28 +254,28 @@ module.exports = grammar({
     _expression: ($) => choice($._expression_unit, $.binary_expression),
     binary_expression: ($) =>
       choice(
-        prec.left(1, seq($._expression, "||", $._expression)),
-        prec.left(2, seq($._expression, "&&", $._expression)),
-        prec.left(3, seq($._expression, "==", $._expression)),
-        prec.left(3, seq($._expression, "!=", $._expression)),
-        prec.left(4, seq($._expression, "<", $._expression)),
-        prec.left(4, seq($._expression, "<=", $._expression)),
-        prec.left(4, seq($._expression, "<.", $._expression)),
-        prec.left(4, seq($._expression, "<=.", $._expression)),
-        prec.left(4, seq($._expression, ">", $._expression)),
-        prec.left(4, seq($._expression, ">=", $._expression)),
-        prec.left(4, seq($._expression, ">.", $._expression)),
-        prec.left(4, seq($._expression, ">=.", $._expression)),
-        prec.left(5, seq($._expression, "|>", $._expression)),
-        prec.left(6, seq($._expression, "+", $._expression)),
-        prec.left(6, seq($._expression, "+.", $._expression)),
-        prec.left(6, seq($._expression, "-", $._expression)),
-        prec.left(6, seq($._expression, "-.", $._expression)),
-        prec.left(7, seq($._expression, "*", $._expression)),
-        prec.left(7, seq($._expression, "*.", $._expression)),
-        prec.left(7, seq($._expression, "/", $._expression)),
-        prec.left(7, seq($._expression, "/.", $._expression)),
-        prec.left(7, seq($._expression, "%", $._expression))
+        binaryExpr($, prec.left, 1, "||"),
+        binaryExpr($, prec.left, 2, "&&"),
+        binaryExpr($, prec.left, 3, "=="),
+        binaryExpr($, prec.left, 3, "!="),
+        binaryExpr($, prec.left, 4, "<"),
+        binaryExpr($, prec.left, 4, "<="),
+        binaryExpr($, prec.left, 4, "<."),
+        binaryExpr($, prec.left, 4, "<=."),
+        binaryExpr($, prec.left, 4, ">"),
+        binaryExpr($, prec.left, 4, ">="),
+        binaryExpr($, prec.left, 4, ">."),
+        binaryExpr($, prec.left, 4, ">=."),
+        binaryExpr($, prec.left, 5, "|>"),
+        binaryExpr($, prec.left, 6, "+"),
+        binaryExpr($, prec.left, 6, "+."),
+        binaryExpr($, prec.left, 6, "-"),
+        binaryExpr($, prec.left, 6, "-."),
+        binaryExpr($, prec.left, 7, "*"),
+        binaryExpr($, prec.left, 7, "*."),
+        binaryExpr($, prec.left, 7, "/"),
+        binaryExpr($, prec.left, 7, "/."),
+        binaryExpr($, prec.left, 7, "%")
       ),
     // The way that this function is written in the Gleam parser is essentially
     // incompatible with tree-sitter. It first parses some base expression,
@@ -816,4 +816,17 @@ function bit_string_segment_options(name, arg_parser) {
 // https://github.com/elixir-lang/tree-sitter-elixir/blob/de3ec57591aebf451e710fc9c984cf601258baf5/grammar.js#L817-L819
 function series_of(rule, separator) {
   return seq(rule, repeat(seq(separator, rule)), optional(separator));
+}
+
+// A binary expression with a left-hand side, infix operator, and then right-hand-side
+// https://github.com/elixir-lang/tree-sitter-elixir/blob/de20391afe5cb03ef1e8a8e43167e7b58cc52869/grammar.js#L850-L859
+function binaryExpr($, assoc, precedence, operator) {
+  return assoc(
+    precedence,
+    seq(
+      field("left", $._expression),
+      field("operator", operator),
+      field("right", $._expression)
+    )
+  );
 }
