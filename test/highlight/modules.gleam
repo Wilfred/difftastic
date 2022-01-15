@@ -18,8 +18,10 @@ type MyType {
 fn record_access_case(param: MyType) {
   let binding = MyType(func: fn() { 42 })
   let _ = binding.func()
+  //  ^ comment.unused
   //       ^ variable
   let _ = param.func()
+  //  ^ comment.unused
   //       ^ variable.parameter
 }
 

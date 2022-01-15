@@ -65,7 +65,7 @@
 
 ; Variables
 (identifier) @variable
-(discard) @variable
+(discard) @comment.unused
 
 ; Operators
 (binary_expression "*" @operator)
