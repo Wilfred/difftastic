@@ -141,8 +141,8 @@ const NOVEL_TREE_THRESHOLD: u32 = 20;
 
 /// Calculate all the neighbours from `v` and write them to `buf`.
 pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
-    for i in 0..buf.len() {
-        buf[i] = None;
+    for item in &mut *buf {
+        *item = None;
     }
 
     let mut i = 0;
