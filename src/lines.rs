@@ -73,6 +73,7 @@ impl NewlinePositions {
         assert!(region_start <= region_end);
 
         let mut res = vec![];
+        // TODO: Use std::slice::binary_search here instead.
         for (line_num, line_start) in self.positions.iter().enumerate() {
             let line_end = match self.positions.get(line_num + 1) {
                 // TODO: this assumes lines terminate with \n, not \r\n.
