@@ -6973,6 +6973,22 @@ Example 469 - https://github.github.com/gfm/#example-469
       (emphasis_delimiter))))
 
 ================================================================================
+Example 470 - https://github.github.com/gfm/#example-470
+================================================================================
+*_foo_*
+
+--------------------------------------------------------------------------------
+
+(document
+  (paragraph
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis
+        (emphasis_delimiter)
+        (emphasis_delimiter))
+      (emphasis_delimiter))))
+
+================================================================================
 Example 471 - https://github.github.com/gfm/#example-471
 ================================================================================
 __foo__

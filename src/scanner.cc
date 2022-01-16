@@ -875,12 +875,11 @@ struct Scanner {
             if (indentation > 0) return false;
             // The desicion made for the first star also counts for all the following stars in the
             // delimiter run. Rembemer how many there are.
-            num_emphasis_delimiters_left = star_count - 1;
+            num_emphasis_delimiters_left = star_count_before_whitespace - 1;
             // Look ahead to the next symbol (after the last star) to find out if it is whitespace
             // punctuation or other.
             bool next_symbol_whitespace = had_whitespace || line_end;
-            bool next_symbol_punctuation =
-                extra_indentation == 0 && is_punctuation(lexer->lookahead);
+            bool next_symbol_punctuation = !had_whitespace && is_punctuation(lexer->lookahead);
             // Information about the last token is in valid_symbols. See grammar.js for these
             // tokens for how this is done.
             if (

@@ -895,9 +895,9 @@ function add_inline_rules(grammar) {
                 }
             }
             
-            grammar.rules['_emphasis_star' + suffix_newline + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq(alias($._emphasis_open_star, $.emphasis_delimiter), $['_inline' + suffix_newline + '_no_star' + suffix_link], alias($._emphasis_close_star, $.emphasis_delimiter)));
+            grammar.rules['_emphasis_star' + suffix_newline + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq(alias($._emphasis_open_star, $.emphasis_delimiter), optional($._last_token_punctuation), $['_inline' + suffix_newline + '_no_star' + suffix_link], alias($._emphasis_close_star, $.emphasis_delimiter)));
             grammar.rules['_strong_emphasis_star' + suffix_newline + suffix_link] = $ => prec.dynamic(2 * PRECEDENCE_LEVEL_EMPHASIS, seq(alias($._emphasis_open_star, $.emphasis_delimiter), $['_emphasis_star' + suffix_newline + suffix_link], alias($._emphasis_close_star, $.emphasis_delimiter)));
-            grammar.rules['_emphasis_underscore' + suffix_newline + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq(alias($._emphasis_open_underscore, $.emphasis_delimiter), $['_inline' + suffix_newline + '_no_underscore' + suffix_link], alias($._emphasis_close_underscore, $.emphasis_delimiter)));
+            grammar.rules['_emphasis_underscore' + suffix_newline + suffix_link] = $ => prec.dynamic(PRECEDENCE_LEVEL_EMPHASIS, seq(alias($._emphasis_open_underscore, $.emphasis_delimiter), optional($._last_token_punctuation), $['_inline' + suffix_newline + '_no_underscore' + suffix_link], alias($._emphasis_close_underscore, $.emphasis_delimiter)));
             grammar.rules['_strong_emphasis_underscore' + suffix_newline + suffix_link] = $ => prec.dynamic(2 * PRECEDENCE_LEVEL_EMPHASIS, seq(alias($._emphasis_open_underscore, $.emphasis_delimiter), $['_emphasis_underscore' + suffix_newline + suffix_link], alias($._emphasis_close_underscore, $.emphasis_delimiter)));
         }
         grammar.rules['_code_span' + suffix_newline] = $ => prec.dynamic(PRECEDENCE_LEVEL_CODE_SPAN, seq(alias($._code_span_start, $.code_span_delimiter), repeat(newline ? choice($._text, $._soft_line_break) : $._text), alias($._code_span_close, $.code_span_delimiter)));
