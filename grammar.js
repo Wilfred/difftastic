@@ -419,6 +419,7 @@ module.exports = grammar(add_inline_rules({
             $._newline,
             repeat(choice($._split_token, $._soft_line_break_marker)),
             $._soft_line_break_marker,
+            optional($._last_token_whitespace),
             optional($._block_interrupt_paragraph), // not actually valid, we will error if it manages to match a block
         )),
         _paragraph_end_newline: $ => seq($._newline, repeat($._split_token)),

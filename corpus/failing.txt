@@ -47,17 +47,6 @@ Example 363 - https://github.github.com/gfm/#example-363
   (paragraph))
 
 ================================================================================
-Example 376 - https://github.github.com/gfm/#example-376
-================================================================================
-*foo bar
-*
-
---------------------------------------------------------------------------------
-
-(document
-  (paragraph))
-
-================================================================================
 Example 380 - https://github.github.com/gfm/#example-380
 ================================================================================
 _foo bar _
@@ -136,28 +125,6 @@ Example 401 - https://github.github.com/gfm/#example-401
 
 (document
   (paragraph))
-
-================================================================================
-Example 403 - https://github.github.com/gfm/#example-403
-================================================================================
-**Gomphocarpus (*Gomphocarpus physocarpus*, syn.
-*Asclepias physocarpa*)**
-
---------------------------------------------------------------------------------
-
-(document
-  (paragraph
-    (strong_emphasis
-      (emphasis_delimiter)
-      (emphasis_delimiter)
-      (emphasis
-        (emphasis_delimiter)
-        (emphasis_delimiter))
-      (emphasis
-        (emphasis_delimiter)
-        (emphasis_delimiter))
-      (emphasis_delimiter)
-      (emphasis_delimiter))))
 
 ================================================================================
 Example 406 - https://github.github.com/gfm/#example-406

@@ -3121,6 +3121,18 @@
             "members": [
               {
                 "type": "SYMBOL",
+                "name": "_last_token_whitespace"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
                 "name": "_block_interrupt_paragraph"
               },
               {
