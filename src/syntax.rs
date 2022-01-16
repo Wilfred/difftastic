@@ -42,13 +42,27 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
 
 /// Fields that are common to both `Syntax::List` and `Syntax::Atom`.
 pub struct SyntaxInfo<'a> {
+    /// The syntax node that occurs after this one, in a depth-first
+    /// tree traversal.
     next: Cell<Option<&'a Syntax<'a>>>,
+    /// The syntax node that occurs before this one, in a depth-first
+    /// tree traversal.
     prev: Cell<Option<&'a Syntax<'a>>>,
+    /// The parent syntax node, if present.
     parent: Cell<Option<&'a Syntax<'a>>>,
+    /// Does the previous syntax node occur on the same line as the
+    /// first line of this node?
     prev_is_contiguous: Cell<bool>,
+    /// Whether or not this syntax node has changed. This value is set
+    /// when computing the diff with another syntax tree.
     change: Cell<Option<ChangeKind<'a>>>,
+    /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
+    /// A number that uniquely identifies this syntax node.
     unique_id: Cell<u32>,
+    /// A number that uniquely identifies the content of this syntax
+    /// node. This may be the same as nodes on the other side of the
+    /// diff, or nodes at different positions.
     content_id: Cell<u32>,
 }
 
