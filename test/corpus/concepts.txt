@@ -1,5 +1,3 @@
-Source examples from: https://en.cppreference.com/w/cpp/language/constraints
-content is licensed under Creative Commons Attribution-Sharealike 3.0 Unported License (CC-BY-SA) and by the GNU Free Documentation License (GFDL)
 ================================================================================
 Concept definition
 ================================================================================
@@ -65,11 +63,11 @@ concept Hashable = requires(T a) {
                 (initializer_list))
               (argument_list
                 (identifier)))
-            (return_type_requirement
+            (trailing_return_type
               (qualified_identifier
                 (namespace_identifier)
-                (template_function
-                  (identifier)
+                (template_type
+                  (type_identifier)
                   (template_argument_list
                     (type_descriptor
                       (qualified_identifier
@@ -182,11 +180,11 @@ requires(T x) {
           (compound_requirement
             (pointer_expression
               (identifier))
-            (return_type_requirement
+            (trailing_return_type
               (qualified_identifier
                 (namespace_identifier)
-                (template_function
-                  (identifier)
+                (template_type
+                  (type_identifier)
                   (template_argument_list
                     (type_descriptor
                       (dependent_type
@@ -200,11 +198,11 @@ requires(T x) {
             (binary_expression
               (identifier)
               (number_literal))
-            (return_type_requirement
+            (trailing_return_type
               (qualified_identifier
                 (namespace_identifier)
-                (template_function
-                  (identifier)
+                (template_type
+                  (type_identifier)
                   (template_argument_list
                     (type_descriptor
                       (primitive_type)))))))
@@ -215,11 +213,11 @@ requires(T x) {
             (binary_expression
               (identifier)
               (number_literal))
-            (return_type_requirement
+            (trailing_return_type
               (qualified_identifier
                 (namespace_identifier)
-                (template_function
-                  (identifier)
+                (template_type
+                  (type_identifier)
                   (template_argument_list
                     (type_descriptor
                       (type_identifier)))))))
