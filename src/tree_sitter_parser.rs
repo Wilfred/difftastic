@@ -66,6 +66,9 @@ extern "C" {
     fn tree_sitter_typescript() -> ts::Language;
 }
 
+// TODO: begin/end and object/end.
+const OCAML_ATOM_NODES: [&str; 4] = ["character", "string", "tag", "type_variable"];
+
 pub fn from_language(language: guess::Language) -> TreeSitterConfig {
     use guess::Language::*;
     match language {
@@ -299,10 +302,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "OCaml",
                 language: unsafe { tree_sitter_ocaml() },
-                atom_nodes: (vec!["character", "string", "tag", "type_variable"])
-                    .into_iter()
-                    .collect(),
-                // TODO: begin/end and object/end.
+                atom_nodes: OCAML_ATOM_NODES.iter().cloned().collect(),
                 delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
                 highlight_query: ts::Query::new(
                     language,
@@ -316,7 +316,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "OCaml Interface",
                 language: unsafe { tree_sitter_ocaml_interface() },
-                atom_nodes: (vec!["character", "string"]).into_iter().collect(),
+                atom_nodes: OCAML_ATOM_NODES.iter().cloned().collect(),
                 delimiter_tokens: (vec![("(", ")"), ("[", "]"), ("{", "}")]),
                 highlight_query: ts::Query::new(
                     language,
