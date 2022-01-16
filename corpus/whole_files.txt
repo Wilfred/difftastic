@@ -1,6 +1,6 @@
-================================
+================================================================================
 Excerpt from stdlib's base.gleam
-================================
+================================================================================
 
 import gleam/bit_string
 import gleam/string
@@ -25,7 +25,7 @@ if javascript {
     "../gleam_stdlib.mjs" "encode64"
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (import
@@ -73,7 +73,7 @@ if javascript {
             value: (function_call
               function: (field_access
                 record: (identifier)
-                field: (identifier))
+                field: (label))
               arguments: (arguments
                 (argument
                   value: (identifier))
@@ -108,9 +108,9 @@ if javascript {
         (string)
         (string)))))
 
-================================
+================================================================================
 Excerpt from stdlib's bool.gleam
-================================
+================================================================================
 
 //// A type with two possible values, `True` and `False`. Used to indicate whether
 //// things are... true or false!
@@ -141,7 +141,7 @@ pub fn negate(bool: Bool) -> Bool {
   }
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (module_comment)
@@ -197,9 +197,9 @@ pub fn negate(bool: Bool) -> Bool {
             value: (record
               name: (type_identifier))))))))
 
-===============
+================================================================================
 Trailing commas
-===============
+================================================================================
 
 import animal.{Cat,}
 
@@ -220,7 +220,7 @@ fn foo(a,) {
   let [x,] = [1,]
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (import
@@ -251,7 +251,7 @@ fn foo(a,) {
       (type_identifier)
       (arguments
         (argument
-          (identifier)
+          (label)
           (string)))))
   (type_definition
     (type_name
@@ -261,7 +261,7 @@ fn foo(a,) {
         (type_identifier)
         (type_constructor_arguments
           (type_constructor_argument
-            (identifier)
+            (label)
             (type
               (type_identifier)))))))
   (external_function
@@ -291,14 +291,14 @@ fn foo(a,) {
           (type_identifier)
           (record_pattern_arguments
             (record_pattern_argument
-              (identifier)
+              (label)
               (identifier))))
         (record_update
           (type_identifier)
           (identifier)
           (record_update_arguments
             (record_update_argument
-              (identifier)
+              (label)
               (string)))))
       (let
         (tuple_pattern

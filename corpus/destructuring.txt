@@ -28,7 +28,7 @@ pub fn main() {
             (function_call
               (field_access
                 (identifier)
-                (identifier))
+                (label))
               (arguments
                 (argument
                   (string)))))
@@ -41,7 +41,7 @@ pub fn main() {
             (function_call
               (field_access
                 (identifier)
-                (identifier))
+                (label))
               (arguments
                 (argument
                   (string))))))))))

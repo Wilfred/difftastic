@@ -116,7 +116,7 @@ module.exports = grammar({
       ),
     constant_record_argument: ($) =>
       seq(
-        optional(seq(field("label", $.identifier), ":")),
+        optional(seq(field("label", $.label), ":")),
         field("value", $._constant_value)
       ),
 
@@ -216,10 +216,10 @@ module.exports = grammar({
         optional($._type_annotation)
       ),
     _labeled_discard_param: ($) =>
-      seq(field("label", $.identifier), field("name", $.discard)),
+      seq(field("label", $.label), field("name", $.discard)),
     _discard_param: ($) => field("name", $.discard),
     _labeled_name_param: ($) =>
-      seq(field("label", $.identifier), field("name", $.identifier)),
+      seq(field("label", $.label), field("name", $.identifier)),
     _name_param: ($) => field("name", $.identifier),
     // This method diverges from the parser's `parse_expression_seq` somewhat.
     // The parser considers all expressions after a `try` to be part of its AST
@@ -419,7 +419,7 @@ module.exports = grammar({
       ),
     record_update_arguments: ($) => series_of($.record_update_argument, ","),
     record_update_argument: ($) =>
-      seq(field("label", $.identifier), ":", field("value", $._expression)),
+      seq(field("label", $.label), ":", field("value", $._expression)),
     // As with other AST nodes in this section, `_maybe_record_expression`,
     // `_maybe_tuple_expression`, and `_maybe_function_expresssion` have no
     // corollaries in the Gleam parser. These anonymous AST node denote any
@@ -462,7 +462,7 @@ module.exports = grammar({
         seq(
           field("record", $._maybe_record_expression),
           ".",
-          field("field", $.identifier)
+          field("field", $.label)
         )
       ),
     // Remote functions (e.g. int.to_string) is parsed as a field access
@@ -488,7 +488,7 @@ module.exports = grammar({
     arguments: ($) => seq("(", optional(series_of($.argument, ",")), ")"),
     argument: ($) =>
       seq(
-        optional(seq(field("label", $.identifier), ":")),
+        optional(seq(field("label", $.label), ":")),
         field("value", choice($.hole, $._expression))
       ),
     hole: ($) => $._discard_name,
@@ -526,7 +526,7 @@ module.exports = grammar({
       ),
     record_pattern_argument: ($) =>
       seq(
-        optional(seq(field("label", $.identifier), ":")),
+        optional(seq(field("label", $.label), ":")),
         field("pattern", $._pattern)
       ),
     pattern_spread: ($) => seq("..", optional(",")),
@@ -572,10 +572,7 @@ module.exports = grammar({
     type_constructor_arguments: ($) =>
       seq("(", optional(series_of($.type_constructor_argument, ",")), ")"),
     type_constructor_argument: ($) =>
-      seq(
-        optional(seq(field("label", $.identifier), ":")),
-        field("value", $._type)
-      ),
+      seq(optional(seq(field("label", $.label), ":")), field("value", $._type)),
 
     /* Type aliases */
     type_alias: ($) => seq("type", $._type_alias),
@@ -660,6 +657,7 @@ module.exports = grammar({
 
     /* Shared AST nodes */
     identifier: ($) => $._name,
+    label: ($) => $._name,
     discard: ($) => $._discard_name,
     type_identifier: ($) => $._upname,
     remote_type_identifier: ($) =>

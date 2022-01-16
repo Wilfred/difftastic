@@ -60,7 +60,7 @@
         "required": false,
         "types": [
           {
-            "type": "identifier",
+            "type": "label",
             "named": true
           }
         ]
@@ -1592,7 +1592,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "label",
             "named": true
           }
         ]
@@ -1849,7 +1849,7 @@
         "required": false,
         "types": [
           {
-            "type": "identifier",
+            "type": "label",
             "named": true
           }
         ]
@@ -2032,6 +2032,11 @@
   },
   {
     "type": "integer",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "label",
     "named": true,
     "fields": {}
   },
@@ -2872,7 +2877,7 @@
         "required": false,
         "types": [
           {
-            "type": "identifier",
+            "type": "label",
             "named": true
           }
         ]
@@ -3065,7 +3070,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "label",
             "named": true
           }
         ]
@@ -3923,7 +3928,7 @@
         "required": false,
         "types": [
           {
-            "type": "identifier",
+            "type": "label",
             "named": true
           }
         ]

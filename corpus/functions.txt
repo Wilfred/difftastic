@@ -73,17 +73,17 @@ fn replace(
     name: (identifier)
     parameters: (function_parameters
       (function_parameter
-        label: (identifier)
+        label: (label)
         name: (identifier)
         type: (type
           name: (type_identifier)))
       (function_parameter
-        label: (identifier)
+        label: (label)
         name: (identifier)
         type: (type
           name: (type_identifier)))
       (function_parameter
-        label: (identifier)
+        label: (label)
         name: (identifier)
         type: (type
           name: (type_identifier))))
@@ -91,16 +91,16 @@ fn replace(
       (function_call
         function: (field_access
           record: (identifier)
-          field: (identifier))
+          field: (label))
         arguments: (arguments
           (argument
-            label: (identifier)
+            label: (label)
             value: (identifier))
           (argument
-            label: (identifier)
+            label: (label)
             value: (identifier))
           (argument
-            label: (identifier)
+            label: (label)
             value: (identifier)))))))
 
 ================================================================================
@@ -178,17 +178,17 @@ pub fn replace(
     name: (identifier)
     parameters: (function_parameters
       (function_parameter
-        label: (identifier)
+        label: (label)
         name: (identifier)
         type: (type
           name: (type_identifier)))
       (function_parameter
-        label: (identifier)
+        label: (label)
         name: (identifier)
         type: (type
           name: (type_identifier)))
       (function_parameter
-        label: (identifier)
+        label: (label)
         name: (identifier)
         type: (type
           name: (type_identifier))))
@@ -196,16 +196,16 @@ pub fn replace(
       (function_call
         function: (field_access
           record: (identifier)
-          field: (identifier))
+          field: (label))
         arguments: (arguments
           (argument
-            label: (identifier)
+            label: (label)
             value: (identifier))
           (argument
-            label: (identifier)
+            label: (label)
             value: (identifier))
           (argument
-            label: (identifier)
+            label: (label)
             value: (identifier)))))))
 
 ================================================================================
@@ -313,7 +313,7 @@ fn field_access(x) {
         name: (type_identifier)
         arguments: (arguments
           (argument
-            label: (identifier)
+            label: (label)
             value: (string))))))
   (function
     name: (identifier)
@@ -325,7 +325,7 @@ fn field_access(x) {
           name: (type_identifier))
         arguments: (arguments
           (argument
-            label: (identifier)
+            label: (label)
             value: (string))))))
   (function
     name: (identifier)
@@ -392,7 +392,7 @@ fn field_access(x) {
       (anonymous_function
         parameters: (function_parameters
           (function_parameter
-            label: (identifier)
+            label: (label)
             name: (identifier)
             type: (type
               name: (type_identifier))))
@@ -491,10 +491,10 @@ fn field_access(x) {
         spread: (identifier)
         arguments: (record_update_arguments
           (record_update_argument
-            label: (identifier)
+            label: (label)
             value: (string))
           (record_update_argument
-            label: (identifier)
+            label: (label)
             value: (binary_expression
               left: (integer)
               right: (integer)))))
@@ -507,10 +507,10 @@ fn field_access(x) {
           arguments: (arguments))
         arguments: (record_update_arguments
           (record_update_argument
-            label: (identifier)
+            label: (label)
             value: (string))
           (record_update_argument
-            label: (identifier)
+            label: (label)
             value: (integer))))))
   (function
     name: (identifier)
@@ -529,7 +529,7 @@ fn field_access(x) {
     body: (function_body
       (field_access
         record: (identifier)
-        field: (identifier)))))
+        field: (label)))))
 
 ================================================================================
 Cases
@@ -667,7 +667,7 @@ fn trial(x, y, z) {
                   name: (type_identifier)
                   arguments: (record_pattern_arguments
                     (record_pattern_argument
-                      label: (identifier)
+                      label: (label)
                       pattern: (record_pattern
                         name: (type_identifier)
                         arguments: (record_pattern_arguments
@@ -829,15 +829,15 @@ fn complex_data_fun(x, y) {
         record: (tuple_access
           tuple: (field_access
             record: (identifier)
-            field: (identifier))
+            field: (label))
           index: (integer))
-        field: (identifier))
+        field: (label))
       (tuple_access
         tuple: (field_access
           record: (tuple_access
             tuple: (identifier)
             index: (integer))
-          field: (identifier))
+          field: (label))
         index: (integer))
       (function_call
         function: (tuple_access
@@ -845,7 +845,7 @@ fn complex_data_fun(x, y) {
             record: (tuple_access
               tuple: (identifier)
               index: (integer))
-            field: (identifier))
+            field: (label))
           index: (integer))
         arguments: (arguments
           (argument
@@ -857,9 +857,9 @@ fn complex_data_fun(x, y) {
           record: (tuple_access
             tuple: (field_access
               record: (identifier)
-              field: (identifier))
+              field: (label))
             index: (integer))
-          field: (identifier))
+          field: (label))
         arguments: (arguments
           (argument
             value: (float))
@@ -895,7 +895,7 @@ fn weird(x) {
         function: (identifier)
         arguments: (arguments
           (argument
-            label: (identifier)
+            label: (label)
             value: (string))))
       (function_call
         function: (anonymous_function

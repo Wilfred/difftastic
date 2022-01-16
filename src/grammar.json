@@ -966,7 +966,7 @@
                   "name": "label",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "label"
                   }
                 },
                 {
@@ -1618,7 +1618,7 @@
           "name": "label",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "label"
           }
         },
         {
@@ -1647,7 +1647,7 @@
           "name": "label",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "label"
           }
         },
         {
@@ -3928,7 +3928,7 @@
           "name": "label",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "label"
           }
         },
         {
@@ -4067,7 +4067,7 @@
             "name": "field",
             "content": {
               "type": "SYMBOL",
-              "name": "identifier"
+              "name": "label"
             }
           }
         ]
@@ -4178,7 +4178,7 @@
                   "name": "label",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "label"
                   }
                 },
                 {
@@ -4434,7 +4434,7 @@
                   "name": "label",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "label"
                   }
                 },
                 {
@@ -5051,7 +5051,7 @@
                   "name": "label",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "label"
                   }
                 },
                 {
@@ -5797,6 +5797,10 @@
       "name": "_name"
     },
     "identifier": {
+      "type": "SYMBOL",
+      "name": "_name"
+    },
+    "label": {
       "type": "SYMBOL",
       "name": "_name"
     },

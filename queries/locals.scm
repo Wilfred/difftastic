@@ -1,6 +1,8 @@
 ; Scopes
 (function_body) @local.scope
 
+(case_clause) @local.scope
+
 ; Definitions
 (let pattern: (identifier) @local.definition)
 (function_parameter name: (identifier) @local.definition)
