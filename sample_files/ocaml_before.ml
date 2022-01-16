@@ -1,3 +1,6 @@
+let stuff x =
+  x + 1
+
 type foo =
   | Bar
   | Baz of int * ('ex, 'en) list
