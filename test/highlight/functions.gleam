@@ -42,7 +42,9 @@ pub fn replace(
 }
 
 fn trial(uri) {
+  //      ^ variable.parameter
   case uri {
+    //  ^ variable.parameter
     Uri(scheme: None) -> True
     // <- type
     //  ^ property
@@ -55,6 +57,9 @@ fn trial(uri) {
 
 fn myfun(argument) {
   let local_fun = fn(x) { x + 1 }
+  //   ^ variable
+  //                 ^ variable.parameter
+  //                      ^ variable.parameter
 
   argument
   // ^ variable.parameter

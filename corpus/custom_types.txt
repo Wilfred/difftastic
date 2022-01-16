@@ -1,13 +1,13 @@
-===========================
+================================================================================
 Parser example custom types
-===========================
+================================================================================
 
 type A { A }
 type A { A(String) }
 type Box(inner_type) { Box(inner: inner_type) }
 type NamedBox(inner_type) { Box(String, inner: inner_type) }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (type_definition
@@ -36,7 +36,7 @@ type NamedBox(inner_type) { Box(String, inner: inner_type) }
         name: (type_identifier)
         arguments: (type_constructor_arguments
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type_var))))))
   (type_definition
     (type_name
@@ -51,12 +51,12 @@ type NamedBox(inner_type) { Box(String, inner: inner_type) }
             value: (type
               name: (type_identifier)))
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type_var)))))))
 
-==========================
+================================================================================
 Other custom type examples
-==========================
+================================================================================
 
 type Cat {
   Cat(name: String, cuteness: Int)
@@ -82,7 +82,7 @@ type Boring {
   Boring
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (type_definition
@@ -93,11 +93,11 @@ type Boring {
         name: (type_identifier)
         arguments: (type_constructor_arguments
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))))))
   (type_definition
@@ -109,22 +109,22 @@ type Boring {
         name: (type_identifier)
         arguments: (type_constructor_arguments
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))))
       (type_constructor
         name: (type_identifier)
         arguments: (type_constructor_arguments
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))))))
   (type_definition
@@ -161,16 +161,16 @@ type Boring {
       (type_constructor
         name: (type_identifier)))))
 
-==============================
+================================================================================
 Public custom type definitions
-==============================
+================================================================================
 
 pub type Animal(name, cuteness) {
   Cat(name: String, cuteness: Int)
   Dog(name: String, cuteness: Int)
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (public_type_definition
@@ -184,35 +184,35 @@ pub type Animal(name, cuteness) {
         name: (type_identifier)
         arguments: (type_constructor_arguments
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))))
       (type_constructor
         name: (type_identifier)
         arguments: (type_constructor_arguments
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier))))))))
 
-=====================================
+================================================================================
 Public opaque custom type definitions
-=====================================
+================================================================================
 
 pub opaque type Animal(name, cuteness) {
   Cat(name: String, cuteness: Int)
   Dog(name: String, cuteness: Int)
 }
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (public_opaque_type_definition
@@ -226,21 +226,21 @@ pub opaque type Animal(name, cuteness) {
         name: (type_identifier)
         arguments: (type_constructor_arguments
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))))
       (type_constructor
         name: (type_identifier)
         arguments: (type_constructor_arguments
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier)))
           (type_constructor_argument
-            label: (identifier)
+            label: (label)
             value: (type
               name: (type_identifier))))))))

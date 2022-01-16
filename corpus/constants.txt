@@ -1,6 +1,6 @@
-==========
+================================================================================
 Constants
-==========
+================================================================================
 
 const a = "hello"
 const a = 1_234
@@ -25,7 +25,7 @@ const a = Person(name: "Billy", age: 52)
 const a = uri.Uri(host: "github.com")
 const a: option.Option(String) = option.Some("Hello, World!")
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (constant
@@ -152,10 +152,10 @@ const a: option.Option(String) = option.Some("Hello, World!")
       name: (type_identifier)
       arguments: (arguments
         (argument
-          label: (identifier)
+          label: (label)
           value: (string))
         (argument
-          label: (identifier)
+          label: (label)
           value: (integer)))))
   (constant
     name: (identifier)
@@ -165,7 +165,7 @@ const a: option.Option(String) = option.Some("Hello, World!")
         name: (type_identifier))
       arguments: (arguments
         (argument
-          label: (identifier)
+          label: (label)
           value: (string)))))
   (constant
     name: (identifier)
@@ -185,9 +185,9 @@ const a: option.Option(String) = option.Some("Hello, World!")
         (argument
           value: (string))))))
 
-=================
+================================================================================
 Public constants
-=================
+================================================================================
 
 pub const a = "hello"
 pub const a: Int = 1234
@@ -207,7 +207,7 @@ pub const a = Cat("Ginny", 1950)
 pub const a = Person(name: "Billy", age: 52)
 pub const a = uri.Uri(host: "github.com")
 
----
+--------------------------------------------------------------------------------
 
 (source_file
   (public_constant
@@ -322,10 +322,10 @@ pub const a = uri.Uri(host: "github.com")
       name: (type_identifier)
       arguments: (arguments
         (argument
-          label: (identifier)
+          label: (label)
           value: (string))
         (argument
-          label: (identifier)
+          label: (label)
           value: (integer)))))
   (public_constant
     name: (identifier)
@@ -335,5 +335,5 @@ pub const a = uri.Uri(host: "github.com")
         name: (type_identifier))
       arguments: (arguments
         (argument
-          label: (identifier)
+          label: (label)
           value: (string))))))
