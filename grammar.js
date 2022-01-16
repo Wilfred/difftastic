@@ -57,6 +57,18 @@ module.exports = grammar(C, {
 
     // Types
 
+    placeholder_type_specifier: $ => seq(
+      field('constraint', optional($._type_specifier)),
+      choice($.auto, $.decltype_auto)
+    ),
+
+    auto: $ => 'auto',
+    decltype_auto: $ => seq(
+      'decltype',
+      '(',
+      $.auto,
+      ')'
+    ),
     decltype: $ => seq(
       'decltype',
       '(',
@@ -72,8 +84,8 @@ module.exports = grammar(C, {
       $.sized_type_specifier,
       $.primitive_type,
       $.template_type,
-      $.auto,
       $.dependent_type,
+      $.placeholder_type_specifier,
       $.decltype,
       prec.right(choice(
         alias($.qualified_type_identifier, $.qualified_identifier),
@@ -202,12 +214,10 @@ module.exports = grammar(C, {
       'thread_local',
     ),
 
-    auto: $ => 'auto',
-
-    dependent_type: $ => prec.dynamic(-1, seq(
+    dependent_type: $ => prec.dynamic(-1, prec.right(seq(
       'typename',
       $._type_specifier
-    )),
+    ))),
 
     // Declarations
 

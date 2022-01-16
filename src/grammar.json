@@ -3415,11 +3415,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "auto"
+          "name": "dependent_type"
         },
         {
           "type": "SYMBOL",
-          "name": "dependent_type"
+          "name": "placeholder_type_specifier"
         },
         {
           "type": "SYMBOL",
@@ -7469,6 +7469,65 @@
         ]
       }
     },
+    "placeholder_type_specifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "constraint",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_type_specifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "auto"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "decltype_auto"
+            }
+          ]
+        }
+      ]
+    },
+    "auto": {
+      "type": "STRING",
+      "value": "auto"
+    },
+    "decltype_auto": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "decltype"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "auto"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "decltype": {
       "type": "SEQ",
       "members": [
@@ -7832,25 +7891,25 @@
         ]
       }
     },
-    "auto": {
-      "type": "STRING",
-      "value": "auto"
-    },
     "dependent_type": {
       "type": "PREC_DYNAMIC",
       "value": -1,
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "typename"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_type_specifier"
-          }
-        ]
+        "type": "PREC_RIGHT",
+        "value": 0,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "typename"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_type_specifier"
+            }
+          ]
+        }
       }
     },
     "template_declaration": {

@@ -13,7 +13,7 @@ void foo() {
     (primitive_type)
     (function_declarator (identifier) (parameter_list))
     (compound_statement
-      (declaration (auto) (init_declarator (identifier) (number_literal))))))
+      (declaration (placeholder_type_specifier (auto)) (init_declarator (identifier) (number_literal))))))
 
 ==========================================
 Namespaced types
@@ -130,7 +130,7 @@ template<typename T, typename U> auto add(T t, U u) -> decltype(t + u);
     (template_parameter_list
       (type_parameter_declaration (type_identifier)) (type_parameter_declaration (type_identifier)))
     (declaration
-      (auto)
+      (placeholder_type_specifier (auto))
       (function_declarator
         (identifier)
         (parameter_list
@@ -149,7 +149,7 @@ auto a::foo() const -> const A<B>& {}
 
 (translation_unit
   (function_definition
-    (auto)
+    (placeholder_type_specifier (auto))
     (function_declarator
       (qualified_identifier (namespace_identifier) (identifier))
       (parameter_list)

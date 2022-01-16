@@ -340,3 +340,96 @@ requires(T a, size_t n) {
                   (new_declarator
                     (identifier)))))
             (comment)))))))
+
+================================================================================
+Constraints
+================================================================================
+
+template <EqualityComparable T>
+void f(const T&); // constrained function template declaration
+
+void f(const EqualityComparable auto&); // constrained function template declaration
+
+Sortable auto foo = f();
+Sortable<T> auto bar = g();
+NS::Concept<T> auto baz = h();
+
+Sortable decltype(auto) foo = i();
+
+---
+
+(translation_unit
+  (template_declaration
+    (template_parameter_list
+      (parameter_declaration
+        (type_identifier)
+        (identifier)))
+    (declaration
+      (primitive_type)
+      (function_declarator
+        (identifier)
+        (parameter_list
+          (parameter_declaration
+            (type_qualifier)
+            (type_identifier)
+            (abstract_reference_declarator))))))
+  (comment)
+  (declaration
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list
+        (parameter_declaration
+          (type_qualifier)
+          (placeholder_type_specifier
+            (type_identifier)
+            (auto))
+          (abstract_reference_declarator)))))
+  (comment)
+  (declaration
+    (placeholder_type_specifier
+      (type_identifier)
+      (auto))
+    (init_declarator
+      (identifier)
+      (call_expression
+        (identifier)
+        (argument_list))))
+  (declaration
+    (placeholder_type_specifier
+      (template_type
+        (type_identifier)
+        (template_argument_list
+          (type_descriptor
+            (type_identifier))))
+      (auto))
+    (init_declarator
+      (identifier)
+      (call_expression
+        (identifier)
+        (argument_list))))
+  (declaration
+    (placeholder_type_specifier
+      (qualified_identifier
+        (namespace_identifier)
+        (template_type
+          (type_identifier)
+          (template_argument_list
+            (type_descriptor
+              (type_identifier)))))
+      (auto))
+    (init_declarator
+      (identifier)
+      (call_expression
+        (identifier)
+        (argument_list))))
+  (declaration
+    (placeholder_type_specifier
+      (type_identifier)
+      (decltype_auto
+        (auto)))
+    (init_declarator
+      (identifier)
+      (call_expression
+        (identifier)
+        (argument_list)))))
