@@ -788,6 +788,7 @@ struct Scanner {
         // Otherwise count the number of stars permitting whitespaces between them.
         size_t star_count = 1;
         // Also remember how many stars there are before the first whitespace...
+        bool had_whitespace = false;
         size_t star_count_before_whitespace = 1;
         // ...and how many spaces follow the first star.
         size_t extra_indentation = 0;
@@ -798,12 +799,13 @@ struct Scanner {
                     // to call `mark_end` here in case we decide later that this is a list item.
                     lexer->mark_end(lexer);
                 }
-                if (extra_indentation == 0) {
+                if (!had_whitespace) {
                     star_count_before_whitespace++;
                 }
                 star_count++;
                 advance(lexer);
             } else if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+                had_whitespace = true;
                 if (star_count == 1) {
                     extra_indentation += advance(lexer);
                 } else {
@@ -876,7 +878,7 @@ struct Scanner {
             num_emphasis_delimiters_left = star_count - 1;
             // Look ahead to the next symbol (after the last star) to find out if it is whitespace
             // punctuation or other.
-            bool next_symbol_whitespace = extra_indentation > 0 || line_end;
+            bool next_symbol_whitespace = had_whitespace || line_end;
             bool next_symbol_punctuation =
                 extra_indentation == 0 && is_punctuation(lexer->lookahead);
             // Information about the last token is in valid_symbols. See grammar.js for these
