@@ -705,22 +705,33 @@ module.exports = grammar(add_inline_rules({
         ),
         _html_comment: $ => prec.dynamic(PRECEDENCE_LEVEL_HTML, seq(
             '<!--',
-            optional(choice(
-                $._word,
-                $._whitespace,
-                $._newline,
-                punctuation_without($, ['-', '>']),
-                seq(
-                    '-',
-                    punctuation_without($, ['>']),
-                )
+            optional(seq(
+                choice(
+                    $._word,
+                    $._whitespace,
+                    $._newline,
+                    punctuation_without($, ['-', '>']),
+                    seq(
+                        '-',
+                        punctuation_without($, ['>']),
+                    )
+                ),
+                repeat(prec.right(choice(
+                    $._word,
+                    $._whitespace,
+                    $._newline,
+                    punctuation_without($, ['-']),
+                    seq(
+                        '-',
+                        choice(
+                            $._word,
+                            $._whitespace,
+                            $._newline,
+                            punctuation_without($, ['-']),
+                        )
+                    )
+                ))),
             )),
-            repeat(prec.right(choice(
-                $._word,
-                $._whitespace,
-                $._newline,
-                punctuation_without($, []),
-            ))),
             '-->'
         )),
         _processing_instruction: $ => prec.dynamic(PRECEDENCE_LEVEL_HTML, seq(
