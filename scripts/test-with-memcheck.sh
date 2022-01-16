@@ -7,8 +7,6 @@ if [[ "$1" == "--install-valgrind" ]]; then
     shift
 fi
 
-tree-sitter generate
-
 # Query tests hang forever when run with valgrind, so move them out of
 # the way.
 mv ./queries ./queries.bak

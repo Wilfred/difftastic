@@ -26,9 +26,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - uses: actions-rs/toolchain@v1
+      with:
+          toolchain: stable
+          override: true
     - run: npm install
     - run: npm run ci
     - run: npm run test-ci
+    - run: cargo test
+    - run: cd ./test-npm-package && npm test; cd ..
     - name: Publish parser source
       uses: actions/upload-artifact@v2
       with:
