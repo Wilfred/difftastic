@@ -956,7 +956,7 @@ int main() {
 
 (translation_unit
   (declaration
-    type: (auto)
+    type: (placeholder_type_specifier (auto))
     declarator: (init_declarator
       declarator: (structured_binding_declarator (identifier))
       value: (compound_literal_expression
@@ -969,7 +969,7 @@ int main() {
       parameters: (parameter_list))
     body: (compound_statement
       (declaration
-        type: (auto)
+        type: (placeholder_type_specifier (auto))
         declarator: (init_declarator
           declarator: (reference_declarator
             (structured_binding_declarator (identifier) (identifier)))
@@ -980,13 +980,13 @@ int main() {
             arguments: (argument_list (identifier)))))
       (declaration
         (type_qualifier)
-        type: (auto)
+        type: (placeholder_type_specifier (auto))
         declarator: (init_declarator
           declarator: (structured_binding_declarator (identifier) (identifier))
           value: (initializer_list (number_literal) (number_literal))))
       (for_range_loop
         (type_qualifier)
-        type: (auto)
+        type: (placeholder_type_specifier (auto))
         declarator: (reference_declarator (structured_binding_declarator
           (identifier)
           (identifier)))
@@ -1182,7 +1182,7 @@ operator T*();
     (abstract_reference_declarator (abstract_function_declarator (parameter_list)))))
   (declaration
     (operator_cast
-      (auto)
+      (placeholder_type_specifier (auto))
       (abstract_function_declarator (parameter_list) (type_qualifier))))
   (declaration
     (virtual_function_specifier)
@@ -1244,7 +1244,7 @@ class A {
       (abstract_reference_declarator (abstract_function_declarator (parameter_list)))))
     (declaration
       (operator_cast
-        (auto)
+        (placeholder_type_specifier (auto))
         (abstract_function_declarator (parameter_list) (type_qualifier))))
     (declaration
       (virtual_function_specifier)

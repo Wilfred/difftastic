@@ -376,10 +376,6 @@
     "named": true,
     "subtypes": [
       {
-        "type": "auto",
-        "named": true
-      },
-      {
         "type": "class_specifier",
         "named": true
       },
@@ -393,6 +389,10 @@
       },
       {
         "type": "enum_specifier",
+        "named": true
+      },
+      {
+        "type": "placeholder_type_specifier",
         "named": true
       },
       {
@@ -1856,6 +1856,21 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "decltype_auto",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "auto",
           "named": true
         }
       ]
@@ -3488,6 +3503,36 @@
         },
         {
           "type": "preproc_defined",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "placeholder_type_specifier",
+    "named": true,
+    "fields": {
+      "constraint": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_type_specifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "auto",
+          "named": true
+        },
+        {
+          "type": "decltype_auto",
           "named": true
         }
       ]

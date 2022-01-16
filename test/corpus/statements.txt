@@ -52,7 +52,7 @@ T main() {
             right: (identifier)))))
       (for_range_loop
         (type_qualifier)
-        type: (auto)
+        type: (placeholder_type_specifier (auto))
         declarator: (reference_declarator (identifier))
         right: (identifier)
         body: (compound_statement
@@ -61,7 +61,7 @@ T main() {
             right: (identifier)))))
       (for_range_loop
         (type_qualifier)
-        type: (auto)
+        type: (placeholder_type_specifier (auto))
         declarator: (reference_declarator (identifier))
         right: (initializer_list (number_literal) (number_literal) (number_literal))
         body: (compound_statement
@@ -319,7 +319,7 @@ void f() {
               (case_statement (number_literal) (compound_statement))))))
       (attributed_statement (attribute_declaration (attribute (identifier))) (while_statement (condition_clause (true)) (compound_statement)))
       (attributed_statement (attribute_declaration (attribute (identifier))) (if_statement (condition_clause (true)) (compound_statement)))
-      (attributed_statement (attribute_declaration (attribute (identifier))) (for_range_loop (auto) (identifier) (identifier) (compound_statement)))
+      (attributed_statement (attribute_declaration (attribute (identifier))) (for_range_loop (placeholder_type_specifier (auto)) (identifier) (identifier) (compound_statement)))
       (attributed_statement (attribute_declaration (attribute (identifier))) (for_statement (compound_statement)))
       (attributed_statement (attribute_declaration (attribute (identifier))) (return_statement))
       (attributed_statement (attribute_declaration (attribute (identifier))) (expression_statement (identifier)))
@@ -373,7 +373,7 @@ void foo(int a) {
     (compound_statement
       (switch_statement (condition_clause (identifier))
         (compound_statement
-          (case_statement (number_literal) (for_range_loop (auto) (identifier) (identifier) (compound_statement)))
+          (case_statement (number_literal) (for_range_loop (placeholder_type_specifier (auto)) (identifier) (identifier) (compound_statement)))
           (case_statement (number_literal) (try_statement (compound_statement (comment)) (catch_clause (parameter_list) (compound_statement))) (throw_statement (number_literal)))
           (case_statement (number_literal) (co_return_statement))
           (case_statement (co_yield_statement (identifier))))))))

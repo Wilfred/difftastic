@@ -90,12 +90,12 @@ int main() {
     (function_declarator (identifier) (parameter_list))
     (compound_statement
       (declaration
-        (auto)
+        (placeholder_type_specifier (auto))
         (init_declarator
           (identifier)
           (new_expression (type_identifier) (argument_list))))
       (declaration
-        (auto)
+        (placeholder_type_specifier (auto))
         (init_declarator
           (identifier)
           (new_expression
@@ -108,14 +108,14 @@ int main() {
                   (type_descriptor (type_identifier)))))
             (initializer_list))))
       (declaration
-        (auto)
+        (placeholder_type_specifier (auto))
         (init_declarator
           (identifier)
           (new_expression
             (argument_list (pointer_expression (identifier)))
             (type_identifier))))
       (declaration
-        (auto)
+        (placeholder_type_specifier (auto))
         (init_declarator
           (identifier)
           (new_expression
@@ -123,7 +123,7 @@ int main() {
             (new_declarator (number_literal) (new_declarator (number_literal)))
             (argument_list))))
       (declaration
-        (auto)
+        (placeholder_type_specifier (auto))
         (init_declarator
           (identifier)
           (new_expression (primitive_type) (new_declarator (number_literal)))))
@@ -178,7 +178,7 @@ auto h = [] {
 
 (translation_unit
   (declaration
-    (auto)
+    (placeholder_type_specifier (auto))
     (init_declarator
       (identifier)
       (lambda_expression
@@ -188,7 +188,7 @@ auto h = [] {
           (trailing_return_type (primitive_type)))
         (compound_statement (return_statement (true))))))
   (declaration
-    (auto)
+    (placeholder_type_specifier (auto))
     (init_declarator
       (identifier)
       (lambda_expression
@@ -197,7 +197,7 @@ auto h = [] {
           (parameter_list (parameter_declaration (primitive_type) (identifier))))
         (compound_statement (return_statement (false))))))
   (declaration
-    (auto)
+    (placeholder_type_specifier (auto))
     (init_declarator
       (identifier)
       (lambda_expression
@@ -696,7 +696,7 @@ void f(T...) {}
                 right: (identifier))
               right: (number_literal)))))))
   (declaration
-    type: (auto)
+    type: (placeholder_type_specifier (auto))
     declarator: (init_declarator
       declarator: (identifier)
       value: (lambda_expression
