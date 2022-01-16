@@ -454,7 +454,7 @@ module.exports = grammar({
             "wrapped",
             choice($.user_type, $.tuple_type, $.array_type, $.dictionary_type)
           ),
-          repeat1($._immediate_quest)
+          repeat1(alias($._immediate_quest, "?"))
         )
       ),
 
@@ -488,7 +488,7 @@ module.exports = grammar({
           $.ternary_expression,
           $._primary_expression,
           $.assignment,
-          seq($._expression, $._immediate_quest)
+          seq($._expression, alias($._immediate_quest, "?"))
         )
       ),
 
