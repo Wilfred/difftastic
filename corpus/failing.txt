@@ -192,7 +192,10 @@ Example 478 - https://github.github.com/gfm/#example-478
 --------------------------------------------------------------------------------
 
 (document
-  (emphasis))
+  (paragraph
+    (emphasis
+      (emphasis_delimiter)
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 487 - https://github.github.com/gfm/#example-487
@@ -204,7 +207,11 @@ Example 487 - https://github.github.com/gfm/#example-487
 (document
   (paragraph
     (emphasis
-      (code_span))))
+      (emphasis_delimiter)
+      (code_span
+        (code_span_delimiter)
+        (code_span_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 488 - https://github.github.com/gfm/#example-488
@@ -216,7 +223,11 @@ _a `_`_
 (document
   (paragraph
     (emphasis
-      (code_span))))
+      (emphasis_delimiter)
+      (code_span
+        (code_span_delimiter)
+        (code_span_delimiter))
+      (emphasis_delimiter))))
 
 ================================================================================
 Example 524 - https://github.github.com/gfm/#example-524
@@ -229,8 +240,16 @@ Example 524 - https://github.github.com/gfm/#example-524
   (inline_link
     (link_text
       (emphasis
-        (strong_emphasis)
-        (code_span)))
+        (emphasis_delimiter)
+        (strong_emphasis
+          (emphasis_delimiter)
+          (emphasis_delimiter)
+          (emphasis_delimiter)
+          (emphasis_delimiter))
+        (code_span
+          (code_span_delimiter)
+          (code_span_delimiter))
+        (emphasis_delimiter)))
     (link_destination)))
 
 ================================================================================
