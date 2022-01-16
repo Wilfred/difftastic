@@ -163,7 +163,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     rhs_prev_is_novel: false,
                 },
             ));
-            return;
+            i += 1;
         }
 
         if let (
