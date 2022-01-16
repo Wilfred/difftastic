@@ -506,8 +506,8 @@ module.exports = grammar(C, {
         $.virtual_specifier,
         $.noexcept,
         $.throw_specifier,
-        $.trailing_return_type
-      ))
+      )),
+      optional($.trailing_return_type)
     )),
 
     function_field_declarator: ($, original) => prec.dynamic(1, seq(
@@ -518,8 +518,8 @@ module.exports = grammar(C, {
         $.virtual_specifier,
         $.noexcept,
         $.throw_specifier,
-        $.trailing_return_type
-      ))
+      )),
+      optional($.trailing_return_type)
     )),
 
     abstract_function_declarator: ($, original) => prec.right(seq(

@@ -2814,13 +2814,21 @@
                 {
                   "type": "SYMBOL",
                   "name": "throw_specifier"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "trailing_return_type"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "trailing_return_type"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
@@ -2880,13 +2888,21 @@
                 {
                   "type": "SYMBOL",
                   "name": "throw_specifier"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "trailing_return_type"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "trailing_return_type"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
