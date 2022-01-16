@@ -17,6 +17,14 @@ Improved language detection for files with bash/sh syntax.
 Fixed a crash when on Mercurial diffs when a whole file has been
 removed.
 
+### Diffing
+
+Fixed an issue where difftastic would prefer to mark earlier nodes as
+unchanged, leading to novel items over multiple lines. Difftastic now
+prefers marking things on the same line, as intended. (This bug was
+introduced in 0.11 as an optimisation, so performance is somewhat
+worse.)
+
 ### Display
 
 Improved display performance when there are a large number of hunks.
