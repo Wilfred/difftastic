@@ -1857,18 +1857,7 @@
         {
           "type": "_expression",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "decltype_auto",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
+        },
         {
           "type": "auto",
           "named": true
@@ -3532,7 +3521,7 @@
           "named": true
         },
         {
-          "type": "decltype_auto",
+          "type": "decltype",
           "named": true
         }
       ]

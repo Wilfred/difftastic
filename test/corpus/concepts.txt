@@ -426,7 +426,7 @@ Sortable decltype(auto) foo = i();
   (declaration
     (placeholder_type_specifier
       (type_identifier)
-      (decltype_auto
+      (decltype
         (auto)))
     (init_declarator
       (identifier)
