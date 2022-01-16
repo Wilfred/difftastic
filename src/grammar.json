@@ -4252,6 +4252,15 @@
         }
       ]
     },
+    "variadic_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "..."
+        }
+      ]
+    },
     "parameter_list": {
       "type": "SEQ",
       "members": [
@@ -4379,6 +4388,22 @@
         {
           "type": "SYMBOL",
           "name": "_statement"
+        }
+      ]
+    },
+    "attributed_non_case_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "attribute_declaration"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_non_case_statement"
         }
       ]
     },
@@ -4656,6 +4681,15 @@
             "content": {
               "type": "CHOICE",
               "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "attributed_non_case_statement"
+                  },
+                  "named": true,
+                  "value": "attributed_statement"
+                },
                 {
                   "type": "SYMBOL",
                   "name": "_non_case_statement"
@@ -10113,8 +10147,13 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "simple_requirement"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expression_statement"
+          },
+          "named": true,
+          "value": "simple_requirement"
         },
         {
           "type": "SYMBOL",
@@ -10125,10 +10164,6 @@
           "name": "compound_requirement"
         }
       ]
-    },
-    "simple_requirement": {
-      "type": "SYMBOL",
-      "name": "expression_statement"
     },
     "type_requirement": {
       "type": "SEQ",
@@ -10175,7 +10210,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "return_type_requirement"
+              "name": "trailing_return_type"
             },
             {
               "type": "BLANK"
@@ -10185,19 +10220,6 @@
         {
           "type": "STRING",
           "value": ";"
-        }
-      ]
-    },
-    "return_type_requirement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "->"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
         }
       ]
     },
@@ -10970,6 +10992,10 @@
     [
       "_declaration_modifiers",
       "attributed_statement"
+    ],
+    [
+      "_declaration_modifiers",
+      "attributed_non_case_statement"
     ],
     [
       "template_function",

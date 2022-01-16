@@ -96,10 +96,9 @@ concept Addable = requires (T x) { x + x; }; // requires-expression
             (identifier)))
         (requirement_seq
           (simple_requirement
-            (expression_statement
-              (binary_expression
-                (identifier)
-                (identifier))))))))
+            (binary_expression
+              (identifier)
+              (identifier)))))))
   (comment))
 
 ================================================================================
@@ -124,10 +123,9 @@ T add(T a, T b) { return a + b; }
             (identifier)))
         (requirement_seq
           (simple_requirement
-            (expression_statement
-              (binary_expression
-                (identifier)
-                (identifier)))))))
+            (binary_expression
+              (identifier)
+              (identifier))))))
     (comment)
     (function_definition
       (type_identifier)
@@ -282,18 +280,17 @@ requires(T a, size_t n) {
               (identifier)))
           (requirement_seq
             (simple_requirement
-              (expression_statement
-                (requires_clause
-                  (template_function
-                    (identifier)
-                    (template_argument_list
-                      (type_descriptor
-                        (type_identifier)
-                        (abstract_pointer_declarator))
-                      (type_descriptor
-                        (decltype
-                          (pointer_expression
-                            (identifier)))))))))
+              (requires_clause
+                (template_function
+                  (identifier)
+                  (template_argument_list
+                    (type_descriptor
+                      (type_identifier)
+                      (abstract_pointer_declarator))
+                    (type_descriptor
+                      (decltype
+                        (pointer_expression
+                          (identifier))))))))
             (comment)
             (compound_requirement
               (call_expression
@@ -304,34 +301,32 @@ requires(T a, size_t n) {
                 (argument_list)))
             (comment)
             (simple_requirement
-              (expression_statement
-                (requires_clause
-                  (template_function
-                    (identifier)
-                    (template_argument_list
-                      (type_descriptor
-                        (type_identifier)
-                        (abstract_pointer_declarator))
-                      (type_descriptor
-                        (decltype
-                          (new_expression
-                            (type_identifier)))))))))
+              (requires_clause
+                (template_function
+                  (identifier)
+                  (template_argument_list
+                    (type_descriptor
+                      (type_identifier)
+                      (abstract_pointer_declarator))
+                    (type_descriptor
+                      (decltype
+                        (new_expression
+                          (type_identifier))))))))
             (comment)
             (simple_requirement
-              (expression_statement
-                (requires_clause
-                  (template_function
-                    (identifier)
-                    (template_argument_list
-                      (type_descriptor
-                        (type_identifier)
-                        (abstract_pointer_declarator))
-                      (type_descriptor
-                        (decltype
-                          (new_expression
-                            (type_identifier)
-                            (new_declarator
-                              (identifier))))))))))
+              (requires_clause
+                (template_function
+                  (identifier)
+                  (template_argument_list
+                    (type_descriptor
+                      (type_identifier)
+                      (abstract_pointer_declarator))
+                    (type_descriptor
+                      (decltype
+                        (new_expression
+                          (type_identifier)
+                          (new_declarator
+                            (identifier)))))))))
             (comment)
             (compound_requirement
               (delete_expression

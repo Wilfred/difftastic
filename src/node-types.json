@@ -1092,6 +1092,10 @@
       "required": false,
       "types": [
         {
+          "type": "attributed_statement",
+          "named": true
+        },
+        {
           "type": "break_statement",
           "named": true
         },
@@ -1430,7 +1434,7 @@
           "named": true
         },
         {
-          "type": "return_type_requirement",
+          "type": "trailing_return_type",
           "named": true
         }
       ]
@@ -4449,30 +4453,19 @@
     }
   },
   {
-    "type": "return_type_requirement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "simple_requirement",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "expression_statement",
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "comma_expression",
           "named": true
         }
       ]

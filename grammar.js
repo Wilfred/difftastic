@@ -844,12 +844,10 @@ module.exports = grammar(C, {
     requires_clause: $ => seq('requires', $._expression),
     requires_expression: $ => seq('requires', optional($.parameter_list), $.requirement_seq),
     requirement_seq: $ => seq('{', repeat($._requirement), '}'),
-    _requirement: $ => choice($.simple_requirement, $.type_requirement, $.compound_requirement),
+    _requirement: $ => choice(alias($.expression_statement, $.simple_requirement), $.type_requirement, $.compound_requirement),
 
-    simple_requirement: $ => $.expression_statement,
     type_requirement: $ => seq('typename', $.expression_statement),
-    compound_requirement: $ => seq("{", $._expression, "}", optional('noexcept'), optional($.return_type_requirement), ";"),
-    return_type_requirement: $ => seq("->", $._expression),
+    compound_requirement: $ => seq("{", $._expression, "}", optional('noexcept'), optional($.trailing_return_type), ";"),
 
     lambda_expression: $ => seq(
       field('captures', $.lambda_capture_specifier),
