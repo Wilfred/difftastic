@@ -7496,8 +7496,13 @@
               "name": "auto"
             },
             {
-              "type": "SYMBOL",
-              "name": "decltype_auto"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "decltype_auto"
+              },
+              "named": true,
+              "value": "decltype"
             }
           ]
         }

@@ -59,7 +59,7 @@ module.exports = grammar(C, {
 
     placeholder_type_specifier: $ => seq(
       field('constraint', optional($._type_specifier)),
-      choice($.auto, $.decltype_auto)
+      choice($.auto, alias($.decltype_auto, $.decltype))
     ),
 
     auto: $ => 'auto',
