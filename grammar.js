@@ -31,6 +31,8 @@ module.exports = grammar(C, {
     [$._declaration_modifiers, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$._declaration_modifiers, $.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
+    [$._declaration_modifiers, $.type_descriptor],
+    [$._declaration_specifiers, $.type_descriptor],
   ]),
 
   inline: ($, original) => original.concat([
@@ -41,6 +43,7 @@ module.exports = grammar(C, {
     _top_level_item: ($, original) => choice(
       original,
       $.namespace_definition,
+      $.concept_definition,
       $.namespace_alias_definition,
       $.using_declaration,
       $.alias_declaration,
@@ -211,12 +214,14 @@ module.exports = grammar(C, {
     template_declaration: $ => seq(
       'template',
       field('parameters', $.template_parameter_list),
+      optional($.requires_clause),
       choice(
         $._empty_declaration,
         $.alias_declaration,
         $.declaration,
         $.template_declaration,
         $.function_definition,
+        $.concept_definition,
         alias($.constructor_or_destructor_declaration, $.declaration),
         alias($.constructor_or_destructor_definition, $.function_definition),
         alias($.operator_cast_declaration, $.declaration),
@@ -635,6 +640,14 @@ module.exports = grammar(C, {
       ';'
     ),
 
+    concept_definition: $ => seq(
+      'concept',
+      field('name', $.identifier),
+      '=',
+      $._expression,
+      ';'
+    ),
+
     // Statements
 
     _non_case_statement: ($, original) => choice(
@@ -755,6 +768,8 @@ module.exports = grammar(C, {
     _expression: ($, original) => choice(
       original,
       $.co_await_expression,
+      $.requires_expression,
+      $.requires_clause,
       $.template_function,
       $.qualified_identifier,
       $.new_expression,
@@ -825,6 +840,14 @@ module.exports = grammar(C, {
         ))
       )
     ),
+
+    requires_clause: $ => seq('requires', $._expression),
+    requires_expression: $ => seq('requires', optional($.parameter_list), $.requirement_seq),
+    requirement_seq: $ => seq('{', repeat($._requirement), '}'),
+    _requirement: $ => choice(alias($.expression_statement, $.simple_requirement), $.type_requirement, $.compound_requirement),
+
+    type_requirement: $ => seq('typename', $.expression_statement),
+    compound_requirement: $ => seq("{", $._expression, "}", optional('noexcept'), optional($.trailing_return_type), ";"),
 
     lambda_expression: $ => seq(
       field('captures', $.lambda_capture_specifier),
