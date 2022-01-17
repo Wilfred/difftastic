@@ -482,6 +482,13 @@ pub fn parse<'a>(
     src: &str,
     config: &TreeSitterConfig,
 ) -> Vec<&'a Syntax<'a>> {
+    // Don't return anything on an empty input. Most parsers return a
+    // zero-width top-level AST node on empty files, which is
+    // confusing and not useful for diffing.
+    if src.trim().is_empty() {
+        return vec![];
+    }
+
     let (tree, keyword_ids) = parse_to_tree(src, config);
 
     let nl_pos = NewlinePositions::from(src);
@@ -778,5 +785,15 @@ mod tests {
         let arena = Arena::new();
         let css_config = from_language(guess::Language::Css);
         parse(&arena, ".foo {}", &css_config);
+    }
+
+    #[test]
+    fn test_parse_empty_file() {
+        let arena = Arena::new();
+        let config = from_language(guess::Language::EmacsLisp);
+        let res = parse(&arena, "", &config);
+
+        let expected: Vec<&Syntax> = vec![];
+        assert_eq!(res, expected);
     }
 }
