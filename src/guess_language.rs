@@ -179,5 +179,4 @@ mod tests {
         let path = Path::new("jfkdlsjfkdsljfkdsljf");
         assert_eq!(guess(path, ""), None);
     }
-
 }
