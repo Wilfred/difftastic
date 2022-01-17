@@ -3431,6 +3431,14 @@
         {
           "type": "STRING",
           "value": "constexpr"
+        },
+        {
+          "type": "STRING",
+          "value": "constinit"
+        },
+        {
+          "type": "STRING",
+          "value": "consteval"
         }
       ]
     },

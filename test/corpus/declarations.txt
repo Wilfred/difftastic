@@ -994,10 +994,12 @@ int main() {
         body: (compound_statement)))))
 
 ==========================
-Constexpr declarations
+Constexpr/constinit/consteval declarations
 ==========================
 
 constexpr double pi = 3.14159;
+consteval int answer();
+constinit int life = answer();
 
 ---
 
@@ -1007,7 +1009,21 @@ constexpr double pi = 3.14159;
     (primitive_type)
     (init_declarator
       (identifier)
-      (number_literal))))
+      (number_literal)))
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (function_declarator
+      (identifier)
+      (parameter_list)))
+  (declaration
+    (type_qualifier)
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (call_expression
+        (identifier)
+        (argument_list)))))
 
 ============================
 Variadic templates

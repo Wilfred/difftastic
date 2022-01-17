@@ -96,7 +96,9 @@ module.exports = grammar(C, {
     type_qualifier: ($, original) => choice(
       original,
       'mutable',
-      'constexpr'
+      'constexpr',
+      'constinit',
+      'consteval',
     ),
 
     // When used in a trailing return type, these specifiers can now occur immediately before
