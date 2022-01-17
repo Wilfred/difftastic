@@ -70,3 +70,14 @@ pub fn is_probably_binary(bytes: &[u8]) -> bool {
         .count();
     num_replaced > 20
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_text_is_not_binary() {
+        let s = "hello world";
+        assert!(!is_probably_binary(s.as_bytes()));
+    }
+}

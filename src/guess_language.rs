@@ -173,4 +173,11 @@ mod tests {
         let path = Path::new("foo");
         assert_eq!(guess(path, "#!/usr/bin/env python"), Some(Python));
     }
+
+    #[test]
+    fn test_guess_unknown() {
+        let path = Path::new("jfkdlsjfkdsljfkdsljf");
+        assert_eq!(guess(path, ""), None);
+    }
+
 }
