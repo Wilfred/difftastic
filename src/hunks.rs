@@ -736,9 +736,8 @@ pub fn aligned_lines_from_hunk(
 mod tests {
     use super::*;
     use crate::{
-        context::opposite_positions,
         positions::SingleLineSpan,
-        syntax::{AtomKind, MatchKind, TokenKind},
+        syntax::{MatchKind, TokenKind},
     };
     use pretty_assertions::assert_eq;
 
@@ -799,106 +798,13 @@ mod tests {
             lines: vec![(None, Some(1.into()))],
         };
 
-        let lhs_mps = vec![
-            MatchedPos {
-                kind: MatchKind::Unchanged {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                    opposite_pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                },
-                pos: SingleLineSpan {
-                    line: 0.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-            MatchedPos {
-                kind: MatchKind::Unchanged {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![SingleLineSpan {
-                        line: 1.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                    opposite_pos: vec![SingleLineSpan {
-                        line: 2.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                },
-                pos: SingleLineSpan {
-                    line: 1.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-        ];
+        let mut opposite_to_lhs = HashMap::new();
+        opposite_to_lhs.insert(0.into(), HashSet::from([0.into()]));
+        opposite_to_lhs.insert(1.into(), HashSet::from([2.into()]));
 
-        let rhs_mps = vec![
-            MatchedPos {
-                kind: MatchKind::Unchanged {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                    opposite_pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                },
-                pos: SingleLineSpan {
-                    line: 0.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-            MatchedPos {
-                kind: MatchKind::Novel {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                },
-                pos: SingleLineSpan {
-                    line: 1.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-            MatchedPos {
-                kind: MatchKind::Unchanged {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![SingleLineSpan {
-                        line: 2.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                    opposite_pos: vec![SingleLineSpan {
-                        line: 1.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                },
-                pos: SingleLineSpan {
-                    line: 2.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-        ];
-
-        // TODO: Just build a HashMap diretly instead of positions
-        // first for this test.
-        let opposite_to_lhs = opposite_positions(&lhs_mps);
-        let opposite_to_rhs = opposite_positions(&rhs_mps);
+        let mut opposite_to_rhs = HashMap::new();
+        opposite_to_rhs.insert(0.into(), HashSet::from([0.into()]));
+        opposite_to_rhs.insert(2.into(), HashSet::from([1.into()]));
 
         let res = aligned_lines_from_hunk(
             &hunk,
@@ -936,116 +842,13 @@ mod tests {
             lines: vec![(None, Some(1.into())), (None, Some(3.into()))],
         };
 
-        let lhs_mps = vec![
-            MatchedPos {
-                kind: MatchKind::Unchanged {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                    opposite_pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                },
-                pos: SingleLineSpan {
-                    line: 0.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-            MatchedPos {
-                kind: MatchKind::Unchanged {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![SingleLineSpan {
-                        line: 1.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                    opposite_pos: vec![SingleLineSpan {
-                        line: 2.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                },
-                pos: SingleLineSpan {
-                    line: 1.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-        ];
+        let mut opposite_to_lhs = HashMap::new();
+        opposite_to_lhs.insert(0.into(), HashSet::from([0.into()]));
+        opposite_to_lhs.insert(1.into(), HashSet::from([2.into()]));
 
-        let rhs_mps = vec![
-            MatchedPos {
-                kind: MatchKind::Unchanged {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                    opposite_pos: vec![SingleLineSpan {
-                        line: 0.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                },
-                pos: SingleLineSpan {
-                    line: 0.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-            MatchedPos {
-                kind: MatchKind::Novel {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                },
-                pos: SingleLineSpan {
-                    line: 1.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-            MatchedPos {
-                kind: MatchKind::Unchanged {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                    self_pos: vec![SingleLineSpan {
-                        line: 2.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                    opposite_pos: vec![SingleLineSpan {
-                        line: 1.into(),
-                        start_col: 0,
-                        end_col: 1,
-                    }],
-                },
-                pos: SingleLineSpan {
-                    line: 2.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-            MatchedPos {
-                kind: MatchKind::Novel {
-                    highlight: TokenKind::Atom(AtomKind::Normal),
-                },
-                pos: SingleLineSpan {
-                    line: 3.into(),
-                    start_col: 0,
-                    end_col: 1,
-                },
-            },
-        ];
-
-        // TODO: Just build a HashMap diretly instead of positions
-        // first for this test.
-        let opposite_to_lhs = opposite_positions(&lhs_mps);
-        let opposite_to_rhs = opposite_positions(&rhs_mps);
+        let mut opposite_to_rhs = HashMap::new();
+        opposite_to_rhs.insert(0.into(), HashSet::from([0.into()]));
+        opposite_to_rhs.insert(2.into(), HashSet::from([1.into()]));
 
         let res = aligned_lines_from_hunk(
             &hunk,
