@@ -194,17 +194,12 @@ fn after_with_opposites(
     res
 }
 
-pub fn calculate_context(
+pub fn calculate_before_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
     opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
     opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    max_lhs_src_line: LineNumber,
-    max_rhs_src_line: LineNumber,
-) -> (
-    Vec<(Option<LineNumber>, Option<LineNumber>)>,
-    Vec<(Option<LineNumber>, Option<LineNumber>)>,
-) {
-    let before_lines: Vec<_> = match lines.first() {
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    match lines.first() {
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
                 let padded_lines = pad_before(lhs_line);
@@ -214,12 +209,21 @@ pub fn calculate_context(
                 let padded_lines = pad_before(rhs_line);
                 flip_tuples(&before_with_opposites(&padded_lines, opposite_to_rhs))
             }
-            (None, None) => return (vec![], vec![]),
+            (None, None) => vec![],
         },
-        None => return (vec![], vec![]),
-    };
+        None => vec![],
+    }
+}
 
-    let after_lines = match lines.last() {
+pub fn calculate_after_context(
+    lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    before_lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    max_lhs_src_line: LineNumber,
+    max_rhs_src_line: LineNumber,
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    match lines.last() {
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
                 let mut max_opposite = None;
@@ -253,12 +257,10 @@ pub fn calculate_context(
                     max_lhs_src_line,
                 ))
             }
-            (None, None) => return (vec![], vec![]),
+            (None, None) => vec![],
         },
-        None => return (vec![], vec![]),
-    };
-
-    (before_lines, after_lines)
+        None => vec![],
+    }
 }
 
 pub fn add_context(
@@ -268,8 +270,10 @@ pub fn add_context(
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let (before_lines, after_lines) = calculate_context(
+    let before_lines = calculate_before_context(lines, opposite_to_lhs, opposite_to_rhs);
+    let after_lines = calculate_after_context(
         lines,
+        &before_lines,
         opposite_to_lhs,
         opposite_to_rhs,
         max_lhs_src_line,
