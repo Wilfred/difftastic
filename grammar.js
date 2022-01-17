@@ -507,7 +507,8 @@ module.exports = grammar(C, {
         $.noexcept,
         $.throw_specifier,
       )),
-      optional($.trailing_return_type)
+      optional($.trailing_return_type),
+      optional($.requires_clause)
     )),
 
     function_field_declarator: ($, original) => prec.dynamic(1, seq(
@@ -519,7 +520,8 @@ module.exports = grammar(C, {
         $.noexcept,
         $.throw_specifier,
       )),
-      optional($.trailing_return_type)
+      optional($.trailing_return_type),
+      optional($.requires_clause)
     )),
 
     abstract_function_declarator: ($, original) => prec.right(seq(
@@ -528,9 +530,10 @@ module.exports = grammar(C, {
         $.type_qualifier,
         $.ref_qualifier,
         $.noexcept,
-        $.throw_specifier
+        $.throw_specifier,
       )),
-      optional($.trailing_return_type)
+      optional($.trailing_return_type),
+      optional($.requires_clause)
     )),
 
     trailing_return_type: $ => prec.right(seq(
@@ -851,7 +854,7 @@ module.exports = grammar(C, {
       )
     ),
 
-    requires_clause: $ => seq('requires', $._expression),
+    requires_clause: $ => seq('requires', choice($._class_name, $.requires_expression)),
     requires_expression: $ => seq('requires', optional($.parameter_list), $.requirement_seq),
     requirement_seq: $ => seq('{', repeat($._requirement), '}'),
     _requirement: $ => choice(alias($.expression_statement, $.simple_requirement), $.type_requirement, $.compound_requirement),

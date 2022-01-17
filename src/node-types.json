@@ -503,6 +503,10 @@
           "named": true
         },
         {
+          "type": "requires_clause",
+          "named": true
+        },
+        {
           "type": "throw_specifier",
           "named": true
         },
@@ -2573,6 +2577,10 @@
           "named": true
         },
         {
+          "type": "requires_clause",
+          "named": true
+        },
+        {
           "type": "throw_specifier",
           "named": true
         },
@@ -4438,7 +4446,19 @@
       "required": true,
       "types": [
         {
-          "type": "_expression",
+          "type": "qualified_identifier",
+          "named": true
+        },
+        {
+          "type": "requires_expression",
+          "named": true
+        },
+        {
+          "type": "template_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
