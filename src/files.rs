@@ -12,8 +12,6 @@ pub fn read_files_or_die(lhs_path: &Path, rhs_path: &Path) -> (Vec<u8>, Vec<u8>)
         // Proceed if we've been given two paths and only one
         // exists. This is important for mercurial diffs when a file
         // has been removed.
-        //
-        // TODO: we're still computing a diff when one side is "", which is pointless.
         (Ok(lhs_src), Err(e)) if e.kind() == NotFound => (lhs_src, vec![]),
         (Err(e), Ok(rhs_src)) if e.kind() == NotFound => (vec![], rhs_src),
         (lhs_res, rhs_res) => {
