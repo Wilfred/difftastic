@@ -5350,7 +5350,15 @@
       "required": true,
       "types": [
         {
-          "type": "expression_statement",
+          "type": "qualified_identifier",
+          "named": true
+        },
+        {
+          "type": "template_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]

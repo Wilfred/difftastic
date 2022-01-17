@@ -32,8 +32,6 @@ module.exports = grammar(C, {
     [$._declaration_modifiers, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$._declaration_modifiers, $.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
     [$.attributed_statement, $.operator_cast_declaration, $.operator_cast_definition, $.constructor_or_destructor_definition],
-    [$._declaration_modifiers, $.type_descriptor],
-    [$._declaration_specifiers, $.type_descriptor],
   ]),
 
   inline: ($, original) => original.concat([
@@ -857,7 +855,8 @@ module.exports = grammar(C, {
       )
     ),
 
-    type_requirement: $ => seq('typename', $.expression_statement),
+    type_requirement: $ => seq('typename', $._class_name),
+
     compound_requirement: $ => seq(
       '{', $._expression, '}',
       optional('noexcept'),
