@@ -12,7 +12,7 @@ based on their syntax.
 
 See [the manual](http://difftastic.wilfred.me.uk/) to get started.
 
-## Demo: Wrapping Expressions
+## Demo 1: Wrapping Expressions
 
 Difftastic understands expression nesting. If you wrap an expression
 in an if statement, difftastic understands that the inner values are
@@ -25,7 +25,7 @@ changes, and doesn't know which closing parenthesis has been added.
 
 ![Elisp comparison screenshot](img/elisp_comparison.png)
 
-## Demo: Reflowing Code
+## Demo 2: Reflowing Code
 
 Difftastic is robust to code formatting changes. If you change how
 many items appear on a single line, difftastic will only show you
@@ -81,8 +81,7 @@ line-oriented diff.
 ## Known Issues
 
 Performance. Difftastic scales relatively poorly on files with a large
-number of changes, and can use a lot of memory. This might be solved
-by A* search.
+number of changes, and can use a lot of memory.
 
 Display. Difftastic has a side-by-side display which usually works well, but can
 be confusing.
