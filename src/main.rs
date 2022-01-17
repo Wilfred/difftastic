@@ -4,6 +4,10 @@
 //! manual](http://difftastic.wilfred.me.uk/).
 //!
 
+// This tends to trigger on larger tuples of simple types, and naming
+// them would probably be worse for readability.
+#![allow(clippy::type_complexity)]
+
 mod context;
 mod dijkstra;
 mod files;
