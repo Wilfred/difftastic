@@ -1105,7 +1105,7 @@ module.exports = grammar({
       '}'
     ),
 
-    pair: $ => choice(
+    pair: $ => prec.right(choice(
       seq(
         field('key', $._arg),
         '=>',
@@ -1113,15 +1113,21 @@ module.exports = grammar({
       ),
       seq(
         field('key', choice(
-          $.hash_key_symbol,
-          alias($.identifier, $.hash_key_symbol),
-          alias($.constant, $.hash_key_symbol),
           $.string
         )),
         token.immediate(':'),
         field('value', $._arg)
+      ),
+      seq(
+        field('key', choice(
+          $.hash_key_symbol,
+          alias($.identifier, $.hash_key_symbol),
+          alias($.constant, $.hash_key_symbol)
+        )),
+        token.immediate(':'),
+        field('value', optional($._arg))
       )
-    ),
+    )),
 
     lambda: $ => seq(
       '->',
