@@ -924,6 +924,10 @@ foo(&bar)
 foo(&bar, 1)
 foo &bar
 foo &bar, 1
+foo(&)
+foo(&, 1)
+foo &;
+foo 1, &;
 
 ---
 
@@ -932,7 +936,12 @@ foo &bar, 1
   (call (identifier) (argument_list (block_argument (identifier))))
   (call (identifier) (argument_list (block_argument (identifier)) (integer)))
   (call (identifier) (argument_list (block_argument (identifier))))
-  (call (identifier) (argument_list (block_argument (identifier)) (integer))))
+  (call (identifier) (argument_list (block_argument (identifier)) (integer)))
+  (call (identifier) (argument_list (block_argument)))
+  (call (identifier) (argument_list (block_argument) (integer)))
+  (call (identifier) (argument_list (block_argument)))
+  (call (identifier) (argument_list (integer) (block_argument)))
+)
 
 ===============================
 method call with splat argument

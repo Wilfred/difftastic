@@ -231,7 +231,7 @@ module.exports = grammar({
     hash_splat_nil: $ => seq('**', 'nil'),
     block_parameter: $ => seq(
       '&',
-      field('name', $.identifier)
+      field('name', optional($.identifier))
     ),
     keyword_parameter: $ => prec.right(PREC.BITWISE_OR + 1, seq(
       field('name', $.identifier),
@@ -771,7 +771,7 @@ module.exports = grammar({
     forward_argument: $ => '...',
     splat_argument: $ => seq(alias($._splat_star, '*'), $._arg),
     hash_splat_argument: $ => seq(alias($._hash_splat_star_star, '**'), $._arg),
-    block_argument: $ => seq(alias($._block_ampersand, '&'), $._arg),
+    block_argument: $ => prec.right(seq(alias($._block_ampersand, '&'), optional($._arg))),
 
     do_block: $ => seq(
       'do',
