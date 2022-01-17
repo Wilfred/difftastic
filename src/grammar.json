@@ -10251,95 +10251,6 @@
         }
       ]
     },
-    "requires_clause": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "requires"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_class_name"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "requires_expression"
-            }
-          ]
-        }
-      ]
-    },
-    "requires_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "requires"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "parameter_list"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "requirement_seq"
-        }
-      ]
-    },
-    "requirement_seq": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_requirement"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "}"
-        }
-      ]
-    },
-    "_requirement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "expression_statement"
-          },
-          "named": true,
-          "value": "simple_requirement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_requirement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "compound_requirement"
-        }
-      ]
-    },
     "type_requirement": {
       "type": "SEQ",
       "members": [
@@ -10395,6 +10306,107 @@
         {
           "type": "STRING",
           "value": ";"
+        }
+      ]
+    },
+    "_requirement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expression_statement"
+          },
+          "named": true,
+          "value": "simple_requirement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_requirement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "compound_requirement"
+        }
+      ]
+    },
+    "requirement_seq": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_requirement"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "requires_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "requires"
+        },
+        {
+          "type": "FIELD",
+          "name": "constraint",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_class_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "requires_expression"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "requires_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "requires"
+        },
+        {
+          "type": "FIELD",
+          "name": "parameters",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "parameter_list"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "requirements",
+          "content": {
+            "type": "SYMBOL",
+            "name": "requirement_seq"
+          }
         }
       ]
     },

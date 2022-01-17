@@ -857,13 +857,32 @@ module.exports = grammar(C, {
       )
     ),
 
-    requires_clause: $ => seq('requires', choice($._class_name, $.requires_expression)),
-    requires_expression: $ => seq('requires', optional($.parameter_list), $.requirement_seq),
-    requirement_seq: $ => seq('{', repeat($._requirement), '}'),
-    _requirement: $ => choice(alias($.expression_statement, $.simple_requirement), $.type_requirement, $.compound_requirement),
-
     type_requirement: $ => seq('typename', $.expression_statement),
-    compound_requirement: $ => seq("{", $._expression, "}", optional('noexcept'), optional($.trailing_return_type), ";"),
+    compound_requirement: $ => seq(
+      '{', $._expression, '}',
+      optional('noexcept'),
+      optional($.trailing_return_type),
+      ';'
+    ),
+
+    _requirement: $ => choice(
+      alias($.expression_statement, $.simple_requirement),
+      $.type_requirement,
+      $.compound_requirement
+    ),
+
+    requirement_seq: $ => seq('{', repeat($._requirement), '}'),
+
+    requires_clause: $ => seq(
+      'requires',
+      field('constraint', choice($._class_name, $.requires_expression))
+    ),
+
+    requires_expression: $ => seq(
+      'requires',
+      field('parameters', optional($.parameter_list)),
+      field('requirements', $.requirement_seq)
+    ),
 
     lambda_expression: $ => seq(
       field('captures', $.lambda_capture_specifier),
