@@ -75,14 +75,71 @@ concept Hashable = requires(T a) {
                         (type_identifier)))))))))))))
 
 ================================================================================
-Requires expression
+Requires clauses and expressions
 ================================================================================
 
 template<typename T>
+void f(T&&) requires Eq<T>; // can appear as the last element of a function declarator
+
+template<typename T> requires Addable<T> // or right after a template parameter list
+T add(T a, T b) { return a + b; }
+
+template<typename T>
 concept Addable = requires (T x) { x + x; }; // requires-expression
+
+template<typename T>
+    requires requires (T x) { x + x; } // ad-hoc constraint, note keyword used twice
+T add(T a, T b) { return a + b; }
+
 --------------------------------------------------------------------------------
 
 (translation_unit
+  (template_declaration
+    (template_parameter_list
+      (type_parameter_declaration
+        (type_identifier)))
+    (declaration
+      (primitive_type)
+      (function_declarator
+        (identifier)
+        (parameter_list
+          (parameter_declaration
+            (type_identifier)
+            (abstract_reference_declarator)))
+        (requires_clause
+          (template_type
+            (type_identifier)
+            (template_argument_list
+              (type_descriptor
+                (type_identifier))))))))
+  (comment)
+  (template_declaration
+    (template_parameter_list
+      (type_parameter_declaration
+        (type_identifier)))
+    (requires_clause
+      (template_type
+        (type_identifier)
+        (template_argument_list
+          (type_descriptor
+            (type_identifier)))))
+    (comment)
+    (function_definition
+      (type_identifier)
+      (function_declarator
+        (identifier)
+        (parameter_list
+          (parameter_declaration
+            (type_identifier)
+            (identifier))
+          (parameter_declaration
+            (type_identifier)
+            (identifier))))
+      (compound_statement
+        (return_statement
+          (binary_expression
+            (identifier)
+            (identifier))))))
   (template_declaration
     (template_parameter_list
       (type_parameter_declaration
@@ -99,18 +156,7 @@ concept Addable = requires (T x) { x + x; }; // requires-expression
             (binary_expression
               (identifier)
               (identifier)))))))
-  (comment))
-
-================================================================================
-ad-hoc constraint, note keyword used twice
-================================================================================
-
-template<typename T>
-    requires requires (T x) { x + x; } // ad-hoc constraint, note keyword used twice
-T add(T a, T b) { return a + b; }
---------------------------------------------------------------------------------
-
-(translation_unit
+  (comment)
   (template_declaration
     (template_parameter_list
       (type_parameter_declaration
@@ -281,8 +327,8 @@ requires(T a, size_t n) {
           (requirement_seq
             (simple_requirement
               (requires_clause
-                (template_function
-                  (identifier)
+                (template_type
+                  (type_identifier)
                   (template_argument_list
                     (type_descriptor
                       (type_identifier)
@@ -302,8 +348,8 @@ requires(T a, size_t n) {
             (comment)
             (simple_requirement
               (requires_clause
-                (template_function
-                  (identifier)
+                (template_type
+                  (type_identifier)
                   (template_argument_list
                     (type_descriptor
                       (type_identifier)
@@ -315,8 +361,8 @@ requires(T a, size_t n) {
             (comment)
             (simple_requirement
               (requires_clause
-                (template_function
-                  (identifier)
+                (template_type
+                  (type_identifier)
                   (template_argument_list
                     (type_descriptor
                       (type_identifier)
