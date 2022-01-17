@@ -703,7 +703,7 @@ pub fn aligned_lines_from_hunk(
 
     if let (Some(start_pair), Some(end_pair)) = (start_pair, end_pair) {
         // Fill lines between.
-        let aligned_between = fill_aligned(start_pair, end_pair, &opposite_to_rhs);
+        let aligned_between = fill_aligned(start_pair, end_pair, opposite_to_rhs);
 
         // TODO: align based on blank lines too.
 
