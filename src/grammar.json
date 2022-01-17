@@ -10413,6 +10413,43 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "template_parameters",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "template_parameter_list"
+                  }
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "constraint",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "requires_clause"
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "FIELD",
               "name": "declarator",
               "content": {
