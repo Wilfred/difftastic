@@ -25,7 +25,7 @@ pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<Lin
                 opposite_pos,
                 ..
             } => {
-                for (self_span, opposite_span) in zip_repeat_shorter(&self_pos, &opposite_pos) {
+                for (self_span, opposite_span) in zip_repeat_shorter(self_pos, opposite_pos) {
                     let opposite_lines = res.entry(self_span.line).or_insert_with(HashSet::new);
                     opposite_lines.insert(opposite_span.line);
                 }
@@ -208,11 +208,11 @@ pub fn calculate_context(
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
                 let padded_lines = pad_before(lhs_line);
-                before_with_opposites(&padded_lines, &opposite_to_lhs)
+                before_with_opposites(&padded_lines, opposite_to_lhs)
             }
             (_, Some(rhs_line)) => {
                 let padded_lines = pad_before(rhs_line);
-                flip_tuples(&before_with_opposites(&padded_lines, &opposite_to_rhs))
+                flip_tuples(&before_with_opposites(&padded_lines, opposite_to_rhs))
             }
             (None, None) => return (vec![], vec![]),
         },
