@@ -50,7 +50,7 @@ fn split_string(s: &str, max_len: usize) -> Vec<String> {
         s = substring_by_codepoint(s, max_len, codepoint_len(s));
     }
 
-    if res.is_empty() || s != "" {
+    if res.is_empty() || !s.is_empty() {
         res.push(format!("{:width$}", s, width = max_len));
     }
 

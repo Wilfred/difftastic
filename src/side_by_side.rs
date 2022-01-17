@@ -387,7 +387,8 @@ pub fn display_hunks(
                         display_lhs_line_num.clone()
                     } else {
                         let mut s = format_missing_line_num(
-                            lhs_line_num.unwrap_or_else(|| prev_lhs_line_num.unwrap_or(10.into())),
+                            lhs_line_num
+                                .unwrap_or_else(|| prev_lhs_line_num.unwrap_or_else(|| 10.into())),
                             widths.lhs_line_nums,
                         );
                         if let Some(line_num) = lhs_line_num {
@@ -401,7 +402,8 @@ pub fn display_hunks(
                         display_rhs_line_num.clone()
                     } else {
                         let mut s = format_missing_line_num(
-                            rhs_line_num.unwrap_or_else(|| prev_rhs_line_num.unwrap_or(10.into())),
+                            rhs_line_num
+                                .unwrap_or_else(|| prev_rhs_line_num.unwrap_or_else(|| 10.into())),
                             widths.rhs_line_nums,
                         );
                         if let Some(line_num) = rhs_line_num {
