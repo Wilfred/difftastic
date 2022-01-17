@@ -867,6 +867,10 @@ module.exports = grammar(C, {
 
     lambda_expression: $ => seq(
       field('captures', $.lambda_capture_specifier),
+      optional(seq(
+        field('template_parameters', $.template_parameter_list),
+        optional(field('constraint', $.requires_clause)),
+      )),
       optional(field('declarator', $.abstract_function_declarator)),
       field('body', $.compound_statement)
     ),

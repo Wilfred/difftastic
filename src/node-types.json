@@ -2914,12 +2914,32 @@
           }
         ]
       },
+      "constraint": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "requires_clause",
+            "named": true
+          }
+        ]
+      },
       "declarator": {
         "multiple": false,
         "required": false,
         "types": [
           {
             "type": "abstract_function_declarator",
+            "named": true
+          }
+        ]
+      },
+      "template_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "template_parameter_list",
             "named": true
           }
         ]
