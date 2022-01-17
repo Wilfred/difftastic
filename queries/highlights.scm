@@ -45,6 +45,8 @@
  "co_return"
  "co_yield"
  "constexpr"
+ "constinit"
+ "consteval"
  "delete"
  "explicit"
  "final"
