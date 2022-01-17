@@ -11,7 +11,7 @@ use std::{
 };
 
 use crate::{
-    context::{add_context, calculate_context, flip_tuples},
+    context::{add_context, calculate_after_context, calculate_before_context, flip_tuples},
     lines::LineNumber,
     syntax::{zip_pad_shorter, MatchedPos},
 };
@@ -684,8 +684,11 @@ pub fn aligned_lines_from_hunk(
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let hunk_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = hunk.lines.clone();
 
-    let (before_context, after_context) = calculate_context(
+    // TODO: this largely duplicates add_context().
+    let before_context = calculate_before_context(&hunk_lines, opposite_to_lhs, opposite_to_rhs);
+    let after_context = calculate_after_context(
         &hunk_lines,
+        &before_context,
         opposite_to_lhs,
         opposite_to_rhs,
         max_lhs_src_line,
