@@ -227,7 +227,7 @@ pub fn calculate_after_context(
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
                 let mut max_opposite = None;
-                for (_, rhs_line) in [&before_lines, lines].concat() {
+                for (_, rhs_line) in [before_lines, lines].concat() {
                     if let Some(rhs_line) = rhs_line {
                         max_opposite = Some(rhs_line);
                     }
@@ -243,7 +243,7 @@ pub fn calculate_after_context(
             }
             (_, Some(rhs_line)) => {
                 let mut max_opposite = None;
-                for (lhs_line, _) in [&before_lines, lines].concat() {
+                for (lhs_line, _) in [before_lines, lines].concat() {
                     if let Some(lhs_line) = lhs_line {
                         max_opposite = Some(lhs_line);
                     }

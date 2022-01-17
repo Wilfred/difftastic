@@ -332,7 +332,7 @@ fn diff_directories(lhs_dir: &Path, rhs_dir: &Path) -> Vec<DiffResult> {
         let rel_path = lhs_path.strip_prefix(lhs_dir).unwrap();
         let rhs_path = Path::new(rhs_dir).join(rel_path);
 
-        res.push(diff_file(&rel_path.to_string_lossy(), &lhs_path, &rhs_path));
+        res.push(diff_file(&rel_path.to_string_lossy(), lhs_path, &rhs_path));
     }
     res
 }
