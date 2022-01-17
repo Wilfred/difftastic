@@ -867,3 +867,31 @@ co_await fn() || co_await var;
             (argument_list)))
       (co_await_expression
         (identifier)))))
+
+============================================
+ Three-way comparison
+============================================
+
+auto x = a <=> b;
+
+bool y = 0 > a <=> b;
+
+---
+
+(translation_unit
+  (declaration
+    (placeholder_type_specifier (auto))
+    (init_declarator
+      (identifier)
+      (binary_expression
+        (identifier)
+        (identifier))))
+  (declaration
+    (primitive_type)
+    (init_declarator
+      (identifier)
+      (binary_expression
+        (number_literal)
+        (binary_expression
+          (identifier)
+          (identifier))))))

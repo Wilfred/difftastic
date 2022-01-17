@@ -1412,3 +1412,45 @@ void C::f() & noexcept {}
       (ref_qualifier)
       (noexcept))
     (compound_statement)))
+
+=========================
+Default comparison declarations
+=========================
+
+struct A {
+    auto operator<=>(A const &) = default;
+    friend auto operator<=>(A const &, A const &) = default;
+};
+
+---
+
+(translation_unit
+  (struct_specifier
+    (type_identifier)
+    (field_declaration_list
+      (function_definition
+        (placeholder_type_specifier (auto))
+        (function_declarator
+          (operator_name)
+          (parameter_list
+            (parameter_declaration
+              (type_identifier)
+              (type_qualifier)
+              (abstract_reference_declarator))))
+        (default_method_clause))
+      (friend_declaration
+        (declaration
+          (placeholder_type_specifier (auto))
+          (init_declarator
+            (function_declarator
+              (operator_name)
+              (parameter_list
+                (parameter_declaration
+                  (type_identifier)
+                  (type_qualifier)
+                  (abstract_reference_declarator))
+                (parameter_declaration
+                  (type_identifier)
+                  (type_qualifier)
+                  (abstract_reference_declarator))))
+            (identifier)))))))
