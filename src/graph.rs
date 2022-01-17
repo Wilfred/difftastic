@@ -61,6 +61,8 @@ impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
             && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
+            && self.lhs_prev_is_novel == other.lhs_prev_is_novel
+            && self.rhs_prev_is_novel == other.rhs_prev_is_novel
     }
 }
 impl<'a> Eq for Vertex<'a> {}
@@ -69,6 +71,8 @@ impl<'a> Hash for Vertex<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
+        self.lhs_prev_is_novel.hash(state);
+        self.rhs_prev_is_novel.hash(state);
     }
 }
 
