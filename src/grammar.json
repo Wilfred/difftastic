@@ -10260,7 +10260,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression_statement"
+          "name": "_class_name"
         }
       ]
     },
@@ -11302,14 +11302,6 @@
       "operator_cast_declaration",
       "operator_cast_definition",
       "constructor_or_destructor_definition"
-    ],
-    [
-      "_declaration_modifiers",
-      "type_descriptor"
-    ],
-    [
-      "_declaration_specifiers",
-      "type_descriptor"
     ]
   ],
   "precedences": [],
