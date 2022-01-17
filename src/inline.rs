@@ -30,7 +30,8 @@ pub fn display(
     for hunk in hunks {
         let hunk_lines = hunk.lines.clone();
 
-        let before_lines = calculate_before_context(&hunk_lines, &opposite_to_lhs, &opposite_to_rhs);
+        let before_lines =
+            calculate_before_context(&hunk_lines, &opposite_to_lhs, &opposite_to_rhs);
         let after_lines = calculate_after_context(
             &hunk_lines,
             &before_lines,
