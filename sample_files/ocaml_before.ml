@@ -8,3 +8,6 @@ let do_stuff x =
   | `Foo -> 1
   | `Bar -> 2
   | _ -> 3
+
+let stuffs y =
+  y + 1
