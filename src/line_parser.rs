@@ -182,4 +182,20 @@ mod tests {
         let res = split_lines_keep_newline(s);
         assert_eq!(res, vec!["foo\n", "bar\n", "baz"])
     }
+
+    #[test]
+    fn test_positions_no_changes() {
+        let positions = change_positions("foo", "foo");
+
+        assert_eq!(positions.len(), 1);
+        assert!(!positions[0].kind.is_change());
+    }
+
+    #[test]
+    fn test_positions_novel_lhs() {
+        let positions = change_positions("foo", "");
+
+        assert_eq!(positions.len(), 1);
+        assert!(positions[0].kind.is_change());
+    }
 }
