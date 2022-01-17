@@ -434,6 +434,8 @@ pub fn display_hunks(
 
 #[cfg(test)]
 mod tests {
+    use crate::syntax::{AtomKind, MatchKind, TokenKind};
+
     use super::*;
     use pretty_assertions::assert_eq;
 
@@ -482,5 +484,52 @@ mod tests {
     #[test]
     fn test_split_line_with_trailing_newline() {
         assert_eq!(split_on_newlines("foo\nbar\n"), vec!["foo", "bar", ""]);
+    }
+
+    #[test]
+    fn test_display_hunks() {
+        // Simulate diffing:
+        //
+        // Old:
+        // foo
+        //
+        // New:
+        // bar
+        let lhs_mps = [MatchedPos {
+            kind: MatchKind::Novel {
+                highlight: TokenKind::Atom(AtomKind::Normal),
+            },
+            pos: SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 3,
+            },
+        }];
+
+        let rhs_mps = [MatchedPos {
+            kind: MatchKind::Novel {
+                highlight: TokenKind::Atom(AtomKind::Normal),
+            },
+            pos: SingleLineSpan {
+                line: 0.into(),
+                start_col: 0,
+                end_col: 3,
+            },
+        }];
+
+        let hunks = [Hunk {
+            lines: vec![(Some(0.into()), Some(0.into()))],
+        }];
+
+        // Simple smoke test.
+        display_hunks(
+            &hunks,
+            "foo.el",
+            "Emacs Lisp",
+            "foo",
+            "bar",
+            &lhs_mps,
+            &rhs_mps,
+        );
     }
 }
