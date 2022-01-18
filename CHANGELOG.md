@@ -29,6 +29,9 @@ worse.)
 
 Improved display performance when there are a large number of hunks.
 
+Fixed an issue where context lines were printed both before and after
+changed lines.
+
 ## 0.15 (released 6 January 2022)
 
 ### Parsing

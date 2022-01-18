@@ -634,7 +634,7 @@ pub fn aligned_lines_from_hunk(
     res.push(hunk_end);
 
     let after_context = calculate_after_context(
-        &[before_context, hunk_lines].concat(),
+        &res,
         opposite_to_lhs,
         opposite_to_rhs,
         max_lhs_src_line,
