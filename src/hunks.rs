@@ -608,17 +608,9 @@ pub fn aligned_lines_from_hunk(
 
     // TODO: this largely duplicates add_context().
     let before_context = calculate_before_context(&hunk_lines, opposite_to_lhs, opposite_to_rhs);
-    let after_context = calculate_after_context(
-        &hunk_lines,
-        &before_context,
-        opposite_to_lhs,
-        opposite_to_rhs,
-        max_lhs_src_line,
-        max_rhs_src_line,
-    );
 
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
-    res.extend(before_context);
+    res.extend(&before_context);
 
     // TODO: this is a more general case of the `fill_aligned`
     // situation, so make this the only case.
@@ -641,6 +633,14 @@ pub fn aligned_lines_from_hunk(
     res.extend(aligned_between.iter().map(|(x, y)| (Some(*x), Some(*y))));
     res.push(hunk_end);
 
+    let after_context = calculate_after_context(
+        &hunk_lines,
+        &before_context,
+        opposite_to_lhs,
+        opposite_to_rhs,
+        max_lhs_src_line,
+        max_rhs_src_line,
+    );
     res.extend(after_context);
 
     compact_gaps(ensure_contiguous(&res))
