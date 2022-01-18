@@ -617,7 +617,7 @@ pub fn aligned_lines_from_hunk(
 
     let aligned_between = match first_novel {
         (Some(lhs_start), _) => {
-            // align based on blank lines too.
+            // TODO: align based on blank lines too.
             fill_matched_lines(lhs_start, max_lhs_src_line, hunk_end, opposite_to_lhs)
         }
         (_, Some(rhs_start)) => flip_tuples(&fill_matched_lines(
