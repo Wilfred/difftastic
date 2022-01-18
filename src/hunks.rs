@@ -463,84 +463,6 @@ fn ensure_contiguous(
     res
 }
 
-/// Fill matched pairs from `start` to end.
-///
-/// ```text
-/// 10 20
-/// 11 25
-/// 17 31
-/// ```
-///
-/// Pairs are monotonically increasing, but may have gaps.
-///
-fn fill_aligned(
-    start: (LineNumber, LineNumber),
-    end: (LineNumber, LineNumber),
-    matched_rhs_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
-) -> Vec<(LineNumber, LineNumber)> {
-    let mut res = vec![];
-
-    let mut lhs_current = start.0;
-    let mut rhs_max_so_far = start.1;
-
-    let (lhs_max, rhs_max) = end;
-
-    while lhs_current < lhs_max {
-        lhs_current = (lhs_current.0 + 1).into();
-
-        let empty = HashSet::new();
-        let mut opposite_lines: Vec<LineNumber> = matched_rhs_lines
-            .get(&lhs_current)
-            .unwrap_or(&empty)
-            .iter()
-            .copied()
-            .filter(|ln| *ln > rhs_max_so_far && *ln < rhs_max)
-            .collect();
-        opposite_lines.sort();
-
-        if let Some(opposite_line) = opposite_lines.first() {
-            res.push((lhs_current, *opposite_line));
-            rhs_max_so_far = *opposite_line;
-        }
-    }
-
-    res
-}
-
-/// Find the first pair in this vec where both items are Some. Return
-/// that pair, plus all the items that occur afterwards.
-fn split_first_pair(
-    items: Vec<(Option<LineNumber>, Option<LineNumber>)>,
-) -> (
-    Option<(LineNumber, LineNumber)>,
-    Vec<(Option<LineNumber>, Option<LineNumber>)>,
-) {
-    for (i, (lhs_line, rhs_line)) in items.iter().copied().enumerate() {
-        if let (Some(lhs_line), Some(rhs_line)) = (lhs_line, rhs_line) {
-            let after_items: Vec<(Option<LineNumber>, Option<LineNumber>)> =
-                items[i..].iter().copied().collect();
-            return (Some((lhs_line, rhs_line)), after_items);
-        }
-    }
-
-    (None, items)
-}
-
-fn split_last_pair(
-    items: Vec<(Option<LineNumber>, Option<LineNumber>)>,
-) -> (
-    Option<(LineNumber, LineNumber)>,
-    Vec<(Option<LineNumber>, Option<LineNumber>)>,
-) {
-    let mut items = items;
-    items.reverse();
-
-    let (last_pair, mut before_items) = split_first_pair(items);
-    before_items.reverse();
-
-    (last_pair, before_items)
-}
-
 /// Before:
 ///
 /// 10 --
@@ -695,40 +617,29 @@ pub fn aligned_lines_from_hunk(
         max_rhs_src_line,
     );
 
-    let (start_pair, before_context) = split_last_pair(before_context);
-    let (end_pair, after_context) = split_first_pair(after_context);
-
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     res.extend(before_context);
 
-    if let (Some(start_pair), Some(end_pair)) = (start_pair, end_pair) {
-        // Fill lines between.
-        let aligned_between = fill_aligned(start_pair, end_pair, opposite_to_rhs);
+    // TODO: this is a more general case of the `fill_aligned`
+    // situation, so make this the only case.
+    let first_novel = hunk_lines[0];
+    let hunk_end = *hunk_lines.last().expect("Hunk lines should be non-empty");
 
-        // TODO: align based on blank lines too.
-
-        res.extend(aligned_between.iter().map(|(x, y)| (Some(*x), Some(*y))));
-    } else {
-        // TODO: this is a more general case of the `fill_aligned`
-        // situation, so make this the only case.
-        let first_novel = hunk_lines[0];
-        let hunk_end = *hunk_lines.last().expect("Hunk lines should be non-empty");
-
-        let aligned_between = match first_novel {
-            (Some(lhs_start), _) => {
-                fill_matched_lines(lhs_start, max_lhs_src_line, hunk_end, opposite_to_lhs)
-            }
-            (_, Some(rhs_start)) => flip_tuples(&fill_matched_lines(
-                rhs_start,
-                max_rhs_src_line,
-                hunk_end,
-                opposite_to_rhs,
-            )),
-            (None, None) => unreachable!(),
-        };
-        res.extend(aligned_between.iter().map(|(x, y)| (Some(*x), Some(*y))));
-        res.push(hunk_end);
+    let aligned_between = match first_novel {
+        (Some(lhs_start), _) => {
+            // align based on blank lines too.
+            fill_matched_lines(lhs_start, max_lhs_src_line, hunk_end, opposite_to_lhs)
+        }
+        (_, Some(rhs_start)) => flip_tuples(&fill_matched_lines(
+            rhs_start,
+            max_rhs_src_line,
+            hunk_end,
+            opposite_to_rhs,
+        )),
+        (None, None) => unreachable!(),
     };
+    res.extend(aligned_between.iter().map(|(x, y)| (Some(*x), Some(*y))));
+    res.push(hunk_end);
 
     res.extend(after_context);
 
