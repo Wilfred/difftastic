@@ -11,7 +11,7 @@ use std::{
 };
 
 use crate::{
-    context::{add_context, calculate_before_context, flip_tuples, calculate_after_context},
+    context::{add_context, calculate_after_context, calculate_before_context, flip_tuples},
     lines::LineNumber,
     syntax::{zip_pad_shorter, MatchedPos},
 };
