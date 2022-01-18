@@ -150,6 +150,11 @@ fn main() {
             extra_files: vec!["scanner.c"],
         },
         TreeSitterParser {
+            name: "tree-sitter-scala",
+            src_dir: "vendor/tree-sitter-scala-src",
+            extra_files: vec!["scanner.c"],
+        },
+        TreeSitterParser {
             name: "tree-sitter-tsx",
             src_dir: "vendor/tree-sitter-typescript-src/tsx/src",
             extra_files: vec!["scanner.c"],
