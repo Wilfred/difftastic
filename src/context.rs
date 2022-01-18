@@ -217,7 +217,6 @@ pub fn calculate_before_context(
 
 pub fn calculate_after_context(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
-    before_lines: &[(Option<LineNumber>, Option<LineNumber>)],
     opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
     opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
     max_lhs_src_line: LineNumber,
@@ -227,9 +226,11 @@ pub fn calculate_after_context(
         Some(first_line) => match *first_line {
             (Some(lhs_line), _) => {
                 let mut max_opposite = None;
-                for (_, rhs_line) in [before_lines, lines].concat() {
+                // TODO: It would be simpler to do one loop over all
+                // the lines and take the last non-None on each side.
+                for (_, rhs_line) in lines {
                     if let Some(rhs_line) = rhs_line {
-                        max_opposite = Some(rhs_line);
+                        max_opposite = Some(*rhs_line);
                     }
                 }
 
@@ -243,9 +244,9 @@ pub fn calculate_after_context(
             }
             (_, Some(rhs_line)) => {
                 let mut max_opposite = None;
-                for (lhs_line, _) in [before_lines, lines].concat() {
+                for (lhs_line, _) in lines {
                     if let Some(lhs_line) = lhs_line {
-                        max_opposite = Some(lhs_line);
+                        max_opposite = Some(*lhs_line);
                     }
                 }
 
@@ -272,8 +273,7 @@ pub fn add_context(
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let before_lines = calculate_before_context(lines, opposite_to_lhs, opposite_to_rhs);
     let after_lines = calculate_after_context(
-        lines,
-        &before_lines,
+        &[&before_lines, lines].concat(),
         opposite_to_lhs,
         opposite_to_rhs,
         max_lhs_src_line,

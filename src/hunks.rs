@@ -11,7 +11,7 @@ use std::{
 };
 
 use crate::{
-    context::{add_context, calculate_after_context, calculate_before_context, flip_tuples},
+    context::{add_context, calculate_before_context, flip_tuples, calculate_after_context},
     lines::LineNumber,
     syntax::{zip_pad_shorter, MatchedPos},
 };
@@ -634,8 +634,7 @@ pub fn aligned_lines_from_hunk(
     res.push(hunk_end);
 
     let after_context = calculate_after_context(
-        &hunk_lines,
-        &before_context,
+        &[before_context, hunk_lines].concat(),
         opposite_to_lhs,
         opposite_to_rhs,
         max_lhs_src_line,
