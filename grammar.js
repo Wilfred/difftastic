@@ -84,6 +84,7 @@ module.exports = grammar({
     $._primary,
     $._simple_numeric,
     $._lhs,
+    $._nonlocal_variable,
     $._pattern_top_expr_body,
     $._pattern_expr,
     $._pattern_expr_basic,
@@ -459,6 +460,7 @@ module.exports = grammar({
 
     _pattern_expr_basic: $ => choice(
       $._pattern_value,
+      $.identifier,
       $.array_pattern,
       $.find_pattern,
       $.hash_pattern,
@@ -470,8 +472,8 @@ module.exports = grammar({
     _pattern_value: $ => choice(
       $._pattern_primitive,
       alias($._pattern_range, $.range),
-      $.identifier,
       $.variable_reference_pattern,
+      $.expression_reference_pattern,
       $._pattern_constant
     ),
 
@@ -516,7 +518,9 @@ module.exports = grammar({
     file: $ => '__FILE__',
     encoding: $ => '__ENCODING__',
 
-    variable_reference_pattern: $ => seq('^', field('name', $.identifier)),
+    variable_reference_pattern: $ => seq('^', field('name', choice($.identifier, $._nonlocal_variable))),
+
+    expression_reference_pattern: $ => seq('^', '(', field('value', $._expression), ')'),
 
     _pattern_constant: $ => choice(
       $.constant,
@@ -950,9 +954,7 @@ module.exports = grammar({
     _variable: $ => prec.right(choice(
       $.self,
       $.super,
-      $.instance_variable,
-      $.class_variable,
-      $.global_variable,
+      $._nonlocal_variable,
       $.identifier,
       $.constant
     )),
@@ -969,10 +971,15 @@ module.exports = grammar({
       $.simple_symbol,
       $.delimited_symbol,
       $.operator,
+      $._nonlocal_variable
+    ),
+
+    _nonlocal_variable: $ => choice(
       $.instance_variable,
       $.class_variable,
       $.global_variable
     ),
+
     setter: $ => seq(field('name', $.identifier), token.immediate('=')),
 
     undef: $ => seq('undef', commaSep1($._method_name)),
