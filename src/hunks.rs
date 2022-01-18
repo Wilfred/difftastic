@@ -778,4 +778,35 @@ mod tests {
             ]
         );
     }
+
+    #[test]
+    #[ignore]
+    fn test_aligned_lines_when_hunk_doesnt_align() {
+        let hunk = Hunk {
+            lines: vec![(None, Some(0.into())), (Some(0.into()), None)],
+        };
+
+        let mut opposite_to_lhs = HashMap::new();
+        opposite_to_lhs.insert(0.into(), HashSet::from([0.into()]));
+        opposite_to_lhs.insert(1.into(), HashSet::from([1.into()]));
+
+        let mut opposite_to_rhs = HashMap::new();
+        opposite_to_rhs.insert(0.into(), HashSet::from([0.into()]));
+        opposite_to_rhs.insert(1.into(), HashSet::from([1.into()]));
+
+        let res = aligned_lines_from_hunk(
+            &hunk,
+            &opposite_to_lhs,
+            &opposite_to_rhs,
+            1.into(),
+            1.into(),
+        );
+        assert_eq!(
+            res,
+            vec![
+                (Some(0.into()), Some(0.into())),
+                (Some(1.into()), Some(1.into())),
+            ]
+        );
+    }
 }
