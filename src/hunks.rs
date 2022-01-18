@@ -612,8 +612,6 @@ pub fn aligned_lines_from_hunk(
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     res.extend(&before_context);
 
-    // TODO: this is a more general case of the `fill_aligned`
-    // situation, so make this the only case.
     let first_novel = hunk_lines[0];
     let hunk_end = *hunk_lines.last().expect("Hunk lines should be non-empty");
 
