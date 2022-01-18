@@ -286,3 +286,23 @@ pub fn add_context(
         .chain(after_lines.into_iter())
         .collect()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use pretty_assertions::assert_eq;
+
+    #[test]
+    fn test_calculate_before_context() {
+        let lines = vec![(Some(1.into()), Some(1.into()))];
+
+        let mut opposite_to_lhs = HashMap::new();
+        opposite_to_lhs.insert(0.into(), HashSet::from([0.into()]));
+
+        let mut opposite_to_rhs = HashMap::new();
+        opposite_to_rhs.insert(0.into(), HashSet::from([0.into()]));
+
+        let res = calculate_before_context(&lines, &opposite_to_lhs, &opposite_to_rhs);
+        assert_eq!(res, vec![(Some(0.into()), Some(0.into()))]);
+    }
+}
