@@ -2464,6 +2464,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
           "name": "array_pattern"
         },
         {
@@ -2515,11 +2519,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "variable_reference_pattern"
         },
         {
           "type": "SYMBOL",
-          "name": "variable_reference_pattern"
+          "name": "expression_reference_pattern"
         },
         {
           "type": "SYMBOL",
@@ -2732,9 +2736,43 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_nonlocal_variable"
+              }
+            ]
           }
+        }
+      ]
+    },
+    "expression_reference_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "^"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
@@ -6088,15 +6126,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "instance_variable"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "class_variable"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "global_variable"
+            "name": "_nonlocal_variable"
           },
           {
             "type": "SYMBOL",
@@ -6253,6 +6283,15 @@
           "type": "SYMBOL",
           "name": "operator"
         },
+        {
+          "type": "SYMBOL",
+          "name": "_nonlocal_variable"
+        }
+      ]
+    },
+    "_nonlocal_variable": {
+      "type": "CHOICE",
+      "members": [
         {
           "type": "SYMBOL",
           "name": "instance_variable"
@@ -7484,6 +7523,7 @@
     "_primary",
     "_simple_numeric",
     "_lhs",
+    "_nonlocal_variable",
     "_pattern_top_expr_body",
     "_pattern_expr",
     "_pattern_expr_basic",
