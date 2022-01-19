@@ -248,10 +248,11 @@ fn main() {
 /// Print a diff between two files.
 fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult {
     let (lhs_bytes, rhs_bytes) = read_files_or_die(lhs_path, rhs_path);
+    diff_file_content(display_path, &lhs_bytes, &rhs_bytes)
+}
 
-    let lhs_binary = is_probably_binary(&lhs_bytes);
-    let rhs_binary = is_probably_binary(&rhs_bytes);
-    if lhs_binary || rhs_binary {
+fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> DiffResult {
+    if is_probably_binary(lhs_bytes) || is_probably_binary(rhs_bytes) {
         return DiffResult {
             path: display_path.into(),
             language: None,
@@ -264,10 +265,10 @@ fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult
     }
 
     // TODO: don't replace tab characters inside string literals.
-    let lhs_src = String::from_utf8_lossy(&lhs_bytes)
+    let lhs_src = String::from_utf8_lossy(lhs_bytes)
         .to_string()
         .replace("\t", "    ");
-    let rhs_src = String::from_utf8_lossy(&rhs_bytes)
+    let rhs_src = String::from_utf8_lossy(rhs_bytes)
         .to_string()
         .replace("\t", "    ");
 
@@ -282,6 +283,18 @@ fn diff_file(display_path: &str, lhs_path: &Path, rhs_path: &Path) -> DiffResult
         &rhs_src
     };
     let ts_lang = guess(path, guess_src).map(tsp::from_language);
+
+    if lhs_bytes == rhs_bytes {
+        return DiffResult {
+            path: display_path.into(),
+            language: ts_lang.map(|l| l.name.into()),
+            binary: true,
+            lhs_src: "".into(),
+            rhs_src: "".into(),
+            lhs_positions: vec![],
+            rhs_positions: vec![],
+        };
+    }
 
     let (lang_name, lhs_positions, rhs_positions) = match ts_lang {
         Some(ts_lang) => {
@@ -392,5 +405,19 @@ fn print_diff_result(summary: &DiffResult) {
                 &summary.rhs_positions,
             )
         );
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_diff_identical_content() {
+        let s = "foo";
+        let res = diff_file_content("foo.el", s.as_bytes(), s.as_bytes());
+
+        assert_eq!(res.lhs_positions, vec![]);
+        assert_eq!(res.rhs_positions, vec![]);
     }
 }
