@@ -383,7 +383,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
         Scala => {
             let language = unsafe { tree_sitter_scala() };
             TreeSitterConfig {
-                name: "Rust",
+                name: "Scala",
                 language: unsafe { tree_sitter_scala() },
                 atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
                 delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")]),
