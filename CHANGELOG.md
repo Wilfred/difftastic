@@ -50,6 +50,9 @@ Text diffing now has a standalone implementation rather than reusing
 structural diff logic. This is signficantly faster and highlighted
 better.
 
+Improved performance when diffing two identical files. This is common
+when diffing directorires.
+
 ### Display
 
 Improved highlighting heuristics for added/removed blank lines.
