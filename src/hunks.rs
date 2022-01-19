@@ -710,12 +710,12 @@ mod tests {
         };
 
         let mut opposite_to_lhs = HashMap::new();
-        opposite_to_lhs.insert(0.into(), HashSet::from([0.into()]));
-        opposite_to_lhs.insert(1.into(), HashSet::from([2.into()]));
+        opposite_to_lhs.insert(0.into(), HashSet::from_iter([0.into()]));
+        opposite_to_lhs.insert(1.into(), HashSet::from_iter([2.into()]));
 
         let mut opposite_to_rhs = HashMap::new();
-        opposite_to_rhs.insert(0.into(), HashSet::from([0.into()]));
-        opposite_to_rhs.insert(2.into(), HashSet::from([1.into()]));
+        opposite_to_rhs.insert(0.into(), HashSet::from_iter([0.into()]));
+        opposite_to_rhs.insert(2.into(), HashSet::from_iter([1.into()]));
 
         let res = aligned_lines_from_hunk(
             &hunk,
@@ -754,12 +754,12 @@ mod tests {
         };
 
         let mut opposite_to_lhs = HashMap::new();
-        opposite_to_lhs.insert(0.into(), HashSet::from([0.into()]));
-        opposite_to_lhs.insert(1.into(), HashSet::from([2.into()]));
+        opposite_to_lhs.insert(0.into(), HashSet::from_iter([0.into()]));
+        opposite_to_lhs.insert(1.into(), HashSet::from_iter([2.into()]));
 
         let mut opposite_to_rhs = HashMap::new();
-        opposite_to_rhs.insert(0.into(), HashSet::from([0.into()]));
-        opposite_to_rhs.insert(2.into(), HashSet::from([1.into()]));
+        opposite_to_rhs.insert(0.into(), HashSet::from_iter([0.into()]));
+        opposite_to_rhs.insert(2.into(), HashSet::from_iter([1.into()]));
 
         let res = aligned_lines_from_hunk(
             &hunk,
@@ -787,12 +787,12 @@ mod tests {
         };
 
         let mut opposite_to_lhs = HashMap::new();
-        opposite_to_lhs.insert(0.into(), HashSet::from([0.into()]));
-        opposite_to_lhs.insert(1.into(), HashSet::from([1.into()]));
+        opposite_to_lhs.insert(0.into(), HashSet::from_iter([0.into()]));
+        opposite_to_lhs.insert(1.into(), HashSet::from_iter([1.into()]));
 
         let mut opposite_to_rhs = HashMap::new();
-        opposite_to_rhs.insert(0.into(), HashSet::from([0.into()]));
-        opposite_to_rhs.insert(1.into(), HashSet::from([1.into()]));
+        opposite_to_rhs.insert(0.into(), HashSet::from_iter([0.into()]));
+        opposite_to_rhs.insert(1.into(), HashSet::from_iter([1.into()]));
 
         let res = aligned_lines_from_hunk(
             &hunk,
