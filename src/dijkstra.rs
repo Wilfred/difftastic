@@ -84,8 +84,6 @@ pub fn mark_syntax<'a>(lhs_syntax: Option<&'a Syntax<'a>>, rhs_syntax: Option<&'
     let start = Vertex {
         lhs_syntax,
         rhs_syntax,
-        lhs_prev_is_novel: false,
-        rhs_prev_is_novel: false,
     };
     let route = shortest_path(start);
     mark_route(&route);
@@ -131,8 +129,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: Some(lhs),
             rhs_syntax: Some(rhs),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -176,8 +172,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -222,8 +216,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -272,8 +264,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -314,8 +304,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -356,8 +344,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -398,8 +384,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -485,8 +469,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -526,8 +508,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -562,8 +542,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 
@@ -606,8 +584,6 @@ mod tests {
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
             rhs_syntax: rhs.get(0).copied(),
-            lhs_prev_is_novel: false,
-            rhs_prev_is_novel: false,
         };
         let route = shortest_path(start);
 

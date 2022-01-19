@@ -41,28 +41,11 @@ use Edge::*;
 pub struct Vertex<'a> {
     pub lhs_syntax: Option<&'a Syntax<'a>>,
     pub rhs_syntax: Option<&'a Syntax<'a>>,
-    /// If the previous edge was marking syntax as novel, what line
-    /// was it on?
-    ///
-    /// We want to prefer marking syntax nodes as novel if we've
-    /// already marked other nodes as novel on the current line. See
-    /// `sample_files/contiguous_after.js`.
-    ///
-    /// Unfortunately this is path dependent: the vertex doesn't care
-    /// how we got here.
-    ///
-    /// We solve this by distinguishing vertices based on the novel
-    /// state of the previous edge. This increases the search space
-    /// but allows us to keep using a graph traversal.
-    pub lhs_prev_is_novel: bool,
-    pub rhs_prev_is_novel: bool,
 }
 impl<'a> PartialEq for Vertex<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.lhs_syntax.map(|node| node.id()) == other.lhs_syntax.map(|node| node.id())
             && self.rhs_syntax.map(|node| node.id()) == other.rhs_syntax.map(|node| node.id())
-            && self.lhs_prev_is_novel == other.lhs_prev_is_novel
-            && self.rhs_prev_is_novel == other.rhs_prev_is_novel
     }
 }
 impl<'a> Eq for Vertex<'a> {}
@@ -71,8 +54,6 @@ impl<'a> Hash for Vertex<'a> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.lhs_syntax.map(|node| node.id()).hash(state);
         self.rhs_syntax.map(|node| node.id()).hash(state);
-        self.lhs_prev_is_novel.hash(state);
-        self.rhs_prev_is_novel.hash(state);
     }
 }
 
@@ -163,8 +144,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                 Vertex {
                     lhs_syntax: lhs_syntax.next(),
                     rhs_syntax: rhs_syntax.next(),
-                    lhs_prev_is_novel: false,
-                    rhs_prev_is_novel: false,
                 },
             ));
             i += 1;
@@ -207,8 +186,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: rhs_next,
-                        lhs_prev_is_novel: false,
-                        rhs_prev_is_novel: false,
                     },
                 ));
                 i += 1;
@@ -238,8 +215,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     Vertex {
                         lhs_syntax: lhs_syntax.next(),
                         rhs_syntax: rhs_syntax.next(),
-                        lhs_prev_is_novel: false,
-                        rhs_prev_is_novel: false,
                     },
                 ));
                 i += 1;
@@ -253,13 +228,11 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             Syntax::Atom { .. } => {
                 buf[i] = Some((
                     NovelAtomLHS {
-                        contiguous: v.lhs_prev_is_novel && lhs_syntax.prev_is_contiguous(),
+                        contiguous: lhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
                         lhs_syntax: lhs_syntax.next(),
                         rhs_syntax: v.rhs_syntax,
-                        lhs_prev_is_novel: true,
-                        rhs_prev_is_novel: v.rhs_prev_is_novel,
                     },
                 ));
                 i += 1;
@@ -278,13 +251,11 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
                 buf[i] = Some((
                     NovelDelimiterLHS {
-                        contiguous: v.lhs_prev_is_novel && lhs_syntax.prev_is_contiguous(),
+                        contiguous: lhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
                         lhs_syntax: lhs_next,
                         rhs_syntax: v.rhs_syntax,
-                        lhs_prev_is_novel: true,
-                        rhs_prev_is_novel: v.rhs_prev_is_novel,
                     },
                 ));
                 i += 1;
@@ -297,8 +268,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         Vertex {
                             lhs_syntax: lhs_syntax.next(),
                             rhs_syntax: v.rhs_syntax,
-                            lhs_prev_is_novel: v.lhs_prev_is_novel,
-                            rhs_prev_is_novel: v.rhs_prev_is_novel,
                         },
                     ));
                     i += 1;
@@ -313,13 +282,11 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
             Syntax::Atom { .. } => {
                 buf[i] = Some((
                     NovelAtomRHS {
-                        contiguous: v.rhs_prev_is_novel && rhs_syntax.prev_is_contiguous(),
+                        contiguous: rhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_syntax.next(),
-                        lhs_prev_is_novel: v.lhs_prev_is_novel,
-                        rhs_prev_is_novel: true,
                     },
                 ));
             }
@@ -337,13 +304,11 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
 
                 buf[i] = Some((
                     NovelDelimiterRHS {
-                        contiguous: v.rhs_prev_is_novel && rhs_syntax.prev_is_contiguous(),
+                        contiguous: rhs_syntax.prev_is_contiguous(),
                     },
                     Vertex {
                         lhs_syntax: v.lhs_syntax,
                         rhs_syntax: rhs_next,
-                        lhs_prev_is_novel: v.lhs_prev_is_novel,
-                        rhs_prev_is_novel: true,
                     },
                 ));
                 i += 1;
@@ -356,8 +321,6 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                         Vertex {
                             lhs_syntax: v.lhs_syntax,
                             rhs_syntax: rhs_syntax.next(),
-                            lhs_prev_is_novel: v.lhs_prev_is_novel,
-                            rhs_prev_is_novel: v.rhs_prev_is_novel,
                         },
                     ));
                 }
