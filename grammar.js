@@ -108,6 +108,11 @@ module.exports = grammar({
     $._start_delimiter_qw,
     $._element_in_qw,
     $._end_delimiter_qw,
+    $._start_delimiter_search_replace,
+    $._search_content,
+    $._separator_delimiter_search_replace,
+    $._replace_content,
+    $._end_delimiter_search_replace,
     //  TODO: handle <<EOF
     $._pod_content,
   ],
@@ -1610,12 +1615,11 @@ module.exports = grammar({
 
     substitution_pattern_s: $ => prec(PRECEDENCE.REGEXP, seq(
       's',
-      choice(
-        seq('{', optional($.regex_pattern), '}', '{', field('replace', optional($.identifier_2)), '}'),
-        seq('/', optional($.regex_pattern), '/', field('replace', optional($.identifier_2)), '/'),
-        seq('(', optional($.regex_pattern), ')', '(', field('replace', optional($.identifier_2)), ')'),
-        seq('\'', optional($.regex_pattern), '\'', field('replace', optional($.identifier_2)), '\''),
-      ),
+      alias($._start_delimiter_search_replace, $.start_delimiter),
+      repeat(choice($._search_content, $.interpolation, $.escape_sequence)),
+      repeat1(alias($._separator_delimiter_search_replace, $.separator_delimiter)),
+      repeat(choice($._replace_content, $.interpolation, $.escape_sequence)),
+      alias($._end_delimiter_search_replace, $.end_delimiter),
       field('regex_option', optional($.regex_option_for_substitution)),
     )),
 
@@ -1665,7 +1669,6 @@ module.exports = grammar({
       $.array_variable,
       alias($.hash_ref_in_interpolation, $.arrow_notation),
       // $.hash_access_variable,
-      // alias(/\$_?[a-zA-Z0-9_]+/, $.scalar_variable),
       $.scalar_variable,
       $._special_variable,
     ),

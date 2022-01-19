@@ -12324,24 +12324,30 @@
             "named": true
           }
         ]
-      },
-      "replace": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier_2",
-            "named": true
-          }
-        ]
       }
     },
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
-          "type": "regex_pattern",
+          "type": "end_delimiter",
+          "named": true
+        },
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "separator_delimiter",
+          "named": true
+        },
+        {
+          "type": "start_delimiter",
           "named": true
         }
       ]
@@ -17365,10 +17371,6 @@
     "named": true
   },
   {
-    "type": "identifier_2",
-    "named": true
-  },
-  {
     "type": "if",
     "named": false
   },
@@ -17462,11 +17464,11 @@
   },
   {
     "type": "prototype",
-    "named": true
+    "named": false
   },
   {
     "type": "prototype",
-    "named": false
+    "named": true
   },
   {
     "type": "push",
@@ -17530,6 +17532,10 @@
   },
   {
     "type": "semi_colon",
+    "named": true
+  },
+  {
+    "type": "separator_delimiter",
     "named": true
   },
   {
