@@ -1,8 +1,6 @@
 //! Side-by-side (two column) display of diffs.
 
 use colored::{Color, Colorize};
-use lazy_static::lazy_static;
-use regex::Regex;
 use std::{
     cmp::max,
     collections::{HashMap, HashSet},
@@ -37,11 +35,8 @@ fn display_width() -> usize {
 ///
 /// This differs from `str::lines`, which considers `""` to be zero
 /// lines and `"foo\n"` to be one line.
-fn split_on_newlines(s: &str) -> Vec<String> {
-    lazy_static! {
-        static ref RE: Regex = Regex::new("(?m)([^\n]*)$").unwrap();
-    }
-    RE.captures_iter(s).map(|cap| cap[1].into()).collect()
+fn split_on_newlines(s: &str) -> Vec<&str> {
+    s.split('\n').collect()
 }
 
 fn format_line_num_padded(line_num: LineNumber, column_width: usize) -> String {
@@ -135,8 +130,8 @@ impl Widths {
     fn new(
         terminal_width: usize,
         line_nums: &[(Option<LineNumber>, Option<LineNumber>)],
-        lhs_lines: &[String],
-        rhs_lines: &[String],
+        lhs_lines: &[&str],
+        rhs_lines: &[&str],
     ) -> Self {
         let mut lhs_max_line: LineNumber = 1.into();
         let mut rhs_max_line: LineNumber = 1.into();
@@ -220,7 +215,7 @@ fn highlight_positions(
 
 fn highlight_as_novel(
     line_num: Option<LineNumber>,
-    lines: &[String],
+    lines: &[&str],
     opposite_line_num: Option<LineNumber>,
     lines_with_novel: &HashSet<LineNumber>,
 ) -> bool {
