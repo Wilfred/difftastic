@@ -195,21 +195,17 @@ static bool scan_string_content(TSLexer *lexer) {
     return scan_block_content(lexer);
   }
 
-  while (lexer->lookahead != '\n' && lexer->lookahead != 0) {
-    if (lexer->lookahead == ending_char) {
-      return true;
-    }
+  while (lexer->lookahead != '\n' && lexer->lookahead != 0 && lexer->lookahead != ending_char) {
+    while (consume_char('\\', lexer) && consume_char('z', lexer)) continue;
 
-    if (consume_char('\\', lexer)) {
-      if (lexer->lookahead == '\n' || lexer->lookahead == 0) {
-        break;
-      }
+    if (lexer->lookahead == 0) {
+      return true;
     }
 
     consume(lexer);
   }
 
-  return false;
+  return true;
 }
 
 bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
