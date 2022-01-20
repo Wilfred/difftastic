@@ -62,6 +62,7 @@ extern "C" {
     fn tree_sitter_python() -> ts::Language;
     fn tree_sitter_ruby() -> ts::Language;
     fn tree_sitter_rust() -> ts::Language;
+    fn tree_sitter_scala() -> ts::Language;
     fn tree_sitter_tsx() -> ts::Language;
     fn tree_sitter_typescript() -> ts::Language;
 }
@@ -377,6 +378,16 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
                     include_str!("../vendor/highlights/rust.scm"),
                 )
                 .unwrap(),
+            }
+        }
+        Scala => {
+            let language = unsafe { tree_sitter_scala() };
+            TreeSitterConfig {
+                name: "Scala",
+                language: unsafe { tree_sitter_scala() },
+                atom_nodes: (vec!["string", "template_string"]).into_iter().collect(),
+                delimiter_tokens: (vec![("{", "}"), ("(", ")"), ("[", "]")]),
+                highlight_query: ts::Query::new(language, "").unwrap(),
             }
         }
         TypeScript => {
