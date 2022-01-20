@@ -146,7 +146,7 @@ pub fn neighbours<'a>(v: &Vertex<'a>, buf: &mut [Option<(Edge, Vertex<'a>)>]) {
                     rhs_syntax: rhs_syntax.next(),
                 },
             ));
-            i += 1;
+            return;
         }
 
         if let (
