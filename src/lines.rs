@@ -1,8 +1,6 @@
 //! Manipulate lines of text and groups of lines.
 
 use crate::positions::SingleLineSpan;
-use lazy_static::lazy_static;
-use regex::Regex;
 use std::{cmp::max, fmt};
 
 /// A distinct number type for line numbers, to prevent confusion with
@@ -50,23 +48,23 @@ struct LinePosition {
 /// line-relative positions.
 #[derive(Debug)]
 pub struct NewlinePositions {
-    /// A vector of the start positions of all the lines in `s`.
-    positions: Vec<usize>,
-    str_length: usize,
+    /// A vector of the start and end positions of all the lines in
+    /// `s`. Positions include the newline character itself.
+    positions: Vec<(usize, usize)>,
 }
 
 impl From<&str> for NewlinePositions {
     fn from(s: &str) -> Self {
-        lazy_static! {
-            static ref NEWLINE_RE: Regex = Regex::new("\n").unwrap();
+        let mut line_start = 0;
+        let mut positions = vec![];
+        for line in s.split('\n') {
+            let line_end = line_start + line.len() + "\n".len();
+            // TODO: this assumes lines terminate with \n, not \r\n.
+            positions.push((line_start, line_end - 1));
+            line_start = line_end;
         }
-        let mut positions: Vec<_> = NEWLINE_RE.find_iter(s).map(|mat| mat.end()).collect();
-        positions.insert(0, 0);
 
-        NewlinePositions {
-            positions,
-            str_length: s.len(),
-        }
+        NewlinePositions { positions }
     }
 }
 
@@ -78,14 +76,8 @@ impl NewlinePositions {
 
         let mut res = vec![];
         // TODO: Use std::slice::binary_search here instead.
-        for (line_num, line_start) in self.positions.iter().enumerate() {
-            let line_end = match self.positions.get(line_num + 1) {
-                // TODO: this assumes lines terminate with \n, not \r\n.
-                Some(v) => *v - 1,
-                None => self.str_length,
-            };
-
-            if region_start > line_end {
+        for (line_num, (line_start, line_end)) in self.positions.iter().enumerate() {
+            if region_start > *line_end {
                 continue;
             }
             if *line_start > region_end {
@@ -99,7 +91,7 @@ impl NewlinePositions {
                 } else {
                     region_start - line_start
                 },
-                end_col: if region_end < line_end {
+                end_col: if region_end < *line_end {
                     region_end - line_start
                 } else {
                     line_end - line_start
