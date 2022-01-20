@@ -73,6 +73,7 @@ Difftastic supports the following languages:
 * Python
 * Ruby
 * Rust
+* Scala
 * TypeScript (and TSX)
 
 If a file has an unrecognised extension, difftastic uses a

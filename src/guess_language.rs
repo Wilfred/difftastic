@@ -38,6 +38,7 @@ pub enum Language {
     Python,
     Ruby,
     Rust,
+    Scala,
     Tsx,
     TypeScript,
 }
@@ -139,6 +140,7 @@ fn from_extension(extension: &OsStr) -> Option<Language> {
         "py" | "py3" | "pyi" | "bzl" => Some(Python),
         "rb" | "builder" | "spec" | "rake" => Some(Ruby),
         "rs" => Some(Rust),
+        "scala" | "sbt" | "sc" => Some(Scala),
         "ts" => Some(TypeScript),
         "tsx" => Some(Tsx),
         _ => None,
