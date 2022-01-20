@@ -170,14 +170,9 @@ static bool scan_string_start(TSLexer *lexer) {
     return true;
   }
 
-  if (consume_char('[', lexer)) {
-    uint8_t level = consume_and_count_char('=', lexer);
-
-    if (consume_char('[', lexer)) {
-      level_count = level;
-      inside_node = INSIDE_STRING;
-      return true;
-    }
+  if (scan_block_start(lexer)) {
+    inside_node = INSIDE_STRING;
+    return true;
   }
 
   return false;
