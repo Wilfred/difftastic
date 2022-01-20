@@ -400,7 +400,7 @@ module.exports = grammar({
     // args ::=  '(' [explist] ')' | tableconstructor | LiteralString
     arguments: ($) =>
       choice(
-        seq('(', optional($._expression_list), ')'),
+        seq('(', optional(list_seq($.expression, ',')), ')'),
         $.table_constructor,
         $.string
       ),
