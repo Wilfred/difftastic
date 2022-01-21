@@ -55,7 +55,7 @@ pub struct SyntaxInfo<'a> {
     prev_is_contiguous: Cell<bool>,
     /// Whether or not this syntax node has changed. This value is set
     /// when computing the diff with another syntax tree.
-    change: Cell<Option<ChangeKind<'a>>>,
+    pub change: Cell<Option<ChangeKind<'a>>>,
     /// The number of nodes that are ancestors of this one.
     num_ancestors: Cell<u32>,
     /// A number that uniquely identifies this syntax node.
@@ -265,7 +265,7 @@ impl<'a> Syntax<'a> {
     /// A content ID of this syntax node. Two nodes have the same
     /// content ID if they have the same content, regardless of
     /// position.
-    fn content_id(&self) -> u32 {
+    pub fn content_id(&self) -> u32 {
         self.info().content_id.get()
     }
 
@@ -335,7 +335,7 @@ type ContentKey = (
     Option<AtomKind>,
 );
 
-fn set_content_id<'a>(nodes: &[&'a Syntax<'a>], existing: &mut HashMap<ContentKey, u32>) {
+fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
     for node in nodes {
         let key: ContentKey = match node {
             List {
