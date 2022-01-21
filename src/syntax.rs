@@ -815,6 +815,7 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     impl<'a> Syntax<'a> {
+        // TODO: Move this to Syntax everywhere.
         pub fn change(&'a self) -> Option<ChangeKind<'a>> {
             self.info().change.get()
         }
