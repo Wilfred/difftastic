@@ -289,6 +289,10 @@ impl<'a> Syntax<'a> {
         position.last().map(|lp| lp.line)
     }
 
+    pub fn change(&'a self) -> Option<ChangeKind<'a>> {
+        self.info().change.get()
+    }
+
     pub fn set_change(&self, ck: ChangeKind<'a>) {
         self.info().change.set(Some(ck));
     }
@@ -702,7 +706,7 @@ impl MatchedPos {
 pub fn change_positions<'a>(
     src: &str,
     opposite_src: &str,
-    nodes: &[&Syntax<'a>],
+    nodes: &[&'a Syntax<'a>],
 ) -> Vec<MatchedPos> {
     let nl_pos = NewlinePositions::from(src);
     let opposite_nl_pos = NewlinePositions::from(opposite_src);
@@ -715,14 +719,12 @@ pub fn change_positions<'a>(
 fn change_positions_<'a>(
     nl_pos: &NewlinePositions,
     opposite_nl_pos: &NewlinePositions,
-    nodes: &[&Syntax<'a>],
+    nodes: &[&'a Syntax<'a>],
     positions: &mut Vec<MatchedPos>,
 ) {
     for node in nodes {
         let change = node
-            .info()
-            .change
-            .get()
+            .change()
             .unwrap_or_else(|| panic!("Should have changes set in all nodes: {:#?}", node));
 
         match node {
@@ -813,12 +815,6 @@ pub fn zip_repeat_shorter<Tx: Clone, Ty: Clone>(lhs: &[Tx], rhs: &[Ty]) -> Vec<(
 mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
-
-    impl<'a> Syntax<'a> {
-        pub fn change(&'a self) -> Option<ChangeKind<'a>> {
-            self.info().change.get()
-        }
-    }
 
     #[test]
     fn test_comment_and_atom_differ() {
