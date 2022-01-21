@@ -1,7 +1,10 @@
 //! Manipulate lines of text and groups of lines.
 
 use crate::positions::SingleLineSpan;
-use std::{cmp::max, fmt};
+use std::{
+    cmp::{max, Ordering},
+    fmt,
+};
 
 /// A distinct number type for line numbers, to prevent confusion with
 /// other numerical data.
@@ -69,35 +72,47 @@ impl From<&str> for NewlinePositions {
 }
 
 impl NewlinePositions {
+    fn from_offset(&self, offset: usize) -> usize {
+        let idx = self.positions.binary_search_by(|(line_start, line_end)| {
+            if *line_end < offset {
+                return Ordering::Less;
+            }
+            if *line_start > offset {
+                return Ordering::Greater;
+            }
+
+            Ordering::Equal
+        });
+
+        idx.expect("line should be present")
+    }
+
     /// Convert to single-line spans. If the original span crosses a
     /// newline, the vec will contain multiple items.
     pub fn from_offsets(&self, region_start: usize, region_end: usize) -> Vec<SingleLineSpan> {
         assert!(region_start <= region_end);
 
-        let mut res = vec![];
-        // TODO: Use std::slice::binary_search here instead.
-        for (line_num, (line_start, line_end)) in self.positions.iter().enumerate() {
-            if region_start > *line_end {
-                continue;
-            }
-            if *line_start > region_end {
-                break;
-            }
+        let first_idx = self.from_offset(region_start);
+        let last_idx = self.from_offset(region_end);
 
+        let mut res = vec![];
+        for idx in first_idx..=last_idx {
+            let (line_start, line_end) = self.positions[idx];
             res.push(SingleLineSpan {
-                line: line_num.into(),
-                start_col: if *line_start > region_start {
+                line: idx.into(),
+                start_col: if line_start > region_start {
                     0
                 } else {
                     region_start - line_start
                 },
-                end_col: if region_end < *line_end {
+                end_col: if region_end < line_end {
                     region_end - line_start
                 } else {
                     line_end - line_start
                 },
             });
         }
+
         res
     }
 
