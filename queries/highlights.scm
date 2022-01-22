@@ -1,3 +1,6 @@
+[ "." ";" ":" "," ] @punctuation.delimiter
+[ "\\(" "(" ")" "[" "]" "{" "}"] @punctuation.bracket ; TODO: "\\(" ")" in interpolations should be @punctuation.special
+
 ; Identifiers
 (attribute) @variable
 (simple_identifier) @variable
@@ -15,7 +18,7 @@
   (inheritance_modifier)
 ] @keyword
 
-(function_declaration (simple_identifier) @function.method)
+(function_declaration (simple_identifier) @method)
 (function_declaration ["init" @constructor])
 (throws) @keyword
 (async) @keyword
@@ -26,7 +29,15 @@
 (inheritance_constraint (identifier (simple_identifier) @parameter))
 (equality_constraint (identifier (simple_identifier) @parameter))
 
-["typealias" "struct" "class" "enum" "protocol" "extension"] @keyword
+[
+  "typealias"
+  "struct"
+  "class"
+  "enum"
+  "protocol"
+  "extension"
+  "indirect"
+] @keyword
 
 (class_body (property_declaration (value_binding_pattern (non_binding_pattern (simple_identifier) @property))))
 (protocol_property_declaration (value_binding_pattern (non_binding_pattern (simple_identifier) @property)))
@@ -66,6 +77,8 @@
 (switch_entry ["fallthrough" @keyword])
 (switch_entry (default_keyword) @keyword)
 "return" @keyword.return
+(ternary_expression
+  ["?" ":"] @conditional)
 
 ["do" (throw_keyword) (catch_keyword)] @keyword
 
@@ -126,5 +139,13 @@
  "%="
  "!="
  "!=="
+ "=="
  "==="
+ "??"
+
+ "->"
+
+ "..<"
+ "..."
 ] @operator
+
