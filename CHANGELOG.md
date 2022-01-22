@@ -24,6 +24,8 @@ Improved display performance when there are a large number of hunks.
 Fixed an issue where context lines were printed both before and after
 changed lines.
 
+Fixed an issue where the first changed line was not displayed.
+
 ### Diffing
 
 Improved diffing performance (both time and memory usage).
