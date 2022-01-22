@@ -23,6 +23,7 @@ mod style;
 mod summary;
 mod syntax;
 mod tree_sitter_parser;
+mod sliders;
 
 #[macro_use]
 extern crate log;
@@ -45,6 +46,7 @@ use atty::Stream;
 use clap::{crate_version, App, AppSettings, Arg};
 use std::{env, path::Path};
 use summary::DiffResult;
+use sliders::fix_all_sliders;
 use typed_arena::Arena;
 use walkdir::WalkDir;
 
@@ -304,6 +306,9 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
 
             init_info(&lhs, &rhs);
             mark_syntax(lhs.get(0).copied(), rhs.get(0).copied());
+
+            fix_all_sliders(&lhs);
+            fix_all_sliders(&rhs);
 
             let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
             let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
