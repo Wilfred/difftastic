@@ -24,6 +24,13 @@ Improved display performance when there are a large number of hunks.
 Fixed an issue where context lines were printed both before and after
 changed lines.
 
+### Diffing
+
+Improved diffing performance (both time and memory usage).
+
+Sliders are now fixed up after diffing. This produces better looking
+results in more cases, and makes the primary diffing faster.
+
 ## 0.15 (released 6 January 2022)
 
 ### Parsing
