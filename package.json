@@ -4,9 +4,9 @@
   "description": "A tree-sitter grammar for the Swift programming language.",
   "main": "bindings/node/index.js",
   "scripts": {
-    "install": "tsc && shx cp ./build/grammar.js . && tree-sitter generate",
+    "install": "tree-sitter generate",
     "postinstall": "node-gyp configure && node-gyp build",
-    "ci": "prettier --check grammar.ts types/*/*.d.ts",
+    "ci": "prettier --check grammar.js",
     "test-ci": "./scripts/test-with-memcheck.sh --install-valgrind",
     "test": "./scripts/test-with-memcheck.sh"
   },
@@ -27,9 +27,7 @@
   "dependencies": {
     "@types/node": "^16.11.10",
     "nan": "^2.15.0",
-    "shx": "^0.3.4",
-    "tree-sitter-cli": "^0.20.0",
-    "typescript": "^4.5.2"
+    "tree-sitter-cli": "^0.20.0"
   },
   "devDependencies": {
     "node-gyp": "^8.4.1",
