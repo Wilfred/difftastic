@@ -19,11 +19,11 @@ mod line_parser;
 mod lines;
 mod positions;
 mod side_by_side;
+mod sliders;
 mod style;
 mod summary;
 mod syntax;
 mod tree_sitter_parser;
-mod sliders;
 
 #[macro_use]
 extern crate log;
@@ -44,9 +44,9 @@ static GLOBAL: MiMalloc = MiMalloc;
 
 use atty::Stream;
 use clap::{crate_version, App, AppSettings, Arg};
+use sliders::fix_all_sliders;
 use std::{env, path::Path};
 use summary::DiffResult;
-use sliders::fix_all_sliders;
 use typed_arena::Arena;
 use walkdir::WalkDir;
 
