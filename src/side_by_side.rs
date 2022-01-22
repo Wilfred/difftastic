@@ -141,11 +141,11 @@ impl Widths {
         for (lhs_line_num, rhs_line_num) in line_nums {
             if let Some(lhs_line_num) = lhs_line_num {
                 lhs_max_line = max(lhs_max_line, *lhs_line_num);
-                lhs_max_content = max(lhs_max_content, codepoint_len(&lhs_lines[lhs_line_num.0]));
+                lhs_max_content = max(lhs_max_content, codepoint_len(lhs_lines[lhs_line_num.0]));
             }
             if let Some(rhs_line_num) = rhs_line_num {
                 rhs_max_line = max(rhs_max_line, *rhs_line_num);
-                rhs_max_content = max(rhs_max_content, codepoint_len(&rhs_lines[rhs_line_num.0]));
+                rhs_max_content = max(rhs_max_content, codepoint_len(rhs_lines[rhs_line_num.0]));
             }
         }
 
