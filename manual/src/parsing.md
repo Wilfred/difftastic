@@ -51,10 +51,10 @@ $ difft --dump-syntax sample_files/before.js
 
 ### Conversion Process
 
-The simple representation of difftastic parse tree makes diffing much
-easier. Converting the detailed tree-sitter parse tree is a recursive
-tree walk, treating tree-sitter leaf nodes as atoms. There are two
-exceptions.
+The simple representation of the difftastic parse tree makes diffing
+much easier. Converting the detailed tree-sitter parse tree is a
+recursive tree walk, treating tree-sitter leaf nodes as atoms. There
+are two exceptions.
 
 (1) Tree-sitter parse trees sometimes include unwanted structure. Some
 grammars consider string literals to be a single token, whereas others
