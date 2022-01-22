@@ -6,4 +6,3 @@ node_modules
 /test
 Cargo.lock
 /target/*
-/grammar.js
