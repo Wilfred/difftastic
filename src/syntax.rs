@@ -63,6 +63,8 @@ pub struct SyntaxInfo<'a> {
     /// A number that uniquely identifies the content of this syntax
     /// node. This may be the same as nodes on the other side of the
     /// diff, or nodes at different positions.
+    ///
+    /// Values are sequential, not hashes. Collisions never occur.
     content_id: Cell<u32>,
 }
 
