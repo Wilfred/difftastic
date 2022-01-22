@@ -11,7 +11,10 @@ use std::{
 };
 
 use crate::{
-    context::{add_context, calculate_after_context, calculate_before_context, flip_tuples},
+    context::{
+        add_context, calculate_after_context, calculate_before_context, flip_tuples,
+        opposite_positions,
+    },
     lines::LineNumber,
     syntax::{zip_pad_shorter, MatchedPos},
 };
@@ -397,20 +400,76 @@ fn sorted_novel_positions(
     res
 }
 
-pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> Vec<Hunk> {
+fn next_opposite(
+    line: LineNumber,
+    opposites: &HashMap<LineNumber, HashSet<LineNumber>>,
+    prev_opposite: Option<LineNumber>,
+) -> Option<LineNumber> {
+    opposites.get(&line).and_then(|lines_set| {
+        let mut lines: Vec<LineNumber> = lines_set.iter().copied().collect();
+        lines.sort_unstable();
+
+        lines.into_iter().find(|ln| {
+            if let Some(prev_opposite) = prev_opposite {
+                *ln > prev_opposite
+            } else {
+                true
+            }
+        })
+    })
+}
+
+fn matched_novel_lines(
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut highest_lhs: Option<LineNumber> = None;
+    let mut highest_rhs: Option<LineNumber> = None;
+
+    let opposite_to_lhs = opposite_positions(lhs_mps);
+    let opposite_to_rhs = opposite_positions(rhs_mps);
+
     let mut lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     for (side, mp) in sorted_novel_positions(lhs_mps, rhs_mps) {
         let self_line = mp.pos.line;
-        let opposite_line = mp.kind.first_opposite_span().map(|span| span.line);
 
-        let line = match side {
-            Side::LHS => (Some(self_line), opposite_line),
-            Side::RHS => (opposite_line, Some(self_line)),
-        };
-        lines.push(line);
+        match side {
+            Side::LHS => {
+                let should_append = if let Some(highest_lhs) = highest_lhs {
+                    self_line > highest_lhs
+                } else {
+                    true
+                };
+                if should_append {
+                    lines.push((
+                        Some(self_line),
+                        next_opposite(self_line, &opposite_to_lhs, highest_rhs),
+                    ));
+                    highest_lhs = Some(self_line);
+                }
+            }
+            Side::RHS => {
+                let should_append = if let Some(highest_rhs) = highest_rhs {
+                    self_line > highest_rhs
+                } else {
+                    true
+                };
+                if should_append {
+                    lines.push((
+                        next_opposite(self_line, &opposite_to_rhs, highest_rhs),
+                        Some(self_line),
+                    ));
+                    highest_rhs = Some(self_line);
+                }
+            }
+        }
     }
 
-    lines_to_hunks(&lines)
+    lines
+}
+
+pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> Vec<Hunk> {
+    lines_to_hunks(&matched_novel_lines(lhs_mps, rhs_mps))
 }
 
 /// Ensure that we don't miss any intermediate values.
@@ -780,33 +839,57 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
-    fn test_aligned_lines_when_hunk_doesnt_align() {
-        let hunk = Hunk {
-            lines: vec![(None, Some(0.into())), (Some(0.into()), None)],
+    fn test_matched_pos_to_hunks() {
+        let matched_pos = SingleLineSpan {
+            line: 0.into(),
+            start_col: 2,
+            end_col: 3,
         };
 
-        let mut opposite_to_lhs = HashMap::new();
-        opposite_to_lhs.insert(0.into(), HashSet::from_iter([0.into()]));
-        opposite_to_lhs.insert(1.into(), HashSet::from_iter([1.into()]));
+        let lhs_mps = [
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Delimiter,
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 1,
+                    end_col: 2,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: vec![matched_pos],
+                    opposite_pos: vec![matched_pos],
+                },
+                pos: matched_pos,
+            },
+        ];
 
-        let mut opposite_to_rhs = HashMap::new();
-        opposite_to_rhs.insert(0.into(), HashSet::from_iter([0.into()]));
-        opposite_to_rhs.insert(1.into(), HashSet::from_iter([1.into()]));
+        let rhs_mps = [
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Delimiter,
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 1,
+                    end_col: 2,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: vec![matched_pos],
+                    opposite_pos: vec![matched_pos],
+                },
+                pos: matched_pos,
+            },
+        ];
 
-        let res = aligned_lines_from_hunk(
-            &hunk,
-            &opposite_to_lhs,
-            &opposite_to_rhs,
-            1.into(),
-            1.into(),
-        );
-        assert_eq!(
-            res,
-            vec![
-                (Some(0.into()), Some(0.into())),
-                (Some(1.into()), Some(1.into())),
-            ]
-        );
+        let hunks = matched_pos_to_hunks(&lhs_mps, &rhs_mps);
+        assert_eq!(hunks.len(), 1);
+        assert_eq!(hunks[0].lines, vec![(Some(0.into()), Some(0.into()))]);
     }
 }
