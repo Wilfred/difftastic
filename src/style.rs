@@ -87,16 +87,13 @@ pub fn split_and_apply(
             }
 
             if i >= prev_length {
-                // Dim text before the next span.
+                // Unstyled text before the next span.
                 if i < span.start_col {
-                    res.push_str(
-                        &substring_by_codepoint(
-                            &part,
-                            i - prev_length,
-                            span.start_col - prev_length,
-                        )
-                        .dimmed(),
-                    );
+                    res.push_str(substring_by_codepoint(
+                        &part,
+                        i - prev_length,
+                        span.start_col - prev_length,
+                    ));
                 }
             }
 
@@ -111,10 +108,10 @@ pub fn split_and_apply(
             }
             i = span.end_col;
         }
-        // Dim text after the last span.
+        // Unstyled text after the last span.
         if i < prev_length + codepoint_len(&part) {
             let span_s = substring_by_codepoint(&part, i - prev_length, codepoint_len(&part));
-            res.push_str(&span_s.dimmed());
+            res.push_str(span_s);
         }
 
         styled_parts.push(res);
@@ -140,9 +137,9 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
             break;
         }
 
-        // Dim text before the next span.
+        // Unstyled text before the next span.
         if i < span.start_col {
-            res.push_str(&substring_by_codepoint(line, i, span.start_col).dimmed());
+            res.push_str(substring_by_codepoint(line, i, span.start_col));
         }
 
         // Apply style to the substring in this span.
@@ -152,10 +149,10 @@ fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
         i = span.end_col;
     }
 
-    // Dim text after the last span.
+    // Unstyled text after the last span.
     if i < codepoint_len(line) {
         let span_s = substring_by_codepoint(line, i, codepoint_len(line));
-        res.push_str(&span_s.dimmed());
+        res.push_str(span_s);
     }
     res
 }
