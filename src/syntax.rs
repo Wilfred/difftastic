@@ -44,10 +44,10 @@ impl<'a> fmt::Debug for ChangeKind<'a> {
 pub struct SyntaxInfo<'a> {
     /// The syntax node that occurs after this one, in a depth-first
     /// tree traversal.
-    next: Cell<Option<&'a Syntax<'a>>>,
+    pub next: Cell<Option<&'a Syntax<'a>>>,
     /// The syntax node that occurs before this one, in a depth-first
     /// tree traversal.
-    prev: Cell<Option<&'a Syntax<'a>>>,
+    pub prev: Cell<Option<&'a Syntax<'a>>>,
     /// The parent syntax node, if present.
     parent: Cell<Option<&'a Syntax<'a>>>,
     /// Does the previous syntax node occur on the same line as the

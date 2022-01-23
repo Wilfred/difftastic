@@ -1,5 +1,9 @@
 ## 0.17 (unreleased)
 
+### Diffing
+
+Improved performance when all file changes are close together.
+
 ## 0.16 (released 22 January 2022)
 
 ### Parsing
