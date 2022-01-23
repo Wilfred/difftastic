@@ -19,10 +19,13 @@ namespace {
     ELEMENT_IN_QW,
     END_DELIMITER_QW,
     START_DELIMITER_SEARCH_REPLACE,
-    SEARCH_CONTENT,
+    SEARCH_REPLACE_CONTENT,
     SEPARATOR_DELIMITER_SEARCH_REPLACE,
-    REPLACE_CONTENT,
     END_DELIMITER_SEARCH_REPLACE,
+    START_DELIMITER_TRANSLITERATION,
+    TRANSLITERATION_CONTENT,
+    SEPARATOR_DELIMITER_TRANSLITERATION,
+    END_DELIMITER_TRANSLITERATION,
     POD_CONTENT,
   };
 
@@ -85,10 +88,13 @@ namespace {
         && valid_symbols[START_DELIMITER_QW]
         && valid_symbols[END_DELIMITER_QW]
         && valid_symbols[START_DELIMITER_SEARCH_REPLACE]
-        && valid_symbols[SEARCH_CONTENT]
+        && valid_symbols[SEARCH_REPLACE_CONTENT]
         && valid_symbols[SEPARATOR_DELIMITER_SEARCH_REPLACE]
-        && valid_symbols[REPLACE_CONTENT]
         && valid_symbols[END_DELIMITER_SEARCH_REPLACE]
+        && valid_symbols[START_DELIMITER_TRANSLITERATION]
+        && valid_symbols[TRANSLITERATION_CONTENT]
+        && valid_symbols[SEPARATOR_DELIMITER_TRANSLITERATION]
+        && valid_symbols[END_DELIMITER_TRANSLITERATION]
         && valid_symbols[POD_CONTENT]
       ) {
         return false;
@@ -258,9 +264,9 @@ namespace {
         return parse_start_delimiter(lexer, START_DELIMITER_SEARCH_REPLACE);
       }
 
-      if (valid_symbols[SEARCH_CONTENT]) {
+      if (valid_symbols[SEARCH_REPLACE_CONTENT]) {
         if (lexer->lookahead == get_end_delimiter()) {
-          return process_separator_delimiter(lexer);
+          return process_separator_delimiter(lexer, SEPARATOR_DELIMITER_SEARCH_REPLACE, END_DELIMITER_SEARCH_REPLACE);
         }
         else {
           // oh boy! the interpolation
@@ -292,64 +298,57 @@ namespace {
 
           // handling nested delimiters qq { hello { from { the}}};
           if (lexer->lookahead == start_delimiter_char) {
-            lexer->result_symbol = SEARCH_CONTENT;
+            lexer->result_symbol = SEARCH_REPLACE_CONTENT;
             advance(lexer);
-            return scan_nested_delimiters(lexer, valid_symbols, SEARCH_CONTENT);
+            return scan_nested_delimiters(lexer, valid_symbols, SEARCH_REPLACE_CONTENT);
           }
 
-          lexer->result_symbol = SEARCH_CONTENT;
+          lexer->result_symbol = SEARCH_REPLACE_CONTENT;
           advance(lexer);
           return true;
         }
       }
 
-      if (valid_symbols[REPLACE_CONTENT]) {
+      if (valid_symbols[START_DELIMITER_TRANSLITERATION]) {
+        return parse_start_delimiter(lexer, START_DELIMITER_TRANSLITERATION);
+      }
+      if (valid_symbols[TRANSLITERATION_CONTENT]) {
         if (lexer->lookahead == get_end_delimiter()) {
-          lexer->result_symbol = END_DELIMITER_SEARCH_REPLACE;
+          return process_separator_delimiter(lexer, SEPARATOR_DELIMITER_TRANSLITERATION, END_DELIMITER_TRANSLITERATION);
+        }
+
+        // exit condition
+        if (!lexer->lookahead) {
+          lexer->mark_end(lexer);
+          return false;
+        }
+
+        // escape sequence
+        if (lexer->lookahead == '\\') {
+          lexer->result_symbol = TRANSLITERATION_CONTENT;
           advance(lexer);
+          // self end delimiter
+          if (lexer->lookahead == get_end_delimiter()) {
+            advance(lexer);
+          }
+
           lexer->mark_end(lexer);
           return true;
         }
-        else {
-          // oh boy! the interpolation
-          if (lexer->lookahead == '$') {
-            return handle_interpolation(lexer);
-          }
-          // escape sequences, only basic support as of now
-          if (lexer->lookahead == '\\') {
-            advance(lexer);
-            // also, self end delimiter will be treated as string
-            if (
-              lexer->lookahead == 't' || lexer->lookahead == 'n' || lexer->lookahead == 'r' || lexer->lookahead == 'f' || lexer->lookahead == 'b' || lexer->lookahead == 'a' || lexer->lookahead == 'e'
-              || lexer->lookahead == get_end_delimiter()
-            ) {
-              advance(lexer);
-              lexer->mark_end(lexer);
-              return false;
-            }
-            else {
-              // dont return, below logic will take care
-            }
-          }
 
-          // some exit conditions
-          if (!lexer->lookahead) {
-            lexer->mark_end(lexer);
-            return false;
-          }
-
-          // handling nested delimiters qq { hello { from { the}}};
-          if (lexer->lookahead == start_delimiter_char) {
-            lexer->result_symbol = REPLACE_CONTENT;
-            advance(lexer);
-            return scan_nested_delimiters(lexer, valid_symbols, REPLACE_CONTENT);
-          }
-
-          lexer->result_symbol = REPLACE_CONTENT;
+        // handling nested delimiters qq { hello { from { the}}};
+        if (lexer->lookahead == start_delimiter_char) {
+          lexer->result_symbol = TRANSLITERATION_CONTENT;
           advance(lexer);
-          return true;
+          return scan_nested_delimiters(lexer, valid_symbols, TRANSLITERATION_CONTENT);
         }
+
+        lexer->result_symbol = TRANSLITERATION_CONTENT;
+        advance(lexer);
+        lexer->mark_end(lexer);
+        return true;
       }
+
 
       if (valid_symbols[POD_CONTENT]) {
 
@@ -436,19 +435,26 @@ namespace {
       }
     }
 
-    bool process_separator_delimiter(TSLexer *lexer) {
-      lexer->result_symbol = SEPARATOR_DELIMITER_SEARCH_REPLACE;
-      advance(lexer);
-      lexer->mark_end(lexer);
-      run_over_spaces(lexer);
-      lexer->result_symbol = SEPARATOR_DELIMITER_SEARCH_REPLACE;
-
-      if (lexer->lookahead == start_delimiter_char) {
+    bool process_separator_delimiter(TSLexer *lexer, TokenType separator_token, TokenType end_token) {
+      if (is_separator_delimiter_parsed) {
+        lexer->result_symbol = end_token;
         advance(lexer);
         lexer->mark_end(lexer);
         return true;
       }
       else {
+        lexer->result_symbol = separator_token;
+        advance(lexer);
+        lexer->mark_end(lexer);
+        run_over_spaces(lexer);
+        lexer->result_symbol = separator_token;
+
+        if (lexer->lookahead == start_delimiter_char) {
+          advance(lexer);
+        }
+
+        is_separator_delimiter_parsed = true;
+
         lexer->mark_end(lexer);
         return true;
       }
@@ -466,25 +472,8 @@ namespace {
       start_delimiter_char = lexer->lookahead;
       set_end_delimiter(start_delimiter_char);
 
-      // for substitute usecase
-      // if (token_type == START_DELIMITER_SEARCH_REPLACE) {
-      //   // round, angle, square, curly
-      //   if (start_delimiter_char == '(') {
-      //     separator_delimiter_char = ')';
-      //   }
-      //   else if (start_delimiter_char == '<') {
-      //     separator_delimiter_char = '>';
-      //   }
-      //   else if (start_delimiter_char == '[') {
-      //     separator_delimiter_char = ']';
-      //   }
-      //   else if (start_delimiter_char == '{') {
-      //     separator_delimiter_char = '}';
-      //   }
-      //   else {
-      //     separator_delimiter_char = start_delimiter_char;
-      //   }
-      // }
+      // for substitute and tr/y usecase
+      is_separator_delimiter_parsed = false;
 
       lexer->result_symbol = token_type;
       advance(lexer);
@@ -572,7 +561,7 @@ namespace {
 
     int32_t start_delimiter_char;
     int32_t end_delimiter_char;
-    int32_t separator_delimiter_char;
+    bool is_separator_delimiter_parsed;
     int delimiter_cout = 0;
     bool reached;
 

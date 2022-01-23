@@ -109,10 +109,13 @@ module.exports = grammar({
     $._element_in_qw,
     $._end_delimiter_qw,
     $._start_delimiter_search_replace,
-    $._search_content,
+    $._search_replace_content,
     $._separator_delimiter_search_replace,
-    $._replace_content,
     $._end_delimiter_search_replace,
+    $._start_delimiter_transliteration,
+    $._transliteration_content,
+    $._separator_delimiter_transliteration,
+    $._end_delimiter_transliteration,
     //  TODO: handle <<EOF
     $._pod_content,
   ],
@@ -1616,9 +1619,9 @@ module.exports = grammar({
     substitution_pattern_s: $ => prec(PRECEDENCE.REGEXP, seq(
       's',
       alias($._start_delimiter_search_replace, $.start_delimiter),
-      repeat(choice($._search_content, $.interpolation, $.escape_sequence)),
+      repeat(choice($._search_replace_content, $.interpolation, $.escape_sequence)),
       repeat1(alias($._separator_delimiter_search_replace, $.separator_delimiter)),
-      repeat(choice($._replace_content, $.interpolation, $.escape_sequence)),
+      repeat(choice($._search_replace_content, $.interpolation, $.escape_sequence)),
       alias($._end_delimiter_search_replace, $.end_delimiter),
       field('regex_option', optional($.regex_option_for_substitution)),
     )),
@@ -1626,12 +1629,11 @@ module.exports = grammar({
     // TODO: revisit this
     transliteration_tr_or_y: $ => prec(PRECEDENCE.REGEXP, seq(
       choice('tr', 'y'),
-      choice(
-        seq('{', field('search_list', optional($.regex_pattern)), '}', '{', field('replacement_list', optional($.regex_pattern)), '}'),
-        seq('/', field('search_list', optional($.regex_pattern)), '/', field('replacement_list', optional($.regex_pattern)), '/'),
-        seq('(', field('search_list', optional($.regex_pattern)), ')', '(', field('replacement_list', optional($.regex_pattern)), ')'),
-        seq('\'', field('search_list', optional($.regex_pattern)), '\'', field('replacement_list', optional($.regex_pattern)), '\''),
-      ),
+      alias($._start_delimiter_transliteration, $.start_delimiter),
+      repeat($._transliteration_content),
+      repeat1(alias($._separator_delimiter_transliteration, $.separator_delimiter)),
+      repeat($._transliteration_content),
+      alias($._end_delimiter_transliteration, $.end_delimiter),
       field('regex_option', optional($.regex_option_for_transliteration)),
     )),
 
