@@ -506,6 +506,7 @@ impl<'a> Hash for Syntax<'a> {
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Hash)]
 pub enum AtomKind {
     Normal,
+    String,
     Comment,
     Keyword,
 }

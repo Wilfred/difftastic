@@ -424,7 +424,10 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
 }
 
 /// Parse `src` with tree-sitter.
-pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> (tree_sitter::Tree, HashSet<usize>) {
+pub fn parse_to_tree(
+    src: &str,
+    config: &TreeSitterConfig,
+) -> (tree_sitter::Tree, HashSet<usize>, HashSet<usize>) {
     let mut parser = ts::Parser::new();
     parser
         .set_language(config.language)
@@ -443,19 +446,28 @@ pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> (tree_sitter::Tree
         keyword_ish_capture_ids.push(idx);
     }
 
+    let mut string_capture_ids = vec![];
+    if let Some(idx) = config.highlight_query.capture_index_for_name("string") {
+        string_capture_ids.push(idx);
+    }
+
     let mut qc = ts::QueryCursor::new();
     let q_matches = qc.matches(&config.highlight_query, tree.root_node(), src.as_bytes());
 
-    let mut node_keyword_ids = HashSet::new();
+    let mut keyword_node_ids = HashSet::new();
+    let mut string_node_ids = HashSet::new();
     for m in q_matches {
         for c in m.captures {
             if keyword_ish_capture_ids.contains(&c.index) {
-                node_keyword_ids.insert(c.node.id());
+                keyword_node_ids.insert(c.node.id());
+            }
+            if string_capture_ids.contains(&c.index) {
+                string_node_ids.insert(c.node.id());
             }
         }
     }
 
-    (tree, node_keyword_ids)
+    (tree, keyword_node_ids, string_node_ids)
 }
 
 pub fn print_tree(src: &str, tree: &tree_sitter::Tree) {
@@ -499,7 +511,7 @@ pub fn parse<'a>(
         return vec![];
     }
 
-    let (tree, keyword_ids) = parse_to_tree(src, config);
+    let (tree, keyword_ids, string_ids) = parse_to_tree(src, config);
 
     let nl_pos = NewlinePositions::from(src);
     let mut cursor = tree.walk();
@@ -508,7 +520,15 @@ pub fn parse<'a>(
     // each top level syntax item.
     cursor.goto_first_child();
 
-    all_syntaxes_from_cursor(arena, src, &nl_pos, &mut cursor, config, &keyword_ids)
+    all_syntaxes_from_cursor(
+        arena,
+        src,
+        &nl_pos,
+        &mut cursor,
+        config,
+        &keyword_ids,
+        &string_ids,
+    )
 }
 
 fn child_tokens<'a>(src: &'a str, cursor: &mut ts::TreeCursor) -> Vec<Option<&'a str>> {
@@ -570,6 +590,7 @@ fn all_syntaxes_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     keyword_ids: &HashSet<usize>,
+    string_ids: &HashSet<usize>,
 ) -> Vec<&'a Syntax<'a>> {
     let mut result: Vec<&Syntax> = vec![];
 
@@ -581,6 +602,7 @@ fn all_syntaxes_from_cursor<'a>(
             cursor,
             config,
             keyword_ids,
+            string_ids,
         ));
 
         if !cursor.goto_next_sibling() {
@@ -600,6 +622,7 @@ fn syntax_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     keyword_ids: &HashSet<usize>,
+    string_ids: &HashSet<usize>,
 ) -> &'a Syntax<'a> {
     let node = cursor.node();
 
@@ -617,11 +640,11 @@ fn syntax_from_cursor<'a>(
     if config.atom_nodes.contains(node.kind()) {
         // Treat nodes like string literals as atoms, regardless
         // of whether they have children.
-        atom_from_cursor(arena, src, nl_pos, cursor, keyword_ids)
+        atom_from_cursor(arena, src, nl_pos, cursor, keyword_ids, string_ids)
     } else if node.child_count() > 0 {
-        list_from_cursor(arena, src, nl_pos, cursor, config, keyword_ids)
+        list_from_cursor(arena, src, nl_pos, cursor, config, keyword_ids, string_ids)
     } else {
-        atom_from_cursor(arena, src, nl_pos, cursor, keyword_ids)
+        atom_from_cursor(arena, src, nl_pos, cursor, keyword_ids, string_ids)
     }
 }
 
@@ -634,6 +657,7 @@ fn list_from_cursor<'a>(
     cursor: &mut ts::TreeCursor,
     config: &TreeSitterConfig,
     keyword_ids: &HashSet<usize>,
+    string_ids: &HashSet<usize>,
 ) -> &'a Syntax<'a> {
     let root_node = cursor.node();
 
@@ -683,6 +707,7 @@ fn list_from_cursor<'a>(
                 cursor,
                 config,
                 keyword_ids,
+                string_ids,
             ));
         } else if node_i == i {
             inner_open_content = &src[node.start_byte()..node.end_byte()];
@@ -695,6 +720,7 @@ fn list_from_cursor<'a>(
                 cursor,
                 config,
                 keyword_ids,
+                string_ids,
             ));
         } else if node_i == j {
             inner_close_content = &src[node.start_byte()..node.end_byte()];
@@ -707,6 +733,7 @@ fn list_from_cursor<'a>(
                 cursor,
                 config,
                 keyword_ids,
+                string_ids,
             ));
         }
 
@@ -758,6 +785,7 @@ fn atom_from_cursor<'a>(
     nl_pos: &NewlinePositions,
     cursor: &mut ts::TreeCursor,
     keyword_ids: &HashSet<usize>,
+    string_ids: &HashSet<usize>,
 ) -> &'a Syntax<'a> {
     let node = cursor.node();
     let position = nl_pos.from_offsets(node.start_byte(), node.end_byte());
@@ -776,6 +804,8 @@ fn atom_from_cursor<'a>(
         AtomKind::Comment
     } else if keyword_ids.contains(&node.id()) {
         AtomKind::Keyword
+    } else if string_ids.contains(&node.id()) {
+        AtomKind::String
     } else {
         AtomKind::Normal
     };
