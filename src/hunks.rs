@@ -611,20 +611,26 @@ fn first_greater<T: Copy + Ord>(item_set: &HashSet<T>, value: Option<T>) -> Opti
     }
 }
 
-/// Return all the matched lines, starting from `lhs_start`, up to
-/// `end` or the end of the whole file.
+/// Starting from `lhs_start`, fill in all the lines with known
+/// opposites up to `end`. The resulting vec will include both start
+/// and end, but the intervening values are all Some.
 fn fill_matched_lines(
     lhs_start: LineNumber,
     max_lhs_src_line: LineNumber,
     end: (Option<LineNumber>, Option<LineNumber>),
-    matched_rhs_lines: &HashMap<LineNumber, HashSet<LineNumber>>,
-) -> Vec<(LineNumber, LineNumber)> {
+    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let (lhs_end, rhs_end) = end;
 
     let mut lhs_num = lhs_start;
     let mut rhs_num: Option<LineNumber> = None;
 
-    let mut res = vec![];
+    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+    if !opposite_to_lhs.contains_key(&lhs_start) {
+        res.push((Some(lhs_start), None));
+    }
+
     loop {
         if lhs_num > max_lhs_src_line {
             break;
@@ -636,7 +642,7 @@ fn fill_matched_lines(
             }
         }
 
-        if let Some(rhs_line_set) = matched_rhs_lines.get(&lhs_num) {
+        if let Some(rhs_line_set) = opposite_to_lhs.get(&lhs_num) {
             rhs_num = first_greater(rhs_line_set, rhs_num);
 
             if let Some(rhs_num) = rhs_num {
@@ -646,11 +652,28 @@ fn fill_matched_lines(
                     }
                 }
 
-                res.push((lhs_num, rhs_num));
+                res.push((Some(lhs_num), Some(rhs_num)));
             }
         }
 
         lhs_num = (lhs_num.0 + 1).into();
+    }
+
+    match end {
+        (Some(_), Some(_)) => {
+            res.push(end);
+        }
+        (Some(lhs_end), None) => {
+            if lhs_end != lhs_start && !opposite_to_lhs.contains_key(&lhs_end) {
+                res.push(end);
+            }
+        }
+        (None, Some(rhs_end)) => {
+            if !opposite_to_rhs.contains_key(&rhs_end) {
+                res.push(end);
+            }
+        }
+        _ => {}
     }
 
     res
@@ -677,18 +700,24 @@ pub fn aligned_lines_from_hunk(
     let aligned_between = match first_novel {
         (Some(lhs_start), _) => {
             // TODO: align based on blank lines too.
-            fill_matched_lines(lhs_start, max_lhs_src_line, hunk_end, opposite_to_lhs)
+            fill_matched_lines(
+                lhs_start,
+                max_lhs_src_line,
+                hunk_end,
+                opposite_to_lhs,
+                opposite_to_rhs,
+            )
         }
         (_, Some(rhs_start)) => flip_tuples(&fill_matched_lines(
             rhs_start,
             max_rhs_src_line,
             flip_tuple(hunk_end),
             opposite_to_rhs,
+            opposite_to_lhs,
         )),
         (None, None) => unreachable!(),
     };
-    res.extend(aligned_between.iter().map(|(x, y)| (Some(*x), Some(*y))));
-    res.push(hunk_end);
+    res.extend(aligned_between);
 
     let after_context = calculate_after_context(
         &res,
