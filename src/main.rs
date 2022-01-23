@@ -203,7 +203,7 @@ fn main() {
             match guess(path, &src) {
                 Some(lang) => {
                     let ts_lang = tsp::from_language(lang);
-                    let (tree, _, _) = tsp::parse_to_tree(&src, &ts_lang);
+                    let (tree, _) = tsp::parse_to_tree(&src, &ts_lang);
                     tsp::print_tree(&src, &tree);
                 }
                 None => {
