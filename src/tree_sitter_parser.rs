@@ -432,25 +432,25 @@ pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> (tree_sitter::Tree
 
     let tree = parser.parse(src, None).unwrap();
 
-    let mut node_keyword_ids = HashSet::new();
 
-    let mut keyword_ish_ids = vec![];
+    let mut keyword_ish_capture_ids = vec![];
     if let Some(idx) = config.highlight_query.capture_index_for_name("keyword") {
-        keyword_ish_ids.push(idx);
+        keyword_ish_capture_ids.push(idx);
     }
     if let Some(idx) = config.highlight_query.capture_index_for_name("operator") {
-        keyword_ish_ids.push(idx);
+        keyword_ish_capture_ids.push(idx);
     }
     if let Some(idx) = config.highlight_query.capture_index_for_name("constant") {
-        keyword_ish_ids.push(idx);
+        keyword_ish_capture_ids.push(idx);
     }
 
     let mut qc = ts::QueryCursor::new();
     let q_matches = qc.matches(&config.highlight_query, tree.root_node(), src.as_bytes());
 
+    let mut node_keyword_ids = HashSet::new();
     for m in q_matches {
         for c in m.captures {
-            if keyword_ish_ids.contains(&c.index) {
+            if keyword_ish_capture_ids.contains(&c.index) {
                 node_keyword_ids.insert(c.node.id());
             }
         }
