@@ -451,18 +451,39 @@ pub fn parse_to_tree(
         string_capture_ids.push(idx);
     }
 
+    let mut type_capture_ids = vec![];
+    if let Some(idx) = config.highlight_query.capture_index_for_name("type") {
+        type_capture_ids.push(idx);
+    }
+    if let Some(idx) = config
+        .highlight_query
+        .capture_index_for_name("type.builtin")
+    {
+        type_capture_ids.push(idx);
+    }
+    if let Some(idx) = config.highlight_query.capture_index_for_name("label") {
+        // Rust uses 'label' for lifetimes, and highglighting
+        // lifetimes consistently with types seems reasonable.
+        type_capture_ids.push(idx);
+    }
+    if let Some(idx) = config.highlight_query.capture_index_for_name("tag") {
+        type_capture_ids.push(idx);
+    }
+
     let mut qc = ts::QueryCursor::new();
     let q_matches = qc.matches(&config.highlight_query, tree.root_node(), src.as_bytes());
 
     let mut keyword_ids = HashSet::new();
     let mut string_ids = HashSet::new();
+    let mut type_ids = HashSet::new();
     for m in q_matches {
         for c in m.captures {
             if keyword_ish_capture_ids.contains(&c.index) {
                 keyword_ids.insert(c.node.id());
-            }
-            if string_capture_ids.contains(&c.index) {
+            } else if string_capture_ids.contains(&c.index) {
                 string_ids.insert(c.node.id());
+            } else if type_capture_ids.contains(&c.index) {
+                type_ids.insert(c.node.id());
             }
         }
     }
@@ -470,6 +491,7 @@ pub fn parse_to_tree(
     let highlights = HighlightedNodeIds {
         keyword_ids,
         string_ids,
+        type_ids,
     };
     (tree, highlights)
 }
@@ -578,6 +600,7 @@ fn find_delim_positions(
 pub struct HighlightedNodeIds {
     keyword_ids: HashSet<usize>,
     string_ids: HashSet<usize>,
+    type_ids: HashSet<usize>,
 }
 
 /// Convert all the tree-sitter nodes at this level to difftastic
@@ -779,6 +802,8 @@ fn atom_from_cursor<'a>(
         AtomKind::Keyword
     } else if highlights.string_ids.contains(&node.id()) {
         AtomKind::String
+    } else if highlights.type_ids.contains(&node.id()) {
+        AtomKind::Type
     } else {
         AtomKind::Normal
     };

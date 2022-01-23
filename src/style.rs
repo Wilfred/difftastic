@@ -203,7 +203,11 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
                     _ => Color::White,
                 },
                 background: None,
-                bold: highlight == TokenKind::Atom(AtomKind::Keyword),
+                bold: match highlight {
+                    TokenKind::Atom(AtomKind::Keyword) => true,
+                    TokenKind::Atom(AtomKind::Type) => true,
+                    _ => false,
+                },
                 dimmed: false,
             },
             MatchKind::Novel { highlight, .. } => Style {

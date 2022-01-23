@@ -6,7 +6,7 @@ Improved performance when all file changes are close together.
 
 ### Display
 
-Added syntax highlighting for unchanged comments.
+Added syntax highlighting for unchanged comments, strings and types.
 
 ## 0.16 (released 22 January 2022)
 

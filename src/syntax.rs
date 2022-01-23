@@ -507,6 +507,7 @@ impl<'a> Hash for Syntax<'a> {
 pub enum AtomKind {
     Normal,
     String,
+    Type,
     Comment,
     Keyword,
 }
