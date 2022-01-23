@@ -12,7 +12,7 @@ use std::{
 
 use crate::{
     context::{
-        add_context, calculate_after_context, calculate_before_context, flip_tuples,
+        add_context, calculate_after_context, calculate_before_context, flip_tuple, flip_tuples,
         opposite_positions,
     },
     lines::LineNumber,
@@ -682,7 +682,7 @@ pub fn aligned_lines_from_hunk(
         (_, Some(rhs_start)) => flip_tuples(&fill_matched_lines(
             rhs_start,
             max_rhs_src_line,
-            hunk_end,
+            flip_tuple(hunk_end),
             opposite_to_rhs,
         )),
         (None, None) => unreachable!(),
@@ -834,6 +834,51 @@ mod tests {
                 (None, Some(1.into())),
                 (Some(1.into()), Some(2.into())),
                 (None, Some(3.into())),
+            ]
+        );
+    }
+
+    /// Regression test for a case where inserting a single line on
+    /// the RHS caused us to repeat lines.
+    #[test]
+    fn test_aligned_lines_hunk_one_line_regression() {
+        let hunk = Hunk {
+            lines: vec![(None, Some(3.into()))],
+        };
+
+        let mut opposite_to_lhs = HashMap::new();
+        opposite_to_lhs.insert(0.into(), HashSet::from_iter([1.into()]));
+        opposite_to_lhs.insert(1.into(), HashSet::from_iter([2.into()]));
+        // No match for line 3 on RHS.
+        opposite_to_lhs.insert(2.into(), HashSet::from_iter([4.into()]));
+
+        let mut opposite_to_rhs = HashMap::new();
+        opposite_to_rhs.insert(1.into(), HashSet::from_iter([0.into()]));
+        opposite_to_lhs.insert(2.into(), HashSet::from_iter([1.into()]));
+        // No match for line 2 on RHS.
+        opposite_to_rhs.insert(4.into(), HashSet::from_iter([2.into()]));
+
+        let res = aligned_lines_from_hunk(
+            &hunk,
+            &opposite_to_lhs,
+            &opposite_to_rhs,
+            2.into(),
+            4.into(),
+        );
+        assert_eq!(
+            res,
+            vec![
+                (None, Some(0.into())),
+                (Some(0.into()), Some(1.into())),
+                (None, Some(2.into())),
+                // Choosing to align RHS 3 despite it not being
+                // present in opposite_to_rhs is an arbitrary choice
+                // due to compact_gaps().
+                //
+                // The only important thing to check here is just that
+                // nodes are monotonically increasing.
+                (Some(1.into()), Some(3.into())),
+                (Some(2.into()), Some(4.into())),
             ]
         );
     }

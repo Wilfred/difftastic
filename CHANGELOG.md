@@ -21,8 +21,8 @@ removed.
 
 Improved display performance when there are a large number of hunks.
 
-Fixed an issue where context lines were printed both before and after
-changed lines.
+Fixed several issues where lines were displayed more than once in a
+hunk.
 
 Fixed an issue where the first changed line was not displayed.
 
