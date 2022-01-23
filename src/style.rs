@@ -198,6 +198,7 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
         let style = match pos.kind {
             MatchKind::Unchanged { highlight, .. } => Style {
                 foreground: match highlight {
+                    TokenKind::Atom(AtomKind::String) => Color::Cyan,
                     TokenKind::Atom(AtomKind::Comment) => Color::Blue,
                     _ => Color::White,
                 },
