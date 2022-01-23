@@ -33,6 +33,9 @@ Improved diffing performance (both time and memory usage).
 Sliders are now fixed up after diffing. This produces better looking
 results in more cases, and makes the primary diffing faster.
 
+Fixed some corner cases in the line parser where it would match up
+isolated newline character as unchanged, leading to weird alignment.
+
 ## 0.15 (released 6 January 2022)
 
 ### Parsing

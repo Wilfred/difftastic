@@ -130,31 +130,35 @@ pub fn change_positions(lhs_src: &str, rhs_src: &str) -> Vec<MatchedPos> {
                 for diff_res in diff::slice(&split_words(&lhs_part), &split_words(&rhs_part)) {
                     match diff_res {
                         diff::Result::Left(lhs_word) => {
-                            let lhs_pos =
-                                lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
-                            res.push(MatchedPos {
-                                // TODO: rename this kind to reflect
-                                // that it's used for both code
-                                // comments and plain text.
-                                kind: MatchKind::ChangedCommentPart {},
-                                pos: lhs_pos[0],
-                            });
+                            if lhs_word != "\n" {
+                                let lhs_pos =
+                                    lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
+                                res.push(MatchedPos {
+                                    // TODO: rename this kind to reflect
+                                    // that it's used for both code
+                                    // comments and plain text.
+                                    kind: MatchKind::ChangedCommentPart {},
+                                    pos: lhs_pos[0],
+                                });
+                            }
 
                             lhs_offset += lhs_word.len();
                         }
                         diff::Result::Both(lhs_word, rhs_word) => {
-                            let lhs_pos =
-                                lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
-                            let rhs_pos =
-                                rhs_nlp.from_offsets(rhs_offset, rhs_offset + rhs_word.len());
+                            if lhs_word != "\n" {
+                                let lhs_pos =
+                                    lhs_nlp.from_offsets(lhs_offset, lhs_offset + lhs_word.len());
+                                let rhs_pos =
+                                    rhs_nlp.from_offsets(rhs_offset, rhs_offset + rhs_word.len());
 
-                            res.push(MatchedPos {
-                                kind: MatchKind::UnchangedCommentPart {
-                                    self_pos: lhs_pos[0],
-                                    opposite_pos: rhs_pos,
-                                },
-                                pos: lhs_pos[0],
-                            });
+                                res.push(MatchedPos {
+                                    kind: MatchKind::UnchangedCommentPart {
+                                        self_pos: lhs_pos[0],
+                                        opposite_pos: rhs_pos,
+                                    },
+                                    pos: lhs_pos[0],
+                                });
+                            }
 
                             lhs_offset += lhs_word.len();
                             rhs_offset += rhs_word.len();
@@ -189,6 +193,22 @@ mod tests {
 
         assert_eq!(positions.len(), 1);
         assert!(!positions[0].kind.is_change());
+    }
+
+    #[test]
+    fn test_no_changes_trailing_newlines() {
+        let positions = change_positions("foo\n", "foo\n");
+
+        assert_eq!(positions.len(), 1);
+        assert!(!positions[0].kind.is_change());
+    }
+
+    #[test]
+    fn test_novel_lhs_trailing_newlines() {
+        let positions = change_positions("foo\n", "");
+
+        assert_eq!(positions.len(), 1);
+        assert!(positions[0].kind.is_change());
     }
 
     #[test]

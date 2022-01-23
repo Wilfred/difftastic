@@ -663,7 +663,7 @@ pub fn aligned_lines_from_hunk(
     max_lhs_src_line: LineNumber,
     max_rhs_src_line: LineNumber,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let hunk_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = hunk.lines.clone();
+    let hunk_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = dbg!(hunk.lines.clone());
 
     // TODO: this largely duplicates add_context().
     let before_context = calculate_before_context(&hunk_lines, opposite_to_lhs, opposite_to_rhs);
