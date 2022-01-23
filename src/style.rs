@@ -57,16 +57,20 @@ fn split_string(s: &str, max_len: usize) -> Vec<String> {
     res
 }
 
+fn highlight_missing_style_bug(s: &str) -> String {
+    s.on_purple().to_string()
+}
+
 pub fn split_and_apply(
     line: &str,
     max_len: usize,
     styles: &[(SingleLineSpan, Style)],
 ) -> Vec<String> {
-    if styles.is_empty() {
-        // Missing styles is a bug, so higlight in purple to make this obvious.
+    if styles.is_empty() && !line.is_empty() {
+        // Missing styles is a bug, so highlight in purple to make this obvious.
         return split_string(line, max_len)
             .into_iter()
-            .map(|part| part.purple().to_string())
+            .map(|part| highlight_missing_style_bug(&part))
             .collect();
     }
 
@@ -123,8 +127,8 @@ pub fn split_and_apply(
 /// Return a copy of `line` with styles applied to all the spans specified.
 /// Dim any parts of the line that have no spans.
 fn apply_line(line: &str, styles: &[(SingleLineSpan, Style)]) -> String {
-    if styles.is_empty() {
-        return line.purple().to_string();
+    if styles.is_empty() && !line.is_empty() {
+        return highlight_missing_style_bug(line);
     }
 
     let mut res = String::with_capacity(line.len());
