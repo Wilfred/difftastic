@@ -12,18 +12,9 @@
 (import alias: (identifier) @module)
 (remote_type_identifier
   module: (identifier) @module)
-
-((function_call
-   function: (field_access
-     record: (identifier) @module
-     field: (label) @function))
- (#is-not? local))
-
-((binary_expression
-   operator: "|>"
-   right: (field_access
-     record: (identifier) @module
-     field: (label) @function))
+((field_access
+  record: (identifier) @module
+  field: (label) @function)
  (#is-not? local))
 
 ; Functions
