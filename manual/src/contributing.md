@@ -101,6 +101,7 @@ instructions executed, which is more stable.
 
 ```
 $ perf stat ./target/release/difft sample_files/slow_before.rs sample_files/slow_after.rs
+$ perf stat ./target/release/difft sample_files/typing_old.ml sample_files/typing_new.ml
 ```
 
 Many more profiling techniques are discussed in the [The Rust
