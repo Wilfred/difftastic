@@ -197,10 +197,13 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
         let line_pos = pos.pos;
         let style = match pos.kind {
             MatchKind::Unchanged { highlight, .. } => Style {
-                foreground: Color::White,
+                foreground: match highlight {
+                    TokenKind::Atom(AtomKind::Comment) => Color::Blue,
+                    _ => Color::White,
+                },
                 background: None,
                 bold: highlight == TokenKind::Atom(AtomKind::Keyword),
-                dimmed: highlight == TokenKind::Atom(AtomKind::Comment),
+                dimmed: false,
             },
             MatchKind::Novel { highlight, .. } => Style {
                 foreground: if is_lhs {
