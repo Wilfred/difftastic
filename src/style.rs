@@ -231,46 +231,7 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
 }
 
 pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
-    let mut styles = vec![];
-    for pos in positions {
-        let line_pos = pos.pos;
-        let style = match pos.kind {
-            MatchKind::Unchanged { highlight, .. } => Style {
-                foreground: Color::White,
-                background: None,
-                bold: highlight == TokenKind::Atom(AtomKind::Keyword),
-                dimmed: highlight == TokenKind::Atom(AtomKind::Comment),
-            },
-            MatchKind::Novel { highlight, .. } => Style {
-                foreground: if is_lhs {
-                    Color::BrightRed
-                } else {
-                    Color::BrightGreen
-                },
-                background: None,
-                bold: highlight == TokenKind::Atom(AtomKind::Keyword),
-                dimmed: false,
-            },
-            MatchKind::ChangedCommentPart { .. } => Style {
-                foreground: if is_lhs {
-                    Color::BrightRed
-                } else {
-                    Color::BrightGreen
-                },
-                background: None,
-                bold: false,
-                dimmed: false,
-            },
-            MatchKind::UnchangedCommentPart { .. } => Style {
-                foreground: if is_lhs { Color::Red } else { Color::Green },
-                background: None,
-                bold: false,
-                dimmed: false,
-            },
-        };
-        styles.push((line_pos, style));
-    }
-
+    let styles = color_positions(is_lhs, positions);
     apply(s, &styles)
 }
 
