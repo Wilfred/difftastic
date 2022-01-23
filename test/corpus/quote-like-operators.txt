@@ -124,16 +124,16 @@ my $subs =~ s/my.STRING/foo/is;
 )
 
 =================================================
-tr// or y// transliteration # TODO revisit
+tr// or y// transliteration
 =================================================
 
-my $subs =~ tr/bar/foo/cs;
+my $subs =~ tr{bar}{foo}cs;
 
 ---
 
 (source_file
-  (variable_declaration 
-    (scope) (single_var_declaration (scalar_variable)) (unary_expression
-      (transliteration_tr_or_y (regex_pattern) (regex_pattern) (regex_option_for_transliteration))) (semi_colon)
+  (variable_declaration
+    (scope) (single_var_declaration (scalar_variable))
+      (unary_expression (transliteration_tr_or_y (start_delimiter) (separator_delimiter) (end_delimiter) (regex_option_for_transliteration))) (semi_colon)
   )
 )

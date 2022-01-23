@@ -13389,27 +13389,25 @@
             "named": true
           }
         ]
-      },
-      "replacement_list": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "regex_pattern",
-            "named": true
-          }
-        ]
-      },
-      "search_list": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "regex_pattern",
-            "named": true
-          }
-        ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "end_delimiter",
+          "named": true
+        },
+        {
+          "type": "separator_delimiter",
+          "named": true
+        },
+        {
+          "type": "start_delimiter",
+          "named": true
+        }
+      ]
     }
   },
   {

@@ -7949,7 +7949,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_search_content"
+                  "name": "_search_replace_content"
                 },
                 {
                   "type": "SYMBOL",
@@ -7981,7 +7981,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_replace_content"
+                  "name": "_search_replace_content"
                 },
                 {
                   "type": "SYMBOL",
@@ -8042,213 +8042,48 @@
             ]
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "{"
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "search_list",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "regex_pattern"
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "}"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "{"
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "replacement_list",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "regex_pattern"
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "}"
-                  }
-                ]
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_start_delimiter_transliteration"
+            },
+            "named": true,
+            "value": "start_delimiter"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_transliteration_content"
+            }
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_separator_delimiter_transliteration"
               },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "/"
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "search_list",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "regex_pattern"
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "/"
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "replacement_list",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "regex_pattern"
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "/"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "("
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "search_list",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "regex_pattern"
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ")"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "("
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "replacement_list",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "regex_pattern"
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": ")"
-                  }
-                ]
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "'"
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "search_list",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "regex_pattern"
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "'"
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "replacement_list",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "regex_pattern"
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "'"
-                  }
-                ]
-              }
-            ]
+              "named": true,
+              "value": "separator_delimiter"
+            }
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_transliteration_content"
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_end_delimiter_transliteration"
+            },
+            "named": true,
+            "value": "end_delimiter"
           },
           {
             "type": "FIELD",
@@ -9609,7 +9444,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_search_content"
+      "name": "_search_replace_content"
     },
     {
       "type": "SYMBOL",
@@ -9617,11 +9452,23 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_replace_content"
+      "name": "_end_delimiter_search_replace"
     },
     {
       "type": "SYMBOL",
-      "name": "_end_delimiter_search_replace"
+      "name": "_start_delimiter_transliteration"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_transliteration_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_separator_delimiter_transliteration"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_end_delimiter_transliteration"
     },
     {
       "type": "SYMBOL",
