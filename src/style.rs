@@ -205,7 +205,11 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
                     Color::BrightGreen
                 },
                 background: None,
-                bold: highlight == TokenKind::Atom(AtomKind::Keyword),
+                bold: match highlight {
+                    TokenKind::Delimiter => true,
+                    TokenKind::Atom(AtomKind::Keyword) => true,
+                    TokenKind::Atom(_) => false,
+                },
                 dimmed: false,
             },
             MatchKind::ChangedCommentPart { .. } => Style {
