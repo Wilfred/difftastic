@@ -220,6 +220,7 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
                 bold: match highlight {
                     TokenKind::Delimiter => true,
                     TokenKind::Atom(AtomKind::Keyword) => true,
+                    TokenKind::Atom(AtomKind::Type) => true,
                     TokenKind::Atom(_) => false,
                 },
                 dimmed: false,
