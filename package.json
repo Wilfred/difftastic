@@ -31,12 +31,14 @@
   },
   "devDependencies": {
     "prettier": "^2.5.1",
-    "tree-sitter-cli": "^0.20.1"
+    "tree-sitter-cli": "^0.20.4"
   },
   "tree-sitter": [
     {
       "scope": "source.gleam",
-      "file-types": ["gleam"],
+      "file-types": [
+        "gleam"
+      ],
       "injection-regex": "^gleam$"
     }
   ]

@@ -41,6 +41,19 @@ pub fn replace(
   //                         ^ variable.parameter
 }
 
+fn record_with_fun_field(record) {
+  let foo = Bar(baz: fn(x) { x + 1 })
+  foo.baz(41)
+  // <- variable
+  //  ^ property
+  record.foobar("hello")
+  // ^ variable.parameter
+  //     ^ property
+  string.replace("hello", "l", "o")
+  // ^ module
+  //     ^ function
+}
+
 fn trial(uri) {
   //      ^ variable.parameter
   case uri {
