@@ -68,8 +68,14 @@ mod tests {
 
         let (lhs_after_skip, rhs_after_skip) = skip_unchanged_at_ends(&lhs_nodes, &rhs_nodes);
 
-        assert_eq!(lhs_nodes[0].change(), Some(ChangeKind::Unchanged(rhs_nodes[0])));
-        assert_eq!(rhs_nodes[0].change(), Some(ChangeKind::Unchanged(lhs_nodes[0])));
+        assert_eq!(
+            lhs_nodes[0].change(),
+            Some(ChangeKind::Unchanged(rhs_nodes[0]))
+        );
+        assert_eq!(
+            rhs_nodes[0].change(),
+            Some(ChangeKind::Unchanged(lhs_nodes[0]))
+        );
 
         assert_eq!(lhs_after_skip.len(), 2);
         assert_eq!(rhs_after_skip.len(), 1);
@@ -86,8 +92,14 @@ mod tests {
 
         let (lhs_after_skip, rhs_after_skip) = skip_unchanged_at_ends(&lhs_nodes, &rhs_nodes);
 
-        assert_eq!(lhs_nodes[2].change(), Some(ChangeKind::Unchanged(rhs_nodes[1])));
-        assert_eq!(rhs_nodes[1].change(), Some(ChangeKind::Unchanged(lhs_nodes[2])));
+        assert_eq!(
+            lhs_nodes[2].change(),
+            Some(ChangeKind::Unchanged(rhs_nodes[1]))
+        );
+        assert_eq!(
+            rhs_nodes[1].change(),
+            Some(ChangeKind::Unchanged(lhs_nodes[2]))
+        );
 
         assert_eq!(lhs_after_skip.len(), 2);
         assert_eq!(rhs_after_skip.len(), 1);
