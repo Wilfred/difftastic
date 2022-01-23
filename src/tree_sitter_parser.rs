@@ -432,7 +432,6 @@ pub fn parse_to_tree(src: &str, config: &TreeSitterConfig) -> (tree_sitter::Tree
 
     let tree = parser.parse(src, None).unwrap();
 
-
     let mut keyword_ish_capture_ids = vec![];
     if let Some(idx) = config.highlight_query.capture_index_for_name("keyword") {
         keyword_ish_capture_ids.push(idx);
