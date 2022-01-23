@@ -135,8 +135,13 @@ fn pad_after(ln: LineNumber, max_line: LineNumber) -> Vec<LineNumber> {
     res
 }
 
+pub fn flip_tuple<Tx: Copy, Ty: Copy>(pair: (Tx, Ty)) -> (Ty, Tx) {
+    let (x, y) = pair;
+    (y, x)
+}
+
 pub fn flip_tuples<Tx: Copy, Ty: Copy>(items: &[(Tx, Ty)]) -> Vec<(Ty, Tx)> {
-    items.iter().map(|(x, y)| (*y, *x)).collect()
+    items.iter().copied().map(flip_tuple).collect()
 }
 
 /// Before:
