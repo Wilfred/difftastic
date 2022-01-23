@@ -24,6 +24,7 @@ mod style;
 mod summary;
 mod syntax;
 mod tree_sitter_parser;
+mod unchanged;
 
 #[macro_use]
 extern crate log;
@@ -48,6 +49,7 @@ use sliders::fix_all_sliders;
 use std::{env, path::Path};
 use summary::DiffResult;
 use typed_arena::Arena;
+use unchanged::skip_unchanged_at_ends;
 use walkdir::WalkDir;
 
 use crate::{
@@ -305,10 +307,15 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
             let rhs = tsp::parse(&arena, &rhs_src, &ts_lang);
 
             init_info(&lhs, &rhs);
-            mark_syntax(lhs.get(0).copied(), rhs.get(0).copied());
 
-            fix_all_sliders(&lhs);
-            fix_all_sliders(&rhs);
+            let (possibly_changed_lhs, possibly_changed_rhs) = skip_unchanged_at_ends(&lhs, &rhs);
+            mark_syntax(
+                possibly_changed_lhs.get(0).copied(),
+                possibly_changed_rhs.get(0).copied(),
+            );
+
+            fix_all_sliders(&possibly_changed_lhs);
+            fix_all_sliders(&possibly_changed_rhs);
 
             let lhs_positions = change_positions(&lhs_src, &rhs_src, &lhs);
             let rhs_positions = change_positions(&rhs_src, &lhs_src, &rhs);
