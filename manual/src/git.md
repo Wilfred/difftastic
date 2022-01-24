@@ -55,3 +55,16 @@ You can then run `git difftool` to see current changes with difftastic.
 ```
 $ git difftool
 ```
+
+We also recommend the following settings to get the best difftool
+experience.
+
+```ini
+# Use a pager for large output, just like other git commands.
+[pager]
+        difftool = true
+
+# `git dft` is less to type than `git difftool`.
+[alias]
+        dft = difftool
+```
