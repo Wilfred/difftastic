@@ -282,6 +282,42 @@ namespace
                 lexer->result_symbol = VIRTUAL_OPEN_SECTION;
                 return true;
             }
+            else if (valid_symbols[BLOCK_COMMENT_CONTENT])
+            {
+                lexer->mark_end(lexer);
+                while (true)
+                {
+                    if (lexer->lookahead == '\0')
+                    {
+                        break;
+                    }
+                    if (lexer->lookahead != '{' && lexer->lookahead != '-')
+                    {
+                        advance(lexer);
+                    }
+                    else if (lexer->lookahead == '-')
+                    {
+                        lexer->mark_end(lexer);
+                        advance(lexer);
+                        if (lexer->lookahead == '}')
+                        {
+                            break;
+                        }
+                    }
+                    else if (scan_block_comment(lexer))
+                    {
+                        lexer->mark_end(lexer);
+                        advance(lexer);
+                        if (lexer->lookahead == '-')
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                lexer->result_symbol = BLOCK_COMMENT_CONTENT;
+                return true;
+            }
             else if (has_newline)
             {
                 // We had a newline now it's time to check if we need to add multiple tokens to get back up to the right level
@@ -378,43 +414,6 @@ namespace
                         advance(lexer);
                     }
                 }
-            }
-
-            if (valid_symbols[BLOCK_COMMENT_CONTENT])
-            {
-                lexer->mark_end(lexer);
-                while (true)
-                {
-                    if (lexer->lookahead == '\0')
-                    {
-                        break;
-                    }
-                    if (lexer->lookahead != '{' && lexer->lookahead != '-')
-                    {
-                        advance(lexer);
-                    }
-                    else if (lexer->lookahead == '-')
-                    {
-                        lexer->mark_end(lexer);
-                        advance(lexer);
-                        if (lexer->lookahead == '}')
-                        {
-                            break;
-                        }
-                    }
-                    else if (scan_block_comment(lexer))
-                    {
-                        lexer->mark_end(lexer);
-                        advance(lexer);
-                        if (lexer->lookahead == '-')
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                lexer->result_symbol = BLOCK_COMMENT_CONTENT;
-                return true;
             }
 
             return false;
