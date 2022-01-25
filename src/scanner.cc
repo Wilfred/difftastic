@@ -121,9 +121,9 @@ namespace
                     {
                         return 2; // Success
                     }
-                    return 1; //Partial
+                    return 1; // Partial
                 }
-                return 1; //Partial
+                return 1; // Partial
             }
             return 0;
         }
