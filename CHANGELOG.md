@@ -8,6 +8,9 @@ Improved performance when all file changes are close together.
 
 Added syntax highlighting for unchanged comments, strings and types.
 
+Fixed a bug (introduced in 0.15) where identical text files were
+reported as binary files.
+
 ## 0.16 (released 22 January 2022)
 
 ### Parsing

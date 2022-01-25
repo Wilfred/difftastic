@@ -292,7 +292,7 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
         return DiffResult {
             path: display_path.into(),
             language: ts_lang.map(|l| l.name.into()),
-            binary: true,
+            binary: false,
             lhs_src: "".into(),
             rhs_src: "".into(),
             lhs_positions: vec![],
@@ -431,5 +431,6 @@ mod tests {
 
         assert_eq!(res.lhs_positions, vec![]);
         assert_eq!(res.rhs_positions, vec![]);
+        assert!(!res.binary);
     }
 }
