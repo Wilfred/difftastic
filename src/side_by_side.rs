@@ -8,9 +8,9 @@ use std::{
 };
 
 use crate::{
-    context::opposite_positions,
-    hunks::{aligned_lines_from_hunk, Hunk},
-    lines::{codepoint_len, format_line_num, LineNumber, MaxLine},
+    context::all_matched_lines_filled,
+    hunks::{matched_lines_for_hunk, Hunk},
+    lines::{codepoint_len, format_line_num, LineNumber},
     positions::SingleLineSpan,
     style::{self, apply_colors, color_positions, split_and_apply, Style},
     syntax::{zip_pad_shorter, MatchedPos},
@@ -246,9 +246,6 @@ pub fn display_hunks(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> String {
-    let opposite_to_lhs = opposite_positions(lhs_mps);
-    let opposite_to_rhs = opposite_positions(rhs_mps);
-
     let lhs_colored_src = apply_colors(lhs_src, true, lhs_mps);
     let rhs_colored_src = apply_colors(rhs_src, false, rhs_mps);
 
@@ -276,18 +273,14 @@ pub fn display_hunks(
     let mut prev_lhs_line_num = None;
     let mut prev_rhs_line_num = None;
 
+    let matched_lines = all_matched_lines_filled(lhs_mps, rhs_mps);
+
     let mut out_lines: Vec<String> = vec![];
 
     for (i, hunk) in hunks.iter().enumerate() {
         out_lines.push(style::header(display_path, i + 1, hunks.len(), lang_name));
 
-        let aligned_lines = aligned_lines_from_hunk(
-            hunk,
-            &opposite_to_lhs,
-            &opposite_to_rhs,
-            lhs_src.max_line(),
-            rhs_src.max_line(),
-        );
+        let aligned_lines = matched_lines_for_hunk(&matched_lines, hunk);
         let no_lhs_changes = hunk.lines.iter().all(|(l, _)| l.is_none());
         let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);

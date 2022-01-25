@@ -5,16 +5,10 @@
 /// If we exceed this, the lines are stored in separate hunks.
 const MAX_DISTANCE: usize = 4;
 
-use std::{
-    collections::{HashMap, HashSet},
-    iter::FromIterator,
-};
+use std::collections::{HashMap, HashSet};
 
 use crate::{
-    context::{
-        add_context, calculate_after_context, calculate_before_context, flip_tuple, flip_tuples,
-        opposite_positions,
-    },
+    context::{add_context, opposite_positions, MAX_PADDING},
     lines::LineNumber,
     syntax::{zip_pad_shorter, MatchedPos},
 };
@@ -491,7 +485,7 @@ pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> V
 /// 3 14
 /// 4 -- (preserve outer gaps)
 /// ```
-fn ensure_contiguous(
+pub fn ensure_contiguous(
     lines: &[(Option<LineNumber>, Option<LineNumber>)],
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
@@ -536,7 +530,7 @@ fn ensure_contiguous(
 /// 12 21
 ///
 /// The returned vec will contain no (None, None) pairs.
-fn compact_gaps(
+pub fn compact_gaps(
     items: Vec<(Option<LineNumber>, Option<LineNumber>)>,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
@@ -590,145 +584,60 @@ fn compact_gaps(
     res
 }
 
-/// Return the smallest item in `item_set` that is greater than `value`.
-///
-/// If `value` is None, just return the smallest value.
-fn first_greater<T: Copy + Ord>(item_set: &HashSet<T>, value: Option<T>) -> Option<T> {
-    let mut items = Vec::from_iter(item_set.iter().copied());
-    items.sort_unstable();
-
-    match value {
-        Some(value) => {
-            for item in items {
-                if item > value {
-                    return Some(item);
-                }
-            }
-
-            None
-        }
-        None => items.first().copied(),
-    }
-}
-
-/// Starting from `lhs_start`, fill in all the lines with known
-/// opposites up to `end`. The resulting vec will include both start
-/// and end, but the intervening values are all Some.
-fn fill_matched_lines(
-    lhs_start: LineNumber,
-    max_lhs_src_line: LineNumber,
-    end: (Option<LineNumber>, Option<LineNumber>),
-    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
+pub fn matched_lines_for_hunk(
+    matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    hunk: &Hunk,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let (lhs_end, rhs_end) = end;
+    // TODO: Use binary search instead.
+    let (hunk_lhs_first, hunk_rhs_first) = hunk.lines.first().expect("Hunks are non-empty");
+    let (hunk_lhs_last, hunk_rhs_last) = hunk.lines.last().expect("Hunks are non-empty");
 
-    let mut lhs_num = lhs_start;
-    let mut rhs_num: Option<LineNumber> = None;
-
-    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
-    if !opposite_to_lhs.contains_key(&lhs_start) {
-        res.push((Some(lhs_start), None));
-    }
-
-    loop {
-        if lhs_num > max_lhs_src_line {
-            break;
-        }
-
-        if let Some(lhs_end) = lhs_end {
-            if lhs_num >= lhs_end {
+    let mut start_i = None;
+    for (i, (lhs_matched_line, rhs_matched_line)) in matched_lines.iter().enumerate() {
+        if let (Some(lhs_matched_line), Some(hunk_lhs_first)) = (lhs_matched_line, hunk_lhs_first) {
+            if lhs_matched_line == hunk_lhs_first {
+                start_i = Some(i);
                 break;
             }
         }
-
-        if let Some(rhs_line_set) = opposite_to_lhs.get(&lhs_num) {
-            rhs_num = first_greater(rhs_line_set, rhs_num);
-
-            if let Some(rhs_num) = rhs_num {
-                if let Some(rhs_end) = rhs_end {
-                    if rhs_num >= rhs_end {
-                        break;
-                    }
-                }
-
-                res.push((Some(lhs_num), Some(rhs_num)));
+        if let (Some(rhs_matched_line), Some(hunk_rhs_first)) = (rhs_matched_line, hunk_rhs_first) {
+            if rhs_matched_line == hunk_rhs_first {
+                start_i = Some(i);
+                break;
             }
         }
-
-        lhs_num = (lhs_num.0 + 1).into();
     }
 
-    match end {
-        (Some(_), Some(_)) => {
-            res.push(end);
-        }
-        (Some(lhs_end), None) => {
-            if lhs_end != lhs_start && !opposite_to_lhs.contains_key(&lhs_end) {
-                res.push(end);
+    let mut end_i = None;
+    for (i, (lhs_matched_line, rhs_matched_line)) in matched_lines.iter().enumerate() {
+        if let (Some(lhs_matched_line), Some(hunk_lhs_last)) = (lhs_matched_line, hunk_lhs_last) {
+            if lhs_matched_line == hunk_lhs_last {
+                end_i = Some(i + 1);
+                break;
             }
         }
-        (None, Some(rhs_end)) => {
-            if !opposite_to_rhs.contains_key(&rhs_end) {
-                res.push(end);
+        if let (Some(rhs_matched_line), Some(hunk_rhs_last)) = (rhs_matched_line, hunk_rhs_last) {
+            if rhs_matched_line == hunk_rhs_last {
+                end_i = Some(i + 1);
+                break;
             }
         }
-        _ => {}
     }
 
-    res
-}
+    let mut start_i = start_i.expect("Hunk lines should be present in matched lines");
+    let mut end_i = end_i.expect("Hunk lines should be present in matched lines");
+    if start_i >= MAX_PADDING {
+        start_i -= MAX_PADDING;
+    } else {
+        start_i = 0;
+    }
+    if end_i + MAX_PADDING < matched_lines.len() {
+        end_i += MAX_PADDING
+    } else {
+        end_i = matched_lines.len();
+    }
 
-pub fn aligned_lines_from_hunk(
-    hunk: &Hunk,
-    opposite_to_lhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    opposite_to_rhs: &HashMap<LineNumber, HashSet<LineNumber>>,
-    max_lhs_src_line: LineNumber,
-    max_rhs_src_line: LineNumber,
-) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
-    let hunk_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = hunk.lines.clone();
-
-    // TODO: this largely duplicates add_context().
-    let before_context = calculate_before_context(&hunk_lines, opposite_to_lhs, opposite_to_rhs);
-
-    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
-    res.extend(&before_context);
-
-    let first_novel = hunk_lines[0];
-    let hunk_end = *hunk_lines.last().expect("Hunk lines should be non-empty");
-
-    let aligned_between = match first_novel {
-        (Some(lhs_start), _) => {
-            // TODO: align based on blank lines too.
-            fill_matched_lines(
-                lhs_start,
-                max_lhs_src_line,
-                hunk_end,
-                opposite_to_lhs,
-                opposite_to_rhs,
-            )
-        }
-        (_, Some(rhs_start)) => flip_tuples(&fill_matched_lines(
-            rhs_start,
-            max_rhs_src_line,
-            flip_tuple(hunk_end),
-            opposite_to_rhs,
-            opposite_to_lhs,
-        )),
-        (None, None) => unreachable!(),
-    };
-    res.extend(aligned_between);
-
-    let after_context = calculate_after_context(
-        &res,
-        opposite_to_lhs,
-        opposite_to_rhs,
-        max_lhs_src_line,
-        max_rhs_src_line,
-    );
-    res.extend(after_context);
-
-    compact_gaps(ensure_contiguous(&res))
+    matched_lines[start_i..end_i].iter().copied().collect()
 }
 
 #[cfg(test)]
@@ -777,139 +686,6 @@ mod tests {
         let res = sorted_novel_positions(&lhs_mps, &[]);
 
         assert_eq!(res, vec![(Side::LHS, novel_mp)]);
-    }
-
-    /// Simulate a simple diff:
-    ///
-    /// ```text
-    /// // Old
-    /// A
-    /// B
-    ///
-    /// // New
-    /// A
-    /// x
-    /// B
-    /// ```
-    #[test]
-    fn test_aligned_lines_from_hunk() {
-        let hunk = Hunk {
-            lines: vec![(None, Some(1.into()))],
-        };
-
-        let mut opposite_to_lhs = HashMap::new();
-        opposite_to_lhs.insert(0.into(), HashSet::from_iter([0.into()]));
-        opposite_to_lhs.insert(1.into(), HashSet::from_iter([2.into()]));
-
-        let mut opposite_to_rhs = HashMap::new();
-        opposite_to_rhs.insert(0.into(), HashSet::from_iter([0.into()]));
-        opposite_to_rhs.insert(2.into(), HashSet::from_iter([1.into()]));
-
-        let res = aligned_lines_from_hunk(
-            &hunk,
-            &opposite_to_lhs,
-            &opposite_to_rhs,
-            1.into(),
-            2.into(),
-        );
-        assert_eq!(
-            res,
-            vec![
-                (Some(0.into()), Some(0.into())),
-                (None, Some(1.into())),
-                (Some(1.into()), Some(2.into()))
-            ]
-        );
-    }
-
-    /// Simulate a simple diff:
-    ///
-    /// ```text
-    /// // Old
-    /// A
-    /// B
-    ///
-    /// // New
-    /// A
-    /// x
-    /// B
-    /// y
-    /// ```
-    #[test]
-    fn test_aligned_lines_trailing_novel() {
-        let hunk = Hunk {
-            lines: vec![(None, Some(1.into())), (None, Some(3.into()))],
-        };
-
-        let mut opposite_to_lhs = HashMap::new();
-        opposite_to_lhs.insert(0.into(), HashSet::from_iter([0.into()]));
-        opposite_to_lhs.insert(1.into(), HashSet::from_iter([2.into()]));
-
-        let mut opposite_to_rhs = HashMap::new();
-        opposite_to_rhs.insert(0.into(), HashSet::from_iter([0.into()]));
-        opposite_to_rhs.insert(2.into(), HashSet::from_iter([1.into()]));
-
-        let res = aligned_lines_from_hunk(
-            &hunk,
-            &opposite_to_lhs,
-            &opposite_to_rhs,
-            1.into(),
-            3.into(),
-        );
-        assert_eq!(
-            res,
-            vec![
-                (Some(0.into()), Some(0.into())),
-                (None, Some(1.into())),
-                (Some(1.into()), Some(2.into())),
-                (None, Some(3.into())),
-            ]
-        );
-    }
-
-    /// Regression test for a case where inserting a single line on
-    /// the RHS caused us to repeat lines.
-    #[test]
-    fn test_aligned_lines_hunk_one_line_regression() {
-        let hunk = Hunk {
-            lines: vec![(None, Some(3.into()))],
-        };
-
-        let mut opposite_to_lhs = HashMap::new();
-        opposite_to_lhs.insert(0.into(), HashSet::from_iter([1.into()]));
-        opposite_to_lhs.insert(1.into(), HashSet::from_iter([2.into()]));
-        // No match for line 3 on RHS.
-        opposite_to_lhs.insert(2.into(), HashSet::from_iter([4.into()]));
-
-        let mut opposite_to_rhs = HashMap::new();
-        opposite_to_rhs.insert(1.into(), HashSet::from_iter([0.into()]));
-        opposite_to_lhs.insert(2.into(), HashSet::from_iter([1.into()]));
-        // No match for line 2 on RHS.
-        opposite_to_rhs.insert(4.into(), HashSet::from_iter([2.into()]));
-
-        let res = aligned_lines_from_hunk(
-            &hunk,
-            &opposite_to_lhs,
-            &opposite_to_rhs,
-            2.into(),
-            4.into(),
-        );
-        assert_eq!(
-            res,
-            vec![
-                (None, Some(0.into())),
-                (Some(0.into()), Some(1.into())),
-                (None, Some(2.into())),
-                // Choosing to align RHS 3 despite it not being
-                // present in opposite_to_rhs is an arbitrary choice
-                // due to compact_gaps().
-                //
-                // The only important thing to check here is just that
-                // nodes are monotonically increasing.
-                (Some(1.into()), Some(3.into())),
-                (Some(2.into()), Some(4.into())),
-            ]
-        );
     }
 
     #[test]

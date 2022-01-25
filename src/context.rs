@@ -3,6 +3,7 @@
 use std::collections::{HashMap, HashSet};
 
 use crate::{
+    hunks::{compact_gaps, ensure_contiguous},
     lines::LineNumber,
     syntax::{zip_repeat_shorter, MatchKind, MatchedPos},
 };
@@ -12,7 +13,111 @@ use crate::{
 ///
 /// We may show fewer lines if the modified lines are at the beginning
 /// or end of the file.
-const MAX_PADDING: usize = 3;
+pub const MAX_PADDING: usize = 3;
+
+pub fn all_matched_lines_filled(
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let matched_lines = all_matched_lines(lhs_mps, rhs_mps);
+
+    compact_gaps(ensure_contiguous(&matched_lines))
+}
+
+fn all_matched_lines(
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let lhs_matched_lines = matched_lines(lhs_mps);
+    let rhs_novel_lines = novel_lines(rhs_mps);
+    merge_in_opposite_lines(&lhs_matched_lines, &rhs_novel_lines)
+}
+
+fn novel_lines(mps: &[MatchedPos]) -> Vec<LineNumber> {
+    let mut lines = HashSet::new();
+    for mp in mps {
+        match mp.kind {
+            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart {} => {
+                lines.insert(mp.pos.line);
+            }
+            MatchKind::Unchanged { .. } | MatchKind::UnchangedCommentPart { .. } => {}
+        }
+    }
+
+    let mut res: Vec<LineNumber> = lines.into_iter().collect();
+    res.sort_unstable();
+    res
+}
+
+fn matched_lines(mps: &[MatchedPos]) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut highest_line = None;
+    let mut highest_opposite_line = None;
+
+    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+    for mp in mps {
+        let opposite_line = match &mp.kind {
+            MatchKind::Unchanged { opposite_pos, .. }
+            | MatchKind::UnchangedCommentPart { opposite_pos, .. } => {
+                if let Some(highest_opposite_side) = highest_opposite_line {
+                    opposite_pos
+                        .iter()
+                        .map(|p| p.line)
+                        .find(|l| *l > highest_opposite_side)
+                } else {
+                    opposite_pos.first().map(|p| p.line)
+                }
+            }
+            MatchKind::Novel { .. } | MatchKind::ChangedCommentPart {} => None,
+        };
+
+        let should_insert = match highest_line {
+            Some(highest_this_side) => mp.pos.line > highest_this_side,
+            None => true,
+        };
+
+        if should_insert {
+            res.push((Some(mp.pos.line), opposite_line));
+
+            highest_line = Some(mp.pos.line);
+            if opposite_line.is_some() {
+                highest_opposite_line = opposite_line;
+            }
+        }
+    }
+
+    res
+}
+
+fn merge_in_opposite_lines(
+    matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    novel_opposite_lines: &[LineNumber],
+) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
+    let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+
+    let mut i = 0;
+    for (line, opposite_line) in matched_lines {
+        if let Some(opposite_line) = opposite_line {
+            while let Some(novel_opposite_line) = novel_opposite_lines.get(i) {
+                if novel_opposite_line < opposite_line {
+                    res.push((None, Some(*novel_opposite_line)));
+                    i += 1;
+                } else if novel_opposite_line == opposite_line {
+                    i += 1;
+                } else {
+                    break;
+                }
+            }
+        }
+        res.push((*line, *opposite_line));
+    }
+
+    while let Some(novel_opposite_line) = novel_opposite_lines.get(i) {
+        res.push((None, Some(*novel_opposite_line)));
+        i += 1;
+    }
+
+    res
+}
 
 // TODO: use FxHashMap here.
 pub fn opposite_positions(mps: &[MatchedPos]) -> HashMap<LineNumber, HashSet<LineNumber>> {
@@ -296,6 +401,8 @@ pub fn add_context(
 mod tests {
     use std::iter::FromIterator;
 
+    use crate::{positions::SingleLineSpan, syntax::TokenKind};
+
     use super::*;
     use pretty_assertions::assert_eq;
 
@@ -311,5 +418,54 @@ mod tests {
 
         let res = calculate_before_context(&lines, &opposite_to_lhs, &opposite_to_rhs);
         assert_eq!(res, vec![(Some(0.into()), Some(0.into()))]);
+    }
+
+    #[test]
+    fn test_matched_lines() {
+        let matched_pos = SingleLineSpan {
+            line: 1.into(),
+            start_col: 2,
+            end_col: 3,
+        };
+        let mps = [
+            MatchedPos {
+                kind: MatchKind::Novel {
+                    highlight: TokenKind::Delimiter,
+                },
+                pos: SingleLineSpan {
+                    line: 0.into(),
+                    start_col: 1,
+                    end_col: 2,
+                },
+            },
+            MatchedPos {
+                kind: MatchKind::Unchanged {
+                    highlight: TokenKind::Delimiter,
+                    self_pos: vec![matched_pos],
+                    opposite_pos: vec![matched_pos],
+                },
+                pos: matched_pos,
+            },
+        ];
+
+        assert_eq!(
+            matched_lines(&mps),
+            vec![(Some(0.into()), None), (Some(1.into()), Some(1.into()))]
+        );
+    }
+
+    #[test]
+    fn test_merge_in_opposite_lines() {
+        let matched_lines = [(Some(1.into()), Some(1.into()))];
+        let novel_lines = [0.into(), 3.into()];
+
+        assert_eq!(
+            merge_in_opposite_lines(&matched_lines, &novel_lines),
+            vec![
+                (None, Some(0.into())),
+                (Some(1.into()), Some(1.into())),
+                (None, Some(3.into()))
+            ]
+        );
     }
 }

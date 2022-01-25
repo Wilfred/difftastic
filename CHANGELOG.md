@@ -2,6 +2,8 @@
 
 ### Display
 
+Fixed display issues where lines were printed more than once.
+
 Subword changes in comments are now shown in bold, to make them more visible.
 
 ## 0.17 (released 25 January 2022)
