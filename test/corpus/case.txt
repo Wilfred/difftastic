@@ -70,6 +70,45 @@ update msg value =
       (line_comment))))
 
 ================================================================================
+Case with one branch and comment on next line
+================================================================================
+
+update msg value =
+  case value of
+    S ->
+      value
+
+-- Debug
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier)
+      (lower_pattern
+        (lower_case_identifier))
+      (lower_pattern
+        (lower_case_identifier)))
+    (eq)
+    (case_of_expr
+      (case)
+      (value_expr
+        (value_qid
+          (lower_case_identifier)))
+      (of)
+      (case_of_branch
+        (pattern
+          (union_pattern
+            (upper_case_qid
+              (upper_case_identifier))))
+        (arrow)
+        (value_expr
+          (value_qid
+            (lower_case_identifier))))))
+  (line_comment))
+
+================================================================================
 Case with two branches
 ================================================================================
 

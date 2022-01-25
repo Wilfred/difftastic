@@ -128,6 +128,79 @@ namespace
             return 0;
         }
 
+        bool checkForVirtualEnd(TSLexer *lexer, const bool *valid_symbols, bool found_in) {
+            // We had a newline now it's time to check if we need to add multiple tokens to get back up to the right level
+            runback.clear();
+
+            while (indent_length <= indent_length_stack.back())
+            {
+                if (indent_length == indent_length_stack.back())
+                {
+                    if (found_in)
+                    {
+                        runback.push_back(1);
+                        found_in = false;
+                        break;
+                    }
+                    // Don't insert VIRTUAL_END_DECL when there is a line comment incoming
+                    if (lexer->lookahead == '-')
+                    {
+                        skip(lexer);
+                        if (lexer->lookahead == '-')
+                        {
+                            break;
+                        }
+                    }
+                    // Don't insert VIRTUAL_END_DECL when there is a block comment incoming
+                    if (lexer->lookahead == '{')
+                    {
+                        skip(lexer);
+                        if (lexer->lookahead == '-')
+                        {
+                            break;
+                        }
+                    }
+                    runback.push_back(0);
+                    break;
+                }
+                else if (indent_length < indent_length_stack.back())
+                {
+                    indent_length_stack.pop_back();
+                    runback.push_back(1);
+                    found_in = false;
+                }
+            }
+
+            // Needed for some of the more weird cases where let is in the same line as everything before the in in the next line
+            if (found_in)
+            {
+                runback.push_back(1);
+                found_in = false;
+            }
+
+            // Our list is the wrong way around, reverse it
+            std::reverse(runback.begin(), runback.end());
+            // Handle the first runback token if we have them, if there are more they will be handled on the next scan operation
+            if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_DECL])
+            {
+                runback.pop_back();
+                lexer->result_symbol = VIRTUAL_END_DECL;
+                return true;
+            }
+            else if (!runback.empty() && runback.back() == 1 && valid_symbols[VIRTUAL_END_SECTION])
+            {
+                runback.pop_back();
+                lexer->result_symbol = VIRTUAL_END_SECTION;
+                return true;
+            }
+            else if (lexer->eof(lexer) && valid_symbols[VIRTUAL_END_SECTION])
+            {
+                lexer->result_symbol = VIRTUAL_END_SECTION;
+                return true;
+            }
+            return false;
+        }
+
         bool scan_block_comment(TSLexer *lexer)
         {
             lexer->mark_end(lexer);
@@ -265,6 +338,12 @@ namespace
 
                         return true;
                     }
+                    // If we're looking at a comment we might have passed a
+                    // VIRTUAL_END_DECL or VIRTUAL_END_SECTION.
+                    if (lexer->lookahead == '-' && has_newline && checkForVirtualEnd(lexer, valid_symbols, found_in))
+                    {
+                        return true;
+                    }
                     return false;
                 }
             }
@@ -318,77 +397,9 @@ namespace
                 lexer->result_symbol = BLOCK_COMMENT_CONTENT;
                 return true;
             }
-            else if (has_newline)
+            else if (has_newline && checkForVirtualEnd(lexer, valid_symbols, found_in))
             {
-                // We had a newline now it's time to check if we need to add multiple tokens to get back up to the right level
-                runback.clear();
-
-                while (indent_length <= indent_length_stack.back())
-                {
-                    if (indent_length == indent_length_stack.back())
-                    {
-                        if (found_in)
-                        {
-                            runback.push_back(1);
-                            found_in = false;
-                            break;
-                        }
-                        // Don't insert VIRTUAL_END_DECL when there is a line comment incoming
-                        if (lexer->lookahead == '-')
-                        {
-                            skip(lexer);
-                            if (lexer->lookahead == '-')
-                            {
-                                break;
-                            }
-                        }
-                        // Don't insert VIRTUAL_END_DECL when there is a block comment incoming
-                        if (lexer->lookahead == '{')
-                        {
-                            skip(lexer);
-                            if (lexer->lookahead == '-')
-                            {
-                                break;
-                            }
-                        }
-                        runback.push_back(0);
-                        break;
-                    }
-                    else if (indent_length < indent_length_stack.back())
-                    {
-                        indent_length_stack.pop_back();
-                        runback.push_back(1);
-                        found_in = false;
-                    }
-                }
-
-                // Needed for some of the more weird cases where let is in the same line as everything before the in in the next line
-                if (found_in)
-                {
-                    runback.push_back(1);
-                    found_in = false;
-                }
-
-                // Our list is the wrong way around, reverse it
-                std::reverse(runback.begin(), runback.end());
-                // Handle the first runback token if we have them, if there are more they will be handled on the next scan operation
-                if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_DECL])
-                {
-                    runback.pop_back();
-                    lexer->result_symbol = VIRTUAL_END_DECL;
-                    return true;
-                }
-                else if (!runback.empty() && runback.back() == 1 && valid_symbols[VIRTUAL_END_SECTION])
-                {
-                    runback.pop_back();
-                    lexer->result_symbol = VIRTUAL_END_SECTION;
-                    return true;
-                }
-                else if (lexer->eof(lexer) && valid_symbols[VIRTUAL_END_SECTION])
-                {
-                    lexer->result_symbol = VIRTUAL_END_SECTION;
-                    return true;
-                }
+                return true;
             }
 
             if (valid_symbols[GLSL_CONTENT])
