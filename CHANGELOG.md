@@ -4,6 +4,9 @@
 
 Improved performance when all file changes are close together.
 
+Fixed a bug where syntax after the last changed item was incorrectly
+marked as added.
+
 ### Display
 
 Added syntax highlighting for unchanged comments, strings and types.

@@ -323,6 +323,12 @@ impl<'a> Syntax<'a> {
 }
 
 /// Initialise all the fields in `SyntaxInfo`.
+pub fn init_all_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
+    init_info(lhs_roots, rhs_roots);
+    init_next_prev(lhs_roots);
+    init_next_prev(rhs_roots);
+}
+
 pub fn init_info<'a>(lhs_roots: &[&'a Syntax<'a>], rhs_roots: &[&'a Syntax<'a>]) {
     let mut id = 0;
     init_info_single(lhs_roots, &mut id);
@@ -392,12 +398,15 @@ fn set_content_id(nodes: &[&Syntax], existing: &mut HashMap<ContentKey, u32>) {
     }
 }
 
-fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u32) {
+pub fn init_next_prev<'a>(roots: &[&'a Syntax<'a>]) {
     set_next(roots, None);
     set_prev(roots, None);
+    set_prev_is_contiguous(roots);
+}
+
+fn init_info_single<'a>(roots: &[&'a Syntax<'a>], next_id: &mut u32) {
     set_parent(roots, None);
     set_num_ancestors(roots, 0);
-    set_prev_is_contiguous(roots);
     set_unique_id(roots, next_id)
 }
 
@@ -832,7 +841,7 @@ mod tests {
 
         let comment = Syntax::new_atom(&arena, pos.clone(), "foo", AtomKind::Comment);
         let atom = Syntax::new_atom(&arena, pos, "foo", AtomKind::Normal);
-        init_info(&[comment], &[atom]);
+        init_all_info(&[comment], &[atom]);
 
         assert_ne!(comment, atom);
     }
@@ -865,7 +874,7 @@ mod tests {
 
         let x = Syntax::new_atom(&arena, pos.clone(), "foo\nbar", AtomKind::Comment);
         let y = Syntax::new_atom(&arena, pos, "foo\n    bar", AtomKind::Comment);
-        init_info(&[x], &[y]);
+        init_all_info(&[x], &[y]);
 
         assert_eq!(x, y);
     }
@@ -899,7 +908,7 @@ mod tests {
             content: "foo".into(),
             kind: AtomKind::Normal,
         };
-        init_info(&[&lhs], &[&rhs]);
+        init_all_info(&[&lhs], &[&rhs]);
 
         assert_eq!(lhs, rhs);
     }

@@ -52,7 +52,7 @@ mod tests {
     use super::*;
     use crate::{
         guess_language,
-        syntax::init_info,
+        syntax::init_all_info,
         tree_sitter_parser::{from_language, parse},
     };
     use typed_arena::Arena;
@@ -64,7 +64,7 @@ mod tests {
 
         let lhs_nodes = parse(&arena, "unchanged A B", &config);
         let rhs_nodes = parse(&arena, "unchanged X", &config);
-        init_info(&lhs_nodes, &rhs_nodes);
+        init_all_info(&lhs_nodes, &rhs_nodes);
 
         let (lhs_after_skip, rhs_after_skip) = skip_unchanged_at_ends(&lhs_nodes, &rhs_nodes);
 
@@ -88,7 +88,7 @@ mod tests {
 
         let lhs_nodes = parse(&arena, "A B unchanged", &config);
         let rhs_nodes = parse(&arena, "X unchanged", &config);
-        init_info(&lhs_nodes, &rhs_nodes);
+        init_all_info(&lhs_nodes, &rhs_nodes);
 
         let (lhs_after_skip, rhs_after_skip) = skip_unchanged_at_ends(&lhs_nodes, &rhs_nodes);
 
