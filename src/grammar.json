@@ -989,7 +989,7 @@
       "type": "STRING",
       "value": "..."
     },
-    "pipe_operator": {
+    "pipe": {
       "type": "PREC_LEFT",
       "value": 1,
       "content": {
@@ -1004,8 +1004,12 @@
             }
           },
           {
-            "type": "STRING",
-            "value": "|>"
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "STRING",
+              "value": "|>"
+            }
           },
           {
             "type": "FIELD",
@@ -1583,7 +1587,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "pipe_operator"
+            "name": "pipe"
           },
           {
             "type": "SYMBOL",

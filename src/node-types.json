@@ -134,7 +134,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -306,7 +306,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -550,7 +550,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -718,7 +718,7 @@
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "pipe",
           "named": true
         },
         {
@@ -899,7 +899,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -1082,7 +1082,7 @@
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "pipe",
           "named": true
         },
         {
@@ -1253,7 +1253,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -1419,7 +1419,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -1591,7 +1591,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -1767,7 +1767,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -1935,7 +1935,7 @@
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "pipe",
           "named": true
         },
         {
@@ -2106,7 +2106,7 @@
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "pipe",
           "named": true
         },
         {
@@ -2296,7 +2296,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -2462,7 +2462,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -2628,7 +2628,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -2800,7 +2800,7 @@
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "pipe",
           "named": true
         },
         {
@@ -2971,7 +2971,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -3137,7 +3137,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -3309,7 +3309,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -3475,7 +3475,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -3700,7 +3700,7 @@
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "pipe",
           "named": true
         },
         {
@@ -3755,7 +3755,7 @@
     }
   },
   {
-    "type": "pipe_operator",
+    "type": "pipe",
     "named": true,
     "fields": {
       "left": {
@@ -3871,7 +3871,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -3921,6 +3921,16 @@
           {
             "type": "while",
             "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "|>",
+            "named": false
           }
         ]
       },
@@ -4049,7 +4059,7 @@
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "pipe",
           "named": true
         },
         {
@@ -4220,7 +4230,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -4392,7 +4402,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -4558,7 +4568,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -4726,7 +4736,7 @@
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "pipe",
           "named": true
         },
         {
@@ -4927,7 +4937,7 @@
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "pipe",
           "named": true
         },
         {
@@ -5098,7 +5108,7 @@
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "pipe",
           "named": true
         },
         {
@@ -5269,7 +5279,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -5435,7 +5445,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -5607,7 +5617,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -5773,7 +5783,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -5955,7 +5965,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -6127,7 +6137,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -6321,7 +6331,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {
@@ -6487,7 +6497,7 @@
             "named": true
           },
           {
-            "type": "pipe_operator",
+            "type": "pipe",
             "named": true
           },
           {

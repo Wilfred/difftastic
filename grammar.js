@@ -245,9 +245,9 @@ module.exports = grammar({
 
     dots: $ => '...',
 
-    pipe_operator: $ => prec.left(PREC.PIPE, seq(
+    pipe: $ => prec.left(PREC.PIPE, seq(
       field('left', $._expression),
-      '|>',
+      field('operator' ,'|>'),
       field('right', $.call)
     )),
 
@@ -316,7 +316,7 @@ module.exports = grammar({
       $.paren_list,
       $.binary,
       $.unary,
-      $.pipe_operator,
+      $.pipe,
       $.subset,
       $.subset2,
       $.dollar,
