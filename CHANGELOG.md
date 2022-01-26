@@ -1,5 +1,9 @@
 ## 0.18 (unreleased)
 
+### Display
+
+Subword changes in comments are now shown in bold, to make them more visible.
+
 ## 0.17 (released 25 January 2022)
 
 ### Diffing
