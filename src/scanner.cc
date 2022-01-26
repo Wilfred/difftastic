@@ -128,7 +128,7 @@ namespace
             return 0;
         }
 
-        bool checkForVirtualEnd(TSLexer *lexer, const bool *valid_symbols, bool found_in) {
+        bool checkForVirtualEnd(TSLexer *lexer, const bool *valid_symbols, bool found_in, bool confirmed_in_comment) {
             // We had a newline now it's time to check if we need to add multiple tokens to get back up to the right level
             runback.clear();
 
@@ -143,6 +143,11 @@ namespace
                         break;
                     }
                     // Don't insert VIRTUAL_END_DECL when there is a line comment incoming
+                    if (confirmed_in_comment)
+                    {
+                        break;
+                    }
+
                     if (lexer->lookahead == '-')
                     {
                         skip(lexer);
@@ -335,7 +340,7 @@ namespace
                     }
                     // If we're looking at a comment we might have passed a
                     // VIRTUAL_END_DECL or VIRTUAL_END_SECTION.
-                    if (lexer->lookahead == '-' && has_newline && checkForVirtualEnd(lexer, valid_symbols, found_in))
+                    if (lexer->lookahead == '-' && has_newline && checkForVirtualEnd(lexer, valid_symbols, found_in, true))
                     {
                         return true;
                     }
@@ -392,7 +397,7 @@ namespace
                 lexer->result_symbol = BLOCK_COMMENT_CONTENT;
                 return true;
             }
-            else if (has_newline && checkForVirtualEnd(lexer, valid_symbols, found_in))
+            else if (has_newline && checkForVirtualEnd(lexer, valid_symbols, found_in, false))
             {
                 return true;
             }
