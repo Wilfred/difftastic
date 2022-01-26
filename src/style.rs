@@ -229,7 +229,7 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
                     Color::BrightGreen
                 },
                 background: None,
-                bold: false,
+                bold: true,
                 dimmed: false,
             },
             MatchKind::UnchangedCommentPart { .. } => Style {
