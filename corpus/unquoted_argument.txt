@@ -102,3 +102,18 @@ message(${var_${var_ref}})
  )
  )
 
+===============================================================
+Lookalike variable inside unquoted argument [unquoted_argument]
+===============================================================
+
+message($var)
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument
+   (unquoted_argument)
+  )
+ )
+)

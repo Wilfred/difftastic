@@ -42,9 +42,11 @@ module.exports = grammar({
     _paren_argument: ($) => seq("(", repeat($._untrimmed_argument), ")"),
 
     quoted_argument: ($) => seq('"', optional($.quoted_element), '"'),
-    quoted_element: ($) => repeat1(choice($.variable_ref, $.gen_exp, /[^\\"]/, $.escape_sequence)),
+    quoted_element: ($) => repeat1(choice($.variable_ref, $.gen_exp, $._quoted_text, $.escape_sequence)),
+    _quoted_text: ($) => prec.left(repeat1(choice('$', /[^\\"]/))),
 
-    unquoted_argument: ($) => prec.right(repeat1(choice($.variable_ref, $.gen_exp, /[^\s()#\"\\]/, $.escape_sequence))),
+    unquoted_argument: ($) => prec.right(repeat1(choice($.variable_ref, $.gen_exp, $._unquoted_text, $.escape_sequence))),
+    _unquoted_text: ($) => prec.left(repeat1(choice('$', /[^()#"\\']/))),
 
     if_command: ($) => command($.if, repeat($._untrimmed_argument)),
     elseif_command: ($) => command($.elseif, repeat($._untrimmed_argument)),

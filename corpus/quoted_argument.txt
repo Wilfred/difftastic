@@ -156,3 +156,21 @@ message("${var_${var}} #comment")
   )
  )
  )
+
+===========================================================
+Lookalike variable inside quoted argument [quoted_argument]
+===========================================================
+
+message("$var")
+
+---
+(source_file
+ (normal_command
+  (identifier)
+  (argument
+   (quoted_argument
+    (quoted_element)
+   )
+  )
+ )
+ )
