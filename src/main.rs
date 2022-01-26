@@ -48,6 +48,7 @@ use clap::{crate_version, App, AppSettings, Arg};
 use sliders::fix_all_sliders;
 use std::{env, path::Path};
 use summary::DiffResult;
+use syntax::init_next_prev;
 use typed_arena::Arena;
 use unchanged::skip_unchanged_at_ends;
 use walkdir::WalkDir;
@@ -57,7 +58,7 @@ use crate::{
     files::{is_probably_binary, read_or_die},
     line_parser as lp,
     lines::MaxLine,
-    syntax::{change_positions, init_info},
+    syntax::{change_positions, init_all_info},
     tree_sitter_parser as tsp,
 };
 
@@ -221,7 +222,7 @@ fn main() {
                     let ts_lang = tsp::from_language(lang);
                     let arena = Arena::new();
                     let ast = tsp::parse(&arena, &src, &ts_lang);
-                    init_info(&ast, &[]);
+                    init_all_info(&ast, &[]);
                     println!("{:#?}", ast);
                 }
                 None => {
@@ -306,9 +307,12 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
             let lhs = tsp::parse(&arena, &lhs_src, &ts_lang);
             let rhs = tsp::parse(&arena, &rhs_src, &ts_lang);
 
-            init_info(&lhs, &rhs);
+            init_all_info(&lhs, &rhs);
 
             let (possibly_changed_lhs, possibly_changed_rhs) = skip_unchanged_at_ends(&lhs, &rhs);
+            init_next_prev(&possibly_changed_lhs);
+            init_next_prev(&possibly_changed_rhs);
+
             mark_syntax(
                 possibly_changed_lhs.get(0).copied(),
                 possibly_changed_rhs.get(0).copied(),

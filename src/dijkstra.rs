@@ -95,7 +95,7 @@ mod tests {
     use crate::{
         graph::Edge::*,
         positions::SingleLineSpan,
-        syntax::{init_info, AtomKind, ChangeKind},
+        syntax::{init_all_info, AtomKind, ChangeKind},
     };
 
     use itertools::Itertools;
@@ -124,7 +124,7 @@ mod tests {
         let lhs = Syntax::new_atom(&arena, pos_helper(0), "foo", AtomKind::Normal);
         // Same content as LHS.
         let rhs = Syntax::new_atom(&arena, pos_helper(0), "foo", AtomKind::Normal);
-        init_info(&[lhs], &[rhs]);
+        init_all_info(&[lhs], &[rhs]);
 
         let start = Vertex {
             lhs_syntax: Some(lhs),
@@ -167,7 +167,7 @@ mod tests {
             "]",
             pos_helper(2),
         )];
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -211,7 +211,7 @@ mod tests {
             "]",
             pos_helper(3),
         )];
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -259,7 +259,7 @@ mod tests {
             "}",
             pos_helper(4),
         )];
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -299,7 +299,7 @@ mod tests {
             "foo",
             AtomKind::Normal,
         )];
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -339,7 +339,7 @@ mod tests {
         )];
 
         let rhs = vec![];
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -379,7 +379,7 @@ mod tests {
         ];
 
         let rhs = vec![];
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -464,7 +464,7 @@ mod tests {
             "]",
             pos_helper(100),
         )];
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -503,7 +503,7 @@ mod tests {
             "the quick brown cat",
             AtomKind::Comment,
         )];
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -537,7 +537,7 @@ mod tests {
             "foo bar",
             AtomKind::Comment,
         )];
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -579,7 +579,7 @@ mod tests {
             "the quick brown fox.",
             AtomKind::Comment,
         )];
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         let start = Vertex {
             lhs_syntax: lhs.get(0).copied(),
@@ -604,7 +604,7 @@ mod tests {
         let arena = Arena::new();
         let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
-        init_info(&[lhs], &[rhs]);
+        init_all_info(&[lhs], &[rhs]);
 
         mark_syntax(Some(lhs), Some(rhs));
         assert_eq!(lhs.change(), Some(ChangeKind::Unchanged(rhs)));
@@ -616,7 +616,7 @@ mod tests {
         let arena = Arena::new();
         let lhs = Syntax::new_atom(&arena, pos_helper(1), "foo", AtomKind::Normal);
         let rhs = Syntax::new_atom(&arena, pos_helper(1), "bar", AtomKind::Normal);
-        init_info(&[lhs], &[rhs]);
+        init_all_info(&[lhs], &[rhs]);
 
         mark_syntax(Some(lhs), Some(rhs));
         assert_eq!(lhs.change(), Some(ChangeKind::Novel));

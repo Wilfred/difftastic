@@ -336,7 +336,7 @@ impl<'a> Syntax<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::syntax::{init_info, AtomKind};
+    use crate::syntax::{init_all_info, AtomKind};
     use pretty_assertions::assert_eq;
     use typed_arena::Arena;
 
@@ -375,7 +375,7 @@ mod tests {
         }];
         let rhs = [Syntax::new_atom(&arena, pos, "a", AtomKind::Comment)];
 
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         lhs[0].set_change(Unchanged(rhs[0]));
         lhs[1].set_change(Novel);
@@ -422,7 +422,7 @@ mod tests {
         }];
         let rhs = [Syntax::new_atom(&arena, pos, "a", AtomKind::Comment)];
 
-        init_info(&lhs, &rhs);
+        init_all_info(&lhs, &rhs);
 
         lhs[0].set_change(Novel);
         lhs[1].set_change(Novel);
