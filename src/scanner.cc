@@ -305,11 +305,6 @@ namespace
                 }
             }
 
-            while (isElmSpace(lexer))
-            {
-                skip(lexer);
-            }
-
             if (checkForIn(lexer, valid_symbols) == 2)
             {
                 if (has_newline)
