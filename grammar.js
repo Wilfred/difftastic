@@ -2,22 +2,23 @@ const PREC = {
   COMMENT: -1,
 
   ASSIGN: 0,
-  TILDE: 1,
-  OR: 2,
-  AND: 3,
-  NOT: 4,
-  REL: 5,
-  PLUS: 6,
-  TIMES: 7,
-  SPECIAL: 8,
-  COLON: 9,
-  NEG: 10,
-  EXP: 11,
-  DOLLAR: 12,
-  NS_GET: 13,
-  CALL: 14,
-  SUBSET: 15,
-  FLOAT: 16
+  PIPE: 1,
+  TILDE: 2,
+  OR: 3,
+  AND: 4,
+  NOT: 5,
+  REL: 6,
+  PLUS: 7,
+  TIMES: 8,
+  SPECIAL: 9,
+  COLON: 10,
+  NEG: 11,
+  EXP: 12,
+  DOLLAR: 13,
+  NS_GET: 14,
+  CALL: 15,
+  SUBSET: 16,
+  FLOAT: 17
 }
 
 newline = '\n',
@@ -244,6 +245,12 @@ module.exports = grammar({
 
     dots: $ => '...',
 
+    pipe_operator: $ => prec.left(PREC.PIPE, seq(
+      field('left', $._expression),
+      '|>',
+      field('right', $.call)
+    )),
+
     unary: $ => {
       const operators = [
         [PREC.NEG, choice('-', '+')],
@@ -265,7 +272,6 @@ module.exports = grammar({
         [prec.left, PREC.REL, choice('<', '>', '<=', '>=', '==', '!=')],
         [prec.left, PREC.OR, choice('||', '|')],
         [prec.left, PREC.AND, choice('&&', '&')],
-        [prec.left, PREC.SPECIAL, '|>'],
         [prec.left, PREC.SPECIAL, $.special],
         [prec.left, PREC.COLON, ':'],
         [prec.left, PREC.TILDE, '~'],
@@ -310,6 +316,7 @@ module.exports = grammar({
       $.paren_list,
       $.binary,
       $.unary,
+      $.pipe_operator,
       $.subset,
       $.subset2,
       $.dollar,

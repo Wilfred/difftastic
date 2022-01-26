@@ -67,8 +67,8 @@ c <- \(fun, ...) fun(...)
        function: (identifier)
        arguments: (arguments value: (dots)))))
 
-  (binary
-    left: (binary
+  (pipe_operator
+    left: (pipe_operator
       left: (binary
         left: (float)
         right: (float))
@@ -267,13 +267,15 @@ x |> {function(x) x}()
 ---
 
 (program
-  (binary
+
+  (pipe_operator
     left: (identifier)
     right: (call
       function: (identifier)))
+
   (binary
-    left: (binary
-      left: (binary
+    left: (pipe_operator
+      left: (pipe_operator
         left: (identifier)
         right: (call
           function: (identifier)))
@@ -281,13 +283,14 @@ x |> {function(x) x}()
         function: (identifier)))
     right: (call
       function: (identifier)))
-  (binary
+
+  (pipe_operator
     left: (identifier)
     right: (call
       function: (brace_list
         (function_definition
           (formal_parameters
-            (identifier))
+           (identifier))
           (identifier))))))
 
 ===========
