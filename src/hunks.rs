@@ -584,7 +584,7 @@ pub fn compact_gaps(
     res
 }
 
-fn either_side_equal(
+pub fn either_side_equal(
     x: &(Option<LineNumber>, Option<LineNumber>),
     y: &(Option<LineNumber>, Option<LineNumber>),
 ) -> bool {
