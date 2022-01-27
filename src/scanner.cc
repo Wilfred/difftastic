@@ -128,84 +128,6 @@ namespace
             return 0;
         }
 
-        bool checkForVirtualEnd(TSLexer *lexer, const bool *valid_symbols, bool found_in, bool confirmed_in_comment) {
-            // We had a newline now it's time to check if we need to add multiple tokens to get back up to the right level
-            runback.clear();
-
-            while (indent_length <= indent_length_stack.back())
-            {
-                if (indent_length == indent_length_stack.back())
-                {
-                    if (found_in)
-                    {
-                        runback.push_back(1);
-                        found_in = false;
-                        break;
-                    }
-                    // Don't insert VIRTUAL_END_DECL when there is a line comment incoming
-                    if (confirmed_in_comment)
-                    {
-                        break;
-                    }
-
-                    if (lexer->lookahead == '-')
-                    {
-                        skip(lexer);
-                        if (lexer->lookahead == '-')
-                        {
-                            break;
-                        }
-                    }
-                    // Don't insert VIRTUAL_END_DECL when there is a block comment incoming
-                    if (lexer->lookahead == '{')
-                    {
-                        skip(lexer);
-                        if (lexer->lookahead == '-')
-                        {
-                            break;
-                        }
-                    }
-                    runback.push_back(0);
-                    break;
-                }
-                else if (indent_length < indent_length_stack.back())
-                {
-                    indent_length_stack.pop_back();
-                    runback.push_back(1);
-                    found_in = false;
-                }
-            }
-
-            // Needed for some of the more weird cases where let is in the same line as everything before the in in the next line
-            if (found_in)
-            {
-                runback.push_back(1);
-                found_in = false;
-            }
-
-            // Our list is the wrong way around, reverse it
-            std::reverse(runback.begin(), runback.end());
-            // Handle the first runback token if we have them, if there are more they will be handled on the next scan operation
-            if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_DECL])
-            {
-                runback.pop_back();
-                lexer->result_symbol = VIRTUAL_END_DECL;
-                return true;
-            }
-            else if (!runback.empty() && runback.back() == 1 && valid_symbols[VIRTUAL_END_SECTION])
-            {
-                runback.pop_back();
-                lexer->result_symbol = VIRTUAL_END_SECTION;
-                return true;
-            }
-            else if (lexer->eof(lexer) && valid_symbols[VIRTUAL_END_SECTION])
-            {
-                lexer->result_symbol = VIRTUAL_END_SECTION;
-                return true;
-            }
-            return false;
-        }
-
         bool scan_block_comment(TSLexer *lexer)
         {
             lexer->mark_end(lexer);
@@ -241,6 +163,21 @@ namespace
             }
         }
 
+        void advance_to_line_end(TSLexer *lexer)
+        {
+            while(true)
+            {
+                if (lexer->lookahead == '\n') {
+                    break;
+                }
+                else if (lexer->eof(lexer)) {
+                    break;
+                } else {
+                    advance(lexer);
+                }
+            }
+        }
+
         bool scan(TSLexer *lexer, const bool *valid_symbols)
         {
             // First handle eventual runback tokens, we saved on a previous scan op
@@ -261,6 +198,7 @@ namespace
             // Check if we have newlines and how much indentation
             bool has_newline = false;
             bool found_in = false;
+            bool can_call_mark_end = true;
             lexer->mark_end(lexer);
             while (true)
             {
@@ -283,6 +221,53 @@ namespace
                             indent_length = lexer->get_column(lexer);
                             break;
                         }
+                    }
+                }
+                else if (!valid_symbols[BLOCK_COMMENT_CONTENT] && lexer->lookahead == '-')
+                {
+
+                    advance(lexer);
+                    auto lookahead = lexer->lookahead;
+
+                    // Handle minus without a whitespace for negate
+                    if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE]
+                        && ((lookahead >= 'a' && lookahead <= 'z')
+                            || (lookahead >= 'A' && lookahead <= 'Z')
+                            || lookahead == '('))
+                    {
+                        if (can_call_mark_end)
+                        {
+                            lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
+                            lexer->mark_end(lexer);
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                    // Scan past line comments. As far as the special token
+                    // types we're scanning for here are concerned line comments
+                    // are like whitespace. There is nothing useful to be
+                    // learned from, say, their indentation. So we advance past
+                    // them here.
+                    //
+                    // The one thing we need to keep in mind is that we should
+                    // not call `lexer->mark_end(lexer)` after this point, or
+                    // the comment will be lost.
+                    else if (lookahead == '-' && has_newline)
+                    {
+                        can_call_mark_end = false;
+                        advance(lexer);
+                        advance_to_line_end(lexer);
+                    }
+                    else if (valid_symbols[BLOCK_COMMENT_CONTENT] && lexer->lookahead == '}')
+                    {
+                        lexer->result_symbol = BLOCK_COMMENT_CONTENT;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
                 else if (lexer->lookahead == '\r')
@@ -324,45 +309,19 @@ namespace
                 }
             }
 
-            // Handle minus without a whitespace for negate
-            if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE])
-            {
-                if (lexer->lookahead == '-')
-                {
-                    advance(lexer);
-                    auto lookahead = lexer->lookahead;
-                    if ((lookahead >= 'a' && lookahead <= 'z') || (lookahead >= 'A' && lookahead <= 'Z') || lookahead == '(')
-                    {
-                        lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
-                        lexer->mark_end(lexer);
-
-                        return true;
-                    }
-                    // If we're looking at a comment we might have passed a
-                    // VIRTUAL_END_DECL or VIRTUAL_END_SECTION.
-                    if (lexer->lookahead == '-' && has_newline && checkForVirtualEnd(lexer, valid_symbols, found_in, true))
-                    {
-                        return true;
-                    }
-                    return false;
-                }
-            }
-
             // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
             if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer))
             {
-                // If there is a comment, don't proceed, we don't
-                // need to check more as case branches/let variables can't start with a `-`
-                if (lexer->lookahead == '-')
-                {
-                    return false;
-                }
                 indent_length_stack.push_back(lexer->get_column(lexer));
                 lexer->result_symbol = VIRTUAL_OPEN_SECTION;
                 return true;
             }
             else if (valid_symbols[BLOCK_COMMENT_CONTENT])
             {
+                if (!can_call_mark_end)
+                {
+                    return false;
+                }
                 lexer->mark_end(lexer);
                 while (true)
                 {
@@ -397,13 +356,86 @@ namespace
                 lexer->result_symbol = BLOCK_COMMENT_CONTENT;
                 return true;
             }
-            else if (has_newline && checkForVirtualEnd(lexer, valid_symbols, found_in, false))
+            else if (has_newline)
             {
-                return true;
+                // We had a newline now it's time to check if we need to add multiple tokens to get back up to the right level
+                runback.clear();
+
+                while (indent_length <= indent_length_stack.back())
+                {
+                    if (indent_length == indent_length_stack.back())
+                    {
+                        if (found_in)
+                        {
+                            runback.push_back(1);
+                            found_in = false;
+                            break;
+                        }
+                        // Don't insert VIRTUAL_END_DECL when there is a line comment incoming
+
+                        if (lexer->lookahead == '-')
+                        {
+                            skip(lexer);
+                            if (lexer->lookahead == '-')
+                            {
+                                break;
+                            }
+                        }
+                        // Don't insert VIRTUAL_END_DECL when there is a block comment incoming
+                        if (lexer->lookahead == '{')
+                        {
+                            skip(lexer);
+                            if (lexer->lookahead == '-')
+                            {
+                                break;
+                            }
+                        }
+                        runback.push_back(0);
+                        break;
+                    }
+                    else if (indent_length < indent_length_stack.back())
+                    {
+                        indent_length_stack.pop_back();
+                        runback.push_back(1);
+                        found_in = false;
+                    }
+                }
+
+                // Needed for some of the more weird cases where let is in the same line as everything before the in in the next line
+                if (found_in)
+                {
+                    runback.push_back(1);
+                    found_in = false;
+                }
+
+                // Our list is the wrong way around, reverse it
+                std::reverse(runback.begin(), runback.end());
+                // Handle the first runback token if we have them, if there are more they will be handled on the next scan operation
+                if (!runback.empty() && runback.back() == 0 && valid_symbols[VIRTUAL_END_DECL])
+                {
+                    runback.pop_back();
+                    lexer->result_symbol = VIRTUAL_END_DECL;
+                    return true;
+                }
+                else if (!runback.empty() && runback.back() == 1 && valid_symbols[VIRTUAL_END_SECTION])
+                {
+                    runback.pop_back();
+                    lexer->result_symbol = VIRTUAL_END_SECTION;
+                    return true;
+                }
+                else if (lexer->eof(lexer) && valid_symbols[VIRTUAL_END_SECTION])
+                {
+                    lexer->result_symbol = VIRTUAL_END_SECTION;
+                    return true;
+                }
             }
 
             if (valid_symbols[GLSL_CONTENT])
             {
+                if (!can_call_mark_end)
+                {
+                    return false;
+                }
                 lexer->result_symbol = GLSL_CONTENT;
                 while (true)
                 {
