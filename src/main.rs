@@ -396,8 +396,6 @@ fn print_diff_result(summary: &DiffResult) {
     }
 
     if env::var("INLINE").is_ok() {
-        println!("{}", style::header(&summary.path, 1, 1, &lang_name));
-
         println!(
             "{}",
             inline::display(
@@ -405,7 +403,9 @@ fn print_diff_result(summary: &DiffResult) {
                 &summary.rhs_src,
                 &summary.lhs_positions,
                 &summary.rhs_positions,
-                &hunks
+                &hunks,
+                &summary.path,
+                &lang_name,
             )
         );
     } else {

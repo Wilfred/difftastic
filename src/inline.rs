@@ -4,7 +4,7 @@ use crate::{
     context::{calculate_after_context, calculate_before_context, opposite_positions},
     hunks::Hunk,
     lines::{format_line_num, MaxLine},
-    style::apply_colors,
+    style::{self, apply_colors},
     syntax::MatchedPos,
 };
 use colored::*;
@@ -15,6 +15,8 @@ pub fn display(
     lhs_positions: &[MatchedPos],
     rhs_positions: &[MatchedPos],
     hunks: &[Hunk],
+    display_path: &str,
+    lang_name: &str,
 ) -> String {
     let lhs_colored = apply_colors(lhs_src, true, lhs_positions);
     let rhs_colored = apply_colors(rhs_src, false, rhs_positions);
@@ -27,7 +29,10 @@ pub fn display(
     let opposite_to_lhs = opposite_positions(lhs_positions);
     let opposite_to_rhs = opposite_positions(rhs_positions);
 
-    for hunk in hunks {
+    for (i, hunk) in hunks.iter().enumerate() {
+        res.push_str(&style::header(display_path, i + 1, hunks.len(), lang_name));
+        res.push('\n');
+
         let hunk_lines = hunk.lines.clone();
 
         let before_lines =
