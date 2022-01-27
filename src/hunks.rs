@@ -584,43 +584,47 @@ pub fn compact_gaps(
     res
 }
 
+fn either_side_equal(
+    x: &(Option<LineNumber>, Option<LineNumber>),
+    y: &(Option<LineNumber>, Option<LineNumber>),
+) -> bool {
+    let (lhs_x, rhs_x) = x;
+    let (lhs_y, rhs_y) = y;
+    if let (Some(lhs_x), Some(lhs_y)) = (lhs_x, lhs_y) {
+        if lhs_x == lhs_y {
+            return true;
+        }
+    }
+    if let (Some(rhs_x), Some(rhs_y)) = (rhs_x, rhs_y) {
+        if rhs_x == rhs_y {
+            return true;
+        }
+    }
+
+    false
+}
+
 pub fn matched_lines_for_hunk(
     matched_lines: &[(Option<LineNumber>, Option<LineNumber>)],
     hunk: &Hunk,
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     // TODO: Use binary search instead.
-    let (hunk_lhs_first, hunk_rhs_first) = hunk.lines.first().expect("Hunks are non-empty");
-    let (hunk_lhs_last, hunk_rhs_last) = hunk.lines.last().expect("Hunks are non-empty");
+    let hunk_first = hunk.lines.first().expect("Hunks are non-empty");
+    let hunk_last = hunk.lines.last().expect("Hunks are non-empty");
 
     let mut start_i = None;
-    for (i, (lhs_matched_line, rhs_matched_line)) in matched_lines.iter().enumerate() {
-        if let (Some(lhs_matched_line), Some(hunk_lhs_first)) = (lhs_matched_line, hunk_lhs_first) {
-            if lhs_matched_line == hunk_lhs_first {
-                start_i = Some(i);
-                break;
-            }
-        }
-        if let (Some(rhs_matched_line), Some(hunk_rhs_first)) = (rhs_matched_line, hunk_rhs_first) {
-            if rhs_matched_line == hunk_rhs_first {
-                start_i = Some(i);
-                break;
-            }
+    for (i, matched_line) in matched_lines.iter().enumerate() {
+        if either_side_equal(matched_line, hunk_first) {
+            start_i = Some(i);
+            break;
         }
     }
 
     let mut end_i = None;
-    for (i, (lhs_matched_line, rhs_matched_line)) in matched_lines.iter().enumerate() {
-        if let (Some(lhs_matched_line), Some(hunk_lhs_last)) = (lhs_matched_line, hunk_lhs_last) {
-            if lhs_matched_line == hunk_lhs_last {
-                end_i = Some(i + 1);
-                break;
-            }
-        }
-        if let (Some(rhs_matched_line), Some(hunk_rhs_last)) = (rhs_matched_line, hunk_rhs_last) {
-            if rhs_matched_line == hunk_rhs_last {
-                end_i = Some(i + 1);
-                break;
-            }
+    for (i, matched_line) in matched_lines.iter().enumerate() {
+        if either_side_equal(matched_line, hunk_last) {
+            end_i = Some(i + 1);
+            break;
         }
     }
 
