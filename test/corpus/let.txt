@@ -322,6 +322,47 @@ isUpper =
           (lower_case_identifier))))))
 
 ================================================================================
+let with two variables separated by unindented comment
+================================================================================
+
+isUpper =
+  let
+    five =
+      5
+
+  -- comment
+
+    six =
+      6
+  in
+    abcd
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (line_comment)
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
 let with two variables and case
 ================================================================================
 
