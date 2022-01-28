@@ -10,10 +10,10 @@
   "author": "Max Brunsfeld",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.0"
+    "nan": "^2.15.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.19.3"
+    "tree-sitter-cli": "^0.20.1"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
