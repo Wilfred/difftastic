@@ -4,8 +4,8 @@
 
 enum TokenType {
   BLOCK_COMMENT_START,
+  BLOCK_COMMENT_CONTENT,
   BLOCK_COMMENT_END,
-  COMMENT_CONTENT,
 
   STRING_START,
   STRING_CONTENT,
@@ -129,7 +129,7 @@ static bool scan_comment_start(TSLexer *lexer) {
 static bool scan_comment_content(TSLexer *lexer) {
   if (ending_char == 0) { // block comment
     if (scan_block_content(lexer)) {
-      lexer->result_symbol = COMMENT_CONTENT;
+      lexer->result_symbol = BLOCK_COMMENT_CONTENT;
       return true;
     }
 
@@ -139,7 +139,7 @@ static bool scan_comment_content(TSLexer *lexer) {
   while (lexer->lookahead != 0) {
     if (lexer->lookahead == ending_char) {
       reset_state();
-      lexer->result_symbol = COMMENT_CONTENT;
+      lexer->result_symbol = BLOCK_COMMENT_CONTENT;
       return true;
     }
 
@@ -218,7 +218,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
       return true;
     }
 
-    if (valid_symbols[COMMENT_CONTENT] && scan_comment_content(lexer)) {
+    if (valid_symbols[BLOCK_COMMENT_CONTENT] && scan_comment_content(lexer)) {
       return true;
     }
 

@@ -2756,7 +2756,7 @@
                     "type": "ALIAS",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "_comment_content"
+                      "name": "_block_comment_content"
                     },
                     "named": false,
                     "value": "comment_content"
@@ -2804,11 +2804,11 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_block_comment_end"
+      "name": "_block_comment_content"
     },
     {
       "type": "SYMBOL",
-      "name": "_comment_content"
+      "name": "_block_comment_end"
     },
     {
       "type": "SYMBOL",

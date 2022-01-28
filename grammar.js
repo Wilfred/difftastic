@@ -30,8 +30,8 @@ module.exports = grammar({
 
   externals: ($) => [
     $._block_comment_start,
+    $._block_comment_content,
     $._block_comment_end,
-    $._comment_content,
 
     $._string_start,
     $._string_content,
@@ -495,7 +495,7 @@ module.exports = grammar({
           field('start', alias($._block_comment_start, 'comment_start')),
           field(
             'content',
-            optional(alias($._comment_content, 'comment_content'))
+            optional(alias($._block_comment_content, 'comment_content'))
           ),
           field('end', alias($._block_comment_end, 'comment_end'))
         )
