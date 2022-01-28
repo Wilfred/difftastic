@@ -238,7 +238,7 @@ module.exports = grammar(clojure, {
 
         _for_part: $ => seq(repeat($._gap), $.for_clause_word, repeat($._gap), $._form),
 
-        accumulation_verb: _ => loopSymbol(/((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?|maximizing|minimizing)/),
+        accumulation_verb: _ => loopSymbol(/(maximize|minimize|(collect|append|nconc|count)(ing)?|sum(ming)?|maximizing|minimizing)/),
         for_clause: $ => choice(seq(choice(loopSymbol('for'), loopSymbol('and'), loopSymbol('as')), repeat($._gap), field('variable', $._form), optional(field('type', seq(repeat($._gap), $._form))),
             repeat1($._for_part)), loopSymbol('and')),
         with_clause: $ => seq(loopSymbol('with'), repeat($._gap), choice($._form, seq($._form, repeat($._gap), field('type', $._form))), repeat($._gap), optSeq(loopSymbol("="), repeat($._gap)), optSeq($._form, repeat($._gap))),
