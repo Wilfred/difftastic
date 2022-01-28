@@ -17,6 +17,6 @@
     "url": "git://github.com/theHamsta/tree-sitter-common-lisp.git"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.1"
+    "tree-sitter-cli": "^0.20.4"
   }
 }
