@@ -68,7 +68,13 @@ extern "C" {
 }
 
 // TODO: begin/end and object/end.
-const OCAML_ATOM_NODES: [&str; 4] = ["character", "string", "tag", "type_variable"];
+const OCAML_ATOM_NODES: [&str; 5] = [
+    "character",
+    "string",
+    "tag",
+    "type_variable",
+    "attribute_id",
+];
 
 pub fn from_language(language: guess::Language) -> TreeSitterConfig {
     use guess::Language::*;
