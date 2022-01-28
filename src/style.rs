@@ -212,11 +212,7 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
                 dimmed: false,
             },
             MatchKind::Novel { highlight, .. } => Style {
-                foreground: Some(if is_lhs {
-                    Color::BrightRed
-                } else {
-                    Color::BrightGreen
-                }),
+                foreground: Some(if is_lhs { Color::Red } else { Color::Green }),
                 background: None,
                 bold: match highlight {
                     TokenKind::Delimiter => true,
@@ -227,11 +223,7 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
                 dimmed: false,
             },
             MatchKind::ChangedCommentPart { .. } => Style {
-                foreground: Some(if is_lhs {
-                    Color::BrightRed
-                } else {
-                    Color::BrightGreen
-                }),
+                foreground: Some(if is_lhs { Color::Red } else { Color::Green }),
                 background: None,
                 bold: true,
                 dimmed: false,
