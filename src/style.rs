@@ -13,7 +13,7 @@ use std::{
 
 #[derive(Clone, Copy, Debug)]
 pub struct Style {
-    foreground: Color,
+    foreground: Option<Color>,
     background: Option<Color>,
     bold: bool,
     dimmed: bool,
@@ -21,7 +21,11 @@ pub struct Style {
 
 impl Style {
     fn apply(&self, s: &str) -> String {
-        let mut res = s.color(self.foreground);
+        let mut res = if let Some(foreground) = self.foreground {
+            s.color(foreground)
+        } else {
+            s.normal()
+        };
         if self.bold {
             res = res.bold();
         }
@@ -195,9 +199,9 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
         let style = match pos.kind {
             MatchKind::Unchanged { highlight, .. } => Style {
                 foreground: match highlight {
-                    TokenKind::Atom(AtomKind::String) => Color::Magenta,
-                    TokenKind::Atom(AtomKind::Comment) => Color::Cyan,
-                    _ => Color::White,
+                    TokenKind::Atom(AtomKind::String) => Some(Color::Magenta),
+                    TokenKind::Atom(AtomKind::Comment) => Some(Color::Cyan),
+                    _ => None,
                 },
                 background: None,
                 bold: match highlight {
@@ -208,11 +212,11 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
                 dimmed: false,
             },
             MatchKind::Novel { highlight, .. } => Style {
-                foreground: if is_lhs {
+                foreground: Some(if is_lhs {
                     Color::BrightRed
                 } else {
                     Color::BrightGreen
-                },
+                }),
                 background: None,
                 bold: match highlight {
                     TokenKind::Delimiter => true,
@@ -223,17 +227,17 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
                 dimmed: false,
             },
             MatchKind::ChangedCommentPart { .. } => Style {
-                foreground: if is_lhs {
+                foreground: Some(if is_lhs {
                     Color::BrightRed
                 } else {
                     Color::BrightGreen
-                },
+                }),
                 background: None,
                 bold: true,
                 dimmed: false,
             },
             MatchKind::UnchangedCommentPart { .. } => Style {
-                foreground: if is_lhs { Color::Red } else { Color::Green },
+                foreground: Some(if is_lhs { Color::Red } else { Color::Green }),
                 background: None,
                 bold: false,
                 dimmed: false,

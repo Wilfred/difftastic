@@ -10,7 +10,10 @@ Fixed an issue with parsing character literals in Common Lisp.
 
 Fixed display issues where lines were printed more than once.
 
-Subword changes in comments are now shown in bold, to make them more visible.
+Subword changes in comments are now shown in bold, to make them more
+visible.
+
+Improved colours on terminals with light coloured backgrounds.
 
 ## 0.17 (released 25 January 2022)
 
