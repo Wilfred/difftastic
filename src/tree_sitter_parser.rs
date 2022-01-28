@@ -149,7 +149,7 @@ pub fn from_language(language: guess::Language) -> TreeSitterConfig {
             TreeSitterConfig {
                 name: "Common Lisp",
                 language: unsafe { tree_sitter_commonlisp() },
-                atom_nodes: (vec!["str_lit"]).into_iter().collect(),
+                atom_nodes: (vec!["str_lit", "char_lit"]).into_iter().collect(),
                 delimiter_tokens: (vec![("(", ")")]),
                 highlight_query: ts::Query::new(language, "").unwrap(),
             }
