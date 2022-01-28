@@ -90,7 +90,7 @@ fn display_line_nums(
         Some(line_num) => {
             let s = format_line_num_padded(line_num, widths.lhs_line_nums);
             if lhs_has_novel {
-                s.bright_red().to_string()
+                s.red().bold().to_string()
             } else {
                 s
             }
@@ -104,7 +104,7 @@ fn display_line_nums(
         Some(line_num) => {
             let s = format_line_num_padded(line_num, widths.rhs_line_nums);
             if rhs_has_novel {
-                s.bright_green().to_string()
+                s.green().bold().to_string()
             } else {
                 s
             }
@@ -250,15 +250,10 @@ pub fn display_hunks(
     let rhs_colored_src = apply_colors(rhs_src, false, rhs_mps);
 
     if lhs_src.is_empty() {
-        return display_single_column(
-            display_path,
-            lang_name,
-            &rhs_colored_src,
-            Color::BrightGreen,
-        );
+        return display_single_column(display_path, lang_name, &rhs_colored_src, Color::Green);
     }
     if rhs_src.is_empty() {
-        return display_single_column(display_path, lang_name, &lhs_colored_src, Color::BrightRed);
+        return display_single_column(display_path, lang_name, &lhs_colored_src, Color::Red);
     }
 
     // TODO: this is largely duplicating the `apply_colors` logic.
@@ -381,7 +376,7 @@ pub fn display_hunks(
                         );
                         if let Some(line_num) = lhs_line_num {
                             if lhs_lines_with_novel.contains(&line_num) {
-                                s = s.bright_red().to_string()
+                                s = s.red().bold().to_string()
                             }
                         }
                         s
@@ -396,7 +391,7 @@ pub fn display_hunks(
                         );
                         if let Some(line_num) = rhs_line_num {
                             if rhs_lines_with_novel.contains(&line_num) {
-                                s = s.bright_green().to_string();
+                                s = s.green().bold().to_string();
                             }
                         }
                         s

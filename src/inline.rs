@@ -59,7 +59,7 @@ pub fn display(
 
         for (lhs_line, _) in &hunk_lines {
             if let Some(lhs_line) = lhs_line {
-                res.push_str(&format_line_num(*lhs_line).bright_red().to_string());
+                res.push_str(&format_line_num(*lhs_line).red().bold().to_string());
                 res.push_str("   ");
                 res.push_str(lhs_lines[lhs_line.0]);
             } else {
@@ -70,7 +70,7 @@ pub fn display(
         for (_, rhs_line) in &hunk_lines {
             if let Some(rhs_line) = rhs_line {
                 res.push_str("   ");
-                res.push_str(&format_line_num(*rhs_line).bright_green().to_string());
+                res.push_str(&format_line_num(*rhs_line).green().bold().to_string());
                 res.push_str(rhs_lines[rhs_line.0]);
             } else {
                 continue;
