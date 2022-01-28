@@ -84,6 +84,7 @@ module.exports = grammar({
     $._primary,
     $._simple_numeric,
     $._lhs,
+    $._nonlocal_variable,
     $._pattern_top_expr_body,
     $._pattern_expr,
     $._pattern_expr_basic,
@@ -231,7 +232,7 @@ module.exports = grammar({
     hash_splat_nil: $ => seq('**', 'nil'),
     block_parameter: $ => seq(
       '&',
-      field('name', $.identifier)
+      field('name', optional($.identifier))
     ),
     keyword_parameter: $ => prec.right(PREC.BITWISE_OR + 1, seq(
       field('name', $.identifier),
@@ -459,6 +460,7 @@ module.exports = grammar({
 
     _pattern_expr_basic: $ => choice(
       $._pattern_value,
+      $.identifier,
       $.array_pattern,
       $.find_pattern,
       $.hash_pattern,
@@ -470,8 +472,8 @@ module.exports = grammar({
     _pattern_value: $ => choice(
       $._pattern_primitive,
       alias($._pattern_range, $.range),
-      $.identifier,
       $.variable_reference_pattern,
+      $.expression_reference_pattern,
       $._pattern_constant
     ),
 
@@ -516,7 +518,9 @@ module.exports = grammar({
     file: $ => '__FILE__',
     encoding: $ => '__ENCODING__',
 
-    variable_reference_pattern: $ => seq('^', field('name', $.identifier)),
+    variable_reference_pattern: $ => seq('^', field('name', choice($.identifier, $._nonlocal_variable))),
+
+    expression_reference_pattern: $ => seq('^', '(', field('value', $._expression), ')'),
 
     _pattern_constant: $ => choice(
       $.constant,
@@ -771,7 +775,7 @@ module.exports = grammar({
     forward_argument: $ => '...',
     splat_argument: $ => seq(alias($._splat_star, '*'), $._arg),
     hash_splat_argument: $ => seq(alias($._hash_splat_star_star, '**'), $._arg),
-    block_argument: $ => seq(alias($._block_ampersand, '&'), $._arg),
+    block_argument: $ => prec.right(seq(alias($._block_ampersand, '&'), optional($._arg))),
 
     do_block: $ => seq(
       'do',
@@ -950,9 +954,7 @@ module.exports = grammar({
     _variable: $ => prec.right(choice(
       $.self,
       $.super,
-      $.instance_variable,
-      $.class_variable,
-      $.global_variable,
+      $._nonlocal_variable,
       $.identifier,
       $.constant
     )),
@@ -969,10 +971,15 @@ module.exports = grammar({
       $.simple_symbol,
       $.delimited_symbol,
       $.operator,
+      $._nonlocal_variable
+    ),
+
+    _nonlocal_variable: $ => choice(
       $.instance_variable,
       $.class_variable,
       $.global_variable
     ),
+
     setter: $ => seq(field('name', $.identifier), token.immediate('=')),
 
     undef: $ => seq('undef', commaSep1($._method_name)),
@@ -1105,7 +1112,7 @@ module.exports = grammar({
       '}'
     ),
 
-    pair: $ => choice(
+    pair: $ => prec.right(choice(
       seq(
         field('key', $._arg),
         '=>',
@@ -1113,15 +1120,21 @@ module.exports = grammar({
       ),
       seq(
         field('key', choice(
-          $.hash_key_symbol,
-          alias($.identifier, $.hash_key_symbol),
-          alias($.constant, $.hash_key_symbol),
           $.string
         )),
         token.immediate(':'),
         field('value', $._arg)
+      ),
+      seq(
+        field('key', choice(
+          $.hash_key_symbol,
+          alias($.identifier, $.hash_key_symbol),
+          alias($.constant, $.hash_key_symbol)
+        )),
+        token.immediate(':'),
+        field('value', optional($._arg))
       )
-    ),
+    )),
 
     lambda: $ => seq(
       '->',
