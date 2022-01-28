@@ -4,6 +4,8 @@
 
 Fixed an issue with missing positions in OCaml attribute syntax.
 
+Fixed an issue with parsing character literals in Common Lisp.
+
 ### Display
 
 Fixed display issues where lines were printed more than once.
