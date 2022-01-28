@@ -2550,7 +2550,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?)"
+          "value": "((collect|append|nconc|count|maximize|minimize)(ing)?|sum(ming)?|maximizing|minimizing)"
         }
       ]
     },
