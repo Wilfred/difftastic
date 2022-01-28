@@ -567,7 +567,7 @@ def e(**list: str):
 def f():
   nonlocal a
 
-def g(h, i, *, j, k=100, **kwarg):
+def g(h, i, /, j, *, k=100, **kwarg):
   return h,i,j,k,kwarg
 
 def h(*a):
@@ -606,8 +606,9 @@ def h(*a):
     parameters: (parameters
       (identifier)
       (identifier)
-      (list_splat_pattern)
+      (positional_separator)
       (identifier)
+      (keyword_separator)
       (default_parameter name: (identifier) value: (integer))
       (dictionary_splat_pattern (identifier)))
     body: (block

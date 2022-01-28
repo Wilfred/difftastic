@@ -472,7 +472,8 @@ module.exports = grammar({
       $.typed_default_parameter,
       $.list_splat_pattern,
       $.tuple_pattern,
-      alias('*', $.list_splat_pattern),
+      $.keyword_separator,
+      $.positional_separator,
       $.dictionary_splat_pattern
     ),
 
@@ -966,6 +967,9 @@ module.exports = grammar({
     )),
 
     comment: $ => token(seq('#', /.*/)),
+
+    positional_separator: $ => '/',
+    keyword_separator: $ => '*',
   }
 })
 
