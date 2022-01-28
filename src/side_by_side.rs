@@ -54,6 +54,8 @@ fn format_missing_line_num(prev_num: LineNumber, column_width: usize) -> String 
         ".".repeat(num_digits),
         width = column_width - 1
     )
+    .dimmed()
+    .to_string()
 }
 
 /// Display `src` in a single column (e.g. a file removal or addition).
