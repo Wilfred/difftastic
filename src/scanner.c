@@ -3,8 +3,6 @@
 #include <stdio.h>
 
 enum TokenType {
-  LINE_COMMENT_START,
-  LINE_COMMENT_START_ONLY,
   BLOCK_COMMENT_START,
   BLOCK_COMMENT_END,
   COMMENT_CONTENT,
@@ -123,17 +121,6 @@ static bool scan_comment_start(TSLexer *lexer) {
       lexer->result_symbol = BLOCK_COMMENT_START;
       return true;
     }
-
-
-    if (lexer->lookahead == '\n' || lexer->lookahead == 0) {
-      lexer->result_symbol = LINE_COMMENT_START_ONLY;
-      return true;
-    }
-
-    inside_node = INSIDE_COMMENT;
-    ending_char = '\n';
-    lexer->result_symbol = LINE_COMMENT_START;
-    return true;
   }
 
   return false;
@@ -245,7 +232,7 @@ bool tree_sitter_lua_external_scanner_scan(void *payload, TSLexer *lexer, const 
     return true;
   }
 
-  if (valid_symbols[LINE_COMMENT_START_ONLY] || valid_symbols[LINE_COMMENT_START] || valid_symbols[BLOCK_COMMENT_START]) {
+  if (valid_symbols[BLOCK_COMMENT_START]) {
     if (scan_comment_start(lexer)) {
       return true;
     }

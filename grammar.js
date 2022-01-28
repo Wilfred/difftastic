@@ -29,8 +29,6 @@ module.exports = grammar({
   extras: ($) => [$.comment, /\s/],
 
   externals: ($) => [
-    $._line_comment_start,
-    $._line_comment_start_only,
     $._block_comment_start,
     $._block_comment_end,
     $._comment_content,
@@ -489,10 +487,9 @@ module.exports = grammar({
     // comment
     comment: ($) =>
       choice(
-        field('start', alias($._line_comment_start_only, 'comment_start')),
         seq(
-          field('start', alias($._line_comment_start, 'comment_start')),
-          field('content', alias($._comment_content, 'comment_content'))
+          field('start', alias('--', 'comment_start')),
+          field('content', alias(/[^\r\n]*/, 'comment_content'))
         ),
         seq(
           field('start', alias($._block_comment_start, 'comment_start')),

@@ -2700,19 +2700,6 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "FIELD",
-          "name": "start",
-          "content": {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_line_comment_start_only"
-            },
-            "named": false,
-            "value": "comment_start"
-          }
-        },
-        {
           "type": "SEQ",
           "members": [
             {
@@ -2721,8 +2708,8 @@
               "content": {
                 "type": "ALIAS",
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "_line_comment_start"
+                  "type": "STRING",
+                  "value": "--"
                 },
                 "named": false,
                 "value": "comment_start"
@@ -2734,8 +2721,8 @@
               "content": {
                 "type": "ALIAS",
                 "content": {
-                  "type": "SYMBOL",
-                  "name": "_comment_content"
+                  "type": "PATTERN",
+                  "value": "[^\\r\\n]*"
                 },
                 "named": false,
                 "value": "comment_content"
@@ -2811,14 +2798,6 @@
   "conflicts": [],
   "precedences": [],
   "externals": [
-    {
-      "type": "SYMBOL",
-      "name": "_line_comment_start"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_line_comment_start_only"
-    },
     {
       "type": "SYMBOL",
       "name": "_block_comment_start"
