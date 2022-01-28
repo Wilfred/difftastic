@@ -1,5 +1,9 @@
 ## 0.18 (unreleased)
 
+### Parsing
+
+Fixed an issue with missing positions in OCaml attribute syntax.
+
 ### Display
 
 Fixed display issues where lines were printed more than once.

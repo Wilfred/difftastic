@@ -14,3 +14,7 @@ let do_stuff x =
 
 let stuffs y =
   y + 1
+
+type thing =
+  | X
+  | Y
