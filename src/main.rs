@@ -70,18 +70,30 @@ fn detect_display_width() -> usize {
     term_size::dimensions().map(|(w, _)| w).unwrap_or(80)
 }
 
-fn configure_color() {
-    if atty::is(Stream::Stdout) || env::var("GIT_PAGER_IN_USE").is_ok() {
-        // Always enable colour if stdout is a TTY or if the git pager is active.
-        // TODO: provide a way to disable this.
-        // TODO: consider following the env parsing logic in git_config_bool
-        // in config.c.
-        colored::control::set_override(true);
-    }
+fn configure_color(color_output: ColorOutput) {
+    let enable_color = match color_output {
+        ColorOutput::Always => true,
+        ColorOutput::Auto => {
+            // Always enable colour if stdout is a TTY or if the git pager is active.
+            // TODO: consider following the env parsing logic in git_config_bool
+            // in config.c.
+            atty::is(Stream::Stdout) || env::var("GIT_PAGER_IN_USE").is_ok()
+        },
+        ColorOutput::Never => false,
+    };
+
+    colored::control::set_override(enable_color);
+}
+
+enum ColorOutput {
+    Always,
+    Auto,
+    Never,
 }
 
 enum Mode {
     Diff {
+        color_output: ColorOutput,
         display_width: usize,
         display_path: String,
         lhs_path: String,
@@ -126,6 +138,12 @@ fn app() -> clap::App<'static> {
                 .help("Use this many columns when calculating line wrapping. Overrides $DFT_WIDTH if present. If not specified, difftastic will detect the terminal width.")
                 .validator(|s| s.parse::<usize>())
                 .required(false),
+        )
+        .arg(
+            Arg::new("color").long("color")
+                .possible_values(["always", "auto", "never"])
+                .value_name("when")
+                .help("When to use color output.")
         )
         .arg(
             Arg::new("paths")
@@ -200,7 +218,20 @@ fn parse_args() -> Mode {
         env_width.unwrap_or_else(detect_display_width)
     };
 
+    let color_output = if let Some(color_when) = matches.value_of("color") {
+        if color_when == "always" {
+            ColorOutput::Always
+        } else if color_when == "never" {
+            ColorOutput::Never
+        } else {
+            ColorOutput::Auto
+        }
+    } else {
+        ColorOutput::Auto
+    };
+
     Mode::Diff {
+        color_output,
         display_width,
         display_path,
         lhs_path,
@@ -224,9 +255,7 @@ fn reset_sigpipe() {
 /// The entrypoint.
 fn main() {
     pretty_env_logger::init();
-
     reset_sigpipe();
-    configure_color();
 
     match parse_args() {
         Mode::DumpTreeSitter { path } => {
@@ -263,12 +292,15 @@ fn main() {
             }
         }
         Mode::Diff {
+            color_output,
             display_width,
             display_path,
             lhs_path,
             rhs_path,
             ..
         } => {
+            configure_color(color_output);
+
             let lhs_path = Path::new(&lhs_path);
             let rhs_path = Path::new(&rhs_path);
 

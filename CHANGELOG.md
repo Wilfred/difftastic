@@ -20,6 +20,9 @@ Improved colours on terminals with light coloured backgrounds.
 Added a `--width` option which allows overriding `DFT_WIDTH`, and is
 more discoverable.
 
+Added a `--color` option which allows explicitly enabling/disabling
+colour output.
+
 ## 0.17 (released 25 January 2022)
 
 ### Diffing
