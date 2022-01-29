@@ -95,15 +95,15 @@ fn parse_args() -> Mode {
             .version(crate_version!())
             .about("A syntax aware diff.")
             .author("Wilfred Hughes")
-            .arg(Arg::with_name("dump-syntax").long("dump-syntax").help(
+            .arg(Arg::new("dump-syntax").long("dump-syntax").help(
                 "Parse a single file with tree-sitter and display the difftastic syntax tree.",
             ))
-            .arg(Arg::with_name("dump-ts").long("dump-ts").help(
+            .arg(Arg::new("dump-ts").long("dump-ts").help(
                 "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
             ))
             .arg(
-                Arg::with_name("paths")
-                    .multiple(true)
+                Arg::new("paths")
+                    .multiple_values(true)
                     .allow_invalid_utf8(true),
             )
             .setting(AppSettings::ArgRequiredElseHelp)
