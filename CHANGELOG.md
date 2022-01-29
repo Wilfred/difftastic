@@ -23,6 +23,9 @@ more discoverable.
 Added a `--color` option which allows explicitly enabling/disabling
 colour output.
 
+Added a `--background` option which controls whether difftastic uses
+bright or dark colours.
+
 ## 0.17 (released 25 January 2022)
 
 ### Diffing

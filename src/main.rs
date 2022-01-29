@@ -47,6 +47,7 @@ use atty::Stream;
 use clap::{crate_authors, crate_description, crate_version, App, AppSettings, Arg};
 use sliders::fix_all_sliders;
 use std::{env, path::Path};
+use style::BackgroundColor;
 use summary::DiffResult;
 use syntax::init_next_prev;
 use typed_arena::Arena;
@@ -93,6 +94,7 @@ enum ColorOutput {
 
 enum Mode {
     Diff {
+        background_color: BackgroundColor,
         color_output: ColorOutput,
         display_width: usize,
         display_path: String,
@@ -144,6 +146,12 @@ fn app() -> clap::App<'static> {
                 .possible_values(["always", "auto", "never"])
                 .value_name("WHEN")
                 .help("When to use color output.")
+        )
+        .arg(
+            Arg::new("background").long("background")
+                .default_value("dark")
+                .possible_values(["dark", "light"])
+                .help("Set the background color. Difftastic will prefer brighter colours on dark backgrounds.")
         )
         .arg(
             Arg::new("paths")
@@ -230,7 +238,18 @@ fn parse_args() -> Mode {
         ColorOutput::Auto
     };
 
+    let background_color = if let Some(background) = matches.value_of("background") {
+        if background == "light" {
+            BackgroundColor::Light
+        } else {
+            BackgroundColor::Dark
+        }
+    } else {
+        BackgroundColor::Dark
+    };
+
     Mode::Diff {
+        background_color,
         color_output,
         display_width,
         display_path,
@@ -292,6 +311,7 @@ fn main() {
             }
         }
         Mode::Diff {
+            background_color,
             color_output,
             display_width,
             display_path,
@@ -306,11 +326,11 @@ fn main() {
 
             if lhs_path.is_dir() && rhs_path.is_dir() {
                 for diff_result in diff_directories(lhs_path, rhs_path) {
-                    print_diff_result(display_width, &diff_result);
+                    print_diff_result(display_width, background_color, &diff_result);
                 }
             } else {
                 let diff_result = diff_file(&display_path, lhs_path, rhs_path);
-                print_diff_result(display_width, &diff_result);
+                print_diff_result(display_width, background_color, &diff_result);
             }
         }
     };
@@ -432,9 +452,12 @@ fn diff_directories(lhs_dir: &Path, rhs_dir: &Path) -> Vec<DiffResult> {
     res
 }
 
-fn print_diff_result(display_width: usize, summary: &DiffResult) {
+fn print_diff_result(display_width: usize, background: BackgroundColor, summary: &DiffResult) {
     if summary.binary {
-        println!("{}", style::header(&summary.path, 1, 1, "binary"));
+        println!(
+            "{}",
+            style::header(&summary.path, 1, 1, "binary", background)
+        );
         return;
     }
 
@@ -452,7 +475,10 @@ fn print_diff_result(display_width: usize, summary: &DiffResult) {
 
     let lang_name = summary.language.clone().unwrap_or_else(|| "text".into());
     if hunks.is_empty() {
-        println!("{}", style::header(&summary.path, 1, 1, &lang_name));
+        println!(
+            "{}",
+            style::header(&summary.path, 1, 1, &lang_name, background)
+        );
         if lang_name == "text" {
             println!("No changes.\n");
         } else {
@@ -472,6 +498,7 @@ fn print_diff_result(display_width: usize, summary: &DiffResult) {
                 &hunks,
                 &summary.path,
                 &lang_name,
+                background
             )
         );
     } else {
@@ -480,6 +507,7 @@ fn print_diff_result(display_width: usize, summary: &DiffResult) {
             side_by_side::display_hunks(
                 &hunks,
                 display_width,
+                background,
                 &summary.path,
                 &lang_name,
                 &summary.lhs_src,
