@@ -188,10 +188,9 @@ fn parse_args() -> Mode {
     };
 
     let display_width = if let Some(arg_width) = matches.value_of("width") {
-        let width = arg_width
+        arg_width
             .parse::<usize>()
-            .expect("Already validated by clap");
-        width
+            .expect("Already validated by clap")
     } else {
         let env_width = if let Ok(env_width) = env::var("DFT_WIDTH") {
             env_width.parse::<usize>().ok()
