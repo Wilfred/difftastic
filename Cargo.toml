@@ -24,7 +24,7 @@ include = [
 regex = "1.5.4"
 colored = "2.0.0"
 diff = "0.1.12"
-clap = "2.33.3"
+clap = { version = "3.0.13", features = ["cargo"] }
 itertools = "0.10.1"
 typed-arena = "2.0.1"
 rustc-hash = "1.1.0"
