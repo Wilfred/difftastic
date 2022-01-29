@@ -4,7 +4,6 @@ use colored::{Color, Colorize};
 use std::{
     cmp::max,
     collections::{HashMap, HashSet},
-    env,
 };
 
 use crate::{
@@ -17,19 +16,6 @@ use crate::{
 };
 
 const SPACER: &str = " ";
-
-/// Choose the display width: honour environment variables, then try
-/// to autodetect, or fall back to a sensible default.
-fn display_width() -> usize {
-    // TODO: document in manual.
-    if let Ok(s) = env::var("DFT_WIDTH") {
-        if let Ok(i) = s.parse::<usize>() {
-            return i;
-        }
-    }
-
-    term_size::dimensions().map(|(w, _)| w).unwrap_or(80)
-}
 
 /// Split `s` by newlines. Always returns a non-empty vec.
 ///
@@ -241,6 +227,7 @@ fn highlight_as_novel(
 
 pub fn display_hunks(
     hunks: &[Hunk],
+    display_width: usize,
     display_path: &str,
     lang_name: &str,
     lhs_src: &str,
@@ -282,7 +269,7 @@ pub fn display_hunks(
         let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
-        let widths = Widths::new(display_width(), &aligned_lines, &lhs_lines, &rhs_lines);
+        let widths = Widths::new(display_width, &aligned_lines, &lhs_lines, &rhs_lines);
         for (lhs_line_num, rhs_line_num) in aligned_lines {
             let lhs_line_novel = highlight_as_novel(
                 lhs_line_num,
@@ -441,12 +428,6 @@ mod tests {
     }
 
     #[test]
-    fn test_display_width() {
-        // Basic smoke test.
-        assert!(display_width() > 10);
-    }
-
-    #[test]
     fn test_display_single_column() {
         // Basic smoke test.
         let res = display_single_column("foo.py", "Python", "print(123)\n", Color::Green);
@@ -511,6 +492,7 @@ mod tests {
         // Simple smoke test.
         display_hunks(
             &hunks,
+            80,
             "foo.el",
             "Emacs Lisp",
             "foo",
