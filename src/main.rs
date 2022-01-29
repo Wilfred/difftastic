@@ -117,7 +117,7 @@ fn app() -> clap::App<'static> {
                 .long("dump-syntax")
                 .takes_value(true)
                 .value_name("PATH")
-                .help(
+                .long_help(
                     "[DEBUG] Parse a single file with tree-sitter and display the difftastic syntax tree.",
                 ),
         )
@@ -126,7 +126,7 @@ fn app() -> clap::App<'static> {
                 .long("dump-ts")
                 .takes_value(true)
                 .value_name("PATH")
-                .help(
+                .long_help(
                     "[DEBUG] Parse a single file with tree-sitter and display the tree-sitter parse tree.",
                 ),
         )
@@ -135,7 +135,7 @@ fn app() -> clap::App<'static> {
                 .long("width")
                 .takes_value(true)
                 .value_name("COLUMNS")
-                .help("Use this many columns when calculating line wrapping. Overrides $DFT_WIDTH if present. If not specified, difftastic will detect the terminal width.")
+                .long_help("Use this many columns when calculating line wrapping. Overrides $DFT_WIDTH if present. If not specified, difftastic will detect the terminal width.")
                 .validator(|s| s.parse::<usize>())
                 .required(false),
         )
