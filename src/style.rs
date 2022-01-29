@@ -12,6 +12,12 @@ use std::{
 };
 
 #[derive(Clone, Copy, Debug)]
+pub enum BackgroundColor {
+    Dark,
+    Light,
+}
+
+#[derive(Clone, Copy, Debug)]
 pub struct Style {
     foreground: Option<Color>,
     background: Option<Color>,
@@ -192,15 +198,35 @@ fn apply(s: &str, styles: &[(SingleLineSpan, Style)]) -> String {
     res
 }
 
-pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLineSpan, Style)> {
+pub fn color_positions(
+    is_lhs: bool,
+    background: BackgroundColor,
+    positions: &[MatchedPos],
+) -> Vec<(SingleLineSpan, Style)> {
+    let red = match background {
+        BackgroundColor::Dark => Color::BrightRed,
+        BackgroundColor::Light => Color::Red,
+    };
+    let green = match background {
+        BackgroundColor::Dark => Color::BrightGreen,
+        BackgroundColor::Light => Color::Green,
+    };
+    let novel_color = if is_lhs { red } else { green };
+
     let mut styles = vec![];
     for pos in positions {
         let line_pos = pos.pos;
         let style = match pos.kind {
             MatchKind::Unchanged { highlight, .. } => Style {
                 foreground: match highlight {
-                    TokenKind::Atom(AtomKind::String) => Some(Color::Magenta),
-                    TokenKind::Atom(AtomKind::Comment) => Some(Color::Cyan),
+                    TokenKind::Atom(AtomKind::String) => Some(match background {
+                        BackgroundColor::Dark => Color::BrightMagenta,
+                        BackgroundColor::Light => Color::Magenta,
+                    }),
+                    TokenKind::Atom(AtomKind::Comment) => Some(match background {
+                        BackgroundColor::Dark => Color::BrightCyan,
+                        BackgroundColor::Light => Color::Cyan,
+                    }),
                     _ => None,
                 },
                 background: None,
@@ -212,7 +238,7 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
                 dimmed: false,
             },
             MatchKind::Novel { highlight, .. } => Style {
-                foreground: Some(if is_lhs { Color::Red } else { Color::Green }),
+                foreground: Some(novel_color),
                 background: None,
                 bold: match highlight {
                     TokenKind::Delimiter => true,
@@ -223,13 +249,13 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
                 dimmed: false,
             },
             MatchKind::ChangedCommentPart { .. } => Style {
-                foreground: Some(if is_lhs { Color::Red } else { Color::Green }),
+                foreground: Some(novel_color),
                 background: None,
                 bold: true,
                 dimmed: false,
             },
             MatchKind::UnchangedCommentPart { .. } => Style {
-                foreground: Some(if is_lhs { Color::Red } else { Color::Green }),
+                foreground: Some(novel_color),
                 background: None,
                 bold: false,
                 dimmed: false,
@@ -240,15 +266,30 @@ pub fn color_positions(is_lhs: bool, positions: &[MatchedPos]) -> Vec<(SingleLin
     styles
 }
 
-pub fn apply_colors(s: &str, is_lhs: bool, positions: &[MatchedPos]) -> String {
-    let styles = color_positions(is_lhs, positions);
+pub fn apply_colors(
+    s: &str,
+    is_lhs: bool,
+    background: BackgroundColor,
+    positions: &[MatchedPos],
+) -> String {
+    let styles = color_positions(is_lhs, background, positions);
     apply(s, &styles)
 }
 
-pub fn header(file_name: &str, hunk_num: usize, hunk_total: usize, language_name: &str) -> String {
+pub fn header(
+    file_name: &str,
+    hunk_num: usize,
+    hunk_total: usize,
+    language_name: &str,
+    background: BackgroundColor,
+) -> String {
     format!(
         "{} --- {}/{} --- {}",
-        file_name.yellow().bold(),
+        match background {
+            BackgroundColor::Dark => file_name.bright_yellow(),
+            BackgroundColor::Light => file_name.yellow(),
+        }
+        .bold(),
         hunk_num,
         hunk_total,
         language_name

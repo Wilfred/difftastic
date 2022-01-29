@@ -11,7 +11,7 @@ use crate::{
     hunks::{matched_lines_for_hunk, Hunk},
     lines::{codepoint_len, format_line_num, LineNumber},
     positions::SingleLineSpan,
-    style::{self, apply_colors, color_positions, split_and_apply, Style},
+    style::{self, apply_colors, color_positions, split_and_apply, BackgroundColor, Style},
     syntax::{zip_pad_shorter, MatchedPos},
 };
 
@@ -45,11 +45,17 @@ fn format_missing_line_num(prev_num: LineNumber, column_width: usize) -> String 
 }
 
 /// Display `src` in a single column (e.g. a file removal or addition).
-fn display_single_column(display_path: &str, lang_name: &str, src: &str, color: Color) -> String {
+fn display_single_column(
+    display_path: &str,
+    lang_name: &str,
+    src: &str,
+    color: Color,
+    background: BackgroundColor,
+) -> String {
     let column_width = format_line_num(src.lines().count().into()).len();
 
     let mut result = String::with_capacity(src.len());
-    result.push_str(&style::header(display_path, 1, 1, lang_name));
+    result.push_str(&style::header(display_path, 1, 1, lang_name, background));
     result.push('\n');
 
     for (i, line) in src.lines().enumerate() {
@@ -69,6 +75,7 @@ fn display_line_nums(
     lhs_line_num: Option<LineNumber>,
     rhs_line_num: Option<LineNumber>,
     widths: &Widths,
+    background: BackgroundColor,
     lhs_has_novel: bool,
     rhs_has_novel: bool,
     prev_lhs_line_num: Option<LineNumber>,
@@ -78,7 +85,12 @@ fn display_line_nums(
         Some(line_num) => {
             let s = format_line_num_padded(line_num, widths.lhs_line_nums);
             if lhs_has_novel {
-                s.red().bold().to_string()
+                // TODO: factor out applying colours to line numbers.
+                match background {
+                    BackgroundColor::Dark => s.bright_red(),
+                    BackgroundColor::Light => s.red(),
+                }
+                .to_string()
             } else {
                 s
             }
@@ -92,7 +104,11 @@ fn display_line_nums(
         Some(line_num) => {
             let s = format_line_num_padded(line_num, widths.rhs_line_nums);
             if rhs_has_novel {
-                s.green().bold().to_string()
+                match background {
+                    BackgroundColor::Dark => s.bright_green(),
+                    BackgroundColor::Light => s.green(),
+                }
+                .to_string()
             } else {
                 s
             }
@@ -175,13 +191,14 @@ fn lines_with_novel(
 /// Calculate positions of highlights on both sides. This includes
 /// both syntax highlighting and added/removed content highlighting.
 fn highlight_positions(
+    background: BackgroundColor,
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> (
     HashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
     HashMap<LineNumber, Vec<(SingleLineSpan, Style)>>,
 ) {
-    let lhs_positions = color_positions(true, lhs_mps);
+    let lhs_positions = color_positions(true, background, lhs_mps);
     // Preallocate the hashmap assuming the average line will have 2 items on it.
     let mut lhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         HashMap::with_capacity(lhs_positions.len() / 2);
@@ -190,7 +207,7 @@ fn highlight_positions(
         styles.push((span, style));
     }
 
-    let rhs_positions = color_positions(false, rhs_mps);
+    let rhs_positions = color_positions(false, background, rhs_mps);
     let mut rhs_styles: HashMap<LineNumber, Vec<(SingleLineSpan, Style)>> =
         HashMap::with_capacity(rhs_positions.len() / 2);
     for (span, style) in rhs_positions {
@@ -228,6 +245,7 @@ fn highlight_as_novel(
 pub fn display_hunks(
     hunks: &[Hunk],
     display_width: usize,
+    background: BackgroundColor,
     display_path: &str,
     lang_name: &str,
     lhs_src: &str,
@@ -235,18 +253,32 @@ pub fn display_hunks(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> String {
-    let lhs_colored_src = apply_colors(lhs_src, true, lhs_mps);
-    let rhs_colored_src = apply_colors(rhs_src, false, rhs_mps);
+    let lhs_colored_src = apply_colors(lhs_src, true, background, lhs_mps);
+    let rhs_colored_src = apply_colors(rhs_src, false, background, rhs_mps);
 
     if lhs_src.is_empty() {
-        return display_single_column(display_path, lang_name, &rhs_colored_src, Color::Green);
+        // TODO: use BrightGreen on dark backgrounds.
+        // TODO: this doesn't need the coloured source as it applies colours.
+        return display_single_column(
+            display_path,
+            lang_name,
+            &rhs_colored_src,
+            Color::Green,
+            background,
+        );
     }
     if rhs_src.is_empty() {
-        return display_single_column(display_path, lang_name, &lhs_colored_src, Color::Red);
+        return display_single_column(
+            display_path,
+            lang_name,
+            &lhs_colored_src,
+            Color::Red,
+            background,
+        );
     }
 
     // TODO: this is largely duplicating the `apply_colors` logic.
-    let (lhs_highlights, rhs_highlights) = highlight_positions(lhs_mps, rhs_mps);
+    let (lhs_highlights, rhs_highlights) = highlight_positions(background, lhs_mps, rhs_mps);
     let lhs_lines = split_on_newlines(lhs_src);
     let rhs_lines = split_on_newlines(rhs_src);
     let lhs_colored_lines = split_on_newlines(&lhs_colored_src);
@@ -262,7 +294,13 @@ pub fn display_hunks(
     let mut out_lines: Vec<String> = vec![];
 
     for (i, hunk) in hunks.iter().enumerate() {
-        out_lines.push(style::header(display_path, i + 1, hunks.len(), lang_name));
+        out_lines.push(style::header(
+            display_path,
+            i + 1,
+            hunks.len(),
+            lang_name,
+            background,
+        ));
 
         let aligned_lines = matched_lines_for_hunk(&matched_lines, hunk);
         let no_lhs_changes = hunk.lines.iter().all(|(l, _)| l.is_none());
@@ -288,6 +326,7 @@ pub fn display_hunks(
                 lhs_line_num,
                 rhs_line_num,
                 &widths,
+                background,
                 lhs_line_novel,
                 rhs_line_novel,
                 prev_lhs_line_num,
@@ -365,7 +404,11 @@ pub fn display_hunks(
                         );
                         if let Some(line_num) = lhs_line_num {
                             if lhs_lines_with_novel.contains(&line_num) {
-                                s = s.red().bold().to_string()
+                                s = match background {
+                                    BackgroundColor::Dark => s.bright_red(),
+                                    BackgroundColor::Light => s.red(),
+                                }
+                                .to_string();
                             }
                         }
                         s
@@ -380,7 +423,11 @@ pub fn display_hunks(
                         );
                         if let Some(line_num) = rhs_line_num {
                             if rhs_lines_with_novel.contains(&line_num) {
-                                s = s.green().bold().to_string();
+                                s = match background {
+                                    BackgroundColor::Dark => s.bright_green(),
+                                    BackgroundColor::Light => s.green(),
+                                }
+                                .to_string();
                             }
                         }
                         s
@@ -430,7 +477,13 @@ mod tests {
     #[test]
     fn test_display_single_column() {
         // Basic smoke test.
-        let res = display_single_column("foo.py", "Python", "print(123)\n", Color::Green);
+        let res = display_single_column(
+            "foo.py",
+            "Python",
+            "print(123)\n",
+            Color::Green,
+            BackgroundColor::Dark,
+        );
         assert!(res.len() > 10);
     }
 
@@ -493,6 +546,7 @@ mod tests {
         display_hunks(
             &hunks,
             80,
+            BackgroundColor::Dark,
             "foo.el",
             "Emacs Lisp",
             "foo",
