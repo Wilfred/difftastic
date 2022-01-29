@@ -94,14 +94,22 @@ fn app() -> clap::App<'static> {
         .about("A syntax aware diff.")
         .author("Wilfred Hughes")
         .arg(
-            Arg::new("dump-syntax").long("dump-syntax").help(
-                "Parse a single file with tree-sitter and display the difftastic syntax tree.",
-            ),
+            Arg::new("dump-syntax")
+                .long("dump-syntax")
+                .takes_value(true)
+                .value_name("PATH")
+                .help(
+                    "Parse a single file with tree-sitter and display the difftastic syntax tree.",
+                ),
         )
         .arg(
-            Arg::new("dump-ts").long("dump-ts").help(
-                "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
-            ),
+            Arg::new("dump-ts")
+                .long("dump-ts")
+                .takes_value(true)
+                .value_name("PATH")
+                .help(
+                    "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
+                ),
         )
         .arg(
             Arg::new("paths")
@@ -115,36 +123,20 @@ fn app() -> clap::App<'static> {
 fn parse_args() -> Mode {
     let matches = app().get_matches();
 
+    if let Some(path) = matches.value_of("dump-syntax") {
+        return Mode::DumpSyntax {
+            path: path.to_string(),
+        };
+    }
+
+    if let Some(path) = matches.value_of("dump-ts") {
+        return Mode::DumpTreeSitter {
+            path: path.to_string(),
+        };
+    }
+
     let args: Vec<_> = matches.values_of_lossy("paths").unwrap();
     info!("CLI arguments: {:?}", args);
-
-    if matches.is_present("dump-syntax") {
-        if args.len() == 1 {
-            return Mode::DumpSyntax {
-                path: args[0].clone(),
-            };
-        } else {
-            // TODO: delegate this parsing to clap.
-            panic!(
-                "Error: --dump-syntax takes one argument, but got: {}",
-                args.len()
-            );
-        }
-    }
-
-    if matches.is_present("dump-ts") {
-        if args.len() == 1 {
-            return Mode::DumpTreeSitter {
-                path: args[0].clone(),
-            };
-        } else {
-            // TODO: delegate this parsing to clap.
-            panic!(
-                "Error: --dump-ts takes one argument, but got: {}",
-                args.len()
-            );
-        }
-    }
 
     // TODO: document these different ways of calling difftastic.
     let (display_path, lhs_path, rhs_path) = match &args[..] {
