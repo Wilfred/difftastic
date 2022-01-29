@@ -88,26 +88,32 @@ enum Mode {
     },
 }
 
+fn app() -> clap::App<'static> {
+    App::new("Difftastic")
+        .version(crate_version!())
+        .about("A syntax aware diff.")
+        .author("Wilfred Hughes")
+        .arg(
+            Arg::new("dump-syntax").long("dump-syntax").help(
+                "Parse a single file with tree-sitter and display the difftastic syntax tree.",
+            ),
+        )
+        .arg(
+            Arg::new("dump-ts").long("dump-ts").help(
+                "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
+            ),
+        )
+        .arg(
+            Arg::new("paths")
+                .multiple_values(true)
+                .allow_invalid_utf8(true),
+        )
+        .setting(AppSettings::ArgRequiredElseHelp)
+}
+
 /// Parse CLI arguments passed to the binary.
 fn parse_args() -> Mode {
-    let matches =
-        App::new("Difftastic")
-            .version(crate_version!())
-            .about("A syntax aware diff.")
-            .author("Wilfred Hughes")
-            .arg(Arg::new("dump-syntax").long("dump-syntax").help(
-                "Parse a single file with tree-sitter and display the difftastic syntax tree.",
-            ))
-            .arg(Arg::new("dump-ts").long("dump-ts").help(
-                "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
-            ))
-            .arg(
-                Arg::new("paths")
-                    .multiple_values(true)
-                    .allow_invalid_utf8(true),
-            )
-            .setting(AppSettings::ArgRequiredElseHelp)
-            .get_matches();
+    let matches = app().get_matches();
 
     let args: Vec<_> = matches.values_of_lossy("paths").unwrap();
     info!("CLI arguments: {:?}", args);
@@ -440,5 +446,10 @@ mod tests {
         assert_eq!(res.lhs_positions, vec![]);
         assert_eq!(res.rhs_positions, vec![]);
         assert!(!res.binary);
+    }
+
+    #[test]
+    fn test_app() {
+        app().debug_assert();
     }
 }
