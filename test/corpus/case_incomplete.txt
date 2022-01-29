@@ -175,8 +175,6 @@ update msg =
 Case followed by comment: not fully indented
 ================================================================================
 
--- Wrong in v4.5.0
--- The comment is not indented, it should not be inside the case
 update msg =
     case msg of
         Ok _ ->
@@ -185,12 +183,10 @@ update msg =
         Err _ ->
             "Error!"
 
--- This comment should not be part of the case block
+-- This comment is not part of the case block
 --------------------------------------------------------------------------------
 
 (file
-  (line_comment)
-  (line_comment)
   (value_declaration
     (function_declaration_left
       (lower_case_identifier)
@@ -233,7 +229,6 @@ update msg =
 Case followed by comment: indented as sibling
 ================================================================================
 
--- Wrong in v4.5.0
 update msg =
     case msg of
         Ok _ ->
@@ -242,12 +237,11 @@ update msg =
         Err _ ->
             "Error!"
 
-    -- This comment is a sibling to the case and part of the update function.
-    -- I know, that elm-format will format it to a toplevel comment again.
+    -- This comment is parsed as a top-level comment.
+    -- elm-format too will format it to a toplevel comment.
 --------------------------------------------------------------------------------
 
 (file
-  (line_comment)
   (value_declaration
     (function_declaration_left
       (lower_case_identifier)
@@ -300,8 +294,8 @@ update msg =
         Err _ ->
             "Error!"
 
-        -- This comment is a sibling to the branches and part of the case block.
-        -- I know, that elm-format will format it to a toplevel comment again.
+        -- This comment is parsed as a top-level comment.
+        -- elm-format too will format it to a toplevel comment.
 --------------------------------------------------------------------------------
 
 (file
@@ -341,17 +335,14 @@ update msg =
         (string_constant_expr
           (open_quote)
           (regular_string_part)
-          (close_quote)))
-      (line_comment)
-      (line_comment))))
+          (close_quote)))))
+  (line_comment)
+  (line_comment))
 
 ================================================================================
 Case followed by comment: indented inside case branch
 ================================================================================
 
--- Maybe wrong in v4.5.0
--- Currently it is inside the string_constant_expr, but i think it should be
--- a sibling to it. Maybe i am wrong in this case.
 update msg =
     case msg of
         Ok _ ->
@@ -360,14 +351,11 @@ update msg =
         Err _ ->
             "Error!"
 
-            -- This comment is a sibling to the branch result and part of the Err branch.
-            -- I know, that elm-format will format it to a toplevel comment again.
+            -- This comment is parsed as a top-level comment.
+            -- elm-format too will format it to a toplevel comment.
 --------------------------------------------------------------------------------
 
 (file
-  (line_comment)
-  (line_comment)
-  (line_comment)
   (value_declaration
     (function_declaration_left
       (lower_case_identifier)
@@ -403,6 +391,6 @@ update msg =
         (string_constant_expr
           (open_quote)
           (regular_string_part)
-          (close_quote)))
-      (line_comment)
-      (line_comment))))
+          (close_quote)))))
+  (line_comment)
+  (line_comment))

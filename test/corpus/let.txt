@@ -103,6 +103,46 @@ letExample =
           (lower_case_identifier))))))
 
 ================================================================================
+Let with line comment on last line, indented
+================================================================================
+
+letExample =
+    let
+        { title } =
+            Article.metadata article
+        -- test
+    in
+    title
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (pattern
+          (record_pattern
+            (lower_pattern
+              (lower_case_identifier))))
+        (eq)
+        (function_call_expr
+          (value_expr
+            (value_qid
+              (upper_case_identifier)
+              (dot)
+              (lower_case_identifier)))
+          (value_expr
+            (value_qid
+              (lower_case_identifier)))))
+      (line_comment)
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
 Single line let with in changing line
 ================================================================================
 
@@ -271,6 +311,47 @@ isUpper =
         (eq)
         (number_constant_expr
           (number_literal)))
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (value_expr
+        (value_qid
+          (lower_case_identifier))))))
+
+================================================================================
+let with two variables separated by unindented comment
+================================================================================
+
+isUpper =
+  let
+    five =
+      5
+
+  -- comment
+
+    six =
+      6
+  in
+    abcd
+
+--------------------------------------------------------------------------------
+
+(file
+  (value_declaration
+    (function_declaration_left
+      (lower_case_identifier))
+    (eq)
+    (let_in_expr
+      (value_declaration
+        (function_declaration_left
+          (lower_case_identifier))
+        (eq)
+        (number_constant_expr
+          (number_literal)))
+      (line_comment)
       (value_declaration
         (function_declaration_left
           (lower_case_identifier))

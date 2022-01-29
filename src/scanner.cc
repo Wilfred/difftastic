@@ -163,6 +163,21 @@ namespace
             }
         }
 
+        void advance_to_line_end(TSLexer *lexer)
+        {
+            while(true)
+            {
+                if (lexer->lookahead == '\n') {
+                    break;
+                }
+                else if (lexer->eof(lexer)) {
+                    break;
+                } else {
+                    advance(lexer);
+                }
+            }
+        }
+
         bool scan(TSLexer *lexer, const bool *valid_symbols)
         {
             // First handle eventual runback tokens, we saved on a previous scan op
@@ -183,6 +198,7 @@ namespace
             // Check if we have newlines and how much indentation
             bool has_newline = false;
             bool found_in = false;
+            bool can_call_mark_end = true;
             lexer->mark_end(lexer);
             while (true)
             {
@@ -205,6 +221,53 @@ namespace
                             indent_length = lexer->get_column(lexer);
                             break;
                         }
+                    }
+                }
+                else if (!valid_symbols[BLOCK_COMMENT_CONTENT] && lexer->lookahead == '-')
+                {
+
+                    advance(lexer);
+                    auto lookahead = lexer->lookahead;
+
+                    // Handle minus without a whitespace for negate
+                    if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE]
+                        && ((lookahead >= 'a' && lookahead <= 'z')
+                            || (lookahead >= 'A' && lookahead <= 'Z')
+                            || lookahead == '('))
+                    {
+                        if (can_call_mark_end)
+                        {
+                            lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
+                            lexer->mark_end(lexer);
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                    // Scan past line comments. As far as the special token
+                    // types we're scanning for here are concerned line comments
+                    // are like whitespace. There is nothing useful to be
+                    // learned from, say, their indentation. So we advance past
+                    // them here.
+                    //
+                    // The one thing we need to keep in mind is that we should
+                    // not call `lexer->mark_end(lexer)` after this point, or
+                    // the comment will be lost.
+                    else if (lookahead == '-' && has_newline)
+                    {
+                        can_call_mark_end = false;
+                        advance(lexer);
+                        advance_to_line_end(lexer);
+                    }
+                    else if (valid_symbols[BLOCK_COMMENT_CONTENT] && lexer->lookahead == '}')
+                    {
+                        lexer->result_symbol = BLOCK_COMMENT_CONTENT;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
                 else if (lexer->lookahead == '\r')
@@ -232,11 +295,6 @@ namespace
                 }
             }
 
-            while (isElmSpace(lexer))
-            {
-                skip(lexer);
-            }
-
             if (checkForIn(lexer, valid_symbols) == 2)
             {
                 if (has_newline)
@@ -251,39 +309,19 @@ namespace
                 }
             }
 
-            // Handle minus without a whitespace for negate
-            if (valid_symbols[MINUS_WITHOUT_TRAILING_WHITESPACE])
-            {
-                if (lexer->lookahead == '-')
-                {
-                    advance(lexer);
-                    auto lookahead = lexer->lookahead;
-                    if ((lookahead >= 'a' && lookahead <= 'z') || (lookahead >= 'A' && lookahead <= 'Z') || lookahead == '(')
-                    {
-                        lexer->result_symbol = MINUS_WITHOUT_TRAILING_WHITESPACE;
-                        lexer->mark_end(lexer);
-
-                        return true;
-                    }
-                    return false;
-                }
-            }
-
             // Open section if the grammar lets us but only push to indent stack if we go further down in the stack
             if (valid_symbols[VIRTUAL_OPEN_SECTION] && !lexer->eof(lexer))
             {
-                // If there is a comment, don't proceed, we don't
-                // need to check more as case branches/let variables can't start with a `-`
-                if (lexer->lookahead == '-')
-                {
-                    return false;
-                }
                 indent_length_stack.push_back(lexer->get_column(lexer));
                 lexer->result_symbol = VIRTUAL_OPEN_SECTION;
                 return true;
             }
             else if (valid_symbols[BLOCK_COMMENT_CONTENT])
             {
+                if (!can_call_mark_end)
+                {
+                    return false;
+                }
                 lexer->mark_end(lexer);
                 while (true)
                 {
@@ -334,6 +372,7 @@ namespace
                             break;
                         }
                         // Don't insert VIRTUAL_END_DECL when there is a line comment incoming
+
                         if (lexer->lookahead == '-')
                         {
                             skip(lexer);
@@ -393,6 +432,10 @@ namespace
 
             if (valid_symbols[GLSL_CONTENT])
             {
+                if (!can_call_mark_end)
+                {
+                    return false;
+                }
                 lexer->result_symbol = GLSL_CONTENT;
                 while (true)
                 {
