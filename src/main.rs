@@ -64,6 +64,12 @@ use crate::{
 
 extern crate pretty_env_logger;
 
+/// Choose the display width: try to autodetect, or fall back to a
+/// sensible default.
+fn detect_display_width() -> usize {
+    term_size::dimensions().map(|(w, _)| w).unwrap_or(80)
+}
+
 fn configure_color() {
     if atty::is(Stream::Stdout) || env::var("GIT_PAGER_IN_USE").is_ok() {
         // Always enable colour if stdout is a TTY or if the git pager is active.
@@ -76,6 +82,7 @@ fn configure_color() {
 
 enum Mode {
     Diff {
+        display_width: usize,
         display_path: String,
         lhs_path: String,
         rhs_path: String,
@@ -110,6 +117,15 @@ fn app() -> clap::App<'static> {
                 .help(
                     "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
                 ),
+        )
+        .arg(
+            Arg::new("width")
+                .long("width")
+                .takes_value(true)
+                .value_name("COLUMNS")
+                .help("Use this many columns when calculating line wrapping. Overrides $DFT_WIDTH if present. If not specified, difftastic will detect the terminal width.")
+                .validator(|s| s.parse::<usize>())
+                .required(false),
         )
         .arg(
             Arg::new("paths")
@@ -171,7 +187,22 @@ fn parse_args() -> Mode {
         ),
     };
 
+    let display_width = if let Some(arg_width) = matches.value_of("width") {
+        let width = arg_width
+            .parse::<usize>()
+            .expect("Already validated by clap");
+        width
+    } else {
+        let env_width = if let Ok(env_width) = env::var("DFT_WIDTH") {
+            env_width.parse::<usize>().ok()
+        } else {
+            None
+        };
+        env_width.unwrap_or_else(detect_display_width)
+    };
+
     Mode::Diff {
+        display_width,
         display_path,
         lhs_path,
         rhs_path,
@@ -233,20 +264,22 @@ fn main() {
             }
         }
         Mode::Diff {
+            display_width,
             display_path,
             lhs_path,
             rhs_path,
+            ..
         } => {
             let lhs_path = Path::new(&lhs_path);
             let rhs_path = Path::new(&rhs_path);
 
             if lhs_path.is_dir() && rhs_path.is_dir() {
                 for diff_result in diff_directories(lhs_path, rhs_path) {
-                    print_diff_result(&diff_result);
+                    print_diff_result(display_width, &diff_result);
                 }
             } else {
                 let diff_result = diff_file(&display_path, lhs_path, rhs_path);
-                print_diff_result(&diff_result);
+                print_diff_result(display_width, &diff_result);
             }
         }
     };
@@ -368,7 +401,7 @@ fn diff_directories(lhs_dir: &Path, rhs_dir: &Path) -> Vec<DiffResult> {
     res
 }
 
-fn print_diff_result(summary: &DiffResult) {
+fn print_diff_result(display_width: usize, summary: &DiffResult) {
     if summary.binary {
         println!("{}", style::header(&summary.path, 1, 1, "binary"));
         return;
@@ -415,6 +448,7 @@ fn print_diff_result(summary: &DiffResult) {
             "{}",
             side_by_side::display_hunks(
                 &hunks,
+                display_width,
                 &summary.path,
                 &lang_name,
                 &summary.lhs_src,
@@ -443,5 +477,11 @@ mod tests {
     #[test]
     fn test_app() {
         app().debug_assert();
+    }
+
+    #[test]
+    fn test_detect_display_width() {
+        // Basic smoke test.
+        assert!(detect_display_width() > 10);
     }
 }

@@ -15,6 +15,11 @@ visible.
 
 Improved colours on terminals with light coloured backgrounds.
 
+### Command Line Interface
+
+Added a `--width` option which allows overriding `DFT_WIDTH`, and is
+more discoverable.
+
 ## 0.17 (released 25 January 2022)
 
 ### Diffing
