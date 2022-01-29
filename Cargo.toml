@@ -28,3 +28,10 @@ tree-sitter = "~0.20.3"
 
 [build-dependencies]
 cc = "1.0"
+
+[dev-dependencies]
+criterion = { version = "0.3.5", features = ["html_reports"] }
+
+[[bench]]
+name = "bench_main"
+harness = false
