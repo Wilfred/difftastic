@@ -44,7 +44,7 @@ use mimalloc::MiMalloc;
 static GLOBAL: MiMalloc = MiMalloc;
 
 use atty::Stream;
-use clap::{crate_version, App, AppSettings, Arg};
+use clap::{crate_authors, crate_description, crate_version, App, AppSettings, Arg};
 use sliders::fix_all_sliders;
 use std::{env, path::Path};
 use summary::DiffResult;
@@ -110,8 +110,8 @@ enum Mode {
 fn app() -> clap::App<'static> {
     App::new("Difftastic")
         .version(crate_version!())
-        .about("A syntax aware diff.")
-        .author("Wilfred Hughes")
+        .about(crate_description!())
+        .author(crate_authors!())
         .arg(
             Arg::new("dump-syntax")
                 .long("dump-syntax")
