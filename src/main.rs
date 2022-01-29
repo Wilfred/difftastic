@@ -78,7 +78,7 @@ fn configure_color(color_output: ColorOutput) {
             // TODO: consider following the env parsing logic in git_config_bool
             // in config.c.
             atty::is(Stream::Stdout) || env::var("GIT_PAGER_IN_USE").is_ok()
-        },
+        }
         ColorOutput::Never => false,
     };
 
