@@ -142,7 +142,7 @@ fn app() -> clap::App<'static> {
         .arg(
             Arg::new("color").long("color")
                 .possible_values(["always", "auto", "never"])
-                .value_name("when")
+                .value_name("WHEN")
                 .help("When to use color output.")
         )
         .arg(
