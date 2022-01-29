@@ -101,7 +101,11 @@ fn parse_args() -> Mode {
             .arg(Arg::with_name("dump-ts").long("dump-ts").help(
                 "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
             ))
-            .arg(Arg::with_name("paths").multiple(true))
+            .arg(
+                Arg::with_name("paths")
+                    .multiple(true)
+                    .allow_invalid_utf8(true),
+            )
             .setting(AppSettings::ArgRequiredElseHelp)
             .get_matches();
 
