@@ -101,11 +101,11 @@ fn parse_args() -> Mode {
             .arg(Arg::with_name("dump-ts").long("dump-ts").help(
                 "Parse a single file with tree-sitter and display the tree-sitter parse tree.",
             ))
-            .arg(Arg::with_name("positional_args").multiple(true))
+            .arg(Arg::with_name("paths").multiple(true))
             .setting(AppSettings::ArgRequiredElseHelp)
             .get_matches();
 
-    let args: Vec<_> = matches.values_of_lossy("positional_args").unwrap();
+    let args: Vec<_> = matches.values_of_lossy("paths").unwrap();
     info!("CLI arguments: {:?}", args);
 
     if matches.is_present("dump-syntax") {
