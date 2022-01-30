@@ -116,10 +116,14 @@ fn app() -> clap::App<'static> {
         .about(crate_description!())
         .author(crate_authors!())
         .after_long_help(concat!(
-            "Typical difftastic usage compares two files.\n\n",
-            "$ difft old.js new.js\n\n",
-            "Difftastic can also compare two directories. This will walk both directories and compare files with matching names.\n\n",
-            "$ difft old/ new/\n\n",
+            "You can compare two files with difftastic by specifying them as arguments.\n\n",
+            "$ ",
+            env!("CARGO_BIN_NAME"),
+            " old.js new.js\n\n",
+            "You can also use directories as arguments. Difftastic will walk both directories and compare files with matching names.\n\n",
+            "$ ",
+            env!("CARGO_BIN_NAME"),
+            " old/ new/\n\n",
             "Difftastic can also be invoked with 7 arguments in the format that GIT_EXTERNAL_DIFF expects.\n\n",
             "See the full manual at: https://difftastic.wilfred.me.uk/")
         )
