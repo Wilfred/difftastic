@@ -49,7 +49,7 @@ fn display_single_column(
     display_path: &str,
     lang_name: &str,
     src: &str,
-    color: Color,
+    is_lhs: bool,
     background: BackgroundColor,
 ) -> String {
     let column_width = format_line_num(src.lines().count().into()).len();
@@ -57,6 +57,13 @@ fn display_single_column(
     let mut result = String::with_capacity(src.len());
     result.push_str(&style::header(display_path, 1, 1, lang_name, background));
     result.push('\n');
+
+    let color = match (is_lhs, background) {
+        (true, BackgroundColor::Dark) => Color::BrightRed,
+        (true, BackgroundColor::Light) => Color::Red,
+        (false, BackgroundColor::Dark) => Color::BrightGreen,
+        (false, BackgroundColor::Light) => Color::Green,
+    };
 
     for (i, line) in src.lines().enumerate() {
         result.push_str(
@@ -257,24 +264,10 @@ pub fn display_hunks(
     let rhs_colored_src = apply_colors(rhs_src, false, background, rhs_mps);
 
     if lhs_src.is_empty() {
-        // TODO: use BrightGreen on dark backgrounds.
-        // TODO: this doesn't need the coloured source as it applies colours.
-        return display_single_column(
-            display_path,
-            lang_name,
-            &rhs_colored_src,
-            Color::Green,
-            background,
-        );
+        return display_single_column(display_path, lang_name, &rhs_colored_src, false, background);
     }
     if rhs_src.is_empty() {
-        return display_single_column(
-            display_path,
-            lang_name,
-            &lhs_colored_src,
-            Color::Red,
-            background,
-        );
+        return display_single_column(display_path, lang_name, &lhs_colored_src, true, background);
     }
 
     // TODO: this is largely duplicating the `apply_colors` logic.
@@ -481,7 +474,7 @@ mod tests {
             "foo.py",
             "Python",
             "print(123)\n",
-            Color::Green,
+            false,
             BackgroundColor::Dark,
         );
         assert!(res.len() > 10);
