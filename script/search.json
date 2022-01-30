@@ -141,7 +141,7 @@
     "name": "rtfeldman/elm-css",
     "summary": "Typed CSS in Elm.",
     "license": "BSD-3-Clause",
-    "version": "16.1.1"
+    "version": "17.0.5"
   },
   {
     "name": "rtfeldman/elm-hex",
@@ -261,7 +261,7 @@
     "name": "BrianHicks/elm-csv",
     "summary": "Decode CSV in the most boring way possible.",
     "license": "BSD-3-Clause",
-    "version": "3.0.2"
+    "version": "3.0.3"
   },
   {
     "name": "BrianHicks/elm-particle",
@@ -303,13 +303,25 @@
     "name": "Janiczek/elm-bidict",
     "summary": "A bidirectional Dict data structure",
     "license": "BSD-3-Clause",
-    "version": "3.0.0"
+    "version": "3.1.0"
   },
   {
     "name": "Janiczek/elm-graph",
     "summary": "A graph data structure with a nice API",
     "license": "BSD-3-Clause",
     "version": "2.0.1"
+  },
+  {
+    "name": "Janiczek/elm-list-cartesian",
+    "summary": "Specialized List mapN fns giving all combinations of items instead of zipping",
+    "license": "BSD-3-Clause",
+    "version": "1.0.2"
+  },
+  {
+    "name": "Janiczek/elm-quasirandom",
+    "summary": "Quasirandom number generators",
+    "license": "BSD-3-Clause",
+    "version": "1.0.2"
   },
   {
     "name": "Janiczek/elm-raycasting",
@@ -322,6 +334,12 @@
     "summary": "Functions related to the game RuneScape by Jagex Ltd.",
     "license": "BSD-3-Clause",
     "version": "1.0.1"
+  },
+  {
+    "name": "Janiczek/elm-vlq",
+    "summary": "Base-64 encoder and decoder for VLQ, handy eg. for sourcemaps",
+    "license": "MIT",
+    "version": "1.0.0"
   },
   {
     "name": "Janiczek/transform",
@@ -375,13 +393,13 @@
     "name": "terezka/charts",
     "summary": "Nighly version of terezka/elm-charts with newest features.",
     "license": "BSD-3-Clause",
-    "version": "18.0.5"
+    "version": "20.0.1"
   },
   {
     "name": "terezka/elm-charts",
     "summary": "SVG charts components in Elm.",
     "license": "BSD-3-Clause",
-    "version": "2.0.0"
+    "version": "3.0.0"
   },
   {
     "name": "terezka/elm-charts-alpha",
@@ -399,7 +417,7 @@
     "name": "terezka/intervals",
     "summary": "A library for producing nice intervals for charts.",
     "license": "BSD-3-Clause",
-    "version": "2.0.0"
+    "version": "2.0.1"
   },
   {
     "name": "terezka/line-charts",
@@ -417,13 +435,13 @@
     "name": "tesk9/accessible-html",
     "summary": "view helpers enforcing accessible practices",
     "license": "BSD-3-Clause",
-    "version": "4.1.0"
+    "version": "5.0.0"
   },
   {
     "name": "tesk9/accessible-html-with-css",
     "summary": "Drop-in replacement for tesk9/accessible-html using Html.Styled",
     "license": "BSD-3-Clause",
-    "version": "2.2.0"
+    "version": "3.0.0"
   },
   {
     "name": "tesk9/modal",
@@ -642,6 +660,18 @@
     "version": "3.1.0"
   },
   {
+    "name": "jxxcarlson/elm-l0-parser",
+    "summary": "Fault-tolerant parser for the L0 markup language",
+    "license": "MIT",
+    "version": "1.2.3"
+  },
+  {
+    "name": "jxxcarlson/elm-lambda",
+    "summary": "tools for working with the lambda calculus",
+    "license": "MIT",
+    "version": "1.0.0"
+  },
+  {
     "name": "jxxcarlson/elm-markdown",
     "summary": "Experimental markdown parser, handles math, has hooks for editor sync",
     "license": "BSD-3-Clause",
@@ -669,7 +699,7 @@
     "name": "jxxcarlson/elm-stat",
     "summary": "Elm stat utility",
     "license": "BSD-3-Clause",
-    "version": "5.0.0"
+    "version": "5.0.1"
   },
   {
     "name": "jxxcarlson/elm-tar",
@@ -682,6 +712,12 @@
     "summary": "Pure Elm text editor forked from Sydney Nemzer",
     "license": "BSD-3-Clause",
     "version": "7.0.8"
+  },
+  {
+    "name": "jxxcarlson/elm-tree-builder",
+    "summary": "Build rose trees from a string",
+    "license": "BSD-3-Clause",
+    "version": "7.0.0"
   },
   {
     "name": "jxxcarlson/elm-typed-time",
@@ -879,7 +915,7 @@
     "name": "Chadtech/elm-css-grid",
     "summary": "Simple way to arrange things in grids",
     "license": "BSD-3-Clause",
-    "version": "2.0.3"
+    "version": "3.0.0"
   },
   {
     "name": "Chadtech/elm-imperative-porting",
@@ -979,15 +1015,15 @@
   },
   {
     "name": "Confidenceman02/elm-select",
-    "summary": "A Handsome configurable select inspired by Culture Amp's Kaizen select.",
+    "summary": "A Handsome flexible select!",
     "license": "BSD-3-Clause",
-    "version": "1.0.3"
+    "version": "3.2.2"
   },
   {
     "name": "ContaSystemer/elm-angularjs-custom-element",
     "summary": "The package contains HTML functions to reuse AngularJS components in Elm",
     "license": "BSD-3-Clause",
-    "version": "1.1.0"
+    "version": "1.1.1"
   },
   {
     "name": "ContaSystemer/elm-effects",
@@ -1023,7 +1059,7 @@
     "name": "ContaSystemer/elm-menu",
     "summary": "A customizable menu component which could be used for autocomplete component",
     "license": "BSD-3-Clause",
-    "version": "1.1.0"
+    "version": "1.1.1"
   },
   {
     "name": "ContaSystemer/elm-review-no-missing-documentation",
@@ -1054,6 +1090,12 @@
     "summary": "A reusable date picker component",
     "license": "BSD-3-Clause",
     "version": "4.0.0"
+  },
+  {
+    "name": "DelmOrg/delm-concept",
+    "summary": "Conceptual standard library for Delm",
+    "license": "MIT",
+    "version": "2.3.0"
   },
   {
     "name": "EdutainmentLIVE/elm-bootstrap",
@@ -1173,13 +1215,13 @@
     "name": "FabienHenon/jsonapi-http",
     "summary": "Make HTTP requests with jsonapi decoding/encoding in Elm",
     "license": "MIT",
-    "version": "1.0.0"
+    "version": "2.1.0"
   },
   {
     "name": "FabienHenon/jsonapi-http-retry",
     "summary": "Retry failed jsonapi requests with policies",
     "license": "MIT",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   {
     "name": "FabienHenon/remote-resource",
@@ -1197,7 +1239,7 @@
     "name": "FordLabs/elm-star-rating",
     "summary": "Simple 5 star rating component",
     "license": "Apache-2.0",
-    "version": "1.2.0"
+    "version": "2.0.1"
   },
   {
     "name": "FranklinChen/elm-tau",
@@ -1389,7 +1431,7 @@
     "name": "JohnBugner/elm-bag",
     "summary": "A bag, also known as a multiset.",
     "license": "BSD-3-Clause",
-    "version": "2.0.1"
+    "version": "3.1.0"
   },
   {
     "name": "JohnBugner/elm-loop",
@@ -1413,7 +1455,7 @@
     "name": "JoshuaHall/elm-2d-array",
     "summary": "2D Arrays implemented in Elm",
     "license": "BSD-3-Clause",
-    "version": "1.0.1"
+    "version": "1.0.3"
   },
   {
     "name": "JoshuaHall/elm-fraction",
@@ -1527,13 +1569,13 @@
     "name": "MartinSStewart/elm-serialize",
     "summary": "Write codecs for encoding and decoding Elm data.",
     "license": "MIT",
-    "version": "1.2.5"
+    "version": "1.3.0"
   },
   {
     "name": "MartinSStewart/send-grid",
     "summary": "Send emails with the Send Grid API. Only useful for server-side Elm.",
     "license": "MIT",
-    "version": "4.1.0"
+    "version": "4.1.1"
   },
   {
     "name": "Massolari/elm-mask",
@@ -1578,6 +1620,12 @@
     "version": "3.0.0"
   },
   {
+    "name": "NeoVier/elm-mask",
+    "summary": "Mask `String`s to be used in input fields",
+    "license": "BSD-3-Clause",
+    "version": "2.0.4"
+  },
+  {
     "name": "NeoVier/elm-review-no-function-outside-of-modules",
     "summary": "Provides elm-review rules to forbid using functions outside of certain modules",
     "license": "BSD-3-Clause",
@@ -1587,7 +1635,7 @@
     "name": "NoRedInk/datetimepicker-legacy",
     "summary": "Reusable date and time picker view",
     "license": "Apache-2.0",
-    "version": "1.0.4"
+    "version": "3.0.0"
   },
   {
     "name": "NoRedInk/elm-compare",
@@ -1617,7 +1665,7 @@
     "name": "NoRedInk/elm-json-decode-pipeline",
     "summary": "Use pipelines to build JSON Decoders.",
     "license": "BSD-3-Clause",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   {
     "name": "NoRedInk/elm-plot-19",
@@ -1713,7 +1761,7 @@
     "name": "NoRedInk/noredink-ui",
     "summary": "UI Widgets we use at NRI",
     "license": "BSD-3-Clause",
-    "version": "13.1.0"
+    "version": "15.6.1"
   },
   {
     "name": "NoRedInk/style-elements",
@@ -1767,7 +1815,13 @@
     "name": "Orasund/elm-ui-widgets",
     "summary": "Collection of reusable views for elm-ui.",
     "license": "BSD-3-Clause",
-    "version": "3.1.0"
+    "version": "3.2.0"
+  },
+  {
+    "name": "Orasund/leaf-lang",
+    "summary": "A multi paradigm scripting language for Elm",
+    "license": "BSD-3-Clause",
+    "version": "1.0.1"
   },
   {
     "name": "Orasund/pixelengine",
@@ -1809,7 +1863,7 @@
     "name": "PaackEng/elm-ui-dropdown",
     "summary": "An Elm UI dropdown component",
     "license": "MIT",
-    "version": "3.1.1"
+    "version": "3.3.0"
   },
   {
     "name": "PaackEng/paack-remotedata",
@@ -1821,7 +1875,7 @@
     "name": "PaackEng/paack-ui",
     "summary": "Paack's Design System applied over Elm UI",
     "license": "BSD-3-Clause",
-    "version": "6.6.0"
+    "version": "7.11.0"
   },
   {
     "name": "PanagiotisGeorgiadis/elm-datepicker",
@@ -1839,7 +1893,7 @@
     "name": "PerformanceIMMO/elm-utils",
     "summary": "All common types and functions used by perfimmo dev",
     "license": "GPL-3.0",
-    "version": "1.1.0"
+    "version": "1.6.0"
   },
   {
     "name": "Punie/elm-id",
@@ -1905,13 +1959,25 @@
     "name": "SiriusStarr/elm-review-no-single-pattern-case",
     "summary": "Provides elm-review rules to disallow single-pattern case expressions.",
     "license": "GPL-3.0",
-    "version": "1.0.1"
+    "version": "2.0.1"
+  },
+  {
+    "name": "SiriusStarr/elm-review-no-unsorted",
+    "summary": "elm-review rules to ensure sortable code is sorted in the \"proper\" order.",
+    "license": "GPL-3.0",
+    "version": "1.1.0"
+  },
+  {
+    "name": "SiriusStarr/elm-review-pipeline-styles",
+    "summary": "Customizable elm-review rules for allowable pipeline styles.",
+    "license": "GPL-3.0",
+    "version": "1.3.1"
   },
   {
     "name": "SiriusStarr/elm-spaced-repetition",
     "summary": "Create spaced repetition software using several different popular algorithms.",
     "license": "GPL-3.0",
-    "version": "2.0.0"
+    "version": "2.0.1"
   },
   {
     "name": "SiriusStarr/elm-splat",
@@ -1977,7 +2043,7 @@
     "name": "TSFoster/elm-md5",
     "summary": "Computes MD5 hash of non-string data",
     "license": "BSD-3-Clause",
-    "version": "2.0.0"
+    "version": "2.0.1"
   },
   {
     "name": "TSFoster/elm-sha1",
@@ -2019,7 +2085,7 @@
     "name": "ThinkAlexandria/elm-html-in-elm",
     "summary": "A pure Elm representation of Elm Html",
     "license": "BSD-3-Clause",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   {
     "name": "ThinkAlexandria/elm-pretty-print-json",
@@ -2074,6 +2140,18 @@
     "summary": "Scrolling to position that always takes the same amount of time.",
     "license": "BSD-3-Clause",
     "version": "1.0.1"
+  },
+  {
+    "name": "Yagger/elm-odata4",
+    "summary": "Build Open Data Protocol (OData v4) queries",
+    "license": "MIT",
+    "version": "2.0.1"
+  },
+  {
+    "name": "Yagger/elm-review-no-url-string-concatenation",
+    "summary": "An elm-review rule that ensures URLs are not built using string concatenation",
+    "license": "BSD-3-Clause",
+    "version": "1.0.2"
   },
   {
     "name": "YuyaAizawa/list-wrapper",
@@ -2205,7 +2283,7 @@
     "name": "aforemny/material-components-web-elm",
     "summary": "Material Components for Elm",
     "license": "MIT",
-    "version": "7.0.0"
+    "version": "8.0.1"
   },
   {
     "name": "agu-z/elm-zip",
@@ -2253,7 +2331,7 @@
     "name": "albertdahlin/elm-posix",
     "summary": "Write posix programs using IO monad",
     "license": "MIT",
-    "version": "1.0.2"
+    "version": "1.1.0"
   },
   {
     "name": "alex-tan/elm-dialog",
@@ -2320,6 +2398,18 @@
     "summary": "Operational Replicated Data Types for crafting replicated data types",
     "license": "MIT",
     "version": "2.1.2"
+  },
+  {
+    "name": "alexkorban/elm-review-json-to-elm",
+    "summary": "An elm-review rule to generate JSON decoders and encoders from a JSON string",
+    "license": "BSD-3-Clause",
+    "version": "1.0.1"
+  },
+  {
+    "name": "alexkorban/json-to-elm",
+    "summary": "A package to help generate Elm JSON decoders and encoders from a JSON sample",
+    "license": "AGPL-3.0",
+    "version": "1.1.0"
   },
   {
     "name": "alexkorban/uicards",
@@ -2430,6 +2520,18 @@
     "version": "4.1.0"
   },
   {
+    "name": "andreasewering/elm-placeholder",
+    "summary": "Typesafe string interpolation via placeholder parsing",
+    "license": "MIT",
+    "version": "2.2.0"
+  },
+  {
+    "name": "andreasewering/intl-proxy",
+    "summary": "Provides access to the Browsers Intl Api via a JS Proxy Object",
+    "license": "MIT",
+    "version": "2.0.0"
+  },
+  {
     "name": "andrewMacmurray/elm-delay",
     "summary": "utilities to trigger updates after a delay",
     "license": "BSD-3-Clause",
@@ -2439,7 +2541,7 @@
     "name": "andrewMacmurray/elm-simple-animation",
     "summary": "stateless animation utils",
     "license": "MIT",
-    "version": "2.1.0"
+    "version": "2.3.0"
   },
   {
     "name": "andys8/elm-geohash",
@@ -2469,7 +2571,7 @@
     "name": "arowM/elm-classname",
     "summary": "A brief module for custom `class` attributes.",
     "license": "MIT",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   {
     "name": "arowM/elm-css-modules-helper",
@@ -2544,10 +2646,22 @@
     "version": "1.0.7"
   },
   {
+    "name": "arowM/elm-thread",
+    "summary": "Translate chronological specifications verbatim into applications.",
+    "license": "MIT",
+    "version": "3.0.1"
+  },
+  {
     "name": "arowM/elm-update-builder",
     "summary": " ",
     "license": "MIT",
-    "version": "1.3.0"
+    "version": "1.3.1"
+  },
+  {
+    "name": "arowM/elm-zoned-time",
+    "summary": "A brief library for zoned time.",
+    "license": "MIT",
+    "version": "1.1.0"
   },
   {
     "name": "arowM/html",
@@ -2625,7 +2739,7 @@
     "name": "avh4/elm-debug-controls",
     "summary": "Easily create interactive UIs for complex data structures",
     "license": "BSD-3-Clause",
-    "version": "2.2.1"
+    "version": "2.2.2"
   },
   {
     "name": "avh4/elm-desktop-app",
@@ -2649,13 +2763,13 @@
     "name": "avh4/elm-github-v3",
     "summary": "Unofficial GitHub v3 API for Elm",
     "license": "MIT",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   {
     "name": "avh4/elm-program-test",
     "summary": "Test Elm programs",
     "license": "MIT",
-    "version": "3.5.0"
+    "version": "3.6.1"
   },
   {
     "name": "avh4-experimental/elm-transducers",
@@ -2672,8 +2786,14 @@
   {
     "name": "bChiquet/elm-accessors",
     "summary": "Accessors, a library implementing lenses for Elm.",
-    "license": "BSD-3-Clause",
-    "version": "2.0.0"
+    "license": "MIT",
+    "version": "2.1.1"
+  },
+  {
+    "name": "bChiquet/elm-test-deps",
+    "summary": "Show a pattern to expose package modules for test only",
+    "license": "MIT",
+    "version": "1.0.0"
   },
   {
     "name": "babsballetschool/image-directory",
@@ -2727,7 +2847,7 @@
     "name": "bburdette/toop",
     "summary": "tuple-like datastructure allowing more than 3 elements.",
     "license": "MIT",
-    "version": "1.0.1"
+    "version": "1.2.0"
   },
   {
     "name": "bburdette/typed-collections",
@@ -2740,6 +2860,12 @@
     "summary": "open, close websockets, send and receive messages.",
     "license": "BSD-3-Clause",
     "version": "1.0.3"
+  },
+  {
+    "name": "bburdette/windowkeys",
+    "summary": "subscribe to window key presses; preventDefault if desired.",
+    "license": "BSD-3-Clause",
+    "version": "1.0.1"
   },
   {
     "name": "bellroy/elm-actor-framework",
@@ -2818,6 +2944,12 @@
     "summary": "elm-test extensions for lobo",
     "license": "BSD-3-Clause",
     "version": "3.0.0"
+  },
+  {
+    "name": "benjajaja/radar-chart",
+    "summary": "An SVG radar chart",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
   },
   {
     "name": "benthepoet/elm-purecss",
@@ -2901,19 +3033,19 @@
     "name": "billstclair/elm-localstorage",
     "summary": "elm-localstorage provides persistence via JavaScript's localStorage.",
     "license": "MIT",
-    "version": "7.2.0"
+    "version": "7.3.1"
   },
   {
     "name": "billstclair/elm-mastodon",
     "summary": "Elm client for the Mastodon social network.",
     "license": "MIT",
-    "version": "11.0.0"
+    "version": "12.0.0"
   },
   {
     "name": "billstclair/elm-mastodon-websocket",
     "summary": "Elm client for the websocket API of the Mastodon social network.",
     "license": "MIT",
-    "version": "2.0.2"
+    "version": "2.0.3"
   },
   {
     "name": "billstclair/elm-oauth-middleware",
@@ -2967,13 +3099,13 @@
     "name": "billstclair/elm-websocket-framework",
     "summary": "elm-websocket-framework eases the creation of server-based applications.",
     "license": "MIT",
-    "version": "13.0.2"
+    "version": "15.0.0"
   },
   {
     "name": "billstclair/elm-websocket-framework-server",
     "summary": "This is the server side of billstclair/elm-websocket-framework",
     "license": "MIT",
-    "version": "14.1.3"
+    "version": "14.1.6"
   },
   {
     "name": "billstclair/elm-xml-eeue56",
@@ -3012,6 +3144,12 @@
     "version": "27.0.14"
   },
   {
+    "name": "bobcats/countries",
+    "summary": "ISO3166 Data for Elm",
+    "license": "MIT",
+    "version": "2.1.0"
+  },
+  {
     "name": "boianr/multilingual",
     "summary": "Display text in multiple languages",
     "license": "BSD-3-Clause",
@@ -3036,6 +3174,12 @@
     "version": "1.0.0"
   },
   {
+    "name": "brainrape/elm-arc-diagram",
+    "summary": "An arc diagram for visualizing acyclic digraphs",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
+  },
+  {
     "name": "brainrape/elm-mathml",
     "summary": "MathML for Elm",
     "license": "MIT",
@@ -3045,7 +3189,7 @@
     "name": "brandly/elm-dot-lang",
     "summary": "Parse DOT Language files",
     "license": "BSD-3-Clause",
-    "version": "1.1.5"
+    "version": "1.1.6"
   },
   {
     "name": "brasilikum/is-password-known",
@@ -3063,7 +3207,7 @@
     "name": "brian-watkins/elm-spec",
     "summary": "Describe the behavior of Elm programs",
     "license": "MIT",
-    "version": "3.1.0"
+    "version": "3.3.2"
   },
   {
     "name": "brianvanburken/elm-list-date",
@@ -3075,7 +3219,13 @@
     "name": "brilliantorg/backpacker-below",
     "summary": "Unstable alpha version of a parser for the Camperdown markup language.",
     "license": "BSD-3-Clause",
-    "version": "2.0.0"
+    "version": "3.0.1"
+  },
+  {
+    "name": "buildrtech/countries-elm",
+    "summary": "ISO3166 Data for Elm",
+    "license": "MIT",
+    "version": "1.0.0"
   },
   {
     "name": "bundsol/boxed",
@@ -3136,6 +3286,12 @@
     "summary": "An SVG chart library",
     "license": "MIT",
     "version": "2.0.3"
+  },
+  {
+    "name": "canceraiddev/elm-pages",
+    "summary": "A statically typed site generator.",
+    "license": "BSD-3-Clause",
+    "version": "1.1.3"
   },
   {
     "name": "capitalist/elm-octicons",
@@ -3270,6 +3426,12 @@
     "version": "1.0.1"
   },
   {
+    "name": "cedricss/elm-scroll-snap",
+    "summary": "Scrollable containers with snapping",
+    "license": "MIT",
+    "version": "2.0.0"
+  },
+  {
     "name": "chain-partners/elm-bignum",
     "summary": "Elm library for arbitrary precision arithmetic",
     "license": "MIT",
@@ -3279,7 +3441,7 @@
     "name": "chazsconi/elm-phoenix-ports",
     "summary": "Elm Phoenix with ports",
     "license": "MIT",
-    "version": "1.1.2"
+    "version": "1.1.3"
   },
   {
     "name": "chelovek0v/bbase64",
@@ -3315,7 +3477,7 @@
     "name": "choonkeat/elm-aws",
     "summary": "Make signed REST api calls to AWS, e.g. DynamoDB",
     "license": "MIT",
-    "version": "6.1.0"
+    "version": "7.0.0"
   },
   {
     "name": "choonkeat/elm-fullstack",
@@ -3339,13 +3501,19 @@
     "name": "choonkeat/elm-webapp",
     "summary": "Small framework for writing fullstack HTTP webapp in Elm. Try `npx elm-webapp`",
     "license": "MIT",
-    "version": "2.0.0"
+    "version": "3.0.2"
   },
   {
     "name": "choonkeat/formdata",
     "summary": "Parse, don't validate form data",
     "license": "MIT",
-    "version": "2.0.1"
+    "version": "2.1.0"
+  },
+  {
+    "name": "choonkeat/only-import-outside",
+    "summary": "Certain module prefixes, e.g. `Data`, can only import outside your codebase",
+    "license": "MIT",
+    "version": "1.0.0"
   },
   {
     "name": "chrilves/elm-io",
@@ -3384,6 +3552,12 @@
     "version": "1.0.0"
   },
   {
+    "name": "coinop-logan/nym",
+    "summary": "Nym display",
+    "license": "MIT",
+    "version": "2.2.0"
+  },
+  {
     "name": "coinop-logan/phace",
     "summary": "Generate phaces: face-like identicons based on crypto addresses.",
     "license": "MIT",
@@ -3411,7 +3585,7 @@
     "name": "cuducos/elm-format-number",
     "summary": "Format numbers as pretty strings",
     "license": "BSD-3-Clause",
-    "version": "8.1.4"
+    "version": "9.0.1"
   },
   {
     "name": "cultureamp/babel-elm-assets-plugin",
@@ -3501,7 +3675,7 @@
     "name": "data-viz-lab/elm-chart-builder",
     "summary": "A high level data visualization package for Elm",
     "license": "MIT",
-    "version": "5.1.0"
+    "version": "7.0.1"
   },
   {
     "name": "davidcavazos/parser",
@@ -3543,19 +3717,25 @@
     "name": "dillonkearns/elm-cli-options-parser",
     "summary": "Type-safe command line options parsing.",
     "license": "BSD-3-Clause",
-    "version": "3.0.1"
+    "version": "3.1.0"
   },
   {
     "name": "dillonkearns/elm-graphql",
     "summary": "Type-safe GraphQL queries in Elm.",
     "license": "BSD-3-Clause",
-    "version": "5.0.5"
+    "version": "5.0.9"
+  },
+  {
+    "name": "dillonkearns/elm-koan-runner",
+    "summary": "An HTML test runner to show test results in the style of koan exercises.",
+    "license": "BSD-3-Clause",
+    "version": "1.0.1"
   },
   {
     "name": "dillonkearns/elm-markdown",
     "summary": "Pure Elm markdown parser with customizable rendering.",
     "license": "BSD-3-Clause",
-    "version": "6.0.1"
+    "version": "7.0.0"
   },
   {
     "name": "dillonkearns/elm-oembed",
@@ -3567,13 +3747,13 @@
     "name": "dillonkearns/elm-pages",
     "summary": "A statically typed site generator.",
     "license": "BSD-3-Clause",
-    "version": "8.0.2"
+    "version": "9.0.0"
   },
   {
     "name": "dillonkearns/elm-review-html-to-elm",
     "summary": "Generate Elm code from HTML strings using an elm-review fix.",
     "license": "BSD-3-Clause",
-    "version": "1.0.3"
+    "version": "1.0.4"
   },
   {
     "name": "dillonkearns/elm-rss",
@@ -3591,7 +3771,7 @@
     "name": "dillonkearns/elm-ts-json",
     "summary": "JSON Encoders and Decoders with TypeScript type information.",
     "license": "BSD-3-Clause",
-    "version": "1.1.0"
+    "version": "2.1.0"
   },
   {
     "name": "dividat/elm-identicon",
@@ -3609,7 +3789,7 @@
     "name": "dkodaj/rte",
     "summary": "Rich text editor for blogpost-sized texts",
     "license": "MIT",
-    "version": "3.0.16"
+    "version": "3.0.21"
   },
   {
     "name": "dmy/elm-imf-date-time",
@@ -3681,7 +3861,7 @@
     "name": "dtwrks/elm-book",
     "summary": "Rich documentation builder inspired by Storybook and HexDocs.",
     "license": "MPL-2.0",
-    "version": "1.2.0"
+    "version": "1.4.0"
   },
   {
     "name": "dtwrks/elm-book-interop-elm-css",
@@ -3726,16 +3906,22 @@
     "version": "2.2.1"
   },
   {
+    "name": "dwyl/elm-datepicker",
+    "summary": "A customisable date picker written in Elm",
+    "license": "BSD-3-Clause",
+    "version": "3.0.0"
+  },
+  {
     "name": "dzuk-mutant/elm-html-styled-aria",
     "summary": "Aria attributes that are easily compatible with elm-css",
     "license": "BSD-3-Clause",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   {
     "name": "dzuk-mutant/elm-responsive-pixels",
     "summary": "Work in pixels while deploying in rems in elm-css.",
     "license": "BSD-3-Clause",
-    "version": "1.2.0"
+    "version": "1.2.1"
   },
   {
     "name": "dzuk-mutant/hundred-rabbits-themes-elm",
@@ -3747,13 +3933,25 @@
     "name": "dzuk-mutant/internet-time-elm",
     "summary": "Convert to and display Internet Time.",
     "license": "BSD-3-Clause",
-    "version": "1.0.3"
+    "version": "1.0.4"
+  },
+  {
+    "name": "dzuk-mutant/nice-bases",
+    "summary": "Convert to, from and between many types of non-decimal numbers.",
+    "license": "BSD-3-Clause",
+    "version": "2.0.0"
   },
   {
     "name": "dzuk-mutant/nice-screen-buckets",
     "summary": "Track your browser's screen size and compare them against set boundaries.",
     "license": "BSD-3-Clause",
-    "version": "4.0.0"
+    "version": "4.0.1"
+  },
+  {
+    "name": "eco-pro/elm-phoenix-ports",
+    "summary": "Elm Phoenix with ports",
+    "license": "MIT",
+    "version": "1.0.0"
   },
   {
     "name": "eco-pro/project-metadata-utils",
@@ -3771,6 +3969,12 @@
     "name": "edgerunner/elm-tuple-trio",
     "summary": "The missing (from the core) love for the 3-tuple",
     "license": "MIT",
+    "version": "1.0.0"
+  },
+  {
+    "name": "edkelly303/elm-any-type-collections",
+    "summary": "Dicts with any type as a key and Sets with any type as a member",
+    "license": "BSD-3-Clause",
     "version": "1.0.0"
   },
   {
@@ -3801,7 +4005,7 @@
     "name": "elm-community/array-extra",
     "summary": "Convenience functions for working with Array",
     "license": "MIT",
-    "version": "2.3.0"
+    "version": "2.4.0"
   },
   {
     "name": "elm-community/basics-extra",
@@ -3849,7 +4053,7 @@
     "name": "elm-community/list-extra",
     "summary": "Convenience functions for working with List",
     "license": "MIT",
-    "version": "8.4.0"
+    "version": "8.5.2"
   },
   {
     "name": "elm-community/list-split",
@@ -3861,7 +4065,7 @@
     "name": "elm-community/maybe-extra",
     "summary": "Convenience functions for working with Maybe",
     "license": "MIT",
-    "version": "5.2.0"
+    "version": "5.3.0"
   },
   {
     "name": "elm-community/random-extra",
@@ -3939,13 +4143,19 @@
     "name": "emilgoldsmith/elm-speedcubing",
     "summary": "Models and html displays for speedcubing puzzles and algorithm sets",
     "license": "MIT",
-    "version": "7.0.1"
+    "version": "9.0.1"
   },
   {
     "name": "emilianobovetti/edit-distance",
     "summary": "Algorithms for edit distance calculation",
     "license": "BSD-3-Clause",
     "version": "1.0.7"
+  },
+  {
+    "name": "emilianobovetti/elm-toast",
+    "summary": "Also known as snackbars or pop-up notifications",
+    "license": "BSD-3-Clause",
+    "version": "1.0.1"
   },
   {
     "name": "emilianobovetti/elm-yajson",
@@ -3999,7 +4209,7 @@
     "name": "eriktim/elm-protocol-buffers",
     "summary": "An Elm implementation of the Protocol Buffers specification",
     "license": "BSD-3-Clause",
-    "version": "1.1.0"
+    "version": "1.1.1"
   },
   {
     "name": "erlandsona/assoc-set",
@@ -4065,7 +4275,7 @@
     "name": "fabhof/elm-ui-datepicker",
     "summary": "A reasonable date picker for the awesome elm-ui.",
     "license": "BSD-3-Clause",
-    "version": "3.0.0"
+    "version": "4.0.0"
   },
   {
     "name": "fabiommendes/elm-iter",
@@ -4119,25 +4329,25 @@
     "name": "figbus/elm-urbit-api",
     "summary": "Communicate with Urbit from Elm.",
     "license": "MIT",
-    "version": "2.0.1"
+    "version": "4.0.1"
   },
   {
     "name": "finos/morphir-elm",
     "summary": "Morphir Elm bindings",
     "license": "Apache-2.0",
-    "version": "12.0.0"
+    "version": "15.0.0"
   },
   {
     "name": "fission-suite/kit",
     "summary": "Fission UI Kit",
     "license": "Apache-2.0",
-    "version": "2.1.0"
+    "version": "2.2.0"
   },
   {
     "name": "fission-suite/webnative-elm",
     "summary": "Thin wrapper around webnative for Elm",
     "license": "Apache-2.0",
-    "version": "6.0.0"
+    "version": "7.0.0"
   },
   {
     "name": "flowlang-cc/elm-audio-graph",
@@ -4227,7 +4437,7 @@
     "name": "folq/google-calendar-url",
     "summary": "Build URLs for creating events in Google Calendar with prefilled contents",
     "license": "BSD-3-Clause",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   {
     "name": "folq/review-rgb-ranges",
@@ -4428,6 +4638,12 @@
     "version": "1.0.3"
   },
   {
+    "name": "ggpeti/return-optics",
+    "summary": "Extend Return with Monocle's Lenses for fun in the update function",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
+  },
+  {
     "name": "ghivert/elm-graphql",
     "summary": "GraphQL queries made easy in Elm!",
     "license": "MIT",
@@ -4443,7 +4659,7 @@
     "name": "gicentre/elm-vegalite",
     "summary": "Declarative visualization with Elm and Vega-Lite",
     "license": "BSD-3-Clause",
-    "version": "4.0.0"
+    "version": "5.0.0"
   },
   {
     "name": "gicentre/tidy",
@@ -4494,10 +4710,16 @@
     "version": "6.0.0"
   },
   {
+    "name": "goyalarchit/elm-dagre",
+    "summary": "Sugiyama Style graph drawing in pure elm.",
+    "license": "BSD-3-Clause",
+    "version": "2.0.0"
+  },
+  {
     "name": "gribouille/elm-bulma",
     "summary": "ELM Bulma wrapper",
     "license": "MPL-2.0",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   {
     "name": "gribouille/elm-combo",
@@ -4545,13 +4767,13 @@
     "name": "gribouille/elm-table",
     "summary": "Table component",
     "license": "MPL-2.0",
-    "version": "4.0.0"
+    "version": "5.1.1"
   },
   {
     "name": "gribouille/elm-treeview",
     "summary": "ELM tree view component",
     "license": "MPL-2.0",
-    "version": "2.0.1"
+    "version": "2.0.2"
   },
   {
     "name": "groma84/elm-tachyons",
@@ -4600,6 +4822,12 @@
     "summary": "Finds the most relevant sentence",
     "license": "MIT",
     "version": "5.1.1"
+  },
+  {
+    "name": "hansallis/elm-ratelimiter",
+    "summary": "Simple sliding log rate limiter.",
+    "license": "MIT",
+    "version": "1.1.0"
   },
   {
     "name": "harmboschloo/elm-dict-intersect",
@@ -4695,7 +4923,7 @@
     "name": "hmsk/elm-css-modern-normalize",
     "summary": "An Elm port of modern-normalize",
     "license": "MIT",
-    "version": "1.0.3"
+    "version": "1.0.4"
   },
   {
     "name": "holmusk/timed-cache",
@@ -4725,7 +4953,7 @@
     "name": "icidasset/elm-material-icons",
     "summary": "Material Icons Library",
     "license": "BSD-3-Clause",
-    "version": "8.0.0"
+    "version": "9.0.0"
   },
   {
     "name": "icidasset/elm-sha",
@@ -4743,7 +4971,7 @@
     "name": "indicatrix/elm-chartjs-webcomponent",
     "summary": "Elm types and pipeline functions to easily work with Chartjs",
     "license": "MIT",
-    "version": "2.0.0"
+    "version": "3.0.0"
   },
   {
     "name": "indicatrix/elm-input-extra",
@@ -4821,13 +5049,13 @@
     "name": "insurello/elm-swedish-bank-account-number",
     "summary": "Validate Swedish bank account numbers",
     "license": "MIT",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   {
     "name": "insurello/elm-ui-explorer",
     "summary": "Explore and interact with UI components and pages you've created",
     "license": "MIT",
-    "version": "2.0.0"
+    "version": "2.1.1"
   },
   {
     "name": "integral424/elm-pivot-table",
@@ -4876,6 +5104,12 @@
     "summary": "Padding insensitive, elm/bytes based, functional implementation of Base64",
     "license": "MIT",
     "version": "1.1.1"
+  },
+  {
+    "name": "j-maas/elm-ordered-containers",
+    "summary": "Ordered Dict and Set for Elm",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
   },
   {
     "name": "j-panasiuk/elm-ionicons",
@@ -4938,6 +5172,18 @@
     "version": "1.1.0"
   },
   {
+    "name": "jaredramirez/elm-select",
+    "summary": "A Handsome configurable select inspired by Culture Amp's Kaizen select.",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
+  },
+  {
+    "name": "jaredramirez/html-styled-extra",
+    "summary": "Additional functions for working with Html.Styled",
+    "license": "MIT",
+    "version": "1.0.0"
+  },
+  {
     "name": "jasonliang-dev/elm-heroicons",
     "summary": "Heroicons for elm",
     "license": "MIT",
@@ -4953,7 +5199,13 @@
     "name": "jcberentsen/elm-wiring-diagrams",
     "summary": "A package for rendering wiring-diagrams to SVG",
     "license": "BSD-3-Clause",
-    "version": "5.3.2"
+    "version": "5.4.5"
+  },
+  {
+    "name": "jeongoon/elmnt-scrollpicker",
+    "summary": "An elm-ui-friendly picker by scrolling",
+    "license": "OSL-3.0",
+    "version": "2.0.0"
   },
   {
     "name": "jfmengels/elm-lint",
@@ -4971,7 +5223,7 @@
     "name": "jfmengels/elm-review",
     "summary": "Analyzes Elm projects, to help find mistakes before your users find them.",
     "license": "BSD-3-Clause",
-    "version": "2.5.0"
+    "version": "2.6.2"
   },
   {
     "name": "jfmengels/elm-review-code-style",
@@ -4989,7 +5241,7 @@
     "name": "jfmengels/elm-review-common",
     "summary": "Provides common linting rules for elm-review",
     "license": "BSD-3-Clause",
-    "version": "1.1.2"
+    "version": "1.2.0"
   },
   {
     "name": "jfmengels/elm-review-debug",
@@ -5001,13 +5253,13 @@
     "name": "jfmengels/elm-review-documentation",
     "summary": "Provides elm-review rules to help with the quality of the documentation",
     "license": "BSD-3-Clause",
-    "version": "1.0.3"
+    "version": "2.0.1"
   },
   {
     "name": "jfmengels/elm-review-license",
     "summary": "Provides an elm-review rule to prevent using packages with unapproved licenses",
     "license": "BSD-3-Clause",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   {
     "name": "jfmengels/elm-review-performance",
@@ -5043,7 +5295,7 @@
     "name": "jfmengels/elm-review-unused",
     "summary": "Provides elm-review rules to detect unused elements in your Elm project",
     "license": "BSD-3-Clause",
-    "version": "1.1.16"
+    "version": "1.1.20"
   },
   {
     "name": "jfmengels/lint-debug",
@@ -5086,6 +5338,12 @@
     "summary": "DEPRECATED: Use jfmengels/elm-review-unused instead.",
     "license": "BSD-3-Clause",
     "version": "2.1.5"
+  },
+  {
+    "name": "jgrenat/datocms-structured-text",
+    "summary": "Decoder, encoder and HTML renderer for DatoCMS Structured Text format (DAST)",
+    "license": "BSD-3-Clause",
+    "version": "2.0.0"
   },
   {
     "name": "jgrenat/elm-html-test-runner",
@@ -5199,7 +5457,7 @@
     "name": "joakin/elm-canvas",
     "summary": "2D drawing API based on DOM Canvas, but nicer",
     "license": "BSD-3-Clause",
-    "version": "4.3.0"
+    "version": "5.0.0"
   },
   {
     "name": "joakin/elm-grid",
@@ -5340,6 +5598,12 @@
     "version": "1.0.1"
   },
   {
+    "name": "jsuder-xx/elm-ra",
+    "summary": "Support for Pointfree style in Elm with a subset of Ramda functions.",
+    "license": "MIT",
+    "version": "1.1.1"
+  },
+  {
     "name": "justgage/tachyons-elm",
     "summary": "Tachyons CSS classnames for Elm",
     "license": "MIT",
@@ -5391,7 +5655,7 @@
     "name": "justinmimbs/date",
     "summary": "Work with dates without times or zones",
     "license": "BSD-3-Clause",
-    "version": "3.2.1"
+    "version": "4.0.0"
   },
   {
     "name": "justinmimbs/time-extra",
@@ -5403,7 +5667,7 @@
     "name": "justinmimbs/timezone-data",
     "summary": "Time zone data from the IANA Time Zone Database for using with elm/time",
     "license": "BSD-3-Clause",
-    "version": "4.0.2"
+    "version": "5.1.2"
   },
   {
     "name": "justinmimbs/tzif",
@@ -5454,6 +5718,12 @@
     "version": "9.0.0"
   },
   {
+    "name": "ken-matsui/html-styled-extra",
+    "summary": "Additional functions for working with Html.Styled",
+    "license": "MIT",
+    "version": "1.0.0"
+  },
+  {
     "name": "kingwither/elmeither",
     "summary": "Haskell's 'Either' type",
     "license": "BSD-3-Clause",
@@ -5476,6 +5746,12 @@
     "summary": "Create validatable forms",
     "license": "Apache-2.0",
     "version": "1.1.1"
+  },
+  {
+    "name": "kkazuo/expect-bytes",
+    "summary": "Expect Bytes with Http",
+    "license": "MIT",
+    "version": "1.0.0"
   },
   {
     "name": "kkpoon/elm-auth0",
@@ -5712,6 +5988,12 @@
     "version": "2.0.1"
   },
   {
+    "name": "leforestier/elm-hammer-events",
+    "summary": "Use Hammer.js touch events with Elm",
+    "license": "MIT",
+    "version": "1.0.1"
+  },
+  {
     "name": "lemol/ant-design-icons-elm",
     "summary": "Ant Design Icons for Elm",
     "license": "MIT",
@@ -5724,10 +6006,22 @@
     "version": "1.0.0"
   },
   {
+    "name": "lenards/elm-pandemic-date",
+    "summary": "When you feel like time stopped and we're still in March 2020 ...",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
+  },
+  {
+    "name": "lenards/elm-ui-patternfly",
+    "summary": "An elm-ui implementation of components from the PatternFly design system",
+    "license": "BSD-3-Clause",
+    "version": "1.1.2"
+  },
+  {
     "name": "leojpod/elm-apex-charts-link",
     "summary": "describe your apex charts in elm to use via ports/web-components",
     "license": "MIT",
-    "version": "2.1.0"
+    "version": "3.0.0"
   },
   {
     "name": "leojpod/elm-jwt",
@@ -5748,6 +6042,12 @@
     "version": "1.0.2"
   },
   {
+    "name": "leojpod/review-no-id-as-string",
+    "summary": "Promote the use of opaque type as ID and flag the use of String for id fields",
+    "license": "MIT",
+    "version": "1.0.0"
+  },
+  {
     "name": "leonardanyer/elm-combox",
     "summary": "Custom dropdown based on elm-selectize",
     "license": "BSD-3-Clause",
@@ -5758,6 +6058,12 @@
     "summary": "Minimal reusable functions to enrich common use of elm/html",
     "license": "Apache-2.0",
     "version": "2.0.0"
+  },
+  {
+    "name": "lettenj61/elm-simple-template",
+    "summary": "Minimal viable template engine for Elm",
+    "license": "MIT",
+    "version": "1.0.0"
   },
   {
     "name": "lgcantarelli/emusic",
@@ -5808,6 +6114,18 @@
     "version": "2.0.1"
   },
   {
+    "name": "logicUSLIB/logicus-fol",
+    "summary": "Elm package for working with First Order Logic.",
+    "license": "BSD-3-Clause",
+    "version": "1.0.1"
+  },
+  {
+    "name": "logicUSLIB/logicus-pl",
+    "summary": "Elm package for working with Propositional Logic.",
+    "license": "BSD-3-Clause",
+    "version": "1.1.1"
+  },
+  {
     "name": "lovasoa/elm-csv",
     "summary": "A CSV parser.",
     "license": "MIT",
@@ -5818,6 +6136,12 @@
     "summary": "A circular buffer (infinite cyclic list)",
     "license": "BSD-3-Clause",
     "version": "1.1.4"
+  },
+  {
+    "name": "lovebug356/elm-crypto-com-exchange",
+    "summary": "API wrapper for Crypto.com Exchange",
+    "license": "BSD-3-Clause",
+    "version": "2.0.0"
   },
   {
     "name": "lucamug/elm-box-drawing",
@@ -5844,16 +6168,28 @@
     "version": "1.1.0"
   },
   {
-    "name": "lue-bird/elm-bits",
-    "summary": "operate in your custom bit format",
+    "name": "lue-bird/elm-alternative-benchmark-runner",
+    "summary": "run benchmarks in a clean ui & more (multi-compare, ...)",
     "license": "MIT",
-    "version": "3.0.1"
+    "version": "1.0.0"
+  },
+  {
+    "name": "lue-bird/elm-bits",
+    "summary": "use a custom bit format",
+    "license": "MIT",
+    "version": "4.0.2"
   },
   {
     "name": "lue-bird/elm-bounded-nat",
     "summary": "natural number in a range at compile-time",
     "license": "MIT",
-    "version": "19.0.1"
+    "version": "20.0.1"
+  },
+  {
+    "name": "lue-bird/elm-emptiness-typed",
+    "summary": "one type for emptiable and safe non-empty",
+    "license": "MIT",
+    "version": "3.0.0"
   },
   {
     "name": "lue-bird/elm-keysset",
@@ -5865,11 +6201,23 @@
     "name": "lue-bird/elm-linear-direction",
     "summary": "first to last, last to first",
     "license": "MIT",
-    "version": "2.2.1"
+    "version": "2.3.0"
   },
   {
     "name": "lue-bird/elm-review-links-point-to-existing-package-members",
     "summary": "elm-review rule to check that links point to existing package members",
+    "license": "MIT",
+    "version": "1.0.4"
+  },
+  {
+    "name": "lue-bird/elm-review-missing-record-field-lens",
+    "summary": "elm-review rule: generate record field lenses that don't exist yet",
+    "license": "MIT",
+    "version": "1.0.2"
+  },
+  {
+    "name": "lue-bird/elm-review-record-alias-constructor",
+    "summary": "elm-review rule: forbid all record type alias constructors",
     "license": "MIT",
     "version": "1.0.3"
   },
@@ -5883,19 +6231,19 @@
     "name": "lue-bird/elm-rosetree-path",
     "summary": "path: location in a rosetree",
     "license": "MIT",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   {
     "name": "lue-bird/elm-typed-value",
     "summary": "better 1-constructor types",
     "license": "MIT",
-    "version": "5.0.3"
+    "version": "6.0.1"
   },
   {
     "name": "lue-bird/elm-typesafe-array",
     "summary": "typed array that you can access safely",
     "license": "MIT",
-    "version": "17.0.0"
+    "version": "18.3.0"
   },
   {
     "name": "lue-bird/elm-xy",
@@ -5994,10 +6342,16 @@
     "version": "1.0.2"
   },
   {
+    "name": "martouta/html-key-events",
+    "summary": "HTML Event listeners for on 'keyup' and on 'keydown'",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
+  },
+  {
     "name": "matheus23/elm-default-tailwind-modules",
     "summary": "The default tailwind classes as elm-css, generated using elm-tailwind-modules",
     "license": "MIT",
-    "version": "2.0.1"
+    "version": "2.0.3"
   },
   {
     "name": "matheus23/elm-figma-api",
@@ -6009,13 +6363,13 @@
     "name": "matheus23/elm-markdown-transforms",
     "summary": "For creating advanced elm-markdown renderers (e.g. with model access).",
     "license": "MIT",
-    "version": "3.0.3"
+    "version": "4.0.0"
   },
   {
     "name": "matken11235/html-styled-extra",
     "summary": "Additional functions for working with Html.Styled",
     "license": "MIT",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   {
     "name": "matthewsj/elm-ordering",
@@ -6048,10 +6402,16 @@
     "version": "11.0.0"
   },
   {
+    "name": "mercurymedia/elm-ag-grid",
+    "summary": "AgGrid integration for Elm",
+    "license": "MIT",
+    "version": "1.0.0"
+  },
+  {
     "name": "mercurymedia/elm-datetime-picker",
     "summary": "a datetime picker component",
     "license": "MIT",
-    "version": "5.0.0"
+    "version": "5.0.1"
   },
   {
     "name": "mercurymedia/elm-message-toast",
@@ -6064,6 +6424,12 @@
     "summary": "an advanced select component",
     "license": "MIT",
     "version": "3.0.3"
+  },
+  {
+    "name": "mewhit/prismicio",
+    "summary": "Elm SDK for prismic.io",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
   },
   {
     "name": "mgold/elm-animation",
@@ -6231,7 +6597,7 @@
     "name": "mpizenberg/elm-test-runner",
     "summary": "Helper package to run tests and report results",
     "license": "BSD-3-Clause",
-    "version": "4.0.5"
+    "version": "4.0.6"
   },
   {
     "name": "mrdimosthenis/turtle-graphics",
@@ -6300,6 +6666,12 @@
     "version": "1.0.4"
   },
   {
+    "name": "nabekou29/elm-context-html",
+    "summary": "View functions to use Context everywhere.",
+    "license": "MIT",
+    "version": "2.0.0"
+  },
+  {
     "name": "nathanjohnson320/base58",
     "summary": "Base58 encoding/decoding library",
     "license": "MIT",
@@ -6327,13 +6699,19 @@
     "name": "newmana/chroma-elm",
     "summary": "An Elm native version of chroma.js for color maps, color spaces and operations.",
     "license": "Apache-2.0",
-    "version": "18.0.4"
+    "version": "18.0.6"
   },
   {
     "name": "nicmr/compgeo",
     "summary": "An Elm library for computational geometry",
     "license": "BSD-3-Clause",
     "version": "1.0.3"
+  },
+  {
+    "name": "nicolasgargano/elm-escpos",
+    "summary": "Write ESC/POS commands like elm/html.",
+    "license": "BSD-3-Clause",
+    "version": "1.1.0"
   },
   {
     "name": "niho/elm-crdt",
@@ -6426,6 +6804,12 @@
     "version": "1.0.1"
   },
   {
+    "name": "nunntom/elm-bigrational",
+    "summary": "Unlimited size rational numbers for elm",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
+  },
+  {
     "name": "oaalto/time-values",
     "summary": "Functions from/to time values to their sencond/minute/hour... parts.",
     "license": "BSD-3-Clause",
@@ -6462,16 +6846,28 @@
     "version": "3.1.1"
   },
   {
+    "name": "opvasger/develm",
+    "summary": "Test, benchmark, and build Elm-modules!",
+    "license": "BSD-3-Clause",
+    "version": "6.0.1"
+  },
+  {
     "name": "opvasger/loadable",
     "summary": "Intuitive data-loading in Elm!",
     "license": "BSD-3-Clause",
-    "version": "2.0.0"
+    "version": "2.1.1"
   },
   {
     "name": "opvasger/msg-replay",
     "summary": "Automatic message-replay for Elm!",
     "license": "BSD-3-Clause",
     "version": "1.0.0"
+  },
+  {
+    "name": "orus-io/elm-spa",
+    "summary": "A set of tools to easily build Single Page Application",
+    "license": "MIT",
+    "version": "1.1.1"
   },
   {
     "name": "owanturist/elm-avl-dict",
@@ -6666,6 +7062,12 @@
     "version": "1.1.0"
   },
   {
+    "name": "philipe-roberge/elm-grid",
+    "summary": "Easier creation of css-grid containers",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
+  },
+  {
     "name": "phollyer/elm-cursor",
     "summary": "A package to simplify selecting the cursor being used in your UI",
     "license": "BSD-3-Clause",
@@ -6675,7 +7077,7 @@
     "name": "phollyer/elm-phoenix-websocket",
     "summary": "A websocket client for use with the Elixir Phoenix framework.",
     "license": "BSD-3-Clause",
-    "version": "3.4.4"
+    "version": "4.0.0"
   },
   {
     "name": "phollyer/elm-ui-colors",
@@ -6687,7 +7089,7 @@
     "name": "phollyer/elm-ui-dropdown",
     "summary": "A simple dropdown component for elm-ui",
     "license": "BSD-3-Clause",
-    "version": "2.2.1"
+    "version": "2.2.2"
   },
   {
     "name": "pilatch/elm-chess",
@@ -6738,10 +7140,16 @@
     "version": "2.0.1"
   },
   {
+    "name": "primait/prima-elm-extra",
+    "summary": "utilities for prima elm codebases",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
+  },
+  {
     "name": "primait/pyxis-components",
     "summary": "Prima Design System components",
     "license": "BSD-3-Clause",
-    "version": "7.3.0"
+    "version": "9.0.1"
   },
   {
     "name": "proda-ai/elm-css",
@@ -6813,7 +7221,7 @@
     "name": "r-k-b/complex",
     "summary": "An elm module for working with complex numbers.",
     "license": "BSD-3-Clause",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   {
     "name": "r-k-b/elm-interval",
@@ -6867,7 +7275,7 @@
     "name": "ren-lang/compiler",
     "summary": "The compiler for Ren: a dynamically typed, functional scripting language.",
     "license": "MIT",
-    "version": "8.1.0"
+    "version": "11.0.1"
   },
   {
     "name": "renanpvaz/elm-bem",
@@ -7020,6 +7428,12 @@
     "version": "1.0.1"
   },
   {
+    "name": "robinheghan/fnv1a",
+    "summary": "An implementation of the FNV-1a hash function for Elm",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0"
+  },
+  {
     "name": "robinheghan/keyboard-events",
     "summary": "Functions for triggering messages when a certain key is pressed",
     "license": "BSD-3-Clause",
@@ -7077,7 +7491,7 @@
     "name": "ronanyeah/helpers",
     "summary": "Convenience functions.",
     "license": "BSD-3-Clause",
-    "version": "4.0.1"
+    "version": "5.1.0"
   },
   {
     "name": "rsignavong/elm-cloudinary-video-player",
@@ -7233,7 +7647,7 @@
     "name": "shamansir/tron-gui",
     "summary": "Tron: Minimal Universal GUI",
     "license": "BSD-3-Clause",
-    "version": "12.1.0"
+    "version": "13.1.0"
   },
   {
     "name": "shnewto/pgn",
@@ -7275,7 +7689,7 @@
     "name": "simonh1000/elm-base45",
     "summary": "Decoding and Encoding of Base45 (QR code) data",
     "license": "MIT",
-    "version": "1.0.1"
+    "version": "1.0.3"
   },
   {
     "name": "simonh1000/elm-colorpicker",
@@ -7341,7 +7755,7 @@
     "name": "smucode/elm-flat-colors",
     "summary": "🎨 280 handpicked colors in 14 palettes for Elm UI, elm/html and others",
     "license": "MIT",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   {
     "name": "solcates/elm-openid-connect",
@@ -7383,7 +7797,7 @@
     "name": "sparksp/elm-review-ports",
     "summary": "Provides elm-review rules to detect problematic elm ports.",
     "license": "MIT",
-    "version": "1.3.0"
+    "version": "1.3.1"
   },
   {
     "name": "special-elektronik/elm-autocomplete",
@@ -7449,13 +7863,19 @@
     "name": "stil4m/elm-syntax",
     "summary": "Elm Syntax in Elm: for parsing and writing Elm in Elm",
     "license": "MIT",
-    "version": "7.2.7"
+    "version": "7.2.8"
   },
   {
     "name": "stil4m/structured-writer",
     "summary": "Helpful writer for structured data: indent, seperators ect",
     "license": "MIT",
     "version": "1.0.3"
+  },
+  {
+    "name": "stoatpower/elm-exts",
+    "summary": "A collection of functions missing from the core.",
+    "license": "MIT",
+    "version": "1.0.1"
   },
   {
     "name": "stoeffel/editable",
@@ -7509,7 +7929,7 @@
     "name": "sxh/ui-base",
     "summary": "Common code used across my applications",
     "license": "MIT",
-    "version": "8.2.1"
+    "version": "8.2.2"
   },
   {
     "name": "tad-lispy/springs",
@@ -7611,7 +8031,7 @@
     "name": "the-sett/elm-error-handling",
     "summary": "Tools for more elaborate error handling than Result.",
     "license": "BSD-3-Clause",
-    "version": "2.2.0"
+    "version": "2.2.1"
   },
   {
     "name": "the-sett/elm-localstorage",
@@ -7659,13 +8079,13 @@
     "name": "the-sett/elm-syntax-dsl",
     "summary": "A DSL for creating Elm syntax trees and pretty printing Elm source code.",
     "license": "BSD-3-Clause",
-    "version": "5.2.2"
+    "version": "6.0.0"
   },
   {
     "name": "the-sett/elm-update-helper",
     "summary": "Helper functions for nesting updates in Elm.",
     "license": "BSD-3-Clause",
-    "version": "2.1.0"
+    "version": "2.2.0"
   },
   {
     "name": "the-sett/json-optional",
@@ -7677,7 +8097,7 @@
     "name": "the-sett/lazy-list",
     "summary": "Lazy lists for Elm.",
     "license": "BSD-3-Clause",
-    "version": "1.1.1"
+    "version": "1.1.2"
   },
   {
     "name": "the-sett/parser-recoverable",
@@ -7762,6 +8182,12 @@
     "summary": "Animated SVG loading indicators.",
     "license": "MIT",
     "version": "1.0.0"
+  },
+  {
+    "name": "tkuriyama/elm-generator",
+    "summary": "A generator library for simulating laziness.",
+    "license": "BSD-3-Clause",
+    "version": "1.1.0"
   },
   {
     "name": "toastal/either",
@@ -7977,13 +8403,13 @@
     "name": "turboMaCk/any-dict",
     "summary": "Elm dictionary with custom key types.",
     "license": "BSD-3-Clause",
-    "version": "2.4.0"
+    "version": "2.6.0"
   },
   {
     "name": "turboMaCk/any-set",
     "summary": "Elm Set built on top of AnyDict",
     "license": "BSD-3-Clause",
-    "version": "1.4.0"
+    "version": "1.5.0"
   },
   {
     "name": "turboMaCk/elm-continue",
@@ -8007,13 +8433,37 @@
     "name": "turboMaCk/non-empty-list-alias",
     "summary": "Functions for working (a, List a) and NonEmpty List Zipper",
     "license": "BSD-3-Clause",
-    "version": "1.1.0"
+    "version": "1.2.0"
   },
   {
     "name": "turboMaCk/queue",
     "summary": "Simple FIFO (first in, first out) Queue implementation in Elm",
     "license": "BSD-3-Clause",
     "version": "1.1.0"
+  },
+  {
+    "name": "uncover-co/elm-admin-alpha",
+    "summary": "A framework for building admin applications themed through ThemeSpec.",
+    "license": "MPL-2.0",
+    "version": "9.0.0"
+  },
+  {
+    "name": "uncover-co/elm-submodules",
+    "summary": "Nested Elm Architectures made easy.",
+    "license": "MPL-2.0",
+    "version": "1.0.3"
+  },
+  {
+    "name": "uncover-co/elm-theme-spec",
+    "summary": "A theme specification for web applications.",
+    "license": "MPL-2.0",
+    "version": "3.0.2"
+  },
+  {
+    "name": "uncover-co/elm-widgets-alpha",
+    "summary": "A collection of widgets themed through ThemeSpec.",
+    "license": "MPL-2.0",
+    "version": "4.0.0"
   },
   {
     "name": "ursi/elm-css-colors",
@@ -8073,7 +8523,7 @@
     "name": "vicramgon/logicus",
     "summary": "Elm packages for working with Propositional and First Order Logic algorithms.",
     "license": "BSD-3-Clause",
-    "version": "9.0.0"
+    "version": "10.1.0"
   },
   {
     "name": "viir/simplegamedev",
@@ -8106,6 +8556,12 @@
     "version": "1.0.0"
   },
   {
+    "name": "vkfisher/elm-review-no-unsafe-division",
+    "summary": "Forbid division operations that produce unwanted values or runtime exceptions",
+    "license": "MIT",
+    "version": "1.0.1"
+  },
+  {
     "name": "waratuman/elm-coder",
     "summary": "A Base64, Base32, and Base16 (hexadecimal) decoder and encoder",
     "license": "BSD-3-Clause",
@@ -8127,7 +8583,7 @@
     "name": "waratuman/elm-standardapi",
     "summary": "Elm client for StandardAPI",
     "license": "BSD-3-Clause",
-    "version": "6.1.0"
+    "version": "7.1.0"
   },
   {
     "name": "waratuman/json-extra",
@@ -8247,7 +8703,7 @@
     "name": "wznmickey/elm-for",
     "summary": "Running a function several times using index",
     "license": "MIT",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   {
     "name": "xarvh/elm-gamepad",
@@ -8289,13 +8745,13 @@
     "name": "y047aka/elm-reset-css",
     "summary": "The Collection of Reset CSS",
     "license": "MIT",
-    "version": "2.1.0"
+    "version": "2.6.0"
   },
   {
     "name": "y0hy0h/ordered-containers",
     "summary": "Ordered Dict and Set for Elm",
     "license": "BSD-3-Clause",
-    "version": "2.0.2"
+    "version": "2.0.3"
   },
   {
     "name": "ymtszw/elm-broker",
