@@ -162,6 +162,7 @@ fn app() -> clap::App<'static> {
         )
         .arg(
             Arg::new("background").long("background")
+                .value_name("BACKGROUND")
                 .possible_values(["dark", "light"])
                 .help("Set the background color. Overrides $DFT_BACKGROUND if present. Difftastic will prefer brighter colours on dark backgrounds.")
         )
