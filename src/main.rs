@@ -223,11 +223,10 @@ fn parse_args() -> Mode {
                 rhs_tmp_file.to_string(),
             )
         }
-        _ => panic!(
-            "Unexpected number of arguments, got {}: {:?}",
-            args.len(),
-            args
-        ),
+        _ => {
+            eprintln!("error: Difftastic does not support being called with {} arguments. See --help for more information.", args.len());
+            std::process::exit(1);
+        }
     };
 
     let display_width = if let Some(arg_width) = matches.value_of("width") {
