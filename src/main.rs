@@ -94,6 +94,7 @@ enum ColorOutput {
 
 enum Mode {
     Diff {
+        print_unchanged: bool,
         background_color: BackgroundColor,
         color_output: ColorOutput,
         display_width: usize,
@@ -159,6 +160,10 @@ fn app() -> clap::App<'static> {
             Arg::new("background").long("background")
                 .possible_values(["dark", "light"])
                 .help("Set the background color. Overrides $DFT_BACKGROUND if present. Difftastic will prefer brighter colours on dark backgrounds.")
+        )
+        .arg(
+            Arg::new("skip-unchanged").long("skip-unchanged")
+                .help("Don't display anything if a file is unchanged.")
         )
         .arg(
             Arg::new("paths")
@@ -264,7 +269,10 @@ fn parse_args() -> Mode {
         }
     };
 
+    let print_unchanged = !matches.is_present("skip-unchanged");
+
     Mode::Diff {
+        print_unchanged,
         background_color,
         color_output,
         display_width,
@@ -327,6 +335,7 @@ fn main() {
             }
         }
         Mode::Diff {
+            print_unchanged,
             background_color,
             color_output,
             display_width,
@@ -342,11 +351,21 @@ fn main() {
 
             if lhs_path.is_dir() && rhs_path.is_dir() {
                 for diff_result in diff_directories(lhs_path, rhs_path) {
-                    print_diff_result(display_width, background_color, &diff_result);
+                    print_diff_result(
+                        display_width,
+                        background_color,
+                        print_unchanged,
+                        &diff_result,
+                    );
                 }
             } else {
                 let diff_result = diff_file(&display_path, lhs_path, rhs_path);
-                print_diff_result(display_width, background_color, &diff_result);
+                print_diff_result(
+                    display_width,
+                    background_color,
+                    print_unchanged,
+                    &diff_result,
+                );
             }
         }
     };
@@ -468,12 +487,19 @@ fn diff_directories(lhs_dir: &Path, rhs_dir: &Path) -> Vec<DiffResult> {
     res
 }
 
-fn print_diff_result(display_width: usize, background: BackgroundColor, summary: &DiffResult) {
+fn print_diff_result(
+    display_width: usize,
+    background: BackgroundColor,
+    print_unchanged: bool,
+    summary: &DiffResult,
+) {
     if summary.binary {
-        println!(
-            "{}",
-            style::header(&summary.path, 1, 1, "binary", background)
-        );
+        if print_unchanged {
+            println!(
+                "{}",
+                style::header(&summary.path, 1, 1, "binary", background)
+            );
+        }
         return;
     }
 
@@ -491,14 +517,16 @@ fn print_diff_result(display_width: usize, background: BackgroundColor, summary:
 
     let lang_name = summary.language.clone().unwrap_or_else(|| "text".into());
     if hunks.is_empty() {
-        println!(
-            "{}",
-            style::header(&summary.path, 1, 1, &lang_name, background)
-        );
-        if lang_name == "text" {
-            println!("No changes.\n");
-        } else {
-            println!("No syntactic changes.\n");
+        if print_unchanged {
+            println!(
+                "{}",
+                style::header(&summary.path, 1, 1, &lang_name, background)
+            );
+            if lang_name == "text" {
+                println!("No changes.\n");
+            } else {
+                println!("No syntactic changes.\n");
+            }
         }
         return;
     }
