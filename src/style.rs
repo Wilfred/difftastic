@@ -225,7 +225,7 @@ pub fn color_positions(
                     }),
                     TokenKind::Atom(AtomKind::Comment) => Some(match background {
                         BackgroundColor::Dark => Color::BrightCyan,
-                        BackgroundColor::Light => Color::Cyan,
+                        BackgroundColor::Light => Color::Blue,
                     }),
                     _ => None,
                 },
