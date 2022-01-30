@@ -7,6 +7,10 @@ Fixed an issue with missing positions in OCaml attribute syntax.
 Fixed parsing issues in Common Lisp: character literals, `loop` macro
 usage with `maximizing`.
 
+### Diffing
+
+Improved performance when diffing a single large expression.
+
 ### Display
 
 Fixed display issues where lines were printed more than once.

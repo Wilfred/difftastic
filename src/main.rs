@@ -51,7 +51,7 @@ use style::BackgroundColor;
 use summary::DiffResult;
 use syntax::init_next_prev;
 use typed_arena::Arena;
-use unchanged::skip_unchanged_at_ends;
+use unchanged::skip_unchanged;
 use walkdir::WalkDir;
 
 use crate::{
@@ -435,7 +435,7 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
 
             init_all_info(&lhs, &rhs);
 
-            let (possibly_changed_lhs, possibly_changed_rhs) = skip_unchanged_at_ends(&lhs, &rhs);
+            let (possibly_changed_lhs, possibly_changed_rhs) = skip_unchanged(&lhs, &rhs);
             init_next_prev(&possibly_changed_lhs);
             init_next_prev(&possibly_changed_rhs);
 
