@@ -47,7 +47,7 @@ $ GIT_EXTERNAL_DIFF=difft git show --ext-diff 72675567c68f002d828945badbb07fe963
 
 $ git clone git@github.com:rust-itertools/itertools.git
 $ cd itertools
-$ GIT_EXTERNAL_DIFF=difft git show --ext-diff 38805c6a882a9f00615078250ccc8c070c3a214d
+$ DFT_WIDTH=100 GIT_EXTERNAL_DIFF=difft git show --ext-diff 38805c6a882a9f00615078250ccc8c070c3a214d
 
 -->
 
