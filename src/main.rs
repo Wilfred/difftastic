@@ -405,8 +405,9 @@ fn diff_file_content(display_path: &str, lhs_bytes: &[u8], rhs_bytes: &[u8]) -> 
     // TODO: take a Path directly instead.
     let path = Path::new(&display_path);
 
-    // Take the longer of the two files when guessing language. This
-    // is useful when we've added or removed a whole file.
+    // Take the larger of the two files when guessing the
+    // language. This is useful when we've added or removed a whole
+    // file.
     let guess_src = if lhs_src.len() > rhs_src.len() {
         &lhs_src
     } else {
