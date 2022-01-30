@@ -149,9 +149,8 @@ fn app() -> clap::App<'static> {
         )
         .arg(
             Arg::new("background").long("background")
-                .default_value("dark")
                 .possible_values(["dark", "light"])
-                .help("Set the background color. Difftastic will prefer brighter colours on dark backgrounds.")
+                .help("Set the background color. Overrides $DFT_BACKGROUND if present. Difftastic will prefer brighter colours on dark backgrounds.")
         )
         .arg(
             Arg::new("paths")
@@ -245,7 +244,15 @@ fn parse_args() -> Mode {
             BackgroundColor::Dark
         }
     } else {
-        BackgroundColor::Dark
+        if let Ok(background) = env::var("DFT_BACKGROUND") {
+            if background == "light" {
+                BackgroundColor::Light
+            } else {
+                BackgroundColor::Dark
+            }
+        } else {
+            BackgroundColor::Dark
+        }
     };
 
     Mode::Diff {

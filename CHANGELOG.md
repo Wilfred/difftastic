@@ -24,7 +24,7 @@ Added a `--color` option which allows explicitly enabling/disabling
 colour output.
 
 Added a `--background` option which controls whether difftastic uses
-bright or dark colours.
+bright or dark colours. This can also be controlled by `DFT_BACKGROUND`.
 
 ## 0.17 (released 25 January 2022)
 
