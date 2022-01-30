@@ -16,11 +16,17 @@ to the first item. See also 'RHS'.
 has an open delimiter, children, and a close delimiter. It represents
 things like expressions and function definitions. See also 'atom'.
 
-**Novel**: An addition or a removal. Syntax is novel if it only occurs
-in one of two items being compared.
+**Novel**: An addition or a removal. Syntax is novel if it occurs
+in only one of the two items being compared.
 
 **RHS**: Right-hand side. Difftastic compares two items, and RHS
 refers to the second item. See also 'LHS'.
+
+**Root**: A syntax tree without a parent node. Roots represent
+top-level definitions in the file being diffed.
+
+**Syntax node**: An item in difftastic's syntax tree structure. Either
+an atom or a list.
 
 **Token**: A small piece of syntax tracked by difftastic (e.g. `$x`,
 `function` or `]`), for highlighting and aligned display. This is
