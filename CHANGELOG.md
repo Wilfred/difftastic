@@ -4,7 +4,8 @@
 
 Fixed an issue with missing positions in OCaml attribute syntax.
 
-Fixed an issue with parsing character literals in Common Lisp.
+Fixed parsing issues in Common Lisp: character literals, `loop` macro
+usage with `maximizing`.
 
 ### Display
 
