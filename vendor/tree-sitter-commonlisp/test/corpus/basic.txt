@@ -1316,3 +1316,29 @@ Chars #\(
     (sym_lit)
     (char_lit)
     (sym_lit)))
+
+================================================================================
+Issue #10
+================================================================================
+
+(loop for s in symbols                                                    
+      maximizing (length (symbol-name s)))
+
+--------------------------------------------------------------------------------
+
+(source
+  (list_lit
+    (loop_macro
+      (loop_clause
+        (for_clause
+          (sym_lit)
+          (for_clause_word)
+          (sym_lit)))
+      (loop_clause
+        (accumulation_clause
+          (accumulation_verb)
+          (list_lit
+            (sym_lit)
+            (list_lit
+              (sym_lit)
+              (sym_lit))))))))
