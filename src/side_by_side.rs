@@ -366,7 +366,7 @@ pub fn display_hunks(
             } else {
                 let lhs_line = match lhs_line_num {
                     Some(lhs_line_num) => split_and_apply(
-                        &lhs_lines[lhs_line_num.0],
+                        lhs_lines[lhs_line_num.0],
                         widths.lhs_content,
                         lhs_highlights.get(&lhs_line_num).unwrap_or(&vec![]),
                     ),
@@ -374,7 +374,7 @@ pub fn display_hunks(
                 };
                 let rhs_line = match rhs_line_num {
                     Some(rhs_line_num) => split_and_apply(
-                        &rhs_lines[rhs_line_num.0],
+                        rhs_lines[rhs_line_num.0],
                         widths.rhs_content,
                         rhs_highlights.get(&rhs_line_num).unwrap_or(&vec![]),
                     ),
