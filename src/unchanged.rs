@@ -35,16 +35,6 @@ pub fn skip_unchanged_at_ends<'a>(
 fn skip_pair<'a>(lhs_node: &'a Syntax<'a>, rhs_node: &'a Syntax<'a>) {
     lhs_node.set_change_deep(ChangeKind::Unchanged(rhs_node));
     rhs_node.set_change_deep(ChangeKind::Unchanged(lhs_node));
-
-    detach(lhs_node);
-    detach(rhs_node);
-}
-
-fn detach(node: &Syntax) {
-    if let Some(next_node) = node.next() {
-        node.info().next.set(None);
-        next_node.info().prev.set(None);
-    }
 }
 
 #[cfg(test)]
