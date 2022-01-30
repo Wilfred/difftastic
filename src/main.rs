@@ -154,6 +154,7 @@ fn app() -> clap::App<'static> {
         )
         .arg(
             Arg::new("paths")
+                .value_name("PATHS")
                 .multiple_values(true)
                 .allow_invalid_utf8(true),
         )
