@@ -531,9 +531,15 @@ mod tests {
             },
         }];
 
+        let mut novel_lhs = HashSet::new();
+        novel_lhs.insert(0.into());
+        let mut novel_rhs = HashSet::new();
+        novel_rhs.insert(0.into());
+
+
         let hunks = [Hunk {
-            novel_lhs: HashSet::from([0.into()]),
-            novel_rhs: HashSet::from([0.into()]),
+            novel_lhs,
+            novel_rhs,
             lines: vec![(Some(0.into()), Some(0.into()))],
         }];
 

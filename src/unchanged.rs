@@ -40,13 +40,13 @@ fn skip_unchanged_delimiters<'a>(
     rhs_nodes: &[&'a Syntax<'a>],
 ) -> (Vec<&'a Syntax<'a>>, Vec<&'a Syntax<'a>>) {
     if let (
-        [lhs_node @ Syntax::List {
+        [Syntax::List {
             open_content: lhs_open,
             children: lhs_children,
             close_content: lhs_close,
             ..
         }],
-        [rhs_node @ Syntax::List {
+        [Syntax::List {
             open_content: rhs_open,
             children: rhs_children,
             close_content: rhs_close,
@@ -55,8 +55,8 @@ fn skip_unchanged_delimiters<'a>(
     ) = (lhs_nodes, rhs_nodes)
     {
         if lhs_open == rhs_open && lhs_close == rhs_close {
-            lhs_node.set_change(ChangeKind::Unchanged(rhs_node));
-            rhs_node.set_change(ChangeKind::Unchanged(lhs_node));
+            lhs_nodes[0].set_change(ChangeKind::Unchanged(rhs_nodes[0]));
+            rhs_nodes[0].set_change(ChangeKind::Unchanged(lhs_nodes[0]));
 
             return (lhs_children.to_vec(), rhs_children.to_vec());
         }
