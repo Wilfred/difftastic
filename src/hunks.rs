@@ -10,6 +10,7 @@ use std::collections::{HashMap, HashSet};
 use crate::{
     context::{add_context, opposite_positions, MAX_PADDING},
     lines::LineNumber,
+    side_by_side::lines_with_novel,
     syntax::{zip_pad_shorter, MatchedPos},
 };
 
@@ -17,6 +18,8 @@ use crate::{
 /// together.
 #[derive(Debug, Clone)]
 pub struct Hunk {
+    pub novel_lhs: HashSet<LineNumber>,
+    pub novel_rhs: HashSet<LineNumber>,
     pub lines: Vec<(Option<LineNumber>, Option<LineNumber>)>,
 }
 
@@ -57,6 +60,8 @@ impl Hunk {
         }
 
         Hunk {
+            novel_lhs: self.novel_lhs.union(&other.novel_lhs).copied().collect(),
+            novel_rhs: self.novel_rhs.union(&other.novel_rhs).copied().collect(),
             lines: deduped_lines,
         }
     }
@@ -261,8 +266,38 @@ fn enforce_increasing(
     res
 }
 
+fn find_novel_lines(
+    lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    all_lhs_novel: &HashSet<LineNumber>,
+    all_rhs_novel: &HashSet<LineNumber>,
+) -> (HashSet<LineNumber>, HashSet<LineNumber>) {
+    let mut lhs_novel = HashSet::new();
+    let mut rhs_novel = HashSet::new();
+
+    for (lhs_line, rhs_line) in lines {
+        if let Some(lhs_line) = lhs_line {
+            if all_lhs_novel.contains(lhs_line) {
+                lhs_novel.insert(*lhs_line);
+            }
+        }
+        if let Some(rhs_line) = rhs_line {
+            if all_rhs_novel.contains(rhs_line) {
+                rhs_novel.insert(*rhs_line);
+            }
+        }
+    }
+
+    (lhs_novel, rhs_novel)
+}
+
 /// Split lines into hunks.
-fn lines_to_hunks(lines: &[(Option<LineNumber>, Option<LineNumber>)]) -> Vec<Hunk> {
+fn lines_to_hunks(
+    lines: &[(Option<LineNumber>, Option<LineNumber>)],
+    lhs_mps: &[MatchedPos],
+    rhs_mps: &[MatchedPos],
+) -> Vec<Hunk> {
+    let (all_lhs_novel, all_rhs_novel) = lines_with_novel(lhs_mps, rhs_mps);
+
     let mut hunks = vec![];
     let mut current_hunk_lines = vec![];
     let mut max_lhs_line: Option<LineNumber> = None;
@@ -274,7 +309,11 @@ fn lines_to_hunks(lines: &[(Option<LineNumber>, Option<LineNumber>)]) -> Vec<Hun
         if current_hunk_lines.is_empty() || lines_are_close(max_lhs_line, max_rhs_line, line) {
             current_hunk_lines.push(line);
         } else {
+            let (novel_lhs, novel_rhs) =
+                find_novel_lines(&current_hunk_lines, &all_lhs_novel, &all_rhs_novel);
             hunks.push(Hunk {
+                novel_lhs,
+                novel_rhs,
                 lines: current_hunk_lines,
             });
             current_hunk_lines = vec![line];
@@ -289,7 +328,11 @@ fn lines_to_hunks(lines: &[(Option<LineNumber>, Option<LineNumber>)]) -> Vec<Hun
     }
 
     if !current_hunk_lines.is_empty() {
+        let (novel_lhs, novel_rhs) =
+            find_novel_lines(&current_hunk_lines, &all_lhs_novel, &all_rhs_novel);
         hunks.push(Hunk {
+            novel_lhs,
+            novel_rhs,
             lines: current_hunk_lines,
         });
     }
@@ -463,7 +506,7 @@ fn matched_novel_lines(
 }
 
 pub fn matched_pos_to_hunks(lhs_mps: &[MatchedPos], rhs_mps: &[MatchedPos]) -> Vec<Hunk> {
-    lines_to_hunks(&matched_novel_lines(lhs_mps, rhs_mps))
+    lines_to_hunks(&matched_novel_lines(lhs_mps, rhs_mps), lhs_mps, rhs_mps)
 }
 
 /// Ensure that we don't miss any intermediate values.
