@@ -536,7 +536,6 @@ mod tests {
         let mut novel_rhs = HashSet::new();
         novel_rhs.insert(0.into());
 
-
         let hunks = [Hunk {
             novel_lhs,
             novel_rhs,
