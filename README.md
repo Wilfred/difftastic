@@ -92,10 +92,6 @@ Robustness. Difftastic regularly has releases that fix crashes.
 Diff accuracy. Some delimiter moves are currently ignored (see
 [#30](https://github.com/Wilfred/difftastic/issues/30)).
 
-Integration. Difftastic only has [limited
-support](http://difftastic.wilfred.me.uk/getting_started.html#git-external-diffs)
-for git and mercurial today.
-
 ## Non-goals
 
 Patch files. If you want to create a patch that you can later apply,
