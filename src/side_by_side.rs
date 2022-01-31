@@ -177,7 +177,7 @@ impl Widths {
     }
 }
 
-fn lines_with_novel(
+pub fn lines_with_novel(
     lhs_mps: &[MatchedPos],
     rhs_mps: &[MatchedPos],
 ) -> (HashSet<LineNumber>, HashSet<LineNumber>) {
@@ -296,8 +296,8 @@ pub fn display_hunks(
         ));
 
         let aligned_lines = matched_lines_for_hunk(&matched_lines, hunk);
-        let no_lhs_changes = hunk.lines.iter().all(|(l, _)| l.is_none());
-        let no_rhs_changes = hunk.lines.iter().all(|(_, r)| r.is_none());
+        let no_lhs_changes = hunk.novel_lhs.is_empty();
+        let no_rhs_changes = hunk.novel_rhs.is_empty();
         let same_lines = aligned_lines.iter().all(|(l, r)| l == r);
 
         let widths = Widths::new(display_width, &aligned_lines, &lhs_lines, &rhs_lines);
@@ -532,6 +532,8 @@ mod tests {
         }];
 
         let hunks = [Hunk {
+            novel_lhs: HashSet::from([0.into()]),
+            novel_rhs: HashSet::from([0.into()]),
             lines: vec![(Some(0.into()), Some(0.into()))],
         }];
 
