@@ -583,47 +583,47 @@ pub fn compact_gaps(
     // 11 --
     //
     // All items must be Some on the same side.
-    let mut one_side_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
+    let mut unpaired_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
 
     for (lhs_line, rhs_line) in items {
         match (lhs_line, rhs_line) {
             (Some(lhs_line), None) => {
-                match one_side_lines.first() {
+                match unpaired_lines.first() {
                     Some((None, Some(rhs_line))) => {
                         // We've found a line that can be compacted.
                         res.push((Some(*lhs_line), Some(*rhs_line)));
-                        one_side_lines.remove(0);
+                        unpaired_lines.remove(0);
                     }
                     _ => {
                         // We can't compact this item, so start new chunk.
-                        res.extend(one_side_lines);
-                        one_side_lines = vec![(Some(*lhs_line), None)];
+                        res.extend(unpaired_lines);
+                        unpaired_lines = vec![(Some(*lhs_line), None)];
                     }
                 }
             }
             (None, Some(rhs_line)) => {
-                match one_side_lines.first() {
+                match unpaired_lines.first() {
                     Some((Some(lhs_line), None)) => {
                         // We've found a line that can be compacted.
                         res.push((Some(*lhs_line), Some(*rhs_line)));
-                        one_side_lines.remove(0);
+                        unpaired_lines.remove(0);
                     }
                     _ => {
                         // We can't compact this item, so start new chunk of one-side lines.
-                        res.extend(one_side_lines);
-                        one_side_lines = vec![(None, Some(*rhs_line))];
+                        res.extend(unpaired_lines);
+                        unpaired_lines = vec![(None, Some(*rhs_line))];
                     }
                 }
             }
             _ => {
-                res.extend(one_side_lines);
-                one_side_lines = vec![];
+                res.extend(unpaired_lines);
+                unpaired_lines = vec![];
                 res.push((*lhs_line, *rhs_line));
             }
         }
     }
 
-    res.extend(one_side_lines);
+    res.extend(unpaired_lines);
     res
 }
 
