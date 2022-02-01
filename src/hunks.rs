@@ -574,7 +574,7 @@ pub fn ensure_contiguous(
 ///
 /// The returned vec will contain no (None, None) pairs.
 pub fn compact_gaps(
-    items: Vec<(Option<LineNumber>, Option<LineNumber>)>,
+    items: &[(Option<LineNumber>, Option<LineNumber>)],
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let mut res: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
     // A vec of the most recent single-sided lines, e.g.
@@ -585,19 +585,19 @@ pub fn compact_gaps(
     // All items must be Some on the same side.
     let mut one_side_lines: Vec<(Option<LineNumber>, Option<LineNumber>)> = vec![];
 
-    for (lhs_line, rhs_line) in items.into_iter() {
+    for (lhs_line, rhs_line) in items {
         match (lhs_line, rhs_line) {
             (Some(lhs_line), None) => {
                 match one_side_lines.first() {
                     Some((None, Some(rhs_line))) => {
                         // We've found a line that can be compacted.
-                        res.push((Some(lhs_line), Some(*rhs_line)));
+                        res.push((Some(*lhs_line), Some(*rhs_line)));
                         one_side_lines.remove(0);
                     }
                     _ => {
                         // We can't compact this item, so start new chunk.
                         res.extend(one_side_lines);
-                        one_side_lines = vec![(Some(lhs_line), None)];
+                        one_side_lines = vec![(Some(*lhs_line), None)];
                     }
                 }
             }
@@ -605,20 +605,20 @@ pub fn compact_gaps(
                 match one_side_lines.first() {
                     Some((Some(lhs_line), None)) => {
                         // We've found a line that can be compacted.
-                        res.push((Some(*lhs_line), Some(rhs_line)));
+                        res.push((Some(*lhs_line), Some(*rhs_line)));
                         one_side_lines.remove(0);
                     }
                     _ => {
                         // We can't compact this item, so start new chunk of one-side lines.
                         res.extend(one_side_lines);
-                        one_side_lines = vec![(None, Some(rhs_line))];
+                        one_side_lines = vec![(None, Some(*rhs_line))];
                     }
                 }
             }
             _ => {
                 res.extend(one_side_lines);
                 one_side_lines = vec![];
-                res.push((lhs_line, rhs_line));
+                res.push((*lhs_line, *rhs_line));
             }
         }
     }
@@ -792,14 +792,17 @@ mod tests {
 
     #[test]
     fn test_compact_gaps() {
-        let res = compact_gaps(vec![
+        let res = compact_gaps(&[
             (Some(0.into()), None),
             (None, Some(0.into())),
             (Some(1.into()), Some(1.into())),
         ]);
-        assert_eq!(res, vec![
-            (Some(0.into()), Some(0.into())),
-            (Some(1.into()), Some(1.into())),
-        ])
+        assert_eq!(
+            res,
+            vec![
+                (Some(0.into()), Some(0.into())),
+                (Some(1.into()), Some(1.into())),
+            ]
+        )
     }
 }

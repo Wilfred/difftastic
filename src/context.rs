@@ -21,7 +21,7 @@ pub fn all_matched_lines_filled(
 ) -> Vec<(Option<LineNumber>, Option<LineNumber>)> {
     let matched_lines = all_matched_lines(lhs_mps, rhs_mps);
 
-    compact_gaps(ensure_contiguous(&matched_lines))
+    compact_gaps(&ensure_contiguous(&matched_lines))
 }
 
 fn all_matched_lines(
