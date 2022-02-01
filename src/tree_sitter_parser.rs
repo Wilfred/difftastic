@@ -68,9 +68,10 @@ extern "C" {
 }
 
 // TODO: begin/end and object/end.
-const OCAML_ATOM_NODES: [&str; 5] = [
+const OCAML_ATOM_NODES: [&str; 6] = [
     "character",
     "string",
+    "quoted_string",
     "tag",
     "type_variable",
     "attribute_id",
