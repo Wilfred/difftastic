@@ -789,4 +789,17 @@ mod tests {
         assert_eq!(hunks.len(), 1);
         assert_eq!(hunks[0].lines, vec![(Some(0.into()), Some(0.into()))]);
     }
+
+    #[test]
+    fn test_compact_gaps() {
+        let res = compact_gaps(vec![
+            (Some(0.into()), None),
+            (None, Some(0.into())),
+            (Some(1.into()), Some(1.into())),
+        ]);
+        assert_eq!(res, vec![
+            (Some(0.into()), Some(0.into())),
+            (Some(1.into()), Some(1.into())),
+        ])
+    }
 }
